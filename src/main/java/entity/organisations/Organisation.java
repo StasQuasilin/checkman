@@ -1,4 +1,4 @@
-package entity;
+package entity.organisations;
 
 /**
  * Created by szpt_user045 on 11.03.2019.

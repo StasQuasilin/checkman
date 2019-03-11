@@ -8,4 +8,5 @@ public class User {
     private String uid;
     private String password;
     private Role role;
+    private String language;
 }

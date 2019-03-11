@@ -1,7 +1,6 @@
 package entity.documents;
 
-import entity.Organisation;
-import entity.Product;
+import entity.organisations.Organisation;
 
 import java.sql.Date;
 

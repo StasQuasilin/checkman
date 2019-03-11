@@ -19,6 +19,8 @@ public class Branches {
 
     }
     public class API{
-
+        public static final String API = "/api";
+        public static final String DEAL_SAVE = API + "/deal/save.j";
+        public static final String DEAL_DELETE = API + "/deal/delete.j";
     }
 }

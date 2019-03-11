@@ -1,8 +1,7 @@
 package entity.transport;
 
-import entity.Organisation;
+import entity.organisations.Organisation;
 import entity.Person;
-import entity.Worker;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
