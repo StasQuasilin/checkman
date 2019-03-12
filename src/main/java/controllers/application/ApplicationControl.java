@@ -16,6 +16,6 @@ import java.io.IOException;
 public class ApplicationControl extends IServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+
     }
 }
