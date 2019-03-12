@@ -1,11 +1,13 @@
 package entity.documents;
 
+import entity.IImportantObject;
+
 import java.sql.Date;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
-public abstract class IDocument {
+public abstract class IDocument extends IImportantObject{
     public int id;
     public Date date;
 

@@ -22,5 +22,20 @@ public class Branches {
         public static final String API = "/api";
         public static final String DEAL_SAVE = API + "/deal/save.j";
         public static final String DEAL_DELETE = API + "/deal/delete.j";
+
+        public class References {
+            public static final String API = "/api/references";
+            public static final String PARSE_ORGANISATION = API + "/organisation/parse";
+            public static final String EDIT_ORGANISATION = API + "/organisation/edit";
+            public static final String FIND_ORGANISATION = API + "/organisation/find";
+            public static final String DRIVER_LIST = API + "/driver/list";
+            public static final String TERRITORY_INFO = API + "/info";
+        }
+
+        public class Deal {
+            public static final String DEAL = "/deal";
+            public static final String EDIT_PRODUCT = DEAL + "/product/edit";
+            public static final String DELETE_PRODUCT = DEAL + "/product/delete";
+        }
     }
 }
