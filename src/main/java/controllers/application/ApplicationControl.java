@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.APPLICATION)
 public class ApplicationControl extends IServlet{
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/pages/application.jsp").forward(req, resp);
     }
 }

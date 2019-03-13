@@ -5,8 +5,9 @@ package constants;
  */
 public class Branches {
     public class UI{
-        
-        public static final String APPLICATION = "/application";
+
+        public static final String SING_IN = "/login";
+        public static final String APPLICATION = "/application.j";
         public static final String DEAL_LIST = "/deals/list.j";
         public static final String DEAL_SHOW = "/deal/show.j";
         public static final String DEAL_EDIT = "/deal/edit.j";
@@ -17,19 +18,23 @@ public class Branches {
         public static final String WEIGHT_LIST = "/weight/list.j";
         public static final String WEIGHT_EDIT = "/weight/edit.j";
 
+        public static final String HOME = APPLICATION;
     }
     public class API{
         public static final String API = "/api";
         public static final String DEAL_SAVE = API + "/deal/save.j";
         public static final String DEAL_DELETE = API + "/deal/delete.j";
+        public static final String SIGN_IN = API + "/sign/in";
+        public static final String SIGN_UP = API + "/sign/up";
 
         public class References {
-            public static final String API = "/api/references";
+            public static final String API = Branches.API.API + "/references";
             public static final String PARSE_ORGANISATION = API + "/organisation/parse";
             public static final String EDIT_ORGANISATION = API + "/organisation/edit";
             public static final String FIND_ORGANISATION = API + "/organisation/find";
             public static final String DRIVER_LIST = API + "/driver/list";
             public static final String TERRITORY_INFO = API + "/info";
+            public static final String FIND_USER = API + "/user/find";
         }
 
         public class Deal {

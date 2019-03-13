@@ -1,38 +1,43 @@
-/**
- * Created by szpt_user045 on 12.03.2019.
- */
-Vue.component('todo-item', {
-    props:['todo'],
-    template:'<li>{{todo.text}}</li>'
-});
 var vue = new Vue({
     el: '#app',
-    data:{
-        counter: -1,
-        message: 'Olololo!',
-        title: 'Страница загружена ' + new Date().toLocaleString(),
-        save:true,
-        items:[
-            { id: 0, text: 'Овощи' },
-            { id: 1, text: 'Сыр' },
-            { id: 2, text: 'Что там ещё люди едят?' }
-        ]
-    },
-    methods:{
-        update:function(){
-            const self = this;
-            setInterval(function(){
-                self.counter++;
-                console.log(self.counter);
-            }, 1000)
-        },
-        saveAs: function () {
-            this.update();
+    data: {
+        message: 'hello',
+        items: {
+            1:{
+                id:1,
+                name:'Item 1',
+                date: new Date().toLocaleDateString()
+            },
+            2:{
+                id:2,
+                name:'Item 2',
+                date: new Date().toLocaleDateString()
+            },
+            3:{
+                id:3,
+                name:'Item 3',
+                date: new Date().toLocaleDateString()
+            }
         }
     },
-    mounted:function(){
-        console.log('mounted');
-        this.update();
+    methods:{
+        add:function(item){
+            item.date = new Date().toLocaleTimeString()
+            Vue.set(this.items, item.id, item)
+        },
+        update:function(item){
+            item.date = new Date().toLocaleTimeString()
+            Vue.set(this.items, item.id, item)
+        },
+        remove:function(id){
+            for(var i in this.items){
+                if (this.items[i].id === id){
+                    this.$delete(this.items, i);
+                    break
+                }
+            }
+        }
     }
+})
 
-});
+
