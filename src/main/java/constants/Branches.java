@@ -9,6 +9,8 @@ public class Branches {
         public static final String SING_IN = "/login";
         public static final String APPLICATION = "/application.j";
         public static final String DEAL_LIST = "/deals/list.j";
+        public static final String DEAL_BUY = DEAL_LIST + "?type=buy";
+        public static final String DEAL_SELL = DEAL_LIST + "?type=sell";
         public static final String DEAL_SHOW = "/deal/show.j";
         public static final String DEAL_EDIT = "/deal/edit.j";
         public static final String LOAD_PLAN = "/deals/load/plan.j";

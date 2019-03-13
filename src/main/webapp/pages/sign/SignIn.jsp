@@ -17,7 +17,7 @@
             <tr>
                 <td>
                     <label for="login">
-                        <fmt:message key="user-name"/>
+                        <fmt:message key="user.name"/>
                     </label>
                 </td>
                 <td>
@@ -38,7 +38,7 @@
             <tr>
                 <td>
                     <label for="password">
-                        <fmt:message key="user-passwors"/>
+                        <fmt:message key="user.password"/>
                     </label>
                 </td>
                 <td>

@@ -28,4 +28,8 @@ public class Constants {
         public static final String DOCUMENT_QUANTITY = "document.quantity";
         public static final String DOCUMENT_PRICE = "document.price";
     }
+
+    public class Titles {
+        public static final String DEAL_LIST = "title.deal.list";
+    }
 }
