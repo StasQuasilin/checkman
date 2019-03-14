@@ -66,18 +66,7 @@
             </td>
             <td>
                 <input id="contragent" autocomplete="off" style="width: 100%">
-                <div class="custom-data-list">
-                    <div class="custom-data-list-item">
-                        Item 1
-                    </div>
-                    <div class="custom-data-list-item">
-                        Item 1
-                    </div>
-                    <div class="custom-data-list-item">
-                        Item 1
-                    </div>
-                </div>
-
+                <div id="contragent-list" class="custom-data-list"></div>
             </td>
         </tr>
         <tr>

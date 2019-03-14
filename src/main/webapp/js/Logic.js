@@ -65,4 +65,33 @@ function valid(input, min){
     }
     return true;
 }
+function find(url, list, onClick){
+    var timer;
+    if (timer){
+        clearTimeout(timer);
+    }
+    timer = setTimeout(function(){
+        $(list).html('');
 
+        var parameters = [];
+        parameters.key = this.value;
+        PostApi(url, parameters, function(e){
+            if (e.length > 0){
+                list.style.display = 'block';
+                for (var i in e){
+                    var item = document.createElement('div');
+                    item.setAttribute('class', 'custom-data-list-item');
+                    item.innerText = e[i].value;
+                    item.data = e[i];
+                    item.onclick = function(){
+                        onClick(this.data);
+                        list.style.display='none';
+                    };
+                    list.appendChild(item);
+                }
+            } else {
+                list.style.display = 'none';
+            }
+        })
+    }, 500)
+}
