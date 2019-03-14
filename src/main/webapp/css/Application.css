@@ -14,8 +14,9 @@ button{
 button:hover{
     box-shadow: 0 0 4pt 0 gray;
 }
-button:focus{
+button:focus, input:focus{
     outline: none;
+    border-color: #4c7b7b;
 }
 .header {
     background-color: #d3dbe2;

@@ -14,8 +14,9 @@ public class JsonParser {
     public static JSONObject toJson(Organisation organisation) {
         JSONObject json = new JSONObject();
         json.put("id", organisation.getId());
-        json.put("status", organisation.getType().getName());
+        json.put("type", organisation.getType().getName());
         json.put("name", organisation.getName());
+        json.put("value", organisation.getFullName());
         return json;
     }
 

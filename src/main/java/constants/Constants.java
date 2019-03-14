@@ -17,6 +17,8 @@ public class Constants {
     public static final String QUANTITY = "quantity";
     public static final String PRICE = "price";
     public static final String WORKER = "worker";
+    public static final String UID = "uid";
+    public static final String PASSWORD = "password";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
@@ -29,6 +31,8 @@ public class Constants {
         public static final String DOCUMENT_PRICE = "document.price";
         public static final String DEAL_EDIT = "deal.edit";
         public static final String DEAL_CREATE = "deal.create";
+        public static final String WRONG_PASSWORD = "wrong.password";
+        public static final String NO_USER = "user.not.found";
     }
 
     public class Titles {

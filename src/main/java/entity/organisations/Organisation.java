@@ -44,4 +44,13 @@ public class Organisation {
     public String getFullName() {
         return name + (type != null ? ", " + type.getName() : "");
     }
+
+    @Override
+    public String toString() {
+        return "Organisation{\n" +
+                "\tid=" + id + ",\n" +
+                "\ttype=\'" + (type != null ? type.getName() : "") + "\',\n" +
+                "\tname='" + name + "\'\n" +
+                '}';
+    }
 }

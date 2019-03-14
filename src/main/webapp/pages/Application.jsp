@@ -28,12 +28,15 @@
         <td>
             <div class="header" id="header"></div>
         </td>
+        <td>
+            ${worker.value}
+        </td>
         <td rowspan="2">
 
         </td>
     </tr>
     <tr>
-        <td height="100%" style="max-width: 1266px; width: 100%">
+        <td colspan="2" height="100%" style="max-width: 1266px; width: 100%">
             <div class="content" id="content"></div>
         </td>
     </tr>

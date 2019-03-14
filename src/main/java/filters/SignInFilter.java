@@ -5,6 +5,7 @@ import entity.answers.ErrorAnswer;
 import entity.answers.IAnswer;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.LoginBox;
 import utils.PostUtil;
 import utils.UserBox;
 
@@ -17,7 +18,7 @@ import java.io.IOException;
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
-//@WebFilter(value = {Branches.UI.APPLICATION, "*.j", "/api/*"})
+@WebFilter(value = {Branches.UI.APPLICATION, "*.j", "/api/*"})
 public class SignInFilter implements Filter{
 
     final UserBox userBox = UserBox.getUserBox();
@@ -34,13 +35,16 @@ public class SignInFilter implements Filter{
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+
         Object token = request.getSession().getAttribute("token");
 
         if (token != null && userBox.containsKey(token.toString())) {
             request.getSession().setAttribute("token", userBox.updateToken(token.toString()));
             filterChain.doFilter(servletRequest, servletResponse);
+        } else if (LoginBox.getInstance().trySignIn(request, response)){
+            filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            HttpServletResponse response = (HttpServletResponse) servletResponse;
             String uri = request.getRequestURI();
             String path = request.getContextPath();
             uri = uri.substring(path.length(), uri.length());

@@ -25,8 +25,12 @@ public class Worker {
     public Person getPerson() {
         return person;
     }
-
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    @Transient
+    public String getValue(){
+        return person.getValue();
     }
 }
