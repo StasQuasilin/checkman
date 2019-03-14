@@ -2,42 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9237fb67-9588-4033-8a3a-4b06c82b3e9a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/css/DataContainer.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/entity/DealType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/controllers/IModal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/css/ModalView.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/deals/dealEdit.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/datetimepicker/jquery.datetimepicker.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/datetimepicker/build/jquery.datetimepicker.full.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/datetimepicker/build/jquery.datetimepicker.full.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/datetimepicker/jquery.datetimepicker.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/datetimepicker/build/jquery.datetimepicker.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/datetimepicker/build/jquery.datetimepicker.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/datetimepicker/jquery.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/modalView.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/css/Application.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/Application.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/Application.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/Application.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/constants/Constants.java" afterPath="$PROJECT_DIR$/src/main/java/constants/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/filters/ContextFilter.java" afterPath="$PROJECT_DIR$/src/main/java/filters/ContextFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/documents/Deal.java" afterPath="$PROJECT_DIR$/src/main/java/entity/documents/Deal.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/deals/DealEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/deals/DealEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/documents/DealProduct.java" afterPath="$PROJECT_DIR$/src/main/java/entity/documents/DealProduct.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/deals/DealsList.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/deals/DealsList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/documents/DocumentUID.java" afterPath="$PROJECT_DIR$/src/main/java/entity/documents/DocumentUID.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/documents/LoadPlan.java" afterPath="$PROJECT_DIR$/src/main/java/entity/documents/LoadPlan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/plan/LoadPlanListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/plan/LoadPlanListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/Logic.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/Logic.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/css/NavigationMenu.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/NavigationMenu.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/Product.java" afterPath="$PROJECT_DIR$/src/main/java/entity/Product.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/User.java" afterPath="$PROJECT_DIR$/src/main/java/entity/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/vue/dataList.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/dataList.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/deals/dealList.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/deals/dealList.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/log.txt" afterPath="$PROJECT_DIR$/log/log.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/messages_ru.properties" afterPath="$PROJECT_DIR$/src/main/resources/messages_ru.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/modalView.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/modalView.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\GitHub\checkman2\src\main\webapp\pages\Application.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/application.jsp" />
+      <change type="MOVED" beforePath="D:\GitHub\checkman2\src\main\webapp\vue\dataList.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/dataList.vue" />
     </list>
     <ignored path="checkman2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -251,7 +220,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.062962964">
-              <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -294,8 +263,8 @@
       <file leaf-file-name="modalView.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/modalView.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.576923">
-              <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="14" selection-end-column="10" />
+            <state vertical-scroll-proportion="-7.1923075">
+              <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -334,7 +303,7 @@
       <file leaf-file-name="dealEdit.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealEdit.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.307692">
+            <state vertical-scroll-proportion="1.3076923">
               <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
               <folding />
             </state>
@@ -442,7 +411,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealList.jsp" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/index.jsp" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.js" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.vue" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/testVue.js" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -490,7 +459,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/pages/application.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/IModal.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/IServlet.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/pages/modalView.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/ModalView.css" />
         <option value="$PROJECT_DIR$/src/main/java/entity/DealType.java" />
         <option value="$PROJECT_DIR$/src/main/resources/messages_ru.properties" />
@@ -499,6 +467,7 @@
         <option value="$PROJECT_DIR$/src/main/webapp/js/Logic.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/vue/dealEdit.vue" />
         <option value="$PROJECT_DIR$/src/main/webapp/pages/deals/dealEdit.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/modalView.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js" />
       </list>
     </option>
@@ -1455,16 +1424,16 @@
       <workItem from="1552371239141" duration="3583000" />
       <workItem from="1552374907918" duration="22661000" />
       <workItem from="1552457602698" duration="21231000" />
-      <workItem from="1552544177160" duration="26396000" />
+      <workItem from="1552544177160" duration="26623000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84602000" />
+    <option name="totallyTimeSpent" value="84829000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="975" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1479,7 +1448,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.4858657" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.4858657" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5141343" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25809062" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1659,7 +1628,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.js">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="10" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
@@ -1872,14 +1841,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/modalView.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.576923">
-          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="14" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/ModalView.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1979,8 +1940,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealEdit.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.307692">
+        <state vertical-scroll-proportion="1.3076923">
           <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/modalView.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.1923075">
+          <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
           <folding />
         </state>
       </provider>
@@ -1988,7 +1957,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.062962964">
-          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>

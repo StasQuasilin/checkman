@@ -9,7 +9,7 @@
         <div class="modal-header">
             <fmt:message key="${title}"/>
         </div>
-        <div class="modal-content">
+        <div class="modal-content" id="modal-content">
             <jsp:include page="${modalContent}"/>
         </div>
     </div>

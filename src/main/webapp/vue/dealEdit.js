@@ -1,6 +1,4 @@
-var dataList = new Vue({
-    el: '#form',
-    
-
+$(document).ready(function(){
+    var modal = document.getElementById('modal-content');
 
 })
