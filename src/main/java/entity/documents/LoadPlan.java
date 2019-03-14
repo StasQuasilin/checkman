@@ -53,7 +53,7 @@ public class LoadPlan extends IDocument{
         this.deal = deal;
     }
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "transport_customer")
     public TransportCustomer getCustomer() {
         return customer;

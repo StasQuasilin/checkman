@@ -27,6 +27,8 @@ public class Constants {
         public static final String DEAL_PRODUCT = "document.product";
         public static final String DOCUMENT_QUANTITY = "document.quantity";
         public static final String DOCUMENT_PRICE = "document.price";
+        public static final String DEAL_EDIT = "deal.edit";
+        public static final String DEAL_CREATE = "deal.create";
     }
 
     public class Titles {

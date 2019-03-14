@@ -23,7 +23,7 @@ public class Deal extends IDocument{
     private String uid;
 
     public Deal() {
-        uid = DocumentUIDGenerator.generateUID();
+//        uid = DocumentUIDGenerator.generateUID();
     }
 
     @Override

@@ -21,6 +21,7 @@ public class DealsList extends IUIServlet{
         String type = req.getParameter("type");
         req.setAttribute("title", Constants.Titles.DEAL_LIST + '-' + type);
         req.setAttribute("content", "/pages/deals/dealList.jsp");
+        req.setAttribute("editLink", Branches.UI.DEAL_EDIT + "?type=" + type);
         show(req, resp);
     }
 }

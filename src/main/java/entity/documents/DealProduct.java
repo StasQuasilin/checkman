@@ -21,7 +21,7 @@ public class DealProduct {
     private String uid;
 
     public DealProduct() {
-        uid = DocumentUIDGenerator.generateUID();
+//        uid = DocumentUIDGenerator.generateUID();
     }
 
 

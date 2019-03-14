@@ -23,6 +23,9 @@
     cursor: pointer;
     visibility: hidden;
 }
+.navigation-menu ul{
+    background-color: transparent;
+}
 .menu-item:hover a{
     visibility: visible;
     text-decoration: underline;
@@ -34,12 +37,13 @@
     border-bottom: dotted gray 1pt;
 }
 .menu-item {
+    background-color: #e0e8ef;
     border-radius: 8pt 8pt 0 0;
     overflow: hidden;
 }
 .menu-item:hover{
     background-color: #ffffff;
 }
-.navigation-menu * {
+.menu-item * {
     background: transparent;
 }

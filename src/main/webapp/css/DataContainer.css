@@ -1,0 +1,50 @@
+.container{
+}
+.locker{
+    background: rgba(211, 219, 226, 0.75) url('/images/lock-512.png') no-repeat;
+    background-size: 62px;
+    position: absolute;
+    width: 100%;
+    height: 62px;
+
+}
+.container-item{
+    position: relative;
+    border: solid gray 1pt;
+    margin: 2pt;
+}
+.container-item:hover{
+    box-shadow: 0 0 4pt 0 gray;
+}
+.container-item span{
+    background-color: #f0f8ff;
+    border: solid #cfcfcf 1pt;
+    padding: 0 6pt;
+    margin: 0 2pt;
+    display: inline-block;
+}
+.container-item .row{
+    margin: 2pt;
+    padding: 2pt;
+}
+.container-item-0{
+    background-color: rgb(252, 198, 198);
+}
+.container-item-1{
+    background-color: rgb(252, 233, 198);
+}
+.container-item-2{
+    background-color: rgb(252, 252, 198);
+}
+.container-item-3{
+    background-color: rgb(198, 225, 198);
+}
+.container-item-4{
+    background-color: rgb(219, 230, 248);
+}
+.container-item-5{
+    background-color: rgb(198, 198, 252);
+}
+.container-item-6{
+    background-color: rgb(252, 198, 252);
+}

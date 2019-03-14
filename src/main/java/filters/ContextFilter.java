@@ -1,6 +1,7 @@
 package filters;
 
 import constants.Branches;
+import utils.hibernate.HibernateSessionFactory;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -14,7 +15,7 @@ import java.io.IOException;
 public class ContextFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        HibernateSessionFactory.init();
     }
 
     @Override
@@ -26,6 +27,6 @@ public class ContextFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        HibernateSessionFactory.shutdown();
     }
 }

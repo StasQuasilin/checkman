@@ -52,7 +52,7 @@ public class User {
         this.password = password;
     }
 
-    @Basic
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
     public Role getRole() {
         return role;

@@ -1,5 +1,6 @@
 package entity.documents;
 
+import javax.lang.model.element.Name;
 import javax.persistence.*;
 
 /**
@@ -11,19 +12,17 @@ public class DocumentUID {
     private String uid;
 
     public DocumentUID() {}
-
     public DocumentUID(String uid) {
         this.uid = uid;
     }
 
     @Id
-    @Basic
-    @Column(name = "id")
+    @Column(name = "uid")
     public String getUid() {
         return uid;
     }
 
-    public void setUid(String UID) {
-        this.uid = UID;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

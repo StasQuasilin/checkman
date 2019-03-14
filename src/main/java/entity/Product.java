@@ -49,6 +49,13 @@ public class Product {
         this.analysesType = analysesType;
     }
 
+//    @Transient
+//    public AnalysesType getA() {
+//        return AnalysesType.valueOf(analysesType);
+//    }
+//    public void setA(AnalysesType a) {
+//        analysesType = a.toString();
+//    }
 
     @Override
     public String toString() {

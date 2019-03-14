@@ -23,7 +23,7 @@
         <!--<property name="hibernate.c3p0.acquireRetryDelay">250</property>-->
 
         <property name="connection.pool_size">20</property>
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         <mapping class="entity.User"/>
         <mapping class="entity.Worker"/>
         <mapping class="entity.Person"/>
@@ -35,7 +35,6 @@
         <mapping class="entity.organisations.OrganisationType"/>
         <mapping class="entity.transport.Transportation"/>
         <mapping class="entity.transport.ActionTime"/>
-        <mapping class="entity.transport.TransportCustomer"/>
         <mapping class="entity.documents.Deal"/>
         <mapping class="entity.documents.DealProduct"/>
         <mapping class="entity.documents.DocumentOrganisation"/>

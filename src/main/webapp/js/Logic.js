@@ -55,3 +55,14 @@ function GetChildElemById(parent, childId){
         }
     }
 }
+function valid(input, min){
+    if (min && input.value.length < min || input.value == 0){
+        input.setAttribute('invalid');
+        input.onclick=function(){
+            input.removeAttribute('invalid');
+        };
+        return false;
+    }
+    return true;
+}
+

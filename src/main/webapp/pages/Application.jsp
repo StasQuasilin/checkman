@@ -17,7 +17,9 @@
 </head>
 <body style="margin: 0">
 <div class="coverlet" id="coverlet"></div>
-<table border="1" style="width: 100%; height: 100%">
+<div class="modal-layer" style="display: none" id="modal">
+</div>
+<table border="0" style="width: 100%; height: 100%">
     <tr>
         <td rowspan="2" valign="top">
             <jsp:include page="NavigationMenu.jsp"/>

@@ -2,22 +2,66 @@
     font-family: SegouUI, monospace;
     color: #616161;
     user-select: none;
+
+}
+body{
     background-color: aliceblue;
 }
+button{
+    border: solid darkgray 1.2pt;
+    min-width: 70pt;
+}
+button:hover{
+    box-shadow: 0 0 4pt 0 gray;
+}
+button:focus{
+    outline: none;
+}
 .header {
-    background-color: aliceblue;
+    background-color: #d3dbe2;
     height: 20px;
     padding: 4pt;
 }
-.content{
-    height: 100%;
+.header * {
+    background-color: transparent;
 }
-.container{
+.modal-layer{
     width: 100%;
     height: 100%;
+    position: absolute;
+    z-index: 3;
+    background-color: rgba(240, 248, 255, 0.65);
+}
+.content{
     border: solid gray 1pt;
+    height: 100%;
     overflow-y: scroll;
 }
-.container-item-*{
-    margin: 1pt 0;
+.custom-data-list{
+    display: none;
+    width: 200px;
+    height: fit-content;
+    background-color: white;
+    color: #4c7b7b;
+    position: absolute;
+}
+.custom-data-list-item{
+    border-bottom: dotted gray 1pt;
+    padding: 2pt;
+}
+.custom-data-list-item:hover{
+    background-color: #f2f2f2;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: gray;
+}
+::-webkit-scrollbar-thumb {
+    background: #fbba00;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #f4b400;
 }
