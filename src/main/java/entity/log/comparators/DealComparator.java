@@ -17,13 +17,15 @@ public class DealComparator extends IChangeComparator<Deal> {
 
     private Date date;
     private Date dateTo;
-    private int organisationId;
+    private int organisationId = -1;
 
     @Override
     public void fix(Deal oldObject) {
         date = oldObject.getDate();
         dateTo = oldObject.getDateTo();
-        organisationId = oldObject.getOrganisation().getId();
+        if (oldObject.getOrganisation() != null) {
+            organisationId = oldObject.getOrganisation().getId();
+        }
     }
 
     @Override

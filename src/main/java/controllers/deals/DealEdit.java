@@ -7,6 +7,7 @@ import controllers.IServlet;
 import entity.DealType;
 import entity.Product;
 import entity.documents.Deal;
+import entity.documents.DealProduct;
 import entity.documents.DocumentOrganisation;
 
 import javax.servlet.ServletException;
@@ -25,6 +26,7 @@ public class DealEdit extends IModal {
         try {
             int id = Integer.parseInt(req.getParameter(Constants.ID));
             req.setAttribute("deal", hibernator.get(Deal.class, "id", id));
+            req.setAttribute("dealProduct", hibernator.get(DealProduct.class, "deal", id));
             req.setAttribute("title", Constants.Languages.DEAL_EDIT);
         } catch (Exception ignored){
             req.setAttribute("title", Constants.Languages.DEAL_CREATE);

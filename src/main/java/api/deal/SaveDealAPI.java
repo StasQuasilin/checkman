@@ -42,15 +42,15 @@ public class SaveDealAPI extends IChangeAPI{
         Worker worker = getWorker(req);
         boolean writeChanges = false;
 
-        if (body.containsKey(Constants.ID)){
+        try {
             int id = Integer.parseInt(body.get(Constants.ID));
-            deal = hibernator.get(Deal.class, "id", id);
-        } else {
+            deal = hibernator.get(Deal.class, Constants.ID, id);
+        } catch (Exception ignored){
             deal = new Deal();
             deal.setCreator(worker);
             writeChanges = true;
         }
-        comparator.fix(deal);
+//        comparator.fix(deal);
 
         String dateString = body.get(Constants.DATE);
         String dateToString = body.get(Constants.DATE_TO);
@@ -82,11 +82,12 @@ public class SaveDealAPI extends IChangeAPI{
         Organisation organisation = hibernator.get(Organisation.class, "id", Integer.parseInt(body.get(Constants.ORGANISATION_ID)));
         if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisation.getId()){
             deal.setOrganisation(organisation);
+            writeChanges = true;
         }
 
         if (writeChanges) {
             hibernator.save(deal);
-            comparator.compare(deal, worker);
+//            comparator.compare(deal, worker);
         }
 
         JSONObject json = JsonParser.toJson(deal);

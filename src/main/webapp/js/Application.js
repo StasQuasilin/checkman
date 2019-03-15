@@ -24,9 +24,10 @@ function loadContent(url){
     PostReq(url, null, function(e){
         $(content).html(e);
         $(header).html(GetChildElemById(content, 'header-content'));
+        document.title = header.innerText;
         $(header).append(GetChildElemById(content, 'container-header'));
         $(filter).html(GetChildElemById(content, 'filter-content'));
-        document.title = header.innerText;
+
     }, function(e){
         console.error('[ Application ] Load content error ' + e)
     })
@@ -35,6 +36,7 @@ function loadModal(url){
     console.log('[ Application ] Load modal ' + url);
     PostReq(url, null, function(m){
         showModal(m);
+
     }, function (e) {
         console.error('Error ' + e);
     })
@@ -42,4 +44,8 @@ function loadModal(url){
 function showModal(modal){
     $(modalLayer).html(modal);
     modalLayer.style.display='block';
+    onClose(function(){
+        $(modalLayer).html('');
+        modalLayer.style.display='none';
+    })
 }

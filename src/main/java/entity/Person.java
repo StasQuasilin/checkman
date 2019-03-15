@@ -48,4 +48,9 @@ public class Person {
     public void setPatronymic(String patronymic) {
         this.patronymic = patronymic;
     }
+
+    @Transient
+    public String getValue() {
+        return forename + (surname != null ? " " + surname.substring(0, 1) + "." : "") + (patronymic != null ? " " + patronymic.substring(0, 1) + "." : "");
+    }
 }

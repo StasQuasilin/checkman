@@ -35,4 +35,10 @@ public class UserBox {
         users.put(token, users.remove(oldToken));
         return token;
     }
+
+    public String addUser(User user) {
+        String token = getToken();
+        users.put(token, user);
+        return token;
+    }
 }

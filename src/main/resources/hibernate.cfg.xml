@@ -24,6 +24,7 @@
 
         <property name="connection.pool_size">20</property>
         <property name="show_sql">false</property>
+        <!--<property name="hibernate.hbm2ddl.auto">create</property>-->
         <mapping class="entity.User"/>
         <mapping class="entity.Worker"/>
         <mapping class="entity.Person"/>
