@@ -16,14 +16,10 @@ public class DealProduct {
     private Deal deal;
     private Product product;
     private float quantity = 0;
+    private float done = 0;
     private float price = 0;
     private Worker creator;
     private String uid;
-
-    public DealProduct() {
-//        uid = DocumentUIDGenerator.generateUID();
-    }
-
 
     @Id
     @GeneratedValue
@@ -62,6 +58,15 @@ public class DealProduct {
     }
 
     @Basic
+    @Column(name = "done")
+    public float getDone() {
+        return done;
+    }
+    public void setDone(float done) {
+        this.done = done;
+    }
+
+    @Basic
     @Column(name = "price")
     public float getPrice() {
         return price;
@@ -86,5 +91,14 @@ public class DealProduct {
     }
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * product.getId() + hash;
+        hash = 31 * Float.hashCode(quantity) + hash;
+        hash = 31 * Float.hashCode(price) + hash;
+        return hash;
     }
 }

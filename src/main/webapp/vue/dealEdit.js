@@ -29,6 +29,12 @@ $(document).ready(function(){
     contragent.onclick = function(){
         contragent.select();
     }
+    contragent.lock=true;
+    contragent.onchange= function(){
+        if (!contragent.lock){
+            contragentId.value = null;
+        }
+    }
     contragent.onkeyup = find(
         findOrganisationUrl, contragent,
         GetChildElemById(modal, 'contragent-list'), function(e){
@@ -45,15 +51,13 @@ function save(){
     parameters.date_to = dateTo.value;
     parameters.organisation_id = contragentId.value;
     parameters.organisation = contragent.value;
-    parameters.realisation = realisationFrom.value;
-    parameters.product = product.value;
+    parameters.visibility = realisationFrom.value;
+    parameters.product_id = product.value;
     parameters.quantity = quantity.value;
     parameters.price = price.value;
     PostApi(saveDealUrl, parameters, function(e){
         console.log(e);
-        if (e.status == 'success'){
-            close();
-        }
+        close();
     })
 }
 var onCloseAction;

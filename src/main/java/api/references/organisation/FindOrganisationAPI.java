@@ -26,15 +26,10 @@ public class FindOrganisationAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, String> body = PostUtil.parseBody(req);
-        for (Map.Entry<String, String> entry : body.entrySet()){
-            System.out.println(entry.getKey() + ":" + entry.getValue());
-        }
         String key = body.get(Constants.KEY);
-
 
         List<Organisation> organisations = hibernator.find(Organisation.class, "name", key);
         JSONArray array = organisations.stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
-        System.out.println(array);
         write(resp, array.toJSONString());
 
         array.clear();

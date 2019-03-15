@@ -3,8 +3,10 @@
  */
 var context;
 
-function PostReq(url, parametrs, onSuccess, onError){
-    console.log('[ Application Core ] Request to ' + url);
+function PostReq(url, parametrs, onSuccess, onError, debug){
+    if (debug) {
+        console.log('[ Application Core ] Request to ' + url);
+    }
     var body = [];
     if (parametrs != null){
         for (var k in parametrs){
@@ -30,11 +32,17 @@ function PostReq(url, parametrs, onSuccess, onError){
     xhr.open('POST', url);
     xhr.send(body.join('&'));
 }
-function PostApi(url, parameters, onSuccess, onError){
+function PostApi(url, parameters, onSuccess, onError, debug){
     PostReq(url, parameters, function(answer){
         if (onSuccess){
             try {
-                onSuccess(JSON.parse(answer));
+                var json = JSON.parse(answer)
+                try {
+                    onSuccess(json);
+                } catch (on){
+                    console.error('[ Application Core ] ' + on);
+                }
+
             } catch (e){
                 console.error('[ Application Core ] Can\'t parse ' + answer)
                 if (onError){
@@ -47,7 +55,7 @@ function PostApi(url, parameters, onSuccess, onError){
         if (onError){
             onError(err);
         }
-    })
+    }, debug)
 }
 function GetChildElemById(parent, childId){
     var elems = parent.getElementsByTagName("*");
@@ -73,19 +81,18 @@ function find(url, input, list, onClick){
     return function() {
         if (this.value != value && this.value.length > 2) {
             value = this.value
-            console.log(this.value);
 
             if (timer) {
                 clearTimeout(timer);
             }
             timer = setTimeout(function () {
-                console.log(input);
                 $(list).html('');
 
                 var parameters = [];
                 parameters.key = input.value;
                 PostApi(url, parameters, function (e) {
                     if (e.length > 0) {
+                        input.lock=true;
                         list.style.display = 'block';
                         for (var i in e) {
                             console.log(e[i]);
@@ -100,6 +107,7 @@ function find(url, input, list, onClick){
                             list.appendChild(item);
                         }
                     } else {
+                        input.lock=false;
                         list.style.display = 'none';
                     }
                 })

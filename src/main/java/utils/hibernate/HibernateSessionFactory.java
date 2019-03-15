@@ -51,7 +51,7 @@ public class HibernateSessionFactory {
     }
 
     public static void putSession(Session session){
-//        pool.add(session);
+        pool.add(session);
     }
 
     public static void shutdown() {

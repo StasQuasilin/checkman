@@ -21,7 +21,7 @@
                 timepicker: false,
                 dayOfWeekStart:1
             });
-            $('#dateTo').datetimepicker({
+            $('#date_to').datetimepicker({
                 lazyInit:true,
                 format:'d.m.Y',
                 timepicker: false,

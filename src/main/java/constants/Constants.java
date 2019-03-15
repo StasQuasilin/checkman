@@ -19,6 +19,9 @@ public class Constants {
     public static final String WORKER = "worker";
     public static final String UID = "uid";
     public static final String PASSWORD = "password";
+    public static final String ORGANISATION = "organisation";
+    public static final String TYPE = "type";
+    public static final String VISIBILITY = "visibility";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";

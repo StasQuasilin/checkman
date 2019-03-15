@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Organisation {
 
     private int id;
-    private OrganisationType type;
+    private String type;
     private String name;
 
     @Id
@@ -22,12 +22,12 @@ public class Organisation {
         this.id = id;
     }
 
-    @OneToOne
+    @Basic
     @JoinColumn(name = "type")
-    public OrganisationType getType() {
+    public String getType() {
         return type;
     }
-    public void setType(OrganisationType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -42,14 +42,14 @@ public class Organisation {
 
     @Transient
     public String getFullName() {
-        return name + (type != null ? ", " + type.getName() : "");
+        return name + (type != null ? ", " + type : "");
     }
 
     @Override
     public String toString() {
         return "Organisation{\n" +
                 "\tid=" + id + ",\n" +
-                "\ttype=\'" + (type != null ? type.getName() : "") + "\',\n" +
+                "\ttype=\'" + (type != null ? type : "") + "\',\n" +
                 "\tname='" + name + "\'\n" +
                 '}';
     }

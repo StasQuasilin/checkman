@@ -34,12 +34,12 @@ public class DealComparator extends IChangeComparator<Deal> {
         compare(dateTo, newObject.getDateTo(), lb.get(Constants.Languages.DATE_TO_DOCUMENT));
         if (organisationId != newObject.getOrganisation().getId()){
             Change change = new Change(lb.get(Constants.Languages.ORGANISATION_DOCUMENT));
-            if (organisationId != 0){
+            if (organisationId != -1){
                 change.setOldValue(hibernator.get(Organisation.class, "id", organisationId).getFullName());
             }
             change.setNewValue(newObject.getOrganisation().getFullName());
         }
-        ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
+            ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
         changes.clear();
     }
 

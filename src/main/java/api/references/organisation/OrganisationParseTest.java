@@ -32,7 +32,7 @@ public class OrganisationParseTest {
             Pattern pattern = Pattern.compile("\\s" + type.getName() + "|" + type.getName() + "\\s");
             Matcher matcher = pattern.matcher(value.toUpperCase());
             if (matcher.find()){
-                organisation.setType(type);
+                organisation.setType(type.getName());
                 String group = matcher.group();
                 value = value.replaceFirst(group, "");
                 value = value.trim();

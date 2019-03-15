@@ -28,6 +28,10 @@ public class Branches {
         public static final String DEAL_DELETE = API + "/deal/delete.j";
         public static final String SIGN_IN = API + "/sign/in";
         public static final String SIGN_UP = API + "/sign/up";
+        public static final String DEAL_LIST = API + "/deal/list.j";
+        public static final String DEAL_LIST_BUY = DEAL_LIST + "?type=buy";
+        public static final String DEAL_LIST_SELL = DEAL_LIST + "?type=sell";
+
 
         public class References {
             public static final String API = Branches.API.API + "/references";

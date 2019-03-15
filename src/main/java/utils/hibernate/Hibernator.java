@@ -142,6 +142,10 @@ public class Hibernator {
 
         return resultList;
     }
+    public void  clear(){
+        HibernateSessionFactory.getSession().clear();
+    }
+
     HashMap<String, Object> params = new HashMap<>();
 
     public <T> List<T> query(Class<T> tClass, String key, Object value) {

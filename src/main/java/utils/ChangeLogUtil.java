@@ -23,8 +23,8 @@ public class ChangeLogUtil {
         hibernator.save(log);
         for (Change change : changes){
             change.setLog(log);
+            hibernator.save(change);
         }
-        hibernator.save(changes);
         changes.clear();
     }
 }

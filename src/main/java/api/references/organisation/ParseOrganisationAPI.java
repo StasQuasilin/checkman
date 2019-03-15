@@ -48,8 +48,9 @@ public class ParseOrganisationAPI extends IAPI {
             Pattern pattern = Pattern.compile("\\s" + type.getName() + "|" + type.getName() + "\\s");
             Matcher matcher = pattern.matcher(value.toUpperCase());
             if (matcher.find()){
-                organisation.setType(type);
+
                 String group = matcher.group();
+                organisation.setType(type.getName());
                 value = value.replaceFirst(group, "");
                 value = value.trim();
                 break;

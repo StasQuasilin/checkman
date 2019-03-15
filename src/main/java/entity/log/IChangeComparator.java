@@ -24,7 +24,7 @@ public abstract class IChangeComparator<T> {
     public void compare(Object o1, Object o2, String label){
         if (o1 == null || !o1.equals(o2)){
             Change change = new Change(label);
-            assert o1 != null;
+            if (o1 != null)
             change.setOldValue(o1.toString());
             change.setNewValue(o2.toString());
             changes.add(change);
