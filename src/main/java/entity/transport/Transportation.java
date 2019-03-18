@@ -108,4 +108,21 @@ public class Transportation extends IDocument{
     public void setArchive(boolean archive) {
         this.archive = archive;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * date.hashCode() + hash;
+        hash = 31 * vehicle.hashCode() + hash;
+        hash = 31 * driver.hashCode() + hash;
+        hash = 31 * documentOrganisation.hashCode() + hash;
+        if (timeIn != null) {
+            hash = 31 * timeIn.hashCode() + hash;
+        }
+        if (timeOut != null){
+            hash = 31 * timeOut.hashCode() + hash;
+        }
+        hash = 31 * Boolean.hashCode(archive) + hash;
+        return hash;
+    }
 }

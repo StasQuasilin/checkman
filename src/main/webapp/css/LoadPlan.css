@@ -1,0 +1,26 @@
+.plan-wrapper{
+    padding-left: 24pt;
+
+}
+.plan-wrapper * {
+    font-size: 11pt;
+}
+.table-header{
+    display: inline-block;
+    text-align: center;
+}
+.plan-container{
+    border: solid gray 1pt;
+    width: 100%;
+    height: 300pt;
+    overflow-y: scroll;
+}
+.plan-item{
+    border: solid olive 1pt;
+    margin: 1pt;
+    padding: 1pt;
+}
+.minus-button{
+    min-width: 0;
+    border-radius: 8pt;
+}

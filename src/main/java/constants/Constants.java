@@ -22,6 +22,8 @@ public class Constants {
     public static final String ORGANISATION = "organisation";
     public static final String TYPE = "type";
     public static final String VISIBILITY = "visibility";
+    public static final String PLAN = "plan";
+    public static final String CUSTOMER = "customer";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
@@ -40,5 +42,8 @@ public class Constants {
 
     public class Titles {
         public static final String DEAL_LIST = "title.deal.list";
+        public static final String DEAL_SHOW = "title.deal.show";
+        public static final String LOGISTIC_LIST = "title.logistic.list";
+        public static final String TRANSPORT_LIST = "title.transport.list";
     }
 }

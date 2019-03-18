@@ -44,6 +44,7 @@
         <mapping class="entity.log.ChangeLog"/>
         <mapping class="entity.log.Change"/>
         <mapping class="entity.documents.DocumentUID"/>
+        <mapping class="entity.ApplicationSettings"/>
 
     </session-factory>
 </hibernate-configuration>

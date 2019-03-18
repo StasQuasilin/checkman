@@ -44,8 +44,8 @@ function loadModal(url){
 function showModal(modal){
     $(modalLayer).html(modal);
     modalLayer.style.display='block';
-    onClose(function(){
-        modalLayer.style.display='none';
+    onClose(function () {
+        modalLayer.style.display = 'none';
         $(modalLayer).html('');
     })
 }
