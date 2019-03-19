@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-    <script src="${context}/vue/dataList.js"></script>
+    <script src="${context}/vue/dataList.vue"></script>
     <link rel="stylesheet" href="${context}/css/DataContainer.css">
     <script>
         deamon.setUrls('${updateLink}', '${showLink}')

@@ -7,7 +7,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-  <script src="${context}/vue/logisticList.js"></script>
+  <script src="${context}/vue/logisticList.vue"></script>
   <script>
     logistic.setUrls('${updateLink}', '${saveLink}')
 

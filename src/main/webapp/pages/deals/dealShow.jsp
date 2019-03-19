@@ -90,7 +90,7 @@
     </td>
     <td>
       <link rel="stylesheet" href="${context}/css/LoadPlan.css">
-      <script src="${context}/vue/loadPlan.js"></script>
+      <script src="${context}/vue/loadPlan.vue"></script>
       <script>
         <c:forEach items="${customers}" var="customer">
         plan.addCustomer('${customer}', '<fmt:message key="${customer}"/> ')
