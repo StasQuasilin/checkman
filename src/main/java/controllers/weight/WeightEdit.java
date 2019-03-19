@@ -2,8 +2,7 @@ package controllers.weight;
 
 import constants.Branches;
 import constants.Constants;
-import controllers.IServlet;
-import controllers.IUIServlet;
+import controllers.IModal;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,17 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by szpt_user045 on 11.03.2019.
+ * Created by szpt_user045 on 19.03.2019.
  */
-
-@WebServlet(Branches.UI.WEIGHT_LIST)
-public class WeightList extends IUIServlet{
+@WebServlet(Branches.UI.WEIGHT_EDIT)
+public class WeightEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Constants.Titles.WEIGHT_LIST);
-        req.setAttribute("updateLink", Branches.API.WEIGHT_LIST);
-        req.setAttribute("showLink", Branches.UI.WEIGHT_EDIT);
-        req.setAttribute("content", "/pages/weight/weightList.jsp");
+        req.setAttribute("title", Constants.Titles.WEIGHT_EDIT);
+        req.setAttribute("modalContent", "/pages/weight/weightEdit.jsp");
         show(req, resp);
     }
 }

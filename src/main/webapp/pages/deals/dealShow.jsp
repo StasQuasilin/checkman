@@ -12,7 +12,7 @@
   function onClose(action){
     closeAction = action;
   }
-  function close(){
+  function closeShow(){
     closeAction();
   }
 
@@ -46,7 +46,7 @@
             <fmt:message key="deal.organisation"/>:
           </td>
           <td>
-            ${deal.organisation.fullName}
+            ${deal.organisation.value}
           </td>
         </tr>
         <tr>
@@ -81,12 +81,16 @@
             <fmt:formatNumber value="${deal.price}"/>
           </td>
         </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <button><fmt:message key="button.edit"/> </button>
+          </td>
+        </tr>
       </table>
     </td>
     <td>
       <link rel="stylesheet" href="${context}/css/LoadPlan.css">
       <script src="${context}/vue/loadPlan.js"></script>
-      <script src="https://unpkg.com/vuejs-datepicker"></script>
       <script>
         <c:forEach items="${customers}" var="customer">
         plan.addCustomer('${customer}', '<fmt:message key="${customer}"/> ')
@@ -184,7 +188,8 @@
   </tr>
   <tr>
     <td colspan="2" align="center">
-      <button onclick="close()"><fmt:message key="button.cancel"/> </button>
+      <button onclick="closeShow()"><fmt:message key="button.cancel"/> </button>
+
       <button onclick="plan.save();"><fmt:message key="button.save"/> </button>
     </td>
   </tr>

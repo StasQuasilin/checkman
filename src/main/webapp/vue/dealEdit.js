@@ -57,13 +57,14 @@ function save(){
     parameters.price = price.value;
     PostApi(saveDealUrl, parameters, function(e){
         console.log(e);
-        close();
+        closeModal();
     })
 }
 var onCloseAction;
 function onClose(action){
     onCloseAction = action;
 }
-function close(){
+function closeModal(){
+    console.log('close this window');
     onCloseAction();
 }

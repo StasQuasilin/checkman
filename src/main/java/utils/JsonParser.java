@@ -12,13 +12,9 @@ import entity.transport.ActionTime;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.persistence.JoinColumn;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -30,7 +26,7 @@ public class JsonParser {
             json.put("id", organisation.getId());
             json.put("type", organisation.getType());
             json.put("name", organisation.getName());
-            json.put("value", organisation.getFullName());
+            json.put("value", organisation.getValue());
         }
         return json;
     }
@@ -68,13 +64,6 @@ public class JsonParser {
         return json;
     }
 
-    private static JSONObject toJson(DealProduct product) {
-        JSONObject json = new JSONObject();
-        json.put("id", product.getId());
-
-        return json;
-    }
-
     private static JSONObject toJson(Product product) {
         JSONObject json = new JSONObject();
         json.put("id", product.getId());
@@ -102,10 +91,11 @@ public class JsonParser {
         json.put("plan", lp.getPlan());
         json.put("customer", lp.getCustomer().toString());
         json.put("transportation", toJson(lp.getTransportation()));
+        json.put("hash", lp.hashCode());
         return json;
     }
 
-    private static JSONObject toJson(Transportation transportation) {
+    public static JSONObject toJson(Transportation transportation) {
         JSONObject json = new JSONObject();
         if (transportation != null){
             json.put("id", transportation.getId());
@@ -114,6 +104,7 @@ public class JsonParser {
             json.put("driver", toJson(transportation.getDriver()));
             json.put("timeIn", toJson(transportation.getTimeIn()));
             json.put("timeOut", toJson(transportation.getTimeOut()));
+            json.put("hash", transportation.hashCode());
             json.put("archive", transportation.isArchive());
         }
         return json;
@@ -149,6 +140,20 @@ public class JsonParser {
                 json.put("trailer", vehicle.getTrailer());
             }
         }
+        return json;
+    }
+
+    public static JSONObject toLogisticJson(LoadPlan loadPlan) {
+        JSONObject json = new JSONObject();
+        json.put("id", loadPlan.getId());
+        json.put("date", loadPlan.getDate().toString());
+        json.put("type", loadPlan.getDeal().getType().toString());
+        json.put("organisation", toJson(loadPlan.getDeal().getOrganisation()));
+        json.put("product", toJson(loadPlan.getDeal().getProduct()));
+        json.put("quantity", loadPlan.getPlan());
+        json.put("realisation", loadPlan.getDocumentOrganisation().getValue());
+        json.put("transportation", toJson(loadPlan.getTransportation()));
+        json.put("hash", loadPlan.hashCode());
         return json;
     }
 }

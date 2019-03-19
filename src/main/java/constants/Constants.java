@@ -45,5 +45,8 @@ public class Constants {
         public static final String DEAL_SHOW = "title.deal.show";
         public static final String LOGISTIC_LIST = "title.logistic.list";
         public static final String TRANSPORT_LIST = "title.transport.list";
+        public static final String TRANSPORT_SHOW = "title.transport.show";
+        public static final String WEIGHT_LIST = "title.weight.list";
+        public static final String WEIGHT_EDIT = "title.weight.edit";
     }
 }

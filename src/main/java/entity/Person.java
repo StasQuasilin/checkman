@@ -53,4 +53,13 @@ public class Person {
     public String getValue() {
         return forename + (surname != null ? " " + surname.substring(0, 1) + "." : "") + (patronymic != null ? " " + patronymic.substring(0, 1) + "." : "");
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * forename.hashCode() + hash;
+        hash = 31 * surname.hashCode() + hash;
+        hash = 31 * patronymic.hashCode() + hash;
+        return hash;
+    }
 }

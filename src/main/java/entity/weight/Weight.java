@@ -1,4 +1,4 @@
-package entity;
+package entity.weight;
 
 import entity.transport.ActionTime;
 import entity.transport.Transportation;

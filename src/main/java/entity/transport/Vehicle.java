@@ -49,5 +49,14 @@ public class Vehicle {
         this.trailer = trailer;
     }
 
-    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * model.hashCode() + hash;
+        hash = 31 * number.hashCode() + hash;
+        if (trailer != null){
+            hash = 31 * trailer.hashCode() + hash;
+        }
+        return hash;
+    }
 }

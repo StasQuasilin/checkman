@@ -113,8 +113,12 @@ public class Transportation extends IDocument{
     public int hashCode() {
         int hash = 7;
         hash = 31 * date.hashCode() + hash;
-        hash = 31 * vehicle.hashCode() + hash;
-        hash = 31 * driver.hashCode() + hash;
+        if (vehicle != null) {
+            hash = 31 * vehicle.hashCode() + hash;
+        }
+        if (driver != null) {
+            hash = 31 * driver.hashCode() + hash;
+        }
         hash = 31 * documentOrganisation.hashCode() + hash;
         if (timeIn != null) {
             hash = 31 * timeIn.hashCode() + hash;

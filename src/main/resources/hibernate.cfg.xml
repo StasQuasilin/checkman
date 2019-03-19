@@ -37,14 +37,13 @@
         <mapping class="entity.transport.Transportation"/>
         <mapping class="entity.transport.ActionTime"/>
         <mapping class="entity.documents.Deal"/>
-        <mapping class="entity.documents.DealProduct"/>
         <mapping class="entity.documents.DocumentOrganisation"/>
         <mapping class="entity.documents.LoadPlan"/>
-        <mapping class="entity.documents.LoadPlanProduct"/>
         <mapping class="entity.log.ChangeLog"/>
         <mapping class="entity.log.Change"/>
         <mapping class="entity.documents.DocumentUID"/>
         <mapping class="entity.ApplicationSettings"/>
+        <mapping class="entity.weight.WeightUnit"/>
 
     </session-factory>
 </hibernate-configuration>

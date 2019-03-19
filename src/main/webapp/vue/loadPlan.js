@@ -1,4 +1,4 @@
-const plan = new Vue({
+var plan = new Vue({
     el: '#load_plan',
 
     data:{

@@ -42,4 +42,15 @@ public class Driver {
     public void setOrganisation(Organisation organisation) {
         this.organisation = organisation;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * person.hashCode() + hash;
+        if (organisation != null) {
+            hash = 31 * organisation.hashCode() + hash;
+        }
+
+        return hash;
+    }
 }

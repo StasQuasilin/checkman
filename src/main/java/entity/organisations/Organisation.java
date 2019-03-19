@@ -41,7 +41,7 @@ public class Organisation {
     }
 
     @Transient
-    public String getFullName() {
+    public String getValue() {
         return name + (type != null ? ", " + type : "");
     }
 
@@ -52,5 +52,14 @@ public class Organisation {
                 "\ttype=\'" + (type != null ? type : "") + "\',\n" +
                 "\tname='" + name + "\'\n" +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * type.hashCode() + hash;
+        hash = 31 * name.hashCode() + hash;
+
+        return hash;
     }
 }

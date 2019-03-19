@@ -35,9 +35,9 @@ public class DealComparator extends IChangeComparator<Deal> {
         if (organisationId != newObject.getOrganisation().getId()){
             Change change = new Change(lb.get(Constants.Languages.ORGANISATION_DOCUMENT));
             if (organisationId != -1){
-                change.setOldValue(hibernator.get(Organisation.class, "id", organisationId).getFullName());
+                change.setOldValue(hibernator.get(Organisation.class, "id", organisationId).getValue());
             }
-            change.setNewValue(newObject.getOrganisation().getFullName());
+            change.setNewValue(newObject.getOrganisation().getValue());
         }
             ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
         changes.clear();

@@ -12,13 +12,15 @@
     position: relative;
     border: solid gray 1pt;
     margin: 2pt;
+    color: #bebebe;
+}
+.container-item b{
+    color: #0a0a0a;
 }
 .container-item:hover{
     box-shadow: 0 0 4pt 0 gray;
 }
 .container-item span{
-    background-color: #f0f8ff;
-    border: solid #cfcfcf 1pt;
     padding: 0 6pt;
     margin: 0 2pt;
     display: inline-block;

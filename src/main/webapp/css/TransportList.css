@@ -1,0 +1,7 @@
+.vehicle-number{
+    border: solid #20003c 1.2pt;
+    background: #ffffff;
+    margin: 1pt;
+    border-radius: 4pt;
+    padding: 0 4pt;
+}

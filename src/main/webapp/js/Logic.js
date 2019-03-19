@@ -35,19 +35,23 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
 function PostApi(url, parameters, onSuccess, onError, debug){
     PostReq(url, parameters, function(answer){
         if (onSuccess){
-            try {
-                var json = JSON.parse(answer)
+            if (answer != '') {
                 try {
-                    onSuccess(json);
-                } catch (on){
-                    console.error('[ Application Core ] ' + on);
-                }
+                    var json = JSON.parse(answer)
+                    try {
+                        onSuccess(json);
+                    } catch (on) {
+                        console.error('[ Application Core ] ' + on);
+                    }
 
-            } catch (e){
-                console.error('[ Application Core ] Can\'t parse ' + answer)
-                if (onError){
-                    onError(answer);
+                } catch (e) {
+                    console.error('[ Application Core ] Can\'t parse \'' + answer + '\'')
+                    if (onError) {
+                        onError(answer);
+                    }
                 }
+            } else{
+                console.log('[ Application Core ] Empty answer body');
             }
         }
     }, function(err){

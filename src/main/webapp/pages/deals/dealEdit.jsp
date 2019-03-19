@@ -108,7 +108,12 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="quantity" value="${dealProduct.quantity}" autocomplete="off">
+                <input type="number" id="quantity" value="${dealProduct.quantity}" autocomplete="off" style="width: 7em">
+                <select>
+                    <c:forEach items="${units}" var="unit">
+                        <option value="${unit.id}">${unit.name}</option>
+                    </c:forEach>
+                </select>
             </td>
         </tr>
         <tr>
@@ -123,7 +128,7 @@
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <button onclick="close()"><fmt:message key="button.cancel"/> </button>
+                <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>
                 <button onclick="save()"><fmt:message key="button.save"/> </button>
             </td>
         </tr>

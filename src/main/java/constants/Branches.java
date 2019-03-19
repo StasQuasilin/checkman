@@ -37,7 +37,8 @@ public class Branches {
         public static final String LOGISTIC_LIST =      API + "/logistic/list";
         public static final String LOGISTIC_SAVE =      API + "/logistic/save";
         public static final String TRANSPORT_UPDATE =   API + "/transport/list";
-
+        public static final String TRANSPORT_TIME =     API + "/transport/time";
+        public static final String WEIGHT_LIST =        API + "/weight/list";
 
 
         public class References {

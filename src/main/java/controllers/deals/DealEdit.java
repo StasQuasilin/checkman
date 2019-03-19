@@ -9,6 +9,7 @@ import entity.Product;
 import entity.documents.Deal;
 import entity.documents.DealProduct;
 import entity.documents.DocumentOrganisation;
+import entity.weight.WeightUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +36,7 @@ public class DealEdit extends IModal {
         req.setAttribute("types", DealType.values());
         req.setAttribute("products", hibernator.query(Product.class, null));
         req.setAttribute("documentOrganisations", hibernator.query(DocumentOrganisation.class, "active", true));
+        req.setAttribute("units", hibernator.query(WeightUnit.class, null));
         req.setAttribute("find_organisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parse_organisation", Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute("save_url", Branches.API.DEAL_SAVE);
