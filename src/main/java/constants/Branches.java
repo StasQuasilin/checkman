@@ -16,6 +16,7 @@ public class Branches {
         public static final String LOAD_PLAN = "/deals/load/plan.j";
         public static final String LOGISTIC_LIST = "/logistic/list.j";
         public static final String TRANSPORT_LIST = "/transport/list.j";
+        public static final String TRANSPORT_SHOW = "/transport/show";
         public static final String TRANSPORT_EDIT = "/transport/edit.j";
         public static final String WEIGHT_LIST = "/weight/list.j";
         public static final String WEIGHT_EDIT = "/weight/edit.j";
@@ -24,13 +25,19 @@ public class Branches {
     }
     public class API{
         public static final String API = "/api";
-        public static final String DEAL_SAVE = API + "/deal/save.j";
-        public static final String DEAL_DELETE = API + "/deal/delete.j";
-        public static final String SIGN_IN = API + "/sign/in";
-        public static final String SIGN_UP = API + "/sign/up";
-        public static final String DEAL_LIST = API + "/deal/list.j";
-        public static final String DEAL_LIST_BUY = DEAL_LIST + "?type=buy";
-        public static final String DEAL_LIST_SELL = DEAL_LIST + "?type=sell";
+        public static final String DEAL_SAVE =          API + "/deal/save.j";
+        public static final String DEAL_DELETE =        API + "/deal/delete.j";
+        public static final String SIGN_IN =            API + "/sign/in";
+        public static final String SIGN_UP =            API + "/sign/up";
+        public static final String DEAL_LIST =          API + "/deal/list.j";
+        public static final String DEAL_LIST_BUY =      DEAL_LIST + "?type=buy";
+        public static final String DEAL_LIST_SELL =     DEAL_LIST + "?type=sell";
+        public static final String PLAN_LIST =          API + "/load/plan/list";
+        public static final String PLAN_LIST_SAVE =     API + "/load/plan/save";
+        public static final String LOGISTIC_LIST =      API + "/logistic/list";
+        public static final String LOGISTIC_SAVE =      API + "/logistic/save";
+        public static final String TRANSPORT_UPDATE =   API + "/transport/list";
+
 
 
         public class References {

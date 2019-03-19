@@ -48,4 +48,6 @@ public class Vehicle {
     public void setTrailer(String trailer) {
         this.trailer = trailer;
     }
+
+    
 }

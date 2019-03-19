@@ -5,11 +5,8 @@ import constants.Branches;
 import constants.Constants;
 import entity.DealType;
 import entity.documents.Deal;
-import entity.documents.DealProduct;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
-import utils.DealBox;
 import utils.JsonParser;
 import utils.PostUtil;
 import utils.U;
@@ -19,11 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -39,17 +33,9 @@ public class DealListAPI extends IAPI{
     final static HashMap<String, Object> parameters = new HashMap<>();
     {
         parameters.put("archive", false);
-    }
-
-    @Override
-    public void init() throws ServletException {
-        try {
-            array.put("add", add);
-            array.put("update", update);
-            array.put("delete", delete);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        array.put("add", add);
+        array.put("update", update);
+        array.put("delete", delete);
     }
 
     @Override

@@ -33,7 +33,7 @@ var deamon = new Vue({
             }
         },
         show:function(id){
-            console.log(this.showLink + '?id=' + id);
+            loadModal(this.showLink + '?id=' + id)
         },
         doRequest:function(){
             const self = this;

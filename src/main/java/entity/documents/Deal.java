@@ -82,7 +82,6 @@ public class Deal extends IDocument{
     public DocumentOrganisation getDocumentOrganisation() {
         return documentOrganisation;
     }
-
     public void setDocumentOrganisation(DocumentOrganisation documentOrganisation) {
         this.documentOrganisation = documentOrganisation;
     }

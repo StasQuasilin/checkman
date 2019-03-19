@@ -39,7 +39,6 @@ import java.util.List;
 public class SaveDealAPI extends IChangeAPI{
 
     private final DealComparator comparator = new DealComparator();
-    private final DealBox dealBox = DealBox.getBOX();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -133,7 +132,6 @@ public class SaveDealAPI extends IChangeAPI{
 
         if (writeChanges) {
             hibernator.save(deal);
-            dealBox.update(deal);
             try {
                 comparator.compare(deal, worker);
             }catch (Exception e){

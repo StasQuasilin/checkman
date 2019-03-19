@@ -19,7 +19,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("buy_link", Branches.UI.DEAL_BUY);
         req.setAttribute("sell_link", Branches.UI.DEAL_SELL);
         req.setAttribute("logistic_link", Branches.UI.LOGISTIC_LIST);
-        req.setAttribute("transport_list", Branches.UI.TRANSPORT_LIST);
+        req.setAttribute("transport_link", Branches.UI.TRANSPORT_LIST);
         req.setAttribute("weight_list", Branches.UI.WEIGHT_LIST);
         req.getRequestDispatcher("/pages/application.jsp").forward(req, resp);
     }

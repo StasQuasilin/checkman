@@ -38,4 +38,9 @@ public class DocumentOrganisation {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
 }

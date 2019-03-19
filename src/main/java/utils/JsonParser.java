@@ -6,7 +6,12 @@ import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
 import entity.documents.DealProduct;
+import entity.documents.LoadPlan;
 import entity.organisations.Organisation;
+import entity.transport.ActionTime;
+import entity.transport.Driver;
+import entity.transport.Transportation;
+import entity.transport.Vehicle;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -21,10 +26,12 @@ import java.util.stream.Collectors;
 public class JsonParser {
     public static JSONObject toJson(Organisation organisation) {
         JSONObject json = new JSONObject();
-        json.put("id", organisation.getId());
-        json.put("type", organisation.getType());
-        json.put("name", organisation.getName());
-        json.put("value", organisation.getFullName());
+        if (organisation != null) {
+            json.put("id", organisation.getId());
+            json.put("type", organisation.getType());
+            json.put("name", organisation.getName());
+            json.put("value", organisation.getFullName());
+        }
         return json;
     }
 
@@ -84,6 +91,63 @@ public class JsonParser {
         json.put("status", answer.status());
         for (Map.Entry<String, String> entry : answer.getParams().entrySet()){
             json.put(entry.getKey(), entry.getValue());
+        }
+        return json;
+    }
+
+    public static JSONObject toJson(LoadPlan lp) {
+        JSONObject json = new JSONObject();
+        json.put("id", lp.getId());
+        json.put("date", lp.getDate().toString());
+        json.put("plan", lp.getPlan());
+        json.put("customer", lp.getCustomer().toString());
+        json.put("transportation", toJson(lp.getTransportation()));
+        return json;
+    }
+
+    private static JSONObject toJson(Transportation transportation) {
+        JSONObject json = new JSONObject();
+        if (transportation != null){
+            json.put("id", transportation.getId());
+            json.put("date", transportation.getDate().toString());
+            json.put("vehicle", toJson(transportation.getVehicle()));
+            json.put("driver", toJson(transportation.getDriver()));
+            json.put("timeIn", toJson(transportation.getTimeIn()));
+            json.put("timeOut", toJson(transportation.getTimeOut()));
+            json.put("archive", transportation.isArchive());
+        }
+        return json;
+    }
+
+    private static JSONObject toJson(ActionTime actionTime) {
+        JSONObject json = new JSONObject();
+        if (actionTime != null){
+            json.put("id", actionTime.getId());
+            json.put("creator", actionTime.getCreator());
+            json.put("time", actionTime.getTime().toString());
+        }
+        return json;
+    }
+
+    private static JSONObject toJson(Driver driver) {
+        JSONObject json = new JSONObject();
+        if (driver != null){
+            json.put("id", driver.getId());
+            json.put("person", toJson(driver.getPerson()));
+            json.put("organisation", toJson(driver.getOrganisation()));
+        }
+        return json;
+    }
+
+    private static JSONObject toJson(Vehicle vehicle) {
+        JSONObject json = new JSONObject();
+        if (vehicle != null){
+            json.put("id", vehicle.getId());
+            json.put("model", vehicle.getModel());
+            json.put("number", vehicle.getNumber());
+            if (vehicle.getTrailer() != null){
+                json.put("trailer", vehicle.getTrailer());
+            }
         }
         return json;
     }

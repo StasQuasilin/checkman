@@ -29,7 +29,7 @@
         </span>
         <a onclick="loadContent(${context}${logistic_archive})"><fmt:message key="archive"/> </a>
       </li>
-      <li class="menu-item" onclick="loadContent('${security_link}')">
+      <li class="menu-item" onclick="loadContent('${transport_link}')">
         <span>
           <fmt:message key="menu.transport"/>
         </span>
