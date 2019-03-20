@@ -29,7 +29,9 @@
             <div class="header" id="header"></div>
         </td>
         <td>
+          <button>
             ${worker.value}
+          </button>
         </td>
         <td rowspan="2">
 

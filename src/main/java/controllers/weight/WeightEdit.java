@@ -3,6 +3,7 @@ package controllers.weight;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
+import entity.documents.LoadPlan;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,8 @@ import java.io.IOException;
 public class WeightEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter(Constants.ID));
+        req.setAttribute("plan", hibernator.get(LoadPlan.class, "id", id));
         req.setAttribute("title", Constants.Titles.WEIGHT_EDIT);
         req.setAttribute("modalContent", "/pages/weight/weightEdit.jsp");
         show(req, resp);

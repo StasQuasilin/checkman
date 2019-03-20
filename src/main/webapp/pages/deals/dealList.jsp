@@ -6,10 +6,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<script src="${context}/vue/dataList.vue"></script>
+<script src="${context}/vue/dataList.js"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script>
   deamon.setUrls('${updateLink}', '${showLink}')
+  function stopContent(){
+    deamon.stop();
+  }
 </script>
 <div id="container-header" style="display: inline">
   <button onclick="loadModal('${editLink}')"><fmt:message key="button.add"/> </button>

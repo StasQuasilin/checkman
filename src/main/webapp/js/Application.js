@@ -22,6 +22,10 @@ function loadContent(url){
     console.log('[ Application ] Load page ' + url);
     localStorage.setItem(last_url, url);
     PostReq(url, null, function(e){
+        try {
+            stopContent();
+        } catch (e){}
+
         $(content).html(e);
         $(header).html(GetChildElemById(content, 'header-content'));
         document.title = header.innerText;
@@ -35,17 +39,21 @@ function loadContent(url){
 function loadModal(url){
     console.log('[ Application ] Load modal ' + url);
     PostReq(url, null, function(m){
-        showModal(m);
+        addModal(m);
 
     }, function (e) {
         console.error('Error ' + e);
     })
 }
-function showModal(modal){
-    $(modalLayer).html(modal);
+function addModal(modal){
+
+    $(modalLayer).append(modal);
     modalLayer.style.display='block';
-    onClose(function () {
-        modalLayer.style.display = 'none';
-        $(modalLayer).html('');
-    })
+
+    addOnCloseEvent(function () {
+        closeModal(modal);
+    });
+}
+function closeModal(modal){
+    $(modalLayer).remove(modal);
 }

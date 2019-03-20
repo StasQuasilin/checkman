@@ -3,9 +3,11 @@ package entity.transport;
 import entity.Worker;
 import entity.documents.DocumentOrganisation;
 import entity.documents.IDocument;
+import entity.weight.Weight;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -22,6 +24,7 @@ public class Transportation extends IDocument{
     private ActionTime timeIn;
     private ActionTime timeOut;
     private Worker creator;
+    private Set<Weight> weights;
     private boolean archive;
 
     @Override
@@ -100,6 +103,14 @@ public class Transportation extends IDocument{
         this.creator = creator;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    public Set<Weight> getWeights() {
+        return weights;
+    }
+        public void setWeights(Set<Weight> weights) {
+        this.weights = weights;
+    }
+
     @Basic
     @Column(name = "archive")
     public boolean isArchive() {
@@ -125,6 +136,10 @@ public class Transportation extends IDocument{
         }
         if (timeOut != null){
             hash = 31 * timeOut.hashCode() + hash;
+        }
+
+        for (Weight w : weights){
+            hash = 31 * w.hashCode() + hash;
         }
         hash = 31 * Boolean.hashCode(archive) + hash;
         return hash;

@@ -21,7 +21,7 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
                     onSuccess(xhr.responseText);
                 }
             } else if (onError){
-                onError(xhr.status);
+                onError(xhr.status + ':' + xhr.responseText);
             }
         }
     };

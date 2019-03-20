@@ -5,6 +5,7 @@ var plan = new Vue({
         planId:0,
         save_link:'',
         update_link:'',
+        vehicleDriverLink:'',
         deal:0,
         customer:'',
         customers:{},
@@ -46,11 +47,11 @@ var plan = new Vue({
             console.log(plan)
             Vue.set(this.plan_list, this.planId, plan)
             this.planId++
-        },save:function(){
+        },
+        save:function(){
             for (var i in this.plan_list){
                 var plan = this.plan_list[i];
                 var parameters = [];
-
                 if (plan.id != -1) {
                     parameters.id = plan.id;
                 }
@@ -74,6 +75,9 @@ var plan = new Vue({
                 id:id,
                 name:name
             }
+        },
+        addVehicleDriver:function(id){
+            loadModal(this.vehicleDriverLink)
         }
 
     }

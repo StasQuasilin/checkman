@@ -48,5 +48,6 @@ public class Constants {
         public static final String TRANSPORT_SHOW = "title.transport.show";
         public static final String WEIGHT_LIST = "title.weight.list";
         public static final String WEIGHT_EDIT = "title.weight.edit";
+        public static final String VEHICLE_DRIVER_INPUT = "title.vehicle.driver.input";
     }
 }

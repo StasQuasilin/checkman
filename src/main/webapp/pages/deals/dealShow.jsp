@@ -90,7 +90,7 @@
     </td>
     <td>
       <link rel="stylesheet" href="${context}/css/LoadPlan.css">
-      <script src="${context}/vue/loadPlan.vue"></script>
+      <script src="${context}/vue/loadPlan.js"></script>
       <script>
         <c:forEach items="${customers}" var="customer">
         plan.addCustomer('${customer}', '<fmt:message key="${customer}"/> ')
@@ -98,6 +98,7 @@
         plan.deal = ${deal.id}
         plan.save_link = '${save_link}'
         plan.update_link = '${update_link}'
+        plan.vehicleDriverLink = '${vehicleDriverModal}'
       </script>
       <div class="plan-wrapper" id="load_plan">
         <table border="0">
@@ -148,7 +149,7 @@
                     <span title="${factTitle}">{{plan.fact}}</span>
                   </div>
                   <div style="padding: 1pt">
-                    <button v-if="plan.transportation.vehicle || plan.transportation.driver">
+                    <button v-if="plan.transportation.vehicle || plan.transportation.driver" v-on:click="addVehicleDriver(plan.id)">
                       <fmt:message key="transport.insert.infortation"/>
                     </button>
                     <template v-else>

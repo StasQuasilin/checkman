@@ -12,9 +12,12 @@ import entity.transport.ActionTime;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
+import entity.weight.Weight;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -105,8 +108,27 @@ public class JsonParser {
             json.put("timeIn", toJson(transportation.getTimeIn()));
             json.put("timeOut", toJson(transportation.getTimeOut()));
             json.put("hash", transportation.hashCode());
+            json.put("weights", toJson(transportation.getWeights()));
             json.put("archive", transportation.isArchive());
         }
+        return json;
+    }
+
+    private static JSONArray toJson(Set<Weight> weights) {
+        JSONArray array = new JSONArray();
+        for (Weight weight : weights){
+            array.add(toJson(weight));
+        }
+        return array;
+    }
+
+    private static JSONObject toJson(Weight weight) {
+        JSONObject json = new JSONObject();
+        json.put("id", weight.getId());
+        json.put("brutto", weight.getBrutto());
+        json.put("brutto_time", toJson(weight.getBruttoTime()));
+        json.put("tara", weight.getTara());
+        json.put("tara_time", toJson(weight.getTaraTime()));
         return json;
     }
 

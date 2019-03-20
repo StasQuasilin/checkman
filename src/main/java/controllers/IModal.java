@@ -11,6 +11,9 @@ import java.io.IOException;
 public class IModal extends IServlet {
 
     public void show(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getAttribute("modalContent") == null){
+            throw new ServletException("field \'modalContent\' required");
+        }
         request.getRequestDispatcher("/pages/modalView.jsp").forward(request, response);
     }
 }

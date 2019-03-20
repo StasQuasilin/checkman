@@ -7,13 +7,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-  <script src="${context}/vue/logisticList.vue"></script>
+  <script src="${context}/vue/logisticList.js"></script>
   <script>
     logistic.setUrls('${updateLink}', '${saveLink}')
 
     <c:forEach items="${dealTypes}" var="type">
     logistic.addType('${type}', '<fmt:message key="${type}"/>')
     </c:forEach>
+    function stopContent(){
+      logistic.stop()
+    }
 
   </script>
   <div id="logistic">

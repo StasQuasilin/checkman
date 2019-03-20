@@ -43,6 +43,7 @@
         <mapping class="entity.log.Change"/>
         <mapping class="entity.documents.DocumentUID"/>
         <mapping class="entity.ApplicationSettings"/>
+        <mapping class="entity.weight.Weight"/>
         <mapping class="entity.weight.WeightUnit"/>
 
     </session-factory>

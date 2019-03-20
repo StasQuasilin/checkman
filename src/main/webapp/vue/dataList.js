@@ -6,7 +6,8 @@ var deamon = new Vue({
         itemClass: function() {
             return 'custom-item-'
         },
-        items:{}
+        items:{},
+        timeout:-1
     },
     methods:{
         setUrls:function(url, show){
@@ -54,10 +55,14 @@ var deamon = new Vue({
                 for(var d in e.delete){
                     self.drop(e.delete[d])
                 }
-                setTimeout(function(){
+                self.timeout = setTimeout(function(){
                     self.doRequest();
                 }, 1000)
             })
+        },
+        stop:function(){
+            console.log('Stop deamon list')
+            clearTimeout(this.timeout)
         }
     }
 })

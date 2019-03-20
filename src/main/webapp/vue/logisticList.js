@@ -4,7 +4,8 @@ var logistic = new Vue({
         update_link:'',
         save_link:'',
         items:{},
-        types:{}
+        types:{},
+        timeout:-1
     },
     methods:{
         add:function(item){
@@ -50,10 +51,14 @@ var logistic = new Vue({
                     self.remove(e.remove[d])
                 }
             }, null, false)
-            setTimeout(function(){self.loadItems()}, 1000);
+            self.timeout = setTimeout(function(){self.loadItems()}, 1000);
         },
         addType:function(key, value){
             Vue.set(this.types, key, value)
+        },
+        stop:function(){
+            console.log('Stop logistic list')
+            clearTimeout(this.timeout)
         }
     }
 })

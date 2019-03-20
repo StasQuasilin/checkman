@@ -22,6 +22,9 @@ public class Branches {
         public static final String WEIGHT_EDIT = "/weight/edit.j";
 
         public static final String HOME = APPLICATION;
+        public static final String VEHICLE_MODAL = "/vehicle/modal.j";
+        public static final String DRIVER_MODAL = "/driver/modal.j";
+        public static final String VEHICLE_DRIVER_MODAL = "/vehicle/driver/modal.j";
     }
     public class API{
         public static final String API = "/api";
