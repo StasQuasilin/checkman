@@ -170,6 +170,7 @@ public class Deal extends IDocument{
         hash = 31 * Float.hashCode(done) + hash;
         hash = 31 * type.hashCode() + hash;
         hash = 31 * Boolean.hashCode(archive) + hash;
+        hash = 31 * creator.hashCode() + hash;
 
         return hash;
     }

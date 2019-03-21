@@ -5,7 +5,17 @@
 <fmt:setBundle basename="messages"/>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
-    <table>
+<script src="${context}/vue/weightEdit.js"></script>
+<script>
+    <c:forEach items="${plan.transportation.weights}" var="weight">
+    editor.addWeight(${weight.id}, ${weight.brutto}, ${weight.tara});
+    </c:forEach>
+    console.log(editor.weights)
+    if (editor.weights.length == 0){
+        editor.newWeight();
+    }
+</script>
+    <table id="editor">
         <tr>
             <td>
                 <fmt:message key="date"/>
@@ -61,95 +71,48 @@
                 ${plan.deal.documentOrganisation.value}
             </td>
         </tr>
-        <c:choose>
-            <c:when test="${fn:length(plan.transportation.weights) eq 0}">
-                <tr>
-                    <td>
-                        <label for="brutto">
-                            <fmt:message key="weight.brutto"/>
-                        </label>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        <input id="brutto">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="tara">
-                            <fmt:message key="weight.tara"/>
-                        </label>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        <input id="tara">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="netto">
-                            <fmt:message key="weight.netto"/>
-                        </label>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        <input id="netto" readonly>
-                    </td>
+        <template v-for="weight in weights">
+            <tr>
+                <td>
+                    <label for="brutto">
+                        <fmt:message key="weight.brutto"/>
+                    </label>
+                </td>
+                <td>
+                    :
+                </td>
+                <td>
+                    <input id="brutto" v-model="weight.brutto">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="tara">
+                        <fmt:message key="weight.tara"/>
+                    </label>
+                </td>
+                <td>
+                    :
+                </td>
+                <td>
+                    <input id="tara" v-model="weight.tara">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="netto">
+                        <fmt:message key="weight.netto"/>
+                    </label>
+                </td>
+                <td>
+                    :
+                </td>
+                <td>
+                    {{netto(weight.brutto, weight.tara)}}
+                </td>
 
-                </tr>
-            </c:when>
-            <c:otherwise>
-                <c:forEach items="${plan.transportation.weights}" var="weight">
-                    <tr>
-                        <td>
-                            <label for="brutto">
-                                <fmt:message key="weight.brutto"/>
-                            </label>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <input id="brutto" value="${weight.brutto}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="tara">
-                                <fmt:message key="weight.tara"/>
-                            </label>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <input id="tara" value="${weight.tara}">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="netto">
-                                <fmt:message key="weight.netto"/>
-                            </label>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <input id="netto" readonly value="${weight.netto}">
-                        </td>
-
-                    </tr>
-                </c:forEach>
-            </c:otherwise>
-        </c:choose>
-
+            </tr>
+        </template>
         <tr>
             <td colspan="3" align="center">
                 <button><fmt:message key="button.cancel"/> </button>

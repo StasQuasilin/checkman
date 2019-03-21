@@ -51,7 +51,7 @@ public class Person {
 
     @Transient
     public String getValue() {
-        return forename + (surname != null ? " " + surname.substring(0, 1) + "." : "") + (patronymic != null ? " " + patronymic.substring(0, 1) + "." : "");
+        return surname + (forename != null ? " " + forename.substring(0, 1) + "." : "") + (patronymic != null ? " " + patronymic.substring(0, 1) + "." : "");
     }
 
     @Override

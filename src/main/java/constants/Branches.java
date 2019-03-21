@@ -44,6 +44,7 @@ public class Branches {
         public static final String WEIGHT_LIST =        API + "/weight/list";
         public static final String SAVE_TRANSPORTATION_VEHICLE = API + "/transportation/save/vehicle";
         public static final String SAVE_TRANSPORTATION_DRIVER = API + "/transportation/save/driver";
+        public static final String SAVE_WEIGHT =        API + "/weight/save";
 
 
         public class References {

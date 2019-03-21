@@ -20,6 +20,7 @@ public class WeightEdit extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
         req.setAttribute("plan", hibernator.get(LoadPlan.class, "id", id));
+        req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
         req.setAttribute("title", Constants.Titles.WEIGHT_EDIT);
         req.setAttribute("modalContent", "/pages/weight/weightEdit.jsp");
         show(req, resp);

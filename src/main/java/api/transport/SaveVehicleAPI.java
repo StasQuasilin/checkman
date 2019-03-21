@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.annotations.common.util.impl.Log;
 import utils.JsonParser;
 import utils.PostUtil;
+import utils.U;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -51,12 +52,13 @@ public class SaveVehicleAPI extends IAPI{
 
         vehicle.setTrailer(body.get(Constants.Vehicle.TRAILER));
         logger.info("\t...Trailer: " + vehicle.getTrailer());
-        try {
+
+        if (U.exist(body.get(Constants.Vehicle.TRANSPORTER_ID))) {
             int id = Integer.parseInt(body.get(Constants.Vehicle.TRANSPORTER_ID));
             Organisation organisation = hibernator.get(Organisation.class, "id", id);
             vehicle.setTransporter(organisation);
             logger.info("\t...Transporter: \'" + vehicle.getTransporter().getValue() + "\'");
-        } catch (Exception ignored){}
+        }
 
         hibernator.save(vehicle);
 

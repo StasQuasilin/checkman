@@ -40,18 +40,21 @@
       </div>
       <div>
         <fmt:message key="transportation.automobile"/>:
-        <template v-if="value.item.transportation.vehicle.id">
-          {{value.item.transportation.vehicle.model}}
-          <span class="vehicle-number">
-            {{value.item.transportation.vehicle.number}}
+        <div style="display: inline-block; width: 30%">
+          <template v-if="value.item.transportation.vehicle.id">
+            {{value.item.transportation.vehicle.model}}
+            <span class="vehicle-number">
+              {{value.item.transportation.vehicle.number}}
+            </span>
+            <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
+              {{value.item.transportation.vehicle.trailer}}
+            </span>
+          </template>
+          <span v-else="value.item.transportation.vehicle.id">
+            <fmt:message key="no.data"/>
           </span>
-          <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
-            {{value.item.transportation.vehicle.trailer}}
-          </span>
-        </template>
-        <template v-else="value.item.transportation.vehicle.id">
-          <fmt:message key="no.data"/>
-        </template>
+        </div>
+
 
         <fmt:message key="transportation.driver"/>:
         <template v-if="value.item.transportation.driver.id">

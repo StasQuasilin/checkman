@@ -4,7 +4,9 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.Person;
+import entity.organisations.Organisation;
 import entity.transport.Driver;
+import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import utils.JsonParser;
 import utils.PostUtil;
@@ -49,6 +51,26 @@ public class SaveDriverAPI extends IAPI{
 
         driver.getPerson().setPatronymic(body.get(Constants.Person.PATRONYMIC));
         logger.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
+
+        if (U.exist(body.get(Constants.Vehicle.TRANSPORTER_ID))) {
+            int id = Integer.parseInt(body.get(Constants.Vehicle.TRANSPORTER_ID));
+            Organisation organisation = hibernator.get(Organisation.class, "id", id);
+            driver.setOrganisation(organisation);
+            logger.info("\t...Organisation: \'" + driver.getOrganisation().getValue() + "\'");
+        }
+
+        hibernator.save(driver.getPerson(), driver);
+
+        if (U.exist(body.get(Constants.TRANSPORTATION_ID))) {
+            int id = Integer.parseInt(body.get(Constants.TRANSPORTATION_ID));
+            Transportation transportation = hibernator.get(Transportation.class, "id", id);
+            transportation.setDriver(driver);
+            hibernator.save(transportation);
+            logger.info("Put in transportation " + transportation.getId());
+        }
+
+        write(resp, answer);
+        body.clear();
 
     }
 }

@@ -29,7 +29,7 @@
   </script>
   <div id="logistic">
     <div v-for="(value, key) in items" class="container-item" v-bind:class="value.className">
-      <div>
+      <div style="padding: 2pt">
         <span>
           {{new Date(value.item.date).toLocaleDateString()}}
         </span>
@@ -61,7 +61,7 @@
           </b>
         </span>
       </div>
-      <div>
+      <div style="padding: 2pt">
         <fmt:message key="transportation.automobile"/>:
         <div style="display: inline-block; width: 30%">
           <template v-if="value.item.transportation.vehicle.id">
