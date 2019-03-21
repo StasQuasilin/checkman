@@ -11,9 +11,8 @@
     editor.addWeight(${weight.id}, ${weight.brutto}, ${weight.tara});
     </c:forEach>
     console.log(editor.weights)
-    if (editor.weights.length == 0){
-        editor.newWeight();
-    }
+
+
 </script>
     <table id="editor">
         <tr>
@@ -120,4 +119,9 @@
             </td>
         </tr>
     </table>
+<script>
+    if (editor.weights.length == 0){
+        editor.newWeight();
+    }
+</script>
 </html>
