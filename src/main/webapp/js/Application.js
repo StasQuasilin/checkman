@@ -36,9 +36,9 @@ function loadContent(url){
         console.error('[ Application ] Load content error ' + e)
     })
 }
-function loadModal(url){
+function loadModal(url, parameters){
     console.log('[ Application ] Load modal ' + url);
-    PostReq(url, null, function(m){
+    PostReq(url, parameters, function(m){
         addModal(m);
 
     }, function (e) {
@@ -50,9 +50,9 @@ function addModal(modal){
     $(modalLayer).append(modal);
     modalLayer.style.display='block';
 
-    addOnCloseEvent(function () {
-        closeModal(modal);
-    });
+    //addOnCloseEvent(function () {
+    //    closeModal(modal);
+    //});
 }
 function closeModal(modal){
     $(modalLayer).remove(modal);

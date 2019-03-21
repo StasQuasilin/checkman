@@ -1,5 +1,7 @@
 package entity.transport;
 
+import entity.organisations.Organisation;
+
 import javax.persistence.*;
 
 /**
@@ -12,6 +14,7 @@ public class Vehicle {
     private String model;
     private String number;
     private String trailer;
+    private Organisation transporter;
 
     @Id
     @GeneratedValue
@@ -47,6 +50,15 @@ public class Vehicle {
     }
     public void setTrailer(String trailer) {
         this.trailer = trailer;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "transporter")
+    public Organisation getTransporter() {
+        return transporter;
+    }
+    public void setTransporter(Organisation transporter) {
+        this.transporter = transporter;
     }
 
     @Override

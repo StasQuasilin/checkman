@@ -42,16 +42,22 @@ public class Branches {
         public static final String TRANSPORT_UPDATE =   API + "/transport/list";
         public static final String TRANSPORT_TIME =     API + "/transport/time";
         public static final String WEIGHT_LIST =        API + "/weight/list";
+        public static final String SAVE_TRANSPORTATION_VEHICLE = API + "/transportation/save/vehicle";
+        public static final String SAVE_TRANSPORTATION_DRIVER = API + "/transportation/save/driver";
 
 
         public class References {
             public static final String API = Branches.API.API + "/references";
             public static final String PARSE_ORGANISATION = API + "/organisation/parse";
-            public static final String EDIT_ORGANISATION = API + "/organisation/edit";
-            public static final String FIND_ORGANISATION = API + "/organisation/find";
-            public static final String DRIVER_LIST = API + "/driver/list";
-            public static final String TERRITORY_INFO = API + "/info";
-            public static final String FIND_USER = API + "/user/find";
+            public static final String EDIT_ORGANISATION =  API + "/organisation/edit";
+            public static final String FIND_ORGANISATION =  API + "/organisation/find";
+            public static final String DRIVER_LIST =        API + "/driver/list";
+            public static final String TERRITORY_INFO =     API + "/info";
+            public static final String FIND_USER =          API + "/user/find";
+            public static final String FIND_DRIVER =        API + "/driver/find";
+            public static final String FIND_VEHICLE =       API + "/vehicle/find";
+            public static final String SAVE_VEHICLE =       API + "/vehicle/save";
+            public static final String SAVE_DRIVER =        API + "/driver/save";
         }
 
         public class Deal {

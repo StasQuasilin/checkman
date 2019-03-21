@@ -14,13 +14,18 @@ button{
     font-size: 10pt;
     color: gray;
 }
+input{
+    border-radius: 8pt;
+    padding: 0 6pt;
+}
 button:hover{
     box-shadow: 0 0 4pt 0 gray;
 }
 button:focus, input:focus{
     outline: none;
-    border-color: #4c7b7b;
+    border-color: #86cbcb;
 }
+
 .header {
     background-color: #d3dbe2;
     height: 20px;
@@ -42,16 +47,25 @@ button:focus, input:focus{
     overflow-y: scroll;
 }
 .custom-data-list{
-    display: none;
-    width: 200px;
+    font-size: 10pt;
+    width: 250px;
     height: fit-content;
     background-color: white;
     color: #4c7b7b;
     position: absolute;
+    z-index: 100;
+    box-shadow: 0 4pt 4px gray;
+    margin-left: 4pt;
+    max-height: 200pt;
+    overflow-y: scroll;
 }
+.custom-data-list::-webkit-scrollbar {
+    width: 4px;
+}
+
 .custom-data-list-item{
     border-bottom: dotted gray 1pt;
-    padding: 2pt;
+    padding: 8pt 4pt;
 }
 .custom-data-list-item:hover{
     background-color: #f2f2f2;

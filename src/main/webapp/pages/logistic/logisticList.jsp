@@ -7,8 +7,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
+<link rel="stylesheet" href="${context}/css/TransportList.css">
   <script src="${context}/vue/logisticList.js"></script>
   <script>
+    logistic.saveTransportationVehicleApi = '${saveTransportationVehicleAPI}'
+    logistic.saveTransportationDriverApi = '${saveTransportationDriverAPI}'
+    logistic.findVehicleAPI = '${findVehicleApi}'
+    logistic.findDriverAPI = '${findDriverApi}'
+    logistic.vehicleInput = '${vehicleInput}'
+    logistic.driverInput = '${driverInput}'
+    logistic.vehicleDriverInput = '${vehicleDriverInput}'
     logistic.setUrls('${updateLink}', '${saveLink}')
 
     <c:forEach items="${dealTypes}" var="type">
@@ -55,7 +63,65 @@
       </div>
       <div>
         <fmt:message key="transportation.automobile"/>:
+        <div style="display: inline-block; width: 30%">
+          <template v-if="value.item.transportation.vehicle.id">
+            {{value.item.transportation.vehicle.model}}
+            <span class="vehicle-number">
+              {{value.item.transportation.vehicle.number}}
+            </span>
+            <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
+              {{value.item.transportation.vehicle.trailer}}
+            </span>
+          </template>
+          <template v-else-if="value.vehicleEdit">
+            <div style="display: inline-block; width: 90%">
+              <input v-model="value.vehicleInput" style="width: 100%" v-on:keyup="findVehicle(value)"
+                     v-on:keyup.enter="parseVehicle(value)">
+              <div class="custom-data-list">
+                <div class="custom-data-list-item" v-for="vehicle in vehicleFind"
+                        v-on:click="setVehicle(value.item.transportation.id, vehicle.id, key)">
+                  {{vehicle.model}}
+                  <span>
+                    '{{vehicle.number}}'
+                  </span>
+                  <span v-if="vehicle.trailer">
+                    '{{vehicle.trailer}}'
+                  </span>
+                </div>
+              </div>
+            </div>
+            <span class="mini-close" v-on:click="closeVehicleInput(key)">&times;</span>
+          </template>
+          <button v-else v-on:click="openVehicleInput(value.item.id)">
+            <fmt:message key="transport.insert.infortation"/>
+          </button>
+        </div>
+
         <fmt:message key="transportation.driver"/>:
+        <div style="display: inline-block; width: 30%">
+          <span v-if="value.item.transportation.driver.id">
+            {{value.item.transportation.driver.person.value}}
+          </span>
+          <template v-else-if="value.driverEdit">
+            <div style="display: inline-block; width: 90%">
+              <input v-model="value.driverInput" style="width: 100%" v-on:keyup="findDriver(value)"
+                     v-on:keyup.enter="parseDriver(value)">
+              <div class="custom-data-list" v-show="driverFind">
+                <div class="custom-data-list-item" v-for="driver in driverFind"
+                     v-on:click="setDriver(value.item.transportation.id, driver.id, key)">
+                  {{driver.person.value}}
+                </div>
+              </div>
+            </div>
+
+            <span class="mini-close" v-on:click="closeDriverInput(key)">&times;</span>
+          </template>
+          <button v-else v-on:click="openDriverInput(value.item.id)">
+            <fmt:message key="transportation.driver.insert.info"/>
+          </button>
+        </div>
+
+
       </div>
     </div>
   </div>

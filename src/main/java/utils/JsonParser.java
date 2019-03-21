@@ -142,7 +142,7 @@ public class JsonParser {
         return json;
     }
 
-    private static JSONObject toJson(Driver driver) {
+    public static JSONObject toJson(Driver driver) {
         JSONObject json = new JSONObject();
         if (driver != null){
             json.put("id", driver.getId());
@@ -152,7 +152,7 @@ public class JsonParser {
         return json;
     }
 
-    private static JSONObject toJson(Vehicle vehicle) {
+    public static JSONObject toJson(Vehicle vehicle) {
         JSONObject json = new JSONObject();
         if (vehicle != null){
             json.put("id", vehicle.getId());

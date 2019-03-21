@@ -1,8 +1,19 @@
 var logistic = new Vue({
     el:'#logistic',
     data:{
+        findVehicleAPI:'',
+        findDriverAPI:'',
+        parseVehicleAPI:'',
+        parseDriverAPI:'',
+        vehicleFind:{},
+        driverFind:{},
+        vehicleInput:'',
+        driverInput:'',
+        vehicleDriverInput:'',
         update_link:'',
         save_link:'',
+        saveTransportationVehicleApi:'',
+        saveTransportationDriverApi:'',
         items:{},
         types:{},
         timeout:-1
@@ -10,8 +21,13 @@ var logistic = new Vue({
     methods:{
         add:function(item){
             var data = {};
-            data.className = 'container-item-' + new Date(item.date).getDay()
-            data.item = item
+            data.className = 'container-item-' + new Date(item.date).getDay();
+            data.vehicleEdit = false;
+            data.driverEdit = false;
+            data.vehicleInput = '';
+            data.driverInput='';
+            data.fnd=-1;
+            data.item = item;
             Vue.set(this.items, item.id, data)
         },
         update:function(item){
@@ -59,6 +75,86 @@ var logistic = new Vue({
         stop:function(){
             console.log('Stop logistic list')
             clearTimeout(this.timeout)
+        },
+        openVehicleInput:function(id){
+
+            for(var i in this.items){
+                var item = this.items[i];
+                item.vehicleEdit = item.item.id == id;
+                item.driverEdit = false;
+            }
+        },
+        closeVehicleInput:function(key){
+            this.items[key].vehicleEdit=false
+        },
+        openDriverInput:function(id){
+            this.driverFind={};
+            for(var i in this.items){
+                var item = this.items[i];
+                item.driverEdit = item.item.id == id;
+                item.vehicleEdit = false;
+            }
+        },
+        closeDriverInput:function(key){
+            this.driverFind={};
+            this.items[key].driverInput = '';
+            this.items[key].driverEdit = false;
+            clearTimeout(this.items[key].fnd);
+        },
+        findDriver:function(value){
+            const self = this;
+
+            clearTimeout(value.fnd);
+            value.fnd = setTimeout(function(){
+                var p = [];
+                p.key = value.driverInput;
+                PostApi(self.findDriverAPI, p, function(a){
+                    self.driverFind = a;
+                })
+            }, 500)
+        },
+        findVehicle:function(value){
+            const self = this;
+            clearTimeout(value.fnd);
+            value.fnd = setTimeout(function(){
+                var p = [];
+                p.key = value.vehicleInput;
+                PostApi(self.findVehicleAPI, p, function(a){
+                    self.vehicleFind = a;
+                })
+            }, 500)
+        },
+        setDriver:function(transportation, driver, key){
+            this.driverFind = {};
+            this.closeDriverInput(key);
+            var p = [];
+            p.transportation_id = transportation;
+            p.driver_id = driver;
+            PostApi(this.saveTransportationDriverApi, p, function(a){
+                console.log(a)
+            })
+        },
+        setVehicle:function(transportation, vehicle, key){
+            this.vehicleFind = {};
+            this.closeVehicleInput(key);
+            var p = [];
+            p.transportation_id = transportation;
+            p.vehicle_id = vehicle;
+            PostApi(this.saveTransportationVehicleApi, p, function(a){
+                console.log(a)
+            })
+        },
+        parseVehicle:function(value){
+            var p = [];
+            p.transportation_id = value.item.transportation.id;
+            p.key = value.vehicleInput;
+            loadModal(this.vehicleInput, p);
+        },
+        parseDriver:function(value){
+            var p = [];
+            p.transportation_id = value.item.transportation.id;
+            p.key = value.driverInput;
+            loadModal(this.driverInput, p);
         }
     }
-})
+});

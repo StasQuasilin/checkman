@@ -4,7 +4,22 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<table>
+<script src="${context}/vue/vehicleEdit.js"></script>
+<script>
+    editor.api.findOrganisationAPI = '${findOrganisationAPI}'
+    editor.api.saveVehicleAPI = '${saveVehicleAPI}'
+    editor.transportationId = '${transportation}'
+    editor.vehicleId = '${vehicle.id}'
+    editor.vehicleModel = '${vehicle.model}';
+    editor.vehicleNumber = '${vehicle.number}';
+    editor.vehicleTrailer = '${vehicle.trailer}';
+    <c:if test="${not empty vehicle.transporter}">
+        editor.transporterId = ${vehicle.transporter.id};
+        editor.transporterInput = ${vehicle.transporter.value}
+    </c:if>
+
+</script>
+<table id="editor">
     <tr>
         <td>
             <label for="model">
@@ -15,7 +30,7 @@
             :
         </td>
         <td>
-            <input id="model">
+            <input id="model" v-model="vehicleModel">
         </td>
     </tr>
     <tr>
@@ -28,7 +43,7 @@
             :
         </td>
         <td>
-            <input id="number">
+            <input id="number" v-model="vehicleNumber">
         </td>
     </tr>
     <tr>
@@ -41,7 +56,33 @@
             :
         </td>
         <td>
-            <input id="trailer">
+            <input id="trailer" v-model="vehicleTrailer">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="transporter">
+                <fmt:message key="transportation.transporter"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <div style="display: inline-block">
+                <input id="transporter" v-model="transporterInput">
+                <div class="custom-data-list"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" align="center">
+            <button>
+                <fmt:message key="button.cancel"/>
+            </button>
+            <button v-on:click="save">
+                <fmt:message key="button.save"/>
+            </button>
         </td>
     </tr>
 </table>

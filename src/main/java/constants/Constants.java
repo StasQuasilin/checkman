@@ -24,6 +24,9 @@ public class Constants {
     public static final String VISIBILITY = "visibility";
     public static final String PLAN = "plan";
     public static final String CUSTOMER = "customer";
+    public static final String TRANSPORTATION_ID = "transportation_id";
+    public static final String DRIVER_ID = "driver_id";
+    public static final String VEHICLE_ID = "vehicle_id";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
@@ -49,5 +52,20 @@ public class Constants {
         public static final String WEIGHT_LIST = "title.weight.list";
         public static final String WEIGHT_EDIT = "title.weight.edit";
         public static final String VEHICLE_DRIVER_INPUT = "title.vehicle.driver.input";
+        public static final String VEHICLE_INPUT = "title.vehicle.edit";
+        public static final String DRIVER_INPUT = "title.driver.edit";
+    }
+
+    public class Vehicle {
+        public static final String MODEL = "model";
+        public static final String NUMBER = "number";
+        public static final String TRAILER = "trailer";
+        public static final String TRANSPORTER_ID = "transporter_id";
+    }
+
+    public class Person {
+        public static final String SURNAME = "surname";
+        public static final String FORENAME = "forename";
+        public static final String PATRONYMIC = "patronymic";
     }
 }

@@ -5,45 +5,57 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <table>
-
     <tr>
         <td>
-            <label for="surname">
-                <fmt:message key="person.surname"/>*
+            <label for="find">
+                <fmt:message key="find"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="surname">
+            <input id="find">
         </td>
     </tr>
-    <tr>
-        <td>
-            <label for="forename">
-                <fmt:message key="person.forename"/>*
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="forename">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="patronymic">
-                <fmt:message key="person.patronymic"/>*
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="patronymic">
-        </td>
-    </tr>
+    <%--<tr>--%>
+        <%--<td>--%>
+            <%--<label for="surname">--%>
+                <%--<fmt:message key="person.surname"/>*--%>
+            <%--</label>--%>
+        <%--</td>--%>
+        <%--<td>--%>
+            <%--:--%>
+        <%--</td>--%>
+        <%--<td>--%>
+            <%--<input id="surname">--%>
+        <%--</td>--%>
+    <%--</tr>--%>
+    <%--<tr>--%>
+        <%--<td>--%>
+            <%--<label for="forename">--%>
+                <%--<fmt:message key="person.forename"/>*--%>
+            <%--</label>--%>
+        <%--</td>--%>
+        <%--<td>--%>
+            <%--:--%>
+        <%--</td>--%>
+        <%--<td>--%>
+            <%--<input id="forename">--%>
+        <%--</td>--%>
+    <%--</tr>--%>
+    <%--<tr>--%>
+        <%--<td>--%>
+            <%--<label for="patronymic">--%>
+                <%--<fmt:message key="person.patronymic"/>*--%>
+            <%--</label>--%>
+        <%--</td>--%>
+        <%--<td>--%>
+            <%--:--%>
+        <%--</td>--%>
+        <%--<td>--%>
+            <%--<input id="patronymic">--%>
+        <%--</td>--%>
+    <%--</tr>--%>
 </table>
 </html>
