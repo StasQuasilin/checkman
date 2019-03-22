@@ -9,16 +9,18 @@
 
 }
 .container-item{
-    position: relative;
-    border: solid gray 1.5pt;
+    border: solid #474747 1.5pt;
     margin: 2pt;
     border-radius: 8pt;
     overflow: hidden;
 }
 .container-item .upper-row{
     padding: 4pt;
-    border-bottom: solid gray 1.2pt;
-    background-color: rgba(0, 221, 28, 0.16);
+    border-bottom: solid #474747 1pt;
+    background: linear-gradient(rgba(0, 221, 28, 0.16), transparent);
+}
+.container-item .lower-row{
+    padding: 4pt;
 }
 .container-item span{
     display: inline-block;
@@ -28,12 +30,12 @@
 }
 .container-item b{
     color: #0a0a0a;
-    text-decoration: underline;
-    border: solid gray 1pt;
+    /*text-decoration: underline;*/
+    /*border: solid gray 1pt;*/
     padding: 0 2pt;
 }
 .container-item:hover{
-    box-shadow: 0 0 4pt 0 gray;
+    box-shadow: 0 0 1pt 2pt gray;
 }
 .mini-close{
     border-radius: 8pt;

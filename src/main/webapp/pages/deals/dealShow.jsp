@@ -96,9 +96,12 @@
         plan.addCustomer('${customer}', '<fmt:message key="${customer}"/> ')
         </c:forEach>
         plan.deal = ${deal.id}
-        plan.save_link = '${save_link}'
-        plan.update_link = '${update_link}'
-        plan.vehicleDriverLink = '${vehicleDriverModal}'
+        plan.api.save_link = '${save_link}'
+        plan.api.updateAPI = '${updateAPI}'
+        plan.api.findVehicleAPI = '${findVehicleAPI}'
+        plan.api.findDriverAPI = '${findDriverAPI}'
+        plan.api.editVehicleAPI = '${editVehicle}'
+        plan.api.editDriverAPI = '${editDriver}'
       </script>
       <div class="plan-wrapper" id="load_plan">
         <table border="0">
@@ -138,26 +141,48 @@
           <tr>
             <td colspan="4">
               <div class="plan-container">
-                <div v-for="plan in plan_list" class="plan-item">
-                  <div>
-                    <button title="${dropTitle}" class="minus-button">&times;</button>
-                    <input v-model="plan.date" id="date" name="date" title="${dateTitle}" readonly style="width: 7em">
-                    <input v-model="plan.plan" type="number" title="${planTitle}" style="width: 6em" min="1">
-                    <select v-model="plan.customer" title="${customerTitle}">
+                <div v-for="(value, key) in plans" class="plan-item">
+                  <div class="upper">
+                    <span title="${dropTitle}" class="mini-close" style="left: 0">&times;</span>
+                    <input v-model="new Date(value.item.date).toLocaleDateString()" id="date" name="date" title="${dateTitle}" readonly style="width: 7em">
+                    <input v-model="value.item.plan" type="number" title="${planTitle}" style="width: 6em" min="1">
+                    <select v-model="value.item.customer" title="${customerTitle}">
                       <option v-for="customer in customers" v-bind:value="customer.id">{{customer.name}}</option>
                     </select>
-                    <span title="${factTitle}">{{plan.fact}}</span>
+                    <span title="${factTitle}">{{value.fact}}</span>
                   </div>
-                  <div style="padding: 1pt">
-                    <button v-if="plan.transportation.vehicle || plan.transportation.driver" v-on:click="addVehicleDriver(plan.id)">
-                      <fmt:message key="transport.insert.infortation"/>
-                    </button>
-                    <template v-else>
-                      <input>
-                      <button class="minus-button">&times;</button>
-                      <input>
-                      <button class="minus-button">&times;</button>
+                  <div class="lower">
+                    <template v-if="value.item.transportation.vehicle.id">
+                      {{value.item.transportation.vehicle.model}}
+                      '{{value.item.transportation.vehicle.number}}'
+                      <template v-if="value.item.transportation.vehicle.trailer">
+                        '{{value.item.transportation.vehicle.trailer}}'
+                      </template>
                     </template>
+                    <template v-else-if="value.editVehicle">
+                      <div style="display: inline-block">
+                        <input v-on:keyup="findVehicle(value.vehicleInput)" v-model="value.vehicleInput">
+                        <div class="custom-data-list">
+                          <div v-for="vehicle in findVehicles" class="custom-data-list-item">
+                            {{vehicle.model}}
+                            '{{vehicle.number}}'
+                            <template v-if="vehicle.trailer">
+                              '{{vehicle.trailer}}'
+                            </template>
+                          </div>
+                        </div>
+                      </div>
+                      <span v-on:click="closeVehicleInput(key)" class="mini-close">&times;</span>
+                    </template>
+                    <button v-else v-on:click="openVehicleInput(value.item.id)">
+                      <fmt:message key="transportation.automobile"/>...
+                    </button>
+                    <span v-if="value.item.transportation.driver.id">
+                      {{value.item.transportation.driver.person.value}}
+                    </span>
+                    <button v-else>
+                      <fmt:message key="transportation.driver"/>...
+                    </button>
                   </div>
                 </div>
               </div>
@@ -166,15 +191,13 @@
           <tr>
             <td colspan="4">
               <fmt:message key="totle.plan"/>:
-              <span id="total_plan">{{total_plan}}</span>
-              /
-              <span>${deal.quantity}</span>
+              {{totalPlan().toLocaleString()}}/${deal.quantity}
             </td>
           </tr>
           <tr>
             <td colspan="4">
               <fmt:message key="totle.fact"/>:
-              <span id="total_fact">{{total_fact}}</span>
+              <span id="total_fact">{{totalFact().toLocaleString()}}</span>
               /
               <span>${deal.quantity}</span>
             </td>

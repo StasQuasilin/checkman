@@ -2,8 +2,12 @@
     padding-left: 24pt;
 
 }
-.plan-wrapper * {
-    font-size: 11pt;
+.plan-wrapper .upper{
+    border-bottom: solid gray 1pt;
+    padding: 2pt;
+}
+.plan-wrapper .lower{
+    padding: 2pt;
 }
 .table-header{
     display: inline-block;
@@ -16,9 +20,19 @@
     overflow-y: scroll;
 }
 .plan-item{
-    border: solid olive 1pt;
-    margin: 1pt;
-    padding: 1pt;
+    border-bottom: solid olive 1.5pt;
+    border-top: solid olive 1.5pt;
+    margin: 2pt 0 2pt 0;
+    font-size: 10pt;
+    background: linear-gradient(
+            0.25turn,
+            #f0f8ff 0%,
+            #ddad00 5%,
+            #ebebeb 58%,
+            whitesmoke 60%,
+            #ebebeb 62%,
+            #f3c200 95%,
+            #f0f8ff 100%);
 }
 .minus-button{
     min-width: 0;

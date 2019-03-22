@@ -49,9 +49,12 @@ var logistic = new Vue({
         },
         loadItems: function () {
             const self = this;
-            var parameters = [];
+            var parameters = {};
             for (var i in this.items){
-                parameters[i]= this.items[i].item.hash;
+                if (this.items.hasOwnProperty(i)){
+                    parameters[i]= this.items[i].item.hash;
+                }
+
             }
             PostApi(this.update_link, parameters, function(e){
                 if (e.add.length || e.update.length || e.remove.length) {
@@ -106,7 +109,7 @@ var logistic = new Vue({
 
             clearTimeout(value.fnd);
             value.fnd = setTimeout(function(){
-                var p = [];
+                var p = {};
                 p.key = value.driverInput;
                 PostApi(self.findDriverAPI, p, function(a){
                     self.driverFind = a;
@@ -117,7 +120,7 @@ var logistic = new Vue({
             const self = this;
             clearTimeout(value.fnd);
             value.fnd = setTimeout(function(){
-                var p = [];
+                var p = {};
                 p.key = value.vehicleInput;
                 PostApi(self.findVehicleAPI, p, function(a){
                     self.vehicleFind = a;
@@ -127,7 +130,7 @@ var logistic = new Vue({
         setDriver:function(transportation, driver, key){
             this.driverFind = {};
             this.closeDriverInput(key);
-            var p = [];
+            var p = {};
             p.transportation_id = transportation;
             p.driver_id = driver;
             PostApi(this.saveTransportationDriverApi, p, function(a){
@@ -137,7 +140,7 @@ var logistic = new Vue({
         setVehicle:function(transportation, vehicle, key){
             this.vehicleFind = {};
             this.closeVehicleInput(key);
-            var p = [];
+            var p = {};
             p.transportation_id = transportation;
             p.vehicle_id = vehicle;
             PostApi(this.saveTransportationVehicleApi, p, function(a){

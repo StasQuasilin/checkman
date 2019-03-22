@@ -43,7 +43,7 @@
                 </b>
             </span>
         </div>
-        <div style="padding: 2pt">
+        <div class="lower-row">
             <fmt:message key="transportation.automobile"/>:
             <div style="display: inline-block; width: 28%; border-bottom: dotted 1pt">
                 <template v-if="value.item.transportation.vehicle.id">

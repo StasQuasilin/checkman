@@ -29,12 +29,14 @@
   </script>
   <div id="logistic">
     <div v-for="(value, key) in items" class="container-item" v-bind:class="value.className">
-      <div style="padding: 2pt">
+      <div class="upper-row">
         <span>
           {{new Date(value.item.date).toLocaleDateString()}}
         </span>
         <span>
-          {{types[value.item.type]}}
+          <b>
+            {{types[value.item.type]}}
+          </b>
         </span>
         <span>
           <fmt:message key="deal.organisation"/>:
@@ -61,7 +63,7 @@
           </b>
         </span>
       </div>
-      <div style="padding: 2pt">
+      <div class="lower-row">
         <fmt:message key="transportation.automobile"/>:
         <div style="display: inline-block; width: 30%">
           <template v-if="value.item.transportation.vehicle.id">

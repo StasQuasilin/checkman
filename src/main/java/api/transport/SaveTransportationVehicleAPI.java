@@ -7,6 +7,7 @@ import entity.answers.IAnswer;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 import utils.answers.SuccessAnswer;
@@ -27,10 +28,10 @@ public class SaveTransportationVehicleAPI extends IAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
+        JSONObject body = PostUtil.parseBodyJson(req);
 
-        int transportationId = Integer.parseInt(body.get(Constants.TRANSPORTATION_ID));
-        int vehicleId = Integer.parseInt(body.get(Constants.VEHICLE_ID));
+        long transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
+        long vehicleId = (long) body.get(Constants.VEHICLE_ID);
 
         Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
         Vehicle vehicle = hibernator.get(Vehicle.class, "id", vehicleId);

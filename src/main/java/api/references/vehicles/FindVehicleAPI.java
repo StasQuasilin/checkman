@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.transport.Vehicle;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 
@@ -24,8 +25,8 @@ public class FindVehicleAPI extends IAPI{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
-        String key = body.get(Constants.KEY);
+        JSONObject body = PostUtil.parseBodyJson(req);
+        String key = (String) body.get(Constants.KEY);
 
         HashMap<Integer, Vehicle> result = new HashMap<>();
         find("model", key, result);

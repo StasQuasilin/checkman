@@ -44,13 +44,13 @@ public class DealListAPI extends IAPI{
     }
     synchronized void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         parameters.put(Constants.TYPE, DealType.valueOf(req.getParameter(Constants.TYPE)));
-        HashMap<String, String> body = PostUtil.parseBody(req);
+        JSONObject body = PostUtil.parseBodyJson(req);
 
         List<Deal> query = hibernator.query(Deal.class, parameters);
         for (Deal deal : query){
             String id = String.valueOf(deal.getId());
             if (body.containsKey(id)){
-                int hash = Integer.parseInt(body.remove(id));
+                long hash = (long) body.remove(id);
                 if (hash != deal.hashCode()){
                     update.add(JsonParser.toJson(deal));
                 }
@@ -60,7 +60,9 @@ public class DealListAPI extends IAPI{
 
         }
 
-        delete.addAll(body.keySet().stream().filter(U::exist).map(Integer::parseInt).collect(Collectors.toList()));
+        for (Object key : body.keySet()){
+            delete.add(Integer.parseInt((String) key));
+        }
 
         write(resp, array.toJSONString());
         add.clear();

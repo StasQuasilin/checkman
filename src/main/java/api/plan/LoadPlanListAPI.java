@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.Product;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.LanguageBase;
 import utils.PostUtil;
@@ -30,8 +31,8 @@ public class LoadPlanListAPI extends IAPI{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
-        int deal = Integer.parseInt(body.get(Constants.DEAL_ID));
+        JSONObject body = PostUtil.parseBodyJson(req);
+        long deal = (long) body.get(Constants.DEAL_ID);
 
         List<LoadPlan> plans = hibernator.query(LoadPlan.class, "deal", deal);
         JSONArray array = plans.stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
