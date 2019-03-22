@@ -70,13 +70,9 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        for (String s : parseVehicle(" Man  AE45-54 AA 12556 ам")){
-            System.out.println('\'' + s + '\'');
-        }
-        for (String s : parsePerson("Василина  Станіслав Мик45")){
-            System.out.println('\'' + s + '\'');
-        }
+        System.out.printf("%6.4f", Math.PI);
     }
+
 
     public static List<String> parsePerson(String value) {
         value = value.replaceAll("\\s+", " ").replaceAll("[^a-z^A-Zа-яА-ЯіІ\\s]", "").toLowerCase().trim();

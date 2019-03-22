@@ -25,13 +25,13 @@
             <jsp:include page="NavigationMenu.jsp"/>
             <div id="filter"></div>
         </td>
-        <td>
+        <td width="80%">
             <div class="header" id="header"></div>
         </td>
         <td>
-          <button>
+          <div class="header">
             ${worker.value}
-          </button>
+          </div>
         </td>
         <td rowspan="2">
 

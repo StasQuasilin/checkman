@@ -1,6 +1,9 @@
 package utils;
 
 import constants.Constants;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +15,9 @@ import java.util.stream.Collectors;
  * Created by quasilin on 11.03.2019.
  */
 public class PostUtil {
+
+    final static JSONParser parser = new JSONParser();
+
     public static synchronized HashMap<String, String> parseBody(HttpServletRequest req) throws IOException {
         HashMap<String,String> result = new HashMap<>();
 
@@ -32,5 +38,15 @@ public class PostUtil {
     public static synchronized void write(HttpServletResponse resp, String txt) throws IOException {
         resp.setCharacterEncoding(Constants.ENCODE);
         resp.getWriter().write(txt);
+    }
+    static final JSONObject empty = new JSONObject();
+    public static JSONObject parseBodyJson(HttpServletRequest req) throws IOException {
+        try {
+            return (JSONObject) parser.parse(req.getReader());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return empty;
     }
 }

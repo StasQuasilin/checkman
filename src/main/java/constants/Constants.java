@@ -27,6 +27,7 @@ public class Constants {
     public static final String TRANSPORTATION_ID = "transportation_id";
     public static final String DRIVER_ID = "driver_id";
     public static final String VEHICLE_ID = "vehicle_id";
+    public static final String WEIGHTS = "weights";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
@@ -67,5 +68,10 @@ public class Constants {
         public static final String SURNAME = "surname";
         public static final String FORENAME = "forename";
         public static final String PATRONYMIC = "patronymic";
+    }
+
+    public class Weight {
+        public static final String BRUTTO = "brutto";
+        public static final String TARA = "tara";
     }
 }

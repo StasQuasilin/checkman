@@ -1,10 +1,12 @@
 package utils.hibernate;
 
+import entity.weight.Weight;
 import org.hibernate.Session;
 import utils.hibernate.DateContainers.*;
 
 import javax.persistence.criteria.*;
 import java.sql.Date;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -288,5 +290,15 @@ public class Hibernator {
             session.saveOrUpdate(o);
         }
         session.beginTransaction().commit();
+        HibernateSessionFactory.putSession(session);
+    }
+
+    public void remove(Object ... values) {
+        Session session = HibernateSessionFactory.getSession();
+        for (Object o : values){
+            session.remove(o);
+        }
+        session.beginTransaction().commit();
+        HibernateSessionFactory.putSession(session);
     }
 }

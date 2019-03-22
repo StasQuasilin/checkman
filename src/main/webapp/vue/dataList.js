@@ -38,9 +38,12 @@ var deamon = new Vue({
         },
         doRequest:function(){
             const self = this;
-            var parameters = [];
-            for (var i in this.items){
-                parameters[i]= this.items[i].item.hash;
+            var parameters = {};
+            for (var k in this.items){
+                if (this.items.hasOwnProperty(k)){
+                    var item = this.items[k];
+                    parameters[k]=item.item.hash;
+                }
             }
             PostApi(this.url, parameters, function(e){
                 if (e.add.length || e.update.length || e.delete.length) {

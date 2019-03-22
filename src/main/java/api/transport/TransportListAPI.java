@@ -40,13 +40,13 @@ public class TransportListAPI extends IAPI{
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        JSONObject body = PostUtil.parseBodyJson(req);
 
-        HashMap<String, String> body = PostUtil.parseBody(req);
         List<LoadPlan> loadPlans = hibernator.query(LoadPlan.class, parameters);
         for (LoadPlan loadPlan : loadPlans){
             String id = String.valueOf(loadPlan.getId());
             if (body.containsKey(id)){
-                int hash = Integer.parseInt(body.remove(id));
+                long hash = (long) body.remove(id);
                 if (hash != loadPlan.hashCode()){
                     update.add(JsonParser.toLogisticJson(loadPlan));
                 }
@@ -55,7 +55,9 @@ public class TransportListAPI extends IAPI{
             }
         }
 
-        remove.addAll(body.keySet().stream().filter(U::exist).map(Integer::parseInt).collect(Collectors.toList()));
+        for (Object key : body.keySet()){
+            remove.add(Integer.parseInt((String) key));
+        }
 
         write(resp, array.toJSONString());
         add.clear();

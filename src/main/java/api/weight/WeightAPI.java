@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,13 +39,13 @@ public class WeightAPI extends IAPI{
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
+        JSONObject body = PostUtil.parseBodyJson(req);
         List<LoadPlan> loadPlans = hibernator.query(LoadPlan.class, parameters);
 
         for (LoadPlan loadPlan : loadPlans){
             String id = String.valueOf(loadPlan.getId());
             if (body.containsKey(id)){
-                int hash = Integer.parseInt(body.remove(id));
+                long hash = (long) body.remove(id);
                 if (hash != loadPlan.hashCode()){
                     update.add(JsonParser.toLogisticJson(loadPlan));
                 }
@@ -52,8 +53,8 @@ public class WeightAPI extends IAPI{
                 add.add(JsonParser.toLogisticJson(loadPlan));
             }
         }
-
-        remove.addAll(body.keySet().stream().filter(U::exist).map(Integer::parseInt).collect(Collectors.toList()));
+        remove.addAll((Collection) body.keySet().stream().map(key -> Integer.parseInt((String) key)).collect(Collectors.toList()));
+//        remove.addAll(body.keySet().stream().filter(U::exist).map(Integer::parseInt).collect(Collectors.toList()));
 
         write(resp, array.toJSONString());
         add.clear();

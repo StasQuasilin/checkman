@@ -41,4 +41,12 @@ public class ActionTime {
     public void setCreator(Worker creator) {
         this.creator = creator;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * time.hashCode() + hash;
+        hash = 31 * creator.hashCode() + hash;
+        return hash;
+    }
 }

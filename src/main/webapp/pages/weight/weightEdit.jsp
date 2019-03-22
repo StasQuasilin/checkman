@@ -7,13 +7,31 @@
 <html>
 <script src="${context}/vue/weightEdit.js"></script>
 <script>
+    editor.api.saveWeightAPI = '${saveWeightAPI}';
+    editor.id=${plan.id}
     <c:forEach items="${plan.transportation.weights}" var="weight">
     editor.addWeight(${weight.id}, ${weight.brutto}, ${weight.tara});
     </c:forEach>
     console.log(editor.weights)
-
+    if (editor.weights.length == 0){
+        editor.newWeight();
+    }
 
 </script>
+<style>
+    .custom-line{
+        line-height: 0.5;
+        height: 10px;
+
+    }
+    .custom-line:after{
+        content: "";
+        position: absolute;
+        height: 4px;
+        border-bottom: 1px solid gray;
+        width: 80%
+    }
+</style>
     <table id="editor">
         <tr>
             <td>
@@ -70,7 +88,17 @@
                 ${plan.deal.documentOrganisation.value}
             </td>
         </tr>
-        <template v-for="weight in weights">
+
+        <template v-for="(value, key) in weights">
+            <tr>
+                <td colspan="3">
+                    <div class="custom-line">
+                        <div style="display: inline-block; width: 20px">
+                            <span v-show="length() > 1" class="mini-close" style="left: 0" v-on:click="removeWeight(key)">&times;</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
             <tr>
                 <td>
                     <label for="brutto">
@@ -81,7 +109,7 @@
                     :
                 </td>
                 <td>
-                    <input id="brutto" v-model="weight.brutto">
+                    <input id="brutto" v-model="value.brutto">
                 </td>
             </tr>
             <tr>
@@ -94,7 +122,7 @@
                     :
                 </td>
                 <td>
-                    <input id="tara" v-model="weight.tara">
+                    <input id="tara" v-model="value.tara">
                 </td>
             </tr>
             <tr>
@@ -107,21 +135,34 @@
                     :
                 </td>
                 <td>
-                    {{netto(weight.brutto, weight.tara)}}
+                    {{netto(value.brutto, value.tara).toLocaleString()}}
                 </td>
-
             </tr>
         </template>
+        <template v-if="length() > 1">
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+                <td>
+                    <b>Total: {{total().toLocaleString()}}</b>
+                </td>
+            </tr>
+
+        </template>
+        <tr>
+            <td colspan="3" align="right">
+                <span class="mini-close" v-on:click="newWeight">+</span>
+            </td>
+        </tr>
         <tr>
             <td colspan="3" align="center">
                 <button><fmt:message key="button.cancel"/> </button>
-                <button><fmt:message key="button.save"/> </button>
+                <button v-on:click="save"><fmt:message key="button.save"/> </button>
             </td>
         </tr>
     </table>
-<script>
-    if (editor.weights.length == 0){
-        editor.newWeight();
-    }
-</script>
 </html>

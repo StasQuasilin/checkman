@@ -33,4 +33,9 @@ public class Worker {
     public String getValue(){
         return person.getValue();
     }
+
+    @Override
+    public int hashCode() {
+        return person.hashCode();
+    }
 }

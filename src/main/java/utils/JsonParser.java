@@ -1,5 +1,7 @@
 package utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import entity.Person;
 import entity.Product;
 import entity.Worker;
@@ -136,7 +138,7 @@ public class JsonParser {
         JSONObject json = new JSONObject();
         if (actionTime != null){
             json.put("id", actionTime.getId());
-            json.put("creator", actionTime.getCreator());
+            json.put("creator", toJson(actionTime.getCreator()));
             json.put("time", actionTime.getTime().toString());
         }
         return json;
@@ -176,6 +178,9 @@ public class JsonParser {
         json.put("realisation", loadPlan.getDocumentOrganisation().getValue());
         json.put("transportation", toJson(loadPlan.getTransportation()));
         json.put("hash", loadPlan.hashCode());
+
         return json;
     }
+
+
 }
