@@ -5,7 +5,6 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <script src="${context}/vue/dataList.js"></script>
-<script src="${context}/vue/weightCalculator.js"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <script>

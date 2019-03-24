@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.transport.Vehicle;
+import org.json.simple.JSONObject;
 import utils.Parser;
 import utils.PostUtil;
 
@@ -22,16 +23,17 @@ import java.util.List;
 public class VehicleInput extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
+        JSONObject body = PostUtil.parseBodyJson(req);
         Vehicle vehicle;
-        try {
-            int vehicleId = Integer.parseInt(body.get(Constants.VEHICLE_ID));
+
+        if (body.containsKey(Constants.VEHICLE_ID)){
+            long vehicleId = (long) body.get(Constants.VEHICLE_ID);
             vehicle = hibernator.get(Vehicle.class, "id", vehicleId);
-        } catch (Exception ignored){
+        } else {
             vehicle = new Vehicle();
         }
 
-        List<String> strings = Parser.parseVehicle(body.get(Constants.KEY));
+        List<String> strings = Parser.parseVehicle(String.valueOf(body.get(Constants.KEY)));
         if (strings.size() > 0){
             vehicle.setModel(strings.get(0));
         }

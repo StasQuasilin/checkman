@@ -4,6 +4,7 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.transport.Vehicle;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.References.FIND_VEHICLE)
 public class FindVehicleAPI extends IAPI{
 
+    final Logger log = Logger.getLogger(FindVehicleAPI.class);
+    final JSONArray array = new JSONArray();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
@@ -33,7 +37,7 @@ public class FindVehicleAPI extends IAPI{
         find("number", key, result);
         find("trailer", key, result);
 
-        JSONArray array = result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
+        array.addAll(result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new)));
         write(resp, array.toJSONString());
 
         body.clear();

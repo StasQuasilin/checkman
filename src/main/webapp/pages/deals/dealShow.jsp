@@ -6,18 +6,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-
-<script>
-  var closeAction;
-  function onClose(action){
-    closeAction = action;
-  }
-  function closeShow(){
-    closeAction();
-  }
-
-</script>
-
 <table border="0">
   <tr>
     <td valign="top">
@@ -95,7 +83,9 @@
         <c:forEach items="${customers}" var="customer">
         plan.addCustomer('${customer}', '<fmt:message key="${customer}"/> ')
         </c:forEach>
-        plan.deal = ${deal.id}
+        plan.deal = ${deal.id};
+        plan.quantity = ${deal.quantity};
+
         plan.api.save_link = '${save_link}'
         plan.api.updateAPI = '${updateAPI}'
         plan.api.findVehicleAPI = '${findVehicleAPI}'
@@ -111,6 +101,7 @@
               <button v-on:click="newPlan"><fmt:message key="button.add"/> </button>
             </td>
           </tr>
+          <%--HEADER--%>
           <tr>
             <td>
               <c:set var="dropTitle"><fmt:message key="load.plan.drop.title"/> </c:set>
@@ -140,30 +131,39 @@
           </tr>
           <tr>
             <td colspan="4">
+              <%--TABLE--%>
               <div class="plan-container">
                 <div v-for="(value, key) in plans" class="plan-item">
+                  <%--UPPER ROW--%>
                   <div class="upper">
-                    <span title="${dropTitle}" class="mini-close" style="left: 0">&times;</span>
+                    <%--REMOVE BUTTON--%>
+                    <span title="${dropTitle}" class="mini-close" style="left: 0" v-show="!value.item.transportation.archive" v-on:click="remove(key)">&times;</span>
+                    <%--DATE INPUT--%>
                     <input v-model="new Date(value.item.date).toLocaleDateString()" id="date" name="date" title="${dateTitle}" readonly style="width: 7em">
+                      <%--PLAN INPUT--%>
                     <input v-model="value.item.plan" type="number" title="${planTitle}" style="width: 6em" min="1">
+                      <%--CUSTOMER INPUT--%>
                     <select v-model="value.item.customer" title="${customerTitle}">
                       <option v-for="customer in customers" v-bind:value="customer.id">{{customer.name}}</option>
                     </select>
-                    <span title="${factTitle}">{{value.fact}}</span>
+                    <span title="${factTitle}">{{weighs(value.item.transportation.weights).toLocaleString()}}</span>
                   </div>
+                    <%--LOWER ROW--%>
                   <div class="lower">
-                    <template v-if="value.item.transportation.vehicle.id">
+                    <%--VEHICLE STUFF--%>
+                    <div style="display: inline-block" v-if="value.item.transportation.vehicle.id" v-on:click.right="">
                       {{value.item.transportation.vehicle.model}}
                       '{{value.item.transportation.vehicle.number}}'
                       <template v-if="value.item.transportation.vehicle.trailer">
                         '{{value.item.transportation.vehicle.trailer}}'
                       </template>
-                    </template>
+                    </div>
                     <template v-else-if="value.editVehicle">
                       <div style="display: inline-block">
-                        <input v-on:keyup="findVehicle(value.vehicleInput)" v-model="value.vehicleInput">
+                        <%--VEHICLE INPUT--%>
+                        <input v-on:keyup="findVehicle(value.vehicleInput)" v-on:keyup.enter="editVehicle(value.vehicleInput, key)" v-model="value.vehicleInput">
                         <div class="custom-data-list">
-                          <div v-for="vehicle in findVehicles" class="custom-data-list-item">
+                          <div v-for="vehicle in findVehicles" class="custom-data-list-item" v-on:click="setVehicle(vehicle, key)">
                             {{vehicle.model}}
                             '{{vehicle.number}}'
                             <template v-if="vehicle.trailer">
@@ -177,10 +177,23 @@
                     <button v-else v-on:click="openVehicleInput(value.item.id)">
                       <fmt:message key="transportation.automobile"/>...
                     </button>
+                      <%--DRIVER STUFF--%>
                     <span v-if="value.item.transportation.driver.id">
                       {{value.item.transportation.driver.person.value}}
                     </span>
-                    <button v-else>
+                      <template v-else-if="value.editDriver">
+                        <div style="display: inline-block">
+                          <%--DRIVER INPUT--%>
+                          <input v-on:keyup="findDriver(value.driverInput)" v-on:keyup.enter="editDriver(value.driverInput, key)" v-model="value.driverInput">
+                          <div class="custom-data-list">
+                            <div v-for="driver in findDrivers" class="custom-data-list-item" v-on:click="setDriver(driver, key)">
+                              {{driver.person.value}}
+                            </div>
+                          </div>
+                        </div>
+                        <span v-on:click="closeDriverInput(key)" class="mini-close">&times;</span>
+                      </template>
+                    <button v-else v-on:click="openDriverInput(value.item.id)">
                       <fmt:message key="transportation.driver"/>...
                     </button>
                   </div>
@@ -191,15 +204,13 @@
           <tr>
             <td colspan="4">
               <fmt:message key="totle.plan"/>:
-              {{totalPlan().toLocaleString()}}/${deal.quantity}
+              {{totalPlan().toLocaleString()}}/{{(quantity).toLocaleString()}} ( {{(totalPlan() / quantity * 100).toLocaleString()}} % )
             </td>
           </tr>
           <tr>
             <td colspan="4">
               <fmt:message key="totle.fact"/>:
-              <span id="total_fact">{{totalFact().toLocaleString()}}</span>
-              /
-              <span>${deal.quantity}</span>
+              {{totalFact().toLocaleString()}}/{{(quantity).toLocaleString()}} ( {{(totalFact() / quantity * 100).toLocaleString()}} % )
             </td>
           </tr>
         </table>
@@ -212,7 +223,7 @@
   </tr>
   <tr>
     <td colspan="2" align="center">
-      <button onclick="closeShow()"><fmt:message key="button.cancel"/> </button>
+      <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>
 
       <button onclick="plan.save();"><fmt:message key="button.save"/> </button>
     </td>

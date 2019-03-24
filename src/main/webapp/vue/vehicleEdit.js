@@ -27,12 +27,12 @@ var editor = new Vue({
             this.transporterInput = value;
         },
         save:function(){
-            var result = [];
+            var result = {};
             if (this.transportationId){
                 result.transportation_id = this.transportationId
             }
             if (this.vehicleId){
-                result.id = this.vehicleId;
+                result.vehicle_id = this.vehicleId;
             }
             result.model = this.vehicleModel;
             result.number = this.vehicleNumber;
@@ -44,8 +44,13 @@ var editor = new Vue({
 
             PostApi(this.api.saveVehicleAPI, result, function(a){
                 console.log(a);
+                saveModal(a);
+                closeModal();
             })
 
+        },
+        close:function(){
+            closeModal();
         }
     }
 });

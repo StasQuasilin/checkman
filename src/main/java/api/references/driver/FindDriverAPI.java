@@ -4,7 +4,9 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.transport.Driver;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 
@@ -23,17 +25,21 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.References.FIND_DRIVER)
 public class FindDriverAPI extends IAPI{
 
+    final JSONArray array = new JSONArray();
+    final Logger log = Logger.getLogger(FindDriverAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
-        String key = body.get(Constants.KEY);
+        JSONObject body = PostUtil.parseBodyJson(req);
+        String key = (String) body.get(Constants.KEY);
+        log.info("Find driver by \'" + key + "\'");
         HashMap<Integer, Driver> result = new HashMap<>();
 
         find("person/forename", key, result);
         find("person/surname", key, result);
         find("person/patronymic", key, result);
 
-        JSONArray array = result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
+        array.addAll(result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new)));
 
         write(resp, array.toJSONString());
 

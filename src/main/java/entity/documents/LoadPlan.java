@@ -93,6 +93,7 @@ public class LoadPlan extends IDocument{
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 31 * id + hash;
         hash = 31 * date.hashCode() + hash;
         hash = 31 * Float.hashCode(plan) + hash;
         hash = 31 * customer.hashCode() + hash;

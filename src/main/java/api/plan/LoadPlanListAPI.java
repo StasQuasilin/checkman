@@ -1,17 +1,14 @@
 package api.plan;
 
 import api.IAPI;
+import api.deal.DealListAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.Product;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.LanguageBase;
 import utils.PostUtil;
-import utils.hibernate.HibernateSessionFactory;
-import utils.hibernate.Hibernator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -29,13 +25,43 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.PLAN_LIST)
 public class LoadPlanListAPI extends IAPI{
 
+    final HashMap<String, Object> parameters = new HashMap<>();
+    final JSONObject array = new JSONObject();
+    final JSONArray add = new JSONArray();
+    final JSONArray update = new JSONArray();
+    final JSONArray remove = new JSONArray();
+
+    {
+        array.put("add", add);
+        array.put("update", update);
+        array.put("remove", remove);
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         long deal = (long) body.get(Constants.DEAL_ID);
+        parameters.put("deal", deal);
 
-        List<LoadPlan> plans = hibernator.query(LoadPlan.class, "deal", deal);
-        JSONArray array = plans.stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
+        JSONObject plans = (JSONObject) body.get("plans");
+        for (LoadPlan plan : hibernator.query(LoadPlan.class, parameters)){
+            String id = String.valueOf(plan.getId());
+            if (plans.containsKey(id)){
+                long hash = (long) plans.remove(id);
+                if (plan.hashCode() != hash){
+                    update.add(JsonParser.toJson(plan));
+                }
+            } else {
+                add.add(JsonParser.toJson(plan));
+            }
+        }
+
         PostUtil.write(resp, array.toJSONString());
+
+        body.clear();
+        add.clear();
+        update.clear();
+        remove.clear();
+
     }
 }

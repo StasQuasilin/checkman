@@ -36,24 +36,29 @@ function loadContent(url){
         console.error('[ Application ] Load content error ' + e)
     })
 }
-function loadModal(url, parameters){
+function loadModal(url, parameters, onSave){
     console.log('[ Application ] Load modal ' + url);
     PostReq(url, parameters, function(m){
-        addModal(m);
+        addModal(m, onSave);
 
     }, function (e) {
         console.error('Error ' + e);
     })
 }
-function addModal(modal){
-
-    $(modalLayer).append(modal);
+var modals = 0;
+function addModal(modal, onSave){
+    var div = document.createElement('div');
+    $(div).html(modal);
+    $(modalLayer).append(div);
     modalLayer.style.display='block';
+    modals++;
 
-    //addOnCloseEvent(function () {
-    //    closeModal(modal);
-    //});
-}
-function closeModal(modal){
-    $(modalLayer).remove(modal);
+    addOnSaveEvent(onSave);
+    addOnCloseEvent(function () {
+        $(div).remove();
+        modals--;
+        if(modals == 0){
+            modalLayer.style.display='none';
+        }
+    });
 }

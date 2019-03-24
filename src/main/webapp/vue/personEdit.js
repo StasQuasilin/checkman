@@ -5,7 +5,7 @@ var editor = new Vue({
             saveDriverAPI:''
         },
         person:{
-            id:'',
+            id:-1,
             forename:'',
             surname:'',
             patronymic:'',
@@ -24,15 +24,21 @@ var editor = new Vue({
             Vue.delete(this.phones, id)
         },
         save:function(){
-            var result = [];
-            result.id = this.person.id;
+            var result = {};
+            if (this.person.id > 0) {
+                result.id = this.person.id;
+            }
             result.forename = this.person.forename;
             result.surname = this.person.surname;
             result.patronymic = this.person.patronymic;
-            result.transportation_id = this.transportationId;
+            if (this.transporterId) {
+                result.transportation_id = this.transportationId;
+            }
+            console.log(result);
 
             PostApi(this.api.saveDriverAPI, result, function(a){
-                console.log(a)
+                saveModal(a);
+                closeModal();
             })
         }
     }

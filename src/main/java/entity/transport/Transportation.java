@@ -38,17 +38,6 @@ public class Transportation extends IDocument{
         this.id = id;
     }
 
-    @Override
-    @Basic
-    @Column(name = "date")
-    public Date getDate() {
-        return date;
-    }
-    @Override
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     @OneToOne
     @JoinColumn(name = "vehicle")
     public Vehicle getVehicle() {
@@ -123,7 +112,6 @@ public class Transportation extends IDocument{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * date.hashCode() + hash;
         if (vehicle != null) {
             hash = 31 * vehicle.hashCode() + hash;
         }

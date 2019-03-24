@@ -8,6 +8,7 @@ import entity.organisations.Organisation;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 import utils.U;
@@ -27,14 +28,15 @@ import java.util.HashMap;
 public class SaveDriverAPI extends IAPI{
 
     final Logger logger = Logger.getLogger(SaveDriverAPI.class);
-    final String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
+        JSONObject body = PostUtil.parseBodyJson(req);
+        System.out.println(body);
         Driver driver;
-        if(U.exist(body.get(Constants.ID))){
-            int id = Integer.parseInt(body.get(Constants.ID));
+
+        if(body.containsKey(Constants.ID)){
+            long id = Long.parseLong( String.valueOf(body.get(Constants.ID)));
             driver = hibernator.get(Driver.class, "id", id);
             logger.info("Edit vehicle " + driver.getId() + "...");
         } else {
@@ -43,17 +45,17 @@ public class SaveDriverAPI extends IAPI{
             logger.info("Create new driver...");
         }
 
-        driver.getPerson().setSurname(body.get(Constants.Person.SURNAME));
+        driver.getPerson().setSurname(String.valueOf(body.get(Constants.Person.SURNAME)));
         logger.info("\t...Surname:" + driver.getPerson().getSurname());
 
-        driver.getPerson().setForename(body.get(Constants.Person.FORENAME));
+        driver.getPerson().setForename(String.valueOf(body.get(Constants.Person.FORENAME)));
         logger.info("\t...Forename:" + driver.getPerson().getForename());
 
-        driver.getPerson().setPatronymic(body.get(Constants.Person.PATRONYMIC));
+        driver.getPerson().setPatronymic(String.valueOf(body.get(Constants.Person.PATRONYMIC)));
         logger.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
 
-        if (U.exist(body.get(Constants.Vehicle.TRANSPORTER_ID))) {
-            int id = Integer.parseInt(body.get(Constants.Vehicle.TRANSPORTER_ID));
+        if ((body.containsKey(Constants.Vehicle.TRANSPORTER_ID))) {
+            long id = (long) body.get(Constants.Vehicle.TRANSPORTER_ID);
             Organisation organisation = hibernator.get(Organisation.class, "id", id);
             driver.setOrganisation(organisation);
             logger.info("\t...Organisation: \'" + driver.getOrganisation().getValue() + "\'");
@@ -61,15 +63,15 @@ public class SaveDriverAPI extends IAPI{
 
         hibernator.save(driver.getPerson(), driver);
 
-        if (U.exist(body.get(Constants.TRANSPORTATION_ID))) {
-            int id = Integer.parseInt(body.get(Constants.TRANSPORTATION_ID));
+        if (body.containsKey(Constants.TRANSPORTATION_ID)) {
+            long id = (long) body.get(Constants.TRANSPORTATION_ID);
             Transportation transportation = hibernator.get(Transportation.class, "id", id);
             transportation.setDriver(driver);
             hibernator.save(transportation);
             logger.info("Put in transportation " + transportation.getId());
         }
 
-        write(resp, answer);
+        write(resp, JsonParser.toJson(driver).toJSONString());
         body.clear();
 
     }

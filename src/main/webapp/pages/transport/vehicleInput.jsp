@@ -76,7 +76,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3" align="center">
+        <td colspan="3" align="center" v-on:click="close">
             <button>
                 <fmt:message key="button.cancel"/>
             </button>

@@ -104,7 +104,6 @@ public class JsonParser {
         JSONObject json = new JSONObject();
         if (transportation != null){
             json.put("id", transportation.getId());
-            json.put("date", transportation.getDate().toString());
             json.put("vehicle", toJson(transportation.getVehicle()));
             json.put("driver", toJson(transportation.getDriver()));
             json.put("timeIn", toJson(transportation.getTimeIn()));

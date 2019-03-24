@@ -8,6 +8,7 @@ import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.common.util.impl.Log;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 import utils.U;
@@ -27,34 +28,31 @@ import java.util.HashMap;
 public class SaveVehicleAPI extends IAPI{
 
     final Logger logger = Logger.getLogger(SaveVehicleAPI.class);
-    final String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
+        JSONObject body = PostUtil.parseBodyJson(req);
         Vehicle vehicle;
-        try {
-            int id = Integer.parseInt(body.get(Constants.ID));
+
+        if (body.containsKey(Constants.ID) ){
+            long id = (long) body.get(Constants.ID);
             vehicle = hibernator.get(Vehicle.class, "id", id);
-            if (vehicle == null){
-                throw new Exception();
-            }
             logger.info("Edit vehicle " + vehicle.getId() + "...");
-        } catch (Exception ignored){
+        } else {
             vehicle = new Vehicle();
             logger.info("Create new vehicle...");
         }
-        vehicle.setModel(body.get(Constants.Vehicle.MODEL));
+        vehicle.setModel(String.valueOf(body.get(Constants.Vehicle.MODEL)));
         logger.info("\t...Model: " + vehicle.getModel());
 
-        vehicle.setNumber(body.get(Constants.Vehicle.NUMBER));
+        vehicle.setNumber(String.valueOf(body.get(Constants.Vehicle.NUMBER)));
         logger.info("\t...Number: " + vehicle.getNumber());
 
-        vehicle.setTrailer(body.get(Constants.Vehicle.TRAILER));
+        vehicle.setTrailer(String.valueOf(body.get(Constants.Vehicle.TRAILER)));
         logger.info("\t...Trailer: " + vehicle.getTrailer());
 
-        if (U.exist(body.get(Constants.Vehicle.TRANSPORTER_ID))) {
-            int id = Integer.parseInt(body.get(Constants.Vehicle.TRANSPORTER_ID));
+        if (body.containsKey(Constants.Vehicle.TRANSPORTER_ID)) {
+            long id = (long) body.get(Constants.Vehicle.TRANSPORTER_ID);
             Organisation organisation = hibernator.get(Organisation.class, "id", id);
             vehicle.setTransporter(organisation);
             logger.info("\t...Transporter: \'" + vehicle.getTransporter().getValue() + "\'");
@@ -62,15 +60,15 @@ public class SaveVehicleAPI extends IAPI{
 
         hibernator.save(vehicle);
 
-        try {
-            int id = Integer.parseInt(body.get(Constants.TRANSPORTATION_ID));
+        if (body.containsKey(Constants.TRANSPORTATION_ID)) {
+            long id = (long) body.get(Constants.TRANSPORTATION_ID);
             Transportation transportation = hibernator.get(Transportation.class, "id", id);
             transportation.setVehicle(vehicle);
             hibernator.save(transportation);
             logger.info("Put in transportation " + transportation.getId());
-        } catch (Exception ignored){}
+        }
 
-        write(resp, answer);
+        write(resp, JsonParser.toJson(vehicle).toJSONString());
         body.clear();
     }
 }

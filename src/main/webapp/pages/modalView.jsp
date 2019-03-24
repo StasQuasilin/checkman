@@ -5,13 +5,26 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <script>
-    var events = [];
+    var closeEvents = [];
+    var saveEvents = [];
     function addOnCloseEvent(event){
-        events[events.length] = event;
+        closeEvents.push(event);
     }
     function closeModal(){
-        for (var e in events){
-            events[e]();
+        for (var e in closeEvents){
+            if (closeEvents.hasOwnProperty(e)){
+                closeEvents[e]();
+            }
+        }
+    }
+    function addOnSaveEvent(event){
+        saveEvents.push(event);
+    }
+    function saveModal(result){
+        for (var a in saveEvents){
+            if (saveEvents.hasOwnProperty(a)){
+                saveEvents[a](result)
+            }
         }
     }
 </script>

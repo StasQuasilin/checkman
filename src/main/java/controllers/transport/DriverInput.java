@@ -5,6 +5,7 @@ import constants.Constants;
 import controllers.IModal;
 import entity.Person;
 import entity.transport.Driver;
+import org.json.simple.JSONObject;
 import utils.Parser;
 import utils.PostUtil;
 
@@ -23,16 +24,18 @@ import java.util.List;
 public class DriverInput extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
+        JSONObject body = PostUtil.parseBodyJson(req);
+
         Driver driver;
-        try {
-            int id = Integer.parseInt(body.get(Constants.ID));
+        if (body.containsKey(Constants.ID)){
+            long id = (long) body.get(Constants.ID);
             driver = hibernator.get(Driver.class, "id", id);
-        } catch (Exception ignored){
+        } else {
             driver = new Driver();
             driver.setPerson(new Person());
         }
-        List<String> strings = Parser.parsePerson(body.get(Constants.KEY));
+
+        List<String> strings = Parser.parsePerson(String.valueOf(body.get(Constants.KEY)));
         if(strings.size() > 0){
             driver.getPerson().setSurname(strings.get(0));
         }

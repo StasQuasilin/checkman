@@ -20,18 +20,18 @@
     overflow-y: scroll;
 }
 .plan-item{
-    border-bottom: solid olive 1.5pt;
-    border-top: solid olive 1.5pt;
+    border-bottom: solid #7ecfcf 1.5pt;
+    border-top: solid #7ecfcf 1.5pt;
     margin: 2pt 0 2pt 0;
     font-size: 10pt;
     background: linear-gradient(
             0.25turn,
             #f0f8ff 0%,
-            #ddad00 5%,
+            #7ecfcf 8%,
             #ebebeb 58%,
             whitesmoke 60%,
             #ebebeb 62%,
-            #f3c200 95%,
+            #7ecfcf 95%,
             #f0f8ff 100%);
 }
 .minus-button{

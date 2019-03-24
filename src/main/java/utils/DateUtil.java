@@ -25,5 +25,10 @@ public class DateUtil {
         return new SimpleDateFormat(format).parse(date).getTime();
     }
 
+    public static void main(String[] args) {
+        int i = 125;
+        long l = 125;
+        System.out.println(Integer.hashCode(i) + ": " + Long.hashCode(l));
+    }
 
 }
