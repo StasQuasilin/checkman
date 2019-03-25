@@ -25,6 +25,15 @@ public class Branches {
         public static final String VEHICLE_MODAL = "/vehicle/modal.j";
         public static final String DRIVER_MODAL = "/driver/modal.j";
         public static final String VEHICLE_DRIVER_MODAL = "/vehicle/driver/modal.j";
+        public static final String PROBE_LIST = "/laboratory/probe.j";
+        public static final String DEPARTMENT_LIST = "/laboratory/turn.j";
+        public static final String LABORATORY = "/laboratory.j";
+        public static final String LABORATORY_BUY = LABORATORY + "?type=buy";
+        public static final String LABORATORY_SELL = LABORATORY + "?type=sell";
+        public static final String REFERENCES = "/references.j";
+        public static final String ADMIN = "/admin.j";
+        public static final String EDIT_PROBE = "/laboratory/probe/edit.j";
+        public static final String PROBE_SHOW = "/laboratory/probe/show.j";
     }
     public class API{
         public static final String API = "/api";
@@ -41,10 +50,14 @@ public class Branches {
         public static final String LOGISTIC_SAVE =      API + "/logistic/save";
         public static final String TRANSPORT_UPDATE =   API + "/transport/list";
         public static final String TRANSPORT_TIME =     API + "/transport/time";
+        public static final String TRANSPORT_TIME_IN =  TRANSPORT_TIME + "?dir=in";
+        public static final String TRANSPORT_TIME_OUT = TRANSPORT_TIME + "?dir=out";
         public static final String WEIGHT_LIST =        API + "/weight/list";
         public static final String SAVE_TRANSPORTATION_VEHICLE = API + "/transportation/save/vehicle";
         public static final String SAVE_TRANSPORTATION_DRIVER = API + "/transportation/save/driver";
         public static final String SAVE_WEIGHT =        API + "/weight/save";
+        public static final String PROBE_LIST =         API + "/laboratory/probe/list";
+        public static final String LABORATORY_LIST =    API + "/laboratory/list.j";
 
 
         public class References {

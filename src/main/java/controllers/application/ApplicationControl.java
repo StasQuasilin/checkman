@@ -16,11 +16,18 @@ import java.io.IOException;
 public class ApplicationControl extends IServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("buy_link", Branches.UI.DEAL_BUY);
-        req.setAttribute("sell_link", Branches.UI.DEAL_SELL);
-        req.setAttribute("logistic_link", Branches.UI.LOGISTIC_LIST);
-        req.setAttribute("transport_link", Branches.UI.TRANSPORT_LIST);
-        req.setAttribute("weight_list", Branches.UI.WEIGHT_LIST);
+        req.setAttribute("buyList", Branches.UI.DEAL_BUY);
+        req.setAttribute("sellList", Branches.UI.DEAL_SELL);
+        req.setAttribute("logisticList", Branches.UI.LOGISTIC_LIST);
+        req.setAttribute("transportList", Branches.UI.TRANSPORT_LIST);
+        req.setAttribute("weightList", Branches.UI.WEIGHT_LIST);
+        req.setAttribute("probeList", Branches.UI.PROBE_LIST);
+        req.setAttribute("departmentList", Branches.UI.DEPARTMENT_LIST);
+        req.setAttribute("laboratoryBuyList", Branches.UI.LABORATORY_BUY);
+        req.setAttribute("laboratorySellList", Branches.UI.LABORATORY_SELL);
+        req.setAttribute("referencesList", Branches.UI.REFERENCES);
+        req.setAttribute("admin", Branches.UI.ADMIN);
+
         req.getRequestDispatcher("/pages/Application.jsp").forward(req, resp);
     }
 }

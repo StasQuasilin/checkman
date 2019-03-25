@@ -6,30 +6,40 @@ var deamon = new Vue({
         itemClass: function() {
             return 'custom-item-'
         },
-        items:{},
+        items:[],
         timeout:-1
     },
     methods:{
         setUrls:function(url, show){
-            this.url = url
-            this.showLink = show
+            this.url = url;
+            this.showLink = show;
             this.doRequest()
         },
         add:function(item){
             var data = {};
-            data.className = 'container-item-' + new Date(item.date).getDay()
-            data.item = item
-            Vue.set(this.items, item.id, data)
+            data.className = 'container-item-' + new Date(item.date).getDay();
+            data.item = item;
+            this.items.push(data);
         },
         update:function(item){
-            this.items[item.id].className = 'container-item-' + new Date(item.date).getDay()
-            this.items[item.id].item=item
+            for(var i in this.items){
+                if (this.items.hasOwnProperty(i)) {
+                    if (this.items[i].item.id === item.id) {
+                        this.items[i].className = 'container-item-' + new Date(item.date).getDay();
+                        this.items[i].item=item;
+                        break
+                    }
+                }
+            }
+
         },
         drop:function(id){
             for(var i in this.items){
-                if (this.items[i].item.id === id){
-                    this.$delete(this.items, i);
-                    break
+                if (this.items.hasOwnProperty(i)) {
+                    if (this.items[i].item.id === id) {
+                        this.items.splice(i, 1);
+                        break
+                    }
                 }
             }
         },
@@ -40,15 +50,13 @@ var deamon = new Vue({
             const self = this;
             var parameters = {};
             for (var k in this.items){
-                if (this.items.hasOwnProperty(k)){
+                if (this.items.hasOwnProperty(k)) {
                     var item = this.items[k];
-                    parameters[k]=item.item.hash;
+                    parameters[item.item.id] = item.item.hash;
                 }
             }
             PostApi(this.url, parameters, function(e){
-                if (e.add.length || e.update.length || e.delete.length) {
-                    console.log(e);
-                }
+
                 for(var a in e.add){
                     self.add(e.add[a])
                 }
@@ -58,14 +66,23 @@ var deamon = new Vue({
                 for(var d in e.delete){
                     self.drop(e.delete[d])
                 }
+                if (e.add.length || e.update.length || e.delete.length) {
+                    console.log(e);
+                    self.sort();
+                }
                 self.timeout = setTimeout(function(){
                     self.doRequest();
                 }, 1000)
             })
         },
+        sort:function(){
+            this.items.sort(function(a, b){
+                return new Date(a.item.date) - new Date(b.item.date);
+            })
+        },
         stop:function(){
-            console.log('Stop deamon list')
+            console.log('Stop deamon list');
             clearTimeout(this.timeout)
         }
     }
-})
+});

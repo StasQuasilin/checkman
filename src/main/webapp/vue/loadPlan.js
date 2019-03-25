@@ -231,6 +231,10 @@ var plan = new Vue({
                 }
             }
             return total;
+        },
+        stop:function(){
+            console.log('Stop load plan');
+            clearTimeout(this.upd);
         }
 
     }

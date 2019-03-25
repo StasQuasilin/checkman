@@ -92,6 +92,9 @@
         plan.api.findDriverAPI = '${findDriverAPI}'
         plan.api.editVehicleAPI = '${editVehicle}'
         plan.api.editDriverAPI = '${editDriver}'
+        addOnCloseEvent(function(){
+          plan.stop();
+        })
       </script>
       <div class="plan-wrapper" id="load_plan">
         <table border="0">

@@ -4,11 +4,6 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script>
-    function onClose(){
-
-    }
-</script>
 <table>
     <tr>
         <td>
@@ -59,9 +54,9 @@
             <c:choose>
                 <c:when test="${not empty plan.transportation.vehicle.id }">
                     ${plan.transportation.vehicle.model}
-                    ${plan.transportation.vehicle.number}
+                    '${plan.transportation.vehicle.number}'
                     <c:if test="${not empty plan.transportation.vehicle.trailer}">
-                        ${plan.transportation.vehicle.trailer}
+                        '${plan.transportation.vehicle.trailer}'
                     </c:if>
                 </c:when>
                 <c:otherwise>
@@ -136,7 +131,7 @@
             :
         </td>
         <td>
-
+            <fmt:formatNumber value="${brutto}"/>
         </td>
     </tr>
     <tr>
@@ -147,7 +142,7 @@
             :
         </td>
         <td>
-
+            <fmt:formatNumber value="${tara}"/>
         </td>
     </tr>
     <tr>
@@ -158,12 +153,13 @@
             :
         </td>
         <td>
-
+            <fmt:formatNumber value="${netto}"/>
         </td>
     </tr>
+
     <tr>
         <td colspan="3" align="center">
-            <button><fmt:message key="button.close"/> </button>
+            <button onclick="closeModal()"><fmt:message key="button.close"/> </button>
         </td>
     </tr>
 </table>

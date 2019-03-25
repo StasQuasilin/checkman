@@ -1,4 +1,8 @@
 .container{
+
+}
+.flip-list-move{
+    transition: transform 1s;
 }
 .locker{
     background: rgba(211, 219, 226, 0.75) url('/images/lock-512.png') no-repeat;
@@ -6,7 +10,6 @@
     position: absolute;
     width: 100%;
     height: 62px;
-
 }
 .container-item{
     border: solid #474747 1.5pt;

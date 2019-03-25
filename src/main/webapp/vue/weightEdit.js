@@ -18,7 +18,20 @@ var editor = new Vue({
             Vue.set(this.weights, this.weights.length, {
                 id:id,
                 brutto:brutto,
-                tara:tara
+                tara:tara,
+                checkBrutto:function(){
+                    var b = parseFloat(this.brutto);
+                    if(!isNaN(b)) {
+                        this.brutto = b < 1000 ? b : b / 1000;
+                    }
+                },
+                checkTara:function(){
+                    var t = parseFloat(this.tara);
+                    if (!isNaN(t)){
+                        this.tara = t < 1000 ? t : t / 1000;
+                    }
+                }
+
             })
         },
         removeWeight:function(key){
@@ -38,6 +51,7 @@ var editor = new Vue({
             console.log(result);
             PostApi(this.api.saveWeightAPI, result, function(a){
                 console.log(a)
+                closeModal();
             })
         },
         netto:function(brutto, tara){
@@ -50,6 +64,9 @@ var editor = new Vue({
                 t += this.netto(w.brutto, w.tara);
             }
             return t;
+        },
+        checkTonnas:function(value){
+            return value < 1000 ? value : value / 1000;
         }
 
     }

@@ -14,28 +14,28 @@
         </b>
       </li>
       <ul style="padding-left: 20px">
-        <li class="menu-item"  onclick="loadContent('${buy_link}')">
+        <li class="menu-item"  onclick="loadContent('${buyList}')">
           - <fmt:message key="deal.buy"/>
-          <a onclick="loadContent('${context}${buy_archive}')"><fmt:message key="archive"/> </a>
+          <a onclick="loadContent('${buyArchive}')"><fmt:message key="archive"/> </a>
         </li>
-        <li class="menu-item"  onclick="loadContent('${sell_link}')">
+        <li class="menu-item"  onclick="loadContent('${sellList}')">
           - <fmt:message key="deal.sell"/>
-          <a onclick="loadContent('${context}${sell_archive}')" ><fmt:message key="archive"/> </a>
+          <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
         </li>
       </ul>
-      <li class="menu-item" onclick="loadContent('${logistic_link}')">
+      <li class="menu-item" onclick="loadContent('${logisticList}')">
         <span>
           <fmt:message key="menu.logistic"/>
         </span>
         <a onclick="loadContent(${context}${logistic_archive})"><fmt:message key="archive"/> </a>
       </li>
-      <li class="menu-item" onclick="loadContent('${transport_link}')">
+      <li class="menu-item" onclick="loadContent('${transportList}')">
         <span>
           <fmt:message key="menu.transport"/>
         </span>
         <a onclick="loadContent(${context}${transport_archive})" ><fmt:message key="archive"/> </a>
       </li>
-      <li class="menu-item" onclick="loadContent('${weight_list}')">
+      <li class="menu-item" onclick="loadContent('${weightList}')">
         <span>
           <fmt:message key="menu.weight"/>
         </span>
@@ -49,25 +49,25 @@
         </span>
       </li>
       <ul style="padding-left: 20px">
-        <li class="menu-item" onclick="loadContent('${probe_url}')">
+        <li class="menu-item" onclick="loadContent('${probeList}')">
           - <fmt:message key="analyses.probe"/>
         </li>
-        <li class="menu-item" onclick="loadContent('${department_url}')">
+        <li class="menu-item" onclick="loadContent('${departmentList}')">
           - <fmt:message key="analyses.subdivision"/>
         </li>
-        <li class="menu-item" onclick="loadContent('${laboratory_buy_url}')">
+        <li class="menu-item" onclick="loadContent('${laboratoryBuyList}')">
           - <fmt:message key="analyses.buy"/>
           <a onclick="loadContent(${context}${analyses_buy_archive})"><fmt:message key="archive"/> </a>
         </li>
-        <li class="menu-item" onclick="loadContent('${laboratory_sell_url}')">
+        <li class="menu-item" onclick="loadContent('${laboratorySellList}')">
           - <fmt:message key="analyses.sell"/>
           <a onclick="loadContent(${context}${analyses_sell_archive})"><fmt:message key="archive"/> </a>
         </li>
       </ul>
       <li class="menu-item" onclick="loadContent('${references_url}')">
-                          <span>
-                            <fmt:message key="menu.references"/>
-                          </span>
+        <span>
+          <fmt:message key="menu.references"/>
+        </span>
       </li>
       <c:if test="${role eq 'admin'}">
         <li class="menu-item" onclick="loadContent('${admin_url}')">

@@ -55,6 +55,9 @@ public class Constants {
         public static final String VEHICLE_DRIVER_INPUT = "title.vehicle.driver.input";
         public static final String VEHICLE_INPUT = "title.vehicle.edit";
         public static final String DRIVER_INPUT = "title.driver.edit";
+        public static final String PROBE_LIST = "title.probe.list";
+        public static final String DEPARTMENT_LIST = "title.department.list";
+        public static final String LABORATORY = "title.laboratory";
     }
 
     public class Vehicle {

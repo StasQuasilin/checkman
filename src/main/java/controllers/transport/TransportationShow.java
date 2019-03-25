@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.documents.LoadPlan;
+import entity.weight.Weight;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,15 +19,22 @@ import java.io.IOException;
 public class TransportationShow extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            int id = Integer.parseInt(req.getParameter(Constants.ID));
-            req.setAttribute("plan", hibernator.get(LoadPlan.class, "id", id));
-            req.setAttribute("title", Constants.Titles.TRANSPORT_SHOW);
-            req.setAttribute("timeLink", Branches.API.TRANSPORT_TIME);
-            req.setAttribute("modalContent", "/pages/transport/transportShow.jsp");
-            show(req, resp);
-        } catch (Exception ignored){
-
+        int id = Integer.parseInt(req.getParameter(Constants.ID));
+        LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", id);
+        float b = 0, t = 0, n = 0;
+        for (Weight weight : loadPlan.getTransportation().getWeights()){
+            b += weight.getBrutto();
+            t += weight.getTara();
+            n += weight.getNetto();
         }
+        req.setAttribute("brutto", b);
+        req.setAttribute("tara", t);
+        req.setAttribute("netto", n);
+        req.setAttribute("plan", loadPlan);
+        req.setAttribute("title", Constants.Titles.TRANSPORT_SHOW);
+        req.setAttribute("timeInLink", Branches.API.TRANSPORT_TIME_IN);
+        req.setAttribute("timeOutLink", Branches.API.TRANSPORT_TIME_OUT);
+        req.setAttribute("modalContent", "/pages/transport/transportShow.jsp");
+        show(req, resp);
     }
 }

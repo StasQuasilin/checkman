@@ -1,7 +1,8 @@
-package api.transport;
+package controllers.laboratory.department;
 
-import api.IAPI;
 import constants.Branches;
+import constants.Constants;
+import controllers.IUIServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by szpt_user045 on 19.03.2019.
+ * Created by szpt_user045 on 25.03.2019.
  */
-
-@WebServlet(Branches.API.TRANSPORT_TIME)
-public class TransportTime extends IAPI {
+@WebServlet(Branches.UI.DEPARTMENT_LIST)
+public class DepartmentList extends IUIServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        TransportDirection direction = TransportDirection.valueOf(req.getParameter("dir"));
+        req.setAttribute("title", Constants.Titles.DEPARTMENT_LIST);
 
-    }
-    enum TransportDirection{
-        in,
-        out
+        show(req, resp);
     }
 }
-

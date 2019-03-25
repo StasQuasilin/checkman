@@ -94,7 +94,8 @@
                 <td colspan="3">
                     <div class="custom-line">
                         <div style="display: inline-block; width: 20px">
-                            <span v-show="length() > 1" class="mini-close" style="left: 0" v-on:click="removeWeight(key)">&times;</span>
+                            <span v-show="length() > 1" class="mini-close" style="left: 0"
+                                  v-on:click="removeWeight(key)">&times;</span>
                         </div>
                     </div>
                 </td>
@@ -109,7 +110,7 @@
                     :
                 </td>
                 <td>
-                    <input id="brutto" v-model="value.brutto">
+                    <input id="brutto" v-model="value.brutto" v-on:change="value.checkBrutto()" type="number" step="0.01">
                 </td>
             </tr>
             <tr>
@@ -122,7 +123,7 @@
                     :
                 </td>
                 <td>
-                    <input id="tara" v-model="value.tara">
+                    <input id="tara" v-model="value.tara" v-on:change="value.checkTara()" type="number" step="0.01">
                 </td>
             </tr>
             <tr>
@@ -160,7 +161,7 @@
         </tr>
         <tr>
             <td colspan="3" align="center">
-                <button><fmt:message key="button.cancel"/> </button>
+                <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>
                 <button v-on:click="save"><fmt:message key="button.save"/> </button>
             </td>
         </tr>
