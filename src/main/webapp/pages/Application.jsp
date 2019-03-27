@@ -19,11 +19,11 @@
 <div class="coverlet" id="coverlet"></div>
 <div class="modal-layer" style="display: none" id="modal">
 </div>
-<table border="0" style="width: 100%; height: 100%">
+<table border="1" style="width: 100%; height: 100%">
     <tr>
         <td rowspan="2" valign="top">
             <jsp:include page="NavigationMenu.jsp"/>
-            <%--<div id="filter" class="filter" ></div>--%>
+
         </td>
         <td width="80%">
             <div class="header" id="header"></div>
@@ -33,21 +33,19 @@
             ${worker.value}
           </div>
         </td>
-        <td rowspan="3">
+        <td rowspan="3" >
 
         </td>
     </tr>
     <tr>
-        <td rowspan="2">
-            2
-        </td>
-        <td rowspan="3" height="100%" style="max-width: 1266px; width: 100%">
+
+        <td rowspan="2" colspan="2" height="100%" style="max-width: 1266px; width: 100%">
             <div class="content" id="content"></div>
         </td>
     </tr>
     <tr>
-        <td>
-
+        <td height="100%">
+            <div id="filter" class="filter" ></div>
         </td>
     </tr>
 </table>

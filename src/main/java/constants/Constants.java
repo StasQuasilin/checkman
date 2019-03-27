@@ -29,6 +29,7 @@ public class Constants {
     public static final String VEHICLE_ID = "vehicle_id";
     public static final String WEIGHTS = "weights";
 
+
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
         public static final String EDIT_DOCUMENT = "document.edit";
@@ -58,6 +59,9 @@ public class Constants {
         public static final String PROBE_LIST = "title.probe.list";
         public static final String DEPARTMENT_LIST = "title.department.list";
         public static final String LABORATORY = "title.laboratory";
+        public static final String SUN_EDIT = "title.sun.edit";
+        public static final String OIL_EDIT = "title.oil.edit";
+        public static final String CAKE_EDIT = "title.cake.edit";
     }
 
     public class Vehicle {
@@ -76,5 +80,28 @@ public class Constants {
     public class Weight {
         public static final String BRUTTO = "brutto";
         public static final String TARA = "tara";
+    }
+
+    public class Sun {
+        public static final String OILINESS = "oiliness";
+        public static final String HUMIDITY = "humidity";
+        public static final String SORENESS = "soreness";
+        public static final String OIL_IMPURITY = "oilImpurity";
+        public static final String ACID_VALUE = "acidValue";
+    }
+
+    public class Oil {
+        public static final String ORGANOLEPTIC = "organoleptic";
+        public static final String COLOR = "color";
+        public static final String ACID_VALUE = "acidValue";
+        public static final String PEROXIDE_VALUE = "peroxideValue";
+        public static final String PHOSPHORUS = "phosphorus";
+        public static final String SOAP = "soap";
+        public static final String WAX = "wax";
+    }
+
+    public class Cake {
+        public static final String PROTEIN = "protein";
+        public static final String CELLULOSE = "cellulose";
     }
 }

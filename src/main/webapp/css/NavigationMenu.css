@@ -1,10 +1,10 @@
 .navigation-menu{
     background-color: #d3dbe2;
     padding: 4pt;
-    width: 220px;
+    width: 180px;
 }
 .navigation-menu ul{
-    padding-left: 4pt;
+    padding-left: 0;
 }
 .navigation-menu[static]{
 
@@ -13,7 +13,6 @@
     top: 24pt;
     left: 0;
     position: absolute;
-    border-radius: 0 12pt 12pt 0;
     padding-right: 12pt;
 }
 .navigation-menu a{
@@ -31,14 +30,12 @@
     text-decoration: underline;
 }
 .navigation-menu li{
-    margin: 2pt;
     padding: 4pt;
     list-style: none;
-    border-bottom: dotted gray 1pt;
+    border-bottom: solid white 2pt;
 }
 .menu-item {
     background-color: #e0e8ef;
-    border-radius: 8pt 8pt 0 0;
     overflow: hidden;
 }
 .menu-item:hover{

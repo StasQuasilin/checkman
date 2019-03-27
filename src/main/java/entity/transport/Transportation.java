@@ -3,10 +3,12 @@ package entity.transport;
 import entity.Worker;
 import entity.documents.DocumentOrganisation;
 import entity.documents.IDocument;
+import entity.laboratory.transportation.CakeTransportationAnalyses;
+import entity.laboratory.transportation.OilTransportationAnalyses;
+import entity.laboratory.transportation.SunTransportationAnalyses;
 import entity.weight.Weight;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Set;
 
 /**
@@ -25,6 +27,9 @@ public class Transportation extends IDocument{
     private ActionTime timeOut;
     private Worker creator;
     private Set<Weight> weights;
+    private Set<SunTransportationAnalyses> sunAnalyses;
+    private Set<OilTransportationAnalyses> oilAnalyses;
+    private Set<CakeTransportationAnalyses> cakeAnalyses;
     private boolean archive;
 
     @Override
@@ -96,8 +101,32 @@ public class Transportation extends IDocument{
     public Set<Weight> getWeights() {
         return weights;
     }
-        public void setWeights(Set<Weight> weights) {
+    public void setWeights(Set<Weight> weights) {
         this.weights = weights;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    public Set<SunTransportationAnalyses> getSunAnalyses() {
+        return sunAnalyses;
+    }
+    public void setSunAnalyses(Set<SunTransportationAnalyses> sunAnalyses) {
+        this.sunAnalyses = sunAnalyses;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    public Set<OilTransportationAnalyses> getOilAnalyses() {
+        return oilAnalyses;
+    }
+    public void setOilAnalyses(Set<OilTransportationAnalyses> oilAnalyses) {
+        this.oilAnalyses = oilAnalyses;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    public Set<CakeTransportationAnalyses> getCakeAnalyses() {
+        return cakeAnalyses;
+    }
+    public void setCakeAnalyses(Set<CakeTransportationAnalyses> cakeAnalyses) {
+        this.cakeAnalyses = cakeAnalyses;
     }
 
     @Basic
@@ -129,6 +158,19 @@ public class Transportation extends IDocument{
         for (Weight w : weights){
             hash = 31 * w.hashCode() + hash;
         }
+
+        for (SunTransportationAnalyses a : sunAnalyses){
+            hash = 31 * a.hashCode() + hash;
+        }
+
+        for (OilTransportationAnalyses a : oilAnalyses){
+            hash = 31 * a.hashCode() + hash;
+        }
+
+        for (CakeTransportationAnalyses a : cakeAnalyses){
+            hash = 31 * a.hashCode() + hash;
+        }
+
         hash = 31 * Boolean.hashCode(archive) + hash;
         return hash;
     }

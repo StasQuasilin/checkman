@@ -45,6 +45,13 @@
         <mapping class="entity.ApplicationSettings"/>
         <mapping class="entity.weight.Weight"/>
         <mapping class="entity.weight.WeightUnit"/>
+        <mapping class="entity.laboratory.SunAnalyses"/>
+        <mapping class="entity.laboratory.OilAnalyses"/>
+        <mapping class="entity.laboratory.CakeAnalyses"/>
+        <mapping class="entity.laboratory.transportation.SunTransportationAnalyses"/>
+        <mapping class="entity.laboratory.transportation.OilTransportationAnalyses"/>
+        <mapping class="entity.laboratory.transportation.CakeTransportationAnalyses"/>
+
 
     </session-factory>
 </hibernate-configuration>

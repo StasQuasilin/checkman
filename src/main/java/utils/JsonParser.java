@@ -1,14 +1,17 @@
 package utils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import entity.Person;
 import entity.Product;
 import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
-import entity.documents.DealProduct;
 import entity.documents.LoadPlan;
+import entity.laboratory.CakeAnalyses;
+import entity.laboratory.OilAnalyses;
+import entity.laboratory.SunAnalyses;
+import entity.laboratory.transportation.CakeTransportationAnalyses;
+import entity.laboratory.transportation.OilTransportationAnalyses;
+import entity.laboratory.transportation.SunTransportationAnalyses;
 import entity.organisations.Organisation;
 import entity.transport.ActionTime;
 import entity.transport.Driver;
@@ -110,7 +113,112 @@ public class JsonParser {
             json.put("timeOut", toJson(transportation.getTimeOut()));
             json.put("hash", transportation.hashCode());
             json.put("weights", toJson(transportation.getWeights()));
+            json.put("analyses", toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
             json.put("archive", transportation.isArchive());
+        }
+        return json;
+    }
+
+    private static JSONObject toJson(Set<SunTransportationAnalyses> sunAnalyses, Set<OilTransportationAnalyses> oilAnalyses, Set<CakeTransportationAnalyses> cakeAnalyses) {
+        JSONObject json = new JSONObject();
+        
+        JSONArray sun = new JSONArray();
+        for (SunTransportationAnalyses a : sunAnalyses){
+            sun.add(toJson(a.getAnalyses()));
+        }
+        if (sun.size() > 0) {
+            json.put("sun", sun);
+        }
+
+        JSONArray oil = new JSONArray();
+        for (OilTransportationAnalyses a : oilAnalyses){
+            oil.add(toJson(a.getAnalyses()));
+        }
+        if (oil.size() > 0) {
+            json.put("oil", oil);
+        }
+
+        JSONArray cake = new JSONArray();
+        for (CakeTransportationAnalyses a : cakeAnalyses){
+            cake.add(toJson(a.getAnalyses()));
+        }
+        if(cake.size() > 0) {
+            json.put("cake", cake);
+        }
+        
+
+        return json;
+    }
+
+    private static JSONObject toJson(CakeAnalyses analyses) {
+        JSONObject json = new JSONObject();
+
+        json.put("id", analyses.getId());
+//        private float humidity;
+        json.put("humidity", analyses.getHumidity());
+//        private float protein;
+        json.put("protein", analyses.getProtein());
+//        private float cellulose;
+        json.put("cellulose", analyses.getCellulose());
+//        private float oiliness;
+        json.put("oiliness", analyses.getOiliness());
+
+        json.put("create", toJson(analyses.getCreateTime()));
+
+        if (analyses.getCreator() != null) {
+            json.put("creator", toJson(analyses.getCreator()));
+        }
+
+        return json;
+    }
+
+    private static JSONObject toJson(OilAnalyses analyses) {
+        JSONObject json = new JSONObject();
+//        private int id;
+        json.put("id", analyses.getId());
+//        private boolean organoleptic;
+        json.put("organoleptic", analyses.isOrganoleptic());
+//        private int color;
+        json.put("color", analyses.getColor());
+//        private float acidValue;
+        json.put("acid", analyses.getAcidValue());
+//        private float peroxideValue;
+        json.put("peroxide", analyses.getPeroxideValue());
+//        private float phosphorus;
+        json.put("phosphorus", analyses.getPhosphorus());
+//        private float humidity;
+        json.put("humidity", analyses.getHumidity());
+//        private float soap;
+        json.put("soap", analyses.getSoap());
+//        private float wax;
+        json.put("wax", analyses.getWax());
+//        private ActionTime createTime;
+        json.put("create", toJson(analyses.getCreateTime()));
+//        private Worker creator;
+        if (analyses.getCreator() != null) {
+            json.put("creator", toJson(analyses.getCreator()));
+        }
+        return json;
+    }
+
+    private static JSONObject toJson(SunAnalyses analyses) {
+        JSONObject json = new JSONObject();
+        json.put("id", analyses.getId());
+//        private float oiliness;
+        json.put("oiliness", analyses.getOiliness());
+//        private float humidity;
+        json.put("humidity", analyses.getHumidity());
+//        private float soreness;
+        json.put("soreness", analyses.getSoreness());
+//        private float oilImpurity;
+        json.put("oilImpurity", analyses.getOilImpurity());
+//        private float acidValue;
+        json.put("acidValue", analyses.getAcidValue());
+//        private ActionTime createTime;
+        json.put("createTime", toJson(analyses.getCreateTime()));
+//        private Worker creator;
+        if (analyses.getCreator() != null) {
+            json.put("creator", toJson(analyses.getCreator()));
         }
         return json;
     }

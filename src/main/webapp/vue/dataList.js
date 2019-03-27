@@ -43,7 +43,7 @@ var deamon = new Vue({
                 }
             }
         },
-        show:function(id){
+        show:function(id, type){
             loadModal(this.showLink + '?id=' + id)
         },
         doRequest:function(){
@@ -56,18 +56,17 @@ var deamon = new Vue({
                 }
             }
             PostApi(this.url, parameters, function(e){
-
-                for(var a in e.add){
-                    self.add(e.add[a])
-                }
-                for(var u in e.update){
-                    self.update(e.update[u])
-                }
-                for(var d in e.delete){
-                    self.drop(e.delete[d])
-                }
                 if (e.add.length || e.update.length || e.delete.length) {
                     console.log(e);
+                    for(var a in e.add){
+                        self.add(e.add[a])
+                    }
+                    for(var u in e.update){
+                        self.update(e.update[u])
+                    }
+                    for(var d in e.delete){
+                        self.drop(e.delete[d])
+                    }
                     self.sort();
                 }
                 self.timeout = setTimeout(function(){

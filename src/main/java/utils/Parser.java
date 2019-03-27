@@ -1,5 +1,9 @@
 package utils;
 
+import entity.transport.Transportation;
+import utils.hibernate.HibernateSessionFactory;
+import utils.hibernate.Hibernator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -70,7 +74,10 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        System.out.printf("%6.4f", Math.PI);
+        for (Transportation transportation : Hibernator.getInstance().query(Transportation.class, null)){
+            System.out.println(JsonParser.toJson(transportation));
+        }
+        HibernateSessionFactory.shutdown();
     }
 
 

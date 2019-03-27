@@ -34,6 +34,7 @@ public class Branches {
         public static final String ADMIN = "/admin.j";
         public static final String EDIT_PROBE = "/laboratory/probe/edit.j";
         public static final String PROBE_SHOW = "/laboratory/probe/show.j";
+        public static final String LABORATORY_EDIT = "/laboratory/show.j";
     }
     public class API{
         public static final String API = "/api";
@@ -58,6 +59,9 @@ public class Branches {
         public static final String SAVE_WEIGHT =        API + "/weight/save";
         public static final String PROBE_LIST =         API + "/laboratory/probe/list";
         public static final String LABORATORY_LIST =    API + "/laboratory/list.j";
+        public static final String LABORATORY_SAVE_SUN = API + "/laboratory/save/sun";
+        public static final String LABORATORY_SAVE_OIL = API + "/laboratory/save/oil";
+        public static final String LABORATORY_SAVE_CAKE = API + "/laboratory/save/cake";
 
 
         public class References {

@@ -44,7 +44,7 @@ $(document).ready(function(){
     );
 })
 function save(){
-    var parameters = [];
+    var parameters = {};
     parameters.id = dealId.value;
     parameters.type = dealType.value;
     parameters.date = date.value;
