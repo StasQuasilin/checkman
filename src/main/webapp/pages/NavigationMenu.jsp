@@ -41,9 +41,12 @@
         <li class="menu-item" onclick="loadContent('${probeList}')">
           <fmt:message key="analyses.probe"/>
         </li>
-        <li class="menu-item" onclick="loadContent('${departmentList}')">
-          <fmt:message key="analyses.subdivision"/>
+      <c:forEach items="${subdivisions}" var="s">
+        <li class="menu-item" onclick="loadContent('${subdivisionList}?sub=${s.key}')">
+          <fmt:message key="analyses.subdivision.${s.key}"/>
         </li>
+      </c:forEach>
+
         <li class="menu-item" onclick="loadContent('${laboratoryBuyList}')">
           <fmt:message key="analyses.buy"/>
           <a onclick="loadContent(${context}${analyses_buy_archive})"><fmt:message key="archive"/> </a>

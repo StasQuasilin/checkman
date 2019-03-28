@@ -5,6 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
+<link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/weightEdit.js"></script>
 <script>
     editor.api.saveWeightAPI = '${saveWeightAPI}';
@@ -16,7 +17,6 @@
     if (editor.weights.length == 0){
         editor.newWeight();
     }
-
 </script>
 <style>
     .custom-line{
@@ -32,7 +32,7 @@
         width: 80%
     }
 </style>
-    <table id="editor">
+    <table id="editor" class="editor">
         <tr>
             <td>
                 <fmt:message key="date"/>

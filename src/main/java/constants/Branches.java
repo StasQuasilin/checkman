@@ -26,7 +26,7 @@ public class Branches {
         public static final String DRIVER_MODAL = "/driver/modal.j";
         public static final String VEHICLE_DRIVER_MODAL = "/vehicle/driver/modal.j";
         public static final String PROBE_LIST = "/laboratory/probe.j";
-        public static final String DEPARTMENT_LIST = "/laboratory/turn.j";
+        public static final String SUBDIVISION_LIST = "/laboratory/turn.j";
         public static final String LABORATORY = "/laboratory.j";
         public static final String LABORATORY_BUY = LABORATORY + "?type=buy";
         public static final String LABORATORY_SELL = LABORATORY + "?type=sell";
@@ -35,6 +35,12 @@ public class Branches {
         public static final String EDIT_PROBE = "/laboratory/probe/edit.j";
         public static final String PROBE_SHOW = "/laboratory/probe/show.j";
         public static final String LABORATORY_EDIT = "/laboratory/show.j";
+
+        public class Extraction {
+            public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
+            public static final String RAW_EDIT = "/laboratory/extraction/raw.j";
+            public static final String OIL_EDIT = "/laboratory/extraction/oil.j";
+        }
     }
     public class API{
         public static final String API = "/api";

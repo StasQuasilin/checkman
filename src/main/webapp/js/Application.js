@@ -19,23 +19,25 @@ $(document).ready(function(){
 });
 
 function loadContent(url){
+    if (url) {
+        console.log('[ Application ] Load page ' + url);
+        localStorage.setItem(last_url, url);
+        PostReq(url, null, function (e) {
+            try {
+                stopContent();
+            } catch (e) {
+            }
 
-    console.log('[ Application ] Load page ' + url);
-    localStorage.setItem(last_url, url);
-    PostReq(url, null, function(e){
-        try {
-            stopContent();
-        } catch (e){}
+            $(content).html(e);
+            $(header).html(GetChildElemById(content, 'header-content'));
+            document.title = header.innerText;
+            $(header).append(GetChildElemById(content, 'container-header'));
+            $(filter).html(GetChildElemById(content, 'filter-content'));
 
-        $(content).html(e);
-        $(header).html(GetChildElemById(content, 'header-content'));
-        document.title = header.innerText;
-        $(header).append(GetChildElemById(content, 'container-header'));
-        $(filter).html(GetChildElemById(content, 'filter-content'));
-
-    }, function(e){
-        console.error('[ Application ] Load content error ' + e)
-    })
+        }, function (e) {
+            console.error('[ Application ] Load content error ' + e)
+        })
+    }
 }
 function loadModal(url, parameters, onSave){
     console.log('[ Application ] Load modal ' + url);

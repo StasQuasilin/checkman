@@ -57,11 +57,17 @@ public class Constants {
         public static final String VEHICLE_INPUT = "title.vehicle.edit";
         public static final String DRIVER_INPUT = "title.driver.edit";
         public static final String PROBE_LIST = "title.probe.list";
-        public static final String DEPARTMENT_LIST = "title.department.list";
+        public static final String SUBDIVISION_LIST = "title.subdivision.list";
         public static final String LABORATORY = "title.laboratory";
         public static final String SUN_EDIT = "title.sun.edit";
         public static final String OIL_EDIT = "title.oil.edit";
         public static final String CAKE_EDIT = "title.cake.edit";
+        public static final String SUBDIVISION_LIST_EXTRACTION = SUBDIVISION_LIST + ".ex";
+        public static final String SUBDIVISION_LIST_VRO = SUBDIVISION_LIST + ".vro";
+        public static final String SUBDIVISION_LIST_KPO = SUBDIVISION_LIST + ".kpo";
+        public static final String EXTRACTION_CRUDE = "title.extraction.crude.edit";
+        public static final String EXTRACTION_RAW = "title.extraction.raw.edit";
+        public static final String EXTRACTION_OIL = "title.extraction.oil.edit";
     }
 
     public class Vehicle {

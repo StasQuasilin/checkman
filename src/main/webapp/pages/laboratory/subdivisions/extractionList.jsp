@@ -5,11 +5,14 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <div id="container-header" style="display: inline">
-    <c:forEach items="${analysesTypes}" var="a">
-        <button onclick="loadModal('${editLink}')">
-            <fmt:message key="button.do"/>
-            <fmt:message key="${a}"/>
-        </button>
-    </c:forEach>
+    <button onclick="loadModal('${crudeEdit}')">
+        <fmt:message key="extraction.crude"/>
+    </button>
+    <button onclick="loadModal('${rawEdit}')">
+        <fmt:message key="extraction.raw"/>
+    </button>
+    <button onclick="loadModal('${oilEdit}')">
+        <fmt:message key="extraction.oil"/>
+    </button>
 </div>
 </html>

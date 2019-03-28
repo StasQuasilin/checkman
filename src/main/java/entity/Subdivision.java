@@ -10,6 +10,8 @@ import javax.persistence.*;
 public class Subdivision {
     private int id;
     private String name;
+    private SubdivisionKey key;
+
 
     @Id
     @GeneratedValue
@@ -27,5 +29,14 @@ public class Subdivision {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    @Basic
+    @Enumerated(EnumType.STRING)
+    @Column(name = "key")
+    public SubdivisionKey getKey() {
+        return key;
+    }
+    public void setKey(SubdivisionKey key) {
+        this.key = key;
     }
 }

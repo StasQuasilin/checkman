@@ -6,6 +6,7 @@
 <html>
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
     <link rel="stylesheet" href="${context}/css/Application.css">
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

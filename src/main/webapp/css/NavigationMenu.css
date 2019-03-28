@@ -32,13 +32,13 @@
     text-decoration: underline;
 }
 .navigation-menu li{
-    padding: 4pt;
     list-style: none;
-    border-bottom: solid white 2pt;
 }
 .menu-item {
     background-color: #e0e8ef;
     overflow: hidden;
+    padding: 4pt;
+    border-bottom: solid white 2pt;
 }
 .menu-item:hover{
     background-color: #ffffff;

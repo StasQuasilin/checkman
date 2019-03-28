@@ -1,0 +1,20 @@
+.picker{
+    font-size: 10pt;
+    padding: 2pt;
+    position: absolute;
+    background-color: white;
+    display: block;
+}
+.picker .picker-header{
+    text-align: center;
+}
+.picker .month-holder{
+    width: 6em;
+    display: inline-block;
+}
+.picker .picker-button:hover{
+    text-shadow: 0 0 2pt gray;
+}
+.picker .box{
+    padding: 1pt 4pt;
+}

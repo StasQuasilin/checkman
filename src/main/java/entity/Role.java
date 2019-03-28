@@ -5,4 +5,9 @@ package entity;
  */
 public enum Role {
     admin,
+    manager,
+    logistic,
+    security,
+    weigher,
+    analyser
 }
