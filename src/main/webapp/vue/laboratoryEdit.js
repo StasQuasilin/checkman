@@ -7,7 +7,11 @@ var editor = new Vue({
         empty:'',
         plan:-1,
         organisation:'',
-        vehicle:'',
+        vehicle:{
+            model:'',
+            number:'',
+            trailer:''
+        },
         driver:'',
         analyses:[]
     },

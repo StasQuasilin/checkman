@@ -19,6 +19,7 @@ $(document).ready(function(){
 });
 
 function loadContent(url){
+
     console.log('[ Application ] Load page ' + url);
     localStorage.setItem(last_url, url);
     PostReq(url, null, function(e){

@@ -11,28 +11,30 @@
     editor.plan = ${plan.id};
     editor.organisation = '${plan.deal.organisation.value}';
     <c:if test="${not empty plan.transportation.vehicle}">
-        editor.vehicle = '${plan.transportation.vehicle.model} \'${plan.transportation.vehicle.number}\' \'${plan.transportation.vehicle.trailer}\'';
+        editor.vehicle.model = '${plan.transportation.vehicle.model}';
+        editor.vehicle.number = '\'${plan.transportation.vehicle.number}\''
+        editor.vehicle.trailer = ' \'${plan.transportation.vehicle.trailer}\''
     </c:if>
     <c:if test="${not empty plan.transportation.driver}">
-        editor.driver = '${plan.transportation.driver.sun.value}';
+        editor.driver = '${plan.transportation.driver.person.value}';
     </c:if>
     editor.empty={
-        oilines:0,
+        oiliness:0,
         humidity:0,
         soreness:0,
         oilImpurity:0,
         acidValue:0
     }
     <c:if test="${not empty plan.transportation.sunAnalyses}">
-    <c:forEach items="${plan.transportation.sunAnalyses}" var="oil">
+    <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
     editor.addAnalyses(
         {
-            id:${oil.analyses.id},
-            oiliness:${oil.analyses.oiliness},
-            humidity:${oil.analyses.humidity},
-            soreness:${oil.analyses.soreness},
-            oilImpurity:${oil.analyses.oilImpurity},
-            acidValue:${oil.analyses.acidValue}
+            id:${sun.analyses.id},
+            suniness:${sun.analyses.suniness},
+            humidity:${sun.analyses.humidity},
+            soreness:${sun.analyses.soreness},
+            sunImpurity:${sun.analyses.sunImpurity},
+            acidValue:${sun.analyses.acidValue}
         }
     );
     </c:forEach>
@@ -61,7 +63,20 @@
             :
         </td>
         <td>
-            {{vehicle}}
+            <div>
+                <span>
+                    {{vehicle.model}}
+                </span>
+                <div style="display: inline-block; font-size: 8pt">
+                    <div>
+                        {{vehicle.number}}
+                    </div>
+                    <div>
+                        {{vehicle.trailer}}
+                    </div>
+
+                </div>
+            </div>
         </td>
     </tr>
     <tr>

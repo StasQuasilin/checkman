@@ -19,7 +19,7 @@
 </div>
 <div class="container" id="container" >
   <div v-for="(value, key) in items" v-bind:key="key" v-bind:id="value.item.id"
-       class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)">
+       class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)" v-on:click.right="contextMenu(value.item.id)">
     <div style="display: inline-block">
       <span>
         {{new Date(value.item.date).toLocaleDateString()}}<br>

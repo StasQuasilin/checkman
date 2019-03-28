@@ -7,6 +7,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <span id="header-content"><fmt:message key="${title}"/></span>
-<div id="filter-content"></div>
+<div id="filter-content"><jsp:include page="${filter}"/></div>
 <jsp:include page="${content}"/>
 </html>

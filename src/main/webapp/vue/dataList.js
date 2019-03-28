@@ -82,6 +82,10 @@ var deamon = new Vue({
         stop:function(){
             console.log('Stop deamon list');
             clearTimeout(this.timeout)
+        },
+        contextMenu:function(id){
+            console.log(id);
+            event.preventDefault();
         }
     }
 });

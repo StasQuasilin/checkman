@@ -27,6 +27,8 @@
 }
 .menu-item:hover a{
     visibility: visible;
+}
+.menu-item a:hover{
     text-decoration: underline;
 }
 .navigation-menu li{
