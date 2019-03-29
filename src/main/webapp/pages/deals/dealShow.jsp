@@ -6,6 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+
 <table border="0">
   <tr>
     <td valign="top">
@@ -78,6 +79,7 @@
     </td>
     <td>
       <link rel="stylesheet" href="${context}/css/LoadPlan.css">
+      <link rel="stylesheet" href="${context}/css/date-picker.css">
       <script src="${context}/vue/loadPlan.js"></script>
       <script>
         <c:forEach items="${customers}" var="customer">
@@ -142,7 +144,27 @@
                     <%--REMOVE BUTTON--%>
                     <span title="${dropTitle}" class="mini-close" style="left: 0" v-show="!value.item.transportation.archive" v-on:click="remove(key)">&times;</span>
                     <%--DATE INPUT--%>
-                    <input v-model="new Date(value.item.date).toLocaleDateString()" id="date" name="date" title="${dateTitle}" readonly style="width: 7em">
+                      <div style="display: inline-block;">
+                      <v-menu class="date-picker"
+                              v-model="value.picker"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              lazy
+                              transition="scale-transition"
+                              offset-y
+                              full-width
+                              min-width="290px"
+                              >
+                        <template v-slot:activator="{ on }">
+                          <input style="width: 7em"
+                                  v-model="value.item.date"
+                                  readonly
+                                  v-on="on"
+                                  ></input>
+                        </template>
+                        <v-date-picker v-model="value.item.date" @input="value.picker = false"></v-date-picker>
+                      </v-menu>
+                      </div>
                       <%--PLAN INPUT--%>
                     <input v-model="value.item.plan" type="number" title="${planTitle}" style="width: 6em" min="1">
                       <%--CUSTOMER INPUT--%>

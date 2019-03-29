@@ -61,6 +61,18 @@ public class SaveWeightAPI extends IAPI {
 
         hibernator.remove(weights.values().toArray());
 
+        plan = hibernator.get(LoadPlan.class, "id", planId);
+
+        float done = 0;
+        for (Weight weight : plan.getTransportation().getWeights()){
+            done += weight.getNetto();
+        }
+
+        plan.getDeal().setDone(done);
+        hibernator.save(plan.getDeal());
+
+        PostUtil.write(resp, answer);
+
         body.clear();
     }
     synchronized void changeWeight(Weight weight, float brutto, float tara, HttpServletRequest req, boolean saveIt){

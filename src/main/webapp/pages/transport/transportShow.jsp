@@ -4,7 +4,45 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<table>
+<script>
+    var show = new Vue({
+        el: '#show',
+        data:{
+            api:{
+                timeInApi:'',
+                timeOutApi:''
+            },
+            id:-1,
+            timeIn:'',
+            timeOut:''
+        },
+        methods:{
+            setTimeIn:function(){
+                const self = this;
+                this.setTime(this.api.timeInApi, self.timeIn);
+            },
+            setTimeOut:function(){
+                this.setTime(this.api.timeOutApi, this.timeOut);
+            },
+            setTime:function(api, header){
+                var parameters = {};
+                parameters.id = this.id;
+                PostApi(api, parameters, function(a){
+                    console.log(a)
+                    header = new Date(a.time);
+                })
+            }
+        }
+    });
+    show.api.timeInApi = '${timeInLink}';
+    show.api.timeOutApi = '${timeOutLink}';
+    show.id = ${plan.transportation.id};
+    <c:if test="${not empty plan.transportation.timeIn}">
+    show.timeIn = new Date('${plan.transportation.timeIn.time}');</c:if>
+    <c:if test="${not empty plan.transportation.timeOut}">
+    show.timeOut = new Date('${plan.transportation.timeOut.time}');</c:if>
+</script>
+<table id="show">
     <tr>
         <td>
             <fmt:message key="date"/>
@@ -91,16 +129,13 @@
             :
         </td>
         <td>
-            <c:choose>
-                <c:when test="${not empty plan.transportation.timeIn}">
-                    <fmt:formatDate value="plan.transportation.timeIn" pattern="HH:mm dd.MM"/>
-                </c:when>
-                <c:otherwise>
-                    <button>
-                        <fmt:message key="transportation.in"/>
-                    </button>
-                </c:otherwise>
-            </c:choose>
+            <button v-if="timeIn">
+                {{(timeIn).toLocaleTimeString() + ', ' +
+                (timeIn).toLocaleDateString()}}
+            </button>
+            <button v-else v-on:click="setTimeIn">
+                <fmt:message key="transportation.in"/>
+            </button>
         </td>
     </tr>
     <tr>
@@ -111,16 +146,13 @@
             :
         </td>
         <td>
-            <c:choose>
-                <c:when test="${not empty plan.transportation.timeOut}">
-                    <fmt:formatDate value="plan.transportation.timeOut" pattern="HH:mm dd.MM"/>
-                </c:when>
-                <c:otherwise>
-                    <button>
-                        <fmt:message key="transportation.out"/>
-                    </button>
-                </c:otherwise>
-            </c:choose>
+            <button v-if="timeOut">
+                {{(timeOut).toLocaleTimeString() + ', ' +
+                (timeOut).toLocaleDateString()}}
+            </button>
+            <button v-else v-on:click="setTimeOut">
+                <fmt:message key="transportation.out"/>
+            </button>
         </td>
     </tr>
     <tr>

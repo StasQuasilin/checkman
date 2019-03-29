@@ -14,7 +14,7 @@ var logistic = new Vue({
         save_link:'',
         saveTransportationVehicleApi:'',
         saveTransportationDriverApi:'',
-        items:{},
+        items:[],
         types:{},
         timeout:-1
     },
@@ -28,17 +28,22 @@ var logistic = new Vue({
             data.driverInput='';
             data.fnd=-1;
             data.item = item;
-            Vue.set(this.items, item.id, data)
+            this.items.push(data);
         },
         update:function(item){
-            this.items[item.id].className = 'container-item-' + new Date(item.date).getDay()
-            this.items[item.id].item=item
+            for (var i in this.items){
+                if (this.items[i].item.id == item.id){
+                    this.items[i].className = 'container-item-' + new Date(item.date).getDay()
+                    this.items[i].item=item;
+                    break;
+                }
+            }
         },
         remove:function(id){
             for(var i in this.items){
                 if (this.items[i].item.id === id){
-                    this.$delete(this.items, i);
-                    break
+                    this.items.splice(i, 1)
+                    break;
                 }
             }
         },
@@ -52,22 +57,26 @@ var logistic = new Vue({
             var parameters = {};
             for (var i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    parameters[i]= this.items[i].item.hash;
+                    var item = this.items[i];
+                    parameters[item.item.id] = item.item.hash;
                 }
 
             }
             PostApi(this.update_link, parameters, function(e){
                 if (e.add.length || e.update.length || e.remove.length) {
                     console.log(e)
-                }
-                for (var a in e.add){
-                    self.add(e.add[a])
-                }
-                for (var u in e.update){
-                    self.update(e.update[u])
-                }
-                for (var d in e.remove){
-                    self.remove(e.remove[d])
+                    for (var a in e.add){
+                        self.add(e.add[a])
+                    }
+                    for (var u in e.update){
+                        self.update(e.update[u])
+                    }
+                    for (var d in e.remove){
+                        self.remove(e.remove[d])
+                    }
+                    self.items.sort(function(a, b){
+                        return new Date(a.item.date) - new Date(b.item.date);
+                    })
                 }
             }, null, false)
             self.timeout = setTimeout(function(){self.loadItems()}, 1000);
@@ -148,13 +157,13 @@ var logistic = new Vue({
             })
         },
         parseVehicle:function(value){
-            var p = [];
+            var p = {};
             p.transportation_id = value.item.transportation.id;
             p.key = value.vehicleInput;
             loadModal(this.vehicleInput, p);
         },
         parseDriver:function(value){
-            var p = [];
+            var p = {};
             p.transportation_id = value.item.transportation.id;
             p.key = value.driverInput;
             loadModal(this.driverInput, p);

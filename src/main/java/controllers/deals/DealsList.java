@@ -24,6 +24,7 @@ public class DealsList extends IUIServlet{
         req.setAttribute("updateLink", Branches.API.DEAL_LIST + "?type=" + type );
         req.setAttribute("showLink", Branches.UI.DEAL_SHOW);
         req.setAttribute("editLink", Branches.UI.DEAL_EDIT + "?type=" + type );
+        req.setAttribute("deleteLink", Branches.UI.DEAL_DELETE);
         show(req, resp);
     }
 }

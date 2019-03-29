@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IServlet;
 import controllers.IUIServlet;
+import entity.DealType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +24,7 @@ public class WeightList extends IUIServlet{
         req.setAttribute("updateLink", Branches.API.WEIGHT_LIST);
         req.setAttribute("showLink", Branches.UI.WEIGHT_EDIT);
         req.setAttribute("content", "/pages/weight/weightList.jsp");
+        req.setAttribute("types", DealType.values());
         show(req, resp);
     }
 }

@@ -50,8 +50,10 @@ Vue.component('date-picker', {
         this.year = this.date.getYear()
     },
     template:`
-            <div style="display: inline-block">
-                <input v-on:click="_show()" v-model="date.toLocaleDateString()">
+
+        <div style="display: inline-block">
+            <input v-on:click="_show()" v-model="date.toLocaleDateString()">
+            <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(0, 132, 255, 0.13)">
                 <div v-show="show" id="picker" class="picker">
                     <div class="picker-header">
                         <span class="picker-button" v-on:click="_switchMonth(-1)">&lt;</span>
@@ -64,12 +66,12 @@ Vue.component('date-picker', {
                             {{i*j}}
                         </span>
                     </span>
-
                 </div>
             </div>
-
-
+        </div>
         `
+
+
 
 })
 

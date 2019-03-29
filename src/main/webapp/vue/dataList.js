@@ -7,7 +7,14 @@ var deamon = new Vue({
             return 'custom-item-'
         },
         items:[],
-        timeout:-1
+        timeout:-1,
+        types:[],
+        menu:{
+            id:-1,
+            show:false,
+            x:0,
+            y:0
+        }
     },
     methods:{
         setUrls:function(url, show){
@@ -84,8 +91,16 @@ var deamon = new Vue({
             clearTimeout(this.timeout)
         },
         contextMenu:function(id){
-            console.log(id);
+            this.menu.id = id;
+            this.menu.x = event.pageX;
+            this.menu.y = event.pageY;
+            this.menu.show = true;
             event.preventDefault();
+        },
+        closeMenu:function(){
+            this.menu.show = false;
+            //event.preventDefault();
         }
+
     }
 });

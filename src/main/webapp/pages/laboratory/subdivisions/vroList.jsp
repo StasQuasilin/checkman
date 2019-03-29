@@ -4,5 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-VRO
+<div id="container-header" style="display: inline">
+    <button onclick="loadModal('${editLink}')"><fmt:message key="button.add"/></button>
+</div>
 </html>

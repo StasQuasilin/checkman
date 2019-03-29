@@ -28,6 +28,7 @@ public class Constants {
     public static final String DRIVER_ID = "driver_id";
     public static final String VEHICLE_ID = "vehicle_id";
     public static final String WEIGHTS = "weights";
+    public static final String COPY = "copy";
 
 
     public static class Languages {
@@ -43,6 +44,7 @@ public class Constants {
         public static final String DEAL_CREATE = "deal.create";
         public static final String WRONG_PASSWORD = "wrong.password";
         public static final String NO_USER = "user.not.found";
+        public static final String DEAL_COPY = "deal.copy";
     }
 
     public class Titles {
@@ -68,6 +70,7 @@ public class Constants {
         public static final String EXTRACTION_CRUDE = "title.extraction.crude.edit";
         public static final String EXTRACTION_RAW = "title.extraction.raw.edit";
         public static final String EXTRACTION_OIL = "title.extraction.oil.edit";
+        public static final String DEAL_DELETE = "title.deal.delete";
     }
 
     public class Vehicle {

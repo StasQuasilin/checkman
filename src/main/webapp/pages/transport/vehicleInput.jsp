@@ -8,8 +8,8 @@
 <script>
     editor.api.findOrganisationAPI = '${findOrganisationAPI}'
     editor.api.saveVehicleAPI = '${saveVehicleAPI}'
-    editor.transportationId = '${transportation}'
-    editor.vehicleId = '${vehicle.id}'
+    editor.transportationId = ${transportation}
+    editor.vehicleId = ${vehicle.id}
     editor.vehicleModel = '${vehicle.model}';
     editor.vehicleNumber = '${vehicle.number}';
     editor.vehicleTrailer = '${vehicle.trailer}';

@@ -35,6 +35,9 @@ public class Branches {
         public static final String EDIT_PROBE = "/laboratory/probe/edit.j";
         public static final String PROBE_SHOW = "/laboratory/probe/show.j";
         public static final String LABORATORY_EDIT = "/laboratory/show.j";
+        public static final String DEAL_DELETE = "/deal/delete.j";
+        public static final String SUMMARY_LIST = "/summary/list.j";
+        public static final String SUMMARY_SHOW = "/summary/show.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -44,11 +47,11 @@ public class Branches {
     }
     public class API{
         public static final String API = "/api";
-        public static final String DEAL_SAVE =          API + "/deal/save.j";
-        public static final String DEAL_DELETE =        API + "/deal/delete.j";
+        public static final String DEAL_SAVE =          API + "/deal/save";
+        public static final String DEAL_DELETE =        API + "/deal/delete";
         public static final String SIGN_IN =            API + "/sign/in";
         public static final String SIGN_UP =            API + "/sign/up";
-        public static final String DEAL_LIST =          API + "/deal/list.j";
+        public static final String DEAL_LIST =          API + "/deal/list";
         public static final String DEAL_LIST_BUY =      DEAL_LIST + "?type=buy";
         public static final String DEAL_LIST_SELL =     DEAL_LIST + "?type=sell";
         public static final String PLAN_LIST =          API + "/load/plan/list";
@@ -64,7 +67,7 @@ public class Branches {
         public static final String SAVE_TRANSPORTATION_DRIVER = API + "/transportation/save/driver";
         public static final String SAVE_WEIGHT =        API + "/weight/save";
         public static final String PROBE_LIST =         API + "/laboratory/probe/list";
-        public static final String LABORATORY_LIST =    API + "/laboratory/list.j";
+        public static final String LABORATORY_LIST =    API + "/laboratory/list";
         public static final String LABORATORY_SAVE_SUN = API + "/laboratory/save/sun";
         public static final String LABORATORY_SAVE_OIL = API + "/laboratory/save/oil";
         public static final String LABORATORY_SAVE_CAKE = API + "/laboratory/save/cake";

@@ -18,12 +18,12 @@
     overflow: hidden;
 }
 .container-item .upper-row{
-    padding: 4pt;
+    padding: 2pt 4pt;
     border-bottom: solid #474747 1pt;
     background: linear-gradient(rgba(0, 221, 28, 0.16), transparent);
 }
 .container-item .lower-row{
-    padding: 4pt;
+    padding: 2pt 4pt;
 }
 .container-item span{
     display: inline-block;

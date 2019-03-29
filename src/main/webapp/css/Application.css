@@ -89,3 +89,24 @@ button:focus, input:focus{
 ::-webkit-scrollbar-thumb:hover {
     background: #f4b400;
 }
+.context-menu{
+    font-size: 10pt;
+    height: fit-content;
+    background-color: white;
+    color: #4c7b7b;
+    position: absolute;
+    z-index: 100;
+    box-shadow: 0 4pt 4px gray;
+    margin-left: 4pt;
+}
+.menu-wrapper{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 127, 255, 0.16);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.custom-data-list-item[disable]{
+    color: #e2e2e2;
+}

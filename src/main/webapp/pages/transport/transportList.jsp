@@ -39,28 +39,48 @@
           </span>
         </div>
         <div class="lower-row">
-          <fmt:message key="transportation.automobile"/>:
-          <div style="display: inline-block; width: 30%">
-            <template v-if="value.item.transportation.vehicle.id">
-              {{value.item.transportation.vehicle.model}}
-              <span class="vehicle-number">
-                {{value.item.transportation.vehicle.number}}
+          <div style="display: inline-block; font-size: 10pt; width: 24em">
+            <div>
+              <fmt:message key="transportation.time.in"/>:
+              <span v-if="value.item.transportation.timeIn.time">
+                {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString()}}
               </span>
-              <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
-                {{value.item.transportation.vehicle.trailer}}
+            </div>
+            <div>
+              <fmt:message key="transportation.time.out"/>:
+              <span v-if="value.item.transportation.timeOut.time">
+                {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString()}}
               </span>
-            </template>
-            <span v-else="value.item.transportation.vehicle.id">
-              <fmt:message key="no.data"/>
-            </span>
+            </div>
           </div>
-          <fmt:message key="transportation.driver"/>:
-          <template v-if="value.item.transportation.driver.id">
-            {{value.item.transportation.driver.person.value}}
-          </template>
-          <template v-else>
-            <fmt:message key="no.data"/>
-          </template>
+          <div style="display: inline-block; font-size: 10pt">
+            <div>
+              <fmt:message key="transportation.automobile"/>:
+              <span>
+                <template v-if="value.item.transportation.vehicle.id">
+                  {{value.item.transportation.vehicle.model}}
+                  <span class="vehicle-number">
+                    {{value.item.transportation.vehicle.number}}
+                  </span>
+                  <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
+                    {{value.item.transportation.vehicle.trailer}}
+                  </span>
+                </template>
+                <span v-else="value.item.transportation.vehicle.id">
+                  <fmt:message key="no.data"/>
+                </span>
+              </span>
+            </div>
+            <div>
+              <fmt:message key="transportation.driver"/>:
+              <template v-if="value.item.transportation.driver.id">
+                {{value.item.transportation.driver.person.value}}
+              </template>
+              <template v-else>
+                <fmt:message key="no.data"/>
+              </template>
+            </div>
+          </div>
         </div>
       </div>
   </transition-group>

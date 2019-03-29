@@ -1,20 +1,21 @@
-.picker{
-    font-size: 10pt;
-    padding: 2pt;
+.date-picker{
     position: absolute;
     background-color: white;
-    display: block;
+    font-size: 10pt;
 }
-.picker .picker-header{
+.date-picker .v-date-picker-title{
+    background-color: aliceblue;
+    padding: 0 4pt;
+}
+.date-picker .v-date-picker-header{
     text-align: center;
 }
-.picker .month-holder{
-    width: 6em;
+.date-picker .v-date-picker-header *{
     display: inline-block;
 }
-.picker .picker-button:hover{
-    text-shadow: 0 0 2pt gray;
-}
-.picker .box{
-    padding: 1pt 4pt;
+.date-picker button{
+    min-width: 0;
+    border: none;
+    color: white;
+    padding: 0;
 }

@@ -60,11 +60,3 @@ function save(){
         closeModal();
     })
 }
-var onCloseAction;
-function onClose(action){
-    onCloseAction = action;
-}
-function closeModal(){
-    console.log('close this window');
-    onCloseAction();
-}

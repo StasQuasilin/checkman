@@ -19,13 +19,14 @@ var plan = new Vue({
         findVehicles:{},
         findDrivers:{},
         fnd:-1,
-        upd:-1
+        upd:-1,
+        picker:false
     },
     methods:{
         newPlan:function(){
             this.add({
                 id:-1,
-                date: new Date(),
+                date: new Date().toLocaleDateString(),
                 plan:0,
                 customer:this.customers[this.customer].id,
                 transportation:{
@@ -181,9 +182,7 @@ var plan = new Vue({
                 param.key = input;
                 const self = this;
                 this.fnd = setTimeout(function () {
-                    console.log(param);
                     PostApi(self.api.findDriverAPI, param, function (a) {
-                        console.log(a);
                         self.findDrivers = a;
                     })
                 }, 500)

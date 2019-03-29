@@ -16,7 +16,7 @@
         <fmt:message key="deal.sell"/>
         <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
       </li>
-      <li class="menu-item" onclick="loadContent('')">
+      <li class="menu-item" onclick="loadContent('${summaryList}')">
         <fmt:message key="consolidated.table"/>
         <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
       </li>

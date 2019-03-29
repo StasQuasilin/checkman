@@ -10,6 +10,8 @@ import entity.documents.Deal;
 import entity.documents.DealProduct;
 import entity.documents.DocumentOrganisation;
 import entity.weight.WeightUnit;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,14 +26,23 @@ import java.io.IOException;
 public class DealEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            int id = Integer.parseInt(req.getParameter(Constants.ID));
+
+        JSONObject body = PostUtil.parseBodyJson(req);
+        if (body.containsKey(Constants.ID)){
+            long id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
             req.setAttribute("deal", hibernator.get(Deal.class, "id", id));
-            req.setAttribute("dealProduct", hibernator.get(DealProduct.class, "deal", id));
             req.setAttribute("title", Constants.Languages.DEAL_EDIT);
-        } catch (Exception ignored){
+        } else if (body.containsKey(Constants.COPY)){
+            long copy = Long.parseLong(String.valueOf(body.get(Constants.COPY)));
+            Deal deal = hibernator.get(Deal.class, "id", copy);
+            deal.setId(-1);
+            deal.setDone(0);
+            req.setAttribute("deal", deal);
+            req.setAttribute("title", Constants.Languages.DEAL_COPY);
+        } else {
             req.setAttribute("title", Constants.Languages.DEAL_CREATE);
         }
+
         req.setAttribute("type", req.getParameter("type"));
         req.setAttribute("types", DealType.values());
         req.setAttribute("products", hibernator.query(Product.class, null));

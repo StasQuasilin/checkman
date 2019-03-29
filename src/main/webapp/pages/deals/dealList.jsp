@@ -18,8 +18,10 @@
   <button onclick="loadModal('${editLink}')"><fmt:message key="button.add"/> </button>
 </div>
 <div class="container" id="container" >
+
   <div v-for="(value, key) in items" v-bind:key="key" v-bind:id="value.item.id"
-       class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)" v-on:click.right="contextMenu(value.item.id)">
+       class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)"
+       v-on:click.right="contextMenu(value.item.id)">
     <div style="display: inline-block">
       <span>
         {{new Date(value.item.date).toLocaleDateString()}}<br>
@@ -80,7 +82,14 @@
         </span>
       </div>
     </div>
-
+  </div>
+  <div  v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
+    <div v-bind:style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+      <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${editLink}')"><fmt:message key="menu.edit"/> </div>
+      <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${editLink}')"><fmt:message key="menu.copy"/></div>
+      <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${deleteLink}')"> <fmt:message key="menu.delete"/></div>
+      <div class="custom-data-list-item"><fmt:message key="menu.archive"/></div>
+    </div>
   </div>
 </div>
 </html>

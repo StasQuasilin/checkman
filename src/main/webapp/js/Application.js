@@ -39,7 +39,23 @@ function loadContent(url){
         })
     }
 }
+
+function editableModal(url){
+    var id = event.toElement.getAttribute("id");
+    var copy = event.toElement.getAttribute('copy');
+    var parameters = {};
+
+    if (id){
+        parameters.id = id;
+    }
+    if (copy){
+        parameters.copy = copy;
+    }
+
+    loadModal(url, parameters)
+}
 function loadModal(url, parameters, onSave){
+
     console.log('[ Application ] Load modal ' + url);
     PostReq(url, parameters, function(m){
         addModal(m, onSave);

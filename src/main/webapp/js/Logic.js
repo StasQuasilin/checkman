@@ -2,7 +2,7 @@
  * Created by quasilin on 13.03.2019.
  */
 var context;
-
+const xhr = new XMLHttpRequest();
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (debug) {
         console.log('[ Application Core ] Request to ' + url);
@@ -13,7 +13,7 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
             body[body.length] = k +'='+parametrs[k];
         }
     }
-    var xhr = new XMLHttpRequest();
+
     xhr.onload = function(e){
         if (xhr.readyState == 4){
             if (xhr.status == 200) {
@@ -29,7 +29,7 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
     if (url.substring(0, context.length) != context){
         url = context + url;
     }
-    xhr.open('POST', url);
+    xhr.open('POST', url, true);
     xhr.send(JSON.stringify(parametrs));
 }
 function PostApi(url, parameters, onSuccess, onError, debug){
