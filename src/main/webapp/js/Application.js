@@ -26,6 +26,7 @@ function loadContent(url){
             try {
                 stopContent();
             } catch (e) {
+                console.log(e)
             }
 
             $(content).html(e);

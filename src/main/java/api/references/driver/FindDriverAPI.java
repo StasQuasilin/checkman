@@ -32,7 +32,7 @@ public class FindDriverAPI extends IAPI{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         String key = (String) body.get(Constants.KEY);
-        log.info("Find driver by \'" + key + "\'");
+
         HashMap<Integer, Driver> result = new HashMap<>();
 
         find("person/forename", key, result);

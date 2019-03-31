@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.answers.IAnswer;
 import entity.transport.Driver;
 import entity.transport.Transportation;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 import utils.answers.SuccessAnswer;
@@ -27,9 +28,9 @@ public class SaveTransportationDriverAPI extends IAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
-        int transportationId = Integer.parseInt(body.get(Constants.TRANSPORTATION_ID));
-        int driverId = Integer.parseInt(body.get(Constants.DRIVER_ID));
+        JSONObject body = PostUtil.parseBodyJson(req);
+        long transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
+        long driverId = (long) body.get(Constants.DRIVER_ID);
         Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
         Driver driver = hibernator.get(Driver.class, "id", driverId);
         transportation.setDriver(driver);

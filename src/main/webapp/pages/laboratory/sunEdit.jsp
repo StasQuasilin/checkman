@@ -23,22 +23,30 @@
         humidity:0,
         soreness:0,
         oilImpurity:0,
-        acidValue:0
+        acidValue:0,
+        creator:${worker.id}
     }
     <c:if test="${not empty plan.transportation.sunAnalyses}">
     <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
     editor.addAnalyses(
         {
             id:${sun.analyses.id},
-            suniness:${sun.analyses.suniness},
+            oiliness:${sun.analyses.oiliness},
             humidity:${sun.analyses.humidity},
             soreness:${sun.analyses.soreness},
-            sunImpurity:${sun.analyses.sunImpurity},
-            acidValue:${sun.analyses.acidValue}
+            oilImpurity:${sun.analyses.oilImpurity},
+            acidValue:${sun.analyses.acidValue},
+            creator:${sun.analyses.createTime.creator.id}
         }
     );
     </c:forEach>
     </c:if>
+    <c:forEach items="${laborants}" var="l">
+    editor.laborants.push({
+        id:${l.id},
+        value:'${l.person.value}'
+    })
+    </c:forEach>
     if (editor.analyses.length == 0){
         editor.newAnalyses();
     }
@@ -154,6 +162,21 @@
             </td>
             <td>
                 <input id="acid" step="0.01" type="number" v-model="item.acidValue">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="creator">
+                    <fmt:message key="laboratory.creator"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <select style="width: 100%" v-model="item.creator">
+                    <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
+                </select>
             </td>
         </tr>
     </template>

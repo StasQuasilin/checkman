@@ -48,9 +48,9 @@ public class DealEdit extends IModal {
         req.setAttribute("products", hibernator.query(Product.class, null));
         req.setAttribute("documentOrganisations", hibernator.query(DocumentOrganisation.class, "active", true));
         req.setAttribute("units", hibernator.query(WeightUnit.class, null));
-        req.setAttribute("find_organisation", Branches.API.References.FIND_ORGANISATION);
-        req.setAttribute("parse_organisation", Branches.API.References.PARSE_ORGANISATION);
-        req.setAttribute("save_url", Branches.API.DEAL_SAVE);
+        req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
+        req.setAttribute("saveUrl", Branches.API.DEAL_SAVE);
         req.setAttribute("modalContent", "/pages/deals/dealEdit.jsp");
         show(req, resp);
     }

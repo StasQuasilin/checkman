@@ -1,62 +1,91 @@
-var findOrganisationUrl;
-var saveOrganisationUrl;
-var saveDealUrl;
-var dealId;
-var dealType;
-var date;
-var dateTo;
-var contragent;
-var contragentId;
-var realisationFrom;
-var product;
-var quantity;
-var price;
+var editor = new Vue({
+    el: '#editor',
+    data:{
+        api:{
+            findOrganisationUrl:'',
+            parseOrganisationUrl:'',
+            saveUrl:''
+        },
+        types:[],
+        realisations:[],
+        products:[],
+        units:[],
+        deal: {
+            id: -1,
+            type:'',
+            date: new Date().toISOString().substring(0, 10),
+            dateTo: new Date().toISOString().substring(0, 10),
+            contragent: -1,
+            realisation: -1,
+            product: -1,
+            quantity: 0,
+            unit:-1,
+            price: 0
+        },
+        contragentInput:'',
+        contragentName:'',
+        foundContragents:[],
+        fnd:-1
 
-$(document).ready(function(){
-    var modal = document.getElementById('modal-content');
+    },
+    methods:{
+        findOrganisation:function(){
+            const self = this;
+            if (event.keyCode >= 65 && event.keyCode <= 90) {
+                if (this.contragentInput) {
+                    clearTimeout(this.fnd);
+                    this.fnd = setTimeout(function () {
+                        var parameters = {};
+                        parameters.key = self.contragentInput;
+                        console.log(parameters)
+                        PostApi(self.api.findOrganisationUrl, parameters, function (a) {
+                            self.foundContragents = a;
+                        })
+                    }, 400)
+                }
+            } else if (event.key == 'Escape'){
+                this.foundContragents = [];
+                if (this.contragentName){
+                    this.contragentInput = this.contragentName;
+                } else {
+                    this.contragentInput = '';
+                }
+            }
+        },
+        parseOrganisation:function(){
+            if (this.foundContragents.length == 0 && this.contragentInput){
+                var parameters = {};
+                parameters.name = this.contragentInput;
+                const self = this;
+                PostApi(this.api.parseOrganisationUrl, parameters, function(a){
+                    self.deal.constagent = a.id;
+                    self.contragentInput = self.contragentName = a.value;
+                })
+            }
+        },
+        setContragent:function(contragent){
+            this.deal.contragent = contragent.id;
+            this.contragentInput = this.contragentName = contragent.value;
+            this.foundContragents = [];
 
-    dealId = GetChildElemById(modal, 'deal_id');
-    dealType = GetChildElemById(modal, 'type');
-    date = GetChildElemById(modal, 'date');
-    dateTo = GetChildElemById(modal, 'date_to');
-    contragentId = GetChildElemById(modal, 'contragent_id');
-    contragent = GetChildElemById(modal, 'contragent');
-    realisationFrom = GetChildElemById(modal, 'realisation');
-    product = GetChildElemById(modal, 'product');
-    quantity = GetChildElemById(modal, 'quantity');
-    price = GetChildElemById(modal, 'price');
-
-    contragent.onclick = function(){
-        contragent.select();
-    }
-    contragent.lock=true;
-    contragent.onchange= function(){
-        if (!contragent.lock){
-            contragentId.value = null;
+        },
+        save:function(){
+            PostApi(this.api.saveUrl, this.deal, function(a){
+                if (a.status == 'success'){
+                    closeModal();
+                }
+            })
+        },
+        init:function(){
+            if (this.realisations){
+                this.deal.realisation= this.realisations[0].id;
+            }
+            if (this.products){
+                this.deal.product = this.products[0].id;
+            }
+            if (this.units){
+                this.deal.unit = this.units[0].id;
+            }
         }
     }
-    contragent.onkeyup = find(
-        findOrganisationUrl, contragent,
-        GetChildElemById(modal, 'contragent-list'), function(e){
-            contragentId.value = e.id;
-            contragent.value = e.value;
-        }
-    );
-})
-function save(){
-    var parameters = {};
-    parameters.id = dealId.value;
-    parameters.type = dealType.value;
-    parameters.date = date.value;
-    parameters.date_to = dateTo.value;
-    parameters.organisation_id = contragentId.value;
-    parameters.organisation = contragent.value;
-    parameters.visibility = realisationFrom.value;
-    parameters.product_id = product.value;
-    parameters.quantity = quantity.value;
-    parameters.price = price.value;
-    PostApi(saveDealUrl, parameters, function(e){
-        console.log(e);
-        closeModal();
-    })
-}
+});

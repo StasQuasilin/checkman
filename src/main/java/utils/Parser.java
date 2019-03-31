@@ -4,6 +4,7 @@ import entity.transport.Transportation;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -74,10 +75,8 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        for (Transportation transportation : Hibernator.getInstance().query(Transportation.class, null)){
-            System.out.println(JsonParser.toJson(transportation));
-        }
-        HibernateSessionFactory.shutdown();
+        String date = "2019-03-31";
+        System.out.println(Date.valueOf(date));
     }
 
 

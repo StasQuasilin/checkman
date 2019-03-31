@@ -57,6 +57,22 @@
                     <fmt:message key="no.data"/>
                 </span>
             </span>
+            <div style="display: inline-block; font-size: 10pt">
+                <div v-for="sun in value.item.transportation.analyses.sun">
+                    <fmt:message key="sun.humidity"/>:{{sun.humidity}},
+                    <fmt:message key="sun.soreness"/>:{{sun.soreness}},
+                    <fmt:message key="sun.oil.impurity"/>:
+                </div>
+                <div v-for="oil in value.item.transportation.analyses.oil">
+                    --oil
+                </div>
+                <div v-for="cake in value.item.transportation.analyses.cake">
+                    <fmt:message key="sun.humidity"/>:{{cake.humidity}},
+                    <fmt:message key="cake.protein"/>:{{cake.protein}},
+                    <fmt:message key="cake.cellulose"/>:{{cake.cellulose}},
+                    <fmt:message key="sun.oiliness"/>:{{cake.oiliness}}
+                </div>
+            </div>
         </div>
     </div>
 </transition-group>

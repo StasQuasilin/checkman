@@ -8,6 +8,7 @@ import entity.documents.LoadPlan;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -24,28 +25,41 @@ import java.util.HashMap;
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_CAKE)
-public class EditCake extends IAPI {
+public class EditCakeAPI extends IAPI {
+    
+    private final Logger log = Logger.getLogger(EditCakeAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         long planId = (long) body.get(Constants.PLAN);
+        log.info("Edit CAKE analyses for plan \'" + planId + "\'...");
+        
         LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
 
         HashMap<Long, CakeTransportationAnalyses> map = new HashMap<>();
-
+        log.info("\tAlready have analyses:...");
         for (CakeTransportationAnalyses analyses : loadPlan.getTransportation().getCakeAnalyses()) {
-            map.put((long) analyses.getId(), analyses);
+            map.put((long) analyses.getAnalyses().getId(), analyses);
+            log.info("\t\t..." + Long.valueOf(analyses.getAnalyses().getId()));
         }
 
+        log.info("\tWill be...");
         for (Object o : (JSONArray) body.get("analyses")) {
             JSONObject a = (JSONObject) o;
 
             CakeTransportationAnalyses analyses;
             boolean save = false;
-            if (map.containsKey(Constants.ID)) {
-                long id = (long) a.get(Constants.ID);
+
+            long id=  -1;
+            if (a.containsKey(Constants.ID)){
+                id = (long) a.get(Constants.ID);
+            }
+            if (map.containsKey(id)) {
+                log.info("\t\t...Edit \'" + id + "\'");
                 analyses = map.remove(id);
             } else {
+                log.info("\t\t...Edit new");
                 analyses = new CakeTransportationAnalyses();
                 analyses.setTransportation(loadPlan.getTransportation());
                 analyses.setAnalyses(new CakeAnalyses());
@@ -56,6 +70,7 @@ public class EditCake extends IAPI {
 
 //            private float humidity;
             float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY)));
+            log.info("\t\tHumidity: " + humidity);
             if (cakeAnalyses.getHumidity() != humidity) {
                 cakeAnalyses.setHumidity(humidity);
                 save = true;
@@ -63,6 +78,7 @@ public class EditCake extends IAPI {
             
 //            private float protein;
             float protein = Float.parseFloat(String.valueOf(a.get(Constants.Cake.PROTEIN)));
+            log.info("\t\tProtein: " + protein);
             if (cakeAnalyses.getProtein() != protein) {
                 cakeAnalyses.setProtein(protein);
                 save = true;
@@ -70,6 +86,7 @@ public class EditCake extends IAPI {
 
 //            private float cellulose;
             float cellulose = Float.parseFloat(String.valueOf(a.get(Constants.Cake.CELLULOSE)));
+            log.info("\t\tCellulose: " + cellulose);
             if (cakeAnalyses.getCellulose() != cellulose) {
                 cakeAnalyses.setCellulose(cellulose);
                 save = true;
@@ -77,6 +94,7 @@ public class EditCake extends IAPI {
             
 //            private float oiliness;
             float oiliness = Float.parseFloat(String.valueOf(a.get(Constants.Sun.OILINESS)));
+            log.info("\t\tOiliness: " + oiliness);
             if (cakeAnalyses.getOiliness() != oiliness) {
                 cakeAnalyses.setOiliness(oiliness);
                 save = true;
@@ -90,7 +108,15 @@ public class EditCake extends IAPI {
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
-                createTime.setCreator(worker);
+                if (a.containsKey(Constants.CREATOR)){
+                    long creatorId = (long) a.get(Constants.CREATOR);
+                    log.info("\t\tHave creator");
+                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                } else {
+                    log.info("\t\tDoesn't have creator");
+                    createTime.setCreator(worker);
+                }
+                log.info("\t\tCreator: " + createTime.getCreator().getValue());
                 cakeAnalyses.setCreator(worker);
 
                 hibernator.save(cakeAnalyses.getCreateTime(), cakeAnalyses, analyses);

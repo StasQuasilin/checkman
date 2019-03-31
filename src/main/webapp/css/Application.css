@@ -1,6 +1,6 @@
 *{
     font-family: SegouUI, monospace;
-    color: #616161;
+    color: #333333;
     user-select: none;
 
 }
@@ -8,11 +8,11 @@ body{
     background-color: aliceblue;
 }
 button{
-    border: solid darkgray 1.2pt;
+    border: solid #7ecfcf 1.2pt;
     min-width: 70pt;
     border-radius: 8pt;
     font-size: 10pt;
-    color: gray;
+    background-color: whitesmoke;
 }
 input{
     border-radius: 8pt;

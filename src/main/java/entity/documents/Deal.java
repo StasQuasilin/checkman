@@ -4,6 +4,7 @@ import entity.DealType;
 import entity.Product;
 import entity.Worker;
 import entity.organisations.Organisation;
+import entity.weight.WeightUnit;
 import org.glassfish.jersey.server.BackgroundScheduler;
 import utils.DocumentUIDGenerator;
 
@@ -29,6 +30,7 @@ public class Deal extends IDocument{
     private Organisation organisation;
     private Product product;
     private float quantity;
+    private WeightUnit unit;
     private float price;
     private float done;
     private Worker creator;
@@ -111,6 +113,15 @@ public class Deal extends IDocument{
     }
     public void setQuantity(float quantity) {
         this.quantity = quantity;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "unit")
+    public WeightUnit getUnit() {
+        return unit;
+    }
+    public void setUnit(WeightUnit unit) {
+        this.unit = unit;
     }
 
     @Basic

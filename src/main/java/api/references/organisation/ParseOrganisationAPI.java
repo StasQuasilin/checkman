@@ -26,9 +26,9 @@ import java.util.regex.Pattern;
 public class ParseOrganisationAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
+        JSONObject body = PostUtil.parseBodyJson(req);
 
-        Organisation organisation = parse(body.get(Constants.NAME));
+        Organisation organisation = parse(String.valueOf(body.get(Constants.NAME)));
 
         hibernator.save(organisation);
         JSONObject json = JsonParser.toJson(organisation);

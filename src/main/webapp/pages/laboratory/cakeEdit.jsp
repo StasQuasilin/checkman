@@ -22,7 +22,8 @@
         humidity:0,
         protein:0,
         cellulose:0,
-        oiliness:0
+        oiliness:0,
+        creator:${worker.id}
     }
     <c:if test="${not empty plan.transportation.cakeAnalyses}">
     <c:forEach items="${plan.transportation.cakeAnalyses}" var="cake">
@@ -32,11 +33,18 @@
         humidity:${cake.analyses.humidity},
         protein:${cake.analyses.protein},
         cellulose:${cake.analyses.cellulose},
-        oiliness:${cake.analyses.oiliness}
+        oiliness:${cake.analyses.oiliness},
+        creator:${cake.analyses.createTime.creator.id}
     }
     );
     </c:forEach>
     </c:if>
+    <c:forEach items="${laborants}" var="l">
+    editor.laborants.push({
+        id:${l.id},
+        value:'${l.person.value}'
+    })
+    </c:forEach>
     if (editor.analyses.length == 0){
         editor.newAnalyses();
     }
@@ -140,6 +148,21 @@
             </td>
             <td>
                 <input id="oiliness" type="number" step="0.01" v-model="item.oiliness">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="creator">
+                    <fmt:message key="laboratory.creator"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <select style="width: 100%" v-model="item.creator">
+                    <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
+                </select>
             </td>
         </tr>
     </template>

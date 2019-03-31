@@ -5,6 +5,7 @@ import constants.Constants;
 import controllers.IModal;
 import entity.AnalysesType;
 import entity.documents.LoadPlan;
+import utils.TransportUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,6 +41,7 @@ public class LaboratoryEdit extends IModal {
                 req.setAttribute("saveUrl", Branches.API.LABORATORY_SAVE_CAKE);
                 break;
         }
+        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         show(req, resp);
     }
 }

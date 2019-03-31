@@ -36,26 +36,30 @@ import java.util.List;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.DEAL_SAVE)
-public class DealSaveAPI extends IChangeAPI{
+public class SaveDealAPI extends IChangeAPI{
 
     private final DealComparator comparator = new DealComparator();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
-
+        System.out.println(body);
         Deal deal;
         Worker worker = getWorker(req);
-        boolean writeChanges = false;
+        boolean save = false;
 
-        if (body.containsKey(Constants.ID)){
-            long id = (long) body.get(Constants.ID);
+        long id = -1;
+
+        if (body.containsKey(Constants.ID)) {
+            id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
+        }
+        if (id != -1){
             deal = hibernator.get(Deal.class, Constants.ID, id);
         } else {
             deal = new Deal();
             deal.setCreator(worker);
             deal.setUid(DocumentUIDGenerator.generateUID());
-            writeChanges = true;
+            save = true;
         }
 
         comparator.fix(deal);
@@ -65,59 +69,58 @@ public class DealSaveAPI extends IChangeAPI{
 
         if (deal.getDate() == null || !deal.getDate().equals(date)){
             deal.setDate(date);
-            writeChanges = true;
+            save = true;
         }
 
         if (deal.getDateTo() == null || !deal.getDateTo().equals(dateTo)){
             deal.setDateTo(dateTo);
-            writeChanges = true;
+            save = true;
         }
 
         DealType type = DealType.valueOf(String.valueOf(body.get(Constants.TYPE)));
         if (deal.getType() == null || deal.getType() != type){
             deal.setType(type);
-            writeChanges = true;
+            save = true;
         }
 
         Organisation organisation;
-        try {
-            long organisationId = (long) body.get(Constants.ORGANISATION_ID);
+        long organisationId = (long) body.get(Constants.CONTRAGENT);
+        if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisationId){
             organisation = hibernator.get(Organisation.class, "id", organisationId);
-        } catch (Exception ignored){
-            organisation = ParseOrganisationAPI.parse(String.valueOf(body.get(Constants.ORGANISATION)));
-            hibernator.save(organisation);
-        }
-
-        if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisation.getId()){
             deal.setOrganisation(organisation);
-            writeChanges = true;
+            save = true;
         }
 
-        Product product = hibernator.get(Product.class, "id", (long)(body.get(Constants.PRODUCT_ID)));
+        Product product = hibernator.get(Product.class, "id", body.get(Constants.PRODUCT));
         if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()){
             deal.setProduct(product);
-            writeChanges = true;
+            save = true;
         }
 
         float quantity = Float.parseFloat(String.valueOf(body.get(Constants.QUANTITY)));
         if (deal.getQuantity() != quantity){
             deal.setQuantity(quantity);
-            writeChanges = true;
+            save = true;
         }
 
+        long unit = (long) body.get(Constants.UNIT);
+        if (deal.getUnit() == null || deal.getUnit().getId() != unit){
+            deal.setUnit(UnitBox.getUnit(unit));
+            save = true;
+        }
         float price = Float.parseFloat(String.valueOf(body.get(Constants.PRICE)));
         if(deal.getPrice() != price){
             deal.setPrice(price);
-            writeChanges = true;
+            save = true;
         }
 
-        DocumentOrganisation dO = hibernator.get(DocumentOrganisation.class, "id", (long)(body.get(Constants.VISIBILITY)));
+        DocumentOrganisation dO = hibernator.get(DocumentOrganisation.class, "id", (body.get(Constants.REALISATION)));
         if (deal.getDocumentOrganisation() == null || deal.getDocumentOrganisation().getId() != dO.getId()){
             deal.setDocumentOrganisation(dO);
-            writeChanges = true;
+            save = true;
         }
 
-        if (writeChanges) {
+        if (save) {
             hibernator.save(deal);
             try {
                 comparator.compare(deal, worker);
@@ -126,10 +129,8 @@ public class DealSaveAPI extends IChangeAPI{
             }
         }
 
-        JSONObject json = JsonParser.toJson(deal);
-        write(resp, json.toJSONString());
+        write(resp, answer);
 
-        json.clear();
         body.clear();
 
     }

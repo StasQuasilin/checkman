@@ -10,7 +10,7 @@ public class Constants {
     public static final String NAME = "name";
     public static final String KEY = "key";
     public static final String DATE = "date";
-    public static final String DATE_TO = "date_to";
+    public static final String DATE_TO = "dateTo";
     public static final String ORGANISATION_ID = "organisation_id";
     public static final String DEAL_ID = "deal_id";
     public static final String PRODUCT_ID = "product_id";
@@ -29,6 +29,12 @@ public class Constants {
     public static final String VEHICLE_ID = "vehicle_id";
     public static final String WEIGHTS = "weights";
     public static final String COPY = "copy";
+    public static final String HASH = "hash";
+    public static final String CREATOR = "creator";
+    public static final String UNIT = "unit";
+    public static final String CONTRAGENT = "contragent";
+    public static final String PRODUCT = "product";
+    public static final String REALISATION = "realisation";
 
 
     public static class Languages {
@@ -71,6 +77,8 @@ public class Constants {
         public static final String EXTRACTION_RAW = "title.extraction.raw.edit";
         public static final String EXTRACTION_OIL = "title.extraction.oil.edit";
         public static final String DEAL_DELETE = "title.deal.delete";
+        public static final String SUMMARY_LIST = "title.summary.list";
+        public static final String SUMMARY_SHOW = "title.summary.show";
     }
 
     public class Vehicle {

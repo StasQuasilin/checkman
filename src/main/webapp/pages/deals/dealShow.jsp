@@ -157,10 +157,10 @@
                               >
                         <template v-slot:activator="{ on }">
                           <input style="width: 7em"
-                                  v-model="value.item.date"
+                                  v-model="new Date(value.item.date).toLocaleDateString()"
                                   readonly
                                   v-on="on"
-                                  ></input>
+                                  />
                         </template>
                         <v-date-picker v-model="value.item.date" @input="value.picker = false"></v-date-picker>
                       </v-menu>

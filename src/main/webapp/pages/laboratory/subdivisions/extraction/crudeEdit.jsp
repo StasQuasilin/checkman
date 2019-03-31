@@ -75,8 +75,8 @@
                 for (var t in this.times){
                     var time = this.times[t];
                     var date = new Date();
-                    date.setHours(time.hour)
-                    date.setMinutes(time.minute)
+                    date.setHours(time.hour);
+                    date.setMinutes(time.minute);
 
                     var d = Math.abs((date.getHours() * 60 + date.getMinutes()) - (now.getHours() * 60 + now.getMinutes()));
                     if (d < min){
@@ -121,7 +121,7 @@
             :
         </td>
         <td>
-            <select v-model="time">
+            <select id="time" v-model="time">
                 <option v-for="time in times">
                     {{time.hour}}:{{time.minute}}
                 </option>

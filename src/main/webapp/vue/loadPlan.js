@@ -15,7 +15,7 @@ var plan = new Vue({
         quantity:0,
         customer:'',
         customers:{},
-        plans:{},
+        plans:[],
         findVehicles:{},
         findDrivers:{},
         fnd:-1,
@@ -25,12 +25,10 @@ var plan = new Vue({
     methods:{
         newPlan:function(){
             this.add({
-                id:-1,
-                date: new Date().toLocaleDateString(),
+                date: new Date().toISOString().substring(0, 10),
                 plan:0,
                 customer:this.customers[this.customer].id,
                 transportation:{
-                    temp:randomUUID(),
                     vehicle:{},
                     driver:{}
                 }
@@ -74,8 +72,7 @@ var plan = new Vue({
             item.driverInput = '';
 
             item.item = plan;
-            Vue.set(this.plans, plan.id, item);
-            this.planId++
+            this.plans.push(item);
         },
         update:function(plan){
             this.plans[plan.id].item = plan;
@@ -89,20 +86,22 @@ var plan = new Vue({
             var plans = [];
 
             for (var i in this.plans){
-                var p = this.plans[i].item;
-                var plan = {};
+                if (this.plans.hasOwnProperty(i)) {
+                    var p = this.plans[i].item;
+                    var plan = {};
 
-                plan.id = p.id;
-                plan.date = p.date;
-                plan.plan = p.plan;
-                plan.customer = p.customer;
-                if (p.transportation.vehicle.id){
-                    plan.vehicle = p.transportation.vehicle.id;
+                    plan.id = p.id;
+                    plan.date = p.date;
+                    plan.plan = p.plan;
+                    plan.customer = p.customer;
+                    if (p.transportation.vehicle.id) {
+                        plan.vehicle = p.transportation.vehicle.id;
+                    }
+                    if (p.transportation.driver.id) {
+                        plan.driver = p.transportation.driver.id;
+                    }
+                    plans.push(plan);
                 }
-                if (p.transportation.driver.id){
-                    plan.driver = p.transportation.driver.id;
-                }
-                plans.push(plan);
             }
             parameters.plans = plans;
 

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9237fb67-9588-4033-8a3a-4b06c82b3e9a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/department/DepartmentList.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryList.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/probe/ProbeList.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp" />

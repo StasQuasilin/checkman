@@ -52,6 +52,8 @@
         <mapping class="entity.laboratory.transportation.OilTransportationAnalyses"/>
         <mapping class="entity.laboratory.transportation.CakeTransportationAnalyses"/>
         <mapping class="entity.Subdivision"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.ExtractionCrude"/>
+
 
 
     </session-factory>

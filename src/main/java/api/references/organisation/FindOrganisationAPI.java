@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.organisations.Organisation;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 
@@ -25,8 +26,8 @@ import java.util.stream.Collectors;
 public class FindOrganisationAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
-        String key = body.get(Constants.KEY);
+        JSONObject body = PostUtil.parseBodyJson(req);
+        String key = String.valueOf(body.get(Constants.KEY));
 
         List<Organisation> organisations = hibernator.find(Organisation.class, "name", key);
         JSONArray array = organisations.stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));

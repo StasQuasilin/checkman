@@ -2,7 +2,7 @@ Vue.component('date-picker', {
     data:function(){
         return {
             show:true,
-            date: new Date(),
+            date: new Date().toLocaleDateString(),
             day:'',
             month:2,
             year:0,
@@ -18,7 +18,7 @@ Vue.component('date-picker', {
                 'Сентябрь',
                 'Октябрь',
                 'Ноябрь',
-                'Декабрь',
+                'Декабрь'
             ],
             weekDays:[
                 'Пн',
@@ -27,49 +27,34 @@ Vue.component('date-picker', {
                 'Чт',
                 'Пт',
                 'Сб',
-                'Нд',
-            ],
+                'Нд'
+            ]
         }
     },
     methods:{
-        _show:function(){
-            this.show = !this.show
-        },
-        _switchMonth(d){
-            this.month += d;
-            if (this.month < 0){
-                this.month = 11;
-            }
-            if (this.month > 11){
-                this.month = 0;
-            }
-        }
-    },
-    mounted:function(){
-        this.month = this.date.getMonth()
-        this.year = this.date.getYear()
-    },
-    template:`
 
-        <div style="display: inline-block">
-            <input v-on:click="_show()" v-model="date.toLocaleDateString()">
-            <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(0, 132, 255, 0.13)">
-                <div v-show="show" id="picker" class="picker">
-                    <div class="picker-header">
-                        <span class="picker-button" v-on:click="_switchMonth(-1)">&lt;</span>
-                        <span class="month-holder">{{months[month]}}</span>
-                        <span class="picker-button" v-on:click="_switchMonth(1)">&gt;</span>
-                    </div>
-                    <span class="box" v-for="wd in weekDays">{{wd}}</span>
-                    <span v-for="i in 3">
-                        <span class="box" v-for="j in 7">
-                            {{i*j}}
-                        </span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        `
+    },
+    template:`<div style="display: inline-block;">
+                      <v-menu class="date-picker"
+                              v-model="show"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              lazy
+                              transition="scale-transition"
+                              offset-y
+                              full-width
+                              min-width="290px"
+                              >
+                        <template v-slot:activator="{ on }">
+                          <input style="width: 7em"
+                                  v-model="date"
+                                  readonly
+                                  v-on="on"
+                                  />
+                        </template>
+                        <v-date-picker v-model="date" @input="show = false"></v-date-picker>
+                      </v-menu>
+                      </div>`
 
 
 

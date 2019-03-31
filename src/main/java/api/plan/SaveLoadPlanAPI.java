@@ -1,6 +1,7 @@
 package api.plan;
 
 import api.IAPI;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.Deal;
@@ -50,9 +51,14 @@ public class SaveLoadPlanAPI extends IAPI{
         for (LoadPlan lp : hibernator.query(LoadPlan.class, "deal", deal)){
             planHashMap.put((long) lp.getId(), lp);
         }
+
         for (Object o : (JSONArray)body.get("plans")){
             JSONObject json = (JSONObject) o;
-            long id = (long) json.get("id");
+
+            long id = -1;
+            if (json.containsKey(Constants.ID)){
+               id = (long) json.get(Constants.ID);
+            }
 
             LoadPlan loadPlan;
             boolean save = false;
@@ -81,7 +87,7 @@ public class SaveLoadPlanAPI extends IAPI{
                 save = true;
             }
 
-            TransportCustomer customer = TransportCustomer.valueOf((String) json.get(Constants.CUSTOMER));
+            TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(json.get(Constants.CUSTOMER)));
             log.info("\t...Customer: \'" + customer.toString() + "\'" );
             if (loadPlan.getCustomer() != customer){
                 loadPlan.setCustomer(customer);
@@ -92,7 +98,6 @@ public class SaveLoadPlanAPI extends IAPI{
             if (loadPlan.getTransportation() == null){
                 transportation= new Transportation();
                 transportation.setCreator(getWorker(req));
-                TransportUtil.saveTransportation(transportation);
                 loadPlan.setTransportation(transportation);
                 save = true;
             } else {

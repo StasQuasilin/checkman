@@ -4,32 +4,57 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-    <link rel="stylesheet" type="text/css" href="${context}/datetimepicker/jquery.datetimepicker.css"/>
-    <script src="${context}/datetimepicker/jquery.js"></script>
-    <script src="${context}/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script src="${context}/vue/dealEdit.js"></script>
     <script>
-        findOrganisationUrl = '${find_organisation}';
-        saveDealUrl = '${save_url}';
+        <c:forEach items="${types}" var="t">
+        editor.types.push({
+            id:'${t}',
+            value:'<fmt:message key="${t}"/>'
+        })</c:forEach>
+        <c:forEach items="${products}" var="product">
+        editor.products.push({
+            id:${product.id},
+            value:'${product.name}'
+        })</c:forEach>
+        <c:forEach items="${documentOrganisations}" var="d">
+        editor.realisations.push({
+            id:${d.id},
+            value:'${d.value}'
+        })</c:forEach>
+        <c:forEach items="${units}" var="u">
+        editor.units.push({
+            id:${u.id},
+            value:'${u.name}'
+        })
+        </c:forEach>
+
+        editor.api.findOrganisationUrl = '${findOrganisation}';
+        editor.api.parseOrganisationUrl = '${parseOrganisation}';
+        editor.api.saveUrl = '${saveUrl}'
+        <c:choose>
+        <c:when test="${not empty deal}">
+        editor.deal.id = ${deal.id};
+        editor.deal.type = '${deal.type}';
+        editor.deal.date = '${deal.date}';
+        editor.deal.dateTo = '${deal.dateTo}';
+        editor.deal.contragent = ${deal.organisation.id};
+        editor.deal.realisation = ${deal.documentOrganisation.id};
+        editor.deal.product = ${deal.product.id};
+        editor.deal.quantity = ${deal.quantity};
+        <c:if test="${not empty deal.unit}">
+        editor.deal.unit = ${deal.unit.id};
+        </c:if>
+        editor.deal.price = ${deal.price};
+        editor.contragentInput = editor.contragentName = '${deal.organisation.value}';
+        </c:when>
+        <c:otherwise>
+        editor.deal.type = '${type}';
+        editor.init();
+        </c:otherwise>
+        </c:choose>
+
     </script>
-    <script>
-        $(function(){
-            $.datetimepicker.setLocale('${language}');
-            $('#date').datetimepicker({
-                lazyInit:true,
-                format:'d.m.Y',
-                timepicker: false,
-                dayOfWeekStart:1
-            });
-            $('#date_to').datetimepicker({
-                lazyInit:true,
-                format:'d.m.Y',
-                timepicker: false,
-                dayOfWeekStart:1
-            });
-        });
-    </script>
-    <table id="form">
+    <table id="editor" class="editor">
         <tr>
             <td>
                 <label for="type">
@@ -37,12 +62,8 @@
                 </label>
             </td>
             <td>
-                <input type="hidden" id="deal_id" value="${deal.id}">
-                <select id="type">
-                    <c:forEach items="${types}" var="t">
-                        <option value="${t}" <c:if test="${t eq type}">selected</c:if> >
-                            <fmt:message key="${t}"/> </option>
-                    </c:forEach>
+                <select id="type" v-model="deal.type">
+                    <option v-for="type in types" :value="type.id">{{type.value}}</option>
                 </select>
             </td>
         </tr>
@@ -53,9 +74,8 @@
                 </label>
             </td>
             <td>
-                <input id="date" readonly autocomplete="off" style="width: 65pt">
-                <label for="date_to">-</label>
-                <input id="date_to" readonly autocomplete="off" style="width: 65pt">
+                <input id="date" readonly autocomplete="off" v-model="new Date(deal.date).toLocaleDateString()" style="width: 7em">-
+                <input id="date_to" readonly autocomplete="off" v-model="new Date(deal.dateTo).toLocaleDateString()" style="width: 7em">
             </td>
         </tr>
         <tr>
@@ -65,9 +85,13 @@
                 </label>
             </td>
             <td>
-                <input type="hidden" id="contragent_id" value="${deal.organisation.id}">
-                <input id="contragent" autocomplete="off" style="width: 100%" value="${deal.organisation.value}">
-                <div id="contragent-list" class="custom-data-list"></div>
+                <input id="contragent" autocomplete="off" style="width: 100%"
+                       v-on:keyup="findOrganisation()"
+                       v-on:keyup.enter="parseOrganisation()"
+                       v-model="contragentInput"/>
+                <div id="contragent-list" class="custom-data-list">
+                    <div class="custom-data-list-item" v-for="contragent in foundContragents" v-on:click="setContragent(contragent)">{{contragent.value}}</div>
+                </div>
             </td>
         </tr>
         <tr>
@@ -77,10 +101,8 @@
                 </label>
             </td>
             <td>
-                <select id="realisation">
-                    <c:forEach items="${documentOrganisations}" var="dO">
-                        <option value="${dO.id}">${dO.value}</option>
-                    </c:forEach>
+                <select id="realisation" v-model="deal.realisation">
+                    <option v-for="realisation in realisations" :value="realisation.id">{{realisation.value}}</option>
                 </select>
             </td>
         </tr>
@@ -91,13 +113,8 @@
                 </label>
             </td>
             <td>
-                <select id="product">
-                    <c:forEach items="${products}" var="p">
-                        <option value="${p.id}"
-                                <c:if test="${dealProduct.product.id eq p.id}">selected</c:if> >
-                                ${p.name}
-                        </option>
-                    </c:forEach>
+                <select id="product" v-model="deal.product">
+                    <option v-for="product in products" :value="product.id">{{product.value}}</option>
                 </select>
             </td>
         </tr>
@@ -108,11 +125,9 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="quantity" value="${dealProduct.quantity}" autocomplete="off" style="width: 7em">
-                <select>
-                    <c:forEach items="${units}" var="unit">
-                        <option value="${unit.id}">${unit.name}</option>
-                    </c:forEach>
+                <input type="number" id="quantity" v-model="deal.quantity" autocomplete="off" style="width: 7em">
+                <select v-model="deal.unit">
+                    <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
                 </select>
             </td>
         </tr>
@@ -123,13 +138,13 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="price" value="${dealProduct.price}" autocomplete="off">
+                <input type="number" id="price" v-model="deal.price" autocomplete="off">
             </td>
         </tr>
         <tr>
             <td colspan="2" align="center">
                 <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>
-                <button onclick="save()"><fmt:message key="button.save"/> </button>
+                <button v-on:click="save()"><fmt:message key="button.save"/> </button>
             </td>
         </tr>
     </table>

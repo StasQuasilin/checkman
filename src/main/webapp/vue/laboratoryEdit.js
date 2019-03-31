@@ -13,7 +13,8 @@ var editor = new Vue({
             trailer:''
         },
         driver:'',
-        analyses:[]
+        analyses:[],
+        laborants:[]
     },
     methods:{
         newAnalyses:function(){

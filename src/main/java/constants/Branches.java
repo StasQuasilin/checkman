@@ -71,6 +71,7 @@ public class Branches {
         public static final String LABORATORY_SAVE_SUN = API + "/laboratory/save/sun";
         public static final String LABORATORY_SAVE_OIL = API + "/laboratory/save/oil";
         public static final String LABORATORY_SAVE_CAKE = API + "/laboratory/save/cake";
+        public static final String SUMMARY_SHOW =        API + "/summary/show";
 
 
         public class References {
