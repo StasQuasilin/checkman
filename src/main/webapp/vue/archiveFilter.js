@@ -1,0 +1,30 @@
+var fltr = new Vue({
+    el: '#filter',
+    data:{
+        products:[],
+        pages:[
+            {
+                id:1,
+                name:'today'
+            },
+            {
+                id:2,
+                name:'31.03.2019'
+            },
+            {
+                id:3,
+                name:'30.03.2019'
+            },
+            {
+                id:4,
+                name:'29.03.2019'
+            }
+        ],
+        t:'Ololo'
+    },
+    methods:{
+        clear:function(){
+            console.log('--clear--')
+        }
+    }
+});

@@ -16,6 +16,7 @@ public class SunProbe {
     private String organisation;
     private SunAnalyses analyses;
 
+
     @Id
     @GeneratedValue
     public int getId() {
@@ -50,5 +51,20 @@ public class SunProbe {
     }
     public void setAnalyses(SunAnalyses analyses) {
         this.analyses = analyses;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        if (manager != null) {
+            hash = 31 * manager.hashCode() + hash;
+        }
+        if (organisation != null) {
+            hash = 31 * organisation.hashCode() + hash;
+        }
+
+        hash = 31 * analyses.hashCode() + hash;
+
+        return hash;
     }
 }

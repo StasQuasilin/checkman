@@ -1,5 +1,6 @@
 package utils;
 
+import entity.AnalysesType;
 import entity.Person;
 import entity.Product;
 import entity.Worker;
@@ -9,6 +10,7 @@ import entity.documents.LoadPlan;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
+import entity.laboratory.probes.SunProbe;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
@@ -55,7 +57,7 @@ public class JsonParser {
         return json;
     }
 
-    private static JSONObject toJson(Worker worker) {
+    public static JSONObject toJson(Worker worker) {
         JSONObject json = new JSONObject();
         json.put("id", worker.getId());
         json.put("person", toJson(worker.getPerson()));
@@ -290,4 +292,19 @@ public class JsonParser {
     }
 
 
+    public static JSONObject toJson(SunProbe sun) {
+        JSONObject json = new JSONObject();
+        json.put("id", sun.getId());
+        json.put("type", AnalysesType.sun.toString());
+        json.put("date", sun.getAnalyses().getCreateTime().getTime().toString());
+        if (sun.getManager() != null) {
+            json.put("manager", toJson(sun.getManager()));
+        }
+        if (sun.getOrganisation() != null) {
+            json.put("organisation", sun.getOrganisation());
+        }
+        json.put("analyses", toJson(sun.getAnalyses()));
+        json.put("hash", sun.hashCode());
+        return json;
+    }
 }

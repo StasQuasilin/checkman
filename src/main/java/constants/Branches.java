@@ -89,7 +89,7 @@ public class Branches {
             public static final String FIND_VEHICLE =       API + "/vehicle/find";
             public static final String SAVE_VEHICLE =       API + "/vehicle/save";
             public static final String SAVE_DRIVER =        API + "/driver/save";
-            public static final String FIND_MANAGER =       API + "/manager/find";
+            public static final String FIND_WORKER =       API + "/worker/find";
         }
 
         public class Deal {

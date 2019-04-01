@@ -54,7 +54,7 @@ public class ProbeEdit extends IModal {
 
         }
         req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
-        req.setAttribute("findManager", Branches.API.References.FIND_MANAGER);
+        req.setAttribute("findManager", Branches.API.References.FIND_WORKER);
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         show(req, resp);
 

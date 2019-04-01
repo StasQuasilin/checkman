@@ -23,9 +23,9 @@ public class ProbeList extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.PROBE_LIST);
         req.setAttribute("content", "/pages/laboratory/probeList.jsp");
-        req.setAttribute("updateLink", Branches.API.PROBE_LIST);
-        req.setAttribute("showLink", Branches.UI.PROBE_SHOW);
-        req.setAttribute("editLink", Branches.UI.PROBE_EDIT);
+        req.setAttribute("updateURL", Branches.API.PROBE_LIST);
+        req.setAttribute("showURL", Branches.UI.PROBE_SHOW);
+        req.setAttribute("editURL", Branches.UI.PROBE_EDIT);
         List<String> analyses = new LinkedList<>();
         for (Product p : hibernator.query(Product.class, "analysesType", State.notNull)){
             String a = p.getAnalysesType().toString();
@@ -34,6 +34,7 @@ public class ProbeList extends IUIServlet {
             }
         }
         req.setAttribute("analysesTypes", analyses);
+        req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
         show(req, resp);
     }
 }

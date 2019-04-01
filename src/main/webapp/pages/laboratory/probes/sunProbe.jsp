@@ -12,17 +12,27 @@
   editor.api.saveAPI = '${saveApi}';
   <c:choose>
   <c:when test="${not empty probe}">
-
+  editor.probe={
+    id:${probe.id},
+    humidity:${probe.analyses.humidity},
+    soreness:${probe.analyses.soreness},
+    oiliness:${probe.analyses.oiliness},
+    oilImpurity:${probe.analyses.oilImpurity},
+    acidValue:${probe.analyses.acidValue},
+    organisation:${probe.organisation.value},
+    creator:${probe.analyses.createTime.creator.id}
+  }
+  editor.organisationInput=${probe.organisation.value};
   </c:when>
   <c:otherwise>
   editor.probe={
     humidity:0,
     soreness:0,
-    oilines:0,
+    oiliness:0,
     oilImpurity:0,
     acidValue:0,
     manager:-1,
-    contragent:'',
+    organisation:'',
     creator:${worker.id}
   }
   </c:otherwise>
@@ -58,7 +68,7 @@
       :
     </td>
     <td>
-      <input id="soreness" type="number" step="0.01" autocomplete="off">
+      <input id="soreness" type="number" step="0.01" autocomplete="off" v-model="probe.soreness">
     </td>
   </tr>
   <tr>
@@ -71,7 +81,7 @@
       :
     </td>
     <td>
-      <input id="oiliness" type="number" step="0.01" autocomplete="off">
+      <input id="oiliness" type="number" step="0.01" autocomplete="off" v-model="probe.oiliness">
     </td>
   </tr>
   <tr>
@@ -84,7 +94,7 @@
       :
     </td>
     <td>
-      <input id="oilImpurity" type="number" step="0.01" autocomplete="off">
+      <input id="oilImpurity" type="number" step="0.01" autocomplete="off" v-model="probe.oilImpurity">
     </td>
   </tr>
   <tr>
@@ -97,7 +107,7 @@
       :
     </td>
     <td>
-      <input id="acidValue" type="number" step="0.01" autocomplete="off">
+      <input id="acidValue" type="number" step="0.01" autocomplete="off" v-model="probe.acidValue">
     </td>
   </tr>
   <tr>
@@ -111,10 +121,10 @@
     </td>
     <td>
       <div>
-        <input id="manager">
+        <input id="manager" v-model="managerInput" v-on:keyup="findManager()" autocomplete="off">
         <div class="custom-data-list">
-          <div class="custom-data-list-item" v-for="manager in foundManagers">
-            {{manager.value}}
+          <div class="custom-data-list-item" v-for="manager in foundManagers" v-on:click="setManager(manager)">
+            {{manager.person.value}}
           </div>
         </div>
       </div>
@@ -131,9 +141,9 @@
     </td>
     <td>
       <div>
-        <input id="organisation">
-        <div class="custom-date-list">
-          <div class="custom-data-list-item" v-for="organisation in foundOrganisations">
+        <input id="organisation" v-model="probe.organisation" v-on:keyup="findOrganisation()" autocomplete="off">
+        <div class="custom-data-list">
+          <div class="custom-data-list-item" v-for="organisation in foundOrganisations" v-on:click="setOrganisation(organisation)">
             {{organisation.value}}
           </div>
         </div>
@@ -150,7 +160,7 @@
       :
     </td>
     <td>
-      <select style="width: 100%" v-model="probe.creator">
+      <select id="creator" style="width: 100%" v-model="probe.creator">
         <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
       </select>
     </td>
@@ -159,6 +169,9 @@
     <td colspan="3" align="center">
       <button onclick="closeModal()">
         <fmt:message key="button.close"/>
+      </button>
+      <button v-on:click="save">
+        <fmt:message key="button.save"/>
       </button>
     </td>
   </tr>
