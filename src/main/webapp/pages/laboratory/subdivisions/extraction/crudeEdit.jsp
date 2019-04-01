@@ -62,7 +62,8 @@
                 },
             ],
             date:'',
-            time:''
+            time:'',
+            picker: false
         },
         methods:{
             now:function(){
@@ -108,7 +109,25 @@
             :
         </td>
         <td>
-            <date-picker v-model="date"></date-picker>
+            <v-menu class="date-picker"
+                    v-model="picker"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                <template v-slot:activator="{ on }">
+                    <input style="width: 7em"
+                           v-model="new Date().toLocaleDateString()"
+                           readonly
+                           v-on="on"
+                            />
+                </template>
+                <v-date-picker v-model="date" @input="picker = false"></v-date-picker>
+            </v-menu>
         </td>
     </tr>
     <tr>

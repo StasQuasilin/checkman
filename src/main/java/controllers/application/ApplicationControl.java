@@ -33,6 +33,13 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("referencesList", Branches.UI.REFERENCES);
         req.setAttribute("admin", Branches.UI.ADMIN);
 
+        req.setAttribute("shortCutUpdate", Branches.ShortCuts.UPDATE);
+        Role role = Role.valueOf(String.valueOf(req.getSession().getAttribute("role")));
+        switch (role){
+            case manager:
+
+        }
+
         req.getRequestDispatcher("/pages/Application.jsp").forward(req, resp);
     }
 }

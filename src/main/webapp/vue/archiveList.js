@@ -74,6 +74,10 @@ var list = new Vue({
                     }
                 }
             }
+        },
+        stopContent:function(){
+            console.log('Stop archive list');
+            clearTimeout(this.upd);
         }
     }
 });

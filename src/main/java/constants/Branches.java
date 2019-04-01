@@ -98,4 +98,11 @@ public class Branches {
             public static final String DELETE_PRODUCT = DEAL + "/product/delete";
         }
     }
+
+    public class ShortCuts {
+        public static final String SHORT_CUTS = "/api/short";
+        public static final String UPDATE = SHORT_CUTS + "/update";
+        public static final String MANAGER = SHORT_CUTS + "/manager";
+
+    }
 }

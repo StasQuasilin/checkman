@@ -3,6 +3,7 @@ package api.laboratory.probes;
 import api.IAPI;
 import constants.Branches;
 import entity.AnalysesType;
+import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 import org.json.simple.JSONArray;
@@ -56,6 +57,18 @@ public class ProbeListAPI extends IAPI {
                     }
                 } else {
                     add.add(JsonParser.toJson(sun));
+                }
+            }
+            List<OilProbe> oilProbes = hibernator.LimitQuery(OilProbe.class, parameters, LIMIT);
+            for (OilProbe oil : oilProbes){
+                String id = String.valueOf(oil.getId());
+                if (items.containsKey(id)){
+                    long hash = (long) items.remove(id);
+                    if (oil.hashCode() != hash){
+                        update.add(JsonParser.toJson(oil));
+                    }
+                } else {
+                    add.add(JsonParser.toJson(oil));
                 }
             }
         }

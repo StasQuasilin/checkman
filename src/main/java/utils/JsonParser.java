@@ -10,6 +10,7 @@ import entity.documents.LoadPlan;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
+import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
@@ -217,7 +218,7 @@ public class JsonParser {
 //        private float acidValue;
         json.put("acidValue", analyses.getAcidValue());
 //        private ActionTime createTime;
-        json.put("createTime", toJson(analyses.getCreateTime()));
+        json.put("create", toJson(analyses.getCreateTime()));
 //        private Worker creator;
         if (analyses.getCreator() != null) {
             json.put("creator", toJson(analyses.getCreator()));
@@ -305,6 +306,22 @@ public class JsonParser {
         }
         json.put("analyses", toJson(sun.getAnalyses()));
         json.put("hash", sun.hashCode());
+        return json;
+    }
+
+    public static JSONObject toJson(OilProbe oil) {
+        JSONObject json = new JSONObject();
+        json.put("id", oil.getId());
+        json.put("type", AnalysesType.oil.toString());
+        json.put("date", oil.getAnalyses().getCreateTime().getTime().toString());
+        if (oil.getManager() != null) {
+            json.put("manager", toJson(oil.getManager()));
+        }
+        if (oil.getOrganisation() != null) {
+            json.put("organisation", oil.getOrganisation());
+        }
+        json.put("analyses", toJson(oil.getAnalyses()));
+        json.put("hash", oil.hashCode());
         return json;
     }
 }

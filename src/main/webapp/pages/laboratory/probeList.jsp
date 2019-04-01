@@ -35,7 +35,7 @@
             </span>
             <span>
                 <fmt:message key="laboratory.creator"/>:<b>
-                {{item.item.analyses.createTime.creator.person.value}}
+                {{item.item.analyses.create.creator.person.value}}
             </b>
             </span>
         </div>
@@ -53,7 +53,16 @@
                 {{item.item.analyses.acidValue}}
             </template>
             <template v-if="item.item.type == 'oil'">
-                sun
+                <fmt:message key="oil.color.value"/>:
+                {{item.item.analyses.color}},
+                <fmt:message key="sun.acid.value"/>:
+                {{item.item.analyses.acid}},
+                <fmt:message key="oil.peroxide"/>:
+                {{item.item.analyses.peroxide}},
+                <fmt:message key="oil.phosphorus"/>:
+                {{item.item.analyses.phosphorus}},
+                <fmt:message key="oil.wax"/>
+                {{item.item.analyses.wax}}
             </template>
         </div>
     </div>

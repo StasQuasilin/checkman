@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.AnalysesType;
+import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import utils.TransportUtil;
 import utils.U;
@@ -40,8 +41,9 @@ public class ProbeEdit extends IModal {
             case oil:
                 req.setAttribute("title", Constants.Titles.PROBE_OIL_EDIT);
                 req.setAttribute("saveApi", Branches.API.PROBE_OIL_SAVE);
+                req.setAttribute("modalContent", "/pages/laboratory/probes/oilProbe.jsp");
                 if (id != -1){
-//                    req.setAttribute("probe", hibernator.get(OilProbe.class, "id", id));
+                    req.setAttribute("probe", hibernator.get(OilProbe.class, "id", id));
                 }
                 break;
             case cake:

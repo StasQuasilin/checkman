@@ -54,6 +54,8 @@
         <mapping class="entity.Subdivision"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionCrude"/>
         <mapping class="entity.laboratory.probes.SunProbe"/>
+        <mapping class="entity.laboratory.probes.OilProbe"/>
+        <mapping class="entity.production.Turn"/>
 
 
 

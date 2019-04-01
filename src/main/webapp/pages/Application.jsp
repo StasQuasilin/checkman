@@ -1,7 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<fmt:setLocale value=""/>
+<fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
@@ -26,11 +26,11 @@
 </div>
 <table border="1" style="width: 100%; height: 100%">
     <tr>
-        <td rowspan="2" valign="top">
+        <td rowspan="2" valign="top" style="height: 40%; width: 1px">
             <jsp:include page="NavigationMenu.jsp"/>
 
         </td>
-        <td width="80%">
+        <td width="50%">
             <div class="header" id="header"></div>
         </td>
         <td>
@@ -38,14 +38,12 @@
             ${worker.value}
           </div>
         </td>
-        <td rowspan="3" >
-            <div style="width: 100%;">
-
-            </div>
+        <td rowspan="3" width="400px" >
+            <jsp:include page="ShortCuts.jsp"/>
         </td>
     </tr>
     <tr>
-        <td rowspan="2" colspan="2" height="100%" style="max-width: 1266px; width: 100%">
+        <td rowspan="2" colspan="2" height="100%" style="max-width: 1266px; width: 1px">
             <div class="content" id="content"></div>
         </td>
     </tr>

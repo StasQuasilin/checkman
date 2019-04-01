@@ -1,7 +1,9 @@
 .navigation-menu{
     background-color: #d3dbe2;
     padding: 4pt;
-    width: 180px;
+    width: 190px;
+    overflow-y: scroll;
+    height: 300px;
 }
 .navigation-menu ul{
     padding-left: 0;
