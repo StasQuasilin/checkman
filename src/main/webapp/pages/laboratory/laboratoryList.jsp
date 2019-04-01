@@ -61,10 +61,12 @@
                 <div v-for="sun in value.item.transportation.analyses.sun">
                     <fmt:message key="sun.humidity"/>:{{sun.humidity}},
                     <fmt:message key="sun.soreness"/>:{{sun.soreness}},
-                    <fmt:message key="sun.oil.impurity"/>:
+                    <fmt:message key="sun.oiliness"/>:{{sun.oiliness}}
                 </div>
                 <div v-for="oil in value.item.transportation.analyses.oil">
-                    --oil
+                    <fmt:message key="sun.acid.value"/>:{{oil.acid}},
+                    <fmt:message key="oil.peroxide"/>:{{oil.peroxide}},
+                    <fmt:message key="oil.phosphorus"/>:{{oil.phosphorus}}
                 </div>
                 <div v-for="cake in value.item.transportation.analyses.cake">
                     <fmt:message key="sun.humidity"/>:{{cake.humidity}},

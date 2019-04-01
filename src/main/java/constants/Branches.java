@@ -32,7 +32,7 @@ public class Branches {
         public static final String LABORATORY_SELL = LABORATORY + "?type=sell";
         public static final String REFERENCES = "/references.j";
         public static final String ADMIN = "/admin.j";
-        public static final String EDIT_PROBE = "/laboratory/probe/edit.j";
+        public static final String PROBE_EDIT = "/laboratory/probe/edit.j";
         public static final String PROBE_SHOW = "/laboratory/probe/show.j";
         public static final String LABORATORY_EDIT = "/laboratory/show.j";
         public static final String DEAL_DELETE = "/deal/delete.j";
@@ -72,6 +72,9 @@ public class Branches {
         public static final String LABORATORY_SAVE_OIL = API + "/laboratory/save/oil";
         public static final String LABORATORY_SAVE_CAKE = API + "/laboratory/save/cake";
         public static final String SUMMARY_SHOW =        API + "/summary/show";
+        public static final String PROBE_SUN_SAVE =     API + "/probe/sun/save";
+        public static final String PROBE_OIL_SAVE =     API + "/probe/oil/save";
+        public static final String PROBE_CAKE_SAVE =     API + "/probe/cake/save";
 
 
         public class References {
@@ -86,6 +89,7 @@ public class Branches {
             public static final String FIND_VEHICLE =       API + "/vehicle/find";
             public static final String SAVE_VEHICLE =       API + "/vehicle/save";
             public static final String SAVE_DRIVER =        API + "/driver/save";
+            public static final String FIND_MANAGER =       API + "/manager/find";
         }
 
         public class Deal {

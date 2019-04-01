@@ -53,6 +53,7 @@
         <mapping class="entity.laboratory.transportation.CakeTransportationAnalyses"/>
         <mapping class="entity.Subdivision"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionCrude"/>
+        <mapping class="entity.laboratory.probes.SunProbe"/>
 
 
 

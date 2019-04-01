@@ -6,7 +6,7 @@
 <html>
 <div id="container-header" style="display: inline">
     <c:forEach items="${analysesTypes}" var="a">
-        <button onclick="loadModal('${editLink}')">
+        <button onclick="loadModal('${editLink}?type=${a}')">
             <fmt:message key="button.do"/>
             <fmt:message key="${a}"/>
         </button>

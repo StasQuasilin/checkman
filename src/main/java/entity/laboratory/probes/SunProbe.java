@@ -1,0 +1,54 @@
+package entity.laboratory.probes;
+
+import entity.Worker;
+import entity.laboratory.SunAnalyses;
+
+import javax.persistence.*;
+
+/**
+ * Created by quasilin on 01.04.2019.
+ */
+@Entity
+@Table(name = "probe_sun")
+public class SunProbe {
+    private int id;
+    private Worker manager;
+    private String organisation;
+    private SunAnalyses analyses;
+
+    @Id
+    @GeneratedValue
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "manager")
+    public Worker getManager() {
+        return manager;
+    }
+    public void setManager(Worker manager) {
+        this.manager = manager;
+    }
+
+    @Basic
+    @Column(name = "organisation")
+    public String getOrganisation() {
+        return organisation;
+    }
+    public void setOrganisation(String organisation) {
+        this.organisation = organisation;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "analyses")
+    public SunAnalyses getAnalyses() {
+        return analyses;
+    }
+    public void setAnalyses(SunAnalyses analyses) {
+        this.analyses = analyses;
+    }
+}

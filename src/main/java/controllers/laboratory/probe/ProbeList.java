@@ -4,7 +4,6 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
 import entity.Product;
-import utils.hibernate.DateContainers.NOT;
 import utils.hibernate.State;
 
 import javax.servlet.ServletException;
@@ -26,7 +25,7 @@ public class ProbeList extends IUIServlet {
         req.setAttribute("content", "/pages/laboratory/probeList.jsp");
         req.setAttribute("updateLink", Branches.API.PROBE_LIST);
         req.setAttribute("showLink", Branches.UI.PROBE_SHOW);
-        req.setAttribute("editLink", Branches.UI.EDIT_PROBE);
+        req.setAttribute("editLink", Branches.UI.PROBE_EDIT);
         List<String> analyses = new LinkedList<>();
         for (Product p : hibernator.query(Product.class, "analysesType", State.notNull)){
             String a = p.getAnalysesType().toString();

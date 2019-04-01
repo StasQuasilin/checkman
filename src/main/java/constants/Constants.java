@@ -79,6 +79,9 @@ public class Constants {
         public static final String DEAL_DELETE = "title.deal.delete";
         public static final String SUMMARY_LIST = "title.summary.list";
         public static final String SUMMARY_SHOW = "title.summary.show";
+        public static final String PROBE_SUN_EDIT = "title.probe.sun";
+        public static final String PROBE_OIL_EDIT = "title.probe.oil";
+        public static final String PROBE_CAKE_EDIT = "title.probe.cake";
     }
 
     public class Vehicle {
