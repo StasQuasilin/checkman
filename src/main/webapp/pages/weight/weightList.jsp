@@ -13,7 +13,7 @@
     deamon.types['${t}'] = '<fmt:message key="_${t}"/> '
     </c:forEach>
 </script>
-<div class="container" id="container" >
+<transition-group  name="flip-list" tag="div" class="container" id="container" >
     <div v-for="(value, key) in items" v-bind:key="key" v-bind:id="value.item.id"
      class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)">
         <div class="upper-row">
@@ -92,17 +92,14 @@
                     </template>
                 </div>
             </div>
-
-            <span>
-                <fmt:message key="weight.brutto"/>:
-            </span>
-            <span>
-                <fmt:message key="weight.tara"/>:
-            </span>
-            <span>
-                <fmt:message key="weight.netto"/>:
-            </span>
+            <div style="display: inline-block; font-size: 10pt">
+                <div v-for="weight in value.item.transportation.weights">
+                    <fmt:message key="weight.brutto"/>:{{weight.brutto}},
+                    <fmt:message key="weight.tara"/>:{{weight.tara}},
+                    <fmt:message key="weight.netto"/>:{{weight.brutto > 0 && weight.tara > 0 ? (weight.brutto - weight.tara).toLocaleString() : 0}}
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</transition-group>
 </html>

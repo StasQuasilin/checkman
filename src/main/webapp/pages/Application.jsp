@@ -10,7 +10,9 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
     <%--<link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">--%>
     <%--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">--%>
-
+    <title>
+        <fmt:message key="application.title"/>
+    </title>
     <link rel="stylesheet" href="${context}/css/Application.css">
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -23,6 +25,7 @@
 <body style="margin: 0">
 <div class="coverlet" id="coverlet"></div>
 <div class="modal-layer" style="display: none" id="modal">
+
 </div>
 <table border="1" style="width: 100%; height: 100%">
     <tr>
@@ -30,15 +33,15 @@
             <jsp:include page="NavigationMenu.jsp"/>
 
         </td>
-        <td width="50%">
+        <td width="806px">
             <div class="header" id="header"></div>
         </td>
-        <td>
+        <td width="240px">
           <div class="header">
             ${worker.value}
           </div>
         </td>
-        <td rowspan="3" width="400px" >
+        <td rowspan="3">
             <jsp:include page="ShortCuts.jsp"/>
         </td>
     </tr>

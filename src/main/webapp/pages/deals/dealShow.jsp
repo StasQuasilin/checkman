@@ -137,8 +137,8 @@
           <tr>
             <td colspan="4">
               <%--TABLE--%>
-              <div class="plan-container">
-                <div v-for="(value, key) in plans" class="plan-item">
+              <transition-group name="flip-list" tag="div" class="plan-container">
+                <div v-for="(value, key) in plans" v-bind:key="value.item.id" class="plan-item">
                   <%--UPPER ROW--%>
                   <div class="upper">
                     <%--REMOVE BUTTON--%>
@@ -223,7 +223,7 @@
                     </button>
                   </div>
                 </div>
-              </div>
+              </transition-group>
             </td>
           </tr>
           <tr>

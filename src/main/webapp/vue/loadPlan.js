@@ -51,17 +51,26 @@ var plan = new Vue({
             PostApi(this.api.updateAPI, parameters, function(p){
                 if (p.add.length || p.update.length || p.remove.length) {
                     console.log(p);
+                    for (var a in p.add){
+                        if (p.add.hasOwnProperty(a)) {
+                            self.add(p.add[a])
+                        }
+                    }
+                    for (var u in p.update){
+                        if (p.update.hasOwnProperty(u)) {
+                            self.update(p.update[u])
+                        }
+                    }
+
+                    self.plans.sort(function(a, b){
+                        return new Date(a.item.date) - new Date(b.item.date);
+                    })
                 }
-                for (var a in p.add){
-                    self.add(p.add[a])
-                }
-                for (var u in p.update){
-                    self.update(p.update[u])
-                }
-                setTimeout(function () {
-                    self.loadPlan();
-                }, 1000)
-            })
+
+            });
+            this.upd = setTimeout(function () {
+                self.loadPlan();
+            }, 1000)
         },
         add:function(plan){
             //plan.date = new Date(plan.date).toLocaleDateString();
@@ -87,20 +96,7 @@ var plan = new Vue({
 
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)) {
-                    var p = this.plans[i].item;
-                    var plan = {};
-
-                    plan.id = p.id;
-                    plan.date = p.date;
-                    plan.plan = p.plan;
-                    plan.customer = p.customer;
-                    if (p.transportation.vehicle.id) {
-                        plan.vehicle = p.transportation.vehicle.id;
-                    }
-                    if (p.transportation.driver.id) {
-                        plan.driver = p.transportation.driver.id;
-                    }
-                    plans.push(plan);
+                    plans.push(this.plans[i].item);
                 }
             }
             parameters.plans = plans;

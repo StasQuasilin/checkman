@@ -1,6 +1,7 @@
 package utils;
 
 import constants.Constants;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class PostUtil {
 
     final static JSONParser parser = new JSONParser();
+    final static Logger log = Logger.getLogger(PostUtil.class);
 
     public static synchronized HashMap<String, String> parseBody(HttpServletRequest req) throws IOException {
         HashMap<String,String> result = new HashMap<>();
@@ -44,7 +46,7 @@ public class PostUtil {
         try {
             return (JSONObject) parser.parse(req.getReader());
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.warn(e.getMessage());
         }
 
         return empty;

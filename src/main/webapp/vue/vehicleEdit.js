@@ -45,7 +45,6 @@ var editor = new Vue({
             PostApi(this.api.saveVehicleAPI, result, function(a){
                 console.log(a);
                 saveModal(a);
-                closeModal();
             })
 
         },

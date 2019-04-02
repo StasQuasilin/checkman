@@ -31,10 +31,12 @@ var deamon = new Vue({
         update:function(item){
             for(var i in this.items){
                 if (this.items.hasOwnProperty(i)) {
-                    if (this.items[i].item.id === item.id) {
-                        this.items[i].className = 'container-item-' + new Date(item.date).getDay();
-                        this.items[i].item=item;
-                        break
+                    if (this.items[i].item.id == item.id) {
+                        var data = {};
+                        data.className = 'container-item-' + new Date(item.date).getDay();
+                        data.item = item;
+                        this.items.splice(i, 1, data);
+                        break;
                     }
                 }
             }
@@ -56,9 +58,9 @@ var deamon = new Vue({
         doRequest:function(){
             const self = this;
             var parameters = {};
-            for (var k in this.items){
-                if (this.items.hasOwnProperty(k)) {
-                    var item = this.items[k];
+            for (var k in self.items){
+                if (self.items.hasOwnProperty(k)) {
+                    var item = self.items[k];
                     parameters[item.item.id] = item.item.hash;
                 }
             }
@@ -76,10 +78,10 @@ var deamon = new Vue({
                     }
                     self.sort();
                 }
-                self.timeout = setTimeout(function(){
-                    self.doRequest();
-                }, 1000)
             })
+            self.timeout = setTimeout(function(){
+                self.doRequest();
+            }, 1000)
         },
         sort:function(){
             this.items.sort(function(a, b){

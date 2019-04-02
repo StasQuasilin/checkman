@@ -9,6 +9,7 @@ import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
+import utils.TransportUtil;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -52,7 +53,7 @@ public class TransportTime extends IAPI {
         }
         time.setTime(new Timestamp(System.currentTimeMillis()));
         time.setCreator(getWorker(req));
-
+        TransportUtil.checkTransport(transportation);
         hibernator.save(time, transportation);
         body.clear();
         IAnswer answer = new SuccessAnswer();

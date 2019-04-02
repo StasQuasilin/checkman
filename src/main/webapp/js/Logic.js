@@ -5,7 +5,7 @@ var context;
 const xhr = new XMLHttpRequest();
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (debug) {
-        console.log('[ Application Core ] Request to ' + url);
+        console.log('[ Application Core ] Request to \'' + url + '\'...');
     }
     var body = [];
     if (parametrs != null){
@@ -15,13 +15,18 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
     }
 
     xhr.onload = function(e){
-        if (xhr.readyState == 4){
-            if (xhr.status == 200) {
+        if (xhr.readyState === 4){
+            if (xhr.status === 200) {
+                if (debug) {
+                    console.log('[ Application Core ] Request successfuly');
+                }
                 if (onSuccess) {
                     onSuccess(xhr.responseText);
                 }
             } else if (onError){
-                onError(xhr.status + ':' + xhr.responseText);
+                onError(xhr.status + ':' + xhr.statusText);
+            } else {
+                console.error(xhr.status + ':' + xhr.statusText)
             }
         }
     };
@@ -30,6 +35,7 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
         url = context + url;
     }
     xhr.open('POST', url, true);
+    xhr.timeout = 2000;
     xhr.send(JSON.stringify(parametrs));
 }
 function PostApi(url, parameters, onSuccess, onError, debug){

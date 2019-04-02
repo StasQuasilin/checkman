@@ -18,7 +18,6 @@
   <button onclick="loadModal('${editLink}')"><fmt:message key="button.add"/> </button>
 </div>
 <div class="container" id="container" >
-
   <div v-for="(value, key) in items" v-bind:key="key" v-bind:id="value.item.id"
        class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)"
        v-on:click.right="contextMenu(value.item.id)">
@@ -74,11 +73,11 @@
         <span>
           <fmt:message key="deal.done"/>:
           <b>
-          {{value.item.done}}
+          {{(value.item.done).toLocaleString()}}
             <%--{{value.item.unit}}--%>
           </b>
           ( {{(value.item.done / value.item.quantity * 100).toLocaleString() + ' %'}} ),
-          {{value.item.quantity-value.item.done}} <fmt:message key="deal.leave"/>
+          {{(value.item.quantity-value.item.done).toLocaleString()}} <fmt:message key="deal.leave"/>
         </span>
       </div>
     </div>

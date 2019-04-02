@@ -51,11 +51,13 @@ var editor = new Vue({
             console.log(result);
             PostApi(this.api.saveWeightAPI, result, function(a){
                 console.log(a)
-                closeModal();
+                if (a.status == 'success'){
+                    closeModal();
+                }
             })
         },
         netto:function(brutto, tara){
-            return brutto == 0 || tara == 0 ? 0 : (brutto - tara);
+            return brutto == 0 || tara == 0 ? 0 : (this.checkTonnas(brutto) - this.checkTonnas(tara));
         },
         total:function(){
             var t = 0;

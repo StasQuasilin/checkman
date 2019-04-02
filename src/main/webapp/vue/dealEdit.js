@@ -25,8 +25,9 @@ var editor = new Vue({
         contragentInput:'',
         contragentName:'',
         foundContragents:[],
-        fnd:-1
-
+        fnd:-1,
+        picker:false,
+        date:0
     },
     methods:{
         findOrganisation:function(){

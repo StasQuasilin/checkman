@@ -65,12 +65,12 @@ public class SaveLoadPlanAPI extends IAPI{
 
             if (planHashMap.containsKey(id)){
                 loadPlan = planHashMap.remove(id);
-                log.info("\t... Plan \'" + loadPlan.getId() + "\'");
+                log.info("\tPlan \'" + loadPlan.getId() + "\'");
             } else {
                 loadPlan = new LoadPlan();
                 loadPlan.setDeal(deal);
                 loadPlan.setDocumentOrganisation(deal.getDocumentOrganisation());
-                log.info("\t...New plan");
+                log.info("\tNew plan");
             }
 
             Date date = Date.valueOf(String.valueOf(json.get(Constants.DATE)));
@@ -126,7 +126,9 @@ public class SaveLoadPlanAPI extends IAPI{
         }
 
         for (LoadPlan loadPlan : planHashMap.values()){
-            hibernator.remove(loadPlan, loadPlan.getTransportation());
+            if (!loadPlan.getTransportation().isArchive()) {
+                hibernator.remove(loadPlan, loadPlan.getTransportation());
+            }
         }
 
         PostUtil.write(resp, answer);

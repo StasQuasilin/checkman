@@ -34,12 +34,14 @@ var editor = new Vue({
             if (this.transporterId) {
                 result.transportation_id = this.transportationId;
             }
-            console.log(result);
-
             PostApi(this.api.saveDriverAPI, result, function(a){
+                console.log(a)
                 saveModal(a);
                 closeModal();
             })
+        },
+        close:function(){
+            closeModal();
         }
     }
 

@@ -27,14 +27,13 @@ function loadContent(url){
                 stopContent();
             } catch (e) {
                 console.log(e)
+            } finally {
+                $(content).html(e);
+                $(header).html(GetChildElemById(content, 'header-content'));
+                //document.title = header.innerText;
+                $(header).append(GetChildElemById(content, 'container-header'));
+                $(filter).html(GetChildElemById(content, 'filter-content'));
             }
-
-            $(content).html(e);
-            $(header).html(GetChildElemById(content, 'header-content'));
-            document.title = header.innerText;
-            $(header).append(GetChildElemById(content, 'container-header'));
-            $(filter).html(GetChildElemById(content, 'filter-content'));
-
         }, function (e) {
             console.error('[ Application ] Load content error ' + e)
         })
@@ -56,29 +55,32 @@ function editableModal(url){
     loadModal(url, parameters)
 }
 function loadModal(url, parameters, onSave){
-
+    modalLayer.style.display='block';
     console.log('[ Application ] Load modal ' + url);
     PostReq(url, parameters, function(m){
         addModal(m, onSave);
-
     }, function (e) {
         console.error('Error ' + e);
+        modalLayer.style.display='none';
     })
 }
-var modals = 0;
+var modals = [];
 function addModal(modal, onSave){
+
     var div = document.createElement('div');
+    div.style.visibility='hidden';
     $(div).html(modal);
     $(modalLayer).append(div);
-    modalLayer.style.display='block';
-    modals++;
-
+    modals.push(div);
     addOnSaveEvent(onSave);
     addOnCloseEvent(function () {
-        $(div).remove();
-        modals--;
-        if(modals == 0){
+        var d = modals[modals.length - 1];
+        modals.splice(modals.length - 1, 1);
+        console.log('Close modal \'' + d.getElementsByClassName('modal-header')[0].innerText + '\'');
+        $(d).remove();
+        if(modals.length == 0){
             modalLayer.style.display='none';
         }
     });
+    div.style.visibility='visible';
 }

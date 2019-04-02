@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import utils.PostUtil;
+import utils.TransportUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -69,7 +70,14 @@ public class SaveWeightAPI extends IAPI {
         }
 
         plan.getDeal().setDone(done);
+
         hibernator.save(plan.getDeal());
+
+        boolean archive = plan.getTransportation().isArchive();
+        TransportUtil.checkTransport(plan.getTransportation());
+        if (archive != plan.getTransportation().isArchive()) {
+            hibernator.save(plan.getTransportation());
+        }
 
         PostUtil.write(resp, answer);
 
