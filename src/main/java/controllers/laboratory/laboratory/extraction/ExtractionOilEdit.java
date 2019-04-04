@@ -3,6 +3,7 @@ package controllers.laboratory.laboratory.extraction;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
+import utils.TransportUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,7 @@ public class ExtractionOilEdit extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.EXTRACTION_OIL);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/oilEdit.jsp");
+        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         show(req, resp);
     }
 }

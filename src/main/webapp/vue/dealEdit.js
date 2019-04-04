@@ -29,6 +29,12 @@ var editor = new Vue({
         picker:false,
         date:0
     },
+    beforeDestroy:function(){
+        console.log('Before destroy');
+    },
+    destroyed:function(){
+        console.log('Destroyed');
+    },
     methods:{
         findOrganisation:function(){
             const self = this;
@@ -87,6 +93,18 @@ var editor = new Vue({
             if (this.units){
                 this.deal.unit = this.units[0].id;
             }
+        },
+        showDatePicker:function(){
+            const self = this;
+            datepicker.show(function(date){
+                self.deal.date = date
+            }, self.deal.date)
+        },
+        showDateToPicker:function(){
+            const self = this;
+            datepicker.show(function(date){
+                self.deal.dateTo = date
+            }, self.deal.dateTo)
         }
     }
 });

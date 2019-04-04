@@ -16,7 +16,7 @@ import java.io.IOException;
 public class SignIn extends IServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("userApi", Branches.API.References.FIND_USER);
+        req.setAttribute("userApi", Branches.API.References.FIND_WORKER);
         req.setAttribute("loginApi", Branches.API.SIGN_IN);
         req.getRequestDispatcher("/pages/sign/signIn.jsp").forward(req, resp);
     }

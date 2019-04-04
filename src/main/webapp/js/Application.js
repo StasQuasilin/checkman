@@ -4,6 +4,7 @@ var modalLayer;
 var filter;
 var content;
 const last_url = 'last-url';
+var logoutAPI = '';
 
 $(document).ready(function(){
     coverlet = document.getElementById('coverlet');
@@ -83,4 +84,11 @@ function addModal(modal, onSave){
         }
     });
     div.style.visibility='visible';
+}
+function logout(){
+    PostApi(logoutAPI, null, function (a) {
+        if (a.status == 'success'){
+            location.href=context + a['redirect'];
+        }
+    })
 }

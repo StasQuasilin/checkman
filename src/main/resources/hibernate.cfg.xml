@@ -52,12 +52,11 @@
         <mapping class="entity.laboratory.transportation.OilTransportationAnalyses"/>
         <mapping class="entity.laboratory.transportation.CakeTransportationAnalyses"/>
         <mapping class="entity.Subdivision"/>
-        <mapping class="entity.laboratory.subdivisions.extraction.ExtractionCrude"/>
         <mapping class="entity.laboratory.probes.SunProbe"/>
         <mapping class="entity.laboratory.probes.OilProbe"/>
         <mapping class="entity.production.Turn"/>
-
-
-
+        <mapping class="entity.laboratory.subdivisions.extraction.ExtractionTurn"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.ExtractionCrude"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.ExtractionOIl"/>
     </session-factory>
 </hibernate-configuration>

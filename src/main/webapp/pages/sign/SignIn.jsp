@@ -1,52 +1,85 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<fmt:setLocale value=""/>
+<fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title><fmt:message key="sign.in"/></title>
+    <script src="${context}/js/Logic.js"></script>
+    <link rel="stylesheet" href="${context}/css/login.css">
+
 </head>
 <body>
-    <div>
-        <table border="1">
-            <tr>
-                <td colspan="3" align="center">
-                    <fmt:message key="sign.in"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="login">
-                        <fmt:message key="user.name"/>
-                    </label>
-                </td>
-                <td>
-                    <input id="login">
-                </td>
-                <td rowspan="2" align="center">
-                    <div>
-                        <button><fmt:message key="sign.in"/> </button>
-                    </div>
-                    <div>
-                        <button><fmt:message key="registration"/> </button>
-                    </div>
-                    <div>
-                        <a href=""><fmt:message key="forgot"/> </a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="password">
-                        <fmt:message key="user.password"/>
-                    </label>
-                </td>
-                <td>
-                    <input id="password" type="password">
-                </td>
-            </tr>
-
-        </table>
+<div id="app">
+    <div class="coverlet" v-show="cover"></div>
+    <div class="wrapper">
+        <div class="content">
+            <table border="0">
+                <tr>
+                    <td colspan="3" align="center">
+                        <div class="header">
+                            <fmt:message key="sign.in"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="login">
+                            <fmt:message key="user.name"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <div>
+                            <input autocomplete="off" v-model="worker" v-on:keyup="findUser">
+                            <div class="custom-data-list">
+                                <div class="custom-data-list-item" v-for="user in foundUsers" v-on:click="setUser(user)">
+                                    {{user.person.value}}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="password">
+                            <fmt:message key="user.password"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input type="password" v-model="user.password">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        <a><fmt:message key="forgot"/>...</a>
+                        <button v-on:click="signin"><fmt:message key="sign.in"/></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">
+                        <span v-if="err" class="error">{{err}}</span>
+                        <span v-else>&nbsp;</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
+</div>
+
+
 </body>
+<script src="${context}/vue/SignIn.js"></script>
+<script>
+    context = '${context}';
+    login.api.find = '${userApi}';
+    login.api.signin = '${loginApi}';
+</script>
 </html>

@@ -35,7 +35,6 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
         url = context + url;
     }
     xhr.open('POST', url, true);
-    xhr.timeout = 2000;
     xhr.send(JSON.stringify(parametrs));
 }
 function PostApi(url, parameters, onSuccess, onError, debug){

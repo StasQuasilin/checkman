@@ -138,36 +138,21 @@
             <td colspan="4">
               <%--TABLE--%>
               <transition-group name="flip-list" tag="div" class="plan-container">
-                <div v-for="(value, key) in plans" v-bind:key="value.item.id" class="plan-item">
+                <div v-for="(value, key) in plans" :key="value.key" class="plan-item">
                   <%--UPPER ROW--%>
                   <div class="upper">
                     <%--REMOVE BUTTON--%>
-                    <span title="${dropTitle}" class="mini-close" style="left: 0" v-show="!value.item.transportation.archive" v-on:click="remove(key)">&times;</span>
+                    <div style="display: inline-block; width: 10pt">
+                      <span title="${dropTitle}" class="mini-close" style="left: 0"
+                            v-show="!value.item.transportation.archive" v-on:click="remove(key)">&times;</span>
+                    </div>
                     <%--DATE INPUT--%>
-                      <div style="display: inline-block;">
-                      <v-menu class="date-picker"
-                              v-model="value.picker"
-                              :close-on-content-click="false"
-                              :nudge-right="40"
-                              lazy
-                              transition="scale-transition"
-                              offset-y
-                              full-width
-                              min-width="290px"
-                              >
-                        <template v-slot:activator="{ on }">
-                          <input style="width: 7em"
-                                  v-model="new Date(value.item.date).toLocaleDateString()"
-                                  readonly
-                                  v-on="on"
-                                  />
-                        </template>
-                        <v-date-picker v-model="value.item.date" @input="value.picker = false"></v-date-picker>
-                      </v-menu>
-                      </div>
-                      <%--PLAN INPUT--%>
-                    <input v-model="value.item.plan" type="number" title="${planTitle}" style="width: 6em" min="1">
-                      <%--CUSTOMER INPUT--%>
+                    <input readonly style="width: 7em"
+                           v-model="new Date(value.item.date).toLocaleDateString()"
+                           v-on:click="dateTimePicker(key)">
+                    <%--PLAN INPUT--%>
+                    <input v-model="value.item.plan" onclick="this.select()" type="number" title="${planTitle}" style="width: 6em" min="1">
+                    <%--CUSTOMER INPUT--%>
                     <select v-model="value.item.customer" title="${customerTitle}">
                       <option v-for="customer in customers" v-bind:value="customer.id">{{customer.name}}</option>
                     </select>

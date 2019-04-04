@@ -8,9 +8,13 @@
 <script src="${context}/vue/datepick.js"></script>
 <link rel="stylesheet" href="${context}/css/date-picker.css">
 <script>
-    new Vue({
+    var editor = new Vue({
         el: '#editor',
         data: {
+            api:{
+                save:''
+            },
+            laborants:[],
             times: [
                 {
                     hour:8,
@@ -45,59 +49,93 @@
                     minute:30
                 },
                 {
-                    hour:00,
+                    hour:0,
                     minute:30
                 },
                 {
-                    hour:02,
+                    hour:2,
                     minute:30
                 },
                 {
-                    hour:04,
+                    hour:4,
                     minute:30
                 },
                 {
-                    hour:06,
+                    hour:6,
                     minute:30
-                },
+                }
             ],
-            date:'',
-            time:'',
-            picker: false
+            crude:{
+            }
         },
         methods:{
-            now:function(){
-                return '' + new Date().toLocaleDateString();
-            },
             currentTime:function(){
                 var now = new Date();
                 var min = Number.MAX_VALUE;
                 var current = '';
                 for (var t in this.times){
-                    var time = this.times[t];
-                    var date = new Date();
-                    date.setHours(time.hour);
-                    date.setMinutes(time.minute);
+                    if (this.times.hasOwnProperty(t)) {
+                        var time = this.times[t];
+                        var date = new Date();
+                        date.setHours(time.hour);
+                        date.setMinutes(time.minute);
 
-                    var d = Math.abs((date.getHours() * 60 + date.getMinutes()) - (now.getHours() * 60 + now.getMinutes()));
-                    if (d < min){
-                        min = d;
-                        current = time.hour + ':' + time.minute
+                        var d = Math.abs((date.getHours() * 60 + date.getMinutes()) - (now.getHours() * 60 + now.getMinutes()));
+                        if (d < min) {
+                            min = d;
+                            current = time.hour + ':' + time.minute
+                        }
                     }
                 }
                 return current;
             },
             save:function(){
-                console.log(this.date + '; ' + this.time)
+                PostApi(this.api.save, this.crude, function(a){
+                    if (a.status == 'success'){
+                        closeModal();
+                    }
+                })
+
+            },
+            datePicker:function(){
+                const self = this;
+                datepicker.show(function(date){
+                    self.crude.date = date;
+                }, this.crude.date)
             }
         },
         mounted:function(){
-            this.time = this.currentTime()
-            this.date = this.now()
+            this.time = this.currentTime();
         }
     })
 </script>
+<script>
+    editor.api.save = ${saveUrl}
+    <c:forEach items="${laborants}" var="l">
+    editor.laborants.push({
+        id:${l.id},
+        value:'${l.person.value}'
+    })
+    </c:forEach>
+    <c:choose>
+    <c:when test="${not empty crude}">
+    </c:when>
+    <c:otherwise>
+    editor.crude = {
+        date : new Date().toISOString().substring(0, 10),
+        time : editor.currentTime(),
+        humidityIncome:0,
+        fraction:0,
+        miscellas:0,
+        humidity:0,
+        dissolvent:0,
+        grease:0,
+        creator:${worker.id}
+    }
+    </c:otherwise>
+    </c:choose>
 
+</script>
 <table id="editor" class="editor">
     <tr>
         <td>
@@ -109,25 +147,8 @@
             :
         </td>
         <td>
-            <v-menu class="date-picker"
-                    v-model="picker"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    lazy
-                    transition="scale-transition"
-                    offset-y
-                    full-width
-                    min-width="290px"
-                    >
-                <template v-slot:activator="{ on }">
-                    <input style="width: 7em"
-                           v-model="new Date().toLocaleDateString()"
-                           readonly
-                           v-on="on"
-                            />
-                </template>
-                <v-date-picker v-model="date" @input="picker = false"></v-date-picker>
-            </v-menu>
+            <input id="date" readonly style="width: 7em" v-on:click="datePicker"
+                   v-model="new Date(crude.date).toLocaleDateString()">
         </td>
     </tr>
     <tr>
@@ -140,7 +161,7 @@
             :
         </td>
         <td>
-            <select id="time" v-model="time">
+            <select id="time" v-model="crude.time">
                 <option v-for="time in times">
                     {{time.hour}}:{{time.minute}}
                 </option>
@@ -157,7 +178,7 @@
             :
         </td>
         <td>
-            <input id="humidityIncome" type="number" step="0.1" autocomplete="off">
+            <input id="humidityIncome" type="number" v-model="crude.humidityIncome" step="0.1" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -170,7 +191,7 @@
             :
         </td>
         <td>
-            <input id="smallFraction" type="number" step="0.01" autocomplete="off">
+            <input id="smallFraction" type="number" v-model="crude.fraction" step="0.01" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -183,7 +204,7 @@
             :
         </td>
         <td>
-            <input id="miscellas" type="number" step="0.01" autocomplete="off">
+            <input id="miscellas" type="number" v-model="crude.miscellas" step="0.01" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -196,7 +217,7 @@
             :
         </td>
         <td>
-            <input id="humidity" type="number" step="0.01" autocomplete="off">
+            <input id="humidity" type="number" v-model="crude.humidity" step="0.01" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -209,7 +230,7 @@
             :
         </td>
         <td>
-            <input id="dissolvent" type="number" step="0.0001" autocomplete="off">
+            <input id="dissolvent" type="number" v-model="crude.dissolvent" step="0.0001" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -222,7 +243,22 @@
             :
         </td>
         <td>
-            <input id="grease" type="number" step="0.01" autocomplete="off">
+            <input id="grease" type="number" v-model="crude.grease" step="0.01" autocomplete="off">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="creator">
+                <fmt:message key="laboratory.creator"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <select id="creator" v-model="crude.creator">
+                <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
+            </select>
         </td>
     </tr>
     <tr>

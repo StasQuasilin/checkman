@@ -43,6 +43,8 @@ public class LoginBox {
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            inputStream.close();
         }
     }
     public String getLogin() {
@@ -58,6 +60,6 @@ public class LoginBox {
         String password = getPassword();
         System.out.println("password: " + password);
 
-        return SignInAPI.signIn(req, resp, login, password).status().equals("success");
+        return SignInAPI.signIn(req, login, password).status().equals("success");
     }
 }

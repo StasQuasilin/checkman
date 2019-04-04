@@ -26,15 +26,17 @@ import java.util.HashMap;
 public class SignInAPI extends IAPI{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
-        IAnswer answer = signIn(req, resp, body.get(Constants.UID), body.get(Constants.PASSWORD));
+        JSONObject body = PostUtil.parseBodyJson(req);
+        System.out.println(body);
+        IAnswer answer = signIn(req, String.valueOf(body.get(Constants.UID)), String.valueOf(body.get(Constants.PASSWORD)));
         JSONObject json = JsonParser.toJson(answer);
         PostUtil.write(resp, json.toJSONString());
         System.out.println(json);
         json.clear();
+        body.clear();
     }
 
-    public static IAnswer signIn(HttpServletRequest req, HttpServletResponse resp, String uid, String password) throws IOException {
+    public synchronized static IAnswer signIn(HttpServletRequest req, String uid, String password) throws IOException {
         IAnswer answer;
         User user = hibernator.get(User.class, "uid", uid);
         if (user != null ){

@@ -5,7 +5,6 @@
 <fmt:setBundle basename="messages"/>
 <html>
     <script src="${context}/vue/dealEdit.js"></script>
-    <link rel="stylesheet" href="${context}/css/date-picker.css">
     <script>
         <c:forEach items="${types}" var="t">
         editor.types.push({
@@ -76,31 +75,8 @@
                 </label>
             </td>
             <td>
-                <v-menu class="date-picker"
-                        v-model="picker"
-                        :close-on-content-click="false"
-                        <%--:nudge-right="40"--%>
-                        lazy
-                        transition="scale-transition"
-                        offset-y
-                        full-width
-                        min-width="150px"
-                        >
-                    <template v-slot:activator="{ on }">
-                        <input style="width: 7em"
-                               v-model="new Date(deal.date).toLocaleDateString()"
-                               readonly
-                               v-on="on"
-                               v-on:click="date = 0"
-                                />-<input style="width: 7em"
-                               v-model="new Date(deal.dateTo).toLocaleDateString()"
-                               readonly
-                               v-on="on"
-                              v-on:click="date = 1"
-                                />
-                    </template>
-                    <v-date-picker v-model="date == 0 ? deal.date : deal.dateTo" @input="picker = false"></v-date-picker>
-                </v-menu>
+                <input readonly style="width: 6em" v-model="new Date(deal.date).toLocaleDateString()" v-on:click="showDatePicker">-
+                <input readonly style="width: 6em" v-model="new Date(deal.dateTo).toLocaleDateString()" v-on:click="showDateToPicker">
             </td>
         </tr>
         <tr>

@@ -1,9 +1,6 @@
 package utils;
 
-import entity.AnalysesType;
-import entity.Person;
-import entity.Product;
-import entity.Worker;
+import entity.*;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
@@ -322,6 +319,12 @@ public class JsonParser {
         }
         json.put("analyses", toJson(oil.getAnalyses()));
         json.put("hash", oil.hashCode());
+        return json;
+    }
+
+    public static JSONObject toJson(User user) {
+        JSONObject json = toJson(user.getWorker());
+        json.put("uid", user.getUid());
         return json;
     }
 }

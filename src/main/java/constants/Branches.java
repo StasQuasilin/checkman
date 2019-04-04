@@ -75,6 +75,9 @@ public class Branches {
         public static final String PROBE_SUN_SAVE =     API + "/probe/sun/save";
         public static final String PROBE_OIL_SAVE =     API + "/probe/oil/save";
         public static final String PROBE_CAKE_SAVE =     API + "/probe/cake/save";
+        public static final String EXTRACTION_CRUDE_EDIT = API + "/extraction/crude/edit";
+        public static final String EXTRACTION_RAW_EDIT = API + "/extraction/raw/edit";
+        public static final String EXTRACTION_OIL_EDIT = API + "/extraction/oil/edit";
 
 
         public class References {
@@ -104,5 +107,9 @@ public class Branches {
         public static final String UPDATE = SHORT_CUTS + "/update";
         public static final String MANAGER = SHORT_CUTS + "/manager";
 
+    }
+
+    public class Sign {
+        public static final String LOGOUT = "/api/logout";
     }
 }

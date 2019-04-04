@@ -61,10 +61,7 @@ var plan = new Vue({
                             self.update(p.update[u])
                         }
                     }
-
-                    self.plans.sort(function(a, b){
-                        return new Date(a.item.date) - new Date(b.item.date);
-                    })
+                    self.sort();
                 }
 
             });
@@ -75,6 +72,7 @@ var plan = new Vue({
         add:function(plan){
             //plan.date = new Date(plan.date).toLocaleDateString();
             var item = {};
+            item.key = randomUUID();
             item.editVehicle=false;
             item.editDriver=false;
             item.vehicleInput='';
@@ -84,7 +82,19 @@ var plan = new Vue({
             this.plans.push(item);
         },
         update:function(plan){
-            this.plans[plan.id].item = plan;
+            if(this.plans[plan.id]) {
+                this.plans[plan.id].item = plan;
+            } else {
+                for (var p in this.plans){
+                    if (this.plans.hasOwnProperty(p)){
+                        if (!this.plans[p].item.id){
+                            this.plans.splice(p, 1);
+                        }
+                    }
+                }
+                this.add(plan);
+
+            }
         },
         remove:function(id){
             this.plans.splice(id, 1);
@@ -229,6 +239,19 @@ var plan = new Vue({
         stop:function(){
             console.log('Stop load plan');
             clearTimeout(this.upd);
+        },
+        dateTimePicker:function(key){
+            const self =this;
+            datepicker.show(function (date) {
+                self.plans[key].item.date = date;
+                self.sort();
+            }, this.plans[key].item.date)
+
+        },
+        sort:function(){
+            this.plans.sort(function(a, b){
+                return new Date(a.item.date) - new Date(b.item.date)
+            })
         }
 
     }

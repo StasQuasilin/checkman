@@ -25,7 +25,7 @@
         oilImpurity:0,
         acidValue:0,
         creator:${worker.id}
-    }
+    };
     <c:if test="${not empty plan.transportation.sunAnalyses}">
     <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
     editor.addAnalyses(
@@ -45,7 +45,7 @@
     editor.laborants.push({
         id:${l.id},
         value:'${l.person.value}'
-    })
+    });
     </c:forEach>
     if (editor.analyses.length == 0){
         editor.newAnalyses();

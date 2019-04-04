@@ -46,7 +46,7 @@ public class PostUtil {
         try {
             return (JSONObject) parser.parse(req.getReader());
         } catch (ParseException e) {
-            log.warn(e.getMessage());
+            log.warn(e.getCause());
         }
 
         return empty;

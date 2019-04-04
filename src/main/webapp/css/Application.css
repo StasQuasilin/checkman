@@ -2,7 +2,6 @@
     font-family: SegouUI, monospace;
     color: #333333;
     user-select: none;
-
 }
 body{
     background-color: aliceblue;
@@ -28,8 +27,10 @@ button:focus, input:focus{
 
 .header {
     background-color: #d3dbe2;
-    height: 20px;
-    padding: 4pt;
+    width: 100%;
+}
+.header-content{
+    font-size: 18pt;
 }
 .header * {
     background-color: transparent;
@@ -42,7 +43,7 @@ button:focus, input:focus{
     z-index: 3;
     background-color: rgba(240, 248, 255, 0.65);
 }
-.content{
+.wrapper {
     border: solid gray 1pt;
     height: 100%;
     overflow-y: scroll;
@@ -104,4 +105,34 @@ button:focus, input:focus{
 }
 .custom-data-list-item[disable]{
     color: #e2e2e2;
+}
+.datetime-picker{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(126, 207, 207, 0.32);
+    z-index: 200;
+}
+.datetime-picker .picker-content{
+    position: absolute;
+    margin: auto;
+}
+.v-btn__content{
+    align-items:center;
+    border-radius:inherit;
+    color:inherit;
+    display:flex;
+    flex:1 0 auto;
+    justify-content:center;
+    margin:0 auto;
+    position:relative;
+    transition:.3s cubic-bezier(.25,.8,.5,1);
+    white-space:nowrap;
+    width:inherit
+}
+a:hover{
+    cursor: pointer;
+    text-decoration: underline;
 }

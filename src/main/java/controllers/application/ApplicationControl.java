@@ -34,6 +34,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("admin", Branches.UI.ADMIN);
 
         req.setAttribute("shortCutUpdate", Branches.ShortCuts.UPDATE);
+        req.setAttribute("logoutAPI", Branches.Sign.LOGOUT);
         Role role = Role.valueOf(String.valueOf(req.getSession().getAttribute("role")));
         switch (role){
             case manager:

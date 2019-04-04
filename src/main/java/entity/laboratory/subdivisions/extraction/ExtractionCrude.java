@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @Table(name = "extraction_crude")
 public class ExtractionCrude {
     private int id;
+    private ExtractionTurn turn;
     private Timestamp time;
     private float humidityIncome;
     private float fraction;
@@ -30,6 +31,15 @@ public class ExtractionCrude {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "turn")
+    public ExtractionTurn getTurn() {
+        return turn;
+    }
+    public void setTurn(ExtractionTurn turn) {
+        this.turn = turn;
     }
 
     @Basic

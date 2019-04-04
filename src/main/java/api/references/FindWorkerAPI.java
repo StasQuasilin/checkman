@@ -3,6 +3,7 @@ package api.references;
 import api.IAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.User;
 import entity.Worker;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -31,10 +32,10 @@ public class FindWorkerAPI extends IAPI {
         JSONObject body = PostUtil.parseBodyJson(req);
         String key = (String) body.get(Constants.KEY);
 
-        HashMap<Integer, Worker> result = new HashMap<>();
-        find("person/surname", key, result);
-        find("person/forename", key, result);
-        find("person/patronymic", key, result);
+        HashMap<Integer, User> result = new HashMap<>();
+        find("worker/person/surname", key, result);
+        find("worker/person/forename", key, result);
+        find("worker/person/patronymic", key, result);
 
         array.addAll(result.values().stream().map(JsonParser::toJson).collect(Collectors.toList()));
 
@@ -43,9 +44,9 @@ public class FindWorkerAPI extends IAPI {
         array.clear();
 
     }
-    synchronized void find(String key, String value, HashMap<Integer, Worker> result){
-        for (Worker worker : hibernator.find(Worker.class, key, value)){
-            result.put(worker.getId(), worker);
+    synchronized void find(String key, String value, HashMap<Integer, User> result){
+        for (User user : hibernator.find(User.class, key, value)){
+            result.put(user.getId(), user);
         }
     }
 }
