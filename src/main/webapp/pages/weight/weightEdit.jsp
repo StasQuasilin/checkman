@@ -110,7 +110,8 @@
                     :
                 </td>
                 <td>
-                    <input id="brutto" v-model="value.brutto" v-on:change="value.checkBrutto()" type="number" step="0.01">
+                    <input id="brutto" v-model="value.brutto" v-on:change="value.checkBrutto()"
+                           onclick="this.select()" type="number" step="0.01" autocomplete="off">
                 </td>
             </tr>
             <tr>
@@ -123,7 +124,8 @@
                     :
                 </td>
                 <td>
-                    <input id="tara" v-model="value.tara" v-on:change="value.checkTara()" type="number" step="0.01">
+                    <input id="tara" v-model="value.tara" v-on:change="value.checkTara()"
+                           onclick="this.select()" type="number" step="0.01" autocomplete="off">
                 </td>
             </tr>
             <tr>

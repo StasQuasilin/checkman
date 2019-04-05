@@ -70,6 +70,7 @@ public class SaveWeightAPI extends IAPI {
         }
 
         plan.getDeal().setDone(done);
+        plan.getDeal().setArchive(done >= plan.getDeal().getQuantity());
 
         hibernator.save(plan.getDeal());
 

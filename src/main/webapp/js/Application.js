@@ -56,7 +56,6 @@ function editableModal(url){
     loadModal(url, parameters)
 }
 function loadModal(url, parameters, onSave){
-    modalLayer.style.display='block';
     console.log('[ Application ] Load modal ' + url);
     PostReq(url, parameters, function(m){
         addModal(m, onSave);
@@ -67,7 +66,7 @@ function loadModal(url, parameters, onSave){
 }
 var modals = [];
 function addModal(modal, onSave){
-
+    modalLayer.style.display='block';
     var div = document.createElement('div');
     div.style.visibility='hidden';
     $(div).html(modal);

@@ -49,13 +49,15 @@
             <div class="header" id="header"></div>
         </td>
         <td width="240px">
-          <div class="header" style="font-size: 10pt">
-            <a>
-                ${worker.value}
-            </a>
-            (<a onclick="logout()">
-              <fmt:message key="sign.out"/>
-            </a>)
+          <div class="header" style="font-size: 10pt; height: 100%; padding: 5pt 0">
+              <div style="padding: 0 4pt">
+                  <a>
+                      ${worker.value}
+                  </a>
+                  (<a onclick="logout()">
+                  <fmt:message key="sign.out"/>
+              </a>)
+              </div>
           </div>
         </td>
         <td rowspan="3">

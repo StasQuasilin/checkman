@@ -14,7 +14,7 @@
     deamon.stop();
   }
 </script>
-<div id="container-header" style="display: inline">
+<div id="container-header" class="container-header" style="display: inline">
   <button onclick="loadModal('${editLink}')"><fmt:message key="button.add"/> </button>
 </div>
 <div class="container" id="container" >

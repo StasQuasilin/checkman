@@ -106,13 +106,30 @@ var plan = new Vue({
 
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)) {
-                    plans.push(this.plans[i].item);
+                    var p = this.plans[i].item
+                    var plan = {};
+                    if (p.id){
+                        plan.id = p.id;
+                    }
+                    plan.date = p.date;
+                    plan.plan = p.plan;
+                    plan.customer = p.customer;
+                    
+                    if (p.transportation.vehicle.id){
+                        plan.vehicle = p.transportation.vehicle.id;
+                    }
+
+                    if (p.transportation.driver.id){
+                        plan.driver = p.transportation.driver.id;
+                    }
+                    plans.push(plan);
                 }
             }
             parameters.plans = plans;
 
             console.log(parameters);
 
+            
             PostApi(this.api.save_link, parameters, function(a){
                 if (a.status == 'success'){
                     closeModal();

@@ -14,14 +14,14 @@
     </c:forEach>
 </script>
 <transition-group  name="flip-list" tag="div" class="container" id="container" >
-    <div v-for="(value, key) in items" v-bind:key="key" v-bind:id="value.item.id"
+    <div v-for="(value, key) in items" v-bind:key="value.item.id" v-bind:id="value.item.id"
      class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)">
         <div class="upper-row">
             <span>
                 {{new Date(value.item.date).toLocaleDateString()}}
             </span>
 
-            <span>
+            <span style="width: 20em">
                 <fmt:message key="deal.organisation"/>:
                 <b>
                     {{value.item.organisation.value}}
@@ -30,7 +30,7 @@
             <span>
                 <fmt:message key="deal.product"/>:
                 <b>
-                    {{(types[value.item.type]).toLowerCase()}},
+                    {{(types[value.item.type]).toLowerCase(),}}
                 </b>
                 <b>
                     {{value.item.product.name}}
@@ -50,7 +50,7 @@
             </span>
         </div>
         <div class="lower-row">
-            <div style="display: inline-block; font-size: 10pt">
+            <div style="display: inline-block; font-size: 10pt; width: 14em">
                 <div>
                     <fmt:message key="transportation.time.in"/>:
                     <span v-if="value.item.transportation.timeIn.time">
@@ -97,6 +97,19 @@
                     <fmt:message key="weight.brutto"/>:{{weight.brutto}},
                     <fmt:message key="weight.tara"/>:{{weight.tara}},
                     <fmt:message key="weight.netto"/>:{{weight.brutto > 0 && weight.tara > 0 ? (weight.brutto - weight.tara).toLocaleString() : 0}}
+                </div>
+                <div v-for="sun in value.item.transportation.analyses.sun">
+                    <fmt:message key="sun.humidity"/>:
+                    {{(sun.humidity).toLocaleString()}}
+                </div>
+                <div v-for="oil in value.item.transportation.analyses.oil">
+                    <fmt:message key="sun.acid.value"/>:
+                    {{(oil.acid).toLocaleString(),}}
+                    <fmt:message key="oil.peroxide"/>:
+                    {{(oil.peroxide).toLocaleString()}}
+                </div>
+                <div v-for="cake in value.item.transportation.analyses.cake">
+                    cake
                 </div>
             </div>
         </div>

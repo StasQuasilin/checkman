@@ -31,9 +31,16 @@ button:focus, input:focus{
 }
 .header-content{
     font-size: 18pt;
+    padding: 0 8pt;
+    font-weight: bold;
 }
 .header * {
     background-color: transparent;
+}
+
+.container-header{
+    display: inline-block;
+    vertical-align: text-bottom;
 }
 
 .modal-layer{

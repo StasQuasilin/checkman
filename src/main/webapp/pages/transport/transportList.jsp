@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="${context}/css/TransportList.css">
   <script>
     deamon.setUrls('${updateLink}', '${showLink}')
+    deamon.types['buy'] = '<fmt:message key="_buy"/>'
+    deamon.types['sell'] = '<fmt:message key="_sell"/>'
+
   </script>
   <transition-group name="flip-list" tag="div" class="container" id="container">
     <div v-for="(value, key) in items" v-bind:key="value.item.id" v-bind:id="value.item.id"
@@ -18,7 +21,7 @@
         <span>
           {{new Date(value.item.date).toLocaleDateString()}}
         </span>
-        <span>
+        <span style="width: 22em">
           <fmt:message key="deal.organisation"/>:
           <b>
             {{value.item.organisation.value}}
@@ -27,10 +30,9 @@
         <span>
           <fmt:message key="deal.product"/>:
           <b>
+            {{(types[value.item.type]).toLowerCase(),}}
             {{value.item.product.name}}
           </b>
-        </span>
-        <span>
           <fmt:message key="deal.from"/>
           <b>
             {{value.item.realisation}}
@@ -38,7 +40,7 @@
         </span>
       </div>
       <div class="lower-row">
-        <div style="display: inline-block; font-size: 10pt; width: 24em">
+        <div style="display: inline-block; font-size: 10pt; width: 14em">
           <div>
             <fmt:message key="transportation.time.in"/>:
             <span v-if="value.item.transportation.timeIn.time">
@@ -54,7 +56,9 @@
         </div>
         <div style="display: inline-block; font-size: 10pt">
           <div>
-            <fmt:message key="transportation.automobile"/>:
+            <span style="width: 5em">
+              <fmt:message key="transportation.automobile"/>:
+            </span>
             <span>
               <template v-if="value.item.transportation.vehicle.id">
                 {{value.item.transportation.vehicle.model}}
@@ -71,7 +75,9 @@
             </span>
           </div>
           <div>
-            <fmt:message key="transportation.driver"/>:
+            <span style="width: 5em">
+              <fmt:message key="transportation.driver"/>:
+            </span>
             <template v-if="value.item.transportation.driver.id">
               {{value.item.transportation.driver.person.value}}
             </template>

@@ -16,20 +16,23 @@
             timeIn:'',
             timeOut:''
         },
-        methods:{
-            setTimeIn:function(){
+        methods: {
+            setTimeIn: function () {
                 const self = this;
-                this.setTime(this.api.timeInApi, self.timeIn);
-            },
-            setTimeOut:function(){
-                this.setTime(this.api.timeOutApi, this.timeOut);
-            },
-            setTime:function(api, header){
                 var parameters = {};
                 parameters.id = this.id;
-                PostApi(api, parameters, function(a){
+                PostApi(this.api.timeInApi, parameters, function (a) {
                     console.log(a)
-                    header = new Date(a.time);
+                    self.timeIn = new Date(a.time);
+                })
+            },
+            setTimeOut: function () {
+                const self = this;
+                var parameters = {};
+                parameters.id = this.id;
+                PostApi(this.api.timeOutApi, parameters, function (a) {
+                    console.log(a)
+                    self.timeOut = new Date(a.time);
                 })
             }
         }

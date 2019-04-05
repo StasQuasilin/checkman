@@ -6,7 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<span id="header-content">
+<span id="header-content" class="header-content">
     <fmt:message key="${title}"/>
 </span>
 <div id="filter-content">
