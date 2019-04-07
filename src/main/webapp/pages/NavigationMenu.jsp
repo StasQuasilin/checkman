@@ -32,6 +32,11 @@
         </span>
         <a onclick="loadContent(${context}${transport_archive})" ><fmt:message key="archive"/> </a>
       </li>
+      <li class="menu-item" onclick="loadContent('${sealList}')">
+        <span>
+          <fmt:message key="menu.seals"/>
+        </span>
+      </li>
       <li class="menu-item" onclick="loadContent('${weightList}')">
         <span>
           <fmt:message key="menu.weight"/>

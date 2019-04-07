@@ -19,7 +19,11 @@ const short = new Vue({
             show:false
         },
         dynamicWidth:function(){
-            return this.dynamic.show ? '350px' : '0'
+            if (this.isDynamic()) {
+                return this.dynamic.show ? '350px' : '0';
+            } else {
+                return '100%';
+            }
         }
     },
     created:function(){

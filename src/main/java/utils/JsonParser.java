@@ -52,6 +52,7 @@ public class JsonParser {
         json.put("price", deal.getPrice());
         json.put("creator", toJson(deal.getCreator()));
         json.put("hash", deal.hashCode());
+        json.put("unit", deal.getUnit().getName());
         return json;
     }
 

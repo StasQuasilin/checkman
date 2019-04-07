@@ -38,6 +38,8 @@ public class Branches {
         public static final String DEAL_DELETE = "/deal/delete.j";
         public static final String SUMMARY_LIST = "/summary/list.j";
         public static final String SUMMARY_SHOW = "/summary/show.j";
+        public static final String SEAL_LIST = "/seals/list.j";
+        public static final String SEAL_CREATE = "/seals/edit.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -78,6 +80,7 @@ public class Branches {
         public static final String EXTRACTION_CRUDE_EDIT = API + "/extraction/crude/edit";
         public static final String EXTRACTION_RAW_EDIT = API + "/extraction/raw/edit";
         public static final String EXTRACTION_OIL_EDIT = API + "/extraction/oil/edit";
+        public static final String SEAL_SAVE = "/seal/save";
 
 
         public class References {

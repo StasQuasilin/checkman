@@ -6,6 +6,7 @@ import entity.documents.IDocument;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
+import entity.seals.Seal;
 import entity.weight.Weight;
 
 import javax.persistence.*;
@@ -30,6 +31,7 @@ public class Transportation extends IDocument{
     private Set<SunTransportationAnalyses> sunAnalyses;
     private Set<OilTransportationAnalyses> oilAnalyses;
     private Set<CakeTransportationAnalyses> cakeAnalyses;
+    private Set<Seal> seals;
     private boolean archive;
 
     @Override
@@ -129,6 +131,14 @@ public class Transportation extends IDocument{
         this.cakeAnalyses = cakeAnalyses;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    public Set<Seal> getSeals() {
+        return seals;
+    }
+    public void setSeals(Set<Seal> seals) {
+        this.seals = seals;
+    }
+
     @Basic
     @Column(name = "archive")
     public boolean isArchive() {
@@ -169,6 +179,10 @@ public class Transportation extends IDocument{
 
         for (CakeTransportationAnalyses a : cakeAnalyses){
             hash = 31 * a.hashCode() + hash;
+        }
+
+        for (Seal seal : seals){
+            hash = 31 * seal.getNumber().hashCode() + hash;
         }
 
         hash = 31 * Boolean.hashCode(archive) + hash;

@@ -6,8 +6,8 @@
 <html>
 <link rel="stylesheet" href="${context}/css/shortcuts.css">
 <div id="cuts" class="shortCuts"
-     v-bind:class="{ dynamicShow : dynamic.show, dynamicCutter : isDynamic}">
-    <div class="shower" v-on:click="show">
+     v-bind:class="{ dynamicShow : dynamic.show, dynamicCutter : isDynamic()}">
+    <div class="shower" v-on:click="show" v-if="isDynamic()">
         <span class="direction-sign" v-if="dynamic.show">
             >
         </span>
@@ -63,8 +63,7 @@
 
             </div>
         </div>
-        </div>
-
+    </div>
 </div>
 <script src="${context}/vue/shortCuts.js"></script>
 <script>

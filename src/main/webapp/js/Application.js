@@ -62,7 +62,9 @@ function loadModal(url, parameters, onSave){
     }, function (e) {
         console.error('Error ' + e);
         modalLayer.style.display='none';
-    })
+    }, function(e){
+        console.log(e);
+    }, true)
 }
 var modals = [];
 function addModal(modal, onSave){

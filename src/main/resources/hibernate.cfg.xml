@@ -58,5 +58,7 @@
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionTurn"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionCrude"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionOIl"/>
+        <mapping class="entity.seals.Seal"/>
+        <mapping class="entity.seals.SealBatch"/>
     </session-factory>
 </hibernate-configuration>
