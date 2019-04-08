@@ -24,7 +24,7 @@ import java.sql.Timestamp;
  */
 
 @WebServlet(Branches.API.TRANSPORT_TIME)
-public class TransportTime extends IAPI {
+public class TransportTimeAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TransportDirection direction = TransportDirection.valueOf(req.getParameter("dir"));

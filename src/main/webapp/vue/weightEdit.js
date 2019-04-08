@@ -8,6 +8,11 @@ var editor = new Vue({
         weights:[],
         length:function(){
             return this.weights.length;
+        },
+        analyses:{
+            sun:[],
+            oil:[],
+            cake:[]
         }
     },
     methods:{

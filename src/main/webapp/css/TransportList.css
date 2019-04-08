@@ -1,6 +1,10 @@
 .vehicle-number{
-    border-left: solid #20003c 1.2pt;
-    border-right: solid #20003c 1.2pt;
+    border-radius: 8pt;
     background: #ffffff;
     font-size: 10pt;
+    padding: 0 8pt;
+}
+.transport-label{
+    display: inline-block;
+    width: 5em;
 }

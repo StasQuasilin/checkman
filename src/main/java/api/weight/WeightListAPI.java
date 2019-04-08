@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.WEIGHT_LIST)
-public class WeightAPI extends IAPI{
+public class WeightListAPI extends IAPI{
     final HashMap<String, Object> parameters = new HashMap<>();
     final JSONObject array = new JSONObject();
     final JSONArray add = new JSONArray();

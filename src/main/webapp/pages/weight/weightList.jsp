@@ -109,7 +109,14 @@
                     {{(oil.peroxide).toLocaleString()}}
                 </div>
                 <div v-for="cake in value.item.transportation.analyses.cake">
-                    cake
+                    <fmt:message key="sun.humidity"/>:
+                    {{cake.humidity}},
+                    <fmt:message key="cake.protein"/>:
+                    {{cake.protein}},
+                    <fmt:message key="cake.cellulose"/>:
+                    {{cake.cellulose}},
+                    <fmt:message key="sun.oiliness"/>:
+                    {{cake.oiliness}}
                 </div>
             </div>
         </div>

@@ -84,6 +84,10 @@ public class Constants {
         public static final String PROBE_CAKE_EDIT = "title.probe.cake";
         public static final String SEAL_LIST = "title.seals";
         public static final String SEAL_EDIT = "title.seal.edit";
+
+        public class Archive {
+            public static final String DEAL = "title.archive";
+        }
     }
 
     public class Vehicle {

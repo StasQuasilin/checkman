@@ -1,5 +1,7 @@
 package constants;
 
+import org.glassfish.grizzly.utils.StringFilter;
+
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
@@ -40,6 +42,9 @@ public class Branches {
         public static final String SUMMARY_SHOW = "/summary/show.j";
         public static final String SEAL_LIST = "/seals/list.j";
         public static final String SEAL_CREATE = "/seals/edit.j";
+        public static final String DEAL_ARCHIVE = "/archive/deal.j";
+        public static final String BUY_ARCHIVE = DEAL_ARCHIVE + "?type=buy";
+        public static final String SELL_ARCHIVE = DEAL_ARCHIVE + "?type=sell";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -81,6 +86,9 @@ public class Branches {
         public static final String EXTRACTION_RAW_EDIT = API + "/extraction/raw/edit";
         public static final String EXTRACTION_OIL_EDIT = API + "/extraction/oil/edit";
         public static final String SEAL_SAVE = "/seal/save";
+        public static final String SEALS_FIND =     API + "/seals/find";
+        public static final String SEAL_PUT =       API + "/transportation/seal/put";
+        public static final String SEAL_REMOVE =    API + "/transportation/seal/remove";
 
 
         public class References {
@@ -102,6 +110,10 @@ public class Branches {
             public static final String DEAL = "/deal";
             public static final String EDIT_PRODUCT = DEAL + "/product/edit";
             public static final String DELETE_PRODUCT = DEAL + "/product/delete";
+        }
+
+        public class Archive {
+            public static final String DEALS = "/api/archive/deals";
         }
     }
 

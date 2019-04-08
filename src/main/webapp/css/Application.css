@@ -40,6 +40,7 @@ button:focus, input:focus{
 
 .container-header{
     display: inline-block;
+    padding: 1pt;
     vertical-align: text-bottom;
 }
 

@@ -70,7 +70,7 @@
         </td>
     </tr>
     <tr>
-        <td height="100%">
+        <td height="100%" valign="top">
             <div id="filter" class="filter" ></div>
         </td>
     </tr>

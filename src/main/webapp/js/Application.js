@@ -25,7 +25,7 @@ function loadContent(url){
         localStorage.setItem(last_url, url);
         PostReq(url, null, function (e) {
             try {
-                stopContent();
+                //stopContent();
             } catch (e) {
                 console.log(e)
             } finally {

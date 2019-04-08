@@ -1,7 +1,5 @@
 package utils;
 
-import api.weight.WeightAPI;
-import constants.Constants;
 import entity.weight.WeightUnit;
 import utils.hibernate.Hibernator;
 

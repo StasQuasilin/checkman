@@ -42,12 +42,11 @@ public class Seal {
         this.number = number;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "transportation")
     public Transportation getTransportation() {
         return transportation;
     }
-
     public void setTransportation(Transportation transportation) {
         this.transportation = transportation;
     }

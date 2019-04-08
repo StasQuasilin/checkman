@@ -20,7 +20,6 @@
 .navigation-menu a{
     color: gray;
     font-size: 8pt;
-    float: right;
     cursor: pointer;
     visibility: hidden;
 }
@@ -39,7 +38,7 @@
 .menu-item {
     background-color: #e0e8ef;
     overflow: hidden;
-    padding: 4pt;
+
     border-bottom: solid white 2pt;
 }
 .menu-item:hover{
@@ -47,4 +46,12 @@
 }
 .menu-item * {
     background: transparent;
+}
+.menu-item .main{
+    display: inline-block;
+    width: 70%;
+    padding: 4pt;
+}
+.menu-item .archive{
+    /*width: 20%;*/
 }

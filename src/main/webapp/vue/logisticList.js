@@ -16,7 +16,14 @@ var logistic = new Vue({
         saveTransportationDriverApi:'',
         items:[],
         types:{},
-        timeout:-1
+        timeout:-1,
+        filter:filter_controll
+    },
+    mounted:function(){
+        this.filter.items = this.items;
+    },
+    computed:{
+
     },
     methods:{
         add:function(item){

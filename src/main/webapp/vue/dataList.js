@@ -16,6 +16,9 @@ var deamon = new Vue({
             y:0
         }
     },
+    beforeDestroy:function(){
+        console.log('before destroy')
+    },
     methods:{
         setUrls:function(url, show){
             this.url = url;

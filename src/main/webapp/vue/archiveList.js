@@ -1,4 +1,4 @@
-var list = new Vue({
+var archive = new Vue({
    el: '#archive',
     data:{
         filter:fltr,

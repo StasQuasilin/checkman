@@ -4,7 +4,23 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<table>
+<table border="1">
+  <tr>
+    <th colspan="3">
+      <fmt:message key="deal"/>
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <fmt:message key="deal.type"/>
+    </td>
+    <td>
+      :
+    </td>
+    <td>
+      <fmt:message key="${plan.deal.type}"/>
+    </td>
+  </tr>
   <tr>
     <td colspan="3">
       <button onclick="closeModal()">

@@ -35,6 +35,9 @@ public class TransportationShow extends IModal {
         req.setAttribute("title", Constants.Titles.TRANSPORT_SHOW);
         req.setAttribute("timeInLink", Branches.API.TRANSPORT_TIME_IN);
         req.setAttribute("timeOutLink", Branches.API.TRANSPORT_TIME_OUT);
+        req.setAttribute("findSeals", Branches.API.SEALS_FIND);
+        req.setAttribute("saveSeal", Branches.API.SEAL_PUT);
+        req.setAttribute("removeSeal", Branches.API.SEAL_REMOVE);
         req.setAttribute("modalContent", "/pages/transport/transportShow.jsp");
         show(req, resp);
     }

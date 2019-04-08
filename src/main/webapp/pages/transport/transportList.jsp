@@ -46,11 +46,17 @@
             <span v-if="value.item.transportation.timeIn.time">
               {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString()}}
             </span>
+            <span v-else>
+              --:--:--
+            </span>
           </div>
           <div>
             <fmt:message key="transportation.time.out"/>:
             <span v-if="value.item.transportation.timeOut.time">
               {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString()}}
+            </span>
+            <span v-else>
+              --:--:--
             </span>
           </div>
         </div>

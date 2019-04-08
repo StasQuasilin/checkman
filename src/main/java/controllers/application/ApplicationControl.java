@@ -20,7 +20,9 @@ public class ApplicationControl extends IServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.setAttribute("buyList", Branches.UI.DEAL_BUY);
+        req.setAttribute("buyArchive", Branches.UI.BUY_ARCHIVE);
         req.setAttribute("sellList", Branches.UI.DEAL_SELL);
+        req.setAttribute("sellArchive", Branches.UI.SELL_ARCHIVE);
         req.setAttribute("summaryList", Branches.UI.SUMMARY_LIST);
         req.setAttribute("logisticList", Branches.UI.LOGISTIC_LIST);
         req.setAttribute("transportList", Branches.UI.TRANSPORT_LIST);

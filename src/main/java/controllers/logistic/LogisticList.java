@@ -31,6 +31,7 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("driverInput", Branches.UI.DRIVER_MODAL);
         req.setAttribute("vehicleDriverInput", Branches.UI.VEHICLE_DRIVER_MODAL);
         req.setAttribute("content", "/pages/logistic/logisticList.jsp");
+        req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
         show(req, resp);
     }
 }

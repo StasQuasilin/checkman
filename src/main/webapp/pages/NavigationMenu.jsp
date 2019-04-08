@@ -8,23 +8,39 @@
 <link rel="stylesheet" href="${context}/css/NavigationMenu.css"/>
   <div class="navigation-menu" id="nav-menu">
     <ul>
-      <li class="menu-item"  onclick="loadContent('${buyList}')">
-        <fmt:message key="deal.buy"/>
-        <a onclick="loadContent('${buyArchive}')"><fmt:message key="archive"/> </a>
+      <li class="menu-item">
+        <span class="main" onclick="loadContent('${buyList}')">
+          <fmt:message key="deal.buy"/>
+        </span>
+        <span class="archive">
+          <a onclick="loadContent('${buyArchive}')">
+            <fmt:message key="archive"/>
+          </a>
+        </span>
       </li>
-      <li class="menu-item"  onclick="loadContent('${sellList}')">
-        <fmt:message key="deal.sell"/>
-        <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
-      </li>
-      <li class="menu-item" onclick="loadContent('${summaryList}')">
-        <fmt:message key="consolidated.table"/>
-        <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
-      </li>
-      <li class="menu-item" onclick="loadContent('${logisticList}')">
+      <li class="menu-item">
+        <span class="main" onclick="loadContent('${sellList}')">
+          <fmt:message key="deal.sell"/>
+        </span>
         <span>
+          <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
+        </span>
+      </li>
+      <li class="menu-item">
+        <span class="main" onclick="loadContent('${summaryList}')">
+          <fmt:message key="consolidated.table"/>
+        </span>
+        <span>
+          <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
+        </span>
+      </li>
+      <li class="menu-item">
+        <span class="main"  onclick="loadContent('${logisticList}')">
           <fmt:message key="menu.logistic"/>
         </span>
-        <a onclick="loadContent(${context}${logistic_archive})"><fmt:message key="archive"/> </a>
+        <span>
+          <a onclick="loadContent(${context}${logistic_archive})"><fmt:message key="archive"/> </a>
+        </span>
       </li>
       <li class="menu-item" onclick="loadContent('${transportList}')">
         <span>
@@ -60,7 +76,7 @@
           <fmt:message key="analyses.sell"/>
           <a onclick="loadContent(${context}${analyses_sell_archive})"><fmt:message key="archive"/> </a>
         </li>
-      <li class="menu-item" onclick="loadContent('${references_url}')">
+      <li class="menu-item" onclick="loadContent('${referencesList}')">
         <span>
           <fmt:message key="menu.references"/>
         </span>

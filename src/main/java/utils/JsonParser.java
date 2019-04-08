@@ -13,6 +13,7 @@ import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
 import entity.organisations.Organisation;
+import entity.seals.Seal;
 import entity.transport.ActionTime;
 import entity.transport.Driver;
 import entity.transport.Transportation;
@@ -326,6 +327,13 @@ public class JsonParser {
     public static JSONObject toJson(User user) {
         JSONObject json = toJson(user.getWorker());
         json.put("uid", user.getUid());
+        return json;
+    }
+
+    public static JSONObject toJson(Seal seal) {
+        JSONObject json = new JSONObject();
+        json.put("id", seal.getId());
+        json.put("number", seal.getNumber());
         return json;
     }
 }
