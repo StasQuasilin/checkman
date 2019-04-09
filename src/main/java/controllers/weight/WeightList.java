@@ -24,6 +24,7 @@ public class WeightList extends IUIServlet{
         req.setAttribute("updateLink", Branches.API.WEIGHT_LIST);
         req.setAttribute("showLink", Branches.UI.WEIGHT_EDIT);
         req.setAttribute("content", "/pages/weight/weightList.jsp");
+        req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
         req.setAttribute("types", DealType.values());
         show(req, resp);
     }

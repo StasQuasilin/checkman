@@ -14,12 +14,19 @@ var deamon = new Vue({
             show:false,
             x:0,
             y:0
-        }
+        },
+        filter:filter_control
+    },
+    mounted:function(){
+        this.filter.items = this.items;
     },
     beforeDestroy:function(){
         console.log('before destroy')
     },
     methods:{
+        filteredItems:function(){
+            return this.filter.filteredItems();
+        },
         setUrls:function(url, show){
             this.url = url;
             this.showLink = show;

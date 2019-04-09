@@ -89,6 +89,7 @@ public class Branches {
         public static final String SEALS_FIND =     API + "/seals/find";
         public static final String SEAL_PUT =       API + "/transportation/seal/put";
         public static final String SEAL_REMOVE =    API + "/transportation/seal/remove";
+        public static final String EXTRACTION_LIST = API + "/laboratory/extraction/list";
 
 
         public class References {

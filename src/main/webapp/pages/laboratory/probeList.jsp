@@ -15,9 +15,9 @@
 </div>
 <script src="${context}/vue/archiveList.js"></script>
 <script>
-    list.api.update = '${updateURL}';
-    list.api.show = '${showUrl}';
-    list.updReq();
+    archive.api.update = '${updateURL}';
+    archive.api.show = '${showUrl}';
+    archive.updReq();
 </script>
 <div id="archive" class="container">
     <div v-for="item in items" class="container-item">

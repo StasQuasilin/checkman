@@ -5,6 +5,8 @@ import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -75,8 +77,8 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        String date = "2019-03-31";
-        System.out.println(Date.valueOf(date));
+        String time = "00:30";
+        System.out.println(LocalTime.parse(time));
     }
 
 

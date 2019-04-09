@@ -1,26 +1,13 @@
 .filter{
     height: 100%;
     overflow-y: scroll;
+    overflow-x: hidden;
     background-color: #d3dbe2;
-    width: 190px;
+    width: 201px;
 }
-.filter::-webkit-scrollbar {
-    width: 2px;
-}
-.filter * ::-webkit-scrollbar {
-    width: 2px;
-}
+
 .filter::-webkit-scrollbar-track {
     background: transparent;
-}
-.filter * ::-webkit-scrollbar-track {
-    background: transparent;
-}
-.filter::-webkit-scrollbar-thumb {
-    background: #fbba00;
-}
-.filter::-webkit-scrollbar-thumb:hover {
-    background: #f4b400;
 }
 
 .filter .group{

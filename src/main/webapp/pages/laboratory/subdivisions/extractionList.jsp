@@ -5,14 +5,116 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <div id="container-header" style="display: inline">
-    <button onclick="loadModal('${crudeEdit}')">
-        <fmt:message key="extraction.crude"/>
-    </button>
-    <button onclick="loadModal('${rawEdit}')">
-        <fmt:message key="extraction.raw"/>
-    </button>
-    <button onclick="loadModal('${oilEdit}')">
-        <fmt:message key="extraction.oil"/>
-    </button>
+    <link rel="stylesheet" href="${context}/css/drop-menu.css">
+    <div class="drop-menu">
+        <a class="drop-btn"><fmt:message key="analyses"/> &#9660;</a>
+        <ul class="drop-menu-content">
+            <li class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
+                <fmt:message key="extraction.crude"/>
+            </li>
+            <li class="drop-menu-item" onclick="loadModal('${rawEdit}')">
+                <fmt:message key="extraction.raw"/>
+            </li>
+            <li class="drop-menu-item"  onclick="loadModal('${oilEdit}')">
+                <fmt:message key="extraction.oil"/>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    var filter_control={};
+</script>
+<script src="${context}/vue/dataList.js"></script>
+<script>
+    deamon.url = '${update}';
+    deamon.doRequest();
+
+</script>
+
+<div id="container">
+    <div v-for="turn in items">
+        <div>
+            <span>
+            {{new Date(turn.item.date).toLocaleDateString()}}
+        </span>
+        <span>
+            <fmt:message key="turn"/><span>#</span>{{turn.item.number}}
+        </span>
+        </div>
+        <div style="padding-left: 8pt">
+            <table style="font-size: 10pt; border: none" border="1">
+                <tr>
+                    <th>
+                        <span style="display: inline-block; width: 4em;">
+                            <fmt:message key="time"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 8em;">
+                            <fmt:message key="extraction.crude.humidity.income.short"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 8em;">
+                            <fmt:message key="extraction.crude.small.fraction.short"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 8em;">
+                            <fmt:message key="extraction.crude.miscellas.short"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 8em;">
+                            <fmt:message key="extraction.crude.humidity.short"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 8em;">
+                            <fmt:message key="extraction.crude.dissolvent.short"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 8em;">
+                            <fmt:message key="extraction.crude.grease"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 8em;">
+                            <fmt:message key="cake.protein"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 8em;">
+                            <fmt:message key="cake.cellulose"/>
+                        </span>
+                    </th>
+                </tr>
+                <tr v-for="crude in turn.item.crudes">
+                    <td align="center">
+                        {{new Date(crude.time).getHours()}}:{{new Date(crude.time).getMinutes()}}
+                    </td>
+                    <td align="center">
+                        {{(crude.humidityIncome).toLocaleString()}}
+                    </td>
+                    <td align="center">
+                        {{(crude.fraction).toLocaleString()}}
+                    </td>
+                    <td align="center">
+                        {{(crude.miscellas).toLocaleString()}}
+                    </td>
+                    <td align="center">
+                        {{(crude.humidity).toLocaleString()}}
+                    </td>
+                    <td align="center">
+                        {{(crude.dissolvent).toLocaleString()}}
+                    </td>
+                    <td align="center">
+                        {{(crude.grease).toLocaleString()}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 </html>

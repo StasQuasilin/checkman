@@ -9,6 +9,8 @@ import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
+import entity.laboratory.subdivisions.extraction.ExtractionCrude;
+import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
@@ -22,6 +24,7 @@ import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Set;
 
@@ -335,5 +338,51 @@ public class JsonParser {
         json.put("id", seal.getId());
         json.put("number", seal.getNumber());
         return json;
+    }
+
+    public static class Laboratory {
+        public static class Extraction {
+            public static JSONObject toJson(ExtractionTurn turn) {
+                JSONObject json = new JSONObject();
+                json.put("id", turn.getId());
+                json.put("number", turn.getNumber());
+                json.put("date", turn.getDate().toString());
+                json.put("crudes", toJson(turn.getCrudes()));
+                json.put("hash", turn.hashCode());
+
+                return json;
+            }
+
+            private static JSONArray toJson(Set<ExtractionCrude> crudes) {
+                JSONArray array = new JSONArray();
+                for (ExtractionCrude crude : crudes) {
+                    array.add(toJson(crude));
+                }
+                return array;
+            }
+
+            private static JSONObject toJson(ExtractionCrude crude) {
+                JSONObject json = new JSONObject();
+
+//                private int id;
+                json.put("id", crude.getId());
+//                private Timestamp time;
+                json.put("time", crude.getTime().toString());
+//                private float humidityIncome;
+                json.put("humidityIncome", crude.getHumidityIncome());
+//                private float fraction;
+                json.put("fraction", crude.getFraction());
+//                private float miscellas;
+                json.put("miscellas", crude.getMiscellas());
+//                private float humidity;
+                json.put("humidity", crude.getHumidity());
+//                private float dissolvent;
+                json.put("dissolvent", crude.getDissolvent());
+//                private float grease;
+                json.put("grease", crude.getGrease());
+
+                return json;
+            }
+        }
     }
 }

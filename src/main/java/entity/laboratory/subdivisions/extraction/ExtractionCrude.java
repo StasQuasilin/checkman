@@ -22,7 +22,7 @@ public class ExtractionCrude {
     private float dissolvent;
     private float grease;
     private ActionTime createTime;
-    private Worker worker;
+    private Worker creator;
 
     @Id
     @GeneratedValue
@@ -33,7 +33,7 @@ public class ExtractionCrude {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "turn")
     public ExtractionTurn getTurn() {
         return turn;
@@ -116,10 +116,34 @@ public class ExtractionCrude {
 
     @OneToOne
     @JoinColumn(name = "creator")
-    public Worker getWorker() {
-        return worker;
+    public Worker getCreator() {
+        return creator;
     }
-    public void setWorker(Worker worker) {
-        this.worker = worker;
+    public void setCreator(Worker worker) {
+        this.creator = worker;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+//        private Timestamp time;
+        hash = 31 * time.hashCode() + hash;
+//        private float humidityIncome;
+        hash = 31 * Float.hashCode(humidityIncome) + hash;
+//        private float fraction;
+        hash = 31 * Float.hashCode(fraction) + hash;
+//        private float miscellas;
+        hash = 31 * Float.hashCode(miscellas) + hash;
+//        private float humidity;
+        hash = 31 * Float.hashCode(humidity) + hash;
+//        private float dissolvent;
+        hash = 31 * Float.hashCode(dissolvent) + hash;
+//        private float grease;
+        hash = 31 * Float.hashCode(grease) + hash;
+//        private ActionTime createTime;
+        hash = 31 * createTime.hashCode() + hash;
+//        private Worker creator;
+        hash = 31 * creator.hashCode() + hash;
+        return hash;
     }
 }

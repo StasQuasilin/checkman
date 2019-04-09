@@ -7,42 +7,97 @@ var filter_controll = new Vue({
         items:[],
         type:-1,
         organisation:-1,
-        product:-1
-    },
-    beforeUpdate:function(){
-        this.items.filter(function(item){
-            return item.item.organisation.id == this.organisation;
-        })
+        product:-1,
+        date:-1,
+        vehicle:-1,
+        driver:-1
     },
     methods:{
         organisations:function(){
             var organisations = {};
-            for (var i in this.items){
-                if (this.items.hasOwnProperty(i)){
-                    var organisation = this.items[i].item.organisation;
-                    if (typeof organisation[organisation.id] !== undefined){
-                        organisations[organisation.id] = organisation;
-                    }
+            var items = this.filteredItems();
+            for (var i in items){
+                if (items.hasOwnProperty(i)){
+                    var organisation = items[i].item.organisation;
+                    organisations[organisation.id] = organisation;
                 }
             }
             return organisations;
         },
         products:function() {
             var products = {};
-            for (var i in this.items){
-                if (this.items.hasOwnProperty(i)){
-                    var product = this.items[i].item.product;
-                    console.log(products[product.id] != undefined);
+            var items = this.filteredItems();
+            for (var i in items){
+                if (items.hasOwnProperty(i)){
+                    var product = items[i].item.product;
                     if (typeof products[product.id] !== undefined){
                         products[product.id] = product;
                     }
                 }
             }
-            console.log(products);
             return products;
         },
-        filterFunction:function(item){
-            return item.organisation.id == this.organisation.id
+        dates:function(){
+            var dates = {};
+            var items = this.filteredItems();
+            for (var i in items){
+                if (items.hasOwnProperty(i)){
+                    var date = items[i].item.date;
+                    if (dates[date] != 'undefined'){
+                        dates[date] = date;
+                    }
+                }
+            }
+            return dates;
+        },
+        vehicles:function(){
+            var vehicles = {};
+            var items = this.filteredItems();
+            for (var i in items){
+                if (items.hasOwnProperty(i)){
+                    var vehicle = items[i].item.transportation.vehicle;
+                    if (vehicle.id != undefined && vehicles[vehicle.id] == undefined){
+                        vehicles[vehicle.id] = vehicle;
+                    }
+                }
+            }
+            return vehicles;
+        },
+        drivers:function(){
+            var drivers = {};
+            var items = this.filteredItems();
+            for (var i in items){
+                if (items.hasOwnProperty(i)){
+                    var driver = items[i].item.transportation.driver;
+                    if (driver.id != undefined && drivers[driver.id] == undefined){
+                        drivers[driver.id] = driver;
+                    }
+                }
+            }
+            return drivers;
+        },
+        filteredItems:function(){
+            const self = this;
+            return this.items.filter(function(item){
+                var byVehicle = self.vehicle == -1 ||
+                    (self.vehicle == 0 && item.item.transportation.vehicle.id == undefined) ||
+                    (item.item.transportation.vehicle.id == self.vehicle);
+                var byDriver = self.driver == -1 ||
+                    (self.driver == 0 && item.item.transportation.driver.id == undefined) ||
+                    (item.item.transportation.driver.id == self.driver);
+                return (self.type == -1 || item.item.type === self.type) &
+                    (self.organisation == -1 || item.item.organisation.id === self.organisation) &
+                    (self.product == -1 || item.item.product.id == self.product) &
+                    (self.date == -1 || item.item.date === self.date) & byVehicle & byDriver;
+            })
+        },
+        clear:function(){
+            this.type = -1;
+            this.product = -1;
+            this.organisation = -1;
+            this.date = -1;
+            this.vehicle = -1;
+            this.driver = -1;
         }
     }
 });

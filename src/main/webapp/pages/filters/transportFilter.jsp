@@ -4,6 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+<link rel="stylesheet" href="${context}/css/filter.css">
 <script src="${context}/vue/filters/transportFilter.js"></script>
 <script>
     filter_controll.filters.types.push({
@@ -24,7 +25,7 @@
                 </label>
             </td>
             <td>
-                <select id="type" v-model="type">
+                <select id="type" v-model="type" style="width: 100%">
                     <option value="-1"><fmt:message key="all"/> </option>
                     <option v-for="(value, key) in filters.types" :value="value.id">{{value.value}}</option>
                 </select>
@@ -39,9 +40,9 @@
         </tr>
         <tr>
             <td colspan="2">
-                <select id="organisation" v-model="organisation">
+                <select id="organisation" v-model="organisation" style="width: 100%">
                     <option value="-1"><fmt:message key="all"/> </option>
-                    <option v-for="organisation in organisations()" value="organisation.id">
+                    <option v-for="organisation in organisations()" :value="organisation.id">
                         {{organisation.value}}
                     </option>
                 </select>
@@ -55,17 +56,69 @@
         <tr>
             <td colspan="2">
                 <div>
-                    <input type="radio" name="product_radio" id="product_" checked>
+                    <input type="radio" name="product_radio" id="product_" value="-1" v-model="product">
                     <label for="product_">
                         <fmt:message key="all"/>
                     </label>
                 </div>
-                <div v-for="product in products()">
-                    <input type="radio" name="product_radio" :id="'product_'+product.id">
-                    <label :for="'product_' + product.id">
-                        {{product.name}}
+                <div v-for="p in products()" >
+                    <input type="radio" name="product_radio" :id="'product_'+p.id" :value="p.id"  v-model="product">
+                    <label :for="'product_' + p.id">
+                        {{p.name}}
                     </label>
                 </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="date">
+                    <fmt:message key="date"/>
+                </label>
+            </td>
+            <td>
+                <select id="date" v-model="date" style="width: 100%">
+                    <option value="-1"><fmt:message key="all"/> </option>
+                    <option v-for="date in dates()" :value="date">{{new Date(date).toLocaleDateString()}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <label for="vehicle">
+                    <fmt:message key="transportation.automobile"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <select id="vehicle" v-model="vehicle" style="width: 100%">
+                    <option value="-1"><fmt:message key="all"/></option>
+                    <option value="0"><fmt:message key="no.data"/> </option>
+                    <option v-for="vehicle in vehicles()" :value="vehicle.id">{{vehicle.model}} '{{vehicle.number}}'</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <label for="driver">
+                    <fmt:message key="transportation.driver"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <select id="driver" v-model="driver" style="width: 100%">
+                    <option value="-1"><fmt:message key="all"/></option>
+                    <option value="0"><fmt:message key="no.data"/> </option>
+                    <option v-for="driver in drivers()" :value="driver.id">{{driver.person.value}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <button v-on:click="clear" style="border: solid gray 1.2pt; font-size: 10pt">
+                    <fmt:message key="buton.clear"/>
+                </button>
             </td>
         </tr>
     </table>

@@ -34,7 +34,7 @@
     }
   </script>
   <div id="logistic">
-    <div v-for="(value, key) in items" class="container-item" v-bind:class="value.className">
+    <div v-for="(value, key) in filter.filteredItems()" class="container-item" v-bind:class="value.className">
       <div class="upper-row">
         <span>
           {{new Date(value.item.date).toLocaleDateString()}}

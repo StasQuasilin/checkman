@@ -1,0 +1,24 @@
+.drop-menu{
+    display: inline-block;
+}
+.drop-menu:hover .drop-menu-content{
+    display: block;
+}
+.drop-menu-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 200px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    margin: 0;
+}
+.drop-menu-item{
+    display: inline-block;
+    margin: 0;
+    width: 100%;
+    padding: 8pt 0;
+}
+.drop-menu-item:hover{
+    background-color: aliceblue;
+}

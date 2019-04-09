@@ -17,51 +17,51 @@
             laborants:[],
             times: [
                 {
-                    hour:8,
+                    hour:'08',
                     minute:30
                 },
                 {
-                    hour:10,
+                    hour:'10',
                     minute:30
                 },
                 {
-                    hour:12,
+                    hour:'12',
                     minute:30
                 },
                 {
-                    hour:14,
+                    hour:'14',
                     minute:30
                 },
                 {
-                    hour:16,
+                    hour:'16',
                     minute:30
                 },
                 {
-                    hour:18,
+                    hour:'18',
                     minute:30
                 },
                 {
-                    hour:20,
+                    hour:'20',
                     minute:30
                 },
                 {
-                    hour:22,
+                    hour:'22',
                     minute:30
                 },
                 {
-                    hour:0,
+                    hour:'00',
                     minute:30
                 },
                 {
-                    hour:2,
+                    hour:'02',
                     minute:30
                 },
                 {
-                    hour:4,
+                    hour:'04',
                     minute:30
                 },
                 {
-                    hour:6,
+                    hour:'06',
                     minute:30
                 }
             ],
@@ -77,7 +77,7 @@
                     if (this.times.hasOwnProperty(t)) {
                         var time = this.times[t];
                         var date = new Date();
-                        date.setHours(time.hour);
+                        date.setHours(parseInt(time.hour));
                         date.setMinutes(time.minute);
 
                         var d = Math.abs((date.getHours() * 60 + date.getMinutes()) - (now.getHours() * 60 + now.getMinutes()));
@@ -110,7 +110,7 @@
     })
 </script>
 <script>
-    editor.api.save = ${saveUrl}
+    editor.api.save = '${saveUrl}'
     <c:forEach items="${laborants}" var="l">
     editor.laborants.push({
         id:${l.id},

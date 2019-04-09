@@ -28,6 +28,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("crudeEdit", Branches.UI.Extraction.CRUDE_EDIT);
                 req.setAttribute("rawEdit", Branches.UI.Extraction.RAW_EDIT);
                 req.setAttribute("oilEdit", Branches.UI.Extraction.OIL_EDIT);
+                req.setAttribute("update", Branches.API.EXTRACTION_LIST);
                 break;
             case vro:
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_VRO);

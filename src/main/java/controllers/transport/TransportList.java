@@ -22,6 +22,7 @@ public class TransportList extends IUIServlet{
         req.setAttribute("updateLink", Branches.API.TRANSPORT_UPDATE);
         req.setAttribute("showLink", Branches.UI.TRANSPORT_SHOW);
         req.setAttribute("content", "/pages/transport/transportList.jsp");
+        req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
         show(req, resp);
     }
 }
