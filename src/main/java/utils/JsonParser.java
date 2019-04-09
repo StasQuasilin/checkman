@@ -10,6 +10,7 @@ import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
+import entity.laboratory.subdivisions.extraction.ExtractionRaw;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
@@ -348,8 +349,25 @@ public class JsonParser {
                 json.put("number", turn.getNumber());
                 json.put("date", turn.getDate().toString());
                 json.put("crudes", toJson(turn.getCrudes()));
+                json.put("raws", toRawJson(turn.getRaws()));
                 json.put("hash", turn.hashCode());
 
+                return json;
+            }
+
+            private static JSONObject toRawJson(Set<ExtractionRaw> raws) {
+                JSONObject json = new JSONObject();
+                for (ExtractionRaw raw : raws){
+                    json.put(raw.getTime().toString(), toJson(raw));
+                }
+                return json;
+            }
+
+            private static JSONObject toJson(ExtractionRaw raw) {
+                JSONObject json = new JSONObject();
+                json.put("id", raw.getId());
+                json.put("protein", raw.getProtein());
+                json.put("cellulose", raw.getCellulose());
                 return json;
             }
 

@@ -52,6 +52,14 @@ public class ExtractionTurn {
         this.crudes = crudes;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
+    public Set<ExtractionRaw> getRaws() {
+        return raws;
+    }
+    public void setRaws(Set<ExtractionRaw> raws) {
+        this.raws = raws;
+    }
+
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
     public ExtractionOIl getOil() {
         return oil;
@@ -69,9 +77,9 @@ public class ExtractionTurn {
             hash = 31 * crude.hashCode() + hash;
         }
 
-//        for (ExtractionRaw raw : raws) {
-//            hash = 31 * raw.hashCode() + hash;
-//        }
+        for (ExtractionRaw raw : raws) {
+            hash = 31 * raw.hashCode() + hash;
+        }
 
         if (oil != null) {
             hash = 31 * oil.hashCode() + hash;

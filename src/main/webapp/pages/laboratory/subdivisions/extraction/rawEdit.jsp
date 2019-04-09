@@ -5,27 +5,59 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
-<table class="editor">
+<script src="${context}/vue/laboratory/extractionEdit.js"></script>
+<script>
+    editor.api.save = '${saveUrl}';
+    <c:forEach items="${laborants}" var="l">
+    editor.laborants.push({
+        id:${l.id},
+        value:'${l.person.value}'
+    });
+    </c:forEach>
+    <c:choose>
+    <c:when test="${not empty crude}">
+    </c:when>
+    <c:otherwise>
+    editor.crude = {
+        date : new Date().toISOString().substring(0, 10),
+        time : editor.currentTime(),
+        protein:0,
+        cellulose:0,
+        creator:${worker.id}
+    };
+    </c:otherwise>
+    </c:choose>
+</script>
+<table id="editor" class="editor">
     <tr>
         <td>
-            <fmt:message key="date"/>
+            <label for="date">
+                <fmt:message key="date"/>
+            </label>
         </td>
         <td>
             :
         </td>
         <td>
-
+            <input id="date" readonly style="width: 7em" v-on:click="datePicker"
+                   v-model="new Date(crude.date).toLocaleDateString()">
         </td>
     </tr>
     <tr>
         <td>
-            <fmt:message key="time"/>
+            <label for="time">
+                <fmt:message key="time"/>
+            </label>
         </td>
         <td>
             :
         </td>
         <td>
-
+            <select id="time" v-model="crude.time">
+                <option v-for="time in times">
+                    {{time.hour}}:{{time.minute}}
+                </option>
+            </select>
         </td>
     </tr>
     <tr>
@@ -38,7 +70,7 @@
             :
         </td>
         <td>
-            <input id="protein" type="number" step="0.1" autocomplete="off">
+            <input id="protein" type="number" step="0.1" autocomplete="off" v-model="crude.protein">
         </td>
     </tr>
     <tr>
@@ -51,7 +83,22 @@
             :
         </td>
         <td>
-            <input id="cellulose" type="number" step="0.1" autocomplete="off">
+            <input id="cellulose" type="number" step="0.1" autocomplete="off" v-model="crude.cellulose">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="creator">
+                <fmt:message key="laboratory.creator"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <select id="creator" v-model="crude.creator" style="width: 100%">
+                <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
+            </select>
         </td>
     </tr>
     <tr>
@@ -59,7 +106,7 @@
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>
-            <button>
+            <button v-on:click="save">
                 <fmt:message key="button.save"/>
             </button>
         </td>

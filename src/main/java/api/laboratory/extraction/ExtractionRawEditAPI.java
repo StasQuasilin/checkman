@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
+import entity.laboratory.subdivisions.extraction.ExtractionRaw;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
@@ -22,14 +23,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Created by szpt_user045 on 04.04.2019.
+ * Created by quasilin on 09.04.2019.
  */
-@WebServlet(Branches.API.EXTRACTION_CRUDE_EDIT)
-public class ExtractionCrudeEditAPI extends IAPI {
+@WebServlet(Branches.API.EXTRACTION_RAW_EDIT)
+public class ExtractionRawEditAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
-        ExtractionCrude crude;
+        ExtractionRaw raw;
         boolean save = false;
         LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
         LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
@@ -38,9 +39,9 @@ public class ExtractionCrudeEditAPI extends IAPI {
 
         if (body.containsKey(Constants.ID)){
             long id = (long) body.get(Constants.ID);
-            crude = hibernator.get(ExtractionCrude.class, "id", id);
+            raw = hibernator.get(ExtractionRaw.class, "id", id);
         } else {
-            crude = new ExtractionCrude();
+            raw = new ExtractionRaw();
             System.out.println("Get Extraction turn " + Timestamp.valueOf(localDateTime));
             ExtractionTurn turn = hibernator.get(ExtractionTurn.class, "date", Timestamp.valueOf(turnDate.getDate()));
             if (turn == null) {
@@ -49,53 +50,29 @@ public class ExtractionCrudeEditAPI extends IAPI {
                 turn.setDate(Timestamp.valueOf(turnDate.getDate()));
                 hibernator.save(turn);
             }
-            crude.setTurn(turn);
+            raw.setTurn(turn);
             save = true;
         }
 
-        crude.setTime(Timestamp.valueOf(localDateTime));
+        raw.setTime(Timestamp.valueOf(localDateTime));
 
-        float humidityIncome = Float.parseFloat(String.valueOf(body.get("humidityIncome")));
-        if (crude.getHumidityIncome() != humidityIncome) {
-            crude.setHumidityIncome(humidityIncome);
+        float protein = Float.parseFloat(String.valueOf(body.get("protein")));
+        if (raw.getProtein() != protein) {
+            raw.setProtein(protein);
             save = true;
         }
 
-        float fraction = Float.parseFloat(String.valueOf(body.get("fraction")));
-        if (crude.getFraction() != fraction) {
-            crude.setFraction(fraction);
-            save = true;
-        }
-
-        float miscellas = Float.parseFloat(String.valueOf(body.get("miscellas")));
-        if (crude.getMiscellas() != miscellas) {
-            crude.setMiscellas(miscellas);
-            save = true;
-        }
-
-        float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
-        if (crude.getHumidity() != humidity){
-            crude.setHumidity(humidity);
-            save = true;
-        }
-
-        float dissolvent = Float.parseFloat(String.valueOf(body.get("dissolvent")));
-        if (crude.getDissolvent() != dissolvent) {
-            crude.setDissolvent(dissolvent);
-            save = true;
-        }
-
-        float grease = Float.parseFloat(String.valueOf(body.get("grease")));
-        if (crude.getGrease() != grease) {
-            crude.setGrease(grease);
+        float cellulose = Float.parseFloat(String.valueOf(body.get("cellulose")));
+        if (raw.getCellulose() != cellulose) {
+            raw.setCellulose(cellulose);
             save = true;
         }
 
         if (save) {
-            ActionTime createTime = crude.getCreateTime();
+            ActionTime createTime = raw.getCreateTime();
             if (createTime == null) {
                 createTime = new ActionTime();
-                crude.setCreateTime(createTime);
+                raw.setCreateTime(createTime);
             }
             createTime.setTime(new Timestamp(System.currentTimeMillis()));
             Worker worker = getWorker(req);
@@ -105,8 +82,8 @@ public class ExtractionCrudeEditAPI extends IAPI {
             } else {
                 createTime.setCreator(worker);
             }
-            crude.setCreator(worker);
-            hibernator.save(createTime, crude);
+            raw.setCreator(worker);
+            hibernator.save(createTime, raw);
         }
 
         write(resp, answer);

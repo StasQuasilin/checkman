@@ -28,7 +28,6 @@
 <script>
     deamon.url = '${update}';
     deamon.doRequest();
-
 </script>
 
 <div id="container">
@@ -38,7 +37,7 @@
             {{new Date(turn.item.date).toLocaleDateString()}}
         </span>
         <span>
-            <fmt:message key="turn"/><span>#</span>{{turn.item.number}}
+            <fmt:message key="turn"/><span> #</span>{{turn.item.number}}
         </span>
         </div>
         <div style="padding-left: 8pt">
@@ -90,7 +89,7 @@
                         </span>
                     </th>
                 </tr>
-                <tr v-for="crude in turn.item.crudes">
+                <tr v-for="crude in (turn.item.crudes)">
                     <td align="center">
                         {{new Date(crude.time).getHours()}}:{{new Date(crude.time).getMinutes()}}
                     </td>
@@ -111,6 +110,22 @@
                     </td>
                     <td align="center">
                         {{(crude.grease).toLocaleString()}}
+                    </td>
+                    <td align="center">
+                        <span v-if="turn.item.raws[crude.time]">
+                            {{turn.item.raws[crude.time].protein}}
+                        </span>
+                        <span v-else>
+                            --
+                        </span>
+                    </td>
+                    <td align="center">
+                        <span v-if="turn.item.raws[crude.time]">
+                            {{turn.item.raws[crude.time].cellulose}}
+                        </span>
+                        <span v-else>
+                            --
+                        </span>
                     </td>
                 </tr>
             </table>
