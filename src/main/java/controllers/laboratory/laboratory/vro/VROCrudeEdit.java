@@ -1,10 +1,10 @@
-package controllers.laboratory.laboratory.extraction;
+package controllers.laboratory.laboratory.vro;
 
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
+import entity.production.Forpress;
 import utils.TransportUtil;
-import utils.TurnBox;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,17 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by szpt_user045 on 28.03.2019.
+ * Created by szpt_user045 on 10.04.2019.
  */
-@WebServlet(Branches.UI.Extraction.OIL_EDIT)
-public class ExtractionOilEdit extends IModal {
+@WebServlet(Branches.UI.VRO.CRUDE_EDIT)
+public class VROCrudeEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Constants.Titles.EXTRACTION_OIL);
-        req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/oilEdit.jsp");
-        req.setAttribute("turns", TurnBox.getBox().getTurns());
+        req.setAttribute("title", Constants.Titles.SUN_EDIT);
+        req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/crudeEdit.jsp");
+        req.setAttribute("save", Branches.API.VRO_CRUDE_EDIT);
         req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
-        req.setAttribute("save", Branches.API.EXTRACTION_OIL_EDIT);
+        req.setAttribute("forpress", hibernator.query(Forpress.class, null));
         show(req, resp);
     }
 }

@@ -10,8 +10,13 @@ import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
+import entity.laboratory.subdivisions.extraction.ExtractionOIl;
 import entity.laboratory.subdivisions.extraction.ExtractionRaw;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import entity.laboratory.subdivisions.vro.ForpressCake;
+import entity.laboratory.subdivisions.vro.VROCrude;
+import entity.laboratory.subdivisions.vro.VROOil;
+import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
@@ -350,8 +355,34 @@ public class JsonParser {
                 json.put("date", turn.getDate().toString());
                 json.put("crudes", toJson(turn.getCrudes()));
                 json.put("raws", toRawJson(turn.getRaws()));
+                json.put("oil", toOilJson(turn.getOils()));
                 json.put("hash", turn.hashCode());
 
+                return json;
+            }
+
+            private static JSONArray toOilJson(Set<ExtractionOIl> oils) {
+                JSONArray array = new JSONArray();
+                for (ExtractionOIl oil : oils){
+                    array.add(toJson(oil));
+                }
+                return array;
+            }
+
+            private static JSONObject toJson(ExtractionOIl oil) {
+                JSONObject json = new JSONObject();
+//                private int id;
+                json.put("id", oil.getId());
+//                private float humidity;
+                json.put("humidity", oil.getHumidity());
+//                private float acid;
+                json.put("acid", oil.getAcid());
+//                private float peroxide;
+                json.put("peroxide", oil.getPeroxide());
+//                private float phosphorus;
+                json.put("phosphorus", oil.getPhosphorus());
+//                private float explosionT;
+                json.put("explosionT", oil.getExplosionT());
                 return json;
             }
 
@@ -401,6 +432,97 @@ public class JsonParser {
 
                 return json;
             }
+        }
+    }
+
+    public static class VRO {
+        public static JSONObject toJson(VROTurn turn) {
+            JSONObject json = new JSONObject();
+            json.put("id", turn.getId());
+            json.put("date", turn.getDate().toString());
+            json.put("number", turn.getNumber());
+            json.put("crudes", toCrudeJson(turn.getCrudes()));
+            json.put("cakes", toCakeJson(turn.getForpressCakes()));
+            json.put("oil", toOilJson(turn.getOils()));
+            json.put("hash", turn.hashCode());
+
+            return json;
+        }
+
+        private static JSONArray toOilJson(Set<VROOil> oils) {
+            JSONArray array = new JSONArray();
+            for (VROOil oil : oils) {
+                array.add(toJson(oil));
+            }
+            return array;
+        }
+
+        private static JSONObject toJson(VROOil oil) {
+            JSONObject json = new JSONObject();
+//            private int id;
+            json.put("id", oil.getId());
+//            private Timestamp time;
+            json.put("time", oil.getTime().toString());
+//            private float acid;
+            json.put("acid", oil.getAcid());
+//            private float peroxide;
+            json.put("peroxide", oil.getPeroxide());
+//            private float phosphorus;
+            json.put("phosphorus", oil.getPhosphorus());
+//            private int color;
+            json.put("color", oil.getColor());
+
+            return json;
+        }
+
+        private static JSONObject toCakeJson(Set<ForpressCake> forpressCakes) {
+            JSONObject json = new JSONObject();
+            for (ForpressCake cake : forpressCakes){
+                json.put(cake.getTime().toString(), toJson(cake));
+            }
+            return json;
+        }
+
+        private static JSONObject toJson(ForpressCake cake) {
+            JSONObject json = new JSONObject();
+
+            json.put("id", cake.getId());
+            json.put("forpress", cake.getForpress().getName());
+            json.put("humidity", cake.getHumidity());
+            json.put("oiliness", cake.getOiliness());
+
+            return json;
+        }
+
+        private static JSONArray toCrudeJson(Set<VROCrude> crudes) {
+            JSONArray array = new JSONArray();
+            for (VROCrude crude : crudes) {
+                array.add(toJson(crude));
+            }
+            return array;
+        }
+
+        private static JSONObject toJson(VROCrude crude) {
+            JSONObject json = new JSONObject();
+//            private int id;
+            json.put("id", crude.getId());
+//            private Timestamp time;
+            json.put("time", crude.getTime().toString());
+//            private float humidityBefore;
+            json.put("humidityBefore", crude.getHumidityBefore());
+//            private float sorenessBefore;
+            json.put("sorenessBefore", crude.getSorenessBefore());
+//            private float humidityAfter;
+            json.put("humidityAfter", crude.getHumidityAfter());
+//            private float sorenessAfter;
+            json.put("sorenessAfter", crude.getSorenessAfter());
+//            private float huskiness;
+            json.put("huskiness", crude.getHuskiness());
+//            private float kernelOffset;
+            json.put("kernelOffset", crude.getKernelOffset());
+//            private float pulpHumidity;
+            json.put("pulpHumidity", crude.getPulpHumidity());
+            return json;
         }
     }
 }

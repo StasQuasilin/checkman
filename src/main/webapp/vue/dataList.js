@@ -95,7 +95,7 @@ var deamon = new Vue({
         },
         sort:function(){
             this.items.sort(function(a, b){
-                return new Date(a.item.date) - new Date(b.item.date);
+                return new Date(b.item.date) - new Date(a.item.date);
             })
         },
         stop:function(){
@@ -112,6 +112,9 @@ var deamon = new Vue({
         closeMenu:function(){
             this.menu.show = false;
             //event.preventDefault();
+        },
+        rowName:function(date){
+            return 'container-item-' + new Date(date).getDay();
         }
 
     }

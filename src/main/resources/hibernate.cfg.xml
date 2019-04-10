@@ -55,10 +55,15 @@
         <mapping class="entity.laboratory.probes.SunProbe"/>
         <mapping class="entity.laboratory.probes.OilProbe"/>
         <mapping class="entity.production.Turn"/>
+        <mapping class="entity.production.Forpress"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionTurn"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionCrude"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionRaw"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionOIl"/>
+        <mapping class="entity.laboratory.subdivisions.vro.VROTurn"/>
+        <mapping class="entity.laboratory.subdivisions.vro.VROCrude"/>
+        <mapping class="entity.laboratory.subdivisions.vro.ForpressCake"/>
+        <mapping class="entity.laboratory.subdivisions.vro.VROOil"/>
         <mapping class="entity.seals.Seal"/>
         <mapping class="entity.seals.SealBatch"/>
     </session-factory>

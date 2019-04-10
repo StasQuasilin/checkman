@@ -4,41 +4,94 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-    <link rel="stylesheet" href="${context}/css/editor.css">
-<table class="editor">
-    <tr>
-        <td>
-            <fmt:message key="date"/>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
+<link rel="stylesheet" href="${context}/css/editor.css">
+<script src="${context}/vue/datepick.js"></script>
+<link rel="stylesheet" href="${context}/css/date-picker.css">
+<script src="${context}/vue/laboratory/extractionOil.js"></script>
+<script>
+    editor.api.save = '${save}';
+    <c:forEach items="${turns}" var="turn">
+    editor.turns.push({
+        id:${turn.id},
+        value:'<fmt:message key="turn"/> #${turn.number}',
+        <c:choose>
+        <c:when test="${turn.begin lt turn.end}">
+        day:0
+        </c:when>
+        <c:otherwise>
+        day:-1
+        </c:otherwise>
+        </c:choose>
+    });
+    </c:forEach>
+    <c:forEach items="${laborants}" var="l">
+    editor.laborants.push({
+        id:${l.id},
+        value:'${l.person.value}'
+    });
+    </c:forEach>
+    <c:choose>
+    <c:when test="${not empty oil}">
+    </c:when>
+    <c:otherwise>
+    editor.oil = {
+        date : new Date().toISOString().substring(0, 10),
+        turn : -1,
+        humidity:0,
+        acid:0,
+        peroxide:0,
+        phosphorus:0,
+        explosion:0,
+        creator:${worker.id}
+    };
+    </c:otherwise>
+    </c:choose>
 
-        </td>
-    </tr>
+</script>
+<table id="editor" class="editor">
     <tr>
         <td>
-            <fmt:message key="time"/>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="humidity">
-                <fmt:message key="extraction.crude.humidity"/>
+            <label for="date">
+                <fmt:message key="date"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="humidity" type="number" step="0.01" autocomplete="off">
+            <input id="date" readonly style="width: 7em" v-on:click="datePicker"
+                   v-model="new Date(oil.date).toLocaleDateString()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="time">
+                <fmt:message key="turn"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <select id="time" v-model="oil.turn">
+                <option v-for="turn in turns" :value="turn.id">
+                    {{turnDate(turn.day)}}
+                    {{turn.value}}
+                </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="humidity">
+                <fmt:message key="sun.humidity"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="humidity" type="number" step="0.01" autocomplete="off" v-model="oil.humidity">
         </td>
     </tr>
     <tr>
@@ -51,7 +104,7 @@
             :
         </td>
         <td>
-            <input id="acid" type="number" step="0.01" autocomplete="off">
+            <input id="acid" type="number" step="0.01" autocomplete="off" v-model="oil.acid">
         </td>
     </tr>
     <tr>
@@ -64,7 +117,7 @@
             :
         </td>
         <td>
-            <input id="peroxide" type="number" step="0.01" autocomplete="off">
+            <input id="peroxide" type="number" step="0.01" autocomplete="off" v-model="oil.peroxide">
         </td>
     </tr>
     <tr>
@@ -77,7 +130,7 @@
             :
         </td>
         <td>
-            <input id="phosphorus" type="number" step="0.01" autocomplete="off">
+            <input id="phosphorus" type="number" step="0.01" autocomplete="off" v-model="oil.phosphorus">
         </td>
     </tr>
     <tr>
@@ -90,7 +143,24 @@
             :
         </td>
         <td>
-            <input id="explosion" type="number" step="0.01" autocomplete="off">
+            <input id="explosion" type="number" step="0.01" autocomplete="off" v-model="oil.explosion">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="creator">
+                <fmt:message key="laboratory.creator"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <select id="creator" v-model="oil.creator">
+                <option v-for="laborant in laborants" :value="laborant.id">
+                    {{laborant.value}}
+                </option>
+            </select>
         </td>
     </tr>
     <tr>
@@ -98,7 +168,7 @@
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>
-            <button>
+            <button v-on:click="save">
                 <fmt:message key="button.save"/>
             </button>
         </td>

@@ -1,23 +1,24 @@
-package entity.laboratory.subdivisions.extraction;
+package entity.laboratory.subdivisions.vro;
 
 import entity.Worker;
 import entity.transport.ActionTime;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
- * Created by szpt_user045 on 04.04.2019.
+ * Created by szpt_user045 on 10.04.2019.
  */
 @Entity
-@Table(name = "extraction_oil")
-public class ExtractionOIl {
+@Table(name = "vro_oil")
+public class VROOil {
     private int id;
-    private ExtractionTurn turn;
-    private float humidity;
+    private VROTurn turn;
+    private Timestamp time;
     private float acid;
     private float peroxide;
     private float phosphorus;
-    private float explosionT;
+    private int color;
     private ActionTime createTime;
     private Worker creator;
 
@@ -30,22 +31,22 @@ public class ExtractionOIl {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "turn")
-    public ExtractionTurn getTurn() {
+    public VROTurn getTurn() {
         return turn;
     }
-    public void setTurn(ExtractionTurn turn) {
+    public void setTurn(VROTurn turn) {
         this.turn = turn;
     }
 
     @Basic
-    @Column(name = "humidity")
-    public float getHumidity() {
-        return humidity;
+    @Column(name = "time")
+    public Timestamp getTime() {
+        return time;
     }
-    public void setHumidity(float humidity) {
-        this.humidity = humidity;
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     @Basic
@@ -76,12 +77,12 @@ public class ExtractionOIl {
     }
 
     @Basic
-    @Column(name = "explosion_t")
-    public float getExplosionT() {
-        return explosionT;
+    @Column(name = "color")
+    public int getColor() {
+        return color;
     }
-    public void setExplosionT(float explosionT) {
-        this.explosionT = explosionT;
+    public void setColor(int color) {
+        this.color = color;
     }
 
     @OneToOne
@@ -105,20 +106,21 @@ public class ExtractionOIl {
     @Override
     public int hashCode() {
         int hash = 7;
-//        private float humidity;
-        hash = 31 * Float.hashCode(humidity) + hash;
+//        private Timestamp time;
+        hash = 31 * time.hashCode() + hash;
 //        private float acid;
         hash = 31 * Float.hashCode(acid) + hash;
 //        private float peroxide;
         hash = 31 * Float.hashCode(peroxide) + hash;
 //        private float phosphorus;
         hash = 31 * Float.hashCode(phosphorus) + hash;
-//        private float explosionT;
-        hash = 31 * Float.hashCode(explosionT) + hash;
+//        private int color;
+        hash = 31 * color + hash;
 //        private ActionTime createTime;
         hash = 31 * createTime.hashCode() + hash;
 //        private Worker creator;
         hash = 31 * creator.hashCode() + hash;
+
         return hash;
     }
 }

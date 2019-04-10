@@ -4,6 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+<link rel="stylesheet" href="${context}/css/DataContainer.css">
 <div id="container-header" style="display: inline">
     <link rel="stylesheet" href="${context}/css/drop-menu.css">
     <div class="drop-menu">
@@ -31,7 +32,7 @@
 </script>
 
 <div id="container">
-    <div v-for="turn in items">
+    <div v-for="turn in items" class="container-item" :class="rowName(turn.item.date)" style="padding: 4pt">
         <div>
             <span>
             {{new Date(turn.item.date).toLocaleDateString()}}
@@ -40,7 +41,7 @@
             <fmt:message key="turn"/><span> #</span>{{turn.item.number}}
         </span>
         </div>
-        <div style="padding-left: 8pt">
+        <div style="padding-left: 12pt">
             <table style="font-size: 10pt; border: none" border="1">
                 <tr>
                     <th>
@@ -129,6 +130,19 @@
                     </td>
                 </tr>
             </table>
+        </div>
+        <div v-for="oil in turn.item.oil" style="font-size: 10pt">
+            <fmt:message key="extraction.oil"/>:
+            <fmt:message key="sun.humidity"/>:
+            {{(oil.humidity).toLocaleString()}},
+            <fmt:message key="sun.acid.value"/>:
+            {{(oil.acid).toLocaleString()}},
+            <fmt:message key="oil.peroxide"/>:
+            {{(oil.peroxide).toLocaleString()}},
+            <fmt:message key="oil.phosphorus"/>:
+            {{(oil.phosphorus).toLocaleString()}},
+            <fmt:message key="extraction.oil.explosion"/>:
+            {{(oil.explosionT).toLocaleString()}}
         </div>
     </div>
 </div>

@@ -32,7 +32,10 @@ public class SubdivisionList extends IUIServlet {
                 break;
             case vro:
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_VRO);
-                req.setAttribute("content", "/pages/laboratory/subdivisions/vroList.jsp");
+                req.setAttribute("content", "/pages/laboratory/subdivisions/vro/vroList.jsp");
+                req.setAttribute("crudeEdit", Branches.UI.VRO.CRUDE_EDIT);
+                req.setAttribute("oilEdit", Branches.UI.VRO.OIL_EDIT);
+                req.setAttribute("update", Branches.API.VRO_LIST);
                 break;
             case kpo:
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_KPO);

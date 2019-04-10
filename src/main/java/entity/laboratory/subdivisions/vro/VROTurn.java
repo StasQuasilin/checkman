@@ -1,21 +1,27 @@
-package entity.laboratory.subdivisions.extraction;
+package entity.laboratory.subdivisions.vro;
+
+import entity.laboratory.subdivisions.extraction.ExtractionCrude;
+import entity.laboratory.subdivisions.extraction.ExtractionOIl;
+import entity.laboratory.subdivisions.extraction.ExtractionRaw;
+import entity.seals.Seal;
 
 import javax.persistence.*;
+import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.sql.Timestamp;
 import java.util.Set;
 
 /**
- * Created by szpt_user045 on 04.04.2019.
+ * Created by szpt_user045 on 10.04.2019.
  */
 @Entity
-@Table(name = "turns_extraction")
-public class ExtractionTurn {
+@Table(name = "turns_vro")
+public class VROTurn {
     private int id;
     private Timestamp date;
     private int number;
-    private Set<ExtractionCrude> crudes;
-    private Set<ExtractionRaw> raws;
-    private Set<ExtractionOIl> oils;
+    private Set<VROCrude> crudes;
+    private Set<ForpressCake> forpressCakes;
+    private Set<VROOil> oils;
 
     @Id
     @GeneratedValue
@@ -36,36 +42,36 @@ public class ExtractionTurn {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "number")
     public int getNumber() {
         return number;
     }
-    public void setNumber(int name) {
-        this.number = name;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
-    public Set<ExtractionCrude> getCrudes() {
+    public Set<VROCrude> getCrudes() {
         return crudes;
     }
-    public void setCrudes(Set<ExtractionCrude> crudes) {
+    public void setCrudes(Set<VROCrude> crudes) {
         this.crudes = crudes;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
-    public Set<ExtractionRaw> getRaws() {
-        return raws;
+    public Set<ForpressCake> getForpressCakes() {
+        return forpressCakes;
     }
-    public void setRaws(Set<ExtractionRaw> raws) {
-        this.raws = raws;
+    public void setForpressCakes(Set<ForpressCake> forpressCakes) {
+        this.forpressCakes = forpressCakes;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
-    public Set<ExtractionOIl> getOils() {
+    public Set<VROOil> getOils() {
         return oils;
     }
-    public void setOils(Set<ExtractionOIl> oil) {
-        this.oils = oil;
+    public void setOils(Set<VROOil> oils) {
+        this.oils = oils;
     }
 
     @Override
@@ -73,15 +79,16 @@ public class ExtractionTurn {
         int hash = 7;
         hash = 31 * date.hashCode() + hash;
         hash = 31 * number + hash;
-        for (ExtractionCrude crude : crudes) {
+
+        for (VROCrude crude : crudes){
             hash = 31 * crude.hashCode() + hash;
         }
 
-        for (ExtractionRaw raw : raws) {
-            hash = 31 * raw.hashCode() + hash;
+        for (ForpressCake cake : forpressCakes) {
+            hash = 31 * cake.hashCode() + hash;
         }
 
-        for (ExtractionOIl oil : oils) {
+        for (VROOil oil : oils) {
             hash = 31 * oil.hashCode() + hash;
         }
 

@@ -51,6 +51,11 @@ public class Branches {
             public static final String RAW_EDIT = "/laboratory/extraction/raw.j";
             public static final String OIL_EDIT = "/laboratory/extraction/oil.j";
         }
+
+        public class VRO {
+            public static final String CRUDE_EDIT = "/laboratory/vro/crude.j";
+            public static final String OIL_EDIT = "/laboratory/vro/oil.j";
+        }
     }
     public class API{
         public static final String API = "/api";
@@ -90,6 +95,9 @@ public class Branches {
         public static final String SEAL_PUT =       API + "/transportation/seal/put";
         public static final String SEAL_REMOVE =    API + "/transportation/seal/remove";
         public static final String EXTRACTION_LIST = API + "/laboratory/extraction/list";
+        public static final String VRO_LIST =       API + "/laboratory/vro/list";
+        public static final String VRO_CRUDE_EDIT = API + "/laboratory/vro/crude/edit";
+        public static final String VRO_OIL_EDIT = API + "/laboratory/vro/oil/edit";
 
 
         public class References {

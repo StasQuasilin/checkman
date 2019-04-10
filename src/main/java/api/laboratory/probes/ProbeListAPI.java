@@ -5,10 +5,8 @@ import constants.Branches;
 import entity.AnalysesType;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.JsonParser;
 import utils.PostUtil;
 
@@ -47,7 +45,7 @@ public class ProbeListAPI extends IAPI {
 
         List<AnalysesType> types = new LinkedList<>();
         if (types.size() == 0) {
-            List<SunProbe> sunProbes = hibernator.LimitQuery(SunProbe.class, parameters, LIMIT);
+            List<SunProbe> sunProbes = hibernator.limitQuery(SunProbe.class, parameters, LIMIT);
             for (SunProbe sun : sunProbes){
                 String id = String.valueOf(sun.getId());
                 if (items.containsKey(id)){
@@ -59,7 +57,7 @@ public class ProbeListAPI extends IAPI {
                     add.add(JsonParser.toJson(sun));
                 }
             }
-            List<OilProbe> oilProbes = hibernator.LimitQuery(OilProbe.class, parameters, LIMIT);
+            List<OilProbe> oilProbes = hibernator.limitQuery(OilProbe.class, parameters, LIMIT);
             for (OilProbe oil : oilProbes){
                 String id = String.valueOf(oil.getId());
                 if (items.containsKey(id)){

@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/datepick.js"></script>
 <link rel="stylesheet" href="${context}/css/date-picker.css">
-<script src="${context}/vue/laboratory/extractionEdit.js"></script>
+<script src="${context}/vue/laboratory/extractionCrude.js"></script>
 <script>
     editor.api.save = '${saveUrl}'
     <c:forEach items="${laborants}" var="l">

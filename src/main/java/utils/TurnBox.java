@@ -56,6 +56,20 @@ public class TurnBox extends IBox{
         def.setDate(date);
         return def;
     }
+
+    public List<Turn> getTurns() {
+        return turns;
+    }
+
+    public Turn getTurn(long turnId) {
+        for (Turn turn : turns) {
+            if (turn.getId() == turnId) {
+                return turn;
+            }
+        }
+        return turns.get(0);
+    }
+
     public class TurnDateTime{
         int turnNumber;
         LocalDateTime date;
