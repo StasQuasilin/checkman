@@ -39,7 +39,7 @@
             </b>
             </span>
         </div>
-        <div class="lower-row">
+        <div class="lower-row" style="font-size: 10pt">
             <template v-if="item.item.type == 'sun'">
                 <fmt:message key="sun.humidity"/>:
                 {{item.item.analyses.humidity}},
@@ -51,6 +51,9 @@
                 {{item.item.analyses.oilImpurity}},
                 <fmt:message key="sun.acid.value"/>:
                 {{item.item.analyses.acidValue}}
+                <b v-if="item.item.analyses.contamination" style="color: #ff4a00">
+                    <fmt:message key="sun.contamination"/>
+                </b>
             </template>
             <template v-if="item.item.type == 'oil'">
                 <fmt:message key="oil.color.value"/>:

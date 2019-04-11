@@ -37,9 +37,9 @@ public class SaveWeightAPI extends IAPI {
         JSONArray array = (JSONArray) body.get(Constants.WEIGHTS);
 
         LoadPlan plan = hibernator.get(LoadPlan.class, "id", planId);
-        HashMap<Integer, Weight> weights = new HashMap<>();
+        HashMap<Long, Weight> weights = new HashMap<>();
         for (Weight w : plan.getTransportation().getWeights()){
-            weights.put(w.getId(), w);
+            weights.put((long) w.getId(), w);
         }
 
         for (Object o : array){

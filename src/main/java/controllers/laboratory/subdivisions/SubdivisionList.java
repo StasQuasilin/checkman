@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
 import entity.SubdivisionKey;
+import entity.production.Forpress;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +36,9 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("content", "/pages/laboratory/subdivisions/vro/vroList.jsp");
                 req.setAttribute("crudeEdit", Branches.UI.VRO.CRUDE_EDIT);
                 req.setAttribute("oilEdit", Branches.UI.VRO.OIL_EDIT);
+                req.setAttribute("dailyEdit", Branches.UI.VRO.DAILY_EDIT);
                 req.setAttribute("update", Branches.API.VRO_LIST);
+                req.setAttribute("forpress", hibernator.query(Forpress.class, null));
                 break;
             case kpo:
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_KPO);

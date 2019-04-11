@@ -14,13 +14,10 @@ import java.sql.Timestamp;
 @Table(name = "forpress_cake")
 public class ForpressCake {
     private int id;
-    private VROTurn turn;
-    private Timestamp time;
+    private VROCrude crude;
     private Forpress forpress;
     private float humidity;
     private float oiliness;
-    private ActionTime createTime;
-    private Worker creator;
 
     @Id
     @GeneratedValue
@@ -32,21 +29,12 @@ public class ForpressCake {
     }
 
     @ManyToOne
-    @JoinColumn(name = "turn")
-    public VROTurn getTurn() {
-        return turn;
+    @JoinColumn(name = "crude")
+    public VROCrude getCrude() {
+        return crude;
     }
-    public void setTurn(VROTurn turn) {
-        this.turn = turn;
-    }
-
-    @Basic
-    @Column(name = "time")
-    public Timestamp getTime() {
-        return time;
-    }
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setCrude(VROCrude turn) {
+        this.crude = turn;
     }
 
     @OneToOne
@@ -76,39 +64,16 @@ public class ForpressCake {
         this.oiliness = oiliness;
     }
 
-    @OneToOne
-    @JoinColumn(name = "create_time")
-    public ActionTime getCreateTime() {
-        return createTime;
-    }
-    public void setCreateTime(ActionTime createTime) {
-        this.createTime = createTime;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
-//        private Timestamp time;
-        hash = 31 * time.hashCode() + hash;
 //        private Forpress forpress;
         hash = 31 * forpress.hashCode() + hash;
 //        private float humidity;
         hash = 31 * Float.hashCode(humidity) + hash;
 //        private float oiliness;
         hash = 31 * Float.hashCode(oiliness) + hash;
-//        private ActionTime createTime;
-        hash = 31 * createTime.hashCode() + hash;
-//        private Worker creator;
-        hash = 31 * creator.hashCode() + hash;
+
         return hash;
     }
 }

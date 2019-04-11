@@ -1,4 +1,4 @@
-var filter_controll = new Vue({
+var filter_control = new Vue({
     el: '#filter_view',
     data:{
         filters:{

@@ -20,8 +20,8 @@ public class VROTurn {
     private Timestamp date;
     private int number;
     private Set<VROCrude> crudes;
-    private Set<ForpressCake> forpressCakes;
     private Set<VROOil> oils;
+    private Set<VRODaily> dailies;
 
     @Id
     @GeneratedValue
@@ -59,19 +59,19 @@ public class VROTurn {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
-    public Set<ForpressCake> getForpressCakes() {
-        return forpressCakes;
-    }
-    public void setForpressCakes(Set<ForpressCake> forpressCakes) {
-        this.forpressCakes = forpressCakes;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
     public Set<VROOil> getOils() {
         return oils;
     }
     public void setOils(Set<VROOil> oils) {
         this.oils = oils;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
+    public Set<VRODaily> getDailies() {
+        return dailies;
+    }
+    public void setDailies(Set<VRODaily> dailies) {
+        this.dailies = dailies;
     }
 
     @Override
@@ -84,12 +84,12 @@ public class VROTurn {
             hash = 31 * crude.hashCode() + hash;
         }
 
-        for (ForpressCake cake : forpressCakes) {
-            hash = 31 * cake.hashCode() + hash;
-        }
-
         for (VROOil oil : oils) {
             hash = 31 * oil.hashCode() + hash;
+        }
+
+        for (VRODaily daily : dailies) {
+            hash = 31 * daily.hashCode() + hash;
         }
 
         return hash;

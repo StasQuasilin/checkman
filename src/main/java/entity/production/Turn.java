@@ -49,4 +49,13 @@ public class Turn {
     public void setEnd(Time end) {
         this.end = end;
     }
+
+    @Override
+    public String toString() {
+        return "Turn{" +
+                "number=" + number +
+                ", begin=" + begin +
+                ", end=" + end +
+                '}';
+    }
 }

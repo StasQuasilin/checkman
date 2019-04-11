@@ -100,7 +100,11 @@
                 </div>
                 <div v-for="sun in value.item.transportation.analyses.sun">
                     <fmt:message key="sun.humidity"/>:
-                    {{(sun.humidity).toLocaleString()}}
+                    {{(sun.humidity).toLocaleString()}},
+                    <fmt:message key="sun.soreness"/>:
+                    {{(sun.soreness).toLocaleString()}},
+                    <fmt:message key="sun.oiliness"/>:
+                    {{(sun.oiliness).toLocaleString()}}
                 </div>
                 <div v-for="oil in value.item.transportation.analyses.oil">
                     <fmt:message key="sun.acid.value"/>:

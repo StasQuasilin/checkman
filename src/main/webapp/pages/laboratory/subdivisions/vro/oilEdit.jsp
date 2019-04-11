@@ -35,11 +35,10 @@
     editor.oil = {
         date : new Date().toISOString().substring(0, 10),
         turn : -1,
-        humidity:0,
         acid:0,
         peroxide:0,
         phosphorus:0,
-        explosion:0,
+        color:0,
         creator:${worker.id}
     };
     </c:otherwise>
@@ -80,19 +79,6 @@
     </tr>
     <tr>
         <td>
-            <label for="humidity">
-                <fmt:message key="sun.humidity"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="humidity" type="number" step="0.01" autocomplete="off" v-model="oil.humidity">
-        </td>
-    </tr>
-    <tr>
-        <td>
             <label for="acid">
                 <fmt:message key="sun.acid.value"/>
             </label>
@@ -101,7 +87,7 @@
             :
         </td>
         <td>
-            <input id="acid" type="number" step="0.01" autocomplete="off" v-model="oil.acid">
+            <input id="acid" type="number" step="0.01" v-model="oil.acid">
         </td>
     </tr>
     <tr>
@@ -114,7 +100,7 @@
             :
         </td>
         <td>
-            <input id="peroxide" type="number" step="0.01" autocomplete="off" v-model="oil.peroxide">
+            <input id="peroxide" type="number" step="0.01" v-model="oil.peroxide">
         </td>
     </tr>
     <tr>
@@ -127,20 +113,20 @@
             :
         </td>
         <td>
-            <input id="phosphorus" type="number" step="0.01" autocomplete="off" v-model="oil.phosphorus">
+            <input id="phosphorus" type="number" step="0.01" v-model="oil.phosphorus">
         </td>
     </tr>
     <tr>
         <td>
-            <label for="explosion">
-                <fmt:message key="extraction.oil.explosion"/>
+            <label for="color">
+                <fmt:message key="oil.color.value"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="explosion" type="number" step="0.01" autocomplete="off" v-model="oil.explosion">
+            <input id="color" type="number" step="1" v-model="oil.color">
         </td>
     </tr>
     <tr>

@@ -44,7 +44,6 @@
     border-radius: 8pt;
     padding: 0 5px;
     position: relative;
-    left: -22pt;
     color: lightgray;
 }
 .mini-close:hover{
@@ -52,8 +51,7 @@
     text-shadow: 0 0 2px gray;
 }
 .container-item .row{
-    margin: 2pt;
-    padding: 2pt;
+    padding: 4pt;
 }
 .container-item-0{
     background-color: rgb(252, 198, 198);

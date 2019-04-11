@@ -4,11 +4,12 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.laboratory.subdivisions.vro.VROTurn;
+import entity.production.Forpress;
 import entity.transport.ActionTime;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TurnBox;
@@ -22,6 +23,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 10.04.2019.
@@ -32,6 +34,7 @@ public class VROCrudeEditAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
+        System.out.println(body);
         VROCrude crude;
         boolean save = false;
         LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
@@ -119,6 +122,34 @@ public class VROCrudeEditAPI extends IAPI {
             crude.setCreator(worker);
             hibernator.save(createTime, crude);
         }
+
+        HashMap<Long, ForpressCake> forpressCakeHashMap = new HashMap<>();
+        if (crude.getForpressCakes() != null) {
+            for (ForpressCake cake : crude.getForpressCakes()) {
+                forpressCakeHashMap.put((long) cake.getId(), cake);
+            }
+        }
+
+        for (Object o : (JSONArray)body.get("forpressCake")){
+            JSONObject fp = (JSONObject) o;
+            ForpressCake forpressCake;
+            long id = -1;
+            if ((fp.containsKey("id"))){
+                id = (long) fp.get("id");
+            }
+            if (forpressCakeHashMap.containsKey(id)){
+                forpressCake = forpressCakeHashMap.remove(id);
+            } else {
+                forpressCake = new ForpressCake();
+            }
+            forpressCake.setCrude(crude);
+            forpressCake.setForpress(hibernator.get(Forpress.class, "id", fp.get("forpress")));
+            forpressCake.setHumidity(Float.parseFloat(String.valueOf(fp.get("humidity"))));
+            forpressCake.setOiliness(Float.parseFloat(String.valueOf(fp.get("oiliness"))));
+            hibernator.save(forpressCake);
+        }
+
+        forpressCakeHashMap.values().forEach(hibernator::remove);
 
         write(resp, answer);
     }

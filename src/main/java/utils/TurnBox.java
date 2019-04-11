@@ -7,6 +7,7 @@ import utils.hibernate.HibernateSessionFactory;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class TurnBox extends IBox{
     private final TurnDateTime def;
     public TurnBox() {
         turns = HIBERNATOR.query(Turn.class, null);
+        turns.sort((o1, o2) -> Integer.compare( o1.getNumber(), o2.getNumber()));
+
         if (turns.size() > 0) {
             def = new TurnDateTime(turns.get(0).getNumber(), LocalDateTime.now());
         } else {

@@ -14,7 +14,6 @@ import java.sql.Timestamp;
 public class VROOil {
     private int id;
     private VROTurn turn;
-    private Timestamp time;
     private float acid;
     private float peroxide;
     private float phosphorus;
@@ -38,15 +37,6 @@ public class VROOil {
     }
     public void setTurn(VROTurn turn) {
         this.turn = turn;
-    }
-
-    @Basic
-    @Column(name = "time")
-    public Timestamp getTime() {
-        return time;
-    }
-    public void setTime(Timestamp time) {
-        this.time = time;
     }
 
     @Basic
@@ -106,8 +96,6 @@ public class VROOil {
     @Override
     public int hashCode() {
         int hash = 7;
-//        private Timestamp time;
-        hash = 31 * time.hashCode() + hash;
 //        private float acid;
         hash = 31 * Float.hashCode(acid) + hash;
 //        private float peroxide;

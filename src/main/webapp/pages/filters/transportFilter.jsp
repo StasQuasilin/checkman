@@ -7,11 +7,11 @@
 <link rel="stylesheet" href="${context}/css/filter.css">
 <script src="${context}/vue/filters/transportFilter.js"></script>
 <script>
-    filter_controll.filters.types.push({
+    filter_control.filters.types.push({
         id:'buy',
         value:'<fmt:message key="_buy"/>'
     });
-    filter_controll.filters.types.push({
+    filter_control.filters.types.push({
         id:'sell',
         value:'<fmt:message key="_sell"/>'
     });
@@ -117,7 +117,7 @@
         <tr>
             <td colspan="2" align="center">
                 <button v-on:click="clear" style="border: solid gray 1.2pt; font-size: 10pt">
-                    <fmt:message key="buton.clear"/>
+                    <fmt:message key="button.clear"/>
                 </button>
             </td>
         </tr>

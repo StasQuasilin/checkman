@@ -6,6 +6,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<script>
+  var filter_control = {}
+</script>
 <script src="${context}/vue/dataList.js"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script>
@@ -21,16 +24,19 @@
   <div v-for="(value, key) in items" v-bind:key="key" v-bind:id="value.item.id"
        class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)"
        v-on:click.right="contextMenu(value.item.id)">
-    <div style="display: inline-block">
+    <div style="display: inline-block; border-right: solid gray 1.2pt; padding: 2pt 4pt;" >
       <span>
         {{new Date(value.item.date).toLocaleDateString()}}<br>
         <template v-if="value.item.date !== value.item.date_to">
           {{new Date(value.item.date_to).toLocaleDateString()}}
         </template>
+        <template v-else>
+          &nbsp;
+        </template>
       </span>
     </div>
     <div style="width: 87%; display: inline-block">
-      <div class="row">
+      <div class="row upper-row">
         <span style="width: 35%">
           <fmt:message key="deal.organisation"/>:
           <b>

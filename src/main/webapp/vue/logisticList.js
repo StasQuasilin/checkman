@@ -17,7 +17,7 @@ var logistic = new Vue({
         items:[],
         types:{},
         timeout:-1,
-        filter:filter_controll
+        filter:filter_control
     },
     mounted:function(){
         this.filter.items = this.items;
@@ -82,7 +82,7 @@ var logistic = new Vue({
                         self.remove(e.remove[d])
                     }
                     self.items.sort(function(a, b){
-                        return new Date(a.item.date) - new Date(b.item.date);
+                        return new Date(b.item.date) - new Date(a.item.date);
                     })
                 }
             }, null, false)

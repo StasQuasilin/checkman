@@ -8,6 +8,7 @@
   <script src="${context}/vue/dataList.js"></script>
   <link rel="stylesheet" href="${context}/css/DataContainer.css">
   <link rel="stylesheet" href="${context}/css/TransportList.css">
+
   <script>
     deamon.setUrls('${updateLink}', '${showLink}')
     deamon.types['buy'] = '<fmt:message key="_buy"/>'

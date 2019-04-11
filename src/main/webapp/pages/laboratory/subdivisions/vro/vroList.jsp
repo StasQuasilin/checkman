@@ -10,14 +10,29 @@
         <a class="drop-btn"><fmt:message key="analyses"/> &#9660;</a>
         <ul class="drop-menu-content">
             <li class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
-                <fmt:message key="vro.crude"/>
+                <span style="padding: 0 2pt">
+                    <fmt:message key="vro.crude"/>
+                </span>
             </li>
             <li class="drop-menu-item"  onclick="loadModal('${oilEdit}')">
-                <fmt:message key="vro.oil"/>
+                <span style="padding: 0 2pt">
+                    <fmt:message key="vro.oil"/>
+                </span>
+            </li>
+            <li class="drop-menu-item"  onclick="loadModal('${dailyEdit}')">
+                <span style="padding: 0 2pt">
+                    <fmt:message key="vro.daily"/>
+                </span>
             </li>
         </ul>
     </div>
 </div>
+<style>
+    .selector tr:hover{
+        font-weight: bold;
+        text-decoration: underline;
+    }
+</style>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script>
     var filter_control={};
@@ -25,6 +40,12 @@
 <script src="${context}/vue/dataList.js"></script>
 <script>
     deamon.url = '${update}';
+    deamon.forpress=[];
+    <c:forEach items="${forpress}" var="fp">
+    deamon.forpress.push({
+        value:'${fp.name}'
+    });
+    </c:forEach>
     deamon.doRequest();
 </script>
 
@@ -67,15 +88,8 @@
                             <fmt:message key="vro.pulp.humidity"/>
                         </span>
                     </th>
-                    <td colspan="2" align="center">
-                        <span style="width: 4em">
-                            F-300
-                        </span>
-                    </td>
-                    <td colspan="2" align="center">
-                        <span style="width: 4em">
-                            F-100
-                        </span>
+                    <td v-for="fp in forpress" colspan="2" align="center">
+                        {{fp.value}}
                     </td>
                 </tr>
                 <tr>
@@ -99,28 +113,20 @@
                             <fmt:message key="sun.soreness"/>
                         </span>
                     </th>
-                    <th>
+                    <template v-for="fp in forpress">
+                        <th>
                         <span style="width: 5em">
                             <fmt:message key="sun.humidity.short"/>
                         </span>
-                    </th>
-                    <th>
+                        </th>
+                        <th>
                         <span style="width: 5em">
                             <fmt:message key="sun.oiliness.short"/>
                         </span>
-                    </th>
-                    <th>
-                        <span style="width: 5em">
-                            <fmt:message key="sun.humidity.short"/>
-                        </span>
-                    </th>
-                    <th>
-                        <span style="width: 5em">
-                            <fmt:message key="sun.oiliness.short"/>
-                        </span>
-                    </th>
+                        </th>
+                    </template>
                 </tr>
-                <tr v-for="crude in turn.item.crudes">
+                <tr class="selector" v-for="crude in turn.item.crudes">
                     <td align="center">
                         {{new Date(crude.time).toLocaleTimeString().substring(0, 5)}}
                     </td>
@@ -145,20 +151,54 @@
                     <td align="center">
                         {{(crude.pulpHumidity).toLocaleString()}}
                     </td>
-                    <td align="center">
-                        --
-                    </td>
-                    <td align="center">
-                        --
-                    </td>
-                    <td align="center">
-                        --
-                    </td>
-                    <td align="center">
-                        --
-                    </td>
+                    <template v-for="fp in forpress">
+                        <td align="center">
+                            <span v-if="crude.cakes[fp.value]">
+                                {{crude.cakes[fp.value].humidity}}
+                            </span>
+                            <span v-else>
+                                --
+                            </span>
+                        </td>
+                        <td align="center">
+                            <span v-if="crude.cakes[fp.value]">
+                                {{crude.cakes[fp.value].oiliness}}
+                            </span>
+                            <span v-else>
+                                --
+                            </span>
+                        </td>
+                    </template>
                 </tr>
             </table>
+        </div>
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="oil in turn.item.oil">
+            <b>
+                <fmt:message key="vro.press.oil"/>
+            </b>
+            <fmt:message key="sun.acid.value"/>:
+            {{(oil.acid).toLocaleString()}},
+            <fmt:message key="oil.peroxide"/>:
+            {{(oil.peroxide).toLocaleString()}},
+            <fmt:message key="oil.phosphorus"/>:
+            {{(oil.phosphorus).toLocaleString()}},
+            <fmt:message key="oil.color.value"/>:
+            {{oil.color}}
+        </div>
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="daily in turn.item.dailies">
+            <b>
+                <fmt:message key="vro.daily"/>
+            </b>
+            <fmt:message key="kernel.humidity"/>:
+            {{(daily.kernelHumidity).toLocaleString()}},
+            <fmt:message key="husk.humidity"/>:
+            {{(daily.huskHumidity).toLocaleString()}},
+            <fmt:message key="husk.soreness"/>:
+            {{(daily.huskSoreness).toLocaleString()}},
+            <fmt:message key="kernel.percent"/>:
+            {{(daily.kernelPercent).toLocaleString()}},
+            <fmt:message key="husk.percent"/>:
+            {{(daily.huskPercent).toLocaleString()}}
         </div>
     </div>
 </div>

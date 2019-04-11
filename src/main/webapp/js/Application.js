@@ -37,7 +37,7 @@ function loadContent(url){
             }
         }, function (e) {
             console.error('[ Application ] Load content error ' + e)
-        })
+        }, true)
     }
 }
 

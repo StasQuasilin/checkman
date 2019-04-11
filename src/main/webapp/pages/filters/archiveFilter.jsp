@@ -37,7 +37,7 @@
         <a style="display: flex" v-for="page in pages">{{page.name}}</a>
     </div>
     <button v-on:click="clear">
-        <fmt:message key="buton.clear"/>
+        <fmt:message key="button.clear"/>
     </button>
 </div>
 

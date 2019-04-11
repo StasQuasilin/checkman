@@ -55,6 +55,7 @@ public class Branches {
         public class VRO {
             public static final String CRUDE_EDIT = "/laboratory/vro/crude.j";
             public static final String OIL_EDIT = "/laboratory/vro/oil.j";
+            public static final String DAILY_EDIT = "/laboratory/vro/daily.j";
         }
     }
     public class API{
@@ -98,6 +99,7 @@ public class Branches {
         public static final String VRO_LIST =       API + "/laboratory/vro/list";
         public static final String VRO_CRUDE_EDIT = API + "/laboratory/vro/crude/edit";
         public static final String VRO_OIL_EDIT = API + "/laboratory/vro/oil/edit";
+        public static final String VRO_DAILY_EDIT = API + "/laboratory/vro/daily/edit";
 
 
         public class References {

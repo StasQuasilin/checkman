@@ -2,19 +2,14 @@
  * Created by quasilin on 13.03.2019.
  */
 var context;
-const xhr = new XMLHttpRequest();
+
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (debug) {
         console.log('[ Application Core ] Request to \'' + url + '\'...');
     }
-    var body = [];
-    if (parametrs != null){
-        for (var k in parametrs){
-            body[body.length] = k +'='+parametrs[k];
-        }
-    }
 
-    xhr.onload = function(e){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(e){
         if (xhr.readyState === 4){
             if (xhr.status === 200) {
                 if (debug) {

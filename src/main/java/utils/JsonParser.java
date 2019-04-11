@@ -13,10 +13,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.subdivisions.extraction.ExtractionOIl;
 import entity.laboratory.subdivisions.extraction.ExtractionRaw;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
-import entity.laboratory.subdivisions.vro.ForpressCake;
-import entity.laboratory.subdivisions.vro.VROCrude;
-import entity.laboratory.subdivisions.vro.VROOil;
-import entity.laboratory.subdivisions.vro.VROTurn;
+import entity.laboratory.subdivisions.vro.*;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
@@ -225,6 +222,7 @@ public class JsonParser {
         json.put("oilImpurity", analyses.getOilImpurity());
 //        private float acidValue;
         json.put("acidValue", analyses.getAcidValue());
+        json.put("contamination", analyses.isContamination());
 //        private ActionTime createTime;
         json.put("create", toJson(analyses.getCreateTime()));
 //        private Worker creator;
@@ -442,10 +440,31 @@ public class JsonParser {
             json.put("date", turn.getDate().toString());
             json.put("number", turn.getNumber());
             json.put("crudes", toCrudeJson(turn.getCrudes()));
-            json.put("cakes", toCakeJson(turn.getForpressCakes()));
             json.put("oil", toOilJson(turn.getOils()));
+            json.put("dailies", toDailyJson(turn.getDailies()));
             json.put("hash", turn.hashCode());
 
+            return json;
+        }
+
+        private static JSONArray toDailyJson(Set<VRODaily> dailies) {
+            JSONArray array = new JSONArray();
+
+            for (VRODaily daily : dailies){
+                array.add(toJson(daily));
+            }
+
+            return array;
+        }
+
+        private static JSONObject toJson(VRODaily daily) {
+            JSONObject json = new JSONObject();
+            json.put("id", daily.getId());
+            json.put("kernelHumidity", daily.getKernelHumidity());
+            json.put("huskHumidity", daily.getHuskHumidity());
+            json.put("huskSoreness", daily.getHuskSoreness());
+            json.put("kernelPercent", daily.getKernelPercent());
+            json.put("huskPercent", daily.getHuskPercent());
             return json;
         }
 
@@ -461,8 +480,6 @@ public class JsonParser {
             JSONObject json = new JSONObject();
 //            private int id;
             json.put("id", oil.getId());
-//            private Timestamp time;
-            json.put("time", oil.getTime().toString());
 //            private float acid;
             json.put("acid", oil.getAcid());
 //            private float peroxide;
@@ -478,7 +495,7 @@ public class JsonParser {
         private static JSONObject toCakeJson(Set<ForpressCake> forpressCakes) {
             JSONObject json = new JSONObject();
             for (ForpressCake cake : forpressCakes){
-                json.put(cake.getTime().toString(), toJson(cake));
+                json.put(cake.getForpress().getName(), toJson(cake));
             }
             return json;
         }
@@ -522,6 +539,8 @@ public class JsonParser {
             json.put("kernelOffset", crude.getKernelOffset());
 //            private float pulpHumidity;
             json.put("pulpHumidity", crude.getPulpHumidity());
+
+            json.put("cakes", toCakeJson(crude.getForpressCakes()));
             return json;
         }
     }

@@ -5,56 +5,7 @@ var editor = new Vue({
             save:''
         },
         laborants:[],
-        times: [
-            {
-                hour:'08',
-                minute:30
-            },
-            {
-                hour:'10',
-                minute:30
-            },
-            {
-                hour:'12',
-                minute:30
-            },
-            {
-                hour:'14',
-                minute:30
-            },
-            {
-                hour:'16',
-                minute:30
-            },
-            {
-                hour:'18',
-                minute:30
-            },
-            {
-                hour:'20',
-                minute:30
-            },
-            {
-                hour:'22',
-                minute:30
-            },
-            {
-                hour:'00',
-                minute:30
-            },
-            {
-                hour:'02',
-                minute:30
-            },
-            {
-                hour:'04',
-                minute:30
-            },
-            {
-                hour:'06',
-                minute:30
-            }
-        ],
+        times: [],
         crude:{
         }
     },

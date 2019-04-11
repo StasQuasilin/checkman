@@ -10,6 +10,40 @@
 <script src="${context}/vue/laboratory/extractionCrude.js"></script>
 <script>
     editor.api.save = '${save}';
+    editor.times=[
+        {
+            hour:'08',
+            minute:30
+        },
+        {
+            hour:'11',
+            minute:30
+        },
+        {
+            hour:'14',
+            minute:30
+        },
+        {
+            hour:'17',
+            minute:30
+        },
+        {
+            hour:'20',
+            minute:30
+        },
+        {
+            hour:'23',
+            minute:30
+        },
+        {
+            hour:'02',
+            minute:30
+        },
+        {
+            hour:'05',
+            minute:30
+        }
+    ]
     <c:forEach items="${laborants}" var="l">
     editor.laborants.push({
         id:${l.id},
@@ -42,7 +76,7 @@
     };
     editor.addForpressCake = function(){
         editor.crude.forpressCake.push({
-            forpress:editor.actualForpress()[0].id,
+            forpress:editor.forpress[0].id,
             humidity:0,
             oiliness:0
         })
@@ -91,214 +125,222 @@
     </c:otherwise>
     </c:choose>
 </script>
-<table id="editor" class="editor">
+<table id="editor" class="editor" border="0">
     <tr>
         <td>
-            <label for="date">
-                <fmt:message key="date"/>
-            </label>
+            <table>
+                <tr>
+                    <td>
+                        <label for="date">
+                            <fmt:message key="date"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="date" readonly style="width: 7em" v-on:click="datePicker"
+                               v-model="new Date(crude.date).toLocaleDateString()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="time">
+                            <fmt:message key="time"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <select id="time" v-model="crude.time">
+                            <option v-for="time in times">
+                                {{time.hour}}:{{time.minute}}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <b>
+                            <fmt:message key="vro.sun.before"/>
+                        </b>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label for="humidity1">
+                            <fmt:message key="sun.humidity"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="humidity1" type="number" step="0.01" v-if="crude.before" v-model="crude.before.humidity">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label for="soreness1">
+                            <fmt:message key="sun.soreness"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="soreness1" type="number" step="0.01" v-if="crude.before" v-model="crude.before.soreness">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <b>
+                            <fmt:message key="vro.sun.after"/>
+                        </b>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label for="humidity2">
+                            <fmt:message key="sun.humidity"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="humidity2" type="number" step="0.01" v-if="crude.after" v-model="crude.after.humidity">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <label for="soreness2">
+                            <fmt:message key="sun.soreness"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="soreness2" type="number" step="0.01" v-if="crude.after" v-model="crude.after.soreness">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="huskiness">
+                            <fmt:message key="vro.huskiness"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="huskiness" type="number" step="0.01" v-model="crude.huskiness">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="kernelOffset">
+                            <fmt:message key="vro.kernel.offset"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="kernelOffset" type="number" step="0.01" v-model="crude.kernelOffset">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="pulpHumidity">
+                            <fmt:message key="vro.pulp.humidity"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="pulpHumidity" type="number" step="0.01" v-model="crude.pulpHumidity">
+                    </td>
+                </tr>
+            </table>
         </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="date" readonly style="width: 7em" v-on:click="datePicker"
-                   v-model="new Date(crude.date).toLocaleDateString()">
+        <td  valign="top">
+            <table>
+                <tr>
+                    <td colspan="3" width="200px">
+                        <fmt:message key="forpress.cake"/>
+                        <button style="min-width: 0; padding: 0 5px; font-size: 12pt;"
+                                v-on:click="addForpressCake()" v-if="crude.forpressCake"
+                                v-show="crude.forpressCake.length < forpress.length">
+                            +
+                        </button>
+                    </td>
+                </tr>
+                <template v-for="(value, key) in crude.forpressCake">
+                    <tr >
+                        <td>
+                            <label for="fp">
+                                <span class="mini-close" v-on:click="removeForpressCake(key)">&times;</span>
+                                <b>
+                                    <fmt:message key="forpress"/>
+                                </b>
+                            </label>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <select id="fp" v-model="value.forpress">
+                                <option v-for="f in forpress" :value="f.id">{{f.value}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label for="forpressHumidity">
+                                <fmt:message key="sun.humidity"/>
+                            </label>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <input type="number" step="0.01" id="forpressHumidity" v-model="value.humidity">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <label for="forpressOiliness">
+                                <fmt:message key="sun.oiliness"/>
+                            </label>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <input id="forpressOiliness" step="0.01" type="number" v-model="value.oiliness">
+                        </td>
+                    </tr>
+                </template>
+            </table>
         </td>
     </tr>
     <tr>
-        <td>
-            <label for="time">
-                <fmt:message key="time"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="time" v-model="crude.time">
-                <option v-for="time in times">
-                    {{time.hour}}:{{time.minute}}
-                </option>
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            <b>
-                <fmt:message key="vro.sun.before"/>
-            </b>
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="humidity1">
-                <fmt:message key="sun.humidity"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="humidity1" type="number" step="0.01" v-if="crude.before" v-model="crude.before.humidity">
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="soreness1">
-                <fmt:message key="sun.soreness"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="soreness1" type="number" step="0.01" v-if="crude.before" v-model="crude.before.soreness">
-        </td>
-    </tr>
-    <tr>
-    <td colspan="3">
-        <b>
-            <fmt:message key="vro.sun.after"/>
-        </b>
-    </td>
-</tr>
-    <tr>
-        <td align="right">
-            <label for="humidity2">
-                <fmt:message key="sun.humidity"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="humidity2" type="number" step="0.01" v-if="crude.after" v-model="crude.after.humidity">
-        </td>
-    </tr>
-    <tr>
-        <td align="right">
-            <label for="soreness2">
-                <fmt:message key="sun.soreness"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="soreness2" type="number" step="0.01" v-if="crude.after" v-model="crude.after.soreness">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="huskiness">
-                <fmt:message key="vro.huskiness"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="huskiness" type="number" step="0.01" v-model="crude.huskiness">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="kernelOffset">
-                <fmt:message key="vro.kernel.offset"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="kernelOffset" type="number" step="0.01" v-model="crude.kernelOffset">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="pulpHumidity">
-                <fmt:message key="vro.pulp.humidity"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="pulpHumidity" type="number" step="0.01" v-model="crude.pulpHumidity">
-        </td>
-    </tr>
-    <%--<tr>--%>
-        <%--<td colspan="3">--%>
-            <%--<fmt:message key="forpress.cake"/>--%>
-            <%--<button v-on:click="addForpressCake()" v-show="actualForpress().length > 0">--%>
-                <%--<fmt:message key="button.add"/>--%>
-            <%--</button>--%>
-        <%--</td>--%>
-    <%--</tr>--%>
-    <template v-for="(value, key) in crude.forpressCake">
-        <tr >
-            <td>
-                <label for="fp">
-                    <span class="mini-close" v-on:click="removeForpressCake(key)">&times;</span>
-                    <b>
-                        <fmt:message key="forpress"/>
-                    </b>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="fp" v-model="value.forpress">
-                    <option v-for="f in forpress" :value="f.id">{{f.value}}</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">
-                <label for="forpressHumidity">
-                    <fmt:message key="sun.humidity"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input type="number" id="forpressHumidity" v-model="value.humidity">
-            </td>
-        </tr>
-        <tr>
-            <td align="right">
-                <label for="forpressOiliness">
-                    <fmt:message key="sun.oiliness"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="forpressOiliness" type="number" v-model="value.oiliness">
-            </td>
-        </tr>
-    </template>
-    <tr>
-        <td>
+        <td colspan="2">
             <label for="creator">
                 <fmt:message key="laboratory.creator"/>
             </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
+
             <select id="creator" v-model="crude.creator">
                 <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
             </select>
         </td>
     </tr>
     <tr>
-        <td colspan="3" align="center">
+        <td colspan="2" align="center">
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>
@@ -308,4 +350,5 @@
         </td>
     </tr>
 </table>
+
 </html>

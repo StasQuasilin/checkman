@@ -5,6 +5,7 @@ import entity.transport.ActionTime;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 10.04.2019.
@@ -22,6 +23,7 @@ public class VROCrude {
     private float huskiness;
     private float kernelOffset;
     private float pulpHumidity;
+    private Set<ForpressCake> forpressCakes;
     private ActionTime createTime;
     private Worker creator;
 
@@ -115,6 +117,14 @@ public class VROCrude {
         this.pulpHumidity = pulpHumidity;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "crude", cascade = CascadeType.ALL)
+    public Set<ForpressCake> getForpressCakes() {
+        return forpressCakes;
+    }
+    public void setForpressCakes(Set<ForpressCake> forpressCakes) {
+        this.forpressCakes = forpressCakes;
+    }
+
     @OneToOne
     @JoinColumn(name = "create_time")
     public ActionTime getCreateTime() {
@@ -152,10 +162,14 @@ public class VROCrude {
         hash = 31 * Float.hashCode(kernelOffset) + hash;
 //        private float pulpHumidity;
         hash = 31 * Float.hashCode(pulpHumidity) + hash;
+        for (ForpressCake cake : forpressCakes) {
+            hash = 31 * cake.hashCode() + hash;
+        }
 //        private ActionTime createTime;
         hash = 31 * createTime.hashCode() + hash;
 //        private Worker creator;
         hash = 31 * creator.hashCode() + hash;
+
         return hash;
     }
 }

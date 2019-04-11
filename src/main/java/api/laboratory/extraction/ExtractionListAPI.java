@@ -35,11 +35,11 @@ public class ExtractionListAPI extends IAPI {
         array.put("delete", remove);
     }
 
-    LE le = new LE(Date.valueOf(LocalDate.now()));
+    final LE le = new LE(Date.valueOf(LocalDate.now()));
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
-        le = new LE(Date.valueOf(LocalDate.now()));
+        le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
         parameters.put("date", le);
         for (ExtractionTurn turn : hibernator.limitQuery(ExtractionTurn.class, parameters, 14)){
             String id = String.valueOf(turn.getId());

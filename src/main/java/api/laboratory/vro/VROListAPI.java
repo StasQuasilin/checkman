@@ -36,14 +36,14 @@ public class VROListAPI extends IAPI {
     }
 
     final HashMap<String, Object> parameters = new HashMap<>();
-    LE le = new LE(Date.valueOf(LocalDate.now()));
+    final LE le = new LE(Date.valueOf(LocalDate.now()));
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         JSONObject body = PostUtil.parseBodyJson(req);
-        le.setDate(Date.valueOf(LocalDate.now()));
-//        parameters.put("date", le);
+        le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
+        parameters.put("date", le);
 
         for (VROTurn turn : hibernator.limitQuery(VROTurn.class, parameters, 14)){
             String id = String.valueOf(turn.getId());

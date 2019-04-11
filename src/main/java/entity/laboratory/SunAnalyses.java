@@ -18,6 +18,7 @@ public class SunAnalyses{
     private float soreness;
     private float oilImpurity;
     private float acidValue;
+    private boolean contamination;
     private ActionTime createTime;
     private Worker creator;
 
@@ -75,6 +76,15 @@ public class SunAnalyses{
         this.acidValue = acidValue;
     }
 
+    @Basic
+    @Column(name = "contamination")
+    public boolean isContamination() {
+        return contamination;
+    }
+    public void setContamination(boolean contamination) {
+        this.contamination = contamination;
+    }
+
     @OneToOne
     @JoinColumn(name = "create_time")
     public ActionTime getCreateTime() {
@@ -101,6 +111,7 @@ public class SunAnalyses{
         hash = 31 * Float.hashCode(soreness) + hash;
         hash = 31 * Float.hashCode(oilImpurity) + hash;
         hash = 31 * Float.hashCode(acidValue) + hash;
+        hash = 31 * Boolean.hashCode(contamination) + hash;
         if (createTime != null){
             hash = 31 * createTime.hashCode() + hash;
         }
