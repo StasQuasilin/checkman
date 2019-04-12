@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "extraction_crude")
-public class ExtractionCrude {
+public class ExtractionCrude implements Comparable<ExtractionCrude>{
     private int id;
     private ExtractionTurn turn;
     private Timestamp time;
@@ -145,5 +145,10 @@ public class ExtractionCrude {
 //        private Worker creator;
         hash = 31 * creator.hashCode() + hash;
         return hash;
+    }
+
+    @Override
+    public int compareTo(ExtractionCrude o) {
+        return time.compareTo(o.getTime());
     }
 }

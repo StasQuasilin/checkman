@@ -48,7 +48,7 @@ var editor = new Vue({
             var weights = [];
             for (var i in this.weights){
                 var w =this.weights[i];
-                if (this.netto(w.brutto, w.tara) > 0) {
+                if (w.brutto > 0 || w.tara > 0) {
                     weights.push({id: w.id, brutto: w.brutto, tara: w.tara})
                 }
             }

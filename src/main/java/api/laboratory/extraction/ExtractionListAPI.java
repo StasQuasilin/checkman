@@ -32,7 +32,7 @@ public class ExtractionListAPI extends IAPI {
     {
         array.put("add", add);
         array.put("update", update);
-        array.put("delete", remove);
+        array.put("remove", remove);
     }
 
     final LE le = new LE(Date.valueOf(LocalDate.now()));

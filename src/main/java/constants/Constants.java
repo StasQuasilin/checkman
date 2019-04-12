@@ -85,6 +85,7 @@ public class Constants {
         public static final String SEAL_LIST = "title.seals";
         public static final String SEAL_EDIT = "title.seal.edit";
         public static final String DAILY_ANALYSES = "title.daily.analyses";
+        public static final String TRANSPORT_ARCHIVE = "title.transport.archive";
 
         public class Archive {
             public static final String DEAL = "title.archive";

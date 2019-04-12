@@ -88,7 +88,7 @@
       </div>
     </div>
   </div>
-  <div  v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
+  <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
     <div v-bind:style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
       <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${editLink}')"><fmt:message key="menu.edit"/> </div>
       <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${editLink}')"><fmt:message key="menu.copy"/></div>

@@ -25,7 +25,11 @@ var deamon = new Vue({
     },
     methods:{
         filteredItems:function(){
-            return this.filter.filteredItems();
+            if (typeof this.filter.filteredItems === 'function') {
+                return this.filter.filteredItems();
+            } else {
+                return this.items;
+            }
         },
         setUrls:function(url, show){
             this.url = url;
@@ -33,19 +37,13 @@ var deamon = new Vue({
             this.doRequest()
         },
         add:function(item){
-            var data = {};
-            data.className = 'container-item-' + new Date(item.date).getDay();
-            data.item = item;
-            this.items.push(data);
+            this.items.push(item);
         },
         update:function(item){
             for(var i in this.items){
                 if (this.items.hasOwnProperty(i)) {
-                    if (this.items[i].item.id == item.id) {
-                        var data = {};
-                        data.className = 'container-item-' + new Date(item.date).getDay();
-                        data.item = item;
-                        this.items.splice(i, 1, data);
+                    if (this.items[i].id == item.id) {
+                        this.items.splice(i, 1, item);
                         break;
                     }
                 }
@@ -55,7 +53,7 @@ var deamon = new Vue({
         drop:function(id){
             for(var i in this.items){
                 if (this.items.hasOwnProperty(i)) {
-                    if (this.items[i].item.id === id) {
+                    if (this.items[i].id === id) {
                         this.items.splice(i, 1);
                         break
                     }
@@ -71,11 +69,11 @@ var deamon = new Vue({
             for (var k in self.items){
                 if (self.items.hasOwnProperty(k)) {
                     var item = self.items[k];
-                    parameters[item.item.id] = item.item.hash;
+                    parameters[item.id] = item.hash;
                 }
             }
             PostApi(this.url, parameters, function(e){
-                if (e.add.length || e.update.length || e.delete.length) {
+                if (e.add.length || e.update.length || e.remove.length) {
                     console.log(e);
                     for(var a in e.add){
                         self.add(e.add[a])
@@ -95,7 +93,7 @@ var deamon = new Vue({
         },
         sort:function(){
             this.items.sort(function(a, b){
-                return new Date(b.item.date) - new Date(a.item.date);
+                return new Date(b.date) - new Date(a.date);
             })
         },
         stop:function(){
@@ -115,7 +113,7 @@ var deamon = new Vue({
         },
         rowName:function(date){
             return 'container-item-' + new Date(date).getDay();
-        }
+        },
 
     }
 });

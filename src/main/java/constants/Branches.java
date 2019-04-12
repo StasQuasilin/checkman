@@ -1,12 +1,13 @@
 package constants;
 
+import controllers.archive.ArchiveType;
 import org.glassfish.grizzly.utils.StringFilter;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 public class Branches {
-    public class UI{
+    public static class UI{
 
         public static final String SING_IN = "/login";
         public static final String APPLICATION = "/application.j";
@@ -45,6 +46,13 @@ public class Branches {
         public static final String DEAL_ARCHIVE = "/archive/deal.j";
         public static final String BUY_ARCHIVE = DEAL_ARCHIVE + "?type=buy";
         public static final String SELL_ARCHIVE = DEAL_ARCHIVE + "?type=sell";
+        public static final String TRANSPORT_ARCHIVE = "/archive/transport.j";
+        public static final String SUMMARY_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.summary.toString();
+        public static final String LOGISTIC_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.logistic.toString();
+        public static final String WEIGHT_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.weight.toString();
+        public static final String LABORATORY_BUY_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.laboratory_buy.toString();
+        public static final String LABORATORY_SELL_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.laboratory_sell.toString();
+        public static final String ARCHIVE_SHOW = "/archive/show/";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -100,6 +108,7 @@ public class Branches {
         public static final String VRO_CRUDE_EDIT = API + "/laboratory/vro/crude/edit";
         public static final String VRO_OIL_EDIT = API + "/laboratory/vro/oil/edit";
         public static final String VRO_DAILY_EDIT = API + "/laboratory/vro/daily/edit";
+        public static final String TRANSPORT_ARCHIVE = API + "/archive/transport";
 
 
         public class References {

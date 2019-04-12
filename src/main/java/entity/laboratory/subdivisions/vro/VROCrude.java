@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "vro_crude")
-public class VROCrude {
+public class VROCrude implements Comparable<VROCrude>{
     private int id;
     private VROTurn turn;
     private Timestamp time;
@@ -171,5 +171,10 @@ public class VROCrude {
         hash = 31 * creator.hashCode() + hash;
 
         return hash;
+    }
+
+    @Override
+    public int compareTo(VROCrude o) {
+        return time.compareTo(o.time);
     }
 }

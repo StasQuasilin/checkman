@@ -17,7 +17,15 @@ var logistic = new Vue({
         items:[],
         types:{},
         timeout:-1,
-        filter:filter_control
+        filter:filter_control,
+        menu:{
+            show:false,
+            title:'',
+            id:-1,
+            filed:'',
+            x:0,
+            y:0
+        }
     },
     mounted:function(){
         this.filter.items = this.items;
@@ -26,21 +34,22 @@ var logistic = new Vue({
 
     },
     methods:{
+        rowName:function(date){
+            return 'container-item-' + new Date(date).getDay();
+        },
         add:function(item){
-            var data = {};
-            data.className = 'container-item-' + new Date(item.date).getDay();
-            data.vehicleEdit = false;
-            data.driverEdit = false;
-            data.vehicleInput = '';
-            data.driverInput='';
-            data.fnd=-1;
-            data.item = item;
-            this.items.push(data);
+            this.items.push({
+                vehicleEdit:false,
+                driverEdit:false,
+                vehicleInput:'',
+                driverInput:'',
+                fnd:-1,
+                item:item
+            });
         },
         update:function(item){
             for (var i in this.items){
                 if (this.items[i].item.id == item.id){
-                    this.items[i].className = 'container-item-' + new Date(item.date).getDay()
                     this.items[i].item=item;
                     break;
                 }
@@ -135,13 +144,15 @@ var logistic = new Vue({
         findVehicle:function(value){
             const self = this;
             clearTimeout(value.fnd);
-            value.fnd = setTimeout(function(){
-                var p = {};
-                p.key = value.vehicleInput;
-                PostApi(self.findVehicleAPI, p, function(a){
-                    self.vehicleFind = a;
-                })
-            }, 500)
+            if (value.vehicleInput) {
+                value.fnd = setTimeout(function () {
+                    var p = {};
+                    p.key = value.vehicleInput;
+                    PostApi(self.findVehicleAPI, p, function (a) {
+                        self.vehicleFind = a;
+                    })
+                }, 500)
+            }
         },
         setDriver:function(transportation, driver, key){
             this.driverFind = {};
@@ -174,6 +185,27 @@ var logistic = new Vue({
             p.transportation_id = value.item.transportation.id;
             p.key = value.driverInput;
             loadModal(this.driverInput, p);
+        },
+        contextMenu:function(title, id, field){
+            this.menu.x = event.pageX;
+            this.menu.y = event.pageY;
+            this.menu.show = true;
+            this.menu.title = title;
+            this.menu.id = id;
+            this.menu.field = field;
+            event.preventDefault();
+        },
+        closeMenu:function(){
+            this.menu.show = false;
+        },
+        newClick:function(id, field){
+            for (var i in this.items){
+                if (this.items.hasOwnProperty(i)){
+                    var transpotation = this.items[i].transportation;
+                    this.setDriver(id, null, null)
+                }
+            }
         }
+
     }
 });

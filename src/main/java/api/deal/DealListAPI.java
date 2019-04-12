@@ -29,13 +29,13 @@ public class DealListAPI extends IAPI{
     final JSONObject array = new JSONObject();
     final JSONArray add = new JSONArray();
     final JSONArray update = new JSONArray();
-    final JSONArray delete = new JSONArray();
+    final JSONArray remove = new JSONArray();
     final static HashMap<String, Object> parameters = new HashMap<>();
     {
         parameters.put("archive", false);
         array.put("add", add);
         array.put("update", update);
-        array.put("delete", delete);
+        array.put("remove", remove);
     }
 
     @Override
@@ -61,13 +61,13 @@ public class DealListAPI extends IAPI{
         }
 
         for (Object key : body.keySet()){
-            delete.add(Integer.parseInt((String) key));
+            remove.add(Integer.parseInt((String) key));
         }
 
         write(resp, array.toJSONString());
         add.clear();
         update.clear();
-        delete.clear();
+        remove.clear();
 //        query.clear();
     }
 }

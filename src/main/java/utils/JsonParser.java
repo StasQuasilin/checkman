@@ -28,8 +28,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.sql.Timestamp;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -400,8 +399,9 @@ public class JsonParser {
                 return json;
             }
 
-            private static JSONArray toJson(Set<ExtractionCrude> crudes) {
+            private static JSONArray toJson(List<ExtractionCrude> crudes) {
                 JSONArray array = new JSONArray();
+                Collections.sort(crudes);
                 for (ExtractionCrude crude : crudes) {
                     array.add(toJson(crude));
                 }
@@ -511,8 +511,9 @@ public class JsonParser {
             return json;
         }
 
-        private static JSONArray toCrudeJson(Set<VROCrude> crudes) {
+        private static JSONArray toCrudeJson(List<VROCrude> crudes) {
             JSONArray array = new JSONArray();
+            Collections.sort(crudes);
             for (VROCrude crude : crudes) {
                 array.add(toJson(crude));
             }

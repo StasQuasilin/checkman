@@ -2,6 +2,7 @@ package controllers.application;
 
 import constants.Branches;
 import controllers.IServlet;
+import controllers.archive.ArchiveType;
 import entity.Role;
 import entity.Subdivision;
 
@@ -24,15 +25,21 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("sellList", Branches.UI.DEAL_SELL);
         req.setAttribute("sellArchive", Branches.UI.SELL_ARCHIVE);
         req.setAttribute("summaryList", Branches.UI.SUMMARY_LIST);
+        req.setAttribute("summaryArchive", Branches.UI.SUMMARY_ARCHIVE);
         req.setAttribute("logisticList", Branches.UI.LOGISTIC_LIST);
+        req.setAttribute("logisticArchive", Branches.UI.LOGISTIC_ARCHIVE);
         req.setAttribute("transportList", Branches.UI.TRANSPORT_LIST);
+        req.setAttribute("transportArchive", Branches.UI.TRANSPORT_ARCHIVE + "?type=" + ArchiveType.transportation.toString());
         req.setAttribute("sealList", Branches.UI.SEAL_LIST);
         req.setAttribute("weightList", Branches.UI.WEIGHT_LIST);
+        req.setAttribute("weightArchive", Branches.UI.WEIGHT_ARCHIVE);
         req.setAttribute("probeList", Branches.UI.PROBE_LIST);
         req.setAttribute("subdivisionList", Branches.UI.SUBDIVISION_LIST);
         req.setAttribute("subdivisions", hibernator.query(Subdivision.class, null));
         req.setAttribute("laboratoryBuyList", Branches.UI.LABORATORY_BUY);
+        req.setAttribute("laboratoryBuyArchive", Branches.UI.LABORATORY_BUY_ARCHIVE);
         req.setAttribute("laboratorySellList", Branches.UI.LABORATORY_SELL);
+        req.setAttribute("laboratorySellArchive", Branches.UI.LABORATORY_SELL_ARCHIVE);
         req.setAttribute("referencesList", Branches.UI.REFERENCES);
         req.setAttribute("admin", Branches.UI.ADMIN);
 

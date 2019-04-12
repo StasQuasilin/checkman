@@ -1,70 +1,62 @@
-package api.transport;
+package api.archive;
 
 import api.IAPI;
+import com.sun.corba.se.spi.ior.ObjectKey;
 import constants.Branches;
 import entity.documents.LoadPlan;
-import entity.transport.Transportation;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
-import utils.U;
+import utils.hibernate.DateContainers.LE;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Created by szpt_user045 on 11.03.2019.
+ * Created by szpt_user045 on 12.04.2019.
  */
-@WebServlet(Branches.API.TRANSPORT_UPDATE)
-public class TransportListAPI extends IAPI{
+@WebServlet(Branches.API.TRANSPORT_ARCHIVE)
+public class TransportArchiveAPI extends IAPI {
 
-
-
-
-    {
-
-
-    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("transportation/archive", false);
+        parameters.put("transportation/archive", true);
+        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
 
         final JSONArray add = new JSONArray();
         final JSONArray update = new JSONArray();
-        for (LoadPlan loadPlan : hibernator.query(LoadPlan.class, parameters)){
-            String id = String.valueOf(loadPlan.getId());
+
+        for (LoadPlan plan : hibernator.limitQuery(LoadPlan.class, parameters, 30)){
+            String id = String.valueOf(plan.getId());
             if (body.containsKey(id)){
                 long hash = (long) body.remove(id);
-                if (hash != loadPlan.hashCode()){
-                    update.add(JsonParser.toLogisticJson(loadPlan));
+                if (plan.hashCode() != hash){
+                    update.add(JsonParser.toLogisticJson(plan));
                 }
             } else {
-                add.add(JsonParser.toLogisticJson(loadPlan));
+                add.add(JsonParser.toLogisticJson(plan));
             }
         }
 
         final JSONArray remove = new JSONArray();
-        for (Object key : body.keySet()){
-            remove.add(Integer.parseInt((String) key));
+        for (Object o : body.keySet()){
+            remove.add(Integer.parseInt(String.valueOf(o)));
         }
+
         final JSONObject array = new JSONObject();
         array.put("add", add);
         array.put("update", update);
         array.put("remove", remove);
 
         write(resp, array.toJSONString());
-        add.clear();
-        update.clear();
-        remove.clear();
     }
 }

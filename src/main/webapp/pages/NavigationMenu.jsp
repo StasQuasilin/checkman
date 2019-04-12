@@ -47,7 +47,7 @@
           <fmt:message key="menu.transport"/>
         </span>
         <span>
-          <a onclick="loadContent(${context}${transport_archive})" ><fmt:message key="archive"/> </a>
+          <a onclick="loadContent('${transportArchive}')"><fmt:message key="archive"/> </a>
         </span>
       </li>
       <li class="menu-item"  onclick="loadContent('${sealList}')">

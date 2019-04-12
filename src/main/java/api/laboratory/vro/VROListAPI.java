@@ -24,17 +24,6 @@ import java.util.HashMap;
 @WebServlet(Branches.API.VRO_LIST)
 public class VROListAPI extends IAPI {
 
-    final JSONObject array = new JSONObject();
-    final JSONArray add = new JSONArray();
-    final JSONArray update = new JSONArray();
-    final JSONArray remove = new JSONArray();
-
-    {
-        array.put("add", add);
-        array.put("update", update);
-        array.put("delete", remove);
-    }
-
     final HashMap<String, Object> parameters = new HashMap<>();
     final LE le = new LE(Date.valueOf(LocalDate.now()));
 
@@ -44,7 +33,8 @@ public class VROListAPI extends IAPI {
         JSONObject body = PostUtil.parseBodyJson(req);
         le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
         parameters.put("date", le);
-
+        final JSONArray add = new JSONArray();
+        final JSONArray update = new JSONArray();
         for (VROTurn turn : hibernator.limitQuery(VROTurn.class, parameters, 14)){
             String id = String.valueOf(turn.getId());
             if (body.containsKey(id)){
@@ -56,10 +46,15 @@ public class VROListAPI extends IAPI {
                 add.add(JsonParser.VRO.toJson(turn));
             }
         }
-
+        final JSONArray remove = new JSONArray();
         for (Object o : body.keySet()) {
             remove.add(Integer.parseInt(String.valueOf(o)));
         }
+        final JSONObject array = new JSONObject();
+        array.put("add", add);
+        array.put("update", update);
+        array.put("remove", remove);
+
         write(resp, array.toJSONString());
         add.clear();
         update.clear();

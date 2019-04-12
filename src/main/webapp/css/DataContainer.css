@@ -15,7 +15,13 @@
     border: solid #474747 1.5pt;
     margin: 2pt;
     border-radius: 8pt;
-    overflow: hidden;
+    position: relative;
+}
+.selectable{
+    padding: 0 2pt;
+}
+.selectable:hover{
+    background-color: rgba(128, 128, 128, 0.25);
 }
 .container-item .upper-row{
     padding: 2pt 4pt;

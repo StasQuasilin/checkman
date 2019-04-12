@@ -97,7 +97,9 @@ public class SaveWeightAPI extends IAPI {
             saveIt = true;
         } else if (weight.getBrutto() != 0){
             weight.setBrutto(0);
-            hibernator.remove(weight.getBruttoTime());
+            if (weight.getBruttoTime() != null) {
+                hibernator.remove(weight.getBruttoTime());
+            }
             weight.setBruttoTime(null);
             saveIt = true;
         }
@@ -113,13 +115,22 @@ public class SaveWeightAPI extends IAPI {
             taraTime.setCreator(getWorker(req));
             saveIt = true;
         } else if (weight.getTara() != 0){
-            hibernator.remove(weight.getTaraTime());
+            weight.setTara(0);
+            if (weight.getTaraTime() != null) {
+                hibernator.remove(weight.getTaraTime());
+            }
             weight.setTaraTime(null);
             saveIt = true;
         }
 
         if(saveIt){
-            hibernator.save(weight.getBruttoTime(), weight.getTaraTime(), weight);
+            if (weight.getBruttoTime() != null) {
+                hibernator.save(weight.getBruttoTime());
+            }
+            if (weight.getTaraTime() != null) {
+                hibernator.save(weight.getTaraTime());
+            }
+            hibernator.save(weight);
         }
     }
 }

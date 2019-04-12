@@ -32,13 +32,13 @@
 </script>
 
 <div id="container">
-    <div v-for="turn in items" class="container-item" :class="rowName(turn.item.date)" style="padding: 4pt">
+    <div v-for="turn in items" class="container-item" :class="rowName(turn.date)" style="padding: 4pt">
         <div>
             <span>
-            {{new Date(turn.item.date).toLocaleDateString()}}
+            {{new Date(turn.date).toLocaleDateString()}}
         </span>
         <span>
-            <fmt:message key="turn"/><span> #</span>{{turn.item.number}}
+            <fmt:message key="turn"/><span> #</span>{{turn.number}}
         </span>
         </div>
         <div style="padding-left: 12pt">
@@ -90,7 +90,7 @@
                         </span>
                     </th>
                 </tr>
-                <tr v-for="crude in (turn.item.crudes)">
+                <tr v-for="crude in (turn.crudes)">
                     <td align="center">
                         {{new Date(crude.time).getHours()}}:{{new Date(crude.time).getMinutes()}}
                     </td>
@@ -113,16 +113,16 @@
                         {{(crude.grease).toLocaleString()}}
                     </td>
                     <td align="center">
-                        <span v-if="turn.item.raws[crude.time]">
-                            {{turn.item.raws[crude.time].protein}}
+                        <span v-if="turn.raws[crude.time]">
+                            {{turn.raws[crude.time].protein}}
                         </span>
                         <span v-else>
                             --
                         </span>
                     </td>
                     <td align="center">
-                        <span v-if="turn.item.raws[crude.time]">
-                            {{turn.item.raws[crude.time].cellulose}}
+                        <span v-if="turn.raws[crude.time]">
+                            {{turn.raws[crude.time].cellulose}}
                         </span>
                         <span v-else>
                             --
@@ -131,7 +131,7 @@
                 </tr>
             </table>
         </div>
-        <div v-for="oil in turn.item.oil" style="font-size: 10pt">
+        <div v-for="oil in turn.oil" style="font-size: 10pt">
             <fmt:message key="extraction.oil"/>:
             <fmt:message key="sun.humidity"/>:
             {{(oil.humidity).toLocaleString()}},

@@ -14,38 +14,37 @@
     </c:forEach>
 </script>
 <transition-group  name="flip-list" tag="div" class="container" id="container" >
-    <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
-     class="container-item" v-bind:class="value.className" v-on:click="show(value.item.id)">
+    <div v-for="(value, key) in filteredItems()" v-bind:key="value.id" v-bind:id="value.id"
+     class="container-item" v-bind:class="rowName(value.date)" v-on:click="show(value.id)">
         <div class="upper-row">
             <span>
-                {{new Date(value.item.date).toLocaleDateString()}}
+                {{new Date(value.date).toLocaleDateString()}}
             </span>
-
             <span style="width: 20em">
                 <fmt:message key="deal.organisation"/>:
                 <b>
-                    {{value.item.organisation.value}}
+                    {{value.organisation.value}}
                 </b>
             </span>
             <span>
                 <fmt:message key="deal.product"/>:
                 <b>
-                    {{(types[value.item.type]).toLowerCase(),}}
+                    {{(types[value.type]).toLowerCase(),}}
                 </b>
                 <b>
-                    {{value.item.product.name}}
+                    {{value.product.name}}
                 </b>
             </span>
             <span>
                 <fmt:message key="deal.quantity"/>:
                 <b>
-                    {{(value.item.quantity).toLocaleString()}}
+                    {{(value.quantity).toLocaleString()}}
                 </b>
             </span>
             <span>
                 <fmt:message key="deal.from"/>:
                 <b>
-                    {{value.item.realisation}}
+                    {{value.realisation}}
                 </b>
             </span>
         </div>
@@ -53,14 +52,14 @@
             <div style="display: inline-block; font-size: 10pt; width: 14em">
                 <div>
                     <fmt:message key="transportation.time.in"/>:
-                    <span v-if="value.item.transportation.timeIn.time">
-                        {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString()}}
+                    <span v-if="value.transportation.timeIn.time">
+                        {{new Date(value.transportation.timeIn.time).toLocaleTimeString()}}
                     </span>
                 </div>
                 <div>
                     <fmt:message key="transportation.time.out"/>:
-                  <span v-if="value.item.transportation.timeOut.time">
-                    {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString()}}
+                  <span v-if="value.transportation.timeOut.time">
+                    {{new Date(value.transportation.timeOut.time).toLocaleTimeString()}}
                   </span>
                 </div>
             </div>
@@ -68,24 +67,24 @@
                 <div>
                     <fmt:message key="transportation.automobile"/>:
                     <span>
-                        <template v-if="value.item.transportation.vehicle.id">
-                        {{value.item.transportation.vehicle.model}}
+                        <template v-if="value.transportation.vehicle.id">
+                        {{value.transportation.vehicle.model}}
                         <span class="vehicle-number">
-                        {{value.item.transportation.vehicle.number}}
+                        {{value.transportation.vehicle.number}}
                         </span>
-                        <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
-                        {{value.item.transportation.vehicle.trailer}}
+                        <span v-if="value.transportation.vehicle.trailer" class="vehicle-number">
+                        {{value.transportation.vehicle.trailer}}
                         </span>
                         </template>
-                        <span v-else="value.item.transportation.vehicle.id">
+                        <span v-else="value.transportation.vehicle.id">
                         <fmt:message key="no.data"/>
                         </span>
                     </span>
                 </div>
                 <div>
                     <fmt:message key="transportation.driver"/>:
-                    <template v-if="value.item.transportation.driver.id">
-                        {{value.item.transportation.driver.person.value}}
+                    <template v-if="value.transportation.driver.id">
+                        {{value.transportation.driver.person.value}}
                     </template>
                     <template v-else>
                         <fmt:message key="no.data"/>
@@ -93,12 +92,12 @@
                 </div>
             </div>
             <div style="display: inline-block; font-size: 10pt">
-                <div v-for="weight in value.item.transportation.weights">
+                <div v-for="weight in value.transportation.weights">
                     <fmt:message key="weight.brutto"/>:{{weight.brutto}},
                     <fmt:message key="weight.tara"/>:{{weight.tara}},
                     <fmt:message key="weight.netto"/>:{{weight.brutto > 0 && weight.tara > 0 ? (weight.brutto - weight.tara).toLocaleString() : 0}}
                 </div>
-                <div v-for="sun in value.item.transportation.analyses.sun">
+                <div v-for="sun in value.transportation.analyses.sun">
                     <fmt:message key="sun.humidity"/>:
                     {{(sun.humidity).toLocaleString()}},
                     <fmt:message key="sun.soreness"/>:
@@ -106,13 +105,13 @@
                     <fmt:message key="sun.oiliness"/>:
                     {{(sun.oiliness).toLocaleString()}}
                 </div>
-                <div v-for="oil in value.item.transportation.analyses.oil">
+                <div v-for="oil in value.transportation.analyses.oil">
                     <fmt:message key="sun.acid.value"/>:
                     {{(oil.acid).toLocaleString(),}}
                     <fmt:message key="oil.peroxide"/>:
                     {{(oil.peroxide).toLocaleString()}}
                 </div>
-                <div v-for="cake in value.item.transportation.analyses.cake">
+                <div v-for="cake in value.transportation.analyses.cake">
                     <fmt:message key="sun.humidity"/>:
                     {{cake.humidity}},
                     <fmt:message key="cake.protein"/>:

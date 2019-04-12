@@ -2,6 +2,7 @@ package entity.laboratory.subdivisions.extraction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,7 +14,7 @@ public class ExtractionTurn {
     private int id;
     private Timestamp date;
     private int number;
-    private Set<ExtractionCrude> crudes;
+    private List<ExtractionCrude> crudes;
     private Set<ExtractionRaw> raws;
     private Set<ExtractionOIl> oils;
 
@@ -45,10 +46,10 @@ public class ExtractionTurn {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
-    public Set<ExtractionCrude> getCrudes() {
+    public List<ExtractionCrude> getCrudes() {
         return crudes;
     }
-    public void setCrudes(Set<ExtractionCrude> crudes) {
+    public void setCrudes(List<ExtractionCrude> crudes) {
         this.crudes = crudes;
     }
 

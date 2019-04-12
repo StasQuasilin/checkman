@@ -8,6 +8,7 @@ import entity.seals.Seal;
 import javax.persistence.*;
 import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,7 +20,7 @@ public class VROTurn {
     private int id;
     private Timestamp date;
     private int number;
-    private Set<VROCrude> crudes;
+    private List<VROCrude> crudes;
     private Set<VROOil> oils;
     private Set<VRODaily> dailies;
 
@@ -51,10 +52,10 @@ public class VROTurn {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
-    public Set<VROCrude> getCrudes() {
+    public List<VROCrude> getCrudes() {
         return crudes;
     }
-    public void setCrudes(Set<VROCrude> crudes) {
+    public void setCrudes(List<VROCrude> crudes) {
         this.crudes = crudes;
     }
 

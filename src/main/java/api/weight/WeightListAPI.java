@@ -35,7 +35,7 @@ public class WeightListAPI extends IAPI{
         parameters.put("transportation/archive", false);
         array.put("add", add);
         array.put("update", update);
-        array.put("delete", remove);
+        array.put("remove", remove);
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
