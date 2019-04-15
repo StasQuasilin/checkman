@@ -53,6 +53,7 @@ public class Branches {
         public static final String LABORATORY_BUY_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.laboratory_buy.toString();
         public static final String LABORATORY_SELL_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.laboratory_sell.toString();
         public static final String ARCHIVE_SHOW = "/archive/show/";
+        public static final String PERSONAL = "/personal.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";

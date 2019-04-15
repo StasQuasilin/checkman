@@ -46,16 +46,7 @@
 .container-item:hover{
     box-shadow: 0 0 1pt 2pt gray;
 }
-.mini-close{
-    border-radius: 8pt;
-    padding: 0 5px;
-    position: relative;
-    color: lightgray;
-}
-.mini-close:hover{
-    color: gray;
-    text-shadow: 0 0 2px gray;
-}
+
 .container-item .row{
     padding: 4pt;
 }

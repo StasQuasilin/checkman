@@ -86,6 +86,8 @@ public class Constants {
         public static final String SEAL_EDIT = "title.seal.edit";
         public static final String DAILY_ANALYSES = "title.daily.analyses";
         public static final String TRANSPORT_ARCHIVE = "title.transport.archive";
+        public static final String PERSONAL = "title.personal";
+        public static final String ADMIN = "title.admin";
 
         public class Archive {
             public static final String DEAL = "title.archive";
@@ -103,6 +105,8 @@ public class Constants {
         public static final String SURNAME = "surname";
         public static final String FORENAME = "forename";
         public static final String PATRONYMIC = "patronymic";
+        public static final String EMAIL = "email";
+        public static final String ROLE = "role";
     }
 
     public class Weight {

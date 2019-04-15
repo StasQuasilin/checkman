@@ -1,6 +1,8 @@
 package entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -12,6 +14,11 @@ public class Person {
     private String forename;
     private String surname;
     private String patronymic;
+    private Set<PhoneNumber> phones;
+
+    public Person() {
+        phones = new HashSet<>();
+    }
 
     @Id
     @GeneratedValue
@@ -47,6 +54,14 @@ public class Person {
     }
     public void setPatronymic(String patronymic) {
         this.patronymic = patronymic;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
+    public Set<PhoneNumber> getPhones() {
+        return phones;
+    }
+    public void setPhones(Set<PhoneNumber> phones) {
+        this.phones = phones;
     }
 
     @Transient

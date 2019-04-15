@@ -15,7 +15,7 @@ public class LanguageBase{
     static LanguageBase base = new LanguageBase();
 
     final String[] languages = {"ru"};
-    final String defLang = languages[0];
+    public final String defLang = languages[0];
     final String baseName = "messages_";
     public static LanguageBase getBase() {
         return base;

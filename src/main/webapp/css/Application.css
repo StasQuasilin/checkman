@@ -144,3 +144,13 @@ a:hover{
     cursor: pointer;
     text-decoration: underline;
 }
+.mini-close{
+    border-radius: 8pt;
+    padding: 0 5px;
+    position: relative;
+    color: lightgray;
+}
+.mini-close:hover{
+    color: gray;
+    text-shadow: 0 0 2px gray;
+}

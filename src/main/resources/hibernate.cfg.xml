@@ -28,6 +28,7 @@
         <mapping class="entity.User"/>
         <mapping class="entity.Worker"/>
         <mapping class="entity.Person"/>
+        <mapping class="entity.PhoneNumber"/>
         <mapping class="entity.ProductGroup"/>
         <mapping class="entity.Product"/>
         <mapping class="entity.transport.Driver"/>

@@ -24,7 +24,7 @@ public class SunTransportationAnalyses{
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "transportation")
     public Transportation getTransportation() {
         return transportation;

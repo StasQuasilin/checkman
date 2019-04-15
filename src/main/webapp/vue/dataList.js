@@ -81,8 +81,8 @@ var deamon = new Vue({
                     for(var u in e.update){
                         self.update(e.update[u])
                     }
-                    for(var d in e.delete){
-                        self.drop(e.delete[d])
+                    for(var d in e.remove){
+                        self.drop(e.remove[d])
                     }
                     self.sort();
                 }

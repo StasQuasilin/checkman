@@ -22,11 +22,11 @@
     editor.analyses.sun.push(
             {
                 id:'${sun.id}',
-                humidity:${sun.humidity},
-                soreness:${sun.soreness},
-                oiliness:${sun.oiliness},
-                oilImpurity:${sun.oilImpurity},
-                acid:${sun.acidValue}
+                humidity:${sun.analyses.humidity},
+                soreness:${sun.analyses.soreness},
+                oiliness:${sun.analyses.oiliness},
+                oilImpurity:${sun.analyses.oilImpurity},
+                acid:${sun.analyses.acidValue}
             }
     )
 

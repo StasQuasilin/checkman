@@ -51,7 +51,7 @@
         <td width="240px">
           <div class="header" style="font-size: 10pt; height: 100%; padding: 5pt 0">
               <div style="padding: 0 4pt">
-                  <a>
+                  <a onclick="loadContent('${personal}')">
                       ${worker.value}
                   </a>
                   (<a onclick="logout()">

@@ -76,6 +76,22 @@ public class JsonParser {
         json.put("surname", person.getSurname());
         json.put("patronymic", person.getPatronymic());
         json.put("value", person.getValue());
+        json.put("phones", toPhoneJson(person.getPhones()));
+        return json;
+    }
+
+    private static JSONArray toPhoneJson(Set<PhoneNumber> phones) {
+        JSONArray array = new JSONArray();
+        for (PhoneNumber number : phones) {
+            array.add(toJson(number));
+        }
+        return array;
+    }
+
+    private static JSONObject toJson(PhoneNumber number) {
+        JSONObject json = new JSONObject();
+        json.put("id", number.getId());
+        json.put("number", number.getNumber());
         return json;
     }
 

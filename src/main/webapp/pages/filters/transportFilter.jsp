@@ -42,7 +42,8 @@
             <td colspan="2">
                 <select id="organisation" v-model="organisation" style="width: 100%">
                     <option value="-1"><fmt:message key="all"/> </option>
-                    <option v-for="organisation in organisations()" :value="organisation.id">
+                    <option v-for="organisation in organisations()"
+                        :value="organisation.id">
                         {{organisation.value}}
                     </option>
                 </select>

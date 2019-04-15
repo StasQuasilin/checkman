@@ -80,7 +80,7 @@
             <fmt:message key="analyses.buy"/>
           </span>
           <span>
-            <a onclick="loadContent(${context}${analyses_buy_archive})"><fmt:message key="archive"/> </a>
+            <a onclick="loadContent(${analyses_buy_archive})"><fmt:message key="archive"/> </a>
           </span>
         </li>
         <li class="menu-item">
@@ -88,7 +88,7 @@
             <fmt:message key="analyses.sell"/>
           </span>
           <span>
-            <a onclick="loadContent(${context}${analyses_sell_archive})"><fmt:message key="archive"/> </a>
+            <a onclick="loadContent(${analyses_sell_archive})"><fmt:message key="archive"/> </a>
           </span>
         </li>
       <li class="menu-item" onclick="loadContent('${referencesList}')">
@@ -97,7 +97,7 @@
         </span>
       </li>
       <c:if test="${role eq 'admin'}">
-        <li class="menu-item" onclick="loadContent('${admin_url}')">
+        <li class="menu-item" onclick="loadContent('${admin}')">
           <span class="main">
             <fmt:message key="menu.admin"/>
           </span>

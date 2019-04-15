@@ -15,10 +15,10 @@ var filter_control = new Vue({
     methods:{
         organisations:function(){
             var organisations = {};
-            var items = this.filteredItems();
+            var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    var organisation = items[i].organisation;
+                    var organisation = items[i].item.organisation;
                     organisations[organisation.id] = organisation;
                 }
             }
@@ -26,11 +26,11 @@ var filter_control = new Vue({
         },
         products:function() {
             var products = {};
-            var items = this.filteredItems();
+            var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    var product = items[i].product;
-                    if (typeof products[product.id] != 'undefined'){
+                    var product = items[i].item.product;
+                    if (products[product.id] == undefined) {
                         products[product.id] = product;
                     }
                 }
@@ -39,11 +39,11 @@ var filter_control = new Vue({
         },
         dates:function(){
             var dates = {};
-            var items = this.filteredItems();
+            var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    var date = items[i].date;
-                    if (dates[date] != 'undefined'){
+                    var date = items[i].item.date;
+                    if (dates[date] == undefined) {
                         dates[date] = date;
                     }
                 }
@@ -52,10 +52,10 @@ var filter_control = new Vue({
         },
         vehicles:function(){
             var vehicles = {};
-            var items = this.filteredItems();
+            var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    var vehicle = items[i].transportation.vehicle;
+                    var vehicle = items[i].item.transportation.vehicle;
                     if (vehicle.id != undefined && vehicles[vehicle.id] == undefined){
                         vehicles[vehicle.id] = vehicle;
                     }
@@ -65,10 +65,10 @@ var filter_control = new Vue({
         },
         drivers:function(){
             var drivers = {};
-            var items = this.filteredItems();
+            var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    var driver = items[i].transportation.driver;
+                    var driver = items[i].item.transportation.driver;
                     if (driver.id != undefined && drivers[driver.id] == undefined){
                         drivers[driver.id] = driver;
                     }
@@ -85,10 +85,10 @@ var filter_control = new Vue({
                 var byDriver = self.driver == -1 ||
                     (self.driver == 0 && item.transportation.driver.id == undefined) ||
                     (item.transportation.driver.id == self.driver);
-                return (self.type == -1 || item.type === self.type) &
-                    (self.organisation == -1 || item.organisation.id === self.organisation) &
-                    (self.product == -1 || item.product.id == self.product) &
-                    (self.date == -1 || item.date === self.date) & byVehicle & byDriver;
+                return (self.type == -1 || item.item.type == self.type) &
+                    (self.organisation == -1 || item.item.organisation.id == self.organisation) &
+                    (self.product == -1 || item.item.product.id == self.product) &
+                    (self.date == -1 || item.item.date === self.date) & byVehicle & byDriver;
             })
         },
         clear:function(){

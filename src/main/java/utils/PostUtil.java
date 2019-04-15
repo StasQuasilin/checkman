@@ -43,9 +43,13 @@ public class PostUtil {
     }
     static final JSONObject empty = new JSONObject();
     public static JSONObject parseBodyJson(HttpServletRequest req) throws IOException {
+        String collect = "";
         try {
-            return (JSONObject) parser.parse(req.getReader());
+            collect = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            return (JSONObject)parser.parse(collect);
+//            return (JSONObject) parser.parse(req.getReader());
         } catch (ParseException e) {
+            System.out.println(collect);
             e.printStackTrace();
         }
 

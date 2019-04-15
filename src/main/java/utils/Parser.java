@@ -1,14 +1,19 @@
 package utils;
 
+import api.sign.SignUpAPI;
 import entity.transport.Transportation;
+import utils.email.RegistratorEmail;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
 
+import javax.mail.MessagingException;
+import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,8 +82,7 @@ public class Parser {
     }
 
     public static void main(String[] args) {
-        String time = "00:30";
-        System.out.println(LocalTime.parse(time));
+        RegistratorEmail.sendEmail("stasvasilin@gmail.com", "http://10.10.10.45/login", "+100500");
     }
 
 

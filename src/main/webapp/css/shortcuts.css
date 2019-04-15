@@ -2,7 +2,8 @@
     font-size: 10pt;
     display: flex;
     height: 100%;
-    transition: ease 0.2s
+    transition: ease 0.2s;
+    z-index: 100;
 }
 .shortCuts .cuts-wrapper{
     display: inline-block;

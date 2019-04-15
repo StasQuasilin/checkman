@@ -17,6 +17,9 @@ $(document).ready(function(){
     if (last){
         loadContent(last);
     }
+    document.addEventListener('push', function(event){
+        alert(event)
+    })
 });
 
 function loadContent(url){
