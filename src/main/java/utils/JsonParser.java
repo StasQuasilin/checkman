@@ -1,5 +1,6 @@
 package utils;
 
+import bot.BotUID;
 import entity.*;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
@@ -306,6 +307,7 @@ public class JsonParser {
         json.put("organisation", toJson(loadPlan.getDeal().getOrganisation()));
         json.put("product", toJson(loadPlan.getDeal().getProduct()));
         json.put("quantity", loadPlan.getPlan());
+        json.put("unit", loadPlan.getDeal().getUnit().getName());
         json.put("realisation", loadPlan.getDocumentOrganisation().getValue());
         json.put("transportation", toJson(loadPlan.getTransportation()));
         json.put("hash", loadPlan.hashCode());
@@ -356,6 +358,13 @@ public class JsonParser {
         JSONObject json = new JSONObject();
         json.put("id", seal.getId());
         json.put("number", seal.getNumber());
+        return json;
+    }
+
+    public static JSONObject toJson(BotUID botUID) {
+        JSONObject json = new JSONObject();
+        json.put("id", botUID.getId());
+        json.put("uid", botUID.getUid());
         return json;
     }
 

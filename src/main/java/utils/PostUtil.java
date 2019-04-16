@@ -46,7 +46,11 @@ public class PostUtil {
         String collect = "";
         try {
             collect = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            return (JSONObject)parser.parse(collect);
+            if (U.exist(collect)) {
+                return (JSONObject) parser.parse(collect);
+            } else {
+                return empty;
+            }
 //            return (JSONObject) parser.parse(req.getReader());
         } catch (ParseException e) {
             System.out.println(collect);

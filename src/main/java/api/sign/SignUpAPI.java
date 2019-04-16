@@ -9,6 +9,7 @@ import entity.User;
 import entity.Worker;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.PasswordGenerator;
 import utils.email.EmailSender;
 import utils.LanguageBase;
 import utils.PostUtil;
@@ -43,7 +44,7 @@ public class SignUpAPI extends IAPI{
             user.setUid(getToken());
             user.setRole(role);
             user.setLanguage(LanguageBase.getBase().defLang);
-            user.setPassword(getPassword());
+            user.setPassword(PasswordGenerator.getPassword());
             user.setEmail(email);
             
             user.setWorker(new Worker());
@@ -90,19 +91,7 @@ public class SignUpAPI extends IAPI{
 
         return token;
     }
-    final Random random = new Random();
-    final int leftLimit = 63; // letter 'a'
-    final int rightLimit = 122; // letter 'z'
-    final int targetStringLength = 10;
-    
-    synchronized String getPassword(){
-        StringBuilder buffer = new StringBuilder(targetStringLength);
-        for (int i = 0; i < targetStringLength; i++) {
-            int randomLimitedInt = leftLimit + (int)
-                    (random.nextFloat() * (rightLimit - leftLimit + 1));
-            buffer.append((char) randomLimitedInt);
-        }
-        
-        return Base64.getEncoder().encodeToString(buffer.toString().getBytes());
-    }
+
+
+
 }

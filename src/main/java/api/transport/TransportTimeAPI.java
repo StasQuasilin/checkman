@@ -53,8 +53,9 @@ public class TransportTimeAPI extends IAPI {
         }
         time.setTime(new Timestamp(System.currentTimeMillis()));
         time.setCreator(getWorker(req));
-        TransportUtil.checkTransport(transportation);
         hibernator.save(time, transportation);
+        TransportUtil.checkTransport(transportation);
+
         body.clear();
         IAnswer answer = new SuccessAnswer();
         answer.add("time", time.getTime().toString());

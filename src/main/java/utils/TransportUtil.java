@@ -5,6 +5,7 @@ import entity.User;
 import entity.Worker;
 import entity.transport.Transportation;
 import entity.weight.Weight;
+import utils.boxes.IBox;
 import utils.hibernate.Hibernator;
 
 import java.sql.Date;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Created by quasilin on 18.03.2019.
  */
-public class TransportUtil {
+public class TransportUtil extends IBox{
 
     public static final Hibernator hibernator = Hibernator.getInstance();
 
@@ -36,7 +37,9 @@ public class TransportUtil {
         if (transportation.getTimeOut() == null) {
             isArchive = false;
         }
-
-        transportation.setArchive(isArchive);
+        if (transportation.isArchive() != isArchive) {
+            transportation.setArchive(isArchive);
+            HIBERNATOR.save(transportation);
+        }
     }
 }

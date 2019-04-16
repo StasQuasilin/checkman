@@ -1,12 +1,14 @@
 package utils;
 
 import api.sign.SignUpAPI;
+import bot.BotFactory;
 import entity.transport.Transportation;
 import utils.email.RegistratorEmail;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Time;
@@ -81,8 +83,8 @@ public class Parser {
         return builder.toString();
     }
 
-    public static void main(String[] args) {
-        RegistratorEmail.sendEmail("stasvasilin@gmail.com", "http://10.10.10.45/login", "+100500");
+    public static void main(String[] args) throws IOException {
+        BotFactory.init();
     }
 
 

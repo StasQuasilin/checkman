@@ -18,7 +18,9 @@ public class Personal extends IUIServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.PERSONAL);
-        req.setAttribute("content", "/pages/sign/personal.jsp");
+        req.setAttribute("content", "/pages/personal/personal.jsp");
+        req.setAttribute("changePassword", Branches.API.CHANGE_PASSWORD);
+        req.setAttribute("uidGenerator", Branches.API.BOT_UID);
         show(req, resp);
     }
 }

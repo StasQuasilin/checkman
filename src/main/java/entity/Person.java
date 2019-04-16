@@ -77,4 +77,9 @@ public class Person {
         hash = 31 * patronymic.hashCode() + hash;
         return hash;
     }
+
+    @Transient
+    public String getAccost() {
+        return forename + " " + patronymic;
+    }
 }

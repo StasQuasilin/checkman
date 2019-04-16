@@ -1,5 +1,6 @@
 package filters;
 
+import bot.BotFactory;
 import constants.Branches;
 import utils.hibernate.HibernateSessionFactory;
 
@@ -16,6 +17,11 @@ public class ContextFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         HibernateSessionFactory.init();
+        try {
+            BotFactory.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -29,5 +35,6 @@ public class ContextFilter implements Filter {
     @Override
     public void destroy() {
         HibernateSessionFactory.shutdown();
+        BotFactory.shutdown();
     }
 }

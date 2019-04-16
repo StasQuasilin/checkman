@@ -68,5 +68,7 @@
         <mapping class="entity.laboratory.subdivisions.vro.VRODaily"/>
         <mapping class="entity.seals.Seal"/>
         <mapping class="entity.seals.SealBatch"/>
+        <mapping class="entity.bot.UserBotSetting"/>
+        <mapping class="bot.BotUID"/>
     </session-factory>
 </hibernate-configuration>

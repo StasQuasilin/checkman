@@ -37,13 +37,23 @@ var deamon = new Vue({
             this.doRequest()
         },
         add:function(item){
-            this.items.push(item);
+            var doNot = false;
+            for (var a in this.items){
+                if (this.items.hasOwnProperty(a)){
+                    if (this.items[a].item.id == item.id){
+                        doNot = true;
+                    }
+                }
+            }
+            if (!doNot) {
+                this.items.push({item: item});
+            }
         },
         update:function(item){
             for(var i in this.items){
                 if (this.items.hasOwnProperty(i)) {
-                    if (this.items[i].id == item.id) {
-                        this.items.splice(i, 1, item);
+                    if (this.items[i].item.id == item.id) {
+                        this.items[i].item = item;
                         break;
                     }
                 }
@@ -53,7 +63,7 @@ var deamon = new Vue({
         drop:function(id){
             for(var i in this.items){
                 if (this.items.hasOwnProperty(i)) {
-                    if (this.items[i].id === id) {
+                    if (this.items[i].item.id === id) {
                         this.items.splice(i, 1);
                         break
                     }
@@ -68,7 +78,7 @@ var deamon = new Vue({
             var parameters = {};
             for (var k in self.items){
                 if (self.items.hasOwnProperty(k)) {
-                    var item = self.items[k];
+                    var item = self.items[k].item;
                     parameters[item.id] = item.hash;
                 }
             }
@@ -93,7 +103,7 @@ var deamon = new Vue({
         },
         sort:function(){
             this.items.sort(function(a, b){
-                return new Date(b.date) - new Date(a.date);
+                return new Date(b.item.date) - new Date(a.item.date);
             })
         },
         stop:function(){

@@ -8,9 +8,9 @@ import entity.transport.ActionTime;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 import utils.PostUtil;
 import utils.TransportUtil;
+import utils.WeightUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 
 /**
  * Created by szpt_user045 on 22.03.2019.
@@ -62,23 +59,8 @@ public class SaveWeightAPI extends IAPI {
 
         hibernator.remove(weights.values().toArray());
 
-        plan = hibernator.get(LoadPlan.class, "id", planId);
-
-        float done = 0;
-        for (Weight weight : plan.getTransportation().getWeights()){
-            done += weight.getNetto();
-        }
-
-        plan.getDeal().setDone(done);
-        plan.getDeal().setArchive(done >= plan.getDeal().getQuantity());
-
-        hibernator.save(plan.getDeal());
-
-        boolean archive = plan.getTransportation().isArchive();
+        WeightUtil.calculateDealDone(plan.getDeal());
         TransportUtil.checkTransport(plan.getTransportation());
-        if (archive != plan.getTransportation().isArchive()) {
-            hibernator.save(plan.getTransportation());
-        }
 
         PostUtil.write(resp, answer);
 

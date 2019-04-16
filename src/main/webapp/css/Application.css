@@ -154,3 +154,8 @@ a:hover{
     color: gray;
     text-shadow: 0 0 2px gray;
 }
+.error{
+    font-size: 10pt;
+    font-weight: bold;
+    color: orangered;
+}

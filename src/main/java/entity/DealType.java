@@ -5,5 +5,7 @@ package entity;
  */
 public enum DealType {
     buy,
-    sell
+    sell;
+
+
 }
