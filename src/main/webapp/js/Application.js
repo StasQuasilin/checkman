@@ -3,8 +3,10 @@ var header;
 var modalLayer;
 var filter;
 var content;
-const last_url = 'last-url';
+const last_url = 'last-page';
+var welcome = '';
 var logoutAPI = '';
+
 
 $(document).ready(function(){
     coverlet = document.getElementById('coverlet');
@@ -16,6 +18,8 @@ $(document).ready(function(){
     var last = localStorage.getItem(last_url);
     if (last){
         loadContent(last);
+    } else {
+        loadContent(welcome)
     }
     document.addEventListener('push', function(event){
         alert(event)

@@ -88,6 +88,7 @@ public class Constants {
         public static final String TRANSPORT_ARCHIVE = "title.transport.archive";
         public static final String PERSONAL = "title.personal";
         public static final String ADMIN = "title.admin";
+        public static final String WELCOME = "title.welcome";
 
         public class Archive {
             public static final String DEAL = "title.archive";

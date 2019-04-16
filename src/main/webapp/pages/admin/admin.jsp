@@ -42,86 +42,88 @@
     });
     </c:forEach>
 </script>
+<div style="padding: 18pt">
+    <table id="registrator">
+        <tr>
+            <th colspan="3">
+                <fmt:message key="user.registration"/>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <label for="surname">
+                    <fmt:message key="person.surname"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <input id="surname" v-model="user.surname" autocomplete="off">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="forename">
+                    <fmt:message key="person.forename"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <input id="forename" v-model="user.forename" autocomplete="off">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="patronymic">
+                    <fmt:message key="person.patronymic"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <input id="patronymic" v-model="user.patronymic" autocomplete="off">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="role">
+                    <fmt:message key="role"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <select id="role" v-model="user.role">
+                    <option v-for="role in roles">{{role.value}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="email">
+                    <fmt:message key="email"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <input id="email" v-model="user.email" autocomplete="off">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">
+                <button v-on:click="registration">
+                    <fmt:message key="button.registration"/>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
 
-<table id="registrator">
-    <tr>
-        <th colspan="3">
-            <fmt:message key="user.registration"/>
-        </th>
-    </tr>
-    <tr>
-        <td>
-            <label for="surname">
-                <fmt:message key="person.surname"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="surname" v-model="user.surname" autocomplete="off">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="forename">
-                <fmt:message key="person.forename"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="forename" v-model="user.forename" autocomplete="off">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="patronymic">
-                <fmt:message key="person.patronymic"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="patronymic" v-model="user.patronymic" autocomplete="off">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="role">
-                <fmt:message key="role"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="role" v-model="user.role">
-                <option v-for="role in roles">{{role.value}}</option>
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="email">
-                <fmt:message key="email"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="email" v-model="user.email" autocomplete="off">
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3" align="center">
-            <button v-on:click="registration">
-                <fmt:message key="button.registration"/>
-            </button>
-        </td>
-    </tr>
-</table>
 </html>

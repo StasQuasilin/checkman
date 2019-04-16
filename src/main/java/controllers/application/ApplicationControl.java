@@ -19,7 +19,7 @@ import java.io.IOException;
 public class ApplicationControl extends IServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        req.setAttribute("welcome", Branches.UI.WELCOME);
         req.setAttribute("buyList", Branches.UI.DEAL_BUY);
         req.setAttribute("buyArchive", Branches.UI.BUY_ARCHIVE);
         req.setAttribute("sellList", Branches.UI.DEAL_SELL);

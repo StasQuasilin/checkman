@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.User;
 import entity.answers.ErrorAnswer;
 import entity.answers.IAnswer;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
@@ -24,6 +25,9 @@ import java.util.HashMap;
  */
 @WebServlet(Branches.API.SIGN_IN)
 public class SignInAPI extends IAPI{
+
+    private static final Logger log = Logger.getLogger(SignInAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
@@ -38,23 +42,27 @@ public class SignInAPI extends IAPI{
 
     public synchronized static IAnswer signIn(HttpServletRequest req, String uid, String password) throws IOException {
         IAnswer answer;
+        log.info("Sign in by user token " + uid);
         User user = hibernator.get(User.class, "uid", uid);
+
         if (user != null ){
             if (user.getPassword().equals(password)) {
                 answer = new SuccessAnswer();
                 answer.add("redirect", Branches.UI.HOME);
+                log.info("Success, user " + user.getWorker().getPerson().getValue());
                 req.getSession().setAttribute("token", UserBox.getUserBox().addUser(user));
                 req.getSession().setAttribute("lang", user.getLanguage());
                 req.getSession().setAttribute("worker", user.getWorker());
                 req.getSession().setAttribute("role", user.getRole());
-
             } else {
                 answer = new ErrorAnswer();
                 answer.add("msd", lb.get(Constants.Languages.WRONG_PASSWORD));
+                log.error("Wrong password");
             }
         } else {
             answer = new ErrorAnswer();
             answer.add("msd", lb.get(Constants.Languages.NO_USER));
+            log.error("User not found");
         }
 
         return answer;

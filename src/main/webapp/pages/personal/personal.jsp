@@ -4,19 +4,21 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+<div style="padding: 18pt">
+    <table border="0">
+        <tr>
+            <td valign="top">
+                <jsp:include page="changePassword.jsp"/>
 
-<table border="1">
-    <tr>
-        <td valign="top">
-            <jsp:include page="changePassword.jsp"/>
+            </td>
+            <td valign="top">
+                <jsp:include page="personalData.jsp"/>
+            </td>
+            <td valign="top">
+                <jsp:include page="telegramBotSettings.jsp"/>
+            </td>
+        </tr>
+    </table>
+</div>
 
-        </td>
-        <td valign="top">
-            <jsp:include page="personalData.jsp"/>
-        </td>
-        <td valign="top">
-            <jsp:include page="telegramBotSettings.jsp"/>
-        </td>
-    </tr>
-</table>
 </html>

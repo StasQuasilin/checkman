@@ -21,6 +21,7 @@
     <script>
         context = '${context}';
         logoutAPI = '${logoutAPI}';
+        welcome = '${welcome}';
     </script>
 </head>
 <body style="margin: 0">
