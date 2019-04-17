@@ -4,33 +4,37 @@
 var context;
 
 function PostReq(url, parametrs, onSuccess, onError, debug){
-    if (debug) {
-        console.log('[ Application Core ] Request to \'' + url + '\'...');
-    }
-
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function(e){
-        if (xhr.readyState === 4){
-            if (xhr.status === 200) {
-                if (debug) {
-                    console.log('[ Application Core ] Request successfuly');
-                }
-                if (onSuccess) {
-                    onSuccess(xhr.responseText);
-                }
-            } else if (onError){
-                onError(xhr.status + ':' + xhr.statusText);
-            } else {
-                console.error(xhr.status + ':' + xhr.statusText)
-            }
+    if (url) {
+        if (debug) {
+            console.log('[ Application Core ] Request to \'' + url + '\'...');
         }
-    };
 
-    if (url.substring(0, context.length) != context){
-        url = context + url;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function (e) {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    if (debug) {
+                        console.log('[ Application Core ] Request successfuly');
+                    }
+                    if (onSuccess) {
+                        onSuccess(xhr.responseText);
+                    }
+                } else if (onError) {
+                    onError(xhr.status + ':' + xhr.statusText);
+                } else {
+                    console.error(xhr.status + ':' + xhr.statusText)
+                }
+            }
+        };
+
+        if (url.substring(0, context.length) != context) {
+            url = context + url;
+        }
+        xhr.open('POST', url, true);
+        xhr.send(JSON.stringify(parametrs));
+    } else {
+        console.error('Empty url!!!');
     }
-    xhr.open('POST', url, true);
-    xhr.send(JSON.stringify(parametrs));
 }
 function PostApi(url, parameters, onSuccess, onError, debug){
     PostReq(url, parameters, function(answer){
@@ -55,7 +59,6 @@ function PostApi(url, parameters, onSuccess, onError, debug){
             }
         }
     }, function(err){
-        console.error('[ Application Core ] ' + err)
         if (onError){
             onError(err);
         }

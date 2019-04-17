@@ -52,6 +52,7 @@
     });
     botSettings.api.generate = '${uidGenerator}';
     botSettings.api.status = '${botStatus}';
+    <c:if test="not empty botSettings">
     botSettings.bot={
         id:${botSettings.telegramId},
         transport:'${botSettings.transport}',
@@ -62,6 +63,7 @@
         kpo:${botSettings.kpo},
         show:${botSettings.show}
     };
+    </c:if>
     botSettings.status();
 </script>
 <table id="settings">

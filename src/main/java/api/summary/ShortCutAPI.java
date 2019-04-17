@@ -48,24 +48,25 @@ public class ShortCutAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
+        if (!body.isEmpty()) {
+            parameters.put("transportation/timeIn", State.notNull);
+            parameters.put("transportation/timeOut", State.isNull);
 
-        parameters.put("transportation/timeIn", State.notNull);
-        parameters.put("transportation/timeOut", State.isNull);
+            doAction((JSONObject) body.get("territory"), hibernator.query(LoadPlan.class, parameters), tAdd, tUpdate, tRemove);
 
-        doAction((JSONObject) body.get("territory"), hibernator.query(LoadPlan.class, parameters), tAdd, tUpdate, tRemove);
+            parameters.put("transportation/timeIn", State.isNull);
+            parameters.put("transportation/timeOut", State.notNull);
 
-        parameters.put("transportation/timeIn", State.isNull);
-        parameters.put("transportation/timeOut", State.notNull);
+            doAction((JSONObject) body.get("cruise"), hibernator.query(LoadPlan.class, parameters), cAdd, cUpdate, cRemove);
 
-        doAction((JSONObject) body.get("cruise"), hibernator.query(LoadPlan.class, parameters), cAdd, cUpdate, cRemove);
-
-        write(resp, array.toJSONString());
-        tAdd.clear();
-        tUpdate.clear();
-        tRemove.clear();
-        cAdd.clear();
-        cUpdate.clear();
-        cRemove.clear();
+            write(resp, array.toJSONString());
+            tAdd.clear();
+            tUpdate.clear();
+            tRemove.clear();
+            cAdd.clear();
+            cUpdate.clear();
+            cRemove.clear();
+        }
     }
 
     synchronized void doAction(JSONObject arr, List<LoadPlan> plans, JSONArray add, JSONArray update, JSONArray remove){

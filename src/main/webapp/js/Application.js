@@ -32,10 +32,11 @@ function loadContent(url){
         localStorage.setItem(last_url, url);
         PostReq(url, null, function (e) {
             try {
-                //stopContent();
+                stopContent();
             } catch (e) {
                 console.log(e)
             } finally {
+                $(content).empty();
                 $(content).html(e);
                 $(header).html(GetChildElemById(content, 'header-content'));
                 //document.title = header.innerText;

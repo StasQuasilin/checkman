@@ -2,6 +2,7 @@ package utils;
 
 import api.sign.SignUpAPI;
 import bot.BotFactory;
+import constants.Branches;
 import entity.transport.Transportation;
 import utils.email.RegistratorEmail;
 import utils.hibernate.HibernateSessionFactory;
@@ -84,7 +85,7 @@ public class Parser {
     }
 
     public static void main(String[] args) throws IOException {
-        BotFactory.init();
+        System.out.println(Branches.API.LOGISTIC_LIST.equals("/api/logistic/list"));
     }
 
 

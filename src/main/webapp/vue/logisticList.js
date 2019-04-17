@@ -1,19 +1,20 @@
 var logistic = new Vue({
     el:'#logistic',
     data:{
-        findVehicleAPI:'',
-        findDriverAPI:'',
-        parseVehicleAPI:'',
-        parseDriverAPI:'',
+        api:{
+            findVehicleAPI:'',
+            findDriverAPI:'',
+            parseVehicleAPI:'',
+            parseDriverAPI:'',
+            vehicleInput:'',
+            driverInput:'',
+            update:'',
+            save:'',
+            saveTransportationVehicleApi:'',
+            saveTransportationDriverApi:''
+        },
         vehicleFind:{},
         driverFind:{},
-        vehicleInput:'',
-        driverInput:'',
-        vehicleDriverInput:'',
-        update_link:'',
-        save_link:'',
-        saveTransportationVehicleApi:'',
-        saveTransportationDriverApi:'',
         items:[],
         types:{},
         timeout:-1,
@@ -63,11 +64,6 @@ var logistic = new Vue({
                 }
             }
         },
-        setUrls:function(update, save){
-            this.update_link = update
-            this.save_link = save
-            this.loadItems()
-        },
         loadItems: function () {
             const self = this;
             var parameters = {};
@@ -78,7 +74,7 @@ var logistic = new Vue({
                 }
 
             }
-            PostApi(this.update_link, parameters, function(e){
+            PostApi(this.api.update, parameters, function(e){
                 if (e.add.length || e.update.length || e.remove.length) {
                     console.log(e)
                     for (var a in e.add){

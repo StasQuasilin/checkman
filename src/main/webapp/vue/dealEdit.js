@@ -44,7 +44,6 @@ var editor = new Vue({
                     this.fnd = setTimeout(function () {
                         var parameters = {};
                         parameters.key = self.contragentInput;
-                        console.log(parameters)
                         PostApi(self.api.findOrganisationUrl, parameters, function (a) {
                             self.foundContragents = a;
                         })

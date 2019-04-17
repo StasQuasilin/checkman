@@ -13,7 +13,9 @@
     deamon.setUrls('${updateLink}', '${showLink}')
     deamon.types['buy'] = '<fmt:message key="_buy"/>'
     deamon.types['sell'] = '<fmt:message key="_sell"/>'
-
+    function stopContent(){
+      deamon.stop();
+    }
   </script>
   <transition-group name="flip-list" tag="div" class="container" id="container">
     <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"

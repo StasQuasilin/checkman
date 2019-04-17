@@ -79,7 +79,7 @@ public class Branches {
         public static final String DEAL_LIST_SELL =     DEAL_LIST + "?type=sell";
         public static final String PLAN_LIST =          API + "/load/plan/list";
         public static final String PLAN_LIST_SAVE =     API + "/load/plan/save";
-        public static final String LOGISTIC_LIST =      API + "/logistic/list";
+        public static final String LOGISTIC_LIST =      API + ".logistic.list";
         public static final String LOGISTIC_SAVE =      API + "/logistic/save";
         public static final String TRANSPORT_UPDATE =   API + "/transport/list";
         public static final String TRANSPORT_TIME =     API + "/transport/time";

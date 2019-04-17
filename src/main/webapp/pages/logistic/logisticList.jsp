@@ -17,14 +17,16 @@
 </style>
   <script src="${context}/vue/logisticList.js"></script>
   <script>
-    logistic.saveTransportationVehicleApi = '${saveTransportationVehicleAPI}'
-    logistic.saveTransportationDriverApi = '${saveTransportationDriverAPI}'
-    logistic.findVehicleAPI = '${findVehicleApi}'
-    logistic.findDriverAPI = '${findDriverApi}'
-    logistic.vehicleInput = '${vehicleInput}'
-    logistic.driverInput = '${driverInput}'
-    logistic.vehicleDriverInput = '${vehicleDriverInput}'
-    logistic.setUrls('${updateLink}', '${saveLink}')
+    logistic.api.saveTransportationVehicleApi = '${saveTransportationVehicleAPI}'
+    logistic.api.saveTransportationDriverApi = '${saveTransportationDriverAPI}'
+    logistic.api.findVehicleAPI = '${findVehicleApi}'
+    logistic.api.findDriverAPI = '${findDriverApi}'
+    logistic.api.vehicleInput = '${vehicleInput}'
+    logistic.api.driverInput = '${driverInput}'
+    logistic.api.vehicleDriverInput = '${vehicleDriverInput}'
+    logistic.api.update = '${update}'
+    logistic.api.save = '${save}'
+    logistic.loadItems();
 
     <c:forEach items="${dealTypes}" var="type">
     logistic.addType('${type}', '<fmt:message key="${type}"/>')
