@@ -23,17 +23,28 @@ public class TelegramBot extends IBot {
     private static final String OLD_TOKEN = "bot.old.token";
     private static final String NO_TOKEN = "bot.no.token";
     private static final String WELCOME = "bot.welcome";
+    private static final String LOG_IN = "bot.log.in";
+    private static final String HELP = "bot.help";
+    private static final String STATUS = "bot.status";
+    private static final String ON = "on";
+    private static final String OFF = "off";
+    private static final String DOESNT_NEED = "bot.token.doesnt.need";
+
     private final Logger log = Logger.getLogger(TelegramBot.class);
     private final LanguageBase lb = LanguageBase.getBase();
     private final BotUIDs botUIDs = BotUIDs.getBox();
     private final BotSettings botSettings = BotSettings.getInstance();
+
+
     private final String token;
     private final String name;
 
     public TelegramBot(String token, String name) {
         this.token = token;
         this.name = new String(name.getBytes(), Charset.forName("UTF-8"));
+        notificator = new Notificator(this);
         log.info("Bot " + name +" started successfully");
+
     }
 
     void updateProcessing(Update update){
@@ -45,20 +56,25 @@ public class TelegramBot extends IBot {
             parseCommand(id, update.getMessage().getText());
         }
     }
+
     final Pattern commandPattern = Pattern.compile("^\\/\\w{2,}");
     private void parseCommand(long id, String text) {
+
         Matcher matcher = commandPattern.matcher(text);
-        if (matcher.find()){
+        if (matcher.find()) {
             String group = matcher.group();
             Command command = Command.valueOf(group.substring(1));
             text = text.replace(group, "").trim();
 
-            switch (command){
+            switch (command) {
                 case help:
                     showHelp(id);
                     break;
                 case token:
                     signin(id, text);
+                    break;
+                case status:
+                    status(id);
                     break;
                 case start:
                     start(id);
@@ -68,36 +84,77 @@ public class TelegramBot extends IBot {
                     break;
             }
         }
+
+    }
+
+    private void status(long id) {
+        if(signed(id)) {
+            UserBotSetting settings = botSettings.getSettings(id);
+            sendMsg(id, String.format(
+                    lb.get(STATUS),
+                    lb.get(settings.getTransport().toString()),
+                    lb.get(settings.getWeight().toString()),
+                    lb.get(settings.getAnalyses().toString()),
+                    lb.get(settings.isExtraction() ? ON : OFF),
+                    lb.get(settings.isVro() ? ON : OFF),
+                    lb.get(settings.isKpo() ? ON : OFF),
+                    lb.get(settings.isShow() ? ON : OFF)
+            ));
+
+        } else {
+            sendMsg(id, lb.get(LOG_IN));
+        }
+    }
+
+    private boolean signed(long id){
+        return botSettings.contain(id);
     }
 
     private void start(long id) {
-
+        if(signed(id)) {
+            UserBotSetting settings = botSettings.getSettings(id);
+            settings.setShow(true);
+            botSettings.addSettings(settings);
+        } else {
+            sendMsg(id, lb.get(LOG_IN));
+        }
     }
 
     private void stop(long id) {
-
+        if(signed(id)) {
+            UserBotSetting settings = botSettings.getSettings(id);
+            settings.setShow(false);
+            botSettings.addSettings(settings);
+        } else {
+            sendMsg(id, lb.get(LOG_IN));
+        }
     }
 
     private void signin(long id, String text) {
-        BotUID uid = botUIDs.getUID(text);
-        String answer;
-        if (uid == null) {
-            answer = lb.get(NO_TOKEN);
-        } else if (uid.isOld()){
-            answer = lb.get(OLD_TOKEN);
+        if (signed(id)){
+            sendMsg(id, DOESNT_NEED);
         } else {
-            UserBotSetting settings = new UserBotSetting();
-            settings.setTelegramId(id);
-            Worker worker = uid.getWorker();
-            settings.setWorker(worker);
-            answer = String.format(lb.get(WELCOME), worker.getPerson().getAccost());
-            botSettings.save(settings);
+            BotUID uid = botUIDs.getUID(text);
+            String answer;
+            if (uid == null) {
+                answer = lb.get(NO_TOKEN);
+            } else if (uid.isOld()){
+                answer = lb.get(OLD_TOKEN);
+            } else {
+                UserBotSetting settings = new UserBotSetting();
+                settings.setTelegramId(id);
+                Worker worker = uid.getWorker();
+                settings.setWorker(worker);
+                answer = String.format(lb.get(WELCOME), worker.getPerson().getAccost());
+                botSettings.save(settings);
+            }
+            sendMsg(id, answer);
         }
-        sendMsg(id, answer);
     }
 
-    private void showHelp(long id) {
 
+    private void showHelp(long id) {
+        sendMsg(id, lb.get(HELP));
 
     }
 
@@ -137,5 +194,9 @@ public class TelegramBot extends IBot {
         } catch (TelegramApiException e) {
             log.error("Can\'t send message cause " + e.getMessage());
         }
+    }
+
+    public BotSettings getBotSettings() {
+        return botSettings;
     }
 }

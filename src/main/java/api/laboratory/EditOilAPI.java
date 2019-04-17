@@ -1,6 +1,8 @@
 package api.laboratory;
 
 import api.IAPI;
+import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -20,12 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_OIL)
 public class EditOilAPI extends IAPI {
+
+    final Notificator notificator = BotFactory.getBot().getNotificator();
 
     private final Logger log = Logger.getLogger(EditOilAPI.class);
 
@@ -36,6 +41,7 @@ public class EditOilAPI extends IAPI {
         log.info("Edit OIL analyses for plan \'" + planId + "\'...");
 
         LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
+        LinkedList<OilAnalyses> analysesList = new LinkedList<>();
 
         HashMap<Long, OilTransportationAnalyses> map = new HashMap<>();
         log.info("\tAlready have analyses:...");
@@ -68,6 +74,7 @@ public class EditOilAPI extends IAPI {
             }
 
             OilAnalyses oilAnalyses = analyses.getAnalyses();
+            analysesList.add(oilAnalyses);
 
             boolean organoleptic = (boolean) a.get(Constants.Oil.ORGANOLEPTIC);
             log.info("\t\tOrganoleptic: " + organoleptic);
@@ -158,7 +165,7 @@ public class EditOilAPI extends IAPI {
         for (OilTransportationAnalyses analyses : map.values()){
             hibernator.remove(analyses);
         }
-
+        notificator.oilAnalysesShow(loadPlan, analysesList);
         PostUtil.write(resp, answer);
     }
 }

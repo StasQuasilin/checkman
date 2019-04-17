@@ -1,6 +1,8 @@
 package api.laboratory;
 
 import api.IAPI;
+import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 27.03.2019.
@@ -27,6 +31,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.LABORATORY_SAVE_SUN)
 public class EditSunAPI extends IAPI {
 
+    final Notificator notificator = BotFactory.getBot().getNotificator();
     private final Logger log = Logger.getLogger(EditSunAPI.class);
 
     @Override
@@ -36,11 +41,12 @@ public class EditSunAPI extends IAPI {
         log.info("Edit SUN analyses for plan \'" + planId + "\'...");
 
         LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
+        LinkedList<SunAnalyses> analysesList = new LinkedList<>();
 
         HashMap<Long, SunTransportationAnalyses> map = new HashMap<>();
         log.info("\tAlready have analyses:...");
         for (SunTransportationAnalyses analyses : loadPlan.getTransportation().getSunAnalyses()){
-            map.put(Long.valueOf(analyses.getAnalyses().getId()), analyses);
+            map.put((long) analyses.getAnalyses().getId(), analyses);
             log.info("\t\t..." + Long.valueOf(analyses.getAnalyses().getId()));
         }
         log.info("\tWill be...");
@@ -67,6 +73,7 @@ public class EditSunAPI extends IAPI {
             }
 
             SunAnalyses sunAnalyses = analyses.getAnalyses();
+            analysesList.add(sunAnalyses);
 
             float oiliness = Float.parseFloat(String.valueOf(a.get(Constants.Sun.OILINESS)));
             log.info("\t\tOiliness: " + oiliness);
@@ -131,6 +138,7 @@ public class EditSunAPI extends IAPI {
             hibernator.remove(analyses);
         }
 
+        notificator.sunAnalysesShow(loadPlan, analysesList);
         PostUtil.write(resp, answer);
     }
 }

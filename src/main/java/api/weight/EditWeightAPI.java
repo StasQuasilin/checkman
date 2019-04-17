@@ -1,8 +1,11 @@
 package api.weight;
 
 import api.IAPI;
+import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
+import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.transport.ActionTime;
 import entity.weight.Weight;
@@ -18,13 +21,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 22.03.2019.
  */
 @WebServlet(Branches.API.SAVE_WEIGHT)
-public class SaveWeightAPI extends IAPI {
+public class EditWeightAPI extends IAPI {
+
+    private final Notificator notificator = BotFactory.getBot().getNotificator();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
@@ -34,6 +42,7 @@ public class SaveWeightAPI extends IAPI {
         JSONArray array = (JSONArray) body.get(Constants.WEIGHTS);
 
         LoadPlan plan = hibernator.get(LoadPlan.class, "id", planId);
+        List<Weight> weightList = new ArrayList<>();
         HashMap<Long, Weight> weights = new HashMap<>();
         for (Weight w : plan.getTransportation().getWeights()){
             weights.put((long) w.getId(), w);
@@ -54,11 +63,13 @@ public class SaveWeightAPI extends IAPI {
                 weight.setTransportation(plan.getTransportation());
                 saveIt = true;
             }
-            changeWeight(weight, brutto, tara, req, saveIt);
+
+            changeWeight(weight, brutto, tara, getWorker(req), saveIt);
+            weightList.add(weight);
         }
 
         hibernator.remove(weights.values().toArray());
-
+        notificator.weightShow(plan, weightList);
         WeightUtil.calculateDealDone(plan.getDeal());
         TransportUtil.checkTransport(plan.getTransportation());
 
@@ -66,7 +77,7 @@ public class SaveWeightAPI extends IAPI {
 
         body.clear();
     }
-    synchronized void changeWeight(Weight weight, float brutto, float tara, HttpServletRequest req, boolean saveIt){
+    synchronized void changeWeight(Weight weight, float brutto, float tara, Worker worker, boolean saveIt){
         if (brutto != 0){
             ActionTime bruttoTime = weight.getBruttoTime();
             if (bruttoTime == null){
@@ -75,7 +86,7 @@ public class SaveWeightAPI extends IAPI {
             }
             weight.setBrutto(brutto);
             bruttoTime.setTime(new Timestamp(System.currentTimeMillis()));
-            bruttoTime.setCreator(getWorker(req));
+            bruttoTime.setCreator(worker);
             saveIt = true;
         } else if (weight.getBrutto() != 0){
             weight.setBrutto(0);
@@ -94,7 +105,7 @@ public class SaveWeightAPI extends IAPI {
             }
             weight.setTara(tara);
             taraTime.setTime(new Timestamp(System.currentTimeMillis()));
-            taraTime.setCreator(getWorker(req));
+            taraTime.setCreator(worker);
             saveIt = true;
         } else if (weight.getTara() != 0){
             weight.setTara(0);

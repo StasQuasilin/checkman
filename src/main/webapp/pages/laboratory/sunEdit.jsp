@@ -50,6 +50,35 @@
     if (editor.analyses.length == 0){
         editor.newAnalyses();
     }
+    editor.recount=function(){
+        const basis = {
+            humidity:7,
+            soreness:3
+        }
+        var humidity = 0;
+        var soreness = 0;
+        var count = 0;
+        for (var a in this.analyses){
+            if (this.analyses.hasOwnProperty(a)){
+                var analyses = this.analyses[a];
+                humidity += analyses.humidity;
+                soreness += analyses.soreness;
+                count++;
+            }
+        }
+
+        humidity /= count;
+        soreness /= count;
+        var recount = 0;
+        if (humidity > basis.humidity && soreness > basis.soreness){
+            recount = 100-((100-humidity)*(100-soreness)*100)/((100-basis.humidity)*(100-basis.soreness));
+        } else if (humidity > basis.humidity) {
+            recount = (humidity - basis.humidity)/(100 - basis.humidity)
+        } else if (soreness > basis.soreness){
+            recount = (soreness - basis.soreness) / (100 - basis.soreness);
+        }
+        return '-' + (Math.round(recount * 1000) / 1000) + '%';
+    }
 </script>
 <table id="editor" class="editor">
     <tr>
@@ -174,13 +203,27 @@
                 :
             </td>
             <td>
-                <select style="width: 100%" v-model="item.creator">
+                <select style="width: 100%" id="creator" v-model="item.creator">
                     <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
                 </select>
             </td>
         </tr>
     </template>
-
+    <template v-if="recount">
+    <tr v-if="typeof recount === 'function'">
+        <td>
+            <label for="recount">
+                <fmt:message key="recount.percentage"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="recount" readonly style="width: 7em" v-model="recount()">
+        </td>
+    </tr>
+    </template>
     <tr>
         <td colspan="3" align="center">
             <button onclick="closeModal()">

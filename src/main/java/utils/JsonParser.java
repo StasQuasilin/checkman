@@ -3,6 +3,7 @@ package utils;
 import bot.BotUID;
 import entity.*;
 import entity.answers.IAnswer;
+import entity.bot.UserBotSetting;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.laboratory.CakeAnalyses;
@@ -365,6 +366,19 @@ public class JsonParser {
         JSONObject json = new JSONObject();
         json.put("id", botUID.getId());
         json.put("uid", botUID.getUid());
+        return json;
+    }
+
+    public static JSONObject toJson(UserBotSetting setting) {
+        JSONObject json = new JSONObject();
+        json.put("id", setting.getTelegramId());
+        json.put("transport", setting.getTransport().toString());
+        json.put("weight", setting.getWeight().toString());
+        json.put("analyses", setting.getAnalyses().toString());
+        json.put("extraction", setting.isExtraction());
+        json.put("vro", setting.isVro());
+        json.put("kpo", setting.isKpo());
+        json.put("show", setting.isShow());
         return json;
     }
 

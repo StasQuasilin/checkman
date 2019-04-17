@@ -31,10 +31,7 @@ public class ParseOrganisationAPI extends IAPI {
         Organisation organisation = parse(String.valueOf(body.get(Constants.NAME)));
 
         hibernator.save(organisation);
-        JSONObject json = JsonParser.toJson(organisation);
-        write(resp, json.toJSONString());
-        json.clear();
-
+        write(resp, JsonParser.toJson(organisation).toJSONString());
     }
 
     public static synchronized Organisation parse(String value){

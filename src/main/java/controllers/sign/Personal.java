@@ -1,8 +1,10 @@
 package controllers.sign;
 
+import bot.BotSettings;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
+import entity.bot.UserBotSetting;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +23,8 @@ public class Personal extends IUIServlet {
         req.setAttribute("content", "/pages/personal/personal.jsp");
         req.setAttribute("changePassword", Branches.API.CHANGE_PASSWORD);
         req.setAttribute("uidGenerator", Branches.API.BOT_UID);
+        req.setAttribute("botStatus", Branches.API.BOT_SETTINGS);
+        req.setAttribute("botSettings", hibernator.get(UserBotSetting.class, "worker", getWorker(req).getId()));
         show(req, resp);
     }
 }

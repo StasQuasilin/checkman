@@ -6,5 +6,8 @@ package entity.bot;
 public enum NotifyStatus {
     off,
     my,
-    all
+    all,
+    sun,
+    oil,
+    cake
 }

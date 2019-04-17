@@ -65,7 +65,9 @@ var editor = new Vue({
                 parameters.name = this.contragentInput;
                 const self = this;
                 PostApi(this.api.parseOrganisationUrl, parameters, function(a){
-                    self.deal.constagent = a.id;
+                    console.log('Parsed organisation');
+                    console.log(a);
+                    self.deal.contragent = a.id;
                     self.contragentInput = self.contragentName = a.value;
                 })
             }

@@ -71,4 +71,9 @@ public class Vehicle {
         }
         return hash;
     }
+
+    @Transient
+    public String getValue() {
+        return model + " \'" + number + "\'" + (trailer != number ? "\'" + trailer + "\'" : "");
+    }
 }

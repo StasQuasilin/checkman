@@ -1,9 +1,12 @@
 package api.transport;
 
 import api.IAPI;
+import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.answers.IAnswer;
+import entity.documents.LoadPlan;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
@@ -25,12 +28,16 @@ import java.sql.Timestamp;
 
 @WebServlet(Branches.API.TRANSPORT_TIME)
 public class TransportTimeAPI extends IAPI {
+
+    Notificator notificator = BotFactory.getBot().getNotificator();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TransportDirection direction = TransportDirection.valueOf(req.getParameter("dir"));
         JSONObject body = PostUtil.parseBodyJson(req);
         long id = (long) body.get(Constants.ID);
-        Transportation transportation = hibernator.get(Transportation.class, "id", id);
+        LoadPlan plan = hibernator.get(LoadPlan.class, "transportation/id", id);
+        Transportation transportation = plan.getTransportation();
         ActionTime time = null;
         switch (direction){
             case in:
@@ -54,6 +61,7 @@ public class TransportTimeAPI extends IAPI {
         time.setTime(new Timestamp(System.currentTimeMillis()));
         time.setCreator(getWorker(req));
         hibernator.save(time, transportation);
+        notificator.transportShow(plan);
         TransportUtil.checkTransport(transportation);
 
         body.clear();

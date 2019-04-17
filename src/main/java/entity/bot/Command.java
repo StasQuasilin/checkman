@@ -6,6 +6,7 @@ package entity.bot;
 public enum Command {
     help,
     token,
+    status,
     start,
     stop
 }

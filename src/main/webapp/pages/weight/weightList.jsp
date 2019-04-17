@@ -85,7 +85,7 @@
                 <div>
                     <fmt:message key="transportation.driver"/>:
                     <template v-if="value.item.transportation.driver.id">
-                        {{value.item.transportation.driver.person.value.item}}
+                        {{value.item.transportation.driver.person.value}}
                     </template>
                     <template v-else>
                         <fmt:message key="no.data"/>
@@ -107,7 +107,7 @@
                     {{(sun.oiliness).toLocaleString()}}
                 </div>
                 <div v-for="oil in value.item.transportation.analyses.oil">
-                    <fmt:message key="sun.acid.value.item"/>:
+                    <fmt:message key="sun.acid.value"/>:
                     {{(oil.acid).toLocaleString(),}}
                     <fmt:message key="oil.peroxide"/>:
                     {{(oil.peroxide).toLocaleString()}}
