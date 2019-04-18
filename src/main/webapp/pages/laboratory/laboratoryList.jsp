@@ -10,7 +10,7 @@
     deamon.setUrls('${update}', '${edit}')
 </script>
 <transition-group  name="flip-list" tag="div" class="container" id="container">
-    <div v-for="(value, key) in items" v-bind:key="value.item.id" v-bind:id="value.item.id"
+    <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
          class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)">
         <div class="upper-row">
             {{new Date(value.item.date).toLocaleDateString()}}

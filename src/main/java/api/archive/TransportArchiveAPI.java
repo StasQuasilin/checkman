@@ -27,36 +27,37 @@ public class TransportArchiveAPI extends IAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("transportation/archive", true);
-        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
-
+        final JSONObject array = new JSONObject();
         final JSONArray add = new JSONArray();
         final JSONArray update = new JSONArray();
-
-        for (LoadPlan plan : hibernator.limitQuery(LoadPlan.class, parameters, 30)){
-            String id = String.valueOf(plan.getId());
-            if (body.containsKey(id)){
-                long hash = (long) body.remove(id);
-                if (plan.hashCode() != hash){
-                    update.add(JsonParser.toLogisticJson(plan));
-                }
-            } else {
-                add.add(JsonParser.toLogisticJson(plan));
-            }
-        }
-
         final JSONArray remove = new JSONArray();
-        for (Object o : body.keySet()){
-            remove.add(Integer.parseInt(String.valueOf(o)));
-        }
 
-        final JSONObject array = new JSONObject();
         array.put("add", add);
         array.put("update", update);
         array.put("remove", remove);
 
+        JSONObject body = PostUtil.parseBodyJson(req);
+        if (body != null) {
+            final HashMap<String, Object> parameters = new HashMap<>();
+            parameters.put("transportation/archive", true);
+            parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
+
+            for (LoadPlan plan : hibernator.limitQuery(LoadPlan.class, parameters, 30)) {
+                String id = String.valueOf(plan.getId());
+                if (body.containsKey(id)) {
+                    long hash = (long) body.remove(id);
+                    if (plan.hashCode() != hash) {
+                        update.add(JsonParser.toLogisticJson(plan));
+                    }
+                } else {
+                    add.add(JsonParser.toLogisticJson(plan));
+                }
+            }
+
+            for (Object o : body.keySet()) {
+                remove.add(Integer.parseInt(String.valueOf(o)));
+            }
+        }
         write(resp, array.toJSONString());
     }
 }

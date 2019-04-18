@@ -8,11 +8,14 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <script>
-    deamon.setUrls('${updateLink}', '${showLink}')
+    deamon.setUrls('${update}', '${edit}')
     <c:forEach items="${types}" var="t">
     deamon.types['${t}'] = '<fmt:message key="_${t}"/> '
     </c:forEach>
 </script>
+<div id="container-header" class="container-header">
+    <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
+</div>
 <transition-group  name="flip-list" tag="div" class="container" id="container" >
     <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
      class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)">

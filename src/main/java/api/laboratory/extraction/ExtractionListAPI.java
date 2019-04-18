@@ -23,40 +23,42 @@ import java.util.HashMap;
  */
 @WebServlet(Branches.API.EXTRACTION_LIST)
 public class ExtractionListAPI extends IAPI {
-    final JSONObject array = new JSONObject();
-    final JSONArray add = new JSONArray();
-    final JSONArray update = new JSONArray();
-    final JSONArray remove = new JSONArray();
-    final HashMap<String, Object> parameters = new HashMap<>();
 
-    {
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
-    }
+    public static final int LIMIT = 15;
 
-    final LE le = new LE(Date.valueOf(LocalDate.now()));
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
-        le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
-        parameters.put("date", le);
-        for (ExtractionTurn turn : hibernator.limitQuery(ExtractionTurn.class, parameters, 14)){
-            String id = String.valueOf(turn.getId());
-            if (body.containsKey(id)){
-                long hash = (long) body.remove(id);
-                if (turn.hashCode() != hash){
-                    update.add(JsonParser.Laboratory.Extraction.toJson(turn));
+        final HashMap<String, Object> parameters = new HashMap<>();
+        final LE le = new LE(Date.valueOf(LocalDate.now()));
+
+        final JSONObject array = new JSONObject();
+        final JSONArray add = new JSONArray();
+        final JSONArray update = new JSONArray();
+        final JSONArray remove = new JSONArray();
+        array.put("add", add);
+        array.put("update", update);
+        array.put("remove", remove);
+
+        if (body != null) {
+            le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
+            parameters.put("date", le);
+            for (ExtractionTurn turn : hibernator.limitQuery(ExtractionTurn.class, parameters, LIMIT)) {
+                String id = String.valueOf(turn.getId());
+                if (body.containsKey(id)) {
+                    long hash = (long) body.remove(id);
+                    if (turn.hashCode() != hash) {
+                        update.add(JsonParser.Laboratory.Extraction.toJson(turn));
+                    }
+                } else {
+                    add.add(JsonParser.Laboratory.Extraction.toJson(turn));
                 }
-            } else  {
-                add.add(JsonParser.Laboratory.Extraction.toJson(turn));
+            }
+
+            for (Object o : body.keySet()) {
+                remove.add(Integer.parseInt(String.valueOf(o)));
             }
         }
-
-        for (Object o : body.keySet()){
-            remove.add(Integer.parseInt(String.valueOf(o)));
-        }
-
         write(resp, array.toJSONString());
         add.clear();
         update.clear();

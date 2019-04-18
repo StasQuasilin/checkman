@@ -43,6 +43,7 @@ public class SaveDealAPI extends IChangeAPI{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
+
         System.out.println(body);
         Deal deal;
         Worker worker = getWorker(req);
@@ -119,7 +120,6 @@ public class SaveDealAPI extends IChangeAPI{
             deal.setDocumentOrganisation(dO);
             save = true;
         }
-
         if (save) {
             hibernator.save(deal);
             try {

@@ -8,44 +8,34 @@
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
-<style>
-  button, input{
-    border: none;
-    font-size: 8pt;
-    margin: 1pt;
-  }
-</style>
+<link rel="stylesheet" href="${context}/css/LogisticList.css">
   <script src="${context}/vue/logisticList.js"></script>
   <script>
-    logistic.api.saveTransportationVehicleApi = '${saveTransportationVehicleAPI}'
-    logistic.api.saveTransportationDriverApi = '${saveTransportationDriverAPI}'
-    logistic.api.findVehicleAPI = '${findVehicleApi}'
-    logistic.api.findDriverAPI = '${findDriverApi}'
-    logistic.api.vehicleInput = '${vehicleInput}'
-    logistic.api.driverInput = '${driverInput}'
-    logistic.api.vehicleDriverInput = '${vehicleDriverInput}'
-    logistic.api.update = '${update}'
-    logistic.api.save = '${save}'
+    <c:forEach items="${dealTypes}" var="type">
+    logistic.addType('${type}', '<fmt:message key="_${type}"/>');
+    </c:forEach>
+    logistic.api.saveTransportationVehicleApi = '${saveTransportationVehicleAPI}';
+    logistic.api.saveTransportationDriverApi = '${saveTransportationDriverAPI}';
+    logistic.api.findVehicleAPI = '${findVehicleApi}';
+    logistic.api.findDriverAPI = '${findDriverApi}';
+    logistic.api.vehicleInput = '${vehicleInput}';
+    logistic.api.driverInput = '${driverInput}';
+    logistic.api.vehicleDriverInput = '${vehicleDriverInput}';
+    logistic.api.update = '${update}';
+    logistic.api.save = '${save}';
     logistic.loadItems();
 
-    <c:forEach items="${dealTypes}" var="type">
-    logistic.addType('${type}', '<fmt:message key="${type}"/>')
-    </c:forEach>
     function stopContent(){
       logistic.stop()
     }
   </script>
   <div id="logistic">
-    <div v-for="(value, key) in filter.filteredItems()" class="container-item" v-bind:class="rowName(value.item.date)">
+    <div v-for="(value, key) in filteredItems()" class="container-item" v-bind:class="rowName(value.item.date)">
       <div class="upper-row">
         <span>
           {{new Date(value.item.date).toLocaleDateString()}}
         </span>
-        <span>
-          <b>
-            {{types[value.item.type]}}
-          </b>
-        </span>
+
         <span>
           <fmt:message key="deal.organisation"/>:
           <b>
@@ -55,6 +45,7 @@
         <span>
           <fmt:message key="deal.product"/>:
           <b>
+            {{(types[value.item.type]).toLowerCase()}}
             {{value.item.product.name}}
           </b>
         </span>
@@ -62,6 +53,7 @@
           <fmt:message key="deal.quantity"/>:
           <b>
             {{(value.item.quantity).toLocaleString()}}
+            {{value.item.unit}}
           </b>
         </span>
         <span>
@@ -75,18 +67,18 @@
         <div style="display: inline-block; ">
           <div>
             <fmt:message key="transportation.time.in"/>:
-            <span v-if="value.item.transportation.timeIn.id">
+            <b v-if="value.item.transportation.timeIn.id">
               {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString()}}
-            </span>
+            </b>
             <span v-else>
               --:--:--
             </span>
           </div>
           <div>
             <fmt:message key="transportation.time.out"/>:
-            <span v-if="value.item.transportation.timeOut.id">
+            <b v-if="value.item.transportation.timeOut.id">
               {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString()}}
-            </span>
+            </b>
             <span v-else>
               --:--:--
             </span>
@@ -98,19 +90,28 @@
             <span class="transport-label">
               <fmt:message key="transportation.automobile"/>:
             </span>
-            <div style="display: inline-block;">
-              <span v-if="value.item.transportation.vehicle.id" class="selectable"
-                    v-on:click.right="contextMenu(value.item.transportation.vehicle.model + ' '
-                     + value.item.transportation.vehicle.number + '\n'
-                      + value.item.transportation.vehicle.trailer, value.item.id, 'vehicle' )">
-                {{value.item.transportation.vehicle.model}}
+            <div class="content-item">
+              <span v-if="value.item.transportation.vehicle.id">
+                <b>{{value.item.transportation.vehicle.model}}</b>
                 <span class="vehicle-number">
-                  {{value.item.transportation.vehicle.number}}
+                {{value.item.transportation.vehicle.number}}
                 </span>
                 <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
-                  {{value.item.transportation.vehicle.trailer}}
+                {{value.item.transportation.vehicle.trailer}}
+                </span>
+                <span class="edit-menu-header">
+                  &#9660;
+                  <div class="edit-menu">
+                    <span v-on:click="parseVehicle(value)">
+                      <fmt:message key="edit"/>
+                    </span>
+                    <span v-on:click="deleteVehicle(value)">
+                      <fmt:message key="button.cancel"/>
+                    </span>
+                  </div>
                 </span>
               </span>
+
               <template v-else-if="value.vehicleEdit">
                 <div style="display: inline-block;">
                   <input v-model="value.vehicleInput" style="width: 100%" v-on:keyup="findVehicle(value)"
@@ -130,9 +131,9 @@
                 </div>
                 <span class="mini-close" v-on:click="closeVehicleInput(key)" style="left: -22px">&times;</span>
               </template>
-              <button v-else v-on:click="openVehicleInput(value.item.id)">
+              <a v-else v-on:click="openVehicleInput(value.item.id)">
                 <fmt:message key="transport.insert.infortation"/>
-              </button>
+              </a>
             </div>
           </div>
           <div>
@@ -140,8 +141,19 @@
               <fmt:message key="transportation.driver"/>:
             </span>
             <div style="display: inline-block;">
-          <span v-if="value.item.transportation.driver.id" class="selectable">
-            {{value.item.transportation.driver.person.value}}
+          <span v-if="value.item.transportation.driver.id">
+            <b>{{value.item.transportation.driver.person.value}}</b>
+            <span class="edit-menu-header">
+              &#9660;
+              <div class="edit-menu">
+                <span v-on:click="parseVehicle(value)">
+                  <fmt:message key="edit"/>
+                </span>
+                <span v-on:click="deleteVehicle(value)">
+                  <fmt:message key="button.cancel"/>
+                </span>
+              </div>
+            </span>
           </span>
               <template v-else-if="value.driverEdit">
                 <div style="display: inline-block; width: 85%">
@@ -157,9 +169,9 @@
 
                 <span class="mini-close" v-on:click="closeDriverInput(key)" style="left: -22px;">&times;</span>
               </template>
-              <button v-else v-on:click="openDriverInput(value.item.id)">
+              <a v-else v-on:click="openDriverInput(value.item.id)">
                 <fmt:message key="transportation.driver.insert.info"/>
-              </button>
+              </a>
             </div>
 
           </div>

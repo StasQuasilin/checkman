@@ -41,22 +41,22 @@ public class PostUtil {
         resp.setCharacterEncoding(Constants.ENCODE);
         resp.getWriter().write(txt);
     }
-    static final JSONObject empty = new JSONObject();
-    public static JSONObject parseBodyJson(HttpServletRequest req) throws IOException {
-        String collect = "";
+    public synchronized static JSONObject parseBodyJson(HttpServletRequest req) throws IOException {
+//        String collect = "";
         try {
-            collect = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            if (U.exist(collect)) {
-                return (JSONObject) parser.parse(collect);
-            } else {
-                return empty;
-            }
-//            return (JSONObject) parser.parse(req.getReader());
+//            collect = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+//            System.out.println(collect);
+//            if (U.exist(collect)) {
+//                return (JSONObject) parser.parse(collect);
+//            } else {
+//                return empty;
+//            }
+            return (JSONObject) parser.parse(req.getReader());
         } catch (ParseException e) {
-            System.out.println(collect);
+//            System.out.println(collect);
             e.printStackTrace();
         }
 
-        return empty;
+        return null;
     }
 }

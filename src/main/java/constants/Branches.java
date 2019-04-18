@@ -23,6 +23,7 @@ public class Branches {
         public static final String TRANSPORT_EDIT = "/transport/edit.j";
         public static final String WEIGHT_LIST = "/weight/list.j";
         public static final String WEIGHT_EDIT = "/weight/edit.j";
+        public static final String WEIGHT_ADD = "/weight/add.j";
 
         public static final String HOME = APPLICATION;
         public static final String VEHICLE_MODAL = "/vehicle/modal.j";
@@ -55,6 +56,7 @@ public class Branches {
         public static final String ARCHIVE_SHOW = "/archive/show/";
         public static final String PERSONAL = "/personal.j";
         public static final String WELCOME = "/welcome.j";
+
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -114,6 +116,7 @@ public class Branches {
         public static final String CHANGE_PASSWORD = API + "/personal/change/password";
         public static final String BOT_UID =            API + "/bot/uid/generator";
         public static final String BOT_SETTINGS =       API + "/bot/settings";
+        public static final String FIND_DEALS =         API + "/deal/find";
 
 
         public class References {

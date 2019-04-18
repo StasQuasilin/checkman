@@ -33,14 +33,21 @@ public class DealEdit extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Worker worker = getWorker(req);
         JSONObject body = PostUtil.parseBodyJson(req);
+        long id = -1;
+        long copy = -1;
+        if (body != null) {
+            if (body.containsKey(Constants.ID)) {
+                id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
+            } else if (body.containsKey(Constants.COPY)) {
+                copy = Long.parseLong(String.valueOf(body.get(Constants.COPY)));
+            }
+        }
 
-        if (body.containsKey(Constants.ID)){
-            long id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
+        if (id != -1) {
             req.setAttribute("deal", hibernator.get(Deal.class, "id", id));
             req.setAttribute("title", Constants.Languages.DEAL_EDIT);
             log.info("User \'" + worker.getValue() + "\' open edit deal \'" + id + "\'");
-        } else if (body.containsKey(Constants.COPY)){
-            long copy = Long.parseLong(String.valueOf(body.get(Constants.COPY)));
+        } else if (copy != -1){
             Deal deal = hibernator.get(Deal.class, "id", copy);
             deal.setId(-1);
             deal.setDone(0);

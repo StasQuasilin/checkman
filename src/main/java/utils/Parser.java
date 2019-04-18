@@ -85,7 +85,8 @@ public class Parser {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(Branches.API.LOGISTIC_LIST.equals("/api/logistic/list"));
+        Integer i = new Integer(10);
+        System.out.println(i.toString() == i.toString());
     }
 
 

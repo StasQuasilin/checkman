@@ -1,7 +1,7 @@
 var archive = new Vue({
    el: '#archive',
     data:{
-        filter:fltr,
+        filter:filter_control,
         api:{
             update:'',
             show:''
@@ -40,7 +40,7 @@ var archive = new Vue({
                         }
                     }
                     self.items.sort(function(a, b){
-                        return a.item.date - b.item.date;
+                        return new Date(b.item.date) - new Date(b.item.date);
                     })
                 }
                 self.upd = setTimeout(function(){
@@ -49,9 +49,9 @@ var archive = new Vue({
             })
         },
         add:function(item) {
-            var data = {};
-            data.item = item;
-            this.items.push(data);
+            this.items.push({
+                item:item
+            });
         },
         update:function(item){
             for (var i in this.items){

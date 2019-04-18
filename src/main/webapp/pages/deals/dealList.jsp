@@ -67,7 +67,7 @@
           <fmt:message key="deal.quantity"/>:
           <b>
           {{value.item.quantity}}
-            <%--{{value.item.unit}}--%>
+          {{value.item.unit}}
           </b>
         </span>
         <span>

@@ -8,30 +8,31 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
         if (debug) {
             console.log('[ Application Core ] Request to \'' + url + '\'...');
         }
-
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function (e) {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    if (debug) {
-                        console.log('[ Application Core ] Request successfuly');
+        setTimeout(function(){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function (e) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        if (debug) {
+                            console.log('[ Application Core ] Request successfuly');
+                        }
+                        if (onSuccess) {
+                            onSuccess(xhr.responseText);
+                        }
+                    } else if (onError) {
+                        onError(xhr.status + ':' + xhr.statusText);
+                    } else {
+                        console.error(xhr.status + ':' + xhr.statusText)
                     }
-                    if (onSuccess) {
-                        onSuccess(xhr.responseText);
-                    }
-                } else if (onError) {
-                    onError(xhr.status + ':' + xhr.statusText);
-                } else {
-                    console.error(xhr.status + ':' + xhr.statusText)
                 }
-            }
-        };
+            };
 
-        if (url.substring(0, context.length) != context) {
-            url = context + url;
-        }
-        xhr.open('POST', url, true);
-        xhr.send(JSON.stringify(parametrs));
+            if (url.substring(0, context.length) != context) {
+                url = context + url;
+            }
+            xhr.open('POST', url, true);
+            xhr.send(JSON.stringify(parametrs));
+        }, 0)
     } else {
         console.error('Empty url!!!');
     }

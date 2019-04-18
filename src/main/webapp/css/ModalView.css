@@ -6,7 +6,6 @@
 .modal-body{
     border: solid gray 1.2pt;
     border-radius: 8pt;
-    overflow: hidden;
     background-color: aliceblue;
     position: absolute;
     margin: auto;
@@ -18,8 +17,10 @@
     width: fit-content;
 }
 .modal-header{
+    border-radius: 6pt 6pt 0 0;
     background-color: #7fd0d0;
     padding: 4pt;
+    font-style: italic;
 }
 .modal-content{
     padding: 8pt;

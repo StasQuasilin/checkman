@@ -24,37 +24,39 @@ import java.util.HashMap;
 @WebServlet(Branches.API.VRO_LIST)
 public class VROListAPI extends IAPI {
 
-    final HashMap<String, Object> parameters = new HashMap<>();
-    final LE le = new LE(Date.valueOf(LocalDate.now()));
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        JSONObject body = PostUtil.parseBodyJson(req);
-        le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
-        parameters.put("date", le);
+        final HashMap<String, Object> parameters = new HashMap<>();
+        final LE le = new LE(Date.valueOf(LocalDate.now()));
+        final JSONObject array = new JSONObject();
         final JSONArray add = new JSONArray();
         final JSONArray update = new JSONArray();
-        for (VROTurn turn : hibernator.limitQuery(VROTurn.class, parameters, 14)){
-            String id = String.valueOf(turn.getId());
-            if (body.containsKey(id)){
-                long hash = (long) body.remove(id);
-                if (turn.hashCode() != hash) {
-                    update.add(JsonParser.VRO.toJson(turn));
-                }
-            } else {
-                add.add(JsonParser.VRO.toJson(turn));
-            }
-        }
         final JSONArray remove = new JSONArray();
-        for (Object o : body.keySet()) {
-            remove.add(Integer.parseInt(String.valueOf(o)));
-        }
-        final JSONObject array = new JSONObject();
+
         array.put("add", add);
         array.put("update", update);
         array.put("remove", remove);
 
+        JSONObject body = PostUtil.parseBodyJson(req);
+        if (body != null) {
+            le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
+            parameters.put("date", le);
+
+            for (VROTurn turn : hibernator.limitQuery(VROTurn.class, parameters, 14)) {
+                String id = String.valueOf(turn.getId());
+                if (body.containsKey(id)) {
+                    long hash = (long) body.remove(id);
+                    if (turn.hashCode() != hash) {
+                        update.add(JsonParser.VRO.toJson(turn));
+                    }
+                } else {
+                    add.add(JsonParser.VRO.toJson(turn));
+                }
+            }
+            for (Object o : body.keySet()) {
+                remove.add(Integer.parseInt(String.valueOf(o)));
+            }
+        }
         write(resp, array.toJSONString());
         add.clear();
         update.clear();

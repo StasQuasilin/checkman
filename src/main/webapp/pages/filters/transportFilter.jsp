@@ -17,6 +17,9 @@
     });
 </script>
 <div id="filter_view">
+    <div style="text-align: center; font-size: 10pt">
+        <a v-on:click="clear"><fmt:message key="button.clear"/> </a>
+    </div>
     <table >
         <tr v-if="filters.types.length">
             <td>
@@ -113,13 +116,6 @@
                     <option value="0"><fmt:message key="no.data"/> </option>
                     <option v-for="driver in drivers()" :value="driver.id">{{driver.person.value}}</option>
                 </select>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">
-                <button v-on:click="clear" style="border: solid gray 1.2pt; font-size: 10pt">
-                    <fmt:message key="button.clear"/>
-                </button>
             </td>
         </tr>
     </table>

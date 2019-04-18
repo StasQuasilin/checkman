@@ -50,13 +50,13 @@
 </script>
 
 <div id="container">
-    <div v-for="turn in items" class="container-item" :class="rowName(turn.date)" style="padding: 4pt">
+    <div v-for="(value, key) in items" class="container-item" :class="rowName(value.item.date)" style="padding: 4pt">
         <div>
             <span>
-            {{new Date(turn.date).toLocaleDateString()}}
+            {{new Date(value.item.date).toLocaleDateString()}}
             </span>
             <span>
-                <fmt:message key="turn"/><span> #</span>{{turn.number}}
+                <fmt:message key="turn"/><span>&nbsp;#</span>{{value.item.number}}
             </span>
         </div>
         <div style="padding-left: 12pt">
@@ -126,7 +126,7 @@
                         </th>
                     </template>
                 </tr>
-                <tr class="selector" v-for="crude in turn.crudes">
+                <tr class="selector" v-for="crude in value.item.crudes">
                     <td align="center">
                         {{new Date(crude.time).toLocaleTimeString().substring(0, 5)}}
                     </td>
@@ -172,7 +172,7 @@
                 </tr>
             </table>
         </div>
-        <div style="padding-left: 8pt; font-size: 10pt" v-for="oil in turn.oil">
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="oil in value.item.oil">
             <b>
                 <fmt:message key="vro.press.oil"/>
             </b>
@@ -185,7 +185,7 @@
             <fmt:message key="oil.color.value"/>:
             {{oil.color}}
         </div>
-        <div style="padding-left: 8pt; font-size: 10pt" v-for="daily in turn.dailies">
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="daily in value.item.dailies">
             <b>
                 <fmt:message key="vro.daily"/>
             </b>

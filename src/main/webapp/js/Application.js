@@ -28,24 +28,22 @@ $(document).ready(function(){
 
 function loadContent(url){
     if (url) {
+        coverlet.style.display='block';
         console.log('[ Application ] Load page ' + url);
         localStorage.setItem(last_url, url);
         PostReq(url, null, function (e) {
-            try {
+            if (typeof stopContent === 'function'){
                 stopContent();
-            } catch (e) {
-                console.log(e)
-            } finally {
-                $(content).empty();
-                $(content).html(e);
-                $(header).html(GetChildElemById(content, 'header-content'));
-                //document.title = header.innerText;
-                $(header).append(GetChildElemById(content, 'container-header'));
-                $(filter).html(GetChildElemById(content, 'filter-content'));
             }
+            $(content).empty();
+            $(content).html(e);
+            $(header).html(GetChildElemById(content, 'header-content'));
+            $(header).append(GetChildElemById(content, 'container-header'));
+            $(filter).html(GetChildElemById(content, 'filter-content'));
         }, function (e) {
             console.error('[ Application ] Load content error ' + e)
-        }, true)
+        }, true);
+        coverlet.style.display='none';
     }
 }
 

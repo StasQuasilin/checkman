@@ -23,45 +23,43 @@ import java.util.List;
 public class LogisticListAPI extends IAPI {
 
     final ApplicationSettingsBox settingsBox = ApplicationSettingsBox.getBox();
-
-
     final HashMap<String, Object> parameters = new HashMap<>();
 
     {
         parameters.put("customer", settingsBox.getSettings().getCustomer());
         parameters.put("transportation/archive", false);
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
-        List<LoadPlan> loadPlans = hibernator.query(LoadPlan.class, parameters);
-
+        final JSONObject array = new JSONObject();
         final JSONArray add = new JSONArray();
         final JSONArray update = new JSONArray();
-        for (LoadPlan loadPlan : loadPlans){
-            String id = String.valueOf(loadPlan.getId());
-            if (body.containsKey(id)){
-                long hash = (long) body.remove(id);
-                if (hash != loadPlan.hashCode()){
-                    update.add(JsonParser.toLogisticJson(loadPlan));
-                }
-            } else {
-                add.add(JsonParser.toLogisticJson(loadPlan));
-            }
-        }
-
         final JSONArray remove = new JSONArray();
-        for (Object key : body.keySet()){
-            remove.add(Integer.parseInt((String) key));
-        }
 
-        final JSONObject array = new JSONObject();
         array.put("add", add);
         array.put("update", update);
         array.put("remove", remove);
 
+        if (body != null) {
+            List<LoadPlan> loadPlans = hibernator.query(LoadPlan.class, parameters);
+            for (LoadPlan loadPlan : loadPlans) {
+                String id = String.valueOf(loadPlan.getId());
+                if (body.containsKey(id)) {
+                    long hash = (long) body.remove(id);
+                    if (hash != loadPlan.hashCode()) {
+                        update.add(JsonParser.toLogisticJson(loadPlan));
+                    }
+                } else {
+                    add.add(JsonParser.toLogisticJson(loadPlan));
+                }
+            }
+
+            for (Object key : body.keySet()) {
+                remove.add(Integer.parseInt((String) key));
+            }
+        }
         PostUtil.write(resp, array.toJSONString());
         add.clear();
         update.clear();

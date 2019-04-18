@@ -35,6 +35,13 @@ var logistic = new Vue({
 
     },
     methods:{
+        filteredItems:function(){
+            if (typeof this.filter.filteredItems === 'function') {
+                return this.filter.filteredItems();
+            } else {
+                return this.items;
+            }
+        },
         rowName:function(date){
             return 'container-item-' + new Date(date).getDay();
         },
@@ -101,7 +108,6 @@ var logistic = new Vue({
             clearTimeout(this.timeout)
         },
         openVehicleInput:function(id){
-
             for(var i in this.items){
                 var item = this.items[i];
                 item.vehicleEdit = item.item.id == id;
@@ -132,7 +138,7 @@ var logistic = new Vue({
             value.fnd = setTimeout(function(){
                 var p = {};
                 p.key = value.driverInput;
-                PostApi(self.findDriverAPI, p, function(a){
+                PostApi(self.api.findDriverAPI, p, function(a){
                     self.driverFind = a;
                 })
             }, 500)
@@ -144,7 +150,7 @@ var logistic = new Vue({
                 value.fnd = setTimeout(function () {
                     var p = {};
                     p.key = value.vehicleInput;
-                    PostApi(self.findVehicleAPI, p, function (a) {
+                    PostApi(self.api.findVehicleAPI, p, function (a) {
                         self.vehicleFind = a;
                     })
                 }, 500)
@@ -156,7 +162,7 @@ var logistic = new Vue({
             var p = {};
             p.transportation_id = transportation;
             p.driver_id = driver;
-            PostApi(this.saveTransportationDriverApi, p, function(a){
+            PostApi(this.api.saveTransportationDriverApi, p, function(a){
                 console.log(a)
             })
         },
@@ -166,21 +172,29 @@ var logistic = new Vue({
             var p = {};
             p.transportation_id = transportation;
             p.vehicle_id = vehicle;
-            PostApi(this.saveTransportationVehicleApi, p, function(a){
+            PostApi(this.api.saveTransportationVehicleApi, p, function(a){
                 console.log(a)
             })
         },
         parseVehicle:function(value){
             var p = {};
             p.transportation_id = value.item.transportation.id;
-            p.key = value.vehicleInput;
-            loadModal(this.vehicleInput, p);
+            if (value.item.transportation.vehicle.id){
+                p.vehicle_id = value.item.transportation.vehicle.id;
+            }
+            if (value.vehicleInput) {
+                p.key = value.vehicleInput;
+            }
+            loadModal(this.api.vehicleInput, p);
+        },
+        deleteVehicle:function(value){
+            console.log(value.item.transportation.vehicle)
         },
         parseDriver:function(value){
             var p = {};
             p.transportation_id = value.item.transportation.id;
             p.key = value.driverInput;
-            loadModal(this.driverInput, p);
+            loadModal(this.api.driverInput, p);
         },
         contextMenu:function(title, id, field){
             this.menu.x = event.pageX;

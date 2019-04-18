@@ -80,11 +80,11 @@ var filter_control = new Vue({
             const self = this;
             return this.items.filter(function(item){
                 var byVehicle = self.vehicle == -1 ||
-                    (self.vehicle == 0 && item.transportation.vehicle.id == undefined) ||
-                    (item.transportation.vehicle.id == self.vehicle);
+                    (self.vehicle == 0 && item.item.transportation.vehicle.id == undefined) ||
+                    (item.item.transportation.vehicle.id == self.vehicle);
                 var byDriver = self.driver == -1 ||
-                    (self.driver == 0 && item.transportation.driver.id == undefined) ||
-                    (item.transportation.driver.id == self.driver);
+                    (self.driver == 0 && item.item.transportation.driver.id == undefined) ||
+                    (item.item.transportation.driver.id == self.driver);
                 return (self.type == -1 || item.item.type == self.type) &
                     (self.organisation == -1 || item.item.organisation.id == self.organisation) &
                     (self.product == -1 || item.item.product.id == self.product) &

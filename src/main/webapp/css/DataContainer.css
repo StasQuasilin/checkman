@@ -31,12 +31,6 @@
 .container-item .lower-row{
     padding: 2pt 4pt;
 }
-.container-item span{
-    display: inline-block;
-    /*background-color: rgba(220, 220, 192, 0.85);*/
-    /*padding: 0 4pt;*/
-    /*border-bottom: dotted 1pt;*/
-}
 .container-item b{
     color: #0a0a0a;
     /*text-decoration: underline;*/
