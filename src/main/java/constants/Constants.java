@@ -35,6 +35,7 @@ public class Constants {
     public static final String CONTRAGENT = "contragent";
     public static final String PRODUCT = "product";
     public static final String REALISATION = "realisation";
+    public static final Object ADD = "add";
 
 
     public static class Languages {

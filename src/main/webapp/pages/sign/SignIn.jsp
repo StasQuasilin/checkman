@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="login">
+                        <label for="worker">
                             <fmt:message key="user.name"/>
                         </label>
                     </td>
@@ -35,7 +35,7 @@
                     </td>
                     <td>
                         <div>
-                            <input autocomplete="off" v-model="worker" v-on:keyup="findUser">
+                            <input id="worker" autocomplete="off" v-model="worker" v-on:keyup="findUser()">
                             <div class="custom-data-list">
                                 <div class="custom-data-list-item" v-for="user in foundUsers" v-on:click="setUser(user)">
                                     {{user.person.value}}
@@ -46,7 +46,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="password">
+                        <label for="key">
                             <fmt:message key="user.password"/>
                         </label>
                     </td>
@@ -54,7 +54,7 @@
                         :
                     </td>
                     <td>
-                        <input type="password" v-model="user.password">
+                        <input id="key" type="password" v-model="user.password">
                     </td>
                 </tr>
                 <tr>

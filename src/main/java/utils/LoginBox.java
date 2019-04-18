@@ -30,9 +30,10 @@ public class LoginBox {
         }
     }
 
-    static final String FILE_NAME = "D:\\server.txt";
+    static final String FILE_NAME = "server.txt";
     Properties properties;
     InputStream inputStream;
+    boolean fileRead = false;
 
     public void init() throws IOException {
         properties = new Properties();
@@ -41,6 +42,7 @@ public class LoginBox {
 
         try {
             properties.load(inputStream);
+            fileRead = true;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -54,12 +56,15 @@ public class LoginBox {
         return properties.getProperty("password");
     }
     public boolean trySignIn(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String login = getLogin();
-        System.out.println("login: " + login);
+        if (fileRead) {
+            String login = getLogin();
+            System.out.println("login: " + login);
 
-        String password = getPassword();
-        System.out.println("password: " + password);
+            String password = getPassword();
+            System.out.println("password: " + password);
 
-        return SignInAPI.signIn(req, login, password).status().equals("success");
+            return SignInAPI.signIn(req, login, password).status().equals("success");
+        }
+        return false;
     }
 }

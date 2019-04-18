@@ -74,7 +74,7 @@ public class Branches {
         public static final String API = "/api";
         public static final String DEAL_SAVE =          API + "/deal/save";
         public static final String DEAL_DELETE =        API + "/deal/delete";
-        public static final String SIGN_IN =            API + "/sign/in";
+        public static final String SIGN_IN =            "/a/sign/in";
         public static final String SIGN_UP =            API + "/sign/up";
         public static final String DEAL_LIST =          API + "/deal/list";
         public static final String DEAL_LIST_BUY =      DEAL_LIST + "?type=buy";
@@ -131,7 +131,7 @@ public class Branches {
             public static final String FIND_VEHICLE =       API + "/vehicle/find";
             public static final String SAVE_VEHICLE =       API + "/vehicle/save";
             public static final String SAVE_DRIVER =        API + "/driver/save";
-            public static final String FIND_WORKER =       API + "/worker/find";
+            public static final String FIND_WORKER =       "/a/worker/find";
         }
 
         public class Deal {

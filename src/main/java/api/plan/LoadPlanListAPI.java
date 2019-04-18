@@ -25,38 +25,38 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.PLAN_LIST)
 public class LoadPlanListAPI extends IAPI{
 
-    final HashMap<String, Object> parameters = new HashMap<>();
-    final JSONObject array = new JSONObject();
-    final JSONArray add = new JSONArray();
-    final JSONArray update = new JSONArray();
-    final JSONArray remove = new JSONArray();
-
-    {
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
-    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        long deal = (long) body.get(Constants.DEAL_ID);
-        parameters.put("deal", deal);
-
-        JSONObject plans = (JSONObject) body.get("plans");
-        for (LoadPlan plan : hibernator.query(LoadPlan.class, parameters)){
-            String id = String.valueOf(plan.getId());
-            if (plans.containsKey(id)){
-                long hash = (long) plans.remove(id);
-                if (plan.hashCode() != hash){
-                    update.add(JsonParser.toJson(plan));
-                }
-            } else {
-                add.add(JsonParser.toJson(plan));
-            }
+        final HashMap<String, Object> parameters = new HashMap<>();
+        final JSONObject array = new JSONObject();
+        final JSONArray add = new JSONArray();
+        final JSONArray update = new JSONArray();
+        final JSONArray remove = new JSONArray();
+        {
+            array.put(Constants.ADD, add);
+            array.put("update", update);
+            array.put("remove", remove);
         }
 
-        PostUtil.write(resp, array.toJSONString());
+        JSONObject body = PostUtil.parseBodyJson(req);
+        if (body != null) {
+            long deal = (long) body.get(Constants.DEAL_ID);
+            parameters.put("deal", deal);
+
+            JSONObject plans = (JSONObject) body.get("plans");
+            for (LoadPlan plan : hibernator.query(LoadPlan.class, parameters)) {
+                String id = String.valueOf(plan.getId());
+                if (plans.containsKey(id)) {
+                    long hash = (long) plans.remove(id);
+                    if (plan.hashCode() != hash) {
+                        update.add(JsonParser.toJson(plan));
+                    }
+                } else {
+                    add.add(JsonParser.toJson(plan));
+                }
+            }
+        }
+        write(resp, array.toJSONString());
 
         body.clear();
         add.clear();

@@ -39,7 +39,6 @@ var login = new Vue({
                 user.uid = this.user.uid;
                 user.password = btoa(this.user.password);
                 const self = this;
-                console.log(user);
                 PostApi(this.api.signin, user, function(a){
                     console.log(a);
                     if(a.status == 'success'){
