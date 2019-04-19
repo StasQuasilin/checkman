@@ -63,9 +63,13 @@ public class SaveDriverAPI extends IAPI{
 
         hibernator.save(driver.getPerson(), driver);
 
+        long transportationId = -1;
+
         if (body.containsKey(Constants.TRANSPORTATION_ID)) {
-            long id = (long) body.get(Constants.TRANSPORTATION_ID);
-            Transportation transportation = hibernator.get(Transportation.class, "id", id);
+            transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
+        }
+        if (transportationId != -1) {
+            Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
             transportation.setDriver(driver);
             hibernator.save(transportation);
             logger.info("Put in transportation " + transportation.getId());

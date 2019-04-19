@@ -62,6 +62,7 @@ var editor = new Vue({
             })
         },
         netto:function(brutto, tara){
+
             return brutto == 0 || tara == 0 ? 0 : (this.checkTonnas(brutto) - this.checkTonnas(tara));
         },
         total:function(){

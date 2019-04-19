@@ -5,6 +5,7 @@ import entity.*;
 import entity.answers.IAnswer;
 import entity.bot.UserBotSetting;
 import entity.documents.Deal;
+import entity.documents.DocumentOrganisation;
 import entity.documents.LoadPlan;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
@@ -61,6 +62,7 @@ public class JsonParser {
         json.put("creator", toJson(deal.getCreator()));
         json.put("hash", deal.hashCode());
         json.put("unit", deal.getUnit().getName());
+        json.put("type", deal.getType().toString());
         return json;
     }
 
@@ -380,6 +382,14 @@ public class JsonParser {
         json.put("kpo", setting.isKpo());
         json.put("show", setting.isShow());
         return json;
+    }
+
+    public static JSONArray toJson(List<Deal> deals) {
+        JSONArray array = new JSONArray();
+        for (Deal deal : deals) {
+            array.add(toJson(deal));
+        }
+        return array;
     }
 
     public static class Laboratory {

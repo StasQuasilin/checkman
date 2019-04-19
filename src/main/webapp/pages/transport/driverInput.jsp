@@ -13,7 +13,7 @@
     editor.person.patronymic = '${driver.person.patronymic}';
     editor.transportationId = '${transportation}'
 </script>
-<table id="editor">
+<table id="personEditor">
     <tr>
         <td>
             <label for="surname">
@@ -55,7 +55,7 @@
     </tr>
     <tr>
         <td colspan="3" align="center">
-            <button>
+            <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>
             <button v-on:click="save">

@@ -1,5 +1,5 @@
 var editor = new Vue({
-    el: '#editor',
+    el: '#personEditor',
     data:{
         api:{
             saveDriverAPI:''

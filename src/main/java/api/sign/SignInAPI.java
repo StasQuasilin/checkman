@@ -55,13 +55,11 @@ public class SignInAPI extends IAPI{
                 req.getSession().setAttribute("worker", user.getWorker());
                 req.getSession().setAttribute("role", user.getRole());
             } else {
-                answer = new ErrorAnswer();
-                answer.add("msd", lb.get(Constants.Languages.WRONG_PASSWORD));
+                answer = new ErrorAnswer("msd", lb.get(Constants.Languages.WRONG_PASSWORD));
                 log.error("Wrong password");
             }
         } else {
-            answer = new ErrorAnswer();
-            answer.add("msd", lb.get(Constants.Languages.NO_USER));
+            answer = new ErrorAnswer("msd", lb.get(Constants.Languages.NO_USER));
             log.error("User not found");
         }
 

@@ -30,7 +30,7 @@ public class LoginBox {
         }
     }
 
-    static final String FILE_NAME = "server.txt";
+    static final String FILE_NAME = "D:\\server.txt";
     Properties properties;
     InputStream inputStream;
     boolean fileRead = false;

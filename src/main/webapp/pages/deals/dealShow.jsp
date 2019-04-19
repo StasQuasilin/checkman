@@ -102,7 +102,7 @@
         <table border="0">
           <tr>
             <td colspan="4" align="center">
-              <fmt:message key="load.plan"/>
+              <fmt:message key="load.plans"/>
               <button v-on:click="newPlan"><fmt:message key="button.add"/> </button>
             </td>
           </tr>
