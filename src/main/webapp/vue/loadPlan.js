@@ -1,33 +1,40 @@
 var plan = new Vue({
     el: '#load_plan',
 
-    data:{
-        api:{
-            save_link:'',
-            updateAPI:'',
-            findVehicleAPI:'',
-            findDriverAPI:'',
-            editVehicleAPI:'',
-            editDriverAPI:''
+    data: {
+        api: {
+            save: '',
+            update: '',
+            findVehicleAPI: '',
+            findDriverAPI: '',
+            editVehicleAPI: '',
+            editDriverAPI: ''
         },
-        planId:0,
         deal:0,
         quantity:0,
-        customer:'',
-        customers:{},
+        unit:'',
+        customers:[],
         plans:[],
-        findVehicles:{},
-        findDrivers:{},
+        foundVehicles:[],
+        foundDrivers:[],
         fnd:-1,
         upd:-1,
         picker:false
     },
     methods:{
+        messages:function(){
+            var msgs = [];
+            var total = this.totalPlan();
+            if (total > this.quantity) {
+                msgs.push('Объем по сделке будет увеличен на ' + (total - this.quantity).toLocaleString() + ' ' + this.unit + '!');
+            }
+            return msgs;
+        },
         newPlan:function(){
             this.add({
                 date: new Date().toISOString().substring(0, 10),
                 plan:0,
-                customer:this.customers[this.customer].id,
+                customer:this.customers[0].id,
                 transportation:{
                     vehicle:{},
                     driver:{}
@@ -35,8 +42,6 @@ var plan = new Vue({
             })
         },
         loadPlan:function(){
-            var parameters = {};
-            parameters.deal_id = this.deal;
             var plans = {};
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
@@ -46,9 +51,8 @@ var plan = new Vue({
                     }
                 }
             }
-            parameters.plans = plans;
             const self = this;
-            PostApi(this.api.updateAPI, parameters, function(p){
+            PostApi(this.api.update, {dealId : this.deal, plans: plans}, function(p){
                 if (p.add.length || p.update.length || p.remove.length) {
                     console.log(p);
                     for (var a in p.add){
@@ -61,6 +65,11 @@ var plan = new Vue({
                             self.update(p.update[u])
                         }
                     }
+                    for (var r in p.remove){
+                        if (p.remove.hasOwnProperty(r)){
+                            self.remove(p.remove[r])
+                        }
+                    }
                     self.sort();
                 }
 
@@ -70,59 +79,48 @@ var plan = new Vue({
             }, 1000)
         },
         add:function(plan){
-            //plan.date = new Date(plan.date).toLocaleDateString();
-            var item = {};
-            item.key = randomUUID();
-            item.editVehicle=false;
-            item.editDriver=false;
-            item.vehicleInput='';
-            item.driverInput = '';
-
-            item.item = plan;
-            this.plans.push(item);
+            this.plans.push({
+                key : randomUUID(),
+                editVehicle:false,
+                editDriver:false,
+                vehicleInput:'',
+                driverInput : '',
+                item : plan
+            });
         },
         update:function(plan){
-            if(this.plans[plan.id]) {
-                this.plans[plan.id].item = plan;
-            } else {
-                for (var p in this.plans){
-                    if (this.plans.hasOwnProperty(p)){
-                        if (!this.plans[p].item.id){
-                            this.plans.splice(p, 1);
-                        }
+            var found = false;
+            for (var p in this.plans){
+                if (this.plans.hasOwnProperty(p)){
+                    if (!this.plans[p].item.id){
+                        this.plans.splice(p, 1);
+                        found = true;
+                        break;
                     }
                 }
+            }
+            if (!found) {
                 this.add(plan);
-
             }
         },
         remove:function(id){
+            for (var r in this.plans){
+                if (this.plans.hasOwnProperty(r)){
+                    if (this.plans[r].item.id === id) {
+                        this.plans.splice(r, 1);
+                        break;
+                    }
+                }
+            }
             this.plans.splice(id, 1);
         },
         save:function(){
             var parameters = {};
-            parameters.deal_id = this.deal;
+            parameters.dealId = this.deal;
             var plans = [];
-
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)) {
-                    var p = this.plans[i].item
-                    var plan = {};
-                    if (p.id){
-                        plan.id = p.id;
-                    }
-                    plan.date = p.date;
-                    plan.plan = p.plan;
-                    plan.customer = p.customer;
-                    
-                    if (p.transportation.vehicle.id){
-                        plan.vehicle = p.transportation.vehicle.id;
-                    }
-
-                    if (p.transportation.driver.id){
-                        plan.driver = p.transportation.driver.id;
-                    }
-                    plans.push(plan);
+                    plans.push(this.plans[i].item);
                 }
             }
             parameters.plans = plans;
@@ -130,20 +128,11 @@ var plan = new Vue({
             console.log(parameters);
 
             
-            PostApi(this.api.save_link, parameters, function(a){
+            PostApi(this.api.save, parameters, function(a){
                 if (a.status == 'success'){
                     closeModal();
                 }
             }, null, true)
-        },
-        addCustomer:function(id, name){
-            if (!this.customer){
-                this.customer = id
-            }
-            this.customers[id] = {
-                id:id,
-                name:name
-            }
         },
         openVehicleInput:function(id){
             for (var i in this.plans){
@@ -224,8 +213,10 @@ var plan = new Vue({
         weighs:function(weights){
             var total = 0;
             for (var i in weights){
-                var w = weights[i];
-                total += w.brutto == 0 || w.tara == 0 ? 0 : w.brutto - w.tara;
+                if (weights.hasOwnProperty(i)) {
+                    var w = weights[i];
+                    total += w.brutto == 0 || w.tara == 0 ? 0 : w.brutto - w.tara;
+                }
             }
             return total;
         },
@@ -233,7 +224,10 @@ var plan = new Vue({
             var total = 0;
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
-                    total += parseFloat(this.plans[i].item.plan);
+                    var p = parseFloat(this.plans[i].item.plan)
+                    if (!isNaN(p)){
+                        total += p;
+                    }
                 }
             }
             return total;

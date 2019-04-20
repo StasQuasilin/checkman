@@ -70,5 +70,7 @@
         <mapping class="entity.seals.SealBatch"/>
         <mapping class="entity.bot.UserBotSetting"/>
         <mapping class="bot.BotUID"/>
+        <mapping class="entity.bot.BotSettings"/>
+
     </session-factory>
 </hibernate-configuration>

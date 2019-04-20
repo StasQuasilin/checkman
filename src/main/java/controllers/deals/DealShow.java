@@ -21,8 +21,8 @@ public class DealShow extends IModal{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("deal", hibernator.get(Deal.class, "id", Integer.parseInt(req.getParameter(Constants.ID))));
         req.setAttribute("title", Constants.Titles.DEAL_SHOW);
-        req.setAttribute("updateAPI", Branches.API.PLAN_LIST);
-        req.setAttribute("save_link", Branches.API.PLAN_LIST_SAVE);
+        req.setAttribute("update", Branches.API.PLAN_LIST);
+        req.setAttribute("save", Branches.API.PLAN_LIST_SAVE);
         req.setAttribute("vehicleModal", Branches.UI.VEHICLE_MODAL);
         req.setAttribute("driverModal", Branches.UI.DRIVER_MODAL);
         req.setAttribute("findVehicleAPI", Branches.API.References.FIND_VEHICLE);

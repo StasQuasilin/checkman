@@ -30,7 +30,6 @@ import java.util.LinkedList;
 @WebServlet(Branches.API.LABORATORY_SAVE_OIL)
 public class EditOilAPI extends IAPI {
 
-    final Notificator notificator = BotFactory.getBot().getNotificator();
 
     private final Logger log = Logger.getLogger(EditOilAPI.class);
 
@@ -165,7 +164,6 @@ public class EditOilAPI extends IAPI {
         for (OilTransportationAnalyses analyses : map.values()){
             hibernator.remove(analyses);
         }
-        notificator.oilAnalysesShow(loadPlan, analysesList);
         PostUtil.write(resp, answer);
     }
 }

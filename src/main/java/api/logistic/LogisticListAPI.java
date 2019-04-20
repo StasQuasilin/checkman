@@ -3,6 +3,7 @@ package api.logistic;
 import api.IAPI;
 import constants.Branches;
 import entity.documents.LoadPlan;
+import entity.transport.TransportCustomer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.ApplicationSettingsBox;
@@ -26,7 +27,10 @@ public class LogisticListAPI extends IAPI {
     final HashMap<String, Object> parameters = new HashMap<>();
 
     {
-        parameters.put("customer", settingsBox.getSettings().getCustomer());
+        TransportCustomer customer = settingsBox.getSettings().getCustomer();
+        if (customer != null) {
+            parameters.put("customer", customer);
+        }
         parameters.put("transportation/archive", false);
     }
 

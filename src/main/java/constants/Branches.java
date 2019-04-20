@@ -115,9 +115,11 @@ public class Branches {
         public static final String TRANSPORT_ARCHIVE = API + "/archive/transport";
         public static final String CHANGE_PASSWORD = API + "/personal/change/password";
         public static final String BOT_UID =            API + "/bot/uid/generator";
-        public static final String BOT_SETTINGS =       API + "/bot/settings";
+        public static final String USER_BOT_SETTINGS =       API + "/bot/user/settings";
         public static final String FIND_DEALS =         API + "/deal/find";
         public static final String PLAN_LIST_ADD =      API + "/plan/add";
+        public static final String BOT_SETTINGS =       API + "/bot/settings";
+        public static final String BOT_STATUS =         API + "/bot/status";
 
 
         public class References {

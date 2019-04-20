@@ -392,6 +392,18 @@ public class JsonParser {
         return array;
     }
 
+    public static JSONArray toJson(Collection<Driver> drivers, HashMap<Integer, Vehicle> vehicles) {
+        JSONArray array = new JSONArray();
+        for (Driver driver : drivers) {
+            JSONObject d = toJson(driver);
+            if (vehicles.containsKey(driver.getId())){
+                d.put("vehicle", toJson(vehicles.get(driver.getId())));
+            }
+            array.add(d);
+        }
+        return array;
+    }
+
     public static class Laboratory {
         public static class Extraction {
             public static JSONObject toJson(ExtractionTurn turn) {

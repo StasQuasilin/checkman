@@ -31,7 +31,6 @@ import java.util.List;
 @WebServlet(Branches.API.LABORATORY_SAVE_SUN)
 public class EditSunAPI extends IAPI {
 
-    final Notificator notificator = BotFactory.getBot().getNotificator();
     private final Logger log = Logger.getLogger(EditSunAPI.class);
 
     @Override
@@ -138,7 +137,6 @@ public class EditSunAPI extends IAPI {
             hibernator.remove(analyses);
         }
 
-        notificator.sunAnalysesShow(loadPlan, analysesList);
         PostUtil.write(resp, answer);
     }
 }

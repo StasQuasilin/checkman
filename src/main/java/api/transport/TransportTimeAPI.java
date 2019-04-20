@@ -29,8 +29,6 @@ import java.sql.Timestamp;
 @WebServlet(Branches.API.TRANSPORT_TIME)
 public class TransportTimeAPI extends IAPI {
 
-    Notificator notificator = BotFactory.getBot().getNotificator();
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TransportDirection direction = TransportDirection.valueOf(req.getParameter("dir"));
@@ -61,7 +59,6 @@ public class TransportTimeAPI extends IAPI {
         time.setTime(new Timestamp(System.currentTimeMillis()));
         time.setCreator(getWorker(req));
         hibernator.save(time, transportation);
-        notificator.transportShow(plan);
         TransportUtil.checkTransport(transportation);
 
         body.clear();

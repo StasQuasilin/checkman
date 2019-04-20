@@ -31,8 +31,6 @@ import java.util.List;
 @WebServlet(Branches.API.SAVE_WEIGHT)
 public class EditWeightAPI extends IAPI {
 
-    private final Notificator notificator = BotFactory.getBot().getNotificator();
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
@@ -69,7 +67,6 @@ public class EditWeightAPI extends IAPI {
         }
 
         hibernator.remove(weights.values().toArray());
-        notificator.weightShow(plan, weightList);
         WeightUtil.calculateDealDone(plan.getDeal());
         TransportUtil.checkTransport(plan.getTransportation());
 

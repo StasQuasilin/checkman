@@ -38,7 +38,7 @@ public class LoadPlanListAPI extends IAPI{
             array.put("remove", remove);
         }
 
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         if (body != null) {
             long deal = (long) body.get(Constants.DEAL_ID);
             parameters.put("deal", deal);

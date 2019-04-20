@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Created by szpt_user045 on 16.04.2019.
  */
 @Entity
-@Table(name = "bot_settings")
+@Table(name = "bot_user_settings")
 public class UserBotSetting {
     private int id;
     private long telegramId;

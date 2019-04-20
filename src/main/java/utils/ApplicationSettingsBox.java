@@ -23,7 +23,7 @@ public class ApplicationSettingsBox {
     }
 
     void initSettings(){
-        settings = hibernator.query(ApplicationSettings.class, null).get(0);
+        settings = hibernator.get(ApplicationSettings.class, null);
     }
 
     public ApplicationSettings getSettings() {

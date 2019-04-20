@@ -4,7 +4,6 @@ import api.IAPI;
 import bot.BotSettings;
 import constants.Branches;
 import constants.Constants;
-import entity.answers.IAnswer;
 import entity.bot.NotifyStatus;
 import entity.bot.UserBotSetting;
 import org.json.simple.JSONObject;
@@ -20,8 +19,8 @@ import java.io.IOException;
 /**
  * Created by szpt_user045 on 17.04.2019.
  */
-@WebServlet(Branches.API.BOT_SETTINGS)
-public class BotSettingsAPI extends IAPI {
+@WebServlet(Branches.API.USER_BOT_SETTINGS)
+public class UserBotSettingsAPI extends IAPI {
 
     final BotSettings botSettings = BotSettings.getInstance();
 

@@ -4,19 +4,5 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-
-<div style="padding: 18pt">
-    <table>
-        <tr>
-            <td>
-                <jsp:include page="registration.jsp"/>
-            </td>
-            <td>
-                <jsp:include page="botSettings.jsp"/>
-            </td>
-        </tr>
-    </table>
-
-</div>
-
+ORGANISATION LIST
 </html>

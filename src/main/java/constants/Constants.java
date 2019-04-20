@@ -12,7 +12,7 @@ public class Constants {
     public static final String DATE = "date";
     public static final String DATE_TO = "dateTo";
     public static final String ORGANISATION_ID = "organisation_id";
-    public static final String DEAL_ID = "deal_id";
+    public static final String DEAL_ID = "dealId";
     public static final String PRODUCT_ID = "product_id";
     public static final String QUANTITY = "quantity";
     public static final String PRICE = "price";
