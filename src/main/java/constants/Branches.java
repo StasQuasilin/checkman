@@ -83,7 +83,7 @@ public class Branches {
         public static final String PLAN_LIST_SAVE =     API + "/load/plan/save";
         public static final String LOGISTIC_LIST =      API + ".logistic.list";
         public static final String LOGISTIC_SAVE =      API + "/logistic/save";
-        public static final String TRANSPORT_UPDATE =   API + "/transport/list";
+        public static final String TRANSPORT_LIST =   API + "/transport/list";
         public static final String TRANSPORT_TIME =     API + "/transport/time";
         public static final String TRANSPORT_TIME_IN =  TRANSPORT_TIME + "?dir=in";
         public static final String TRANSPORT_TIME_OUT = TRANSPORT_TIME + "?dir=out";

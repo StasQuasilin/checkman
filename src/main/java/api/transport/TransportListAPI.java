@@ -3,13 +3,10 @@ package api.transport;
 import api.IAPI;
 import constants.Branches;
 import entity.documents.LoadPlan;
-import entity.transport.Transportation;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
-import utils.U;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,13 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
-@WebServlet(Branches.API.TRANSPORT_UPDATE)
+@WebServlet(Branches.API.TRANSPORT_LIST)
 public class TransportListAPI extends IAPI{
     final HashMap<String, Object> parameters = new HashMap<>();
     {
