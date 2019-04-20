@@ -31,44 +31,51 @@ public class SaveVehicleAPI extends IAPI{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         Vehicle vehicle;
 
-        if (body.containsKey(Constants.ID) ){
-            long id = (long) body.get(Constants.ID);
-            vehicle = hibernator.get(Vehicle.class, "id", id);
-            logger.info("Edit vehicle " + vehicle.getId() + "...");
+        if (body != null) {
+            if (body.containsKey(Constants.VEHICLE_ID)) {
+                long id = (long) body.get(Constants.VEHICLE_ID);
+                vehicle = hibernator.get(Vehicle.class, "id", id);
+                logger.info("Edit vehicle " + vehicle.getId() + "...");
+            } else {
+                vehicle = new Vehicle();
+                logger.info("Create new vehicle...");
+            }
+            vehicle.setModel(String.valueOf(body.get(Constants.Vehicle.MODEL)));
+            logger.info("\t...Model: " + vehicle.getModel());
+
+            vehicle.setNumber(String.valueOf(body.get(Constants.Vehicle.NUMBER)));
+            logger.info("\t...Number: " + vehicle.getNumber());
+
+            vehicle.setTrailer(String.valueOf(body.get(Constants.Vehicle.TRAILER)));
+            logger.info("\t...Trailer: " + vehicle.getTrailer());
+
+            if (body.containsKey(Constants.Vehicle.TRANSPORTER_ID)) {
+                long id = (long) body.get(Constants.Vehicle.TRANSPORTER_ID);
+                Organisation organisation = hibernator.get(Organisation.class, "id", id);
+                vehicle.setTransporter(organisation);
+                logger.info("\t...Transporter: \'" + vehicle.getTransporter().getValue() + "\'");
+            }
+
+            hibernator.save(vehicle);
+            long transportationId = -1;
+
+            if (body.containsKey(Constants.TRANSPORTATION_ID)) {
+                transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
+            }
+            if (transportationId != -1) {
+                Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+                transportation.setVehicle(vehicle);
+                hibernator.save(transportation);
+                logger.info("Put in transportation " + transportation.getId());
+            }
+
+            write(resp, JsonParser.toJson(vehicle).toJSONString());
+            body.clear();
         } else {
-            vehicle = new Vehicle();
-            logger.info("Create new vehicle...");
+            write(resp, emptyBody);
         }
-        vehicle.setModel(String.valueOf(body.get(Constants.Vehicle.MODEL)));
-        logger.info("\t...Model: " + vehicle.getModel());
-
-        vehicle.setNumber(String.valueOf(body.get(Constants.Vehicle.NUMBER)));
-        logger.info("\t...Number: " + vehicle.getNumber());
-
-        vehicle.setTrailer(String.valueOf(body.get(Constants.Vehicle.TRAILER)));
-        logger.info("\t...Trailer: " + vehicle.getTrailer());
-
-        if (body.containsKey(Constants.Vehicle.TRANSPORTER_ID)) {
-            long id = (long) body.get(Constants.Vehicle.TRANSPORTER_ID);
-            Organisation organisation = hibernator.get(Organisation.class, "id", id);
-            vehicle.setTransporter(organisation);
-            logger.info("\t...Transporter: \'" + vehicle.getTransporter().getValue() + "\'");
-        }
-
-        hibernator.save(vehicle);
-
-        if (body.containsKey(Constants.TRANSPORTATION_ID)) {
-            long id = (long) body.get(Constants.TRANSPORTATION_ID);
-            Transportation transportation = hibernator.get(Transportation.class, "id", id);
-            transportation.setVehicle(vehicle);
-            hibernator.save(transportation);
-            logger.info("Put in transportation " + transportation.getId());
-        }
-
-        write(resp, JsonParser.toJson(vehicle).toJSONString());
-        body.clear();
     }
 }

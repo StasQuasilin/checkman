@@ -19,7 +19,7 @@ public class Branches {
         public static final String LOAD_PLAN = "/deals/load/plan.j";
         public static final String LOGISTIC_LIST = "/logistic/list.j";
         public static final String TRANSPORT_LIST = "/transport/list.j";
-        public static final String TRANSPORT_SHOW = "/transport/show";
+        public static final String TRANSPORT_SHOW = "/transport/show.j";
         public static final String TRANSPORT_EDIT = "/transport/edit.j";
         public static final String WEIGHT_LIST = "/weight/list.j";
         public static final String WEIGHT_EDIT = "/weight/edit.j";
@@ -117,6 +117,7 @@ public class Branches {
         public static final String BOT_UID =            API + "/bot/uid/generator";
         public static final String BOT_SETTINGS =       API + "/bot/settings";
         public static final String FIND_DEALS =         API + "/deal/find";
+        public static final String PLAN_LIST_ADD =      API + "/plan/add";
 
 
         public class References {

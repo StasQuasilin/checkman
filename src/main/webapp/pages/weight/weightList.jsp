@@ -18,7 +18,7 @@
 </div>
 <transition-group  name="flip-list" tag="div" class="container" id="container" >
     <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
-     class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)">
+         class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)">
         <div class="upper-row">
             <span>
                 {{new Date(value.item.date).toLocaleDateString()}}
@@ -59,12 +59,18 @@
                     <span v-if="value.item.transportation.timeIn.time">
                         {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString()}}
                     </span>
+                    <span v-else>
+                        --:--:--
+                    </span>
                 </div>
                 <div>
                     <fmt:message key="transportation.time.out"/>:
                   <span v-if="value.item.transportation.timeOut.time">
                     {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString()}}
                   </span>
+                    <span v-else>
+                        --:--:--
+                    </span>
                 </div>
             </div>
             <div style="display: inline-block; font-size: 10pt; width: 24em">
@@ -72,7 +78,7 @@
                     <fmt:message key="transportation.automobile"/>:
                     <span>
                         <template v-if="value.item.transportation.vehicle.id">
-                        {{value.item.transportation.vehicle.model}}
+                            {{value.item.transportation.vehicle.model}}
                         <span class="vehicle-number">
                         {{value.item.transportation.vehicle.number}}
                         </span>

@@ -19,7 +19,7 @@
     </c:if>
 
 </script>
-<table id="editor">
+<table id="vehicleEditor">
     <tr>
         <td>
             <label for="model">

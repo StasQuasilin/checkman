@@ -7,7 +7,7 @@
 <html>
 <link rel="stylesheet" href="${context}/css/NavigationMenu.css"/>
   <div class="navigation-menu" id="nav-menu">
-    <c:if test="${role eq 'admin' || role eq 'manager'}">
+
     <ul>
       <li class="menu-item">
         <span class="main" onclick="loadContent('${buyList}')">
@@ -34,9 +34,6 @@
         <span>
           <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
         </span>
-      </li>
-      </c:if>
-      <c:if test="${role eq 'admin' || role eq 'logistic'}">
       <li class="menu-item">
         <span class="main"  onclick="loadContent('${logisticList}')">
           <fmt:message key="menu.logistic"/>
@@ -45,7 +42,6 @@
           <a onclick="loadContent(${context}${logistic_archive})"><fmt:message key="archive"/> </a>
         </span>
       </li>
-      </c:if>
       <li class="menu-item">
         <span class="main" onclick="loadContent('${transportList}')">
           <fmt:message key="menu.transport"/>
@@ -107,7 +103,6 @@
           </span>
         </li>
       </c:if>
-
     </ul>
   </div>
 </html>

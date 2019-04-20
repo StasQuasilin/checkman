@@ -22,7 +22,4 @@ public class IServlet extends HttpServlet {
         return (Worker)req.getSession().getAttribute(Constants.WORKER);
     }
 
-    public void write(HttpServletResponse resp, String txt) throws IOException {
-        PostUtil.write(resp, txt);
-    }
 }

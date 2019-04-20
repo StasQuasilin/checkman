@@ -34,8 +34,7 @@ public class ChangePasswordAPI extends IAPI {
             hibernator.save(user);
             answer = new SuccessAnswer();
         } else {
-            answer = new ErrorAnswer();
-            answer.add("msg", LanguageBase.getBase().get(user.getLanguage(), "wrong.password"));
+            answer = new ErrorAnswer("msg", LanguageBase.getBase().get(user.getLanguage(), "wrong.password"));
         }
 
         write(resp, JsonParser.toJson(answer).toJSONString());

@@ -7,9 +7,23 @@
 <div style="padding: 18pt">
     <table border="0">
         <tr>
+            <td colspan="3">
+                <label for="language">
+                    <fmt:message key="language"/>:
+                </label>
+                <select id="language">
+                    <c:forEach items="${languages}" var="language">
+                        <option value="${language}"><fmt:message key="${language}"/> </option>
+                    </c:forEach>
+                </select>
+                <button>
+                    <fmt:message key="button.save"/>
+                </button>
+            </td>
+        </tr>
+        <tr>
             <td valign="top">
                 <jsp:include page="changePassword.jsp"/>
-
             </td>
             <td valign="top">
                 <jsp:include page="personalData.jsp"/>

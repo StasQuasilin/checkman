@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
 import entity.bot.UserBotSetting;
+import utils.LanguageBase;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ public class Personal extends IUIServlet {
         req.setAttribute("uidGenerator", Branches.API.BOT_UID);
         req.setAttribute("botStatus", Branches.API.BOT_SETTINGS);
         req.setAttribute("botSettings", hibernator.get(UserBotSetting.class, "worker", getWorker(req).getId()));
+        req.setAttribute("languages", LanguageBase.getBase().languages);
         show(req, resp);
     }
 }

@@ -25,9 +25,7 @@ public class SignInFilter implements Filter{
     String apiAnswer;
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        IAnswer answer = new ErrorAnswer();
-        answer.add("msg", "Restricted area. Authorized personnel only");
-        JSONObject json = JsonParser.toJson(answer);
+        JSONObject json = JsonParser.toJson(new ErrorAnswer("msg", "Restricted area. Authorized personnel only"));
         apiAnswer = json.toJSONString();
         json.clear();
     }

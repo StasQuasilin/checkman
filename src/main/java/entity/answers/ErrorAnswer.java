@@ -5,6 +5,10 @@ package entity.answers;
  */
 public class ErrorAnswer extends IAnswer {
 
+    public ErrorAnswer(String msg, String text) {
+        add(msg, text);
+    }
+
     @Override
     public String status() {
         return "error";

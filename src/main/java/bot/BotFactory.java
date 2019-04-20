@@ -20,6 +20,8 @@ public class BotFactory {
     private static IBot bot;
     static TelegramBotsApi telegramBotsApi;
     static Thread botThread;
+    private static final String TOKEN = "692851073:AAH2bDUXli8lgnAqeeCol-dCPGa2k_GDDTc";
+    private static final String NAME = "Baklagan";
 
     public static IBot getBot() {
         return bot;
@@ -27,9 +29,9 @@ public class BotFactory {
 
     public static void init() throws IOException {
         if (bot == null) {
-            PropertyReader reader = new PropertyReader("bot_token.txt");
+//            PropertyReader reader = new PropertyReader(System.getProperty("user.home") + "\\bot_token.txt");
             botThread = new Thread(() -> {
-                bot = new TelegramBot(reader.getProperty("token"), reader.getProperty("name"));
+                bot = new TelegramBot(TOKEN, NAME);
                 telegramBotsApi = new TelegramBotsApi();
                 try {
                     telegramBotsApi.registerBot(bot);

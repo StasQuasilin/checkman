@@ -1,5 +1,5 @@
 var editor = new Vue({
-    el: '#editor',
+    el: '#vehicleEditor',
     data:{
         api:{
             findOrganisationAPI:'',
