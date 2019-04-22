@@ -22,6 +22,11 @@ var editor = new Vue({
             unit:-1,
             price: 0
         },
+        errors:{
+            organisation:false,
+            quantity:false,
+            price:false
+        },
         contragentInput:'',
         contragentName:'',
         foundContragents:[],
@@ -37,14 +42,16 @@ var editor = new Vue({
     },
     methods:{
         findOrganisation:function(){
+            this.errors.organisation = false;
+            if (!this.contragentInput){
+                this.deal.contragent = -1;
+            }
             const self = this;
             if (event.keyCode >= 65 && event.keyCode <= 90) {
                 if (this.contragentInput) {
                     clearTimeout(this.fnd);
                     this.fnd = setTimeout(function () {
-                        var parameters = {};
-                        parameters.key = self.contragentInput;
-                        PostApi(self.api.findOrganisationUrl, parameters, function (a) {
+                        PostApi(self.api.findOrganisationUrl, {key : self.contragentInput}, function (a) {
                             self.foundContragents = a;
                         })
                     }, 400)
@@ -59,11 +66,9 @@ var editor = new Vue({
             }
         },
         parseOrganisation:function(){
-            if (this.foundContragents.length == 0 && this.contragentInput){
-                var parameters = {};
-                parameters.name = this.contragentInput;
+            if (this.foundContragents.length == 0 && this.contragentInput && this.contragentInput !== this.contragentName){
                 const self = this;
-                PostApi(this.api.parseOrganisationUrl, parameters, function(a){
+                PostApi(this.api.parseOrganisationUrl, {name : this.contragentInput}, function(a){
                     console.log('Parsed organisation');
                     console.log(a);
                     self.deal.contragent = a.id;
@@ -78,11 +83,18 @@ var editor = new Vue({
 
         },
         save:function(){
-            PostApi(this.api.saveUrl, this.deal, function(a){
-                if (a.status == 'success'){
-                    closeModal();
-                }
-            })
+            var e = this.errors;
+            e.organisation = this.deal.contragent == -1;
+            e.quantity = this.deal.quantity <= 0;
+            e.price = this.deal.price <= 0;
+
+            if (!e.organisation && !e.quantity && !e.price) {
+                PostApi(this.api.saveUrl, this.deal, function (a) {
+                    if (a.status == 'success') {
+                        closeModal();
+                    }
+                })
+            }
         },
         init:function(){
             if (this.realisations){

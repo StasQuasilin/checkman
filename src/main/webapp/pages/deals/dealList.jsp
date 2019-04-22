@@ -6,9 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<script>
-  var filter_control = {}
-</script>
+
 <script src="${context}/vue/dataList.js"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script>
@@ -21,8 +19,8 @@
   <button onclick="loadModal('${editLink}')"><fmt:message key="button.add"/> </button>
 </div>
 <div class="container" id="container" >
-  <div v-for="(value, key) in items" v-bind:key="key" v-bind:id="value.item.id"
-       class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)"
+  <div v-for="(value, key) in filteredItems()" :key="key" :id="value.item.id"
+       class="container-item" :class="rowName(value.item.date)" v-on:click="show(value.item.id)"
        v-on:click.right="contextMenu(value.item.id)">
     <div style="display: inline-block; border-right: solid gray 1.2pt; padding: 2pt 4pt;" >
       <span>

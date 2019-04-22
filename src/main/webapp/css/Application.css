@@ -159,3 +159,6 @@ a:hover{
     font-weight: bold;
     color: orangered;
 }
+input.error {
+    border-color: orangered;
+}

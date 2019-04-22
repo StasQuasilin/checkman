@@ -47,7 +47,8 @@ public class SignInFilter implements Filter{
             String path = request.getContextPath();
             uri = uri.substring(path.length(), uri.length());
             if (uri.substring(0, Branches.API.API.length()).equals(Branches.API.API)){
-                PostUtil.write(response, apiAnswer);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+//                PostUtil.write(response, apiAnswer);
             } else {
                 response.sendRedirect(request.getContextPath() + Branches.UI.SING_IN);
             }

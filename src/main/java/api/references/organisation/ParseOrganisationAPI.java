@@ -3,11 +3,13 @@ package api.references.organisation;
 import api.IAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.answers.ErrorAnswer;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.common.util.impl.Log;
 import org.json.simple.JSONObject;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.JsonParser;
 import utils.PostUtil;
 
@@ -35,31 +37,50 @@ public class ParseOrganisationAPI extends IAPI {
         System.out.println(body);
 
         if (body != null) {
-            String value = String.valueOf(body.get("name"));
-            log.info("Parse organisation name: \'" + value + "\'");
-            value = value.trim();
-            value = value.toUpperCase();
+            String origin = String.valueOf(body.get("name"));
+            log.info("Parse organisation name: \'" + origin + "\'");
+            origin = origin.trim().toUpperCase();
+            String name = " " + origin + " ";
 
-            Organisation organisation = new Organisation();
-            List<OrganisationType> types = hibernator.query(OrganisationType.class, null);
-
-            for (OrganisationType type : types){
-                Pattern pattern = Pattern.compile("\\s" + type.getName() + "|" + type.getName() + "\\s");
-                Matcher matcher = pattern.matcher(value.toUpperCase());
-                if (matcher.find()){
-                    String group = matcher.group();
-                    log.info("Organisation type: " + group);
-                    organisation.setType(type.getName());
-                    value = value.replaceFirst(group, "");
-                    value = value.trim();
-                    break;
-                }
+            List<OrganisationType> typeList = hibernator.query(OrganisationType.class, null);
+            String[] types = new String[typeList.size()];
+            int i = 0;
+            for (OrganisationType organisationType : typeList){
+                types[i++] = organisationType.getName();
+            }
+            Pattern pattern = Pattern.compile("^\\s(" + String.join("|", types) + ")\\s|\\s(" + String.join("|", types) + ")\\s$");
+            Matcher matcher = pattern.matcher(name.toUpperCase());
+            String type = "";
+            if (matcher.find()){
+                type = matcher.group();
+                name = name.replaceFirst(type, "");
             }
 
-            organisation.setName(value);
-            log.info("Organisation name: \'" + value + "\'");
+            type = type.trim();
+            name = name.trim();
+            name = name.replaceAll("^[^а-яА-Яa-zA-Z0-9]|[^а-яА-Яa-zA-Z0-9]$", "");
+            log.info("Organisation type: \'" + type + "\'");
+            log.info("Organisation name: \'" + name + "\'");
+            HashMap<String, String> param = new HashMap<>();
+            param.put("type", type);
+            param.put("name", name);
 
-            hibernator.save(organisation);
+            if (!name.isEmpty()) {
+                name = "!!" + origin;
+                type = "";
+            }
+
+            Organisation organisation = null;
+            List<Organisation> organisations = hibernator.find(Organisation.class, param);
+            if (organisations.size() > 0) {
+                organisation = organisations.get(0);
+            }
+            if (organisation == null) {
+                organisation = new Organisation();
+                organisation.setType(type);
+                organisation.setName(name);
+                hibernator.save(organisation);
+            }
             write(resp, JsonParser.toJson(organisation).toJSONString());
         } else {
             write(resp, emptyBody);

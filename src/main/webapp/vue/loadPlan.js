@@ -224,7 +224,7 @@ var plan = new Vue({
             var total = 0;
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
-                    var p = parseFloat(this.plans[i].item.plan)
+                    var p = parseFloat(this.plans[i].item.plan);
                     if (!isNaN(p)){
                         total += p;
                     }
@@ -264,6 +264,5 @@ var plan = new Vue({
                 return new Date(a.item.date) - new Date(b.item.date)
             })
         }
-
     }
 });

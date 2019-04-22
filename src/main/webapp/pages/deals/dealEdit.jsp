@@ -54,7 +54,7 @@
         </c:choose>
 
     </script>
-
+    <link rel="stylesheet" href="${context}/css/editor.css">
     <table id="editor" class="editor">
         <tr>
             <td>
@@ -75,7 +75,8 @@
                 </label>
             </td>
             <td>
-                <input readonly style="width: 6em" v-model="new Date(deal.date).toLocaleDateString()" v-on:click="showDatePicker">-
+                <input readonly style="width: 6em" v-model="new Date(deal.date).toLocaleDateString()" v-on:click="showDatePicker">
+                -
                 <input readonly style="width: 6em" v-model="new Date(deal.dateTo).toLocaleDateString()" v-on:click="showDateToPicker">
             </td>
         </tr>
@@ -87,8 +88,11 @@
             </td>
             <td>
                 <input id="contragent" autocomplete="off" style="width: 100%"
+                       :class="{error : errors.organisation}"
+                       onclick = "this.select()"
                        v-on:keyup="findOrganisation()"
                        v-on:keyup.enter="parseOrganisation()"
+                       v-on:blur="parseOrganisation()"
                        v-model="contragentInput"/>
                 <div id="contragent-list" class="custom-data-list">
                     <div class="custom-data-list-item" v-for="contragent in foundContragents" v-on:click="setContragent(contragent)">{{contragent.value}}</div>
@@ -126,7 +130,7 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="quantity" v-model="deal.quantity" autocomplete="off" style="width: 7em">
+                <input type="number" min="0" id="quantity" v-model="deal.quantity" :class="{error : errors.quantity}" autocomplete="off">
                 <select v-model="deal.unit">
                     <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
                 </select>
@@ -139,7 +143,7 @@
                 </label>
             </td>
             <td>
-                <input type="number" id="price" v-model="deal.price" autocomplete="off">
+                <input type="number" min="0" id="price" v-model="deal.price" :class="{error : errors.price}" autocomplete="off">
             </td>
         </tr>
         <tr>

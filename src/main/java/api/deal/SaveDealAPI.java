@@ -67,6 +67,11 @@ public class SaveDealAPI extends IChangeAPI{
 
         Date date = Date.valueOf(String.valueOf(body.get(Constants.DATE)));
         Date dateTo = Date.valueOf(String.valueOf(body.get(Constants.DATE_TO)));
+        if (date.toLocalDate().isAfter(dateTo.toLocalDate())){
+            Date temp = date;
+            date = dateTo;
+            dateTo = temp;
+        }
 
         if (deal.getDate() == null || !deal.getDate().equals(date)){
             deal.setDate(date);

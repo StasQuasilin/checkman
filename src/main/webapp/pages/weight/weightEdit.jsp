@@ -20,16 +20,41 @@
     }
     <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
     editor.analyses.sun.push(
-            {
-                id:'${sun.id}',
-                humidity:${sun.analyses.humidity},
-                soreness:${sun.analyses.soreness},
-                oiliness:${sun.analyses.oiliness},
-                oilImpurity:${sun.analyses.oilImpurity},
-                acid:${sun.analyses.acidValue}
-            }
+        {
+            id:'${sun.id}',
+            humidity:${sun.analyses.humidity},
+            soreness:${sun.analyses.soreness},
+            oiliness:${sun.analyses.oiliness},
+            oilImpurity:${sun.analyses.oilImpurity},
+            acid:${sun.analyses.acidValue}
+        }
     )
-
+    </c:forEach>
+    <c:forEach items="${plan.transportation.oilAnalyses}" var="oil">
+    editor.analyses.oil.push(
+        {
+            id:'${oil.id}',
+            organoleptic:${oil.analyses.organoleptic},
+            color:${oil.analyses.color},
+            acid:${oil.analyses.acidValue},
+            peroxide:${oil.analyses.peroxideValue},
+            phosphorus:${oil.analyses.phosphorus},
+            humidity:${oil.analyses.humidity},
+            soap:${oil.analyses.soap},
+            wax:${oil.analyses.wax}
+        }
+    )
+    </c:forEach>
+    <c:forEach items="${plan.transportation.cakeAnalyses}" var="cake">
+    editor.analyses.cake.push(
+        {
+            id:${cake.id},
+            humidity:${cake.analyses.humidity},
+            protein:${cake.analyses.protein},
+            cellulose:${cake.analyses.cellulose},
+            oiliness:${cake.analyses.oiliness}
+        }
+    )
     </c:forEach>
 </script>
 <style>
@@ -46,10 +71,10 @@
         width: 50%
     }
 </style>
-<table border="1">
+<table border="0" id="editor" >
     <tr>
         <td rowspan="2">
-            <table id="editor" class="editor" border="0">
+            <table class="editor" border="0">
                 <tr>
                     <td>
                         <fmt:message key="date"/>
@@ -109,7 +134,28 @@
                         ${plan.deal.documentOrganisation.value}
                     </td>
                 </tr>
-
+                <tr>
+                    <td>
+                        <fmt:message key="transportation.automobile"/>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        ${plan.transportation.vehicle.value}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fmt:message key="transportation.driver"/>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        ${plan.transportation.driver.person.value}
+                    </td>
+                </tr>
                 <template v-for="(value, key) in weights">
                     <tr>
                         <td colspan="3">
@@ -190,8 +236,8 @@
                 </tr>
             </table>
         </td>
-        <td valign="top">
-            <table border="0">
+        <td valign="top" align="center" width="200px">
+            <table border="0" style="width: 100%">
                 <tr>
                     <th>
                         <fmt:message key="menu.seals"/>
@@ -208,19 +254,157 @@
         </td>
     </tr>
     <tr>
-        <td valign="top">
-            <table>
+        <td valign="top" align="center">
+            <table width="100%">
                 <tr>
-                    <th>
+                    <th colspan="3">
                         <fmt:message key="analyses"/>
                     </th>
                 </tr>
-
+                <tr v-for="sun in analyses.sun">
+                    <td>
+                        {{sun}}
+                    </td>
+                </tr>
+                <template v-for="oil in analyses.oil">
+                    <tr>
+                        <td>
+                            <fmt:message key="oil.organoleptic"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <input type="checkbox" readonly v-model="oil.organoleptic" onclick="return false;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="oil.color.value"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{oil.color}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.acid.value"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{oil.acid}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="oil.peroxide"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{oil.peroxide}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="oil.phosphorus"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{oil.phosphorus}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.humidity"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{oil.humidity}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="oil.soap"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{oil.soap}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="oil.wax"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{oil.wax}}
+                        </td>
+                    </tr>
+                </template>
+                <template v-for="cake in analyses.cake" style="font-size: 9pt">
+                    <tr >
+                        <td>
+                            <fmt:message key="sun.humidity"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{cake.humidity}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="cake.protein"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{cake.protein}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="cake.cellulose"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{cake.cellulose}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.oiliness"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{cake.oiliness}}
+                        </td>
+                    </tr>
+                </template>
             </table>
 
         </td>
     </tr>
 </table>
-
-
 </html>

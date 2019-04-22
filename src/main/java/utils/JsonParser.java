@@ -153,26 +153,20 @@ public class JsonParser {
         for (SunTransportationAnalyses a : sunAnalyses){
             sun.add(toJson(a.getAnalyses()));
         }
-        if (sun.size() > 0) {
-            json.put("sun", sun);
-        }
+        json.put("sun", sun);
 
         JSONArray oil = new JSONArray();
         for (OilTransportationAnalyses a : oilAnalyses){
             oil.add(toJson(a.getAnalyses()));
         }
-        if (oil.size() > 0) {
-            json.put("oil", oil);
-        }
+        json.put("oil", oil);
 
         JSONArray cake = new JSONArray();
         for (CakeTransportationAnalyses a : cakeAnalyses){
             cake.add(toJson(a.getAnalyses()));
         }
-        if(cake.size() > 0) {
-            json.put("cake", cake);
-        }
-        
+        json.put("cake", cake);
+
 
         return json;
     }
