@@ -30,10 +30,12 @@
   })
   plan.loadPlan()
 </script>
+<c:set var="vehicleHolder"><fmt:message key="transportation.automobile"/>... </c:set>
+<c:set var="driverHolder"><fmt:message key="transportation.driver"/>... </c:set>
   <table border="0" style="height: 100%" id="load_plan">
     <tr>
       <td valign="top">
-        <table border="1" style="height: 100%; width: 340px">
+        <table border="0" style="height: 100%; width: 340px">
           <tr>
             <td>
               <fmt:message key="deal.type"/>
@@ -55,7 +57,8 @@
             <td>
               <fmt:formatDate value="${deal.date}" pattern="dd.MM.yyyy"/>
               <c:if test="${deal.date ne deal.dateTo}">
-                -<fmt:formatDate value="${deal.dateTo}" pattern="dd.MM.yyyy"/>
+                -
+                <fmt:formatDate value="${deal.dateTo}" pattern="dd.MM.yyyy"/>
               </c:if>
             </td>
           </tr>
@@ -189,12 +192,11 @@
                       <select v-model="value.item.customer" title="${customerTitle}">
                         <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
                       </select>
-                      <span title="${factTitle}">
-                        {{weighs(value.item.transportation.weights).toLocaleString()}}
-                        <template v-if="weighs(value.item.transportation.weights) !== value.item.plan">
-                          ({{(weighs(value.item.transportation.weights) - value.item.plan).toLocaleString()}})
-                        </template>
-                        {{unit}}
+                      <span title="${factTitle}" style="width: 9em; display: inline-block; text-align: right">
+                        <b>
+                          {{weighs(value.item.transportation.weights).toLocaleString()}}&nbsp;{{unit}}
+                        </b>
+                        {{different(value.item.transportation.weights, value.item.plan)}}
                       </span>
                     </div>
                       <%--LOWER ROW--%>
@@ -210,7 +212,10 @@
                       <template v-else-if="value.editVehicle">
                         <div style="display: inline-block">
                           <%--VEHICLE INPUT--%>
-                          <input v-on:keyup="findVehicle(value.vehicleInput)" v-on:keyup.enter="editVehicle(value.vehicleInput, key)" v-model="value.vehicleInput">
+                          <input v-on:keyup="findVehicle(value.vehicleInput)"
+                                 v-on:keyup.enter="editVehicle(value.vehicleInput, key)"
+                                 v-model="value.vehicleInput"
+                                  placeholder="${vehicleHolder}">
                           <div class="custom-data-list">
                             <div v-for="vehicle in findVehicles" class="custom-data-list-item" v-on:click="setVehicle(vehicle, key)">
                               {{vehicle.model}}
@@ -221,7 +226,7 @@
                             </div>
                           </div>
                         </div>
-                        <span v-on:click="closeVehicleInput(key)" class="mini-close">&times;</span>
+                        <span v-on:click="closeVehicleInput(key)" class="mini-close" style="left: -22pt">&times;</span>
                       </template>
                       <button v-else v-on:click="openVehicleInput(value.item.id)">
                         <fmt:message key="transportation.automobile"/>...
@@ -233,14 +238,17 @@
                         <template v-else-if="value.editDriver">
                           <div style="display: inline-block">
                             <%--DRIVER INPUT--%>
-                            <input v-on:keyup="findDriver(value.driverInput)" v-on:keyup.enter="editDriver(value.driverInput, key)" v-model="value.driverInput">
+                            <input v-on:keyup="findDriver(value.driverInput)"
+                                   v-on:keyup.enter="editDriver(value.driverInput, key)"
+                                   v-model="value.driverInput"
+                                    placeholder="${driverHolder}">
                             <div class="custom-data-list">
                               <div v-for="driver in findDrivers" class="custom-data-list-item" v-on:click="setDriver(driver, key)">
                                 {{driver.person.value}}
                               </div>
                             </div>
                           </div>
-                          <span v-on:click="closeDriverInput(key)" class="mini-close">&times;</span>
+                          <span v-on:click="closeDriverInput(key)" class="mini-close" style="left: -22pt">&times;</span>
                         </template>
                       <button v-else v-on:click="openDriverInput(value.item.id)">
                         <fmt:message key="transportation.driver"/>...

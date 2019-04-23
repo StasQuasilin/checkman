@@ -25,6 +25,9 @@ var editor = new Vue({
         },
         save:function(){
             var result = {};
+            if (this.transportationId){
+                result.transportation_id = this.transportationId
+            }
             if (this.person.id > 0) {
                 result.id = this.person.id;
             }

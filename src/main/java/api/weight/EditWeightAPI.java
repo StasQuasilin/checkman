@@ -33,46 +33,50 @@ public class EditWeightAPI extends IAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        System.out.println(body);
-        long planId = (long) body.get(Constants.ID);
+        JSONObject body = parseBody(req);
+        if(body != null) {
+            System.out.println(body);
+            long planId = (long) body.get(Constants.ID);
 
-        JSONArray array = (JSONArray) body.get(Constants.WEIGHTS);
+            JSONArray array = (JSONArray) body.get(Constants.WEIGHTS);
 
-        LoadPlan plan = hibernator.get(LoadPlan.class, "id", planId);
-        List<Weight> weightList = new ArrayList<>();
-        HashMap<Long, Weight> weights = new HashMap<>();
-        for (Weight w : plan.getTransportation().getWeights()){
-            weights.put((long) w.getId(), w);
-        }
-
-        for (Object o : array){
-            JSONObject w = (JSONObject) o;
-            long id = (long) w.get(Constants.ID);
-            float brutto = Float.parseFloat(String.valueOf( w.get(Constants.Weight.BRUTTO )));
-            float tara = Float.parseFloat(String.valueOf(w.get(Constants.Weight.TARA)));
-
-            Weight weight;
-            boolean saveIt = false;
-            if (weights.containsKey(id)){
-                 weight = weights.remove(id);
-            } else {
-                weight = new Weight();
-                weight.setTransportation(plan.getTransportation());
-                saveIt = true;
+            LoadPlan plan = hibernator.get(LoadPlan.class, "id", planId);
+            List<Weight> weightList = new ArrayList<>();
+            HashMap<Long, Weight> weights = new HashMap<>();
+            for (Weight w : plan.getTransportation().getWeights()) {
+                weights.put((long) w.getId(), w);
             }
 
-            changeWeight(weight, brutto, tara, getWorker(req), saveIt);
-            weightList.add(weight);
+            for (Object o : array) {
+                JSONObject w = (JSONObject) o;
+                long id = (long) w.get(Constants.ID);
+                float brutto = Float.parseFloat(String.valueOf(w.get(Constants.Weight.BRUTTO)));
+                float tara = Float.parseFloat(String.valueOf(w.get(Constants.Weight.TARA)));
+
+                Weight weight;
+                boolean saveIt = false;
+                if (weights.containsKey(id)) {
+                    weight = weights.remove(id);
+                } else {
+                    weight = new Weight();
+                    weight.setTransportation(plan.getTransportation());
+                    saveIt = true;
+                }
+
+                changeWeight(weight, brutto, tara, getWorker(req), saveIt);
+                weightList.add(weight);
+            }
+
+            hibernator.remove(weights.values().toArray());
+            WeightUtil.calculateDealDone(plan.getDeal());
+            TransportUtil.checkTransport(plan.getTransportation());
+
+            write(resp, answer);
+
+            body.clear();
+        } else {
+            write(resp, emptyBody);
         }
-
-        hibernator.remove(weights.values().toArray());
-        WeightUtil.calculateDealDone(plan.getDeal());
-        TransportUtil.checkTransport(plan.getTransportation());
-
-        PostUtil.write(resp, answer);
-
-        body.clear();
     }
     synchronized void changeWeight(Weight weight, float brutto, float tara, Worker worker, boolean saveIt){
         if (brutto != 0){

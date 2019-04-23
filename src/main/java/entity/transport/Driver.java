@@ -14,6 +14,7 @@ public class Driver {
     private int id;
     private Person person;
     private Organisation organisation;
+    private Vehicle vehicle;
 
     @Id
     @GeneratedValue
@@ -40,6 +41,15 @@ public class Driver {
     }
     public void setOrganisation(Organisation organisation) {
         this.organisation = organisation;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "vehicle")
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     @Override

@@ -24,6 +24,7 @@
         soreness:0,
         oilImpurity:0,
         acidValue:0,
+        contamination:false,
         creator:${worker.id}
     };
     <c:if test="${not empty plan.transportation.sunAnalyses}">
@@ -36,6 +37,7 @@
             soreness:${sun.analyses.soreness},
             oilImpurity:${sun.analyses.oilImpurity},
             acidValue:${sun.analyses.acidValue},
+            contamination:${sun.analyses.contamination},
             creator:${sun.analyses.createTime.creator.id}
         }
     );
@@ -191,6 +193,19 @@
             </td>
             <td>
                 <input id="acid" step="0.01" type="number" v-model="item.acidValue">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="contamination">
+                    <fmt:message key="sun.contamination"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <input id="contamination" type="checkbox" v-model="item.contamination">
             </td>
         </tr>
         <tr>

@@ -261,11 +261,64 @@
                         <fmt:message key="analyses"/>
                     </th>
                 </tr>
-                <tr v-for="sun in analyses.sun">
-                    <td>
-                        {{sun}}
-                    </td>
-                </tr>
+                <template v-for="sun in analyses.sun">
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.humidity"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{sun.humidity}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.soreness"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{sun.soreness}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.oiliness"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{sun.oiliness}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.oil.impurity"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{sun.oilImpurity}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.acid.value"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{sun.acid}}
+                        </td>
+                    </tr>
+
+                </template>
                 <template v-for="oil in analyses.oil">
                     <tr>
                         <td>

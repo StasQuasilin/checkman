@@ -14,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ import java.util.List;
 @WebServlet(Branches.UI.VEHICLE_MODAL)
 public class VehicleInput extends IModal {
     
-    static final Logger log = Logger.getLogger(VehicleInput.class); 
+    static final Logger log = Logger.getLogger(VehicleInput.class);
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,9 +36,8 @@ public class VehicleInput extends IModal {
             }
 
             if (body.containsKey(Constants.VEHICLE_ID)) {
-                long vehicleId = (long) body.get(Constants.VEHICLE_ID);
-                vehicle = hibernator.get(Vehicle.class, "id", vehicleId);
-                log.info("Vehicle: " + vehicleId);
+                vehicle = hibernator.get(Vehicle.class, "id",  body.get(Constants.VEHICLE_ID));
+                log.info("Vehicle: " + vehicle.getId());
             } else {
                 vehicle = new Vehicle();
                 List<String> strings = Parser.parseVehicle(String.valueOf(body.get(Constants.KEY)));
@@ -49,11 +47,11 @@ public class VehicleInput extends IModal {
                     log.info("\t...Model: " + vehicle.getModel());
                 }
                 if (strings.size() > 1) {
-                    vehicle.setNumber(strings.get(1));
+                    vehicle.setNumber((strings.get(1)));
                     log.info("\t...Number: " + vehicle.getNumber());
                 }
                 if (strings.size() > 2) {
-                    vehicle.setTrailer(strings.get(2));
+                    vehicle.setTrailer((strings.get(2)));
                     log.info("\t...Trailer: " + vehicle.getTrailer());
                 }
             }

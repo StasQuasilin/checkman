@@ -19,6 +19,8 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
                         if (onSuccess) {
                             onSuccess(xhr.responseText);
                         }
+                    }else if (xhr.status === 401) {
+                        location.reload();
                     } else if (onError) {
                         onError(xhr.status + ':' + xhr.statusText);
                     } else {

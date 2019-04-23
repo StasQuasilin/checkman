@@ -25,26 +25,36 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.References.FIND_DRIVER)
 public class FindDriverAPI extends IAPI{
 
-    final JSONArray array = new JSONArray();
+
     final Logger log = Logger.getLogger(FindDriverAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        String key = (String) body.get(Constants.KEY);
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            final JSONArray array = new JSONArray();
+            String key = (String) body.get(Constants.KEY);
+            key = key.trim().replaceAll("  ", " ");
+            log.info("Find driver \'" + key + "\'");
 
-        HashMap<Integer, Driver> result = new HashMap<>();
 
-        find("person/forename", key, result);
-        find("person/surname", key, result);
-        find("person/patronymic", key, result);
+            HashMap<Integer, Driver> result = new HashMap<>();
 
-        array.addAll(result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new)));
+            for (String s : key.split(" ")){
+                find("person/forename", s, result);
+                find("person/surname", s, result);
+                find("person/patronymic", s, result);
+            }
 
-        write(resp, array.toJSONString());
+            array.addAll(result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new)));
 
-        body.clear();
-        array.clear();
+            write(resp, array.toJSONString());
+
+            body.clear();
+            array.clear();
+        } else {
+            write(resp, emptyBody);
+        }
     }
     synchronized void find(String key, String value, HashMap<Integer, Driver> result){
         for (Driver driver : hibernator.find(Driver.class, key, value)){

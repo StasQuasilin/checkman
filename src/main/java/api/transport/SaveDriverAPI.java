@@ -31,52 +31,56 @@ public class SaveDriverAPI extends IAPI{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         System.out.println(body);
         Driver driver;
 
-        if(body.containsKey(Constants.ID)){
-            long id = Long.parseLong( String.valueOf(body.get(Constants.ID)));
-            driver = hibernator.get(Driver.class, "id", id);
-            logger.info("Edit vehicle " + driver.getId() + "...");
+        if (body != null) {
+            if (body.containsKey(Constants.ID)) {
+                long id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
+                driver = hibernator.get(Driver.class, "id", id);
+                logger.info("Edit vehicle " + driver.getId() + "...");
+            } else {
+                driver = new Driver();
+                driver.setPerson(new Person());
+                logger.info("Create new driver...");
+            }
+
+            driver.getPerson().setSurname(String.valueOf(body.get(Constants.Person.SURNAME)));
+            logger.info("\t...Surname:" + driver.getPerson().getSurname());
+
+            driver.getPerson().setForename(String.valueOf(body.get(Constants.Person.FORENAME)));
+            logger.info("\t...Forename:" + driver.getPerson().getForename());
+
+            driver.getPerson().setPatronymic(String.valueOf(body.get(Constants.Person.PATRONYMIC)));
+            logger.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
+
+            if ((body.containsKey(Constants.Vehicle.TRANSPORTER_ID))) {
+                long id = (long) body.get(Constants.Vehicle.TRANSPORTER_ID);
+                Organisation organisation = hibernator.get(Organisation.class, "id", id);
+                driver.setOrganisation(organisation);
+                logger.info("\t...Organisation: \'" + driver.getOrganisation().getValue() + "\'");
+            }
+
+            hibernator.save(driver.getPerson(), driver);
+
+            long transportationId = -1;
+
+            if (body.containsKey(Constants.TRANSPORTATION_ID)) {
+                transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
+            }
+            if (transportationId != -1) {
+                Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+                transportation.setDriver(driver);
+                hibernator.save(transportation);
+                logger.info("Put in transportation " + transportation.getId());
+            }
+
+            write(resp, JsonParser.toJson(driver).toJSONString());
+            body.clear();
         } else {
-            driver = new Driver();
-            driver.setPerson(new Person());
-            logger.info("Create new driver...");
+            write(resp, emptyBody);
         }
-
-        driver.getPerson().setSurname(String.valueOf(body.get(Constants.Person.SURNAME)));
-        logger.info("\t...Surname:" + driver.getPerson().getSurname());
-
-        driver.getPerson().setForename(String.valueOf(body.get(Constants.Person.FORENAME)));
-        logger.info("\t...Forename:" + driver.getPerson().getForename());
-
-        driver.getPerson().setPatronymic(String.valueOf(body.get(Constants.Person.PATRONYMIC)));
-        logger.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
-
-        if ((body.containsKey(Constants.Vehicle.TRANSPORTER_ID))) {
-            long id = (long) body.get(Constants.Vehicle.TRANSPORTER_ID);
-            Organisation organisation = hibernator.get(Organisation.class, "id", id);
-            driver.setOrganisation(organisation);
-            logger.info("\t...Organisation: \'" + driver.getOrganisation().getValue() + "\'");
-        }
-
-        hibernator.save(driver.getPerson(), driver);
-
-        long transportationId = -1;
-
-        if (body.containsKey(Constants.TRANSPORTATION_ID)) {
-            transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
-        }
-        if (transportationId != -1) {
-            Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
-            transportation.setDriver(driver);
-            hibernator.save(transportation);
-            logger.info("Put in transportation " + transportation.getId());
-        }
-
-        write(resp, JsonParser.toJson(driver).toJSONString());
-        body.clear();
 
     }
 }

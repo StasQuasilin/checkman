@@ -12,7 +12,13 @@
 
 </head>
 <body>
-<div id="app">
+
+<style>
+    input.error{
+        border-color: orangered;
+    }
+</style>
+<div id="login">
     <div class="coverlet" v-show="cover"></div>
     <div class="wrapper">
         <div class="content">
@@ -35,7 +41,7 @@
                     </td>
                     <td>
                         <div>
-                            <input id="worker" autocomplete="off" v-model="worker" v-on:keyup="findUser()">
+                            <input id="worker" autocomplete="off" v-model="worker" :class="{error : errors.user}" v-on:keyup="findUser()">
                             <div class="custom-data-list">
                                 <div class="custom-data-list-item" v-for="user in foundUsers" v-on:click="setUser(user)">
                                     {{user.person.value}}
@@ -54,13 +60,13 @@
                         :
                     </td>
                     <td>
-                        <input id="key" type="password" v-model="user.password">
+                        <input id="key" type="password" v-model="user.password" :class="{error : errors.password}">
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
                         <a><fmt:message key="forgot"/>...</a>
-                        <button v-on:click="signin"><fmt:message key="sign.in"/></button>
+                        <button v-on:click="signIn"><fmt:message key="sign.in"/></button>
                     </td>
                 </tr>
                 <tr>
@@ -74,12 +80,12 @@
     </div>
 </div>
 
-
-</body>
 <script src="${context}/vue/SignIn.js"></script>
 <script>
     context = '${context}';
     login.api.find = '${userApi}';
     login.api.signin = '${loginApi}';
 </script>
+</body>
+
 </html>

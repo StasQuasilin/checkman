@@ -82,10 +82,10 @@ button:focus, input:focus{
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 0;
 }
 ::-webkit-scrollbar-track {
-    background: gray;
+    background: transparent;
 }
 ::-webkit-scrollbar-thumb {
     background: #fbba00;

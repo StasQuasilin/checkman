@@ -51,8 +51,8 @@ public class Parser {
         return result;
     }
 
-    static String prettyNumber(String number){
-        number = number.replaceAll(" ", "");
+    public static String prettyNumber(String number){
+        number = number.toUpperCase().replaceAll(" ", "");
         StringBuilder builder = new StringBuilder();
 
         Pattern pattern = Pattern.compile("^[A-ZА-Я]{0,3}");
@@ -64,17 +64,19 @@ public class Parser {
             number = number.replaceAll(group, "");
         }
 
-        pattern = Pattern.compile("\\d*");
+        pattern = Pattern.compile("\\d*\\-?\\d*");
         matcher = pattern.matcher(number);
         if (matcher.find()){
             String group = matcher.group();
+            number = number.replaceAll(group, "");
+            group = group.replaceAll("\\D", "");
             int d = Math.round(1f * group.length() / 2);
 
             builder.append(group.substring(0, d)).append('-').append(group.substring(d));
-            number = number.replaceAll(group, "");
+
         }
 
-        pattern = Pattern.compile("^[A-ZА-Я]{2,3}");
+        pattern = Pattern.compile("^[A-ZА-Я]{0,3}");
         matcher = pattern.matcher(number);
         if (matcher.find()){
             String group = matcher.group();
@@ -85,8 +87,7 @@ public class Parser {
     }
 
     public static void main(String[] args) throws IOException {
-        Integer i = new Integer(10);
-        System.out.println(i.toString() == i.toString());
+        System.out.println(prettyNumber("АМ 15-65 АА"));
     }
 
 

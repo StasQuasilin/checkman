@@ -217,7 +217,7 @@
         <td>
             :
         </td>
-        <td>
+        <td style="width: 180px">
             <button v-if="timeIn">
                 {{(timeIn).toLocaleTimeString() + ', ' +
                 (timeIn).toLocaleDateString()}}

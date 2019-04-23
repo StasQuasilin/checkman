@@ -193,7 +193,12 @@ var logistic = new Vue({
         parseDriver:function(value){
             var p = {};
             p.transportation_id = value.item.transportation.id;
-            p.key = value.driverInput;
+            if (value.item.transportation.driver.id){
+                p.driver_id = value.item.transportation.driver.id;
+            }
+            if (value.driverInput) {
+                p.key = value.driverInput;
+            }
             loadModal(this.api.driverInput, p);
         },
         contextMenu:function(title, id, field){

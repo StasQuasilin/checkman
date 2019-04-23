@@ -23,9 +23,13 @@
     function saveModal(result){
         for (var a in saveEvents){
             if (saveEvents.hasOwnProperty(a)){
-                saveEvents[a](result)
+                var save = saveEvents[a];
+                if (typeof save === 'function') {
+                    save(result)
+                }
             }
         }
+        saveEvents = []
     }
 </script>
 <link rel="stylesheet" href="${context}/css/ModalView.css">

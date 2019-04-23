@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.annotations.common.util.impl.Log;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.Parser;
 import utils.PostUtil;
 import utils.U;
 import utils.answers.SuccessAnswer;
@@ -43,13 +44,13 @@ public class SaveVehicleAPI extends IAPI{
                 vehicle = new Vehicle();
                 logger.info("Create new vehicle...");
             }
-            vehicle.setModel(String.valueOf(body.get(Constants.Vehicle.MODEL)));
+            vehicle.setModel(String.valueOf(body.get(Constants.Vehicle.MODEL)).toUpperCase());
             logger.info("\t...Model: " + vehicle.getModel());
 
-            vehicle.setNumber(String.valueOf(body.get(Constants.Vehicle.NUMBER)));
+            vehicle.setNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.NUMBER))));
             logger.info("\t...Number: " + vehicle.getNumber());
 
-            vehicle.setTrailer(String.valueOf(body.get(Constants.Vehicle.TRAILER)));
+            vehicle.setTrailer(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.TRAILER))));
             logger.info("\t...Trailer: " + vehicle.getTrailer());
 
             if (body.containsKey(Constants.Vehicle.TRANSPORTER_ID)) {

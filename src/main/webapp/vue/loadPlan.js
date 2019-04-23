@@ -26,7 +26,7 @@ var plan = new Vue({
             var msgs = [];
             var total = this.totalPlan();
             if (total > this.quantity) {
-                msgs.push('Объем по сделке будет увеличен на ' + (total - this.quantity).toLocaleString() + ' ' + this.unit + '!');
+                msgs.push('Объем по сделке будет увеличен на ' + (total - this.quantity).toLocaleString() + '&nbsp;' + this.unit + '!');
             }
             return msgs;
         },
@@ -189,11 +189,9 @@ var plan = new Vue({
         findDriver:function(input){
             if (input) {
                 clearTimeout(this.fnd);
-                var param = {};
-                param.key = input;
                 const self = this;
                 this.fnd = setTimeout(function () {
-                    PostApi(self.api.findDriverAPI, param, function (a) {
+                    PostApi(self.api.findDriverAPI, {key : input}, function (a) {
                         self.findDrivers = a;
                     })
                 }, 500)
@@ -263,6 +261,18 @@ var plan = new Vue({
             this.plans.sort(function(a, b){
                 return new Date(a.item.date) - new Date(b.item.date)
             })
+        },
+        different:function(w, plan){
+            var netto = this.weighs(w);
+            if (netto > 0  && netto !== plan){
+                var d = netto - plan;
+                if (d > 0) {
+                    d = '+' + (d).toLocaleString();
+                } else {
+                    d = (d).toLocaleString();
+                }
+                return '(' + d + ')';
+            }
         }
     }
 });

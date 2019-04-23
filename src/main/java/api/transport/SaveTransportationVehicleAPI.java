@@ -4,6 +4,7 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.answers.IAnswer;
+import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
@@ -24,22 +25,44 @@ import java.util.HashMap;
  */
 @WebServlet(Branches.API.SAVE_TRANSPORTATION_VEHICLE)
 public class SaveTransportationVehicleAPI extends IAPI {
-    final String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
 
-        long transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
-        long vehicleId = (long) body.get(Constants.VEHICLE_ID);
+        if (body != null) {
+            long transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
+            long vehicleId = (long) body.get(Constants.VEHICLE_ID);
+            Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+            Vehicle vehicle = hibernator.get(Vehicle.class, "id", vehicleId);
+            Driver driver = transportation.getDriver();
+            if (driver != null) {
+                if (driver.getVehicle() == null){
+                    driver.setVehicle(vehicle);
+                    hibernator.save(driver);
+                }
+            }
+            transportation.setVehicle(vehicle);
+            hibernator.save(transportation);
 
-        Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
-        Vehicle vehicle = hibernator.get(Vehicle.class, "id", vehicleId);
-        transportation.setVehicle( vehicle);
-        hibernator.save(transportation);
+            write(resp, answer);
 
-        write(resp, answer);
+            body.clear();
+        } else {
+            write(resp, emptyBody);
+        }
 
-        body.clear();
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            Transportation transportation = hibernator.get(Transportation.class, "id", body.get(Constants.TRANSPORTATION_ID));
+            transportation.setVehicle(null);
+            hibernator.save(transportation);
+        } else {
+            write(resp, emptyBody);
+        }
     }
 }

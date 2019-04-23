@@ -63,6 +63,9 @@
                 </label>
             </td>
             <td>
+                :
+            </td>
+            <td>
                 <select id="type" v-model="deal.type">
                     <option v-for="type in types" :value="type.id">{{type.value}}</option>
                 </select>
@@ -71,8 +74,11 @@
         <tr>
             <td>
                 <label for="date">
-                    <fmt:message key="period"/>:
+                    <fmt:message key="period"/>
                 </label>
+            </td>
+            <td>
+                :
             </td>
             <td>
                 <input readonly style="width: 6em" v-model="new Date(deal.date).toLocaleDateString()" v-on:click="showDatePicker">
@@ -83,8 +89,11 @@
         <tr>
             <td>
                 <label for="contragent">
-                    <fmt:message key="deal.organisation"/>:
+                    <fmt:message key="deal.organisation"/>
                 </label>
+            </td>
+            <td>
+                :
             </td>
             <td>
                 <input id="contragent" autocomplete="off" style="width: 100%"
@@ -102,8 +111,11 @@
         <tr>
             <td>
                 <label for="realisation">
-                    <fmt:message key="deal.realisation"/>:
+                    <fmt:message key="deal.realisation"/>
                 </label>
+            </td>
+            <td>
+                :
             </td>
             <td>
                 <select id="realisation" v-model="deal.realisation">
@@ -118,6 +130,9 @@
                 </label>
             </td>
             <td>
+                :
+            </td>
+            <td>
                 <select id="product" v-model="deal.product">
                     <option v-for="product in products" :value="product.id">{{product.value}}</option>
                 </select>
@@ -128,6 +143,9 @@
                 <label for="quantity">
                     <fmt:message key="deal.quantity"/>
                 </label>
+            </td>
+            <td>
+                :
             </td>
             <td>
                 <input type="number" min="0" id="quantity" v-model="deal.quantity" :class="{error : errors.quantity}" autocomplete="off">
@@ -143,11 +161,25 @@
                 </label>
             </td>
             <td>
+                :
+            </td>
+            <td>
                 <input type="number" min="0" id="price" v-model="deal.price" :class="{error : errors.price}" autocomplete="off">
             </td>
         </tr>
         <tr>
-            <td colspan="2" align="center">
+            <td>
+                <fmt:message key="deal.amount"/>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                {{(deal.price * deal.quantity).toLocaleString()}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">
                 <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>
                 <button v-on:click="save()"><fmt:message key="button.save"/> </button>
             </td>
