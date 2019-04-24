@@ -37,6 +37,7 @@ public class ReferencesList extends IUIServlet {
                     break;
                 case organisations:
                     req.setAttribute("referenceContent", "organisationList.jsp");
+                    req.setAttribute("update", Branches.API.References.ORGANISATION_LIST);
                     break;
                 case products:
                     req.setAttribute("referenceContent", "productList.jsp");

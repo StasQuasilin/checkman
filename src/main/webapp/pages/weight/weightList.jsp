@@ -73,7 +73,7 @@
                     </span>
                 </div>
             </div>
-            <div style="display: inline-block; font-size: 10pt; width: 24em">
+            <div style="display: inline-block; font-size: 10pt; width: 28em">
                 <div>
                     <fmt:message key="transportation.automobile"/>:
                     <span>

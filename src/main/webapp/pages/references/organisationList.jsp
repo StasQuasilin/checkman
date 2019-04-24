@@ -4,5 +4,26 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-ORGANISATION LIST
+<script src="${context}/vue/referenceList.js"></script>
+<script>
+    referenceList.sort = function(){
+        this.items.sort(function(a, b){
+            return a.name.localeCompare(b.name);
+        })
+    };
+    referenceList.api.update='${update}';
+    referenceList.update();
+</script>
+<div id="referencesList" style="width: 100%">
+    <table>
+        <tr v-for="organisation in items">
+            <td>
+                {{organisation.name}}
+            </td>
+            <td>
+                {{organisation.type}}
+            </td>
+        </tr>
+    </table>
+</div>
 </html>

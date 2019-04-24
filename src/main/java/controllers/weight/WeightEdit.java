@@ -23,6 +23,7 @@ public class WeightEdit extends IModal {
         req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
         req.setAttribute("title", Constants.Titles.WEIGHT_EDIT);
         req.setAttribute("modalContent", "/pages/weight/weightEdit.jsp");
+        req.setAttribute("print", Branches.UI.PRINT_DOCUMENT);
         show(req, resp);
     }
 }

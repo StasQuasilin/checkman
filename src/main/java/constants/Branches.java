@@ -56,6 +56,7 @@ public class Branches {
         public static final String ARCHIVE_SHOW = "/archive/show/";
         public static final String PERSONAL = "/personal.j";
         public static final String WELCOME = "/welcome.j";
+        public static final String PRINT_DOCUMENT = "/weight/print.j";
 
 
         public class Extraction {
@@ -135,6 +136,7 @@ public class Branches {
             public static final String SAVE_VEHICLE =       API + "/vehicle/save";
             public static final String SAVE_DRIVER =        API + "/driver/save";
             public static final String FIND_WORKER =       "/a/worker/find";
+            public static final String ORGANISATION_LIST =  API + "/organisation/list";
         }
 
         public class Deal {

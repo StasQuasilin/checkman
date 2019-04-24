@@ -114,8 +114,8 @@
 
               <template v-else-if="value.vehicleEdit">
                 <div style="display: inline-block;">
-                  <input v-model="value.vehicleInput" style="width: 100%" v-on:keyup="findVehicle(value)"
-                         v-on:keyup.enter="parseVehicle(value)" onclick="this.select()">
+                  <input v-model="value.vehicleInput" style="width: 100%; border: none" v-on:keyup="findVehicle(value)"
+                         v-on:keyup.enter="parseVehicle(value)" onclick="this.select()" >
                   <div class="custom-data-list">
                     <div class="custom-data-list-item" v-for="vehicle in vehicleFind"
                          v-on:click="setVehicle(value.item.transportation.id, vehicle.id, key)">
@@ -146,7 +146,7 @@
             <span class="edit-menu-header">
               &#9660;
               <div class="edit-menu">
-                <span v-on:click="parseVehicle(value)">
+                <span v-on:click="parseDriver(value)">
                   <fmt:message key="edit"/>
                 </span>
                 <span v-on:click="deleteVehicle(value)">
@@ -157,7 +157,7 @@
           </span>
               <template v-else-if="value.driverEdit">
                 <div style="display: inline-block; width: 85%">
-                  <input v-model="value.driverInput" style="width: 100%" v-on:keyup="findDriver(value)"
+                  <input v-model="value.driverInput" style="width: 100%; border: none" v-on:keyup="findDriver(value)"
                          v-on:keyup.enter="parseDriver(value)">
                   <div class="custom-data-list" v-show="driverFind">
                     <div class="custom-data-list-item" v-for="driver in driverFind"
@@ -176,14 +176,6 @@
 
           </div>
         </div>
-      </div>
-    </div>
-    <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
-      <div v-bind:style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-        <div class="custom-data-list-item" style="font-weight: bold">{{menu.title}}</div>
-        <div class="custom-data-list-item"><fmt:message key="transportation.new"/></div>
-        <div class="custom-data-list-item"><fmt:message key="edit"/></div>
-        <div class="custom-data-list-item"><fmt:message key="button.delete"/></div>
       </div>
     </div>
   </div>

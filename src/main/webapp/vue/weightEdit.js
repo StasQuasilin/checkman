@@ -2,7 +2,8 @@ var editor = new Vue({
     el: '#editor',
     data:{
         api:{
-            saveWeightAPI:''
+            saveWeightAPI:'',
+            print:''
         },
         id:'',
         weights:[],
@@ -75,6 +76,16 @@ var editor = new Vue({
         },
         checkTonnas:function(value){
             return value < 1000 ? value : value / 1000;
+        },
+        print:function(){
+            PostReq(this.api.print, {id: this.id }, function(a){
+                var print = window.open()
+                print.document.write('<html>');
+                print.document.write(a)
+                print.document.write('</html>');
+                print.print();
+                print.close();
+            })
         }
 
     }

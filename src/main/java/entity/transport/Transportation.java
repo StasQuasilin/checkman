@@ -188,4 +188,13 @@ public class Transportation extends IDocument{
         hash = 31 * Boolean.hashCode(archive) + hash;
         return hash;
     }
+
+    @Transient
+    public float getWeight() {
+        float netto = 0;
+        for (Weight weight : weights) {
+            netto += weight.getNetto();
+        }
+        return netto;
+    }
 }

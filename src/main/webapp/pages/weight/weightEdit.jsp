@@ -10,6 +10,7 @@
 <script src="${context}/vue/weightEdit.js"></script>
 <script>
     editor.api.saveWeightAPI = '${saveWeightAPI}';
+    editor.api.print = '${print}';
     editor.id=${plan.id}
     <c:forEach items="${plan.transportation.weights}" var="weight">
     editor.addWeight(${weight.id}, ${weight.brutto}, ${weight.tara});
@@ -71,7 +72,7 @@
         width: 50%
     }
 </style>
-<table border="0" id="editor" >
+<table border="1" id="editor" >
     <tr>
         <td rowspan="2">
             <table class="editor" border="0">
@@ -232,6 +233,9 @@
                     <td colspan="3" align="center">
                         <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>
                         <button v-on:click="save"><fmt:message key="button.save"/> </button>
+                        <button v-on:click="print()">
+                            <fmt:message key="document.print"/>
+                        </button>
                     </td>
                 </tr>
             </table>

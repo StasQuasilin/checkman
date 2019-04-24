@@ -398,6 +398,14 @@ public class JsonParser {
         return array;
     }
 
+    public static JSONArray toJson(Collection<Organisation> values) {
+        JSONArray array = new JSONArray();
+        for (Organisation organisation : values){
+            array.add(toJson(organisation));
+        }
+        return array;
+    }
+
     public static class Laboratory {
         public static class Extraction {
             public static JSONObject toJson(ExtractionTurn turn) {
