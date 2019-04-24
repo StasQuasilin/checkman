@@ -169,27 +169,29 @@
             :
         </td>
         <td>
-            <c:choose>
-                <c:when test="${not empty plan.transportation.vehicle.id }">
-                    <span>
-                        ${plan.transportation.vehicle.model}
-                    </span>
+            <div>
+                <c:choose>
+                    <c:when test="${not empty plan.transportation.vehicle.id }">
+                        <span>
+                            ${plan.transportation.vehicle.model}
+                        </span>
 
-                    <div style="display: inline-block; font-size: 10pt">
-                        <div>
-                            '${plan.transportation.vehicle.number}'
-                        </div>
-                        <c:if test="${not empty plan.transportation.vehicle.trailer}">
+                        <div style="display: inline-block; font-size: 10pt">
                             <div>
-                                '${plan.transportation.vehicle.trailer}'
+                                '${plan.transportation.vehicle.number}'
                             </div>
-                        </c:if>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <fmt:message key="no.data"/>
-                </c:otherwise>
-            </c:choose>
+                            <c:if test="${not empty plan.transportation.vehicle.trailer}">
+                                <div>
+                                    '${plan.transportation.vehicle.trailer}'
+                                </div>
+                            </c:if>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <fmt:message key="no.data"/>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </td>
     </tr>
     <tr>
