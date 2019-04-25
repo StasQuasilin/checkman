@@ -22,7 +22,7 @@ public class Branches {
         public static final String TRANSPORT_SHOW = "/transport/show.j";
         public static final String TRANSPORT_EDIT = "/transport/edit.j";
         public static final String WEIGHT_LIST = "/weight/list.j";
-        public static final String WEIGHT_EDIT = "/weight/edit.j";
+        public static final String WEIGHT_PUT = "/weight/edit.j";
         public static final String WEIGHT_ADD = "/weight/add.j";
 
         public static final String HOME = APPLICATION;
@@ -57,6 +57,7 @@ public class Branches {
         public static final String PERSONAL = "/personal.j";
         public static final String WELCOME = "/welcome.j";
         public static final String PRINT_DOCUMENT = "/weight/print.j";
+        public static final String WEIGHT_CANCEL = "/weight/cancel.j";
 
 
         public class Extraction {
@@ -121,6 +122,8 @@ public class Branches {
         public static final String PLAN_LIST_ADD =      API + "/plan/add";
         public static final String BOT_SETTINGS =       API + "/bot/settings";
         public static final String BOT_STATUS =         API + "/bot/status";
+        public static final String WEIGHT_CANCEL =      API + "/weight/cancel";
+        public static final String CHANGE_DATE =        API + "/logistic/change/date";
 
 
         public class References {

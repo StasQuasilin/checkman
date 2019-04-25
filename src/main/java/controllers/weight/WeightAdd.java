@@ -1,12 +1,16 @@
 package controllers.weight;
 
 import constants.Branches;
+import constants.Constants;
 import controllers.IModal;
 import entity.DealType;
 import entity.Product;
 import entity.documents.DocumentOrganisation;
+import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
 import entity.weight.WeightUnit;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +25,29 @@ import java.io.IOException;
 public class WeightAdd extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", "title.weight.add");
+        JSONObject body = PostUtil.parseBodyJson(req);
+        long id = -1;
+        long copy = -1;
+        if (body != null) {
+            if (body.containsKey(Constants.ID)) {
+                id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
+            } else if (body.containsKey(Constants.COPY)) {
+                copy = Long.parseLong(String.valueOf(body.get(Constants.COPY)));
+            }
+
+        }
+        if (id != -1) {
+            req.setAttribute("plan", hibernator.get(LoadPlan.class, "id", id));
+            req.setAttribute("title", "title.weight.edit");
+        } else if (copy != -1) {
+            LoadPlan plan = hibernator.get(LoadPlan.class, "id", copy);
+            plan.setId(-1);
+            req.setAttribute("plan", plan);
+            req.setAttribute("title", "title.weight.copy");
+        } else {
+            req.setAttribute("title", "title.weight.add");
+        }
+
         req.setAttribute("modalContent", "/pages/weight/weightAdd.jsp");
         req.setAttribute("findOrganisations", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);

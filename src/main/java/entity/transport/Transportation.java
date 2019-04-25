@@ -148,6 +148,17 @@ public class Transportation extends IDocument{
         this.archive = archive;
     }
 
+    @Transient
+    public boolean anyAction(){
+        return
+            timeIn != null ||
+            timeOut != null ||
+            weights.size() > 0 ||
+            sunAnalyses.size() > 0 ||
+            oilAnalyses.size() > 0 ||
+            cakeAnalyses.size() > 0;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -185,6 +196,7 @@ public class Transportation extends IDocument{
             hash = 31 * seal.getNumber().hashCode() + hash;
         }
 
+        hash = 31 * Boolean.hashCode(anyAction()) + hash;
         hash = 31 * Boolean.hashCode(archive) + hash;
         return hash;
     }

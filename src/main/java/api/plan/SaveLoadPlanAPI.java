@@ -108,17 +108,31 @@ public class SaveLoadPlanAPI extends IAPI{
 
                 transportation.setDocumentOrganisation(loadPlan.getDocumentOrganisation());
 
+                long vehicleId = -1;
                 if (json.containsKey("vehicle")) {
-                    long vehicleId = (long) json.get("vehicle");
+                    vehicleId = (long) json.get("vehicle");
+                }
+
+                if (vehicleId != -1) {
                     log.info("\t...Vehicle: \'" + vehicleId + "\'");
                     transportation.setVehicle(hibernator.get(Vehicle.class, "id", vehicleId));
                     save = true;
+                } else if (transportation.getVehicle() != null) {
+                    transportation.setVehicle(null);
+                    save = true;
                 }
 
+                long driverId = -1;
                 if (json.containsKey("driver")) {
-                    long driverId = (long) json.get("driver");
+                    driverId = (long) json.get("driver");
+                }
+
+                if (driverId != -1) {
                     log.info("\t...Driver: \'" + driverId + "\'");
                     transportation.setDriver(hibernator.get(Driver.class, "id", driverId));
+                    save = true;
+                } else if (transportation.getDriver() != null){
+                    transportation.setDriver(null);
                     save = true;
                 }
 
@@ -129,7 +143,12 @@ public class SaveLoadPlanAPI extends IAPI{
 
             for (LoadPlan loadPlan : planHashMap.values()) {
                 if (!loadPlan.getTransportation().isArchive()) {
-                    hibernator.remove(loadPlan, loadPlan.getTransportation());
+                    if (loadPlan.getTransportation().anyAction()) {
+                        loadPlan.setCanceled(true);
+                        hibernator.save(loadPlan);
+                    } else {
+                        hibernator.remove(loadPlan, loadPlan.getTransportation());
+                    }
                 }
             }
 

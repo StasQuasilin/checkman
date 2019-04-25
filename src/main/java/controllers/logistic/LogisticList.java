@@ -30,6 +30,7 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("vehicleInput", Branches.UI.VEHICLE_MODAL);
         req.setAttribute("driverInput", Branches.UI.DRIVER_MODAL);
         req.setAttribute("vehicleDriverInput", Branches.UI.VEHICLE_DRIVER_MODAL);
+        req.setAttribute("changeDate", Branches.API.CHANGE_DATE);
         req.setAttribute("content", "/pages/logistic/logisticList.jsp");
         req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
         show(req, resp);

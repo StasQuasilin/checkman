@@ -32,23 +32,70 @@
         id:${unit.id},
         value:'${unit.name}'
     });
-    editor.plan.unit = editor.units[0].id;
     </c:forEach>
     <c:forEach items="${documentOrganisations}" var="d">
     editor.visibles.push(
         '${d.value}'
     );
     </c:forEach>
-    editor.plan.from = editor.visibles[0];
     <c:forEach items="${customers}" var="customer">
     editor.customers['${customer}'] = {
         id:'${customer}',
         value:'<fmt:message key="${customer}"/>'
     };
-    if(!editor.plan.customer){
-        editor.plan.customer = '${customer}';
-    }
     </c:forEach>
+    <c:choose>
+    <c:when test="${plan ne null}">
+    editor.plan = {
+        id:${plan.id},
+        type:'${plan.deal.type}',
+        date:'${plan.date}',
+        deal:${plan.deal.id},
+        organisation:${plan.deal.organisation.id},
+        product:${plan.deal.product.id},
+        plan:${plan.plan},
+        from:'${plan.deal.documentOrganisation.value}',
+        price:${plan.deal.price},
+        unit:${plan.deal.unit.id},
+        customer:'${plan.customer}',
+        vehicle:${plan.transportation.vehicle.id},
+        driver:${plan.transportation.driver.id}
+    };
+    editor.input.organisation = '${plan.deal.organisation.value}';
+    editor.input.vehicle = '${plan.transportation.vehicle.model} ${plan.transportation.vehicle.number} ${plan.transportation.vehicle.trailer}';
+    editor.input.driver = '${plan.transportation.driver.person.value}';
+    editor.deals.push({
+        id:${plan.deal.id},
+        type:'${plan.deal.type}',
+        date:'${plan.deal.date}',
+        date_to:'${plan.deal.dateTo}',
+        product:{
+            id:${plan.deal.product.id},
+            name:'${plan.deal.product.name}'
+        },
+        visibility:'${plan.deal.documentOrganisation.value}',
+        unit:${plan.deal.unit.id},
+        price:${plan.deal.price}
+    })
+    </c:when>
+    <c:otherwise>
+    editor.plan = {
+        type:'sell',
+        date:new Date().toISOString().substring(0, 10),
+        deal:-1,
+        organisation:-1,
+        product:-1,
+        plan:20,
+        from:editor.visibles[0],
+        price:0,
+        unit:editor.units[0].id,
+        customer:'${customer}',
+        vehicle:-1,
+        driver:-1
+    }
+    </c:otherwise>
+    </c:choose>
+
 </script>
 <table id="editor" class="editor">
     <tr>
@@ -116,7 +163,7 @@
                 <option value="-1"><fmt:message key="deal.new"/></option>
                 <optgroup  v-for="deal in deals" :label="new Date(deal.date).toLocaleDateString().substring(0, 5) +'-' + new Date(deal.date_to).toLocaleDateString().substring(0, 5)">
                     <option :value="deal.id">
-                        {{types[deal.type].value}} {{deal.product.name}}
+                        {{new Date(deal.date).toLocaleDateString().substring(0, 5)}} - {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}
                     </option>
                 </optgroup>
             </select>
@@ -148,7 +195,7 @@
             :
         </td>
         <td>
-            <input id="quantity" type="number" v-model="plan.plan">
+            <input id="quantity" type="number" v-model.number="plan.plan">
             <c:set var="units"><fmt:message key="units"/></c:set>
             <select title="${units}" v-model="plan.unit">
                 <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>

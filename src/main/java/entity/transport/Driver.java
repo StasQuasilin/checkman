@@ -15,6 +15,7 @@ public class Driver {
     private Person person;
     private Organisation organisation;
     private Vehicle vehicle;
+    private String license;
 
     @Id
     @GeneratedValue
@@ -50,6 +51,15 @@ public class Driver {
     }
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    @Basic
+    @Column(name = "license")
+    public String getLicense() {
+        return license;
+    }
+    public void setLicense(String license) {
+        this.license = license;
     }
 
     @Override

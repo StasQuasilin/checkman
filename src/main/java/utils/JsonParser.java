@@ -141,6 +141,7 @@ public class JsonParser {
             json.put("hash", transportation.hashCode());
             json.put("weights", toJson(transportation.getWeights()));
             json.put("analyses", toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
+            json.put("any", transportation.anyAction());
             json.put("archive", transportation.isArchive());
         }
         return json;

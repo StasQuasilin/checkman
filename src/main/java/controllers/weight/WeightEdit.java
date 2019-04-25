@@ -14,12 +14,14 @@ import java.io.IOException;
 /**
  * Created by szpt_user045 on 19.03.2019.
  */
-@WebServlet(Branches.UI.WEIGHT_EDIT)
+@WebServlet(Branches.UI.WEIGHT_PUT)
 public class WeightEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         int id = Integer.parseInt(req.getParameter(Constants.ID));
         req.setAttribute("plan", hibernator.get(LoadPlan.class, "id", id));
+        req.setAttribute("title", "title.weight.insert");
         req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
         req.setAttribute("title", Constants.Titles.WEIGHT_EDIT);
         req.setAttribute("modalContent", "/pages/weight/weightEdit.jsp");

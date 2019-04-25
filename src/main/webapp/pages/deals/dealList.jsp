@@ -18,11 +18,12 @@
 <div id="container-header" class="container-header">
   <button onclick="loadModal('${editLink}')"><fmt:message key="button.add"/> </button>
 </div>
-<div class="container" id="container" >
-  <div v-for="(value, key) in filteredItems()" :key="key" :id="value.item.id"
-       class="container-item" :class="rowName(value.item.date)" v-on:click="show(value.item.id)"
-       v-on:click.right="contextMenu(value.item.id)">
-    <div style="display: inline-block; border-right: solid gray 1.2pt; padding: 2pt 4pt;" >
+<div id="container" >
+  <transition-group name="flip-list" tag="div" class="container" >
+    <div v-for="(value, key) in filteredItems()" :key="value.item.id" :id="value.item.id"
+         class="container-item" :class="rowName(value.item.date)" v-on:click="show(value.item.id)"
+         v-on:click.right="contextMenu(value.item.id)">
+      <div style="display: inline-block; border-right: solid gray 1.2pt; padding: 2pt 4pt;" >
       <span>
         {{new Date(value.item.date).toLocaleDateString()}}<br>
         <template v-if="value.item.date !== value.item.date_to">
@@ -32,9 +33,9 @@
           &nbsp;
         </template>
       </span>
-    </div>
-    <div style="width: 87%; display: inline-block">
-      <div class="row upper-row">
+      </div>
+      <div style="width: 87%; display: inline-block">
+        <div class="row upper-row">
         <span style="width: 35%">
           <fmt:message key="deal.organisation"/>:
           <b>
@@ -50,42 +51,44 @@
         <span style="width: 30%">
           <fmt:message key="deal.manager"/>:
           <b>
-          {{value.item.creator.person.value}}
+            {{value.item.creator.person.value}}
           </b>
         </span>
-      </div>
-      <div class="row" style="font-size: 10pt">
+        </div>
+        <div class="row" style="font-size: 10pt">
         <span>
           <fmt:message key="deal.product"/>:
           <b>
-          {{value.item.product.name}}
+            {{value.item.product.name}}
           </b>
         </span>
         <span>
           <fmt:message key="deal.quantity"/>:
           <b>
-          {{value.item.quantity}}
-          {{value.item.unit}}
+            {{value.item.quantity}}
+            {{value.item.unit}}
           </b>
         </span>
         <span>
           <fmt:message key="deal.price"/>:
           <b>
-          {{(value.item.price).toLocaleString()}}
+            {{(value.item.price).toLocaleString()}}
           </b>
         </span>
         <span>
           <fmt:message key="deal.done"/>:
           <b>
-          {{(value.item.done).toLocaleString()}}
+            {{(value.item.done).toLocaleString()}}
             <%--{{value.item.unit}}--%>
           </b>
           ( {{(value.item.done / value.item.quantity * 100).toLocaleString() + ' %'}} ),
           {{(value.item.quantity-value.item.done).toLocaleString()}} <fmt:message key="deal.leave"/>
         </span>
+        </div>
       </div>
     </div>
-  </div>
+  </transition-group>
+
   <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
     <div v-bind:style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
       <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${editLink}')"><fmt:message key="menu.edit"/> </div>

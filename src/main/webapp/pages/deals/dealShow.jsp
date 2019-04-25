@@ -217,7 +217,7 @@
                                  v-model="value.vehicleInput"
                                   placeholder="${vehicleHolder}">
                           <div class="custom-data-list">
-                            <div v-for="vehicle in findVehicles" class="custom-data-list-item" v-on:click="setVehicle(vehicle, key)">
+                            <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="setVehicle(vehicle, key)">
                               {{vehicle.model}}
                               '{{vehicle.number}}'
                               <template v-if="vehicle.trailer">
@@ -243,7 +243,7 @@
                                    v-model="value.driverInput"
                                     placeholder="${driverHolder}">
                             <div class="custom-data-list">
-                              <div v-for="driver in findDrivers" class="custom-data-list-item" v-on:click="setDriver(driver, key)">
+                              <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="setDriver(driver, key)">
                                 {{driver.person.value}}
                               </div>
                             </div>
@@ -253,6 +253,23 @@
                       <button v-else v-on:click="openDriverInput(value.item.id)">
                         <fmt:message key="transportation.driver"/>...
                       </button>
+                        <span v-if="value.item.transportation.vehicle.id ||
+                        value.item.transportation.driver.id" class="edit-menu-header">
+                          <div class="edit-menu">
+                            <span v-if="value.item.transportation.vehicle.id">
+                              <fmt:message key="vehicle.edit"/>
+                            </span>
+                            <span v-if="value.item.transportation.driver.id">
+                              <fmt:message key="driver.edit"/>
+                            </span>
+                            <span v-on:click="cancel(key)">
+                              <fmt:message key="menu.cancel"/>
+                            </span>
+                          </div>
+                          <span class="arrow">
+                            &#9660;
+                          </span>
+                        </span>
                     </div>
                   </div>
                 </transition-group>

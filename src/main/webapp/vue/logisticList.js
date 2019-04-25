@@ -11,7 +11,8 @@ var logistic = new Vue({
             update:'',
             save:'',
             saveTransportationVehicleApi:'',
-            saveTransportationDriverApi:''
+            saveTransportationDriverApi:'',
+            changeDate:''
         },
         vehicleFind:{},
         driverFind:{},
@@ -35,6 +36,13 @@ var logistic = new Vue({
 
     },
     methods:{
+        changeDate:function(key, days){
+            var item = this.items[key].item;
+            var date = new Date(item.date);
+            date.setDate(date.getDate() + days);
+            item.date = date.toISOString().substring(0, 10);
+            PostApi(this.api.changeDate, {id: item.id, date: date.toISOString().substring(0, 10)})
+        },
         filteredItems:function(){
             if (typeof this.filter.filteredItems === 'function') {
                 return this.filter.filteredItems();

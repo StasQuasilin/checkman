@@ -150,13 +150,10 @@ var plan = new Vue({
         },
         findVehicle:function(input){
             clearTimeout(this.fnd);
-
-            var param = {};
-            param.key = input;
             const self = this;
             this.fnd = setTimeout(function(){
-                PostApi(self.api.findVehicleAPI, param, function(a){
-                    self.findVehicles = a;
+                PostApi(self.api.findVehicleAPI, {key : input}, function(a){
+                    self.foundVehicles = a;
                 })
             }, 500)
         },
@@ -207,6 +204,10 @@ var plan = new Vue({
             loadModal(this.api.editDriverAPI, parameters, function(a){
                 self.plans[key].item.transportation.driver = a;
             })
+        },
+        cancel:function(key){
+            this.setVehicle({}, key);
+            this.setDriver({}, key);
         },
         weighs:function(weights){
             var total = 0;
@@ -259,7 +260,7 @@ var plan = new Vue({
         },
         sort:function(){
             this.plans.sort(function(a, b){
-                return new Date(a.item.date) - new Date(b.item.date)
+                return new Date(b.item.date) - new Date(a.item.date)
             })
         },
         different:function(w, plan){

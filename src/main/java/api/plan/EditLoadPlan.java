@@ -2,6 +2,7 @@ package api.plan;
 
 import api.IAPI;
 import constants.Branches;
+import constants.Constants;
 import entity.DealType;
 import entity.Product;
 import entity.Worker;
@@ -28,7 +29,7 @@ import java.sql.Date;
  * Created by szpt_user045 on 19.04.2019.
  */
 @WebServlet(Branches.API.PLAN_LIST_ADD)
-public class AddLoadPlan extends IAPI {
+public class EditLoadPlan extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -57,28 +58,46 @@ public class AddLoadPlan extends IAPI {
             } else {
                 deal = hibernator.get(Deal.class, "id", dealId);
             }
+            long id = -1;
+            if (body.containsKey(Constants.ID)) {
+                id = (long) body.get(Constants.ID);
+            }
+            LoadPlan loadPlan;
+            Transportation transportation;
+            if (id != -1) {
+                loadPlan = hibernator.get(LoadPlan.class, "id", id);
+                transportation = loadPlan.getTransportation();
+            } else {
+                loadPlan = new LoadPlan();
+                transportation = new Transportation();
+                loadPlan.setTransportation(transportation);
+            }
 
-            LoadPlan loadPlan = new LoadPlan();
             loadPlan.setDate(date);
             loadPlan.setDeal(deal);
             loadPlan.setDocumentOrganisation(documentOrganisation);
             loadPlan.setPlan(plan);
             loadPlan.setCustomer(TransportCustomer.valueOf(String.valueOf(body.get("customer"))));
 
-            Transportation transportation = new Transportation();
-            transportation.setDocumentOrganisation(documentOrganisation);
+            if (!transportation.isArchive()) {
+                transportation.setDocumentOrganisation(documentOrganisation);
 
-            long vehicleId = (long) body.get("vehicle");
-            if (vehicleId != -1) {
-                transportation.setVehicle(hibernator.get(Vehicle.class, "id", vehicleId));
-            }
-            long driverId = (long) body.get("driver");
-            if (driverId != -1) {
-                transportation.setDriver(hibernator.get(Driver.class, "id", driverId));
+                long vehicleId = (long) body.get("vehicle");
+                if (vehicleId != -1) {
+                    transportation.setVehicle(hibernator.get(Vehicle.class, "id", vehicleId));
+                } else if (transportation.getVehicle() != null) {
+                    transportation.setVehicle(null);
+                }
+                long driverId = (long) body.get("driver");
+                if (driverId != -1) {
+                    transportation.setDriver(hibernator.get(Driver.class, "id", driverId));
+                } else if (transportation.getDriver() != null) {
+                    transportation.setDriver(null);
+                }
+
+                transportation.setCreator(creator);
             }
 
-            transportation.setCreator(creator);
-            loadPlan.setTransportation(transportation);
             hibernator.save(deal);
             hibernator.save(transportation, loadPlan);
             write(resp, answer);

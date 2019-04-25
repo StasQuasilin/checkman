@@ -17,6 +17,9 @@ input{
     border-radius: 8pt;
     padding: 0 6pt;
 }
+input.error{
+    border-color: orangered;
+}
 button:hover{
     box-shadow: 0 0 4pt 0 gray;
 }

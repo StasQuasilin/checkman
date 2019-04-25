@@ -17,20 +17,7 @@ var editor = new Vue({
         deals:[],
         visibles:[],
         customers:{},
-        plan:{
-            type:'sell',
-            date:new Date().toISOString().substring(0, 10),
-            deal:-1,
-            organisation:-1,
-            product:-1,
-            plan:20,
-            from:-1,
-            price:0,
-            unit:-1,
-            customer:'',
-            vehicle:-1,
-            driver:-1
-        },
+        plan:{},
         input:{
             organisation:'',
             vehicle:'',

@@ -3,32 +3,13 @@
     position: relative;
 }
 
-.edit-menu-header{
-    position: relative;
-    margin: 2pt;
-    color: #808080;
-}
-.edit-menu-header:hover .edit-menu{
-    display: block;
-}
-.edit-menu{
-    display: none;
-    position: absolute;
-    right: -2px;
-    top: 50%;
-    background-color: #909090;
-    padding: 1pt 4pt;
-    font-size: 8pt;
-    border-radius: 2pt;
-    box-shadow: 0 0 6px 4px white;
-    z-index: 1;
-}
-.edit-menu span{
-    color: #d1d1d1;
-    width: 100%;
-    display: inline-block;
-}
 
-.edit-menu span:hover{
-    color: #f0f0f0;
+.date-container .arrow{
+    visibility: hidden;
+}
+.date-container .arrow:hover{
+    text-shadow: 0 0 6px black;
+}
+.date-container:hover .arrow{
+    visibility: visible;
 }

@@ -21,6 +21,7 @@
     logistic.api.vehicleInput = '${vehicleInput}';
     logistic.api.driverInput = '${driverInput}';
     logistic.api.vehicleDriverInput = '${vehicleDriverInput}';
+    logistic.api.changeDate = '${changeDate}'
     logistic.api.update = '${update}';
     logistic.api.save = '${save}';
     logistic.loadItems();
@@ -29,11 +30,18 @@
       logistic.stop()
     }
   </script>
+<c:set var="dateLeft"><fmt:message key="date.left"/></c:set>
+<c:set var="dateRight"><fmt:message key="date.right"/></c:set>
   <div id="logistic">
-    <div v-for="(value, key) in filteredItems()" class="container-item" v-bind:class="rowName(value.item.date)">
-      <div class="upper-row">
-        <span>
-          {{new Date(value.item.date).toLocaleDateString()}}
+    <transition-group name="flip-list" tag="div" class="container">
+      <div v-for="(value, key) in filteredItems()" class="container-item" :class="rowName(value.item.date)" :key="value.item.id">
+        <div class="upper-row">
+        <span class="date-container">
+          <span title="${dateLeft}" class="arrow" v-on:click="changeDate(key, -1)">&#9664;</span>
+          <span>
+            {{new Date(value.item.date).toLocaleDateString()}}
+          </span>
+          <span title="${dateRight}" class="arrow" v-on:click="changeDate(key, 1)">&#9654;</span>
         </span>
 
         <span>
@@ -62,35 +70,35 @@
             {{value.item.realisation}}
           </b>
         </span>
-      </div>
-      <div class="lower-row" style="font-size: 10pt">
-        <div style="display: inline-block; ">
-          <div>
-            <fmt:message key="transportation.time.in"/>:
-            <b v-if="value.item.transportation.timeIn.id">
-              {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString()}}
-            </b>
-            <span v-else>
-              --:--:--
-            </span>
-          </div>
-          <div>
-            <fmt:message key="transportation.time.out"/>:
-            <b v-if="value.item.transportation.timeOut.id">
-              {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString()}}
-            </b>
-            <span v-else>
-              --:--:--
-            </span>
-          </div>
         </div>
+        <div class="lower-row" style="font-size: 10pt">
+          <div style="display: inline-block; ">
+            <div>
+              <fmt:message key="transportation.time.in"/>:
+              <b v-if="value.item.transportation.timeIn.id">
+                {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString()}}
+              </b>
+            <span v-else>
+              --:--:--
+            </span>
+            </div>
+            <div>
+              <fmt:message key="transportation.time.out"/>:
+              <b v-if="value.item.transportation.timeOut.id">
+                {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString()}}
+              </b>
+            <span v-else>
+              --:--:--
+            </span>
+            </div>
+          </div>
 
-        <div style="display: inline-block">
-          <div>
+          <div style="display: inline-block">
+            <div>
             <span class="transport-label">
               <fmt:message key="transportation.automobile"/>:
             </span>
-            <div class="content-item">
+              <div class="content-item">
               <span v-if="value.item.transportation.vehicle.id">
                 <b>{{value.item.transportation.vehicle.model}}</b>
                 <span class="vehicle-number">
@@ -111,36 +119,35 @@
                   </div>
                 </span>
               </span>
-
-              <template v-else-if="value.vehicleEdit">
-                <div style="display: inline-block;">
-                  <input v-model="value.vehicleInput" style="width: 100%; border: none" v-on:keyup="findVehicle(value)"
-                         v-on:keyup.enter="parseVehicle(value)" onclick="this.select()" >
-                  <div class="custom-data-list">
-                    <div class="custom-data-list-item" v-for="vehicle in vehicleFind"
-                         v-on:click="setVehicle(value.item.transportation.id, vehicle.id, key)">
-                      {{vehicle.model}}
+                <template v-else-if="value.vehicleEdit">
+                  <div style="display: inline-block;">
+                    <input v-model="value.vehicleInput" style="width: 100%; border: none" v-on:keyup="findVehicle(value)"
+                           v-on:keyup.enter="parseVehicle(value)" onclick="this.select()" >
+                    <div class="custom-data-list">
+                      <div class="custom-data-list-item" v-for="vehicle in vehicleFind"
+                           v-on:click="setVehicle(value.item.transportation.id, vehicle.id, key)">
+                        {{vehicle.model}}
                       <span>
                         '{{vehicle.number}}'
                       </span>
                       <span v-if="vehicle.trailer">
                         '{{vehicle.trailer}}'
                       </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <span class="mini-close" v-on:click="closeVehicleInput(key)" style="left: -22px">&times;</span>
-              </template>
-              <a v-else v-on:click="openVehicleInput(value.item.id)">
-                <fmt:message key="transport.insert.infortation"/>
-              </a>
+                  <span class="mini-close" v-on:click="closeVehicleInput(key)" style="left: -22px">&times;</span>
+                </template>
+                <a v-else v-on:click="openVehicleInput(value.item.id)">
+                  <fmt:message key="transport.insert.infortation"/>
+                </a>
+              </div>
             </div>
-          </div>
-          <div>
+            <div>
             <span class="transport-label">
               <fmt:message key="transportation.driver"/>:
             </span>
-            <div style="display: inline-block;">
+              <div style="display: inline-block;">
           <span v-if="value.item.transportation.driver.id">
             <b>{{value.item.transportation.driver.person.value}}</b>
             <span class="edit-menu-header">
@@ -155,28 +162,30 @@
               </div>
             </span>
           </span>
-              <template v-else-if="value.driverEdit">
-                <div style="display: inline-block; width: 85%">
-                  <input v-model="value.driverInput" style="width: 100%; border: none" v-on:keyup="findDriver(value)"
-                         v-on:keyup.enter="parseDriver(value)">
-                  <div class="custom-data-list" v-show="driverFind">
-                    <div class="custom-data-list-item" v-for="driver in driverFind"
-                         v-on:click="setDriver(value.item.transportation.id, driver.id, key)">
-                      {{driver.person.value}}
+                <template v-else-if="value.driverEdit">
+                  <div style="display: inline-block; width: 85%">
+                    <input v-model="value.driverInput" style="width: 100%; border: none" v-on:keyup="findDriver(value)"
+                           v-on:keyup.enter="parseDriver(value)">
+                    <div class="custom-data-list" v-show="driverFind">
+                      <div class="custom-data-list-item" v-for="driver in driverFind"
+                           v-on:click="setDriver(value.item.transportation.id, driver.id, key)">
+                        {{driver.person.value}}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <span class="mini-close" v-on:click="closeDriverInput(key)" style="left: -22px;">&times;</span>
-              </template>
-              <a v-else v-on:click="openDriverInput(value.item.id)">
-                <fmt:message key="transportation.driver.insert.info"/>
-              </a>
+                  <span class="mini-close" v-on:click="closeDriverInput(key)" style="left: -22px;">&times;</span>
+                </template>
+                <a v-else v-on:click="openDriverInput(value.item.id)">
+                  <fmt:message key="transportation.driver.insert.info"/>
+                </a>
+              </div>
+
             </div>
-
           </div>
         </div>
       </div>
-    </div>
+    </transition-group>
+
   </div>
 </html>

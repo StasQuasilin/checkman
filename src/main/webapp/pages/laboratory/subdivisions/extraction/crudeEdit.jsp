@@ -10,7 +10,7 @@
 <script src="${context}/vue/laboratory/extractionCrude.js"></script>
 <script>
     editor.api.save = '${saveUrl}'
-    editor.times= [
+    editor.times = [
         {
             hour:'08',
             minute:30

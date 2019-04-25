@@ -21,6 +21,7 @@ public class LoadPlan extends IDocument{
     private TransportCustomer customer;
     private Transportation transportation;
     private DocumentOrganisation documentOrganisation;
+    private boolean canceled;
 
 
     @Override
@@ -88,6 +89,15 @@ public class LoadPlan extends IDocument{
     }
     public void setDocumentOrganisation(DocumentOrganisation documentOrganisation) {
         this.documentOrganisation = documentOrganisation;
+    }
+
+    @Basic
+    @Column(name = "canceled")
+    public boolean isCanceled() {
+        return canceled;
+    }
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
     }
 
     @Override

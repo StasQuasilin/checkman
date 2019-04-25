@@ -12,23 +12,17 @@
 
 </head>
 <body>
-
-<style>
-    input.error{
-        border-color: orangered;
-    }
-</style>
 <div id="login">
     <div class="coverlet" v-show="cover"></div>
     <div class="wrapper">
         <div class="content">
             <table border="0">
                 <tr>
-                    <td colspan="3" align="center">
+                    <th colspan="3" align="center">
                         <div class="header">
                             <fmt:message key="sign.in"/>
                         </div>
-                    </td>
+                    </th>
                 </tr>
                 <tr>
                     <td>
