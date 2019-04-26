@@ -18,6 +18,7 @@ public class DealComparator extends IChangeComparator<Deal> {
     private Date date;
     private Date dateTo;
     private int organisationId = -1;
+    private int product;
 
     @Override
     public void fix(Deal oldObject) {
@@ -34,12 +35,10 @@ public class DealComparator extends IChangeComparator<Deal> {
         compare(dateTo, newObject.getDateTo(), lb.get(Constants.Languages.DATE_TO_DOCUMENT));
         if (organisationId != newObject.getOrganisation().getId()){
             Change change = new Change(lb.get(Constants.Languages.ORGANISATION_DOCUMENT));
-            if (organisationId != -1){
-                change.setOldValue(hibernator.get(Organisation.class, "id", organisationId).getValue());
-            }
             change.setNewValue(newObject.getOrganisation().getValue());
+            changes.add(change);
         }
-            ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
+        ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
         changes.clear();
     }
 

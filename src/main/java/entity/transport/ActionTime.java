@@ -49,4 +49,9 @@ public class ActionTime {
         hash = 31 * creator.hashCode() + hash;
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return time.toString();
+    }
 }

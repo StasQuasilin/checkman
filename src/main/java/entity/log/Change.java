@@ -8,6 +8,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "changes")
 public class Change {
+    
+    static final String NEW = "new";
+    static final String EDIT = "edit";
+    static final String DELETE = "delete";
+    
     private int id;
     private ChangeLog log;
     private String field;
@@ -63,5 +68,16 @@ public class Change {
     }
     public void setNewValue(String newValue) {
         this.newValue = newValue;
+    }
+    
+    @Transient
+    public String getValue(){
+        if (oldValue == null) {
+            return NEW;
+        } else if (newValue == null) {
+            return DELETE;
+        } else {
+            return EDIT;
+        }
     }
 }

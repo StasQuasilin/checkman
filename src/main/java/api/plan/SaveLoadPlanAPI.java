@@ -1,11 +1,14 @@
 package api.plan;
 
 import api.IAPI;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 import constants.Branches;
 import constants.Constants;
+import entity.Worker;
 import entity.documents.Deal;
+import entity.documents.DocumentUID;
 import entity.documents.LoadPlan;
+import entity.log.comparators.LoadPlanComparator;
+import entity.log.comparators.TransportationComparator;
 import entity.transport.Driver;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
@@ -13,10 +16,7 @@ import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.DateUtil;
-import utils.JsonParser;
-import utils.PostUtil;
-import utils.TransportUtil;
+import utils.*;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -26,8 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -37,6 +35,8 @@ public class SaveLoadPlanAPI extends IAPI{
 
     final static String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
     final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);
+    final LoadPlanComparator planComparator = new LoadPlanComparator();
+    final TransportationComparator transportationComparator = new TransportationComparator();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -62,17 +62,29 @@ public class SaveLoadPlanAPI extends IAPI{
                 }
 
                 LoadPlan loadPlan;
+                Transportation transportation;
                 boolean save = false;
 
                 if (planHashMap.containsKey(id)) {
                     loadPlan = planHashMap.remove(id);
+                    transportation = loadPlan.getTransportation();
+                    planComparator.fix(loadPlan);
+                    transportationComparator.fix(transportation);
                     log.info("\tPlan \'" + loadPlan.getId() + "\'");
                 } else {
                     loadPlan = new LoadPlan();
+                    loadPlan.setUid(DocumentUIDGenerator.generateUID());
                     loadPlan.setDeal(deal);
                     loadPlan.setDocumentOrganisation(deal.getDocumentOrganisation());
+                    transportation = new Transportation();
+                    transportation.setUid(DocumentUIDGenerator.generateUID());
+                    transportation.setCreator(getWorker(req));
+                    loadPlan.setTransportation(transportation);
+                    planComparator.fix(null);
+                    transportationComparator.fix(null);
                     log.info("\tNew plan");
                 }
+
 
                 Date date = Date.valueOf(String.valueOf(json.get(Constants.DATE)));
                 log.info("\t...Date: \'" + date.toString() + "\'");
@@ -94,16 +106,6 @@ public class SaveLoadPlanAPI extends IAPI{
                 if (loadPlan.getCustomer() != customer) {
                     loadPlan.setCustomer(customer);
                     save = true;
-                }
-
-                Transportation transportation;
-                if (loadPlan.getTransportation() == null) {
-                    transportation = new Transportation();
-                    transportation.setCreator(getWorker(req));
-                    loadPlan.setTransportation(transportation);
-                    save = true;
-                } else {
-                    transportation = loadPlan.getTransportation();
                 }
 
                 transportation.setDocumentOrganisation(loadPlan.getDocumentOrganisation());
@@ -139,6 +141,9 @@ public class SaveLoadPlanAPI extends IAPI{
                 if (save) {
                     hibernator.save(transportation, loadPlan);
                 }
+                Worker worker = getWorker(req);
+                planComparator.compare(loadPlan, worker);
+                transportationComparator.compare(transportation, worker);
             }
 
             for (LoadPlan loadPlan : planHashMap.values()) {
@@ -148,6 +153,10 @@ public class SaveLoadPlanAPI extends IAPI{
                         hibernator.save(loadPlan);
                     } else {
                         hibernator.remove(loadPlan, loadPlan.getTransportation());
+                        DocumentUID uid = hibernator.get(DocumentUID.class, "document", loadPlan.getUid());
+                        if (uid != null) {
+                            hibernator.remove(uid);
+                        }
                     }
                 }
             }

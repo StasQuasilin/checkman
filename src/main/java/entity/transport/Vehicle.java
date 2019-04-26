@@ -76,4 +76,9 @@ public class Vehicle {
     public String getValue() {
         return model + " \'" + number + "\'" + (trailer != number ? "\'" + trailer + "\'" : "");
     }
+
+    @Override
+    public String toString() {
+        return getValue();
+    }
 }

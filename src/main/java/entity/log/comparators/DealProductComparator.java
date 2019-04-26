@@ -29,7 +29,6 @@ public class DealProductComparator extends IChangeComparator<DealProduct> {
         if (productId != newObject.getProduct().getId()){
             Change change = new Change(lb.get(Constants.Languages.DEAL_PRODUCT));
             if (productId != 0){
-                change.setOldValue(hibernator.get(Product.class, "id", productId).getName());
                 changes.add(change);
             }
             change.setNewValue(newObject.getProduct().getName());

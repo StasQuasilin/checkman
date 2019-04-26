@@ -72,4 +72,9 @@ public class Driver {
 
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return getPerson().getValue();
+    }
 }

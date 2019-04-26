@@ -20,6 +20,8 @@ import entity.laboratory.subdivisions.vro.*;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
+import entity.log.Change;
+import entity.log.ChangeLog;
 import entity.organisations.Organisation;
 import entity.seals.Seal;
 import entity.transport.ActionTime;
@@ -405,6 +407,34 @@ public class JsonParser {
             array.add(toJson(organisation));
         }
         return array;
+    }
+
+    public static JSONObject toJson(Transportation transportation, ArrayList<ChangeLog> logs) {
+        JSONObject json = new JSONObject();
+        json.put("weights", toJson(transportation.getWeights()));
+        json.put("analyses", toJson(
+                transportation.getSunAnalyses(),
+                transportation.getOilAnalyses(),
+                transportation.getCakeAnalyses())
+        );
+        json.put("logs", toJson(logs));
+        return json;
+    }
+
+    private static JSONArray toJson(ArrayList<ChangeLog> logs) {
+        JSONArray array = new JSONArray();
+        for(ChangeLog log : logs) {
+            array.add(toJson(log));
+        }
+        return array;
+    }
+
+    private static JSONObject toJson(ChangeLog log) {
+        JSONObject json = new JSONObject();
+        json.put("date", log.getTime());
+        json.put("message", log.getLabel());
+        json.put("creator", log.getCreator().getValue());
+        return json;
     }
 
     public static class Laboratory {

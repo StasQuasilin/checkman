@@ -22,7 +22,7 @@ public class LoadPlan extends IDocument{
     private Transportation transportation;
     private DocumentOrganisation documentOrganisation;
     private boolean canceled;
-
+    private String uid;
 
     @Override
     @Id
@@ -98,6 +98,15 @@ public class LoadPlan extends IDocument{
     }
     public void setCanceled(boolean canceled) {
         this.canceled = canceled;
+    }
+
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @Override

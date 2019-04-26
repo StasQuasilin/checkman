@@ -8,7 +8,9 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import constants.Branches;
+import entity.documents.LoadPlan;
 import entity.transport.Transportation;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.email.RegistratorEmail;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
@@ -22,9 +24,7 @@ import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,18 +93,27 @@ public class Parser {
 
         return builder.toString();
     }
+    static class Some{
+        String s;
 
+        public Some(String s) {
+            this.s = s;
+        }
+
+        @Override
+        public String toString() {
+            return s;
+        }
+
+        @Override
+        public int hashCode() {
+            return s.hashCode();
+        }
+    }
     public static void main(String[] args) throws IOException, DocumentException {
-        FileOutputStream stream = new FileOutputStream("pdf.pdf");
-        File file = new File("src\\main\\webapp\\pages\\documents\\waybill.jsp");
-        FileInputStream inputStream = new FileInputStream(file);
-        Document document = new Document(PageSize.A4.rotate());
-        PdfWriter writer = PdfWriter.getInstance(document, stream);
-        document.open();
-        XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream);
-        document.close();
-        stream.close();
-
+        Some a = new Some("a");
+        Some b = null;
+        System.out.println(a == null || a.equals(b));
     }
 
 

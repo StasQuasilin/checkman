@@ -15,16 +15,18 @@ public class ChangeLogUtil {
     private static final Hibernator hibernator = Hibernator.getInstance();
 
     public static synchronized void writeLog(String document, String label, Worker creator, List<Change> changes){
-        ChangeLog log = new ChangeLog();
-        log.setDocument(document);
-        log.setLabel(label);
-        log.setTime(new Timestamp(System.currentTimeMillis()));
-        log.setCreator(creator);
-        hibernator.save(log);
-        for (Change change : changes){
-            change.setLog(log);
-            hibernator.save(change);
+        if (changes.size() > 0) {
+            ChangeLog log = new ChangeLog();
+            log.setDocument(document);
+            log.setLabel(label);
+            log.setTime(new Timestamp(System.currentTimeMillis()));
+            log.setCreator(creator);
+            hibernator.save(log);
+            for (Change change : changes) {
+                change.setLog(log);
+                hibernator.save(change);
+            }
+            changes.clear();
         }
-        changes.clear();
     }
 }

@@ -33,6 +33,7 @@ public class Transportation extends IDocument{
     private Set<CakeTransportationAnalyses> cakeAnalyses;
     private Set<Seal> seals;
     private boolean archive;
+    private String uid;
 
     @Override
     @Id
@@ -199,6 +200,15 @@ public class Transportation extends IDocument{
         hash = 31 * Boolean.hashCode(anyAction()) + hash;
         hash = 31 * Boolean.hashCode(archive) + hash;
         return hash;
+    }
+
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @Transient

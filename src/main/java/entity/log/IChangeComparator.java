@@ -15,17 +15,22 @@ public abstract class IChangeComparator<T> {
 
     public final static LanguageBase lb = LanguageBase.getBase();
     protected final List<Change> changes = new LinkedList<>();
-    protected final Hibernator hibernator = Hibernator.getInstance();
-
 
     public abstract void fix(T oldObject);
     public abstract void compare(T newObject, Worker worker);
     public abstract String getTitle();
     public void compare(Object o1, Object o2, String label){
-        if (o1 == null || !o1.equals(o2)){
+        boolean saveIt = false;
+        if (o1 != null && o2 != null) {
+            saveIt = true;
+        } else {
+
+        }
+        if (o1 == null || o2 == null || !o1.equals(o2)){
             Change change = new Change(label);
             if (o1 != null)
             change.setOldValue(o1.toString());
+            if (o2 != null)
             change.setNewValue(o2.toString());
             changes.add(change);
         }
