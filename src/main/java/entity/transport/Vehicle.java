@@ -74,7 +74,7 @@ public class Vehicle {
 
     @Transient
     public String getValue() {
-        return model + " \'" + number + "\'" + (trailer != number ? "\'" + trailer + "\'" : "");
+        return model + " \'" + number + "\'" + (trailer != null ? "\'" + trailer + "\'" : "");
     }
 
     @Override

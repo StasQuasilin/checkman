@@ -21,18 +21,22 @@ import java.io.IOException;
 public class PutSealAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        long sealId = (long) body.get("seal");
-        long transportationId = (long) body.get("transportation");
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            long sealId = (long) body.get("seal");
+            long transportationId = (long) body.get("transportation");
 
-        Seal seal = hibernator.get(Seal.class, "id", sealId);
-        Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+            Seal seal = hibernator.get(Seal.class, "id", sealId);
+            Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
 
-        seal.setTransportation(transportation);
+            seal.setTransportation(transportation);
 
-        hibernator.save(seal);
+            hibernator.save(seal);
 
-        PostUtil.write(resp, answer);
+            write(resp, answer);
+        } else {
+            write(resp, emptyBody);
+        }
 
     }
 }

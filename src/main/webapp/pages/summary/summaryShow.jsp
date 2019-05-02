@@ -217,18 +217,20 @@
           <fmt:message key="transportation.log"/>
         </div>
         <div style="width: 250pt; height: 398px;
-        border: solid gray 1px;
+        border: solid gray 1px; overflow-y: scroll;
         box-shadow: inset 0 0 4px 0 #8c8c8c; padding: 1pt; font-size: 10pt">
           <div v-for="log in logs">
-            <span>
+            <span style="text-decoration: underline; color: cadetblue">
               {{new Date(log.date).toLocaleTimeString().substring(0, 5)}}&nbsp;
               {{new Date(log.date).toLocaleDateString().substring(0, 5)}}
             </span>
-            <div style="margin-left: 2pt">
+            <div style="margin-left: 2pt; font-weight: bold">
               {{log.message}}
             </div>
-            <div v-for="change in log.changes">
-              {{change}}
+            <div style="padding-left: 24pt">
+              <div v-for="change in log.changes">
+                {{change.field}}
+              </div>
             </div>
           </div>
         </div>

@@ -9,7 +9,8 @@ var summary = new Vue({
         weights:[],
         analyses:{},
         seals:[],
-        logs:[]
+        logs:[],
+        upd:-1
     },
     computed:{
         weight:function(){
@@ -34,18 +35,41 @@ var summary = new Vue({
     methods:{
         update:function(){
             const self = this;
-            PostApi(this.api.update, {id:this.id, hash: this.hash}, function(a){
-                if(a.weights.length || a.analyses.length || a.logs.length) {
-
-                    //self.weights = a.weights;
+            var weights = [];
+            for (var w in this.weights){
+                if (this.weights.hasOwnProperty(w)){
+                    weights.push(this.weights[w].id);
+                }
+            }
+            var logs = [];
+            for (var l in this.logs) {
+                if (this.logs.hasOwnProperty(l)){
+                    logs.push(this.logs[l].id);
+                }
+            }
+            PostApi(this.api.update, {id:this.id, logs: logs}, function(a){
+                console.log(a);
+                if(a.weights.length || a.logs.length) {
+                    self.weights = a.weights;
                     //self.analyses = a.analyses;
                     //self.seals = a.seals;
-                    self.logs = a.logs;
+                    for (var i in a.logs){
+                        if (a.logs.hasOwnProperty(i)){
+                            self.logs.push(a.logs[i]);
+                        }
+                    }
+                    self.logs.sort(function(a, b){
+                        return new Date(a.date) - new Date(b.date)
+                    })
                 }
             });
-            setTimeout(function(){
+            this.upd = setTimeout(function(){
                 self.update()
             }, 5000)
+        },
+        stop:function(){
+            console.log('stop summary update');
+            clearTimeout(this.upd);
         }
     }
 });

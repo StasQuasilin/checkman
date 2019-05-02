@@ -8,6 +8,7 @@ import entity.log.IChangeComparator;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
 import utils.ChangeLogUtil;
+import utils.DateUtil;
 
 import java.sql.Date;
 
@@ -16,7 +17,7 @@ import java.sql.Date;
  */
 public class LoadPlanComparator extends IChangeComparator<LoadPlan> {
 
-    private Date date;
+    private String date;
     private Integer dealId;
     private Float plan;
     private TransportCustomer customer;
@@ -28,7 +29,7 @@ public class LoadPlanComparator extends IChangeComparator<LoadPlan> {
     public void fix(LoadPlan oldObject) {
         newPlan = oldObject == null;
         if (!newPlan){
-            date = oldObject.date;
+            date = DateUtil.prettyDate(oldObject.date);
             dealId = oldObject.getDeal().getId();
             plan = oldObject.getPlan();
             customer = oldObject.getCustomer();
@@ -39,12 +40,14 @@ public class LoadPlanComparator extends IChangeComparator<LoadPlan> {
 
     @Override
     public void compare(LoadPlan newObject, Worker worker) {
-        compare(newPlan ? null : date, newObject.getDate(), "plan.date");
+        compare(newPlan ? null : date, DateUtil.prettyDate(newObject.getDate()), "plan.date");
         compare(newPlan ? null : dealId, newObject.getDeal().getId(), "plan.deal");
         compare(newPlan ? null : plan, newObject.getPlan(), "plan.plan");
         compare(newPlan ? null : customer, newObject.getCustomer(), "plan.customer");
-        compare(newPlan ? null : documentOrganisation, newObject.getDocumentOrganisation().getValue(), "from");
-        compare(newPlan ? null : canceled, newObject.isCanceled(), "plan.canceled");
+        compare(newPlan ? null : documentOrganisation, newObject.getDocumentOrganisation().getValue(), "plan.from");
+        if (!newPlan) {
+            compare(canceled, newObject.isCanceled(), "plan.canceled");
+        }
         ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
         changes.clear();
     }

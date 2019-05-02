@@ -74,6 +74,17 @@ public class ChangeLog implements Comparable<ChangeLog>{
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * time.hashCode() + hash;
+        hash = 31 * document.hashCode() + hash;
+        for (Change change : changes) {
+            hash = 31 * change.hashCode() + hash;
+        }
+        return hash;
+    }
+
+    @Override
     public int compareTo(ChangeLog o) {
         return time.compareTo(o.time);
     }

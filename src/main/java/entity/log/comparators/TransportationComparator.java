@@ -5,6 +5,7 @@ import entity.documents.DocumentOrganisation;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
+import entity.log.Change;
 import entity.log.IChangeComparator;
 import entity.seals.Seal;
 import entity.transport.ActionTime;
@@ -13,7 +14,9 @@ import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import entity.weight.Weight;
 import utils.ChangeLogUtil;
+import utils.DateUtil;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,34 +25,67 @@ import java.util.Set;
  */
 public class TransportationComparator extends IChangeComparator<Transportation> {
 
+    private Integer vehicleId;
     private Vehicle vehicle;
+    private Integer driverId;
     private Driver driver;
-    private ActionTime timeIn;
-    private ActionTime timeOut;
+    private String timeIn;
+    private String timeOut;
+    private String archive;
     boolean isNew;
+
+    private final HashMap<Boolean, String> archiveData = new HashMap<>();
+    {
+        archiveData.put(Boolean.TRUE, ".in");
+        archiveData.put(Boolean.FALSE, ".out");
+    }
 
     @Override
     public void fix(Transportation oldObject) {
         isNew = oldObject == null;
         if (!isNew) {
-            vehicle = oldObject.getVehicle();
-            driver = oldObject.getDriver();
-            timeIn = oldObject.getTimeIn();
-            timeOut = oldObject.getTimeOut();
+            if (oldObject.getVehicle() != null) {
+                vehicle = oldObject.getVehicle();
+                vehicleId = vehicle.getId();
+            }
+            if (oldObject.getDriver() != null) {
+                driver = oldObject.getDriver();
+                driverId = driver.getId();
+            }
+            if(oldObject.getTimeIn() != null) {
+                timeIn = DateUtil.prettyDate(oldObject.getTimeIn().getTime());
+            }
+            if (oldObject.getTimeOut() != null) {
+                timeOut = DateUtil.prettyDate(oldObject.getTimeOut().getTime());
+            }
+            archive = archiveData.get(oldObject.isArchive());
         }
     }
 
     @Override
     public void compare(Transportation newObject, Worker worker) {
-        compare(vehicle, newObject.getVehicle(), "transportation.vehicle");
-        compare(driver, newObject.getDriver(), "transportation.driver");
-        compare(timeIn, newObject.getTimeIn(), "transportation.in");
-        compare(timeOut, newObject.getTimeOut(), "transportation.out");
+        Integer newVehicle = null;
+        if (newObject.getVehicle() != null) {
+            newVehicle = newObject.getVehicle().getId();
+        }
+        compare(vehicleId, vehicle, newVehicle, newObject.getVehicle(), "transportation.vehicle");
+        Integer newDriver = null;
+        if (newObject.getDriver() != null) {
+            newDriver = newObject.getDriver().getId();
+        }
+        compare(driverId, driver, newDriver, newObject.getDriver(), "transportation.driver");
+        if (newObject.getTimeIn() != null) {
+            compare(timeIn, DateUtil.prettyDate(newObject.getTimeIn().getTime()), "transportation.in");
+        }
+        if (newObject.getTimeOut() != null) {
+            compare(timeOut, DateUtil.prettyDate(newObject.getTimeOut().getTime()), "transportation.out");
+        }
+        compare(archive, archiveData.get(newObject.isArchive()), "transportation.archive" + archiveData.get(newObject.isArchive()));
         ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
     }
 
     @Override
     public String getTitle() {
-        return isNew ? "new" : "edit";
+        return isNew ? "transportation.new" : "transportation.edit";
     }
 }

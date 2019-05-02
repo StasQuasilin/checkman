@@ -5,8 +5,10 @@ import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
+import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.LoadPlan;
+import entity.log.comparators.TransportationComparator;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import entity.weight.Weight;
@@ -31,6 +33,8 @@ import java.sql.Timestamp;
 @WebServlet(Branches.API.TRANSPORT_TIME)
 public class TransportTimeAPI extends IAPI {
 
+    private final TransportationComparator comparator = new TransportationComparator();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TransportDirection direction = TransportDirection.valueOf(req.getParameter("dir"));
@@ -39,6 +43,7 @@ public class TransportTimeAPI extends IAPI {
             long id = (long) body.get(Constants.ID);
             LoadPlan plan = hibernator.get(LoadPlan.class, "transportation/id", id);
             Transportation transportation = plan.getTransportation();
+            comparator.fix(transportation);
             ActionTime time = null;
             switch (direction) {
                 case in:
@@ -59,9 +64,11 @@ public class TransportTimeAPI extends IAPI {
                         break;
                 }
             }
+            Worker worker = getWorker(req);
             time.setTime(new Timestamp(System.currentTimeMillis()));
-            time.setCreator(getWorker(req));
+            time.setCreator(worker);
             hibernator.save(time, transportation);
+            comparator.compare(transportation, worker);
             TransportUtil.checkTransport(transportation);
             WeightUtil.calculateDealDone(plan.getDeal());
 

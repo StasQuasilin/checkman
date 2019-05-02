@@ -17,6 +17,7 @@ public class Weight {
     private float tara;
     private ActionTime bruttoTime;
     private ActionTime taraTime;
+    private String uid;
 
     @Id
     @GeneratedValue
@@ -70,6 +71,16 @@ public class Weight {
     }
     public void setTaraTime(ActionTime taraTime) {
         this.taraTime = taraTime;
+    }
+
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @Transient

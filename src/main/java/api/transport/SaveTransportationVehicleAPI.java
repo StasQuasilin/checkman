@@ -4,6 +4,7 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.answers.IAnswer;
+import entity.log.comparators.TransportationComparator;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
@@ -26,6 +27,8 @@ import java.util.HashMap;
 @WebServlet(Branches.API.SAVE_TRANSPORTATION_VEHICLE)
 public class SaveTransportationVehicleAPI extends IAPI {
 
+    private final TransportationComparator comparator = new TransportationComparator();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -34,6 +37,7 @@ public class SaveTransportationVehicleAPI extends IAPI {
             long transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
             long vehicleId = (long) body.get(Constants.VEHICLE_ID);
             Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+            comparator.fix(transportation);
             Vehicle vehicle = hibernator.get(Vehicle.class, "id", vehicleId);
             Driver driver = transportation.getDriver();
             if (driver != null) {
@@ -44,7 +48,7 @@ public class SaveTransportationVehicleAPI extends IAPI {
             }
             transportation.setVehicle(vehicle);
             hibernator.save(transportation);
-
+            comparator.compare(transportation, getWorker(req));
             write(resp, answer);
 
             body.clear();

@@ -6,6 +6,8 @@ import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.Change;
 import entity.log.ChangeLog;
+import entity.weight.Weight;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.LanguageBase;
@@ -36,15 +38,34 @@ public class SummaryShowAPI extends IAPI {
 				LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
 				ArrayList<ChangeLog> logs = new ArrayList<>();
 				logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getUid()));
-				logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getTransportation().getUid()));
-				String lang = req.getSession().getAttribute("lang").toString();
-				for (ChangeLog log : logs){
-					log.setLabel(String.format(lb.get(lang, "change." + log.getLabel()), log.getCreator()));
-					for (Change change : log.getChanges()){
-						change.setField(lb.get(lang, "change." + change.getField()));
+				if (plan.getTransportation() != null) {
+					if (plan.getTransportation().getUid() != null) {
+						logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getTransportation().getUid()));
+					}
+					for (Weight weight : plan.getTransportation().getWeights()) {
+						logs.addAll(hibernator.query(ChangeLog.class, "document", weight.getUid()));
 					}
 				}
-				Collections.sort(logs);
+				//todo logs.addAll(analyses);
+				for (Object o : (JSONArray)body.get("logs")){
+					if (o != null) {
+						long logId = (long) o;
+						for (int i = 0; i < logs.size(); i++) {
+							if (logs.get(i).getId() == logId) {
+								logs.remove(i);
+								break;
+							}
+						}
+					}
+
+				}
+				String lang = req.getSession().getAttribute("lang").toString();
+				for (ChangeLog log : logs){
+					log.setLabel(String.format(lb.get(lang, "change." + log.getLabel()), log.getCreator().getValue()));
+					for (Change change : log.getChanges()){
+						change.setField(String.format(lb.get(lang, "change." + change.getField() + "." + change.getValue()), change.getNewValue(), change.getOldValue()));
+					}
+				}
 				write(resp, JsonParser.toJson(
 						plan.getTransportation(),
 						logs

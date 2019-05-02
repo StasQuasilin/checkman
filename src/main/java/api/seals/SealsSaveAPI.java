@@ -27,33 +27,36 @@ public class SealsSaveAPI extends IAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        JSONObject body = parseBody(req);
+        if(body != null) {
+            String prefix = String.valueOf(body.get("prefix"));
+            long number = (long) body.get("number");
+            String suffix = String.valueOf(body.get("suffix"));
+            long quantity = (long) body.get("quantity");
 
-        JSONObject body = PostUtil.parseBodyJson(req);
-        String prefix = String.valueOf(body.get("prefix"));
-        long number = (long) body.get("number");
-        String suffix = String.valueOf(body.get("suffix"));
-        long quantity = (long) body.get("quantity");
+            log.info(getWorker(req).getValue() + " put seals " + doSeal(prefix, number, suffix) + " ... " + doSeal(prefix, number + quantity, suffix));
 
-        log.info(getWorker(req).getValue() + " put seals " + doSeal(prefix, number, suffix) + " ... " + doSeal(prefix, number + quantity, suffix));
+            SealBatch batch = new SealBatch();
+            ActionTime time = new ActionTime();
+            time.setTime(new Timestamp(System.currentTimeMillis()));
+            time.setCreator(getWorker(req));
+            batch.setCreated(time);
 
-        SealBatch batch = new SealBatch();
-        ActionTime time = new ActionTime();
-        time.setTime(new Timestamp(System.currentTimeMillis()));
-        time.setCreator(getWorker(req));
-        batch.setCreated(time);
+            Seal[] seals = new Seal[(int) quantity];
+            for (int i = 0; i < quantity; i++) {
+                Seal seal = new Seal();
+                seal.setBatch(batch);
+                seal.setNumber(doSeal(prefix, number + i, suffix));
+                seals[i] = seal;
+            }
 
-        Seal[] seals = new Seal[(int) quantity];
-        for(int i = 0; i < quantity; i++){
-            Seal seal = new Seal();
-            seal.setBatch(batch);
-            seal.setNumber(doSeal(prefix, number + i, suffix));
-            seals[i] = seal;
+            hibernator.save(time, batch);
+            hibernator.save(seals);
+            body.clear();
+            write(resp, answer);
+        } else {
+            write(resp, emptyBody);
         }
-
-        hibernator.save(time, batch);
-        hibernator.save(seals);
-        body.clear();
-        write(resp, answer);
 
     }
     synchronized String doSeal(String prefix, long number, String suffix){

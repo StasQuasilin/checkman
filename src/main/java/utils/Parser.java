@@ -111,10 +111,9 @@ public class Parser {
         }
     }
     public static void main(String[] args) throws IOException, DocumentException {
-        Boolean b1 = false;
-        boolean b2 = false;
-
-        System.out.println(b1.equals(b2));
+        Integer i1 = 228;
+        int i2 = 229;
+        System.out.println(!i1.equals(i2));
     }
 
 

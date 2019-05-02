@@ -4,6 +4,7 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
+import entity.log.comparators.LoadPlanComparator;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -19,6 +20,9 @@ import java.sql.Date;
  */
 @WebServlet(Branches.API.CHANGE_DATE)
 public class ChangeLoadPlanDateAPI extends IAPI {
+
+    private final LoadPlanComparator comparator = new LoadPlanComparator();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -29,9 +33,11 @@ public class ChangeLoadPlanDateAPI extends IAPI {
             }
             if (id != -1) {
                 LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
+                comparator.fix(plan);
                 Date date = Date.valueOf(String.valueOf(body.get(Constants.DATE)));
                 plan.setDate(date);
                 hibernator.save(plan);
+                comparator.compare(plan, getWorker(req));
                 write(resp, answer);
             } else {
                 write(resp, emptyBody);

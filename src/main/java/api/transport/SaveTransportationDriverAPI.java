@@ -4,9 +4,11 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.answers.IAnswer;
+import entity.log.comparators.TransportationComparator;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
+import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
@@ -25,6 +27,8 @@ import java.util.HashMap;
 @WebServlet(Branches.API.SAVE_TRANSPORTATION_DRIVER)
 public class SaveTransportationDriverAPI extends IAPI {
 
+    private final TransportationComparator comparator = new TransportationComparator();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -32,6 +36,8 @@ public class SaveTransportationDriverAPI extends IAPI {
             long transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
             long driverId = (long) body.get(Constants.DRIVER_ID);
             Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+            comparator.fix(transportation);
+
             Driver driver = hibernator.get(Driver.class, "id", driverId);
             if (driver.getVehicle() == null) {
                 Vehicle vehicle = transportation.getVehicle();
@@ -41,7 +47,13 @@ public class SaveTransportationDriverAPI extends IAPI {
                 }
             }
             transportation.setDriver(driver);
+            if (transportation.getVehicle() == null) {
+                if (driver.getVehicle() != null) {
+                    transportation.setVehicle(driver.getVehicle());
+                }
+            }
             hibernator.save(transportation);
+            comparator.compare(transportation, getWorker(req));
             write(resp, answer);
             body.clear();
         } else {write(resp, emptyBody);}

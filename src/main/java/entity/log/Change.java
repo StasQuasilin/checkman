@@ -69,7 +69,12 @@ public class Change {
     public void setNewValue(String newValue) {
         this.newValue = newValue;
     }
-    
+
+    @Override
+    public int hashCode() {
+        return 31 * id;
+    }
+
     @Transient
     public String getValue(){
         if (oldValue == null) {

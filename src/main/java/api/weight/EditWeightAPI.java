@@ -7,10 +7,13 @@ import constants.Branches;
 import constants.Constants;
 import entity.Worker;
 import entity.documents.LoadPlan;
+import entity.log.comparators.TransportationComparator;
+import entity.log.comparators.WeightComparator;
 import entity.transport.ActionTime;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.DocumentUIDGenerator;
 import utils.PostUtil;
 import utils.TransportUtil;
 import utils.WeightUtil;
@@ -31,17 +34,20 @@ import java.util.List;
 @WebServlet(Branches.API.SAVE_WEIGHT)
 public class EditWeightAPI extends IAPI {
 
+    private final WeightComparator comparator = new WeightComparator();
+    private final TransportationComparator transportationComparator = new TransportationComparator();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if(body != null) {
             System.out.println(body);
-            long planId = (long) body.get(Constants.ID);
 
             JSONArray array = (JSONArray) body.get(Constants.WEIGHTS);
 
+            long planId = (long) body.get(Constants.ID);
             LoadPlan plan = hibernator.get(LoadPlan.class, "id", planId);
-            List<Weight> weightList = new ArrayList<>();
+
             HashMap<Long, Weight> weights = new HashMap<>();
             for (Weight w : plan.getTransportation().getWeights()) {
                 weights.put((long) w.getId(), w);
@@ -57,19 +63,25 @@ public class EditWeightAPI extends IAPI {
                 boolean saveIt = false;
                 if (weights.containsKey(id)) {
                     weight = weights.remove(id);
+                    comparator.fix(weight);
                 } else {
                     weight = new Weight();
+                    weight.setUid(DocumentUIDGenerator.generateUID());
                     weight.setTransportation(plan.getTransportation());
                     saveIt = true;
+                    comparator.fix(null);
                 }
-
-                changeWeight(weight, brutto, tara, getWorker(req), saveIt);
-                weightList.add(weight);
+                Worker worker = getWorker(req);
+                changeWeight(weight, brutto, tara, worker, saveIt);
+                comparator.compare(weight, worker);
             }
 
             hibernator.remove(weights.values().toArray());
             WeightUtil.calculateDealDone(plan.getDeal());
+
+            transportationComparator.fix(plan.getTransportation());
             TransportUtil.checkTransport(plan.getTransportation());
+            transportationComparator.compare(plan.getTransportation(), getWorker(req));
 
             write(resp, answer);
 
