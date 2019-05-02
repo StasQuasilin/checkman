@@ -126,7 +126,7 @@ public class SaveLoadPlanAPI extends IAPI{
 
                 long driverId = -1;
                 if (json.containsKey("driver")) {
-                    driverId = (long) json.get("driver");
+                    driverId = (long)  json.get("driver");
                 }
 
                 if (driverId != -1) {

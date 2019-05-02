@@ -5,18 +5,20 @@ import entity.documents.IDocument;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 12.03.2019.
  */
 @Entity
 @Table(name = "change_log")
-public class ChangeLog {
+public class ChangeLog implements Comparable<ChangeLog>{
     private int id;
     private Timestamp time;
     private String label;
     private String document;
     private Worker creator;
+    private Set<Change> changes;
 
     @Id
     @GeneratedValue
@@ -61,5 +63,18 @@ public class ChangeLog {
     }
     public void setCreator(Worker creator) {
         this.creator = creator;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "log", cascade = CascadeType.ALL)
+    public Set<Change> getChanges() {
+        return changes;
+    }
+    public void setChanges(Set<Change> changes) {
+        this.changes = changes;
+    }
+
+    @Override
+    public int compareTo(ChangeLog o) {
+        return time.compareTo(o.time);
     }
 }

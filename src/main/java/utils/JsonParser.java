@@ -431,9 +431,32 @@ public class JsonParser {
 
     private static JSONObject toJson(ChangeLog log) {
         JSONObject json = new JSONObject();
-        json.put("date", log.getTime());
+        json.put("date", log.getTime().toString());
         json.put("message", log.getLabel());
         json.put("creator", log.getCreator().getValue());
+        json.put("changes", toChangesJson(log.getChanges()));
+        return json;
+    }
+
+    private static JSONArray toChangesJson(Set<Change> changes) {
+        JSONArray array = new JSONArray();
+        for (Change change : changes){
+            array.add(toJson(change));
+        }
+        return array;
+    }
+
+    private static JSONObject toJson(Change change) {
+        JSONObject json = new JSONObject();
+
+        json.put("title", change.getValue());
+//        private String field;
+        json.put("field", change.getField());
+//        private String oldValue;
+        json.put("old", change.getOldValue());
+//        private String newValue;
+        json.put("new", change.getNewValue());
+
         return json;
     }
 

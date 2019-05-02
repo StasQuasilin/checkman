@@ -111,9 +111,10 @@ public class Parser {
         }
     }
     public static void main(String[] args) throws IOException, DocumentException {
-        Some a = new Some("a");
-        Some b = null;
-        System.out.println(a == null || a.equals(b));
+        Boolean b1 = false;
+        boolean b2 = false;
+
+        System.out.println(b1.equals(b2));
     }
 
 

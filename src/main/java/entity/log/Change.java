@@ -34,7 +34,7 @@ public class Change {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "log")
     public ChangeLog getLog() {
         return log;

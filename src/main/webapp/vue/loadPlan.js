@@ -32,6 +32,7 @@ var plan = new Vue({
         },
         newPlan:function(){
             this.add({
+                id:-1,
                 date: new Date().toISOString().substring(0, 10),
                 plan:0,
                 customer:this.customers[0].id,
@@ -53,7 +54,7 @@ var plan = new Vue({
             }
             const self = this;
             PostApi(this.api.update, {dealId : this.deal, plans: plans}, function(p){
-                if (p.add.length || p.update.length || p.remove.length) {
+                if (p.add.length || p.update.length) {
                     console.log(p);
                     for (var a in p.add){
                         if (p.add.hasOwnProperty(a)) {
@@ -120,7 +121,15 @@ var plan = new Vue({
             var plans = [];
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)) {
-                    plans.push(this.plans[i].item);
+                    var plan = this.plans[i].item;
+                    plans.push({
+                        id:plan.id,
+                        date:plan.date,
+                        plan:plan.plan,
+                        customer:plan.customer,
+                        vehicle:plan.transportation.vehicle.id,
+                        driver:plan.transportation.driver.id
+                    });
                 }
             }
             parameters.plans = plans;

@@ -40,7 +40,7 @@ public class LanguageBase{
         try {
             return ResourceBundle.getBundle(baseName + language).getString(key);
         } catch (MissingResourceException e){
-            return "%" + key + "%";
+            return "???" + key + "???";
         }
     }
 }

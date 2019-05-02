@@ -8,6 +8,7 @@ import entity.log.Change;
 import entity.log.ChangeLog;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.LanguageBase;
 import utils.PostUtil;
 
 import javax.servlet.ServletException;
@@ -16,9 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 @WebServlet(Branches.API.SUMMARY_SHOW)
 public class SummaryShowAPI extends IAPI {
+
+	final LanguageBase lb = LanguageBase.getBase();
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,6 +37,14 @@ public class SummaryShowAPI extends IAPI {
 				ArrayList<ChangeLog> logs = new ArrayList<>();
 				logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getUid()));
 				logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getTransportation().getUid()));
+				String lang = req.getSession().getAttribute("lang").toString();
+				for (ChangeLog log : logs){
+					log.setLabel(String.format(lb.get(lang, "change." + log.getLabel()), log.getCreator()));
+					for (Change change : log.getChanges()){
+						change.setField(lb.get(lang, "change." + change.getField()));
+					}
+				}
+				Collections.sort(logs);
 				write(resp, JsonParser.toJson(
 						plan.getTransportation(),
 						logs

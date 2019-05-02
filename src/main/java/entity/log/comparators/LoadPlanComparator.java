@@ -17,11 +17,11 @@ import java.sql.Date;
 public class LoadPlanComparator extends IChangeComparator<LoadPlan> {
 
     private Date date;
-    private int dealId;
-    private float plan;
+    private Integer dealId;
+    private Float plan;
     private TransportCustomer customer;
-    private DocumentOrganisation documentOrganisation;
-    private boolean canceled;
+    private String documentOrganisation;
+    private Boolean canceled;
     boolean newPlan;
 
     @Override
@@ -32,25 +32,25 @@ public class LoadPlanComparator extends IChangeComparator<LoadPlan> {
             dealId = oldObject.getDeal().getId();
             plan = oldObject.getPlan();
             customer = oldObject.getCustomer();
-            documentOrganisation = oldObject.getDocumentOrganisation();
+            documentOrganisation = oldObject.getDocumentOrganisation().getValue();
             canceled = oldObject.isCanceled();
         }
     }
 
     @Override
     public void compare(LoadPlan newObject, Worker worker) {
-        compare(newPlan ? null : date, newObject.getDate(), "date");
-        compare(newPlan ? null : dealId, newObject.getDeal().getId(), "deal");
-        compare(newPlan ? null : plan, newObject.getPlan(), "plan");
-        compare(newPlan ? null : customer, newObject.getCustomer(), "customer");
-        compare(newPlan ? null : documentOrganisation, newObject.getDocumentOrganisation(), "from");
-        compare(newPlan ? null : canceled, newObject.isCanceled(), "canceled");
+        compare(newPlan ? null : date, newObject.getDate(), "plan.date");
+        compare(newPlan ? null : dealId, newObject.getDeal().getId(), "plan.deal");
+        compare(newPlan ? null : plan, newObject.getPlan(), "plan.plan");
+        compare(newPlan ? null : customer, newObject.getCustomer(), "plan.customer");
+        compare(newPlan ? null : documentOrganisation, newObject.getDocumentOrganisation().getValue(), "from");
+        compare(newPlan ? null : canceled, newObject.isCanceled(), "plan.canceled");
         ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
         changes.clear();
     }
 
     @Override
     public String getTitle() {
-        return newPlan ? "new" : "edit";
+        return newPlan ? "new.plan" : "edit.plan";
     }
 }

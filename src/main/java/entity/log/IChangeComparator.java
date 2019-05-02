@@ -13,20 +13,20 @@ import java.util.List;
  */
 public abstract class IChangeComparator<T> {
 
-    public final static LanguageBase lb = LanguageBase.getBase();
     protected final List<Change> changes = new LinkedList<>();
 
     public abstract void fix(T oldObject);
     public abstract void compare(T newObject, Worker worker);
     public abstract String getTitle();
     public void compare(Object o1, Object o2, String label){
-        boolean saveIt = false;
-        if (o1 != null && o2 != null) {
-            saveIt = true;
-        } else {
-
+        boolean saveIt;
+        if(o1 != null && o2 != null) {
+            saveIt = o1.equals(o2);
+        } else{
+            saveIt = o1 != null || o2 != null;
         }
-        if (o1 == null || o2 == null || !o1.equals(o2)){
+
+        if (saveIt){
             Change change = new Change(label);
             if (o1 != null)
             change.setOldValue(o1.toString());

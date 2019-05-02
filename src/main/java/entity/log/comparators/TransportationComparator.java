@@ -41,10 +41,10 @@ public class TransportationComparator extends IChangeComparator<Transportation> 
 
     @Override
     public void compare(Transportation newObject, Worker worker) {
-        compare(vehicle, newObject.getVehicle(), "vehicle");
-        compare(driver, newObject.getDriver(), "driver");
-        compare(timeIn, newObject.getTimeIn(), "in");
-        compare(timeOut, newObject.getTimeOut(), "out");
+        compare(vehicle, newObject.getVehicle(), "transportation.vehicle");
+        compare(driver, newObject.getDriver(), "transportation.driver");
+        compare(timeIn, newObject.getTimeIn(), "transportation.in");
+        compare(timeOut, newObject.getTimeOut(), "transportation.out");
         ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
     }
 

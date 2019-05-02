@@ -7,6 +7,8 @@
 <script src="${context}/vue/summary.js"></script>
 <script>
   summary.api.update = '${update}';
+  summary.id = ${plan.id};
+  summary.update();
 </script>
 <table id="summary" border="0">
   <tr>
@@ -184,6 +186,11 @@
             </td>
           </tr>
           <tr>
+            <%--!--%>
+            <%--!--%>
+            <%--SEALS--%>
+            <%--!--%>
+            <%--!--%>
             <td>
               <div v-if="seals.length > 0" class="page-container">
                 <table>
@@ -219,6 +226,9 @@
             </span>
             <div style="margin-left: 2pt">
               {{log.message}}
+            </div>
+            <div v-for="change in log.changes">
+              {{change}}
             </div>
           </div>
         </div>

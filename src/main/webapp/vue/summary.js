@@ -35,10 +35,13 @@ var summary = new Vue({
         update:function(){
             const self = this;
             PostApi(this.api.update, {id:this.id, hash: this.hash}, function(a){
-                self.weights = a.weights;
-                self.analyses = a.analyses;
-                self.seals = a.seals;
-                self.logs = a.logs;
+                if(a.weights.length || a.analyses.length || a.logs.length) {
+
+                    //self.weights = a.weights;
+                    //self.analyses = a.analyses;
+                    //self.seals = a.seals;
+                    self.logs = a.logs;
+                }
             });
             setTimeout(function(){
                 self.update()

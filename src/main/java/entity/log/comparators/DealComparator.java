@@ -31,10 +31,10 @@ public class DealComparator extends IChangeComparator<Deal> {
 
     @Override
     public void compare(Deal newObject, Worker worker) {
-        compare(date, newObject.getDate(), lb.get(Constants.Languages.DATE_DOCUMENT));
-        compare(dateTo, newObject.getDateTo(), lb.get(Constants.Languages.DATE_TO_DOCUMENT));
+        compare(date, newObject.getDate(), "date");
+        compare(dateTo, newObject.getDateTo(), "dateTo");
         if (organisationId != newObject.getOrganisation().getId()){
-            Change change = new Change(lb.get(Constants.Languages.ORGANISATION_DOCUMENT));
+            Change change = new Change("from");
             change.setNewValue(newObject.getOrganisation().getValue());
             changes.add(change);
         }
@@ -44,6 +44,6 @@ public class DealComparator extends IChangeComparator<Deal> {
 
     @Override
     public String getTitle() {
-        return date == null && dateTo == null ? lb.get(Constants.Languages.CREATE_DOCUMENT) : lb.get(Constants.Languages.EDIT_DOCUMENT);
+        return date == null && dateTo == null ? "new" : "edit";
     }
 }
