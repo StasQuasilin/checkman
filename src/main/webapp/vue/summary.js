@@ -48,7 +48,6 @@ var summary = new Vue({
                 }
             }
             PostApi(this.api.update, {id:this.id, logs: logs}, function(a){
-                console.log(a);
                 if(a.weights.length || a.logs.length) {
                     self.weights = a.weights;
                     //self.analyses = a.analyses;

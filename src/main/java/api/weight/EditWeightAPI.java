@@ -2,7 +2,9 @@ package api.weight;
 
 import api.IAPI;
 import bot.BotFactory;
+import bot.IBot;
 import bot.Notificator;
+import bot.TelegramBot;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -37,11 +39,13 @@ public class EditWeightAPI extends IAPI {
     private final WeightComparator comparator = new WeightComparator();
     private final TransportationComparator transportationComparator = new TransportationComparator();
 
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if(body != null) {
             System.out.println(body);
+
 
             JSONArray array = (JSONArray) body.get(Constants.WEIGHTS);
 
@@ -52,6 +56,7 @@ public class EditWeightAPI extends IAPI {
             for (Weight w : plan.getTransportation().getWeights()) {
                 weights.put((long) w.getId(), w);
             }
+            List<Weight> weightList = new ArrayList<>();
 
             for (Object o : array) {
                 JSONObject w = (JSONObject) o;
@@ -74,6 +79,12 @@ public class EditWeightAPI extends IAPI {
                 Worker worker = getWorker(req);
                 changeWeight(weight, brutto, tara, worker, saveIt);
                 comparator.compare(weight, worker);
+                weightList.add(weight);
+            }
+
+            Notificator notificator = BotFactory.getNotificator();
+            if (notificator != null) {
+                notificator.weightShow(plan, weightList);
             }
 
             hibernator.remove(weights.values().toArray());

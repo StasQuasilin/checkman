@@ -22,6 +22,7 @@ var plan = new Vue({
         picker:false
     },
     methods:{
+
         messages:function(){
             var msgs = [];
             var total = this.totalPlan();
@@ -86,7 +87,29 @@ var plan = new Vue({
                 editDriver:false,
                 vehicleInput:'',
                 driverInput : '',
-                item : plan
+                item : plan,
+                weight : function() {
+                    var w = {
+                        brutto : 0,
+                        tara : 0,
+                        netto : function(){
+                            if (brutto > 0 && tara > 0) {
+                                return brutto - tara;
+                            } else {
+                                return 0;
+                            }
+                        }
+                    };
+
+                    for (var i in this.item.transportation.weights) {
+                        if (this.item.transportation.weights.hasOwnProperty(i)){
+                            var weight = this.item.transportation.weights[i];
+                            w.brutto += weight.brutto;
+                            w.tara += weight.tara;
+                        }
+                    }
+                    return w;
+                }
             });
         },
         update:function(plan){
@@ -227,6 +250,32 @@ var plan = new Vue({
                 }
             }
             return total;
+        },
+        weight:function(item){
+            if (item.weight == 'undefined') {
+                console.log('calculate weight');
+                var w = {
+                    brutto:0,
+                    tara:0,
+                    netto:function(){
+                        if(brutto > 0 && tara > 0) {
+                            return brutto - tara;
+                        } else {
+                            return 0;
+                        }
+                    }
+                };
+                for (var i in item.transportation.weights) {
+                    if (item.transportation.weights.hasOwnProperty(i)){
+                        var weight = item.transportation.weights[i];
+                        w.brutto += weight.brutto;
+                        w.tara += weight.tara;
+                    }
+                }
+                item.weight = w;
+            }
+
+            return item.weight;
         },
         totalPlan:function(){
             var total = 0;

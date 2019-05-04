@@ -68,8 +68,12 @@ public class TransportTimeAPI extends IAPI {
             time.setTime(new Timestamp(System.currentTimeMillis()));
             time.setCreator(worker);
             hibernator.save(time, transportation);
-            comparator.compare(transportation, worker);
+            Notificator notificator = BotFactory.getNotificator();
+            if (notificator != null) {
+                notificator.transportShow(plan);
+            }
             TransportUtil.checkTransport(transportation);
+            comparator.compare(transportation, worker);
             WeightUtil.calculateDealDone(plan.getDeal());
 
             body.clear();

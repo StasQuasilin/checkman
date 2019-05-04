@@ -59,6 +59,8 @@ public class TransportationComparator extends IChangeComparator<Transportation> 
                 timeOut = DateUtil.prettyDate(oldObject.getTimeOut().getTime());
             }
             archive = archiveData.get(oldObject.isArchive());
+        } else{
+            archive = archiveData.get(false);
         }
     }
 

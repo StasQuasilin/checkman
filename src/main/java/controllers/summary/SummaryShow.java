@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(Branches.UI.SUMMARY_SHOW)
+@WebServlet(value = {Branches.UI.SUMMARY_SHOW, "/archive/show/summary.j"})
 public class SummaryShow extends IModal {
 	
 	@Override

@@ -18,8 +18,8 @@
                 status:''
             },
             input:{
-                token:'ololo',
-                name:'123456'
+                token:'',
+                name:''
             },
             upd:-1
         },
@@ -70,14 +70,15 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3">
+            <td>
                 <label for="token">
                     <fmt:message key="bot.token"/>
                 </label>
             </td>
-        </tr>
-        <tr>
-            <td colspan="3">
+            <td>
+                :
+            </td>
+            <td>
                 <textarea id="token" style="width: 100%; resize: none" v-model="input.token"></textarea>
             </td>
         </tr>
@@ -95,7 +96,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="3">
+            <td colspan="3" align="center">
                 <button v-show="needSave()" v-on:click="save">
                     <fmt:message key="button.save"/>
                 </button>

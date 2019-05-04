@@ -37,7 +37,9 @@ public class SummaryShowAPI extends IAPI {
 			if (id != -1) {
 				LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
 				ArrayList<ChangeLog> logs = new ArrayList<>();
-				logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getUid()));
+				if (plan.getUid() != null) {
+					logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getUid()));
+				}
 				if (plan.getTransportation() != null) {
 					if (plan.getTransportation().getUid() != null) {
 						logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getTransportation().getUid()));

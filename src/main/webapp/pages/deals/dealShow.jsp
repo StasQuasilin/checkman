@@ -181,6 +181,9 @@
                       <div style="display: inline-block; width: 10pt">
                         <span title="${dropTitle}" class="mini-close" style="left: 0"
                               v-show="!value.item.transportation.archive" v-on:click="remove(key)">&times;</span>
+                        <span v-show="value.item.transportation.archive" style="color: green">
+                          &#10003;
+                        </span>
                       </div>
                       <%--DATE INPUT--%>
                       <input readonly style="width: 7em"
@@ -192,11 +195,60 @@
                       <select v-model="value.item.customer" title="${customerTitle}">
                         <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
                       </select>
-                      <span title="${factTitle}" style="width: 9em; display: inline-block; text-align: right">
-                        <b>
-                          {{weighs(value.item.transportation.weights).toLocaleString()}}&nbsp;{{unit}}
-                        </b>
-                        {{different(value.item.transportation.weights, value.item.plan)}}
+                      <span class="fact-info">
+                        <span title="${factTitle}" style="padding: 2pt">
+                          <span>
+                            <b>
+                              {{weighs(value.item.transportation.weights).toLocaleString()}}&nbsp;{{unit}}
+                            </b>
+                            <span>
+                              {{different(value.item.transportation.weights, value.item.plan)}}
+                            </span>
+                          </span>
+                        </span>
+                        <div class="fact-details">
+                          <table>
+                            <template v-for="w in value.item.transportation.weights">
+                              <tr>
+                                <td>
+                                  <fmt:message key="weight.brutto"/>
+                                </td>
+                                <td>
+                                  :
+                                </td>
+                                <td>
+                                  {{(w.brutto).toLocaleString()}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <fmt:message key="weight.tara"/>
+                                </td>
+                                <td>
+                                  :
+                                </td>
+                                <td>
+                                  {{(w.tara).toLocaleString()}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <fmt:message key="weight.netto"/>
+                                </td>
+                                <td>
+                                  :
+                                </td>
+                                <td v-if="w.brutto > 0 && w.tara > 0">
+                                  {{(w.brutto - w.tara).toLocaleString()}}
+                                </td>
+                                <td v-else>
+                                  0
+                                </td>
+                              </tr>
+                            </template>
+
+                          </table>
+                        </div>
                       </span>
                     </div>
                       <%--LOWER ROW--%>

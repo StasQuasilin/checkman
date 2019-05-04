@@ -19,6 +19,9 @@ public class WeightComparator extends IChangeComparator<Weight> {
         if (!(isNew = oldObject == null)){
             brutto = oldObject.getBrutto();
             tara = oldObject.getTara();
+        } else {
+            brutto = 0f;
+            tara = 0f;
         }
     }
 

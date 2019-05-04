@@ -32,7 +32,7 @@
           <fmt:message key="consolidated.table"/>
         </span>
         <span>
-          <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
+          <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
         </span>
       <li class="menu-item">
         <span class="main"  onclick="loadContent('${logisticList}')">
@@ -60,7 +60,7 @@
           <fmt:message key="menu.weight"/>
         </span>
         <span>
-          <a onclick="loadContent(${context}${weight_archive})"><fmt:message key="archive"/> </a>
+          <a onclick="loadContent('${weightArchive}')"><fmt:message key="archive"/> </a>
         </span>
       </li>
         <li class="menu-item" onclick="loadContent('${probeList}')">
@@ -80,7 +80,7 @@
             <fmt:message key="analyses.buy"/>
           </span>
           <span>
-            <a onclick="loadContent(${analyses_buy_archive})"><fmt:message key="archive"/> </a>
+            <a onclick="loadContent('${laboratoryBuyArchive}')"><fmt:message key="archive"/> </a>
           </span>
         </li>
         <li class="menu-item">
@@ -88,7 +88,7 @@
             <fmt:message key="analyses.sell"/>
           </span>
           <span>
-            <a onclick="loadContent(${analyses_sell_archive})"><fmt:message key="archive"/> </a>
+            <a onclick="loadContent('${laboratorySellArchive}')"><fmt:message key="archive"/> </a>
           </span>
         </li>
       <li class="menu-item" onclick="loadContent('${referencesList}')">

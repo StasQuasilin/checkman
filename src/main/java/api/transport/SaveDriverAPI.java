@@ -4,6 +4,7 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.Person;
+import entity.log.comparators.TransportationComparator;
 import entity.organisations.Organisation;
 import entity.transport.Driver;
 import entity.transport.Transportation;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 public class SaveDriverAPI extends IAPI{
 
     final Logger logger = Logger.getLogger(SaveDriverAPI.class);
+    final TransportationComparator comparator = new TransportationComparator();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -71,8 +73,10 @@ public class SaveDriverAPI extends IAPI{
             }
             if (transportationId != -1) {
                 Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+                comparator.fix(transportation);
                 transportation.setDriver(driver);
                 hibernator.save(transportation);
+                comparator.compare(transportation, getWorker(req));
                 logger.info("Put in transportation " + transportation.getId());
             }
 

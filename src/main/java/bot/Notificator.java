@@ -5,6 +5,7 @@ import entity.DealType;
 import entity.Worker;
 import entity.bot.UserBotSetting;
 import entity.documents.LoadPlan;
+import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
@@ -31,6 +32,8 @@ public class Notificator {
     private static final String HUMIDITY = "bot.notificator.humidity";
     private static final String SORENESS = "bot.notificator.soreness";
     private static final String OILINESS = "bot.notificator.oiliness";
+    private static final String PROTEIN = "bot.notificator.protein";
+    private static final String CELLULOSE = "";
     private static final String OIL_IMPURITY = "bot.notificator.oil.impurity";
     private static final String ACID = "bot.notificator.oil.acid";
     private static final String COLOR = "bot.notificator.color";
@@ -179,6 +182,51 @@ public class Notificator {
         }
     }
 
+    public void cakeAnalysesShow(LoadPlan plan, List<CakeAnalyses> analysesList) {
+        float humidity = 0;
+        float protein = 0;
+        float cellulose = 0;
+        float oiliness = 0;
+        int count = 0;
+        for (CakeAnalyses analyses : analysesList) {
+            humidity += analyses.getHumidity();
+            protein += analyses.getProtein();
+            cellulose += analyses.getCellulose();
+            oiliness += analyses.getOiliness();
+            count++;
+        }
+        
+        humidity /= count;
+        protein /= count;
+        cellulose /= count;
+        oiliness /= count;
+
+        String message;
+        for (UserBotSetting setting : getSettings()){
+            Worker worker = setting.getWorker();
+            boolean show = false;
+            switch (setting.getTransport()){
+                case my:
+                    show = plan.getDeal().getCreator().getId() == worker.getId();
+                    break;
+                case all:
+                    show = true;
+                    break;
+            }
+            if (show){
+                message = prepareMessage(plan);
+                message += "\n" + String.format(lb.get(HUMIDITY), humidity);
+                message += "\n" + String.format(lb.get(PROTEIN), protein);
+                message += "\n" + String.format(lb.get(CELLULOSE), cellulose);
+                message += "\n" + String.format(lb.get(OILINESS), oiliness);
+
+                sendMessage(setting.getTelegramId(), message);
+            }
+        }
+        
+        
+    }
+
     public void oilAnalysesShow(LoadPlan plan, LinkedList<OilAnalyses> analysesList) {
         float organolepticFloat = 0;
         float color = 0;
@@ -260,4 +308,6 @@ public class Notificator {
     private void sendMessage(long telegramId, String message) {
         telegramBot.sendMsg(telegramId, message);
     }
+
+
 }

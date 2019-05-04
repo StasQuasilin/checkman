@@ -65,9 +65,9 @@ public class ParseOrganisationAPI extends IAPI {
             param.put("type", type);
             param.put("name", name);
 
-            if (!name.isEmpty()) {
-                name = "!!" + origin;
-                type = "";
+            if (name.isEmpty()) {
+                name = origin;
+                type = null;
             }
 
             Organisation organisation = null;

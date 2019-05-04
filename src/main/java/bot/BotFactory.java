@@ -22,12 +22,13 @@ public class BotFactory {
         ApiContextInitializer.init();
     }
 
-    private static IBot bot;
+    private static TelegramBot bot;
     static TelegramBotsApi telegramBotsApi;
     static Thread botThread;
     private static String token;
     private static String name;
     private static BotStatus status = BotStatus.stopped;
+    private static Notificator notificator;
 
     public static IBot getBot() {
         return bot;
@@ -54,7 +55,9 @@ public class BotFactory {
     }
 
     public static void start() throws IOException {
+
         if (bot == null){
+            log.info("Bot start...");
             if (name != null && token != null) {
                 botThread = new Thread(() -> {
                     bot = new TelegramBot(token, name);
@@ -62,6 +65,8 @@ public class BotFactory {
                     try {
                         telegramBotsApi.registerBot(bot);
                         log.info("Bot start successfully");
+                        status = BotStatus.worked;
+                        notificator = new Notificator(bot);
                     } catch (TelegramApiRequestException e) {
                         status = BotStatus.error;
                         log.trace(e);
@@ -89,8 +94,13 @@ public class BotFactory {
     }
 
     public static void setSettings(BotSettings settings) throws IOException {
+        log.info("Set settings");
         token = settings.getToken();
         name = settings.getName();
         start();
+    }
+
+    public static Notificator getNotificator() {
+        return notificator;
     }
 }

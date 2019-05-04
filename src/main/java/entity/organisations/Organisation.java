@@ -1,5 +1,7 @@
 package entity.organisations;
 
+import utils.U;
+
 import javax.persistence.*;
 
 /**
@@ -42,7 +44,8 @@ public class Organisation {
 
     @Transient
     public String getValue() {
-        return name + (type != null ? ", " + type : "");
+        boolean exist = U.exist(type);
+        return (!exist ? "!! " : "") + name + (exist ? ", " + type : "");
     }
 
     @Override

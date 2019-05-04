@@ -140,6 +140,11 @@ public class EditSunAPI extends IAPI {
 
             }
 
+            Notificator notificator = BotFactory.getNotificator();
+            if (notificator != null) {
+                notificator.sunAnalysesShow(loadPlan, analysesList);
+            }
+
             for (SunTransportationAnalyses analyses : map.values()) {
                 hibernator.remove(analyses);
             }

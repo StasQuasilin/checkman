@@ -20,21 +20,44 @@
     overflow-y: scroll;
 }
 .plan-item{
-    border-bottom: solid #7ecfcf 1.5pt;
-    border-top: solid #7ecfcf 1.5pt;
-    margin: 2pt 0 2pt 0;
+    margin: 2pt;
     font-size: 10pt;
-    background: linear-gradient(
-            0.25turn,
-            #f0f8ff 0%,
-            #7ecfcf 8%,
-            #ebebeb 58%,
-            whitesmoke 60%,
-            #ebebeb 62%,
-            #7ecfcf 95%,
-            #f0f8ff 100%);
+    background-color: #a2e8b8;
 }
 .minus-button{
     min-width: 0;
     border-radius: 8pt;
+}
+.fact-info{
+    width: 9em;
+    display: inline-block;
+    text-align: right;
+    position: relative;
+}
+.fact-info .fact-details{
+    display: none;
+}
+.fact-info:hover {
+    background-color: #757575;
+    border-radius: 4pt 4pt 0 0;
+    color: white;
+}
+.fact-info:hover * {
+    color: white;
+}
+.fact-info:hover .fact-details{
+    display: block;
+}
+
+.fact-details{
+    position: absolute;
+    background-color: #757575;
+    border-radius: 0 0 4pt 4pt;
+    padding: 2pt;
+    z-index: 10;
+    left: 0;
+    right: 0;
+}
+.fact-details * {
+    font-size: 8pt;
 }
