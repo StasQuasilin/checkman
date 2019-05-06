@@ -29,13 +29,9 @@ public class LoadPlanListAPI extends IAPI{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final HashMap<String, Object> parameters = new HashMap<>();
         final JSONObject array = new JSONObject();
-        final JSONArray add = new JSONArray();
         final JSONArray update = new JSONArray();
-        final JSONArray remove = new JSONArray();
         {
-            array.put(Constants.ADD, add);
             array.put("update", update);
-            array.put("remove", remove);
         }
 
         JSONObject body = parseBody(req);
@@ -52,16 +48,14 @@ public class LoadPlanListAPI extends IAPI{
                         update.add(JsonParser.toJson(plan));
                     }
                 } else {
-                    add.add(JsonParser.toJson(plan));
+                    update.add(JsonParser.toJson(plan));
                 }
             }
         }
         write(resp, array.toJSONString());
 
         body.clear();
-        add.clear();
         update.clear();
-        remove.clear();
 
     }
 }

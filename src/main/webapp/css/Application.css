@@ -172,10 +172,10 @@ input.error {
     z-index: 1;
     position: absolute;
     right: 50%;
+    top: 0;
 }
 .edit-menu-header:hover .arrow{
     color: white;
-
 }
 .edit-menu-header:hover .edit-menu{
     display: block;
@@ -196,7 +196,7 @@ input.error {
     color: #d1d1d1;
     width: 100%;
     display: inline-block;
-    padding: 8pt 2pt;
+    padding: 2pt 2pt;
 }
 
 .edit-menu span:hover{

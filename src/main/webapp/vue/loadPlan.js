@@ -55,21 +55,11 @@ var plan = new Vue({
             }
             const self = this;
             PostApi(this.api.update, {dealId : this.deal, plans: plans}, function(p){
-                if (p.add.length || p.update.length) {
+                if (p.update.length) {
                     console.log(p);
-                    for (var a in p.add){
-                        if (p.add.hasOwnProperty(a)) {
-                            self.add(p.add[a])
-                        }
-                    }
                     for (var u in p.update){
                         if (p.update.hasOwnProperty(u)) {
                             self.update(p.update[u])
-                        }
-                    }
-                    for (var r in p.remove){
-                        if (p.remove.hasOwnProperty(r)){
-                            self.remove(p.remove[r])
                         }
                     }
                     self.sort();

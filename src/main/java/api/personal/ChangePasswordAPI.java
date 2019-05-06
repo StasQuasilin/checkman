@@ -24,19 +24,23 @@ import java.io.IOException;
 public class ChangePasswordAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        IAnswer answer;
-        String current = String.valueOf(body.get("current"));
-        User user = hibernator.get(User.class, "worker", getWorker(req).getId());
-        if (user.getPassword().equals(current)) {
-            String password = String.valueOf(body.get("password"));
-            user.setPassword(password);
-            hibernator.save(user);
-            answer = new SuccessAnswer();
-        } else {
-            answer = new ErrorAnswer("msg", LanguageBase.getBase().get(user.getLanguage(), "wrong.password"));
-        }
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            IAnswer answer;
+            String current = String.valueOf(body.get("current"));
+            User user = hibernator.get(User.class, "worker", getWorker(req).getId());
+            if (user.getPassword().equals(current)) {
+                String password = String.valueOf(body.get("password"));
+                user.setPassword(password);
+                hibernator.save(user);
+                answer = new SuccessAnswer();
+            } else {
+                answer = new ErrorAnswer("msg", LanguageBase.getBase().get(user.getLanguage(), "wrong.password"));
+            }
 
-        write(resp, JsonParser.toJson(answer).toJSONString());
+            write(resp, JsonParser.toJson(answer).toJSONString());
+        } else {
+            write(resp, emptyBody);
+        }
     }
 }

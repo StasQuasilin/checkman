@@ -52,7 +52,7 @@
     });
     botSettings.api.generate = '${uidGenerator}';
     botSettings.api.status = '${botStatus}';
-    <c:if test="not empty botSettings">
+    <c:if test="${not empty botSettings}">
     botSettings.bot={
         id:${botSettings.telegramId},
         transport:'${botSettings.transport}',

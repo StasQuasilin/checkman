@@ -60,38 +60,42 @@ public class Parser {
     }
 
     public static String prettyNumber(String number){
-        number = number.toUpperCase().replaceAll(" ", "");
-        StringBuilder builder = new StringBuilder();
+        if (U.exist(number)) {
+            number = number.toUpperCase().replaceAll(" ", "");
+            StringBuilder builder = new StringBuilder();
 
-        Pattern pattern = Pattern.compile("^[A-ZА-Я]{0,3}");
-        Matcher matcher = pattern.matcher(number);
-        if (matcher.find()){
-            String group = matcher.group();
-            if (!group.isEmpty())
-            builder.append(group).append(' ');
-            number = number.replaceAll(group, "");
+            Pattern pattern = Pattern.compile("^[A-ZА-Я]{0,3}");
+            Matcher matcher = pattern.matcher(number);
+            if (matcher.find()) {
+                String group = matcher.group();
+                if (!group.isEmpty())
+                    builder.append(group).append(' ');
+                number = number.replaceAll(group, "");
+            }
+
+            pattern = Pattern.compile("\\d*\\-?\\d*");
+            matcher = pattern.matcher(number);
+            if (matcher.find()) {
+                String group = matcher.group();
+                number = number.replaceAll(group, "");
+                group = group.replaceAll("\\D", "");
+                int d = Math.round(1f * group.length() / 2);
+
+                builder.append(group.substring(0, d)).append('-').append(group.substring(d));
+
+            }
+
+            pattern = Pattern.compile("^[A-ZА-Я]{0,3}");
+            matcher = pattern.matcher(number);
+            if (matcher.find()) {
+                String group = matcher.group();
+                builder.append(' ').append(group);
+            }
+
+            return builder.toString();
+        } else {
+            return number;
         }
-
-        pattern = Pattern.compile("\\d*\\-?\\d*");
-        matcher = pattern.matcher(number);
-        if (matcher.find()){
-            String group = matcher.group();
-            number = number.replaceAll(group, "");
-            group = group.replaceAll("\\D", "");
-            int d = Math.round(1f * group.length() / 2);
-
-            builder.append(group.substring(0, d)).append('-').append(group.substring(d));
-
-        }
-
-        pattern = Pattern.compile("^[A-ZА-Я]{0,3}");
-        matcher = pattern.matcher(number);
-        if (matcher.find()){
-            String group = matcher.group();
-            builder.append(' ').append(group);
-        }
-
-        return builder.toString();
     }
     static class Some{
         String s;

@@ -190,7 +190,14 @@
                              v-model="new Date(value.item.date).toLocaleDateString()"
                              v-on:click="dateTimePicker(key)">
                       <%--PLAN INPUT--%>
-                      <input v-model="value.item.plan" onclick="this.select()" type="number" title="${planTitle}" style="width: 6em" min="1">
+                        <span style="position: relative">
+                          <input v-model="value.item.plan" onclick="this.select()" type="number"
+                                 title="${planTitle}" style="width: 6em; text-align: right;" min="1">
+                          <span style="position: absolute; top: 0; right: 12px">
+                            {{unit}}
+                          </span>
+                        </span>
+
                       <%--CUSTOMER INPUT--%>
                       <select v-model="value.item.customer" title="${customerTitle}">
                         <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
@@ -246,82 +253,119 @@
                                 </td>
                               </tr>
                             </template>
-
                           </table>
                         </div>
                       </span>
                     </div>
                       <%--LOWER ROW--%>
                     <div class="lower">
-                      <%--VEHICLE STUFF--%>
-                      <div style="display: inline-block" v-if="value.item.transportation.vehicle.id" v-on:click.right="">
-                        {{value.item.transportation.vehicle.model}}
-                        '{{value.item.transportation.vehicle.number}}'
-                        <template v-if="value.item.transportation.vehicle.trailer">
-                          '{{value.item.transportation.vehicle.trailer}}'
-                        </template>
-                      </div>
-                      <template v-else-if="value.editVehicle">
-                        <div style="display: inline-block">
-                          <%--VEHICLE INPUT--%>
-                          <input v-on:keyup="findVehicle(value.vehicleInput)"
-                                 v-on:keyup.enter="editVehicle(value.vehicleInput, key)"
-                                 v-model="value.vehicleInput"
-                                  placeholder="${vehicleHolder}">
-                          <div class="custom-data-list">
-                            <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="setVehicle(vehicle, key)">
-                              {{vehicle.model}}
-                              '{{vehicle.number}}'
-                              <template v-if="vehicle.trailer">
-                                '{{vehicle.trailer}}'
-                              </template>
-                            </div>
-                          </div>
-                        </div>
-                        <span v-on:click="closeVehicleInput(key)" class="mini-close" style="left: -22pt">&times;</span>
-                      </template>
-                      <button v-else v-on:click="openVehicleInput(value.item.id)">
-                        <fmt:message key="transportation.automobile"/>...
-                      </button>
-                        <%--DRIVER STUFF--%>
-                      <span v-if="value.item.transportation.driver.id">
-                        {{value.item.transportation.driver.person.value}}
-                      </span>
-                        <template v-else-if="value.editDriver">
-                          <div style="display: inline-block">
-                            <%--DRIVER INPUT--%>
-                            <input v-on:keyup="findDriver(value.driverInput)"
-                                   v-on:keyup.enter="editDriver(value.driverInput, key)"
-                                   v-model="value.driverInput"
-                                    placeholder="${driverHolder}">
-                            <div class="custom-data-list">
-                              <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="setDriver(driver, key)">
-                                {{driver.person.value}}
+                      <table style="font-size: 10pt">
+                        <tr>
+                          <td>
+                            <span><fmt:message key="transportation.automobile"/></span>
+                          </td>
+                          <td>
+                            :
+                          </td>
+                          <td>
+                            <%--VEHICLE STUFF--%>
+                            <div>
+                              <div style="display: inline-block" v-if="value.item.transportation.vehicle.id" v-on:click.right="">
+                                {{value.item.transportation.vehicle.model}}
+                                '{{value.item.transportation.vehicle.number}}'
+                                <template v-if="value.item.transportation.vehicle.trailer">
+                                  '{{value.item.transportation.vehicle.trailer}}'
+                                </template>
                               </div>
+                              <template v-else-if="value.editVehicle">
+                                <div style="display: inline-block">
+                                  <%--VEHICLE INPUT--%>
+                                  <input v-on:keyup="findVehicle(value.vehicleInput)"
+                                         v-on:keyup.enter="editVehicle(value.vehicleInput, key)"
+                                         v-model="value.vehicleInput"
+                                         placeholder="${vehicleHolder}">
+                                  <div class="custom-data-list">
+                                    <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="setVehicle(vehicle, key)">
+                                      {{vehicle.model}}
+                                      '{{vehicle.number}}'
+                                      <template v-if="vehicle.trailer">
+                                        '{{vehicle.trailer}}'
+                                      </template>
+                                    </div>
+                                  </div>
+                                </div>
+                                <span v-on:click="closeVehicleInput(key)" class="mini-close" style="left: -22pt">&times;</span>
+                              </template>
+                              <a v-else v-on:click="openVehicleInput(value.item.id)">
+                                <fmt:message key="transportation.automobile.inser.info"/>
+                              </a>
+                            <span v-if="value.item.transportation.vehicle.id" class="edit-menu-header">
+                              <span style="position: relative">
+                                &nbsp;
+                              </span>
+                              <div class="edit-menu">
+                                <span>
+                                  <fmt:message key="vehicle.edit"/>
+                                </span>
+                                <span v-on:click="cancel(key)">
+                                  <fmt:message key="menu.cancel"/>
+                                </span>
+                              </div>
+                              <span class="arrow">
+                                &#9660;
+                              </span>
+                            </span>
                             </div>
-                          </div>
-                          <span v-on:click="closeDriverInput(key)" class="mini-close" style="left: -22pt">&times;</span>
-                        </template>
-                      <button v-else v-on:click="openDriverInput(value.item.id)">
-                        <fmt:message key="transportation.driver"/>...
-                      </button>
-                        <span v-if="value.item.transportation.vehicle.id ||
-                        value.item.transportation.driver.id" class="edit-menu-header">
-                          <div class="edit-menu">
-                            <span v-if="value.item.transportation.vehicle.id">
-                              <fmt:message key="vehicle.edit"/>
-                            </span>
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span><fmt:message key="transportation.driver"/></span>
+                          </td>
+                          <td>
+                            :
+                          </td>
+                          <td>
+                            <%--DRIVER STUFF--%>
                             <span v-if="value.item.transportation.driver.id">
-                              <fmt:message key="driver.edit"/>
+                              {{value.item.transportation.driver.person.value}}
                             </span>
-                            <span v-on:click="cancel(key)">
-                              <fmt:message key="menu.cancel"/>
+                            <template v-else-if="value.editDriver">
+                              <div style="display: inline-block">
+                                <%--DRIVER INPUT--%>
+                                <input v-on:keyup="findDriver(value.driverInput)"
+                                       v-on:keyup.enter="editDriver(value.driverInput, key)"
+                                       v-model="value.driverInput"
+                                       placeholder="${driverHolder}">
+                                <div class="custom-data-list">
+                                  <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="setDriver(driver, key)">
+                                    {{driver.person.value}}
+                                  </div>
+                                </div>
+                              </div>
+                              <span v-on:click="closeDriverInput(key)" class="mini-close" style="left: -22pt">&times;</span>
+                            </template>
+                            <a v-else v-on:click="openDriverInput(value.item.id)">
+                              <fmt:message key="transportation.driver.insert.info"/>
+                            </a>
+                            <span v-if="value.item.transportation.driver.id" class="edit-menu-header">
+                              <div class="edit-menu">
+                                <span>
+                                  <fmt:message key="driver.edit"/>
+                                </span>
+                                <span v-on:click="cancel(key)">
+                                  <fmt:message key="menu.cancel"/>
+                                </span>
+                              </div>
+                              <span class="arrow">
+                                &#9660;
+                              </span>
                             </span>
-                          </div>
-                          <span class="arrow">
-                            &#9660;
-                          </span>
-                        </span>
+                          </td>
+                        </tr>
+                      </table>
+
                     </div>
                   </div>
                 </transition-group>

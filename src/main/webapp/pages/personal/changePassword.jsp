@@ -28,6 +28,8 @@
             change:function(){
                 const self = this;
                 if (this.password.current && this.password.password) {
+                    this.password.current = btoa(this.password.current);
+                    this.password.password = btoa(this.password.password);
                     PostApi(this.api.change, this.password, function (a) {
                         if (a.status == 'success') {
                             self.success = true;

@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.documents.Deal;
+import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
 
 import javax.servlet.ServletException;
@@ -19,7 +20,8 @@ import java.io.IOException;
 public class DealShow extends IModal{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("deal", hibernator.get(Deal.class, "id", Integer.parseInt(req.getParameter(Constants.ID))));
+        int dealId = Integer.parseInt(req.getParameter(Constants.ID));
+        req.setAttribute("deal", hibernator.get(Deal.class, "id", dealId));
         req.setAttribute("title", Constants.Titles.DEAL_SHOW);
         req.setAttribute("update", Branches.API.PLAN_LIST);
         req.setAttribute("save", Branches.API.PLAN_LIST_SAVE);
