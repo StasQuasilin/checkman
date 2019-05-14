@@ -99,7 +99,8 @@
         },
         huskiness:0,
         kernelOffset:0,
-        pulpHumidity:0,
+        pulpHumidity1:0,
+        pulpHumidity2:0,
         creator:${worker.id}
     };
     </c:when>
@@ -118,7 +119,8 @@
         },
         huskiness:0,
         kernelOffset:0,
-        pulpHumidity:0,
+        pulpHumidity1:0,
+        pulpHumidity2:0,
         forpressCake:[],
         creator:${worker.id}
     };
@@ -254,15 +256,28 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="pulpHumidity">
-                            <fmt:message key="vro.pulp.humidity"/>
+                        <label for="pulpHumidity1">
+                            <fmt:message key="vro.pulp.humidity"/> I
                         </label>
                     </td>
                     <td>
                         :
                     </td>
                     <td>
-                        <input id="pulpHumidity" type="number" step="0.01" v-model="crude.pulpHumidity">
+                        <input id="pulpHumidity1" type="number" step="0.01" v-model="crude.pulpHumidity1">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="pulpHumidity2">
+                            <fmt:message key="vro.pulp.humidity"/> II
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="pulpHumidity2" type="number" step="0.01" v-model="crude.pulpHumidity2">
                     </td>
                 </tr>
             </table>

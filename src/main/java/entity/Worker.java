@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Worker {
     private int id;
     private Person person;
+    private String language;
 
     @Id
     @GeneratedValue
@@ -27,6 +28,15 @@ public class Worker {
     }
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    @Basic
+    @Column(name = "language")
+    public String getLanguage() {
+        return language;
+    }
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     @Transient

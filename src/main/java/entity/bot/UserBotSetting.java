@@ -13,6 +13,7 @@ public class UserBotSetting {
     private int id;
     private long telegramId;
     private Worker worker;
+    private String language;
     private boolean show;
     private NotifyStatus transport = NotifyStatus.off;
     private NotifyStatus weight = NotifyStatus.off;
@@ -47,6 +48,15 @@ public class UserBotSetting {
     }
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    @Basic
+    @Column(name = "language")
+    public String getLanguage() {
+        return language;
+    }
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     @Basic

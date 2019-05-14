@@ -79,13 +79,18 @@
                         </span>
                     </th>
                     <th rowspan="2">
-                        <span style="width: 7em">
+                        <span style="width: 7em; display: inline-block">
                             <fmt:message key="vro.kernel.offset"/>
                         </span>
                     </th>
                     <th rowspan="2">
-                        <span style="width: 7em">
-                            <fmt:message key="vro.pulp.humidity"/>
+                        <span style="width: 7em; display: inline-block">
+                            <fmt:message key="vro.pulp.humidity.1"/>
+                        </span>
+                    </th>
+                    <th rowspan="2">
+                        <span style="width: 7em; display: inline-block">
+                            <fmt:message key="vro.pulp.humidity.2"/>
                         </span>
                     </th>
                     <td v-for="fp in forpress" colspan="2" align="center">
@@ -94,33 +99,33 @@
                 </tr>
                 <tr>
                     <th>
-                        <span style="width: 6em">
+                        <span style="width: 6em; display: inline-block">
                             <fmt:message key="sun.humidity"/>
                         </span>
                     </th>
                     <th>
-                        <span style="width: 6em">
+                        <span style="width: 6em; display: inline-block">
                             <fmt:message key="sun.soreness"/>
                         </span>
                     </th>
                     <th>
-                        <span style="width: 6em">
+                        <span style="width: 6em; display: inline-block">
                             <fmt:message key="sun.humidity"/>
                         </span>
                     </th>
                     <th>
-                        <span style="width: 6em">
+                        <span style="width: 6em; display: inline-block">
                             <fmt:message key="sun.soreness"/>
                         </span>
                     </th>
                     <template v-for="fp in forpress">
                         <th>
-                        <span style="width: 5em">
+                        <span style="width: 4em; display: inline-block">
                             <fmt:message key="sun.humidity.short"/>
                         </span>
                         </th>
                         <th>
-                        <span style="width: 5em">
+                        <span style="width: 4em; display: inline-block">
                             <fmt:message key="sun.oiliness.short"/>
                         </span>
                         </th>
@@ -149,7 +154,10 @@
                         {{(crude.kernelOffset).toLocaleString()}}
                     </td>
                     <td align="center">
-                        {{(crude.pulpHumidity).toLocaleString()}}
+                        {{(crude.pulpHumidity1).toLocaleString()}}
+                    </td>
+                    <td align="center">
+                        {{(crude.pulpHumidity2).toLocaleString()}}
                     </td>
                     <template v-for="fp in forpress">
                         <td align="center">

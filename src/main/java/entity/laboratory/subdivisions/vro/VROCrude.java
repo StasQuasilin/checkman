@@ -22,7 +22,8 @@ public class VROCrude implements Comparable<VROCrude>{
     private float sorenessAfter;
     private float huskiness;
     private float kernelOffset;
-    private float pulpHumidity;
+    private float pulpHumidity1;
+    private float pulpHumidity2;
     private Set<ForpressCake> forpressCakes;
     private ActionTime createTime;
     private Worker creator;
@@ -109,12 +110,21 @@ public class VROCrude implements Comparable<VROCrude>{
     }
 
     @Basic
-    @Column(name = "pulp_humidity")
-    public float getPulpHumidity() {
-        return pulpHumidity;
+    @Column(name = "pulp_humidity_1")
+    public float getPulpHumidity1() {
+        return pulpHumidity1;
     }
-    public void setPulpHumidity(float pulpHumidity) {
-        this.pulpHumidity = pulpHumidity;
+    public void setPulpHumidity1(float pulpHumidity) {
+        this.pulpHumidity1 = pulpHumidity;
+    }
+    
+    @Basic
+    @Column(name = "pulp_humidity_2")
+    public float getPulpHumidity2() {
+        return pulpHumidity2;
+    }
+    public void setPulpHumidity2(float pulpHumidity) {
+        this.pulpHumidity2 = pulpHumidity;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "crude", cascade = CascadeType.ALL)
@@ -161,7 +171,7 @@ public class VROCrude implements Comparable<VROCrude>{
 //        private float kernelOffset;
         hash = 31 * Float.hashCode(kernelOffset) + hash;
 //        private float pulpHumidity;
-        hash = 31 * Float.hashCode(pulpHumidity) + hash;
+        hash = 31 * Float.hashCode(pulpHumidity1) + hash;
         for (ForpressCake cake : forpressCakes) {
             hash = 31 * cake.hashCode() + hash;
         }

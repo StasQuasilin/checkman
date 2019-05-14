@@ -1,6 +1,12 @@
 .container{
 
 }
+.turn-date{
+    padding: 0 2pt;
+}
+.t1{
+    background: linear-gradient(0.25deg, cornflowerblue, transparent);
+}
 .flip-list-move{
     transition: transform 1s;
 }

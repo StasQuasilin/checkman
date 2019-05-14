@@ -13,7 +13,6 @@ public class User {
     private String email;
     private String password;
     private Role role;
-    private String language;
     private Worker worker;
 
     @Id
@@ -59,15 +58,6 @@ public class User {
     }
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    @Basic
-    @Column(name = "language")
-    public String getLanguage() {
-        return language;
-    }
-    public void setLanguage(String language) {
-        this.language = language;
     }
 
     @OneToOne

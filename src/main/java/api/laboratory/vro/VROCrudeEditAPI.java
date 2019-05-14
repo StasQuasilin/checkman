@@ -1,6 +1,7 @@
 package api.laboratory.vro;
 
 import api.IAPI;
+import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -99,9 +100,15 @@ public class VROCrudeEditAPI extends IAPI {
             save = true;
         }
 
-        float pulpHumidity = Float.parseFloat(String.valueOf(body.get("pulpHumidity")));
-        if (crude.getPulpHumidity() != pulpHumidity) {
-            crude.setPulpHumidity(pulpHumidity);
+        float pulpHumidity1 = Float.parseFloat(String.valueOf(body.get("pulpHumidity1")));
+        if (crude.getPulpHumidity1() != pulpHumidity1) {
+            crude.setPulpHumidity1(pulpHumidity1);
+            save = true;
+        }
+
+        float pulpHumidity2 = Float.parseFloat(String.valueOf(body.get("pulpHumidity2")));
+        if (crude.getPulpHumidity2() != pulpHumidity2) {
+            crude.setPulpHumidity2(pulpHumidity2);
             save = true;
         }
         
@@ -121,6 +128,7 @@ public class VROCrudeEditAPI extends IAPI {
             }
             crude.setCreator(worker);
             hibernator.save(createTime, crude);
+            BotFactory.getNotificator().vroShow(crude);
         }
 
         HashMap<Long, ForpressCake> forpressCakeHashMap = new HashMap<>();

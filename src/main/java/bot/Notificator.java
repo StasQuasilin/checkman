@@ -1,6 +1,5 @@
 package bot;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import entity.DealType;
 import entity.Worker;
 import entity.bot.UserBotSetting;
@@ -8,9 +7,12 @@ import entity.documents.LoadPlan;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
-import entity.laboratory.transportation.SunTransportationAnalyses;
+import entity.laboratory.subdivisions.extraction.ExtractionCrude;
+import entity.laboratory.subdivisions.vro.ForpressCake;
+import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.transport.Transportation;
 import entity.weight.Weight;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.LanguageBase;
 
 import java.util.Collection;
@@ -181,7 +183,6 @@ public class Notificator {
             }
         }
     }
-
     public void cakeAnalysesShow(LoadPlan plan, List<CakeAnalyses> analysesList) {
         float humidity = 0;
         float protein = 0;
@@ -226,7 +227,6 @@ public class Notificator {
         
         
     }
-
     public void oilAnalysesShow(LoadPlan plan, LinkedList<OilAnalyses> analysesList) {
         float organolepticFloat = 0;
         float color = 0;
@@ -280,6 +280,54 @@ public class Notificator {
                 message += "\n" + String.format(lb.get(HUMIDITY), humidity);
                 message += "\n" + String.format(lb.get(SOAP), soap);
                 message += "\n" + String.format(lb.get(WAX), wax);
+
+                sendMessage(setting.getTelegramId(), message);
+            }
+        }
+    }
+    public void extractionShow(ExtractionCrude crude){
+        for (UserBotSetting setting : getSettings()) {
+            if (setting.isExtraction() && setting.isShow()) {
+                String language = setting.getLanguage();
+
+                String message = lb.get(language, "extraction.title");
+                message += "\n" + String.format(lb.get(language, "extraction.turn"), crude.getTurn().getNumber(),
+                        crude.getTime().toLocalDateTime().toString());
+                message += "\n" + String.format(lb.get(language, "extraction.humidity.income"), crude.getHumidityIncome());
+                message += "\n" + String.format(lb.get(language, "extraction.fraction"), crude.getFraction());
+                message += "\n" + String.format(lb.get(language, "extraction.dissolvent"), crude.getDissolvent());
+                message += "\n" + String.format(lb.get(language, "extraction.miscellas"), crude.getMiscellas());
+                message += "\n" + String.format(lb.get(language, "extraction.humidity"), crude.getHumidity());
+                //todo organoleptic
+                message += "\n" + String.format(lb.get(language, "extraction.oiliness"), crude.getGrease());
+                //message += "\n" + String.format(lb.get(language, "extraction.explosion.t"), crude.get)
+
+                sendMessage(setting.getTelegramId(), message);
+            }
+        }
+    }
+
+    public void vroShow(VROCrude crude) {
+        for (UserBotSetting setting : getSettings()) {
+            if(setting.isKpo() && setting.isShow()) {
+                String language = setting.getLanguage();
+                String message = lb.get(language, "vro.title");
+                message += "\n" + String.format(lb.get(language, "extraction.turn"), crude.getTurn().getNumber(),
+                         crude.getTime().toLocalDateTime().toString());
+                message += "\n" + String.format(lb.get(language, "vro.humidity.before"), crude.getHumidityBefore());
+                message += "\n" + String.format(lb.get(language, "vro.soreness.before"), crude.getSorenessBefore());
+                message += "\n" + String.format(lb.get(language, "vro.humidity.after"), crude.getHumidityAfter());
+                message += "\n" + String.format(lb.get(language, "vro.soreness.after"), crude.getSorenessAfter());
+                message += "\n" + String.format(lb.get(language, "vro.pulp.1"), crude.getPulpHumidity1());
+                message += "\n" + String.format(lb.get(language, "vro.pulp.2"), crude.getPulpHumidity2());
+                if (crude.getForpressCakes() != null) {
+                    for (ForpressCake cake : crude.getForpressCakes()) {
+                        message += "\n" + String.format(lb.get(language, "vro.forpress.humidity"), cake.getHumidity());
+                        message += "\n" + String.format(lb.get(language, "vro.forpress.oiliness"), cake.getOiliness());
+                    }
+                }
+                message += "\n" + String.format(lb.get(language, "vro.kernel.offset.2"), crude.getKernelOffset());
+                message += "\n" + String.format(lb.get(language, "vro.huskiness.2"), crude.getHuskiness());
 
                 sendMessage(setting.getTelegramId(), message);
             }

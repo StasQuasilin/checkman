@@ -64,6 +64,7 @@ public class Branches {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
             public static final String RAW_EDIT = "/laboratory/extraction/raw.j";
             public static final String OIL_EDIT = "/laboratory/extraction/oil.j";
+            public static final String TURN_CRUDE_EDIT = "/laboratory/extraction/turn/crude.j";
         }
 
         public class VRO {
@@ -124,6 +125,7 @@ public class Branches {
         public static final String BOT_STATUS =         API + "/bot/status";
         public static final String WEIGHT_CANCEL =      API + "/weight/cancel";
         public static final String CHANGE_DATE =        API + "/logistic/change/date";
+        public static final String EXTRACTION_TURN_CRUDE_EDIT = API + "/laboratory/extraction/turn/crude/edit";
 
 
         public class References {

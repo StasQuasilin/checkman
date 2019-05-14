@@ -43,7 +43,7 @@ public class SignUpAPI extends IAPI{
             User user = new User();
             user.setUid(getToken());
             user.setRole(role);
-            user.setLanguage(LanguageBase.getBase().defLang);
+            user.getWorker().setLanguage(LanguageBase.getBase().defLang);
             user.setPassword(PasswordGenerator.getPassword());
             user.setEmail(email);
             

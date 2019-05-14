@@ -51,7 +51,7 @@ public class SignInAPI extends IAPI{
                 answer.add("redirect", Branches.UI.HOME);
                 log.info("Success, user " + user.getWorker().getPerson().getValue());
                 req.getSession().setAttribute("token", UserBox.getUserBox().addUser(user));
-                req.getSession().setAttribute("lang", user.getLanguage());
+                req.getSession().setAttribute("lang", user.getWorker().getLanguage());
                 req.getSession().setAttribute("worker", user.getWorker());
                 req.getSession().setAttribute("role", user.getRole());
             } else {

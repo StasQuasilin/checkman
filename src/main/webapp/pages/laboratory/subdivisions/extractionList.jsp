@@ -13,6 +13,9 @@
             <li class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
                 <fmt:message key="extraction.crude"/>
             </li>
+            <li class="drop-menu-item" onclick="loadModal('${turnCrudeEdit}')" >
+                <fmt:message key="extraction.turn.crude"/>
+            </li>
             <li class="drop-menu-item" onclick="loadModal('${rawEdit}')">
                 <fmt:message key="extraction.raw"/>
             </li>
@@ -30,16 +33,15 @@
     deamon.url = '${update}';
     deamon.doRequest();
 </script>
-
 <div id="container">
     <div v-for="(value, key) in items" class="container-item" :class="rowName(value.item.date)" style="padding: 4pt">
-        <div>
+        <div class="t1">
             <span>
-            {{new Date(value.item.date).toLocaleDateString()}}
-        </span>
-        <span>
-            <fmt:message key="turn"/><span>&nbsp;#</span>{{value.item.number}}
-        </span>
+                {{new Date(value.item.date).toLocaleDateString()}}
+            </span>
+            <span>
+                <fmt:message key="turn"/><span>&nbsp;#</span>{{value.item.number}}
+            </span>
         </div>
         <div style="padding-left: 12pt">
             <table style="font-size: 10pt; border: none" border="1">

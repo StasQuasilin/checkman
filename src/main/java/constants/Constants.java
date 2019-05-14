@@ -90,6 +90,7 @@ public class Constants {
         public static final String PERSONAL = "title.personal";
         public static final String ADMIN = "title.admin";
         public static final String WELCOME = "title.welcome";
+        public static final String EXTRACTION_TURN_CRUDE = "title.extraction.turn.crude";
 
         public class Archive {
             public static final String DEAL = "title.archive";
