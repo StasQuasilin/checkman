@@ -46,7 +46,7 @@ public class ProbeEdit extends IModal {
                     req.setAttribute("probe", hibernator.get(OilProbe.class, "id", id));
                 }
                 break;
-            case cake:
+            case oilcake:
                 req.setAttribute("title", Constants.Titles.PROBE_CAKE_EDIT);
                 req.setAttribute("saveApi", Branches.API.PROBE_CAKE_SAVE);
                 if (id != -1){

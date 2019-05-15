@@ -8,21 +8,47 @@
 <div id="container-header" style="display: inline">
     <link rel="stylesheet" href="${context}/css/drop-menu.css">
     <div class="drop-menu">
-        <a class="drop-btn"><fmt:message key="analyses"/> &#9660;</a>
-        <ul class="drop-menu-content">
-            <li class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
+        <a class="drop-btn"><fmt:message key="analyses"/>&nbsp;&#9660;</a>
+        <div class="drop-menu-content">
+            <div class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
                 <fmt:message key="extraction.crude"/>
-            </li>
-            <li class="drop-menu-item" onclick="loadModal('${turnCrudeEdit}')" >
-                <fmt:message key="extraction.turn.crude"/>
-            </li>
-            <li class="drop-menu-item" onclick="loadModal('${rawEdit}')">
-                <fmt:message key="extraction.raw"/>
-            </li>
-            <li class="drop-menu-item"  onclick="loadModal('${oilEdit}')">
+            </div>
+            <div class="drop-menu drop-menu-item">
+                <span>
+                    <fmt:message key="laboratory.protein"/>&nbsp;&#9205;
+                </span>
+                <div class="drop-menu-content" style="top: 0; left: 100%">
+                    <div class="drop-menu-item-header">
+                        <fmt:message key="laboratory.protein"/>
+                    </div>
+                    <div class="drop-menu-item" onclick="loadModal('${turnProtein}')">
+                        <fmt:message key="turn"/>
+                    </div>
+                    <div class="drop-menu-item" onclick="loadModal('${storageProtein}')">
+                        <fmt:message key="storage"/>
+                    </div>
+                </div>
+            </div>
+            <div class="drop-menu drop-menu-item">
+                <span>
+                    Сирий жир&nbsp;&#9205;
+                </span>
+                <div class="drop-menu-content" style="top: 0; left: 100%">
+                    <div class="drop-menu-item-header">
+                        Сирий жир
+                    </div>
+                    <div class="drop-menu-item">
+                        Склад
+                    </div>
+                    <div class="drop-menu-item">
+                        Смена
+                    </div>
+                </div>
+            </div>
+            <div class="drop-menu-item"  onclick="loadModal('${oilEdit}')">
                 <fmt:message key="extraction.oil"/>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
 </div>
 <script>
@@ -35,7 +61,7 @@
 </script>
 <div id="container">
     <div v-for="(value, key) in items" class="container-item" :class="rowName(value.item.date)" style="padding: 4pt">
-        <div class="t1">
+        <div class="turn-date" :class="'t-' + value.item.number">
             <span>
                 {{new Date(value.item.date).toLocaleDateString()}}
             </span>

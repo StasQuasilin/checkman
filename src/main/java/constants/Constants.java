@@ -91,6 +91,8 @@ public class Constants {
         public static final String ADMIN = "title.admin";
         public static final String WELCOME = "title.welcome";
         public static final String EXTRACTION_TURN_CRUDE = "title.extraction.turn.crude";
+        public static final String EXTRACTION_TURN_PROTEIN = "title.extraction.turn.protein";
+        public static final String EXTRACTION_STORAGE_PROTEIN = "title.extraction.storage.protein";
 
         public class Archive {
             public static final String DEAL = "title.archive";

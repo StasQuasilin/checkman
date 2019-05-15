@@ -5,12 +5,12 @@ import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
+import entity.laboratory.subdivisions.extraction.ExtractionStorageProteinEntity;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.ExtractionTurnService;
-import utils.PostUtil;
 import utils.TurnBox;
 
 import javax.servlet.ServletException;
@@ -24,77 +24,56 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Created by szpt_user045 on 04.04.2019.
+ * Created by szpt_user045 on 15.05.2019.
  */
-@WebServlet(Branches.API.EXTRACTION_CRUDE_EDIT)
-public class ExtractionCrudeEditAPI extends IAPI {
-
-
+@WebServlet(Branches.API.EXTRACTION_STORAGE_PROTEIN_EDIT)
+public class ExtractionStorageProteinEdit extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            ExtractionCrude crude;
+            ExtractionStorageProteinEntity storageProtein;
             boolean save = false;
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
             TurnBox.TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
-
-            if (body.containsKey(Constants.ID)) {
-                long id = (long) body.get(Constants.ID);
-                crude = hibernator.get(ExtractionCrude.class, "id", id);
+            long id = -1;
+            if (body.containsKey(Constants.ID)){
+                id = (long) body.get(Constants.ID);
+            }
+            if (id != -1) {
+                storageProtein = hibernator.get(ExtractionStorageProteinEntity.class, "id", id);
             } else {
-                crude = new ExtractionCrude();
-                System.out.println("Get Extraction turn " + Timestamp.valueOf(localDateTime));
+                storageProtein = new ExtractionStorageProteinEntity();
                 ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
-                crude.setTurn(turn);
+                storageProtein.setTurn(turn);
+                save = true;
+            }
+            storageProtein.setTime(Timestamp.valueOf(localDateTime));
+
+            long storageId = (long) body.get("storage");
+            if (storageProtein.getStorage() == null || storageProtein.getStorage().getId() != storageId) {
+                storageProtein.setStorage(hibernator.get(Storage.class, "id", storageId));
                 save = true;
             }
 
-            crude.setTime(Timestamp.valueOf(localDateTime));
-
-            float humidityIncome = Float.parseFloat(String.valueOf(body.get("humidityIncome")));
-            if (crude.getHumidityIncome() != humidityIncome) {
-                crude.setHumidityIncome(humidityIncome);
+            float protein = Float.parseFloat(String.valueOf(body.get("protein")));
+            if (storageProtein.getProtein() != protein) {
+                storageProtein.setProtein(protein);
                 save = true;
             }
-
-            float fraction = Float.parseFloat(String.valueOf(body.get("fraction")));
-            if (crude.getFraction() != fraction) {
-                crude.setFraction(fraction);
-                save = true;
-            }
-
-            float miscellas = Float.parseFloat(String.valueOf(body.get("miscellas")));
-            if (crude.getMiscellas() != miscellas) {
-                crude.setMiscellas(miscellas);
-                save = true;
-            }
-
+            
             float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
-            if (crude.getHumidity() != humidity) {
-                crude.setHumidity(humidity);
+            if (storageProtein.getHumidity() != humidity) {
+                storageProtein.setHumidity(humidity);
                 save = true;
             }
-
-            float dissolvent = Float.parseFloat(String.valueOf(body.get("dissolvent")));
-            if (crude.getDissolvent() != dissolvent) {
-                crude.setDissolvent(dissolvent);
-                save = true;
-            }
-
-            float grease = Float.parseFloat(String.valueOf(body.get("grease")));
-            if (crude.getGrease() != grease) {
-                crude.setGrease(grease);
-                save = true;
-            }
-
             if (save) {
-                ActionTime createTime = crude.getCreateTime();
+                ActionTime createTime = storageProtein.getCreateTime();
                 if (createTime == null) {
                     createTime = new ActionTime();
-                    crude.setCreateTime(createTime);
+                    storageProtein.setCreateTime(createTime);
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
@@ -104,12 +83,11 @@ public class ExtractionCrudeEditAPI extends IAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                crude.setCreator(worker);
+                storageProtein.setCreator(worker);
 
-                hibernator.save(createTime, crude);
-                BotFactory.getNotificator().extractionShow(crude);
+                hibernator.save(createTime, storageProtein);
+                BotFactory.getNotificator().extractionShow(storageProtein);
             }
-
             write(resp, answer);
         } else {
             write(resp, emptyBody);

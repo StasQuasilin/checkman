@@ -1,24 +1,30 @@
 .drop-menu{
     display: inline-block;
+    position: relative;
 }
-.drop-menu:hover .drop-menu-content{
+.drop-menu:hover>.drop-menu-content{
     display: block;
 }
 .drop-menu-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    width: 200px;
+    width: auto;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     z-index: 1;
     margin: 0;
+    padding: 4pt;
 }
 .drop-menu-item{
     display: inline-block;
-    margin: 0;
+    margin: 0 4pt;
     width: 100%;
-    padding: 8pt 0;
+    padding: 4pt 0;
 }
 .drop-menu-item:hover{
     background-color: aliceblue;
+}
+.drop-menu-item-header{
+    text-align: center;
+    font-weight: bold;
 }

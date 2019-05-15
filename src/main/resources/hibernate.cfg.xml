@@ -71,6 +71,9 @@
         <mapping class="entity.bot.UserBotSetting"/>
         <mapping class="bot.BotUID"/>
         <mapping class="entity.bot.BotSettings"/>
+        <mapping class="entity.storages.Storage"/>
+        <mapping class="entity.storages.StorageProduct"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.ExtractionStorageProteinEntity"/>
 
     </session-factory>
 </hibernate-configuration>

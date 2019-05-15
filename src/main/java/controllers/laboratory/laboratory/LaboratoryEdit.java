@@ -35,7 +35,7 @@ public class LaboratoryEdit extends IModal {
                 req.setAttribute("title", Constants.Titles.OIL_EDIT);
                 req.setAttribute("saveUrl", Branches.API.LABORATORY_SAVE_OIL);
                 break;
-            case cake:
+            case oilcake:
                 req.setAttribute("modalContent", "/pages/laboratory/cakeEdit.jsp");
                 req.setAttribute("title", Constants.Titles.CAKE_EDIT);
                 req.setAttribute("saveUrl", Branches.API.LABORATORY_SAVE_CAKE);

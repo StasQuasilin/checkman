@@ -27,8 +27,8 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_EXTRACTION);
                 req.setAttribute("content", "/pages/laboratory/subdivisions/extractionList.jsp");
                 req.setAttribute("crudeEdit", Branches.UI.Extraction.CRUDE_EDIT);
-                req.setAttribute("turnCrudeEdit", Branches.UI.Extraction.TURN_CRUDE_EDIT);
-                req.setAttribute("rawEdit", Branches.UI.Extraction.RAW_EDIT);
+                req.setAttribute("turnProtein", Branches.UI.Extraction.TURN_PROTEIN);
+                req.setAttribute("storageProtein", Branches.UI.Extraction.STORAGE_PROTEIN);
                 req.setAttribute("oilEdit", Branches.UI.Extraction.OIL_EDIT);
                 req.setAttribute("update", Branches.API.EXTRACTION_LIST);
                 break;

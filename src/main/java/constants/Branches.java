@@ -59,12 +59,17 @@ public class Branches {
         public static final String WELCOME = "/welcome.j";
         public static final String PRINT_DOCUMENT = "/weight/print.j";
         public static final String WEIGHT_CANCEL = "/weight/cancel.j";
+        public static final String RAIL_LIST = "/rail/list.j";
+        public static final String RAIL_ARCHIVE = "/rail.archive.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
             public static final String RAW_EDIT = "/laboratory/extraction/raw.j";
             public static final String OIL_EDIT = "/laboratory/extraction/oil.j";
             public static final String TURN_CRUDE_EDIT = "/laboratory/extraction/turn/crude.j";
+            public static final String DAILY_CRUDE = "/laboratory/extraction/daily/crude.j";
+            public static final String TURN_PROTEIN = "/laboratory/extraction/turn/protein.j";
+            public static final String STORAGE_PROTEIN = "/laboratory/extraction/storage/protein.j";
         }
 
         public class VRO {
@@ -126,6 +131,8 @@ public class Branches {
         public static final String WEIGHT_CANCEL =      API + "/weight/cancel";
         public static final String CHANGE_DATE =        API + "/logistic/change/date";
         public static final String EXTRACTION_TURN_CRUDE_EDIT = API + "/laboratory/extraction/turn/crude/edit";
+        public static final String EXTRACTION_TURN_PROTEIN_EDIT = API + "/laboratory/extraction/turn/protein/edit";
+        public static final String EXTRACTION_STORAGE_PROTEIN_EDIT = "/laboratory/extraction/storage/protein/edit";
 
 
         public class References {

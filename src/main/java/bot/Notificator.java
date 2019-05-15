@@ -8,13 +8,16 @@ import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
+import entity.laboratory.subdivisions.extraction.ExtractionStorageProteinEntity;
 import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+import utils.DateUtil;
 import utils.LanguageBase;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -286,13 +289,16 @@ public class Notificator {
         }
     }
     public void extractionShow(ExtractionCrude crude){
+        int turnNumber = crude.getTurn().getNumber();
+        String turnDate = DateUtil.prettyDate(Date.valueOf(crude.getTurn().getDate().toLocalDateTime().toLocalDate()));
+        String turnTime = crude.getTime().toLocalDateTime().toLocalTime().toString();
+
         for (UserBotSetting setting : getSettings()) {
             if (setting.isExtraction() && setting.isShow()) {
                 String language = setting.getLanguage();
 
                 String message = lb.get(language, "extraction.title");
-                message += "\n" + String.format(lb.get(language, "extraction.turn"), crude.getTurn().getNumber(),
-                        crude.getTime().toLocalDateTime().toString());
+                message += "\n" + String.format(lb.get(language, "extraction.turn"), turnNumber, turnDate, turnTime);
                 message += "\n" + String.format(lb.get(language, "extraction.humidity.income"), crude.getHumidityIncome());
                 message += "\n" + String.format(lb.get(language, "extraction.fraction"), crude.getFraction());
                 message += "\n" + String.format(lb.get(language, "extraction.dissolvent"), crude.getDissolvent());
@@ -358,4 +364,7 @@ public class Notificator {
     }
 
 
+    public void extractionShow(ExtractionStorageProteinEntity storageProtein) {
+
+    }
 }

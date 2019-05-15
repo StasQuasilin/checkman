@@ -7,8 +7,8 @@
 <html>
 <link rel="stylesheet" href="${context}/css/NavigationMenu.css"/>
   <div class="navigation-menu" id="nav-menu">
-
     <ul>
+      <c:if test="${role eq 'admin' || role eq 'manager'}">
       <li class="menu-item">
         <span class="main" onclick="loadContent('${buyList}')">
           <fmt:message key="deal.buy"/>
@@ -28,12 +28,23 @@
         </span>
       </li>
       <li class="menu-item">
+        <span class="main" onclick="loadContent('${railList}')">
+          <fmt:message key="rail.shipment"/>
+        </span>
+        <span>
+          <a onclick="loadContent('${railArchive}')" ><fmt:message key="archive"/> </a>
+        </span>
+      </li>
+      <li class="menu-item">
         <span class="main" onclick="loadContent('${summaryList}')">
           <fmt:message key="consolidated.table"/>
         </span>
         <span>
           <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
         </span>
+      </li>
+      </c:if>
+      <c:if test="${role eq 'admin' || role eq 'logistic'}">
       <li class="menu-item">
         <span class="main"  onclick="loadContent('${logisticList}')">
           <fmt:message key="menu.logistic"/>
@@ -42,6 +53,8 @@
           <a onclick="loadContent(${context}${logistic_archive})"><fmt:message key="archive"/> </a>
         </span>
       </li>
+      </c:if>
+      <c:if test="${role eq 'admin' || role eq 'security'}">
       <li class="menu-item">
         <span class="main" onclick="loadContent('${transportList}')">
           <fmt:message key="menu.transport"/>
@@ -55,6 +68,8 @@
           <fmt:message key="menu.seals"/>
         </span>
       </li>
+      </c:if>
+      <c:if test="${role eq 'admin' || role eq 'weigher'}">
       <li class="menu-item">
         <span class="main" onclick="loadContent('${weightList}')">
           <fmt:message key="menu.weight"/>
@@ -63,18 +78,20 @@
           <a onclick="loadContent('${weightArchive}')"><fmt:message key="archive"/> </a>
         </span>
       </li>
+      </c:if>
+      <c:if test="${role eq 'admin' || role eq 'analyser'}">
         <li class="menu-item" onclick="loadContent('${probeList}')">
           <span class="main">
             <fmt:message key="analyses.probe"/>
           </span>
         </li>
-      <c:forEach items="${subdivisions}" var="s">
-        <li class="menu-item" onclick="loadContent('${subdivisionList}?sub=${s.key}')">
-          <span class="main">
-            <fmt:message key="analyses.subdivision.${s.key}"/>
-          </span>
-        </li>
-      </c:forEach>
+        <c:forEach items="${subdivisions}" var="s">
+          <li class="menu-item" onclick="loadContent('${subdivisionList}?sub=${s.key}')">
+            <span class="main">
+              <fmt:message key="analyses.subdivision.${s.key}"/>
+            </span>
+          </li>
+        </c:forEach>
         <li class="menu-item">
           <span class="main" onclick="loadContent('${laboratoryBuyList}')">
             <fmt:message key="analyses.buy"/>
@@ -91,6 +108,7 @@
             <a onclick="loadContent('${laboratorySellArchive}')"><fmt:message key="archive"/> </a>
           </span>
         </li>
+      </c:if>
       <li class="menu-item" onclick="loadContent('${referencesList}')">
         <span class="main">
           <fmt:message key="menu.references"/>

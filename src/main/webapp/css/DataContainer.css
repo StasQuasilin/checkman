@@ -2,10 +2,20 @@
 
 }
 .turn-date{
-    padding: 0 2pt;
+    padding: 0 8pt;
+    border-radius: 4pt;
 }
-.t1{
-    background: linear-gradient(0.25deg, cornflowerblue, transparent);
+
+.turn-date * {
+    color: white;
+    font-weight: bold;
+}
+
+.t-1{
+    background: linear-gradient(to right, #5F9EA0, transparent);
+}
+.t-2{
+    background: linear-gradient(to right, #CD5C5C, transparent);
 }
 .flip-list-move{
     transition: transform 1s;

@@ -24,6 +24,8 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("buyArchive", Branches.UI.BUY_ARCHIVE);
         req.setAttribute("sellList", Branches.UI.DEAL_SELL);
         req.setAttribute("sellArchive", Branches.UI.SELL_ARCHIVE);
+        req.setAttribute("railList", Branches.UI.RAIL_LIST);
+        req.setAttribute("railArchive", Branches.UI.RAIL_ARCHIVE);
         req.setAttribute("summaryList", Branches.UI.SUMMARY_LIST);
         req.setAttribute("summaryArchive", Branches.UI.SUMMARY_ARCHIVE);
         req.setAttribute("logisticList", Branches.UI.LOGISTIC_LIST);
