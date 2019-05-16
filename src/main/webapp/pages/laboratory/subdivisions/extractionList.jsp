@@ -18,14 +18,11 @@
                     <fmt:message key="laboratory.protein"/>&nbsp;&#9205;
                 </span>
                 <div class="drop-menu-content" style="top: 0; left: 100%">
-                    <div class="drop-menu-item-header">
-                        <fmt:message key="laboratory.protein"/>
-                    </div>
                     <div class="drop-menu-item" onclick="loadModal('${turnProtein}')">
-                        <fmt:message key="turn"/>
+                        <fmt:message key="menu.extraction.turn.protein"/>
                     </div>
                     <div class="drop-menu-item" onclick="loadModal('${storageProtein}')">
-                        <fmt:message key="storage"/>
+                        <fmt:message key="menu.extraction.storage.protein"/>
                     </div>
                 </div>
             </div>
@@ -34,14 +31,11 @@
                     Сирий жир&nbsp;&#9205;
                 </span>
                 <div class="drop-menu-content" style="top: 0; left: 100%">
-                    <div class="drop-menu-item-header">
-                        Сирий жир
+                    <div class="drop-menu-item" onclick="loadModal('${turnGrease}')">
+                        <fmt:message key="menu.extraction.turn.raw.grease"/>
                     </div>
-                    <div class="drop-menu-item">
-                        Склад
-                    </div>
-                    <div class="drop-menu-item">
-                        Смена
+                    <div class="drop-menu-item" onclick="loadModal('${storageGrease}')">
+                        <fmt:message key="menu.extraction.storage.raw.grease"/>
                     </div>
                 </div>
             </div>
@@ -72,11 +66,22 @@
         <div style="padding-left: 12pt">
             <table style="font-size: 10pt; border: none" border="1">
                 <tr>
-                    <th>
+                    <th rowspan="2">
                         <span style="display: inline-block; width: 4em;">
                             <fmt:message key="time"/>
                         </span>
                     </th>
+                    <td colspan="3" align="center">
+                        <fmt:message key="extraction.crude"/>
+                    </td>
+                    <td colspan="3" align="center">
+                        <fmt:message key="extraction.meal"/>
+                    </td>
+                    <td colspan="4" align="center">
+                        <fmt:message key="storage"/>
+                    </td>
+                </tr>
+                <tr>
                     <th>
                         <span style="display: inline-block; width: 8em;">
                             <fmt:message key="extraction.crude.humidity.income.short"/>
@@ -93,28 +98,38 @@
                         </span>
                     </th>
                     <th>
-                        <span style="display: inline-block; width: 8em;">
+                        <span style="display: inline-block; width: 7em;">
                             <fmt:message key="extraction.crude.humidity.short"/>
                         </span>
                     </th>
                     <th>
-                        <span style="display: inline-block; width: 8em;">
+                        <span style="display: inline-block; width: 7em;">
                             <fmt:message key="extraction.crude.dissolvent.short"/>
                         </span>
                     </th>
                     <th>
-                        <span style="display: inline-block; width: 8em;">
+                        <span style="display: inline-block; width: 7em;">
                             <fmt:message key="extraction.crude.grease"/>
                         </span>
                     </th>
                     <th>
-                        <span style="display: inline-block; width: 8em;">
+                        <span style="display: inline-block; width: 5em;">
                             <fmt:message key="cake.protein"/>
                         </span>
                     </th>
                     <th>
-                        <span style="display: inline-block; width: 8em;">
-                            <fmt:message key="cake.cellulose"/>
+                        <span style="display: inline-block; width: 5em;">
+                            <fmt:message key="sun.humidity"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 5em;">
+                            <fmt:message key="sun.oiliness.short"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 5em;">
+                            <fmt:message key="sun.humidity"/>
                         </span>
                     </th>
                 </tr>
@@ -141,16 +156,32 @@
                         {{(crude.grease).toLocaleString()}}
                     </td>
                     <td align="center">
-                        <span v-if="value.item.raws[crude.time]">
-                            {{value.item.raws[crude.time].protein}}
+                        <span v-if="value.item.storageProtein[crude.time]">
+                            {{value.item.storageProtein[crude.time].protein}}
                         </span>
                         <span v-else>
                             --
                         </span>
                     </td>
                     <td align="center">
-                        <span v-if="value.item.raws[crude.time]">
-                            {{value.item.raws[crude.time].cellulose}}
+                        <span v-if="value.item.storageProtein[crude.time]">
+                            {{value.item.storageProtein[crude.time].humidity}}
+                        </span>
+                        <span v-else>
+                            --
+                        </span>
+                    </td>
+                    <td align="center">
+                        <span v-if="value.item.storageGrease[crude.time]">
+                            {{value.item.storageGrease[crude.time].grease}}
+                        </span>
+                        <span v-else>
+                            --
+                        </span>
+                    </td>
+                    <td align="center">
+                        <span v-if="value.item.storageGrease[crude.time]">
+                            {{value.item.storageGrease[crude.time].humidity}}
                         </span>
                         <span v-else>
                             --
@@ -159,8 +190,30 @@
                 </tr>
             </table>
         </div>
+        <div>
+            <div v-for="protein in value.item.turnProtein" style="font-size: 10pt; display: inline-block">
+                <b>
+                    <fmt:message key="title.extraction.turn.protein"/>:
+                </b>
+                <fmt:message key="cake.protein"/>:
+                {{protein.protein}},
+                <fmt:message key="sun.humidity"/>:
+                {{protein.humidity}}
+            </div>
+            <div v-for="grease in value.item.turnGrease" style="font-size: 10pt; display: inline-block">
+                <b>
+                    <fmt:message key="title.extraction.turn.grease"/>:
+                </b>
+                <fmt:message key="extraction.raw.grease"/>:
+                {{grease.grease}},
+                <fmt:message key="sun.humidity"/>:
+                {{grease.humidity}}
+            </div>
+        </div>
         <div v-for="oil in value.item.oil" style="font-size: 10pt">
-            <fmt:message key="extraction.oil"/>:
+            <b>
+                <fmt:message key="extraction.oil"/>:
+            </b>
             <fmt:message key="sun.humidity"/>:
             {{(oil.humidity).toLocaleString()}},
             <fmt:message key="sun.acid.value"/>:
@@ -172,6 +225,7 @@
             <fmt:message key="extraction.oil.explosion"/>:
             {{(oil.explosionT).toLocaleString()}}
         </div>
+
     </div>
 </div>
 </html>

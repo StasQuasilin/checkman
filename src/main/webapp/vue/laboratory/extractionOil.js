@@ -20,12 +20,17 @@ var editor = new Vue({
             date.setDate(date.getDate() + day);
             return date.toLocaleDateString()
         },
+        valid:function(){
+            return true;
+        },
         save:function(){
-            PostApi(this.api.save, this.oil, function(a){
-                if (a.status == 'success'){
-                    closeModal();
-                }
-            })
+            if (this.valid()) {
+                PostApi(this.api.save, this.oil, function (a) {
+                    if (a.status == 'success') {
+                        closeModal();
+                    }
+                })
+            }
         }
     }
 });

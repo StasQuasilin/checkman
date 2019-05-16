@@ -1,17 +1,16 @@
-package api.laboratory.vro;
+package api.laboratory.extraction;
 
 import api.IAPI;
+import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.subdivisions.extraction.ExtractionOIl;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
-import entity.laboratory.subdivisions.vro.VROOil;
-import entity.laboratory.subdivisions.vro.VROTurn;
+import entity.laboratory.subdivisions.extraction.TurnGrease;
 import entity.production.Turn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
+import utils.ExtractionTurnService;
 import utils.TurnBox;
 
 import javax.servlet.ServletException;
@@ -24,21 +23,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * Created by szpt_user045 on 11.04.2019.
+ * Created by szpt_user045 on 16.05.2019.
  */
-@WebServlet(Branches.API.VRO_OIL_EDIT)
-public class VROOilEditAPI extends IAPI {
+@WebServlet(Branches.API.EXTRACTION_TURN_GREASE_EDIT)
+public class ExtractionTurnGreaseEdit extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            System.out.println(body);
-            VROOil oil;
+            TurnGrease turnGrease;
+            long id = -1;
             if (body.containsKey(Constants.ID)) {
-                long id = (long) body.get(Constants.ID);
-                oil = hibernator.get(VROOil.class, "id", id);
+                id = (long) body.get(Constants.ID);
+            }
+            if (id != -1){
+                turnGrease = hibernator.get(TurnGrease.class, "id", id);
             } else {
-                oil = new VROOil();
+                turnGrease = new TurnGrease();
             }
 
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
@@ -53,45 +54,28 @@ public class VROOilEditAPI extends IAPI {
                     date.getDayOfMonth(),
                     turn.getBegin().toLocalTime().getHour(),
                     turn.getBegin().toLocalTime().getMinute());
-            VROTurn vroTurn = hibernator.get(VROTurn.class, "date", Timestamp.valueOf(turnTime));
-            if (vroTurn == null) {
-                vroTurn = new VROTurn();
-                vroTurn.setNumber(turn.getNumber());
-                vroTurn.setDate(Timestamp.valueOf(turnTime));
-                hibernator.save(turn);
-            }
-            oil.setTurn(vroTurn);
+            ExtractionTurn extractionTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
+
+            turnGrease.setTurn(extractionTurn);
             boolean save = false;
 
-            float acid = Float.parseFloat(String.valueOf(body.get("acid")));
-            if (oil.getAcid() != acid) {
-                oil.setAcid(acid);
+            float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
+            if (turnGrease.getHumidity() != humidity) {
+                turnGrease.setHumidity(humidity);
                 save = true;
             }
 
-            float peroxide = Float.parseFloat(String.valueOf(body.get("peroxide")));
-            if (oil.getPeroxide() != peroxide) {
-                oil.setPeroxide(peroxide);
-                save = true;
-            }
-
-            float phosphorus = Float.parseFloat(String.valueOf(body.get("phosphorus")));
-            if (oil.getPhosphorus() != phosphorus) {
-                oil.setPhosphorus(phosphorus);
-                save = true;
-            }
-
-            int color = Integer.parseInt(String.valueOf(body.get("color")));
-            if (oil.getColor() != color) {
-                oil.setColor(color);
+            float protein = Float.parseFloat(String.valueOf(body.get("grease")));
+            if (turnGrease.getGrease() != protein) {
+                turnGrease.setGrease(protein);
                 save = true;
             }
 
             if (save) {
-                ActionTime createTime = oil.getCreateTime();
+                ActionTime createTime = turnGrease.getCreateTime();
                 if (createTime == null) {
                     createTime = new ActionTime();
-                    oil.setCreateTime(createTime);
+                    turnGrease.setCreateTime(createTime);
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
@@ -101,8 +85,9 @@ public class VROOilEditAPI extends IAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                oil.setCreator(worker);
-                hibernator.save(createTime, oil);
+                turnGrease.setCreator(worker);
+                hibernator.save(createTime, turnGrease);
+                BotFactory.getNotificator().extractionShow(turnGrease);
             }
 
             write(resp, answer);

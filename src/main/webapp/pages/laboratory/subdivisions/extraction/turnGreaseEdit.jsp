@@ -7,40 +7,40 @@
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/laboratory/extractionOil.js"></script>
 <script>
-editor.api.save = '${save}';
-<c:forEach items="${turns}" var="turn">
+  editor.api.save = '${save}';
+  <c:forEach items="${turns}" var="turn">
   editor.turns.push({
-  id:${turn.id},
-  value:'<fmt:message key="turn"/> #${turn.number}',
-  <c:choose>
+    id:${turn.id},
+    value:'<fmt:message key="turn"/> #${turn.number}',
+    <c:choose>
     <c:when test="${turn.begin lt turn.end}">
-      day:0
+    day:0
     </c:when>
     <c:otherwise>
-      day:-1
+    day:-1
     </c:otherwise>
-  </c:choose>
+    </c:choose>
   });
-</c:forEach>
-<c:forEach items="${laborants}" var="l">
+  </c:forEach>
+  <c:forEach items="${laborants}" var="l">
   editor.laborants.push({
-  id:${l.id},
-  value:'${l.person.value}'
+    id:${l.id},
+    value:'${l.person.value}'
   });
-</c:forEach>
-<c:choose>
-<c:when test="${not empty oil}">
-</c:when>
-<c:otherwise>
-editor.oil = {
-  date : new Date().toISOString().substring(0, 10),
-  turn : -1,
-  humidity:0,
-  protein:0,
-  creator:${worker.id}
-};
-</c:otherwise>
-</c:choose>
+  </c:forEach>
+  <c:choose>
+  <c:when test="${not empty oil}">
+  </c:when>
+  <c:otherwise>
+  editor.oil = {
+    date : new Date().toISOString().substring(0, 10),
+    turn : -1,
+    humidity:0,
+    grease:0,
+    creator:${worker.id}
+  };
+  </c:otherwise>
+  </c:choose>
   editor.valid = function() {
     return typeof editor.oil.turn != 'undefined';
   }
@@ -81,14 +81,14 @@ editor.oil = {
   <tr>
     <td>
       <label for="protein">
-        <fmt:message key="extraction.raw.protein"/>
+        <fmt:message key="extraction.raw.grease"/>
       </label>
     </td>
     <td>
       :
     </td>
     <td>
-      <input id="protein" type="number" step="0.01" autocomplete="off" v-model="oil.protein">
+      <input id="protein" type="number" step="0.01" autocomplete="off" v-model="oil.grease">
     </td>
   </tr>
   <tr>

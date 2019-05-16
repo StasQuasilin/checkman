@@ -5,8 +5,9 @@ import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.subdivisions.extraction.StorageProtein;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import entity.laboratory.subdivisions.extraction.StorageGrease;
+import entity.laboratory.subdivisions.extraction.StorageProtein;
 import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
@@ -24,15 +25,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Created by szpt_user045 on 15.05.2019.
+ * Created by szpt_user045 on 16.05.2019.
  */
-@WebServlet(Branches.API.EXTRACTION_STORAGE_PROTEIN_EDIT)
-public class ExtractionStorageProteinEdit extends IAPI {
+@WebServlet(Branches.API.EXTRACTION_STORAGE_GREASE_EDIT)
+public class ExtractionStorageGreaseEdit extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            StorageProtein storageProtein;
+            StorageGrease storageGrease;
             boolean save = false;
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
@@ -43,37 +44,37 @@ public class ExtractionStorageProteinEdit extends IAPI {
                 id = (long) body.get(Constants.ID);
             }
             if (id != -1) {
-                storageProtein = hibernator.get(StorageProtein.class, "id", id);
+                storageGrease = hibernator.get(StorageGrease.class, "id", id);
             } else {
-                storageProtein = new StorageProtein();
+                storageGrease = new StorageGrease();
                 ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
-                storageProtein.setTurn(turn);
+                storageGrease.setTurn(turn);
                 save = true;
             }
-            storageProtein.setTime(Timestamp.valueOf(localDateTime));
+            storageGrease.setTime(Timestamp.valueOf(localDateTime));
 
             long storageId = (long) body.get("storage");
-            if (storageProtein.getStorage() == null || storageProtein.getStorage().getId() != storageId) {
-                storageProtein.setStorage(hibernator.get(Storage.class, "id", storageId));
+            if (storageGrease.getStorage() == null || storageGrease.getStorage().getId() != storageId) {
+                storageGrease.setStorage(hibernator.get(Storage.class, "id", storageId));
                 save = true;
             }
 
-            float protein = Float.parseFloat(String.valueOf(body.get("protein")));
-            if (storageProtein.getProtein() != protein) {
-                storageProtein.setProtein(protein);
+            float grease = Float.parseFloat(String.valueOf(body.get("grease")));
+            if (storageGrease.getGrease() != grease) {
+                storageGrease.setGrease(grease);
                 save = true;
             }
-            
+
             float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
-            if (storageProtein.getHumidity() != humidity) {
-                storageProtein.setHumidity(humidity);
+            if (storageGrease.getHumidity() != humidity) {
+                storageGrease.setHumidity(humidity);
                 save = true;
             }
             if (save) {
-                ActionTime createTime = storageProtein.getCreateTime();
+                ActionTime createTime = storageGrease.getCreateTime();
                 if (createTime == null) {
                     createTime = new ActionTime();
-                    storageProtein.setCreateTime(createTime);
+                    storageGrease.setCreateTime(createTime);
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
@@ -83,10 +84,10 @@ public class ExtractionStorageProteinEdit extends IAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                storageProtein.setCreator(worker);
+                storageGrease.setCreator(worker);
 
-                hibernator.save(createTime, storageProtein);
-                BotFactory.getNotificator().extractionShow(storageProtein);
+                hibernator.save(createTime, storageGrease);
+                BotFactory.getNotificator().extractionShow(storageGrease);
             }
             write(resp, answer);
         } else {

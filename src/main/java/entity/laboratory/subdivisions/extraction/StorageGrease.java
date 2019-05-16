@@ -11,13 +11,13 @@ import java.sql.Timestamp;
  * Created by szpt_user045 on 15.05.2019.
  */
 @Entity
-@Table(name = "extraction_storage_protein")
-public class ExtractionStorageProteinEntity {
+@Table(name = "extraction_storage_grease")
+public class StorageGrease {
     private int id;
     private ExtractionTurn turn;
     private Timestamp time;
     private Storage storage;
-    private float protein;
+    private float grease;
     private float humidity;
     private ActionTime createTime;
     private Worker creator;
@@ -31,7 +31,7 @@ public class ExtractionStorageProteinEntity {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "turn")
     public ExtractionTurn getTurn() {
         return turn;
@@ -59,12 +59,12 @@ public class ExtractionStorageProteinEntity {
     }
 
     @Basic
-    @Column(name = "protein")
-    public float getProtein() {
-        return protein;
+    @Column(name = "grease")
+    public float getGrease() {
+        return grease;
     }
-    public void setProtein(float protein) {
-        this.protein = protein;
+    public void setGrease(float grease) {
+        this.grease = grease;
     }
 
     @Basic
@@ -93,5 +93,14 @@ public class ExtractionStorageProteinEntity {
     }
     public void setCreator(Worker creator) {
         this.creator = creator;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * time.hashCode() + hash;
+        hash = 31 * Float.hashCode(grease) + hash;
+        hash = 31 * Float.hashCode(humidity) + hash;
+        return hash;
     }
 }

@@ -30,7 +30,7 @@ public class ExtractionOIl {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "turn")
     public ExtractionTurn getTurn() {
         return turn;

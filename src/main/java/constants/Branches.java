@@ -67,9 +67,10 @@ public class Branches {
             public static final String RAW_EDIT = "/laboratory/extraction/raw.j";
             public static final String OIL_EDIT = "/laboratory/extraction/oil.j";
             public static final String TURN_CRUDE_EDIT = "/laboratory/extraction/turn/crude.j";
-            public static final String DAILY_CRUDE = "/laboratory/extraction/daily/crude.j";
             public static final String TURN_PROTEIN = "/laboratory/extraction/turn/protein.j";
             public static final String STORAGE_PROTEIN = "/laboratory/extraction/storage/protein.j";
+            public static final String TURN_GREASE = "/laboratory/extraction/turn/grease.j";
+            public static final String STORAGE_GREASE = "/laboratory/extraction/storage/grease.j";
         }
 
         public class VRO {
@@ -133,6 +134,8 @@ public class Branches {
         public static final String EXTRACTION_TURN_CRUDE_EDIT = API + "/laboratory/extraction/turn/crude/edit";
         public static final String EXTRACTION_TURN_PROTEIN_EDIT = API + "/laboratory/extraction/turn/protein/edit";
         public static final String EXTRACTION_STORAGE_PROTEIN_EDIT = "/laboratory/extraction/storage/protein/edit";
+        public static final String EXTRACTION_TURN_GREASE_EDIT = API + "/laboratory/extraction/turn/grease/edit";
+        public static final String EXTRACTION_STORAGE_GREASE_EDIT = API + "/laboratory/extraction/storage/grease/edit";
 
 
         public class References {

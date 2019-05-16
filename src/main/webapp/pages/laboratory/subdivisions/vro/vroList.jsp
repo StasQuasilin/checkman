@@ -51,7 +51,7 @@
 
 <div id="container">
     <div v-for="(value, key) in items" class="container-item" :class="rowName(value.item.date)" style="padding: 4pt">
-        <div>
+        <div class="turn-date" :class="'t-' + value.item.number">
             <span>
             {{new Date(value.item.date).toLocaleDateString()}}
             </span>

@@ -11,10 +11,7 @@ import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
-import entity.laboratory.subdivisions.extraction.ExtractionOIl;
-import entity.laboratory.subdivisions.extraction.ExtractionRaw;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.vro.*;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
@@ -461,10 +458,61 @@ public class JsonParser {
                 json.put("number", turn.getNumber());
                 json.put("date", turn.getDate().toString());
                 json.put("crudes", toJson(turn.getCrudes()));
-                json.put("raws", toRawJson(turn.getRaws()));
+                json.put("storageProtein", toRawJson(turn.getProtein()));
+                json.put("storageGrease", toGreaseJson(turn.getGreases()));
                 json.put("oil", toOilJson(turn.getOils()));
+                json.put("turnProtein", toTurnJson(turn.getTurnProteins()));
+                json.put("turnGrease", toTurnGrease(turn.getTurnGreases()));
                 json.put("hash", turn.hashCode());
 
+                return json;
+            }
+
+            private static JSONObject toGreaseJson(Set<StorageGrease> greases) {
+                JSONObject json = new JSONObject();
+                for (StorageGrease grease : greases) {
+                    json.put(grease.getTime().toString(), toJson(grease));
+                }
+                return json;
+            }
+
+            private static JSONObject toJson(StorageGrease grease) {
+                JSONObject  json = new JSONObject();
+                json.put("id", grease.getId());
+                json.put("grease", grease.getGrease());
+                json.put("humidity", grease.getHumidity());
+                return json;
+            }
+
+            private static JSONArray toTurnGrease(Set<TurnGrease> turnGreases) {
+                JSONArray array = new JSONArray();
+                for (TurnGrease grease : turnGreases){
+                    array.add(toJson(grease));
+                }
+                return array;
+            }
+
+            private static JSONObject toJson(TurnGrease grease) {
+                JSONObject json = new JSONObject();
+                json.put("id", grease.getId());
+                json.put("grease", grease.getGrease());
+                json.put("humidity", grease.getHumidity());
+                return json;
+            }
+
+            private static JSONArray toTurnJson(Set<TurnProtein> turns) {
+                JSONArray array = new JSONArray();
+                for (TurnProtein protein : turns){
+                    array.add(toJson(protein));
+                }
+                return array;
+            }
+
+            private static JSONObject toJson(TurnProtein protein) {
+                JSONObject json = new JSONObject();
+                json.put("id", protein.getId());
+                json.put("protein", protein.getProtein());
+                json.put("humidity", protein.getHumidity());
                 return json;
             }
 
@@ -478,34 +526,28 @@ public class JsonParser {
 
             private static JSONObject toJson(ExtractionOIl oil) {
                 JSONObject json = new JSONObject();
-//                private int id;
                 json.put("id", oil.getId());
-//                private float humidity;
                 json.put("humidity", oil.getHumidity());
-//                private float acid;
                 json.put("acid", oil.getAcid());
-//                private float peroxide;
                 json.put("peroxide", oil.getPeroxide());
-//                private float phosphorus;
                 json.put("phosphorus", oil.getPhosphorus());
-//                private float explosionT;
                 json.put("explosionT", oil.getExplosionT());
                 return json;
             }
 
-            private static JSONObject toRawJson(Set<ExtractionRaw> raws) {
+            private static JSONObject toRawJson(Set<StorageProtein> raws) {
                 JSONObject json = new JSONObject();
-                for (ExtractionRaw raw : raws){
+                for (StorageProtein raw : raws){
                     json.put(raw.getTime().toString(), toJson(raw));
                 }
                 return json;
             }
 
-            private static JSONObject toJson(ExtractionRaw raw) {
+            private static JSONObject toJson(StorageProtein raw) {
                 JSONObject json = new JSONObject();
                 json.put("id", raw.getId());
                 json.put("protein", raw.getProtein());
-                json.put("cellulose", raw.getCellulose());
+                json.put("humidity", raw.getHumidity());
                 return json;
             }
 

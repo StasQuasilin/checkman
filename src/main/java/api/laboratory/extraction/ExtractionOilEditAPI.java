@@ -1,6 +1,7 @@
 package api.laboratory.extraction;
 
 import api.IAPI;
+import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -9,6 +10,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.production.Turn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.ExtractionTurnService;
 import utils.PostUtil;
 import utils.TurnBox;
 
@@ -29,85 +31,88 @@ public class ExtractionOilEditAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
-        System.out.println(body);
-        ExtractionOIl oil;
-        if (body.containsKey(Constants.ID)){
-            long id = (long) body.get(Constants.ID);
-            oil = hibernator.get(ExtractionOIl.class, "id", id);
-        } else {
-            oil = new ExtractionOIl();
-        }
-        
-        LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-        long turnId = (long) body.get("turn");
-        Turn turn = TurnBox.getBox().getTurn(turnId);
-        if (turn.getBegin().after(turn.getEnd())){
-            date = date.minusDays(1);
-        }
-        LocalDateTime turnTime = LocalDateTime.of(
-                date.getYear(), 
-                date.getMonth(), 
-                date.getDayOfMonth(),
-                turn.getBegin().toLocalTime().getHour(),
-                turn.getBegin().toLocalTime().getMinute());
-        ExtractionTurn extractionTurn = hibernator.get(ExtractionTurn.class, "date", Timestamp.valueOf(turnTime));
-        if (extractionTurn == null) {
-            extractionTurn = new ExtractionTurn();
-            extractionTurn.setNumber(turn.getNumber());
-            extractionTurn.setDate(Timestamp.valueOf(turnTime));
-            hibernator.save(turn);
-        }
-        oil.setTurn(extractionTurn);
-        boolean save = false;
-
-        float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
-        if (oil.getHumidity() != humidity) {
-            oil.setHumidity(humidity);
-            save = true;
-        }
-
-        float acid = Float.parseFloat(String.valueOf(body.get("acid")));
-        if (oil.getAcid() != acid) {
-            oil.setAcid(acid);
-            save = true;
-        }
-
-        float peroxide = Float.parseFloat(String.valueOf(body.get("peroxide")));
-        if (oil.getPeroxide() != peroxide) {
-            oil.setPeroxide(peroxide);
-            save = true;
-        }
-
-        float phosphorus = Float.parseFloat(String.valueOf(body.get("phosphorus")));
-        if (oil.getPhosphorus() != phosphorus) {
-            oil.setPhosphorus(phosphorus);
-            save = true;
-        }
-
-        float explosion = Float.parseFloat(String.valueOf(body.get("explosion")));
-        if (oil.getExplosionT() != explosion) {
-            oil.setExplosionT(explosion);
-            save = true;
-        }
-
-        if (save) {
-            ActionTime createTime = oil.getCreateTime();
-            if (createTime == null) {
-                createTime = new ActionTime();
-                oil.setCreateTime(createTime);
+        if (body != null) {
+            System.out.println(body);
+            ExtractionOIl oil;
+            long id = -1;
+            if (body.containsKey(Constants.ID)) {
+                id = (long) body.get(Constants.ID);
             }
-            createTime.setTime(new Timestamp(System.currentTimeMillis()));
-            Worker worker = getWorker(req);
-            if (body.containsKey(Constants.CREATOR)){
-                long creatorId = (long) body.get(Constants.CREATOR);
-                createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+            if (id != -1){
+                oil = hibernator.get(ExtractionOIl.class, "id", id);
             } else {
-                createTime.setCreator(worker);
+                oil = new ExtractionOIl();
             }
-            oil.setCreator(worker);
-            hibernator.save(createTime, oil);
-        }
 
-        write(resp, answer);
+            LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
+            long turnId = (long) body.get("turn");
+            Turn turn = TurnBox.getBox().getTurn(turnId);
+            if (turn.getBegin().after(turn.getEnd())) {
+                date = date.minusDays(1);
+            }
+            LocalDateTime turnTime = LocalDateTime.of(
+                    date.getYear(),
+                    date.getMonth(),
+                    date.getDayOfMonth(),
+                    turn.getBegin().toLocalTime().getHour(),
+                    turn.getBegin().toLocalTime().getMinute());
+            ExtractionTurn extractionTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
+
+            oil.setTurn(extractionTurn);
+            boolean save = false;
+
+            float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
+            if (oil.getHumidity() != humidity) {
+                oil.setHumidity(humidity);
+                save = true;
+            }
+
+            float acid = Float.parseFloat(String.valueOf(body.get("acid")));
+            if (oil.getAcid() != acid) {
+                oil.setAcid(acid);
+                save = true;
+            }
+
+            float peroxide = Float.parseFloat(String.valueOf(body.get("peroxide")));
+            if (oil.getPeroxide() != peroxide) {
+                oil.setPeroxide(peroxide);
+                save = true;
+            }
+
+            float phosphorus = Float.parseFloat(String.valueOf(body.get("phosphorus")));
+            if (oil.getPhosphorus() != phosphorus) {
+                oil.setPhosphorus(phosphorus);
+                save = true;
+            }
+
+            float explosion = Float.parseFloat(String.valueOf(body.get("explosion")));
+            if (oil.getExplosionT() != explosion) {
+                oil.setExplosionT(explosion);
+                save = true;
+            }
+
+            if (save) {
+                ActionTime createTime = oil.getCreateTime();
+                if (createTime == null) {
+                    createTime = new ActionTime();
+                    oil.setCreateTime(createTime);
+                }
+                createTime.setTime(new Timestamp(System.currentTimeMillis()));
+                Worker worker = getWorker(req);
+                if (body.containsKey(Constants.CREATOR)) {
+                    long creatorId = (long) body.get(Constants.CREATOR);
+                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                } else {
+                    createTime.setCreator(worker);
+                }
+                oil.setCreator(worker);
+                hibernator.save(createTime, oil);
+                BotFactory.getNotificator().extractionShow(oil);
+            }
+
+            write(resp, answer);
+        } else {
+            write(resp, emptyBody);
+        }
     }
 }

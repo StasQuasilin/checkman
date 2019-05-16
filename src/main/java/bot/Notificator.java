@@ -7,8 +7,7 @@ import entity.documents.LoadPlan;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
-import entity.laboratory.subdivisions.extraction.ExtractionStorageProteinEntity;
+import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.transport.Transportation;
@@ -314,12 +313,13 @@ public class Notificator {
     }
 
     public void vroShow(VROCrude crude) {
+        final int turn = crude.getTurn().getNumber();
+        String time = crude.getTime().toLocalDateTime().toString();
         for (UserBotSetting setting : getSettings()) {
             if(setting.isKpo() && setting.isShow()) {
                 String language = setting.getLanguage();
                 String message = lb.get(language, "vro.title");
-                message += "\n" + String.format(lb.get(language, "extraction.turn"), crude.getTurn().getNumber(),
-                         crude.getTime().toLocalDateTime().toString());
+                message += "\n" + String.format(lb.get(language, "extraction.turn"), turn, time);
                 message += "\n" + String.format(lb.get(language, "vro.humidity.before"), crude.getHumidityBefore());
                 message += "\n" + String.format(lb.get(language, "vro.soreness.before"), crude.getSorenessBefore());
                 message += "\n" + String.format(lb.get(language, "vro.humidity.after"), crude.getHumidityAfter());
@@ -363,8 +363,84 @@ public class Notificator {
         telegramBot.sendMsg(telegramId, message);
     }
 
+    public void extractionShow(StorageProtein storageProtein) {
+        String storage = storageProtein.getStorage().getName();
+        String time = storageProtein.getTime().toLocalDateTime().toLocalTime().toString();
+        for (UserBotSetting setting : getSettings()) {
+            if (setting.isShow() && setting.isExtraction()) {
+                String language = setting.getLanguage();
+                String message = String.format(lb.get(language, "extraction.storage.protein.title"),
+                        storage, time);
+                message += "\n" + String.format(lb.get(language, "extraction.storage.protein"), storageProtein.getProtein());
+                message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageProtein.getHumidity());
+                sendMessage(setting.getTelegramId(), message);
+            }
+        }
+    }
 
-    public void extractionShow(ExtractionStorageProteinEntity storageProtein) {
+    public void extractionShow(ExtractionOIl oil) {
+        final int turn = oil.getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(oil.getTurn().getDate());
 
+        for (UserBotSetting setting : getSettings()) {
+            if (setting.isShow() && setting.isExtraction()) {
+                String language = setting.getLanguage();
+                String message = lb.get(language, "extraction.oil.title");
+                message += "\n" + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
+                message += "\n" + String.format(lb.get(language, "extraction.oil.humidity"), oil.getHumidity());
+                message += "\n" + String.format(lb.get(language, "extraction.oil.acid.value"), oil.getAcid());
+                message += "\n" + String.format(lb.get(language, "extraction.oil.peroxide.value"), oil.getPeroxide());
+                message += "\n" + String.format(lb.get(language, "extraction.oil.phosphorus.value"), oil.getPhosphorus());
+                message += "\n" + String.format(lb.get(language, "extraction.oil.explosion.t"), oil.getExplosionT());
+
+                sendMessage(setting.getTelegramId(), message);
+            }
+        }
+    }
+
+    public void extractionShow(TurnProtein turnProtein) {
+        final int turn = turnProtein.getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(turnProtein.getTurn().getDate());
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.isExtraction()){
+                final String language = setting.getLanguage();
+                String message = lb.get(language, "extraction.turn.protein.title");
+                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
+                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.protein"), turnProtein.getProtein());
+                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnProtein.getHumidity());
+                sendMessage(setting.getTelegramId(), message);
+            }
+        }
+
+    }
+
+    public void extractionShow(TurnGrease turnGrease) {
+        final int turn = turnGrease.getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(turnGrease.getTurn().getDate());
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.isExtraction()){
+                final String language = setting.getLanguage();
+                String message = lb.get(language, "extraction.turn.grease.title");
+                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
+                message += "\n" + String.format(lb.get(language, "extraction.turn.grease.grease"), turnGrease.getGrease());
+                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnGrease.getHumidity());
+                sendMessage(setting.getTelegramId(), message);
+            }
+        }
+    }
+
+    public void extractionShow(StorageGrease storageGrease) {
+        String storage = storageGrease.getStorage().getName();
+        String time = storageGrease.getTime().toLocalDateTime().toLocalTime().toString();
+        for (UserBotSetting setting : getSettings()) {
+            if (setting.isShow() && setting.isExtraction()) {
+                String language = setting.getLanguage();
+                String message = String.format(lb.get(language, "extraction.storage.grease.title"),
+                        storage, time);
+                message += "\n" + String.format(lb.get(language, "extraction.turn.grease"), storageGrease.getGrease());
+                message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageGrease.getHumidity());
+                sendMessage(setting.getTelegramId(), message);
+            }
+        }
     }
 }

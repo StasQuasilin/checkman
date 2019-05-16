@@ -73,7 +73,10 @@
         <mapping class="entity.bot.BotSettings"/>
         <mapping class="entity.storages.Storage"/>
         <mapping class="entity.storages.StorageProduct"/>
-        <mapping class="entity.laboratory.subdivisions.extraction.ExtractionStorageProteinEntity"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.StorageProtein"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.TurnProtein"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.TurnGrease"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.StorageGrease"/>
 
     </session-factory>
 </hibernate-configuration>
