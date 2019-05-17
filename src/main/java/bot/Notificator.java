@@ -312,14 +312,16 @@ public class Notificator {
         }
     }
 
-    public void vroShow(VROCrude crude) {
+    public void vroShow(VROCrude crude, List<ForpressCake> cakes) {
         final int turn = crude.getTurn().getNumber();
-        String time = crude.getTime().toLocalDateTime().toString();
+        String date = DateUtil.prettyDate(Date.valueOf(crude.getTime().toLocalDateTime().toLocalDate()));
+        String time = crude.getTime().toLocalDateTime().toLocalTime().toString();
+
         for (UserBotSetting setting : getSettings()) {
-            if(setting.isKpo() && setting.isShow()) {
+            if(setting.isVro() && setting.isShow()) {
                 String language = setting.getLanguage();
                 String message = lb.get(language, "vro.title");
-                message += "\n" + String.format(lb.get(language, "extraction.turn"), turn, time);
+                message += "\n" + String.format(lb.get(language, "extraction.turn"), turn, date, time);
                 message += "\n" + String.format(lb.get(language, "vro.humidity.before"), crude.getHumidityBefore());
                 message += "\n" + String.format(lb.get(language, "vro.soreness.before"), crude.getSorenessBefore());
                 message += "\n" + String.format(lb.get(language, "vro.humidity.after"), crude.getHumidityAfter());
@@ -334,6 +336,15 @@ public class Notificator {
                 }
                 message += "\n" + String.format(lb.get(language, "vro.kernel.offset.2"), crude.getKernelOffset());
                 message += "\n" + String.format(lb.get(language, "vro.huskiness.2"), crude.getHuskiness());
+
+                if (cakes.size() > 0) {
+                    message += "\n" + lb.get(language, "forpress.cake.title");
+                    for (ForpressCake cake : cakes) {
+                        message += "\n" + cake.getForpress().getName();
+                        message += "\n" + String.format(lb.get(language, "bot.notificator.humidity"), cake.getHumidity());
+                        message += "\n" + String.format(lb.get(language, "bot.notificator.oiliness"), cake.getOiliness());
+                    }
+                }
 
                 sendMessage(setting.getTelegramId(), message);
             }

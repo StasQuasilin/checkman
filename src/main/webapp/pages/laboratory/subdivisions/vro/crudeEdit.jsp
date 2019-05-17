@@ -257,7 +257,7 @@
                 <tr>
                     <td>
                         <label for="pulpHumidity1">
-                            <fmt:message key="vro.pulp.humidity"/> I
+                            <fmt:message key="vro.pulp.humidity.1"/>
                         </label>
                     </td>
                     <td>
@@ -270,7 +270,7 @@
                 <tr>
                     <td>
                         <label for="pulpHumidity2">
-                            <fmt:message key="vro.pulp.humidity"/> II
+                            <fmt:message key="vro.pulp.humidity.2"/>
                         </label>
                     </td>
                     <td>

@@ -11,7 +11,7 @@
 
     <%--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">--%>
     <title>
-        <fmt:message key="application.title"/>
+        <fmt:message key="application.title"/>.${lang}
     </title>
     <link rel="stylesheet" href="${context}/css/Application.css">
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
