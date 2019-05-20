@@ -5,7 +5,7 @@ import constants.Branches;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.production.Turn;
 import org.json.simple.JSONObject;
-import utils.ExtractionTurnService;
+import utils.turns.ExtractionTurnService;
 import utils.TurnBox;
 
 import javax.servlet.ServletException;
@@ -13,8 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

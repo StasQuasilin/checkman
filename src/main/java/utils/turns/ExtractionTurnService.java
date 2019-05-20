@@ -1,6 +1,7 @@
-package utils;
+package utils.turns;
 
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import utils.TurnBox;
 import utils.hibernate.Hibernator;
 
 import java.sql.Timestamp;

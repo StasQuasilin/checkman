@@ -10,7 +10,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.production.Turn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
-import utils.ExtractionTurnService;
+import utils.turns.ExtractionTurnService;
 import utils.PostUtil;
 import utils.TurnBox;
 

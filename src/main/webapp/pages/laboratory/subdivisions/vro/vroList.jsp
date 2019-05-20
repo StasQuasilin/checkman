@@ -14,14 +14,24 @@
                     <fmt:message key="vro.crude"/>
                 </span>
             </li>
-            <li class="drop-menu-item"  onclick="loadModal('${oilEdit}')">
+            <li class="drop-menu-item" onclick="loadModal('${oilEdit}')">
                 <span style="padding: 0 2pt">
                     <fmt:message key="vro.oil"/>
                 </span>
             </li>
-            <li class="drop-menu-item"  onclick="loadModal('${dailyEdit}')">
+            <li class="drop-menu-item" onclick="loadModal('${dailyEdit}')">
                 <span style="padding: 0 2pt">
                     <fmt:message key="vro.daily"/>
+                </span>
+            </li>
+            <li class="drop-menu-item" onclick="loadModal('${oilMassFraction}')">
+                <span>
+                    <fmt:message key="oil.mass.fraction"/>
+                </span>
+            </li>
+            <li class="drop-menu-item" onclick="loadModal('${oilMassFractionDry}')">
+                <span>
+                    <fmt:message key="oil.mass.fraction.dry"/>
                 </span>
             </li>
         </ul>

@@ -1,5 +1,6 @@
 package constants;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.SyntaxTreeNode;
 import controllers.archive.ArchiveType;
 import org.glassfish.grizzly.utils.StringFilter;
 
@@ -78,6 +79,8 @@ public class Branches {
             public static final String CRUDE_EDIT = "/laboratory/vro/crude.j";
             public static final String OIL_EDIT = "/laboratory/vro/oil.j";
             public static final String DAILY_EDIT = "/laboratory/vro/daily.j";
+            public static final String OIL_MASS_FRACTION = "/laboratory/vro/oil/mass/fraction.j";
+            public static final String OIL_MASS_FRACTION_DRY = "/laboratory/vro/oil/mass/fraction/dry.j";
         }
     }
     public class API{
@@ -138,6 +141,8 @@ public class Branches {
         public static final String EXTRACTION_TURN_GREASE_EDIT = API + "/laboratory/extraction/turn/grease/edit";
         public static final String EXTRACTION_STORAGE_GREASE_EDIT = API + "/laboratory/extraction/storage/grease/edit";
         public static final String EXTRACTION_DAILY_REPORT_PRINT = API + "/laboratory/extraction/daily/report/print";
+        public static final String OIL_MASS_FRACTION = API + "/laboratory/vro/oil/mass/fraction";
+        public static final String OIL_MASS_FRACTION_DRY = OIL_MASS_FRACTION + "/dry";
 
 
         public class References {

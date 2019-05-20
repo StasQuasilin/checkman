@@ -7,11 +7,10 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.extraction.StorageGrease;
-import entity.laboratory.subdivisions.extraction.StorageProtein;
 import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
-import utils.ExtractionTurnService;
+import utils.turns.ExtractionTurnService;
 import utils.TurnBox;
 
 import javax.servlet.ServletException;

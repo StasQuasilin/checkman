@@ -95,6 +95,8 @@ public class Constants {
         public static final String EXTRACTION_STORAGE_PROTEIN = "title.extraction.storage.protein";
         public static final String EXTRACTION_TURN_GREASE = "title.extraction.turn.grease";
         public static final String EXTRACTION_STORAGE_GREASE = "title.extraction.storage.grease";
+        public static final String OIL_MASS_FRACTION = "title.oil.mass.fraction";
+        public static final String OIL_MASS_FRACTION_DRY = "title.oil.mass.fraction.dry";
 
         public class Archive {
             public static final String DEAL = "title.archive";
