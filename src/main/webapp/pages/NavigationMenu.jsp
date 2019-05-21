@@ -93,6 +93,11 @@
           </li>
         </c:forEach>
         <li class="menu-item">
+          <span class="main">
+            <fmt:message key="menu.volumes"/>
+          </span>
+        </li>
+        <li class="menu-item">
           <span class="main" onclick="loadContent('${laboratoryBuyList}')">
             <fmt:message key="analyses.buy"/>
           </span>

@@ -5,13 +5,13 @@ import entity.production.Forpress;
 import javax.persistence.*;
 
 /**
- * Created by szpt_user045 on 10.04.2019.
+ * Created by quasilin on 21.05.2019.
  */
 @Entity
 @Table(name = "forpress_cake")
-public class ForpressCake {
+public class ForpressCakeDaily {
     private int id;
-    private VROCrude crude;
+    private OilMassFraction oilMassFraction;
     private Forpress forpress;
     private float humidity;
     private float oiliness;
@@ -27,11 +27,11 @@ public class ForpressCake {
 
     @ManyToOne
     @JoinColumn(name = "crude")
-    public VROCrude getCrude() {
-        return crude;
+    public OilMassFraction getOilMassFraction() {
+        return oilMassFraction;
     }
-    public void setCrude(VROCrude turn) {
-        this.crude = turn;
+    public void setOilMassFraction(OilMassFraction oilMassFraction) {
+        this.oilMassFraction = oilMassFraction;
     }
 
     @OneToOne
@@ -59,18 +59,5 @@ public class ForpressCake {
     }
     public void setOiliness(float oiliness) {
         this.oiliness = oiliness;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-//        private Forpress forpress;
-        hash = 31 * forpress.hashCode() + hash;
-//        private float humidity;
-        hash = 31 * Float.hashCode(humidity) + hash;
-//        private float oiliness;
-        hash = 31 * Float.hashCode(oiliness) + hash;
-
-        return hash;
     }
 }

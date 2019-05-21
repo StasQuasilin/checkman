@@ -4,5 +4,13 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-KPO
+<div id="container-header" style="display: inline">
+    <link rel="stylesheet" href="${context}/css/drop-menu.css">
+    <div class="drop-menu">
+        <a class="drop-btn">
+            <fmt:message key="analyses"/> &#9660;
+        </a>
+
+    </div>
+</div>
 </html>

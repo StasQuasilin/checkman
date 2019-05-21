@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Created by szpt_user045 on 16.05.2019.
  */
 @Entity
-@Table(name = "extraction_turn_grease")
+@Table(name = "extraction_turn_protein")
 public class TurnGrease {
     private int id;
     ExtractionTurn turn;
@@ -37,7 +37,7 @@ public class TurnGrease {
     }
 
     @Basic
-    @Column(name = "grease")
+    @Column(name = "protein")
     public float getGrease() {
         return grease;
     }
