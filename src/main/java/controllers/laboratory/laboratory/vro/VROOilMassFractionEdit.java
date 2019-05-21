@@ -3,6 +3,7 @@ package controllers.laboratory.laboratory.vro;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
+import entity.production.Forpress;
 import utils.TransportUtil;
 import utils.TurnBox;
 
@@ -23,6 +24,7 @@ public class VROOilMassFractionEdit extends IModal {
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/oilMassFraction.jsp");
         req.setAttribute("save", Branches.API.OIL_MASS_FRACTION);
         req.setAttribute("turns", TurnBox.getBox().getTurns());
+        req.setAttribute("forpress", hibernator.query(Forpress.class, null));
         req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         show(req, resp);
     }

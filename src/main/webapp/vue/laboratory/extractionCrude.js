@@ -10,8 +10,8 @@ var editor = new Vue({
         }
     },
     methods:{
-        currentTime:function(){
-            var now = new Date();
+        currentTime:function(target){
+            var now = target ? new Date(target) : new Date();
             var min = Number.MAX_VALUE;
             var current = '';
             for (var t in this.times){

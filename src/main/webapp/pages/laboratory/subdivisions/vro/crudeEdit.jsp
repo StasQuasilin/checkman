@@ -87,21 +87,34 @@
     <c:choose>
     <c:when test="${not empty crude}">
     editor.crude={
-        date : new Date().toISOString().substring(0, 10),
-        time : editor.currentTime(),
+        id:${crude.id},
+        date : new Date('${crude.turn.date}').toISOString().substring(0, 10),
+        time : editor.currentTime(new Date('${crude.time}')),
         before:{
-            humidity:-1,
-            soreness:-1
+            humidity:${crude.humidityBefore},
+            soreness:${crude.sorenessBefore}
         },
         after:{
-            humidity:0,
-            soreness:0
+            humidity:${crude.humidityAfter},
+            soreness:${crude.sorenessAfter}
         },
-        huskiness:0,
-        kernelOffset:0,
-        pulpHumidity1:0,
-        pulpHumidity2:0,
-        creator:${worker.id}
+        huskiness:${crude.huskiness},
+        kernelOffset:${crude.kernelOffset},
+        pulpHumidity1:${crude.pulpHumidity1},
+        pulpHumidity2:${crude.pulpHumidity2},
+        forpressCake:[
+        <c:forEach items="${crude.forpressCakes}" var="fp">
+            {
+                id:${fp.id},
+                forpress:${fp.forpress.id},
+                humidity:${fp.humidity},
+                oiliness:${fp.oiliness}
+            }
+        </c:forEach>
+        ],
+        creator:${crude.creator.id}
+
+
     };
     </c:when>
     <c:otherwise>

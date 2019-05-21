@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * Created by szpt_user045 on 15.05.2019.
  */
 @Entity
-@Table(name = "extraction_storage_protein")
+@Table(name = "extraction_storage_grease")
 public class StorageGrease {
     private int id;
     private ExtractionTurn turn;
@@ -59,7 +59,7 @@ public class StorageGrease {
     }
 
     @Basic
-    @Column(name = "protein")
+    @Column(name = "grease")
     public float getGrease() {
         return grease;
     }

@@ -77,6 +77,10 @@
         <mapping class="entity.laboratory.subdivisions.extraction.TurnProtein"/>
         <mapping class="entity.laboratory.subdivisions.extraction.TurnGrease"/>
         <mapping class="entity.laboratory.subdivisions.extraction.StorageGrease"/>
+        <mapping class="entity.laboratory.subdivisions.vro.OilMassFraction"/>
+        <mapping class="entity.laboratory.subdivisions.vro.OilMassFractionDry"/>
+        <mapping class="entity.laboratory.subdivisions.vro.ForpressCakeDaily"/>
+        <mapping class="entity.laboratory.subdivisions.vro.ForpressCakeDailyDry"/>
 
     </session-factory>
 </hibernate-configuration>

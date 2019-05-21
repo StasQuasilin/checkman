@@ -7,9 +7,10 @@ import entity.Worker;
 import entity.laboratory.subdivisions.vro.ForpressCakeDaily;
 import entity.laboratory.subdivisions.vro.OilMassFraction;
 import entity.laboratory.subdivisions.vro.VROTurn;
+import entity.production.Forpress;
 import entity.production.Turn;
 import entity.transport.ActionTime;
-import org.json.JSONArray;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.TurnBox;
 import utils.turns.VROTurnService;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -84,10 +86,12 @@ public class OilMassFractionEditAPI extends IAPI {
             }
 
             HashMap<Long, ForpressCakeDaily> forpressCakes = new HashMap<>();
-            for (ForpressCakeDaily fcd : oilMassFraction.getForpressCakes()){
-                forpressCakes.put((long) fcd.getId(), fcd);
+            if (oilMassFraction.getForpressCakes() != null) {
+                for (ForpressCakeDaily fcd : oilMassFraction.getForpressCakes()) {
+                    forpressCakes.put((long) fcd.getId(), fcd);
+                }
             }
-
+            LinkedList<ForpressCakeDaily> forpressList = new LinkedList<>();
             for (Object o : (JSONArray)body.get("forpress")){
                 JSONObject forpress  = (JSONObject) o;
                 ForpressCakeDaily fcd;
@@ -102,6 +106,14 @@ public class OilMassFractionEditAPI extends IAPI {
                 } else {
                     fcd = new ForpressCakeDaily();
                     fcd.setOilMassFraction(oilMassFraction);
+                }
+
+                forpressList.add(fcd);
+
+                long forpressId = (long) forpress.get("forpress");
+                if (fcd.getForpress() == null || fcd.getForpress().getId() != forpressId) {
+                    fcd.setForpress(hibernator.get(Forpress.class, "id", forpressId));
+                    save = true;
                 }
 
                 float humidity = Float.parseFloat(String.valueOf(forpress.get("humidity")));
@@ -137,7 +149,11 @@ public class OilMassFractionEditAPI extends IAPI {
                 }
                 oilMassFraction.setCreator(worker);
                 hibernator.save(createTime, oilMassFraction);
+                forpressList.forEach(hibernator::save);
+                forpressList.clear();
+
             }
+            write(resp, answer);
         } else {
             write(resp, emptyBody);
         }

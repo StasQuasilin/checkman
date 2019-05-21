@@ -60,7 +60,8 @@
 </script>
 
 <div id="container">
-    <div v-for="(value, key) in items" class="container-item" :class="rowName(value.item.date)" style="padding: 4pt">
+    <div v-for="(value, key) in items" class="container-item"
+         :class="rowName(value.item.date)" style="padding: 4pt">
         <div class="turn-date" :class="'t-' + value.item.number">
             <span>
             {{new Date(value.item.date).toLocaleDateString()}}
@@ -70,7 +71,7 @@
             </span>
         </div>
         <div style="padding-left: 12pt">
-            <table style="font-size: 10pt; border: none" border="1">
+            <table style="font-size: 10pt;">
                 <tr>
                     <th rowspan="2">
                         <span style="width: 5em">
@@ -141,32 +142,33 @@
                         </th>
                     </template>
                 </tr>
-                <tr class="selector" v-for="crude in value.item.crudes">
-                    <td align="center">
+                <tr class="selectable" v-for="crude in value.item.crudes"
+                    :id="crude.id" onclick="editableModal('${crudeEdit}')">
+                    <td align="center" :id="crude.id" >
                         {{new Date(crude.time).toLocaleTimeString().substring(0, 5)}}
                     </td>
-                    <td align="center">
+                    <td align="center" :id="crude.id" >
                         {{(crude.humidityBefore).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :id="crude.id" >
                         {{(crude.sorenessBefore).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :id="crude.id" >
                         {{(crude.humidityAfter).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :id="crude.id">
                         {{(crude.sorenessAfter).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :id="crude.id">
                         {{(crude.huskiness).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :id="crude.id">
                         {{(crude.kernelOffset).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :id="crude.id">
                         {{(crude.pulpHumidity1).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :id="crude.id">
                         {{(crude.pulpHumidity2).toLocaleString()}}
                     </td>
                     <template v-for="fp in forpress">
@@ -190,7 +192,8 @@
                 </tr>
             </table>
         </div>
-        <div style="padding-left: 8pt; font-size: 10pt" v-for="oil in value.item.oil">
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="oil in value.item.oil"
+             class="selectable" :id="oil.id" onclick="editableModal('${oilEdit}')">
             <b>
                 <fmt:message key="vro.press.oil"/>
             </b>
@@ -203,7 +206,8 @@
             <fmt:message key="oil.color.value"/>:
             {{oil.color}}
         </div>
-        <div style="padding-left: 8pt; font-size: 10pt" v-for="daily in value.item.dailies">
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="daily in value.item.dailies"
+             class="selectable" :id="daily.id" onclick="editableModal('${dailyEdit}')">
             <b>
                 <fmt:message key="vro.daily"/>
             </b>
@@ -217,6 +221,44 @@
             {{(daily.kernelPercent).toLocaleString()}},
             <fmt:message key="husk.percent"/>:
             {{(daily.huskPercent).toLocaleString()}}
+        </div>
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="oilMass in value.item.oilMass" class="selectable">
+            <b>
+                <fmt:message key="vro.daily.oil.mass"/>
+            </b>
+            <fmt:message key="oil.mass.fraction.seed"/>:
+            {{oilMass.seed}},
+            <fmt:message key="oil.mass.fraction.seed.humidity"/>:
+            {{oilMass.seedHumidity}},
+            <fmt:message key="oil.mass.fraction.husk"/>:
+            {{oilMass.husk}},
+            <fmt:message key="oil.mass.fraction.husk.humidity"/>:
+            {{oilMass.huskHumidity}}
+            <div v-for="fp in oilMass.forpress">
+                <b>
+                    {{fp.forpress}}
+                </b>
+                <fmt:message key="oilcake"/>:
+                {{fp.oilcake}},
+                <fmt:message key="oilcake.humidity"/>:
+                {{fp.oilcakeHumidity}}
+            </div>
+        </div>
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="oilMass in value.item.oilMassDry" class="selectable">
+            <b>
+                <fmt:message key="vro.daily.oil.mass.dry"/>
+            </b>
+            <fmt:message key="oil.mass.fraction.seed"/>:
+            {{oilMass.seed}},
+            <fmt:message key="oil.mass.fraction.husk"/>:
+            {{oilMass.husk}}
+            <div v-for="fp in oilMass.forpress">
+                <b>
+                    {{fp.forpress}}
+                </b>
+                <fmt:message key="oilcake"/>:
+                {{fp.oilcake}}
+            </div>
         </div>
     </div>
 </div>

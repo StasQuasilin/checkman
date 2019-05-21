@@ -5,40 +5,8 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
+<script src="${context}/vue/daily.js"></script>
 <script>
-    var editor = new Vue({
-        el: '#editor',
-        data:{
-            api:{
-                save:''
-            },
-            daily:{},
-            turns:[],
-            laborants:[]
-        },
-
-        methods:{
-            pickDate:function(){
-                const self = this;
-                datepicker.show(function(date){
-                    self.daily.date = date
-                }, self.daily.date)
-            },
-            save:function(){
-                PostApi(this.api.save, this.daily, function(a){
-                    if (a.status == 'success'){
-                        closeModal();
-                    }
-                })
-            },
-            info: function () {
-                var date = new Date(this.daily.date);
-                date.setDate(date.getDate() - 1);
-                return date.toLocaleDateString().substring(0, 5) + ' ' + this.turns[0].begin.substring(0, 5) + ' - ' +
-                                new Date(this.daily.date).toLocaleDateString().substring(0, 5) + ' ' + this.turns[this.turns.length - 1].end.substring(0, 5)
-            }
-        }
-    });
     editor.api.save = '${save}';
     <c:forEach items="${turns}" var="t">
     editor.turns.push({
@@ -56,6 +24,21 @@
         value:'${l.person.value}'
     });
     </c:forEach>
+    '!${daily}'
+    <c:choose>
+    <c:when test="${not empty daily.id}">
+    editor.daily = {
+        id:${daily.id},
+        date:new Date(${daily.turn.date}).toISOString().substring(0, 10),
+        kernelHumidity:${daily.kernelHumidity},
+        huskHumidity:${daily.huskHumidity},
+        huskSoreness:${daily.huskSoreness},
+        kernelPercent:${daily.kernelPercent},
+        huskPercent:${daily.huskPercent},
+        creator:${daily.creator.id}
+    };
+    </c:when>
+    <c:otherwise>
     editor.daily = {
         date:new Date().toISOString().substring(0, 10),
         kernelHumidity:0,
@@ -64,7 +47,10 @@
         kernelPercent:0,
         huskPercent:0,
         creator:${worker.id}
-    }
+    };
+    </c:otherwise>
+    </c:choose>
+
 </script>
 <table id="editor" class="editor">
     <tr>

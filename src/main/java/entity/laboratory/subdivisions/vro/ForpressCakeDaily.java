@@ -60,4 +60,13 @@ public class ForpressCakeDaily {
     public void setOiliness(float oiliness) {
         this.oiliness = oiliness;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * forpress.getId() + hash;
+        hash = 31 * Float.hashCode(humidity) + hash;
+        hash = 31 * Float.hashCode(oiliness) + hash;
+        return hash;
+    }
 }

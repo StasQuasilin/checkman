@@ -3,6 +3,9 @@ package controllers.laboratory.laboratory.vro;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
+import entity.laboratory.subdivisions.vro.VRODaily;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
 import utils.TransportUtil;
 import utils.TurnBox;
 
@@ -11,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 11.04.2019.
@@ -19,6 +23,17 @@ import java.io.IOException;
 public class VRODailyEdit extends IModal{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        JSONObject json = PostUtil.parseBodyJson(req);
+        if (json != null) {
+            System.out.println(json);
+            long id = -1;
+            if (json.containsKey(Constants.ID)){
+                id = Long.parseLong(String.valueOf(json.get(Constants.ID)));
+            }
+            if (id != -1) {
+                req.setAttribute("daily", hibernator.get(VRODaily.class, "id", id));
+            }
+        }
         req.setAttribute("title", Constants.Titles.DAILY_ANALYSES);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/vroDaily.jsp");
         req.setAttribute("save", Branches.API.VRO_DAILY_EDIT);

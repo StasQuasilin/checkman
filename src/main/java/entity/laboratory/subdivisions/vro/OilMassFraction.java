@@ -31,7 +31,7 @@ public class OilMassFraction {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "turn")
     public VROTurn getTurn() {
         return turn;
@@ -76,7 +76,7 @@ public class OilMassFraction {
         this.huskHumidity = huskHumidity;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "crude", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "oilMassFraction", cascade = CascadeType.ALL)
     public Set<ForpressCakeDaily> getForpressCakes() {
         return forpressCakes;
     }
@@ -100,5 +100,19 @@ public class OilMassFraction {
     }
     public void setCreator(Worker creator) {
         this.creator = creator;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * Float.hashCode(seed) + hash;
+        hash = 31 * Float.hashCode(seedHumidity) + hash;
+        hash = 31 * Float.hashCode(husk) + hash;
+        hash = 31 * Float.hashCode(huskHumidity) + hash;
+
+        for (ForpressCakeDaily fcd : forpressCakes) {
+            hash = 31 * fcd.hashCode() + hash;
+        }
+        return hash;
     }
 }

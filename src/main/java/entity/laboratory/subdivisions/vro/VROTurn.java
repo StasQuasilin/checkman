@@ -23,6 +23,8 @@ public class VROTurn {
     private List<VROCrude> crudes;
     private Set<VROOil> oils;
     private Set<VRODaily> dailies;
+    private Set<OilMassFraction> oilMassFractions;
+    private Set<OilMassFractionDry> oilMassFractionDries;
 
     @Id
     @GeneratedValue
@@ -75,6 +77,22 @@ public class VROTurn {
         this.dailies = dailies;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
+    public Set<OilMassFraction> getOilMassFractions() {
+        return oilMassFractions;
+    }
+    public void setOilMassFractions(Set<OilMassFraction> oilMassFractions) {
+        this.oilMassFractions = oilMassFractions;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
+    public Set<OilMassFractionDry> getOilMassFractionDries() {
+        return oilMassFractionDries;
+    }
+    public void setOilMassFractionDries(Set<OilMassFractionDry> oilMassFractionDries) {
+        this.oilMassFractionDries = oilMassFractionDries;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -91,6 +109,14 @@ public class VROTurn {
 
         for (VRODaily daily : dailies) {
             hash = 31 * daily.hashCode() + hash;
+        }
+
+        for (OilMassFraction omf : oilMassFractions) {
+            hash = 31 * omf.hashCode() + hash;
+        }
+
+        for (OilMassFractionDry omfD : oilMassFractionDries){
+            hash = 31 * omfD.hashCode() + hash;
         }
 
         return hash;

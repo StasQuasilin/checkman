@@ -594,8 +594,79 @@ public class JsonParser {
             json.put("crudes", toCrudeJson(turn.getCrudes()));
             json.put("oil", toOilJson(turn.getOils()));
             json.put("dailies", toDailyJson(turn.getDailies()));
+            json.put("oilMass", toOilMass(turn.getOilMassFractions()));
+            json.put("oilMassDry", toOilMassDry(turn.getOilMassFractionDries()));
             json.put("hash", turn.hashCode());
 
+            return json;
+        }
+
+        private static JSONArray toOilMassDry(Set<OilMassFractionDry> oilMassFractionDries) {
+            JSONArray array = new JSONArray();
+            for (OilMassFractionDry omf : oilMassFractionDries) {
+                array.add(toJson(omf));
+            }
+            return array;
+        }
+
+        private static JSONObject toJson(OilMassFractionDry omf) {
+            JSONObject json = new JSONObject();
+            json.put("id", omf.getId());
+            json.put("seed", omf.getSeed());
+            json.put("husk", omf.getHusk());
+            json.put("forpress", toForpressDryJson(omf.getForpressCakes()));
+            return json;
+        }
+
+        private static JSONArray toForpressDryJson(Set<ForpressCakeDailyDry> forpressCakes) {
+            JSONArray array = new JSONArray();
+            for (ForpressCakeDailyDry fcd : forpressCakes) {
+                array.add(toJson(fcd));
+            }
+            return array;
+        }
+
+        private static JSONObject toJson(ForpressCakeDailyDry fcd) {
+            JSONObject json = new JSONObject();
+            json.put("id", fcd.getId());
+            json.put("forpress", fcd.getForpress().getName());
+            json.put("oilcake", fcd.getOilcake());
+            return json;
+        }
+
+        private static JSONArray toOilMass(Set<OilMassFraction> oilMassFractions) {
+            JSONArray array = new JSONArray();
+            for (OilMassFraction omf : oilMassFractions) {
+                array.add(toJson(omf));
+            }
+            return array;
+        }
+
+        private static JSONObject toJson(OilMassFraction omf) {
+            JSONObject json = new JSONObject();
+            json.put("id", omf.getId());
+            json.put("seed", omf.getSeed());
+            json.put("seedHumidity", omf.getSeedHumidity());
+            json.put("husk", omf.getHusk());
+            json.put("huskHumidity", omf.getHuskHumidity());
+            json.put("forpress", toForpressJson(omf.getForpressCakes()));
+            return json;
+        }
+
+        private static JSONArray toForpressJson(Set<ForpressCakeDaily> forpressCakes) {
+            JSONArray array = new JSONArray();
+            for (ForpressCakeDaily fcd : forpressCakes) {
+                array.add(toJson(fcd));
+            }
+            return array;
+        }
+
+        private static JSONObject toJson(ForpressCakeDaily fcd) {
+            JSONObject json = new JSONObject();
+            json.put("id", fcd.getId());
+            json.put("forpress", fcd.getForpress().getName());
+            json.put("oiliness", fcd.getOiliness());
+            json.put("humidity", fcd.getHumidity());
             return json;
         }
 

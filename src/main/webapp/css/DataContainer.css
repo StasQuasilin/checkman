@@ -33,11 +33,20 @@
     border-radius: 8pt;
     position: relative;
 }
-.selectable{
-    padding: 0 2pt;
+.container-item table{
+    border-collapse: collapse;
+    margin: 4px 0;
 }
+.container-item table, .container-item th, .container-item td {
+    border: 1px solid #989898;
+}
+
+.container-item tr[selectable]:hover{
+    background-color: #f5f5f5;
+}
+
 .selectable:hover{
-    background-color: rgba(128, 128, 128, 0.25);
+    background-color: #f5f5f5;
 }
 .container-item .upper-row{
     padding: 2pt 4pt;

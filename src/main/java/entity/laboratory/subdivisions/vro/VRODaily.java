@@ -116,9 +116,13 @@ public class VRODaily {
 //        private float huskPercent;
         hash = 31 * Float.hashCode(huskPercent) + hash;
 //        private ActionTime createTime;
-        hash = 31 * createTime.hashCode() + hash;
+        if (createTime != null) {
+            hash = 31 * createTime.hashCode() + hash;
+        }
 //        private Worker creator;
-        hash = 31 * creator.hashCode() + hash;
+        if (creator != null) {
+            hash = 31 * creator.hashCode() + hash;
+        }
 
         return hash;
     }
