@@ -82,6 +82,10 @@ public class Branches {
             public static final String OIL_MASS_FRACTION = "/laboratory/vro/oil/mass/fraction.j";
             public static final String OIL_MASS_FRACTION_DRY = "/laboratory/vro/oil/mass/fraction/dry.j";
         }
+
+        public class KPO {
+            public static final String PART_EDIT = "/laboratory/kpo/edit.j";
+        }
     }
     public class API{
         public static final String API = "/api";
@@ -143,6 +147,10 @@ public class Branches {
         public static final String EXTRACTION_DAILY_REPORT_PRINT = API + "/laboratory/extraction/daily/report/print";
         public static final String OIL_MASS_FRACTION = API + "/laboratory/vro/oil/mass/fraction";
         public static final String OIL_MASS_FRACTION_DRY = OIL_MASS_FRACTION + "/dry";
+        public static final String DELETE_OIL_MASS_FRACTION_DRY = OIL_MASS_FRACTION_DRY + "/delete";
+        public static final String KPO_PART_EDIT = API + "/laboratory/kpo/part/edit";
+        public static final String KPO_PART_DELETE = KPO_PART_EDIT + "/delete";
+        public static final String KPO_PART_LIST = API + "/laboratory/kpo/list/update";
 
 
         public class References {

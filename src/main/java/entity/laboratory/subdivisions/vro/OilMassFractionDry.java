@@ -88,8 +88,10 @@ public class OilMassFractionDry {
         int hash = 7;
         hash = 31 * Float.hashCode(seed) + hash;
         hash = 31 * Float.hashCode(husk) + hash;
-        for (ForpressCakeDailyDry fcd : forpressCakes) {
-            hash = 31 * fcd.hashCode() + hash;
+        if (forpressCakes != null) {
+            for (ForpressCakeDailyDry fcd : forpressCakes) {
+                hash = 31 * fcd.hashCode() + hash;
+            }
         }
         return hash;
     }

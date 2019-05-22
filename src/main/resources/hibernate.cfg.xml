@@ -81,6 +81,6 @@
         <mapping class="entity.laboratory.subdivisions.vro.OilMassFractionDry"/>
         <mapping class="entity.laboratory.subdivisions.vro.ForpressCakeDaily"/>
         <mapping class="entity.laboratory.subdivisions.vro.ForpressCakeDailyDry"/>
-
+        <mapping class="entity.laboratory.subdivisions.kpo.KPOPart"/>
     </session-factory>
 </hibernate-configuration>

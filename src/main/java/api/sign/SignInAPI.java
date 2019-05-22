@@ -10,7 +10,8 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
-import utils.UserBox;
+import utils.access.UserBox;
+import utils.access.UserData;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -18,7 +19,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -50,7 +50,7 @@ public class SignInAPI extends IAPI{
                 answer = new SuccessAnswer();
                 answer.add("redirect", Branches.UI.HOME);
                 log.info("Success, user " + user.getWorker().getPerson().getValue());
-                req.getSession().setAttribute("token", UserBox.getUserBox().addUser(user));
+                req.getSession().setAttribute("token", UserBox.getUserBox().addUser(new UserData(user, req.getSession())));
                 req.getSession().setAttribute("lang", user.getWorker().getLanguage());
                 req.getSession().setAttribute("worker", user.getWorker());
                 req.getSession().setAttribute("role", user.getRole());

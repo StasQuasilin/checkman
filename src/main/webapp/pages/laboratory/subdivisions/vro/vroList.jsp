@@ -244,7 +244,10 @@
                 {{fp.oilcakeHumidity}}
             </div>
         </div>
-        <div style="padding-left: 8pt; font-size: 10pt" v-for="oilMass in value.item.oilMassDry" class="selectable">
+        <div style="padding-left: 8pt; font-size: 10pt"
+             v-for="oilMass in value.item.oilMassDry" :id="oilMass.id"
+             onclick="editableModal('${oilMassFractionDry}')"
+             class="selectable">
             <b>
                 <fmt:message key="vro.daily.oil.mass.dry"/>
             </b>
@@ -252,13 +255,13 @@
             {{oilMass.seed}},
             <fmt:message key="oil.mass.fraction.husk"/>:
             {{oilMass.husk}}
-            <div v-for="fp in oilMass.forpress">
+            <template v-for="fp in oilMass.forpress">
                 <b>
                     {{fp.forpress}}
                 </b>
                 <fmt:message key="oilcake"/>:
                 {{fp.oilcake}}
-            </div>
+            </template>
         </div>
     </div>
 </div>

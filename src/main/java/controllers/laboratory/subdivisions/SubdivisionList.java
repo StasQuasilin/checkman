@@ -49,6 +49,8 @@ public class SubdivisionList extends IUIServlet {
             case kpo:
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_KPO);
                 req.setAttribute("content", "/pages/laboratory/subdivisions/kpoList.jsp");
+                req.setAttribute("edit", Branches.UI.KPO.PART_EDIT);
+                req.setAttribute("update", Branches.API.KPO_PART_LIST);
                 break;
         }
         show(req, resp);

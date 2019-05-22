@@ -5,7 +5,6 @@ import constants.Branches;
 import entity.answers.IAnswer;
 import utils.JsonParser;
 import utils.PostUtil;
-import utils.UserBox;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;

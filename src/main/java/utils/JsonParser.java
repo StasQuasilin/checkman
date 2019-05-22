@@ -12,6 +12,7 @@ import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import entity.laboratory.subdivisions.extraction.*;
+import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
@@ -447,6 +448,20 @@ public class JsonParser {
 
         json.put("field", change.getField());
 
+        return json;
+    }
+
+    public static JSONObject toJson(KPOPart part) {
+        JSONObject json = new JSONObject();
+        json.put("id", part.getId());
+        json.put("date", part.getDate().toString());
+        json.put("number", part.getNumber());
+        json.put("organoleptic", part.isOrganoleptic());
+        json.put("color", part.getColor());
+        json.put("acid", part.getAcid());
+        json.put("peroxide", part.getPeroxide());
+        json.put("soap", part.isSoap());
+        json.put("hash", part.hashCode());
         return json;
     }
 

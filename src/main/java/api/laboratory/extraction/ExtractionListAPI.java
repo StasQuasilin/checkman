@@ -29,9 +29,6 @@ public class ExtractionListAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
-        final HashMap<String, Object> parameters = new HashMap<>();
-        final LE le = new LE(Date.valueOf(LocalDate.now()));
-
         final JSONObject array = new JSONObject();
         final JSONArray add = new JSONArray();
         final JSONArray update = new JSONArray();
@@ -41,7 +38,9 @@ public class ExtractionListAPI extends IAPI {
         array.put("remove", remove);
 
         if (body != null) {
-            le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
+            final HashMap<String, Object> parameters = new HashMap<>();
+            final LE le = new LE(Date.valueOf(LocalDate.now()));
+            le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
             parameters.put("date", le);
             for (ExtractionTurn turn : hibernator.limitQuery(ExtractionTurn.class, parameters, LIMIT)) {
                 String id = String.valueOf(turn.getId());

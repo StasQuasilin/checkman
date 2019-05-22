@@ -36,8 +36,15 @@
 
   //    BODY
   <c:choose>
-  <c:when test="${not empty daily}">
-
+  <c:when test="${not empty oil}">
+  editor.daily = {
+    id:${oil.id},
+    date:new Date().toISOString().substring(0, 10),
+    seed:${oil.seed},
+    husk:${oil.husk},
+    creator:${worker.id},
+    forpress:[]
+  };
   </c:when>
   <c:otherwise>
   editor.daily = {
@@ -52,6 +59,15 @@
 </script>
 <link rel="stylesheet" href="${context}/css/editor.css">
 <table id="editor" class="editor">
+  <c:if test="${not empty oil}">
+    <tr>
+      <td colspan="3">
+        <button :id="daily.id" onclick="editableModal('${delete}')">
+          <fmt:message key="button.delete"/>
+        </button>
+      </td>
+    </tr>
+  </c:if>
   <tr>
     <td>
       <label for="date">

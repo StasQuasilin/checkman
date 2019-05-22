@@ -2,12 +2,10 @@ package filters;
 
 import constants.Branches;
 import entity.answers.ErrorAnswer;
-import entity.answers.IAnswer;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.LoginBox;
-import utils.PostUtil;
-import utils.UserBox;
+import utils.access.UserBox;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

@@ -14,6 +14,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TurnBox;
+import utils.turns.VROTurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,14 +55,8 @@ public class VROCrudeEditAPI extends IAPI {
                 System.out.println("Get Extraction turn " + Timestamp.valueOf(localDateTime));
             }
 
-            VROTurn turn = hibernator.get(VROTurn.class, "date", Timestamp.valueOf(turnDate.getDate()));
-            if (turn == null) {
-                turn = new VROTurn();
-                turn.setNumber(turnDate.getTurnNumber());
-                turn.setDate(Timestamp.valueOf(turnDate.getDate()));
-                hibernator.save(turn);
-                save = true;
-            }
+            VROTurn turn = VROTurnService.getTurn(turnDate);
+
             crude.setTurn(turn);
             crude.setTime(Timestamp.valueOf(localDateTime));
 

@@ -8,6 +8,7 @@ import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.subdivisions.extraction.*;
+import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.transport.Transportation;
@@ -18,6 +19,7 @@ import utils.LanguageBase;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -451,6 +453,32 @@ public class Notificator {
                 message += "\n" + String.format(lb.get(language, "extraction.turn.grease"), storageGrease.getGrease());
                 message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageGrease.getHumidity());
                 sendMessage(setting.getTelegramId(), message);
+            }
+        }
+    }
+
+    public void kpoShow(KPOPart part) {
+        final HashMap<String, String> messages = new HashMap<>();
+        for (UserBotSetting setting : getSettings()) {
+            if(setting.isShow() && setting.isVro()) {
+                String language = setting.getLanguage();
+                if (!messages.containsKey(language)){
+                    String message = String.format(lb.get(language, "notification.vro.title"), part.getNumber());
+                    message += "\n" + String.format(lb.get(language, "notification.vro.organoleptic"),
+                            (part.isOrganoleptic() ?
+                                    lb.get(language, "notification.vro.organoleptic.yes") :
+                                    lb.get(language, "notification.vro.organoleptic.no")
+                            ));
+                    message += "\n" + String.format(lb.get(language, "notification.vro.acid"), part.getAcid());
+                    message += "\n" + String.format(lb.get(language, "notification.vro.peroxide"), part.getPeroxide());
+                    message += "\n" + String.format(lb.get(language, "notification.vro.soap"),
+                            (part.isSoap() ?
+                                    lb.get(language, "notification.vro.soap.yes") :
+                                    lb.get(language, "notification.vro.soap.yes")
+                            ));
+                    messages.put(language, message);
+                }
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
