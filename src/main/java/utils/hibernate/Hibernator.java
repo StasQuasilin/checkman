@@ -6,10 +6,7 @@ import utils.hibernate.DateContainers.*;
 
 import javax.persistence.criteria.*;
 import java.sql.Date;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Quasilin on 09.09.2018.
@@ -69,7 +66,6 @@ public class Hibernator {
 
         return resultList;
     }
-
     private <T> CriteriaQuery<T> getCriteriaQuery(Session session, Class<T> tClass, HashMap<String, Object> parameters) {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<T> query = criteriaBuilder.createQuery(tClass);
@@ -99,7 +95,7 @@ public class Hibernator {
                     predicates[i] = criteriaBuilder.isNotNull(objectPath);
                 } else if (entry.getValue() instanceof EQ){
                     EQ eq = (EQ) entry.getValue();
-                    predicates[i] = criteriaBuilder.equal(objectPath, eq.getDate());
+                    predicates[i] = criteriaBuilder.greaterThanOrEqualTo(objectPath, eq.getDate());
                 }else if (entry.getValue() instanceof NOT) {
                     NOT not = (NOT) entry.getValue();
                     predicates[i] = criteriaBuilder.notEqual(objectPath, not.getObject());

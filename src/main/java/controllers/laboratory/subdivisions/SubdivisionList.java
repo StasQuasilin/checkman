@@ -53,6 +53,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("update", Branches.API.KPO_PART_LIST);
                 break;
         }
+        req.setAttribute("filter", "/pages/laboratory/subdivisions/subdivisionFilter.jsp");
         show(req, resp);
     }
 }

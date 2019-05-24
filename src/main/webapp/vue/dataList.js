@@ -15,7 +15,8 @@ var deamon = new Vue({
             x:0,
             y:0
         },
-        filter:filter_control
+        filter:filter_control,
+        req_filter:req_filter
     },
     mounted:function(){
         this.filter.items = this.items;
@@ -81,6 +82,9 @@ var deamon = new Vue({
                     var item = self.items[k].item;
                     parameters[item.id] = item.hash;
                 }
+            }
+            if (this.req_filter.date){
+                parameters['reqDate'] = this.req_filter.date;
             }
             PostApi(this.url, parameters, function(e){
                 if (e.add.length || e.update.length || e.remove.length) {

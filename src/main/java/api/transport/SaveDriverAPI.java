@@ -34,10 +34,11 @@ public class SaveDriverAPI extends IAPI{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
-        System.out.println(body);
-        Driver driver;
 
         if (body != null) {
+            logger.info(body);
+            Driver driver;
+
             if (body.containsKey(Constants.ID)) {
                 long id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
                 driver = hibernator.get(Driver.class, "id", id);

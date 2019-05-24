@@ -64,7 +64,6 @@ public class BotFactory {
                     telegramBotsApi = new TelegramBotsApi();
                     try {
                         telegramBotsApi.registerBot(bot);
-                        log.info("Bot start successfully");
                         status = BotStatus.worked;
                         notificator = new Notificator(bot);
                     } catch (TelegramApiRequestException e) {

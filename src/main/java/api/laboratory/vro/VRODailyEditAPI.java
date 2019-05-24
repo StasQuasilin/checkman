@@ -9,6 +9,7 @@ import entity.laboratory.subdivisions.vro.VRODaily;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.Turn;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TurnBox;
@@ -32,11 +33,13 @@ import java.util.List;
 @WebServlet(Branches.API.VRO_DAILY_EDIT)
 public class VRODailyEditAPI extends IAPI {
 
+    private final Logger log = Logger.getLogger(VRODailyEditAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            System.out.println(body);
+            log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             List<Turn> turns = TurnBox.getBox().getTurns();
             LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();

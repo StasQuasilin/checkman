@@ -15,6 +15,7 @@ import entity.documents.DocumentOrganisation;
 import entity.log.Change;
 import entity.log.comparators.DealComparator;
 import entity.organisations.Organisation;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.*;
 import utils.hibernate.Hibernator;
@@ -39,12 +40,13 @@ import java.util.List;
 public class SaveDealAPI extends IChangeAPI{
 
     private final DealComparator comparator = new DealComparator();
+    private final Logger log = Logger.getLogger(SaveDealAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
-            System.out.println(body);
+            log.info(body);
             Deal deal;
             Worker worker = getWorker(req);
             boolean save = false;

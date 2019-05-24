@@ -41,8 +41,9 @@ public class SaveLoadPlanAPI extends IAPI{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
-        System.out.println(body);
+
         if(body != null) {
+            log.info(body);
             long dealId = (long) body.get("dealId");
             Deal deal = hibernator.get(Deal.class, "id", dealId);
             log.info("Save load plan for deal \'" + deal.getId() + "\'...");

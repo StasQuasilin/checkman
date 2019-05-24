@@ -13,6 +13,7 @@ import entity.log.comparators.TransportationComparator;
 import entity.log.comparators.WeightComparator;
 import entity.transport.ActionTime;
 import entity.weight.Weight;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
@@ -38,14 +39,13 @@ public class EditWeightAPI extends IAPI {
 
     private final WeightComparator comparator = new WeightComparator();
     private final TransportationComparator transportationComparator = new TransportationComparator();
-
+    private final Logger log = Logger.getLogger(EditWeightAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if(body != null) {
-            System.out.println(body);
-
+            log.info(body);
 
             JSONArray array = (JSONArray) body.get(Constants.WEIGHTS);
 

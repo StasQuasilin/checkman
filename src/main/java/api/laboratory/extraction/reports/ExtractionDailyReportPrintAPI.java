@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,13 +37,10 @@ public class ExtractionDailyReportPrintAPI extends IAPI{
             List<ExtractionTurn> turns = new LinkedList<>();
             for (Turn turn : turnBox.getTurns()) {
                 LocalTime time = turn.getBegin().toLocalTime();
-                LocalDateTime dateTime = LocalDateTime.of(
-                        date.getYear(),
-                        date.getMonth(),
-                        date.getDayOfMonth(),
-                        time.getHour(),
-                        time.getMinute());
-                turns.add(ExtractionTurnService.getTurn(turnBox.getTurnDate(dateTime)));
+                LocalDateTime dateTime = LocalDateTime.of(date, time);
+                ExtractionTurn extractionTurn = ExtractionTurnService.getTurn(turnBox.getTurnDate(dateTime));
+                Collections.sort(extractionTurn.getCrudes());
+                turns.add(extractionTurn);
             }
             req.setAttribute("turns", turns);
             req.getRequestDispatcher("/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp").forward(req, resp);

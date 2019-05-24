@@ -10,6 +10,7 @@ import entity.laboratory.subdivisions.vro.VROOil;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.Turn;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TurnBox;
@@ -28,11 +29,14 @@ import java.time.LocalDateTime;
  */
 @WebServlet(Branches.API.VRO_OIL_EDIT)
 public class VROOilEditAPI extends IAPI {
+
+    private final Logger log = Logger.getLogger(VROOilEditAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            System.out.println(body);
+            log.info(body);
             VROOil oil;
             if (body.containsKey(Constants.ID)) {
                 long id = (long) body.get(Constants.ID);

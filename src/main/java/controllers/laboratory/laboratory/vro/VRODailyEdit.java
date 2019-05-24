@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.laboratory.subdivisions.vro.VRODaily;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TransportUtil;
@@ -21,11 +22,14 @@ import java.util.HashMap;
  */
 @WebServlet(Branches.UI.VRO.DAILY_EDIT)
 public class VRODailyEdit extends IModal{
+
+    private final Logger log = Logger.getLogger(VRODailyEdit.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject json = PostUtil.parseBodyJson(req);
         if (json != null) {
-            System.out.println(json);
+            log.info(json);
             long id = -1;
             if (json.containsKey(Constants.ID)){
                 id = Long.parseLong(String.valueOf(json.get(Constants.ID)));

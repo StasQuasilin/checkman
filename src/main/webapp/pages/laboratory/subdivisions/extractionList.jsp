@@ -52,7 +52,6 @@
             </div>
         </div>
     </div>
-
 </div>
 <script>
     var filter_control={};
@@ -61,6 +60,9 @@
 <script>
     deamon.url = '${update}';
     deamon.doRequest();
+    function stopContent(){
+        deamon.stop();
+    }
 </script>
 <div id="container">
     <div v-for="(value, key) in items" class="container-item" :class="rowName(value.item.date)" style="padding: 4pt">

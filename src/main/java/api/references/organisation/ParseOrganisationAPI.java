@@ -34,9 +34,9 @@ public class ParseOrganisationAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
-        System.out.println(body);
 
         if (body != null) {
+            log.info(body);
             String origin = String.valueOf(body.get("name"));
             log.info("Parse organisation name: \'" + origin + "\'");
             origin = origin.trim().toUpperCase();

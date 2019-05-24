@@ -3,10 +3,12 @@ package api.sign;
 import api.IAPI;
 import constants.Branches;
 import constants.Constants;
+import controllers.sign.SignUp;
 import entity.Person;
 import entity.Role;
 import entity.User;
 import entity.Worker;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.PasswordGenerator;
@@ -30,50 +32,57 @@ import java.util.UUID;
  */
 @WebServlet(Branches.API.SIGN_UP)
 public class SignUpAPI extends IAPI{
+
+    private final Logger log = Logger.getLogger(SignUpAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        System.out.println(body);
-        for (Object o : (JSONArray)body.get("users")){
-            JSONObject json = (JSONObject) o;
+        JSONObject body = parseBody(req);
+        if(body != null) {
+            log.info(body);
+            for (Object o : (JSONArray) body.get("users")) {
+                JSONObject json = (JSONObject) o;
 
-            String email = (String) json.get(Constants.Person.EMAIL);
-            Role role = Role.valueOf((String) json.get(Constants.Person.ROLE));
+                String email = (String) json.get(Constants.Person.EMAIL);
+                Role role = Role.valueOf((String) json.get(Constants.Person.ROLE));
 
-            User user = new User();
-            user.setUid(getToken());
-            user.setRole(role);
-            user.getWorker().setLanguage(LanguageBase.getBase().defLang);
-            user.setPassword(PasswordGenerator.getPassword());
-            user.setEmail(email);
-            
-            user.setWorker(new Worker());
-            long personId = -1;
-            if (json.containsKey("personId")){
-                personId = (long) json.get("personId");
+                User user = new User();
+                user.setUid(getToken());
+                user.setRole(role);
+                user.getWorker().setLanguage(LanguageBase.getBase().defLang);
+                user.setPassword(PasswordGenerator.getPassword());
+                user.setEmail(email);
+
+                user.setWorker(new Worker());
+                long personId = -1;
+                if (json.containsKey("personId")) {
+                    personId = (long) json.get("personId");
+                }
+
+                user.setWorker(new Worker());
+
+                Person person;
+                if (personId == -1) {
+                    person = new Person();
+                    person.setSurname((String) json.get(Constants.Person.SURNAME));
+                    person.setForename((String) json.get(Constants.Person.FORENAME));
+                    person.setPatronymic((String) json.get(Constants.Person.PATRONYMIC));
+                    hibernator.save(person);
+                } else {
+                    person = hibernator.get(Person.class, "id", personId);
+                }
+
+                user.getWorker().setPerson(person);
+                hibernator.save(user.getWorker(), user);
+                RegistratorEmail.sendEmail(
+                        email,
+                        getAddress(req),
+                        new String(Base64.getDecoder().decode(user.getPassword())));
+
+                write(resp, answer);
             }
-
-            user.setWorker(new Worker());
-
-            Person person;
-            if (personId == -1){
-                person = new Person();
-                person.setSurname((String) json.get(Constants.Person.SURNAME));
-                person.setForename((String) json.get(Constants.Person.FORENAME));
-                person.setPatronymic((String) json.get(Constants.Person.PATRONYMIC));
-                hibernator.save(person);
-            } else {
-                person = hibernator.get(Person.class, "id", personId);
-            }
-
-            user.getWorker().setPerson(person);
-            hibernator.save(user.getWorker(), user);
-            RegistratorEmail.sendEmail(
-                    email,
-                    getAddress(req),
-                    new String(Base64.getDecoder().decode(user.getPassword())));
-
-            write(resp, answer);
+        } else {
+            write(resp, emptyBody);
         }
     }
 

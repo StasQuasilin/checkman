@@ -27,6 +27,9 @@
 <script>
     deamon.url = '${update}';
     deamon.doRequest();
+    function stopContent(){
+        deamon.stop();
+    }
 </script>
 <div id="container">
     <div v-for="(value, key) in items" class="container-item"

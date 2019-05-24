@@ -43,13 +43,9 @@ public class TelegramBot extends IBot {
         this.token = token;
         this.name = new String(name.getBytes(), Charset.forName("UTF-8"));
         log.info("Bot " + name +" started successfully");
-
     }
 
     void updateProcessing(Update update){
-
-        System.out.println(update.getUpdateId());
-        System.out.println(update.getMessage().getText());
         long id = update.getMessage().getChatId();
         if (update.getMessage().isCommand()){
             parseCommand(id, update.getMessage().getText());

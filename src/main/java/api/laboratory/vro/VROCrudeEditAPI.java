@@ -10,6 +10,7 @@ import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.Forpress;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -35,11 +36,13 @@ import java.util.List;
 @WebServlet(Branches.API.VRO_CRUDE_EDIT)
 public class VROCrudeEditAPI extends IAPI {
 
+    private final Logger log = Logger.getLogger(VROCrudeEditAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            System.out.println(body);
+            log.info(body);
             VROCrude crude;
             boolean save = false;
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
@@ -52,7 +55,6 @@ public class VROCrudeEditAPI extends IAPI {
                 crude = hibernator.get(VROCrude.class, "id", id);
             } else {
                 crude = new VROCrude();
-                System.out.println("Get Extraction turn " + Timestamp.valueOf(localDateTime));
             }
 
             VROTurn turn = VROTurnService.getTurn(turnDate);

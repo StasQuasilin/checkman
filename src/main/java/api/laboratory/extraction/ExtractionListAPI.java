@@ -3,10 +3,12 @@ package api.laboratory.extraction;
 import api.IAPI;
 import constants.Branches;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
+import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
 
 import javax.servlet.ServletException;
@@ -25,6 +27,7 @@ import java.util.HashMap;
 public class ExtractionListAPI extends IAPI {
 
     public static final int LIMIT = 15;
+    private final Logger log = Logger.getLogger(ExtractionListAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,9 +42,17 @@ public class ExtractionListAPI extends IAPI {
 
         if (body != null) {
             final HashMap<String, Object> parameters = new HashMap<>();
-            final LE le = new LE(Date.valueOf(LocalDate.now()));
-            le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
-            parameters.put("date", le);
+            if (body.containsKey("reqDate")){
+                String date = String.valueOf(body.remove("reqDate"));
+                LocalDate localDate = LocalDate.parse(date);
+                final BETWEEN between = new BETWEEN(Date.valueOf(localDate), Date.valueOf(localDate.plusDays(1)));
+                parameters.put("date", between);
+            } else {
+                final LE le = new LE(Date.valueOf(LocalDate.now()));
+                le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
+                parameters.put("date", le);
+            }
+
             for (ExtractionTurn turn : hibernator.limitQuery(ExtractionTurn.class, parameters, LIMIT)) {
                 String id = String.valueOf(turn.getId());
                 if (body.containsKey(id)) {

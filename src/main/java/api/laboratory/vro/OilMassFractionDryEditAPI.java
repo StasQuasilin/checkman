@@ -8,6 +8,7 @@ import entity.laboratory.subdivisions.vro.*;
 import entity.production.Forpress;
 import entity.production.Turn;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.TurnBox;
@@ -31,11 +32,14 @@ import java.util.List;
  */
 @WebServlet(Branches.API.OIL_MASS_FRACTION_DRY)
 public class OilMassFractionDryEditAPI extends IAPI {
+
+    private final Logger log = Logger.getLogger(OilMassFractionDryEditAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            System.out.println(body);
+            log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             List<Turn> turns = TurnBox.getBox().getTurns();
             LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();

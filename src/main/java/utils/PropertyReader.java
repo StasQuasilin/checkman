@@ -1,5 +1,8 @@
 package utils;
 
+import org.apache.log4j.Logger;
+import org.hibernate.annotations.common.util.impl.Log;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -7,6 +10,8 @@ import java.util.Properties;
  * Created by szpt_user045 on 16.04.2019.
  */
 public class PropertyReader {
+
+    private final Logger log = Logger.getLogger(PropertyReader.class);
 
     private final String fileName;
     private final Properties properties = new Properties();
@@ -23,7 +28,7 @@ public class PropertyReader {
             stream.close();
         } else {
             if (file.createNewFile()) {
-                System.out.println("File " + file.getAbsolutePath() + " was created. Please put token");
+                log.info("File " + file.getAbsolutePath() + " was created. Please put token");
             }
         }
     }

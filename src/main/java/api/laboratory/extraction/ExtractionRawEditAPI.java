@@ -11,6 +11,7 @@ import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TurnBox;
+import utils.turns.ExtractionTurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,14 +43,7 @@ public class ExtractionRawEditAPI extends IAPI {
             raw = hibernator.get(ExtractionRaw.class, "id", id);
         } else {
             raw = new ExtractionRaw();
-            System.out.println("Get Extraction turn " + Timestamp.valueOf(localDateTime));
-            ExtractionTurn turn = hibernator.get(ExtractionTurn.class, "date", Timestamp.valueOf(turnDate.getDate()));
-            if (turn == null) {
-                turn = new ExtractionTurn();
-                turn.setNumber(turnDate.getTurnNumber());
-                turn.setDate(Timestamp.valueOf(turnDate.getDate()));
-                hibernator.save(turn);
-            }
+            ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
             raw.setTurn(turn);
             save = true;
         }

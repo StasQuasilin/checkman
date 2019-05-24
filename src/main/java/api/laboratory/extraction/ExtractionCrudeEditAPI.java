@@ -45,7 +45,6 @@ public class ExtractionCrudeEditAPI extends IAPI {
                 crude = hibernator.get(ExtractionCrude.class, "id", id);
             } else {
                 crude = new ExtractionCrude();
-                System.out.println("Get Extraction turn " + Timestamp.valueOf(localDateTime));
                 ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
                 crude.setTurn(turn);
                 save = true;

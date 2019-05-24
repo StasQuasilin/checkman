@@ -9,6 +9,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionOIl;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.production.Turn;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.turns.ExtractionTurnService;
 import utils.PostUtil;
@@ -28,11 +29,14 @@ import java.time.LocalDateTime;
  */
 @WebServlet(Branches.API.EXTRACTION_OIL_EDIT)
 public class ExtractionOilEditAPI extends IAPI {
+
+    private final Logger log = Logger.getLogger(ExtractionOilEditAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
-            System.out.println(body);
+            log.info(body);
             ExtractionOIl oil;
             long id = -1;
             if (body.containsKey(Constants.ID)) {

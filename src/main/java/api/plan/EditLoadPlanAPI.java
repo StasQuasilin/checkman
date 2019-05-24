@@ -15,6 +15,7 @@ import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import entity.weight.WeightUnit;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
 
@@ -29,12 +30,15 @@ import java.sql.Date;
  * Created by szpt_user045 on 19.04.2019.
  */
 @WebServlet(Branches.API.PLAN_LIST_ADD)
-public class EditLoadPlan extends IAPI {
+public class EditLoadPlanAPI extends IAPI {
+
+    private final Logger log = Logger.getLogger(EditLoadPlanAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
-        System.out.println(body );
         if (body != null) {
+            log.info(body );
             Date date = Date.valueOf(String.valueOf(body.get("date")));
             long plan = (long) body.get("plan");
             DocumentOrganisation documentOrganisation = hibernator.get(DocumentOrganisation.class, "value", body.get("from"));

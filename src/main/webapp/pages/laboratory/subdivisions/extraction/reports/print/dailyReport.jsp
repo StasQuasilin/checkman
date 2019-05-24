@@ -82,7 +82,7 @@
                     ${crude.humidity}
                 </td>
                 <td align="center">
-                    ${crude.dissolvent}
+                    <fmt:formatNumber value="${crude.dissolvent}"/>
                 </td>
                 <td align="center">
                     ${crude.grease}
@@ -101,10 +101,10 @@
                 </c:forEach>
                 <c:if test="${not foundProtein}">
                   <td align="center">
-                    --
+                    &nbsp;
                   </td>
                   <td align="center">
-                    --
+                    &nbsp;
                   </td>
                 </c:if>
                 <c:set var="foundGrease" value="false"/>
@@ -121,10 +121,10 @@
                 </c:forEach>
                 <c:if test="${not foundGrease}">
                   <td align="center">
-                    --
+                    &nbsp;
                   </td>
                   <td align="center">
-                    --
+                    &nbsp;
                   </td>
                 </c:if>
                 <td align="center">

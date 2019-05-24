@@ -58,10 +58,7 @@ public class LoginBox {
     public boolean trySignIn(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (fileRead) {
             String login = getLogin();
-            System.out.println("login: " + login);
-
             String password = getPassword();
-            System.out.println("password: " + password);
 
             return SignInAPI.signIn(req, login, password).status().equals("success");
         }
