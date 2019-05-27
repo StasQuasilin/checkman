@@ -144,26 +144,26 @@
                         </span>
                     </th>
                 </tr>
-                <tr v-for="crude in (value.item.crudes)">
-                    <td align="center">
+                <tr v-for="crude in (value.item.crudes)" class="selectable" :item="crude.id" onclick="editableModal('${crudeEdit}')">
+                    <td align="center" :item="crude.id">
                         {{new Date(crude.time).getHours()}}:{{new Date(crude.time).getMinutes()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :item="crude.id">
                         {{(crude.humidityIncome).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :item="crude.id">
                         {{(crude.fraction).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :item="crude.id">
                         {{(crude.miscellas).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :item="crude.id">
                         {{(crude.humidity).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :item="crude.id">
                         {{(crude.dissolvent).toLocaleString()}}
                     </td>
-                    <td align="center">
+                    <td align="center" :item="crude.id">
                         {{(crude.grease).toLocaleString()}}
                     </td>
                     <td align="center">
@@ -202,7 +202,8 @@
             </table>
         </div>
         <div>
-            <div v-for="protein in value.item.turnProtein" style="font-size: 10pt; display: inline-block">
+            <div v-for="protein in value.item.turnProtein"
+                 style="font-size: 10pt; display: inline-block" class="selectable">
                 <b>
                     <fmt:message key="title.extraction.turn.protein"/>:
                 </b>
@@ -211,7 +212,8 @@
                 <fmt:message key="sun.humidity"/>:
                 {{protein.humidity}}
             </div>
-            <div v-for="grease in value.item.turnGrease" style="font-size: 10pt; display: inline-block">
+            <div v-for="grease in value.item.turnGrease"
+                 style="font-size: 10pt; display: inline-block" class="selectable">
                 <b>
                     <fmt:message key="title.extraction.turn.grease"/>:
                 </b>
@@ -221,7 +223,7 @@
                 {{grease.humidity}}
             </div>
         </div>
-        <div v-for="oil in value.item.oil" style="font-size: 10pt">
+        <div v-for="oil in value.item.oil" style="font-size: 10pt" class="selectable">
             <b>
                 <fmt:message key="extraction.oil"/>:
             </b>

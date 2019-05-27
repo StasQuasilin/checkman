@@ -35,12 +35,9 @@
           <a v-if="date">
             {{new Date(date).toLocaleDateString()}}
           </a>
-          <i v-else>
-            <a>
-              <fmt:message key="need.select"/>
-            </a>
-          </i>
-
+          <a v-else>
+            ...
+          </a>
         </div>
       </td>
     </tr>

@@ -2,6 +2,7 @@ package api.laboratory.extraction;
 
 import api.IAPI;
 import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -45,12 +46,19 @@ public class ExtractionCrudeEditAPI extends IAPI {
                 crude = hibernator.get(ExtractionCrude.class, "id", id);
             } else {
                 crude = new ExtractionCrude();
-                ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
+            }
+
+            ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
+            if (crude.getTurn() == null || !crude.getTurn().getDate().equals(turn.getDate())){
                 crude.setTurn(turn);
                 save = true;
             }
 
-            crude.setTime(Timestamp.valueOf(localDateTime));
+            Timestamp timestamp = Timestamp.valueOf(localDateTime);
+            if (crude.getTime() == null || !crude.getTime().equals(timestamp)) {
+                crude.setTime(timestamp);
+                save = true;
+            }
 
             float humidityIncome = Float.parseFloat(String.valueOf(body.get("humidityIncome")));
             if (crude.getHumidityIncome() != humidityIncome) {
@@ -105,7 +113,10 @@ public class ExtractionCrudeEditAPI extends IAPI {
                 crude.setCreator(worker);
 
                 hibernator.save(createTime, crude);
-                BotFactory.getNotificator().extractionShow(crude);
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.extractionShow(crude);
+                }
             }
 
             write(resp, answer);

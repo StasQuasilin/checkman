@@ -113,8 +113,6 @@
         </c:forEach>
         ],
         creator:${crude.creator.id}
-
-
     };
     </c:when>
     <c:otherwise>

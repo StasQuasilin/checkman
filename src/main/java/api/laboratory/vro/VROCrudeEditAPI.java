@@ -2,6 +2,7 @@ package api.laboratory.vro;
 
 import api.IAPI;
 import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -47,7 +48,7 @@ public class VROCrudeEditAPI extends IAPI {
             boolean save = false;
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
+            LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnBox.TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
             if (body.containsKey(Constants.ID)) {
@@ -59,8 +60,16 @@ public class VROCrudeEditAPI extends IAPI {
 
             VROTurn turn = VROTurnService.getTurn(turnDate);
 
-            crude.setTurn(turn);
-            crude.setTime(Timestamp.valueOf(localDateTime));
+            if (crude.getTurn() == null || !crude.getTurn().getDate().equals(turn.getDate())){
+                crude.setTurn(turn);
+                save = true;
+            }
+
+            Timestamp timestamp = Timestamp.valueOf(localDateTime);
+            if (crude.getTime() == null || !crude.getTime().equals(timestamp)){
+                crude.setTime(timestamp);
+                save = true;
+            }
 
             JSONObject before = (JSONObject) body.get("before");
             float humidityBefore = Float.parseFloat(String.valueOf(before.get("humidity")));
@@ -112,25 +121,6 @@ public class VROCrudeEditAPI extends IAPI {
                 save = true;
             }
 
-            if (save) {
-                ActionTime createTime = crude.getCreateTime();
-                if (createTime == null) {
-                    createTime = new ActionTime();
-                    crude.setCreateTime(createTime);
-                }
-                createTime.setTime(new Timestamp(System.currentTimeMillis()));
-                Worker worker = getWorker(req);
-                if (body.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
-                } else {
-                    createTime.setCreator(worker);
-                }
-                crude.setCreator(worker);
-                hibernator.save(createTime, crude);
-
-            }
-
             HashMap<Long, ForpressCake> forpressCakeHashMap = new HashMap<>();
             if (crude.getForpressCakes() != null) {
                 for (ForpressCake cake : crude.getForpressCakes()) {
@@ -154,17 +144,43 @@ public class VROCrudeEditAPI extends IAPI {
                 forpressCake.setForpress(hibernator.get(Forpress.class, "id", fp.get("forpress")));
                 forpressCake.setHumidity(Float.parseFloat(String.valueOf(fp.get("humidity"))));
                 forpressCake.setOiliness(Float.parseFloat(String.valueOf(fp.get("oiliness"))));
-                hibernator.save(forpressCake);
                 cakes.add(forpressCake);
             }
 
-            BotFactory.getNotificator().vroShow(crude, cakes);
+            if (cakes.size() > 0){
+                save = true;
+            }
 
-            forpressCakeHashMap.values().forEach(hibernator::remove);
+            if (save) {
+                ActionTime createTime = crude.getCreateTime();
+                if (createTime == null) {
+                    createTime = new ActionTime();
+                    crude.setCreateTime(createTime);
+                }
+                createTime.setTime(new Timestamp(System.currentTimeMillis()));
+                Worker worker = getWorker(req);
+                if (body.containsKey(Constants.CREATOR)) {
+                    long creatorId = (long) body.get(Constants.CREATOR);
+                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                } else {
+                    createTime.setCreator(worker);
+                }
+                crude.setCreator(worker);
+                hibernator.save(createTime, crude);
+                cakes.forEach(hibernator::save);
+
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.vroShow(crude, cakes);
+                }
+
+                forpressCakeHashMap.values().forEach(hibernator::remove);
+                cakes.clear();
+                forpressCakeHashMap.clear();
+            }
 
             write(resp, answer);
-            cakes.clear();
-            forpressCakeHashMap.clear();
+
         } else {
             write(resp, emptyBody);
         }

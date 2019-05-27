@@ -337,13 +337,6 @@ public class Notificator {
                     message += "\n" + String.format(lb.get(language, "notification.vro.pulp.1"), crude.getPulpHumidity1());
                     message += "\n" + String.format(lb.get(language, "notification.vro.pulp.2"), crude.getPulpHumidity2());
 
-                    if (crude.getForpressCakes() != null) {
-                        for (ForpressCake cake : crude.getForpressCakes()) {
-                            message += "\n" + String.format(lb.get(language, "notification.vro.forpress.humidity"), cake.getHumidity());
-                            message += "\n" + String.format(lb.get(language, "notification.vro.forpress.oiliness"), cake.getOiliness());
-                        }
-                    }
-
                     message += "\n";
                     if (cakes.size() > 0) {
                         message += "\n" + lb.get(language, "notification.forpress.cake.title");

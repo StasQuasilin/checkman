@@ -49,9 +49,9 @@ function loadContent(url){
 
 function editableModal(url){
     console.log(event);
-    var id = event.toElement.getAttribute("id");
-
+    var id = event.toElement.getAttribute("id") | event.toElement.getAttribute("item");
     var copy = event.toElement.getAttribute('copy');
+
     var parameters = {};
 
     if (id){

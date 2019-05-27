@@ -68,6 +68,18 @@
     </c:forEach>
     <c:choose>
     <c:when test="${not empty crude}">
+    editor.crude = {
+        id : ${crude.id},
+        date : new Date('${crude.turn.date}').toISOString().substring(0, 10),
+        time : editor.currentTime(new Date('${crude.time}')),
+        humidityIncome:${crude.humidityIncome},
+        fraction:${crude.fraction},
+        miscellas:${crude.miscellas},
+        humidity:${crude.humidity},
+        dissolvent:${crude.dissolvent},
+        grease:${crude.grease},
+        creator:${crude.creator.id}
+    }
     </c:when>
     <c:otherwise>
     editor.crude = {

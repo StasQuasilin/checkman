@@ -126,3 +126,31 @@
 12.03.2019 09:55 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
 12.03.2019 09:55 INFO  BasicTypeRegistry:159 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@149dd36b
 12.03.2019 09:55 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+26.04.2019 10:30 INFO  Version:46 - HHH000412: Hibernate Core {5.3.7.Final}
+26.04.2019 10:30 INFO  Environment:198 - HHH000205: Loaded properties from resource hibernate.properties: {hibernate.bytecode.use_reflection_optimizer=true}
+26.04.2019 10:30 INFO  Environment:237 - HHH000406: Using bytecode reflection optimizer
+26.04.2019 10:30 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+26.04.2019 10:30 WARN  pooling:73 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+26.04.2019 10:30 INFO  pooling:129 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/chm_db]
+26.04.2019 10:30 INFO  pooling:138 - HHH10001001: Connection properties: {user=postgres, password=****}
+26.04.2019 10:30 INFO  pooling:143 - HHH10001003: Autocommit mode: false
+26.04.2019 10:30 INFO  DriverManagerConnectionProviderImpl:281 - HHH000115: Hibernate connection pool size: 20 (min=1)
+26.04.2019 10:30 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+26.04.2019 10:30 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+26.04.2019 10:30 INFO  BasicTypeRegistry:159 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@9ef8eb7
+26.04.2019 10:30 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+26.04.2019 10:30 INFO  pooling:233 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/chm_db]
+26.04.2019 10:33 INFO  Version:46 - HHH000412: Hibernate Core {5.3.7.Final}
+26.04.2019 10:33 INFO  Environment:198 - HHH000205: Loaded properties from resource hibernate.properties: {hibernate.bytecode.use_reflection_optimizer=true}
+26.04.2019 10:33 INFO  Environment:237 - HHH000406: Using bytecode reflection optimizer
+26.04.2019 10:33 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+26.04.2019 10:33 WARN  pooling:73 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+26.04.2019 10:33 INFO  pooling:129 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/chm_db]
+26.04.2019 10:33 INFO  pooling:138 - HHH10001001: Connection properties: {user=postgres, password=****}
+26.04.2019 10:33 INFO  pooling:143 - HHH10001003: Autocommit mode: false
+26.04.2019 10:33 INFO  DriverManagerConnectionProviderImpl:281 - HHH000115: Hibernate connection pool size: 20 (min=1)
+26.04.2019 10:33 INFO  Dialect:157 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+26.04.2019 10:33 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+26.04.2019 10:33 INFO  BasicTypeRegistry:159 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@9ef8eb7
+26.04.2019 10:33 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+26.04.2019 10:33 INFO  pooling:233 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/chm_db]
