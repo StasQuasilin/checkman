@@ -30,17 +30,21 @@
 
         editor.api.findOrganisationUrl = '${findOrganisation}';
         editor.api.parseOrganisationUrl = '${parseOrganisation}';
-        editor.api.saveUrl = '${saveUrl}'
+        editor.api.saveUrl = '${saveUrl}';
         <c:choose>
         <c:when test="${not empty deal}">
-        editor.deal.id = ${deal.id};
-        editor.deal.type = '${deal.type}';
-        editor.deal.date = '${deal.date}';
-        editor.deal.dateTo = '${deal.dateTo}';
-        editor.deal.contragent = ${deal.organisation.id};
-        editor.deal.realisation = ${deal.documentOrganisation.id};
-        editor.deal.product = ${deal.product.id};
-        editor.deal.quantity = ${deal.quantity};
+        editor.deal={
+            id : ${deal.id},
+            type : '${deal.type}',
+            date : '${deal.date}',
+            dateTo : '${deal.dateTo}',
+            contragent : ${deal.organisation.id},
+            realisation : ${deal.documentOrganisation.id},
+            product : ${deal.product.id},
+            quantity : ${deal.quantity},
+            rails : false
+        }
+
         <c:if test="${not empty deal.unit}">
         editor.deal.unit = ${deal.unit.id};
         </c:if>
@@ -81,9 +85,9 @@
                 :
             </td>
             <td>
-                <input readonly style="width: 6em" v-model="new Date(deal.date).toLocaleDateString()" v-on:click="showDatePicker">
-                -
-                <input readonly style="width: 6em" v-model="new Date(deal.dateTo).toLocaleDateString()" v-on:click="showDateToPicker">
+                <input id="date" readonly style="width: 7em" v-model="new Date(deal.date).toLocaleDateString()" v-on:click="showDatePicker">
+                <span>-</span>
+                <input readonly style="width: 7em" v-model="new Date(deal.dateTo).toLocaleDateString()" v-on:click="showDateToPicker">
             </td>
         </tr>
         <tr>
@@ -176,6 +180,14 @@
             </td>
             <td>
                 {{(deal.price * deal.quantity).toLocaleString()}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <input id="rails" type="checkbox" v-model="deal.rails">
+                <label for="rails">
+                    <fmt:message key="deal.edit.be.rails"/>
+                </label>
             </td>
         </tr>
         <tr>

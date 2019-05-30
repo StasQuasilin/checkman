@@ -1,46 +1,35 @@
 package api.deal;
 
-import api.IAPI;
 import api.IChangeAPI;
-import api.references.organisation.ParseOrganisationAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.DealType;
-import entity.IImportantObject;
 import entity.Product;
 import entity.Worker;
 import entity.documents.Deal;
-import entity.documents.DealProduct;
 import entity.documents.DocumentOrganisation;
-import entity.log.Change;
 import entity.log.comparators.DealComparator;
 import entity.organisations.Organisation;
+import entity.rails.Train;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.*;
-import utils.hibernate.Hibernator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.DEAL_SAVE)
-public class SaveDealAPI extends IChangeAPI{
+public class DealEditAPI extends IChangeAPI{
 
     private final DealComparator comparator = new DealComparator();
-    private final Logger log = Logger.getLogger(SaveDealAPI.class);
+    private final Logger log = Logger.getLogger(DealEditAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -127,6 +116,7 @@ public class SaveDealAPI extends IChangeAPI{
                 deal.setDocumentOrganisation(dO);
                 save = true;
             }
+
             if (save) {
                 hibernator.save(deal);
                 try {
@@ -134,6 +124,17 @@ public class SaveDealAPI extends IChangeAPI{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+
+            Boolean rails = (Boolean) body.get("rails");
+            if (rails){
+                Train train = hibernator.get(Train.class, "deal", deal);
+                if (train == null) {
+                    train = new Train();
+                    train.setDeal(deal);
+                    hibernator.save(train);
+                }
+
             }
 
             write(resp, answer);

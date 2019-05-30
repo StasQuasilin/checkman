@@ -20,6 +20,8 @@ import entity.laboratory.transportation.SunTransportationAnalyses;
 import entity.log.Change;
 import entity.log.ChangeLog;
 import entity.organisations.Organisation;
+import entity.rails.Train;
+import entity.rails.Truck;
 import entity.seals.Seal;
 import entity.transport.ActionTime;
 import entity.transport.Driver;
@@ -462,6 +464,30 @@ public class JsonParser {
         json.put("peroxide", part.getPeroxide());
         json.put("soap", part.isSoap());
         json.put("hash", part.hashCode());
+        return json;
+    }
+
+    public static JSONObject toJson(Train train) {
+        JSONObject json = new JSONObject();
+        json.put("id", train.getId());
+        json.put("deal", toJson(train.getDeal()));
+        return json;
+    }
+
+    private static JSONArray toTruckJson(Set<Truck> trucks) {
+        JSONArray array = new JSONArray();
+        for (Truck truck : trucks){
+            array.add(toJson(truck));
+        }
+        return array;
+    }
+
+    public static JSONObject toJson(Truck truck) {
+        JSONObject json = new JSONObject();
+        json.put("id", truck.getId());
+        json.put("train", toJson(truck.getTrain()));
+        json.put("number", truck.getNumber());
+        json.put("hash", truck.hashCode());
         return json;
     }
 

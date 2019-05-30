@@ -20,7 +20,8 @@ var editor = new Vue({
             product: -1,
             quantity: 0,
             unit:-1,
-            price: 0
+            price: 0,
+            rails:false
         },
         errors:{
             organisation:false,

@@ -61,7 +61,8 @@ public class Branches {
         public static final String PRINT_DOCUMENT = "/weight/print.j";
         public static final String WEIGHT_CANCEL = "/weight/cancel.j";
         public static final String RAIL_LIST = "/rail/list.j";
-        public static final String RAIL_ARCHIVE = "/rail.archive.j";
+        public static final String RAIL_ARCHIVE = "/rail/archive.j";
+        public static final String RAIL_EDIT = "/rail/edit.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -151,6 +152,8 @@ public class Branches {
         public static final String KPO_PART_EDIT = API + "/laboratory/kpo/part/edit";
         public static final String KPO_PART_DELETE = KPO_PART_EDIT + "/delete";
         public static final String KPO_PART_LIST = API + "/laboratory/kpo/list/update";
+        public static final String RAIL_LIST = API + "/rails/list";
+        public static final String RAILS_SAVE = API + "/rails/edit";
 
 
         public class References {

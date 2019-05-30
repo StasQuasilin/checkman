@@ -6,7 +6,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-
+<script>
+  req_filter = {}
+</script>
 <script src="${context}/vue/dataList.js"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script>
