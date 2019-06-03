@@ -8,33 +8,33 @@
     <link rel="stylesheet" href="${context}/css/drop-menu.css">
     <div class="drop-menu">
         <a class="drop-btn"><fmt:message key="analyses"/> &#9660;</a>
-        <ul class="drop-menu-content">
-            <li class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
+        <div class="drop-menu-content">
+            <div class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
                 <span style="padding: 0 2pt">
                     <fmt:message key="vro.crude"/>
                 </span>
-            </li>
-            <li class="drop-menu-item" onclick="loadModal('${oilEdit}')">
+            </div>
+            <div class="drop-menu-item" onclick="loadModal('${oilEdit}')">
                 <span style="padding: 0 2pt">
                     <fmt:message key="vro.oil"/>
                 </span>
-            </li>
-            <li class="drop-menu-item" onclick="loadModal('${dailyEdit}')">
+            </div>
+            <div class="drop-menu-item" onclick="loadModal('${dailyEdit}')">
                 <span style="padding: 0 2pt">
                     <fmt:message key="vro.daily"/>
                 </span>
-            </li>
-            <li class="drop-menu-item" onclick="loadModal('${oilMassFraction}')">
+            </div>
+            <div class="drop-menu-item" onclick="loadModal('${oilMassFraction}')">
                 <span>
                     <fmt:message key="oil.mass.fraction"/>
                 </span>
-            </li>
-            <li class="drop-menu-item" onclick="loadModal('${oilMassFractionDry}')">
+            </div>
+            <div class="drop-menu-item" onclick="loadModal('${oilMassFractionDry}')">
                 <span>
                     <fmt:message key="oil.mass.fraction.dry"/>
                 </span>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
     <div class="drop-menu">
         <a class="drop-btn"><fmt:message key="document.print"/>&nbsp;&#9660;</a>

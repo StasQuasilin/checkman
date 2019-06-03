@@ -10,8 +10,9 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.TurnDateTime;
 import utils.turns.ExtractionTurnService;
-import utils.TurnBox;
+import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +38,7 @@ public class ExtractionStorageProteinEdit extends IAPI {
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
-            TurnBox.TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
             long id = -1;
             if (body.containsKey(Constants.ID)){
                 id = (long) body.get(Constants.ID);

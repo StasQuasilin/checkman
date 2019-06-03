@@ -7,11 +7,11 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.extraction.TurnProtein;
-import entity.production.Turn;
+import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.turns.ExtractionTurnService;
-import utils.TurnBox;
+import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +45,7 @@ public class ExtractionTurnProteinEdit extends IAPI {
 
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             long turnId = (long) body.get("turn");
-            Turn turn = TurnBox.getBox().getTurn(turnId);
+            TurnSettings turn = TurnBox.getBox().getTurn(turnId);
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }

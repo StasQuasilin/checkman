@@ -50,7 +50,7 @@ public class ExtractionListAPI extends IAPI {
             } else {
                 final LE le = new LE(Date.valueOf(LocalDate.now()));
                 le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
-                parameters.put("date", le);
+                parameters.put("turn/date", le);
             }
 
             for (ExtractionTurn turn : hibernator.limitQuery(ExtractionTurn.class, parameters, LIMIT)) {

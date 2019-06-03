@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.DealType;
 import entity.documents.Deal;
+import entity.documents.DealHash;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
@@ -41,7 +42,8 @@ public class DealListAPI extends IAPI{
         array.put("update", update);
         array.put("remove", remove);
 
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
+
         if (body != null) {
             parameters.put(Constants.TYPE, DealType.valueOf(req.getParameter(Constants.TYPE)));
 
@@ -55,7 +57,6 @@ public class DealListAPI extends IAPI{
                 } else {
                     add.add(JsonParser.toJson(deal));
                 }
-
             }
 
             for (Object key : body.keySet()) {

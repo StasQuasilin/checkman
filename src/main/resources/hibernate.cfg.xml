@@ -38,6 +38,7 @@
         <mapping class="entity.transport.Transportation"/>
         <mapping class="entity.transport.ActionTime"/>
         <mapping class="entity.documents.Deal"/>
+        <mapping class="entity.documents.DealHash"/>
         <mapping class="entity.documents.DocumentOrganisation"/>
         <mapping class="entity.documents.LoadPlan"/>
         <mapping class="entity.log.ChangeLog"/>
@@ -55,6 +56,7 @@
         <mapping class="entity.Subdivision"/>
         <mapping class="entity.laboratory.probes.SunProbe"/>
         <mapping class="entity.laboratory.probes.OilProbe"/>
+        <mapping class="entity.production.TurnSettings"/>
         <mapping class="entity.production.Turn"/>
         <mapping class="entity.production.Forpress"/>
         <mapping class="entity.laboratory.subdivisions.extraction.ExtractionTurn"/>
@@ -85,6 +87,6 @@
         <mapping class="entity.rails.Train"/>
         <mapping class="entity.rails.Truck"/>
         <mapping class="entity.rails.TruckTransportation"/>
-
+        <mapping class="entity.laboratory.LaboratoryTurn"/>
     </session-factory>
 </hibernate-configuration>

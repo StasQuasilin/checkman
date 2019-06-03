@@ -6,6 +6,7 @@ var content;
 const last_url = 'last-page';
 var welcome = '';
 var logoutAPI = '';
+var currentPage = '';
 
 
 $(document).ready(function(){
@@ -27,7 +28,8 @@ $(document).ready(function(){
 });
 
 function loadContent(url){
-    if (url) {
+    if (url && currentPage != url) {
+        currentPage = url;
         coverlet.style.display='block';
         console.log('[ Application ] Load page ' + url);
         localStorage.setItem(last_url, url);

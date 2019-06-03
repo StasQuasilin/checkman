@@ -144,23 +144,6 @@
         </td>
     </tr>
     <tr>
-        <td>
-            <label for="creator">
-                <fmt:message key="laboratory.creator"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="creator" v-model="oil.creator">
-                <option v-for="laborant in laborants" :value="laborant.id">
-                    {{laborant.value}}
-                </option>
-            </select>
-        </td>
-    </tr>
-    <tr>
         <td colspan="3" align="center">
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>

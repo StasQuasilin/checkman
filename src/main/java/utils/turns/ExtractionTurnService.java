@@ -1,7 +1,8 @@
 package utils.turns;
 
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
-import utils.TurnBox;
+import entity.production.Turn;
+import utils.TurnDateTime;
 import utils.hibernate.Hibernator;
 
 import java.sql.Timestamp;
@@ -11,14 +12,14 @@ import java.sql.Timestamp;
  */
 public class ExtractionTurnService {
     private static final Hibernator hibernator = Hibernator.getInstance();
-    public static ExtractionTurn getTurn(TurnBox.TurnDateTime turnDate){
-        ExtractionTurn turn = hibernator.get(ExtractionTurn.class, "date", Timestamp.valueOf(turnDate.getDate()));
-        if (turn == null) {
-            turn = new ExtractionTurn();
-            turn.setNumber(turnDate.getTurnNumber());
-            turn.setDate(Timestamp.valueOf(turnDate.getDate()));
-            hibernator.save(turn);
+    public static ExtractionTurn getTurn(TurnDateTime turnDate){
+        Turn turn = TurnService.getTurn(turnDate);
+        ExtractionTurn extractionTurn = hibernator.get(ExtractionTurn.class, "turn", turn);
+        if (extractionTurn == null) {
+            extractionTurn = new ExtractionTurn();
+            extractionTurn.setTurn(turn);
+            hibernator.save(extractionTurn);
         }
-        return turn;
+        return extractionTurn;
     }
 }

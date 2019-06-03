@@ -4,13 +4,13 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.subdivisions.extraction.ExtractionRaw;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
-import utils.TurnBox;
+import utils.turns.TurnBox;
+import utils.TurnDateTime;
 import utils.turns.ExtractionTurnService;
 
 import javax.servlet.ServletException;
@@ -36,7 +36,7 @@ public class ExtractionRawEditAPI extends IAPI {
         LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
         LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
         LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
-        TurnBox.TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+        TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
         if (body.containsKey(Constants.ID)){
             long id = (long) body.get(Constants.ID);

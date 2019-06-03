@@ -14,8 +14,8 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
-import utils.TurnBox;
+import utils.turns.TurnBox;
+import utils.TurnDateTime;
 import utils.turns.VROTurnService;
 
 import javax.servlet.ServletException;
@@ -49,7 +49,7 @@ public class VROCrudeEditAPI extends IAPI {
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
-            TurnBox.TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
             if (body.containsKey(Constants.ID)) {
                 long id = (long) body.get(Constants.ID);
@@ -58,10 +58,10 @@ public class VROCrudeEditAPI extends IAPI {
                 crude = new VROCrude();
             }
 
-            VROTurn turn = VROTurnService.getTurn(turnDate);
-
-            if (crude.getTurn() == null || !crude.getTurn().getDate().equals(turn.getDate())){
-                crude.setTurn(turn);
+            VROTurn targetTurn = VROTurnService.getTurn(turnDate);
+            VROTurn vroTurn = crude.getTurn();
+            if (vroTurn == null || vroTurn.getId() != targetTurn.getId()){
+                crude.setTurn(targetTurn);
                 save = true;
             }
 

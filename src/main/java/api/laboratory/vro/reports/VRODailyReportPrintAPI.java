@@ -1,30 +1,36 @@
-package api.laboratory.extraction.reports;
+package api.laboratory.vro.reports;
 
 import api.IAPI;
 import constants.Branches;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import entity.laboratory.LaboratoryTurn;
+import entity.laboratory.subdivisions.vro.VROTurn;
+import entity.production.Forpress;
+import entity.production.Turn;
 import entity.production.TurnSettings;
 import org.json.simple.JSONObject;
-import utils.turns.ExtractionTurnService;
+import utils.turns.LaboratoryTurnService;
 import utils.turns.TurnBox;
+import utils.turns.VROTurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by szpt_user045 on 17.05.2019.
+ * Created by szpt_user045 on 03.06.2019.
  */
-@WebServlet(Branches.API.EXTRACTION_DAILY_REPORT_PRINT)
-public class ExtractionDailyReportPrintAPI extends IAPI{
+@WebServlet(Branches.API.VRO_DAILY_REPORT_PRINT)
+public class VRODailyReportPrintAPI extends IAPI {
 
     final TurnBox turnBox = TurnBox.getBox();
 
@@ -34,16 +40,20 @@ public class ExtractionDailyReportPrintAPI extends IAPI{
         if (body != null) {
             JSONObject parameters = (JSONObject) body.get("parameters");
             LocalDate date = LocalDate.parse(String.valueOf(parameters.get("date")));
-            List<ExtractionTurn> turns = new LinkedList<>();
+            List<VROTurn> turns = new LinkedList<>();
             for (TurnSettings turn : turnBox.getTurns()) {
                 LocalTime time = turn.getBegin().toLocalTime();
                 LocalDateTime dateTime = LocalDateTime.of(date, time);
-                ExtractionTurn extractionTurn = ExtractionTurnService.getTurn(turnBox.getTurnDate(dateTime));
-                Collections.sort(extractionTurn.getCrudes());
-                turns.add(extractionTurn);
+                VROTurn vroTurn = VROTurnService.getTurn(turnBox.getTurnDate(dateTime));
+                if (vroTurn.getCrudes() != null) {
+                    Collections.sort(vroTurn.getCrudes());
+                }
+                turns.add(vroTurn);
             }
+
+            req.setAttribute("forpress", hibernator.query(Forpress.class, null));
             req.setAttribute("turns", turns);
-            req.getRequestDispatcher("/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp").forward(req, resp);
+            req.getRequestDispatcher("/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp").forward(req, resp);
         } else {
             write(resp, emptyBody);
         }

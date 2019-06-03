@@ -1,5 +1,7 @@
 package entity.laboratory.subdivisions.extraction;
 
+import entity.production.Turn;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,8 +14,7 @@ import java.util.Set;
 @Table(name = "turns_extraction")
 public class ExtractionTurn {
     private int id;
-    private Timestamp date;
-    private int number;
+    private Turn turn;
     private List<ExtractionCrude> crudes;
     private Set<StorageProtein> protein;
     private Set<StorageGrease> greases;
@@ -30,22 +31,13 @@ public class ExtractionTurn {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "date")
-    public Timestamp getDate() {
-        return date;
+    @OneToOne
+    @JoinColumn(name = "turn")
+    public Turn getTurn() {
+        return turn;
     }
-    public void setDate(Timestamp date) {
-        this.date = date;
-    }
-
-    @Basic
-    @Column(name = "name")
-    public int getNumber() {
-        return number;
-    }
-    public void setNumber(int name) {
-        this.number = name;
+    public void setTurn(Turn turn) {
+        this.turn = turn;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
@@ -99,8 +91,8 @@ public class ExtractionTurn {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * date.hashCode() + hash;
-        hash = 31 * number + hash;
+        hash = 31 * turn.hashCode() + hash;
+
         for (ExtractionCrude crude : crudes) {
             hash = 31 * crude.hashCode() + hash;
         }

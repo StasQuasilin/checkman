@@ -6,12 +6,13 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.vro.*;
 import entity.production.Forpress;
-import entity.production.Turn;
+import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.TurnBox;
+import utils.turns.TurnBox;
+import utils.TurnDateTime;
 import utils.turns.VROTurnService;
 
 import javax.servlet.ServletException;
@@ -41,10 +42,10 @@ public class OilMassFractionDryEditAPI extends IAPI {
         if (body != null) {
             log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            List<Turn> turns = TurnBox.getBox().getTurns();
+            List<TurnSettings> turns = TurnBox.getBox().getTurns();
             LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
-            TurnBox.TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
             VROTurn turn = VROTurnService.getTurn(turnDate);
             boolean save = false;

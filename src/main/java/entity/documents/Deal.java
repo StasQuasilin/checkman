@@ -36,8 +36,7 @@ public class Deal extends IDocument{
     private Worker creator;
     private String uid;
     private boolean archive;
-
-
+    private int hash;
 
     @Override
     @Id
@@ -169,21 +168,30 @@ public class Deal extends IDocument{
         this.archive = archive;
     }
 
+    @Basic
+    @Column(name = "hash")
+    public int getHash() {
+        return hash;
+    }
+    public void setHash(int hash) {
+        this.hash = hash;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * date.hashCode() + hash;
-        hash = 31 * dateTo.hashCode() + hash;
-        hash = 31 * organisation.getId() + hash;
-        hash = 31 * product.getId() + hash;
-        hash = 31 * Float.hashCode(quantity) + hash;
-        hash = 31 * Float.hashCode(price) + hash;
-        hash = 31 * Float.hashCode(done) + hash;
-        hash = 31 * type.hashCode() + hash;
-        hash = 31 * Boolean.hashCode(archive) + hash;
-        hash = 31 * creator.hashCode() + hash;
+        int h = 7;
+        h = 31 * date.hashCode() + h;
+        h = 31 * dateTo.hashCode() + h;
+        h = 31 * organisation.getId() + h;
+        h = 31 * product.getId() + h;
+        h = 31 * Float.hashCode(quantity) + h;
+        h = 31 * Float.hashCode(price) + h;
+        h = 31 * Float.hashCode(done) + h;
+        h = 31 * type.hashCode() + h;
+        h = 31 * Boolean.hashCode(archive) + h;
+        h = 31 * creator.hashCode() + h;
 
-        return hash;
+        return h;
     }
 
     @Override

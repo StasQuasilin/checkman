@@ -63,6 +63,8 @@ public class Branches {
         public static final String RAIL_LIST = "/rail/list.j";
         public static final String RAIL_ARCHIVE = "/rail/archive.j";
         public static final String RAIL_EDIT = "/rail/edit.j";
+        public static final String LABORATORY_TURNS = "/laboratory/turns.j";
+        public static final String LABORATORY_TURNS_EDIT = "/laboratory/turns/edit.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -82,6 +84,7 @@ public class Branches {
             public static final String DAILY_EDIT = "/laboratory/vro/daily.j";
             public static final String OIL_MASS_FRACTION = "/laboratory/vro/oil/mass/fraction.j";
             public static final String OIL_MASS_FRACTION_DRY = "/laboratory/vro/oil/mass/fraction/dry.j";
+            public static final String DAILY_REPORT_PRINT = "/laboratory/vro/daily/report/print.j";
         }
 
         public class KPO {
@@ -154,6 +157,8 @@ public class Branches {
         public static final String KPO_PART_LIST = API + "/laboratory/kpo/list/update";
         public static final String RAIL_LIST = API + "/rails/list";
         public static final String RAILS_SAVE = API + "/rails/edit";
+        public static final String VRO_DAILY_REPORT_PRINT = API + "/laboratory/vro/daily/report/print";
+        public static final String LABORATORY_TURN_EDIT = API + "/laboratory/turn/edit";
 
 
         public class References {

@@ -70,7 +70,7 @@
     <c:when test="${not empty crude}">
     editor.crude = {
         id : ${crude.id},
-        date : new Date('${crude.turn.date}').toISOString().substring(0, 10),
+        date : new Date('${crude.turn.turn.date}').toISOString().substring(0, 10),
         time : editor.currentTime(new Date('${crude.time}')),
         humidityIncome:${crude.humidityIncome},
         fraction:${crude.fraction},
@@ -205,21 +205,6 @@
         </td>
         <td>
             <input id="grease" type="number" v-model="crude.grease" step="0.01" autocomplete="off">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="creator">
-                <fmt:message key="laboratory.creator"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="creator" v-model="crude.creator">
-                <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
-            </select>
         </td>
     </tr>
     <tr>

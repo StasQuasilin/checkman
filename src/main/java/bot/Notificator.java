@@ -289,8 +289,8 @@ public class Notificator {
         }
     }
     public void extractionShow(ExtractionCrude crude){
-        int turnNumber = crude.getTurn().getNumber();
-        String turnDate = DateUtil.prettyDate(Date.valueOf(crude.getTurn().getDate().toLocalDateTime().toLocalDate()));
+        int turnNumber = crude.getTurn().getTurn().getNumber();
+        String turnDate = DateUtil.prettyDate(Date.valueOf(crude.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
         String turnTime = crude.getTime().toLocalDateTime().toLocalTime().toString();
 
         for (UserBotSetting setting : getSettings()) {
@@ -314,7 +314,7 @@ public class Notificator {
     }
 
     public void vroShow(VROCrude crude, List<ForpressCake> cakes) {
-        final int turn = crude.getTurn().getNumber();
+        final int turn = crude.getTurn().getTurn().getNumber();
         String date = DateUtil.prettyDate(Date.valueOf(crude.getTime().toLocalDateTime().toLocalDate()));
         String time = crude.getTime().toLocalDateTime().toLocalTime().toString();
         final HashMap<String, String> messages = new HashMap<>();
@@ -392,8 +392,8 @@ public class Notificator {
     }
 
     public void extractionShow(ExtractionOIl oil) {
-        final int turn = oil.getTurn().getNumber();
-        final String turnDate = DateUtil.prettyDate(oil.getTurn().getDate());
+        final int turn = oil.getTurn().getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(oil.getTurn().getTurn().getDate());
 
         for (UserBotSetting setting : getSettings()) {
             if (setting.isShow() && setting.isExtraction()) {
@@ -412,8 +412,8 @@ public class Notificator {
     }
 
     public void extractionShow(TurnProtein turnProtein) {
-        final int turn = turnProtein.getTurn().getNumber();
-        final String turnDate = DateUtil.prettyDate(turnProtein.getTurn().getDate());
+        final int turn = turnProtein.getTurn().getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(turnProtein.getTurn().getTurn().getDate());
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow() && setting.isExtraction()){
                 final String language = setting.getLanguage();
@@ -428,8 +428,8 @@ public class Notificator {
     }
 
     public void extractionShow(TurnGrease turnGrease) {
-        final int turn = turnGrease.getTurn().getNumber();
-        final String turnDate = DateUtil.prettyDate(turnGrease.getTurn().getDate());
+        final int turn = turnGrease.getTurn().getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(turnGrease.getTurn().getTurn().getDate());
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow() && setting.isExtraction()){
                 final String language = setting.getLanguage();

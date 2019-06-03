@@ -4,15 +4,14 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.laboratory.subdivisions.vro.VRODaily;
 import entity.laboratory.subdivisions.vro.VROTurn;
-import entity.production.Turn;
+import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
-import utils.TurnBox;
+import utils.turns.TurnBox;
+import utils.TurnDateTime;
 import utils.turns.VROTurnService;
 
 import javax.servlet.ServletException;
@@ -21,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -41,10 +39,10 @@ public class VRODailyEditAPI extends IAPI {
         if (body != null) {
             log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            List<Turn> turns = TurnBox.getBox().getTurns();
+            List<TurnSettings> turns = TurnBox.getBox().getTurns();
             LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();
             LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
-            TurnBox.TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
             VROTurn turn = VROTurnService.getTurn(turnDate);
             boolean save = false;

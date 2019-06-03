@@ -4,16 +4,15 @@ import api.IAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.subdivisions.extraction.ExtractionOIl;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.vro.VROOil;
 import entity.laboratory.subdivisions.vro.VROTurn;
-import entity.production.Turn;
+import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
-import utils.TurnBox;
+import utils.TurnDateTime;
+import utils.turns.TurnBox;
+import utils.turns.VROTurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +30,7 @@ import java.time.LocalDateTime;
 public class VROOilEditAPI extends IAPI {
 
     private final Logger log = Logger.getLogger(VROOilEditAPI.class);
+    private final TurnBox turnBox = TurnBox.getBox();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,25 +47,20 @@ public class VROOilEditAPI extends IAPI {
 
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             long turnId = (long) body.get("turn");
-            Turn turn = TurnBox.getBox().getTurn(turnId);
+            TurnSettings turn = turnBox.getTurn(turnId);
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }
-            LocalDateTime turnTime = LocalDateTime.of(
-                    date.getYear(),
-                    date.getMonth(),
-                    date.getDayOfMonth(),
-                    turn.getBegin().toLocalTime().getHour(),
-                    turn.getBegin().toLocalTime().getMinute());
-            VROTurn vroTurn = hibernator.get(VROTurn.class, "date", Timestamp.valueOf(turnTime));
-            if (vroTurn == null) {
-                vroTurn = new VROTurn();
-                vroTurn.setNumber(turn.getNumber());
-                vroTurn.setDate(Timestamp.valueOf(turnTime));
-                hibernator.save(turn);
-            }
-            oil.setTurn(vroTurn);
+            LocalDateTime turnTime = LocalDateTime.of(date, turn.getBegin().toLocalTime());
+            TurnDateTime turnDate = turnBox.getTurnDate(turnTime);
+
+            VROTurn targetTurn = VROTurnService.getTurn(turnDate);
+            VROTurn currentTurn = oil.getTurn();
             boolean save = false;
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
+                oil.setTurn(targetTurn);
+                save = true;
+            }
 
             float acid = Float.parseFloat(String.valueOf(body.get("acid")));
             if (oil.getAcid() != acid) {

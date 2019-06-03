@@ -3,6 +3,7 @@ package entity.laboratory.subdivisions.vro;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.subdivisions.extraction.ExtractionOIl;
 import entity.laboratory.subdivisions.extraction.ExtractionRaw;
+import entity.production.Turn;
 import entity.seals.Seal;
 
 import javax.persistence.*;
@@ -18,8 +19,7 @@ import java.util.Set;
 @Table(name = "turns_vro")
 public class VROTurn {
     private int id;
-    private Timestamp date;
-    private int number;
+    private Turn turn;
     private List<VROCrude> crudes;
     private Set<VROOil> oils;
     private Set<VRODaily> dailies;
@@ -35,22 +35,13 @@ public class VROTurn {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "date")
-    public Timestamp getDate() {
-        return date;
+    @OneToOne
+    @JoinColumn(name = "turn")
+    public Turn getTurn() {
+        return turn;
     }
-    public void setDate(Timestamp date) {
-        this.date = date;
-    }
-
-    @Basic
-    @Column(name = "number")
-    public int getNumber() {
-        return number;
-    }
-    public void setNumber(int number) {
-        this.number = number;
+    public void setTurn(Turn turn) {
+        this.turn = turn;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
@@ -96,8 +87,7 @@ public class VROTurn {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * date.hashCode() + hash;
-        hash = 31 * number + hash;
+        hash = 31 * turn.hashCode() + hash;
 
         for (VROCrude crude : crudes){
             hash = 31 * crude.hashCode() + hash;

@@ -44,6 +44,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("oilMassFraction", Branches.UI.VRO.OIL_MASS_FRACTION);
                 req.setAttribute("oilMassFractionDry", Branches.UI.VRO.OIL_MASS_FRACTION_DRY);
                 req.setAttribute("update", Branches.API.VRO_LIST);
+                req.setAttribute("dailyPrint", Branches.UI.VRO.DAILY_REPORT_PRINT);
                 req.setAttribute("forpress", hibernator.query(Forpress.class, null));
                 break;
             case kpo:

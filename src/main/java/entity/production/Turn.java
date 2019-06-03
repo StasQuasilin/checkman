@@ -2,17 +2,17 @@ package entity.production;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  * Created by quasilin on 01.04.2019.
  */
 @Entity
-@Table(name="turns")
+@Table(name = "turns")
 public class Turn {
     private int id;
+    private Timestamp date;
     private int number;
-    private Time begin;
-    private Time end;
 
     @Id
     @GeneratedValue
@@ -24,6 +24,15 @@ public class Turn {
     }
 
     @Basic
+    @Column(name = "date")
+    public Timestamp getDate() {
+        return date;
+    }
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
+    @Basic
     @Column(name = "number")
     public int getNumber() {
         return number;
@@ -32,30 +41,11 @@ public class Turn {
         this.number = number;
     }
 
-    @Basic
-    @Column(name = "_begin")
-    public Time getBegin() {
-        return begin;
-    }
-    public void setBegin(Time begin) {
-        this.begin = begin;
-    }
-
-    @Basic
-    @Column(name = "_end")
-    public Time getEnd() {
-        return end;
-    }
-    public void setEnd(Time end) {
-        this.end = end;
-    }
-
     @Override
-    public String toString() {
-        return "Turn{" +
-                "number=" + number +
-                ", begin=" + begin +
-                ", end=" + end +
-                '}';
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * date.hashCode() + hash;
+        hash = 31 * number + hash;
+        return hash;
     }
 }

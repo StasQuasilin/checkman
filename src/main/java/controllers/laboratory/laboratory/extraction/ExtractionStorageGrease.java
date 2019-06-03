@@ -7,7 +7,7 @@ import entity.AnalysesType;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
 import utils.TransportUtil;
-import utils.TurnBox;
+import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

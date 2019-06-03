@@ -496,8 +496,8 @@ public class JsonParser {
             public static JSONObject toJson(ExtractionTurn turn) {
                 JSONObject json = new JSONObject();
                 json.put("id", turn.getId());
-                json.put("number", turn.getNumber());
-                json.put("date", turn.getDate().toString());
+                json.put("number", turn.getTurn().getNumber());
+                json.put("date", turn.getTurn().getDate().toString());
                 json.put("crudes", toJson(turn.getCrudes()));
                 json.put("storageProtein", toRawJson(turn.getProtein()));
                 json.put("storageGrease", toGreaseJson(turn.getGreases()));
@@ -630,8 +630,8 @@ public class JsonParser {
         public static JSONObject toJson(VROTurn turn) {
             JSONObject json = new JSONObject();
             json.put("id", turn.getId());
-            json.put("date", turn.getDate().toString());
-            json.put("number", turn.getNumber());
+            json.put("date", turn.getTurn().getDate().toString());
+            json.put("number", turn.getTurn().getNumber());
             json.put("crudes", toCrudeJson(turn.getCrudes()));
             json.put("oil", toOilJson(turn.getOils()));
             json.put("dailies", toDailyJson(turn.getDailies()));

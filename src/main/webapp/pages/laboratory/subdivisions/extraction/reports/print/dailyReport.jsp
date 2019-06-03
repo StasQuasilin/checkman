@@ -164,7 +164,6 @@
               <fmt:message key="oil.phosphorus"/>:&nbsp;${oil.phosphorus},
               <fmt:message key="extraction.oil.explosion"/>:&nbsp;${oil.explosionT}
             </c:forEach>
-
           </div>
         </td>
       </tr>

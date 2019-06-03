@@ -1,8 +1,8 @@
 package utils.turns;
 
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.vro.VROTurn;
-import utils.TurnBox;
+import entity.production.Turn;
+import utils.TurnDateTime;
 import utils.hibernate.Hibernator;
 
 import java.sql.Timestamp;
@@ -12,14 +12,14 @@ import java.sql.Timestamp;
  */
 public class VROTurnService {
     private static final Hibernator hibernator = Hibernator.getInstance();
-    public static VROTurn getTurn(TurnBox.TurnDateTime turnDate){
-        VROTurn turn = hibernator.get(VROTurn.class, "date", Timestamp.valueOf(turnDate.getDate()));
-        if (turn == null) {
-            turn = new VROTurn();
-            turn.setNumber(turnDate.getTurnNumber());
-            turn.setDate(Timestamp.valueOf(turnDate.getDate()));
-            hibernator.save(turn);
+    public static VROTurn getTurn(TurnDateTime turnDate){
+        Turn turn = TurnService.getTurn(turnDate);
+        VROTurn vroTurn = hibernator.get(VROTurn.class, "turn", turn);
+        if (vroTurn == null) {
+            vroTurn = new VROTurn();
+            vroTurn.setTurn(turn);
+            hibernator.save(vroTurn);
         }
-        return turn;
+        return vroTurn;
     }
 }

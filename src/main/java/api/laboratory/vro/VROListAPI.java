@@ -40,7 +40,7 @@ public class VROListAPI extends IAPI {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
             le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
-            parameters.put("date", le);
+            parameters.put("turn/date", le);
 
             for (VROTurn turn : hibernator.limitQuery(VROTurn.class, parameters, 14)) {
                 String id = String.valueOf(turn.getId());

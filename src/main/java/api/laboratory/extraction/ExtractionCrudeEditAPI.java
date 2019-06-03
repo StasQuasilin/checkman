@@ -10,8 +10,9 @@ import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.TurnDateTime;
 import utils.turns.ExtractionTurnService;
-import utils.TurnBox;
+import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,7 +40,7 @@ public class ExtractionCrudeEditAPI extends IAPI {
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
-            TurnBox.TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
             if (body.containsKey(Constants.ID)) {
                 long id = (long) body.get(Constants.ID);
@@ -48,9 +49,10 @@ public class ExtractionCrudeEditAPI extends IAPI {
                 crude = new ExtractionCrude();
             }
 
-            ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
-            if (crude.getTurn() == null || !crude.getTurn().getDate().equals(turn.getDate())){
-                crude.setTurn(turn);
+            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(turnDate);
+            ExtractionTurn currentTurn = crude.getTurn();
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
+                crude.setTurn(targetTurn);
                 save = true;
             }
 

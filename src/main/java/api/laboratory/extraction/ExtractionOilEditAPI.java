@@ -7,13 +7,13 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionOIl;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
-import entity.production.Turn;
+import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.turns.ExtractionTurnService;
 import utils.PostUtil;
-import utils.TurnBox;
+import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,7 +50,7 @@ public class ExtractionOilEditAPI extends IAPI {
 
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             long turnId = (long) body.get("turn");
-            Turn turn = TurnBox.getBox().getTurn(turnId);
+            TurnSettings turn = TurnBox.getBox().getTurn(turnId);
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }

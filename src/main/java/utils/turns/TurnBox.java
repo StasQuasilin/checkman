@@ -1,13 +1,12 @@
-package utils;
+package utils.turns;
 
-import entity.production.Turn;
+import entity.production.TurnSettings;
+import utils.TurnDateTime;
 import utils.boxes.IBox;
 import utils.hibernate.HibernateSessionFactory;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -21,10 +20,10 @@ public class TurnBox extends IBox{
         return BOX;
     }
 
-    private List<Turn> turns;
+    private List<TurnSettings> turns;
     private final TurnDateTime def;
     public TurnBox() {
-        turns = HIBERNATOR.query(Turn.class, null);
+        turns = HIBERNATOR.query(TurnSettings.class, null);
         turns.sort((o1, o2) -> Integer.compare( o1.getNumber(), o2.getNumber()));
 
         if (turns.size() > 0) {
@@ -36,7 +35,7 @@ public class TurnBox extends IBox{
 
     public TurnDateTime getTurnDate(LocalDateTime date){
         System.out.println("Look at: " + date);
-        for (Turn turn : turns) {
+        for (TurnSettings turn : turns) {
             LocalTime _b = turn.getBegin().toLocalTime();
             LocalDateTime begin = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), _b.getHour(), _b.getMinute());
 
@@ -60,43 +59,17 @@ public class TurnBox extends IBox{
         return def;
     }
 
-    public List<Turn> getTurns() {
+    public List<TurnSettings> getTurns() {
         return turns;
     }
 
-    public Turn getTurn(long turnId) {
-        for (Turn turn : turns) {
+    public TurnSettings getTurn(long turnId) {
+        for (TurnSettings turn : turns) {
             if (turn.getId() == turnId) {
                 return turn;
             }
         }
         return turns.get(0);
-    }
-
-    public class TurnDateTime{
-        int turnNumber;
-        LocalDateTime date;
-
-        public TurnDateTime(int turnNumber, LocalDateTime date) {
-            this.turnNumber = turnNumber;
-            this.date = date;
-        }
-
-        public int getTurnNumber() {
-            return turnNumber;
-        }
-
-        public void setTurnNumber(int turnNumber) {
-            this.turnNumber = turnNumber;
-        }
-
-        public LocalDateTime getDate() {
-            return date;
-        }
-
-        public void setDate(LocalDateTime date) {
-            this.date = date;
-        }
     }
 
     public static void main(String[] args) {

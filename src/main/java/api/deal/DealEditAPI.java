@@ -118,6 +118,7 @@ public class DealEditAPI extends IChangeAPI{
             }
 
             if (save) {
+                deal.setHash(deal.hashCode());
                 hibernator.save(deal);
                 try {
                     comparator.compare(deal, worker);
