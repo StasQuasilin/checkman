@@ -29,7 +29,7 @@
     <c:when test="${not empty daily.id}">
     editor.daily = {
         id:${daily.id},
-        date:new Date(${daily.turn.date}).toISOString().substring(0, 10),
+        date:new Date('${daily.turn.turn.date}').toISOString().substring(0, 10),
         kernelHumidity:${daily.kernelHumidity},
         huskHumidity:${daily.huskHumidity},
         huskSoreness:${daily.huskSoreness},

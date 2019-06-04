@@ -24,11 +24,13 @@
                         <fmt:formatDate value="${turn.turn.date}" pattern="dd.MM.yyyy"/>
                     </b>
                     <div style="float: right">
-                        <c:forEach items="${laborants}" var="l">
-                            <c:if test="${l.key eq turn.date}">
-                                <div>
-                                    ${l.value}
-                                </div>
+                        <c:forEach items="${laboratory}" var="l">
+                            <c:if test="${l.key eq turn.turn.id}">
+                                <c:forEach items="${l.value}" var="w">
+                                    <div>
+                                        ${w.worker.person.value}
+                                    </div>
+                                </c:forEach>
                             </c:if>
                         </c:forEach>
                     </div>
@@ -47,16 +49,16 @@
                             <td colspan="2" align="center">
                                 <fmt:message key="vro.sun.after"/>
                             </td>
-                            <th rowspan="2">
+                            <th rowspan="2" style="width: 7em">
                                 <fmt:message key="vro.huskiness"/>
                             </th>
-                            <th rowspan="2">
+                            <th rowspan="2" style="width: 5em">
                                 <fmt:message key="vro.kernel.offset"/>
                             </th>
-                            <th rowspan="2">
+                            <th rowspan="2" style="width: 5em">
                                 <fmt:message key="vro.pulp.humidity.1"/>
                             </th>
-                            <th rowspan="2">
+                            <th rowspan="2" style="width: 5em">
                                 <fmt:message key="vro.pulp.humidity.2"/>
                             </th>
                             <c:forEach items="${forpress}" var="fp">
@@ -66,23 +68,23 @@
                             </c:forEach>
                         </tr>
                         <tr>
-                            <th>
+                            <th style="width: 5em">
                                <fmt:message key="sun.humidity"/>
                             </th>
-                            <th>
+                            <th style="width: 5em">
                                 <fmt:message key="sun.soreness"/>
                             </th>
-                            <th>
+                            <th style="width: 5em">
                                 <fmt:message key="sun.humidity"/>
                             </th>
-                            <th>
+                            <th style="width: 5em">
                                 <fmt:message key="sun.soreness"/>
                             </th>
                             <c:forEach items="${forpress}" var="fp">
-                                <th>
+                                <th style="width: 4em">
                                     <fmt:message key="sun.humidity.short"/>
                                 </th>
-                                <th>
+                                <th style="width: 4em">
                                     <fmt:message key="sun.oiliness.short"/>
                                 </th>
                             </c:forEach>
@@ -154,6 +156,7 @@
                             </c:forEach>
                         </div>
                     </c:if>
+                    <div style="padding-bottom: 48pt"></div>
                     <c:if test="${fn:length(turn.dailies) > 0}">
                         <div>
                             <b>
@@ -179,9 +182,9 @@
                                 <fmt:message key="oil.mass.fraction.husk"/>:&nbsp;${o.husk},
                                 <fmt:message key="oil.mass.fraction.husk.humidity"/>:&nbsp;${o.huskHumidity},
                                 <c:forEach items="${o.forpressCakes}" var="f">
-                                    <div style="width: 100%; text-align: right">
+                                    <div style="width: 100%; padding-left: 24pt">
                                         <b>
-                                                ${f.forpress.name}
+                                            ${f.forpress.name}
                                         </b>
                                         <fmt:message key="oilcake"/>:&nbsp;${f.oiliness},
                                         <fmt:message key="oilcake.humidity"/>:&nbsp;${f.humidity}
@@ -199,7 +202,7 @@
                                 <fmt:message key="oil.mass.fraction.seed"/>:&nbsp;${d.seed},
                                 <fmt:message key="oil.mass.fraction.husk"/>:&nbsp;${d.husk}
                                 <c:forEach items="${d.forpressCakes}" var="f">
-                                    <div style="width: 100%; text-align: right">
+                                    <div style="width: 100%; padding-left: 24pt">
                                         <b>
                                             ${f.forpress.name}
                                         </b>
@@ -209,6 +212,7 @@
                             </c:forEach>
                         </div>
                     </c:if>
+
                 </td>
             </tr>
         </c:forEach>

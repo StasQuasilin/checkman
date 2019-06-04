@@ -40,6 +40,7 @@ var editor = new Vue({
                     closeModal();
                 }
             })
-        }
+        },
+        recount:function(){}
     }
 });

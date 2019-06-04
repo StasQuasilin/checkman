@@ -17,6 +17,6 @@ public class LaboratoryTurnService {
         return getTurns(TurnService.getTurn(date));
     }
     public static List<LaboratoryTurn> getTurns(Turn turn){
-        return hibernator.query(LaboratoryTurn.class, "turn", turn);
+        return  hibernator.query(LaboratoryTurn.class, "turn", turn);
     }
 }

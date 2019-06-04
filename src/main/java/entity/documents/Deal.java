@@ -36,7 +36,6 @@ public class Deal extends IDocument{
     private Worker creator;
     private String uid;
     private boolean archive;
-    private int hash;
 
     @Override
     @Id
@@ -166,15 +165,6 @@ public class Deal extends IDocument{
     }
     public void setArchive(boolean archive) {
         this.archive = archive;
-    }
-
-    @Basic
-    @Column(name = "hash")
-    public int getHash() {
-        return hash;
-    }
-    public void setHash(int hash) {
-        this.hash = hash;
     }
 
     @Override

@@ -21,13 +21,12 @@ public class LanguageBase{
         return base;
     }
 
-    final private HashMap<String, ResourceBundle> BUNDLES = new HashMap<>();
-
     public LanguageBase() {
-        for (String l : languages){
-            String resourceName = baseName + l;
-            BUNDLES.put(l, ResourceBundle.getBundle(resourceName));
-        }
+//        for (String l : languages){
+//            String resourceName = baseName + l;
+//            HashMap<String, ResourceBundle> BUNDLES = new HashMap<>();
+//            BUNDLES.put(l, ResourceBundle.getBundle(resourceName));
+//        }
     }
 
     public String get(String key){
@@ -37,9 +36,10 @@ public class LanguageBase{
         if (language == null){
             language = defLang;
         }
-        try {
-            return ResourceBundle.getBundle(baseName + language).getString(key);
-        } catch (MissingResourceException e){
+        ResourceBundle bundle = ResourceBundle.getBundle(baseName + language);
+        if (bundle.containsKey(key)){
+            return bundle.getString(key);
+        } else {
             return "???" + key + "???";
         }
     }

@@ -49,7 +49,7 @@ public class SignUpAPI extends IAPI{
                 User user = new User();
                 user.setUid(getToken());
                 user.setRole(role);
-                user.getWorker().setLanguage(LanguageBase.getBase().defLang);
+
                 user.setPassword(PasswordGenerator.getPassword());
                 user.setEmail(email);
 
@@ -59,7 +59,9 @@ public class SignUpAPI extends IAPI{
                     personId = (long) json.get("personId");
                 }
 
-                user.setWorker(new Worker());
+                Worker worker = new Worker();
+                user.setWorker(worker);
+                worker.setLanguage(LanguageBase.getBase().defLang);
 
                 Person person;
                 if (personId == -1) {
@@ -72,8 +74,8 @@ public class SignUpAPI extends IAPI{
                     person = hibernator.get(Person.class, "id", personId);
                 }
 
-                user.getWorker().setPerson(person);
-                hibernator.save(user.getWorker(), user);
+                worker.setPerson(person);
+                hibernator.save(worker, user);
                 RegistratorEmail.sendEmail(
                         email,
                         getAddress(req),

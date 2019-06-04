@@ -2,31 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9237fb67-9588-4033-8a3a-4b06c82b3e9a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryList.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/probe/ProbeList.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/probeList.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/css/Application.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/Application.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/Application.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/Application.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/constants/Branches.java" afterPath="$PROJECT_DIR$/src/main/java/constants/Branches.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/constants/Constants.java" afterPath="$PROJECT_DIR$/src/main/java/constants/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/css/DataContainer.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/DataContainer.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/css/NavigationMenu.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/NavigationMenu.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/NavigationMenu.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/NavigationMenu.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/transport/TransportTime.java" afterPath="$PROJECT_DIR$/src/main/java/api/transport/TransportTime.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/transport/TransportationShow.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/transport/TransportationShow.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnEditAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/constants/Branches.class" afterPath="$PROJECT_DIR$/target/classes/constants/Branches.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/documents/Deal.java" afterPath="$PROJECT_DIR$/src/main/java/entity/documents/Deal.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/deal/DealEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/deal/DealEditAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/reports/ExtractionDailyReportPrintAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/reports/ExtractionDailyReportPrintAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java" afterPath="$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/LanguageBase.java" afterPath="$PROJECT_DIR$/src/main/java/utils/LanguageBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/checkman-1.0/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/target/checkman-1.0/META-INF/MANIFEST.MF" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/reports/VRODailyReportPrintAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/reports/VRODailyReportPrintAPI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkman2.iml" afterPath="$PROJECT_DIR$/checkman2.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/checkman2_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/checkman2_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/vue/dataList.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/dataList.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/deals/dealShow.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/deals/dealShow.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/vue/loadPlan.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/loadPlan.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/messages_ru.properties" afterPath="$PROJECT_DIR$/src/main/resources/messages_ru.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/transport/transportList.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/transport/transportList.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/transport/transportShow.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/transport/transportShow.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/vue/weightEdit.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/weightEdit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/vue/laboratoryEdit.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/laboratoryEdit.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/turnEdit.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/turnEdit.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/vroDaily.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/vroDaily.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\GitHub\checkman2\src\main\java\api\laboratory\LaboratoryTurns.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryTurnList.java" />
     </list>
     <ignored path="checkman2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,24 +68,6 @@
         <option name="myItemId" value="PostgreSQL - chm_db@localhost" />
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="chm_db.public" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="action_time" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DbRootNodeDescriptor" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PostgreSQL - chm_db@localhost" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
     </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
@@ -98,212 +76,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="messages_ru.properties" pinned="true" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/messages_ru.properties">
+      <file leaf-file-name="sunEdit.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="88" column="46" selection-start-line="88" selection-start-column="46" selection-end-line="88" selection-end-column="46" />
+            <state vertical-scroll-proportion="-4.576923">
+              <caret line="7" column="36" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Application.jsp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/Application.jsp">
+      <file leaf-file-name="laboratoryEdit.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/laboratoryEdit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.689781">
-              <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Application.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/css/Application.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DealsList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/controllers/deals/DealsList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NavigationMenu.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/css/NavigationMenu.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hibernate.cfg.xml" pinned="true" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="39" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dealShow.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealShow.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.115385">
-              <caret line="95" column="22" selection-start-line="95" selection-start-column="22" selection-end-line="95" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Branches.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/constants/Branches.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="59" column="83" selection-start-line="59" selection-start-column="83" selection-end-line="59" selection-end-column="83" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NavigationMenu.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/NavigationMenu.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.961538">
-              <caret line="62" column="41" selection-start-line="62" selection-start-column="41" selection-end-line="62" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dealList.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealList.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.461538">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="18" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="probeList.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/probeList.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.5384617">
-              <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="chm_db.public.products" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/6516190d/0e655dca-d58a-40ae-b6bc-614acdc2a31e/chm_db.public.products">
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/constants/Constants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="59" column="66" selection-start-line="59" selection-start-column="66" selection-end-line="59" selection-end-column="66" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IServlet.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/controllers/IServlet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DepartmentList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/department/DepartmentList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProbeList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/probe/ProbeList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Hibernator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="72" column="33" selection-start-line="72" selection-start-column="33" selection-end-line="72" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Product.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/Product.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LaboratoryList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryList.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="69" selection-start-line="24" selection-start-column="69" selection-end-line="24" selection-end-column="69" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="laboratoryList.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9230769">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.0497427">
+              <caret line="36" column="30" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -318,8 +105,8 @@
         <option value="JavaScript File" />
         <option value="CSS File" />
         <option value="Jsp File" />
-        <option value="Class" />
         <option value="My JSP" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -332,49 +119,31 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/js/Logic.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealList.jsp" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/utils/JsonParser.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/transportShow.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/entity/transport/Transportation.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/logistic/logisticList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/driverInput.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/vehicleInput.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealEdit.jsp" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/transportList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealShow.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/index.jsp" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/logisticList.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealShow.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealList.jsp" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/testVue.js" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/vehicleInput.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/utils/JsonParser.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/weightEdit.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/driverInput.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/entity/transport/Transportation.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/logisticList.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/logistic/logisticList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/index.jsp" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/js/Logic.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/transportShow.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/entity/documents/Deal.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/css/TransportList.css" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/weight/WeightEdit.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/js/Logic.js" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/api/transport/SaveVehicleAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/PostUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/api/weight/WeightAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java" />
-        <option value="$PROJECT_DIR$/src/main/java/entity/transport/ActionTime.java" />
-        <option value="$PROJECT_DIR$/src/main/java/entity/Worker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/api/weight/SaveWeightAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/JsonParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/Parser.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/vue/weightCalculator.js" />
-        <option value="$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/pages/application.jsp" />
-        <option value="$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/api/logistic/LogisticListAPI.java" />
         <option value="$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java" />
         <option value="$PROJECT_DIR$/src/main/java/api/plan/LoadPlanListAPI.java" />
@@ -404,10 +173,28 @@
         <option value="$PROJECT_DIR$/src/main/java/constants/Constants.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryList.java" />
         <option value="$PROJECT_DIR$/src/main/java/constants/Branches.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp" />
         <option value="$PROJECT_DIR$/src/main/resources/messages_ru.properties" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/Application.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/pages/Application.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryTurns.java" />
+        <option value="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryTurnList.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/IAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnEditAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/turnEdit.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/utils/LanguageBase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/vroDaily.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/api/laboratory/vro/reports/VRODailyReportPrintAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/reports/ExtractionDailyReportPrintAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp" />
+        <option value="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/entity/documents/Deal.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/deal/DealEditAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/vue/laboratoryEdit.js" />
       </list>
     </option>
   </component>
@@ -451,7 +238,7 @@
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1296" />
-    <option name="height" value="975" />
+    <option name="height" value="1000" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -495,9 +282,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1017,6 +801,36 @@
               <option name="myItemId" value="laboratory" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="checkman2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="checkman2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laboratory" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="probe" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
@@ -1078,15 +892,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="laboratory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="department" />
+              <option name="myItemId" value="api" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1112,16 +918,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
+              <option name="myItemId" value="api" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="deals" />
+              <option name="myItemId" value="laboratory" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1135,7 +944,7 @@
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/utils" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="Appl&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/Application.jsp&#10;nav&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/NavigationMenu.css&#10;DealL&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/deals/DealsList.java&#10;Nav&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/NavigationMenu.jsp&#10;ApplicationContro&#9;PSI&#9;JAVA://controllers.application.ApplicationControl&#10;Time&#9;PSI&#9;JAVA://api.transport.TransportTime&#10;transportShow&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportShow.jsp&#10;transportationShow&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/transport/TransportationShow.java&#10;TransporS&#9;PSI&#9;JAVA://controllers.transport.TransportationShow&#10;tra&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportShow.jsp&#10;transportList&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;deal&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/deals/dealShow.jsp&#10;loadPla&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/loadPlan.js&#10;weight&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightEdit.jsp&#10;FindVehi&#9;PSI&#9;JAVA://api.references.vehicles.FindVehicleAPI&#10;DealShow&#9;PSI&#9;JAVA://controllers.deals.DealShow&#10;logistiCli&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/logisticList.js&#10;dealShow&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/deals/dealShow.jsp&#10;LoadPla&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/LoadPlan.css&#10;logisticLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/logistic/logisticList.jsp&#10;logistic&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/logisticList.js&#10;Applica&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/Application.css&#10;applica&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/application.jsp&#10;Parse&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/Parser.java&#10;weightLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;JsonPa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/JsonParser.java&#10;WeightAp&#9;PSI&#9;JAVA://api.weight.WeightAPI&#10;weightLi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;WeightEd&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/weight/WeightEdit.java&#10;weightEd&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightEdit.jsp&#10;logisticLi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/logistic/logisticList.jsp&#10;dealLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/deals/dealList.jsp&#10;Trans&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;TransportLi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/TransportList.css&#10;Deal&#9;PSI&#9;JAVA://entity.documents.Deal&#10;driverINp&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/driverInput.jsp&#10;weightU&#9;PSI&#9;JAVA://entity.weight.WeightUnit&#10;Weight&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/weight/Weight.java&#10;SaveDri&#9;PSI&#9;JAVA://api.transport.SaveDriverAPI&#10;Vehic&#9;PSI&#9;JAVA://entity.transport.Vehicle&#10;vehic&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/vehicleInput.jsp&#10;DriverLis&#9;PSI&#9;JAVA://api.references.driver.DriverListAPI&#10;LogistiCl&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/logistic/LogisticList.java&#10;Applicati&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/Application.css&#10;Data&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/DataContainer.css&#10;VehicleDrive&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/transport/vehicleDriverModal.java&#10;transportLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;Logi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/js/Logic.js&#10;IModa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/IModal.java&#10;modal&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/modalView.jsp" />
+    <property name="SearchEverywhereHistoryKey" value="sunEd&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;Dea&#9;PSI&#9;JAVA://entity.documents.Deal&#10;laboratoryLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/laboratoryList.jsp&#10;hiber&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;ex&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/api/laboratory/extraction/reports/ExtractionDailyReportPrintAPI.java&#10;dailyRe&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp&#10;vroDai&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/vro/vroDaily.jsp&#10;VRODai&#9;PSI&#9;JAVA://controllers.laboratory.laboratory.vro.VRODailyEdit&#10;dailyr&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp&#10;LaboratoryTur&#9;PSI&#9;JAVA://controllers.laboratory.laboratory.LaboratoryTurnEdit&#10;turnEdi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/turnEdit.jsp&#10;Appl&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/Application.jsp&#10;nav&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/NavigationMenu.css&#10;DealL&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/deals/DealsList.java&#10;Nav&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/NavigationMenu.jsp&#10;ApplicationContro&#9;PSI&#9;JAVA://controllers.application.ApplicationControl&#10;Time&#9;PSI&#9;JAVA://api.transport.TransportTime&#10;transportShow&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportShow.jsp&#10;transportationShow&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/transport/TransportationShow.java&#10;TransporS&#9;PSI&#9;JAVA://controllers.transport.TransportationShow&#10;tra&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportShow.jsp&#10;transportList&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;deal&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/deals/dealShow.jsp&#10;loadPla&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/loadPlan.js&#10;weight&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightEdit.jsp&#10;FindVehi&#9;PSI&#9;JAVA://api.references.vehicles.FindVehicleAPI&#10;DealShow&#9;PSI&#9;JAVA://controllers.deals.DealShow&#10;logistiCli&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/logisticList.js&#10;dealShow&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/deals/dealShow.jsp&#10;LoadPla&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/LoadPlan.css&#10;logisticLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/logistic/logisticList.jsp&#10;logistic&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/logisticList.js&#10;Applica&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/Application.css&#10;applica&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/application.jsp&#10;Parse&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/Parser.java&#10;weightLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;JsonPa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/JsonParser.java&#10;WeightAp&#9;PSI&#9;JAVA://api.weight.WeightAPI&#10;weightLi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;WeightEd&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/weight/WeightEdit.java&#10;weightEd&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightEdit.jsp&#10;logisticLi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/logistic/logisticList.jsp&#10;dealLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/deals/dealList.jsp&#10;Trans&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;TransportLi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/TransportList.css&#10;Deal&#9;PSI&#9;JAVA://entity.documents.Deal&#10;driverINp&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/driverInput.jsp&#10;weightU&#9;PSI&#9;JAVA://entity.weight.WeightUnit&#10;Weight&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/weight/Weight.java&#10;SaveDri&#9;PSI&#9;JAVA://api.transport.SaveDriverAPI" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="dynamic.classpath" value="false" />
@@ -1510,6 +1319,9 @@
       <listeners />
       <method />
     </configuration>
+    <configuration default="true" type="Unknown" factoryName="Unknown">
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
@@ -1641,34 +1453,35 @@
       <workItem from="1553190851938" duration="7862000" />
       <workItem from="1553235927659" duration="24723000" />
       <workItem from="1553512363579" duration="12316000" />
+      <workItem from="1559626984203" duration="10902000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="216047000" />
+    <option name="totallyTimeSpent" value="226949000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1296" height="975" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819906" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32718894" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3225108" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31990522" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328341" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26779935" sideWeight="0.4712042" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2671875" sideWeight="0.4712042" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5209677" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20873787" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1680,6 +1493,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1735,190 +1549,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/entity/Person.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/weight/SaveWeightAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/JsonParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="72" column="23" selection-start-line="72" selection-start-column="23" selection-end-line="72" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.692307">
-          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/logistic/LogisticListAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="35" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/6516190d/0e655dca-d58a-40ae-b6bc-614acdc2a31e/chm_db.public.deals">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/plan/SaveLoadPlanAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/6516190d/0e655dca-d58a-40ae-b6bc-614acdc2a31e/chm_db.public.persons">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/logistic/logisticList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/css/LoadPlan.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/deals/DealShow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="35" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/references/vehicles/FindVehicleAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/transport/SaveTransportationVehicleAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/logisticList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="132" column="22" selection-start-line="132" selection-start-column="22" selection-end-line="132" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/6516190d/0e655dca-d58a-40ae-b6bc-614acdc2a31e/chm_db.public.weights">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.884615">
-          <caret line="163" column="45" selection-start-line="163" selection-start-column="45" selection-end-line="163" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/weightEdit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/loadPlan.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="236" column="35" selection-start-line="236" selection-start-column="35" selection-end-line="236" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/utils/PostUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1957,7 +1587,6 @@
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
@@ -1990,16 +1619,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/transport/TransportTime.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2012,7 +1631,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2048,16 +1666,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/department/DepartmentList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/controllers/deals/DealsList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2078,7 +1686,6 @@
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
@@ -2095,20 +1702,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="72" column="33" selection-start-line="72" selection-start-column="33" selection-end-line="72" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/probe/ProbeList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2147,20 +1746,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9230769">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/messages_ru.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="88" column="46" selection-start-line="88" selection-start-column="46" selection-end-line="88" selection-end-column="46" />
+          <caret line="88" column="36" selection-start-line="88" selection-start-column="36" selection-end-line="88" selection-end-column="36" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/css/Application.css">
@@ -2175,6 +1769,215 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.689781">
           <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryTurnList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/IAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryTurnEdit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/turns/TurnBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="65" column="24" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnEditAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/turnEdit.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.769231">
+          <caret line="79" column="122" selection-start-line="79" selection-start-column="122" selection-end-line="79" selection-end-column="122" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/LanguageBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="11" selection-start-line="24" selection-start-column="10" selection-end-line="28" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="77" column="38" selection-start-line="77" selection-start-column="38" selection-end-line="77" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/6516190d/0e655dca-d58a-40ae-b6bc-614acdc2a31e/chm_db.public.turns_laboratory">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VRODailyEdit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/vroDaily.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.346153">
+          <caret line="31" column="47" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3207547">
+          <caret line="19" column="67" selection-start-line="19" selection-start-column="67" selection-end-line="19" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.0384617">
+          <caret line="35" column="26" selection-start-line="25" selection-start-column="20" selection-end-line="35" selection-end-column="26" />
+          <folding>
+            <element signature="n#c:if#3;n#c:forEach#0;n#jsp:root#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/vro/reports/VRODailyReportPrintAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="114" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/extraction/reports/ExtractionDailyReportPrintAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="115" selection-start-line="49" selection-start-column="115" selection-end-line="49" selection-end-column="115" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.923077">
+          <caret line="184" column="40" selection-start-line="184" selection-start-column="40" selection-end-line="184" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3327616">
+          <caret line="136" column="0" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11663808">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/laboratoryList.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24416517">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryListAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/entity/documents/Deal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="168" column="0" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/deal/DealEditAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4974271">
+          <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.576923">
+          <caret line="7" column="36" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/laboratoryEdit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0497427">
+          <caret line="36" column="30" selection-start-line="36" selection-start-column="30" selection-end-line="36" selection-end-column="30" />
           <folding />
         </state>
       </provider>

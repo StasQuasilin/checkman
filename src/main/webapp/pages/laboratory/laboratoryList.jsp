@@ -5,8 +5,12 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
+<script>
+    req_filter = {}
+</script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
+
     deamon.setUrls('${update}', '${edit}')
 </script>
 <transition-group  name="flip-list" tag="div" class="container" id="container">

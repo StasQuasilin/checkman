@@ -208,21 +208,6 @@
                 <input id="contamination" type="checkbox" v-model="item.contamination">
             </td>
         </tr>
-        <tr>
-            <td>
-                <label for="creator">
-                    <fmt:message key="laboratory.creator"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select style="width: 100%" id="creator" v-model="item.creator">
-                    <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
-                </select>
-            </td>
-        </tr>
     </template>
     <template v-if="recount">
     <tr v-if="typeof recount === 'function'">

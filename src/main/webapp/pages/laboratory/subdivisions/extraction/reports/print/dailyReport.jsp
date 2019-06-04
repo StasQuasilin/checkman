@@ -19,9 +19,20 @@
       <tr>
         <td align="center">
           <b>
-            <fmt:message key="turn"/>&nbsp;${turn.number},
-            <fmt:formatDate value="${turn.date}" pattern="dd.MM.yyyy"/>
+            <fmt:message key="turn"/>&nbsp;${turn.turn.number},
+            <fmt:formatDate value="${turn.turn.date}" pattern="dd.MM.yyyy"/>
           </b>
+          <div style="float: right">
+            <c:forEach items="${laboratory}" var="l">
+              <c:if test="${l.key eq turn.turn.id}">
+                <c:forEach items="${l.value}" var="w">
+                  <div>
+                      ${w.worker.person.value}
+                  </div>
+                </c:forEach>
+              </c:if>
+            </c:forEach>
+          </div>
         </td>
       </tr>
       <tr>
@@ -39,9 +50,6 @@
               </td>
               <td colspan="4" align="center">
                 <fmt:message key="storage"/>
-              </td>
-              <td rowspan="2" align="center">
-                <fmt:message key="laboratory.creator"/>
               </td>
             </tr>
             <tr>
@@ -62,6 +70,18 @@
               </td>
               <td align="center">
                 <fmt:message key="extraction.crude.grease"/>
+              </td>
+              <td align="center" style="width: 5em">
+                <fmt:message key="cake.protein"/>
+              </td>
+              <td align="center" style="width: 5em">
+                <fmt:message key="sun.humidity"/>
+              </td>
+              <td align="center" style="width: 5em">
+                <fmt:message key="sun.oiliness.short"/>
+              </td>
+              <td align="center" style="width: 5em">
+                <fmt:message key="sun.humidity"/>
               </td>
             </tr>
             <c:forEach items="${turn.crudes}" var="crude">
@@ -101,10 +121,10 @@
                 </c:forEach>
                 <c:if test="${not foundProtein}">
                   <td align="center">
-                    &nbsp;
+                    --
                   </td>
                   <td align="center">
-                    &nbsp;
+                    --
                   </td>
                 </c:if>
                 <c:set var="foundGrease" value="false"/>
@@ -121,15 +141,12 @@
                 </c:forEach>
                 <c:if test="${not foundGrease}">
                   <td align="center">
-                    &nbsp;
+                    --
                   </td>
                   <td align="center">
-                    &nbsp;
+                    --
                   </td>
                 </c:if>
-                <td align="center">
-                    ${crude.createTime.creator.person.value}
-                </td>
               </tr>
             </c:forEach>
           </table>
@@ -165,6 +182,7 @@
               <fmt:message key="extraction.oil.explosion"/>:&nbsp;${oil.explosionT}
             </c:forEach>
           </div>
+          <div style="padding-bottom: 40pt"></div>
         </td>
       </tr>
     </c:forEach>

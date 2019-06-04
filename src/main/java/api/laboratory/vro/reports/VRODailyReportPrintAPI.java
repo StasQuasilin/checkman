@@ -39,8 +39,9 @@ public class VRODailyReportPrintAPI extends IAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             JSONObject parameters = (JSONObject) body.get("parameters");
-            LocalDate date = LocalDate.parse(String.valueOf(parameters.get("date")));
-            List<VROTurn> turns = new LinkedList<>();
+            final LocalDate date = LocalDate.parse(String.valueOf(parameters.get("date")));
+            final List<VROTurn> turns = new LinkedList<>();
+            final HashMap<Integer, List<LaboratoryTurn>> laboratoryTurns = new HashMap<>();
             for (TurnSettings turn : turnBox.getTurns()) {
                 LocalTime time = turn.getBegin().toLocalTime();
                 LocalDateTime dateTime = LocalDateTime.of(date, time);
@@ -49,8 +50,10 @@ public class VRODailyReportPrintAPI extends IAPI {
                     Collections.sort(vroTurn.getCrudes());
                 }
                 turns.add(vroTurn);
+                laboratoryTurns.put(vroTurn.getTurn().getId(), LaboratoryTurnService.getTurns(vroTurn.getTurn()));
             }
 
+            req.setAttribute("laboratory", laboratoryTurns);
             req.setAttribute("forpress", hibernator.query(Forpress.class, null));
             req.setAttribute("turns", turns);
             req.getRequestDispatcher("/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp").forward(req, resp);
