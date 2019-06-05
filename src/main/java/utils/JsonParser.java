@@ -7,6 +7,7 @@ import entity.bot.UserBotSetting;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.laboratory.CakeAnalyses;
+import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.OilProbe;
@@ -20,6 +21,7 @@ import entity.laboratory.transportation.SunTransportationAnalyses;
 import entity.log.Change;
 import entity.log.ChangeLog;
 import entity.organisations.Organisation;
+import entity.production.Turn;
 import entity.rails.Train;
 import entity.rails.Truck;
 import entity.seals.Seal;
@@ -489,6 +491,35 @@ public class JsonParser {
         json.put("number", truck.getNumber());
         json.put("hash", truck.hashCode());
         return json;
+    }
+
+    public static JSONObject toJson(LaboratoryTurn laboratoryTurn) {
+        JSONObject json = new JSONObject();
+        json.put("id", laboratoryTurn.getId());
+        json.put("worker", toJson(laboratoryTurn.getWorker()));
+        return json;
+    }
+
+    public static JSONObject toJson(Turn turn, List<LaboratoryTurn> query) {
+        JSONObject json = new JSONObject();
+        json.put("id", turn.getId());
+        json.put("date", turn.getDate().toString());
+        json.put("number", turn.getNumber());
+        json.put("laboratory", toLaboratoryJson(query));
+        int hash = turn.hashCode();
+        for (LaboratoryTurn l : query){
+            hash = 31 * l.getWorker().hashCode() + hash;
+        }
+        json.put("hash", hash);
+        return json;
+    }
+
+    private static JSONArray toLaboratoryJson(List<LaboratoryTurn> query) {
+        JSONArray array = new JSONArray();
+        for (LaboratoryTurn turn : query){
+            array.add(toJson(turn));
+        }
+        return array;
     }
 
     public static class Laboratory {

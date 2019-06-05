@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 03.06.2019.
@@ -25,6 +26,16 @@ public class LaboratoryTurnEdit extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        JSONObject body = PostUtil.parseBodyJson(req);
+        if(body != null) {
+            System.out.println(body);
+            if (body.containsKey("id")){
+                Turn turn = hibernator.get(Turn.class, "id", body.get("id"));
+                req.setAttribute("turn", turn);
+                req.setAttribute("laboratory", hibernator.query(LaboratoryTurn.class, "turn", turn));
+            }
+        }
 
         req.setAttribute("title", "title.laboratory.turn.edit");
         req.setAttribute("turns", turnBox.getTurns());

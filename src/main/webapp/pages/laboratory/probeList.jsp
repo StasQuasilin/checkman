@@ -8,7 +8,6 @@
 <div id="container-header" style="display: inline">
     <c:forEach items="${analysesTypes}" var="a">
         <button onclick="loadModal('${editURL}?type=${a}')">
-            <fmt:message key="button.do"/>
             <fmt:message key="${a}"/>
         </button>
     </c:forEach>
@@ -23,20 +22,17 @@
     <div v-for="item in items" class="container-item">
         <div class="upper-row">
             {{new Date(item.item.date).toLocaleDateString()}}
-            <span>
-                <fmt:message key="deal.manager"/>:<b>
-                {{item.item.manager.person.value}}
-            </b>
+            <span v-if="item.item.manager">
+                <fmt:message key="deal.manager"/>:
+                <b>
+                    {{item.item.manager.person.value}}
+                </b>
             </span>
             <span>
-                <fmt:message key="deal.organisation"/>:<b>
-                {{item.item.organisation}}
-            </b>
-            </span>
-            <span>
-                <fmt:message key="laboratory.creator"/>:<b>
-                {{item.item.analyses.create.creator.person.value}}
-            </b>
+                <fmt:message key="deal.organisation"/>:
+                <b>
+                    {{item.item.organisation}}
+                </b>
             </span>
         </div>
         <div class="lower-row" style="font-size: 10pt">

@@ -26,16 +26,17 @@ var editor = new Vue({
             this.analyses.push(analyses);
         },
         save:function(){
-            var parameteres = {};
-            parameteres.plan = this.plan;
+            var parameters = {};
+            parameters.plan = this.plan;
             var analyses = [];
             for (var i in this.analyses){
-                analyses.push(this.analyses[i]);
+                if (this.analyses.hasOwnProperty(i)){
+                    analyses.push(this.analyses[i]);
+                }
             }
-            parameteres.analyses = analyses;
-            console.log(parameteres)
-            const selt = this;
-            PostApi(this.api.save, parameteres, function(a){
+            parameters.analyses = analyses;
+            console.log(parameters);
+            PostApi(this.api.save, parameters, function(a){
                 if (a.status == 'success'){
                     closeModal();
                 }

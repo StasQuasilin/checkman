@@ -159,6 +159,7 @@ public class Branches {
         public static final String RAILS_SAVE = API + "/rails/edit";
         public static final String VRO_DAILY_REPORT_PRINT = API + "/laboratory/vro/daily/report/print";
         public static final String LABORATORY_TURN_EDIT = API + "/laboratory/turn/edit";
+        public static final String LABORATORY_TURN_LIST = API + "/laboratory/turn/list";
 
 
         public class References {

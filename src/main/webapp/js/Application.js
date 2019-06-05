@@ -51,7 +51,8 @@ function loadContent(url){
 
 function editableModal(url){
     console.log(event);
-    var id = event.toElement.getAttribute("id") | event.toElement.getAttribute("item");
+    var id = event.toElement.getAttribute("id");
+//| event.toElement.getAttribute("item");
     var copy = event.toElement.getAttribute('copy');
 
     var parameters = {};
@@ -67,6 +68,7 @@ function editableModal(url){
 }
 function loadModal(url, parameters, onSave){
     console.log('[ Application ] Load modal ' + url);
+    console.log(parameters);
     PostReq(url, parameters, function(m){
         addModal(m, onSave);
     }, function (e) {

@@ -4,6 +4,10 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+
+<script>
+    req_filter={}
+</script>
 <script src="${context}/vue/dataList.js"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
@@ -18,8 +22,8 @@
 </div>
     <div id="container">
         <transition-group name="flip-list" tag="div" class="container" >
-            <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
-                 class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)"
+            <div v-for="(value, key) in filteredItems()" :key="value.item.id" :id="value.item.id"
+                 class="container-item" :class="rowName(value.item.date)" v-on:click="show(value.item.id)"
                  v-on:click.right="contextMenu(value.item.id)">
                 <div class="upper-row">
                 <span>

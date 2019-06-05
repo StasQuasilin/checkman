@@ -60,7 +60,7 @@
       :
     </td>
     <td>
-      <input id="organisation" type="checkbox" v-model="probe.organoleptic">
+      <input id="organoleptic" type="checkbox" v-model="probe.organoleptic">
       <label for="organoleptic">
         <span v-if="probe.organoleptic">
           <fmt:message key="oil.organoleptic.match"/>
@@ -200,21 +200,6 @@
           </div>
         </div>
       </div>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label for="creator">
-        <fmt:message key="laboratory.creator"/>
-      </label>
-    </td>
-    <td>
-      :
-    </td>
-    <td>
-      <select id="creator" style="width: 100%" v-model="probe.creator">
-        <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
-      </select>
     </td>
   </tr>
   <tr>

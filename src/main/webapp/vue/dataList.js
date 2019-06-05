@@ -16,7 +16,8 @@ var deamon = new Vue({
             y:0
         },
         filter:filter_control,
-        req_filter:req_filter
+        req_filter:req_filter,
+        timer :1000
     },
     mounted:function(){
         this.filter.items = this.items;
@@ -103,7 +104,7 @@ var deamon = new Vue({
             })
             self.timeout = setTimeout(function(){
                 self.doRequest();
-            }, 1000)
+            }, self.timer)
         },
         sort:function(){
             this.items.sort(function(a, b){
@@ -128,6 +129,12 @@ var deamon = new Vue({
         rowName:function(date){
             return 'container-item-' + new Date(date).getDay();
         },
+        edit:function(id){
+            const self = this;
+            loadModal(this.showLink, {id : id}, function(){
+                self.doRequest();
+            })
+        }
 
     }
 });

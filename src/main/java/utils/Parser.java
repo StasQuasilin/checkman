@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -115,9 +116,10 @@ public class Parser {
         }
     }
     public static void main(String[] args) throws IOException, DocumentException {
-        Integer i1 = 228;
-        int i2 = 229;
-        System.out.println(!i1.equals(i2));
+        LocalDateTime dateTime = LocalDateTime.of(2019, 6, 5, 8, 0);
+        System.out.println(dateTime);
+        dateTime = dateTime.minusHours(5 * 12);
+        System.out.println(dateTime);
     }
 
 

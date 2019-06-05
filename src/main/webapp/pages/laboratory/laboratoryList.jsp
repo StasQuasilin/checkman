@@ -5,12 +5,22 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
+<div id="container-header" class="container-header">
+    <link rel="stylesheet" href="${context}/css/drop-menu.css">
+    <div class="drop-menu">
+        <a class="drop-btn"><fmt:message key="document.print"/>&nbsp;&#9660;</a>
+        <div class="drop-menu-content">
+            <div class="drop-menu-item" onclick="loadModal('${dailyPrint}')">
+                <fmt:message key="print.month.report"/>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     req_filter = {}
 </script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
-
     deamon.setUrls('${update}', '${edit}')
 </script>
 <transition-group  name="flip-list" tag="div" class="container" id="container">

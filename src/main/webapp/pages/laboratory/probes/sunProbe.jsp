@@ -21,7 +21,7 @@
     acidValue:${probe.analyses.acidValue},
     organisation:${probe.organisation.value},
     creator:${probe.analyses.createTime.creator.id}
-  }
+  };
   editor.organisationInput=${probe.organisation.value};
   </c:when>
   <c:otherwise>
@@ -34,14 +34,14 @@
     manager:-1,
     organisation:'',
     creator:${worker.id}
-  }
+  };
   </c:otherwise>
   </c:choose>
   <c:forEach items="${laborants}" var="l">
   editor.laborants.push({
     id:${l.id},
     value:'${l.person.value}'
-  })
+  });
   </c:forEach>
 </script>
 <table id="editor" class="editor">
@@ -148,21 +148,6 @@
           </div>
         </div>
       </div>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label for="creator">
-        <fmt:message key="laboratory.creator"/>
-      </label>
-    </td>
-    <td>
-      :
-    </td>
-    <td>
-      <select id="creator" style="width: 100%" v-model="probe.creator">
-        <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
-      </select>
     </td>
   </tr>
   <tr>

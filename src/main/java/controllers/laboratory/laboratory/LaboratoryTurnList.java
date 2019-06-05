@@ -18,6 +18,7 @@ public class LaboratoryTurnList extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", "title.laboratory.turns");
         req.setAttribute("content", "/pages/laboratory/laboratoryTurns.jsp");
+        req.setAttribute("update", Branches.API.LABORATORY_TURN_LIST);
         req.setAttribute("edit", Branches.UI.LABORATORY_TURNS_EDIT);
         show(req, resp);
     }

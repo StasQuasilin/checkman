@@ -54,7 +54,9 @@
   <c:forEach items="${turns}" var="turn">
   edit.turns.push({
     id:${turn.id},
-    name:'<fmt:message key="turn"/> ${turn.number}'
+    name:'<fmt:message key="turn"/> ${turn.number} ',
+    number: ${turn.number}
+
   });
   </c:forEach>
   <c:forEach items="${laborants}" var="l">
@@ -63,11 +65,37 @@
     name:'${l.person.value}'
   });
   </c:forEach>
+  <c:choose>
+  <c:when test="${not empty turn.id}">
+  var turnId = -1;
+  for(var t in edit.turns){
+    if (edit.turns.hasOwnProperty(t)){
+      if (edit.turns[t].number == ${turn.number}){
+        turnId = edit.turns[t].id;
+      }
+    }
+  }
+  edit.turn = {
+    date:new Date('${turn.date}').toISOString().substring(0, 10),
+    turn:turnId,
+    personal:[
+      <c:forEach items="${laboratory}" var="l">
+      {
+        id:${l.worker.id},
+        name:'${l.worker.person.value}'
+      },
+      </c:forEach>
+    ]
+  };
+  </c:when>
+  <c:otherwise>
   edit.turn = {
     date:new Date().toISOString().substring(0, 10),
     turn:-1,
     personal:[]
-  }
+  };
+  </c:otherwise>
+  </c:choose>
 </script>
 <table style="width: 100%" id="editor">
   <tr>
