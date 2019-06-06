@@ -3,6 +3,7 @@ package controllers.application;
 import constants.Branches;
 import controllers.IServlet;
 import controllers.archive.ArchiveType;
+import entity.AnalysesType;
 import entity.Role;
 import entity.Subdivision;
 
@@ -38,6 +39,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("probeList", Branches.UI.PROBE_LIST);
         req.setAttribute("subdivisionList", Branches.UI.SUBDIVISION_LIST);
         req.setAttribute("subdivisions", hibernator.query(Subdivision.class, null));
+        req.setAttribute("storages", Branches.UI.LABORATORY_STORAGES + "?type=" + AnalysesType.oil);
         req.setAttribute("laboratoryBuyList", Branches.UI.LABORATORY_BUY);
         req.setAttribute("laboratoryBuyArchive", Branches.UI.LABORATORY_BUY_ARCHIVE);
         req.setAttribute("laboratorySellList", Branches.UI.LABORATORY_SELL);

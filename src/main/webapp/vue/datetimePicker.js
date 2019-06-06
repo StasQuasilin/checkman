@@ -3,15 +3,21 @@ const datepicker = new Vue({
     data:{
         date:new Date().toISOString().substring(0, 10),
         color:'aliceblue',
-        locale:'ru',
+        locale:'uk',
         onSelects:[],
+        type:'date',
         y:0,
         x:0
     },
     methods:{
-        show:function(onSelect, date){
+        show:function(onSelect, date, type){
             this.y = event.pageY;
             this.x = event.pageX;
+            if (type){
+                this.type = type;
+            } else {
+                this.type = 'date'
+            }
 
             if (this.onSelects.length == 0){
                 this.date = date

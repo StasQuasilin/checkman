@@ -44,6 +44,9 @@
 .container-item tr[selectable]:hover{
     background-color: #f5f5f5;
 }
+.container-item td{
+    padding: 0 4pt;
+}
 
 .selectable:hover{
     background-color: #f5f5f5;

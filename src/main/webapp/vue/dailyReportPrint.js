@@ -6,15 +6,15 @@ var report = new Vue({
         },
         parameters:{
             date:new Date().toISOString().substring(0, 10)
-        }
-
+        },
+        dateType:'date'
     },
     methods:{
         pickDate:function(){
             var self = this;
             datepicker.show(function(date){
-                self.parameters.date = date;
-            }, self.parameters.date)
+                self.parameters.date = new Date(date).toISOString().substring(0, 10);
+            }, self.parameters.date, this.dateType)
         },
         print:function(){
             PostReq(this.api.print, {parameters: this.parameters }, function(a){

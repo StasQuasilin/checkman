@@ -12,6 +12,9 @@ import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
+import entity.laboratory.storages.StorageAnalyses;
+import entity.laboratory.storages.StorageTurn;
+import entity.laboratory.subdivisions.StorageAnalyse;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
@@ -501,10 +504,7 @@ public class JsonParser {
     }
 
     public static JSONObject toJson(Turn turn, List<LaboratoryTurn> query) {
-        JSONObject json = new JSONObject();
-        json.put("id", turn.getId());
-        json.put("date", turn.getDate().toString());
-        json.put("number", turn.getNumber());
+        JSONObject json = toJson(turn);
         json.put("laboratory", toLaboratoryJson(query));
         int hash = turn.hashCode();
         for (LaboratoryTurn l : query){
@@ -514,12 +514,46 @@ public class JsonParser {
         return json;
     }
 
+    private static JSONObject toJson(Turn turn) {
+        JSONObject json = new JSONObject();
+        json.put("id", turn.getId());
+        json.put("date", turn.getDate().toString());
+        json.put("number", turn.getNumber());
+        return json;
+    }
+
     private static JSONArray toLaboratoryJson(List<LaboratoryTurn> query) {
         JSONArray array = new JSONArray();
         for (LaboratoryTurn turn : query){
             array.add(toJson(turn));
         }
         return array;
+    }
+
+    public static JSONObject toJson(StorageTurn turn) {
+        JSONObject json = new JSONObject();
+        json.put("id", turn.getId());
+        json.put("turn", toJson(turn.getTurn()));
+        json.put("analyses", toAnalysesJson(turn.getAnalyses()));
+        json.put("hash", turn.hashCode());
+
+        return json;
+    }
+
+    private static JSONArray toAnalysesJson(Set<StorageAnalyses> analyses) {
+        JSONArray array = new JSONArray();
+        for (StorageAnalyses analyse : analyses){
+            array.add(toJson(analyse));
+        }
+        return array;
+    }
+
+    private static JSONObject toJson(StorageAnalyses analyse) {
+        JSONObject json = new JSONObject();
+        json.put("id", analyse.getId());
+        json.put("storage", analyse.getStorage().getName());
+        json.put("oil", toJson(analyse.getOilAnalyses()));
+        return json;
     }
 
     public static class Laboratory {

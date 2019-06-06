@@ -482,4 +482,8 @@ public class Notificator {
             }
         }
     }
+
+    public void storagesShow(OilAnalyses oilAnalyses) {
+
+    }
 }

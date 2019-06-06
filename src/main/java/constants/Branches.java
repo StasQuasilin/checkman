@@ -2,6 +2,8 @@ package constants;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.SyntaxTreeNode;
 import controllers.archive.ArchiveType;
+import entity.AnalysesType;
+import entity.Product;
 import org.glassfish.grizzly.utils.StringFilter;
 
 /**
@@ -65,6 +67,9 @@ public class Branches {
         public static final String RAIL_EDIT = "/rail/edit.j";
         public static final String LABORATORY_TURNS = "/laboratory/turns.j";
         public static final String LABORATORY_TURNS_EDIT = "/laboratory/turns/edit.j";
+        public static final String LABORATORY_PRINT = "/laboratory/crude/monthly/print.j";
+        public static final String LABORATORY_STORAGES = "/laboratory/storages.j";
+        public static final String LABORATORY_STORAGE_EDIT = "/laboratory/storages/edit.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -160,6 +165,9 @@ public class Branches {
         public static final String VRO_DAILY_REPORT_PRINT = API + "/laboratory/vro/daily/report/print";
         public static final String LABORATORY_TURN_EDIT = API + "/laboratory/turn/edit";
         public static final String LABORATORY_TURN_LIST = API + "/laboratory/turn/list";
+        public static final String LABORATORY_MONTHLY_REPORT = API + "/laboratory/monthly/report/print";
+        public static final String LABORATORY_STORAGE_LIST = API + "/laboratory/storages/list";
+        public static final String LABORATORY_STORAGE_EDIT = API + "/laboratory/storage/edit";
 
 
         public class References {

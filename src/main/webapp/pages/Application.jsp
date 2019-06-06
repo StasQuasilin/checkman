@@ -30,16 +30,28 @@
 <link rel="stylesheet" href="${context}/css/datepick.css">
 
 <div class="datetime-picker" id="picker" v-show="onSelects.length" v-on:click="close">
-    <div class="picker-content" v-bind:style="{top:y + 'px', left:x + 'px'}">
+    <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
         <v-date-picker class="date-picker"
                        :no-title="true"
                        :locale="locale"
                        :color="color"
                        :first-day-of-week="1"
+                       :type="type"
                        v-model="date" @input="put"></v-date-picker>
     </div>
 </div>
 <script src="${context}/vue/datetimePicker.js"></script>
+<script>
+    <c:choose>
+    <c:when test="${lang eq 'ua'}">
+    datepicker.locale = 'uk';
+    </c:when>
+    <c:otherwise>
+    datepicker.locale = '${lang}';
+    </c:otherwise>
+    </c:choose>
+</script>
+
 <table border="1" style="width: 100%; height: 100%">
     <tr>
         <td rowspan="2" valign="top" style="height: 40%; width: 1px">
