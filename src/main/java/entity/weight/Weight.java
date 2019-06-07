@@ -15,6 +15,7 @@ public class Weight {
     private Transportation transportation;
     private float brutto;
     private float tara;
+    private float correction;
     private ActionTime bruttoTime;
     private ActionTime taraTime;
     private String uid;
@@ -55,6 +56,15 @@ public class Weight {
         this.tara = tara;
     }
 
+    @Basic
+    @Column(name = "correction")
+    public float getCorrection() {
+        return correction;
+    }
+    public void setCorrection(float correction) {
+        this.correction = correction;
+    }
+
     @OneToOne
     @JoinColumn(name = "brutto_time")
     public ActionTime getBruttoTime() {
@@ -78,7 +88,6 @@ public class Weight {
     public String getUid() {
         return uid;
     }
-
     public void setUid(String uid) {
         this.uid = uid;
     }
@@ -88,7 +97,7 @@ public class Weight {
         if (brutto == 0 || tara == 0){
             return 0;
         } else {
-            return brutto - tara;
+            return (brutto - tara) * (1 - correction / 100);
         }
     }
 

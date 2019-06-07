@@ -14,7 +14,6 @@ import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.storages.StorageTurn;
-import entity.laboratory.subdivisions.StorageAnalyse;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
@@ -234,7 +233,7 @@ public class JsonParser {
 //        private float oiliness;
         json.put("oiliness", analyses.getOiliness());
 //        private float humidity;
-        json.put("humidity", analyses.getHumidity());
+        json.put("humidity", analyses.getHumidity1());
 //        private float soreness;
         json.put("soreness", analyses.getSoreness());
 //        private float oilImpurity;
@@ -265,6 +264,8 @@ public class JsonParser {
         json.put("brutto", weight.getBrutto());
         json.put("brutto_time", toJson(weight.getBruttoTime()));
         json.put("tara", weight.getTara());
+        json.put("netto", weight.getNetto());
+        json.put("correction", weight.getCorrection());
         json.put("tara_time", toJson(weight.getTaraTime()));
         return json;
     }

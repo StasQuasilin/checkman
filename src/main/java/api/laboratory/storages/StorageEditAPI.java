@@ -54,7 +54,7 @@ public class StorageEditAPI extends IAPI{
                     storageTurn = new StorageTurn();
                     storageTurn.setTurn(turn);
                 }
-                
+
                 analyses = new StorageAnalyses();
                 analyses.setTurn(storageTurn);
                 analyses.setOilAnalyses(new OilAnalyses());

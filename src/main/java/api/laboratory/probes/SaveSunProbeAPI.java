@@ -38,8 +38,8 @@ public class SaveSunProbeAPI extends IAPI {
         SunAnalyses analyses = probe.getAnalyses();
 
         float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
-        if (analyses.getHumidity() != humidity) {
-            analyses.setHumidity(humidity);
+        if (analyses.getHumidity1() != humidity) {
+            analyses.setHumidity1(humidity);
             save = true;
         }
 

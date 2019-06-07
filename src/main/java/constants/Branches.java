@@ -168,6 +168,7 @@ public class Branches {
         public static final String LABORATORY_MONTHLY_REPORT = API + "/laboratory/monthly/report/print";
         public static final String LABORATORY_STORAGE_LIST = API + "/laboratory/storages/list";
         public static final String LABORATORY_STORAGE_EDIT = API + "/laboratory/storage/edit";
+        public static final String LABORATORY_SUN_PRINT = API + "/laboratory/sun/print";
 
 
         public class References {

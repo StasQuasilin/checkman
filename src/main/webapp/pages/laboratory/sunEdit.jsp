@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/laboratoryEdit.js"></script>
 <script>
-    editor.api.save = '${saveUrl}';
+    editor.api.save = '${save}';
+    editor.api.print = '${print}';
     editor.plan = ${plan.id};
     editor.organisation = '${plan.deal.organisation.value}';
     <c:if test="${not empty plan.transportation.vehicle}">
@@ -20,7 +21,8 @@
     </c:if>
     editor.empty={
         oiliness:0,
-        humidity:0,
+        humidity1:0,
+        humidity2:0,
         soreness:0,
         oilImpurity:0,
         acidValue:0,
@@ -33,7 +35,8 @@
         {
             id:${sun.analyses.id},
             oiliness:${sun.analyses.oiliness},
-            humidity:${sun.analyses.humidity},
+            humidity1:${sun.analyses.humidity1},
+            humidity2:${sun.analyses.humidity2},
             soreness:${sun.analyses.soreness},
             oilImpurity:${sun.analyses.oilImpurity},
             acidValue:${sun.analyses.acidValue},
@@ -56,14 +59,17 @@
         const basis = {
             humidity:7,
             soreness:3
-        }
+        };
         var humidity = 0;
         var soreness = 0;
         var count = 0;
         for (var a in this.analyses){
             if (this.analyses.hasOwnProperty(a)){
                 var analyses = this.analyses[a];
-                humidity += analyses.humidity;
+                humidity += (analyses.humidity1 > 0 || analyses.humidity2 > 0 ? (
+                    (analyses.humidity1 + analyses.humidity2) / ((analyses.humidity1 > 0 ? 1 : 0) + (analyses.humidity2 > 0 ? 1 : 0))
+                ) : 0);
+
                 soreness += analyses.soreness;
                 count++;
             }
@@ -82,7 +88,7 @@
         return '-' + (Math.round(recount * 1000) / 1000) + '%';
     }
 </script>
-<table id="editor" class="editor">
+<table id="editor" class="editor" border="0">
     <tr>
         <td>
             <fmt:message key="deal.organisation"/>
@@ -90,7 +96,7 @@
         <td>
             :
         </td>
-        <td>
+        <td colspan="2">
             {{organisation}}
         </td>
     </tr>
@@ -102,18 +108,15 @@
             :
         </td>
         <td>
-            <div>
-                <span>
-                    {{vehicle.model}}
-                </span>
-                <div style="display: inline-block; font-size: 8pt">
-                    <div>
-                        {{vehicle.number}}
-                    </div>
-                    <div>
-                        {{vehicle.trailer}}
-                    </div>
-
+            {{vehicle.model}}
+        </td>
+        <td>
+            <div style="display: inline-block; font-size: 8pt">
+                <div>
+                    {{vehicle.number}}
+                </div>
+                <div>
+                    {{vehicle.trailer}}
                 </div>
             </div>
         </td>
@@ -125,22 +128,42 @@
         <td>
             :
         </td>
-        <td>
+        <td colspan="2">
             {{driver}}
         </td>
     </tr>
     <template v-for="item in analyses">
         <tr>
             <td>
-                <label for="humidity">
-                    <fmt:message key="sun.humidity"/>
+                <label for="humidity1">
+                    <fmt:message key="sun.humidity.1"/>
                 </label>
             </td>
             <td>
                 :
             </td>
             <td>
-                <input id="humidity" step="0.01" type="number" v-model="item.humidity">
+                <input id="humidity1" step="0.01" type="number" v-model.number="item.humidity1">
+            </td>
+            <td rowspan="2">
+                {{(
+                    (item.humidity1 > 0 || item.humidity2 > 0 ?
+                        (item.humidity1 + item.humidity2) /
+                        ((item.humidity1 > 0 ? 1 : 0) + (item.humidity2 > 0 ? 1 : 0)) : 0)
+                ).toLocaleString()}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="humidity2">
+                    <fmt:message key="sun.humidity.2"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <input id="humidity2" step="0.01" type="number" v-model.number="item.humidity2">
             </td>
         </tr>
         <tr>
@@ -152,7 +175,7 @@
             <td>
                 :
             </td>
-            <td>
+            <td colspan="2">
                 <input id="soreness" step="0.01" type="number" v-model="item.soreness">
             </td>
         </tr>
@@ -165,7 +188,7 @@
             <td>
                 :
             </td>
-            <td>
+            <td colspan="2">
                 <input id="oilImp" step="0.01" type="number" v-model="item.oilImpurity">
             </td>
         </tr>
@@ -178,7 +201,7 @@
             <td>
                 :
             </td>
-            <td>
+            <td colspan="2">
                 <input id="oiliness" step="0.01" type="number" v-model="item.oiliness">
             </td>
         </tr>
@@ -191,20 +214,15 @@
             <td>
                 :
             </td>
-            <td>
+            <td colspan="2">
                 <input id="acid" step="0.01" type="number" v-model="item.acidValue">
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="3" align="right">
                 <label for="contamination">
                     <fmt:message key="sun.contamination"/>
                 </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
                 <input id="contamination" type="checkbox" v-model="item.contamination">
             </td>
         </tr>
@@ -219,19 +237,24 @@
         <td>
             :
         </td>
-        <td>
+        <td colspan="2">
             <input id="recount" readonly style="width: 7em" v-model="recount()">
         </td>
     </tr>
     </template>
     <tr>
-        <td colspan="3" align="center">
+        <td colspan="3" align="right">
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>
             <button v-on:click="save">
                 <fmt:message key="button.save"/>
             </button>
+        </td>
+        <td align="right" class="mini-close">
+            <a v-on:click="print">
+                <fmt:message key="document.print"/>
+            </a>
         </td>
     </tr>
 </table>

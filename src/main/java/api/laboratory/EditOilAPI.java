@@ -13,7 +13,6 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -116,7 +115,7 @@ public class EditOilAPI extends IAPI {
                 }
 
 //            private float humidity;
-                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY)));
+                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY_1)));
                 log.info("\t\tHumidity: " + humidity);
                 if (oilAnalyses.getHumidity() != humidity) {
                     oilAnalyses.setHumidity(humidity);

@@ -23,7 +23,7 @@ public class TurnBox extends IBox{
     private List<TurnSettings> turns;
     private final TurnDateTime def;
     public TurnBox() {
-        turns = HIBERNATOR.query(TurnSettings.class, null);
+        turns = hibernator.query(TurnSettings.class, null);
         turns.sort((o1, o2) -> Integer.compare( o1.getNumber(), o2.getNumber()));
 
         if (turns.size() > 0) {

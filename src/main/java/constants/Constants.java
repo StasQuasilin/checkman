@@ -126,7 +126,8 @@ public class Constants {
 
     public class Sun {
         public static final String OILINESS = "oiliness";
-        public static final String HUMIDITY = "humidity";
+        public static final String HUMIDITY_1 = "humidity1";
+        public static final String HUMIDITY_2 = "humidity2";
         public static final String SORENESS = "soreness";
         public static final String OIL_IMPURITY = "oilImpurity";
         public static final String ACID_VALUE = "acidValue";

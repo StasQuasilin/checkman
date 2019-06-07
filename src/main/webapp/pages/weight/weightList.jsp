@@ -112,6 +112,7 @@
                             <fmt:message key="weight.brutto"/>:{{weight.brutto}},
                             <fmt:message key="weight.tara"/>:{{weight.tara}},
                             <fmt:message key="weight.netto"/>:{{weight.brutto > 0 && weight.tara > 0 ? (weight.brutto - weight.tara).toLocaleString() : 0}}
+                            ({{(weight.netto).toLocaleString()}}, -{{(weight.correction).toLocaleString()}}%)
                         </div>
                         <div v-for="sun in value.item.transportation.analyses.sun">
                             <fmt:message key="sun.humidity"/>:

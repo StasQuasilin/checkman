@@ -11,7 +11,7 @@ import utils.boxes.IBox;
 public class WeightUtil extends IBox{
     public static void calculateDealDone(Deal deal){
         float done = 0;
-        for (LoadPlan plan : HIBERNATOR.query(LoadPlan.class, "deal", deal)){
+        for (LoadPlan plan : hibernator.query(LoadPlan.class, "deal", deal)){
             if (plan.getTransportation().isArchive()) {
                 for (Weight weight : plan.getTransportation().getWeights()) {
                     done += weight.getNetto();
@@ -21,7 +21,7 @@ public class WeightUtil extends IBox{
         if (deal.getDone() != done) {
             deal.setDone(done);
             deal.setArchive(done >= deal.getQuantity());
-            HIBERNATOR.save(deal);
+            hibernator.save(deal);
         }
     }
 }

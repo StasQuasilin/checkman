@@ -5,9 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.Worker;
 import entity.laboratory.OilAnalyses;
-import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.OilProbe;
-import entity.laboratory.probes.SunProbe;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -70,7 +68,7 @@ public class SaveOilProbeAPI extends IAPI {
             save = true;
         }
 
-        float humidity = Float.parseFloat(String.valueOf(body.get(Constants.Sun.HUMIDITY)));
+        float humidity = Float.parseFloat(String.valueOf(body.get(Constants.Sun.HUMIDITY_1)));
         if (analyses.getHumidity() != humidity) {
             analyses.setHumidity(humidity);
             save = true;

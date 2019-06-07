@@ -28,7 +28,8 @@ public class LaboratoryEdit extends IModal {
             case sun:
                 req.setAttribute("modalContent", "/pages/laboratory/sunEdit.jsp");
                 req.setAttribute("title", Constants.Titles.SUN_EDIT);
-                req.setAttribute("saveUrl", Branches.API.LABORATORY_SAVE_SUN);
+                req.setAttribute("save", Branches.API.LABORATORY_SAVE_SUN);
+                req.setAttribute("print", Branches.API.LABORATORY_SUN_PRINT);
                 break;
             case oil:
                 req.setAttribute("modalContent", "/pages/laboratory/oilEdit.jsp");

@@ -13,7 +13,8 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
+import utils.TransportUtil;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +24,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 27.03.2019.
@@ -40,10 +40,9 @@ public class EditSunAPI extends IAPI {
             long planId = (long) body.get(Constants.PLAN);
             log.info("Edit SUN analyses for plan \'" + planId + "\'...");
 
-            LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
-            LinkedList<SunAnalyses> analysesList = new LinkedList<>();
-
-            HashMap<Long, SunTransportationAnalyses> map = new HashMap<>();
+            final LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
+            final LinkedList<SunAnalyses> analysesList = new LinkedList<>();
+            final HashMap<Long, SunTransportationAnalyses> map = new HashMap<>();
             log.info("\tAlready have analyses:...");
             for (SunTransportationAnalyses analyses : loadPlan.getTransportation().getSunAnalyses()) {
                 map.put((long) analyses.getAnalyses().getId(), analyses);
@@ -82,10 +81,17 @@ public class EditSunAPI extends IAPI {
                     save = true;
                 }
 
-                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY)));
-                log.info("\t\tHumidity: " + humidity);
-                if (sunAnalyses.getHumidity() != humidity) {
-                    sunAnalyses.setHumidity(humidity);
+                float humidity1 = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY_1)));
+                log.info("\t\tHumidity 1: " + humidity1);
+                if (sunAnalyses.getHumidity1() != humidity1) {
+                    sunAnalyses.setHumidity1(humidity1);
+                    save = true;
+                }
+
+                float humidity2 = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY_2)));
+                log.info("\t\tHumidity 2: " + humidity2);
+                if (sunAnalyses.getHumidity2() != humidity2) {
+                    sunAnalyses.setHumidity2(humidity2);
                     save = true;
                 }
 
@@ -136,13 +142,13 @@ public class EditSunAPI extends IAPI {
                     sunAnalyses.setCreator(worker);
 
                     hibernator.save(sunAnalyses.getCreateTime(), sunAnalyses, analyses);
+                    TransportUtil.calculateWeight(loadPlan.getTransportation());
+
+                    Notificator notificator = BotFactory.getNotificator();
+                    if (notificator != null) {
+                        notificator.sunAnalysesShow(loadPlan, analysesList);
+                    }
                 }
-
-            }
-
-            Notificator notificator = BotFactory.getNotificator();
-            if (notificator != null) {
-                notificator.sunAnalysesShow(loadPlan, analysesList);
             }
 
             for (SunTransportationAnalyses analyses : map.values()) {

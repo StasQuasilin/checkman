@@ -25,23 +25,40 @@ var editor = new Vue({
             console.log(analyses);
             this.analyses.push(analyses);
         },
-        save:function(){
-            var parameters = {};
-            parameters.plan = this.plan;
-            var analyses = [];
-            for (var i in this.analyses){
-                if (this.analyses.hasOwnProperty(i)){
-                    analyses.push(this.analyses[i]);
+        saveLogic:function(onSave){
+            PostApi(this.api.save, {plan:this.plan, analyses:this.analyses}, function(a){
+                if (onSave){
+                    onSave(a);
                 }
-            }
-            parameters.analyses = analyses;
-            console.log(parameters);
-            PostApi(this.api.save, parameters, function(a){
+            })
+        },
+        save:function(){
+            this.saveLogic(function(a){
                 if (a.status == 'success'){
                     closeModal();
                 }
             })
         },
-        recount:function(){}
+        recount:function(){},
+        print:function(){
+            const self = this;
+            this.saveLogic(function(a){
+                console.log(self.plan);
+                    PostReq(self.api.print, {id: self.plan}, function (p) {
+                        console.log(p);
+                        if (p) {
+                            var print = window.open();
+                            print.document.write('<html>');
+                            print.document.write(p);
+                            print.document.write('</html>');
+                            setTimeout(function(){
+                                //print.print();
+                                //print.close();
+                            }, 1200)
+
+                        }
+                    })
+            })
+        }
     }
 });

@@ -3,7 +3,6 @@ package entity.laboratory;
 import entity.Worker;
 import entity.transport.ActionTime;
 
-import javax.lang.model.element.Name;
 import javax.persistence.*;
 
 /**
@@ -14,7 +13,8 @@ import javax.persistence.*;
 public class SunAnalyses{
     private int id;
     private float oiliness;
-    private float humidity;
+    private float humidity1;
+    private float humidity2;
     private float soreness;
     private float oilImpurity;
     private float acidValue;
@@ -41,12 +41,21 @@ public class SunAnalyses{
     }
 
     @Basic
-    @Column(name = "humidity")
-    public float getHumidity() {
-        return humidity;
+    @Column(name = "humidity1")
+    public float getHumidity1() {
+        return humidity1;
     }
-    public void setHumidity(float humidity) {
-        this.humidity = humidity;
+    public void setHumidity1(float humidity) {
+        this.humidity1 = humidity;
+    }
+
+    @Basic
+    @Column(name = "humidity2")
+    public float getHumidity2() {
+        return humidity2;
+    }
+    public void setHumidity2(float humidity) {
+        this.humidity2 = humidity;
     }
 
     @Basic
@@ -107,7 +116,7 @@ public class SunAnalyses{
     public int hashCode() {
         int hash = 7;
         hash = 31 * Float.hashCode(oiliness) + hash;
-        hash = 31 * Float.hashCode(humidity) + hash;
+        hash = 31 * Float.hashCode(humidity1) + hash;
         hash = 31 * Float.hashCode(soreness) + hash;
         hash = 31 * Float.hashCode(oilImpurity) + hash;
         hash = 31 * Float.hashCode(acidValue) + hash;

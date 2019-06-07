@@ -13,7 +13,7 @@ public class BotSettings extends IBox {
 
     private static final BotSettings instance = new BotSettings();
     private BotSettings(){
-        HIBERNATOR.query(UserBotSetting.class, null).forEach(this::addSettings);
+        hibernator.query(UserBotSetting.class, null).forEach(this::addSettings);
     }
 
     public static BotSettings getInstance() {
@@ -27,7 +27,7 @@ public class BotSettings extends IBox {
     }
 
     public void save(UserBotSetting botSetting) {
-        HIBERNATOR.save(botSetting);
+        hibernator.save(botSetting);
         addSettings(botSetting);
     }
 

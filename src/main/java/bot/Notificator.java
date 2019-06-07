@@ -146,7 +146,7 @@ public class Notificator {
                 float acid = 0;
                 int count = 0;
                 for (SunAnalyses analyses : analysesList){
-                    humidity += analyses.getHumidity();
+                    humidity += analyses.getHumidity1();
                     soreness += analyses.getSoreness();
                     oiliness += analyses.getOiliness();
                     oilImpurity += analyses.getOilImpurity();
