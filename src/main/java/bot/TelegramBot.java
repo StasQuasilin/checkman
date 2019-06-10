@@ -1,5 +1,6 @@
 package bot;
 
+import entity.Admin;
 import entity.Worker;
 import entity.bot.Command;
 import entity.bot.UserBotSetting;
@@ -46,10 +47,15 @@ public class TelegramBot extends IBot {
     }
 
     void updateProcessing(Update update){
-        long id = update.getMessage().getChatId();
-        if (update.getMessage().isCommand()){
-            parseCommand(id, update.getMessage().getText());
+        if (update.hasCallbackQuery()){
+            System.out.println(update.getCallbackQuery().getData());
+        } else if (update.hasMessage()){
+            long id = update.getMessage().getChatId();
+            if (update.getMessage().isCommand()){
+                parseCommand(id, update.getMessage().getText());
+            }
         }
+
     }
 
     final Pattern commandPattern = Pattern.compile("^\\/\\w{2,}");
@@ -66,7 +72,7 @@ public class TelegramBot extends IBot {
                     showHelp(id);
                     break;
                 case token:
-                    signin(id, text);
+                    signIn(id, text);
                     break;
                 case status:
                     status(id);
@@ -125,7 +131,7 @@ public class TelegramBot extends IBot {
         }
     }
 
-    private void signin(long id, String text) {
+    private void signIn(long id, String text) {
         if (signed(id)){
             sendMsg(id, DOESNT_NEED);
         } else {
@@ -193,5 +199,9 @@ public class TelegramBot extends IBot {
 
     public BotSettings getBotSettings() {
         return botSettings;
+    }
+
+    public Admin getAdmin() {
+        return botSettings.getAdmin();
     }
 }

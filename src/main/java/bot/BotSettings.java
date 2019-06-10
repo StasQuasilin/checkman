@@ -1,10 +1,12 @@
 package bot;
 
+import entity.Admin;
 import entity.bot.UserBotSetting;
 import utils.boxes.IBox;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 16.04.2019.
@@ -41,5 +43,20 @@ public class BotSettings extends IBox {
 
     public Collection<UserBotSetting> get() {
         return botSettingHashMap.values();
+    }
+
+    public Admin getAdmin() {
+        List<Admin> admins = hibernator.query(Admin.class, null);
+        if (admins.size() == 1){
+            return admins.get(0);
+        } else if (admins.size() > 0){
+            for (Admin admin : admins) {
+                if (admin.isDuty()){
+                    return admin;
+                }
+            }
+        }
+
+        return null;
     }
 }

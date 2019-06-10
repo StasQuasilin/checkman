@@ -14,6 +14,7 @@ public class User {
     private String password;
     private Role role;
     private Worker worker;
+    private Worker registrator;
 
     @Id
     @GeneratedValue
@@ -67,5 +68,14 @@ public class User {
     }
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "registrator")
+    public Worker getRegistrator() {
+        return registrator;
+    }
+    public void setRegistrator(Worker registrator) {
+        this.registrator = registrator;
     }
 }

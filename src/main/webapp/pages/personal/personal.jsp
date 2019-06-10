@@ -24,6 +24,7 @@
         <tr>
             <td valign="top">
                 <jsp:include page="changePassword.jsp"/>
+                <jsp:include page="friendRegistration.jsp"/>
             </td>
             <td valign="top">
                 <jsp:include page="personalData.jsp"/>

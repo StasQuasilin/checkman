@@ -1,20 +1,20 @@
 var editor = new Vue({
     el: '#editor',
-    data:{
-        api:{
-            save:''
+    data: {
+        api: {
+            save: ''
         },
-        empty:'',
-        plan:-1,
-        organisation:'',
-        vehicle:{
-            model:'',
-            number:'',
-            trailer:''
+        empty: '',
+        plan: -1,
+        organisation: '',
+        vehicle: {
+            model: '',
+            number: '',
+            trailer: ''
         },
-        driver:'',
-        analyses:[],
-        laborants:[]
+        driver: '',
+        analyses: [],
+        laborants: []
     },
     methods:{
         newAnalyses:function(){
@@ -39,7 +39,9 @@ var editor = new Vue({
                 }
             })
         },
-        recount:function(){},
+        recount:function(){
+            return 0;
+        },
         print:function(){
             const self = this;
             this.saveLogic(function(a){

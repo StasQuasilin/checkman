@@ -35,7 +35,7 @@
         </div>
         <div class="lower-row">
             <span v-for="(lab, k) in value.item.laboratory">
-            &#9686;{{k + 1}}.{{lab.worker.person.value}}&#9687;
+            {{lab.worker.person.value}}<template v-if="k < value.item.laboratory.length-1">,</template>
         </span>
         </div>
     </div>

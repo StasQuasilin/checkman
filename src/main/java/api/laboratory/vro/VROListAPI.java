@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
+import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
 
 import javax.servlet.ServletException;
@@ -27,7 +28,6 @@ public class VROListAPI extends IAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final HashMap<String, Object> parameters = new HashMap<>();
-        final LE le = new LE(Date.valueOf(LocalDate.now()));
         final JSONObject array = new JSONObject();
         final JSONArray add = new JSONArray();
         final JSONArray update = new JSONArray();
@@ -39,8 +39,16 @@ public class VROListAPI extends IAPI {
 
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
-            le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
-            parameters.put("turn/date", le);
+            if (body.containsKey("reqDate")){
+                String date = String.valueOf(body.remove("reqDate"));
+                LocalDate localDate = LocalDate.parse(date);
+                final BETWEEN between = new BETWEEN(Date.valueOf(localDate), Date.valueOf(localDate.plusDays(1)));
+                parameters.put("turn/date", between);
+            } else {
+                final LE le = new LE(Date.valueOf(LocalDate.now()));
+                le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
+                parameters.put("turn/date", le);
+            }
 
             for (VROTurn turn : hibernator.limitQuery(VROTurn.class, parameters, 14)) {
                 String id = String.valueOf(turn.getId());

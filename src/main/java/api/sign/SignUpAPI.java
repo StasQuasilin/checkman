@@ -40,6 +40,7 @@ public class SignUpAPI extends IAPI{
         JSONObject body = parseBody(req);
         if(body != null) {
             log.info(body);
+
             for (Object o : (JSONArray) body.get("users")) {
                 JSONObject json = (JSONObject) o;
 
@@ -52,6 +53,7 @@ public class SignUpAPI extends IAPI{
 
                 user.setPassword(PasswordGenerator.getPassword());
                 user.setEmail(email);
+                user.setRegistrator(getWorker(req));
 
                 user.setWorker(new Worker());
                 long personId = -1;
@@ -94,7 +96,7 @@ public class SignUpAPI extends IAPI{
 
 
 
-    synchronized String getToken(){
+    static synchronized String getToken(){
         String token = UUID.randomUUID().toString();
         if (hibernator.query(User.class, "uid", token).size() > 0){
             return getToken();

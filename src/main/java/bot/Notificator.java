@@ -1,6 +1,8 @@
 package bot;
 
+import entity.Admin;
 import entity.DealType;
+import entity.User;
 import entity.Worker;
 import entity.bot.UserBotSetting;
 import entity.documents.LoadPlan;
@@ -13,14 +15,17 @@ import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.transport.Transportation;
 import entity.weight.Weight;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import utils.DateUtil;
 import utils.LanguageBase;
 
 import java.sql.Date;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by szpt_user045 on 17.04.2019.
@@ -80,7 +85,7 @@ public class Notificator {
                 } else {
                     message += "\n" + lb.get(TRANSPORT_OUT);
                 }
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -120,7 +125,7 @@ public class Notificator {
                 if (netto > 0){
                     message += "\n" + String.format(lb.get(NETTO), netto);
                 }
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -182,7 +187,7 @@ public class Notificator {
                     message += "\n" + String.format(lb.get(ACID), acid);
                 }
                 
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -224,7 +229,7 @@ public class Notificator {
                 message += "\n" + String.format(lb.get(CELLULOSE), cellulose);
                 message += "\n" + String.format(lb.get(OILINESS), oiliness);
 
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
         
@@ -284,7 +289,7 @@ public class Notificator {
                 message += "\n" + String.format(lb.get(SOAP), soap);
                 message += "\n" + String.format(lb.get(WAX), wax);
 
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -308,7 +313,7 @@ public class Notificator {
                 message += "\n" + String.format(lb.get(language, "extraction.oiliness"), crude.getGrease());
                 //message += "\n" + String.format(lb.get(language, "extraction.explosion.t"), crude.get)
 
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -348,7 +353,7 @@ public class Notificator {
                     }
                     messages.put(language, message);
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language));
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
     }
@@ -372,8 +377,8 @@ public class Notificator {
     private Collection<UserBotSetting> getSettings() {
         return telegramBot.getBotSettings().get();
     }
-    private void sendMessage(long telegramId, String message) {
-        telegramBot.sendMsg(telegramId, message);
+    private void sendMessage(long telegramId, String message, ReplyKeyboard keyboard) {
+        telegramBot.sendMsg(telegramId, message, keyboard);
     }
 
     public void extractionShow(StorageProtein storageProtein) {
@@ -386,7 +391,7 @@ public class Notificator {
                         storage, time);
                 message += "\n" + String.format(lb.get(language, "extraction.storage.protein"), storageProtein.getProtein());
                 message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageProtein.getHumidity());
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -406,7 +411,7 @@ public class Notificator {
                 message += "\n" + String.format(lb.get(language, "extraction.oil.phosphorus.value"), oil.getPhosphorus());
                 message += "\n" + String.format(lb.get(language, "extraction.oil.explosion.t"), oil.getExplosionT());
 
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -421,7 +426,7 @@ public class Notificator {
                 message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
                 message += "\n" + String.format(lb.get(language, "extraction.turn.protein.protein"), turnProtein.getProtein());
                 message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnProtein.getHumidity());
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
 
@@ -437,7 +442,7 @@ public class Notificator {
                 message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
                 message += "\n" + String.format(lb.get(language, "extraction.turn.grease.grease"), turnGrease.getGrease());
                 message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnGrease.getHumidity());
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -452,7 +457,7 @@ public class Notificator {
                         storage, time);
                 message += "\n" + String.format(lb.get(language, "extraction.turn.grease"), storageGrease.getGrease());
                 message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageGrease.getHumidity());
-                sendMessage(setting.getTelegramId(), message);
+                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -474,16 +479,45 @@ public class Notificator {
                     message += "\n" + String.format(lb.get(language, "notification.kpo.soap"),
                             (part.isSoap() ?
                                     lb.get(language, "notification.kpo.soap.yes") :
-                                    lb.get(language, "notification.kpo.soap.yes")
+                                    lb.get(language, "notification.kpo.soap.no")
                             ));
                     messages.put(language, message);
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language));
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
     }
 
     public void storagesShow(OilAnalyses oilAnalyses) {
+
+    }
+    final InlineKeyboardMarkup registrationKeyboard = new InlineKeyboardMarkup();
+    final List<List<InlineKeyboardButton>> list = new ArrayList<>();
+    final List<InlineKeyboardButton> buttons = new ArrayList<>();
+    {
+        list.add(buttons);
+        registrationKeyboard.setKeyboard(list);
+    }
+    public void registrationShow(User user) {
+        Admin admin = telegramBot.getAdmin();
+        if (admin != null) {
+            for (UserBotSetting setting : getSettings()) {
+                if (setting.getWorker().getId() == admin.getWorker().getId() && setting.getTelegramId() > 0){
+                    String language = setting.getLanguage();
+                    String message = lb.get(language, "bot.user.registration.title");
+                    message += "\n" + String.format(lb.get(language, "bot.user.registration.registrator"), user.getRegistrator().getValue());
+                    message += "\n" + lb.get(language, "bot.user.registration.text");
+                    message += "\n" + String.format(lb.get(language, "bot.user.registration.user"), user.getWorker().getValue());
+                    message += "\n" + String.format(lb.get(language, "bot.user.registration.role"), lb.get(language, user.getRole().toString()));
+                    message += "\n" + String.format(lb.get(language, "bot.user.registration.email"), user.getEmail());
+
+                    buttons.add(new InlineKeyboardButton().setText("Yes").setCallbackData(String.valueOf(user.getId())));
+                    buttons.add(new InlineKeyboardButton().setText("No").setCallbackData(String.valueOf(user.getId())));
+                    sendMessage(setting.getTelegramId(), message, registrationKeyboard);
+                    break;
+                }
+            }
+        }
 
     }
 }

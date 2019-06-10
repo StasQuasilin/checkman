@@ -251,7 +251,16 @@
   </tr>
   <tr>
     <td>
+      <table>
+        <tr>
+          <td>
+            <fmt:message key="laboratory.response"/>
+          </td>
+          <td>
 
+          </td>
+        </tr>
+      </table>
     </td>
   </tr>
 </table>

@@ -85,7 +85,7 @@
         } else if (soreness > basis.soreness){
             recount = (soreness - basis.soreness) / (100 - basis.soreness);
         }
-        return '-' + (Math.round(recount * 1000) / 1000) + '%';
+        return (Math.round(recount * 1000) / 1000);
     }
 </script>
 <table id="editor" class="editor" border="0">
@@ -110,7 +110,7 @@
         <td>
             {{vehicle.model}}
         </td>
-        <td>
+        <td style="width: 6em">
             <div style="display: inline-block; font-size: 8pt">
                 <div>
                     {{vehicle.number}}
@@ -227,20 +227,37 @@
             </td>
         </tr>
     </template>
-    <template v-if="recount">
-    <tr v-if="typeof recount === 'function'">
-        <td>
-            <label for="recount">
+    <template v-if="recount()">
+        <tr>
+            <td>
                 <fmt:message key="recount.percentage"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td colspan="2">
-            <input id="recount" readonly style="width: 7em" v-model="recount()">
-        </td>
-    </tr>
+            </td>
+            <td>
+                :
+            </td>
+            <td colspan="2">
+                <span style="background-color: white; padding: 0 6pt; border: inset 2px lightgray; border-radius: 8pt; font-size: 10pt">
+                    {{recount() + ' %'}}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="creator">
+                    <fmt:message key="laboratory.creator"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td colspan="2">
+                <select id="creator">
+                    <option v-for="lab in laborants" :value="lab.id">
+                        {{lab.value}}
+                    </option>
+                </select>
+            </td>
+        </tr>
     </template>
     <tr>
         <td colspan="3" align="right">
@@ -252,7 +269,7 @@
             </button>
         </td>
         <td align="right" class="mini-close">
-            <a v-on:click="print">
+            <a v-on:click="print" v-if="recount()">
                 <fmt:message key="document.print"/>
             </a>
         </td>

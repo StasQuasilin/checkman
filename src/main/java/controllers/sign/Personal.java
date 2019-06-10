@@ -3,6 +3,7 @@ package controllers.sign;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
+import entity.Role;
 import entity.bot.UserBotSetting;
 import utils.LanguageBase;
 
@@ -26,6 +27,8 @@ public class Personal extends IUIServlet {
         req.setAttribute("botStatus", Branches.API.USER_BOT_SETTINGS);
         req.setAttribute("botSettings", hibernator.get(UserBotSetting.class, "worker", getWorker(req).getId()));
         req.setAttribute("languages", LanguageBase.getBase().languages);
+        req.setAttribute("roles", Role.values());
+        req.setAttribute("registration", Branches.API.FRIENDLY_REGISTRATION);
         show(req, resp);
     }
 }

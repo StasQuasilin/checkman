@@ -2,6 +2,7 @@ package utils.turns;
 
 import entity.laboratory.LaboratoryTurn;
 import entity.production.Turn;
+import org.apache.log4j.Logger;
 import utils.TurnDateTime;
 import utils.hibernate.DateContainers.LE;
 import utils.hibernate.Hibernator;
@@ -20,21 +21,24 @@ import java.util.List;
  */
 public class LaboratoryTurnService {
 
+    final static Logger log = Logger.getLogger(LaboratoryTurnService.class);
     final static HashMap<LocalTime, Integer> intervals = new HashMap<>();
     static {
-        intervals.put(LocalTime.of(8, 0), 3 * 12);
-        intervals.put(LocalTime.of(20, 0), 5 * 12);
+        intervals.put(LocalTime.of(8, 0), 5 * 12);
+        intervals.put(LocalTime.of(20, 0), 3 * 12);
     }
     final static int MAX_ATTEMPT = 3;
-
 
     private static final Hibernator hibernator = Hibernator.getInstance();
     public static List<LaboratoryTurn> getTurns(TurnDateTime date){
         return getTurns(TurnService.getTurn(date));
     }
     public static List<LaboratoryTurn> getTurns(Turn turn){
+        log.info("Get laboratory turn " + turn.getNumber() + ", time " + turn.getDate() + "...");
+
         List<LaboratoryTurn> turns = hibernator.query(LaboratoryTurn.class, "turn", turn);
         if (turns.size() == 0){
+            log.info("\t...No turns");
             LocalDate date = turn.getDate().toLocalDateTime().toLocalDate();
             if (anyTurn(date)) {
                 LocalTime time = turn.getDate().toLocalDateTime().toLocalTime();
@@ -58,6 +62,7 @@ public class LaboratoryTurnService {
         if (attempt < MAX_ATTEMPT){
             LocalDateTime dateTime = LocalDateTime.of(date, time);
             dateTime = dateTime.minusHours(intervals.get(time));
+            log.info("Previous turn date " + dateTime);
             Turn turn = hibernator.get(Turn.class, "date", Timestamp.valueOf(dateTime));
             if (turn != null) {
                 turns.addAll(hibernator.query(LaboratoryTurn.class, "turn", turn));
