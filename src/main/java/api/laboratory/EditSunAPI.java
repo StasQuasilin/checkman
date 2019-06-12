@@ -48,6 +48,16 @@ public class EditSunAPI extends IAPI {
                 map.put((long) analyses.getAnalyses().getId(), analyses);
                 log.info("\t\t..." + Long.valueOf(analyses.getAnalyses().getId()));
             }
+            Worker worker = getWorker(req);
+            Worker creator;
+            if (body.containsKey(Constants.CREATOR)) {
+                long creatorId = (long) body.get(Constants.CREATOR);
+                log.info("\t\tHave creator");
+                creator = hibernator.get(Worker.class, "id", creatorId);
+            } else {
+                log.info("\t\tDoesn't have creator");
+                creator = worker;
+            }
             log.info("\tWill be...");
             for (Object o : (JSONArray) body.get("analyses")) {
                 JSONObject a = (JSONObject) o;
@@ -129,19 +139,12 @@ public class EditSunAPI extends IAPI {
                         sunAnalyses.setCreateTime(createTime);
                     }
                     createTime.setTime(new Timestamp(System.currentTimeMillis()));
-                    Worker worker = getWorker(req);
-                    if (a.containsKey(Constants.CREATOR)) {
-                        long creatorId = (long) a.get(Constants.CREATOR);
-                        log.info("\t\tHave creator");
-                        createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
-                    } else {
-                        log.info("\t\tDoesn't have creator");
-                        createTime.setCreator(worker);
-                    }
+
                     log.info("\t\tCreator: " + createTime.getCreator().getValue());
+                    createTime.setCreator(creator);
                     sunAnalyses.setCreator(worker);
 
-                    hibernator.save(sunAnalyses.getCreateTime(), sunAnalyses, analyses);
+                    hibernator.save(createTime, sunAnalyses, analyses);
                     TransportUtil.calculateWeight(loadPlan.getTransportation());
 
                     Notificator notificator = BotFactory.getNotificator();

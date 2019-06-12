@@ -14,6 +14,7 @@ public class SunTransportationAnalyses{
     private int id;
     private Transportation transportation;
     private SunAnalyses analyses;
+    private int act;
 
     @Id
     @GeneratedValue
@@ -40,6 +41,15 @@ public class SunTransportationAnalyses{
     }
     public void setAnalyses(SunAnalyses analyses) {
         this.analyses = analyses;
+    }
+
+    @Basic
+    @Column(name = "act")
+    public int getAct() {
+        return act;
+    }
+    public void setAct(int act) {
+        this.act = act;
     }
 
     @Override

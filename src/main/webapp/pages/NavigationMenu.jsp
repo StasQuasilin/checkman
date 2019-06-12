@@ -5,95 +5,80 @@
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<link rel="stylesheet" href="${context}/css/NavigationMenu.css"/>
+  <link rel="stylesheet" href="${context}/css/NavigationMenu.css"/>
   <div class="navigation-menu" id="nav-menu">
     <ul>
-      <c:if test="${role eq 'admin' || role eq 'manager'}">
-      <li class="menu-item">
-        <span class="main" onclick="loadContent('${buyList}')">
-          <fmt:message key="deal.buy"/>
-        </span>
-        <span class="archive">
-          <a onclick="loadContent('${buyArchive}')">
-            <fmt:message key="archive"/>
-          </a>
-        </span>
-      </li>
-      <li class="menu-item">
-        <span class="main" onclick="loadContent('${sellList}')">
-          <fmt:message key="deal.sell"/>
-        </span>
-        <span>
-          <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
-        </span>
-      </li>
-      <li class="menu-item">
-        <span class="main" onclick="loadContent('${railList}')">
-          <fmt:message key="rail.shipment"/>
-        </span>
-        <span>
-          <a onclick="loadContent('${railArchive}')" ><fmt:message key="archive"/> </a>
-        </span>
-      </li>
-      <li class="menu-item">
-        <span class="main" onclick="loadContent('${summaryList}')">
-          <fmt:message key="consolidated.table"/>
-        </span>
-        <span>
-          <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
-        </span>
-      </li>
-      </c:if>
-      <c:if test="${role eq 'admin' || role eq 'logistic'}">
-      <li class="menu-item">
-        <span class="main"  onclick="loadContent('${logisticList}')">
-          <fmt:message key="menu.logistic"/>
-        </span>
-        <span>
-          <a onclick="loadContent(${context}${logistic_archive})"><fmt:message key="archive"/> </a>
-        </span>
-      </li>
-      </c:if>
-      <c:if test="${role eq 'admin' || role eq 'security'}">
-      <li class="menu-item">
-        <span class="main" onclick="loadContent('${transportList}')">
-          <fmt:message key="menu.transport"/>
-        </span>
-        <span>
-          <a onclick="loadContent('${transportArchive}')"><fmt:message key="archive"/> </a>
-        </span>
-      </li>
-      <li class="menu-item"  onclick="loadContent('${sealList}')">
-        <span class="main">
-          <fmt:message key="menu.seals"/>
-        </span>
-      </li>
-      </c:if>
-      <c:if test="${role eq 'admin' || role eq 'weigher'}">
-      <li class="menu-item">
-        <span class="main" onclick="loadContent('${weightList}')">
-          <fmt:message key="menu.weight"/>
-        </span>
-        <span>
-          <a onclick="loadContent('${weightArchive}')"><fmt:message key="archive"/> </a>
-        </span>
-      </li>
-      </c:if>
-      <c:if test="${role eq 'admin' || role eq 'analyser'}">
-        <jsp:include page="navigation/laboratory.jsp"/>
-      </c:if>
+      <c:choose>
+        <c:when test="${role eq 'admin'}">
+          <ul class="nav-drop-menu">
+            <li class="nav-menu-item nav-drop-menu-item">
+              <span class="main">
+                <fmt:message key="menu.deals"/>&#9205;
+              </span>
+              <div class="nav-drop-menu-content" style="transform: rotateZ(15deg);">
+                <jsp:include page="navigation/deals.jsp"/>
+              </div>
+            </li>
+            <li class="nav-menu-item nav-drop-menu-item">
+              <span class="main">
+                <fmt:message key="menu.logistic"/>&#9205;
+              </span>
+              <div class="nav-drop-menu-content" style="transform: rotateZ(-10deg);">
+                <jsp:include page="navigation/logistic.jsp"/>
+              </div>
+            </li>
+            <li class="nav-menu-item nav-drop-menu-item">
+              <span class="main">
+                <fmt:message key="menu.transport"/>&#9205;
+              </span>
+              <div class="nav-drop-menu-content" style="transform: rotateZ(20deg);">
+                <jsp:include page="navigation/transport.jsp"/>
+              </div>
+            </li>
+            <li class="nav-menu-item nav-drop-menu-item">
+              <span class="main">
+                <fmt:message key="menu.weight"/>&#9205;
+              </span>
+              <div class="nav-drop-menu-content" style="transform: rotateZ(12deg);">
+                <jsp:include page="navigation/weight.jsp"/>
+              </div>
+            </li>
+            <li class="nav-menu-item nav-drop-menu-item">
+              <span class="main">
+                <fmt:message key="menu.laboratory"/>&#9205;
+              </span>
+              <div class="nav-drop-menu-content" style="transform: rotateZ(-8deg);">
+                <jsp:include page="navigation/laboratory.jsp"/>
+              </div>
+            </li>
+            <li class="menu-item" onclick="loadContent('${admin}')">
+            <span class="main">
+              <fmt:message key="menu.admin"/>
+            </span>
+            </li>
+          </ul>
+        </c:when>
+        <c:when test="${role eq 'manager'}">
+          <jsp:include page="navigation/deals.jsp"/>
+        </c:when>
+        <c:when test="${role eq 'logistic'}">
+          <jsp:include page="navigation/logistic.jsp"/>
+        </c:when>
+        <c:when test="${role eq 'security'}">
+          <jsp:include page="navigation/transport.jsp"/>
+        </c:when>
+        <c:when test="${role eq 'weigher'}">
+          <jsp:include page="navigation/weight.jsp"/>
+        </c:when>
+        <c:when test="${role eq 'analyser'}">
+          <jsp:include page="navigation/laboratory.jsp"/>
+        </c:when>
+      </c:choose>
       <li class="menu-item" onclick="loadContent('${referencesList}')">
         <span class="main">
           <fmt:message key="menu.references"/>
         </span>
       </li>
-      <c:if test="${role eq 'admin'}">
-        <li class="menu-item" onclick="loadContent('${admin}')">
-          <span class="main">
-            <fmt:message key="menu.admin"/>
-          </span>
-        </li>
-      </c:if>
     </ul>
   </div>
 </html>

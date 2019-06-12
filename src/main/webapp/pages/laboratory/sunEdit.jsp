@@ -26,9 +26,9 @@
         soreness:0,
         oilImpurity:0,
         acidValue:0,
-        contamination:false,
-        creator:${worker.id}
+        contamination:false
     };
+
     <c:if test="${not empty plan.transportation.sunAnalyses}">
     <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
     editor.addAnalyses(
@@ -41,9 +41,9 @@
             oilImpurity:${sun.analyses.oilImpurity},
             acidValue:${sun.analyses.acidValue},
             contamination:${sun.analyses.contamination},
-            creator:${sun.analyses.createTime.creator.id}
         }
     );
+    editor.creator=${sun.analyses.createTime.creator.id}
     </c:forEach>
     </c:if>
     <c:forEach items="${laborants}" var="l">
@@ -54,6 +54,7 @@
     </c:forEach>
     if (editor.analyses.length == 0){
         editor.newAnalyses();
+        editor.creator=${worker.id}
     }
     editor.recount=function(){
         const basis = {
@@ -81,9 +82,9 @@
         if (humidity > basis.humidity && soreness > basis.soreness){
             recount = 100-((100-humidity)*(100-soreness)*100)/((100-basis.humidity)*(100-basis.soreness));
         } else if (humidity > basis.humidity) {
-            recount = (humidity - basis.humidity)/(100 - basis.humidity)
+            recount = (humidity - basis.humidity)*100 / (100 - basis.humidity)
         } else if (soreness > basis.soreness){
-            recount = (soreness - basis.soreness) / (100 - basis.soreness);
+            recount = (soreness - basis.soreness)*100 / (100 - basis.soreness);
         }
         return (Math.round(recount * 1000) / 1000);
     }
@@ -107,18 +108,23 @@
         <td>
             :
         </td>
-        <td>
-            {{vehicle.model}}
-        </td>
-        <td style="width: 6em">
-            <div style="display: inline-block; font-size: 8pt">
-                <div>
-                    {{vehicle.number}}
-                </div>
-                <div>
-                    {{vehicle.trailer}}
-                </div>
-            </div>
+        <td colspan="2">
+            <table border="0">
+                <tr>
+                    <td rowspan="2" style="font-size: 14pt">
+                        {{vehicle.model}}
+                    </td>
+                    <td style="font-size: 8pt">
+                        {{vehicle.number}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 8pt">
+                        {{vehicle.trailer}}
+                    </td>
+                </tr>
+            </table>
+
         </td>
     </tr>
     <tr>
@@ -145,12 +151,17 @@
             <td>
                 <input id="humidity1" step="0.01" type="number" v-model.number="item.humidity1">
             </td>
-            <td rowspan="2">
-                {{(
+            <td rowspan="2" style="border-left: solid darkgray 1pt; width: 7em" align="center">
+                <div style="font-size: 8pt">
+                    <fmt:message key="mean.short"/>
+                </div>
+                <div>
+                    {{(
                     (item.humidity1 > 0 || item.humidity2 > 0 ?
-                        (item.humidity1 + item.humidity2) /
-                        ((item.humidity1 > 0 ? 1 : 0) + (item.humidity2 > 0 ? 1 : 0)) : 0)
-                ).toLocaleString()}}
+                    (item.humidity1 + item.humidity2) /
+                    ((item.humidity1 > 0 ? 1 : 0) + (item.humidity2 > 0 ? 1 : 0)) : 0)
+                    ).toLocaleString()}} %
+                </div>
             </td>
         </tr>
         <tr>
@@ -251,7 +262,7 @@
                 :
             </td>
             <td colspan="2">
-                <select id="creator">
+                <select id="creator" v-model="creator">
                     <option v-for="lab in laborants" :value="lab.id">
                         {{lab.value}}
                     </option>
@@ -268,8 +279,8 @@
                 <fmt:message key="button.save"/>
             </button>
         </td>
-        <td align="right" class="mini-close">
-            <a v-on:click="print" v-if="recount()">
+        <td align="right">
+            <a class="mini-close" v-on:click="print" v-if="recount()">
                 <fmt:message key="document.print"/>
             </a>
         </td>

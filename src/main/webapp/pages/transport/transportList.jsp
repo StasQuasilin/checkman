@@ -5,6 +5,9 @@
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+  <script>
+    req_filter = {}
+  </script>
   <script src="${context}/vue/dataList.js"></script>
   <link rel="stylesheet" href="${context}/css/DataContainer.css">
   <link rel="stylesheet" href="${context}/css/TransportList.css">

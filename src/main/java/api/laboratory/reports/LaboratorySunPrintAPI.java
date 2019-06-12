@@ -1,9 +1,11 @@
 package api.laboratory.reports;
 
 import api.IAPI;
+import api.laboratory.ActNumberService;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.laboratory.SunAnalyses;
+import entity.laboratory.transportation.ActType;
 import entity.laboratory.transportation.SunTransportationAnalyses;
 import org.json.simple.JSONObject;
 import utils.TransportUtil;
@@ -33,6 +35,10 @@ public class LaboratorySunPrintAPI extends IAPI {
                 LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
                 float humidity = 0;
                 float soreness = 0;
+                int i = 0;
+                final int humidityBasis = TransportUtil.HUMIDITY_BASIS;
+                final int sorenessBasis = TransportUtil.SORENESS_BASIS;
+
                 for (SunTransportationAnalyses analyses : plan.getTransportation().getSunAnalyses()){
                     final SunAnalyses a = analyses.getAnalyses();
                     final float h1 = a.getHumidity1();
@@ -41,13 +47,23 @@ public class LaboratorySunPrintAPI extends IAPI {
                             (h1 + h2) / ((h1 > 0 ? 1 : 0) + (h2 > 0 ? 1 : 0))
                     ) : 0);
                     soreness += analyses.getAnalyses().getSoreness();
+                    if (i == 0){
+                        float mean = (h1 + h2) / ((h1 > 0 ? 1 : 0) + (h2 > 0 ? 1 : 0));
+                        if (mean > humidityBasis || soreness > sorenessBasis){
+                            if (analyses.getAct() == 0) {
+                                analyses.setAct(ActNumberService.getActNumber(ActType.sun));
+                                hibernator.save(analyses);
+                            }
+                            req.setAttribute("number", analyses.getAct());
+                        }
+                    }
+                    i++;
                 }
                 int size = plan.getTransportation().getSunAnalyses().size();
                 humidity /= size;
                 soreness /= size;
                 float percentage = 0;
-                final int humidityBasis = TransportUtil.HUMIDITY_BASIS;
-                final int sorenessBasis = TransportUtil.SORENESS_BASIS;
+
                 if (humidity > humidityBasis && soreness > sorenessBasis){
                     percentage = 100 - ((100-humidity)*(100-soreness)*100)/((100-humidityBasis)*(100-sorenessBasis));
                 } else if (humidity > humidityBasis){
@@ -55,6 +71,7 @@ public class LaboratorySunPrintAPI extends IAPI {
                 } else if (soreness > sorenessBasis){
                     percentage = ((soreness - sorenessBasis) * 100 / (100 - sorenessBasis));
                 }
+
                 req.setAttribute("humidity", humidity);
                 req.setAttribute("soreness", soreness);
                 req.setAttribute("percent", percentage);

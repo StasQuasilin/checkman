@@ -23,7 +23,8 @@
     editor.analyses.sun.push(
         {
             id:'${sun.id}',
-            humidity:${sun.analyses.humidity},
+            humidity1:${sun.analyses.humidity1},
+            humidity2:${sun.analyses.humidity2},
             soreness:${sun.analyses.soreness},
             oiliness:${sun.analyses.oiliness},
             oilImpurity:${sun.analyses.oilImpurity},
@@ -268,13 +269,24 @@
                 <template v-for="sun in analyses.sun">
                     <tr>
                         <td>
-                            <fmt:message key="sun.humidity"/>
+                            <fmt:message key="sun.humidity.1"/>
                         </td>
                         <td>
                             :
                         </td>
                         <td>
-                            {{sun.humidity}}
+                            {{sun.humidity1}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="sun.humidity.2"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{sun.humidity2}}
                         </td>
                     </tr>
                     <tr>

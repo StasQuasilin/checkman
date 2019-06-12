@@ -117,6 +117,7 @@ public class SunAnalyses{
         int hash = 7;
         hash = 31 * Float.hashCode(oiliness) + hash;
         hash = 31 * Float.hashCode(humidity1) + hash;
+        hash = 31 * Float.hashCode(humidity2) + hash;
         hash = 31 * Float.hashCode(soreness) + hash;
         hash = 31 * Float.hashCode(oilImpurity) + hash;
         hash = 31 * Float.hashCode(acidValue) + hash;

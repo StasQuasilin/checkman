@@ -64,130 +64,136 @@ public class Notificator {
     public void transportShow(LoadPlan plan){
         String message;
         for (UserBotSetting setting : getSettings()){
-            Worker worker = setting.getWorker();
-            boolean show = false;
-            switch (setting.getTransport()){
-                case my:
-                    show = plan.getDeal().getCreator().getId() == worker.getId();
-                    break;
-                case all:
-                    show = true;
-                    break;
-            }
-            if (show){
-
-                message = prepareMessage(plan);
-                Transportation transportation = plan.getTransportation();
-                if (transportation.getTimeIn() != null && transportation.getTimeOut() != null) {
-                    message += "\n" + lb.get(TRANSPORT_DONE);
-                } else if (transportation.getTimeIn() != null){
-                    message += "\n" + lb.get(TRANSPORT_IN);
-                } else {
-                    message += "\n" + lb.get(TRANSPORT_OUT);
+            if (setting.isShow()) {
+                Worker worker = setting.getWorker();
+                boolean show = false;
+                switch (setting.getTransport()) {
+                    case my:
+                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        break;
+                    case all:
+                        show = true;
+                        break;
                 }
-                sendMessage(setting.getTelegramId(), message, null);
+                if (show) {
+
+                    message = prepareMessage(plan);
+                    Transportation transportation = plan.getTransportation();
+                    if (transportation.getTimeIn() != null && transportation.getTimeOut() != null) {
+                        message += "\n" + lb.get(TRANSPORT_DONE);
+                    } else if (transportation.getTimeIn() != null) {
+                        message += "\n" + lb.get(TRANSPORT_IN);
+                    } else {
+                        message += "\n" + lb.get(TRANSPORT_OUT);
+                    }
+                    sendMessage(setting.getTelegramId(), message, null);
+                }
             }
         }
     }
     public void weightShow(LoadPlan plan, List<Weight> weightList) {
         String message;
         for (UserBotSetting setting : getSettings()){
-            Worker worker = setting.getWorker();
-            boolean show = false;
-            switch (setting.getTransport()){
-                case my:
-                    show = plan.getDeal().getCreator().getId() == worker.getId();
-                    break;
-                case all:
-                    show = true;
-                    break;
-            }
-            if (show){
+            if (setting.isShow()) {
+                Worker worker = setting.getWorker();
+                boolean show = false;
+                switch (setting.getTransport()) {
+                    case my:
+                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        break;
+                    case all:
+                        show = true;
+                        break;
+                }
+                if (show) {
 
-                float brutto = 0;
-                float tara = 0;
+                    float brutto = 0;
+                    float tara = 0;
 
-                for (Weight weight : weightList){
-                    brutto += weight.getBrutto();
-                    tara += weight.getTara();
+                    for (Weight weight : weightList) {
+                        brutto += weight.getBrutto();
+                        tara += weight.getTara();
+                    }
+                    float netto = 0;
+                    if (brutto > 0 && tara > 0) {
+                        netto = brutto - tara;
+                    }
+                    message = prepareMessage(plan);
+                    if (brutto > 0) {
+                        message += "\n" + String.format(lb.get(BRUTTO), brutto);
+                    }
+                    if (tara > 0) {
+                        message += "\n" + String.format(lb.get(TARA), tara);
+                    }
+                    if (netto > 0) {
+                        message += "\n" + String.format(lb.get(NETTO), netto);
+                    }
+                    sendMessage(setting.getTelegramId(), message, null);
                 }
-                float netto = 0;
-                if (brutto > 0 && tara > 0){
-                    netto = brutto - tara;
-                }
-                message = prepareMessage(plan);
-                if (brutto > 0){
-                    message += "\n" + String.format(lb.get(BRUTTO), brutto);
-                }
-                if (tara > 0){
-                    message += "\n" + String.format(lb.get(TARA), tara);
-                }
-                if (netto > 0){
-                    message += "\n" + String.format(lb.get(NETTO), netto);
-                }
-                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
     public void sunAnalysesShow(LoadPlan plan, LinkedList<SunAnalyses> analysesList) {
         String message;
         for (UserBotSetting setting : getSettings()){
-            Worker worker = setting.getWorker();
-            boolean show = false;
-            switch (setting.getTransport()){
-                case my:
-                    show = plan.getDeal().getCreator().getId() == worker.getId();
-                    break;
-                case all:
-                    show = true;
-                    break;
-            }
-            if (show){
-
-                float humidity = 0;
-                float soreness = 0;
-                float oiliness = 0;
-                float oilImpurity = 0;
-                float acid = 0;
-                int count = 0;
-                for (SunAnalyses analyses : analysesList){
-                    humidity += analyses.getHumidity1();
-                    soreness += analyses.getSoreness();
-                    oiliness += analyses.getOiliness();
-                    oilImpurity += analyses.getOilImpurity();
-                    acid += analyses.getAcidValue();
-                    count ++;
+            if (setting.isShow()) {
+                Worker worker = setting.getWorker();
+                boolean show = false;
+                switch (setting.getTransport()) {
+                    case my:
+                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        break;
+                    case all:
+                        show = true;
+                        break;
                 }
-                
-                humidity /= count;
-                soreness /= count;
-                oiliness /= count;
-                oilImpurity /= count;
-                acid /= count;
+                if (show) {
 
-                message = prepareMessage(plan);
-                
-                if (humidity > 0){
-                    message += "\n" + String.format(lb.get(HUMIDITY), humidity);
-                }
+                    float humidity = 0;
+                    float soreness = 0;
+                    float oiliness = 0;
+                    float oilImpurity = 0;
+                    float acid = 0;
+                    int count = 0;
+                    for (SunAnalyses analyses : analysesList) {
+                        humidity += analyses.getHumidity1();
+                        soreness += analyses.getSoreness();
+                        oiliness += analyses.getOiliness();
+                        oilImpurity += analyses.getOilImpurity();
+                        acid += analyses.getAcidValue();
+                        count++;
+                    }
 
-                if (soreness > 0){
-                    message += "\n" + String.format(lb.get(SORENESS), soreness);
-                }
+                    humidity /= count;
+                    soreness /= count;
+                    oiliness /= count;
+                    oilImpurity /= count;
+                    acid /= count;
 
-                if (oiliness > 0){
-                    message += "\n" + String.format(lb.get(OILINESS), oiliness);
-                }
+                    message = prepareMessage(plan);
 
-                if (oilImpurity > 0){
-                    message += "\n" + String.format(lb.get(OIL_IMPURITY), oilImpurity);
-                }
+                    if (humidity > 0) {
+                        message += "\n" + String.format(lb.get(HUMIDITY), humidity);
+                    }
 
-                if (acid > 0){
-                    message += "\n" + String.format(lb.get(ACID), acid);
+                    if (soreness > 0) {
+                        message += "\n" + String.format(lb.get(SORENESS), soreness);
+                    }
+
+                    if (oiliness > 0) {
+                        message += "\n" + String.format(lb.get(OILINESS), oiliness);
+                    }
+
+                    if (oilImpurity > 0) {
+                        message += "\n" + String.format(lb.get(OIL_IMPURITY), oilImpurity);
+                    }
+
+                    if (acid > 0) {
+                        message += "\n" + String.format(lb.get(ACID), acid);
+                    }
+
+                    sendMessage(setting.getTelegramId(), message, null);
                 }
-                
-                sendMessage(setting.getTelegramId(), message, null);
             }
         }
     }
@@ -212,28 +218,28 @@ public class Notificator {
 
         String message;
         for (UserBotSetting setting : getSettings()){
-            Worker worker = setting.getWorker();
-            boolean show = false;
-            switch (setting.getTransport()){
-                case my:
-                    show = plan.getDeal().getCreator().getId() == worker.getId();
-                    break;
-                case all:
-                    show = true;
-                    break;
-            }
-            if (show){
-                message = prepareMessage(plan);
-                message += "\n" + String.format(lb.get(HUMIDITY), humidity);
-                message += "\n" + String.format(lb.get(PROTEIN), protein);
-                message += "\n" + String.format(lb.get(CELLULOSE), cellulose);
-                message += "\n" + String.format(lb.get(OILINESS), oiliness);
+            if(setting.isShow()) {
+                Worker worker = setting.getWorker();
+                boolean show = false;
+                switch (setting.getTransport()) {
+                    case my:
+                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        break;
+                    case all:
+                        show = true;
+                        break;
+                }
+                if (show) {
+                    message = prepareMessage(plan);
+                    message += "\n" + String.format(lb.get(HUMIDITY), humidity);
+                    message += "\n" + String.format(lb.get(PROTEIN), protein);
+                    message += "\n" + String.format(lb.get(CELLULOSE), cellulose);
+                    message += "\n" + String.format(lb.get(OILINESS), oiliness);
 
-                sendMessage(setting.getTelegramId(), message, null);
+                    sendMessage(setting.getTelegramId(), message, null);
+                }
             }
         }
-        
-        
     }
     public void oilAnalysesShow(LoadPlan plan, LinkedList<OilAnalyses> analysesList) {
         float organolepticFloat = 0;
@@ -268,28 +274,30 @@ public class Notificator {
 
         String message;
         for (UserBotSetting setting : getSettings()){
-            Worker worker = setting.getWorker();
-            boolean show = false;
-            switch (setting.getTransport()){
-                case my:
-                    show = plan.getDeal().getCreator().getId() == worker.getId();
-                    break;
-                case all:
-                    show = true;
-                    break;
-            }
-            if (show){
-                message = prepareMessage(plan);
-                message += "\n" + lb.get("oil.organoleptic") + ": " + (organoleptic ? lb.get("oil.organoleptic.match") : lb.get("oil.organoleptic.doesn't.match"));
-                message += "\n" + String.format(lb.get(COLOR), Math.round(color));
-                message += "\n" + String.format(lb.get(ACID), acid);
-                message += "\n" + String.format(lb.get(PEROXIDE), peroxide);
-                message += "\n" + String.format(lb.get(PHOSPHORUS), phosphorus);
-                message += "\n" + String.format(lb.get(HUMIDITY), humidity);
-                message += "\n" + String.format(lb.get(SOAP), soap);
-                message += "\n" + String.format(lb.get(WAX), wax);
+            if (setting.isShow()) {
+                Worker worker = setting.getWorker();
+                boolean show = false;
+                switch (setting.getTransport()) {
+                    case my:
+                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        break;
+                    case all:
+                        show = true;
+                        break;
+                }
+                if (show) {
+                    message = prepareMessage(plan);
+                    message += "\n" + lb.get("oil.organoleptic") + ": " + (organoleptic ? lb.get("oil.organoleptic.match") : lb.get("oil.organoleptic.doesn't.match"));
+                    message += "\n" + String.format(lb.get(COLOR), Math.round(color));
+                    message += "\n" + String.format(lb.get(ACID), acid);
+                    message += "\n" + String.format(lb.get(PEROXIDE), peroxide);
+                    message += "\n" + String.format(lb.get(PHOSPHORUS), phosphorus);
+                    message += "\n" + String.format(lb.get(HUMIDITY), humidity);
+                    message += "\n" + String.format(lb.get(SOAP), soap);
+                    message += "\n" + String.format(lb.get(WAX), wax);
 
-                sendMessage(setting.getTelegramId(), message, null);
+                    sendMessage(setting.getTelegramId(), message, null);
+                }
             }
         }
     }
@@ -297,23 +305,26 @@ public class Notificator {
         int turnNumber = crude.getTurn().getTurn().getNumber();
         String turnDate = DateUtil.prettyDate(Date.valueOf(crude.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
         String turnTime = crude.getTime().toLocalDateTime().toLocalTime().toString();
+        final HashMap<String, String> messages = new HashMap<>();
 
         for (UserBotSetting setting : getSettings()) {
             if (setting.isExtraction() && setting.isShow()) {
                 String language = setting.getLanguage();
+                if (!messages.containsKey(language)){
+                    String message = lb.get(language, "extraction.title");
+                    message += "\n" + String.format(lb.get(language, "extraction.turn"), turnNumber, turnDate, turnTime);
+                    message += "\n" + String.format(lb.get(language, "extraction.humidity.income"), crude.getHumidityIncome());
+                    message += "\n" + String.format(lb.get(language, "extraction.fraction"), crude.getFraction());
+                    message += "\n" + String.format(lb.get(language, "extraction.dissolvent"), crude.getDissolvent());
+                    message += "\n" + String.format(lb.get(language, "extraction.miscellas"), crude.getMiscellas());
+                    message += "\n" + String.format(lb.get(language, "extraction.humidity"), crude.getHumidity());
+                    //todo organoleptic
+                    message += "\n" + String.format(lb.get(language, "extraction.oiliness"), crude.getGrease());
+                    //message += "\n" + String.format(lb.get(language, "extraction.explosion.t"), crude.get)
+                    messages.put(language, message);
+                }
 
-                String message = lb.get(language, "extraction.title");
-                message += "\n" + String.format(lb.get(language, "extraction.turn"), turnNumber, turnDate, turnTime);
-                message += "\n" + String.format(lb.get(language, "extraction.humidity.income"), crude.getHumidityIncome());
-                message += "\n" + String.format(lb.get(language, "extraction.fraction"), crude.getFraction());
-                message += "\n" + String.format(lb.get(language, "extraction.dissolvent"), crude.getDissolvent());
-                message += "\n" + String.format(lb.get(language, "extraction.miscellas"), crude.getMiscellas());
-                message += "\n" + String.format(lb.get(language, "extraction.humidity"), crude.getHumidity());
-                //todo organoleptic
-                message += "\n" + String.format(lb.get(language, "extraction.oiliness"), crude.getGrease());
-                //message += "\n" + String.format(lb.get(language, "extraction.explosion.t"), crude.get)
-
-                sendMessage(setting.getTelegramId(), message, null);
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
     }
@@ -384,14 +395,18 @@ public class Notificator {
     public void extractionShow(StorageProtein storageProtein) {
         String storage = storageProtein.getStorage().getName();
         String time = storageProtein.getTime().toLocalDateTime().toLocalTime().toString();
+        final HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()) {
             if (setting.isShow() && setting.isExtraction()) {
                 String language = setting.getLanguage();
-                String message = String.format(lb.get(language, "extraction.storage.protein.title"),
-                        storage, time);
-                message += "\n" + String.format(lb.get(language, "extraction.storage.protein"), storageProtein.getProtein());
-                message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageProtein.getHumidity());
-                sendMessage(setting.getTelegramId(), message, null);
+                if (!messages.containsKey(language)) {
+                    String message = String.format(lb.get(language, "extraction.storage.protein.title"), storage, time);
+                    message += "\n" + String.format(lb.get(language, "extraction.storage.protein"), storageProtein.getProtein());
+                    message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageProtein.getHumidity());
+                    messages.put(language, message);
+                }
+
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
     }
@@ -399,19 +414,23 @@ public class Notificator {
     public void extractionShow(ExtractionOIl oil) {
         final int turn = oil.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(oil.getTurn().getTurn().getDate());
-
+        final HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()) {
             if (setting.isShow() && setting.isExtraction()) {
                 String language = setting.getLanguage();
-                String message = lb.get(language, "extraction.oil.title");
-                message += "\n" + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
-                message += "\n" + String.format(lb.get(language, "extraction.oil.humidity"), oil.getHumidity());
-                message += "\n" + String.format(lb.get(language, "extraction.oil.acid.value"), oil.getAcid());
-                message += "\n" + String.format(lb.get(language, "extraction.oil.peroxide.value"), oil.getPeroxide());
-                message += "\n" + String.format(lb.get(language, "extraction.oil.phosphorus.value"), oil.getPhosphorus());
-                message += "\n" + String.format(lb.get(language, "extraction.oil.explosion.t"), oil.getExplosionT());
+                if (!messages.containsKey(language)) {
+                    String message = lb.get(language, "extraction.oil.title");
+                    message += "\n" + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
+                    message += "\n" + String.format(lb.get(language, "extraction.oil.humidity"), oil.getHumidity());
+                    message += "\n" + String.format(lb.get(language, "extraction.oil.acid.value"), oil.getAcid());
+                    message += "\n" + String.format(lb.get(language, "extraction.oil.peroxide.value"), oil.getPeroxide());
+                    message += "\n" + String.format(lb.get(language, "extraction.oil.phosphorus.value"), oil.getPhosphorus());
+                    message += "\n" + String.format(lb.get(language, "extraction.oil.explosion.t"), oil.getExplosionT());
+                    messages.put(language, message);
+                }
 
-                sendMessage(setting.getTelegramId(), message, null);
+
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
     }
@@ -419,14 +438,20 @@ public class Notificator {
     public void extractionShow(TurnProtein turnProtein) {
         final int turn = turnProtein.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(turnProtein.getTurn().getTurn().getDate());
+        final HashMap<String, String> messages = new HashMap<>();
+
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow() && setting.isExtraction()){
                 final String language = setting.getLanguage();
-                String message = lb.get(language, "extraction.turn.protein.title");
-                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
-                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.protein"), turnProtein.getProtein());
-                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnProtein.getHumidity());
-                sendMessage(setting.getTelegramId(), message, null);
+                if (!messages.containsKey(language)){
+                    String message = lb.get(language, "extraction.turn.protein.title");
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.protein"), turnProtein.getProtein());
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnProtein.getHumidity());
+                    messages.put(language, message);
+                }
+
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
 
@@ -435,14 +460,19 @@ public class Notificator {
     public void extractionShow(TurnGrease turnGrease) {
         final int turn = turnGrease.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(turnGrease.getTurn().getTurn().getDate());
+        final HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow() && setting.isExtraction()){
                 final String language = setting.getLanguage();
-                String message = lb.get(language, "extraction.turn.grease.title");
-                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
-                message += "\n" + String.format(lb.get(language, "extraction.turn.grease.grease"), turnGrease.getGrease());
-                message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnGrease.getHumidity());
-                sendMessage(setting.getTelegramId(), message, null);
+                if (!messages.containsKey(language)) {
+                    String message = lb.get(language, "extraction.turn.grease.title");
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.grease.grease"), turnGrease.getGrease());
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnGrease.getHumidity());
+                    messages.put(language, message);
+                }
+
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
     }
@@ -450,14 +480,19 @@ public class Notificator {
     public void extractionShow(StorageGrease storageGrease) {
         String storage = storageGrease.getStorage().getName();
         String time = storageGrease.getTime().toLocalDateTime().toLocalTime().toString();
+        final HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()) {
             if (setting.isShow() && setting.isExtraction()) {
                 String language = setting.getLanguage();
-                String message = String.format(lb.get(language, "extraction.storage.grease.title"),
-                        storage, time);
-                message += "\n" + String.format(lb.get(language, "extraction.turn.grease"), storageGrease.getGrease());
-                message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageGrease.getHumidity());
-                sendMessage(setting.getTelegramId(), message, null);
+                if (!messages.containsKey(language)) {
+                    String message = String.format(lb.get(language, "extraction.storage.grease.title"),
+                            storage, time);
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.grease"), storageGrease.getGrease());
+                    message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageGrease.getHumidity());
+                    messages.put(language, message);
+                }
+
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
     }

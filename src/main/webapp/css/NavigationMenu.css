@@ -36,8 +36,14 @@
 .menu-item {
     background-color: #e0e8ef;
     overflow: hidden;
-
     border-bottom: solid white 2pt;
+}
+.nav-menu-item{
+    background-color: #e0e8ef;
+    border-bottom: solid white 2pt;
+}
+.nav-menu-item:hover{
+    background-color: white;
 }
 .menu-item:hover{
     background-color: #ffffff;
@@ -45,11 +51,28 @@
 .menu-item * {
     background: transparent;
 }
-.menu-item .main{
+.menu-item .main, .nav-menu-item .main{
     display: inline-block;
     width: 70%;
     padding: 4pt;
 }
 .menu-item .archive{
     /*width: 20%;*/
+}
+.nav-drop-menu, .nav-drop-menu-item{
+    position: relative;
+}
+.nav-drop-menu .nav-drop-menu-content{
+    display: none;
+    position: absolute;
+    z-index: 1;
+    padding: 2pt;
+    box-shadow: 0 0 18px 0;
+    background-color: aliceblue;
+    width: 190px;
+    top: 0;
+    left: 80%;
+}
+.nav-drop-menu .nav-drop-menu-item:hover .nav-drop-menu-content{
+    display: block;
 }

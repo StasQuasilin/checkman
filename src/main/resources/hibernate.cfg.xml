@@ -90,5 +90,6 @@
         <mapping class="entity.laboratory.storages.StorageTurn"/>
         <mapping class="entity.laboratory.storages.StorageAnalyses"/>
         <mapping class="entity.Admin"/>
+        <mapping class="entity.laboratory.transportation.ActNumber"/>
     </session-factory>
 </hibernate-configuration>

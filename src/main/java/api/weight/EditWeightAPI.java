@@ -80,6 +80,7 @@ public class EditWeightAPI extends IAPI {
                 changeWeight(weight, brutto, tara, worker, saveIt);
                 comparator.compare(weight, worker);
                 weightList.add(weight);
+
             }
 
             Notificator notificator = BotFactory.getNotificator();
@@ -89,6 +90,7 @@ public class EditWeightAPI extends IAPI {
 
             hibernator.remove(weights.values().toArray());
             WeightUtil.calculateDealDone(plan.getDeal());
+            TransportUtil.calculateWeight(plan.getTransportation());
 
             transportationComparator.fix(plan.getTransportation());
             TransportUtil.checkTransport(plan.getTransportation());

@@ -41,7 +41,7 @@
           olivija@olivija.ua<br>
           +38 0542 700 488
         </span>
-        <img src="../../../images/logo.png" width="70%" height="70%">
+        <img src="../../../images/logo1.png" width="70%" height="70%">
         <span style="display: table-cell" class="header-text">
           <b>ПрАТ "Сумський завод<br>продтоварів"</b><br>
           http://olivija.ua
@@ -56,7 +56,7 @@
         <span>
           Акт №
         </span>
-            1
+            ${number}
         <span>
         від
         </span>
@@ -66,10 +66,12 @@
     </td>
   </tr>
   <tr>
-    <td>
-      <i>
-        Про перерахунок ваги насіння внаслідок невідповідності якісних показників базовим нормам
-      </i>
+    <td align="center">
+      <div style="padding: 18pt 12pt">
+        <i>
+          Про перерахунок ваги насіння внаслідок невідповідності якісних показників базовим нормам
+        </i>
+      </div>
     </td>
   </tr>
   <tr>
@@ -96,9 +98,9 @@
   <tr>
     <td>
       <div style="padding-top: 12pt; text-indent: 25pt">
-        <fmt:formatDate value="${plan.date}" pattern="dd.MM.yyyy"/>
+        <fmt:formatDate value="${plan.transportation.timeIn.time}" pattern="dd.MM.yyyy"/>
       <span>
-        від постачальника
+        від постачальника сировини
       </span>
         <b>
           ${plan.deal.organisation.value}
@@ -141,12 +143,29 @@
               ${plan.transportation.driver.person.value}
             </td>
             <td>
-              <div>
-                М.-${sun.analyses.humidity1}
-              </div>
-              <div>
-                Пр.-${sun.analyses.humidity2}
-              </div>
+              <c:choose>
+                <c:when test="${sun.analyses.humidity1 > 0 && sun.analyses.humidity2 > 0}">
+                  <table style="font-size: 10pt">
+                    <tr>
+                      <td>
+                        М.&nbsp;-&nbsp;${sun.analyses.humidity1}
+                      </td>
+                      <td rowspan="2">
+                        Сер.&nbsp;<fmt:formatNumber value="${(sun.analyses.humidity1 + sun.analyses.humidity2) / 2}"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Пр.&nbsp;-&nbsp;${sun.analyses.humidity2}
+                      </td>
+                    </tr>
+                  </table>
+                </c:when>
+                <c:otherwise>
+                  М.&nbsp;-&nbsp;${sun.analyses.humidity1}
+                </c:otherwise>
+              </c:choose>
+
             </td>
             <td align="center">
               ${sun.analyses.soreness}
@@ -189,7 +208,7 @@
                   &nbsp;= 100 -
                 </td>
                 <td style="border-bottom: solid 1pt">
-                  (100 - ${humidity}) &times; (100 - ${soreness}) &times; 100
+                  (100 - <fmt:formatNumber value="${humidity}"/>) &times; (100 - ${soreness}) &times; 100
                 </td>
                 <td rowspan="2">
                   &nbsp;= <fmt:formatNumber value="${percent}"/>%
@@ -205,7 +224,6 @@
               </tr>
             </table>
           </div>
-
         </td>
       </tr>
     </c:when>
@@ -222,20 +240,54 @@
         <td align="center">
           <div style="padding: 12pt 0">
             <table>
-            <tr>
-              <td style="border-bottom: solid 1pt">
-                ( ${humidity} - ${humidityBasis} ) &times; 100
-              </td>
-              <td rowspan="2">
-                &nbsp;= <fmt:formatNumber value="${percent}"/>%
-              </td>
-            </tr>
-            <tr>
-              <td align="center">
-                100 - ${humidityBasis}
-              </td>
-            </tr>
-          </table>
+              <tr>
+                <td style="border-bottom: solid 1pt">
+                  ( ${humidity} - ${humidityBasis} ) &times; 100
+                </td>
+                <td rowspan="2">
+                  &nbsp;= <fmt:formatNumber value="${percent}"/>%
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  100 - ${humidityBasis}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </c:when>
+    <c:when test="${soreness gt sorenessBasis}">
+      <tr>
+        <td>
+          <div style="padding-top: 12pt">
+            Убуток маси насіння від зменшення вологи
+            внаслідок сушіння становить
+            <fmt:formatNumber value="${percent}"/>%
+          </div>
+
+        </td>
+
+      </tr>
+      <tr>
+        <td align="center">
+          <div style="padding: 12pt 0">
+            <table>
+              <tr>
+                <td style="border-bottom: solid 1pt">
+                  ( ${soreness} - ${sorenessBasis} ) &times; 100
+                </td>
+                <td rowspan="2">
+                  &nbsp;= <fmt:formatNumber value="${percent}"/>%
+                </td>
+              </tr>
+              <tr>
+                <td align="center">
+                  100 - ${sorenessBasis}
+                </td>
+              </tr>
+            </table>
           </div>
         </td>
       </tr>
@@ -251,16 +303,23 @@
   </tr>
   <tr>
     <td>
-      <table>
-        <tr>
-          <td>
-            <fmt:message key="laboratory.response"/>
-          </td>
-          <td>
-
-          </td>
-        </tr>
-      </table>
+      <div style="padding: 96pt 24pt;">
+        <table width="100%">
+          <tr>
+            <td>
+              Відповідальна особа
+            </td>
+            <td>
+              М.П.
+            </td>
+            <td align="right">
+              <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
+                ${sun.analyses.createTime.creator.value}
+              </c:forEach>
+            </td>
+          </tr>
+        </table>
+      </div>
     </td>
   </tr>
 </table>

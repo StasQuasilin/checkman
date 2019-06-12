@@ -14,7 +14,8 @@ var editor = new Vue({
         },
         driver: '',
         analyses: [],
-        laborants: []
+        laborants: [],
+        creator:''
     },
     methods:{
         newAnalyses:function(){
@@ -26,7 +27,7 @@ var editor = new Vue({
             this.analyses.push(analyses);
         },
         saveLogic:function(onSave){
-            PostApi(this.api.save, {plan:this.plan, analyses:this.analyses}, function(a){
+            PostApi(this.api.save, {plan:this.plan, analyses:this.analyses, creator:this.creator}, function(a){
                 if (onSave){
                     onSave(a);
                 }
@@ -47,17 +48,15 @@ var editor = new Vue({
             this.saveLogic(function(a){
                 console.log(self.plan);
                     PostReq(self.api.print, {id: self.plan}, function (p) {
-                        console.log(p);
                         if (p) {
                             var print = window.open();
                             print.document.write('<html>');
                             print.document.write(p);
                             print.document.write('</html>');
-                            setTimeout(function(){
-                                //print.print();
-                                //print.close();
-                            }, 1200)
-
+                            $(print.document).ready(function(){
+                                print.print();
+                                print.close();
+                            })
                         }
                     })
             })

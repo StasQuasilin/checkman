@@ -51,11 +51,6 @@ public class ApplicationControl extends IServlet{
 
         req.setAttribute("shortCutUpdate", Branches.ShortCuts.UPDATE);
         req.setAttribute("logoutAPI", Branches.Sign.LOGOUT);
-        Role role = Role.valueOf(String.valueOf(req.getSession().getAttribute("role")));
-        switch (role){
-            case manager:
-
-        }
 
         req.getRequestDispatcher("/pages/Application.jsp").forward(req, resp);
     }

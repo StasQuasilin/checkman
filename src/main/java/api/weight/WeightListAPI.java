@@ -25,21 +25,23 @@ import java.util.stream.Collectors;
  */
 @WebServlet(Branches.API.WEIGHT_LIST)
 public class WeightListAPI extends IAPI{
-    final HashMap<String, Object> parameters = new HashMap<>();
-    final JSONObject array = new JSONObject();
-    final JSONArray add = new JSONArray();
-    final JSONArray update = new JSONArray();
-    final JSONArray remove = new JSONArray();
 
+    final HashMap<String, Object> parameters = new HashMap<>();
     {
         parameters.put("transportation/archive", false);
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        final JSONObject array = new JSONObject();
+        final JSONArray add = new JSONArray();
+        final JSONArray update = new JSONArray();
+        final JSONArray remove = new JSONArray();
+        array.put("add", add);
+        array.put("update", update);
+        array.put("remove", remove);
+
+        JSONObject body = parseBody(req);
+
         if (body != null) {
             List<LoadPlan> loadPlans = hibernator.query(LoadPlan.class, parameters);
 
