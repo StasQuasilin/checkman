@@ -115,7 +115,7 @@ public class EditOilAPI extends IAPI {
                 }
 
 //            private float humidity;
-                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY_1)));
+                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY)));
                 log.info("\t\tHumidity: " + humidity);
                 if (oilAnalyses.getHumidity() != humidity) {
                     oilAnalyses.setHumidity(humidity);

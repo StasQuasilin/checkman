@@ -2,32 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9237fb67-9588-4033-8a3a-4b06c82b3e9a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/entity/laboratory/transportation/ActNumber.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/ActNumberService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/entity/laboratory/transportation/ActType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/navigation/deals.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/navigation/logistic.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/navigation/transport.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/pages/navigation/weight.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/EditSunAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/EditSunAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/weight/EditWeightAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/weight/EditWeightAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratorySunPrintAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratorySunPrintAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/css/NavigationMenu.css" afterPath="$PROJECT_DIR$/src/main/webapp/css/NavigationMenu.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/NavigationMenu.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/NavigationMenu.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/bot/Notificator.java" afterPath="$PROJECT_DIR$/src/main/java/bot/Notificator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/laboratory/SunAnalyses.java" afterPath="$PROJECT_DIR$/src/main/java/entity/laboratory/SunAnalyses.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/entity/laboratory/transportation/SunTransportationAnalyses.java" afterPath="$PROJECT_DIR$/src/main/java/entity/laboratory/transportation/SunTransportationAnalyses.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/weight/WeightListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/weight/WeightListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/navigation/laboratory.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/navigation/laboratory.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/vue/laboratoryEdit.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/laboratoryEdit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/messages_ua.properties" afterPath="$PROJECT_DIR$/src/main/resources/messages_ua.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/reports/sunReport.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/laboratory/reports/sunReport.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/transport/transportList.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/transport/transportList.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/constants/Constants.java" afterPath="$PROJECT_DIR$/src/main/java/constants/Constants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/EditOilAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/EditOilAPI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="checkman2.iws" />
@@ -118,6 +94,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="messages_ua.properties" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/messages_ua.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.862069">
+              <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="ResourceBundle">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditOilAPI.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/EditOilAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.2075472">
+              <caret line="117" column="93" selection-start-line="117" selection-start-column="93" selection-end-line="117" selection-end-column="93" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/constants/Constants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="138" column="57" selection-start-line="138" selection-start-column="57" selection-end-line="138" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="sunReport.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/reports/sunReport.jsp">
           <provider selected="true" editor-type-id="text-editor">
@@ -128,10 +137,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NavigationMenu.jsp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="NavigationMenu.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/NavigationMenu.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6714542">
+            <state vertical-scroll-proportion="-14.384615">
               <caret line="49" column="77" selection-start-line="49" selection-start-column="77" selection-end-line="49" selection-end-column="77" />
               <folding />
             </state>
@@ -163,29 +172,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="119" column="44" selection-start-line="119" selection-start-column="44" selection-end-line="119" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ActNumber.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/laboratory/transportation/ActNumber.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-              <folding>
-                <element signature="e#316#317#0" expanded="true" />
-                <element signature="e#348#349#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ActType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/laboratory/transportation/ActType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="11" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -311,18 +297,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActNumberService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/ActNumberService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -374,10 +348,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/webapp/css/DataContainer.css" />
         <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/storages/storageList.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/api/laboratory/storages/StorageEditAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/constants/Constants.java" />
         <option value="$PROJECT_DIR$/src/main/java/entity/transport/Transportation.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/TransportUtil.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/JsonParser.java" />
@@ -406,7 +378,6 @@
         <option value="$PROJECT_DIR$/src/main/webapp/pages/navigation/transport.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/pages/navigation/laboratory.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/css/NavigationMenu.css" />
-        <option value="$PROJECT_DIR$/src/main/resources/messages_ua.properties" />
         <option value="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
         <option value="$PROJECT_DIR$/src/main/java/entity/laboratory/transportation/SunTransportationAnalyses.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java" />
@@ -425,6 +396,9 @@
         <option value="$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/pages/transport/transportList.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/pages/NavigationMenu.jsp" />
+        <option value="$PROJECT_DIR$/src/main/resources/messages_ua.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/constants/Constants.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/laboratory/EditOilAPI.java" />
       </list>
     </option>
   </component>
@@ -1128,7 +1102,7 @@
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/utils" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="trans&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;na&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/NavigationMenu.jsp&#10;EditSunA&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/api/laboratory/EditSunAPI.java&#10;sunEdi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;No&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/bot/Notificator.java&#10;WeightLis&#9;PSI&#9;JAVA://api.weight.WeightListAPI&#10;EditW&#9;PSI&#9;JAVA://api.weight.EditWeightAPI&#10;weigh&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightEdit.jsp&#10;editSun&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/api/laboratory/EditSunAPI.java&#10;SunTra&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/laboratory/transportation/SunTransportationAnalyses.java&#10;hi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;Appl&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/Application.jsp&#10;messa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;extractionLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/extractionList.jsp&#10;nav&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/NavigationMenu.jsp&#10;summa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/summary/summaryList.jsp&#10;Role&#9;PSI&#9;JAVA://entity.Role&#10;hiberna&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;SignU&#9;PSI&#9;JAVA://api.sign.SignUpAPI&#10;PErsonal&#9;PSI&#9;JAVA://controllers.sign.Personal&#10;persona&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/personal/personal.jsp&#10;ExtractiL&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/api/laboratory/extraction/ExtractionListAPI.java&#10;laboratoryTurn&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/laboratoryTurns.jsp&#10;LaboratTS&#9;PSI&#9;JAVA://utils.turns.LaboratoryTurnService&#10;Sun&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/laboratory/SunAnalyses.java&#10;da&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp&#10;extractionRe&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/extractionDailyReport.jsp&#10;Prin&#9;PSI&#9;JAVA://api.laboratory.extraction.reports.ExtractionDailyReportPrintAPI&#10;SunAna&#9;PSI&#9;JAVA://entity.laboratory.transportation.SunTransportationAnalyses&#10;SunEdit&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;print&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/dailyReportPrint.js&#10;weightLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;JsonPa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/JsonParser.java&#10;EditS&#9;PSI&#9;JAVA://api.laboratory.EditSunAPI&#10;sunEdit&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;SunAnalyses&#9;PSI&#9;JAVA://entity.laboratory.SunAnalyses&#10;DataCont&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/DataContainer.css&#10;ExtractionCrudeE&#9;PSI&#9;JAVA://api.laboratory.extraction.ExtractionCrudeEditAPI&#10;StorageA&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/laboratory/storages/StorageAnalyses.java&#10;Storage&#9;PSI&#9;JAVA://entity.storages.Storage&#10;LaboratoryLi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/laboratory/laboratory/storages/LaboratoryStoragesList.java&#10;ExtractionListAPI&#9;PSI&#9;JAVA://api.laboratory.extraction.ExtractionListAPI&#10;stora&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/storages/storageList.jsp&#10;product&#9;PSI&#9;JAVA://entity.Product&#10;StorageAna&#9;PSI&#9;JAVA://entity.laboratory.subdivisions.StorageAnalyse&#10;hiber&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;Trans&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/transport/Transportation.java&#10;DealLisA&#9;PSI&#9;JAVA://api.deal.DealListAPI&#10;Applica&#9;PSI&#9;JAVA://controllers.application.ApplicationControl&#10;Transportatio&#9;PSI&#9;JAVA://entity.transport.Transportation" />
+    <property name="SearchEverywhereHistoryKey" value="mess&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;trans&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;na&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/NavigationMenu.jsp&#10;EditSunA&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/api/laboratory/EditSunAPI.java&#10;sunEdi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;No&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/bot/Notificator.java&#10;WeightLis&#9;PSI&#9;JAVA://api.weight.WeightListAPI&#10;EditW&#9;PSI&#9;JAVA://api.weight.EditWeightAPI&#10;weigh&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightEdit.jsp&#10;editSun&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/api/laboratory/EditSunAPI.java&#10;SunTra&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/laboratory/transportation/SunTransportationAnalyses.java&#10;hi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;Appl&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/Application.jsp&#10;messa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;extractionLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/extractionList.jsp&#10;nav&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/NavigationMenu.jsp&#10;summa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/summary/summaryList.jsp&#10;Role&#9;PSI&#9;JAVA://entity.Role&#10;hiberna&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;SignU&#9;PSI&#9;JAVA://api.sign.SignUpAPI&#10;PErsonal&#9;PSI&#9;JAVA://controllers.sign.Personal&#10;persona&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/personal/personal.jsp&#10;ExtractiL&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/api/laboratory/extraction/ExtractionListAPI.java&#10;laboratoryTurn&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/laboratoryTurns.jsp&#10;LaboratTS&#9;PSI&#9;JAVA://utils.turns.LaboratoryTurnService&#10;Sun&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/laboratory/SunAnalyses.java&#10;da&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp&#10;extractionRe&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/subdivisions/extraction/reports/extractionDailyReport.jsp&#10;Prin&#9;PSI&#9;JAVA://api.laboratory.extraction.reports.ExtractionDailyReportPrintAPI&#10;SunAna&#9;PSI&#9;JAVA://entity.laboratory.transportation.SunTransportationAnalyses&#10;SunEdit&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;print&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/dailyReportPrint.js&#10;weightLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;JsonPa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/JsonParser.java&#10;EditS&#9;PSI&#9;JAVA://api.laboratory.EditSunAPI&#10;sunEdit&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;SunAnalyses&#9;PSI&#9;JAVA://entity.laboratory.SunAnalyses&#10;DataCont&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/css/DataContainer.css&#10;ExtractionCrudeE&#9;PSI&#9;JAVA://api.laboratory.extraction.ExtractionCrudeEditAPI&#10;StorageA&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/laboratory/storages/StorageAnalyses.java&#10;Storage&#9;PSI&#9;JAVA://entity.storages.Storage&#10;LaboratoryLi&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/laboratory/laboratory/storages/LaboratoryStoragesList.java&#10;ExtractionListAPI&#9;PSI&#9;JAVA://api.laboratory.extraction.ExtractionListAPI&#10;stora&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/storages/storageList.jsp&#10;product&#9;PSI&#9;JAVA://entity.Product&#10;StorageAna&#9;PSI&#9;JAVA://entity.laboratory.subdivisions.StorageAnalyse&#10;hiber&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;Trans&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/entity/transport/Transportation.java&#10;DealLisA&#9;PSI&#9;JAVA://api.deal.DealListAPI&#10;Applica&#9;PSI&#9;JAVA://controllers.application.ApplicationControl" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="dynamic.classpath" value="false" />
@@ -1651,12 +1625,12 @@
       <workItem from="1560316965174" duration="10047000" />
       <workItem from="1560328535102" duration="310000" />
       <workItem from="1560328912501" duration="2655000" />
-      <workItem from="1560334572045" duration="6059000" />
+      <workItem from="1560334572045" duration="7118000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="322279000" />
+    <option name="totallyTimeSpent" value="323338000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -1748,21 +1722,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/sign/Personal.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="38" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/personal/friendRegistration.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="22" selection-start-line="38" selection-start-column="22" selection-end-line="38" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/entity/Role.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1877,6 +1836,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1932,17 +1892,6 @@
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/messages_ua.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="474" column="18" selection-start-line="474" selection-start-column="18" selection-end-line="474" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="ResourceBundle">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/Application.jsp">
@@ -2180,8 +2129,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/NavigationMenu.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6714542">
+        <state vertical-scroll-proportion="-14.384615">
           <caret line="49" column="77" selection-start-line="49" selection-start-column="77" selection-end-line="49" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/messages_ua.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.862069">
+          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/constants/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="138" column="57" selection-start-line="138" selection-start-column="57" selection-end-line="138" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/EditOilAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2075472">
+          <caret line="117" column="93" selection-start-line="117" selection-start-column="93" selection-end-line="117" selection-end-column="93" />
           <folding />
         </state>
       </provider>
