@@ -1,6 +1,6 @@
 package api.seals;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.seals.Seal;
 import org.json.simple.JSONObject;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 08.04.2019.
  */
 @WebServlet(Branches.API.SEAL_REMOVE)
-public class RemoveSeals extends IAPI {
+public class RemoveSeals extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);

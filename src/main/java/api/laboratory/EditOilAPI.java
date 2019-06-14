@@ -1,6 +1,6 @@
 package api.laboratory;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -27,7 +27,7 @@ import java.util.LinkedList;
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_OIL)
-public class EditOilAPI extends IAPI {
+public class EditOilAPI extends API {
 
 
     private final Logger log = Logger.getLogger(EditOilAPI.class);
@@ -115,7 +115,7 @@ public class EditOilAPI extends IAPI {
                 }
 
 //            private float humidity;
-                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY)));
+                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY )));
                 log.info("\t\tHumidity: " + humidity);
                 if (oilAnalyses.getHumidity() != humidity) {
                     oilAnalyses.setHumidity(humidity);
@@ -123,9 +123,9 @@ public class EditOilAPI extends IAPI {
                 }
 
 //            private float soap;
-                float soap = Float.parseFloat(String.valueOf(a.get(Constants.Oil.SOAP)));
+                boolean soap = Boolean.parseBoolean(String.valueOf(a.get(Constants.Oil.SOAP)));
                 log.info("\t\tSoap: " + soap);
-                if (oilAnalyses.getSoap() != soap) {
+                if (oilAnalyses.isSoap() != soap) {
                     oilAnalyses.setSoap(soap);
                     save = true;
                 }

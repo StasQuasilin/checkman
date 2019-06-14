@@ -1,6 +1,6 @@
 package api.transport;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.Person;
@@ -11,22 +11,18 @@ import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.PostUtil;
-import utils.U;
-import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.References.SAVE_DRIVER)
-public class SaveDriverAPI extends IAPI{
+public class SaveDriverAPI extends API {
 
     final Logger logger = Logger.getLogger(SaveDriverAPI.class);
     final TransportationComparator comparator = new TransportationComparator();

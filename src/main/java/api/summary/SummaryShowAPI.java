@@ -1,6 +1,6 @@
 package api.summary;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
@@ -11,7 +11,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.LanguageBase;
-import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,10 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 @WebServlet(Branches.API.SUMMARY_SHOW)
-public class SummaryShowAPI extends IAPI {
+public class SummaryShowAPI extends API {
 
 	final LanguageBase lb = LanguageBase.getBase();
 

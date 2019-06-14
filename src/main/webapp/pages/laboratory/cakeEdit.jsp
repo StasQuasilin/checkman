@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/laboratoryEdit.js"></script>
 <script>
-    editor.api.save = '${saveUrl}';
+    editor.api.save = '${save}';
+    editor.api.print = '${print}';
     editor.plan = ${plan.id};
     editor.organisation = '${plan.deal.organisation.value}';
     <c:if test="${not empty plan.transportation.vehicle}">
@@ -43,7 +44,7 @@
     editor.laborants.push({
         id:${l.id},
         value:'${l.person.value}'
-    })
+    });
     </c:forEach>
     if (editor.analyses.length == 0){
         editor.newAnalyses();
@@ -69,20 +70,27 @@
             :
         </td>
         <td>
-            <div>
-                <span>
-                    {{vehicle.model}}
-                </span>
-                <div style="display: inline-block; font-size: 8pt">
-                    <div>
-                        {{vehicle.number}}
-                    </div>
-                    <div>
-                        {{vehicle.trailer}}
-                    </div>
-
-                </div>
-            </div>
+            <table>
+                <tr>
+                    <td rowspan="2">
+                        <span style="font-size: 18pt">
+                            {{vehicle.model}}
+                        </span>
+                    </td>
+                    <td>
+                        <span style="font-size: 10pt">
+                            {{vehicle.number}}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="font-size: 10pt">
+                            {{vehicle.trailer}}
+                        </span>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
     <tr>
@@ -160,20 +168,23 @@
                 :
             </td>
             <td>
-                <select style="width: 100%" v-model="item.creator">
+                <select id="creator" style="width: 100%" v-model="item.creator">
                     <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
                 </select>
             </td>
         </tr>
     </template>
     <tr>
-        <td colspan="3" align="center">
+        <td colspan="3" align="right">
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>
             <button v-on:click="save" v-on:dblclick="save">
                 <fmt:message key="button.save"/>
             </button>
+            <span class="mini-close" v-on:click="print">
+                <fmt:message key="document.print"/>
+            </span>
         </td>
     </tr>
 

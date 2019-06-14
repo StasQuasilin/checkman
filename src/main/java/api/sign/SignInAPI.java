@@ -1,6 +1,6 @@
 package api.sign;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.User;
@@ -24,7 +24,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.SIGN_IN)
-public class SignInAPI extends IAPI{
+public class SignInAPI extends API {
 
     private static final Logger log = Logger.getLogger(SignInAPI.class);
 

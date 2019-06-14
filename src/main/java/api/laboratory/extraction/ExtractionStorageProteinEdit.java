@@ -1,6 +1,6 @@
 package api.laboratory.extraction;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
@@ -28,7 +28,7 @@ import java.time.LocalTime;
  * Created by szpt_user045 on 15.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_STORAGE_PROTEIN_EDIT)
-public class ExtractionStorageProteinEdit extends IAPI {
+public class ExtractionStorageProteinEdit extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

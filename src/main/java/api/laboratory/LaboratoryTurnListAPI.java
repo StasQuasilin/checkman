@@ -1,6 +1,6 @@
 package api.laboratory;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.laboratory.LaboratoryTurn;
 import entity.production.Turn;
@@ -24,7 +24,7 @@ import java.util.List;
  * Created by szpt_user045 on 05.06.2019.
  */
 @WebServlet(Branches.API.LABORATORY_TURN_LIST)
-public class LaboratoryTurnListAPI extends IAPI {
+public class LaboratoryTurnListAPI extends API {
 
     public static final int LIMIT = 14;
 

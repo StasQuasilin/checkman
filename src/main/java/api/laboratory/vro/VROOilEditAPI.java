@@ -1,6 +1,6 @@
 package api.laboratory.vro;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
  * Created by szpt_user045 on 11.04.2019.
  */
 @WebServlet(Branches.API.VRO_OIL_EDIT)
-public class VROOilEditAPI extends IAPI {
+public class VROOilEditAPI extends API {
 
     private final Logger log = Logger.getLogger(VROOilEditAPI.class);
     private final TurnBox turnBox = TurnBox.getBox();

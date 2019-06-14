@@ -1,6 +1,6 @@
 package api.laboratory.extraction;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
  * Created by szpt_user045 on 16.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_TURN_GREASE_EDIT)
-public class ExtractionTurnGreaseEdit extends IAPI {
+public class ExtractionTurnGreaseEdit extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

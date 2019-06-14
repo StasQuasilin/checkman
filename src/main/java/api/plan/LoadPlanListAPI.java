@@ -1,14 +1,12 @@
 package api.plan;
 
-import api.IAPI;
-import api.deal.DealListAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,14 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.PLAN_LIST)
-public class LoadPlanListAPI extends IAPI{
+public class LoadPlanListAPI extends API {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

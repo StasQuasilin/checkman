@@ -1,6 +1,6 @@
 package api.laboratory.extraction;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import org.apache.log4j.Logger;
@@ -24,7 +24,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 09.04.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_LIST)
-public class ExtractionListAPI extends IAPI {
+public class ExtractionListAPI extends API {
 
     public static final int LIMIT = 15;
     private final Logger log = Logger.getLogger(ExtractionListAPI.class);

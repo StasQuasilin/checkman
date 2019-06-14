@@ -1,6 +1,6 @@
 package api.laboratory.reports;
 
-import api.IAPI;
+import api.API;
 import api.laboratory.ActNumberService;
 import constants.Branches;
 import entity.documents.LoadPlan;
@@ -22,7 +22,7 @@ import java.time.LocalDate;
  * Created by szpt_user045 on 07.06.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SUN_PRINT)
-public class LaboratorySunPrintAPI extends IAPI {
+public class LaboratorySunPrintAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

@@ -1,17 +1,12 @@
 package api.references.organisation;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
-import constants.Constants;
-import entity.answers.ErrorAnswer;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import org.apache.log4j.Logger;
-import org.hibernate.annotations.common.util.impl.Log;
 import org.json.simple.JSONObject;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.JsonParser;
-import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +22,7 @@ import java.util.regex.Pattern;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.References.PARSE_ORGANISATION)
-public class ParseOrganisationAPI extends IAPI {
+public class ParseOrganisationAPI extends API {
 
     private final Logger log = Logger.getLogger(ParseOrganisationAPI.class);
 

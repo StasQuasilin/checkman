@@ -1,12 +1,10 @@
 package api.seals;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
-import entity.answers.IAnswer;
 import entity.seals.Seal;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +16,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 08.04.2019.
  */
 @WebServlet(Branches.API.SEAL_PUT)
-public class PutSealAPI extends IAPI {
+public class PutSealAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

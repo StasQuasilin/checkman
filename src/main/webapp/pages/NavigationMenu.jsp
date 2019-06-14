@@ -52,9 +52,14 @@
               </div>
             </li>
             <li class="menu-item" onclick="loadContent('${admin}')">
-            <span class="main">
-              <fmt:message key="menu.admin"/>
-            </span>
+              <span class="main">
+                <fmt:message key="menu.admin"/>
+              </span>
+            </li>
+            <li class="menu-item" onclick="loadContent('${referencesList}')">
+              <span class="main">
+                <fmt:message key="menu.references"/>
+              </span>
             </li>
           </ul>
         </c:when>
@@ -74,11 +79,7 @@
           <jsp:include page="navigation/laboratory.jsp"/>
         </c:when>
       </c:choose>
-      <li class="menu-item" onclick="loadContent('${referencesList}')">
-        <span class="main">
-          <fmt:message key="menu.references"/>
-        </span>
-      </li>
+
     </ul>
   </div>
 </html>

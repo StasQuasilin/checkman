@@ -1,6 +1,6 @@
 package api.references.organisation;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.organisations.Organisation;
@@ -15,15 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.References.FIND_ORGANISATION)
-public class FindOrganisationAPI extends IAPI {
+public class FindOrganisationAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);

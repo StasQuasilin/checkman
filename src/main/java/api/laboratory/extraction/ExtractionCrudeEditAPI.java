@@ -1,6 +1,6 @@
 package api.laboratory.extraction;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -28,7 +28,7 @@ import java.time.LocalTime;
  * Created by szpt_user045 on 04.04.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_CRUDE_EDIT)
-public class ExtractionCrudeEditAPI extends IAPI {
+public class ExtractionCrudeEditAPI extends API {
 
 
     @Override

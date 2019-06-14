@@ -1,11 +1,10 @@
 package api.bot;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import constants.Branches;
 import entity.bot.BotSettings;
 import filters.ContextFilter;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.U;
 
@@ -19,7 +18,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 20.04.2019.
  */
 @WebServlet(Branches.API.BOT_SETTINGS)
-public class BotSystemSettingsAPI extends IAPI{
+public class BotSystemSettingsAPI extends API {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

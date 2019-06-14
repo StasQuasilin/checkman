@@ -1,12 +1,11 @@
 package api.logistic;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.comparators.LoadPlanComparator;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +18,7 @@ import java.sql.Date;
  * Created by szpt_user045 on 25.04.2019.
  */
 @WebServlet(Branches.API.CHANGE_DATE)
-public class ChangeLoadPlanDateAPI extends IAPI {
+public class ChangeLoadPlanDateAPI extends API {
 
     private final LoadPlanComparator comparator = new LoadPlanComparator();
 

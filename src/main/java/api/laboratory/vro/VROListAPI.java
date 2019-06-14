@@ -1,6 +1,6 @@
 package api.laboratory.vro;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import org.json.simple.JSONArray;
@@ -23,7 +23,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 10.04.2019.
  */
 @WebServlet(Branches.API.VRO_LIST)
-public class VROListAPI extends IAPI {
+public class VROListAPI extends API {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

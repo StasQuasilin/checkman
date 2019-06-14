@@ -1,8 +1,7 @@
 package api.laboratory;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
-import controllers.laboratory.laboratory.LaboratoryList;
 import entity.Worker;
 import entity.laboratory.LaboratoryTurn;
 import entity.production.Turn;
@@ -16,18 +15,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 04.06.2019.
  */
 @WebServlet(Branches.API.LABORATORY_TURN_EDIT)
-public class LaboratoryTurnEditAPI extends IAPI {
+public class LaboratoryTurnEditAPI extends API {
 
     private final TurnBox turnBox = TurnBox.getBox();
 

@@ -1,6 +1,6 @@
 package api.references.driver;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.transport.Driver;
@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,14 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.References.FIND_DRIVER)
-public class FindDriverAPI extends IAPI{
+public class FindDriverAPI extends API {
 
 
     final Logger log = Logger.getLogger(FindDriverAPI.class);

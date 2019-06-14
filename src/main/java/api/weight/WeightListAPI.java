@@ -1,14 +1,11 @@
 package api.weight;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.PostUtil;
-import utils.U;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.WEIGHT_LIST)
-public class WeightListAPI extends IAPI{
+public class WeightListAPI extends API {
 
     final HashMap<String, Object> parameters = new HashMap<>();
     {

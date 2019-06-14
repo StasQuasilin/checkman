@@ -1,6 +1,6 @@
 package api.references.vehicles;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.transport.Vehicle;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.References.FIND_VEHICLE)
-public class FindVehicleAPI extends IAPI{
+public class FindVehicleAPI extends API {
 
     final Logger log = Logger.getLogger(FindVehicleAPI.class);
     final JSONArray array = new JSONArray();

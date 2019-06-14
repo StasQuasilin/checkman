@@ -1,29 +1,21 @@
 package controllers.weight.printing;
 
-import api.IAPI;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
+import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.UUID;
 
 /**
  * Created by szpt_user045 on 24.04.2019.
  */
 @WebServlet(Branches.UI.PRINT_DOCUMENT)
-public class DocumentPrinter extends IAPI {
+public class DocumentPrinter extends API {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

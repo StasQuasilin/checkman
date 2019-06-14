@@ -1,11 +1,10 @@
 package api.laboratory.vro.reports;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.Forpress;
-import entity.production.Turn;
 import entity.production.TurnSettings;
 import org.json.simple.JSONObject;
 import utils.turns.LaboratoryTurnService;
@@ -17,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,7 +28,7 @@ import java.util.List;
  * Created by szpt_user045 on 03.06.2019.
  */
 @WebServlet(Branches.API.VRO_DAILY_REPORT_PRINT)
-public class VRODailyReportPrintAPI extends IAPI {
+public class VRODailyReportPrintAPI extends API {
 
     final TurnBox turnBox = TurnBox.getBox();
 

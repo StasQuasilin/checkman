@@ -1,6 +1,6 @@
 package api.plan;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.DealType;
@@ -30,7 +30,7 @@ import java.sql.Date;
  * Created by szpt_user045 on 19.04.2019.
  */
 @WebServlet(Branches.API.PLAN_LIST_ADD)
-public class EditLoadPlanAPI extends IAPI {
+public class EditLoadPlanAPI extends API {
 
     private final Logger log = Logger.getLogger(EditLoadPlanAPI.class);
 

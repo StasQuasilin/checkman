@@ -1,6 +1,6 @@
 package api.personal;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.User;
 import entity.answers.ErrorAnswer;
@@ -8,7 +8,6 @@ import entity.answers.IAnswer;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.LanguageBase;
-import utils.PostUtil;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -21,7 +20,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 16.04.2019.
  */
 @WebServlet(Branches.API.CHANGE_PASSWORD)
-public class ChangePasswordAPI extends IAPI {
+public class ChangePasswordAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

@@ -1,6 +1,6 @@
 package api.laboratory.probes;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -21,7 +21,7 @@ import java.sql.Timestamp;
  * Created by quasilin on 01.04.2019.
  */
 @WebServlet(Branches.API.PROBE_OIL_SAVE)
-public class SaveOilProbeAPI extends IAPI {
+public class SaveOilProbeAPI extends API {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -74,8 +74,8 @@ public class SaveOilProbeAPI extends IAPI {
             save = true;
         }
 
-        float soap = Float.parseFloat(String.valueOf(body.get(Constants.Oil.SOAP)));
-        if (analyses.getSoap() != soap) {
+        boolean soap = Boolean.parseBoolean(String.valueOf(body.get(Constants.Oil.SOAP)));
+        if (analyses.isSoap() != soap) {
             analyses.setSoap(soap);
             save = true;
         }

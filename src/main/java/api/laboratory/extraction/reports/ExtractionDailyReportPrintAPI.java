@@ -1,6 +1,6 @@
 package api.laboratory.extraction.reports;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
@@ -27,7 +27,7 @@ import java.util.List;
  * Created by szpt_user045 on 17.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_DAILY_REPORT_PRINT)
-public class ExtractionDailyReportPrintAPI extends IAPI{
+public class ExtractionDailyReportPrintAPI extends API {
 
     final TurnBox turnBox = TurnBox.getBox();
 

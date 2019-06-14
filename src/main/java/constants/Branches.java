@@ -170,6 +170,8 @@ public class Branches {
         public static final String LABORATORY_STORAGE_EDIT = API + "/laboratory/storage/edit";
         public static final String LABORATORY_SUN_PRINT = API + "/laboratory/sun/print";
         public static final String FRIENDLY_REGISTRATION = API + "/friendly/registration";
+        public static final String LABORATORY_OIL_PRINT = API + "/laboratory/oil/print";
+        public static final String LABORATORY_MEAL_PRINT = API + "/laboratory/meal/print";
 
 
         public class References {

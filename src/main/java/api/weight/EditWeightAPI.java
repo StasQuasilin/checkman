@@ -1,10 +1,8 @@
 package api.weight;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
-import bot.IBot;
 import bot.Notificator;
-import bot.TelegramBot;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -17,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
-import utils.PostUtil;
 import utils.TransportUtil;
 import utils.WeightUtil;
 
@@ -35,7 +32,7 @@ import java.util.List;
  * Created by szpt_user045 on 22.03.2019.
  */
 @WebServlet(Branches.API.SAVE_WEIGHT)
-public class EditWeightAPI extends IAPI {
+public class EditWeightAPI extends API {
 
     private final WeightComparator comparator = new WeightComparator();
     private final TransportationComparator transportationComparator = new TransportationComparator();

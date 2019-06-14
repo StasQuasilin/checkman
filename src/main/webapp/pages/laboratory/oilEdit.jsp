@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/laboratoryEdit.js"></script>
 <script>
-    editor.api.save = '${saveUrl}';
+    editor.api.save = '${save}';
+    editor.api.print = '${print}';
     editor.plan = ${plan.id};
     editor.organisation = '${plan.deal.organisation.value}';
     <c:if test="${not empty plan.transportation.vehicle}">
@@ -25,10 +26,10 @@
         peroxideValue:0,
         phosphorus:0,
         humidity:0,
-        soap:0,
+        soap:false,
         wax:0,
         creator:${worker.id}
-    }
+    };
     <c:if test="${not empty plan.transportation.oilAnalyses}">
     <c:forEach items="${plan.transportation.oilAnalyses}" var="oil">
     editor.addAnalyses(
@@ -79,20 +80,21 @@
             :
         </td>
         <td>
-            <div>
-                <span>
-                    {{vehicle.model}}
-                </span>
-                <div style="display: inline-block; font-size: 8pt">
-                    <div>
+            <table>
+                <tr>
+                    <td rowspan="2" style="font-size: 18pt">
+                        {{vehicle.model}}
+                    </td>
+                    <td style="font-size: 8pt">
                         {{vehicle.number}}
-                    </div>
-                    <div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size: 8pt">
                         {{vehicle.trailer}}
-                    </div>
-
-                </div>
-            </div>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
     <tr>
@@ -116,7 +118,7 @@
             <td>
                 :
             </td>
-            <td>
+            <td style="width: 9em">
                 <input id="organoleptic" type="checkbox" v-model="item.organoleptic" style="width: auto">
                 <span v-if="item.organoleptic">
                     <fmt:message key="oil.organoleptic.match"/>
@@ -201,8 +203,15 @@
                 :
             </td>
             <td>
-                <input id="soap" type="number" step="0.01" v-model="item.soap"/>
+                <input id="soap" type="checkbox" v-model="item.soap"/>
+                <span v-if="item.soap">
+                    <fmt:message key="notification.kpo.soap.yes"/>
+                </span>
+                <span v-else>
+                    <fmt:message key="notification.kpo.soap.no"/>
+                </span>
             </td>
+
         </tr>
         <tr>
             <td>
@@ -217,31 +226,19 @@
                 <input id="wax" type="number" step="0.01" v-model="item.wax"/>
             </td>
         </tr>
-        <tr>
-            <td>
-                <label for="creator">
-                    <fmt:message key="laboratory.creator"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select style="width: 100%" v-model="item.creator">
-                    <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
-                </select>
-            </td>
-        </tr>
     </template>
 
     <tr>
-        <td colspan="3" align="center">
+        <td colspan="3" align="right">
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>
             <button v-on:click="save">
                 <fmt:message key="button.save"/>
             </button>
+            <a class="mini-close" v-on:click="print">
+                <fmt:message key="document.print"/>
+            </a>
         </td>
     </tr>
 </table>

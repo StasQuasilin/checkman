@@ -22,7 +22,7 @@ import java.io.IOException;
 /**
  * Created by szpt_user045 on 12.03.2019.
  */
-public abstract class IAPI extends IServlet{
+public abstract class API extends IServlet{
     final JSONParser parser = new JSONParser();
     public static final String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
     public static final String emptyBody = JsonParser.toJson(new ErrorAnswer("msg", "Body parse erro")).toJSONString();

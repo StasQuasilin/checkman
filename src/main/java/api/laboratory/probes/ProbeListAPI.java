@@ -1,6 +1,6 @@
 package api.laboratory.probes;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.AnalysesType;
 import entity.laboratory.probes.OilProbe;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by szpt_user045 on 01.04.2019.
  */
 @WebServlet(Branches.API.PROBE_LIST)
-public class ProbeListAPI extends IAPI {
+public class ProbeListAPI extends API {
 
     final HashMap<String, Object> parameters = new HashMap<>();
     final JSONObject array = new JSONObject();

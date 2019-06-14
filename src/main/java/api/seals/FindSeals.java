@@ -1,15 +1,13 @@
 package api.seals;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
-import entity.answers.IAnswer;
 import entity.seals.Seal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
-import utils.hibernate.State;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 08.04.2019.
  */
 @WebServlet(Branches.API.SEALS_FIND)
-public class FindSeals extends IAPI {
+public class FindSeals extends API {
     final HashMap<String, String> parameters = new HashMap<>();
     {
         parameters.put("transportation", null);

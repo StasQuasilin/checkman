@@ -1,6 +1,6 @@
 package api.laboratory.vro;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.laboratory.subdivisions.vro.OilMassFractionDry;
@@ -16,7 +16,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 22.05.2019.
  */
 @WebServlet(Branches.API.DELETE_OIL_MASS_FRACTION_DRY)
-public class OilMassFractionDryDeleteAPI extends IAPI{
+public class OilMassFractionDryDeleteAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

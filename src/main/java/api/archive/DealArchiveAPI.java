@@ -1,6 +1,6 @@
 package api.archive;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.DealType;
 import entity.documents.Deal;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 08.04.2019.
  */
 @WebServlet(Branches.API.Archive.DEALS)
-public class DealArchiveAPI extends IAPI {
+public class DealArchiveAPI extends API {
     final JSONArray array = new JSONArray();
     final HashMap<String, Object> parameters = new HashMap<>();
     final LE le = new LE(Date.valueOf(LocalDate.now()));

@@ -5,21 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <style>
-  .logo{
-    width: 220px;
-    height: 149px;
-    background: url('../../../images/logo.png') no-repeat center;
-    background-size: cover;
-    display: table-cell;
-    border: solid 1pt;
-  }
-  .header-text{
-    font-size: 10pt;
-    display: table-cell;
-    text-align: left;
-    vertical-align: middle;
-    padding: 0 18pt;
-  }
+
   table{
     border-collapse: collapse;
   }
@@ -33,20 +19,8 @@
 <table width="100%" border="0">
   <tr>
     <td align="center">
-      <div style="display: table-row">
-        <span style="display: table-cell" class="header-text">
-          Україна, 42350<br>
-          Сумський район<br>
-          с.Бездрик, вул. Зарічна, 1<br>
-          olivija@olivija.ua<br>
-          +38 0542 700 488
-        </span>
-        <img src="../../../images/logo1.png" width="70%" height="70%">
-        <span style="display: table-cell" class="header-text">
-          <b>ПрАТ "Сумський завод<br>продтоварів"</b><br>
-          http://olivija.ua
-        </span>
-      </div>
+      <jsp:include page="header.jsp"/>
+
     </td>
   </tr>
   <tr>

@@ -1,10 +1,9 @@
 package api.references.organisation;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.organisations.Organisation;
-import entity.transport.Driver;
 import utils.JsonParser;
 import utils.hibernate.DateContainers.LE;
 
@@ -21,7 +20,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 24.04.2019.
  */
 @WebServlet(Branches.API.References.ORGANISATION_LIST)
-public class OrganisationListAPI extends IAPI {
+public class OrganisationListAPI extends API {
 
     final HashMap<String,Object> parameters = new HashMap<>();
     final LE le = new LE(Date.valueOf(LocalDate.now()));

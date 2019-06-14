@@ -1,6 +1,6 @@
 package api.transport;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
@@ -19,7 +19,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.TRANSPORT_LIST)
-public class TransportListAPI extends IAPI{
+public class TransportListAPI extends API {
     final HashMap<String, Object> parameters = new HashMap<>();
     {
         parameters.put("transportation/archive", false);

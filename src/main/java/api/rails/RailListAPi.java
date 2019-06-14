@@ -1,8 +1,7 @@
 package api.rails;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
-import entity.rails.Train;
 import entity.rails.Truck;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,13 +12,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 30.05.2019.
  */
 @WebServlet(Branches.API.RAIL_LIST)
-public class RailListAPi extends IAPI {
+public class RailListAPi extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

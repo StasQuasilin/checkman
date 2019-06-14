@@ -1,6 +1,6 @@
 package api.transport;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -11,10 +11,8 @@ import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
-import entity.weight.Weight;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.PostUtil;
 import utils.TransportUtil;
 import utils.WeightUtil;
 import utils.answers.SuccessAnswer;
@@ -31,7 +29,7 @@ import java.sql.Timestamp;
  */
 
 @WebServlet(Branches.API.TRANSPORT_TIME)
-public class TransportTimeAPI extends IAPI {
+public class TransportTimeAPI extends API {
 
     private final TransportationComparator comparator = new TransportationComparator();
 

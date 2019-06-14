@@ -1,6 +1,6 @@
 package api.deal;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.documents.Deal;
 import org.json.simple.JSONObject;
@@ -18,7 +18,7 @@ import java.util.List;
  * Created by szpt_user045 on 19.04.2019.
  */
 @WebServlet(Branches.API.FIND_DEALS)
-public class FindDealsAPI extends IAPI {
+public class FindDealsAPI extends API {
 
 
 

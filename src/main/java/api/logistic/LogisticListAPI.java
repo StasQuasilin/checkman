@@ -1,6 +1,6 @@
 package api.logistic;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by quasilin on 18.03.2019.
  */
 @WebServlet(urlPatterns = Branches.API.LOGISTIC_LIST, name = "Logistic list")
-public class LogisticListAPI extends IAPI {
+public class LogisticListAPI extends API {
 
     final ApplicationSettingsBox settingsBox = ApplicationSettingsBox.getBox();
     final HashMap<String, Object> parameters = new HashMap<>();

@@ -1,10 +1,9 @@
 package api.references;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.User;
-import entity.Worker;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
@@ -15,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.attribute.PosixFileAttributes;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.References.FIND_WORKER)
-public class FindWorkerAPI extends IAPI {
+public class FindWorkerAPI extends API {
 
     final JSONArray array = new JSONArray();
 

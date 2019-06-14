@@ -215,7 +215,7 @@ public class JsonParser {
 //        private float humidity;
         json.put("humidity", analyses.getHumidity());
 //        private float soap;
-        json.put("soap", analyses.getSoap());
+        json.put("soap", analyses.isSoap());
 //        private float wax;
         json.put("wax", analyses.getWax());
 //        private ActionTime createTime;

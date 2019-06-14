@@ -1,6 +1,6 @@
 package api.summary;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by quasilin on 01.04.2019.
  */
 @WebServlet(Branches.ShortCuts.UPDATE)
-public class ShortCutAPI extends IAPI {
+public class ShortCutAPI extends API {
     
     final JSONObject array = new JSONObject();
     final JSONObject territory = new JSONObject();

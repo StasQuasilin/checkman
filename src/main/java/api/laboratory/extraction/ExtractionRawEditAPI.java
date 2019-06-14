@@ -1,6 +1,6 @@
 package api.laboratory.extraction;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -27,7 +27,7 @@ import java.time.LocalTime;
  * Created by quasilin on 09.04.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_RAW_EDIT)
-public class ExtractionRawEditAPI extends IAPI {
+public class ExtractionRawEditAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);

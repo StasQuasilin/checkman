@@ -1,7 +1,6 @@
 package api.archive;
 
-import api.IAPI;
-import com.sun.corba.se.spi.ior.ObjectKey;
+import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
@@ -23,7 +22,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 12.04.2019.
  */
 @WebServlet(Branches.API.TRANSPORT_ARCHIVE)
-public class TransportArchiveAPI extends IAPI {
+public class TransportArchiveAPI extends API {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

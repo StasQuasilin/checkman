@@ -1,6 +1,6 @@
 package api.plan;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -31,7 +31,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.PLAN_LIST_SAVE)
-public class SaveLoadPlanAPI extends IAPI{
+public class SaveLoadPlanAPI extends API {
 
     final static String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
     final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);

@@ -1,6 +1,6 @@
 package api.sign;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.answers.IAnswer;
 import utils.JsonParser;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 04.04.2019.
  */
 @WebServlet(Branches.Sign.LOGOUT)
-public class LogoutAPI extends IAPI {
+public class LogoutAPI extends API {
 
     final IAnswer answer = new SuccessAnswer();
     {

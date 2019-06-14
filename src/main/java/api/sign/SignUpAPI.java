@@ -1,9 +1,8 @@
 package api.sign;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
-import controllers.sign.SignUp;
 import entity.Person;
 import entity.Role;
 import entity.User;
@@ -12,26 +11,22 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.PasswordGenerator;
-import utils.email.EmailSender;
 import utils.LanguageBase;
-import utils.PostUtil;
 import utils.email.RegistratorEmail;
 
-import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.Random;
 import java.util.UUID;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.SIGN_UP)
-public class SignUpAPI extends IAPI{
+public class SignUpAPI extends API {
 
     private final Logger log = Logger.getLogger(SignUpAPI.class);
 

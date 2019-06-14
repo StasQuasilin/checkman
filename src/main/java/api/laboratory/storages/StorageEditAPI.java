@@ -1,6 +1,6 @@
 package api.laboratory.storages;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -22,14 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
  * Created by szpt_user045 on 06.06.2019.
  */
 @WebServlet(Branches.API.LABORATORY_STORAGE_EDIT)
-public class StorageEditAPI extends IAPI{
+public class StorageEditAPI extends API {
 
     final TurnBox turnBox = TurnBox.getBox();
 

@@ -258,7 +258,7 @@ public class Notificator {
             peroxide += analyses.getPeroxideValue();
             phosphorus += analyses.getPhosphorus();
             humidity += analyses.getHumidity();
-            soap += analyses.getSoap();
+            soap += analyses.isSoap() ? 1 : 0;
             wax += analyses.getWax();
             count ++;
         }

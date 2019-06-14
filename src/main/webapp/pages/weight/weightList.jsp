@@ -21,6 +21,9 @@
     <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
 </div>
     <div id="container">
+        <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
+            <fmt:message key="empty.list"/>
+        </div>
         <transition-group name="flip-list" tag="div" class="container" >
             <div v-for="(value, key) in filteredItems()" :key="value.item.id" :id="value.item.id"
                  class="container-item" :class="rowName(value.item.date)" v-on:click="show(value.item.id)"
@@ -112,7 +115,9 @@
                             <fmt:message key="weight.brutto"/>:{{weight.brutto}},
                             <fmt:message key="weight.tara"/>:{{weight.tara}},
                             <fmt:message key="weight.netto"/>:{{weight.brutto > 0 && weight.tara > 0 ? (weight.brutto - weight.tara).toLocaleString() : 0}}
-                            ({{(weight.netto).toLocaleString()}}, -{{(weight.correction).toLocaleString()}}%)
+                            <span v-if="weight.correction">
+                                ({{(weight.netto).toLocaleString()}}, -{{(weight.correction).toLocaleString()}}%)
+                            </span>
                         </div>
                         <div v-for="sun in value.item.transportation.analyses.sun">
                             <fmt:message key="sun.humidity"/>:

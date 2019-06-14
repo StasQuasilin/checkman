@@ -1,13 +1,12 @@
 package api.seals;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
 import utils.U;
 
 import javax.servlet.ServletException;
@@ -21,7 +20,7 @@ import java.sql.Timestamp;
  * Created by quasilin on 07.04.2019.
  */
 @WebServlet(Branches.API.SEAL_SAVE)
-public class SealsSaveAPI extends IAPI {
+public class SealsSaveAPI extends API {
 
     private final Logger log = Logger.getLogger(SealsSaveAPI.class);
 

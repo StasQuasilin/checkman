@@ -1,6 +1,6 @@
 package api.laboratory.extraction;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
  * Created by szpt_user045 on 10.04.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_OIL_EDIT)
-public class ExtractionOilEditAPI extends IAPI {
+public class ExtractionOilEditAPI extends API {
 
     private final Logger log = Logger.getLogger(ExtractionOilEditAPI.class);
 

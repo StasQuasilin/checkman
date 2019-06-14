@@ -34,12 +34,14 @@ public class LaboratoryEdit extends IModal {
             case oil:
                 req.setAttribute("modalContent", "/pages/laboratory/oilEdit.jsp");
                 req.setAttribute("title", Constants.Titles.OIL_EDIT);
-                req.setAttribute("saveUrl", Branches.API.LABORATORY_SAVE_OIL);
+                req.setAttribute("save", Branches.API.LABORATORY_SAVE_OIL);
+                req.setAttribute("print", Branches.API.LABORATORY_OIL_PRINT);
                 break;
-            case oilcake:
+            case meal:
                 req.setAttribute("modalContent", "/pages/laboratory/cakeEdit.jsp");
                 req.setAttribute("title", Constants.Titles.CAKE_EDIT);
-                req.setAttribute("saveUrl", Branches.API.LABORATORY_SAVE_CAKE);
+                req.setAttribute("save", Branches.API.LABORATORY_SAVE_CAKE);
+                req.setAttribute("print", Branches.API.LABORATORY_MEAL_PRINT);
                 break;
         }
         req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());

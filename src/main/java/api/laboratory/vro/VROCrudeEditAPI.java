@@ -1,6 +1,6 @@
 package api.laboratory.vro;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -35,7 +35,7 @@ import java.util.List;
  * Created by szpt_user045 on 10.04.2019.
  */
 @WebServlet(Branches.API.VRO_CRUDE_EDIT)
-public class VROCrudeEditAPI extends IAPI {
+public class VROCrudeEditAPI extends API {
 
     private final Logger log = Logger.getLogger(VROCrudeEditAPI.class);
 

@@ -1,11 +1,10 @@
 package api.references.driver;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.transport.Driver;
 import entity.transport.Vehicle;
-import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.hibernate.DateContainers.LE;
 
@@ -22,7 +21,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.References.DRIVER_LIST)
-public class DriverListAPI extends IAPI {
+public class DriverListAPI extends API {
 
     final HashMap<String,Object> parameters = new HashMap<>();
     final LE le = new LE(Date.valueOf(LocalDate.now()));

@@ -1,8 +1,7 @@
 package api.rails;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
-import entity.answers.IAnswer;
 import entity.rails.Train;
 import entity.rails.Truck;
 import org.json.simple.JSONObject;
@@ -17,7 +16,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 30.05.2019.
  */
 @WebServlet(Branches.API.RAILS_SAVE)
-public class EditRailAPI extends IAPI {
+public class EditRailAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

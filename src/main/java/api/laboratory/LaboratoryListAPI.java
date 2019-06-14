@@ -1,6 +1,6 @@
 package api.laboratory;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.DealType;
 import entity.documents.LoadPlan;
@@ -20,7 +20,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_LIST)
-public class LaboratoryListAPI extends IAPI{
+public class LaboratoryListAPI extends API {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

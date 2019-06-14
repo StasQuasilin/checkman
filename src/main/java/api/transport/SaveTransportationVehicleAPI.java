@@ -1,31 +1,25 @@
 package api.transport;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
-import entity.answers.IAnswer;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
-import utils.PostUtil;
-import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 21.03.2019.
  */
 @WebServlet(Branches.API.SAVE_TRANSPORTATION_VEHICLE)
-public class SaveTransportationVehicleAPI extends IAPI {
+public class SaveTransportationVehicleAPI extends API {
 
     private final TransportationComparator comparator = new TransportationComparator();
 

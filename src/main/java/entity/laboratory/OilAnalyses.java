@@ -18,7 +18,7 @@ public class OilAnalyses{
     private float peroxideValue;
     private float phosphorus;
     private float humidity;
-    private float soap;
+    private boolean soap;
     private float wax;
     private ActionTime createTime;
     private Worker creator;
@@ -88,10 +88,10 @@ public class OilAnalyses{
 
     @Basic
     @Column(name = "soap")
-    public float getSoap() {
+    public boolean isSoap() {
         return soap;
     }
-    public void setSoap(float soap) {
+    public void setSoap(boolean soap) {
         this.soap = soap;
     }
 
@@ -138,7 +138,7 @@ public class OilAnalyses{
 //        private float humidity;
         hash = 31 * Float.hashCode(humidity) + hash;
 //        private float soap;
-        hash = 31 * Float.hashCode(soap) + hash;
+        hash = 31 * Boolean.hashCode(soap) + hash;
 //        private float wax;
         hash = 31 * Float.hashCode(wax) + hash;
 //        private ActionTime createTime;

@@ -1,6 +1,6 @@
 package api.laboratory;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -28,7 +28,7 @@ import java.util.List;
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_CAKE)
-public class EditCakeAPI extends IAPI {
+public class EditCakeAPI extends API {
     
     private final Logger log = Logger.getLogger(EditCakeAPI.class);
 
@@ -73,7 +73,7 @@ public class EditCakeAPI extends IAPI {
                 CakeAnalyses cakeAnalyses = analyses.getAnalyses();
 
 //            private float humidity;
-                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY_1)));
+                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY)));
                 log.info("\t\tHumidity: " + humidity);
                 if (cakeAnalyses.getHumidity() != humidity) {
                     cakeAnalyses.setHumidity(humidity);

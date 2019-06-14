@@ -1,10 +1,9 @@
 package api.sign;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
-import constants.Constants;
 import entity.Person;
 import entity.Role;
 import entity.User;
@@ -23,7 +22,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 10.06.2019.
  */
 @WebServlet(Branches.API.FRIENDLY_REGISTRATION)
-public class FriendlyRegistrationAPI extends IAPI {
+public class FriendlyRegistrationAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

@@ -1,6 +1,6 @@
 package api.laboratory.kpo;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import constants.Branches;
 import constants.Constants;
@@ -24,7 +24,7 @@ import java.time.LocalTime;
  * Created by szpt_user045 on 22.05.2019.
  */
 @WebServlet(Branches.API.KPO_PART_EDIT)
-public class PartEditAPI extends IAPI {
+public class PartEditAPI extends API {
 
     private final Logger log = Logger.getLogger(PartEditAPI.class);
 

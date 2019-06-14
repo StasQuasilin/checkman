@@ -1,11 +1,10 @@
 package api.laboratory.kpo;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.JsonParser;
 import utils.hibernate.DateContainers.LE;
 
@@ -17,13 +16,12 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Created by szpt_user045 on 22.05.2019.
  */
 @WebServlet(Branches.API.KPO_PART_LIST)
-public class KPOPartListAPI extends IAPI {
+public class KPOPartListAPI extends API {
 
 
     @Override

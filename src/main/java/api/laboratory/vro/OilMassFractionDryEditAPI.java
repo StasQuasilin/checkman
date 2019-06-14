@@ -1,6 +1,6 @@
 package api.laboratory.vro;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -32,7 +32,7 @@ import java.util.List;
  * Created by szpt_user045 on 20.05.2019.
  */
 @WebServlet(Branches.API.OIL_MASS_FRACTION_DRY)
-public class OilMassFractionDryEditAPI extends IAPI {
+public class OilMassFractionDryEditAPI extends API {
 
     private final Logger log = Logger.getLogger(OilMassFractionDryEditAPI.class);
 

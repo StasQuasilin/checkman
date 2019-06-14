@@ -1,6 +1,6 @@
 package api.laboratory.vro;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -29,7 +29,7 @@ import java.util.List;
  * Created by szpt_user045 on 11.04.2019.
  */
 @WebServlet(Branches.API.VRO_DAILY_EDIT)
-public class VRODailyEditAPI extends IAPI {
+public class VRODailyEditAPI extends API {
 
     private final Logger log = Logger.getLogger(VRODailyEditAPI.class);
 

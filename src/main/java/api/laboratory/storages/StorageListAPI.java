@@ -1,17 +1,12 @@
 package api.laboratory.storages;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import entity.AnalysesType;
-import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.storages.StorageTurn;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
-import entity.production.Turn;
-import entity.storages.Storage;
 import entity.storages.StorageProduct;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.JsonParser;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
@@ -25,7 +20,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +27,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 06.06.2019.
  */
 @WebServlet(Branches.API.LABORATORY_STORAGE_LIST)
-public class StorageListAPI extends IAPI {
+public class StorageListAPI extends API {
 
     private final int LIMIT = 15;
     final HashMap<AnalysesType, List<StorageProduct>> products = new HashMap<>();

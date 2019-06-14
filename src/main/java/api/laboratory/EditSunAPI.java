@@ -1,6 +1,6 @@
 package api.laboratory;
 
-import api.IAPI;
+import api.API;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.TransportUtil;
-import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +28,7 @@ import java.util.LinkedList;
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_SUN)
-public class EditSunAPI extends IAPI {
+public class EditSunAPI extends API {
 
     private final Logger log = Logger.getLogger(EditSunAPI.class);
 
@@ -140,7 +139,7 @@ public class EditSunAPI extends IAPI {
                     }
                     createTime.setTime(new Timestamp(System.currentTimeMillis()));
 
-                    log.info("\t\tCreator: " + createTime.getCreator().getValue());
+                    log.info("\t\tCreator: " + creator.getValue());
                     createTime.setCreator(creator);
                     sunAnalyses.setCreator(worker);
 

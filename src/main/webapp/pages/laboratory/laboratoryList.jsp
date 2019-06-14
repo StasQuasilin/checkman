@@ -23,11 +23,15 @@
 <script>
     deamon.setUrls('${update}', '${edit}')
 </script>
-<transition-group  name="flip-list" tag="div" class="container" id="container">
-    <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
-         class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)">
-        <div class="upper-row">
-            {{new Date(value.item.date).toLocaleDateString()}}
+<div id="container">
+    <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
+        <fmt:message key="empty.list"/>
+    </div>
+    <transition-group  name="flip-list" tag="div" class="container">
+        <div v-for="(value, key) in filteredItems()" :key="value.item.id" :id="value.item.id"
+             class="container-item" :class="rowName(value.item.date)" v-on:click="show(value.item.id)">
+            <div class="upper-row">
+                {{new Date(value.item.date).toLocaleDateString()}}
             <span>
                 <fmt:message key="deal.organisation"/>:
                 <b>
@@ -44,8 +48,8 @@
                     {{value.item.realisation}}
                 </b>
             </span>
-        </div>
-        <div class="lower-row">
+            </div>
+            <div class="lower-row">
             <span>
                 <fmt:message key="transportation.automobile"/>:
                 <span v-if="value.item.transportation.vehicle.id">
@@ -68,25 +72,27 @@
                     <fmt:message key="no.data"/>
                 </span>
             </span>
-            <div style="display: inline-block; font-size: 10pt">
-                <div v-for="sun in value.item.transportation.analyses.sun">
-                    <fmt:message key="sun.humidity"/>:{{sun.humidity}},
-                    <fmt:message key="sun.soreness"/>:{{sun.soreness}},
-                    <fmt:message key="sun.oiliness"/>:{{sun.oiliness}}
-                </div>
-                <div v-for="oil in value.item.transportation.analyses.oil">
-                    <fmt:message key="sun.acid.value"/>:{{oil.acid}},
-                    <fmt:message key="oil.peroxide"/>:{{oil.peroxide}},
-                    <fmt:message key="oil.phosphorus"/>:{{oil.phosphorus}}
-                </div>
-                <div v-for="cake in value.item.transportation.analyses.cake">
-                    <fmt:message key="sun.humidity"/>:{{cake.humidity}},
-                    <fmt:message key="cake.protein"/>:{{cake.protein}},
-                    <fmt:message key="cake.cellulose"/>:{{cake.cellulose}},
-                    <fmt:message key="sun.oiliness"/>:{{cake.oiliness}}
+                <div style="display: inline-block; font-size: 10pt">
+                    <div v-for="sun in value.item.transportation.analyses.sun">
+                        <fmt:message key="sun.humidity"/>:{{sun.humidity}},
+                        <fmt:message key="sun.soreness"/>:{{sun.soreness}},
+                        <fmt:message key="sun.oiliness"/>:{{sun.oiliness}}
+                    </div>
+                    <div v-for="oil in value.item.transportation.analyses.oil">
+                        <fmt:message key="sun.acid.value"/>:{{oil.acid}},
+                        <fmt:message key="oil.peroxide"/>:{{oil.peroxide}},
+                        <fmt:message key="oil.phosphorus"/>:{{oil.phosphorus}}
+                    </div>
+                    <div v-for="cake in value.item.transportation.analyses.cake">
+                        <fmt:message key="sun.humidity"/>:{{cake.humidity}},
+                        <fmt:message key="cake.protein"/>:{{cake.protein}},
+                        <fmt:message key="cake.cellulose"/>:{{cake.cellulose}},
+                        <fmt:message key="sun.oiliness"/>:{{cake.oiliness}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</transition-group>
+    </transition-group>
+</div>
+
 </html>

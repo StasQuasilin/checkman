@@ -1,6 +1,6 @@
 package api.bot;
 
-import api.IAPI;
+import api.API;
 import bot.BotSettings;
 import constants.Branches;
 import constants.Constants;
@@ -20,7 +20,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 17.04.2019.
  */
 @WebServlet(Branches.API.USER_BOT_SETTINGS)
-public class UserBotSettingsAPI extends IAPI {
+public class UserBotSettingsAPI extends API {
 
     final BotSettings botSettings = BotSettings.getInstance();
 

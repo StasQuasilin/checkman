@@ -1,6 +1,6 @@
 package api.references.organisation;
 
-import api.IAPI;
+import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.organisations.Organisation;
@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.References.EDIT_ORGANISATION)
-public class EditOrganisationAPI extends IAPI {
+public class EditOrganisationAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, String> body = PostUtil.parseBody(req);
