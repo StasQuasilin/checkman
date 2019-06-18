@@ -27,25 +27,31 @@ public class SaveTransportationDriverAPI extends API {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            long transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
-            long driverId = (long) body.get(Constants.DRIVER_ID);
-            Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+            Transportation transportation = hibernator.get(Transportation.class, "id", body.get(Constants.TRANSPORTATION_ID));
             comparator.fix(transportation);
+            long driverId = -1;
+            if (body.containsKey(Constants.DRIVER_ID)){
+                driverId = (long) body.get(Constants.DRIVER_ID);
+            }
+            if (driverId != -1) {
+                Driver driver = hibernator.get(Driver.class, "id", driverId);
+                if (driver.getVehicle() == null) {
+                    Vehicle vehicle = transportation.getVehicle();
+                    if(vehicle != null) {
+                        driver.setVehicle(vehicle);
+                        hibernator.save(driver);
+                    }
+                }
+                transportation.setDriver(driver);
+                if (transportation.getVehicle() == null) {
+                    if (driver.getVehicle() != null) {
+                        transportation.setVehicle(driver.getVehicle());
+                    }
+                }
+            } else {
+                transportation.setDriver(null);
+            }
 
-            Driver driver = hibernator.get(Driver.class, "id", driverId);
-            if (driver.getVehicle() == null) {
-                Vehicle vehicle = transportation.getVehicle();
-                if(vehicle != null) {
-                    driver.setVehicle(vehicle);
-                    hibernator.save(driver);
-                }
-            }
-            transportation.setDriver(driver);
-            if (transportation.getVehicle() == null) {
-                if (driver.getVehicle() != null) {
-                    transportation.setVehicle(driver.getVehicle());
-                }
-            }
             hibernator.save(transportation);
             comparator.compare(transportation, getWorker(req));
             write(resp, answer);

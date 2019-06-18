@@ -4,6 +4,8 @@ import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.organisations.Organisation;
+import entity.organisations.OrganisationType;
+import org.json.simple.JSONObject;
 import utils.PostUtil;
 
 import javax.servlet.ServletException;
@@ -20,16 +22,34 @@ import java.util.HashMap;
 public class EditOrganisationAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> body = PostUtil.parseBody(req);
-        Organisation organisation;
-        try {
-            int id = Integer.parseInt(body.get(Constants.ID));
-            organisation = hibernator.get(Organisation.class, "id", id);
-        } catch (Exception ignore){
-            organisation = new Organisation();
-        }
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            
+            Organisation organisation;
+            try {
+                long id = (long) body.get(Constants.ID);
+                organisation = hibernator.get(Organisation.class, "id", id);
+            } catch (Exception ignore) {
+                organisation = new Organisation();
+            }
+            String name = String.valueOf(body.get(Constants.NAME));
+            name = name.trim().toUpperCase();
+            organisation.setName(name);
 
-        organisation.setName(body.get(Constants.NAME));
-        hibernator.save(organisation);
+            String type = String.valueOf(body.get("type"));
+            type = type.trim().toUpperCase();
+            organisation.setType(type);
+
+            hibernator.save(organisation);
+            write(resp, answer);
+            OrganisationType organisationType = hibernator.get(OrganisationType.class, "name", type);
+            if (organisationType == null) {
+                organisationType = new OrganisationType();
+                organisationType.setName(type);
+                hibernator.save(organisationType);
+            }
+        } else {
+            write(resp, emptyBody);
+        }
     }
 }

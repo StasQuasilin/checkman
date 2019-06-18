@@ -47,8 +47,9 @@ public class ShortCutAPI extends API {
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        if (!body.isEmpty()) {
+        JSONObject body = parseBody(req);
+
+        if (body != null) {
             parameters.put("transportation/timeIn", State.notNull);
             parameters.put("transportation/timeOut", State.isNull);
 
@@ -66,6 +67,8 @@ public class ShortCutAPI extends API {
             cAdd.clear();
             cUpdate.clear();
             cRemove.clear();
+        } else {
+            write(resp, emptyBody);
         }
     }
 

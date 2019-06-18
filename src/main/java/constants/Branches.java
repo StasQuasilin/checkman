@@ -95,6 +95,11 @@ public class Branches {
         public class KPO {
             public static final String PART_EDIT = "/laboratory/kpo/edit.j";
         }
+
+        public class References {
+            public static final String DRIVER_EDIT = "/driver/edit.j";
+            public static final String ORGANISATION_EDIT = "/organisation/edit.j";
+        }
     }
     public class API{
         public static final String API = "/api";
@@ -188,6 +193,8 @@ public class Branches {
             public static final String SAVE_DRIVER =        API + "/driver/save";
             public static final String FIND_WORKER =       "/a/worker/find";
             public static final String ORGANISATION_LIST =  API + "/organisation/list";
+            public static final String DRIVER_EDIT =        API + "/driver/edit";
+            public static final String ORGANISATION_EDIT = API + "/organisation/edit";
         }
 
         public class Deal {

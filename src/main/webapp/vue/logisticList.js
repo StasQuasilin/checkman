@@ -195,8 +195,15 @@ var logistic = new Vue({
             }
             loadModal(this.api.vehicleInput, p);
         },
-        deleteVehicle:function(value){
-            console.log(value.item.transportation.vehicle)
+        deleteVehicle:function(transportation){
+            PostApi(this.api.saveTransportationVehicleApi, {transportation_id : transportation}, function(a){
+                console.log(a)
+            })
+        },
+        deleteDriver:function(transportation){
+            PostApi(this.api.saveTransportationDriverApi, {transportation_id : transportation}, function(a){
+                console.log(a)
+            })
         },
         parseDriver:function(value){
             var p = {};

@@ -11,6 +11,9 @@
         <a class="drop-btn"><fmt:message key="document.print"/>&nbsp;&#9660;</a>
         <div class="drop-menu-content">
             <div class="drop-menu-item" onclick="loadModal('${print}')">
+                <fmt:message key="print.daily.report"/>
+            </div>
+            <div class="drop-menu-item" onclick="loadModal('${print}')">
                 <fmt:message key="print.monthly.report"/>
             </div>
         </div>

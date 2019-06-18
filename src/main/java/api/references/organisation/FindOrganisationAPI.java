@@ -24,21 +24,25 @@ import java.util.stream.Collectors;
 public class FindOrganisationAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        String key = String.valueOf(body.get(Constants.KEY));
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            String key = String.valueOf(body.get(Constants.KEY));
 
-        HashMap<Integer, Organisation> result = new HashMap<>();
-        for (Organisation o : hibernator.find(Organisation.class, "name", key)){
-            result.put(o.getId(), o);
+            HashMap<Integer, Organisation> result = new HashMap<>();
+            for (Organisation o : hibernator.find(Organisation.class, "name", key)) {
+                result.put(o.getId(), o);
+            }
+            for (Organisation o : hibernator.find(Organisation.class, "type", key)) {
+                result.put(o.getId(), o);
+            }
+
+            JSONArray array = result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
+            write(resp, array.toJSONString());
+
+            array.clear();
+            body.clear();
+        } else {
+            write(resp, emptyBody);
         }
-        for (Organisation o : hibernator.find(Organisation.class, "type", key)){
-            result.put(o.getId(), o);
-        }
-
-        JSONArray array = result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
-        write(resp, array.toJSONString());
-
-        array.clear();
-        body.clear();
     }
 }

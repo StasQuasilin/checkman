@@ -297,7 +297,7 @@
                                 <span v-on:click="closeVehicleInput(key)" class="mini-close" style="left: -22pt">&times;</span>
                               </template>
                               <a v-else v-on:click="openVehicleInput(value.item.id)">
-                                <fmt:message key="transportation.automobile.inser.info"/>
+                                <fmt:message key="transportation.automobile.insert.info"/>
                               </a>
                             <span v-if="value.item.transportation.vehicle.id" class="edit-menu-header">
                               <span style="position: relative">

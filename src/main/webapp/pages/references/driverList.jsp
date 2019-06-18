@@ -14,6 +14,7 @@
         })
     };
     referenceList.api.update='${update}';
+    referenceList.api.edit='${edit}';
     referenceList.update();
 </script>
 <style>
@@ -36,8 +37,11 @@
             <th width="40%">
                 <fmt:message key="transportation.automobile"/>
             </th>
+            <th>
+                <fmt:message key="transportation.transporter"/>
+            </th>
         </tr>
-        <tr v-for="driver in items" class="selectable">
+        <tr v-for="driver in items" class="selectable" v-on:click="edit(driver.id)">
             <td>
                 {{driver.person.surname}}
             </td>
@@ -48,12 +52,16 @@
                 {{driver.person.patronymic}}
             </td>
             <td>
-                <template v-if="driver.vehicle.id">
+                <span v-if="driver.vehicle.id">
                     {{driver.vehicle.model}}
                     '{{driver.vehicle.number}}'
                     {{driver.vehicle.trailer}}
-                </template>
-
+                </span>
+            </td>
+            <td>
+                <span v-if="driver.vehicle.id">
+                    {{driver.vehicle.transporter}}
+                </span>
             </td>
         </tr>
     </table>

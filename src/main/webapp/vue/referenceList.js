@@ -2,7 +2,8 @@ var referenceList = new Vue({
     el:'#referencesList',
     data:{
         api:{
-            update:''
+            update:'',
+            edit:''
         },
         items:[]
     },
@@ -18,6 +19,9 @@ var referenceList = new Vue({
             this.items.sort(function (a, b) {
                 return a.localeCompare(b);
             })
+        },
+        edit:function(id){
+            loadModal(this.api.edit + '?id=' + id);
         }
     }
 });

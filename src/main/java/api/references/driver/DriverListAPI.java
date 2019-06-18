@@ -26,7 +26,6 @@ public class DriverListAPI extends API {
     final HashMap<String,Object> parameters = new HashMap<>();
     final LE le = new LE(Date.valueOf(LocalDate.now()));
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));

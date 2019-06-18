@@ -6,7 +6,7 @@
 <html>
 <link rel="stylesheet" href="${context}/css/shortcuts.css">
 <div id="cuts" class="shortCuts"
-     v-bind:class="{ dynamicShow : dynamic.show, dynamicCutter : isDynamic()}">
+     :class="{ dynamicShow : dynamic.show, dynamicCutter : isDynamic()}">
     <div class="shower" v-on:click="show" v-if="isDynamic()">
         <span class="direction-sign" v-if="dynamic.show">
             >
@@ -30,10 +30,10 @@
                         <span>
                         {{plan.transportation.vehicle.model}}
                         '{{plan.transportation.vehicle.number}} {{plan.transportation.vehicle.trailer}}'
-                        </span>::
-                        <span v-if="plan.transportation.driver.id">
-                            {{plan.transportation.driver.person.value}}
                         </span>
+                    </div>
+                    <div>
+                        {{plan.transportation.driver.person.value}}
                     </div>
                     <div>
                         <span>

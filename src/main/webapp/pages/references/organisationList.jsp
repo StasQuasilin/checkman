@@ -12,11 +12,12 @@
         })
     };
     referenceList.api.update='${update}';
+    referenceList.api.edit = '${edit}';
     referenceList.update();
 </script>
 <div id="referencesList" style="width: 100%">
     <table>
-        <tr v-for="organisation in items">
+        <tr v-for="organisation in items" v-on:click="edit(organisation.id)">
             <td>
                 {{organisation.name}}
             </td>

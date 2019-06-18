@@ -28,19 +28,27 @@ public class SaveTransportationVehicleAPI extends API {
         JSONObject body = parseBody(req);
 
         if (body != null) {
-            long transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
-            long vehicleId = (long) body.get(Constants.VEHICLE_ID);
-            Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+            Transportation transportation = hibernator.get(Transportation.class, "id", body.get(Constants.TRANSPORTATION_ID));
             comparator.fix(transportation);
-            Vehicle vehicle = hibernator.get(Vehicle.class, "id", vehicleId);
-            Driver driver = transportation.getDriver();
-            if (driver != null) {
-                if (driver.getVehicle() == null){
-                    driver.setVehicle(vehicle);
-                    hibernator.save(driver);
-                }
+            long vehicleId = -1;
+            if (body.containsKey(Constants.VEHICLE_ID)){
+                vehicleId = (long) body.get(Constants.VEHICLE_ID);
             }
-            transportation.setVehicle(vehicle);
+
+            if (vehicleId != -1){
+                Vehicle vehicle = hibernator.get(Vehicle.class, "id", vehicleId);
+                Driver driver = transportation.getDriver();
+                if (driver != null) {
+                    if (driver.getVehicle() == null){
+                        driver.setVehicle(vehicle);
+                        hibernator.save(driver);
+                    }
+                }
+                transportation.setVehicle(vehicle);
+            } else {
+                transportation.setVehicle(null);
+            }
+
             hibernator.save(transportation);
             comparator.compare(transportation, getWorker(req));
             write(resp, answer);
