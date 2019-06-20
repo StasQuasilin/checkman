@@ -40,101 +40,65 @@ public class EditCakeAPI extends API {
             log.info("Edit CAKE analyses for plan \'" + planId + "\'...");
 
             LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
-
-            HashMap<Long, CakeTransportationAnalyses> map = new HashMap<>();
-            log.info("\tAlready have analyses:...");
-            for (CakeTransportationAnalyses analyses : loadPlan.getTransportation().getCakeAnalyses()) {
-                map.put((long) analyses.getAnalyses().getId(), analyses);
-                log.info("\t\t..." + Long.valueOf(analyses.getAnalyses().getId()));
+            CakeAnalyses cakeAnalyses = loadPlan.getTransportation().getCakeAnalyses();
+            if (cakeAnalyses == null) {
+                cakeAnalyses = new CakeAnalyses();
+                loadPlan.getTransportation().setCakeAnalyses(cakeAnalyses);
             }
-            List<CakeAnalyses> analysesList = new LinkedList<>();
-            log.info("\tWill be...");
-            for (Object o : (JSONArray) body.get("analyses")) {
-                JSONObject a = (JSONObject) o;
 
-                CakeTransportationAnalyses analyses;
-                boolean save = false;
+            boolean save = false;
+            float humidity = Float.parseFloat(String.valueOf(body.get(Constants.Oil.HUMIDITY)));
+            log.info("\t\tHumidity: " + humidity);
+            if (cakeAnalyses.getHumidity() != humidity) {
+                cakeAnalyses.setHumidity(humidity);
+                save = true;
+            }
 
-                long id = -1;
-                if (a.containsKey(Constants.ID)) {
-                    id = (long) a.get(Constants.ID);
+            float protein = Float.parseFloat(String.valueOf(body.get(Constants.Cake.PROTEIN)));
+            log.info("\t\tProtein: " + protein);
+            if (cakeAnalyses.getProtein() != protein) {
+                cakeAnalyses.setProtein(protein);
+                save = true;
+            }
+
+            float cellulose = Float.parseFloat(String.valueOf(body.get(Constants.Cake.CELLULOSE)));
+            log.info("\t\tCellulose: " + cellulose);
+            if (cakeAnalyses.getCellulose() != cellulose) {
+                cakeAnalyses.setCellulose(cellulose);
+                save = true;
+            }
+
+            float oiliness = Float.parseFloat(String.valueOf(body.get(Constants.Sun.OILINESS)));
+            log.info("\t\tOiliness: " + oiliness);
+            if (cakeAnalyses.getOiliness() != oiliness) {
+                cakeAnalyses.setOiliness(oiliness);
+                save = true;
+            }
+
+            if (save) {
+                ActionTime createTime = cakeAnalyses.getCreateTime();
+                if (createTime == null) {
+                    createTime = new ActionTime();
+                    cakeAnalyses.setCreateTime(createTime);
                 }
-                if (map.containsKey(id)) {
-                    log.info("\t\t...Edit \'" + id + "\'");
-                    analyses = map.remove(id);
+                createTime.setTime(new Timestamp(System.currentTimeMillis()));
+                Worker worker = getWorker(req);
+                if (body.containsKey(Constants.CREATOR)) {
+                    long creatorId = (long) body.get(Constants.CREATOR);
+                    log.info("\t\tHave creator");
+                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
                 } else {
-                    log.info("\t\t...Edit new");
-                    analyses = new CakeTransportationAnalyses();
-                    analyses.setTransportation(loadPlan.getTransportation());
-                    analyses.setAnalyses(new CakeAnalyses());
-                    save = true;
+                    log.info("\t\tDoesn't have creator");
+                    createTime.setCreator(worker);
                 }
+                cakeAnalyses.setCreator(worker);
 
-                CakeAnalyses cakeAnalyses = analyses.getAnalyses();
+                hibernator.save(cakeAnalyses.getCreateTime(), cakeAnalyses);
 
-//            private float humidity;
-                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY)));
-                log.info("\t\tHumidity: " + humidity);
-                if (cakeAnalyses.getHumidity() != humidity) {
-                    cakeAnalyses.setHumidity(humidity);
-                    save = true;
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.cakeAnalysesShow(loadPlan, cakeAnalyses);
                 }
-
-//            private float protein;
-                float protein = Float.parseFloat(String.valueOf(a.get(Constants.Cake.PROTEIN)));
-                log.info("\t\tProtein: " + protein);
-                if (cakeAnalyses.getProtein() != protein) {
-                    cakeAnalyses.setProtein(protein);
-                    save = true;
-                }
-
-//            private float cellulose;
-                float cellulose = Float.parseFloat(String.valueOf(a.get(Constants.Cake.CELLULOSE)));
-                log.info("\t\tCellulose: " + cellulose);
-                if (cakeAnalyses.getCellulose() != cellulose) {
-                    cakeAnalyses.setCellulose(cellulose);
-                    save = true;
-                }
-
-//            private float oiliness;
-                float oiliness = Float.parseFloat(String.valueOf(a.get(Constants.Sun.OILINESS)));
-                log.info("\t\tOiliness: " + oiliness);
-                if (cakeAnalyses.getOiliness() != oiliness) {
-                    cakeAnalyses.setOiliness(oiliness);
-                    save = true;
-                }
-
-                if (save) {
-                    ActionTime createTime = cakeAnalyses.getCreateTime();
-                    if (createTime == null) {
-                        createTime = new ActionTime();
-                        cakeAnalyses.setCreateTime(createTime);
-                    }
-                    createTime.setTime(new Timestamp(System.currentTimeMillis()));
-                    Worker worker = getWorker(req);
-                    if (a.containsKey(Constants.CREATOR)) {
-                        long creatorId = (long) a.get(Constants.CREATOR);
-                        log.info("\t\tHave creator");
-                        createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
-                    } else {
-                        log.info("\t\tDoesn't have creator");
-                        createTime.setCreator(worker);
-                    }
-                    log.info("\t\tCreator: " + createTime.getCreator().getValue());
-                    cakeAnalyses.setCreator(worker);
-
-                    hibernator.save(cakeAnalyses.getCreateTime(), cakeAnalyses, analyses);
-                    analysesList.add(cakeAnalyses);
-                }
-            }
-
-            Notificator notificator = BotFactory.getNotificator();
-            if (notificator != null) {
-                notificator.cakeAnalysesShow(loadPlan, analysesList);
-            }
-
-            for (CakeTransportationAnalyses analyses : map.values()) {
-                hibernator.remove(analyses);
             }
 
             write(resp, answer);

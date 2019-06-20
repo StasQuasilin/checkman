@@ -1,7 +1,5 @@
 package entity.log.comparators;
 
-import constants.Constants;
-import entity.Product;
 import entity.Worker;
 import entity.documents.DealProduct;
 import entity.log.Change;

@@ -1,4 +1,6 @@
-package entity;
+package entity.products;
+
+import entity.AnalysesType;
 
 import javax.persistence.*;
 

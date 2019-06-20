@@ -22,12 +22,11 @@ public class TransportationShow extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
         LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", id);
-        float b = 0, t = 0, n = 0;
-        for (Weight weight : loadPlan.getTransportation().getWeights()){
-            b += weight.getBrutto();
-            t += weight.getTara();
-            n += weight.getNetto();
-        }
+        Weight weight = loadPlan.getTransportation().getWeight();
+        float b = weight.getBrutto();
+        float t = weight.getTara();
+        float n = weight.getNetto();
+
         req.setAttribute("brutto", b);
         req.setAttribute("tara", t);
         req.setAttribute("netto", n);

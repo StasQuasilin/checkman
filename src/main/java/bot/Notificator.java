@@ -91,7 +91,7 @@ public class Notificator {
             }
         }
     }
-    public void weightShow(LoadPlan plan, List<Weight> weightList) {
+    public void weightShow(LoadPlan plan, Weight weightList) {
         String message;
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
@@ -197,24 +197,8 @@ public class Notificator {
             }
         }
     }
-    public void cakeAnalysesShow(LoadPlan plan, List<CakeAnalyses> analysesList) {
-        float humidity = 0;
-        float protein = 0;
-        float cellulose = 0;
-        float oiliness = 0;
-        int count = 0;
-        for (CakeAnalyses analyses : analysesList) {
-            humidity += analyses.getHumidity();
-            protein += analyses.getProtein();
-            cellulose += analyses.getCellulose();
-            oiliness += analyses.getOiliness();
-            count++;
-        }
-        
-        humidity /= count;
-        protein /= count;
-        cellulose /= count;
-        oiliness /= count;
+    public void cakeAnalysesShow(LoadPlan plan, CakeAnalyses analyses) {
+
 
         String message;
         for (UserBotSetting setting : getSettings()){
@@ -231,17 +215,17 @@ public class Notificator {
                 }
                 if (show) {
                     message = prepareMessage(plan);
-                    message += "\n" + String.format(lb.get(HUMIDITY), humidity);
-                    message += "\n" + String.format(lb.get(PROTEIN), protein);
-                    message += "\n" + String.format(lb.get(CELLULOSE), cellulose);
-                    message += "\n" + String.format(lb.get(OILINESS), oiliness);
+                    message += "\n" + String.format(lb.get(HUMIDITY), analyses.getHumidity());
+                    message += "\n" + String.format(lb.get(PROTEIN), analyses.getProtein());
+                    message += "\n" + String.format(lb.get(CELLULOSE), analyses.getCellulose());
+                    message += "\n" + String.format(lb.get(OILINESS), analyses.getOiliness());
 
                     sendMessage(setting.getTelegramId(), message, null);
                 }
             }
         }
     }
-    public void oilAnalysesShow(LoadPlan plan, LinkedList<OilAnalyses> analysesList) {
+    public void oilAnalysesShow(LoadPlan plan, OilAnalyses analysesList) {
         float organolepticFloat = 0;
         float color = 0;
         float acid = 0;

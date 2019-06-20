@@ -3,7 +3,7 @@ package controllers.laboratory.probe;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
-import entity.Product;
+import entity.products.Product;
 import utils.hibernate.State;
 
 import javax.servlet.ServletException;

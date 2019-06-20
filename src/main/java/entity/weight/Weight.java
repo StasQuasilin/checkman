@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Table(name = "weights")
 public class Weight {
     private int id;
-    private Transportation transportation;
     private float brutto;
     private float tara;
     private float correction;
@@ -27,15 +26,6 @@ public class Weight {
     }
     public void setId(int id) {
         this.id = id;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "transportation", nullable = false)
-    public Transportation getTransportation() {
-        return transportation;
-    }
-    public void setTransportation(Transportation transportation) {
-        this.transportation = transportation;
     }
 
     @Basic

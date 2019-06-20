@@ -1,10 +1,6 @@
 package constants;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.SyntaxTreeNode;
 import controllers.archive.ArchiveType;
-import entity.AnalysesType;
-import entity.Product;
-import org.glassfish.grizzly.utils.StringFilter;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -70,6 +66,7 @@ public class Branches {
         public static final String LABORATORY_PRINT = "/laboratory/crude/monthly/print.j";
         public static final String LABORATORY_STORAGES = "/laboratory/storages.j";
         public static final String LABORATORY_STORAGE_EDIT = "/laboratory/storages/edit.j";
+        public static final String FORGOT = "/forgot";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -177,6 +174,7 @@ public class Branches {
         public static final String FRIENDLY_REGISTRATION = API + "/friendly/registration";
         public static final String LABORATORY_OIL_PRINT = API + "/laboratory/oil/print";
         public static final String LABORATORY_MEAL_PRINT = API + "/laboratory/meal/print";
+        public static final String PASSWORD_RESTORE = "/a/password/restore";
 
 
         public class References {

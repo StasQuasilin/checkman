@@ -9,7 +9,6 @@
     <title><fmt:message key="sign.in"/></title>
     <script src="${context}/js/Logic.js"></script>
     <link rel="stylesheet" href="${context}/css/login.css">
-
 </head>
 <body>
 <div id="login">
@@ -59,7 +58,7 @@
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <a><fmt:message key="forgot"/>...</a>
+                        <a onclick="location.href='${context}${forgot}'"><fmt:message key="forgot"/>...</a>
                         <button v-on:click="signIn"><fmt:message key="sign.in"/></button>
                     </td>
                 </tr>

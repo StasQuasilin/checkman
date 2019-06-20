@@ -1,13 +1,8 @@
 package entity.documents;
 
 import entity.DealType;
-import entity.Product;
-import entity.Worker;
-import entity.organisations.Organisation;
-import entity.weight.WeightUnit;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 /**
  * Created by szpt_user045 on 11.03.2019.

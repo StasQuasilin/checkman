@@ -4,7 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.DealType;
-import entity.Product;
+import entity.products.Product;
 import entity.documents.DocumentOrganisation;
 import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;

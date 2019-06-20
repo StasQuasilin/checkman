@@ -42,9 +42,7 @@ public class SummaryShowAPI extends API {
 					if (plan.getTransportation().getUid() != null) {
 						logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getTransportation().getUid()));
 					}
-					for (Weight weight : plan.getTransportation().getWeights()) {
-						logs.addAll(hibernator.query(ChangeLog.class, "document", weight.getUid()));
-					}
+					logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getTransportation().getWeight().getUid()));
 				}
 				//todo logs.addAll(analyses);
 				for (Object o : (JSONArray)body.get("logs")){

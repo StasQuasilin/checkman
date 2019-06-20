@@ -21,19 +21,18 @@ var login = new Vue({
     },
     methods:{
         findUser:function(){
-            if (this.worker) {
+            const self = this;
+            if (this.worker != '') {
                 clearTimeout(this.fnd);
-                const self = this;
                 this.fnd = setTimeout(function () {
-                    var parameters = {};
-                    parameters.key = self.worker;
-                    PostApi(self.api.find, parameters, function (a) {
+                    PostApi(self.api.find, {key: self.worker}, function (a) {
                         self.foundUsers = a;
                     })
                 }, 500)
             } else {
                 this.user.uid = '';
                 this.foundUsers = [];
+                clearTimeout(this.fnd);
             }
         },
         setUser:function(user){

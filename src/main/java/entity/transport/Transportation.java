@@ -3,6 +3,9 @@ package entity.transport;
 import entity.Worker;
 import entity.documents.DocumentOrganisation;
 import entity.documents.IDocument;
+import entity.laboratory.CakeAnalyses;
+import entity.laboratory.OilAnalyses;
+import entity.laboratory.SunAnalyses;
 import entity.laboratory.transportation.CakeTransportationAnalyses;
 import entity.laboratory.transportation.OilTransportationAnalyses;
 import entity.laboratory.transportation.SunTransportationAnalyses;
@@ -27,10 +30,10 @@ public class Transportation extends IDocument{
     private ActionTime timeIn;
     private ActionTime timeOut;
     private Worker creator;
-    private Set<Weight> weights;
-    private Set<SunTransportationAnalyses> sunAnalyses;
-    private Set<OilTransportationAnalyses> oilAnalyses;
-    private Set<CakeTransportationAnalyses> cakeAnalyses;
+    private Weight weight;
+    private SunAnalyses sunAnalyse;
+    private OilAnalyses oilAnalyses;
+    private CakeAnalyses cakeAnalyses;
     private Set<Seal> seals;
     private boolean archive;
     private String uid;
@@ -100,35 +103,39 @@ public class Transportation extends IDocument{
         this.creator = creator;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<Weight> getWeights() {
-        return weights;
+    @OneToOne
+    @JoinColumn(name = "weight")
+    public Weight getWeight() {
+        return weight;
     }
-    public void setWeights(Set<Weight> weights) {
-        this.weights = weights;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<SunTransportationAnalyses> getSunAnalyses() {
-        return sunAnalyses;
-    }
-    public void setSunAnalyses(Set<SunTransportationAnalyses> sunAnalyses) {
-        this.sunAnalyses = sunAnalyses;
+    public void setWeight(Weight weight) {
+        this.weight = weight;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<OilTransportationAnalyses> getOilAnalyses() {
+    @OneToOne
+    @JoinColumn(name = "sun_analyses")
+    public SunAnalyses getSunAnalyse() {
+        return sunAnalyse;
+    }
+    public void setSunAnalyse(SunAnalyses sunAnalyse) {
+        this.sunAnalyse = sunAnalyse;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "oil_analyses")
+    public OilAnalyses getOilAnalyses() {
         return oilAnalyses;
     }
-    public void setOilAnalyses(Set<OilTransportationAnalyses> oilAnalyses) {
+    public void setOilAnalyses(OilAnalyses oilAnalyses) {
         this.oilAnalyses = oilAnalyses;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<CakeTransportationAnalyses> getCakeAnalyses() {
+    @OneToOne
+    @JoinColumn(name = "cake_analyses")
+    public CakeAnalyses getCakeAnalyses() {
         return cakeAnalyses;
     }
-    public void setCakeAnalyses(Set<CakeTransportationAnalyses> cakeAnalyses) {
+    public void setCakeAnalyses(CakeAnalyses cakeAnalyses) {
         this.cakeAnalyses = cakeAnalyses;
     }
 
@@ -154,10 +161,10 @@ public class Transportation extends IDocument{
         return
             timeIn != null ||
             timeOut != null ||
-            weights.size() > 0 ||
-            sunAnalyses.size() > 0 ||
-            oilAnalyses.size() > 0 ||
-            cakeAnalyses.size() > 0;
+            weight != null ||
+            sunAnalyse != null ||
+            oilAnalyses != null ||
+            cakeAnalyses != null;
     }
 
     @Override
@@ -177,20 +184,20 @@ public class Transportation extends IDocument{
             hash = 31 * timeOut.hashCode() + hash;
         }
 
-        for (Weight w : weights){
-            hash = 31 * w.hashCode() + hash;
+        if (weight != null) {
+            hash = 31 * weight.hashCode() + hash;
         }
 
-        for (SunTransportationAnalyses a : sunAnalyses){
-            hash = 31 * a.hashCode() + hash;
+        if (sunAnalyse != null) {
+            hash = 31 * sunAnalyse.hashCode() + hash;
         }
 
-        for (OilTransportationAnalyses a : oilAnalyses){
-            hash = 31 * a.hashCode() + hash;
+        if (oilAnalyses != null) {
+            hash = 31 * oilAnalyses.hashCode() + hash;
         }
 
-        for (CakeTransportationAnalyses a : cakeAnalyses){
-            hash = 31 * a.hashCode() + hash;
+        if (cakeAnalyses != null) {
+            hash = 31 * cakeAnalyses.hashCode() + hash;
         }
 
         for (Seal seal : seals){
@@ -211,12 +218,4 @@ public class Transportation extends IDocument{
         this.uid = uid;
     }
 
-    @Transient
-    public float getWeight() {
-        float netto = 0;
-        for (Weight weight : weights) {
-            netto += weight.getNetto();
-        }
-        return netto;
-    }
 }

@@ -3,7 +3,7 @@ package controllers.archive;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
-import entity.Product;
+import entity.products.Product;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

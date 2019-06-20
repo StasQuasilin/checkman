@@ -1,19 +1,13 @@
 package entity.documents;
 
 import entity.DealType;
-import entity.Product;
+import entity.products.Product;
 import entity.Worker;
 import entity.organisations.Organisation;
 import entity.weight.WeightUnit;
-import org.glassfish.jersey.server.BackgroundScheduler;
-import utils.DocumentUIDGenerator;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.PrimitiveIterator;
-import java.util.Set;
 
 /**
  * Created by szpt_user045 on 11.03.2019.

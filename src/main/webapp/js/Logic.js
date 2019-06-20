@@ -1,7 +1,6 @@
 /**
  * Created by quasilin on 13.03.2019.
  */
-var context;
 
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (url) {

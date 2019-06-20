@@ -29,8 +29,9 @@
         <mapping class="entity.Worker"/>
         <mapping class="entity.Person"/>
         <mapping class="entity.PhoneNumber"/>
-        <mapping class="entity.ProductGroup"/>
-        <mapping class="entity.Product"/>
+        <mapping class="entity.products.ProductGroup"/>
+        <mapping class="entity.products.Product"/>
+        <mapping class="entity.products.ProductProperty"/>
         <mapping class="entity.transport.Driver"/>
         <mapping class="entity.transport.Vehicle"/>
         <mapping class="entity.organisations.Organisation"/>

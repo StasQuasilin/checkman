@@ -4,7 +4,7 @@ import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.DealType;
-import entity.Product;
+import entity.products.Product;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.DocumentOrganisation;

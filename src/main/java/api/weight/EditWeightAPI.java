@@ -44,63 +44,47 @@ public class EditWeightAPI extends API {
         if(body != null) {
             log.info(body);
 
-            JSONArray array = (JSONArray) body.get(Constants.WEIGHTS);
-
             long planId = (long) body.get(Constants.ID);
             LoadPlan plan = hibernator.get(LoadPlan.class, "id", planId);
+            Weight weight = plan.getTransportation().getWeight();
+            boolean saveIt = false;
 
-            HashMap<Long, Weight> weights = new HashMap<>();
-            for (Weight w : plan.getTransportation().getWeights()) {
-                weights.put((long) w.getId(), w);
+            if (weight == null) {
+                weight = new Weight();
+                weight.setUid(DocumentUIDGenerator.generateUID());
+                plan.getTransportation().setWeight(weight);
+                saveIt = true;
             }
-            List<Weight> weightList = new ArrayList<>();
 
-            for (Object o : array) {
-                JSONObject w = (JSONObject) o;
-                long id = (long) w.get(Constants.ID);
-                float brutto = Float.parseFloat(String.valueOf(w.get(Constants.Weight.BRUTTO)));
-                float tara = Float.parseFloat(String.valueOf(w.get(Constants.Weight.TARA)));
+            comparator.fix(weight);
 
-                Weight weight;
-                boolean saveIt = false;
-                if (weights.containsKey(id)) {
-                    weight = weights.remove(id);
-                    comparator.fix(weight);
-                } else {
-                    weight = new Weight();
-                    weight.setUid(DocumentUIDGenerator.generateUID());
-                    weight.setTransportation(plan.getTransportation());
-                    saveIt = true;
-                    comparator.fix(null);
-                }
-                Worker worker = getWorker(req);
-                changeWeight(weight, brutto, tara, worker, saveIt);
+            float brutto = Float.parseFloat(String.valueOf(body.get(Constants.Weight.BRUTTO)));
+            float tara = Float.parseFloat(String.valueOf(body.get(Constants.Weight.TARA)));
+
+            Worker worker = getWorker(req);
+            saveIt = changeWeight(weight, brutto, tara, worker, saveIt);
+
+            if (saveIt){
                 comparator.compare(weight, worker);
-                weightList.add(weight);
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.weightShow(plan, weight);
+                }
+                WeightUtil.calculateDealDone(plan.getDeal());
+                TransportUtil.calculateWeight(plan.getTransportation());
 
+                transportationComparator.fix(plan.getTransportation());
+                TransportUtil.checkTransport(plan.getTransportation());
+                transportationComparator.compare(plan.getTransportation(), getWorker(req));
             }
-
-            Notificator notificator = BotFactory.getNotificator();
-            if (notificator != null) {
-                notificator.weightShow(plan, weightList);
-            }
-
-            hibernator.remove(weights.values().toArray());
-            WeightUtil.calculateDealDone(plan.getDeal());
-            TransportUtil.calculateWeight(plan.getTransportation());
-
-            transportationComparator.fix(plan.getTransportation());
-            TransportUtil.checkTransport(plan.getTransportation());
-            transportationComparator.compare(plan.getTransportation(), getWorker(req));
 
             write(resp, answer);
-
             body.clear();
         } else {
             write(resp, emptyBody);
         }
     }
-    synchronized void changeWeight(Weight weight, float brutto, float tara, Worker worker, boolean saveIt){
+    synchronized boolean changeWeight(Weight weight, float brutto, float tara, Worker worker, boolean saveIt){
         if (brutto != 0){
             ActionTime bruttoTime = weight.getBruttoTime();
             if (bruttoTime == null){
@@ -148,5 +132,7 @@ public class EditWeightAPI extends API {
             }
             hibernator.save(weight);
         }
+
+        return saveIt;
     }
 }

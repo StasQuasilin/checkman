@@ -24,6 +24,7 @@ import entity.log.Change;
 import entity.log.ChangeLog;
 import entity.organisations.Organisation;
 import entity.production.Turn;
+import entity.products.Product;
 import entity.rails.Train;
 import entity.rails.Truck;
 import entity.seals.Seal;
@@ -143,34 +144,20 @@ public class JsonParser {
             json.put("timeIn", toJson(transportation.getTimeIn()));
             json.put("timeOut", toJson(transportation.getTimeOut()));
             json.put("hash", transportation.hashCode());
-            json.put("weights", toJson(transportation.getWeights()));
-            json.put("analyses", toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
+            json.put("weight", toJson(transportation.getWeight()));
+            json.put("analyses", toJson(transportation.getSunAnalyse(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
             json.put("any", transportation.anyAction());
             json.put("archive", transportation.isArchive());
         }
         return json;
     }
 
-    private static JSONObject toJson(Set<SunTransportationAnalyses> sunAnalyses, Set<OilTransportationAnalyses> oilAnalyses, Set<CakeTransportationAnalyses> cakeAnalyses) {
+    private static JSONObject toJson(SunAnalyses sunAnalyses, OilAnalyses oilAnalyses, CakeAnalyses cakeAnalyses) {
         JSONObject json = new JSONObject();
         
-        JSONArray sun = new JSONArray();
-        for (SunTransportationAnalyses a : sunAnalyses){
-            sun.add(toJson(a.getAnalyses()));
-        }
-        json.put("sun", sun);
-
-        JSONArray oil = new JSONArray();
-        for (OilTransportationAnalyses a : oilAnalyses){
-            oil.add(toJson(a.getAnalyses()));
-        }
-        json.put("oil", oil);
-
-        JSONArray cake = new JSONArray();
-        for (CakeTransportationAnalyses a : cakeAnalyses){
-            cake.add(toJson(a.getAnalyses()));
-        }
-        json.put("cake", cake);
+        json.put("sun", toJson(sunAnalyses));
+        json.put("oil", toJson(oilAnalyses));
+        json.put("cake", toJson(cakeAnalyses));
 
 
         return json;
@@ -248,14 +235,6 @@ public class JsonParser {
             json.put("creator", toJson(analyses.getCreator()));
         }
         return json;
-    }
-
-    private static JSONArray toJson(Set<Weight> weights) {
-        JSONArray array = new JSONArray();
-        for (Weight weight : weights){
-            array.add(toJson(weight));
-        }
-        return array;
     }
 
     private static JSONObject toJson(Weight weight) {
@@ -415,9 +394,9 @@ public class JsonParser {
 
     public static JSONObject toJson(Transportation transportation, ArrayList<ChangeLog> logs) {
         JSONObject json = new JSONObject();
-        json.put("weights", toJson(transportation.getWeights()));
+        json.put("weight", toJson(transportation.getWeight()));
         json.put("analyses", toJson(
-                transportation.getSunAnalyses(),
+                transportation.getSunAnalyse(),
                 transportation.getOilAnalyses(),
                 transportation.getCakeAnalyses())
         );

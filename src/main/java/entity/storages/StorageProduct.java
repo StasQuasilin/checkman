@@ -1,6 +1,6 @@
 package entity.storages;
 
-import entity.Product;
+import entity.products.Product;
 
 import javax.persistence.*;
 

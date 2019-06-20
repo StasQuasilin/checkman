@@ -40,134 +40,94 @@ public class EditOilAPI extends API {
             log.info("Edit OIL analyses for plan \'" + planId + "\'...");
 
             LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
-            LinkedList<OilAnalyses> analysesList = new LinkedList<>();
 
-            HashMap<Long, OilTransportationAnalyses> map = new HashMap<>();
-            log.info("\tAlready have analyses:...");
-            for (OilTransportationAnalyses analyses : loadPlan.getTransportation().getOilAnalyses()) {
-                map.put((long) analyses.getAnalyses().getId(), analyses);
-                log.info("\t\t..." + Long.valueOf(analyses.getAnalyses().getId()));
+            boolean save = false;
+            OilAnalyses oilAnalyses = loadPlan.getTransportation().getOilAnalyses();
+            if (oilAnalyses == null){
+                oilAnalyses = new OilAnalyses();
+                loadPlan.getTransportation().setOilAnalyses(oilAnalyses);
             }
 
-            log.info("\tWill be...");
-            for (Object o : (JSONArray) body.get("analyses")) {
-                JSONObject a = (JSONObject) o;
+            boolean organoleptic = (boolean) body.get(Constants.Oil.ORGANOLEPTIC);
+            log.info("\t\tOrganoleptic: " + organoleptic);
+            if (oilAnalyses.isOrganoleptic() != organoleptic) {
+                oilAnalyses.setOrganoleptic(organoleptic);
+                save = true;
+            }
 
-                OilTransportationAnalyses analyses;
-                boolean save = false;
+            int color = Integer.parseInt(String.valueOf(body.get(Constants.Oil.COLOR)));
+            log.info("\t\tColor: " + color);
+            if (oilAnalyses.getColor() != color) {
+                oilAnalyses.setColor(color);
+                save = true;
+            }
 
-                long id = -1;
-                if (a.containsKey(Constants.ID)) {
-                    id = (long) a.get(Constants.ID);
+            float acidValue = Float.parseFloat(String.valueOf(body.get(Constants.Oil.ACID_VALUE)));
+            log.info("\t\tAcid value: " + acidValue);
+            if (oilAnalyses.getAcidValue() != acidValue) {
+                oilAnalyses.setAcidValue(acidValue);
+                save = true;
+            }
+
+            float peroxideValue = Float.parseFloat(String.valueOf(body.get(Constants.Oil.PEROXIDE_VALUE)));
+            log.info("\t\tPeroxide value: " + peroxideValue);
+            if (oilAnalyses.getPeroxideValue() != peroxideValue) {
+                oilAnalyses.setPeroxideValue(peroxideValue);
+                save = true;
+            }
+
+            float phosphorus = Float.parseFloat(String.valueOf(body.get(Constants.Oil.PHOSPHORUS)));
+            log.info("\t\tPhosphorus: " + phosphorus);
+            if (oilAnalyses.getPhosphorus() != phosphorus) {
+                oilAnalyses.setPhosphorus(phosphorus);
+                save = true;
+            }
+
+            float humidity = Float.parseFloat(String.valueOf(body.get(Constants.Oil.HUMIDITY )));
+            log.info("\t\tHumidity: " + humidity);
+            if (oilAnalyses.getHumidity() != humidity) {
+                oilAnalyses.setHumidity(humidity);
+                save = true;
+            }
+
+            boolean soap = Boolean.parseBoolean(String.valueOf(body.get(Constants.Oil.SOAP)));
+            log.info("\t\tSoap: " + soap);
+            if (oilAnalyses.isSoap() != soap) {
+                oilAnalyses.setSoap(soap);
+                save = true;
+            }
+
+            float wax = Float.parseFloat(String.valueOf(body.get(Constants.Oil.WAX)));
+            log.info("\t\tWax: " + wax);
+            if (oilAnalyses.getWax() != wax) {
+                oilAnalyses.setWax(wax);
+                save = true;
+            }
+
+            if (save) {
+                ActionTime createTime = oilAnalyses.getCreateTime();
+                if (createTime == null) {
+                    createTime = new ActionTime();
+                    oilAnalyses.setCreateTime(createTime);
                 }
-
-                if (map.containsKey(id)) {
-                    log.info("\t\t...Edit \'" + id + "\'");
-                    analyses = map.remove(id);
+                createTime.setTime(new Timestamp(System.currentTimeMillis()));
+                Worker worker = getWorker(req);
+                if (body.containsKey(Constants.CREATOR)) {
+                    log.info("\t\tHave creator");
+                    createTime.setCreator(hibernator.get(Worker.class, "id", body.get(Constants.CREATOR)));
                 } else {
-                    log.info("\t\t...Edit new");
-                    analyses = new OilTransportationAnalyses();
-                    analyses.setTransportation(loadPlan.getTransportation());
-                    analyses.setAnalyses(new OilAnalyses());
-                    save = true;
+                    log.info("\t\tDoesn't have creator");
+                    createTime.setCreator(worker);
                 }
+                log.info("\t\tCreator: " + createTime.getCreator().getValue());
+                oilAnalyses.setCreator(worker);
 
-                OilAnalyses oilAnalyses = analyses.getAnalyses();
-                analysesList.add(oilAnalyses);
+                hibernator.save(oilAnalyses.getCreateTime(), oilAnalyses);
 
-                boolean organoleptic = (boolean) a.get(Constants.Oil.ORGANOLEPTIC);
-                log.info("\t\tOrganoleptic: " + organoleptic);
-                if (oilAnalyses.isOrganoleptic() != organoleptic) {
-                    oilAnalyses.setOrganoleptic(organoleptic);
-                    save = true;
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.oilAnalysesShow(loadPlan, oilAnalyses);
                 }
-
-//            private int color;
-                int color = Integer.parseInt(String.valueOf(a.get(Constants.Oil.COLOR)));
-                log.info("\t\tColor: " + color);
-                if (oilAnalyses.getColor() != color) {
-                    oilAnalyses.setColor(color);
-                    save = true;
-                }
-
-//            private float acidValue;
-                float acidValue = Float.parseFloat(String.valueOf(a.get(Constants.Oil.ACID_VALUE)));
-                log.info("\t\tAcid value: " + acidValue);
-                if (oilAnalyses.getAcidValue() != acidValue) {
-                    oilAnalyses.setAcidValue(acidValue);
-                    save = true;
-                }
-
-//            private float peroxideValue;
-                float peroxideValue = Float.parseFloat(String.valueOf(a.get(Constants.Oil.PEROXIDE_VALUE)));
-                log.info("\t\tPeroxide value: " + peroxideValue);
-                if (oilAnalyses.getPeroxideValue() != peroxideValue) {
-                    oilAnalyses.setPeroxideValue(peroxideValue);
-                    save = true;
-                }
-
-//            private float phosphorus;
-                float phosphorus = Float.parseFloat(String.valueOf(a.get(Constants.Oil.PHOSPHORUS)));
-                log.info("\t\tPhosphorus: " + phosphorus);
-                if (oilAnalyses.getPhosphorus() != phosphorus) {
-                    oilAnalyses.setPhosphorus(phosphorus);
-                    save = true;
-                }
-
-//            private float humidity;
-                float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY )));
-                log.info("\t\tHumidity: " + humidity);
-                if (oilAnalyses.getHumidity() != humidity) {
-                    oilAnalyses.setHumidity(humidity);
-                    save = true;
-                }
-
-//            private float soap;
-                boolean soap = Boolean.parseBoolean(String.valueOf(a.get(Constants.Oil.SOAP)));
-                log.info("\t\tSoap: " + soap);
-                if (oilAnalyses.isSoap() != soap) {
-                    oilAnalyses.setSoap(soap);
-                    save = true;
-                }
-
-//            private float wax;
-                float wax = Float.parseFloat(String.valueOf(a.get(Constants.Oil.WAX)));
-                log.info("\t\tWax: " + wax);
-                if (oilAnalyses.getWax() != wax) {
-                    oilAnalyses.setWax(wax);
-                    save = true;
-                }
-
-                if (save) {
-                    ActionTime createTime = oilAnalyses.getCreateTime();
-                    if (createTime == null) {
-                        createTime = new ActionTime();
-                        oilAnalyses.setCreateTime(createTime);
-                    }
-                    createTime.setTime(new Timestamp(System.currentTimeMillis()));
-                    Worker worker = getWorker(req);
-                    if (a.containsKey(Constants.CREATOR)) {
-                        long creatorId = (long) a.get(Constants.CREATOR);
-                        log.info("\t\tHave creator");
-                        createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
-                    } else {
-                        log.info("\t\tDoesn't have creator");
-                        createTime.setCreator(worker);
-                    }
-                    log.info("\t\tCreator: " + createTime.getCreator().getValue());
-                    oilAnalyses.setCreator(worker);
-
-                    hibernator.save(oilAnalyses.getCreateTime(), oilAnalyses, analyses);
-                }
-            }
-
-            Notificator notificator = BotFactory.getNotificator();
-            if (notificator != null) {
-                notificator.oilAnalysesShow(loadPlan, analysesList);
-            }
-
-            for (OilTransportationAnalyses analyses : map.values()) {
-                hibernator.remove(analyses);
             }
             write(resp, answer);
         } else {

@@ -13,9 +13,7 @@ public class WeightUtil extends IBox{
         float done = 0;
         for (LoadPlan plan : hibernator.query(LoadPlan.class, "deal", deal)){
             if (plan.getTransportation().isArchive()) {
-                for (Weight weight : plan.getTransportation().getWeights()) {
-                    done += weight.getNetto();
-                }
+                done += plan.getTransportation().getWeight().getNetto();
             }
         }
         if (deal.getDone() != done) {

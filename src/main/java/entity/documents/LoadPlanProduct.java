@@ -1,6 +1,6 @@
 package entity.documents;
 
-import entity.Product;
+import entity.products.Product;
 
 /**
  * Created by szpt_user045 on 11.03.2019.

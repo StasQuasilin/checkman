@@ -21,6 +21,7 @@ public class SunAnalyses{
     private boolean contamination;
     private ActionTime createTime;
     private Worker creator;
+    private int act;
 
     @Id
     @GeneratedValue
@@ -110,6 +111,15 @@ public class SunAnalyses{
     }
     public void setCreator(Worker creator) {
         this.creator = creator;
+    }
+
+    @Basic
+    @Column(name = "act")
+    public int getAct() {
+        return act;
+    }
+    public void setAct(int act) {
+        this.act = act;
     }
 
     @Override

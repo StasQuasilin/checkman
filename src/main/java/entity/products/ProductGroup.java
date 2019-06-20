@@ -1,4 +1,4 @@
-package entity;
+package entity.products;
 
 import org.glassfish.jersey.server.BackgroundScheduler;
 

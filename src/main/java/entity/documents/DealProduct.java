@@ -1,8 +1,7 @@
 package entity.documents;
 
-import entity.Product;
+import entity.products.Product;
 import entity.Worker;
-import utils.DocumentUIDGenerator;
 
 import javax.persistence.*;
 

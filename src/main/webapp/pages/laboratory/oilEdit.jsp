@@ -108,6 +108,17 @@
             {{driver}}
         </td>
     </tr>
+    <tr>
+        <td>
+            <fmt:message key="deal.product"/>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            ${plan.deal.product.name}
+        </td>
+    </tr>
     <template v-for="item in analyses">
         <tr>
             <td>

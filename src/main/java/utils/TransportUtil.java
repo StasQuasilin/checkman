@@ -27,11 +27,10 @@ public class TransportUtil extends IBox{
 
     public static void checkTransport(Transportation transportation) {
         boolean isArchive = true;
-        for (Weight weight : transportation.getWeights()){
-            if (weight.getNetto() == 0){
-                isArchive = false;
-            }
+        if (transportation.getWeight() == null || transportation.getWeight().getNetto() == 0){
+            isArchive = false;
         }
+
         if (transportation.getTimeIn() == null) {
             isArchive = false;
         }
@@ -46,21 +45,12 @@ public class TransportUtil extends IBox{
     public static final int HUMIDITY_BASIS = 7;
     public static final int SORENESS_BASIS = 3;
     public static void calculateWeight(Transportation transportation) {
-        final int size = transportation.getSunAnalyses().size();
-        if ( size > 0){
-            float humidity = 0;
-            float soreness = 0;
-            for (SunTransportationAnalyses analyses : transportation.getSunAnalyses()){
-                final SunAnalyses a = analyses.getAnalyses();
-                final float h1 = a.getHumidity1();
-                final float h2 = a.getHumidity2();
-                humidity += (h1 > 0 || h2 > 0 ? (
-                        (h1 + h2) / ((h1 > 0 ? 1 : 0) + (h2 > 0 ? 1 : 0))
-                        ) : 0);
-                soreness += analyses.getAnalyses().getSoreness();
-            }
-            humidity /= size;
-            soreness /= size;
+        SunAnalyses sunAnalyse = transportation.getSunAnalyse();
+        if ( sunAnalyse != null){
+            float humidity = (sunAnalyse.getHumidity1() + sunAnalyse.getHumidity2()) /
+                    ((sunAnalyse.getHumidity1() > 0 ? 1 : 0) + (sunAnalyse.getHumidity2() > 0 ? 1 : 0));
+            float soreness = sunAnalyse.getSoreness();
+
             float percentage = 0;
             if (humidity > HUMIDITY_BASIS && soreness > SORENESS_BASIS){
                 percentage = 100 - ((100-humidity)*(100-soreness)*100)/((100-HUMIDITY_BASIS)*(100-SORENESS_BASIS));
@@ -70,10 +60,9 @@ public class TransportUtil extends IBox{
                 percentage = ((soreness - SORENESS_BASIS) * 100 / (100 - SORENESS_BASIS));
             }
 
-            for (Weight weight : transportation.getWeights()){
-                weight.setCorrection(percentage);
-                hibernator.save(weight);
-            }
+            Weight weight = transportation.getWeight();
+            weight.setCorrection(percentage);
+            hibernator.save(weight);
         }
     }
 }

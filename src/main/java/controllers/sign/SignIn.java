@@ -19,6 +19,7 @@ public class SignIn extends IServlet{
         req.setAttribute("context", req.getContextPath());
         req.setAttribute("userApi", Branches.API.References.FIND_WORKER);
         req.setAttribute("loginApi", Branches.API.SIGN_IN);
+        req.setAttribute("forgot", Branches.UI.FORGOT);
         req.getRequestDispatcher("/pages/sign/SignIn.jsp").forward(req, resp);
     }
 }
