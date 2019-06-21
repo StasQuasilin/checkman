@@ -23,9 +23,15 @@ public class TransportationShow extends IModal {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
         LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", id);
         Weight weight = loadPlan.getTransportation().getWeight();
-        float b = weight.getBrutto();
-        float t = weight.getTara();
-        float n = weight.getNetto();
+        float b = 0;
+        float t = 0;
+        float n = 0;
+
+        if (weight != null) {
+            b = weight.getBrutto();
+            t = weight.getTara();
+            n = weight.getNetto();
+        }
 
         req.setAttribute("brutto", b);
         req.setAttribute("tara", t);

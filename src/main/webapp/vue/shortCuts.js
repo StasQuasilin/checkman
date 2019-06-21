@@ -33,37 +33,54 @@ const short = new Vue({
     methods:{
         updReq:function(){
             const self = this;
-            var parameters = {};
-            var territory = {};
+            var onTerritory = {};
             for (var t in this.onTerritory){
                 if (this.onTerritory.hasOwnProperty(t)){
-                    var terr = this.onTerritory[t];
-                    territory[terr.id] = terr.hash;
+                    var territory = this.onTerritory[t];
+                    onTerritory[territory.id] = territory.hash;
                 }
             }
-            parameters.territory = territory;
-            parameters.cruise = {};
-            PostApi(this.api.update, parameters, function(e){
+            var onCruise = {};
+            for (var c in this.onCruise){
+                if (this.onCruise.hasOwnProperty(c)){
+                    var cruise = this.onCruise[c];
+                    onCruise[cruise.id] = cruise.hash;
+                }
+            }
+
+            PostApi(this.api.update, { territory:onTerritory, cruise:onCruise }, function(e){
                 if (e.territory.add.length || e.territory.update.length || e.territory.remove.length){
                     console.log(e.territory);
-                    for (var a in e.territory.add){
-                        if (e.territory.add.hasOwnProperty(a)){
-                            self.add(self.onTerritory, e.territory.add[a]);
+                    for (var at in e.territory.add){
+                        if (e.territory.add.hasOwnProperty(at)){
+                            self.add(self.onTerritory, e.territory.add[at]);
                         }
                     }
-                    for (var u in e.territory.update){
-                        if (e.territory.update.hasOwnProperty(u)){
-                            self.update(self.onTerritory, e.territory.update[u]);
+                    for (var ut in e.territory.update){
+                        if (e.territory.update.hasOwnProperty(ut)){
+                            self.update(self.onTerritory, e.territory.update[ut]);
                         }
                     }
-                    for (var r in e.territory.remove){
-                        if (e.territory.remove.hasOwnProperty(r)){
-                            self.remove(self.onTerritory, e.territory.remove[r]);
+                    for (var rt in e.territory.remove){
+                        if (e.territory.remove.hasOwnProperty(rt)){
+                            self.remove(self.onTerritory, e.territory.remove[rt]);
                         }
                     }
                 }
-
-            })
+                if (e.cruise.add.length || e.cruise.update.length || e.cruise.remove.length){
+                    console.log(e.cruise);
+                    for (var ac in e.cruise.add){
+                        if (e.cruise.add.hasOwnProperty(ac)){
+                            self.add(self.onCruise, e.cruise.add[ac]);
+                        }
+                    }
+                    for (var uc in e.cruise.update){
+                        if (e.cruise.update.hasOwnProperty(uc)){
+                            self.update(self.onCruise, e.cruise.update[uc]);
+                        }
+                    }
+                }
+            });
             self.upd = setTimeout(function(){
                 self.updReq();
             }, 1000)

@@ -6,7 +6,6 @@ import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.transportation.ActType;
-import entity.laboratory.transportation.SunTransportationAnalyses;
 import org.json.simple.JSONObject;
 import utils.TransportUtil;
 
@@ -38,7 +37,7 @@ public class LaboratorySunPrintAPI extends API {
                 final int humidityBasis = TransportUtil.HUMIDITY_BASIS;
                 final int sorenessBasis = TransportUtil.SORENESS_BASIS;
 
-                final SunAnalyses a = plan.getTransportation().getSunAnalyse();
+                final SunAnalyses a = plan.getTransportation().getSunAnalyses();
                 final float h1 = a.getHumidity1();
                 final float h2 = a.getHumidity2();
                 humidity += (h1 > 0 || h2 > 0 ? (

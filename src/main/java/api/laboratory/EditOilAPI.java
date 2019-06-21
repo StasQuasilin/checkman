@@ -47,57 +47,58 @@ public class EditOilAPI extends API {
                 oilAnalyses = new OilAnalyses();
                 loadPlan.getTransportation().setOilAnalyses(oilAnalyses);
             }
-
-            boolean organoleptic = (boolean) body.get(Constants.Oil.ORGANOLEPTIC);
+            
+            JSONObject a = (JSONObject) body.get("analyses");
+            boolean organoleptic = (boolean) a.get(Constants.Oil.ORGANOLEPTIC);
             log.info("\t\tOrganoleptic: " + organoleptic);
             if (oilAnalyses.isOrganoleptic() != organoleptic) {
                 oilAnalyses.setOrganoleptic(organoleptic);
                 save = true;
             }
 
-            int color = Integer.parseInt(String.valueOf(body.get(Constants.Oil.COLOR)));
+            int color = Integer.parseInt(String.valueOf(a.get(Constants.Oil.COLOR)));
             log.info("\t\tColor: " + color);
             if (oilAnalyses.getColor() != color) {
                 oilAnalyses.setColor(color);
                 save = true;
             }
 
-            float acidValue = Float.parseFloat(String.valueOf(body.get(Constants.Oil.ACID_VALUE)));
+            float acidValue = Float.parseFloat(String.valueOf(a.get(Constants.Oil.ACID_VALUE)));
             log.info("\t\tAcid value: " + acidValue);
             if (oilAnalyses.getAcidValue() != acidValue) {
                 oilAnalyses.setAcidValue(acidValue);
                 save = true;
             }
 
-            float peroxideValue = Float.parseFloat(String.valueOf(body.get(Constants.Oil.PEROXIDE_VALUE)));
+            float peroxideValue = Float.parseFloat(String.valueOf(a.get(Constants.Oil.PEROXIDE_VALUE)));
             log.info("\t\tPeroxide value: " + peroxideValue);
             if (oilAnalyses.getPeroxideValue() != peroxideValue) {
                 oilAnalyses.setPeroxideValue(peroxideValue);
                 save = true;
             }
 
-            float phosphorus = Float.parseFloat(String.valueOf(body.get(Constants.Oil.PHOSPHORUS)));
+            float phosphorus = Float.parseFloat(String.valueOf(a.get(Constants.Oil.PHOSPHORUS)));
             log.info("\t\tPhosphorus: " + phosphorus);
             if (oilAnalyses.getPhosphorus() != phosphorus) {
                 oilAnalyses.setPhosphorus(phosphorus);
                 save = true;
             }
 
-            float humidity = Float.parseFloat(String.valueOf(body.get(Constants.Oil.HUMIDITY )));
+            float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY )));
             log.info("\t\tHumidity: " + humidity);
             if (oilAnalyses.getHumidity() != humidity) {
                 oilAnalyses.setHumidity(humidity);
                 save = true;
             }
 
-            boolean soap = Boolean.parseBoolean(String.valueOf(body.get(Constants.Oil.SOAP)));
+            boolean soap = Boolean.parseBoolean(String.valueOf(a.get(Constants.Oil.SOAP)));
             log.info("\t\tSoap: " + soap);
             if (oilAnalyses.isSoap() != soap) {
                 oilAnalyses.setSoap(soap);
                 save = true;
             }
 
-            float wax = Float.parseFloat(String.valueOf(body.get(Constants.Oil.WAX)));
+            float wax = Float.parseFloat(String.valueOf(a.get(Constants.Oil.WAX)));
             log.info("\t\tWax: " + wax);
             if (oilAnalyses.getWax() != wax) {
                 oilAnalyses.setWax(wax);
@@ -112,9 +113,9 @@ public class EditOilAPI extends API {
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
-                if (body.containsKey(Constants.CREATOR)) {
+                if (a.containsKey(Constants.CREATOR)) {
                     log.info("\t\tHave creator");
-                    createTime.setCreator(hibernator.get(Worker.class, "id", body.get(Constants.CREATOR)));
+                    createTime.setCreator(hibernator.get(Worker.class, "id", a.get(Constants.CREATOR)));
                 } else {
                     log.info("\t\tDoesn't have creator");
                     createTime.setCreator(worker);
@@ -122,7 +123,7 @@ public class EditOilAPI extends API {
                 log.info("\t\tCreator: " + createTime.getCreator().getValue());
                 oilAnalyses.setCreator(worker);
 
-                hibernator.save(oilAnalyses.getCreateTime(), oilAnalyses);
+                hibernator.save(oilAnalyses.getCreateTime(), oilAnalyses, loadPlan.getTransportation());
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

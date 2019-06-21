@@ -50,14 +50,14 @@ public class ShortCutAPI extends API {
         JSONObject body = parseBody(req);
 
         if (body != null) {
+            parameters.clear();
             parameters.put("transportation/timeIn", State.notNull);
-            parameters.put("transportation/timeOut", State.isNull);
-
+            parameters.put("transportation/archive", false);
             doAction((JSONObject) body.get("territory"), hibernator.query(LoadPlan.class, parameters), tAdd, tUpdate, tRemove);
 
-            parameters.put("transportation/timeIn", State.isNull);
+            parameters.clear();
             parameters.put("transportation/timeOut", State.notNull);
-
+            parameters.put("transportation/archive", false);
             doAction((JSONObject) body.get("cruise"), hibernator.query(LoadPlan.class, parameters), cAdd, cUpdate, cRemove);
 
             write(resp, array.toJSONString());

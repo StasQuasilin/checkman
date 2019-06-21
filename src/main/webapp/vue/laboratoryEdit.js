@@ -13,21 +13,12 @@ var editor = new Vue({
             trailer: ''
         },
         driver: '',
-        analyses: [],
-        laborants: [],
-        creator:''
+        analyses: {},
+        laborants: []
     },
     methods:{
-        newAnalyses:function(){
-            this.addAnalyses(this.empty);
-        },
-        addAnalyses:function(analyses){
-            console.log('Add analyses');
-            console.log(analyses);
-            this.analyses.push(analyses);
-        },
         saveLogic:function(onSave){
-            PostApi(this.api.save, {plan:this.plan, analyses:this.analyses, creator:this.creator}, function(a){
+            PostApi(this.api.save, {plan:this.plan, analyses:this.analyses}, function(a){
                 if (onSave){
                     onSave(a);
                 }

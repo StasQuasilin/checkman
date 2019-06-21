@@ -19,36 +19,33 @@
     <c:if test="${not empty plan.transportation.driver}">
     editor.driver = '${plan.transportation.driver.person.value}';
     </c:if>
-    editor.empty={
+    <c:choose>
+    <c:when test="${not empty plan.transportation.cakeAnalyses.id}">
+    editor.analyses = {
+        id:${plan.transportation.cakeAnalyses.id},
+        humidity:${plan.transportation.cakeAnalyses.humidity},
+        protein:${plan.transportation.cakeAnalyses.protein},
+        cellulose:${plan.transportation.cakeAnalyses.cellulose},
+        oiliness:${plan.transportation.cakeAnalyses.oiliness},
+        creator:${plan.transportation.cakeAnalyses.createTime.creator.id}
+    };
+    </c:when>
+    <c:otherwise>
+    editor.analyses = {
         humidity:0,
         protein:0,
         cellulose:0,
         oiliness:0,
         creator:${worker.id}
-    }
-    <c:if test="${not empty plan.transportation.cakeAnalyses}">
-    <c:forEach items="${plan.transportation.cakeAnalyses}" var="cake">
-    editor.addAnalyses(
-    {
-        id:${cake.analyses.id},
-        humidity:${cake.analyses.humidity},
-        protein:${cake.analyses.protein},
-        cellulose:${cake.analyses.cellulose},
-        oiliness:${cake.analyses.oiliness},
-        creator:${cake.analyses.createTime.creator.id}
-    }
-    );
-    </c:forEach>
-    </c:if>
+    };
+    </c:otherwise>
+    </c:choose>
     <c:forEach items="${laborants}" var="l">
     editor.laborants.push({
         id:${l.id},
         value:'${l.person.value}'
     });
     </c:forEach>
-    if (editor.analyses.length == 0){
-        editor.newAnalyses();
-    }
 </script>
 <table id="editor" class="editor">
     <tr>
@@ -104,76 +101,74 @@
             {{driver}}
         </td>
     </tr>
-    <template v-for="item in analyses">
-        <tr>
-            <td>
-                <label for="humidity">
-                    <fmt:message key="sun.humidity"/>
-                </label>
+    <tr>
+        <td>
+            <label for="humidity">
+                <fmt:message key="sun.humidity"/>
+            </label>
 
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="humidity" type="number" step="0.01" v-model="item.humidity">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="protein">
-                    <fmt:message key="cake.protein"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="protein" type="number" step="0.01" v-model="item.protein">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="cellulose">
-                    <fmt:message key="cake.cellulose"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="cellulose" type="number" step="0.01" v-model="item.cellulose">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="oiliness">
-                    <fmt:message key="sun.oiliness"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="oiliness" type="number" step="0.01" v-model="item.oiliness">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="creator">
-                    <fmt:message key="laboratory.creator"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="creator" style="width: 100%" v-model="item.creator">
-                    <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
-                </select>
-            </td>
-        </tr>
-    </template>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="humidity" type="number" step="0.01" v-model="analyses.humidity">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="protein">
+                <fmt:message key="cake.protein"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="protein" type="number" step="0.01" v-model="analyses.protein">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="cellulose">
+                <fmt:message key="cake.cellulose"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="cellulose" type="number" step="0.01" v-model="analyses.cellulose">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="oiliness">
+                <fmt:message key="sun.oiliness"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="oiliness" type="number" step="0.01" v-model="analyses.oiliness">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="creator">
+                <fmt:message key="laboratory.creator"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <select id="creator" style="width: 100%" v-model="analyses.creator">
+                <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
+            </select>
+        </td>
+    </tr>
     <tr>
         <td colspan="3" align="right">
             <button onclick="closeModal()">

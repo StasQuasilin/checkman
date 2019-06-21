@@ -50,9 +50,6 @@
         <mapping class="entity.laboratory.SunAnalyses"/>
         <mapping class="entity.laboratory.OilAnalyses"/>
         <mapping class="entity.laboratory.CakeAnalyses"/>
-        <mapping class="entity.laboratory.transportation.SunTransportationAnalyses"/>
-        <mapping class="entity.laboratory.transportation.OilTransportationAnalyses"/>
-        <mapping class="entity.laboratory.transportation.CakeTransportationAnalyses"/>
         <mapping class="entity.Subdivision"/>
         <mapping class="entity.laboratory.probes.SunProbe"/>
         <mapping class="entity.laboratory.probes.OilProbe"/>

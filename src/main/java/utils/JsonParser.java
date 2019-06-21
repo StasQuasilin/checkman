@@ -17,9 +17,6 @@ import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
-import entity.laboratory.transportation.CakeTransportationAnalyses;
-import entity.laboratory.transportation.OilTransportationAnalyses;
-import entity.laboratory.transportation.SunTransportationAnalyses;
 import entity.log.Change;
 import entity.log.ChangeLog;
 import entity.organisations.Organisation;
@@ -145,7 +142,7 @@ public class JsonParser {
             json.put("timeOut", toJson(transportation.getTimeOut()));
             json.put("hash", transportation.hashCode());
             json.put("weight", toJson(transportation.getWeight()));
-            json.put("analyses", toJson(transportation.getSunAnalyse(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
+            json.put("analyses", toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
             json.put("any", transportation.anyAction());
             json.put("archive", transportation.isArchive());
         }
@@ -158,94 +155,77 @@ public class JsonParser {
         json.put("sun", toJson(sunAnalyses));
         json.put("oil", toJson(oilAnalyses));
         json.put("cake", toJson(cakeAnalyses));
-
-
         return json;
     }
 
     private static JSONObject toJson(CakeAnalyses analyses) {
         JSONObject json = new JSONObject();
+        if (analyses != null) {
+            json.put("id", analyses.getId());
+            json.put("humidity", analyses.getHumidity());
+            json.put("protein", analyses.getProtein());
+            json.put("cellulose", analyses.getCellulose());
+            json.put("oiliness", analyses.getOiliness());
 
-        json.put("id", analyses.getId());
-//        private float humidity;
-        json.put("humidity", analyses.getHumidity());
-//        private float protein;
-        json.put("protein", analyses.getProtein());
-//        private float cellulose;
-        json.put("cellulose", analyses.getCellulose());
-//        private float oiliness;
-        json.put("oiliness", analyses.getOiliness());
+            json.put("create", toJson(analyses.getCreateTime()));
 
-        json.put("create", toJson(analyses.getCreateTime()));
-
-        if (analyses.getCreator() != null) {
-            json.put("creator", toJson(analyses.getCreator()));
+            if (analyses.getCreator() != null) {
+                json.put("creator", toJson(analyses.getCreator()));
+            }
         }
-
         return json;
     }
 
     private static JSONObject toJson(OilAnalyses analyses) {
         JSONObject json = new JSONObject();
-//        private int id;
-        json.put("id", analyses.getId());
-//        private boolean organoleptic;
-        json.put("organoleptic", analyses.isOrganoleptic());
-//        private int color;
-        json.put("color", analyses.getColor());
-//        private float acidValue;
-        json.put("acid", analyses.getAcidValue());
-//        private float peroxideValue;
-        json.put("peroxide", analyses.getPeroxideValue());
-//        private float phosphorus;
-        json.put("phosphorus", analyses.getPhosphorus());
-//        private float humidity;
-        json.put("humidity", analyses.getHumidity());
-//        private float soap;
-        json.put("soap", analyses.isSoap());
-//        private float wax;
-        json.put("wax", analyses.getWax());
-//        private ActionTime createTime;
-        json.put("create", toJson(analyses.getCreateTime()));
-//        private Worker creator;
-        if (analyses.getCreator() != null) {
-            json.put("creator", toJson(analyses.getCreator()));
+        if (analyses != null) {
+            json.put("id", analyses.getId());
+            json.put("organoleptic", analyses.isOrganoleptic());
+            json.put("color", analyses.getColor());
+            json.put("acid", analyses.getAcidValue());
+            json.put("peroxide", analyses.getPeroxideValue());
+            json.put("phosphorus", analyses.getPhosphorus());
+            json.put("humidity", analyses.getHumidity());
+            json.put("soap", analyses.isSoap());
+            json.put("wax", analyses.getWax());
+            json.put("create", toJson(analyses.getCreateTime()));
+            if (analyses.getCreator() != null) {
+                json.put("creator", toJson(analyses.getCreator()));
+            }
         }
         return json;
     }
 
     private static JSONObject toJson(SunAnalyses analyses) {
         JSONObject json = new JSONObject();
-        json.put("id", analyses.getId());
-//        private float oiliness;
-        json.put("oiliness", analyses.getOiliness());
-//        private float humidity;
-        json.put("humidity", analyses.getHumidity1());
-//        private float soreness;
-        json.put("soreness", analyses.getSoreness());
-//        private float oilImpurity;
-        json.put("oilImpurity", analyses.getOilImpurity());
-//        private float acidValue;
-        json.put("acidValue", analyses.getAcidValue());
-        json.put("contamination", analyses.isContamination());
-//        private ActionTime createTime;
-        json.put("create", toJson(analyses.getCreateTime()));
-//        private Worker creator;
-        if (analyses.getCreator() != null) {
-            json.put("creator", toJson(analyses.getCreator()));
+        if (analyses != null) {
+            json.put("id", analyses.getId());
+            json.put("oiliness", analyses.getOiliness());
+            json.put("humidity1", analyses.getHumidity1());
+            json.put("humidity2", analyses.getHumidity2());
+            json.put("soreness", analyses.getSoreness());
+            json.put("oilImpurity", analyses.getOilImpurity());
+            json.put("acidValue", analyses.getAcidValue());
+            json.put("contamination", analyses.isContamination());
+            json.put("create", toJson(analyses.getCreateTime()));
+            if (analyses.getCreator() != null) {
+                json.put("creator", toJson(analyses.getCreator()));
+            }
         }
         return json;
     }
 
     private static JSONObject toJson(Weight weight) {
         JSONObject json = new JSONObject();
-        json.put("id", weight.getId());
-        json.put("brutto", weight.getBrutto());
-        json.put("brutto_time", toJson(weight.getBruttoTime()));
-        json.put("tara", weight.getTara());
-        json.put("netto", weight.getNetto());
-        json.put("correction", weight.getCorrection());
-        json.put("tara_time", toJson(weight.getTaraTime()));
+        if (weight != null) {
+            json.put("id", weight.getId());
+            json.put("brutto", weight.getBrutto());
+            json.put("brutto_time", toJson(weight.getBruttoTime()));
+            json.put("tara", weight.getTara());
+            json.put("netto", weight.getNetto());
+            json.put("correction", weight.getCorrection());
+            json.put("tara_time", toJson(weight.getTaraTime()));
+        }
         return json;
     }
 
@@ -396,7 +376,7 @@ public class JsonParser {
         JSONObject json = new JSONObject();
         json.put("weight", toJson(transportation.getWeight()));
         json.put("analyses", toJson(
-                transportation.getSunAnalyse(),
+                transportation.getSunAnalyses(),
                 transportation.getOilAnalyses(),
                 transportation.getCakeAnalyses())
         );

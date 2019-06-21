@@ -12,52 +12,60 @@
     editor.api.saveWeightAPI = '${saveWeightAPI}';
     editor.api.print = '${print}';
     editor.id=${plan.id}
-    <c:forEach items="${plan.transportation.weights}" var="weight">
-    editor.addWeight(${weight.id}, ${weight.brutto}, ${weight.tara});
-    </c:forEach>
-    console.log(editor.weights)
-    if (editor.weights.length == 0){
-        editor.newWeight();
+    <c:choose>
+    <c:when test="${not empty plan.transportation.weight.id}">
+    editor.weight={
+        id:${plan.transportation.weight.id},
+        brutto:${plan.transportation.weight.brutto},
+        tara:${plan.transportation.weight.tara}
     }
-    <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
-    editor.analyses.sun.push(
-        {
-            id:'${sun.id}',
-            humidity1:${sun.analyses.humidity1},
-            humidity2:${sun.analyses.humidity2},
-            soreness:${sun.analyses.soreness},
-            oiliness:${sun.analyses.oiliness},
-            oilImpurity:${sun.analyses.oilImpurity},
-            acid:${sun.analyses.acidValue}
-        }
-    )
-    </c:forEach>
-    <c:forEach items="${plan.transportation.oilAnalyses}" var="oil">
-    editor.analyses.oil.push(
-        {
-            id:'${oil.id}',
-            organoleptic:${oil.analyses.organoleptic},
-            color:${oil.analyses.color},
-            acid:${oil.analyses.acidValue},
-            peroxide:${oil.analyses.peroxideValue},
-            phosphorus:${oil.analyses.phosphorus},
-            humidity:${oil.analyses.humidity},
-            soap:${oil.analyses.soap},
-            wax:${oil.analyses.wax}
-        }
-    )
-    </c:forEach>
-    <c:forEach items="${plan.transportation.cakeAnalyses}" var="cake">
-    editor.analyses.cake.push(
-        {
-            id:${cake.id},
-            humidity:${cake.analyses.humidity},
-            protein:${cake.analyses.protein},
-            cellulose:${cake.analyses.cellulose},
-            oiliness:${cake.analyses.oiliness}
-        }
-    )
-    </c:forEach>
+    </c:when>
+    <c:otherwise>
+    editor.weight={
+        brutto:0,
+        tara:0
+    }
+    </c:otherwise>
+    </c:choose>
+    <%--<c:forEach items="${plan.transportation.sunAnalyses}" var="sun">--%>
+    <%--editor.analyses.sun.push(--%>
+        <%--{--%>
+            <%--id:'${sun.id}',--%>
+            <%--humidity1:${sun.analyses.humidity1},--%>
+            <%--humidity2:${sun.analyses.humidity2},--%>
+            <%--soreness:${sun.analyses.soreness},--%>
+            <%--oiliness:${sun.analyses.oiliness},--%>
+            <%--oilImpurity:${sun.analyses.oilImpurity},--%>
+            <%--acid:${sun.analyses.acidValue}--%>
+        <%--}--%>
+    <%--)--%>
+    <%--</c:forEach>--%>
+    <%--<c:forEach items="${plan.transportation.oilAnalyses}" var="oil">--%>
+    <%--editor.analyses.oil.push(--%>
+        <%--{--%>
+            <%--id:'${oil.id}',--%>
+            <%--organoleptic:${oil.analyses.organoleptic},--%>
+            <%--color:${oil.analyses.color},--%>
+            <%--acid:${oil.analyses.acidValue},--%>
+            <%--peroxide:${oil.analyses.peroxideValue},--%>
+            <%--phosphorus:${oil.analyses.phosphorus},--%>
+            <%--humidity:${oil.analyses.humidity},--%>
+            <%--soap:${oil.analyses.soap},--%>
+            <%--wax:${oil.analyses.wax}--%>
+        <%--}--%>
+    <%--)--%>
+    <%--</c:forEach>--%>
+    <%--<c:forEach items="${plan.transportation.cakeAnalyses}" var="cake">--%>
+    <%--editor.analyses.cake.push(--%>
+        <%--{--%>
+            <%--id:${cake.id},--%>
+            <%--humidity:${cake.analyses.humidity},--%>
+            <%--protein:${cake.analyses.protein},--%>
+            <%--cellulose:${cake.analyses.cellulose},--%>
+            <%--oiliness:${cake.analyses.oiliness}--%>
+        <%--}--%>
+    <%--)--%>
+    <%--</c:forEach>--%>
 </script>
 <style>
     .custom-line{
@@ -158,76 +166,45 @@
                         ${plan.transportation.driver.person.value}
                     </td>
                 </tr>
-                <template v-for="(value, key) in weights">
-                    <tr>
-                        <td colspan="3">
-                            <div class="custom-line">
-                                <div style="display: inline-block; width: 20px">
-                            <span v-show="length() > 1" class="mini-close" style="left: 0"
-                                  v-on:click="removeWeight(key)">&times;</span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="brutto">
-                                <fmt:message key="weight.brutto"/>
-                            </label>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <input id="brutto" v-model="value.brutto" v-on:change="value.checkBrutto()"
-                                   onclick="this.select()" type="number" step="0.01" autocomplete="off">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="tara">
-                                <fmt:message key="weight.tara"/>
-                            </label>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <input id="tara" v-model="value.tara" v-on:change="value.checkTara()"
-                                   onclick="this.select()" type="number" step="0.01" autocomplete="off">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="netto">
-                                <fmt:message key="weight.netto"/>
-                            </label>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{netto(value.brutto, value.tara).toLocaleString()}}
-                        </td>
-                    </tr>
-                </template>
-                <template v-if="length() > 1">
-                    <tr>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            &nbsp;
-                        </td>
-                        <td>
-                            <b>Total: {{total().toLocaleString()}}</b>
-                        </td>
-                    </tr>
-
-                </template>
                 <tr>
-                    <td colspan="3" align="right">
-                        <span class="mini-close" v-on:click="newWeight">+</span>
+                    <td>
+                        <label for="brutto">
+                            <fmt:message key="weight.brutto"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="brutto" v-model="weight.brutto" v-on:change="checkBrutto"
+                               onclick="this.select()" type="number" step="0.01" autocomplete="off">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="tara">
+                            <fmt:message key="weight.tara"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="tara" v-model="weight.tara" v-on:change="checkTara"
+                               onclick="this.select()" type="number" step="0.01" autocomplete="off">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="netto">
+                            <fmt:message key="weight.netto"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        {{netto(weight.brutto, weight.tara).toLocaleString()}}
                     </td>
                 </tr>
                 <tr>

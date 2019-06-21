@@ -58,14 +58,16 @@ public class EditWeightAPI extends API {
 
             comparator.fix(weight);
 
-            float brutto = Float.parseFloat(String.valueOf(body.get(Constants.Weight.BRUTTO)));
-            float tara = Float.parseFloat(String.valueOf(body.get(Constants.Weight.TARA)));
+            JSONObject w = (JSONObject) body.get("weight");
+            float brutto = Float.parseFloat(String.valueOf(w.get(Constants.Weight.BRUTTO)));
+            float tara = Float.parseFloat(String.valueOf(w.get(Constants.Weight.TARA)));
 
             Worker worker = getWorker(req);
             saveIt = changeWeight(weight, brutto, tara, worker, saveIt);
 
             if (saveIt){
                 comparator.compare(weight, worker);
+                hibernator.save(plan.getTransportation());
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.weightShow(plan, weight);

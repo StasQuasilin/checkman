@@ -46,29 +46,30 @@ public class EditCakeAPI extends API {
                 loadPlan.getTransportation().setCakeAnalyses(cakeAnalyses);
             }
 
+            JSONObject a = (JSONObject) body.get("analyses");
             boolean save = false;
-            float humidity = Float.parseFloat(String.valueOf(body.get(Constants.Oil.HUMIDITY)));
+            float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY)));
             log.info("\t\tHumidity: " + humidity);
             if (cakeAnalyses.getHumidity() != humidity) {
                 cakeAnalyses.setHumidity(humidity);
                 save = true;
             }
 
-            float protein = Float.parseFloat(String.valueOf(body.get(Constants.Cake.PROTEIN)));
+            float protein = Float.parseFloat(String.valueOf(a.get(Constants.Cake.PROTEIN)));
             log.info("\t\tProtein: " + protein);
             if (cakeAnalyses.getProtein() != protein) {
                 cakeAnalyses.setProtein(protein);
                 save = true;
             }
 
-            float cellulose = Float.parseFloat(String.valueOf(body.get(Constants.Cake.CELLULOSE)));
+            float cellulose = Float.parseFloat(String.valueOf(a.get(Constants.Cake.CELLULOSE)));
             log.info("\t\tCellulose: " + cellulose);
             if (cakeAnalyses.getCellulose() != cellulose) {
                 cakeAnalyses.setCellulose(cellulose);
                 save = true;
             }
 
-            float oiliness = Float.parseFloat(String.valueOf(body.get(Constants.Sun.OILINESS)));
+            float oiliness = Float.parseFloat(String.valueOf(a.get(Constants.Sun.OILINESS)));
             log.info("\t\tOiliness: " + oiliness);
             if (cakeAnalyses.getOiliness() != oiliness) {
                 cakeAnalyses.setOiliness(oiliness);
@@ -83,8 +84,8 @@ public class EditCakeAPI extends API {
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
-                if (body.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) body.get(Constants.CREATOR);
+                if (a.containsKey(Constants.CREATOR)) {
+                    long creatorId = (long) a.get(Constants.CREATOR);
                     log.info("\t\tHave creator");
                     createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
                 } else {
@@ -93,7 +94,7 @@ public class EditCakeAPI extends API {
                 }
                 cakeAnalyses.setCreator(worker);
 
-                hibernator.save(cakeAnalyses.getCreateTime(), cakeAnalyses);
+                hibernator.save(cakeAnalyses.getCreateTime(), cakeAnalyses, loadPlan.getTransportation());
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

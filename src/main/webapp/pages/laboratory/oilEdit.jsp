@@ -13,13 +13,32 @@
     editor.organisation = '${plan.deal.organisation.value}';
     <c:if test="${not empty plan.transportation.vehicle}">
     editor.vehicle.model = '${plan.transportation.vehicle.model}';
-    editor.vehicle.number = '\'${plan.transportation.vehicle.number}\''
-    editor.vehicle.trailer = ' \'${plan.transportation.vehicle.trailer}\''
+    editor.vehicle.number = '\'${plan.transportation.vehicle.number}\'';
+    editor.vehicle.trailer = ' \'${plan.transportation.vehicle.trailer}\'';
     </c:if>
     <c:if test="${not empty plan.transportation.driver}">
     editor.driver = '${plan.transportation.driver.person.value}';
     </c:if>
-    editor.empty={
+    <c:choose>
+    <c:when test="${not empty plan.transportation.oilAnalyses.id}">
+    editor.analyses =
+    {
+        id:${plan.transportation.oilAnalyses.id},
+        organoleptic:${plan.transportation.oilAnalyses.organoleptic},
+        color:${plan.transportation.oilAnalyses.color},
+        acidValue:${plan.transportation.oilAnalyses.acidValue},
+        peroxideValue:${plan.transportation.oilAnalyses.peroxideValue},
+        phosphorus:${plan.transportation.oilAnalyses.phosphorus},
+        humidity:${plan.transportation.oilAnalyses.humidity},
+        soap:${plan.transportation.oilAnalyses.soap},
+        wax:${plan.transportation.oilAnalyses.wax},
+        creator:${plan.transportation.oilAnalyses.createTime.creator.id}
+
+    };
+    </c:when>
+    <c:otherwise>
+    editor.analyses =
+    {
         organoleptic:false,
         color:0,
         acidValue:0,
@@ -30,34 +49,15 @@
         wax:0,
         creator:${worker.id}
     };
-    <c:if test="${not empty plan.transportation.oilAnalyses}">
-    <c:forEach items="${plan.transportation.oilAnalyses}" var="oil">
-    editor.addAnalyses(
-        {
-            id:${oil.analyses.id},
-            organoleptic:${oil.analyses.organoleptic},
-            color:${oil.analyses.color},
-            acidValue:${oil.analyses.acidValue},
-            peroxideValue:${oil.analyses.peroxideValue},
-            phosphorus:${oil.analyses.phosphorus},
-            humidity:${oil.analyses.humidity},
-            soap:${oil.analyses.soap},
-            wax:${oil.analyses.wax},
-            creator:${oil.analyses.createTime.creator.id}
-
-        }
-    );
-    </c:forEach>
-    </c:if>
+    </c:otherwise>
+    </c:choose>
     <c:forEach items="${laborants}" var="l">
     editor.laborants.push({
         id:${l.id},
         value:'${l.person.value}'
     });
     </c:forEach>
-    if (editor.analyses.length == 0){
-        editor.newAnalyses();
-    }
+
 </script>
 <table id="editor" class="editor">
     <tr>
@@ -119,125 +119,123 @@
             ${plan.deal.product.name}
         </td>
     </tr>
-    <template v-for="item in analyses">
-        <tr>
-            <td>
-                <label for="organoleptic">
-                    <fmt:message key="oil.organoleptic"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td style="width: 9em">
-                <input id="organoleptic" type="checkbox" v-model="item.organoleptic" style="width: auto">
-                <span v-if="item.organoleptic">
+    <tr>
+        <td>
+            <label for="organoleptic">
+                <fmt:message key="oil.organoleptic"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td style="width: 9em">
+            <input id="organoleptic" type="checkbox" v-model="analyses.organoleptic" style="width: auto">
+                <span v-if="analyses.organoleptic">
                     <fmt:message key="oil.organoleptic.match"/>
                 </span>
                 <span v-else>
                     <fmt:message key="oil.organoleptic.doesn't.match"/>
                 </span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="color">
-                    <fmt:message key="oil.color.value"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="color" type="number" v-model="item.color"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="acid">
-                    <fmt:message key="sun.acid.value"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="acid" type="number" step="0.01" v-model="item.acidValue"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="peroxide">
-                    <fmt:message key="oil.peroxide"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="peroxide" type="number" step="0.01" v-model="item.peroxideValue"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="phosphorus">
-                    <fmt:message key="oil.phosphorus"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="phosphorus" type="number" step="0.01" v-model="item.phosphorus"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="humidity">
-                    <fmt:message key="sun.humidity"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="humidity" type="number" step="0.01" v-model="item.humidity"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="soap">
-                    <fmt:message key="oil.soap"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="soap" type="checkbox" v-model="item.soap"/>
-                <span v-if="item.soap">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="color">
+                <fmt:message key="oil.color.value"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="color" type="number" v-model="analyses.color"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="acid">
+                <fmt:message key="sun.acid.value"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="acid" type="number" step="0.01" v-model="analyses.acidValue"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="peroxide">
+                <fmt:message key="oil.peroxide"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="peroxide" type="number" step="0.01" v-model="analyses.peroxideValue"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="phosphorus">
+                <fmt:message key="oil.phosphorus"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="phosphorus" type="number" step="0.01" v-model="analyses.phosphorus"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="humidity">
+                <fmt:message key="sun.humidity"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="humidity" type="number" step="0.01" v-model="analyses.humidity"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="soap">
+                <fmt:message key="oil.soap"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="soap" type="checkbox" v-model="analyses.soap"/>
+                <span v-if="analyses.soap">
                     <fmt:message key="notification.kpo.soap.yes"/>
                 </span>
                 <span v-else>
                     <fmt:message key="notification.kpo.soap.no"/>
                 </span>
-            </td>
+        </td>
 
-        </tr>
-        <tr>
-            <td>
-                <label for="wax">
-                    <fmt:message key="oil.wax"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="wax" type="number" step="0.01" v-model="item.wax"/>
-            </td>
-        </tr>
-    </template>
+    </tr>
+    <tr>
+        <td>
+            <label for="wax">
+                <fmt:message key="oil.wax"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="wax" type="number" step="0.01" v-model="analyses.wax"/>
+        </td>
+    </tr>
 
     <tr>
         <td colspan="3" align="right">

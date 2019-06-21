@@ -27,9 +27,7 @@ public class LaboratoryMealPrintAPI extends API {
             }
             if (id != -1) {
                 LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
-                for (CakeTransportationAnalyses analyses : plan.getTransportation().getCakeAnalyses()){
 
-                }
                 req.setAttribute("plan", plan);
                 req.getRequestDispatcher("/pages/laboratory/reports/mealReport.jsp").forward(req, resp);
             }

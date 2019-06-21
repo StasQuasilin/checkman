@@ -19,65 +19,50 @@
     <c:if test="${not empty plan.transportation.driver}">
         editor.driver = '${plan.transportation.driver.person.value}';
     </c:if>
-    editor.empty={
+
+    <c:choose>
+    <c:when test="${not empty plan.transportation.sunAnalyses.id}">
+    editor.analyses = {
+        id:${plan.transportation.sunAnalyses.id},
+        oiliness:${plan.transportation.sunAnalyses.oiliness},
+        humidity1:${plan.transportation.sunAnalyses.humidity1},
+        humidity2:${plan.transportation.sunAnalyses.humidity2},
+        soreness:${plan.transportation.sunAnalyses.soreness},
+        oilImpurity:${plan.transportation.sunAnalyses.oilImpurity},
+        acidValue:${plan.transportation.sunAnalyses.acidValue},
+        contamination:${plan.transportation.sunAnalyses.contamination},
+    }    
+    </c:when>
+    <c:otherwise>
+    editor.analyses = {
         oiliness:0,
         humidity1:0,
         humidity2:0,
         soreness:0,
         oilImpurity:0,
         acidValue:0,
-        contamination:false
-    };
-
-    <c:if test="${not empty plan.transportation.sunAnalyses}">
-    <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
-    editor.addAnalyses(
-        {
-            id:${sun.analyses.id},
-            oiliness:${sun.analyses.oiliness},
-            humidity1:${sun.analyses.humidity1},
-            humidity2:${sun.analyses.humidity2},
-            soreness:${sun.analyses.soreness},
-            oilImpurity:${sun.analyses.oilImpurity},
-            acidValue:${sun.analyses.acidValue},
-            contamination:${sun.analyses.contamination},
-        }
-    );
-    editor.creator=${sun.analyses.createTime.creator.id}
-    </c:forEach>
-    </c:if>
+        contamination:false,
+    }
+    </c:otherwise>
+    </c:choose>
     <c:forEach items="${laborants}" var="l">
     editor.laborants.push({
         id:${l.id},
         value:'${l.person.value}'
     });
     </c:forEach>
-    if (editor.analyses.length == 0){
-        editor.newAnalyses();
-        editor.creator=${worker.id}
-    }
+    
     editor.recount=function(){
         const basis = {
             humidity:7,
             soreness:3
         };
-        var humidity = 0;
-        var soreness = 0;
-        var count = 0;
-        for (var a in this.analyses){
-            if (this.analyses.hasOwnProperty(a)){
-                var analyses = this.analyses[a];
-                humidity += (analyses.humidity1 > 0 || analyses.humidity2 > 0 ? (
-                    (analyses.humidity1 + analyses.humidity2) / ((analyses.humidity1 > 0 ? 1 : 0) + (analyses.humidity2 > 0 ? 1 : 0))
-                ) : 0);
+        var humidity = (editor.analyses.humidity1 > 0 || editor.analyses.humidity2 > 0 ? (
+            (editor.analyses.humidity1 + editor.analyses.humidity2) / ((editor.analyses.humidity1 > 0 ? 1 : 0) + (editor.analyses.humidity2 > 0 ? 1 : 0))
+        ) : 0);
+        var soreness = editor.analyses.soreness;
+        
 
-                soreness += analyses.soreness;
-                count++;
-            }
-        }
-
-        humidity /= count;
-        soreness /= count;
         var recount = 0;
         if (humidity > basis.humidity && soreness > basis.soreness){
             recount = 100-((100-humidity)*(100-soreness)*100)/((100-basis.humidity)*(100-basis.soreness));
@@ -138,106 +123,104 @@
             {{driver}}
         </td>
     </tr>
-    <template v-for="item in analyses">
-        <tr>
-            <td>
-                <label for="humidity1">
-                    <fmt:message key="sun.humidity.1"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="humidity1" step="0.01" type="number" v-model.number="item.humidity1">
-            </td>
-            <td rowspan="2" style="border-left: solid darkgray 1pt; width: 7em" align="center">
-                <div style="font-size: 8pt">
-                    <fmt:message key="mean.short"/>
-                </div>
-                <div>
-                    {{(
-                    (item.humidity1 > 0 || item.humidity2 > 0 ?
-                    (item.humidity1 + item.humidity2) /
-                    ((item.humidity1 > 0 ? 1 : 0) + (item.humidity2 > 0 ? 1 : 0)) : 0)
-                    ).toLocaleString()}} %
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="humidity2">
-                    <fmt:message key="sun.humidity.2"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input id="humidity2" step="0.01" type="number" v-model.number="item.humidity2">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="soreness">
-                    <fmt:message key="sun.soreness"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td colspan="2">
-                <input id="soreness" step="0.01" type="number" v-model="item.soreness">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="oilImp">
-                    <fmt:message key="sun.oil.impurity"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td colspan="2">
-                <input id="oilImp" step="0.01" type="number" v-model="item.oilImpurity">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="oiliness">
-                    <fmt:message key="sun.oiliness"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td colspan="2">
-                <input id="oiliness" step="0.01" type="number" v-model="item.oiliness">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="acid">
-                    <fmt:message key="sun.acid.value"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td colspan="2">
-                <input id="acid" step="0.01" type="number" v-model="item.acidValue">
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" align="right">
-                <label for="contamination">
-                    <fmt:message key="sun.contamination"/>
-                </label>
-                <input id="contamination" type="checkbox" v-model="item.contamination">
-            </td>
-        </tr>
-    </template>
+    <tr>
+        <td>
+            <label for="humidity1">
+                <fmt:message key="sun.humidity.1"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="humidity1" step="0.01" type="number" v-model.number="analyses.humidity1">
+        </td>
+        <td rowspan="2" style="border-left: solid darkgray 1pt; width: 7em" align="center">
+            <div style="font-size: 8pt">
+                <fmt:message key="mean.short"/>
+            </div>
+            <div>
+                {{(
+                (analyses.humidity1 > 0 || analyses.humidity2 > 0 ?
+                (analyses.humidity1 + analyses.humidity2) /
+                ((analyses.humidity1 > 0 ? 1 : 0) + (analyses.humidity2 > 0 ? 1 : 0)) : 0)
+                ).toLocaleString()}} %
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="humidity2">
+                <fmt:message key="sun.humidity.2"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="humidity2" step="0.01" type="number" v-model.number="analyses.humidity2">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="soreness">
+                <fmt:message key="sun.soreness"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td colspan="2">
+            <input id="soreness" step="0.01" type="number" v-model="analyses.soreness">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="oilImp">
+                <fmt:message key="sun.oil.impurity"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td colspan="2">
+            <input id="oilImp" step="0.01" type="number" v-model="analyses.oilImpurity">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="oiliness">
+                <fmt:message key="sun.oiliness"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td colspan="2">
+            <input id="oiliness" step="0.01" type="number" v-model="analyses.oiliness">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="acid">
+                <fmt:message key="sun.acid.value"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td colspan="2">
+            <input id="acid" step="0.01" type="number" v-model="analyses.acidValue">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" align="right">
+            <label for="contamination">
+                <fmt:message key="sun.contamination"/>
+            </label>
+            <input id="contamination" type="checkbox" v-model="analyses.contamination">
+        </td>
+    </tr>
     <template v-if="recount()">
         <tr>
             <td>
@@ -262,7 +245,7 @@
                 :
             </td>
             <td colspan="2">
-                <select id="creator" v-model="creator">
+                <select id="creator" v-model="analyses.creator">
                     <option v-for="lab in laborants" :value="lab.id">
                         {{lab.value}}
                     </option>

@@ -76,21 +76,22 @@
                 </span>
             </span>
                 <div style="display: inline-block; font-size: 10pt">
-                    <div v-for="sun in value.item.transportation.analyses.sun">
-                        <fmt:message key="sun.humidity"/>:{{sun.humidity}},
-                        <fmt:message key="sun.soreness"/>:{{sun.soreness}},
-                        <fmt:message key="sun.oiliness"/>:{{sun.oiliness}}
+                    <div v-if="value.item.transportation.analyses.sun.id">
+                        <fmt:message key="sun.humidity.1"/>:{{value.item.transportation.analyses.sun.humidity1}},
+                        <fmt:message key="sun.humidity.2"/>:{{value.item.transportation.analyses.sun.humidity2}},
+                        <fmt:message key="sun.soreness"/>:{{value.item.transportation.analyses.sun.soreness}},
+                        <fmt:message key="sun.oiliness"/>:{{value.item.transportation.analyses.sun.oiliness}}
                     </div>
-                    <div v-for="oil in value.item.transportation.analyses.oil">
-                        <fmt:message key="sun.acid.value"/>:{{oil.acid}},
-                        <fmt:message key="oil.peroxide"/>:{{oil.peroxide}},
-                        <fmt:message key="oil.phosphorus"/>:{{oil.phosphorus}}
+                    <div v-if="value.item.transportation.analyses.oil.id">
+                        <fmt:message key="sun.acid.value"/>:{{value.item.transportation.analyses.oil.acid}},
+                        <fmt:message key="oil.peroxide"/>:{{value.item.transportation.analyses.oil.peroxide}},
+                        <fmt:message key="oil.phosphorus"/>:{{value.item.transportation.analyses.oil.phosphorus}}
                     </div>
-                    <div v-for="cake in value.item.transportation.analyses.cake">
-                        <fmt:message key="sun.humidity"/>:{{cake.humidity}},
-                        <fmt:message key="cake.protein"/>:{{cake.protein}},
-                        <fmt:message key="cake.cellulose"/>:{{cake.cellulose}},
-                        <fmt:message key="sun.oiliness"/>:{{cake.oiliness}}
+                    <div v-if="value.item.transportation.analyses.cake.id">
+                        <fmt:message key="sun.humidity"/>:{{value.item.transportation.analyses.cake.humidity}},
+                        <fmt:message key="cake.protein"/>:{{value.item.transportation.analyses.cake.protein}},
+                        <fmt:message key="cake.cellulose"/>:{{value.item.transportation.analyses.cake.cellulose}},
+                        <fmt:message key="sun.oiliness"/>:{{value.item.transportation.analyses.cake.oiliness}}
                     </div>
                 </div>
             </div>

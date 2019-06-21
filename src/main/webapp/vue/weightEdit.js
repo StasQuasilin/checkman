@@ -6,10 +6,7 @@ var editor = new Vue({
             print:''
         },
         id:'',
-        weights:[],
-        length:function(){
-            return this.weights.length;
-        },
+        weight:{},
         analyses:{
             sun:[],
             oil:[],
@@ -17,45 +14,8 @@ var editor = new Vue({
         }
     },
     methods:{
-        newWeight:function(){
-            this.addWeight(0, 0, 0)
-        },
-        addWeight:function(id, brutto, tara){
-            Vue.set(this.weights, this.weights.length, {
-                id:id,
-                brutto:brutto,
-                tara:tara,
-                checkBrutto:function(){
-                    var b = parseFloat(this.brutto);
-                    if(!isNaN(b)) {
-                        this.brutto = b < 1000 ? b : b / 1000;
-                    }
-                },
-                checkTara:function(){
-                    var t = parseFloat(this.tara);
-                    if (!isNaN(t)){
-                        this.tara = t < 1000 ? t : t / 1000;
-                    }
-                }
-
-            })
-        },
-        removeWeight:function(key){
-            this.weights.splice(key, 1)
-        },
         save:function(){
-            var result = {};
-            result.id = this.id;
-            var weights = [];
-            for (var i in this.weights){
-                var w =this.weights[i];
-                if (w.brutto > 0 || w.tara > 0) {
-                    weights.push({id: w.id, brutto: w.brutto, tara: w.tara})
-                }
-            }
-            result.weights = weights;
-            console.log(result);
-            PostApi(this.api.saveWeightAPI, result, function(a){
+            PostApi(this.api.saveWeightAPI, {id: this.id, weight: this.weight}, function(a){
                 console.log(a)
                 if (a.status == 'success'){
                     closeModal();
@@ -63,8 +23,16 @@ var editor = new Vue({
             })
         },
         netto:function(brutto, tara){
-
             return brutto == 0 || tara == 0 ? 0 : (this.checkTonnas(brutto) - this.checkTonnas(tara));
+        },
+        checkBrutto:function(){
+            this.weight.brutto = this.check(this.weight.brutto)
+        },
+        checkTara:function(){
+            this.weight.tara = this.check(this.weight.tara)
+        },
+        check:function(w){
+            return w > 1000 ? w / 1000 : w;
         },
         total:function(){
             var t = 0;

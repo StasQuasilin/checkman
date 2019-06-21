@@ -6,9 +6,6 @@ import entity.documents.IDocument;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
-import entity.laboratory.transportation.CakeTransportationAnalyses;
-import entity.laboratory.transportation.OilTransportationAnalyses;
-import entity.laboratory.transportation.SunTransportationAnalyses;
 import entity.seals.Seal;
 import entity.weight.Weight;
 
@@ -31,7 +28,7 @@ public class Transportation extends IDocument{
     private ActionTime timeOut;
     private Worker creator;
     private Weight weight;
-    private SunAnalyses sunAnalyse;
+    private SunAnalyses sunAnalyses;
     private OilAnalyses oilAnalyses;
     private CakeAnalyses cakeAnalyses;
     private Set<Seal> seals;
@@ -114,11 +111,11 @@ public class Transportation extends IDocument{
 
     @OneToOne
     @JoinColumn(name = "sun_analyses")
-    public SunAnalyses getSunAnalyse() {
-        return sunAnalyse;
+    public SunAnalyses getSunAnalyses() {
+        return sunAnalyses;
     }
-    public void setSunAnalyse(SunAnalyses sunAnalyse) {
-        this.sunAnalyse = sunAnalyse;
+    public void setSunAnalyses(SunAnalyses sunAnalyse) {
+        this.sunAnalyses = sunAnalyse;
     }
 
     @OneToOne
@@ -162,7 +159,7 @@ public class Transportation extends IDocument{
             timeIn != null ||
             timeOut != null ||
             weight != null ||
-            sunAnalyse != null ||
+            sunAnalyses != null ||
             oilAnalyses != null ||
             cakeAnalyses != null;
     }
@@ -188,8 +185,8 @@ public class Transportation extends IDocument{
             hash = 31 * weight.hashCode() + hash;
         }
 
-        if (sunAnalyse != null) {
-            hash = 31 * sunAnalyse.hashCode() + hash;
+        if (sunAnalyses != null) {
+            hash = 31 * sunAnalyses.hashCode() + hash;
         }
 
         if (oilAnalyses != null) {

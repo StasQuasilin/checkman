@@ -17,10 +17,7 @@ import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import utils.DateUtil;
 import utils.LanguageBase;
 
@@ -34,12 +31,13 @@ public class Notificator {
 
     private static final String TRANSPORT = "bot.notificator.transport";
     private static final String TRANSPORT_IN = "bot.notificator.transport.in";
-    private static final String TRANSPORT_OUT = "bot.notificator.transport.out";
+    private static final String TRANSPORT_OUT_BUY = "bot.notificator.transport.out.buy";
     private static final String TRANSPORT_DONE = "bot.notification.transport.done";
     private static final String BRUTTO = "bot.notificator.brutto";
     private static final String TARA = "bot.notificator.tara";
     private static final String NETTO = "bot.notificator.netto";
-    private static final String HUMIDITY = "bot.notificator.humidity";
+    private static final String HUMIDITY_1 = "bot.notificator.humidity1";
+    private static final String HUMIDITY_2 = "bot.notificator.humidity2";
     private static final String SORENESS = "bot.notificator.soreness";
     private static final String OILINESS = "bot.notificator.oiliness";
     private static final String PROTEIN = "bot.notificator.protein";
@@ -75,23 +73,17 @@ public class Notificator {
                         show = true;
                         break;
                 }
-                if (show) {
-
+                Transportation transportation = plan.getTransportation();
+                if (show && transportation.getTimeIn() != null && !transportation.isArchive()) {
+                    String language = setting.getLanguage();
                     message = prepareMessage(plan);
-                    Transportation transportation = plan.getTransportation();
-                    if (transportation.getTimeIn() != null && transportation.getTimeOut() != null) {
-                        message += "\n" + lb.get(TRANSPORT_DONE);
-                    } else if (transportation.getTimeIn() != null) {
-                        message += "\n" + lb.get(TRANSPORT_IN);
-                    } else {
-                        message += "\n" + lb.get(TRANSPORT_OUT);
-                    }
+                    message += "\n" + lb.get(language, TRANSPORT_IN);
                     sendMessage(setting.getTelegramId(), message, null);
                 }
             }
         }
     }
-    public void weightShow(LoadPlan plan, Weight weightList) {
+    public void weightShow(LoadPlan plan, Weight weight) {
         String message;
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
@@ -107,13 +99,9 @@ public class Notificator {
                 }
                 if (show) {
 
-                    float brutto = 0;
-                    float tara = 0;
+                    float brutto = weight.getBrutto();
+                    float tara = weight.getTara();
 
-                    for (Weight weight : weightList) {
-                        brutto += weight.getBrutto();
-                        tara += weight.getTara();
-                    }
                     float netto = 0;
                     if (brutto > 0 && tara > 0) {
                         netto = brutto - tara;
@@ -133,7 +121,7 @@ public class Notificator {
             }
         }
     }
-    public void sunAnalysesShow(LoadPlan plan, LinkedList<SunAnalyses> analysesList) {
+    public void sunAnalysesShow(LoadPlan plan, SunAnalyses analyses) {
         String message;
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
@@ -149,31 +137,21 @@ public class Notificator {
                 }
                 if (show) {
 
-                    float humidity = 0;
-                    float soreness = 0;
-                    float oiliness = 0;
-                    float oilImpurity = 0;
-                    float acid = 0;
-                    int count = 0;
-                    for (SunAnalyses analyses : analysesList) {
-                        humidity += analyses.getHumidity1();
-                        soreness += analyses.getSoreness();
-                        oiliness += analyses.getOiliness();
-                        oilImpurity += analyses.getOilImpurity();
-                        acid += analyses.getAcidValue();
-                        count++;
-                    }
-
-                    humidity /= count;
-                    soreness /= count;
-                    oiliness /= count;
-                    oilImpurity /= count;
-                    acid /= count;
+                    float humidity1 = analyses.getHumidity1();
+                    float humidity2 = analyses.getHumidity2();
+                    float soreness = analyses.getSoreness();
+                    float oiliness = analyses.getOiliness();
+                    float oilImpurity = analyses.getOilImpurity();
+                    float acid = analyses.getAcidValue();
 
                     message = prepareMessage(plan);
 
-                    if (humidity > 0) {
-                        message += "\n" + String.format(lb.get(HUMIDITY), humidity);
+                    if (humidity1 > 0) {
+                        message += "\n" + String.format(lb.get(HUMIDITY_1), humidity1);
+                    }
+
+                    if (humidity2 > 0) {
+                        message += "\n" + String.format(lb.get(HUMIDITY_2), humidity2);
                     }
 
                     if (soreness > 0) {
@@ -215,7 +193,7 @@ public class Notificator {
                 }
                 if (show) {
                     message = prepareMessage(plan);
-                    message += "\n" + String.format(lb.get(HUMIDITY), analyses.getHumidity());
+                    message += "\n" + String.format(lb.get(HUMIDITY_1), analyses.getHumidity());
                     message += "\n" + String.format(lb.get(PROTEIN), analyses.getProtein());
                     message += "\n" + String.format(lb.get(CELLULOSE), analyses.getCellulose());
                     message += "\n" + String.format(lb.get(OILINESS), analyses.getOiliness());
@@ -226,35 +204,14 @@ public class Notificator {
         }
     }
     public void oilAnalysesShow(LoadPlan plan, OilAnalyses analysesList) {
-        float organolepticFloat = 0;
-        float color = 0;
-        float acid = 0;
-        float peroxide = 0;
-        float phosphorus = 0;
-        float humidity = 0;
-        float soap = 0;
-        float wax = 0;
-        int count = 0;
-        for (OilAnalyses analyses : analysesList){
-            organolepticFloat += analyses.isOrganoleptic() ? 1 : 0;
-            color += analyses.getColor();
-            acid += analyses.getAcidValue();
-            peroxide += analyses.getPeroxideValue();
-            phosphorus += analyses.getPhosphorus();
-            humidity += analyses.getHumidity();
-            soap += analyses.isSoap() ? 1 : 0;
-            wax += analyses.getWax();
-            count ++;
-        }
-
-        boolean organoleptic = organolepticFloat / count > 0.5;
-        color /= count;
-        acid /= count;
-        peroxide /= count;
-        phosphorus /= count;
-        humidity /= count;
-        soap /= count;
-        wax /= count;
+        boolean organoleptic = analysesList.isOrganoleptic();
+        float color = analysesList.getColor();
+        float acid = analysesList.getAcidValue();
+        float peroxide = analysesList.getPeroxideValue();
+        float phosphorus = analysesList.getPhosphorus();
+        float humidity = analysesList.getHumidity();
+        boolean soap = analysesList.isSoap();
+        float wax = analysesList.getWax();
 
         String message;
         for (UserBotSetting setting : getSettings()){
@@ -276,8 +233,8 @@ public class Notificator {
                     message += "\n" + String.format(lb.get(ACID), acid);
                     message += "\n" + String.format(lb.get(PEROXIDE), peroxide);
                     message += "\n" + String.format(lb.get(PHOSPHORUS), phosphorus);
-                    message += "\n" + String.format(lb.get(HUMIDITY), humidity);
-                    message += "\n" + String.format(lb.get(SOAP), soap);
+                    message += "\n" + String.format(lb.get(HUMIDITY_1), humidity);
+                    message += "\n" + String.format(lb.get(SOAP), (soap ? lb.get("oil.organoleptic.match") : lb.get("oil.organoleptic.doesn't.match")));
                     message += "\n" + String.format(lb.get(WAX), wax);
 
                     sendMessage(setting.getTelegramId(), message, null);

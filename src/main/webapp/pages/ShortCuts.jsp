@@ -60,7 +60,39 @@
                 {{onCruise.length}}
             </span>
             <div class="block">
-
+                <div v-for="plan in onCruise" style="border-bottom: solid white 1pt">
+                    <div>
+                        {{prettyDate(plan.transportation.timeOut.time)}}
+                    </div>
+                    <div>
+                        <span>
+                        {{plan.transportation.vehicle.model}}
+                        '{{plan.transportation.vehicle.number}} {{plan.transportation.vehicle.trailer}}'
+                        </span>
+                    </div>
+                    <div>
+                        {{plan.transportation.driver.person.value}}
+                    </div>
+                    <div>
+                        <span>
+                            {{plan.organisation.value}}
+                        </span>::
+                        <span>
+                            {{plan.product.name}}, {{(types[plan.type]).toLowerCase()}}
+                        </span>
+                    </div>
+                    <div>
+                        <div v-if="plan.transportation.weight.id">
+                            <fmt:message key="weight.brutto"/>:
+                            {{plan.transportation.weight.brutto}},
+                            <fmt:message key="weight.tara"/>:
+                            {{plan.transportation.weight.tara}},
+                            <fmt:message key="weight.netto"/>:
+                            {{plan.transportation.weight.brutto > 0 && plan.transportation.weight.tara > 0 ?
+                            (plan.transportation.weight.brutto - plan.transportation.weight.tara).toLocaleString() : 0}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
