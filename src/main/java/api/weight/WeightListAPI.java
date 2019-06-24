@@ -6,6 +6,8 @@ import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,10 +25,8 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.WEIGHT_LIST)
 public class WeightListAPI extends API {
 
-    final HashMap<String, Object> parameters = new HashMap<>();
-    {
-        parameters.put("transportation/archive", false);
-    }
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JSONObject array = new JSONObject();
@@ -40,9 +40,8 @@ public class WeightListAPI extends API {
         JSONObject body = parseBody(req);
 
         if (body != null) {
-            List<LoadPlan> loadPlans = hibernator.query(LoadPlan.class, parameters);
 
-            for (LoadPlan loadPlan : loadPlans) {
+            for (LoadPlan loadPlan : dao.getActiveTransportations()) {
                 String id = String.valueOf(loadPlan.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);

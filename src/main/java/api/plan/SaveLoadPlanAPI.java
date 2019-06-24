@@ -18,6 +18,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.*;
 import utils.answers.SuccessAnswer;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +39,7 @@ public class SaveLoadPlanAPI extends API {
     final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);
     final LoadPlanComparator planComparator = new LoadPlanComparator();
     final TransportationComparator transportationComparator = new TransportationComparator();
+    final dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,11 +48,11 @@ public class SaveLoadPlanAPI extends API {
         if(body != null) {
             log.info(body);
             long dealId = (long) body.get("dealId");
-            Deal deal = hibernator.get(Deal.class, "id", dealId);
+            Deal deal = dao.getDealById(dealId);
             log.info("Save load plan for deal \'" + deal.getId() + "\'...");
 
             HashMap<Long, LoadPlan> planHashMap = new HashMap<>();
-            for (LoadPlan lp : hibernator.query(LoadPlan.class, "deal", deal)) {
+            for (LoadPlan lp : dao.getLoadPlanByDeal(deal)) {
                 planHashMap.put((long) lp.getId(), lp);
             }
 
@@ -118,7 +121,7 @@ public class SaveLoadPlanAPI extends API {
 
                 if (vehicleId != -1) {
                     log.info("\t...Vehicle: \'" + vehicleId + "\'");
-                    transportation.setVehicle(hibernator.get(Vehicle.class, "id", vehicleId));
+                    transportation.setVehicle(dao.getVehicleById(vehicleId));
                     save = true;
                 } else if (transportation.getVehicle() != null) {
                     transportation.setVehicle(null);
@@ -132,7 +135,7 @@ public class SaveLoadPlanAPI extends API {
 
                 if (driverId != -1) {
                     log.info("\t...Driver: \'" + driverId + "\'");
-                    transportation.setDriver(hibernator.get(Driver.class, "id", driverId));
+                    transportation.setDriver(dao.getDriverByID(driverId));
                     save = true;
                 } else if (transportation.getDriver() != null){
                     transportation.setDriver(null);
@@ -140,7 +143,7 @@ public class SaveLoadPlanAPI extends API {
                 }
 
                 if (save) {
-                    hibernator.save(transportation, loadPlan);
+                    dao.save(transportation, loadPlan);
                 }
                 Worker worker = getWorker(req);
                 planComparator.compare(loadPlan, worker);
@@ -151,12 +154,13 @@ public class SaveLoadPlanAPI extends API {
                 if (!loadPlan.getTransportation().isArchive()) {
                     if (loadPlan.getTransportation().anyAction()) {
                         loadPlan.setCanceled(true);
-                        hibernator.save(loadPlan);
+                        dao.save(loadPlan);
                     } else {
-                        hibernator.remove(loadPlan, loadPlan.getTransportation());
-                        DocumentUID uid = hibernator.get(DocumentUID.class, "document", loadPlan.getUid());
+                        dao.remove(loadPlan);
+                        dao.remove(loadPlan.getTransportation());
+                        DocumentUID uid = dao.getDocumentUID(loadPlan.getUid());
                         if (uid != null) {
-                            hibernator.remove(uid);
+                            dao.remove(uid);
                         }
                     }
                 }
@@ -164,7 +168,7 @@ public class SaveLoadPlanAPI extends API {
 
             if (quantity > deal.getQuantity()){
                 deal.setQuantity(quantity);
-                hibernator.save(deal);
+                dao.save(deal);
             }
 
             write(resp, answer);

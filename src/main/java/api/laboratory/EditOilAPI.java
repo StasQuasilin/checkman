@@ -13,6 +13,8 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,8 +31,8 @@ import java.util.LinkedList;
 @WebServlet(Branches.API.LABORATORY_SAVE_OIL)
 public class EditOilAPI extends API {
 
-
     private final Logger log = Logger.getLogger(EditOilAPI.class);
+    final dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +41,7 @@ public class EditOilAPI extends API {
             long planId = (long) body.get(Constants.PLAN);
             log.info("Edit OIL analyses for plan \'" + planId + "\'...");
 
-            LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
+            LoadPlan loadPlan = dao.getLoadPlanById(planId);
 
             boolean save = false;
             OilAnalyses oilAnalyses = loadPlan.getTransportation().getOilAnalyses();
@@ -115,7 +117,7 @@ public class EditOilAPI extends API {
                 Worker worker = getWorker(req);
                 if (a.containsKey(Constants.CREATOR)) {
                     log.info("\t\tHave creator");
-                    createTime.setCreator(hibernator.get(Worker.class, "id", a.get(Constants.CREATOR)));
+                    createTime.setCreator(dao.getWorkerById(a.get(Constants.CREATOR)));
                 } else {
                     log.info("\t\tDoesn't have creator");
                     createTime.setCreator(worker);
@@ -123,7 +125,7 @@ public class EditOilAPI extends API {
                 log.info("\t\tCreator: " + createTime.getCreator().getValue());
                 oilAnalyses.setCreator(worker);
 
-                hibernator.save(oilAnalyses.getCreateTime(), oilAnalyses, loadPlan.getTransportation());
+                dao.save(oilAnalyses.getCreateTime(), oilAnalyses, loadPlan.getTransportation());
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

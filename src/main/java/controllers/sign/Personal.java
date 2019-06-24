@@ -6,6 +6,8 @@ import controllers.IUIServlet;
 import entity.Role;
 import entity.bot.UserBotSetting;
 import utils.LanguageBase;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.PERSONAL)
 public class Personal extends IUIServlet {
+
+    final dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.PERSONAL);
@@ -25,7 +30,7 @@ public class Personal extends IUIServlet {
         req.setAttribute("changePassword", Branches.API.CHANGE_PASSWORD);
         req.setAttribute("uidGenerator", Branches.API.BOT_UID);
         req.setAttribute("botStatus", Branches.API.USER_BOT_SETTINGS);
-        req.setAttribute("botSettings", hibernator.get(UserBotSetting.class, "worker", getWorker(req).getId()));
+        req.setAttribute("botSettings", dao.getBotSettingsByWorker(getWorker(req)));
         req.setAttribute("languages", LanguageBase.getBase().languages);
         req.setAttribute("roles", Role.values());
         req.setAttribute("registration", Branches.API.FRIENDLY_REGISTRATION);

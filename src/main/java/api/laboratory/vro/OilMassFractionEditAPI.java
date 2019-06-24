@@ -13,6 +13,8 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
 import utils.turns.VROTurnService;
@@ -37,6 +39,7 @@ import java.util.List;
 public class OilMassFractionEditAPI extends API {
 
     private final Logger log = Logger.getLogger(OilMassFractionEditAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -59,7 +62,7 @@ public class OilMassFractionEditAPI extends API {
             }
             
             if (id != -1) {
-                oilMassFraction = hibernator.get(OilMassFraction.class, "id", id);
+                oilMassFraction = dao.getOilMassFractionById(id);
             } else {
                 oilMassFraction = new OilMassFraction();
             }
@@ -117,7 +120,7 @@ public class OilMassFractionEditAPI extends API {
 
                 long forpressId = (long) forpress.get("forpress");
                 if (fcd.getForpress() == null || fcd.getForpress().getId() != forpressId) {
-                    fcd.setForpress(hibernator.get(Forpress.class, "id", forpressId));
+                    fcd.setForpress(dao.getForpressById(forpressId));
                     save = true;
                 }
 
@@ -135,7 +138,7 @@ public class OilMassFractionEditAPI extends API {
             }
 
             for (Object k : forpressCakes.values()){
-                hibernator.remove(k);
+                dao.remove(k);
             }
 
             if (save) {
@@ -148,13 +151,13 @@ public class OilMassFractionEditAPI extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 oilMassFraction.setCreator(worker);
-                hibernator.save(createTime, oilMassFraction);
-                forpressList.forEach(hibernator::save);
+                dao.save(createTime, oilMassFraction);
+                forpressList.forEach(dao::save);
                 forpressList.clear();
 
             }

@@ -7,6 +7,8 @@ import entity.organisations.OrganisationType;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,7 @@ import java.util.regex.Pattern;
 public class ParseOrganisationAPI extends API {
 
     private final Logger log = Logger.getLogger(ParseOrganisationAPI.class);
+    final dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +40,7 @@ public class ParseOrganisationAPI extends API {
             origin = origin.trim().toUpperCase();
             String name = " " + origin + " ";
 
-            List<OrganisationType> typeList = hibernator.query(OrganisationType.class, null);
+            List<OrganisationType> typeList = dao.getOrganisationTypeList();
             String[] types = new String[typeList.size()];
             int i = 0;
             for (OrganisationType organisationType : typeList){
@@ -56,25 +59,19 @@ public class ParseOrganisationAPI extends API {
             name = name.replaceAll("^[^а-яА-Яa-zA-Z0-9]|[^а-яА-Яa-zA-Z0-9]$", "");
             log.info("Organisation type: \'" + type + "\'");
             log.info("Organisation name: \'" + name + "\'");
-            HashMap<String, String> param = new HashMap<>();
-            param.put("type", type);
-            param.put("name", name);
 
             if (name.isEmpty()) {
                 name = origin;
                 type = null;
             }
 
-            Organisation organisation = null;
-            List<Organisation> organisations = hibernator.find(Organisation.class, param);
-            if (organisations.size() > 0) {
-                organisation = organisations.get(0);
-            }
+            Organisation organisation = dao.findOrganisation(type, name);
+
             if (organisation == null) {
                 organisation = new Organisation();
                 organisation.setType(type);
                 organisation.setName(name);
-                hibernator.save(organisation);
+                dao.save(organisation);
             }
             write(resp, JsonParser.toJson(organisation).toJSONString());
         } else {
