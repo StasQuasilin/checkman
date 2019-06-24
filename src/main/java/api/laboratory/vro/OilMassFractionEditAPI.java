@@ -39,7 +39,7 @@ import java.util.List;
 public class OilMassFractionEditAPI extends API {
 
     private final Logger log = Logger.getLogger(OilMassFractionEditAPI.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

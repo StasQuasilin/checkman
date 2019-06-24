@@ -25,7 +25,7 @@ import java.sql.Timestamp;
 @WebServlet(Branches.API.PROBE_OIL_SAVE)
 public class SaveOilProbeAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -20,17 +20,11 @@ import java.util.List;
 @WebServlet(Branches.API.FIND_DEALS)
 public class FindDealsAPI extends API {
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            final HashMap<String, Object> param = new HashMap<>();
-            param.put("archive", false);
-            param.put( "organisation", body.get("organisation"));
-
-            List<Deal> deals = hibernator.query(Deal.class, param);
+            List<Deal> deals = dao.getDealsByOrganisation(body.get("organisation"));
             write(resp, JsonParser.toJson(deals).toJSONString());
         } else {
             write(resp, emptyBody);

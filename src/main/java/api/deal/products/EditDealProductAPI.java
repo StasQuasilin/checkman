@@ -29,15 +29,15 @@ public class EditDealProductAPI extends IChangeAPI {
         boolean write = false;
         try {
             int id = Integer.parseInt(body.get(Constants.ID));
-            dealProduct = hibernator.get(DealProduct.class, "id", id);
+            dealProduct = dao.getDealProductById(id);
         } catch (Exception ignored){
             dealProduct = new DealProduct();
             dealProduct.setCreator(getWorker(req));
-            dealProduct.setDeal(hibernator.get(Deal.class, "id", Integer.parseInt(body.get(Constants.DEAL_ID))));
+            dealProduct.setDeal(dao.getDealById(Integer.parseInt(body.get(Constants.DEAL_ID))));
             write = true;
         }
 
-        Product product = hibernator.get(Product.class, "id", Integer.parseInt(body.get(Constants.PRODUCT_ID)));
+        Product product = dao.getProductById(Integer.parseInt(body.get(Constants.PRODUCT_ID)));
 
         if (dealProduct.getProduct() == null || dealProduct.getProduct().getId() != product.getId()){
             dealProduct.setProduct(product);
@@ -57,7 +57,7 @@ public class EditDealProductAPI extends IChangeAPI {
         }
 
         if (write){
-            hibernator.save(dealProduct);
+            dao.save(dealProduct);
         }
 
         body.clear();

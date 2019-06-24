@@ -52,9 +52,9 @@ public class LaboratoryTurnListAPI extends API {
                 parameters.put("date", le);
             }
 
-            for (Turn turn : hibernator.limitQuery(Turn.class, parameters, LIMIT)){
+            for (Turn turn : dao.getLimitTurns()){
                 String id = String.valueOf(turn.getId());
-                List<LaboratoryTurn> turnList = hibernator.query(LaboratoryTurn.class, "turn", turn);
+                List<LaboratoryTurn> turnList = dao.getLaboratoryTurnByTurn(turn);
                 if (body.containsKey(id)){
                     long hash = (long) body.remove(id);
                     int hashCode = turn.hashCode();

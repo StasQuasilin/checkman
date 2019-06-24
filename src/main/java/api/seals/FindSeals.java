@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.SEALS_FIND)
 public class FindSeals extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

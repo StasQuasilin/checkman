@@ -28,7 +28,7 @@ import java.util.Set;
 @WebServlet(Branches.API.LABORATORY_OIL_PRINT)
 public class LaboratoryOilPrintAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

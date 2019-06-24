@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.UI.Extraction.STORAGE_PROTEIN)
 public class ExtractionStorageProtein extends IModal {
 
-    final dbDAO dao = dbDAOService.getDAO();
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

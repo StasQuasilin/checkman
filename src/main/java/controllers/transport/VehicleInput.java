@@ -25,7 +25,7 @@ import java.util.List;
 public class VehicleInput extends IModal {
     
     static final Logger log = Logger.getLogger(VehicleInput.class);
-    dbDAO dao = dbDAOService.getDAO();
+
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -21,7 +21,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.PERSONAL)
 public class Personal extends IUIServlet {
 
-    final dbDAO dao = dbDAOService.getDAO();
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

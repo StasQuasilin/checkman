@@ -37,7 +37,7 @@ public class ExtractionTurnGreaseEdit extends API {
                 id = (long) body.get(Constants.ID);
             }
             if (id != -1){
-                turnGrease = hibernator.get(TurnGrease.class, "id", id);
+                turnGrease = dao.getTurnGreaseById(id);
             } else {
                 turnGrease = new TurnGrease();
             }
@@ -81,12 +81,12 @@ public class ExtractionTurnGreaseEdit extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 turnGrease.setCreator(worker);
-                hibernator.save(createTime, turnGrease);
+                dao.save(createTime, turnGrease);
                 BotFactory.getNotificator().extractionShow(turnGrease);
             }
 

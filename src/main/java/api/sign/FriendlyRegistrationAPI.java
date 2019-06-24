@@ -26,7 +26,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.FRIENDLY_REGISTRATION)
 public class FriendlyRegistrationAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

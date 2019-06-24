@@ -39,7 +39,7 @@ public class EditWeightAPI extends API {
     private final WeightComparator comparator = new WeightComparator();
     private final TransportationComparator transportationComparator = new TransportationComparator();
     private final Logger log = Logger.getLogger(EditWeightAPI.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

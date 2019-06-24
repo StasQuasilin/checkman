@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.WEIGHT_LIST)
 public class WeightListAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

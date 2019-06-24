@@ -16,7 +16,7 @@ public class SummaryShow extends IModal {
 	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("plan", hibernator.get(LoadPlan.class, "id", Integer.parseInt(req.getParameter("id"))));
+		req.setAttribute("plan", dao.getLoadPlanById(Integer.parseInt(req.getParameter("id"))));
 		req.setAttribute("title", Constants.Titles.SUMMARY_SHOW);
 		req.setAttribute("update", Branches.API.SUMMARY_SHOW);
 		req.setAttribute("modalContent",  "/pages/summary/summaryShow.jsp");

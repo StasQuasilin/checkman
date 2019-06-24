@@ -6,6 +6,8 @@ import controllers.IModal;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,11 +20,14 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.WEIGHT_CANCEL)
 public class WeightCancel extends IModal {
+
+    final
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
-            LoadPlan plan = hibernator.get(LoadPlan.class, "id", body.get(Constants.ID));
+            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.ID));
             if (!plan.getTransportation().isArchive()){
                 req.setAttribute("modalContent", "/pages/weight/weightCancel.jsp");
                 req.setAttribute("plan", plan);

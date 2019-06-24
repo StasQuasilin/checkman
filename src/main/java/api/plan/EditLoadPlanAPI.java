@@ -35,7 +35,7 @@ import java.sql.Date;
 public class EditLoadPlanAPI extends API {
 
     private final Logger log = Logger.getLogger(EditLoadPlanAPI.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -42,11 +42,11 @@ public class DealEdit extends IModal {
         }
 
         if (id != -1) {
-            req.setAttribute("deal", hibernator.get(Deal.class, "id", id));
+            req.setAttribute("deal", dao.getDealById(id));
             req.setAttribute("title", Constants.Languages.DEAL_EDIT);
             log.info("User \'" + worker.getValue() + "\' open edit deal \'" + id + "\'");
         } else if (copy != -1){
-            Deal deal = hibernator.get(Deal.class, "id", copy);
+            Deal deal = dao.getDealById(copy);
             deal.setId(-1);
             deal.setDone(0);
             req.setAttribute("deal", deal);
@@ -59,9 +59,9 @@ public class DealEdit extends IModal {
 
         req.setAttribute("type", req.getParameter("type"));
         req.setAttribute("types", DealType.values());
-        req.setAttribute("products", hibernator.query(Product.class, null));
-        req.setAttribute("documentOrganisations", hibernator.query(DocumentOrganisation.class, "active", true));
-        req.setAttribute("units", hibernator.query(WeightUnit.class, null));
+        req.setAttribute("products", dao.getProductList());
+        req.setAttribute("documentOrganisations", dao.getDocumentOrganisationList());
+        req.setAttribute("units", dao.getWeightUnits());
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute("saveUrl", Branches.API.DEAL_SAVE);

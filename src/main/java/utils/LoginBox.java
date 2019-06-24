@@ -60,7 +60,7 @@ public class LoginBox {
             String login = getLogin();
             String password = getPassword();
 
-            return SignInAPI.signIn(req, login, password).status().equals("success");
+            return SignInBox.signIn(req, login, password).status().equals("success");
         }
         return false;
     }

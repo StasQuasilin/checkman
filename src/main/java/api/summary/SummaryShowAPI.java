@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class SummaryShowAPI extends API {
 
 	final LanguageBase lb = LanguageBase.getBase();
-	dbDAO dao = dbDAOService.getDAO();
+
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

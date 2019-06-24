@@ -13,6 +13,8 @@ import utils.LanguageBase;
 import utils.PostUtil;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import java.io.IOException;
  */
 public abstract class API extends IServlet{
     final JSONParser parser = new JSONParser();
+    protected final dbDAO dao = dbDAOService.getDAO();
     public static final String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
     public static final String emptyBody = JsonParser.toJson(new ErrorAnswer("msg", "Body parse erro")).toJSONString();
     public JSONObject parseBody(HttpServletRequest req){

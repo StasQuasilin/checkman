@@ -25,7 +25,7 @@ import java.time.LocalDate;
 @WebServlet(Branches.API.LABORATORY_SUN_PRINT)
 public class LaboratorySunPrintAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

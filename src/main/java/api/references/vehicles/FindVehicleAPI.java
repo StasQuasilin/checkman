@@ -28,7 +28,7 @@ public class FindVehicleAPI extends API {
 
     final Logger log = Logger.getLogger(FindVehicleAPI.class);
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

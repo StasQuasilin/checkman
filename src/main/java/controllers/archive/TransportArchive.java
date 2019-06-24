@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_ARCHIVE)
 public class TransportArchive extends IUIServlet {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

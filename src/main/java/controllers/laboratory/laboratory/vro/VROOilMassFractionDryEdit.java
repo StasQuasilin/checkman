@@ -26,7 +26,7 @@ import java.io.IOException;
 public class VROOilMassFractionDryEdit extends IModal {
 
     private final Logger log = Logger.getLogger(VROOilMassFractionDryEdit.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.References.DRIVER_EDIT)
 public class DriverEdit extends IModal {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

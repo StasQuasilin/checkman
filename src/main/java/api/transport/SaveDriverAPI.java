@@ -28,7 +28,7 @@ public class SaveDriverAPI extends API {
 
     final Logger logger = Logger.getLogger(SaveDriverAPI.class);
     final TransportationComparator comparator = new TransportationComparator();
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

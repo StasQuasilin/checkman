@@ -20,7 +20,7 @@ public class OrganisationEdit extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         if(U.exist(id)){
-            req.setAttribute("organisation", hibernator.get(Organisation.class, "id", Integer.parseInt(id)));
+            req.setAttribute("organisation", dao.getOrganisationById(Integer.parseInt(id)));
         }
         req.setAttribute("title", "references.organisation.edit");
         req.setAttribute("modalContent", "/pages/references/organisationEdit.jsp");

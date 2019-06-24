@@ -21,7 +21,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.DEAL_SHOW)
 public class DealShow extends IModal{
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

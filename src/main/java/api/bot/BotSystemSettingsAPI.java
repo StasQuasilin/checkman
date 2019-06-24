@@ -40,7 +40,7 @@ public class BotSystemSettingsAPI extends API {
         }
 
         if (save){
-            hibernator.save(settings);
+            dao.save(settings);
             BotFactory.setSettings(settings);
         }
 

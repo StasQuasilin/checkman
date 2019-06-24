@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_PUT)
 public class WeightEdit extends IModal {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

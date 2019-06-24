@@ -19,7 +19,7 @@ import java.io.*;
 @WebServlet(Branches.UI.PRINT_DOCUMENT)
 public class DocumentPrinter extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

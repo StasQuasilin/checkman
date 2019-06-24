@@ -24,15 +24,7 @@ import java.util.List;
 public class LogisticListAPI extends API {
 
     final ApplicationSettingsBox settingsBox = ApplicationSettingsBox.getBox();
-    final HashMap<String, Object> parameters = new HashMap<>();
-
-    {
-        TransportCustomer customer = settingsBox.getSettings().getCustomer();
-        if (customer != null) {
-            parameters.put("customer", customer);
-        }
-        parameters.put("transportation/archive", false);
-    }
+    TransportCustomer customer = settingsBox.getSettings().getCustomer();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,7 +39,7 @@ public class LogisticListAPI extends API {
         array.put("remove", remove);
 
         if (body != null) {
-            List<LoadPlan> loadPlans = hibernator.query(LoadPlan.class, parameters);
+            List<LoadPlan> loadPlans = dao.getTransportationsByCustomer(customer);
             for (LoadPlan loadPlan : loadPlans) {
                 String id = String.valueOf(loadPlan.getId());
                 if (body.containsKey(id)) {

@@ -11,6 +11,8 @@ import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.ExtractionTurnService;
 import utils.PostUtil;
 import utils.turns.TurnBox;
@@ -31,6 +33,7 @@ import java.time.LocalDateTime;
 public class ExtractionOilEditAPI extends API {
 
     private final Logger log = Logger.getLogger(ExtractionOilEditAPI.class);
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,7 +46,7 @@ public class ExtractionOilEditAPI extends API {
                 id = (long) body.get(Constants.ID);
             }
             if (id != -1){
-                oil = hibernator.get(ExtractionOIl.class, "id", id);
+                oil = dao.getExtractionOilById(id);
             } else {
                 oil = new ExtractionOIl();
             }
@@ -105,12 +108,13 @@ public class ExtractionOilEditAPI extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
+
                 } else {
                     createTime.setCreator(worker);
                 }
                 oil.setCreator(worker);
-                hibernator.save(createTime, oil);
+                dao.save(createTime, oil);
                 BotFactory.getNotificator().extractionShow(oil);
             }
 

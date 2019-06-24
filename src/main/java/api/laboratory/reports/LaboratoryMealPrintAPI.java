@@ -26,7 +26,7 @@ public class LaboratoryMealPrintAPI extends API {
                 id = (long) body.get("id");
             }
             if (id != -1) {
-                LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
+                LoadPlan plan = dao.getLoadPlanById(id);
 
                 req.setAttribute("plan", plan);
                 req.getRequestDispatcher("/pages/laboratory/reports/mealReport.jsp").forward(req, resp);

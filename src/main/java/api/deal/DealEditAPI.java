@@ -32,7 +32,7 @@ public class DealEditAPI extends IChangeAPI{
 
     private final DealComparator comparator = new DealComparator();
     private final Logger log = Logger.getLogger(DealEditAPI.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

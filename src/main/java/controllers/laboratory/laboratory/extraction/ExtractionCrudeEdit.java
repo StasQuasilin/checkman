@@ -35,13 +35,12 @@ public class ExtractionCrudeEdit extends IModal {
                 id = Long.parseLong(String.valueOf(json.remove(Constants.ID)));
             }
             if (id != -1) {
-                req.setAttribute("crude", hibernator.get(ExtractionCrude.class, "id", id));
+                req.setAttribute("crude", dao.getExtractionCrudeById(id));
             }
         }
 
         req.setAttribute("title", Constants.Titles.EXTRACTION_CRUDE);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/crudeEdit.jsp");
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         req.setAttribute("saveUrl", Branches.API.EXTRACTION_CRUDE_EDIT);
         show(req, resp);
     }

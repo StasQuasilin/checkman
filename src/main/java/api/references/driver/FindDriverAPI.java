@@ -36,15 +36,7 @@ public class FindDriverAPI extends API {
             log.info("Find driver \'" + key + "\'");
 
 
-            HashMap<Integer, Driver> result = new HashMap<>();
-
-            for (String s : key.split(" ")){
-                find("person/forename", s, result);
-                find("person/surname", s, result);
-                find("person/patronymic", s, result);
-            }
-
-            array.addAll(result.values().stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new)));
+            array.addAll(dao.findDriver(key).stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new)));
 
             write(resp, array.toJSONString());
 
@@ -52,11 +44,6 @@ public class FindDriverAPI extends API {
             array.clear();
         } else {
             write(resp, emptyBody);
-        }
-    }
-    synchronized void find(String key, String value, HashMap<Integer, Driver> result){
-        for (Driver driver : hibernator.find(Driver.class, key, value)){
-            result.put(driver.getId(), driver);
         }
     }
 }

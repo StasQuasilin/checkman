@@ -22,7 +22,6 @@ public class ExtractionTurnCrudeEdit extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.EXTRACTION_TURN_CRUDE);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/crudeTurnEdit.jsp");
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         req.setAttribute("saveUrl", Branches.API.EXTRACTION_TURN_CRUDE_EDIT);
         show(req, resp);
     }

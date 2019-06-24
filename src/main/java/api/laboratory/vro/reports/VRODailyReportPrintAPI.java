@@ -52,7 +52,7 @@ public class VRODailyReportPrintAPI extends API {
             }
 
             req.setAttribute("laboratory", laboratoryTurns);
-            req.setAttribute("forpress", hibernator.query(Forpress.class, null));
+            req.setAttribute("forpress", dao.getForpressList());
             req.setAttribute("turns", turns);
             req.getRequestDispatcher("/pages/laboratory/subdivisions/vro/reports/print/dailyReport.jsp").forward(req, resp);
         } else {

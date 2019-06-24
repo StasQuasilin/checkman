@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.References.FIND_ORGANISATION)
 public class FindOrganisationAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

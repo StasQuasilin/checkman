@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 @WebServlet(Branches.API.EXTRACTION_TURN_PROTEIN_EDIT)
 public class ExtractionTurnProteinEdit extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

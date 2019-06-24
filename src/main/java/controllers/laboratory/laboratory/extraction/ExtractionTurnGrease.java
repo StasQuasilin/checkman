@@ -21,7 +21,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.Extraction.TURN_GREASE)
 public class ExtractionTurnGrease extends IModal {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

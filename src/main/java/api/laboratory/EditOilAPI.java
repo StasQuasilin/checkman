@@ -32,7 +32,7 @@ import java.util.LinkedList;
 public class EditOilAPI extends API {
 
     private final Logger log = Logger.getLogger(EditOilAPI.class);
-    final dbDAO dao = dbDAOService.getDAO();
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

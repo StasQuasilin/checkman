@@ -26,7 +26,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_ADD)
 public class WeightAdd extends IModal {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

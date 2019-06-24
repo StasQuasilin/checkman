@@ -6,6 +6,8 @@ import controllers.archive.ArchiveType;
 import entity.AnalysesType;
 import entity.Role;
 import entity.Subdivision;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.APPLICATION)
 public class ApplicationControl extends IServlet{
+
+    final dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("welcome", Branches.UI.WELCOME);
@@ -38,7 +43,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("weightArchive", Branches.UI.WEIGHT_ARCHIVE);
         req.setAttribute("probeList", Branches.UI.PROBE_LIST);
         req.setAttribute("subdivisionList", Branches.UI.SUBDIVISION_LIST);
-        req.setAttribute("subdivisions", hibernator.query(Subdivision.class, null));
+        req.setAttribute("subdivisions", dao.getSubdivisions());
         req.setAttribute("storages", Branches.UI.LABORATORY_STORAGES + "?type=" + AnalysesType.oil);
         req.setAttribute("laboratoryBuyList", Branches.UI.LABORATORY_BUY);
         req.setAttribute("laboratoryBuyArchive", Branches.UI.LABORATORY_BUY_ARCHIVE);

@@ -37,9 +37,8 @@ public class LaboratoryListAPI extends API {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
             String type = req.getParameter("type");
-            parameters.put("deal/type", DealType.valueOf(type));
 
-            for (LoadPlan plan : hibernator.query(LoadPlan.class, parameters)) {
+            for (LoadPlan plan : dao.getLoadPlansByDealType(DealType.valueOf(type))) {
                 String id = String.valueOf(plan.id);
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);

@@ -25,7 +25,7 @@ import java.sql.Timestamp;
 @WebServlet(Branches.API.PROBE_SUN_SAVE)
 public class SaveSunProbeAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

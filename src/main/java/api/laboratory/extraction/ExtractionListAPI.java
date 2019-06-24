@@ -30,7 +30,7 @@ public class ExtractionListAPI extends API {
 
     public static final int LIMIT = 15;
     private final Logger log = Logger.getLogger(ExtractionListAPI.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

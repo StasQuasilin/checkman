@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class FindWorkerAPI extends API {
 
     final JSONArray array = new JSONArray();
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

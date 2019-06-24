@@ -21,7 +21,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.DELETE_OIL_MASS_FRACTION_DRY)
 public class OilMassFractionDryDeleteAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

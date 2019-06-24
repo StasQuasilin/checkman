@@ -39,7 +39,7 @@ public class SaveLoadPlanAPI extends API {
     final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);
     final LoadPlanComparator planComparator = new LoadPlanComparator();
     final TransportationComparator transportationComparator = new TransportationComparator();
-    final dbDAO dao = dbDAOService.getDAO();
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

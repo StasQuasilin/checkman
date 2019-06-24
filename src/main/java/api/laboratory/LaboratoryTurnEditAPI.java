@@ -29,7 +29,7 @@ import java.util.HashMap;
 public class LaboratoryTurnEditAPI extends API {
 
     private final TurnBox turnBox = TurnBox.getBox();
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

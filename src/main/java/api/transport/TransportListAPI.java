@@ -23,7 +23,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.TRANSPORT_LIST)
 public class TransportListAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

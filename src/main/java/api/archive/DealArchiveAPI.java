@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.Archive.DEALS)
 public class DealArchiveAPI extends API {
     final JSONArray array = new JSONArray();
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

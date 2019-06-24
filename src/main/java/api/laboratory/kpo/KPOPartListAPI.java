@@ -41,7 +41,7 @@ public class KPOPartListAPI extends API {
 
             le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
             parameters.put("date", le);
-            for (KPOPart part : hibernator.limitQuery(KPOPart.class, parameters, 14)){
+            for (KPOPart part : dao.getLimitKPOParts()){
                 String id = String.valueOf(part.getId());
                 if (body.containsKey(id)){
                     long hash = (long) body.remove(id);

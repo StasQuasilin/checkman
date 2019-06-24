@@ -28,7 +28,7 @@ public class SaveTransportationVehicleAPI extends API {
         JSONObject body = parseBody(req);
 
         if (body != null) {
-            Transportation transportation = hibernator.get(Transportation.class, "id", body.get(Constants.TRANSPORTATION_ID));
+            Transportation transportation = dao.getTransportationById(body.get(Constants.TRANSPORTATION_ID));
             comparator.fix(transportation);
             long vehicleId = -1;
             if (body.containsKey(Constants.VEHICLE_ID)){
@@ -36,12 +36,12 @@ public class SaveTransportationVehicleAPI extends API {
             }
 
             if (vehicleId != -1){
-                Vehicle vehicle = hibernator.get(Vehicle.class, "id", vehicleId);
+                Vehicle vehicle = dao.getVehicleById(vehicleId);
                 Driver driver = transportation.getDriver();
                 if (driver != null) {
                     if (driver.getVehicle() == null){
                         driver.setVehicle(vehicle);
-                        hibernator.save(driver);
+                        dao.save(driver);
                     }
                 }
                 transportation.setVehicle(vehicle);
@@ -49,7 +49,7 @@ public class SaveTransportationVehicleAPI extends API {
                 transportation.setVehicle(null);
             }
 
-            hibernator.save(transportation);
+            dao.saveTransportation(transportation);
             comparator.compare(transportation, getWorker(req));
             write(resp, answer);
 
@@ -58,17 +58,5 @@ public class SaveTransportationVehicleAPI extends API {
             write(resp, emptyBody);
         }
 
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = parseBody(req);
-        if (body != null) {
-            Transportation transportation = hibernator.get(Transportation.class, "id", body.get(Constants.TRANSPORTATION_ID));
-            transportation.setVehicle(null);
-            hibernator.save(transportation);
-        } else {
-            write(resp, emptyBody);
-        }
     }
 }

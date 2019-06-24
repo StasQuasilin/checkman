@@ -31,7 +31,6 @@ import java.util.UUID;
 public class SignUpAPI extends API {
 
     private final Logger log = Logger.getLogger(SignUpAPI.class);
-    static dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -94,7 +93,7 @@ public class SignUpAPI extends API {
 
 
 
-    static synchronized String getToken(){
+    synchronized String getToken(){
         String token = UUID.randomUUID().toString();
 
         if (dao.getUsersByToken(token).size() > 0){

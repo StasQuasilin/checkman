@@ -44,7 +44,7 @@ public class ExtractionStorageGreaseEdit extends API {
                 id = (long) body.get(Constants.ID);
             }
             if (id != -1) {
-                storageGrease = hibernator.get(StorageGrease.class, "id", id);
+                storageGrease = dao.getStorageGreaseById(id);
             } else {
                 storageGrease = new StorageGrease();
                 ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
@@ -55,7 +55,7 @@ public class ExtractionStorageGreaseEdit extends API {
 
             long storageId = (long) body.get("storage");
             if (storageGrease.getStorage() == null || storageGrease.getStorage().getId() != storageId) {
-                storageGrease.setStorage(hibernator.get(Storage.class, "id", storageId));
+                storageGrease.setStorage(dao.getStorageById(storageId));
                 save = true;
             }
 
@@ -80,13 +80,13 @@ public class ExtractionStorageGreaseEdit extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 storageGrease.setCreator(worker);
 
-                hibernator.save(createTime, storageGrease);
+                dao.save(createTime, storageGrease);
                 BotFactory.getNotificator().extractionShow(storageGrease);
             }
             write(resp, answer);

@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import utils.TurnDateTime;
 import utils.hibernate.DateContainers.LE;
 import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -22,6 +24,7 @@ import java.util.List;
 public class LaboratoryTurnService {
 
     final static Logger log = Logger.getLogger(LaboratoryTurnService.class);
+    final static dbDAO dao = dbDAOService.getDAO();
     final static HashMap<LocalTime, Integer> intervals = new HashMap<>();
     static {
         intervals.put(LocalTime.of(8, 0), 5 * 12);
@@ -35,7 +38,7 @@ public class LaboratoryTurnService {
     public static List<LaboratoryTurn> getTurns(Turn turn){
         log.info("Get laboratory turn " + turn.getNumber() + ", time " + turn.getDate() + "...");
 
-        List<LaboratoryTurn> turns = hibernator.query(LaboratoryTurn.class, "turn", turn);
+        List<LaboratoryTurn> turns = dao.getLaboratoryTurnByTurn(turn);
         if (turns.size() == 0){
             log.info("\t...No turns");
             LocalDate date = turn.getDate().toLocalDateTime().toLocalDate();
@@ -48,7 +51,7 @@ public class LaboratoryTurnService {
                         LaboratoryTurn newTurn = new LaboratoryTurn();
                         newTurn.setTurn(turn);
                         newTurn.setWorker(laboratoryTurn.getWorker());
-                        hibernator.save(newTurn);
+                        dao.save(newTurn);
                         turns.add(newTurn);
                     }
                 }
@@ -62,9 +65,9 @@ public class LaboratoryTurnService {
             LocalDateTime dateTime = LocalDateTime.of(date, time);
             dateTime = dateTime.minusHours(intervals.get(time));
             log.info("Previous turn date " + dateTime);
-            Turn turn = hibernator.get(Turn.class, "date", Timestamp.valueOf(dateTime));
+            Turn turn = dao.getTurnByTime(Timestamp.valueOf(dateTime));
             if (turn != null) {
-                turns.addAll(hibernator.query(LaboratoryTurn.class, "turn", turn));
+                turns.addAll(dao.getLaboratoryTurnByTurn(turn));
                 if (turns.size() == 0) {
                     prevTurn(dateTime.toLocalDate(), time, ++attempt, turns);
                 }
@@ -75,8 +78,6 @@ public class LaboratoryTurnService {
     }
 
     static boolean anyTurn(LocalDate date){
-        final HashMap<String, Object> param = new HashMap<>();
-        param.put("date", new LE(Date.valueOf(date.plusDays(1))));
-        return hibernator.limitQuery(Turn.class, param, 1).size() > 0;
+        return dao.getAnyTurnByDate(date).size() > 0;
     }
 }

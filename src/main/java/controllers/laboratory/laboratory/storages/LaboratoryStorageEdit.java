@@ -20,7 +20,7 @@ public class LaboratoryStorageEdit extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AnalysesType type = AnalysesType.valueOf(req.getParameter("type"));
         req.setAttribute("type", type.toString());
-        req.setAttribute("storages", hibernator.query(StorageProduct.class, "product/analysesType", type));
+        req.setAttribute("storages", dao.getStoragesByAnalysesType(type));
         req.setAttribute("title", "title.laboratory.storage.edit");
         req.setAttribute("edit", Branches.API.LABORATORY_STORAGE_EDIT);
         req.setAttribute("modalContent", "/pages/laboratory/storages/storageEdit.jsp");

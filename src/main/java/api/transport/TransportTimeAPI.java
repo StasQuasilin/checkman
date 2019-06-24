@@ -34,7 +34,7 @@ import java.sql.Timestamp;
 public class TransportTimeAPI extends API {
 
     private final TransportationComparator comparator = new TransportationComparator();
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

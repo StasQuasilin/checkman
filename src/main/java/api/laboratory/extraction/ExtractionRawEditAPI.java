@@ -9,6 +9,8 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
 import utils.turns.ExtractionTurnService;
@@ -28,58 +30,65 @@ import java.time.LocalTime;
  */
 @WebServlet(Branches.API.EXTRACTION_RAW_EDIT)
 public class ExtractionRawEditAPI extends API {
+
+    final
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        ExtractionRaw raw;
-        boolean save = false;
-        LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
-        LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-        LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
-        TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            ExtractionRaw raw;
+            boolean save = false;
+            LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
+            LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
+            LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
+            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
-        if (body.containsKey(Constants.ID)){
-            long id = (long) body.get(Constants.ID);
-            raw = hibernator.get(ExtractionRaw.class, "id", id);
-        } else {
-            raw = new ExtractionRaw();
-            ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
-            raw.setTurn(turn);
-            save = true;
-        }
-
-        raw.setTime(Timestamp.valueOf(localDateTime));
-
-        float protein = Float.parseFloat(String.valueOf(body.get("protein")));
-        if (raw.getProtein() != protein) {
-            raw.setProtein(protein);
-            save = true;
-        }
-
-        float cellulose = Float.parseFloat(String.valueOf(body.get("cellulose")));
-        if (raw.getCellulose() != cellulose) {
-            raw.setCellulose(cellulose);
-            save = true;
-        }
-
-        if (save) {
-            ActionTime createTime = raw.getCreateTime();
-            if (createTime == null) {
-                createTime = new ActionTime();
-                raw.setCreateTime(createTime);
-            }
-            createTime.setTime(new Timestamp(System.currentTimeMillis()));
-            Worker worker = getWorker(req);
-            if (body.containsKey(Constants.CREATOR)){
-                long creatorId = (long) body.get(Constants.CREATOR);
-                createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+            if (body.containsKey(Constants.ID)) {
+                long id = (long) body.get(Constants.ID);
+                raw = dao.getExtractionRawById(id);
             } else {
-                createTime.setCreator(worker);
+                raw = new ExtractionRaw();
+                ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
+                raw.setTurn(turn);
+                save = true;
             }
-            raw.setCreator(worker);
-            hibernator.save(createTime, raw);
-        }
 
-        write(resp, answer);
+            raw.setTime(Timestamp.valueOf(localDateTime));
+
+            float protein = Float.parseFloat(String.valueOf(body.get("protein")));
+            if (raw.getProtein() != protein) {
+                raw.setProtein(protein);
+                save = true;
+            }
+
+            float cellulose = Float.parseFloat(String.valueOf(body.get("cellulose")));
+            if (raw.getCellulose() != cellulose) {
+                raw.setCellulose(cellulose);
+                save = true;
+            }
+
+            if (save) {
+                ActionTime createTime = raw.getCreateTime();
+                if (createTime == null) {
+                    createTime = new ActionTime();
+                    raw.setCreateTime(createTime);
+                }
+                createTime.setTime(new Timestamp(System.currentTimeMillis()));
+                Worker worker = getWorker(req);
+                if (body.containsKey(Constants.CREATOR)) {
+                    long creatorId = (long) body.get(Constants.CREATOR);
+                    createTime.setCreator(dao.getWorkerById(creatorId));
+                } else {
+                    createTime.setCreator(worker);
+                }
+                raw.setCreator(worker);
+                dao.save(createTime, raw);
+            }
+
+            write(resp, answer);
+        } else {
+            write(resp, emptyBody);
+        }
     }
 }

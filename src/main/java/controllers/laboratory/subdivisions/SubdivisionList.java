@@ -20,7 +20,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SUBDIVISION_LIST)
 public class SubdivisionList extends IUIServlet {
 
-    dbDAO dao = dbDAOService.getDAO();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

@@ -27,7 +27,7 @@ public class DriverListAPI extends API {
 
     final HashMap<String,Object> parameters = new HashMap<>();
     final LE le = new LE(Date.valueOf(LocalDate.now()));
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

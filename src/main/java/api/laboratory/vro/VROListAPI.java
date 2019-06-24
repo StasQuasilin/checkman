@@ -6,11 +6,8 @@ import entity.laboratory.subdivisions.vro.VROTurn;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.PostUtil;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +17,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 10.04.2019.
@@ -27,7 +25,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.VRO_LIST)
 public class VROListAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,18 +41,23 @@ public class VROListAPI extends API {
 
         JSONObject body = parseBody(req);
         if (body != null) {
+
+            List<VROTurn> turns;
+
             if (body.containsKey("reqDate")){
                 String date = String.valueOf(body.remove("reqDate"));
                 LocalDate localDate = LocalDate.parse(date);
                 final BETWEEN between = new BETWEEN(Date.valueOf(localDate), Date.valueOf(localDate.plusDays(1)));
                 parameters.put("turn/date", between);
+                turns = dao.getVroTurnsBetween(localDate, localDate.plusDays(1));
             } else {
                 final LE le = new LE(Date.valueOf(LocalDate.now()));
                 le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
                 parameters.put("turn/date", le);
+                turns = dao.getVroTurns();
             }
 
-            for (VROTurn turn : dao.getTurns(parameters)) {
+            for (VROTurn turn : turns) {
                 String id = String.valueOf(turn.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);

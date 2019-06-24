@@ -21,7 +21,7 @@ public class LaboratoryEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
-        LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", id);
+        LoadPlan loadPlan = dao.getLoadPlanById(id);
         req.setAttribute("plan", loadPlan);
         AnalysesType analysesType = loadPlan.getDeal().getProduct().getAnalysesType();
         switch (analysesType){
@@ -44,7 +44,6 @@ public class LaboratoryEdit extends IModal {
                 req.setAttribute("print", Branches.API.LABORATORY_MEAL_PRINT);
                 break;
         }
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         show(req, resp);
     }
 }

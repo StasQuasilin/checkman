@@ -26,13 +26,9 @@ public class ExtractionStorageGrease extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.EXTRACTION_STORAGE_GREASE);
-        final List<Storage> storages = new LinkedList<>();
-        storages.addAll(hibernator.query(StorageProduct.class, "product/analysesType", AnalysesType.meal)
-                .stream().map(StorageProduct::getStorage).collect(Collectors.toList()));
-        req.setAttribute("storages", storages);
+        req.setAttribute("storages", dao.getStoragesByAnalysesType(AnalysesType.meal));
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/storageGreaseEdit.jsp");
         req.setAttribute("turns", TurnBox.getBox().getTurns());
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         req.setAttribute("save", Branches.API.EXTRACTION_STORAGE_GREASE_EDIT);
         show(req, resp);
     }

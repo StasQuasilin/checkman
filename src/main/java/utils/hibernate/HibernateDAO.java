@@ -1,21 +1,17 @@
 package utils.hibernate;
 
+import bot.BotSettings;
 import bot.BotUID;
 import entity.*;
-import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
-import entity.documents.Deal;
-import entity.documents.DocumentOrganisation;
-import entity.documents.DocumentUID;
-import entity.documents.LoadPlan;
+import entity.documents.*;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
+import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.storages.StorageTurn;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
-import entity.laboratory.subdivisions.extraction.TurnProtein;
+import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
 import entity.laboratory.transportation.ActNumber;
@@ -30,18 +26,19 @@ import entity.production.TurnSettings;
 import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.seals.Seal;
-import entity.transport.ActionTime;
-import entity.transport.Driver;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.storages.Storage;
+import entity.storages.StorageProduct;
+import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
 import utils.TurnDateTime;
+import utils.hibernate.DateContainers.BETWEEN;
+import utils.hibernate.DateContainers.LE;
 
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * Created by szpt_user045 on 24.06.2019.
@@ -61,7 +58,7 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<VROTurn> getTurns(HashMap<String, Object> parameters) {
+    public List<VROTurn> getVroTurnsByDate(HashMap<String, Object> parameters) {
         return hb.limitQuery(VROTurn.class, parameters, 14);
     }
 
@@ -388,56 +385,316 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Deal> getArchiveDeals(DealType type) {
-        return null;
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("archive", true);
+        parameters.put("type", type);
+        return hb.query(Deal.class, parameters);
     }
 
     @Override
     public DocumentOrganisation getDocumentOrganisationByValue(Object value) {
-        return null;
+        return hb.get(DocumentOrganisation.class, "value", value);
     }
 
     @Override
     public WeightUnit getWeightUnitById(Object unit) {
-        return null;
+        return hb.get(WeightUnit.class, "name", unit);
     }
 
     @Override
     public BotUID getBotUidByWorker(Worker worker) {
-        return null;
+        return hb.get(BotUID.class, "worker", worker);
     }
 
     @Override
     public BotUID getBotUidByUid(String uid) {
-        return null;
+        return hb.get(BotUID.class, "uid", uid);
     }
 
     @Override
     public List<StorageTurn> getLimitStorageTurns() {
-        return null;
+        return hb.limitQuery(StorageTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
     }
 
     @Override
     public User getUserByUID(String uid) {
-        return null;
+        return hb.get(User.class, "uid", uid);
     }
 
     @Override
     public List<ProductProperty> getProductProperties(Product product) {
-        return null;
+        return hb.query(ProductProperty.class, "product", product);
     }
 
     @Override
     public List<ExtractionTurn> getLimitExtractionTurns() {
-        return null;
+        return hb.limitQuery(ExtractionTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
     }
 
     @Override
     public List<Worker> findWorker(Object key) {
-        return null;
+        final Set<Integer> ids = new HashSet<>();
+        final List<Worker> workers = new LinkedList<>();
+        String k = String.valueOf(key);
+        findWorker("person/forename", k, ids, workers);
+        findWorker("person/surname", k, ids, workers);
+        findWorker("person/patronymic", k, ids, workers);
+        ids.clear();
+        return workers;
+    }
+
+    private void findWorker(String key, String value, Set<Integer> ids, List<Worker> workers){
+        for(Worker worker : find(Worker.class, key, value)){
+            if (!ids.contains(worker.getId())){
+                ids.add(worker.getId());
+                workers.add(worker);
+            }
+        }
     }
 
     @Override
     public TurnProtein getExtractionTurnProteinById(long id) {
-        return null;
+        return hb.get(TurnProtein.class, "id", id);
+    }
+
+    @Override
+    public OilMassFraction getOilMassFractionById(long id) {
+        return hb.get(OilMassFraction.class, "id", id);
+    }
+
+    @Override
+    public List<Vehicle> findVehicle(Object key) {
+        final Set<Integer> ids = new HashSet<>();
+        final List<Vehicle> vehicles = new LinkedList<>();
+        String k = String.valueOf(key);
+        findVehicle("model", k, ids, vehicles);
+        findVehicle("number", k, ids, vehicles);
+        findVehicle("trailer", k, ids, vehicles);
+
+        ids.clear();
+        return vehicles;
+    }
+
+    private void findVehicle(String key, String value, Set<Integer> ids, List<Vehicle> vehicles){
+        find(Vehicle.class, key, value).stream()
+                .filter(vehicle -> !ids.contains(vehicle.getId())).forEach(vehicle -> {
+            ids.add(vehicle.getId());
+            vehicles.add(vehicle);
+        });
+    }
+
+    @Override
+    public List<OrganisationType> getOrganisationTypeList() {
+        return hb.query(OrganisationType.class, null);
+    }
+
+    @Override
+    public Organisation findOrganisation(String type, String name) {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("type", type);
+        parameters.put("name", name);
+        return hb.get(Organisation.class, parameters);
+    }
+
+    @Override
+    public List<Storage> getStoragesByAnalysesType(AnalysesType type) {
+        final Set<Integer> ids = new HashSet<>();
+        final List<Storage> storages = new LinkedList<>();
+        hb.query(StorageProduct.class, "product/analysesType", type).stream()
+                .filter(sp -> !ids.contains(sp.getStorage().getId())).forEach(sp -> {
+            ids.add(sp.getStorage().getId());
+            storages.add(sp.getStorage());
+        });
+        ids.clear();
+        return storages;
+    }
+
+    @Override
+    public List<UserBotSetting> getBotSettingsByWorker(Worker worker) {
+        return hb.query(UserBotSetting.class, "worker", worker);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return hb.get(User.class, "email", email);
+    }
+
+    @Override
+    public StorageAnalyses getStorageAnalysesById(Object id) {
+        return hb.get(StorageAnalyses.class, "id", id);
+    }
+
+    @Override
+    public StorageTurn getStorageTurnByTurn(Turn turn) {
+        return hb.get(StorageTurn.class, "turn", turn);
+    }
+
+    @Override
+    public Storage getStorageById(Object id) {
+        return hb.get(Storage.class, "id", id);
+    }
+
+    @Override
+    public ExtractionRaw getExtractionRawById(Object id) {
+        return hb.get(ExtractionRaw.class, "id", id);
+    }
+
+    @Override
+    public VRODaily getVroDailyById(Object id) {
+        return hb.get(VRODaily.class, "id", id);
+    }
+
+    @Override
+    public ExtractionOIl getExtractionOilById(Object id) {
+        return hb.get(ExtractionOIl.class, "id", id);
+    }
+
+    @Override
+    public List<LoadPlan> getLoadPlansBetweenDates(LocalDate from, LocalDate to) {
+        return hb.query(LoadPlan.class, "date", new BETWEEN(Date.valueOf(from), Date.valueOf(to)));
+    }
+
+    @Override
+    public List<WeightUnit> getWeightUnits() {
+        return hb.query(WeightUnit.class, null);
+    }
+
+    @Override
+    public List<LoadPlan> getTransportationsOnTerritory() {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("transportation/archive", false);
+        parameters.put("transportation.timeIn", State.notNull);
+        return hb.query(LoadPlan.class, parameters);
+    }
+
+    @Override
+    public List<LoadPlan> getTransportationsOnCruise() {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("transportation/archive", false);
+        parameters.put("transportation/timeOut", State.notNull);
+        return hb.query(LoadPlan.class, parameters);
+    }
+
+    @Override
+    public List<Turn> getLimitTurns() {
+        return hb.limitQuery(Turn.class, "date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 14);
+    }
+
+    @Override
+    public ExtractionTurn getExtractionTurnByTurn(Turn turn) {
+        return hb.get(ExtractionTurn.class, "turn", turn);
+    }
+
+    @Override
+    public List<KPOPart> getLimitKPOParts() {
+        return hb.limitQuery(KPOPart.class, "date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 14);
+    }
+
+    @Override
+    public StorageGrease getStorageGreaseById(Object id) {
+        return hb.get(StorageGrease.class, "id", id);
+    }
+
+    @Override
+    public List<LoadPlan> getLoadPlansByDealType(DealType dealType) {
+        return hb.query(LoadPlan.class, "deal/type", dealType);
+    }
+
+    @Override
+    public VROTurn getVROTurnByTurn(Turn turn) {
+        return hb.get(VROTurn.class, "turn", turn);
+    }
+
+    @Override
+    public List<LoadPlan> getTransportationsByCustomer(TransportCustomer customer) {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("transportation/archive", false);
+        parameters.put("customer", customer);
+        return hb.query(LoadPlan.class, parameters);
+    }
+
+    @Override
+    public List<Deal> getDealsByOrganisation(Object organisation) {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("archive", false);
+        parameters.put("organisation", organisation);
+        return hb.query(Deal.class, parameters);
+    }
+
+    @Override
+    public StorageProtein getStorageProteinById(Object id) {
+        return hb.get(StorageProtein.class, "id", id);
+    }
+
+    @Override
+    public UserBotSetting getUseBorSettingsByWorker(Worker worker) {
+        return hb.get(UserBotSetting.class, "worker", worker);
+    }
+
+    @Override
+    public List<Driver> findDriver(String key) {
+        final Set<Integer> ids = new HashSet<>();
+        final List<Driver> drivers = new LinkedList<>();
+
+        findDriver("person/surname", key, ids, drivers);
+        findDriver("person/forename", key, ids, drivers);
+        findDriver("person/patronymic", key, ids, drivers);
+        ids.clear();
+        return drivers;
+    }
+
+    private void findDriver(String key, String value, Set<Integer> ids, List<Driver> drivers){
+        find(Driver.class, key, value).stream()
+                .filter(driver -> !ids.contains(driver.getId())).forEach(driver -> {
+            ids.add(driver.getId());
+            drivers.add(driver);
+        });
+    }
+
+    private <T> List<T> find(Class<T> tClass, String key, String value){
+        return hb.find(tClass, key, value);
+    }
+
+    @Override
+    public DealProduct getDealProductById(int id) {
+        return hb.get(DealProduct.class, "id", id);
+    }
+
+    @Override
+    public List<Subdivision> getSubdivisions() {
+        return hb.query(Subdivision.class, null);
+    }
+
+    @Override
+    public TurnGrease getTurnGreaseById(Object id) {
+        return hb.get(TurnGrease.class, "id", id);
+    }
+
+    @Override
+    public List<DealHash> getDealHashByType(DealType dealType) {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("archive", false);
+        parameters.put("type", dealType);
+        return hb.query(DealHash.class, parameters);
+    }
+
+    @Override
+    public Turn getTurnByTime(Timestamp timestamp) {
+        return hb.get(Turn.class, "date", timestamp);
+    }
+
+    @Override
+    public List<LaboratoryTurn> getAnyTurnByDate(LocalDate date) {
+        return hb.query(LaboratoryTurn.class, "turn/date", new LE(Date.valueOf(date.plusDays(1))));
+    }
+
+    @Override
+    public List<VROTurn> getVroTurnsBetween(LocalDate from, LocalDate to) {
+        return hb.query(VROTurn.class, "turn/date", new BETWEEN(Date.valueOf(from), Date.valueOf(to)));
+    }
+
+    @Override
+    public List<VROTurn> getVroTurns() {
+        return hb.query(VROTurn.class, "turn", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
     }
 }

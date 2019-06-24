@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 public class ParseOrganisationAPI extends API {
 
     private final Logger log = Logger.getLogger(ParseOrganisationAPI.class);
-    final dbDAO dao = dbDAOService.getDAO();
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

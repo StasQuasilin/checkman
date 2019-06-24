@@ -23,7 +23,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.References.EDIT_ORGANISATION)
 public class EditOrganisationAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

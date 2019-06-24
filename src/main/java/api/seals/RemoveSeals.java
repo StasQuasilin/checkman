@@ -20,7 +20,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.SEAL_REMOVE)
 public class RemoveSeals extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

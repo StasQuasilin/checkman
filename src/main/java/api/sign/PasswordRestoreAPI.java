@@ -34,7 +34,7 @@ public class PasswordRestoreAPI extends API {
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final HashMap<String, Long> sendEmails = new HashMap<>();
-    final dbDAO dao = dbDAOService.getDAO();
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

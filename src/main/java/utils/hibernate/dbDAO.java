@@ -4,18 +4,14 @@ import bot.BotUID;
 import entity.*;
 import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
-import entity.documents.Deal;
-import entity.documents.DocumentOrganisation;
-import entity.documents.DocumentUID;
-import entity.documents.LoadPlan;
+import entity.documents.*;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
+import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.storages.StorageTurn;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
-import entity.laboratory.subdivisions.extraction.TurnProtein;
+import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
 import entity.laboratory.transportation.ActType;
@@ -30,14 +26,14 @@ import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.seals.Seal;
 import entity.storages.Storage;
-import entity.transport.ActionTime;
-import entity.transport.Driver;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
 import utils.TurnDateTime;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +44,7 @@ import java.util.List;
 public interface dbDAO {
     void saveDeal(Deal deal);
     List<LoadPlan> getPlanByDeal(Deal deal);
-    List<VROTurn> getTurns(HashMap<String, Object> parameters);
+    List<VROTurn> getVroTurnsByDate(HashMap<String, Object> parameters);
     Deal getDealById(Object id);
     Organisation getOrganisationById(Object organisationId);
     Product getProductById(Object id);
@@ -122,16 +118,42 @@ public interface dbDAO {
     List<Worker> findWorker(Object key);
     TurnProtein getExtractionTurnProteinById(long id);
     OilMassFraction getOilMassFractionById(long id);
-
     List<Vehicle> findVehicle(Object key);
-
     List<OrganisationType> getOrganisationTypeList();
-
     Organisation findOrganisation(String type, String name);
-
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
-
-    List<BotSettings> getBotSettingsByWorker(Worker worker);
-
+    List<UserBotSetting> getBotSettingsByWorker(Worker worker);
     User getUserByEmail(String email);
+    StorageAnalyses getStorageAnalysesById(Object id);
+    StorageTurn getStorageTurnByTurn(Turn turn);
+    Storage getStorageById(Object id);
+    ExtractionRaw getExtractionRawById(Object id);
+    VRODaily getVroDailyById(Object id);
+    ExtractionOIl getExtractionOilById(Object id);
+    List<LoadPlan> getLoadPlansBetweenDates(LocalDate from, LocalDate to);
+    List<WeightUnit> getWeightUnits();
+    List<LoadPlan> getTransportationsOnTerritory();
+    List<LoadPlan> getTransportationsOnCruise();
+    List<Turn> getLimitTurns();
+    ExtractionTurn getExtractionTurnByTurn(Turn turn);
+    List<KPOPart> getLimitKPOParts();
+    StorageGrease getStorageGreaseById(Object id);
+    List<LoadPlan> getLoadPlansByDealType(DealType dealType);
+    VROTurn getVROTurnByTurn(Turn turn);
+    List<LoadPlan> getTransportationsByCustomer(TransportCustomer customer);
+    List<Deal> getDealsByOrganisation(Object organisation);
+    StorageProtein getStorageProteinById(Object id);
+    UserBotSetting getUseBorSettingsByWorker(Worker worker);
+    List<Driver> findDriver(String key);
+    DealProduct getDealProductById(int id);
+    List<Subdivision> getSubdivisions();
+    TurnGrease getTurnGreaseById(Object id);
+    List<DealHash> getDealHashByType(DealType dealType);
+    Turn getTurnByTime(Timestamp timestamp);
+    List<LaboratoryTurn> getAnyTurnByDate(LocalDate date);
+
+    List<VROTurn> getVroTurnsBetween(LocalDate from, LocalDate to);
+
+    List<VROTurn> getVroTurns();
+
 }

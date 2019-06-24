@@ -44,7 +44,7 @@ public class ExtractionStorageProteinEdit extends API {
                 id = (long) body.get(Constants.ID);
             }
             if (id != -1) {
-                storageProtein = hibernator.get(StorageProtein.class, "id", id);
+                storageProtein = dao.getStorageProteinById(id);
             } else {
                 storageProtein = new StorageProtein();
                 ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
@@ -55,7 +55,7 @@ public class ExtractionStorageProteinEdit extends API {
 
             long storageId = (long) body.get("storage");
             if (storageProtein.getStorage() == null || storageProtein.getStorage().getId() != storageId) {
-                storageProtein.setStorage(hibernator.get(Storage.class, "id", storageId));
+                storageProtein.setStorage(dao.getStorageById(storageId));
                 save = true;
             }
 
@@ -80,13 +80,13 @@ public class ExtractionStorageProteinEdit extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 storageProtein.setCreator(worker);
 
-                hibernator.save(createTime, storageProtein);
+                dao.save(createTime, storageProtein);
                 BotFactory.getNotificator().extractionShow(storageProtein);
             }
             write(resp, answer);

@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.LABORATORY_STORAGE_LIST)
 public class StorageListAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
     private final int LIMIT = 15;
 
     @Override

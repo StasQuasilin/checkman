@@ -27,7 +27,7 @@ import java.util.List;
 @WebServlet(Branches.API.PROBE_LIST)
 public class ProbeListAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     final HashMap<String, Object> parameters = new HashMap<>();
     final JSONObject array = new JSONObject();

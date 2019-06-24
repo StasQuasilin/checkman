@@ -12,7 +12,7 @@ import java.util.HashMap;
  * Created by szpt_user045 on 15.03.2019.
  */
 public class DealBox {
-    private static final Hibernator hibernator = Hibernator.getInstance();
+
     private final HashMap<Integer, Deal> deals = new HashMap<>();
     final static HashMap<String, Object> parameters = new HashMap<>();
 
@@ -27,11 +27,7 @@ public class DealBox {
 
 
     private DealBox() {
-        try {
-            hibernator.query(Deal.class, parameters).forEach(this::update);
-        } catch (Exception e){
-             e.printStackTrace();
-        }
+
     }
 
     public void update(Deal deal) {

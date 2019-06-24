@@ -30,7 +30,7 @@ import java.time.LocalTime;
 public class PartEditAPI extends API {
 
     private final Logger log = Logger.getLogger(PartEditAPI.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

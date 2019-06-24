@@ -1,6 +1,8 @@
 package controllers;
 
 import org.apache.log4j.Logger;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import java.io.IOException;
 public class IUIServlet extends IServlet {
 
     private final Logger log = Logger.getLogger(IUIServlet.class);
+    protected final dbDAO dao = dbDAOService.getDAO();
 
     public void show(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getAttribute("content") == null) {

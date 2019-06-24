@@ -21,7 +21,7 @@ public class TransportationShow extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
-        LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", id);
+        LoadPlan loadPlan = dao.getLoadPlanById(id);
         Weight weight = loadPlan.getTransportation().getWeight();
         float b = 0;
         float t = 0;

@@ -33,7 +33,7 @@ public class PartEdit extends IModal {
                 id = Long.parseLong(String.valueOf(json.get(Constants.ID)));
             }
             if (id != -1) {
-                req.setAttribute("part", hibernator.get(KPOPart.class, "id", id));
+                req.setAttribute("part", dao.getKPOPartById(id));
                 req.setAttribute("delete", Branches.API.KPO_PART_DELETE);
             }
         }

@@ -25,7 +25,7 @@ import java.io.IOException;
 public class VRODailyEdit extends IModal{
 
     private final Logger log = Logger.getLogger(VRODailyEdit.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

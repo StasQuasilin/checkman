@@ -33,7 +33,7 @@ import java.util.List;
 public class EditCakeAPI extends API {
     
     private final Logger log = Logger.getLogger(EditCakeAPI.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

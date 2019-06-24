@@ -53,12 +53,12 @@ public class ShortCutAPI extends API {
             parameters.clear();
             parameters.put("transportation/timeIn", State.notNull);
             parameters.put("transportation/archive", false);
-            doAction((JSONObject) body.get("territory"), hibernator.query(LoadPlan.class, parameters), tAdd, tUpdate, tRemove);
+            doAction((JSONObject) body.get("territory"), dao.getTransportationsOnTerritory(), tAdd, tUpdate, tRemove);
 
             parameters.clear();
             parameters.put("transportation/timeOut", State.notNull);
             parameters.put("transportation/archive", false);
-            doAction((JSONObject) body.get("cruise"), hibernator.query(LoadPlan.class, parameters), cAdd, cUpdate, cRemove);
+            doAction((JSONObject) body.get("cruise"), dao.getTransportationsOnCruise(), cAdd, cUpdate, cRemove);
 
             write(resp, array.toJSONString());
             tAdd.clear();

@@ -27,8 +27,7 @@ public class LaboratoryMonthlyReportPrintAPI extends IModal {
         if (json != null) {
             JSONObject parameters = (JSONObject) json.get("parameters");
             final LocalDate date = LocalDate.parse(String.valueOf(parameters.get("date")));
-            final BETWEEN between = new BETWEEN(Date.valueOf(date), Date.valueOf(date.plusMonths(1)));
-            List<LoadPlan> plans = hibernator.query(LoadPlan.class, "date", between);
+            List<LoadPlan> plans = dao.getLoadPlansBetweenDates(date, date.plusMonths(1));
             req.setAttribute("plans", plans);
             req.getRequestDispatcher("/pages/laboratory/reports/print/monthlyReport.jsp").forward(req, resp);
         }

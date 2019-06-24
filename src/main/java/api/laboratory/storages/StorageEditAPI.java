@@ -13,6 +13,8 @@ import entity.production.Turn;
 import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
 
@@ -31,6 +33,7 @@ import java.time.LocalDateTime;
 public class StorageEditAPI extends API {
 
     final TurnBox turnBox = TurnBox.getBox();
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,11 +47,11 @@ public class StorageEditAPI extends API {
             StorageAnalyses analyses;
             boolean save = false;
             if (id != -1){
-                analyses = hibernator.get(StorageAnalyses.class, "id", id);
+                analyses = dao.getStorageAnalysesById(id);
             } else {
                 LocalDateTime dateTime = LocalDateTime.now();
                 Turn turn = TurnService.getTurn(turnBox.getTurnDate(dateTime));
-                StorageTurn storageTurn = hibernator.get(StorageTurn.class, "turn", turn);
+                StorageTurn storageTurn = dao.getStorageTurnByTurn(turn);
                 if (storageTurn == null) {
                     storageTurn = new StorageTurn();
                     storageTurn.setTurn(turn);
@@ -60,7 +63,7 @@ public class StorageEditAPI extends API {
                 save = true;
             }
 
-            Storage storage = hibernator.get(Storage.class, "id", body.get("storage"));
+            Storage storage = dao.getStorageById(body.get("storage"));
             if (analyses.getStorage() == null || analyses.getStorage().getId() != storage.getId()){
                 analyses.setStorage(storage);
                 save = true;
@@ -100,13 +103,13 @@ public class StorageEditAPI extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 oilAnalyses.setCreator(worker);
 
-                hibernator.save(createTime, oilAnalyses, analyses.getTurn(), analyses);
+                dao.save(createTime, oilAnalyses, analyses.getTurn(), analyses);
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.storagesShow(oilAnalyses);

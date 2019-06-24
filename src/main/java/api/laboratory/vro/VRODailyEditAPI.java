@@ -10,6 +10,8 @@ import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
 import utils.turns.VROTurnService;
@@ -32,6 +34,7 @@ import java.util.List;
 public class VRODailyEditAPI extends API {
 
     private final Logger log = Logger.getLogger(VRODailyEditAPI.class);
+    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,8 +52,7 @@ public class VRODailyEditAPI extends API {
 
             VRODaily daily;
             if (body.containsKey(Constants.ID)) {
-                long id = (long) body.get(Constants.ID);
-                daily = hibernator.get(VRODaily.class, "id", id);
+                daily = dao.getVroDailyById(body.get(Constants.ID));
             } else {
                 daily = new VRODaily();
             }
@@ -97,12 +99,12 @@ public class VRODailyEditAPI extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 daily.setCreator(worker);
-                hibernator.save(createTime, daily);
+                dao.save(createTime, daily);
             }
 
             write(resp, answer);

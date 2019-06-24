@@ -33,7 +33,7 @@ public class VROOilEditAPI extends API {
 
     private final Logger log = Logger.getLogger(VROOilEditAPI.class);
     private final TurnBox turnBox = TurnBox.getBox();
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

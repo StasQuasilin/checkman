@@ -22,11 +22,6 @@ import java.util.HashMap;
  */
 @WebServlet(Branches.API.DEAL_LIST)
 public class DealListAPI extends API {
-    final HashMap<String, Object> parameters = new HashMap<>();
-
-    {
-        parameters.put("archive", false);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,17 +36,15 @@ public class DealListAPI extends API {
         JSONObject body = parseBody(req);
 
         if (body != null) {
-            parameters.put(Constants.TYPE, DealType.valueOf(req.getParameter(Constants.TYPE)));
-
-            for (DealHash deal : hibernator.query(DealHash.class, parameters)) {
+            for (DealHash deal : dao.getDealHashByType(DealType.valueOf(req.getParameter(Constants.TYPE)))) {
                 String id = String.valueOf(deal.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);
                     if (hash != deal.hashCode()) {
-                        update.add(JsonParser.toJson(hibernator.get(Deal.class, "id", deal.getId())));
+                        update.add(JsonParser.toJson(dao.getDealById(deal.getId())));
                     }
                 } else {
-                    add.add(JsonParser.toJson(hibernator.get(Deal.class, "id", deal.getId())));
+                    add.add(JsonParser.toJson(dao.getDealById(deal.getId())));
                 }
             }
 

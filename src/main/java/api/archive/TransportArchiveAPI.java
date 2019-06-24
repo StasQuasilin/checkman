@@ -26,7 +26,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.TRANSPORT_ARCHIVE)
 public class TransportArchiveAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

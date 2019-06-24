@@ -24,7 +24,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.CHANGE_PASSWORD)
 public class ChangePasswordAPI extends API {
 
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -25,7 +25,7 @@ import java.sql.Timestamp;
 public class SealsSaveAPI extends API {
 
     private final Logger log = Logger.getLogger(SealsSaveAPI.class);
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,9 +52,7 @@ public class SealsSaveAPI extends API {
                 seals[i] = seal;
             }
 
-            dao.save(time);
-            dao.save(batch);
-            dao.save(seals);
+            dao.save(time, batch, seals);
 
             body.clear();
             write(resp, answer);

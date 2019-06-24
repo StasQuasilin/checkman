@@ -35,7 +35,7 @@ public class ProbeEdit extends IModal {
                 req.setAttribute("saveApi", Branches.API.PROBE_SUN_SAVE);
                 req.setAttribute("modalContent", "/pages/laboratory/probes/sunProbe.jsp");
                 if (id != -1){
-                    req.setAttribute("probe", hibernator.get(SunProbe.class, "id", id));
+                    req.setAttribute("probe", dao.getSunProbeById(id));
                 }
                 break;
             case oil:
@@ -43,7 +43,7 @@ public class ProbeEdit extends IModal {
                 req.setAttribute("saveApi", Branches.API.PROBE_OIL_SAVE);
                 req.setAttribute("modalContent", "/pages/laboratory/probes/oilProbe.jsp");
                 if (id != -1){
-                    req.setAttribute("probe", hibernator.get(OilProbe.class, "id", id));
+                    req.setAttribute("probe", dao.getOilProbeById(id));
                 }
                 break;
             case oilcake:
@@ -55,7 +55,6 @@ public class ProbeEdit extends IModal {
                 break;
 
         }
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         req.setAttribute("findManager", Branches.API.References.FIND_WORKER);
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         show(req, resp);

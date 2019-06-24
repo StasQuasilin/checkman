@@ -34,7 +34,7 @@ public class EditSunAPI extends API {
         if (body != null) {
             long planId = (long) body.get(Constants.PLAN);
             log.info("Edit SUN analyses for plan \'" + planId + "\'...");
-            final LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
+            final LoadPlan loadPlan = dao.getLoadPlanById(planId);
 
             boolean save = false;
             SunAnalyses sunAnalyses = loadPlan.getTransportation().getSunAnalyses();
@@ -104,7 +104,7 @@ public class EditSunAPI extends API {
                 if (a.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) a.get(Constants.CREATOR);
                     log.info("\t\tHave creator");
-                    creator = hibernator.get(Worker.class, "id", creatorId);
+                    creator = dao.getWorkerById(creatorId);
                 } else {
                     log.info("\t\tDoesn't have creator");
                     creator = worker;
@@ -114,7 +114,7 @@ public class EditSunAPI extends API {
                 createTime.setCreator(creator);
                 sunAnalyses.setCreator(worker);
 
-                hibernator.save(createTime, sunAnalyses, loadPlan.getTransportation());
+                dao.save(createTime, sunAnalyses, loadPlan.getTransportation());
                 TransportUtil.calculateWeight(loadPlan.getTransportation());
 
                 Notificator notificator = BotFactory.getNotificator();

@@ -23,7 +23,7 @@ import java.sql.Date;
 public class ChangeLoadPlanDateAPI extends API {
 
     private final LoadPlanComparator comparator = new LoadPlanComparator();
-    dbDAO dao = dbDAOService.getDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

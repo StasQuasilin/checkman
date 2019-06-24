@@ -21,8 +21,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.DEAL_DELETE)
 public class DealDelete extends IModal {
 
-    dbDAO dao = dbDAOService.getDAO();
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);

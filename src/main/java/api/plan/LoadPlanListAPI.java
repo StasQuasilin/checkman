@@ -23,7 +23,6 @@ import java.util.HashMap;
 @WebServlet(Branches.API.PLAN_LIST)
 public class LoadPlanListAPI extends API {
 
-    private dbDAO dao = dbDAOService.getDAO();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final HashMap<String, Object> parameters = new HashMap<>();
