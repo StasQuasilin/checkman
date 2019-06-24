@@ -7,6 +7,8 @@ import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +23,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.PLAN_LIST)
 public class LoadPlanListAPI extends API {
 
+    private dbDAO dao = dbDAOService.getDAO();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final HashMap<String, Object> parameters = new HashMap<>();
@@ -36,7 +39,7 @@ public class LoadPlanListAPI extends API {
             parameters.put("deal", deal);
 
             JSONObject plans = (JSONObject) body.get("plans");
-            for (LoadPlan plan : hibernator.query(LoadPlan.class, parameters)) {
+            for (LoadPlan plan : dao.getLoadPlanByDeal(deal)) {
                 String id = String.valueOf(plan.getId());
                 if (plans.containsKey(id)) {
                     long hash = (long) plans.remove(id);

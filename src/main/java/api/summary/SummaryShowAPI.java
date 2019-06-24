@@ -11,6 +11,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.LanguageBase;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 public class SummaryShowAPI extends API {
 
 	final LanguageBase lb = LanguageBase.getBase();
+	dbDAO dao = dbDAOService.getDAO();
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,16 +36,16 @@ public class SummaryShowAPI extends API {
 				id = (long) body.get(Constants.ID);
 			}
 			if (id != -1) {
-				LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
+				LoadPlan plan = dao.getLoadPlanById(id);
 				ArrayList<ChangeLog> logs = new ArrayList<>();
 				if (plan.getUid() != null) {
-					logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getUid()));
+					logs.addAll(dao.getLogs(plan.getUid()));
 				}
 				if (plan.getTransportation() != null) {
 					if (plan.getTransportation().getUid() != null) {
-						logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getTransportation().getUid()));
+						logs.addAll(dao.getLogs(plan.getTransportation().getUid()));
 					}
-					logs.addAll(hibernator.query(ChangeLog.class, "document", plan.getTransportation().getWeight().getUid()));
+					logs.addAll(dao.getLogs(plan.getTransportation().getWeight().getUid()));
 				}
 				//todo logs.addAll(analyses);
 				for (Object o : (JSONArray)body.get("logs")){

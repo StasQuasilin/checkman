@@ -1,5 +1,7 @@
 package entity;
 
+import utils.U;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -66,7 +68,10 @@ public class Person {
 
     @Transient
     public String getValue() {
-        return surname + (forename != null ? " " + forename.substring(0, 1) + "." : "") + (patronymic != null ? " " + patronymic.substring(0, 1) + "." : "");
+        return
+                surname +
+                        (U.exist(forename) ? " " + forename.substring(0, 1) + "." : "") +
+                        (U.exist(patronymic) ? " " + patronymic.substring(0, 1) + "." : "");
     }
 
     @Override

@@ -8,6 +8,8 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.U;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,7 @@ import java.sql.Timestamp;
 public class SealsSaveAPI extends API {
 
     private final Logger log = Logger.getLogger(SealsSaveAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,8 +52,10 @@ public class SealsSaveAPI extends API {
                 seals[i] = seal;
             }
 
-            hibernator.save(time, batch);
-            hibernator.save(seals);
+            dao.save(time);
+            dao.save(batch);
+            dao.save(seals);
+
             body.clear();
             write(resp, answer);
         } else {

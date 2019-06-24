@@ -11,6 +11,8 @@ import entity.transport.TransportCustomer;
 import entity.weight.WeightUnit;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.WEIGHT_ADD)
 public class WeightAdd extends IModal {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
@@ -34,13 +39,12 @@ public class WeightAdd extends IModal {
             } else if (body.containsKey(Constants.COPY)) {
                 copy = Long.parseLong(String.valueOf(body.get(Constants.COPY)));
             }
-
         }
         if (id != -1) {
-            req.setAttribute("plan", hibernator.get(LoadPlan.class, "id", id));
+            req.setAttribute("plan", dao.getLoadPlanById(id));
             req.setAttribute("title", "title.weight.edit");
         } else if (copy != -1) {
-            LoadPlan plan = hibernator.get(LoadPlan.class, "id", copy);
+            LoadPlan plan = dao.getLoadPlanById(copy);
             plan.setId(-1);
             req.setAttribute("plan", plan);
             req.setAttribute("title", "title.weight.copy");
@@ -57,9 +61,9 @@ public class WeightAdd extends IModal {
         req.setAttribute("findDriver", Branches.API.References.FIND_DRIVER);
         req.setAttribute("parseDriver", Branches.UI.DRIVER_MODAL);
         req.setAttribute("save", Branches.API.PLAN_LIST_ADD);
-        req.setAttribute("products", hibernator.query(Product.class, null));
-        req.setAttribute("units", hibernator.query(WeightUnit.class, null));
-        req.setAttribute("documentOrganisations", hibernator.query(DocumentOrganisation.class, "active", true));
+        req.setAttribute("products", dao.getProductList());
+        req.setAttribute("units", dao.getUnitsList());
+        req.setAttribute("documentOrganisations", dao.getDocumentOrganisationList());
         req.setAttribute("types", DealType.values());
         req.setAttribute("customers", TransportCustomer.values());
         show(req, resp);

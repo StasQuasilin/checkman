@@ -14,6 +14,8 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
 import utils.turns.VROTurnService;
@@ -38,6 +40,7 @@ import java.util.List;
 public class VROCrudeEditAPI extends API {
 
     private final Logger log = Logger.getLogger(VROCrudeEditAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,8 +55,8 @@ public class VROCrudeEditAPI extends API {
             TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
             if (body.containsKey(Constants.ID)) {
-                long id = (long) body.get(Constants.ID);
-                crude = hibernator.get(VROCrude.class, "id", id);
+                Object id = body.get(Constants.ID);
+                crude = dao.getVroCrudeById(id);
             } else {
                 crude = new VROCrude();
             }
@@ -141,7 +144,7 @@ public class VROCrudeEditAPI extends API {
                     forpressCake = new ForpressCake();
                 }
                 forpressCake.setCrude(crude);
-                forpressCake.setForpress(hibernator.get(Forpress.class, "id", fp.get("forpress")));
+                forpressCake.setForpress(dao.getForpressById(fp.get("forpress")));
                 forpressCake.setHumidity(Float.parseFloat(String.valueOf(fp.get("humidity"))));
                 forpressCake.setOiliness(Float.parseFloat(String.valueOf(fp.get("oiliness"))));
                 cakes.add(forpressCake);
@@ -161,20 +164,21 @@ public class VROCrudeEditAPI extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 crude.setCreator(worker);
-                hibernator.save(createTime, crude);
-                cakes.forEach(hibernator::save);
+                dao.save(createTime);
+                dao.save(crude);
+                cakes.forEach(dao::save);
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.vroShow(crude, cakes);
                 }
 
-                forpressCakeHashMap.values().forEach(hibernator::remove);
+                forpressCakeHashMap.values().forEach(dao::remove);
                 cakes.clear();
                 forpressCakeHashMap.clear();
             }

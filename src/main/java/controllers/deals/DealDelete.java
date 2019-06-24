@@ -6,6 +6,8 @@ import controllers.IModal;
 import entity.documents.Deal;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,14 +21,17 @@ import java.io.IOException;
 @WebServlet(Branches.UI.DEAL_DELETE)
 public class DealDelete extends IModal {
 
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
-        int id = Integer.parseInt(String.valueOf(body.get(Constants.ID)));
-        req.setAttribute("deal", hibernator.get(Deal.class, "id", id));
-        req.setAttribute("title", Constants.Titles.DEAL_DELETE);
-        req.setAttribute("deleteUrl", Branches.API.DEAL_DELETE);
-        req.setAttribute("modalContent", "/pages/deals/dealDelete.jsp");
-        show(req, resp);
+        if (body != null) {
+            req.setAttribute("deal", dao.getDealById(body.get(Constants.ID)));
+            req.setAttribute("title", Constants.Titles.DEAL_DELETE);
+            req.setAttribute("deleteUrl", Branches.API.DEAL_DELETE);
+            req.setAttribute("modalContent", "/pages/deals/dealDelete.jsp");
+            show(req, resp);
+        }
     }
 }

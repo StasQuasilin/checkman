@@ -5,6 +5,8 @@ import constants.Branches;
 import entity.seals.Seal;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,19 +19,20 @@ import java.io.IOException;
  */
 @WebServlet(Branches.API.SEAL_PUT)
 public class PutSealAPI extends API {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            long sealId = (long) body.get("seal");
-            long transportationId = (long) body.get("transportation");
 
-            Seal seal = hibernator.get(Seal.class, "id", sealId);
-            Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
-
-            seal.setTransportation(transportation);
-
-            hibernator.save(seal);
+            Seal seal = dao.getSealById(body.get("seal"));
+            Transportation transportation = dao.getTransportationById(body.get("transportation"));
+            if (seal != null) {
+                seal.setTransportation(transportation);
+                dao.save(seal);
+            }
 
             write(resp, answer);
         } else {

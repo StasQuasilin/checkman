@@ -5,6 +5,8 @@ import constants.Constants;
 import controllers.IUIServlet;
 import entity.SubdivisionKey;
 import entity.production.Forpress;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,8 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.SUBDIVISION_LIST)
 public class SubdivisionList extends IUIServlet {
+
+    dbDAO dao = dbDAOService.getDAO();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -45,7 +49,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("oilMassFractionDry", Branches.UI.VRO.OIL_MASS_FRACTION_DRY);
                 req.setAttribute("update", Branches.API.VRO_LIST);
                 req.setAttribute("dailyPrint", Branches.UI.VRO.DAILY_REPORT_PRINT);
-                req.setAttribute("forpress", hibernator.query(Forpress.class, null));
+                req.setAttribute("forpress", dao.getForpressList());
                 break;
             case kpo:
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_KPO);

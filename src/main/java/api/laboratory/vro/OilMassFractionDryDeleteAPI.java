@@ -3,8 +3,11 @@ package api.laboratory.vro;
 import api.API;
 import constants.Branches;
 import constants.Constants;
+import entity.laboratory.subdivisions.vro.OilMassFraction;
 import entity.laboratory.subdivisions.vro.OilMassFractionDry;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +20,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.API.DELETE_OIL_MASS_FRACTION_DRY)
 public class OilMassFractionDryDeleteAPI extends API {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -26,8 +32,7 @@ public class OilMassFractionDryDeleteAPI extends API {
                 id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
             }
             if (id != -1){
-                OilMassFractionDry omf = hibernator.get(OilMassFractionDry.class, "id", id);
-                hibernator.remove(omf);
+                dao.remove(OilMassFraction.class, id);
             }
         } else {
             write(resp, emptyBody);

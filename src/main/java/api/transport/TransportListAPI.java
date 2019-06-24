@@ -7,6 +7,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +22,9 @@ import java.util.HashMap;
  */
 @WebServlet(Branches.API.TRANSPORT_LIST)
 public class TransportListAPI extends API {
-    final HashMap<String, Object> parameters = new HashMap<>();
-    {
-        parameters.put("transportation/archive", false);
-    }
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
@@ -36,7 +37,7 @@ public class TransportListAPI extends API {
         array.put("update", update);
         array.put("remove", remove);
         if (body != null) {
-            for (LoadPlan loadPlan : hibernator.query(LoadPlan.class, parameters)) {
+            for (LoadPlan loadPlan : dao.getActiveTransportations()) {
                 String id = String.valueOf(loadPlan.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);

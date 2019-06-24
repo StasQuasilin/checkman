@@ -8,6 +8,9 @@ import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import utils.boxes.IBox;
+import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,13 +18,10 @@ import java.util.stream.Collectors;
 /**
  * Created by quasilin on 18.03.2019.
  */
-public class TransportUtil extends IBox{
+public class TransportUtil{
 
     private final Logger log = Logger.getLogger(TransportUtil.class);
-
-    public static List<Worker> getLaboratoryPersonal(){
-        return hibernator.query(User.class, "role", Role.analyser).stream().map(User::getWorker).collect(Collectors.toList());
-    }
+    static dbDAO dao = dbDAOService.getDAO();
 
     public static void checkTransport(Transportation transportation) {
         boolean isArchive = true;
@@ -37,7 +37,7 @@ public class TransportUtil extends IBox{
         }
         if (transportation.isArchive() != isArchive) {
             transportation.setArchive(isArchive);
-            hibernator.save(transportation);
+            dao.saveTransportation(transportation);
         }
     }
     public static final int HUMIDITY_BASIS = 7;
@@ -61,7 +61,7 @@ public class TransportUtil extends IBox{
 
                 Weight weight = transportation.getWeight();
                 weight.setCorrection(percentage);
-                hibernator.save(weight);
+                dao.saveWeight(weight);
             }
         }
     }

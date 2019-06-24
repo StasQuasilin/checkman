@@ -18,6 +18,8 @@ import entity.weight.WeightUnit;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +35,7 @@ import java.sql.Date;
 public class EditLoadPlanAPI extends API {
 
     private final Logger log = Logger.getLogger(EditLoadPlanAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,26 +44,26 @@ public class EditLoadPlanAPI extends API {
             log.info(body );
             Date date = Date.valueOf(String.valueOf(body.get("date")));
             long plan = (long) body.get("plan");
-            DocumentOrganisation documentOrganisation = hibernator.get(DocumentOrganisation.class, "value", body.get("from"));
-            long dealId = Long.parseLong(String.valueOf(body.get("deal")));
+            DocumentOrganisation documentOrganisation = dao.getDocumentOrganisationByValue(body.get("from"));
+            Object dealId = body.get("deal");
             Deal deal;
             Worker creator = getWorker(req);
 
-            if (dealId == -1){
+            if (dealId == null){
                 deal = new Deal();
                 deal.setUid(DocumentUIDGenerator.generateUID());
                 deal.setType(DealType.valueOf(String.valueOf(body.get("type"))));
                 deal.setDate(date);
                 deal.setDateTo(date);
-                deal.setOrganisation(hibernator.get(Organisation.class, "id", body.get("organisation")));
+                deal.setOrganisation(dao.getOrganisationById(body.get("organisation")));
                 deal.setDocumentOrganisation(documentOrganisation);
-                deal.setProduct(hibernator.get(Product.class, "id", body.get("product")));
+                deal.setProduct(dao.getProductById(body.get("product")));
                 deal.setQuantity(plan);
-                deal.setUnit(hibernator.get(WeightUnit.class, "id", body.get("unit")));
+                deal.setUnit(dao.getWeightUnitById(body.get("unit")));
                 deal.setPrice(Float.parseFloat(String.valueOf(body.get("price"))));
                 deal.setCreator(creator);
             } else {
-                deal = hibernator.get(Deal.class, "id", dealId);
+                deal = dao.getDealById(dealId);
             }
             long id = -1;
             if (body.containsKey(Constants.ID)) {
@@ -69,7 +72,7 @@ public class EditLoadPlanAPI extends API {
             LoadPlan loadPlan;
             Transportation transportation;
             if (id != -1) {
-                loadPlan = hibernator.get(LoadPlan.class, "id", id);
+                loadPlan = dao.getLoadPlanById(id);
                 transportation = loadPlan.getTransportation();
             } else {
                 loadPlan = new LoadPlan();
@@ -88,13 +91,13 @@ public class EditLoadPlanAPI extends API {
 
                 long vehicleId = (long) body.get("vehicle");
                 if (vehicleId != -1) {
-                    transportation.setVehicle(hibernator.get(Vehicle.class, "id", vehicleId));
+                    transportation.setVehicle(dao.getVehicleById(vehicleId));
                 } else if (transportation.getVehicle() != null) {
                     transportation.setVehicle(null);
                 }
                 long driverId = (long) body.get("driver");
                 if (driverId != -1) {
-                    transportation.setDriver(hibernator.get(Driver.class, "id", driverId));
+                    transportation.setDriver(dao.getDriverByID(driverId));
                 } else if (transportation.getDriver() != null) {
                     transportation.setDriver(null);
                 }
@@ -102,8 +105,9 @@ public class EditLoadPlanAPI extends API {
                 transportation.setCreator(creator);
             }
 
-            hibernator.save(deal);
-            hibernator.save(transportation, loadPlan);
+            dao.saveDeal(deal);
+            dao.saveTransportation(transportation);
+            dao.saveLoadPlan(loadPlan);
             write(resp, answer);
 
         } else {

@@ -8,6 +8,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import constants.Branches;
+import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
@@ -116,10 +117,7 @@ public class Parser {
         }
     }
     public static void main(String[] args) throws IOException, DocumentException {
-        LocalDateTime dateTime = LocalDateTime.of(2019, 6, 5, 8, 0);
-        System.out.println(dateTime);
-        dateTime = dateTime.minusHours(5 * 12);
-        System.out.println(dateTime);
+
     }
 
 

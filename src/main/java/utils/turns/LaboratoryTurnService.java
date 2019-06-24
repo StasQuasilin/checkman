@@ -29,7 +29,6 @@ public class LaboratoryTurnService {
     }
     final static int MAX_ATTEMPT = 3;
 
-    private static final Hibernator hibernator = Hibernator.getInstance();
     public static List<LaboratoryTurn> getTurns(TurnDateTime date){
         return getTurns(TurnService.getTurn(date));
     }

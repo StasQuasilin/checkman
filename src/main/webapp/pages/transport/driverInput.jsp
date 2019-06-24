@@ -13,44 +13,50 @@
     editor.person.patronymic = '${driver.person.patronymic}';
     editor.transportationId = '${transportation}'
 </script>
-<table id="personEditor">
+
+<table id="personEditor" width="100%">
     <tr>
         <td>
             <label for="surname">
-                <fmt:message key="person.surname"/>*
+                <fmt:message key="person.surname"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="surname" v-model="person.surname">
+            <input id="surname" v-model="person.surname" autocomplete="off" <c:if test="${transportations gt 1}">readonly</c:if>>
         </td>
     </tr>
     <tr>
         <td>
             <label for="forename">
-                <fmt:message key="person.forename"/>*
+                <fmt:message key="person.forename"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="forename" v-model="person.forename">
+            <input id="forename" v-model="person.forename" autocomplete="off"  <c:if test="${transportations gt 1}">readonly</c:if>>
         </td>
     </tr>
     <tr>
         <td>
             <label for="patronymic">
-                <fmt:message key="person.patronymic"/>*
+                <fmt:message key="person.patronymic"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="patronymic" v-model="person.patronymic">
+            <input id="patronymic" v-model="person.patronymic" autocomplete="off" <c:if test="${transportations gt 1}">readonly</c:if>>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="font-size: 8pt; color: darkgray">
+            <fmt:message key="transportation.quantity"/>:&nbsp;${transportations}
         </td>
     </tr>
     <tr>

@@ -4,8 +4,12 @@ import bot.BotFactory;
 import constants.Branches;
 import entity.bot.BotSettings;
 import org.apache.log4j.Logger;
+import utils.boxes.DealBox;
+import utils.boxes.TransportBox;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -21,15 +25,18 @@ public class ContextFilter implements Filter {
     public static BotSettings settings;
     final Logger log = Logger.getLogger(ContextFilter.class);
 
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         HibernateSessionFactory.init();
+        TransportBox.getBox().init();
+        DealBox.getBox().init();
         initBot();
     }
 
     public void initBot(){
         log.info("Read bot settings...");
-        settings = Hibernator.getInstance().get(BotSettings.class, null);
+        settings = dbDAOService.getDAO().getBotSettings();
         if (settings != null) {
             log.info("\t...Bot settings read successfully");
             try {

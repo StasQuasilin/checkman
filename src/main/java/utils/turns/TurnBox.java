@@ -4,6 +4,9 @@ import entity.production.TurnSettings;
 import utils.TurnDateTime;
 import utils.boxes.IBox;
 import utils.hibernate.HibernateSessionFactory;
+import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,10 +15,10 @@ import java.util.List;
 /**
  * Created by quasilin on 01.04.2019.
  */
-public class TurnBox extends IBox{
+public class TurnBox{
 
     private static final TurnBox BOX = new TurnBox();
-
+    dbDAO dao = dbDAOService.getDAO();
     public static TurnBox getBox() {
         return BOX;
     }
@@ -23,7 +26,7 @@ public class TurnBox extends IBox{
     private List<TurnSettings> turns;
     private final TurnDateTime def;
     public TurnBox() {
-        turns = hibernator.query(TurnSettings.class, null);
+        turns = dao.getTurnSettings();
         turns.sort((o1, o2) -> Integer.compare( o1.getNumber(), o2.getNumber()));
 
         if (turns.size() > 0) {

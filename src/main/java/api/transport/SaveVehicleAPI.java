@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.Parser;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +28,7 @@ public class SaveVehicleAPI extends API {
 
     final Logger logger = Logger.getLogger(SaveVehicleAPI.class);
     final TransportationComparator comparator = new TransportationComparator();
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,8 +37,7 @@ public class SaveVehicleAPI extends API {
 
         if (body != null) {
             if (body.containsKey(Constants.VEHICLE_ID)) {
-                long id = (long) body.get(Constants.VEHICLE_ID);
-                vehicle = hibernator.get(Vehicle.class, "id", id);
+                vehicle = dao.getVehicleById(body.get(Constants.VEHICLE_ID));
                 logger.info("Edit vehicle " + vehicle.getId() + "...");
             } else {
                 vehicle = new Vehicle();
@@ -51,23 +53,22 @@ public class SaveVehicleAPI extends API {
             logger.info("\t...Trailer: " + vehicle.getTrailer());
 
             if (body.containsKey(Constants.Vehicle.TRANSPORTER_ID)) {
-                long id = (long) body.get(Constants.Vehicle.TRANSPORTER_ID);
-                Organisation organisation = hibernator.get(Organisation.class, "id", id);
+                Organisation organisation = dao.getOrganisationById(body.get(Constants.Vehicle.TRANSPORTER_ID));
                 vehicle.setTransporter(organisation);
                 logger.info("\t...Transporter: \'" + vehicle.getTransporter().getValue() + "\'");
             }
 
-            hibernator.save(vehicle);
-            long transportationId = -1;
+            dao.save(vehicle);
+            Object transportationId = -1;
 
             if (body.containsKey(Constants.TRANSPORTATION_ID)) {
-                transportationId = (long) body.get(Constants.TRANSPORTATION_ID);
+                transportationId = body.get(Constants.TRANSPORTATION_ID);
             }
-            if (transportationId != -1) {
-                Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+            if (transportationId != null) {
+                Transportation transportation = dao.getTransportationById(transportationId);
                 comparator.fix(transportation);
                 transportation.setVehicle(vehicle);
-                hibernator.save(transportation);
+                dao.saveTransportation(transportation);
                 comparator.compare(transportation, getWorker(req));
                 logger.info("Put in transportation " + transportation.getId());
             }

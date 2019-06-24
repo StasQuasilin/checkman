@@ -14,6 +14,8 @@ import entity.rails.Train;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.*;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +32,7 @@ public class DealEditAPI extends IChangeAPI{
 
     private final DealComparator comparator = new DealComparator();
     private final Logger log = Logger.getLogger(DealEditAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,7 +49,7 @@ public class DealEditAPI extends IChangeAPI{
                 id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
             }
             if (id != -1) {
-                deal = hibernator.get(Deal.class, Constants.ID, id);
+                deal = dao.getDealById(id);
             } else {
                 deal = new Deal();
                 deal.setCreator(worker);
@@ -83,12 +86,12 @@ public class DealEditAPI extends IChangeAPI{
             Organisation organisation;
             long organisationId = (long) body.get(Constants.CONTRAGENT);
             if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisationId) {
-                organisation = hibernator.get(Organisation.class, "id", organisationId);
+                organisation = dao.getOrganisationById(organisationId);
                 deal.setOrganisation(organisation);
                 save = true;
             }
 
-            Product product = hibernator.get(Product.class, "id", body.get(Constants.PRODUCT));
+            Product product = dao.getProductById(body.get(Constants.PRODUCT));
             if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {
                 deal.setProduct(product);
                 save = true;
@@ -111,30 +114,19 @@ public class DealEditAPI extends IChangeAPI{
                 save = true;
             }
 
-            DocumentOrganisation dO = hibernator.get(DocumentOrganisation.class, "id", (body.get(Constants.REALISATION)));
+            DocumentOrganisation dO = dao.getDocumentOrganisationById(body.get(Constants.REALISATION));
             if (deal.getDocumentOrganisation() == null || deal.getDocumentOrganisation().getId() != dO.getId()) {
                 deal.setDocumentOrganisation(dO);
                 save = true;
             }
 
             if (save) {
-                hibernator.save(deal);
+                dao.saveDeal(deal);
                 try {
                     comparator.compare(deal, worker);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-
-            Boolean rails = (Boolean) body.get("rails");
-            if (rails){
-                Train train = hibernator.get(Train.class, "deal", deal);
-                if (train == null) {
-                    train = new Train();
-                    train.setDeal(deal);
-                    hibernator.save(train);
-                }
-
             }
 
             write(resp, answer);

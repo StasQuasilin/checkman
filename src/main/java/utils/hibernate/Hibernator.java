@@ -1,5 +1,7 @@
 package utils.hibernate;
 
+import entity.transport.Driver;
+import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.hibernate.Session;
 import utils.hibernate.DateContainers.*;
@@ -14,7 +16,7 @@ import java.util.*;
 public class Hibernator {
     private static final Hibernator instance = new Hibernator();
 
-    public static Hibernator getInstance() {
+    static Hibernator getInstance() {
         return instance;
     }
 
@@ -65,6 +67,11 @@ public class Hibernator {
         HibernateSessionFactory.putSession(session);
 
         return resultList;
+    }
+    public <T>List<T> limitQuery(Class<T> tClass, String parameter, Object value, int limit) {
+        final HashMap<String, Object> param = new HashMap<>();
+        param.put(parameter, value);
+        return limitQuery(tClass, param, limit);
     }
     private <T> CriteriaQuery<T> getCriteriaQuery(Session session, Class<T> tClass, HashMap<String, Object> parameters) {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();

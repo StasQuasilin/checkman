@@ -13,6 +13,8 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +33,7 @@ import java.util.List;
 public class EditCakeAPI extends API {
     
     private final Logger log = Logger.getLogger(EditCakeAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +42,7 @@ public class EditCakeAPI extends API {
             long planId = (long) body.get(Constants.PLAN);
             log.info("Edit CAKE analyses for plan \'" + planId + "\'...");
 
-            LoadPlan loadPlan = hibernator.get(LoadPlan.class, "id", planId);
+            LoadPlan loadPlan = dao.getLoadPlanById(planId);
             CakeAnalyses cakeAnalyses = loadPlan.getTransportation().getCakeAnalyses();
             if (cakeAnalyses == null) {
                 cakeAnalyses = new CakeAnalyses();
@@ -87,14 +90,15 @@ public class EditCakeAPI extends API {
                 if (a.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) a.get(Constants.CREATOR);
                     log.info("\t\tHave creator");
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     log.info("\t\tDoesn't have creator");
                     createTime.setCreator(worker);
                 }
                 cakeAnalyses.setCreator(worker);
 
-                hibernator.save(cakeAnalyses.getCreateTime(), cakeAnalyses, loadPlan.getTransportation());
+                dao.saveCakeAnalyses(cakeAnalyses);
+                dao.saveTransportation(loadPlan.getTransportation());
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

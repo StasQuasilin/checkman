@@ -8,6 +8,8 @@ import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 import utils.hibernate.DateContainers.LE;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +26,8 @@ import java.util.HashMap;
 @WebServlet(Branches.API.TRANSPORT_ARCHIVE)
 public class TransportArchiveAPI extends API {
 
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JSONObject array = new JSONObject();
@@ -37,11 +41,7 @@ public class TransportArchiveAPI extends API {
 
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
-            final HashMap<String, Object> parameters = new HashMap<>();
-            parameters.put("transportation/archive", true);
-            parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
-
-            for (LoadPlan plan : hibernator.limitQuery(LoadPlan.class, parameters, 30)) {
+            for (LoadPlan plan : dao.getTransportArchive()) {
                 String id = String.valueOf(plan.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);

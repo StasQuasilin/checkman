@@ -11,6 +11,8 @@ import entity.Worker;
 import org.json.simple.JSONObject;
 import utils.LanguageBase;
 import utils.PasswordGenerator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.API.FRIENDLY_REGISTRATION)
 public class FriendlyRegistrationAPI extends API {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -43,7 +48,7 @@ public class FriendlyRegistrationAPI extends API {
             person.setForename(String.valueOf(body.get("forename")));
             person.setPatronymic(String.valueOf(body.get("patronymic")));
 
-            hibernator.save(person, worker, user);
+            dao.save(person, worker, user);
             Notificator notificator = BotFactory.getNotificator();
             if (notificator != null) {
                 notificator.registrationShow(user);

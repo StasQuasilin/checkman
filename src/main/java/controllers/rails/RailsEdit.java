@@ -17,7 +17,6 @@ import java.io.IOException;
 public class RailsEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("trains", hibernator.query(Train.class, "deal/archive", false));
         req.setAttribute("title", "title.rails.edit");
         req.setAttribute("modalContent", "/pages/rails/railsEdit.jsp");
         req.setAttribute("save", Branches.API.RAILS_SAVE);

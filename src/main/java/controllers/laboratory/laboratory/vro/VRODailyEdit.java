@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TransportUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -23,25 +25,25 @@ import java.io.IOException;
 public class VRODailyEdit extends IModal{
 
     private final Logger log = Logger.getLogger(VRODailyEdit.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject json = PostUtil.parseBodyJson(req);
         if (json != null) {
             log.info(json);
-            long id = -1;
+            Object id = null;
             if (json.containsKey(Constants.ID)){
-                id = Long.parseLong(String.valueOf(json.get(Constants.ID)));
+                id = json.get(Constants.ID);
             }
-            if (id != -1) {
-                req.setAttribute("daily", hibernator.get(VRODaily.class, "id", id));
+            if (id != null) {
+                req.setAttribute("daily", dao.getVRODailyById(id));
             }
         }
         req.setAttribute("title", Constants.Titles.DAILY_ANALYSES);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/vroDaily.jsp");
         req.setAttribute("save", Branches.API.VRO_DAILY_EDIT);
         req.setAttribute("turns", TurnBox.getBox().getTurns());
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         show(req, resp);
     }
 }

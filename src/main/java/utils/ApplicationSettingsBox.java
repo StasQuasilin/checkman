@@ -2,13 +2,15 @@ package utils;
 
 import entity.ApplicationSettings;
 import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 /**
  * Created by quasilin on 18.03.2019.
  */
 public class ApplicationSettingsBox {
 
-    private final Hibernator hibernator = Hibernator.getInstance();
+    dbDAO dao = dbDAOService.getDAO();
 
     private static final ApplicationSettingsBox box = new ApplicationSettingsBox();
 
@@ -23,7 +25,7 @@ public class ApplicationSettingsBox {
     }
 
     void initSettings(){
-        settings = hibernator.get(ApplicationSettings.class, null);
+        settings = dao.getApplicationSettings();
     }
 
     public ApplicationSettings getSettings() {

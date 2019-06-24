@@ -4,6 +4,8 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
 import entity.products.Product;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.TRANSPORT_ARCHIVE)
 public class TransportArchive extends IUIServlet {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -24,7 +29,7 @@ public class TransportArchive extends IUIServlet {
         req.setAttribute("title", Constants.Titles.TRANSPORT_ARCHIVE + "." + type.toString());
         req.setAttribute("content", "/pages/archive/transportArchive.jsp");
         req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
-        req.setAttribute("products", hibernator.query(Product.class, null));
+        req.setAttribute("products", dao.getProductList());
         req.setAttribute("update", Branches.API.TRANSPORT_ARCHIVE);
 
         show(req, resp);

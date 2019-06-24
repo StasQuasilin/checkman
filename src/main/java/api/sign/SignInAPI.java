@@ -13,6 +13,8 @@ import utils.PostUtil;
 import utils.access.UserBox;
 import utils.access.UserData;
 import utils.answers.SuccessAnswer;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +29,7 @@ import java.io.IOException;
 public class SignInAPI extends API {
 
     private static final Logger log = Logger.getLogger(SignInAPI.class);
+    static dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,7 +48,7 @@ public class SignInAPI extends API {
     public synchronized static IAnswer signIn(HttpServletRequest req, String uid, String password) throws IOException {
         IAnswer answer;
         log.info("Sign in by user token " + uid);
-        User user = hibernator.get(User.class, "uid", uid);
+        User user = dao.getUserByUID(uid);
 
         if (user != null ){
             if (user.getPassword().equals(password)) {

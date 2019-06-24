@@ -17,6 +17,8 @@ import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
 import utils.TransportUtil;
 import utils.WeightUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +39,7 @@ public class EditWeightAPI extends API {
     private final WeightComparator comparator = new WeightComparator();
     private final TransportationComparator transportationComparator = new TransportationComparator();
     private final Logger log = Logger.getLogger(EditWeightAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,7 +48,7 @@ public class EditWeightAPI extends API {
             log.info(body);
 
             long planId = (long) body.get(Constants.ID);
-            LoadPlan plan = hibernator.get(LoadPlan.class, "id", planId);
+            LoadPlan plan = dao.getLoadPlanById(planId);
             Weight weight = plan.getTransportation().getWeight();
             boolean saveIt = false;
 
@@ -67,7 +70,7 @@ public class EditWeightAPI extends API {
 
             if (saveIt){
                 comparator.compare(weight, worker);
-                hibernator.save(plan.getTransportation());
+                dao.saveTransportation(plan.getTransportation());
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.weightShow(plan, weight);
@@ -100,7 +103,7 @@ public class EditWeightAPI extends API {
         } else if (weight.getBrutto() != 0){
             weight.setBrutto(0);
             if (weight.getBruttoTime() != null) {
-                hibernator.remove(weight.getBruttoTime());
+                dao.remove(weight.getBruttoTime());
             }
             weight.setBruttoTime(null);
             saveIt = true;
@@ -119,7 +122,7 @@ public class EditWeightAPI extends API {
         } else if (weight.getTara() != 0){
             weight.setTara(0);
             if (weight.getTaraTime() != null) {
-                hibernator.remove(weight.getTaraTime());
+                dao.remove(weight.getTaraTime());
             }
             weight.setTaraTime(null);
             saveIt = true;
@@ -127,12 +130,12 @@ public class EditWeightAPI extends API {
 
         if(saveIt){
             if (weight.getBruttoTime() != null) {
-                hibernator.save(weight.getBruttoTime());
+                dao.save(weight.getBruttoTime());
             }
             if (weight.getTaraTime() != null) {
-                hibernator.save(weight.getTaraTime());
+                dao.save(weight.getTaraTime());
             }
-            hibernator.save(weight);
+            dao.saveWeight(weight);
         }
 
         return saveIt;

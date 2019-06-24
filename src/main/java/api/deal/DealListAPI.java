@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.DealType;
 import entity.documents.Deal;
+import entity.documents.DealHash;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
@@ -42,15 +43,15 @@ public class DealListAPI extends API {
         if (body != null) {
             parameters.put(Constants.TYPE, DealType.valueOf(req.getParameter(Constants.TYPE)));
 
-            for (Deal deal : hibernator.query(Deal.class, parameters)) {
+            for (DealHash deal : hibernator.query(DealHash.class, parameters)) {
                 String id = String.valueOf(deal.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);
                     if (hash != deal.hashCode()) {
-                        update.add(JsonParser.toJson(deal));
+                        update.add(JsonParser.toJson(hibernator.get(Deal.class, "id", deal.getId())));
                     }
                 } else {
-                    add.add(JsonParser.toJson(deal));
+                    add.add(JsonParser.toJson(hibernator.get(Deal.class, "id", deal.getId())));
                 }
             }
 

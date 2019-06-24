@@ -8,6 +8,8 @@ import entity.laboratory.SunAnalyses;
 import entity.laboratory.transportation.ActType;
 import org.json.simple.JSONObject;
 import utils.TransportUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +24,9 @@ import java.time.LocalDate;
  */
 @WebServlet(Branches.API.LABORATORY_SUN_PRINT)
 public class LaboratorySunPrintAPI extends API {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -31,7 +36,7 @@ public class LaboratorySunPrintAPI extends API {
                 id = (long) body.get("id");
             }
             if(id != -1){
-                LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
+                LoadPlan plan = dao.getLoadPlanById(id);
                 float humidity = 0;
                 float soreness = 0;
                 final int humidityBasis = TransportUtil.HUMIDITY_BASIS;
@@ -49,7 +54,7 @@ public class LaboratorySunPrintAPI extends API {
                 if (mean > humidityBasis || soreness > sorenessBasis){
                     if (a.getAct() < 1) {
                         a.setAct(ActNumberService.getActNumber(ActType.sun));
-                        hibernator.save(a);
+                        dao.save(a);
                     }
                     req.setAttribute("number", a.getAct());
                 }

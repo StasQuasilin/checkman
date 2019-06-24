@@ -9,6 +9,8 @@ import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
 import utils.hibernate.DateContainers.LE;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,23 +29,22 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.Archive.DEALS)
 public class DealArchiveAPI extends API {
     final JSONArray array = new JSONArray();
-    final HashMap<String, Object> parameters = new HashMap<>();
-    final LE le = new LE(Date.valueOf(LocalDate.now()));
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            DealType type = DealType.valueOf(String.valueOf(body.get("type")));
+            List<Deal> deals = dao.getArchiveDeals(type);
 
-        DealType type = DealType.valueOf(String.valueOf(body.get("type")));
-        parameters.put("archive", true);
-        le.setDate(Date.valueOf(LocalDate.now().plusDays(1)));
-        parameters.put("date", le);
-        parameters.put("type", type);
-        List<Deal> deals = hibernator.limitQuery(Deal.class, parameters, 15);
+            array.addAll(deals.stream().map(JsonParser::toJson).collect(Collectors.toList()));
 
-        array.addAll(deals.stream().map(JsonParser::toJson).collect(Collectors.toList()));
+            write(resp, array.toJSONString());
+            array.clear();
 
-        write(resp, array.toJSONString());
-        array.clear();
-        parameters.clear();
+        } else {
+            write(resp, emptyBody);
+        }
     }
 }

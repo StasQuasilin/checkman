@@ -10,6 +10,8 @@ import entity.laboratory.subdivisions.extraction.TurnProtein;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
 
@@ -28,6 +30,8 @@ import java.time.LocalDateTime;
 @WebServlet(Branches.API.EXTRACTION_TURN_PROTEIN_EDIT)
 public class ExtractionTurnProteinEdit extends API {
 
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -38,7 +42,7 @@ public class ExtractionTurnProteinEdit extends API {
                 id = (long) body.get(Constants.ID);
             }
             if (id != -1){
-                turnProtein = hibernator.get(TurnProtein.class, "id", id);
+                turnProtein = dao.getExtractionTurnProteinById(id);
             } else {
                 turnProtein = new TurnProtein();
             }
@@ -82,12 +86,12 @@ public class ExtractionTurnProteinEdit extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 turnProtein.setCreator(worker);
-                hibernator.save(createTime, turnProtein);
+                dao.save(createTime, turnProtein);
                 BotFactory.getNotificator().extractionShow(turnProtein);
             }
 

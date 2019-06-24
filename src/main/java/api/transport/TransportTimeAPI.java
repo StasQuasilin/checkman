@@ -16,6 +16,8 @@ import utils.JsonParser;
 import utils.TransportUtil;
 import utils.WeightUtil;
 import utils.answers.SuccessAnswer;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,14 +34,15 @@ import java.sql.Timestamp;
 public class TransportTimeAPI extends API {
 
     private final TransportationComparator comparator = new TransportationComparator();
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TransportDirection direction = TransportDirection.valueOf(req.getParameter("dir"));
         JSONObject body = parseBody(req);
         if (body != null) {
-            long id = (long) body.get(Constants.ID);
-            LoadPlan plan = hibernator.get(LoadPlan.class, "transportation/id", id);
+            Object id = body.get(Constants.ID);
+            LoadPlan plan = dao.getLoadPlanByTransportationId(id);
             Transportation transportation = plan.getTransportation();
             comparator.fix(transportation);
             ActionTime time = null;
@@ -65,7 +68,7 @@ public class TransportTimeAPI extends API {
             Worker worker = getWorker(req);
             time.setTime(new Timestamp(System.currentTimeMillis()));
             time.setCreator(worker);
-            hibernator.save(time, transportation);
+            dao.saveTransportation(time, transportation);
             Notificator notificator = BotFactory.getNotificator();
             if (notificator != null) {
                 notificator.transportShow(plan);

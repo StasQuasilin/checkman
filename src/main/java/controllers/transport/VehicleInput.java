@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.Parser;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,7 @@ import java.util.List;
 public class VehicleInput extends IModal {
     
     static final Logger log = Logger.getLogger(VehicleInput.class);
+    dbDAO dao = dbDAOService.getDAO();
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +39,7 @@ public class VehicleInput extends IModal {
             }
 
             if (body.containsKey(Constants.VEHICLE_ID)) {
-                vehicle = hibernator.get(Vehicle.class, "id",  body.get(Constants.VEHICLE_ID));
+                vehicle = dao.getVehicleById(body.get(Constants.VEHICLE_ID));
                 log.info("Vehicle: " + vehicle.getId());
             } else {
                 vehicle = new Vehicle();

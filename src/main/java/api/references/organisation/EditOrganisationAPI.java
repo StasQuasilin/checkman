@@ -7,6 +7,8 @@ import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,18 +22,22 @@ import java.util.HashMap;
  */
 @WebServlet(Branches.API.References.EDIT_ORGANISATION)
 public class EditOrganisationAPI extends API {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
             
             Organisation organisation;
-            try {
-                long id = (long) body.get(Constants.ID);
-                organisation = hibernator.get(Organisation.class, "id", id);
-            } catch (Exception ignore) {
+            Object id = body.get(Constants.ID);
+            if (id != null) {
+                organisation = dao.getOrganisationById(id);
+            } else {
                 organisation = new Organisation();
             }
+
             String name = String.valueOf(body.get(Constants.NAME));
             name = name.trim().toUpperCase();
             organisation.setName(name);
@@ -40,13 +46,13 @@ public class EditOrganisationAPI extends API {
             type = type.trim().toUpperCase();
             organisation.setType(type);
 
-            hibernator.save(organisation);
+            dao.save(organisation);
             write(resp, answer);
-            OrganisationType organisationType = hibernator.get(OrganisationType.class, "name", type);
+            OrganisationType organisationType = dao.getOrganisationTypeByName(type);
             if (organisationType == null) {
                 organisationType = new OrganisationType();
                 organisationType.setName(type);
-                hibernator.save(organisationType);
+                dao.save(organisationType);
             }
         } else {
             write(resp, emptyBody);

@@ -11,6 +11,8 @@ import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +28,7 @@ public class SaveDriverAPI extends API {
 
     final Logger logger = Logger.getLogger(SaveDriverAPI.class);
     final TransportationComparator comparator = new TransportationComparator();
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,8 +39,7 @@ public class SaveDriverAPI extends API {
             Driver driver;
 
             if (body.containsKey(Constants.ID)) {
-                long id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
-                driver = hibernator.get(Driver.class, "id", id);
+                driver = dao.getDriverByID(body.get(Constants.ID));
                 logger.info("Edit vehicle " + driver.getId() + "...");
             } else {
                 driver = new Driver();
@@ -55,13 +57,13 @@ public class SaveDriverAPI extends API {
             logger.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
 
             if ((body.containsKey(Constants.Vehicle.TRANSPORTER_ID))) {
-                long id = (long) body.get(Constants.Vehicle.TRANSPORTER_ID);
-                Organisation organisation = hibernator.get(Organisation.class, "id", id);
+                Organisation organisation = dao.getOrganisationById(body.get(Constants.Vehicle.TRANSPORTER_ID));
                 driver.setOrganisation(organisation);
                 logger.info("\t...Organisation: \'" + driver.getOrganisation().getValue() + "\'");
             }
 
-            hibernator.save(driver.getPerson(), driver);
+            dao.save(driver.getPerson());
+            dao.save(driver);
 
             long transportationId = -1;
 
@@ -69,10 +71,10 @@ public class SaveDriverAPI extends API {
                 transportationId = Long.parseLong(String.valueOf(body.get(Constants.TRANSPORTATION_ID)));
             }
             if (transportationId != -1) {
-                Transportation transportation = hibernator.get(Transportation.class, "id", transportationId);
+                Transportation transportation = dao.getTransportationById(transportationId);
                 comparator.fix(transportation);
                 transportation.setDriver(driver);
-                hibernator.save(transportation);
+                dao.saveTransportation(transportation);
                 comparator.compare(transportation, getWorker(req));
                 logger.info("Put in transportation " + transportation.getId());
             }

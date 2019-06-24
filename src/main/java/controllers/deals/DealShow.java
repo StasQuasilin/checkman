@@ -6,6 +6,8 @@ import controllers.IModal;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +20,13 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.DEAL_SHOW)
 public class DealShow extends IModal{
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int dealId = Integer.parseInt(req.getParameter(Constants.ID));
-        req.setAttribute("deal", hibernator.get(Deal.class, "id", dealId));
+        req.setAttribute("deal", dao.getDealById(dealId));
         req.setAttribute("title", Constants.Titles.DEAL_SHOW);
         req.setAttribute("update", Branches.API.PLAN_LIST);
         req.setAttribute("save", Branches.API.PLAN_LIST_SAVE);

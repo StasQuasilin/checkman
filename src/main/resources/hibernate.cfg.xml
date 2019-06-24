@@ -37,8 +37,10 @@
         <mapping class="entity.organisations.Organisation"/>
         <mapping class="entity.organisations.OrganisationType"/>
         <mapping class="entity.transport.Transportation"/>
+        <mapping class="entity.transport.TransportationNotes"/>
         <mapping class="entity.transport.ActionTime"/>
         <mapping class="entity.documents.Deal"/>
+        <mapping class="entity.documents.DealHash"/>
         <mapping class="entity.documents.DocumentOrganisation"/>
         <mapping class="entity.documents.LoadPlan"/>
         <mapping class="entity.log.ChangeLog"/>

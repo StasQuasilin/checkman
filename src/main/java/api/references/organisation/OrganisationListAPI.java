@@ -6,6 +6,8 @@ import entity.documents.LoadPlan;
 import entity.organisations.Organisation;
 import utils.JsonParser;
 import utils.hibernate.DateContainers.LE;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,13 +26,13 @@ public class OrganisationListAPI extends API {
 
     final HashMap<String,Object> parameters = new HashMap<>();
     final LE le = new LE(Date.valueOf(LocalDate.now()));
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
-        parameters.put("date", le);
+
         HashMap<Integer, Organisation> organisations = new HashMap<>();
-        for (LoadPlan plan : hibernator.limitQuery(LoadPlan.class, parameters, 200)){
+        for (LoadPlan plan : dao.getLastPlans()){
             Organisation organisation = plan.getDeal().getOrganisation();
             if (!organisations.containsKey(organisation.getId())){
                 organisations.put(organisation.getId(), organisation);

@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TransportUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,20 +26,21 @@ import java.util.HashMap;
 public class VROCrudeEdit extends IModal {
 
     private final Logger log = Logger.getLogger(VROCrudeEdit.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject json = PostUtil.parseBodyJson(req);
         if (json != null) {
             log.info(json);
-            long id = -1;
+            Object id = null;
             if (json.containsKey(Constants.ID)){
-                id = Long.parseLong(String.valueOf(json.get(Constants.ID)));
+                id = json.get(Constants.ID);
             }
 
-            if (id != -1) {
+            if (id != null) {
                 log.info("Edit crude: " + id);
-                req.setAttribute("crude", hibernator.get(VROCrude.class, "id", id));
+                req.setAttribute("crude", dao.getVroCrudeById(id));
             } else {
                 log.info("Create new crude");
             }
@@ -45,8 +48,7 @@ public class VROCrudeEdit extends IModal {
         req.setAttribute("title", Constants.Titles.SUN_EDIT);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/crudeEdit.jsp");
         req.setAttribute("save", Branches.API.VRO_CRUDE_EDIT);
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
-        req.setAttribute("forpress", hibernator.query(Forpress.class, null));
+        req.setAttribute("forpress", dao.getForpressList());
         show(req, resp);
     }
 }

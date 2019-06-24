@@ -4,6 +4,8 @@ import api.API;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,8 @@ import java.io.*;
  */
 @WebServlet(Branches.UI.PRINT_DOCUMENT)
 public class DocumentPrinter extends API {
+
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +38,7 @@ public class DocumentPrinter extends API {
         }
 
         if (id != -1) {
-            LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
+            LoadPlan plan = dao.getLoadPlanById(id);
             req.setAttribute("organisation", plan.getDeal().getOrganisation().getValue());
             req.setAttribute("product", plan.getDeal().getProduct().getName());
             req.setAttribute("weight", plan.getTransportation().getWeight());

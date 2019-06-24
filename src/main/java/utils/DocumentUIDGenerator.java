@@ -2,6 +2,8 @@ package utils;
 
 import entity.documents.DocumentUID;
 import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import java.util.UUID;
 
@@ -10,7 +12,7 @@ import java.util.UUID;
  */
 public class DocumentUIDGenerator {
 
-    private static final Hibernator hibernator = Hibernator.getInstance();
+    static dbDAO dao = dbDAOService.getDAO();
 
     public static String generateUID(){
         String uid = UUID.randomUUID().toString();
@@ -20,10 +22,10 @@ public class DocumentUIDGenerator {
         return uid;
     }
     private static boolean check(String uid){
-        DocumentUID documentUID = hibernator.get(DocumentUID.class, "uid", uid);
+        DocumentUID documentUID = dao.getDocumentUID(uid);
         if (documentUID == null){
             documentUID = new DocumentUID(uid);
-            hibernator.save(documentUID);
+            dao.save(documentUID);
             return true;
         } else {
             return false;

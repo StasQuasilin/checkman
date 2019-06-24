@@ -3,6 +3,7 @@ package controllers.laboratory.probe;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
+import entity.AnalysesType;
 import entity.products.Product;
 import utils.hibernate.State;
 
@@ -26,14 +27,7 @@ public class ProbeList extends IUIServlet {
         req.setAttribute("updateURL", Branches.API.PROBE_LIST);
         req.setAttribute("showURL", Branches.UI.PROBE_SHOW);
         req.setAttribute("editURL", Branches.UI.PROBE_EDIT);
-        List<String> analyses = new LinkedList<>();
-        for (Product p : hibernator.query(Product.class, "analysesType", State.notNull)){
-            String a = p.getAnalysesType().toString();
-            if (!analyses.contains(a)){
-                analyses.add(a);
-            }
-        }
-        req.setAttribute("analysesTypes", analyses);
+        req.setAttribute("analysesTypes", AnalysesType.values());
         req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
         show(req, resp);
     }

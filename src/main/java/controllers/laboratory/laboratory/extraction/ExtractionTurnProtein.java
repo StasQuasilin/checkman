@@ -22,7 +22,6 @@ public class ExtractionTurnProtein extends IModal {
         req.setAttribute("title", Constants.Titles.EXTRACTION_TURN_PROTEIN);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/turnProteinEdit.jsp");
         req.setAttribute("turns", TurnBox.getBox().getTurns());
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         req.setAttribute("save", Branches.API.EXTRACTION_TURN_PROTEIN_EDIT);
         show(req, resp);
     }

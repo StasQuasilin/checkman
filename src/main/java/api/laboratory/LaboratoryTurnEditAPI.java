@@ -7,6 +7,8 @@ import entity.laboratory.LaboratoryTurn;
 import entity.production.Turn;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
 
@@ -27,6 +29,7 @@ import java.util.HashMap;
 public class LaboratoryTurnEditAPI extends API {
 
     private final TurnBox turnBox = TurnBox.getBox();
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +42,7 @@ public class LaboratoryTurnEditAPI extends API {
 
             final Turn turn = TurnService.getTurn(turnBox.getTurnDate(dateTime));
             final HashMap<Long, LaboratoryTurn> laboratoryTurns = new HashMap<>();
-            for (LaboratoryTurn t : hibernator.query(LaboratoryTurn.class, "turn", turn)){
+            for (LaboratoryTurn t : dao.getLaboratoryTurnByTurn(turn)){
                 laboratoryTurns.put((long) t.getWorker().getId(), t);
             }
 
@@ -52,11 +55,11 @@ public class LaboratoryTurnEditAPI extends API {
                 } else {
                     LaboratoryTurn laboratoryTurn = new LaboratoryTurn();
                     laboratoryTurn.setTurn(turn);
-                    laboratoryTurn.setWorker(hibernator.get(Worker.class, "id", id));
-                    hibernator.save(laboratoryTurn);
+                    laboratoryTurn.setWorker(dao.getWorkerById(id));
+                    dao.save(laboratoryTurn);
                 }
             }
-            laboratoryTurns.values().forEach(hibernator::remove);
+            laboratoryTurns.values().forEach(dao::remove);
 
             write(resp, answer);
         } else {

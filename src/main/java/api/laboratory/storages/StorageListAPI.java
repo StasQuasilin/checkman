@@ -10,6 +10,8 @@ import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,8 +31,8 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.LABORATORY_STORAGE_LIST)
 public class StorageListAPI extends API {
 
+    dbDAO dao = dbDAOService.getDAO();
     private final int LIMIT = 15;
-    final HashMap<AnalysesType, List<StorageProduct>> products = new HashMap<>();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,7 +59,7 @@ public class StorageListAPI extends API {
                 parameters.put("turn/date", le);
             }
 
-            for (StorageTurn turn : hibernator.limitQuery(StorageTurn.class, parameters, LIMIT)){
+            for (StorageTurn turn : dao.getLimitStorageTurns()){
                 String id = String.valueOf(turn.getId());
                 if(body.containsKey(id)){
                     long hash = (long) body.remove(id);

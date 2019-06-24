@@ -11,6 +11,8 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 import utils.turns.VROTurnService;
 
@@ -31,6 +33,7 @@ public class VROOilEditAPI extends API {
 
     private final Logger log = Logger.getLogger(VROOilEditAPI.class);
     private final TurnBox turnBox = TurnBox.getBox();
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,7 +43,7 @@ public class VROOilEditAPI extends API {
             VROOil oil;
             if (body.containsKey(Constants.ID)) {
                 long id = (long) body.get(Constants.ID);
-                oil = hibernator.get(VROOil.class, "id", id);
+                oil = dao.getVROOilById(id);
             } else {
                 oil = new VROOil();
             }
@@ -96,12 +99,13 @@ public class VROOilEditAPI extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 oil.setCreator(worker);
-                hibernator.save(createTime, oil);
+                dao.save(createTime);
+                dao.save(oil);
             }
 
             write(resp, answer);

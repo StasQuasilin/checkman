@@ -8,6 +8,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,27 +26,20 @@ import java.util.stream.Collectors;
 public class FindWorkerAPI extends API {
 
     final JSONArray array = new JSONArray();
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        String key = (String) body.get(Constants.KEY);
+        JSONObject body = parseBody(req);
+        if (body != null) {
+            Object key = body.get(Constants.KEY);
 
-        HashMap<Integer, User> result = new HashMap<>();
-        find("worker/person/surname", key, result);
-        find("worker/person/forename", key, result);
-        find("worker/person/patronymic", key, result);
+            array.addAll(dao.findWorker(key).stream().map(JsonParser::toJson).collect(Collectors.toList()));
 
-        array.addAll(result.values().stream().map(JsonParser::toJson).collect(Collectors.toList()));
-
-        PostUtil.write(resp, array.toJSONString());
-        body.clear();
-        array.clear();
-
-    }
-    synchronized void find(String key, String value, HashMap<Integer, User> result){
-        for (User user : hibernator.find(User.class, key, value)){
-            result.put(user.getId(), user);
+            PostUtil.write(resp, array.toJSONString());
+            body.clear();
+            array.clear();
         }
+
     }
 }

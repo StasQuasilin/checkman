@@ -7,6 +7,8 @@ import entity.transport.Driver;
 import entity.transport.Vehicle;
 import utils.JsonParser;
 import utils.hibernate.DateContainers.LE;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,7 @@ public class DriverListAPI extends API {
 
     final HashMap<String,Object> parameters = new HashMap<>();
     final LE le = new LE(Date.valueOf(LocalDate.now()));
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +35,7 @@ public class DriverListAPI extends API {
         parameters.put("date", le);
         HashMap<Integer, Driver> drivers = new HashMap<>();
         HashMap<Integer, Vehicle> vehicles = new HashMap<>();
-        for (LoadPlan plan : hibernator.limitQuery(LoadPlan.class, parameters, 200)){
+        for (LoadPlan plan : dao.getDriverList()){
             Driver driver = plan.getTransportation().getDriver();
             if (driver != null) {
                 if (!drivers.containsKey(driver.getId())){

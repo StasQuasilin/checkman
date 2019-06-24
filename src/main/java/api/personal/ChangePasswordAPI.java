@@ -9,6 +9,8 @@ import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.LanguageBase;
 import utils.answers.SuccessAnswer;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,17 +23,20 @@ import java.io.IOException;
  */
 @WebServlet(Branches.API.CHANGE_PASSWORD)
 public class ChangePasswordAPI extends API {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
             IAnswer answer;
             String current = String.valueOf(body.get("current"));
-            User user = hibernator.get(User.class, "worker", getWorker(req).getId());
+            User user = dao.getUserByWorker(getWorker(req));
             if (user.getPassword().equals(current)) {
                 String password = String.valueOf(body.get("password"));
                 user.setPassword(password);
-                hibernator.save(user);
+                dao.save(user);
                 answer = new SuccessAnswer();
             } else {
                 answer = new ErrorAnswer("msg", LanguageBase.getBase().get(user.getWorker().getLanguage(), "wrong.password"));

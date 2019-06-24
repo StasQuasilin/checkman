@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.TransportUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -24,6 +26,7 @@ import java.io.IOException;
 public class VROOilMassFractionDryEdit extends IModal {
 
     private final Logger log = Logger.getLogger(VROOilMassFractionDryEdit.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +39,7 @@ public class VROOilMassFractionDryEdit extends IModal {
             }
             if (id != -1){
                 log.info("Edit " + id);
-                req.setAttribute("oil", hibernator.get(OilMassFractionDry.class, "id", id));
+                req.setAttribute("oil", dao.getOilMassFractionDry(id));
                 req.setAttribute("delete", Branches.API.DELETE_OIL_MASS_FRACTION_DRY);
             } else {
                 log.info("New document");
@@ -46,8 +49,7 @@ public class VROOilMassFractionDryEdit extends IModal {
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/oilMassFractionDry.jsp");
         req.setAttribute("save", Branches.API.OIL_MASS_FRACTION_DRY);
         req.setAttribute("turns", TurnBox.getBox().getTurns());
-        req.setAttribute("forpress", hibernator.query(Forpress.class, null));
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
+        req.setAttribute("forpress", dao.getForpressList());
         show(req, resp);
     }
 }

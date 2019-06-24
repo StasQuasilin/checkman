@@ -7,16 +7,40 @@ import java.util.HashMap;
 /**
  * Created by szpt_user045 on 08.04.2019.
  */
-public class TransportBox extends IBox{
+public class TransportBox extends IBox<LoadPlan>{
     private static final TransportBox box = new TransportBox();
 
     public static TransportBox getBox() {
         return box;
     }
 
-    private final HashMap<Integer, LoadPlan> hashMap = new HashMap<>();
+    @Override
+    public void init() {
+    }
 
-    public void put(LoadPlan plan){
+    @Override
+    public void save(LoadPlan loadPlan) {
+        put(loadPlan);
+    }
 
+    @Override
+    public void put(LoadPlan plan) {
+        hashMap.put(plan.getId(), plan);
+    }
+
+    @Override
+    public LoadPlan get(int id) {
+        if (hashMap.containsKey(id)){
+            return hashMap.get(id);
+        }
+        return null;
+    }
+
+    @Override
+    public LoadPlan remove(int id) {
+        if (hashMap.containsKey(id)){
+            return hashMap.remove(id);
+        }
+        return null;
     }
 }

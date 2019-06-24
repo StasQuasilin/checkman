@@ -10,6 +10,8 @@ import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.weight.Weight;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,9 @@ import java.util.Set;
  */
 @WebServlet(Branches.API.LABORATORY_OIL_PRINT)
 public class LaboratoryOilPrintAPI extends API {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -34,10 +39,10 @@ public class LaboratoryOilPrintAPI extends API {
                 id = (long) body.get("id");
             }
             if (id != -1) {
-                LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
+                LoadPlan plan = dao.getLoadPlanById(id);
                 Product product = plan.getDeal().getProduct();
                 final HashMap<String, String> properties = new HashMap<>();
-                for (ProductProperty property : hibernator.query(ProductProperty.class, "product", product)){
+                for (ProductProperty property : dao.getProductProperties(product)){
                     properties.put(property.getKey(), property.getValue());
                 }
 

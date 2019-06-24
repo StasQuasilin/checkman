@@ -4,6 +4,8 @@ import entity.Worker;
 import entity.log.Change;
 import entity.log.ChangeLog;
 import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.List;
  * Created by szpt_user045 on 12.03.2019.
  */
 public class ChangeLogUtil {
-    private static final Hibernator hibernator = Hibernator.getInstance();
+
+    static dbDAO dao = dbDAOService.getDAO();
 
     public static synchronized void writeLog(String document, String label, Worker creator, List<Change> changes){
         if (changes.size() > 0) {
@@ -21,10 +24,10 @@ public class ChangeLogUtil {
             log.setLabel(label);
             log.setTime(new Timestamp(System.currentTimeMillis()));
             log.setCreator(creator);
-            hibernator.save(log);
+            dao.saveChangeLod(log);
             for (Change change : changes) {
                 change.setLog(log);
-                hibernator.save(change);
+                dao.saveChange(change);
             }
             changes.clear();
         }

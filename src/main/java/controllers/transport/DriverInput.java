@@ -5,10 +5,13 @@ import constants.Constants;
 import controllers.IModal;
 import entity.Person;
 import entity.transport.Driver;
+import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.Parser;
 import utils.PostUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +28,7 @@ import java.util.List;
 public class DriverInput extends IModal {
 
     static final Logger log = Logger.getLogger(DriverInput.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,10 +41,15 @@ public class DriverInput extends IModal {
                 log.info("Transportation: " + transportationId);
             }
 
-            if (body.containsKey(Constants.ID)) {
-                driver = hibernator.get(Driver.class, "id", body.get(Constants.ID));
+            if (body.containsKey(Constants.DRIVER_ID)) {
+                driver = dao.getDriverByID(body.get(Constants.DRIVER_ID));
+                final HashMap<String, Object> param = new HashMap<>();
+                param.put("driver", driver);
+                param.put("archive", true);
+                int size = dao.getTransportationsByDriver(driver).size();
+                req.setAttribute("transportations", size);
                 log.info("Driver: " + driver.getId());
-            } else {
+            } else if (body.containsKey(Constants.KEY)){
                 driver = new Driver();
                 driver.setPerson(new Person());
                 List<String> strings = Parser.parsePerson(String.valueOf(body.get(Constants.KEY)));

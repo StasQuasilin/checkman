@@ -9,6 +9,8 @@ import utils.JsonParser;
 import utils.PostUtil;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,8 @@ import java.util.HashMap;
 @WebServlet(Branches.API.VRO_LIST)
 public class VROListAPI extends API {
 
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final HashMap<String, Object> parameters = new HashMap<>();
@@ -37,7 +41,7 @@ public class VROListAPI extends API {
         array.put("update", update);
         array.put("remove", remove);
 
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         if (body != null) {
             if (body.containsKey("reqDate")){
                 String date = String.valueOf(body.remove("reqDate"));
@@ -50,7 +54,7 @@ public class VROListAPI extends API {
                 parameters.put("turn/date", le);
             }
 
-            for (VROTurn turn : hibernator.limitQuery(VROTurn.class, parameters, 14)) {
+            for (VROTurn turn : dao.getTurns(parameters)) {
                 String id = String.valueOf(turn.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);

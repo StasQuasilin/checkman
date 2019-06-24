@@ -2,6 +2,7 @@ package api.laboratory.kpo;
 
 import api.API;
 import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -9,6 +10,8 @@ import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +30,7 @@ import java.time.LocalTime;
 public class PartEditAPI extends API {
 
     private final Logger log = Logger.getLogger(PartEditAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,7 +44,7 @@ public class PartEditAPI extends API {
                 id = (long) body.get(Constants.ID);
             }
             if (id != -1){
-                part = hibernator.get(KPOPart.class, "id", id);
+                part = dao.getKPOPartById(id);
             } else {
                 part = new KPOPart();
             }
@@ -100,14 +104,18 @@ public class PartEditAPI extends API {
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    Object creatorId = body.get(Constants.CREATOR);
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 part.setCreator(worker);
-                hibernator.save(part.getCreateTime(), part);
-                BotFactory.getNotificator().kpoShow(part);
+                dao.save(part.getCreateTime());
+                dao.save(part);
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.kpoShow(part);
+                }
             }
             write(resp, answer);
         } else {

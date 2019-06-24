@@ -6,6 +6,8 @@ import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.comparators.LoadPlanComparator;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,21 +23,22 @@ import java.sql.Date;
 public class ChangeLoadPlanDateAPI extends API {
 
     private final LoadPlanComparator comparator = new LoadPlanComparator();
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            long id = -1;
+            Object id = null;
             if (body.containsKey(Constants.ID)){
-                id = (long) body.get(Constants.ID);
+                id = body.get(Constants.ID);
             }
-            if (id != -1) {
-                LoadPlan plan = hibernator.get(LoadPlan.class, "id", id);
+            if (id != null) {
+                LoadPlan plan = dao.getLoadPlanById(id);
                 comparator.fix(plan);
                 Date date = Date.valueOf(String.valueOf(body.get(Constants.DATE)));
                 plan.setDate(date);
-                hibernator.save(plan);
+                dao.saveLoadPlan(plan);
                 comparator.compare(plan, getWorker(req));
                 write(resp, answer);
             } else {

@@ -10,6 +10,8 @@ import utils.JsonParser;
 import utils.PostUtil;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +30,7 @@ public class ExtractionListAPI extends API {
 
     public static final int LIMIT = 15;
     private final Logger log = Logger.getLogger(ExtractionListAPI.class);
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,7 +56,7 @@ public class ExtractionListAPI extends API {
                 parameters.put("turn/date", le);
             }
 
-            for (ExtractionTurn turn : hibernator.limitQuery(ExtractionTurn.class, parameters, LIMIT)) {
+            for (ExtractionTurn turn : dao.getLimitExtractionTurns()) {
                 String id = String.valueOf(turn.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);

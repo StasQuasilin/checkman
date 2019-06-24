@@ -29,17 +29,11 @@ public class LaboratoryTurnEdit extends IModal {
 
         JSONObject body = PostUtil.parseBodyJson(req);
         if(body != null) {
-            System.out.println(body);
-            if (body.containsKey("id")){
-                Turn turn = hibernator.get(Turn.class, "id", body.get("id"));
-                req.setAttribute("turn", turn);
-                req.setAttribute("laboratory", hibernator.query(LaboratoryTurn.class, "turn", turn));
-            }
+
         }
 
         req.setAttribute("title", "title.laboratory.turn.edit");
         req.setAttribute("turns", turnBox.getTurns());
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         req.setAttribute("modalContent", "/pages/laboratory/turnEdit.jsp");
         req.setAttribute("save", Branches.API.LABORATORY_TURN_EDIT);
         show(req, resp);

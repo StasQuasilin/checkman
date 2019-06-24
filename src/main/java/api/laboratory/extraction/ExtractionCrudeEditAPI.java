@@ -11,6 +11,8 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
 
@@ -30,6 +32,7 @@ import java.time.LocalTime;
 @WebServlet(Branches.API.EXTRACTION_CRUDE_EDIT)
 public class ExtractionCrudeEditAPI extends API {
 
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,7 +47,7 @@ public class ExtractionCrudeEditAPI extends API {
 
             if (body.containsKey(Constants.ID)) {
                 long id = (long) body.get(Constants.ID);
-                crude = hibernator.get(ExtractionCrude.class, "id", id);
+                crude = dao.getExtractionCrudeById(id);
             } else {
                 crude = new ExtractionCrude();
             }
@@ -108,13 +111,14 @@ public class ExtractionCrudeEditAPI extends API {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(hibernator.get(Worker.class, "id", creatorId));
+                    createTime.setCreator(dao.getWorkerById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }
                 crude.setCreator(worker);
 
-                hibernator.save(createTime, crude);
+                dao.save(createTime);
+                dao.save(crude);
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.extractionShow(crude);

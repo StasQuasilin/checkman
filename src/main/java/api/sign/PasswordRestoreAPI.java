@@ -12,6 +12,8 @@ import utils.LanguageBase;
 import utils.answers.SuccessAnswer;
 import utils.email.EmailSender;
 import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
@@ -30,9 +32,9 @@ import java.util.HashMap;
 @WebServlet(Branches.API.PASSWORD_RESTORE)
 public class PasswordRestoreAPI extends API {
 
-    private final Hibernator hibernator = Hibernator.getInstance();
     private final LanguageBase lb = LanguageBase.getBase();
     private final HashMap<String, Long> sendEmails = new HashMap<>();
+    final dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,7 +55,7 @@ public class PasswordRestoreAPI extends API {
             JSONObject body = parseBody(req);
             if (body != null) {
                 String email = (String) body.get("email");
-                User user = hibernator.get(User.class, "email", email);
+                User user = dao.getUserByEmail(email);
 
                 if (user != null) {
                     String language = user.getWorker().getLanguage();

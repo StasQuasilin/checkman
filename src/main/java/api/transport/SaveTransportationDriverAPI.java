@@ -8,6 +8,8 @@ import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,24 +24,25 @@ import java.io.IOException;
 public class SaveTransportationDriverAPI extends API {
 
     private final TransportationComparator comparator = new TransportationComparator();
+    dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            Transportation transportation = hibernator.get(Transportation.class, "id", body.get(Constants.TRANSPORTATION_ID));
+            Transportation transportation = dao.getTransportationById(body.get(Constants.TRANSPORTATION_ID));
             comparator.fix(transportation);
             long driverId = -1;
             if (body.containsKey(Constants.DRIVER_ID)){
                 driverId = (long) body.get(Constants.DRIVER_ID);
             }
             if (driverId != -1) {
-                Driver driver = hibernator.get(Driver.class, "id", driverId);
+                Driver driver = dao.getDriverByID(driverId);
                 if (driver.getVehicle() == null) {
                     Vehicle vehicle = transportation.getVehicle();
                     if(vehicle != null) {
                         driver.setVehicle(vehicle);
-                        hibernator.save(driver);
+                        dao.save(driver);
                     }
                 }
                 transportation.setDriver(driver);
@@ -52,22 +55,10 @@ public class SaveTransportationDriverAPI extends API {
                 transportation.setDriver(null);
             }
 
-            hibernator.save(transportation);
+            dao.save(transportation);
             comparator.compare(transportation, getWorker(req));
             write(resp, answer);
             body.clear();
         } else {write(resp, emptyBody);}
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = parseBody(req);
-        if (body != null) {
-            Transportation transportation = hibernator.get(Transportation.class, "id", body.get(Constants.TRANSPORTATION_ID));
-            transportation.setDriver(null);
-            hibernator.save(transportation);
-        } else {
-            write(resp, emptyBody);
-        }
     }
 }

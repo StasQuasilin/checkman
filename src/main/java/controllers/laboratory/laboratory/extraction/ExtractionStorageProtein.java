@@ -7,6 +7,8 @@ import entity.AnalysesType;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
 import utils.TransportUtil;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,17 +25,13 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.UI.Extraction.STORAGE_PROTEIN)
 public class ExtractionStorageProtein extends IModal {
 
-
+    final dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.EXTRACTION_STORAGE_PROTEIN);
-        final List<Storage> storages = new LinkedList<>();
-        storages.addAll(hibernator.query(StorageProduct.class, "product/analysesType", AnalysesType.meal)
-                .stream().map(StorageProduct::getStorage).collect(Collectors.toList()));
-        req.setAttribute("storages", storages);
+        req.setAttribute("storages", dao.getStoragesByAnalysesType(AnalysesType.meal));
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/storageProteinEdit.jsp");
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         req.setAttribute("save", Branches.API.EXTRACTION_STORAGE_PROTEIN_EDIT);
         show(req, resp);
     }

@@ -13,6 +13,8 @@ import org.json.simple.JSONObject;
 import utils.PasswordGenerator;
 import utils.LanguageBase;
 import utils.email.RegistratorEmail;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +31,7 @@ import java.util.UUID;
 public class SignUpAPI extends API {
 
     private final Logger log = Logger.getLogger(SignUpAPI.class);
+    static dbDAO dao = dbDAOService.getDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -66,13 +69,13 @@ public class SignUpAPI extends API {
                     person.setSurname((String) json.get(Constants.Person.SURNAME));
                     person.setForename((String) json.get(Constants.Person.FORENAME));
                     person.setPatronymic((String) json.get(Constants.Person.PATRONYMIC));
-                    hibernator.save(person);
+                    dao.savePerson(person);
                 } else {
-                    person = hibernator.get(Person.class, "id", personId);
+                    person = dao.getPersonById(personId);
                 }
 
                 worker.setPerson(person);
-                hibernator.save(worker, user);
+                dao.saveWorker(worker, user);
                 RegistratorEmail.sendEmail(
                         email,
                         getAddress(req),
@@ -93,7 +96,8 @@ public class SignUpAPI extends API {
 
     static synchronized String getToken(){
         String token = UUID.randomUUID().toString();
-        if (hibernator.query(User.class, "uid", token).size() > 0){
+
+        if (dao.getUsersByToken(token).size() > 0){
             return getToken();
         }
 

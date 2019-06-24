@@ -22,7 +22,6 @@ public class ExtractionOilEdit extends IModal {
         req.setAttribute("title", Constants.Titles.EXTRACTION_OIL);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/oilEdit.jsp");
         req.setAttribute("turns", TurnBox.getBox().getTurns());
-        req.setAttribute("laborants", TransportUtil.getLaboratoryPersonal());
         req.setAttribute("save", Branches.API.EXTRACTION_OIL_EDIT);
         show(req, resp);
     }

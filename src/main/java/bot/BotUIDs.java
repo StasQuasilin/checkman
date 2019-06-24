@@ -3,6 +3,8 @@ package bot;
 import entity.Worker;
 import utils.PasswordGenerator;
 import utils.hibernate.Hibernator;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import java.util.HashMap;
 
@@ -10,8 +12,10 @@ import java.util.HashMap;
  * Created by szpt_user045 on 16.04.2019.
  */
 public class BotUIDs {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     private static final BotUIDs BOT_UI_DS = new BotUIDs();
-    private final Hibernator hibernator = Hibernator.getInstance();
 
     private BotUIDs() {}
 
@@ -20,16 +24,16 @@ public class BotUIDs {
     }
 
     public BotUID generateToken(Worker worker){
-        BotUID botUID = hibernator.get(BotUID.class, "worker", worker);
+        BotUID botUID = dao.getBotUidByWorker(worker);
 
         if (botUID != null && botUID.isOld()){
-            hibernator.remove(botUID);
+            dao.remove(botUID);
             botUID = null;
         }
 
         if(botUID == null) {
             botUID = new BotUID(randomUID(), worker);
-            hibernator.save(botUID);
+            dao.save(botUID);
         }
 
         return botUID;
@@ -37,16 +41,16 @@ public class BotUIDs {
 
     String randomUID(){
         String uid = PasswordGenerator.getPassword(6);
-        if (hibernator.query(BotUID.class, "uid", uid).size() > 0){
+        if (dao.getBotUidByUid(uid) != null){
             return randomUID();
         }
         return uid;
     }
 
     public BotUID getUID(String token) {
-        BotUID botUID = hibernator.get(BotUID.class, "uid", token);
+        BotUID botUID = dao.getBotUidByUid(token);
         if (botUID != null && botUID.isOld()){
-            hibernator.remove(botUID);
+            dao.remove(botUID);
         }
         return botUID;
     }

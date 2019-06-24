@@ -4,6 +4,8 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.documents.LoadPlan;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,11 +18,14 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.WEIGHT_PUT)
 public class WeightEdit extends IModal {
+
+    dbDAO dao = dbDAOService.getDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         int id = Integer.parseInt(req.getParameter(Constants.ID));
-        req.setAttribute("plan", hibernator.get(LoadPlan.class, "id", id));
+        req.setAttribute("plan", dao.getLoadPlanById(id));
         req.setAttribute("title", "title.weight.insert");
         req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
         req.setAttribute("title", Constants.Titles.WEIGHT_EDIT);
