@@ -39,13 +39,17 @@ import java.util.*;
  * Created by szpt_user045 on 11.03.2019.
  */
 public class JsonParser {
+
+    final static String NAME = "name";
+    final static String VALUE = "value";
+
     public static JSONObject toJson(Organisation organisation) {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         if (organisation != null) {
-            json.put("id", organisation.getId());
-            json.put("type", organisation.getType());
-            json.put("name", organisation.getName());
-            json.put("value", organisation.getValue());
+            json.put(ID, organisation.getId());
+            json.put(TYPE, organisation.getType());
+            json.put(NAME, organisation.getName());
+            json.put(VALUE, organisation.getValue());
         }
         return json;
     }
@@ -69,20 +73,25 @@ public class JsonParser {
     }
 
     public static JSONObject toJson(Worker worker) {
-        JSONObject json = new JSONObject();
-        json.put("id", worker.getId());
-        json.put("person", toJson(worker.getPerson()));
+        JSONObject json = pool.getObject();
+        json.put(ID, worker.getId());
+        json.put(PERSON, toJson(worker.getPerson()));
         return json;
     }
 
+    final static String FORENAME = "forename";
+    final static String SURNAME = "surname";
+    final static String PATRONYMIC = "patronymic";
+    final static String PHONES = "phones";
+
     private static JSONObject toJson(Person person) {
-        JSONObject json = new JSONObject();
-        json.put("id", person.getId());
-        json.put("forename", person.getForename());
-        json.put("surname", person.getSurname());
-        json.put("patronymic", person.getPatronymic());
-        json.put("value", person.getValue());
-        json.put("phones", toPhoneJson(person.getPhones()));
+        JSONObject json = pool.getObject();
+        json.put(ID, person.getId());
+        json.put(FORENAME, person.getForename());
+        json.put(SURNAME, person.getSurname());
+        json.put(PATRONYMIC, person.getPatronymic());
+        json.put(VALUE, person.getValue());
+        json.put(PHONES, toPhoneJson(person.getPhones()));
         return json;
     }
 
@@ -101,14 +110,13 @@ public class JsonParser {
         return json;
     }
 
+    final static String ANALYSES = "analyses";
+
     private static JSONObject toJson(Product product) {
-        JSONObject json = new JSONObject();
-        json.put("id", product.getId());
-        json.put("name", product.getName());
-        if (product.getProductGroup() != null) {
-            json.put("group", product.getProductGroup().getName());
-        }
-        json.put("analyses", product.getAnalysesType().toString());
+        JSONObject json = pool.getObject();
+        json.put(ID, product.getId());
+        json.put(NAME, product.getName());
+        json.put(ANALYSES, product.getAnalysesType().toString());
         return json;
     }
 
@@ -132,148 +140,209 @@ public class JsonParser {
         return json;
     }
 
+    final static String VEHICLE = "vehicle";
+    final static String DRIVER = "driver";
+    final static String TIME_IN = "timeIn";
+    final static String TIME_OUT = "timeOut";
+    final static String WEIGHT = "weight";
+    final static String ANY = "any";
+    final static String ARCHIVE = "archive";
+
     public static JSONObject toJson(Transportation transportation) {
-        JSONObject json = new JSONObject();
+
+        JSONObject json = pool.getObject();
         if (transportation != null){
-            json.put("id", transportation.getId());
-            json.put("vehicle", toJson(transportation.getVehicle()));
-            json.put("driver", toJson(transportation.getDriver()));
-            json.put("timeIn", toJson(transportation.getTimeIn()));
-            json.put("timeOut", toJson(transportation.getTimeOut()));
-            json.put("hash", transportation.hashCode());
-            json.put("weight", toJson(transportation.getWeight()));
-            json.put("analyses", toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
-            json.put("any", transportation.anyAction());
-            json.put("archive", transportation.isArchive());
+            json.put(ID, transportation.getId());
+            json.put(VEHICLE, toJson(transportation.getVehicle()));
+            json.put(DRIVER, toJson(transportation.getDriver()));
+            json.put(TIME_IN, toJson(transportation.getTimeIn()));
+            json.put(TIME_OUT, toJson(transportation.getTimeOut()));
+            json.put(HASH, transportation.hashCode());
+            json.put(WEIGHT, toJson(transportation.getWeight()));
+            json.put(ANALYSES, toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
+            json.put(ANY, transportation.anyAction());
+            json.put(ARCHIVE, transportation.isArchive());
         }
         return json;
     }
 
+    public static final String SUN = "sun";
+    public static final String OIL = "oil";
+    public static final String CAKE = "cake";
+
     private static JSONObject toJson(SunAnalyses sunAnalyses, OilAnalyses oilAnalyses, CakeAnalyses cakeAnalyses) {
-        JSONObject json = new JSONObject();
-        
-        json.put("sun", toJson(sunAnalyses));
-        json.put("oil", toJson(oilAnalyses));
-        json.put("cake", toJson(cakeAnalyses));
+        JSONObject json = pool.getObject();
+
+        json.put(SUN, toJson(sunAnalyses));
+        json.put(OIL, toJson(oilAnalyses));
+        json.put(CAKE, toJson(cakeAnalyses));
         return json;
     }
+
+    public static final String PROTEIN = "protein";
+    public static final String CELLULOSE = "cellulose";
 
     private static JSONObject toJson(CakeAnalyses analyses) {
         JSONObject json = new JSONObject();
         if (analyses != null) {
-            json.put("id", analyses.getId());
-            json.put("humidity", analyses.getHumidity());
-            json.put("protein", analyses.getProtein());
-            json.put("cellulose", analyses.getCellulose());
-            json.put("oiliness", analyses.getOiliness());
+            json.put(ID, analyses.getId());
+            json.put(HUMIDITY, analyses.getHumidity());
+            json.put(PROTEIN, analyses.getProtein());
+            json.put(CELLULOSE, analyses.getCellulose());
+            json.put(OILINESS, analyses.getOiliness());
 
-            json.put("create", toJson(analyses.getCreateTime()));
+            json.put(CREATE, toJson(analyses.getCreateTime()));
 
             if (analyses.getCreator() != null) {
-                json.put("creator", toJson(analyses.getCreator()));
+                json.put(CREATOR, toJson(analyses.getCreator()));
             }
         }
         return json;
     }
-
+    
+    public static final String ORGANOLEPTIC = "organoleptic";
+    public static final String COLOR = "color";
+    public static final String ACID = "acid";
+    public static final String PEROXIDE = "peroxide";
+    public static final String PHOSPHORUS = "phosphorus";
+    public static final String HUMIDITY = "humidity";
+    public static final String SOAP = "soap";
+    public static final String WAX = "wax";
+    
     private static JSONObject toJson(OilAnalyses analyses) {
         JSONObject json = new JSONObject();
         if (analyses != null) {
-            json.put("id", analyses.getId());
-            json.put("organoleptic", analyses.isOrganoleptic());
-            json.put("color", analyses.getColor());
-            json.put("acid", analyses.getAcidValue());
-            json.put("peroxide", analyses.getPeroxideValue());
-            json.put("phosphorus", analyses.getPhosphorus());
-            json.put("humidity", analyses.getHumidity());
-            json.put("soap", analyses.isSoap());
-            json.put("wax", analyses.getWax());
-            json.put("create", toJson(analyses.getCreateTime()));
+            json.put(ID, analyses.getId());
+            json.put(ORGANOLEPTIC, analyses.isOrganoleptic());
+            json.put(COLOR, analyses.getColor());
+            json.put(ACID, analyses.getAcidValue());
+            json.put(PEROXIDE, analyses.getPeroxideValue());
+            json.put(PHOSPHORUS, analyses.getPhosphorus());
+            json.put(HUMIDITY, analyses.getHumidity());
+            json.put(SOAP, analyses.isSoap());
+            json.put(WAX, analyses.getWax());
+            json.put(CREATE, toJson(analyses.getCreateTime()));
             if (analyses.getCreator() != null) {
-                json.put("creator", toJson(analyses.getCreator()));
+                json.put(CREATOR, toJson(analyses.getCreator()));
             }
         }
         return json;
     }
+
+    public static final String OILINESS = "oiliness";
+    public static final String HUMIDITY1 = "humidity1";
+    public static final String HUMIDITY2 = "humidity2";
+    public static final String SORENESS = "soreness";
+    public static final String OIL_IMPURITY = "oilImpurity";
+    public static final String ACID_VALUE = "acidValue";
+    public static final String CONTAMINATION = "contamination";
+    public static final String CREATE = "create";
 
     private static JSONObject toJson(SunAnalyses analyses) {
         JSONObject json = new JSONObject();
         if (analyses != null) {
-            json.put("id", analyses.getId());
-            json.put("oiliness", analyses.getOiliness());
-            json.put("humidity1", analyses.getHumidity1());
-            json.put("humidity2", analyses.getHumidity2());
-            json.put("soreness", analyses.getSoreness());
-            json.put("oilImpurity", analyses.getOilImpurity());
-            json.put("acidValue", analyses.getAcidValue());
-            json.put("contamination", analyses.isContamination());
-            json.put("create", toJson(analyses.getCreateTime()));
+            json.put(ID, analyses.getId());
+            json.put(OILINESS, analyses.getOiliness());
+            json.put(HUMIDITY1, analyses.getHumidity1());
+            json.put(HUMIDITY2, analyses.getHumidity2());
+            json.put(SORENESS, analyses.getSoreness());
+            json.put(OIL_IMPURITY, analyses.getOilImpurity());
+            json.put(ACID_VALUE, analyses.getAcidValue());
+            json.put(CONTAMINATION, analyses.isContamination());
+            json.put(CREATE, toJson(analyses.getCreateTime()));
             if (analyses.getCreator() != null) {
-                json.put("creator", toJson(analyses.getCreator()));
+                json.put(CREATOR, toJson(analyses.getCreator()));
             }
         }
         return json;
     }
 
+    public static final String BRUTTO = "brutto";
+    public static final String BRUTTO_TIME = "brutto_time";
+    public static final String TARA = "tara";
+    public static final String NETTO = "netto";
+    public static final String CORRECTION = "correction";
+    public static final String TARA_TIME = "tara_time";
+
     private static JSONObject toJson(Weight weight) {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         if (weight != null) {
-            json.put("id", weight.getId());
-            json.put("brutto", weight.getBrutto());
-            json.put("brutto_time", toJson(weight.getBruttoTime()));
-            json.put("tara", weight.getTara());
-            json.put("netto", weight.getNetto());
-            json.put("correction", weight.getCorrection());
-            json.put("tara_time", toJson(weight.getTaraTime()));
+            json.put(ID, weight.getId());
+            json.put(BRUTTO, weight.getBrutto());
+            json.put(BRUTTO_TIME, toJson(weight.getBruttoTime()));
+            json.put(TARA, weight.getTara());
+            json.put(NETTO, weight.getNetto());
+            json.put(CORRECTION, weight.getCorrection());
+            json.put(TARA_TIME, toJson(weight.getTaraTime()));
         }
         return json;
     }
+
+    final static String CREATOR = "creator";
+    final static String TIME = "time";
 
     private static JSONObject toJson(ActionTime actionTime) {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         if (actionTime != null){
-            json.put("id", actionTime.getId());
-            json.put("creator", toJson(actionTime.getCreator()));
-            json.put("time", actionTime.getTime().toString());
+            json.put(ID, actionTime.getId());
+            json.put(CREATOR, toJson(actionTime.getCreator()));
+            json.put(TIME, actionTime.getTime().toString());
         }
         return json;
     }
 
+    final static String PERSON = "person";
+
     public static JSONObject toJson(Driver driver) {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         if (driver != null){
-            json.put("id", driver.getId());
-            json.put("person", toJson(driver.getPerson()));
-            json.put("organisation", toJson(driver.getOrganisation()));
+            json.put(ID, driver.getId());
+            json.put(PERSON, toJson(driver.getPerson()));
+            json.put(ORGANISATION, toJson(driver.getOrganisation()));
         }
         return json;
     }
+
+    final static String MODEL = "model";
+    final static String NUMBER = "number";
+    final static String TRAILER = "trailer";
 
     public static JSONObject toJson(Vehicle vehicle) {
         JSONObject json = new JSONObject();
         if (vehicle != null){
-            json.put("id", vehicle.getId());
-            json.put("model", vehicle.getModel());
-            json.put("number", vehicle.getNumber());
+            json.put(ID, vehicle.getId());
+            json.put(MODEL, vehicle.getModel());
+            json.put(NUMBER, vehicle.getNumber());
             if (vehicle.getTrailer() != null){
-                json.put("trailer", vehicle.getTrailer());
+                json.put(TRAILER, vehicle.getTrailer());
             }
         }
         return json;
     }
+    final static JsonPool pool = JsonPool.getPool();
+    final static String ID = "id";
+    final static String DATE = "date";
+    final static String TYPE = "type";
+    final static String ORGANISATION = "organisation";
+    final static String PRODUCT = "product";
+    final static String QUANTITY = "quantity";
+    final static String UNIT = "unit";
+    final static String REALISATION = "realisation";
+    final static String TRANSPORTATION = "transportation";
+    final static String HASH = "hash";
 
     public static JSONObject toLogisticJson(LoadPlan loadPlan) {
-        JSONObject json = new JSONObject();
-        json.put("id", loadPlan.getId());
-        json.put("date", loadPlan.getDate().toString());
-        json.put("type", loadPlan.getDeal().getType().toString());
-        json.put("organisation", toJson(loadPlan.getDeal().getOrganisation()));
-        json.put("product", toJson(loadPlan.getDeal().getProduct()));
-        json.put("quantity", loadPlan.getPlan());
-        json.put("unit", loadPlan.getDeal().getUnit().getName());
-        json.put("realisation", loadPlan.getDocumentOrganisation().getValue());
-        json.put("transportation", toJson(loadPlan.getTransportation()));
-        json.put("hash", loadPlan.hashCode());
+        final JSONObject json = pool.getObject();
+        json.put(ID, loadPlan.getId());
+        json.put(DATE, loadPlan.getDate().toString());
+        json.put(TYPE, loadPlan.getDeal().getType().toString());
+        json.put(ORGANISATION, toJson(loadPlan.getDeal().getOrganisation()));
+        json.put(PRODUCT, toJson(loadPlan.getDeal().getProduct()));
+        json.put(QUANTITY, loadPlan.getPlan());
+        json.put(UNIT, loadPlan.getDeal().getUnit().getName());
+        json.put(REALISATION, loadPlan.getDocumentOrganisation().getValue());
+        json.put(TRANSPORTATION, toJson(loadPlan.getTransportation()));
+        json.put(HASH, loadPlan.hashCode());
 
         return json;
     }

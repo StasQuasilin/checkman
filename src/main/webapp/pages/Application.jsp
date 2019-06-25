@@ -74,7 +74,7 @@
           </div>
         </td>
         <td rowspan="3">
-            <jsp:include page="ShortCuts.jsp"/>
+            <%--<jsp:include page="ShortCuts.jsp"/>--%>
         </td>
     </tr>
     <tr>

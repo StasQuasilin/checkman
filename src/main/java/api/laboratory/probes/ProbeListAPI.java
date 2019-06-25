@@ -8,9 +8,6 @@ import entity.laboratory.probes.SunProbe;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.PostUtil;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,7 +47,7 @@ public class ProbeListAPI extends API {
 
             List<AnalysesType> types = new LinkedList<>();
             if (types.size() == 0) {
-                List<SunProbe> sunProbes = dao.getSunProbes();
+                List<SunProbe> sunProbes = dao.getLimitSunProbes(null);
                 for (SunProbe sun : sunProbes) {
                     String id = String.valueOf(sun.getId());
                     if (items.containsKey(id)) {
@@ -62,7 +59,7 @@ public class ProbeListAPI extends API {
                         add.add(JsonParser.toJson(sun));
                     }
                 }
-                List<OilProbe> oilProbes = dao.getOilProbes();
+                List<OilProbe> oilProbes = dao.getLimitOilProbes(null);
                 for (OilProbe oil : oilProbes) {
                     String id = String.valueOf(oil.getId());
                     if (items.containsKey(id)) {

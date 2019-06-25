@@ -24,7 +24,7 @@ public class UserBox {
     private int wrongAccess = 0;
 
     public String getToken(){
-        tick(1, 0);
+//        tick(1, 0);
         String token = UUID.randomUUID().toString();
         if (users.containsKey(token)){
             return getToken();
@@ -33,11 +33,10 @@ public class UserBox {
     }
 
     public boolean containsKey(String token) {
-        boolean containsKey = users.containsKey(token);
-        if (!containsKey){
-            tick(0, 1);
-        }
-        return containsKey;
+        //        if (!containsKey){
+//            tick(0, 1);
+//        }
+        return users.containsKey(token);
     }
 
     public String updateToken(String oldToken) {

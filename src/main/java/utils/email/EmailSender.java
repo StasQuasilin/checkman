@@ -1,13 +1,11 @@
 package utils.email;
 
 import constants.Constants;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Properties;
 
@@ -43,7 +41,7 @@ public class EmailSender {
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(username));
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        message.setSubject(subject, Constants.ENCODE);
+        message.setSubject(subject, Constants.ENCODING);
         message.setSentDate(new Date());
         message.setContent(text, "text/html; charset=utf-8");
 

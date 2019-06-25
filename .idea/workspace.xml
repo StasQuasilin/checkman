@@ -1,125 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/java/controllers/IModal.java" line="15" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/controllers/IModal.java" line="20" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9237fb67-9588-4033-8a3a-4b06c82b3e9a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/utils/SignInBox.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/utils/JsonPool.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/API.java" afterPath="$PROJECT_DIR$/src/main/java/api/API.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/bot/BotSystemSettingsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/bot/BotSystemSettingsAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/logistic/ChangeLoadPlanDateAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/logistic/ChangeLoadPlanDateAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/personal/ChangePasswordAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/personal/ChangePasswordAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/archive/DealArchiveAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/archive/DealArchiveAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/DealBox.java" afterPath="$PROJECT_DIR$/src/main/java/utils/DealBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/deals/DealDelete.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/deals/DealDelete.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/deals/DealEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/deals/DealEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/deal/DealEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/deal/DealEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/deals/DealShow.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/deals/DealShow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/weight/printing/DocumentPrinter.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/weight/printing/DocumentPrinter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/references/DriverEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/references/DriverEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/transport/DriverInput.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/transport/DriverInput.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/references/driver/DriverListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/references/driver/DriverListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/EditCakeAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/EditCakeAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/deal/products/EditDealProductAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/deal/products/EditDealProductAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/plan/EditLoadPlanAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/plan/EditLoadPlanAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/EditOilAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/EditOilAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/references/organisation/EditOrganisationAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/references/organisation/EditOrganisationAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/EditSunAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/EditSunAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/weight/EditWeightAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/weight/EditWeightAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionCrudeEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionCrudeEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionCrudeEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionCrudeEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionOilEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionOilEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionRawEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionRawEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionStorageGrease.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionStorageGrease.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionStorageGreaseEdit.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionStorageGreaseEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionStorageProtein.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionStorageProtein.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionStorageProteinEdit.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionStorageProteinEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionTurnCrudeEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionTurnCrudeEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionTurnGrease.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionTurnGrease.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionTurnGreaseEdit.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionTurnGreaseEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionTurnProteinEdit.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionTurnProteinEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/turns/ExtractionTurnService.java" afterPath="$PROJECT_DIR$/src/main/java/utils/turns/ExtractionTurnService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/deal/FindDealsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/deal/FindDealsAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/references/driver/FindDriverAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/references/driver/FindDriverAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/references/organisation/FindOrganisationAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/references/organisation/FindOrganisationAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/pages/Application.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/pages/Application.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/constants/Constants.java" afterPath="$PROJECT_DIR$/src/main/java/constants/Constants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/email/EmailSender.java" afterPath="$PROJECT_DIR$/src/main/java/utils/email/EmailSender.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/seals/FindSeals.java" afterPath="$PROJECT_DIR$/src/main/java/api/seals/FindSeals.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/references/vehicles/FindVehicleAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/references/vehicles/FindVehicleAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/references/FindWorkerAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/references/FindWorkerAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/sign/FriendlyRegistrationAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/sign/FriendlyRegistrationAPI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/hibernate/HibernateDAO.java" afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/HibernateDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/IModal.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/IModal.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/IUIServlet.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/IUIServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/kpo/KPOPartListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/kpo/KPOPartListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratoryMealPrintAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratoryMealPrintAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratoryMonthlyReportPrintAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratoryMonthlyReportPrintAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratoryOilPrintAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratoryOilPrintAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/storages/LaboratoryStorageEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/storages/LaboratoryStorageEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratorySunPrintAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratorySunPrintAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java" afterPath="$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/plan/LoadPlanListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/plan/LoadPlanListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/LoginBox.java" afterPath="$PROJECT_DIR$/src/main/java/utils/LoginBox.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/logistic/LogisticListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/logistic/LogisticListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/OilMassFractionDryDeleteAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/OilMassFractionDryDeleteAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/OilMassFractionDryEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/OilMassFractionDryEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/OilMassFractionEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/OilMassFractionEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/references/OrganisationEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/references/OrganisationEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/references/organisation/OrganisationListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/references/organisation/OrganisationListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/references/organisation/ParseOrganisationAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/references/organisation/ParseOrganisationAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/kpo/PartEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/kpo/PartEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/kpo/PartEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/kpo/PartEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/sign/PasswordRestoreAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/sign/PasswordRestoreAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/sign/Personal.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/sign/Personal.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/probe/ProbeEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/probe/ProbeEdit.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java" afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/JsonParser.java" afterPath="$PROJECT_DIR$/src/main/java/utils/JsonParser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/PostUtil.java" afterPath="$PROJECT_DIR$/src/main/java/utils/PostUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/probes/ProbeListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/probes/ProbeListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/seals/PutSealAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/seals/PutSealAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/seals/RemoveSeals.java" afterPath="$PROJECT_DIR$/src/main/java/api/seals/RemoveSeals.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/transport/SaveDriverAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/transport/SaveDriverAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/plan/SaveLoadPlanAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/plan/SaveLoadPlanAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/probes/SaveOilProbeAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/probes/SaveOilProbeAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/probes/SaveSunProbeAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/probes/SaveSunProbeAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/transport/SaveTransportationDriverAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/transport/SaveTransportationDriverAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/transport/SaveTransportationVehicleAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/transport/SaveTransportationVehicleAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/transport/SaveVehicleAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/transport/SaveVehicleAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/seals/SealsSaveAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/seals/SealsSaveAPI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/summary/ShortCutAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/summary/ShortCutAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/sign/SignInAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/sign/SignInAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/storages/StorageEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/storages/StorageEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/storages/StorageListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/storages/StorageListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/subdivisions/SubdivisionList.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/subdivisions/SubdivisionList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/summary/SummaryShow.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/summary/SummaryShow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/summary/SummaryShowAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/summary/SummaryShowAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/archive/TransportArchive.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/archive/TransportArchive.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/archive/TransportArchiveAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/archive/TransportArchiveAPI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/transport/TransportTimeAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/transport/TransportTimeAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/transport/TransportationShow.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/transport/TransportationShow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/bot/UserBotSettingsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/bot/UserBotSettingsAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROCrudeEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROCrudeEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROCrudeEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROCrudeEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VRODailyEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VRODailyEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VRODailyEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VRODailyEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/reports/VRODailyReportPrintAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/reports/VRODailyReportPrintAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROListAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROOilEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROOilEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROOilEditAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROOilEditAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROOilMassFractionDryEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROOilMassFractionDryEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROOilMassFractionEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROOilMassFractionEdit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/turns/VROTurnService.java" afterPath="$PROJECT_DIR$/src/main/java/utils/turns/VROTurnService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/transport/VehicleInput.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/transport/VehicleInput.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/weight/WeightAdd.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/weight/WeightAdd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/weight/WeightCancel.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/weight/WeightCancel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/weight/WeightEdit.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/weight/WeightEdit.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/access/UserBox.java" afterPath="$PROJECT_DIR$/src/main/java/utils/access/UserBox.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/api/weight/WeightListAPI.java" afterPath="$PROJECT_DIR$/src/main/java/api/weight/WeightListAPI.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/checkman2.iml" afterPath="$PROJECT_DIR$/checkman2.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/vue/dataList.js" afterPath="$PROJECT_DIR$/src/main/webapp/vue/dataList.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/hibernate/dbDAO.java" afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/dbDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -172,7 +74,7 @@
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
       <PATH_ELEMENT>
-        <option name="myItemId" value="deals" />
+        <option name="myItemId" value="bot_settings" />
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
     </PATH>
@@ -186,12 +88,6 @@
         <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
     </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DbRootNodeDescriptor" />
-      </PATH_ELEMENT>
-    </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -199,237 +95,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HibernateDAO.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HibernateDAO.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/HibernateDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1414791">
-              <caret line="381" column="40" selection-start-line="381" selection-start-column="40" selection-end-line="381" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1719#1720#0" expanded="true" />
-                <element signature="e#1780#1781#0" expanded="true" />
-                <element signature="e#1999#2000#0" expanded="true" />
-                <element signature="e#2050#2051#0" expanded="true" />
-                <element signature="e#8525#8526#0" expanded="true" />
-                <element signature="e#8552#8553#0" expanded="true" />
-                <element signature="e#9061#9062#0" expanded="true" />
-                <element signature="e#9122#9123#0" expanded="true" />
-                <element signature="e#9190#9191#0" expanded="true" />
-                <element signature="e#9251#9252#0" expanded="true" />
-                <element signature="e#9313#9314#0" expanded="true" />
-                <element signature="e#9368#9369#0" expanded="true" />
-                <element signature="e#9618#9619#0" expanded="true" />
-                <element signature="e#9671#9672#0" expanded="true" />
-                <element signature="e#10856#10857#0" expanded="true" />
-                <element signature="e#10914#10915#0" expanded="true" />
-                <element signature="e#10990#10991#0" expanded="true" />
-                <element signature="e#11052#11053#0" expanded="true" />
-                <element signature="e#11871#11872#0" expanded="true" />
-                <element signature="e#11932#11933#0" expanded="true" />
-                <element signature="e#12954#12955#0" expanded="true" />
-                <element signature="e#13011#13012#0" expanded="true" />
-                <element signature="e#13089#13090#0" expanded="true" />
-                <element signature="e#13151#13152#0" expanded="true" />
-                <element signature="e#13223#13224#0" expanded="true" />
-                <element signature="e#13285#13286#0" expanded="true" />
-                <element signature="e#13347#13348#0" expanded="true" />
-                <element signature="e#13401#13402#0" expanded="true" />
-                <element signature="e#13475#13476#0" expanded="true" />
-                <element signature="e#13535#13536#0" expanded="true" />
-                <element signature="e#13599#13600#0" expanded="true" />
-                <element signature="e#13654#13655#0" expanded="true" />
-                <element signature="e#13728#13729#0" expanded="true" />
-                <element signature="e#13788#13789#0" expanded="true" />
-                <element signature="e#14054#14055#0" expanded="true" />
-                <element signature="e#14109#14110#0" expanded="true" />
-                <element signature="e#14998#14999#0" expanded="true" />
-                <element signature="e#15063#15064#0" expanded="true" />
-                <element signature="e#15313#15314#0" expanded="true" />
-                <element signature="e#15373#15374#0" expanded="true" />
-                <element signature="e#15592#15593#0" expanded="true" />
-                <element signature="e#15650#15651#0" expanded="true" />
-                <element signature="e#16358#16359#0" expanded="true" />
-                <element signature="e#16419#16420#0" expanded="true" />
-                <element signature="e#17361#17362#0" expanded="true" />
-                <element signature="e#17411#17412#0" expanded="true" />
-                <element signature="e#17478#17479#0" expanded="true" />
-                <element signature="e#17536#17537#0" expanded="true" />
-                <element signature="e#17600#17601#0" expanded="true" />
-                <element signature="e#17656#17657#0" expanded="true" />
-                <element signature="e#17724#17725#0" expanded="true" />
-                <element signature="e#17781#17782#0" expanded="true" />
-                <element signature="e#18140#18141#0" expanded="true" />
-                <element signature="e#18200#18201#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DocumentOrganisation.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/documents/DocumentOrganisation.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BotSettings.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/bot/BotSettings.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserBotSetting.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/bot/UserBotSetting.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LogisticListAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/logistic/LogisticListAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="41" column="79" selection-start-line="41" selection-start-column="79" selection-end-line="41" selection-end-column="79" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LaboratoryTurn.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/laboratory/LaboratoryTurn.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VROTurn.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/laboratory/subdivisions/vro/VROTurn.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Turn.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/production/Turn.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VROListAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROListAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="56" column="37" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExtractionTurnGreaseEdit.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionTurnGreaseEdit.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="83" column="42" selection-start-line="83" selection-start-column="42" selection-end-line="83" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DealListAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FindDealsAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/deal/FindDealsAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FindDriverAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/references/driver/FindDriverAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Personal.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/controllers/sign/Personal.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="44" selection-start-line="32" selection-start-column="44" selection-end-line="32" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EditDealProductAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/deal/products/EditDealProductAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="59" column="15" selection-start-line="59" selection-start-column="15" selection-end-line="59" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignUpAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="98" column="12" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginBox.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utils/LoginBox.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="62" column="25" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignInBox.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utils/SignInBox.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="18" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
+              <caret line="397" column="18" selection-start-line="397" selection-start-column="18" selection-end-line="397" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -437,75 +107,193 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SignInAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/sign/SignInAPI.java">
+      <file leaf-file-name="API.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/api/API.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="38" column="42" selection-start-line="38" selection-start-column="42" selection-end-line="38" selection-end-column="42" />
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dbDAO.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/dbDAO.java">
+      <file leaf-file-name="weightList.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+            <state vertical-scroll-proportion="64.73077">
+              <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LaboratoryMealPrintAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/reports/LaboratoryMealPrintAPI.java">
+      <file leaf-file-name="dataList.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="55" selection-start-line="28" selection-start-column="55" selection-end-line="28" selection-end-column="55" />
+              <caret line="51" column="34" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ApplicationControl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java">
+      <file leaf-file-name="DriverListAPI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/api/references/driver/DriverListAPI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="58" selection-start-line="45" selection-start-column="58" selection-end-line="45" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DealProduct.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/documents/DealProduct.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Deal.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/entity/documents/Deal.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LaboratoryTurnService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
+              <caret line="37" column="33" selection-start-line="37" selection-start-column="33" selection-end-line="37" selection-end-column="33" />
               <folding>
-                <element signature="e#2975#2976#0" expanded="true" />
-                <element signature="e#3035#3036#0" expanded="true" />
+                <element signature="imports" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProbeListAPI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/probes/ProbeListAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="49" column="69" selection-start-line="49" selection-start-column="69" selection-end-line="49" selection-end-column="69" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WeightListAPI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/api/weight/WeightListAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SignInFilter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/filters/SignInFilter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="38" column="69" selection-start-line="38" selection-start-column="69" selection-end-line="38" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserBox.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/utils/access/UserBox.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.81646657">
+              <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JsonParser.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/utils/JsonParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="325" column="47" selection-start-line="325" selection-start-column="47" selection-end-line="325" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TelegramBot.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/bot/TelegramBot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chm_db.public.bot_settings" pinned="false" current-in-tab="false">
+        <entry file="dbDummy://dbtable:/6516190d/0e655dca-d58a-40ae-b6bc-614acdc2a31e/chm_db.public.bot_settings">
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JsonPool.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/utils/JsonPool.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#285#286#0" expanded="true" />
+                <element signature="e#312#313#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShortCutAPI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/api/summary/ShortCutAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="75" column="23" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Application.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/Application.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.230769">
+              <caret line="8" column="80" selection-start-line="7" selection-start-column="4" selection-end-line="8" selection-end-column="80" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransportListAPI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="36" column="70" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Hibernator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#453#454#0" expanded="false" />
+                <element signature="e#484#485#0" expanded="false" />
+                <element signature="e#5022#5023#0" expanded="false" />
+                <element signature="e#5082#5083#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LaboratoryTurnEditAPI.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnEditAPI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="44" column="40" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -519,9 +307,9 @@
         <option value="JavaScript File" />
         <option value="CSS File" />
         <option value="My JSP" />
-        <option value="Jsp File" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -534,49 +322,34 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/js/Logic.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/transportShow.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/driverInput.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/vehicleInput.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/transportList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealEdit.jsp" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/api/laboratory/storages/StorageListAPI.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealShow.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/utils/JsonParser.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/deals/dealList.jsp" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/laboratory/sunEdit.jsp" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/driverInput.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/api/laboratory/storages/StorageListAPI.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/testVue.js" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/entity/transport/Transportation.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/utils/JsonParser.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightEdit.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/weightEdit.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/dealEdit.js" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/logisticList.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/summary/summaryList.jsp" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/entity/transport/Transportation.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/vue/logisticList.js" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/logistic/logisticList.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/webapp/index.jsp" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" root2="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/js/Logic.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/webapp/pages/transport/transportShow.jsp" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" root2="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/controllers/transport/VehicleInput.java" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/weight/WeightAdd.java" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/weight/WeightCancel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/weight/WeightEdit.java" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/weight/printing/DocumentPrinter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/laboratory/subdivisions/SubdivisionList.java" />
-        <option value="$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionOilEditAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/api/API.java" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/IUIServlet.java" />
-        <option value="$PROJECT_DIR$/src/main/java/api/plan/LoadPlanListAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/api/summary/ShortCutAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnListAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/laboratory/probe/ProbeEdit.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/turns/ExtractionTurnService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/api/transport/SaveTransportationVehicleAPI.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/summary/SummaryShow.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/references/OrganisationEdit.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionTurnCrudeEdit.java" />
@@ -608,11 +381,26 @@
         <option value="$PROJECT_DIR$/src/main/java/api/sign/SignInAPI.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/SignInBox.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/hibernate/dbDAO.java" />
         <option value="$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROListAPI.java" />
         <option value="$PROJECT_DIR$/src/main/java/api/deal/FindDealsAPI.java" />
         <option value="$PROJECT_DIR$/src/main/java/api/logistic/LogisticListAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/seals/FindSeals.java" />
+        <option value="$PROJECT_DIR$/src/main/java/utils/hibernate/dbDAO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/laboratory/probes/ProbeListAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/utils/hibernate/HibernateDAO.java" />
+        <option value="$PROJECT_DIR$/src/main/java/utils/JsonPool.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/summary/ShortCutAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/Application.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/vue/dataList.js" />
+        <option value="$PROJECT_DIR$/src/main/java/utils/JsonParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/API.java" />
+        <option value="$PROJECT_DIR$/src/main/java/api/weight/WeightListAPI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/utils/access/UserBox.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/pages/test.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/api/AccessTest.java" />
       </list>
     </option>
   </component>
@@ -655,8 +443,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="width" value="1296" />
+    <option name="height" value="1000" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -718,108 +506,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="target" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="target" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman-1.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="target" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman-1.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="target" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman-1.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="classes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="target" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman-1.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1213,70 +899,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="references" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="checkman2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="references" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="organisation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -1292,7 +914,7 @@
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/utils" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="UserBotSe&#9;PSI&#9;JAVA://entity.bot.UserBotSetting&#10;WeightUti&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/WeightUtil.java&#10;Deal&#9;PSI&#9;JAVA://entity.documents.Deal&#10;DealEd&#9;PSI&#9;JAVA://api.deal.DealEditAPI&#10;Parser&#9;PSI&#9;JAVA://utils.Parser&#10;DeaLis&#9;PSI&#9;JAVA://api.deal.DealListAPI&#10;hiberna&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;Contex&#9;PSI&#9;JAVA://filters.ContextFilter&#10;IBox&#9;PSI&#9;JAVA://utils.boxes.IBox&#10;driverIn&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/driverInput.jsp&#10;LogisticLis&#9;PSI&#9;JAVA://controllers.logistic.LogisticList&#10;SaveDriver&#9;PSI&#9;JAVA://api.transport.SaveDriverAPI&#10;EditDri&#9;PSI&#9;JAVA://api.references.driver.EditDriverAPI&#10;DriverEdi&#9;PSI&#9;JAVA://controllers.references.DriverEdit&#10;hiber&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;summa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/summary/summaryShow.jsp&#10;transportLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;short&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/ShortCuts.jsp&#10;Short&#9;PSI&#9;JAVA://api.summary.ShortCutAPI&#10;mes&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;Notificator&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/bot/Notificator.java&#10;Json&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/JsonParser.java&#10;weightEdit&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightEdit.jsp&#10;weightLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;sunEd&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;cakeE&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/cakeEdit.jsp&#10;laboratoryLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/laboratoryList.jsp&#10;message&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ru.properties&#10;messa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;EditOi&#9;PSI&#9;JAVA://api.laboratory.EditOilAPI&#10;Transportation&#9;PSI&#9;JAVA://entity.transport.Transportation&#10;oilE&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/oilEdit.jsp&#10;SunTra&#9;PSI&#9;JAVA://entity.laboratory.transportation.SunTransportationAnalyses&#10;EditOil&#9;PSI&#9;JAVA://api.laboratory.EditOilAPI&#10;La&#9;PSI&#9;JAVA://controllers.laboratory.laboratory.LaboratoryEdit&#10;Sign&#9;PSI&#9;JAVA://api.sign.SignInAPI&#10;DateUti&#9;PSI&#9;JAVA://utils.DateUtil&#10;mess&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;EmailS&#9;PSI&#9;JAVA://utils.email.EmailSender&#10;SignIn&#9;PSI&#9;JAVA://controllers.sign.SignIn&#10;signI&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/sign/SignIn.jsp&#10;signin&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/SignIn.js&#10;EditOr&#9;PSI&#9;JAVA://api.references.organisation.EditOrganisationAPI&#10;ShortCut&#9;PSI&#9;JAVA://api.summary.ShortCutAPI&#10;ShortCu&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/ShortCuts.jsp&#10;logisticLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/logistic/logisticList.jsp&#10;driverLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/references/driverList.jsp&#10;Vehicle&#9;PSI&#9;JAVA://utils.VehicleGenerator&#10;probe&#9;PSI&#9;JAVA://controllers.laboratory.probe.ProbeEdit&#10;References&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/controllers/references/ReferencesList.java" />
+    <property name="SearchEverywhereHistoryKey" value="Sign&#9;PSI&#9;JAVA://filters.SignInFilter&#10;Tele&#9;PSI&#9;JAVA://bot.TelegramBot&#10;appli&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/Application.jsp&#10;ShortCut&#9;PSI&#9;JAVA://api.summary.ShortCutAPI&#10;API&#9;PSI&#9;JAVA://api.API&#10;WeightListAPI&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/api/weight/WeightListAPI.java&#10;weightList&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;hibern&#9;PSI&#9;JAVA://utils.hibernate.Hibernator&#10;UserBotSe&#9;PSI&#9;JAVA://entity.bot.UserBotSetting&#10;WeightUti&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/WeightUtil.java&#10;Deal&#9;PSI&#9;JAVA://entity.documents.Deal&#10;DealEd&#9;PSI&#9;JAVA://api.deal.DealEditAPI&#10;Parser&#9;PSI&#9;JAVA://utils.Parser&#10;DeaLis&#9;PSI&#9;JAVA://api.deal.DealListAPI&#10;hiberna&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;Contex&#9;PSI&#9;JAVA://filters.ContextFilter&#10;IBox&#9;PSI&#9;JAVA://utils.boxes.IBox&#10;driverIn&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/driverInput.jsp&#10;LogisticLis&#9;PSI&#9;JAVA://controllers.logistic.LogisticList&#10;SaveDriver&#9;PSI&#9;JAVA://api.transport.SaveDriverAPI&#10;EditDri&#9;PSI&#9;JAVA://api.references.driver.EditDriverAPI&#10;DriverEdi&#9;PSI&#9;JAVA://controllers.references.DriverEdit&#10;hiber&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/hibernate.cfg.xml&#10;summa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/summary/summaryShow.jsp&#10;transportLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/transport/transportList.jsp&#10;short&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/ShortCuts.jsp&#10;Short&#9;PSI&#9;JAVA://api.summary.ShortCutAPI&#10;mes&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;Notificator&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/bot/Notificator.java&#10;Json&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/java/utils/JsonParser.java&#10;weightEdit&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightEdit.jsp&#10;weightLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/weight/weightList.jsp&#10;sunEd&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/sunEdit.jsp&#10;cakeE&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/cakeEdit.jsp&#10;laboratoryLis&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/laboratoryList.jsp&#10;message&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ru.properties&#10;messa&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;EditOi&#9;PSI&#9;JAVA://api.laboratory.EditOilAPI&#10;Transportation&#9;PSI&#9;JAVA://entity.transport.Transportation&#10;oilE&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/laboratory/oilEdit.jsp&#10;SunTra&#9;PSI&#9;JAVA://entity.laboratory.transportation.SunTransportationAnalyses&#10;EditOil&#9;PSI&#9;JAVA://api.laboratory.EditOilAPI&#10;La&#9;PSI&#9;JAVA://controllers.laboratory.laboratory.LaboratoryEdit&#10;DateUti&#9;PSI&#9;JAVA://utils.DateUtil&#10;mess&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/resources/messages_ua.properties&#10;EmailS&#9;PSI&#9;JAVA://utils.email.EmailSender&#10;SignIn&#9;PSI&#9;JAVA://controllers.sign.SignIn&#10;signI&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/pages/sign/SignIn.jsp&#10;signin&#9;FILE&#9;file://D:/GitHub/checkman2/src/main/webapp/vue/SignIn.js&#10;EditOr&#9;PSI&#9;JAVA://api.references.organisation.EditOrganisationAPI" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="dynamic.classpath" value="false" />
@@ -1330,7 +952,7 @@
       <recent name="controllers" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Parser">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 8.5.33">
     <configuration default="false" name="DealProductsTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -1676,6 +1298,9 @@
       <listeners />
       <method />
     </configuration>
+    <configuration default="true" type="Unknown" factoryName="Unknown">
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
@@ -1692,6 +1317,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Tomcat 8.5.33" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.33" ALTERNATIVE_JRE_ENABLED="false" ALTERNATIVE_JRE_PATH="">
+      <option name="OPEN_IN_BROWSER" value="false" />
       <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
       <deployment>
         <artifact name="checkman2:war exploded">
@@ -1830,34 +1456,36 @@
       <workItem from="1561353875883" duration="7979000" />
       <workItem from="1561364770071" duration="14297000" />
       <workItem from="1561395700362" duration="8695000" />
+      <workItem from="1561438897362" duration="4010000" />
+      <workItem from="1561448009221" duration="15158000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="423184000" />
+    <option name="totallyTimeSpent" value="442352000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32683983" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32603687" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3225108" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328341" sideWeight="0.5040453" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328341" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328341" sideWeight="0.4959547" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19189766" sideWeight="0.46483704" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27588996" sideWeight="0.46483704" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2669903" sideWeight="0.5351629" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23614073" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32683983" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23543689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32603687" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1876,31 +1504,31 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3225108" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328341" sideWeight="0.5040453" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23624596" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23543689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32683983" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32603687" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938388" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328341" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.328341" sideWeight="0.4959547" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32949308" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328341" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31130064" sideWeight="0.46483704" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27588996" sideWeight="0.46483704" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2669903" sideWeight="0.5351629" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32683983" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32603687" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26779935" sideWeight="0.52879584" order="4" side_tool="true" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -1926,210 +1554,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/summary/ShortCutAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="83" selection-start-line="60" selection-start-column="83" selection-end-line="60" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnListAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="81" selection-start-line="56" selection-start-column="81" selection-end-line="56" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/probe/ProbeEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/turns/ExtractionTurnService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/transport/SaveTransportationVehicleAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/summary/SummaryShow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="94" selection-start-line="18" selection-start-column="94" selection-end-line="18" selection-end-column="94" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/references/OrganisationEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="90" selection-start-line="22" selection-start-column="90" selection-end-line="22" selection-end-column="90" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionTurnCrudeEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/transport/TransportationShow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="51" selection-start-line="23" selection-start-column="51" selection-end-line="23" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/kpo/KPOPartListAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="50" selection-start-line="43" selection-start-column="50" selection-end-line="43" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionStorageGreaseEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="88" column="19" selection-start-line="88" selection-start-column="19" selection-end-line="88" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/LaboratoryEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="24" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryListAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="45" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/bot/BotSystemSettingsAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="15" selection-start-line="42" selection-start-column="15" selection-end-line="42" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/seals/SealsSaveAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/turns/VROTurnService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="15" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/storages/LaboratoryStorageEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="72" selection-start-line="22" selection-start-column="72" selection-end-line="22" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/vro/reports/VRODailyReportPrintAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="62" selection-start-line="54" selection-start-column="62" selection-end-line="54" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/EditSunAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="116" column="19" selection-start-line="116" selection-start-column="19" selection-end-line="116" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/kpo/PartEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="63" selection-start-line="35" selection-start-column="63" selection-end-line="35" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/DealBox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/extraction/ExtractionStorageProteinEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="88" column="19" selection-start-line="88" selection-start-column="19" selection-end-line="88" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/vro/VROOilEdit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/bot/UserBotSettingsAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="26" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/laboratory/laboratory/extraction/ExtractionStorageGrease.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/api/references/driver/FindDriverAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2138,7 +1566,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2169,7 +1596,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/controllers/application/ApplicationControl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="58" selection-start-line="45" selection-start-column="58" selection-end-line="45" selection-end-column="58" />
+          <caret line="50" column="58" selection-start-line="50" selection-start-column="58" selection-end-line="50" selection-end-column="58" />
           <folding />
         </state>
       </provider>
@@ -2185,7 +1612,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/api/deal/DealListAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2193,7 +1620,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/api/sign/SignInAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="42" selection-start-line="38" selection-start-column="42" selection-end-line="38" selection-end-column="42" />
+          <caret line="35" column="42" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
           <folding />
         </state>
       </provider>
@@ -2203,16 +1630,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="18" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="98" column="12" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2220,25 +1639,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="62" column="25" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/utils/turns/LaboratoryTurnService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="28" selection-start-line="80" selection-start-column="28" selection-end-line="80" selection-end-column="28" />
-          <folding>
-            <element signature="e#2975#2976#0" expanded="true" />
-            <element signature="e#3035#3036#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/dbDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
+          <caret line="81" column="5" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -2246,7 +1653,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/vro/VROListAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="37" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
+          <caret line="59" column="37" selection-start-line="59" selection-start-column="37" selection-end-line="59" selection-end-column="37" />
           <folding />
         </state>
       </provider>
@@ -2255,7 +1662,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2263,7 +1669,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2271,14 +1676,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/api/deal/FindDealsAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2294,7 +1698,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/controllers/sign/Personal.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="44" selection-start-line="32" selection-start-column="44" selection-end-line="32" selection-end-column="44" />
+          <caret line="31" column="44" selection-start-line="31" selection-start-column="44" selection-end-line="31" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -2311,7 +1715,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2319,7 +1722,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2327,71 +1729,317 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/references/organisation/OrganisationListAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/entity/organisations/OrganisationType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding>
+            <element signature="e#279#280#0" expanded="false" />
+            <element signature="e#304#305#0" expanded="false" />
+            <element signature="e#336#337#0" expanded="false" />
+            <element signature="e#364#365#0" expanded="false" />
+            <element signature="e#433#434#0" expanded="false" />
+            <element signature="e#460#461#0" expanded="false" />
+            <element signature="e#500#501#0" expanded="false" />
+            <element signature="e#532#533#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/entity/seals/Seal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#361#362#0" expanded="false" />
+            <element signature="e#386#387#0" expanded="false" />
+            <element signature="e#418#419#0" expanded="false" />
+            <element signature="e#446#447#0" expanded="false" />
+            <element signature="e#527#528#0" expanded="false" />
+            <element signature="e#555#556#0" expanded="false" />
+            <element signature="e#599#600#0" expanded="false" />
+            <element signature="e#633#634#0" expanded="false" />
+            <element signature="e#706#707#0" expanded="false" />
+            <element signature="e#735#736#0" expanded="false" />
+            <element signature="e#778#779#0" expanded="false" />
+            <element signature="e#814#815#0" expanded="false" />
+            <element signature="e#919#920#0" expanded="false" />
+            <element signature="e#956#957#0" expanded="false" />
+            <element signature="e#1023#1024#0" expanded="false" />
+            <element signature="e#1075#1076#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/seals/FindSeals.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="77" selection-start-line="36" selection-start-column="77" selection-end-line="36" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/entity/laboratory/probes/OilProbe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#397#398#0" expanded="false" />
+            <element signature="e#422#423#0" expanded="false" />
+            <element signature="e#454#455#0" expanded="false" />
+            <element signature="e#482#483#0" expanded="false" />
+            <element signature="e#564#565#0" expanded="false" />
+            <element signature="e#594#595#0" expanded="false" />
+            <element signature="e#639#640#0" expanded="false" />
+            <element signature="e#677#678#0" expanded="false" />
+            <element signature="e#762#763#0" expanded="false" />
+            <element signature="e#797#798#0" expanded="false" />
+            <element signature="e#852#853#0" expanded="false" />
+            <element signature="e#900#901#0" expanded="false" />
+            <element signature="e#989#990#0" expanded="false" />
+            <element signature="e#1020#1021#0" expanded="false" />
+            <element signature="e#1072#1073#0" expanded="false" />
+            <element signature="e#1112#1113#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/entity/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding>
+            <element signature="e#380#381#0" expanded="false" />
+            <element signature="e#405#406#0" expanded="false" />
+            <element signature="e#437#438#0" expanded="false" />
+            <element signature="e#465#466#0" expanded="false" />
+            <element signature="e#532#533#0" expanded="false" />
+            <element signature="e#558#559#0" expanded="false" />
+            <element signature="e#595#596#0" expanded="false" />
+            <element signature="e#625#626#0" expanded="false" />
+            <element signature="e#696#697#0" expanded="false" />
+            <element signature="e#724#725#0" expanded="false" />
+            <element signature="e#765#766#0" expanded="false" />
+            <element signature="e#799#800#0" expanded="false" />
+            <element signature="e#876#877#0" expanded="false" />
+            <element signature="e#907#908#0" expanded="false" />
+            <element signature="e#954#955#0" expanded="false" />
+            <element signature="e#994#995#0" expanded="false" />
+            <element signature="e#1083#1084#0" expanded="false" />
+            <element signature="e#1110#1111#0" expanded="false" />
+            <element signature="e#1147#1148#0" expanded="false" />
+            <element signature="e#1179#1180#0" expanded="false" />
+            <element signature="e#1259#1260#0" expanded="false" />
+            <element signature="e#1288#1289#0" expanded="false" />
+            <element signature="e#1331#1332#0" expanded="false" />
+            <element signature="e#1367#1368#0" expanded="false" />
+            <element signature="e#1457#1458#0" expanded="false" />
+            <element signature="e#1491#1492#0" expanded="false" />
+            <element signature="e#1544#1545#0" expanded="false" />
+            <element signature="e#1590#1591#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/sign/SignUpAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="98" column="16" selection-start-line="98" selection-start-column="16" selection-end-line="98" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/references/driver/DriverListAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="33" selection-start-line="37" selection-start-column="33" selection-end-line="37" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/transport/TransportListAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="70" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#453#454#0" expanded="false" />
+            <element signature="e#484#485#0" expanded="false" />
+            <element signature="e#5022#5023#0" expanded="false" />
+            <element signature="e#5082#5083#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/dbDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3327616">
+          <caret line="108" column="19" selection-start-line="108" selection-start-column="19" selection-end-line="108" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/LaboratoryTurnEditAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="40" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/utils/hibernate/HibernateDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1414791">
-          <caret line="381" column="40" selection-start-line="381" selection-start-column="40" selection-end-line="381" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="397" column="18" selection-start-line="397" selection-start-column="18" selection-end-line="397" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1719#1720#0" expanded="true" />
-            <element signature="e#1780#1781#0" expanded="true" />
-            <element signature="e#1999#2000#0" expanded="true" />
-            <element signature="e#2050#2051#0" expanded="true" />
-            <element signature="e#8525#8526#0" expanded="true" />
-            <element signature="e#8552#8553#0" expanded="true" />
-            <element signature="e#9061#9062#0" expanded="true" />
-            <element signature="e#9122#9123#0" expanded="true" />
-            <element signature="e#9190#9191#0" expanded="true" />
-            <element signature="e#9251#9252#0" expanded="true" />
-            <element signature="e#9313#9314#0" expanded="true" />
-            <element signature="e#9368#9369#0" expanded="true" />
-            <element signature="e#9618#9619#0" expanded="true" />
-            <element signature="e#9671#9672#0" expanded="true" />
-            <element signature="e#10856#10857#0" expanded="true" />
-            <element signature="e#10914#10915#0" expanded="true" />
-            <element signature="e#10990#10991#0" expanded="true" />
-            <element signature="e#11052#11053#0" expanded="true" />
-            <element signature="e#11871#11872#0" expanded="true" />
-            <element signature="e#11932#11933#0" expanded="true" />
-            <element signature="e#12954#12955#0" expanded="true" />
-            <element signature="e#13011#13012#0" expanded="true" />
-            <element signature="e#13089#13090#0" expanded="true" />
-            <element signature="e#13151#13152#0" expanded="true" />
-            <element signature="e#13223#13224#0" expanded="true" />
-            <element signature="e#13285#13286#0" expanded="true" />
-            <element signature="e#13347#13348#0" expanded="true" />
-            <element signature="e#13401#13402#0" expanded="true" />
-            <element signature="e#13475#13476#0" expanded="true" />
-            <element signature="e#13535#13536#0" expanded="true" />
-            <element signature="e#13599#13600#0" expanded="true" />
-            <element signature="e#13654#13655#0" expanded="true" />
-            <element signature="e#13728#13729#0" expanded="true" />
-            <element signature="e#13788#13789#0" expanded="true" />
-            <element signature="e#14054#14055#0" expanded="true" />
-            <element signature="e#14109#14110#0" expanded="true" />
-            <element signature="e#14998#14999#0" expanded="true" />
-            <element signature="e#15063#15064#0" expanded="true" />
-            <element signature="e#15313#15314#0" expanded="true" />
-            <element signature="e#15373#15374#0" expanded="true" />
-            <element signature="e#15592#15593#0" expanded="true" />
-            <element signature="e#15650#15651#0" expanded="true" />
-            <element signature="e#16358#16359#0" expanded="true" />
-            <element signature="e#16419#16420#0" expanded="true" />
-            <element signature="e#17361#17362#0" expanded="true" />
-            <element signature="e#17411#17412#0" expanded="true" />
-            <element signature="e#17478#17479#0" expanded="true" />
-            <element signature="e#17536#17537#0" expanded="true" />
-            <element signature="e#17600#17601#0" expanded="true" />
-            <element signature="e#17656#17657#0" expanded="true" />
-            <element signature="e#17724#17725#0" expanded="true" />
-            <element signature="e#17781#17782#0" expanded="true" />
-            <element signature="e#18140#18141#0" expanded="true" />
-            <element signature="e#18200#18201#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/JsonPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#285#286#0" expanded="true" />
+            <element signature="e#312#313#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/summary/ShortCutAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="23" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/vue/dataList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="34" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/weight/weightList.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="64.73077">
+          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/JsonParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="325" column="47" selection-start-line="325" selection-start-column="47" selection-end-line="325" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bot/TelegramBot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/6516190d/0e655dca-d58a-40ae-b6bc-614acdc2a31e/chm_db.public.bot_settings">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/laboratory/probes/ProbeListAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="69" selection-start-line="49" selection-start-column="69" selection-end-line="49" selection-end-column="69" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/API.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/api/weight/WeightListAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/filters/SignInFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="69" selection-start-line="38" selection-start-column="69" selection-end-line="38" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/pages/Application.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.230769">
+          <caret line="8" column="80" selection-start-line="7" selection-start-column="4" selection-end-line="8" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/utils/access/UserBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.81646657">
+          <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>

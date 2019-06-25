@@ -4,6 +4,7 @@ import api.API;
 import constants.Branches;
 import constants.Constants;
 import entity.seals.Seal;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
@@ -26,15 +27,14 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.SEALS_FIND)
 public class FindSeals extends API {
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
             String key = String.valueOf(body.get(Constants.KEY));
-            List<Seal> seals = dao.findSeal(key);
-            JSONArray array = seals.stream().map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
+            JSONArray array = dao.findSeal(key).stream()
+                    .filter(seal -> seal.getTransportation() == null)
+                    .map(JsonParser::toJson).collect(Collectors.toCollection(JSONArray::new));
             write(resp, array.toJSONString());
             body.clear();
             array.clear();

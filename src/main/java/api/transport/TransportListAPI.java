@@ -7,15 +7,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.PostUtil;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -37,7 +34,7 @@ public class TransportListAPI extends API {
         array.put("update", update);
         array.put("remove", remove);
         if (body != null) {
-            for (LoadPlan loadPlan : dao.getActiveTransportations()) {
+            for (LoadPlan loadPlan : dao.getActiveTransportations(null)) {
                 String id = String.valueOf(loadPlan.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);

@@ -48,6 +48,8 @@ var deamon = new Vue({
                 }
             }
             if (!doNot) {
+                console.log('add -->');
+                console.log(item);
                 this.items.push({item: item});
             }
         },

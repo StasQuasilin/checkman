@@ -32,6 +32,7 @@ import entity.weight.WeightUnit;
 import org.omg.PortableInterceptor.ObjectReferenceFactory;
 import utils.TurnDateTime;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -63,7 +64,7 @@ public interface dbDAO {
     LoadPlan getLoadPlanById(Object id);
     void saveLoadPlan(LoadPlan plan);
     List<ChangeLog> getLogs(String uid);
-    LoadPlan[] getDriverList();
+    List<LoadPlan> getDriverList();
     void savePerson(Person person);
     Person getPersonById(Object personId);
     void saveWorker(Worker worker, User user);
@@ -72,8 +73,8 @@ public interface dbDAO {
     void saveCakeAnalyses(CakeAnalyses cakeAnalyses);
     void remove(Object o);
     void save(Object ... o);
-    List<SunProbe> getSunProbes();
-    List<OilProbe> getOilProbes();
+    List<SunProbe> getLimitSunProbes(Date date);
+    List<OilProbe> getLimitOilProbes(Date date);
     void saveChangeLod(ChangeLog log);
     void saveChange(Change change);
     LoadPlan getLoadPlanByTransportationId(Object id);
@@ -105,7 +106,7 @@ public interface dbDAO {
     Forpress getForpressById(Object forpressId);
     ExtractionCrude getExtractionCrudeById(Object id);
     Collection<Organisation> findOrganisation(String key);
-    List<LoadPlan> getActiveTransportations();
+    List<LoadPlan> getActiveTransportations(Date date);
     List<Deal> getArchiveDeals(DealType type);
     DocumentOrganisation getDocumentOrganisationByValue(Object value);
     WeightUnit getWeightUnitById(Object unit);

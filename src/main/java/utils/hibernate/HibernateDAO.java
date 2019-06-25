@@ -1,8 +1,8 @@
 package utils.hibernate;
 
-import bot.BotSettings;
 import bot.BotUID;
 import entity.*;
+import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
 import entity.documents.*;
 import entity.laboratory.CakeAnalyses;
@@ -159,43 +159,43 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public LoadPlan[] getDriverList() {
-        return new LoadPlan[0];
+    public List<LoadPlan> getDriverList() {
+        return new LinkedList<>();
     }
 
     @Override
     public void savePerson(Person person) {
-
+        save(person);
     }
 
     @Override
     public Person getPersonById(Object personId) {
-        return null;
+        return hb.get(Person.class, "id", personId);
     }
 
     @Override
     public void saveWorker(Worker worker, User user) {
-
+        save(worker, user);
     }
 
     @Override
     public List<User> getUsersByToken(String token) {
-        return null;
+        return hb.query(User.class, "uid", token);
     }
 
     @Override
     public Worker getWorkerById(Object id) {
-        return null;
+        return hb.get(Worker.class, "id", id);
     }
 
     @Override
     public void saveCakeAnalyses(CakeAnalyses cakeAnalyses) {
-
+        hb.save(cakeAnalyses);
     }
 
     @Override
     public void remove(Object o) {
-
+        hb.remove(o);
     }
 
     @Override
@@ -214,58 +214,59 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<SunProbe> getSunProbes() {
-        return null;
+    public List<SunProbe> getLimitSunProbes(Date date) {
+        return hb.query(SunProbe.class, null);
     }
 
     @Override
-    public List<OilProbe> getOilProbes() {
-        return null;
+    public List<OilProbe> getLimitOilProbes(Date date) {
+        return hb.query(OilProbe.class, null);
     }
 
     @Override
     public void saveChangeLod(ChangeLog log) {
-
+        hb.save(log);
     }
 
     @Override
     public void saveChange(Change change) {
-
+        hb.save(change);
     }
 
     @Override
     public LoadPlan getLoadPlanByTransportationId(Object id) {
-        return null;
+        return hb.get(LoadPlan.class,"transportation", id);
     }
 
     @Override
     public void saveTransportation(ActionTime time, Transportation transportation) {
-
+        hb.save(time);
+        saveTransportation(transportation);
     }
 
     @Override
     public <T> void remove(Class<T> tClass, Object id) {
-
+        hb.remove(hb.get(tClass, "id", id));
     }
 
     @Override
     public List<Product> getProductList() {
-        return null;
+        return hb.query(Product.class, null);
     }
 
     @Override
     public List<WeightUnit> getUnitsList() {
-        return null;
+        return hb.query(WeightUnit.class, null);
     }
 
     @Override
     public List<DocumentOrganisation> getDocumentOrganisationList() {
-        return null;
+        return hb.query(DocumentOrganisation.class, null);
     }
 
     @Override
     public List<Seal> findSeal(String key) {
-        return null;
+        return hb.find(Seal.class, "number", key);
     }
 
     @Override
@@ -275,112 +276,134 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Driver getDriverByID(Object id) {
-        return null;
+        return hb.get(Driver.class, "id", id);
     }
 
     @Override
     public List<Transportation> getTransportationsByDriver(Driver driver) {
-        return null;
+        return hb.query(Transportation.class, "driver", driver);
     }
 
     @Override
-    public OrganisationType getOrganisationTypeByName(String type) {
-        return null;
+    public OrganisationType getOrganisationTypeByName(String name) {
+        return hb.get(OrganisationType.class, "name", name);
     }
 
     @Override
-    public Seal getSealById(Object sealId) {
-        return null;
+    public Seal getSealById(Object id) {
+        return hb.get(Seal.class, "id", id);
     }
 
     @Override
     public VROOil getVROOilById(Object id) {
-        return null;
+        return hb.get(VROOil.class, "id", id);
     }
 
     @Override
     public List<Forpress> getForpressList() {
-        return null;
+        return hb.query(Forpress.class, null);
     }
 
     @Override
     public OilMassFractionDry getOilMassFractionDry(Object id) {
-        return null;
+        return hb.get(OilMassFractionDry.class, "id", id);
     }
 
     @Override
     public Transportation getTransportationById(Object id) {
-        return null;
+        return hb.get(Transportation.class, "id", id);
     }
 
     @Override
     public KPOPart getKPOPartById(Object id) {
-        return null;
+        return hb.get(KPOPart.class, "id", id);
     }
 
     @Override
     public SunProbe getSunProbeById(Object id) {
-        return null;
+        return hb.get(SunProbe.class, "id", id);
     }
 
     @Override
     public OilProbe getOilProbeById(Object id) {
-        return null;
+        return hb.get(OilProbe.class, "id", id);
     }
 
     @Override
     public Vehicle getVehicleById(Object id) {
-        return null;
+        return hb.get(Vehicle.class, "id", id);
     }
 
     @Override
     public VRODaily getVRODailyById(Object id) {
-        return null;
+        return hb.get(VRODaily.class, "id", id);
     }
 
     @Override
     public List<LoadPlan> getLastPlans() {
-        return null;
+        return hb.limitQuery(LoadPlan.class, "date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 200);
     }
 
     @Override
     public DocumentUID getDocumentUID(String uid) {
-        return null;
+        return hb.get(DocumentUID.class, "uid", uid);
     }
 
     @Override
     public User getUserByWorker(Worker worker) {
-        return null;
+        return hb.get(User.class, "worker", worker);
     }
 
     @Override
     public VROCrude getVroCrudeById(Object id) {
-        return null;
+        return hb.get(VROCrude.class, "id", id);
     }
 
     @Override
     public List<LaboratoryTurn> getLaboratoryTurnByTurn(Turn turn) {
-        return null;
+        return hb.query(LaboratoryTurn.class, "turn", turn);
     }
 
     @Override
-    public Forpress getForpressById(Object forpressId) {
-        return null;
+    public Forpress getForpressById(Object id) {
+        return hb.get(Forpress.class,"id", id);
     }
 
     @Override
     public ExtractionCrude getExtractionCrudeById(Object id) {
-        return null;
+        return hb.get(ExtractionCrude.class, "id", id);
     }
 
     @Override
     public Collection<Organisation> findOrganisation(String key) {
-        return null;
+        Set<Integer> ids = new HashSet<>();
+        List<Organisation> organisations = new LinkedList<>();
+        findOrganisation("type", key, ids, organisations);
+        findOrganisation("name", key, ids, organisations);
+        ids.clear();
+        return organisations;
+    }
+
+    private void findOrganisation(String key, String value, Set<Integer> ids, List<Organisation> organisations){
+        for (Organisation organisation : find(Organisation.class, key, value)){
+            if (!ids.contains(organisation.getId())){
+                ids.add(organisation.getId());
+                organisations.add(organisation);
+            }
+        }
     }
 
     @Override
-    public List<LoadPlan> getActiveTransportations() {
-        return null;
+    public List<LoadPlan> getActiveTransportations(Date date) {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("transportation/archive", false);
+        if (date == null) {
+            parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
+            return hb.limitQuery(LoadPlan.class, parameters, 30);
+        } else {
+            parameters.put("date", date);
+            return hb.query(LoadPlan.class, parameters);
+        }
     }
 
     @Override
@@ -563,7 +586,7 @@ public class HibernateDAO implements dbDAO {
     public List<LoadPlan> getTransportationsOnTerritory() {
         final HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("transportation/archive", false);
-        parameters.put("transportation.timeIn", State.notNull);
+        parameters.put("transportation/timeIn", State.notNull);
         return hb.query(LoadPlan.class, parameters);
     }
 

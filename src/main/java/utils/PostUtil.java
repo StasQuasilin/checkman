@@ -38,7 +38,7 @@ public class PostUtil {
     }
 
     public static synchronized void write(HttpServletResponse resp, String txt) throws IOException {
-        resp.setCharacterEncoding(Constants.ENCODE);
+        resp.setCharacterEncoding(Constants.ENCODING);
         resp.getWriter().write(txt);
     }
     public synchronized static JSONObject parseBodyJson(HttpServletRequest req) throws IOException {

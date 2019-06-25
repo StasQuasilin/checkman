@@ -6,8 +6,7 @@ import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
+import utils.JsonPool;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -25,24 +22,24 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.WEIGHT_LIST)
 public class WeightListAPI extends API {
 
-
+    final JsonPool pool = JsonPool.getPool();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final JSONObject array = new JSONObject();
-        final JSONArray add = new JSONArray();
-        final JSONArray update = new JSONArray();
-        final JSONArray remove = new JSONArray();
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
+        final JSONObject array = pool.getObject();
+        final JSONArray add = pool.getArray();
+        final JSONArray update = pool.getArray();
+        final JSONArray remove = pool.getArray();
+        array.put(ADD, add);
+        array.put(UPDATE, update);
+        array.put(REMOVE, remove);
 
         JSONObject body = parseBody(req);
 
         if (body != null) {
-
-            for (LoadPlan loadPlan : dao.getActiveTransportations()) {
-                String id = String.valueOf(loadPlan.getId());
+            String id;
+            for (LoadPlan loadPlan : dao.getActiveTransportations(null)) {
+                id = String.valueOf(loadPlan.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);
                     if (hash != loadPlan.hashCode()) {
@@ -55,8 +52,9 @@ public class WeightListAPI extends API {
             remove.addAll((Collection) body.keySet().stream().map(key -> Integer.parseInt((String) key)).collect(Collectors.toList()));
         }
         write(resp, array.toJSONString());
-        add.clear();
-        update.clear();
-        remove.clear();
+        pool.put(array);
+        pool.put(add);
+        pool.put(update);
+        pool.put(remove);
     }
 }
