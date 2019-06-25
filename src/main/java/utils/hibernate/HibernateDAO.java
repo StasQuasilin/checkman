@@ -39,6 +39,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 24.06.2019.
@@ -420,8 +421,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public WeightUnit getWeightUnitById(Object unit) {
-        return hb.get(WeightUnit.class, "name", unit);
+    public WeightUnit getWeightUnitById(Object id) {
+        return hb.get(WeightUnit.class, "id", id);
     }
 
     @Override
@@ -719,5 +720,11 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<VROTurn> getVroTurns() {
         return hb.query(VROTurn.class, "turn", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
+    }
+
+    @Override
+    public List<User> findUser(Object key) {
+        final List<Worker> workers = findWorker(key);
+        return workers.stream().map(this::getUserByWorker).collect(Collectors.toCollection(LinkedList::new));
     }
 }

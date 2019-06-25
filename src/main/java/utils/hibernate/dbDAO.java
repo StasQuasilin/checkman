@@ -157,4 +157,5 @@ public interface dbDAO {
 
     List<VROTurn> getVroTurns();
 
+    List<User> findUser(Object key);
 }

@@ -9,6 +9,7 @@ import entity.documents.DealHash;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.JsonPool;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,12 +24,20 @@ import java.util.HashMap;
 @WebServlet(Branches.API.DEAL_LIST)
 public class DealListAPI extends API {
 
+    final JsonPool pool = JsonPool.getPool();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println(parseBody(req));
+        write(resp, "{}");
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final JSONObject array = new JSONObject();
-        final JSONArray add = new JSONArray();
-        final JSONArray update = new JSONArray();
-        final JSONArray remove = new JSONArray();
+        final JSONObject array = pool.getObject();
+        final JSONArray add = pool.getArray();
+        final JSONArray update = pool.getArray();
+        final JSONArray remove = pool.getArray();
         array.put("add", add);
         array.put("update", update);
         array.put("remove", remove);
@@ -53,8 +62,6 @@ public class DealListAPI extends API {
             }
         }
         write(resp, array.toJSONString());
-        add.clear();
-        update.clear();
-        remove.clear();
+        pool.put(array);
     }
 }

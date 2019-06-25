@@ -7,33 +7,34 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
         if (debug) {
             console.log('[ Application Core ] Request to \'' + url + '\'...');
         }
-        setTimeout(function(){
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function (e) {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        if (debug) {
-                            console.log('[ Application Core ] Request successfuly');
-                        }
-                        if (onSuccess) {
-                            onSuccess(xhr.responseText);
-                        }
-                    }else if (xhr.status === 401) {
-                        location.reload();
-                    } else if (onError) {
-                        onError(xhr.status + ':' + xhr.statusText);
-                    } else {
-                        console.error(xhr.status + ':' + xhr.statusText)
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function (e) {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    if (debug) {
+                        console.log('[ Application Core ] Request successfuly');
                     }
+                    if (onSuccess) {
+                        onSuccess(xhr.responseText);
+                    }
+                }else if (xhr.status === 401) {
+                    location.reload();
+                } else if (onError) {
+                    onError(xhr.status + ':' + xhr.statusText);
+                } else {
+                    console.error(xhr.status + ':' + xhr.statusText)
                 }
-            };
-
-            if (url.substring(0, context.length) != context) {
-                url = context + url;
             }
-            xhr.open('POST', url, true);
-            xhr.send(JSON.stringify(parametrs));
-        }, 0)
+        };
+
+        if (context && url.substring(0, context.length) != context) {
+            url = context + url;
+        }
+        var json = JSON.stringify(parametrs);
+        console.log(json);
+        xhr.send(json);
     } else {
         console.error('Empty url!!!');
     }

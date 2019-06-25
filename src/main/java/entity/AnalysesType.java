@@ -6,6 +6,6 @@ package entity;
 public enum AnalysesType {
     sun,
     oil,
-    oilcake,
+    cake,
     meal
 }

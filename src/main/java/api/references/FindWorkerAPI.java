@@ -34,7 +34,7 @@ public class FindWorkerAPI extends API {
         if (body != null) {
             Object key = body.get(Constants.KEY);
 
-            array.addAll(dao.findWorker(key).stream().map(JsonParser::toJson).collect(Collectors.toList()));
+            array.addAll(dao.findUser(key).stream().map(JsonParser::toJson).collect(Collectors.toList()));
 
             PostUtil.write(resp, array.toJSONString());
             body.clear();

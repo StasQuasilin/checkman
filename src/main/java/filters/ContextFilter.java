@@ -54,7 +54,9 @@ public class ContextFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         req.setAttribute("context", req.getContextPath());
+
         filterChain.doFilter(req, servletResponse);
+
     }
 
     @Override

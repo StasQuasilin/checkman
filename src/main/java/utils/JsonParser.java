@@ -380,9 +380,11 @@ public class JsonParser {
         return json;
     }
 
+    public static final String UID = "uid";
+
     public static JSONObject toJson(User user) {
         JSONObject json = toJson(user.getWorker());
-        json.put("uid", user.getUid());
+        json.put(UID, user.getUid());
         return json;
     }
 

@@ -34,8 +34,8 @@
                     </td>
                     <td>
                         <div>
-                            <input id="worker" autocomplete="off" v-model="worker" :class="{error : errors.user}" v-on:keyup="findUser()">
-                            <div class="custom-data-list">
+                            <input id="worker" autocomplete="off" v-model="worker" :class="{error : errors.user}" v-on:keyup="findUser()" onclick="this.select()">
+                            <div class="custom-data-list" v-show="foundUsers.length > 0">
                                 <div class="custom-data-list-item" v-for="user in foundUsers" v-on:click="setUser(user)">
                                     {{user.person.value}}
                                 </div>
@@ -75,7 +75,7 @@
 
 <script src="${context}/vue/SignIn.js"></script>
 <script>
-    context = '${context}';
+    const context = '${context}';
     login.api.find = '${userApi}';
     login.api.signin = '${loginApi}';
 </script>

@@ -2,6 +2,7 @@
     font-family: SegouUI, monospace;
     color: #333333;
     user-select: none;
+    -moz-user-select: none;
 }
 body{
     margin: 0;
@@ -52,8 +53,10 @@ a:hover{
     bottom: 50%;
     left: 0;
     right: 0;
-    height: fit-content;
-    width: fit-content;
+    height: min-content;
+    width: max-content;
+
+
 }
 .content{
     border: solid gray 1.2pt;

@@ -46,7 +46,7 @@ public class ProbeEdit extends IModal {
                     req.setAttribute("probe", dao.getOilProbeById(id));
                 }
                 break;
-            case oilcake:
+            case cake:
                 req.setAttribute("title", Constants.Titles.PROBE_CAKE_EDIT);
                 req.setAttribute("saveApi", Branches.API.PROBE_CAKE_SAVE);
                 if (id != -1){

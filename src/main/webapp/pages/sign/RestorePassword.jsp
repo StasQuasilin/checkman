@@ -40,17 +40,15 @@
           </tr>
         </table>
       </div>
-      <span v-if="isError">
+      <span v-if="isError" style="position: absolute">
         {{error.msg}}
       </span>
-      <span v-if="redirectLeft > 0">
-        <fmt:message key="password.restore.success"/>
+      <span v-if="redirectLeft > 0" style="position: absolute">
+        <fmt:message key="password.restore.success"/><br>
         <fmt:message key="password.restore.redirect"/>&nbsp;{{redirectLeft}}
         (
           <a onclick="location.href='${context}${signIn}"><fmt:message key="password.restore.redirect.now"/> </a>
         )
-
-
       </span>
     </div>
   </body>

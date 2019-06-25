@@ -36,19 +36,20 @@ var login = new Vue({
             }
         },
         setUser:function(user){
+            console.log(user);
             this.user.uid = user.uid;
             this.worker = user.person.value;
             this.foundUsers = [];
         },
         signIn:function(){
+
             this.errors.user = this.user.uid === '';
             this.errors.password = this.user.password === '';
             if (!this.errors.user && !this.errors.password) {
+                console.log('!!!');
                 if (this.user.uid && this.user.password) {
+
                     this.cover = true;
-                    var user = {};
-                    user.uid = this.user.uid;
-                    user.password = btoa(this.user.password);
                     const self = this;
                     PostApi(this.api.signin,
                         {
@@ -63,6 +64,8 @@ var login = new Vue({
                             self.cover = false;
                         }
                     })
+                } else {
+                    console.error('Something wrong with uid')
                 }
             }
         }
