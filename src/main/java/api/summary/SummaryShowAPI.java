@@ -45,7 +45,9 @@ public class SummaryShowAPI extends API {
 					if (plan.getTransportation().getUid() != null) {
 						logs.addAll(dao.getLogs(plan.getTransportation().getUid()));
 					}
-					logs.addAll(dao.getLogs(plan.getTransportation().getWeight().getUid()));
+					if (plan.getTransportation().getWeight() != null) {
+						logs.addAll(dao.getLogs(plan.getTransportation().getWeight().getUid()));
+					}
 				}
 				//todo logs.addAll(analyses);
 				for (Object o : (JSONArray)body.get("logs")){

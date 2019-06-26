@@ -1,9 +1,6 @@
 package filters;
 
 import constants.Branches;
-import entity.answers.ErrorAnswer;
-import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.LoginBox;
 import utils.access.UserBox;
 
@@ -20,33 +17,32 @@ import java.io.IOException;
 public class SignInFilter implements Filter{
 
     final UserBox userBox = UserBox.getUserBox();
-    String apiAnswer;
+//    final String apiAnswer = JsonParser.toJson(new ErrorAnswer("msg", "Restricted area. Authorized personnel only")).toJSONString();
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        JSONObject json = JsonParser.toJson(new ErrorAnswer("msg", "Restricted area. Authorized personnel only"));
-        apiAnswer = json.toJSONString();
-        json.clear();
     }
+
+    public static final String TOKEN = "token";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        Object token = request.getSession().getAttribute("token");
+        final Object token = request.getSession().getAttribute(TOKEN);
 
         if (token != null && userBox.containsKey(token.toString())) {
-            request.getSession().setAttribute("token", userBox.updateToken(token.toString()));
+            request.getSession().setAttribute(TOKEN, userBox.updateToken(token.toString()));
             filterChain.doFilter(servletRequest, servletResponse);
-        } else if (LoginBox.getInstance().trySignIn(request, response)){
+        } else if (LoginBox.getInstance().trySignIn(request)){
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             String uri = request.getRequestURI();
             String path = request.getContextPath();
             uri = uri.substring(path.length(), uri.length());
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
+
             if (uri.substring(0, Branches.API.API.length()).equals(Branches.API.API)){
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-//                PostUtil.write(response, apiAnswer);
             } else {
                 response.sendRedirect(request.getContextPath() + Branches.UI.SING_IN);
             }

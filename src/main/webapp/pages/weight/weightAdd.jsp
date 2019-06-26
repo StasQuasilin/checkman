@@ -58,12 +58,43 @@
         price:${plan.deal.price},
         unit:${plan.deal.unit.id},
         customer:'${plan.customer}',
+//        VEHICLE
+        <c:choose>
+        <c:when test="${plan.transportation.vehicle.id}">
         vehicle:${plan.transportation.vehicle.id},
+        </c:when>
+        <c:otherwise>
+        vehicle:-1,
+        </c:otherwise>
+        </c:choose>
+//        DRIVER
+        <c:choose>
+        <c:when test="${plan.transportation.driver.id}">
         driver:${plan.transportation.driver.id}
+        </c:when>
+        <c:otherwise>
+        driver:-1
+        </c:otherwise>
+        </c:choose>
     };
     editor.input.organisation = '${plan.deal.organisation.value}';
+    <c:choose>
+    <c:when test="${plan.transportation.vehicle.id}">
     editor.input.vehicle = '${plan.transportation.vehicle.model} ${plan.transportation.vehicle.number} ${plan.transportation.vehicle.trailer}';
+    </c:when>
+    <c:otherwise>
+    editor.input.vehicle='';
+    </c:otherwise>
+    </c:choose>
+    <c:choose>
+    <c:when test="${plan.transportation.driver.id}">
     editor.input.driver = '${plan.transportation.driver.person.value}';
+    </c:when>
+    <c:otherwise>
+    editor.input.driver='';
+    </c:otherwise>
+    </c:choose>
+
     editor.deals.push({
         id:${plan.deal.id},
         type:'${plan.deal.type}',
@@ -76,7 +107,7 @@
         visibility:'${plan.deal.documentOrganisation.value}',
         unit:${plan.deal.unit.id},
         price:${plan.deal.price}
-    })
+    });
     </c:when>
     <c:otherwise>
     editor.plan = {
@@ -92,7 +123,7 @@
         customer:'${customer}',
         vehicle:-1,
         driver:-1
-    }
+    };
     </c:otherwise>
     </c:choose>
 

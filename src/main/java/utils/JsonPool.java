@@ -27,7 +27,10 @@ public class JsonPool {
             }
         }
         json.clear();
-        objects.add(json);
+        if(!objects.contains(json)) {
+            objects.add(json);
+        }
+
     }
 
     public void put(JSONArray array) {
@@ -39,7 +42,9 @@ public class JsonPool {
             }
         }
         array.clear();
-        arrays.add(array);
+        if (array.contains(array)) {
+            arrays.add(array);
+        }
     }
 
     public JSONObject getObject(){

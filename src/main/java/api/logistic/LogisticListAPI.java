@@ -8,6 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.ApplicationSettingsBox;
 import utils.JsonParser;
+import utils.JsonPool;
 import utils.PostUtil;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,14 +26,15 @@ public class LogisticListAPI extends API {
 
     final ApplicationSettingsBox settingsBox = ApplicationSettingsBox.getBox();
     TransportCustomer customer = settingsBox.getSettings().getCustomer();
+    final JsonPool pool = JsonPool.getPool();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        final JSONObject array = new JSONObject();
-        final JSONArray add = new JSONArray();
-        final JSONArray update = new JSONArray();
-        final JSONArray remove = new JSONArray();
+        JSONObject body = parseBody(req);
+        final JSONObject array = pool.getObject();
+        final JSONArray add = pool.getArray();
+        final JSONArray update = pool.getArray();
+        final JSONArray remove = pool.getArray();
 
         array.put("add", add);
         array.put("update", update);
@@ -40,8 +42,9 @@ public class LogisticListAPI extends API {
 
         if (body != null) {
             List<LoadPlan> loadPlans = dao.getTransportationsByCustomer(customer);
+            String id;
             for (LoadPlan loadPlan : loadPlans) {
-                String id = String.valueOf(loadPlan.getId());
+                id = String.valueOf(loadPlan.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);
                     if (hash != loadPlan.hashCode()) {
@@ -56,10 +59,10 @@ public class LogisticListAPI extends API {
                 remove.add(Integer.parseInt((String) key));
             }
         }
-        PostUtil.write(resp, array.toJSONString());
+        write(resp, array.toJSONString());
+        pool.put(array);
         add.clear();
         update.clear();
         remove.clear();
-        body.clear();
     }
 }

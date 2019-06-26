@@ -43,5 +43,6 @@ public abstract class API extends IServlet{
         resp.setCharacterEncoding(Constants.ENCODING);
         writer = resp.getWriter();
         writer.write(text);
+        writer.close();
     }
 }

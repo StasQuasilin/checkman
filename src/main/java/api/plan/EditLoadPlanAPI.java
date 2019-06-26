@@ -45,11 +45,11 @@ public class EditLoadPlanAPI extends API {
             Date date = Date.valueOf(String.valueOf(body.get("date")));
             long plan = (long) body.get("plan");
             DocumentOrganisation documentOrganisation = dao.getDocumentOrganisationByValue(body.get("from"));
-            Object dealId = body.get("deal");
+            long dealId = (long) body.get("deal");
             Deal deal;
             Worker creator = getWorker(req);
 
-            if (dealId == null){
+            if (dealId == -1){
                 deal = new Deal();
                 deal.setUid(DocumentUIDGenerator.generateUID());
                 deal.setType(DealType.valueOf(String.valueOf(body.get("type"))));

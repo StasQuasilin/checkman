@@ -25,7 +25,7 @@ public class UserBox {
 
     public String getToken(){
 //        tick(1, 0);
-        String token = UUID.randomUUID().toString();
+        final String token = UUID.randomUUID().toString();
         if (users.containsKey(token)){
             return getToken();
         }
@@ -40,7 +40,7 @@ public class UserBox {
     }
 
     public String updateToken(String oldToken) {
-        String token = getToken();
+        final String token = getToken();
         users.put(token, users.remove(oldToken));
         return token;
     }
@@ -63,7 +63,7 @@ public class UserBox {
     }
 
     public String addUser(UserData userData) {
-        String token = getToken();
+        final String token = getToken();
         users.put(token, userData);
         return token;
     }

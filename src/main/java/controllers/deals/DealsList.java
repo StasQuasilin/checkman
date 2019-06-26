@@ -22,10 +22,11 @@ public class DealsList extends IUIServlet{
         req.setAttribute("title", Constants.Titles.DEAL_LIST + '-' + type);
         req.setAttribute("content", "/pages/deals/dealList.jsp");
         req.setAttribute("filter", "/pages/filters/dealFilter.jsp");
-        req.setAttribute("updateLink", Branches.API.DEAL_LIST + "?type=" + type );
-        req.setAttribute("showLink", Branches.UI.DEAL_SHOW);
-        req.setAttribute("editLink", Branches.UI.DEAL_EDIT + "?type=" + type );
-        req.setAttribute("deleteLink", Branches.UI.DEAL_DELETE);
+        req.setAttribute("update", Branches.API.DEAL_LIST );
+        req.setAttribute("type", type);
+        req.setAttribute("show", Branches.UI.DEAL_SHOW);
+        req.setAttribute("edit", Branches.UI.DEAL_EDIT + "?type=" + type );
+        req.setAttribute("delete", Branches.UI.DEAL_DELETE);
         show(req, resp);
     }
 }

@@ -5,11 +5,11 @@
 -- Dumped from database version 10.5
 -- Dumped by pg_dump version 10.4
 
--- Started on 2019-06-18 14:31:43
+-- Started on 2019-06-26 13:51:33
 
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
+SET statementTimeout = 0;
+SET lockTimeout = 0;
+SET idle_in_transaction_sessionTimeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -26,7 +26,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2701 (class 0 OID 0)
+-- TOC entry 2695 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -39,7 +39,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 281 (class 1259 OID 25995)
+-- TOC entry 278 (class 1259 OID 25995)
 -- Name: act_numbers; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -53,7 +53,7 @@ CREATE TABLE public.act_numbers (
 ALTER TABLE public.act_numbers OWNER TO postgres;
 
 --
--- TOC entry 280 (class 1259 OID 25993)
+-- TOC entry 277 (class 1259 OID 25993)
 -- Name: act_numbers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -69,8 +69,8 @@ CREATE SEQUENCE public.act_numbers_id_seq
 ALTER TABLE public.act_numbers_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2702 (class 0 OID 0)
--- Dependencies: 280
+-- TOC entry 2696 (class 0 OID 0)
+-- Dependencies: 277
 -- Name: act_numbers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -79,20 +79,20 @@ ALTER SEQUENCE public.act_numbers_id_seq OWNED BY public.act_numbers.id;
 
 --
 -- TOC entry 197 (class 1259 OID 17007)
--- Name: action_time; Type: TABLE; Schema: public; Owner: postgres
+-- Name: actionTime; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.action_time (
+CREATE TABLE public.actionTime (
     id integer NOT NULL,
-    "time" timestamp without time zone,
+    "Time" Timestamp without Time zone,
     creator integer
 );
 
 
-ALTER TABLE public.action_time OWNER TO postgres;
+ALTER TABLE public.actionTime OWNER TO postgres;
 
 --
--- TOC entry 279 (class 1259 OID 25972)
+-- TOC entry 276 (class 1259 OID 25972)
 -- Name: administration; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -106,7 +106,7 @@ CREATE TABLE public.administration (
 ALTER TABLE public.administration OWNER TO postgres;
 
 --
--- TOC entry 278 (class 1259 OID 25970)
+-- TOC entry 275 (class 1259 OID 25970)
 -- Name: administration_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -122,8 +122,8 @@ CREATE SEQUENCE public.administration_id_seq
 ALTER TABLE public.administration_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2703 (class 0 OID 0)
--- Dependencies: 278
+-- TOC entry 2697 (class 0 OID 0)
+-- Dependencies: 275
 -- Name: administration_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -141,7 +141,7 @@ CREATE TABLE public.analyses_cake (
     humidity real,
     oiliness real,
     protein real,
-    create_time integer,
+    createTime integer,
     creator integer
 );
 
@@ -162,7 +162,7 @@ CREATE TABLE public.analyses_oil (
     peroxide real NOT NULL,
     phosphorus real NOT NULL,
     wax real NOT NULL,
-    create_time integer NOT NULL,
+    createTime integer NOT NULL,
     creator integer NOT NULL,
     soap boolean DEFAULT true NOT NULL
 );
@@ -183,65 +183,23 @@ CREATE TABLE public.analyses_sun (
     oil_impurity real,
     oiliness real,
     soreness real,
-    create_time integer,
+    createTime integer,
     creator integer,
-    humidity2 real DEFAULT 0 NOT NULL
+    humidity2 real DEFAULT 0 NOT NULL,
+    act integer DEFAULT '-1'::integer NOT NULL
 );
 
 
 ALTER TABLE public.analyses_sun OWNER TO postgres;
 
 --
--- TOC entry 201 (class 1259 OID 17027)
--- Name: analyses_transportation_cake; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.analyses_transportation_cake (
-    id integer NOT NULL,
-    analyses integer,
-    transportation integer
-);
-
-
-ALTER TABLE public.analyses_transportation_cake OWNER TO postgres;
-
---
--- TOC entry 202 (class 1259 OID 17032)
--- Name: analyses_transportation_oil; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.analyses_transportation_oil (
-    id integer NOT NULL,
-    analyses integer,
-    transportation integer
-);
-
-
-ALTER TABLE public.analyses_transportation_oil OWNER TO postgres;
-
---
--- TOC entry 203 (class 1259 OID 17037)
--- Name: analyses_transportation_sun; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.analyses_transportation_sun (
-    id integer NOT NULL,
-    analyses integer,
-    transportation integer,
-    act integer DEFAULT 0 NOT NULL
-);
-
-
-ALTER TABLE public.analyses_transportation_sun OWNER TO postgres;
-
---
--- TOC entry 204 (class 1259 OID 17042)
+-- TOC entry 201 (class 1259 OID 17042)
 -- Name: app_settings; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.app_settings (
     id integer NOT NULL,
-    customer character varying(5),
+    customer character varying(255),
     organisation integer
 );
 
@@ -249,28 +207,28 @@ CREATE TABLE public.app_settings (
 ALTER TABLE public.app_settings OWNER TO postgres;
 
 --
--- TOC entry 205 (class 1259 OID 17047)
+-- TOC entry 202 (class 1259 OID 17047)
 -- Name: bot_settings; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.bot_settings (
     id integer NOT NULL,
-    name character varying(18),
-    token character varying(48)
+    name character varying(255),
+    token character varying(255)
 );
 
 
 ALTER TABLE public.bot_settings OWNER TO postgres;
 
 --
--- TOC entry 206 (class 1259 OID 17055)
+-- TOC entry 203 (class 1259 OID 17055)
 -- Name: bot_uids; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.bot_uids (
     id integer NOT NULL,
-    term timestamp without time zone,
-    uid character varying(48),
+    term Timestamp without Time zone,
+    uid character varying(255),
     worker integer
 );
 
@@ -278,37 +236,37 @@ CREATE TABLE public.bot_uids (
 ALTER TABLE public.bot_uids OWNER TO postgres;
 
 --
--- TOC entry 207 (class 1259 OID 17060)
+-- TOC entry 204 (class 1259 OID 17060)
 -- Name: bot_user_settings; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.bot_user_settings (
     id integer NOT NULL,
-    analyses character varying(12),
+    analyses character varying(255),
     extraction boolean,
     kpo boolean,
     show boolean,
     telegram_id bigint,
-    transport character varying(12),
+    transport character varying(255),
     vro boolean,
-    weight character varying(12),
+    weight character varying(255),
     worker integer,
-    language character varying(2) DEFAULT 'ua'::character varying NOT NULL
+    language character varying(2) DEFAULT 'ru'::character varying NOT NULL
 );
 
 
 ALTER TABLE public.bot_user_settings OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 17068)
+-- TOC entry 205 (class 1259 OID 17068)
 -- Name: change_log; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.change_log (
     id integer NOT NULL,
-    document character varying(36),
-    label character varying(48),
-    "time" timestamp without time zone,
+    document character varying(255),
+    label character varying(255),
+    "Time" Timestamp without Time zone,
     creator integer
 );
 
@@ -316,15 +274,15 @@ CREATE TABLE public.change_log (
 ALTER TABLE public.change_log OWNER TO postgres;
 
 --
--- TOC entry 209 (class 1259 OID 17076)
+-- TOC entry 206 (class 1259 OID 17076)
 -- Name: changes; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.changes (
     id integer NOT NULL,
-    field character varying(48),
-    new_value character varying(12),
-    old_value character varying(12),
+    field character varying(255),
+    new_value character varying(255),
+    old_value character varying(255),
     log integer
 );
 
@@ -332,7 +290,7 @@ CREATE TABLE public.changes (
 ALTER TABLE public.changes OWNER TO postgres;
 
 --
--- TOC entry 210 (class 1259 OID 17084)
+-- TOC entry 207 (class 1259 OID 17084)
 -- Name: deals; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -344,41 +302,41 @@ CREATE TABLE public.deals (
     done real,
     price real,
     quantity real,
-    type character varying(5),
-    uid character varying(48),
+    type character varying(255),
+    uid character varying(255),
     creator integer,
     visibility integer,
     organisation integer,
     product integer,
     unit integer,
-    hash integer
+    hash integer DEFAULT 0 NOT NULL
 );
 
 
 ALTER TABLE public.deals OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 17092)
+-- TOC entry 208 (class 1259 OID 17092)
 -- Name: document_organisations; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.document_organisations (
     id integer NOT NULL,
     active boolean,
-    value character varying(48)
+    value character varying(255)
 );
 
 
 ALTER TABLE public.document_organisations OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 17097)
+-- TOC entry 209 (class 1259 OID 17097)
 -- Name: drivers; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.drivers (
     id integer NOT NULL,
-    license character varying(48),
+    license character varying(255),
     organisation integer,
     person integer,
     vehicle integer
@@ -388,7 +346,7 @@ CREATE TABLE public.drivers (
 ALTER TABLE public.drivers OWNER TO postgres;
 
 --
--- TOC entry 213 (class 1259 OID 17102)
+-- TOC entry 210 (class 1259 OID 17102)
 -- Name: extraction_crude; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -400,8 +358,8 @@ CREATE TABLE public.extraction_crude (
     humidity real,
     humidity_income real,
     miscellas real,
-    "time" timestamp without time zone,
-    create_time integer,
+    "Time" Timestamp without Time zone,
+    createTime integer,
     creator integer,
     turn integer
 );
@@ -410,7 +368,7 @@ CREATE TABLE public.extraction_crude (
 ALTER TABLE public.extraction_crude OWNER TO postgres;
 
 --
--- TOC entry 214 (class 1259 OID 17107)
+-- TOC entry 211 (class 1259 OID 17107)
 -- Name: extraction_oil; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -421,7 +379,7 @@ CREATE TABLE public.extraction_oil (
     humidity real,
     peroxide real,
     phosphorus real,
-    create_time integer,
+    createTime integer,
     creator integer,
     turn integer
 );
@@ -430,7 +388,7 @@ CREATE TABLE public.extraction_oil (
 ALTER TABLE public.extraction_oil OWNER TO postgres;
 
 --
--- TOC entry 215 (class 1259 OID 17112)
+-- TOC entry 212 (class 1259 OID 17112)
 -- Name: extraction_raw; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -438,8 +396,8 @@ CREATE TABLE public.extraction_raw (
     id integer NOT NULL,
     cellulose real,
     protein real,
-    "time" timestamp without time zone,
-    create_time integer,
+    "Time" Timestamp without Time zone,
+    createTime integer,
     creator integer,
     turn integer
 );
@@ -448,18 +406,18 @@ CREATE TABLE public.extraction_raw (
 ALTER TABLE public.extraction_raw OWNER TO postgres;
 
 --
--- TOC entry 254 (class 1259 OID 17698)
+-- TOC entry 251 (class 1259 OID 17698)
 -- Name: extraction_storage_grease; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.extraction_storage_grease (
     id integer NOT NULL,
     turn integer NOT NULL,
-    "time" timestamp without time zone NOT NULL,
+    "Time" Timestamp without Time zone NOT NULL,
     storage integer NOT NULL,
     grease real DEFAULT 0 NOT NULL,
     humidity real NOT NULL,
-    create_time integer NOT NULL,
+    createTime integer NOT NULL,
     creator integer NOT NULL
 );
 
@@ -467,7 +425,7 @@ CREATE TABLE public.extraction_storage_grease (
 ALTER TABLE public.extraction_storage_grease OWNER TO postgres;
 
 --
--- TOC entry 253 (class 1259 OID 17696)
+-- TOC entry 250 (class 1259 OID 17696)
 -- Name: extraction_storage_grease_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -483,8 +441,8 @@ CREATE SEQUENCE public.extraction_storage_grease_id_seq
 ALTER TABLE public.extraction_storage_grease_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2704 (class 0 OID 0)
--- Dependencies: 253
+-- TOC entry 2698 (class 0 OID 0)
+-- Dependencies: 250
 -- Name: extraction_storage_grease_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -492,18 +450,18 @@ ALTER SEQUENCE public.extraction_storage_grease_id_seq OWNED BY public.extractio
 
 
 --
--- TOC entry 248 (class 1259 OID 17663)
+-- TOC entry 245 (class 1259 OID 17663)
 -- Name: extraction_storage_protein; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.extraction_storage_protein (
     id integer NOT NULL,
     turn integer NOT NULL,
-    "time" timestamp without time zone NOT NULL,
+    "Time" Timestamp without Time zone NOT NULL,
     storage integer NOT NULL,
     protein real DEFAULT 0 NOT NULL,
     humidity real DEFAULT 0 NOT NULL,
-    create_time integer NOT NULL,
+    createTime integer NOT NULL,
     creator integer NOT NULL
 );
 
@@ -511,7 +469,7 @@ CREATE TABLE public.extraction_storage_protein (
 ALTER TABLE public.extraction_storage_protein OWNER TO postgres;
 
 --
--- TOC entry 247 (class 1259 OID 17661)
+-- TOC entry 244 (class 1259 OID 17661)
 -- Name: extraction_storage_protein_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -527,8 +485,8 @@ CREATE SEQUENCE public.extraction_storage_protein_id_seq
 ALTER TABLE public.extraction_storage_protein_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2705 (class 0 OID 0)
--- Dependencies: 247
+-- TOC entry 2699 (class 0 OID 0)
+-- Dependencies: 244
 -- Name: extraction_storage_protein_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -536,7 +494,7 @@ ALTER SEQUENCE public.extraction_storage_protein_id_seq OWNED BY public.extracti
 
 
 --
--- TOC entry 252 (class 1259 OID 17688)
+-- TOC entry 249 (class 1259 OID 17688)
 -- Name: extraction_turn_grease; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -545,7 +503,7 @@ CREATE TABLE public.extraction_turn_grease (
     turn integer NOT NULL,
     grease real DEFAULT 0 NOT NULL,
     humidity real DEFAULT 0 NOT NULL,
-    create_time integer NOT NULL,
+    createTime integer NOT NULL,
     creator integer NOT NULL
 );
 
@@ -553,7 +511,7 @@ CREATE TABLE public.extraction_turn_grease (
 ALTER TABLE public.extraction_turn_grease OWNER TO postgres;
 
 --
--- TOC entry 251 (class 1259 OID 17686)
+-- TOC entry 248 (class 1259 OID 17686)
 -- Name: extraction_turn_grease_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -569,8 +527,8 @@ CREATE SEQUENCE public.extraction_turn_grease_id_seq
 ALTER TABLE public.extraction_turn_grease_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2706 (class 0 OID 0)
--- Dependencies: 251
+-- TOC entry 2700 (class 0 OID 0)
+-- Dependencies: 248
 -- Name: extraction_turn_grease_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -578,7 +536,7 @@ ALTER SEQUENCE public.extraction_turn_grease_id_seq OWNED BY public.extraction_t
 
 
 --
--- TOC entry 250 (class 1259 OID 17673)
+-- TOC entry 247 (class 1259 OID 17673)
 -- Name: extraction_turn_protein; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -586,7 +544,7 @@ CREATE TABLE public.extraction_turn_protein (
     id integer NOT NULL,
     turn integer NOT NULL,
     humidity real DEFAULT 0 NOT NULL,
-    create_time integer NOT NULL,
+    createTime integer NOT NULL,
     creator integer NOT NULL,
     protein real DEFAULT 0 NOT NULL
 );
@@ -595,7 +553,7 @@ CREATE TABLE public.extraction_turn_protein (
 ALTER TABLE public.extraction_turn_protein OWNER TO postgres;
 
 --
--- TOC entry 249 (class 1259 OID 17671)
+-- TOC entry 246 (class 1259 OID 17671)
 -- Name: extraction_turn_protein_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -611,8 +569,8 @@ CREATE SEQUENCE public.extraction_turn_protein_id_seq
 ALTER TABLE public.extraction_turn_protein_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2707 (class 0 OID 0)
--- Dependencies: 249
+-- TOC entry 2701 (class 0 OID 0)
+-- Dependencies: 246
 -- Name: extraction_turn_protein_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -620,20 +578,20 @@ ALTER SEQUENCE public.extraction_turn_protein_id_seq OWNED BY public.extraction_
 
 
 --
--- TOC entry 216 (class 1259 OID 17117)
+-- TOC entry 213 (class 1259 OID 17117)
 -- Name: forpress; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.forpress (
     id integer NOT NULL,
-    name character varying(16)
+    name character varying(255)
 );
 
 
 ALTER TABLE public.forpress OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 17122)
+-- TOC entry 214 (class 1259 OID 17122)
 -- Name: forpress_cake; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -664,19 +622,19 @@ CREATE SEQUENCE public.hibernate_sequence
 ALTER TABLE public.hibernate_sequence OWNER TO postgres;
 
 --
--- TOC entry 260 (class 1259 OID 17729)
+-- TOC entry 257 (class 1259 OID 17729)
 -- Name: kpo_parts; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.kpo_parts (
     id integer NOT NULL,
-    date timestamp without time zone NOT NULL,
+    date Timestamp without Time zone NOT NULL,
     organoleptic boolean DEFAULT false NOT NULL,
     color integer NOT NULL,
     acid real NOT NULL,
     peroxide real NOT NULL,
     soap boolean DEFAULT false NOT NULL,
-    create_time integer NOT NULL,
+    createTime integer NOT NULL,
     creator integer NOT NULL,
     number integer NOT NULL
 );
@@ -685,7 +643,7 @@ CREATE TABLE public.kpo_parts (
 ALTER TABLE public.kpo_parts OWNER TO postgres;
 
 --
--- TOC entry 259 (class 1259 OID 17727)
+-- TOC entry 256 (class 1259 OID 17727)
 -- Name: kpo_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -701,8 +659,8 @@ CREATE SEQUENCE public.kpo_parts_id_seq
 ALTER TABLE public.kpo_parts_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2708 (class 0 OID 0)
--- Dependencies: 259
+-- TOC entry 2702 (class 0 OID 0)
+-- Dependencies: 256
 -- Name: kpo_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -710,7 +668,7 @@ ALTER SEQUENCE public.kpo_parts_id_seq OWNED BY public.kpo_parts.id;
 
 
 --
--- TOC entry 271 (class 1259 OID 17855)
+-- TOC entry 268 (class 1259 OID 17855)
 -- Name: turns_laboratory; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -724,7 +682,7 @@ CREATE TABLE public.turns_laboratory (
 ALTER TABLE public.turns_laboratory OWNER TO postgres;
 
 --
--- TOC entry 270 (class 1259 OID 17853)
+-- TOC entry 267 (class 1259 OID 17853)
 -- Name: laboratory_turns_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -740,8 +698,8 @@ CREATE SEQUENCE public.laboratory_turns_id_seq
 ALTER TABLE public.laboratory_turns_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2709 (class 0 OID 0)
--- Dependencies: 270
+-- TOC entry 2703 (class 0 OID 0)
+-- Dependencies: 267
 -- Name: laboratory_turns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -749,17 +707,17 @@ ALTER SEQUENCE public.laboratory_turns_id_seq OWNED BY public.turns_laboratory.i
 
 
 --
--- TOC entry 218 (class 1259 OID 17127)
+-- TOC entry 215 (class 1259 OID 17127)
 -- Name: load_plans; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.load_plans (
     id integer NOT NULL,
     canceled boolean,
-    transport_customer character varying(10),
+    transport_customer character varying(255),
     date date,
     plan real,
-    uid character varying(48),
+    uid character varying(255),
     deal integer,
     document_organisation integer,
     transportation integer
@@ -769,7 +727,7 @@ CREATE TABLE public.load_plans (
 ALTER TABLE public.load_plans OWNER TO postgres;
 
 --
--- TOC entry 256 (class 1259 OID 17707)
+-- TOC entry 253 (class 1259 OID 17707)
 -- Name: oil_mass_fractions; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -780,7 +738,7 @@ CREATE TABLE public.oil_mass_fractions (
     seed_humidity real DEFAULT 0,
     husk real DEFAULT 0 NOT NULL,
     husk_humidity real DEFAULT 0,
-    create_time integer NOT NULL,
+    createTime integer NOT NULL,
     creator integer NOT NULL
 );
 
@@ -788,7 +746,7 @@ CREATE TABLE public.oil_mass_fractions (
 ALTER TABLE public.oil_mass_fractions OWNER TO postgres;
 
 --
--- TOC entry 255 (class 1259 OID 17705)
+-- TOC entry 252 (class 1259 OID 17705)
 -- Name: oil_mass_fraction_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -804,8 +762,8 @@ CREATE SEQUENCE public.oil_mass_fraction_id_seq
 ALTER TABLE public.oil_mass_fraction_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2710 (class 0 OID 0)
--- Dependencies: 255
+-- TOC entry 2704 (class 0 OID 0)
+-- Dependencies: 252
 -- Name: oil_mass_fraction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -813,7 +771,7 @@ ALTER SEQUENCE public.oil_mass_fraction_id_seq OWNED BY public.oil_mass_fraction
 
 
 --
--- TOC entry 258 (class 1259 OID 17719)
+-- TOC entry 255 (class 1259 OID 17719)
 -- Name: oil_mass_fractions_dry; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -822,7 +780,7 @@ CREATE TABLE public.oil_mass_fractions_dry (
     turn integer NOT NULL,
     seed real DEFAULT 0 NOT NULL,
     husk real DEFAULT 0 NOT NULL,
-    create_time integer NOT NULL,
+    createTime integer NOT NULL,
     creator integer NOT NULL
 );
 
@@ -830,7 +788,7 @@ CREATE TABLE public.oil_mass_fractions_dry (
 ALTER TABLE public.oil_mass_fractions_dry OWNER TO postgres;
 
 --
--- TOC entry 257 (class 1259 OID 17717)
+-- TOC entry 254 (class 1259 OID 17717)
 -- Name: oil_mass_fractions_dry_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -846,8 +804,8 @@ CREATE SEQUENCE public.oil_mass_fractions_dry_id_seq
 ALTER TABLE public.oil_mass_fractions_dry_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2711 (class 0 OID 0)
--- Dependencies: 257
+-- TOC entry 2705 (class 0 OID 0)
+-- Dependencies: 254
 -- Name: oil_mass_fractions_dry_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -855,55 +813,55 @@ ALTER SEQUENCE public.oil_mass_fractions_dry_id_seq OWNED BY public.oil_mass_fra
 
 
 --
--- TOC entry 219 (class 1259 OID 17135)
+-- TOC entry 216 (class 1259 OID 17135)
 -- Name: organisation_types; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.organisation_types (
     id integer NOT NULL,
-    name character varying(8)
+    name character varying(255)
 );
 
 
 ALTER TABLE public.organisation_types OWNER TO postgres;
 
 --
--- TOC entry 220 (class 1259 OID 17140)
+-- TOC entry 217 (class 1259 OID 17140)
 -- Name: organisations; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.organisations (
     id integer NOT NULL,
-    name character varying(48),
-    type character varying(8)
+    name character varying(255),
+    type character varying(255)
 );
 
 
 ALTER TABLE public.organisations OWNER TO postgres;
 
 --
--- TOC entry 221 (class 1259 OID 17148)
+-- TOC entry 218 (class 1259 OID 17148)
 -- Name: persons; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.persons (
     id integer NOT NULL,
-    forename character varying(18),
-    patronymic character varying(18),
-    surname character varying(18)
+    forename character varying(255),
+    patronymic character varying(255),
+    surname character varying(255)
 );
 
 
 ALTER TABLE public.persons OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 17156)
+-- TOC entry 219 (class 1259 OID 17156)
 -- Name: phones; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.phones (
     id integer NOT NULL,
-    number character varying(13),
+    number character varying(255),
     person integer
 );
 
@@ -911,13 +869,13 @@ CREATE TABLE public.phones (
 ALTER TABLE public.phones OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 17161)
+-- TOC entry 220 (class 1259 OID 17161)
 -- Name: probe_oil; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.probe_oil (
     id integer NOT NULL,
-    organisation character varying(48),
+    organisation character varying(255),
     analyses integer,
     manager integer,
     turn integer
@@ -927,14 +885,14 @@ CREATE TABLE public.probe_oil (
 ALTER TABLE public.probe_oil OWNER TO postgres;
 
 --
--- TOC entry 273 (class 1259 OID 25904)
+-- TOC entry 270 (class 1259 OID 25904)
 -- Name: probe_oilcake; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.probe_oilcake (
     id integer NOT NULL,
     turn integer NOT NULL,
-    organisation character varying(48),
+    organisation character varying(45),
     manager integer,
     analyses integer NOT NULL
 );
@@ -943,7 +901,7 @@ CREATE TABLE public.probe_oilcake (
 ALTER TABLE public.probe_oilcake OWNER TO postgres;
 
 --
--- TOC entry 272 (class 1259 OID 25902)
+-- TOC entry 269 (class 1259 OID 25902)
 -- Name: probe_oilcake_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -959,8 +917,8 @@ CREATE SEQUENCE public.probe_oilcake_id_seq
 ALTER TABLE public.probe_oilcake_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2712 (class 0 OID 0)
--- Dependencies: 272
+-- TOC entry 2706 (class 0 OID 0)
+-- Dependencies: 269
 -- Name: probe_oilcake_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -968,13 +926,13 @@ ALTER SEQUENCE public.probe_oilcake_id_seq OWNED BY public.probe_oilcake.id;
 
 
 --
--- TOC entry 224 (class 1259 OID 17166)
+-- TOC entry 221 (class 1259 OID 17166)
 -- Name: probe_sun; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.probe_sun (
     id integer NOT NULL,
-    organisation character varying(48),
+    organisation character varying(255),
     analyses integer,
     manager integer,
     turn integer
@@ -984,27 +942,67 @@ CREATE TABLE public.probe_sun (
 ALTER TABLE public.probe_sun OWNER TO postgres;
 
 --
--- TOC entry 225 (class 1259 OID 17171)
+-- TOC entry 222 (class 1259 OID 17171)
 -- Name: product_group; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.product_group (
     id integer NOT NULL,
-    name character varying(18)
+    name character varying(255)
 );
 
 
 ALTER TABLE public.product_group OWNER TO postgres;
 
 --
--- TOC entry 226 (class 1259 OID 17176)
+-- TOC entry 280 (class 1259 OID 27614)
+-- Name: product_properties; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.product_properties (
+    id integer NOT NULL,
+    product integer NOT NULL,
+    key character varying(18) NOT NULL,
+    value character varying(45) NOT NULL
+);
+
+
+ALTER TABLE public.product_properties OWNER TO postgres;
+
+--
+-- TOC entry 279 (class 1259 OID 27612)
+-- Name: product_properties_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.product_properties_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.product_properties_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2707 (class 0 OID 0)
+-- Dependencies: 279
+-- Name: product_properties_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.product_properties_id_seq OWNED BY public.product_properties.id;
+
+
+--
+-- TOC entry 223 (class 1259 OID 17176)
 -- Name: products; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.products (
     id integer NOT NULL,
-    analyses character varying(8),
-    name character varying(28),
+    analyses character varying(255),
+    name character varying(255),
     product_group integer
 );
 
@@ -1012,13 +1010,13 @@ CREATE TABLE public.products (
 ALTER TABLE public.products OWNER TO postgres;
 
 --
--- TOC entry 227 (class 1259 OID 17184)
+-- TOC entry 224 (class 1259 OID 17184)
 -- Name: seals; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.seals (
     id integer NOT NULL,
-    number character varying(48),
+    number character varying(255),
     batch integer,
     transportation integer
 );
@@ -1027,7 +1025,7 @@ CREATE TABLE public.seals (
 ALTER TABLE public.seals OWNER TO postgres;
 
 --
--- TOC entry 228 (class 1259 OID 17189)
+-- TOC entry 225 (class 1259 OID 17189)
 -- Name: seals_batch; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1040,7 +1038,7 @@ CREATE TABLE public.seals_batch (
 ALTER TABLE public.seals_batch OWNER TO postgres;
 
 --
--- TOC entry 277 (class 1259 OID 25920)
+-- TOC entry 274 (class 1259 OID 25920)
 -- Name: storage_analyses; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1055,7 +1053,7 @@ CREATE TABLE public.storage_analyses (
 ALTER TABLE public.storage_analyses OWNER TO postgres;
 
 --
--- TOC entry 276 (class 1259 OID 25918)
+-- TOC entry 273 (class 1259 OID 25918)
 -- Name: storage_analyses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1071,8 +1069,8 @@ CREATE SEQUENCE public.storage_analyses_id_seq
 ALTER TABLE public.storage_analyses_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2713 (class 0 OID 0)
--- Dependencies: 276
+-- TOC entry 2708 (class 0 OID 0)
+-- Dependencies: 273
 -- Name: storage_analyses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1080,7 +1078,7 @@ ALTER SEQUENCE public.storage_analyses_id_seq OWNED BY public.storage_analyses.i
 
 
 --
--- TOC entry 246 (class 1259 OID 17655)
+-- TOC entry 243 (class 1259 OID 17655)
 -- Name: storage_product; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1094,7 +1092,7 @@ CREATE TABLE public.storage_product (
 ALTER TABLE public.storage_product OWNER TO postgres;
 
 --
--- TOC entry 245 (class 1259 OID 17653)
+-- TOC entry 242 (class 1259 OID 17653)
 -- Name: storage_product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1110,8 +1108,8 @@ CREATE SEQUENCE public.storage_product_id_seq
 ALTER TABLE public.storage_product_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2714 (class 0 OID 0)
--- Dependencies: 245
+-- TOC entry 2709 (class 0 OID 0)
+-- Dependencies: 242
 -- Name: storage_product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1119,7 +1117,7 @@ ALTER SEQUENCE public.storage_product_id_seq OWNED BY public.storage_product.id;
 
 
 --
--- TOC entry 275 (class 1259 OID 25912)
+-- TOC entry 272 (class 1259 OID 25912)
 -- Name: storage_turns; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1132,7 +1130,7 @@ CREATE TABLE public.storage_turns (
 ALTER TABLE public.storage_turns OWNER TO postgres;
 
 --
--- TOC entry 274 (class 1259 OID 25910)
+-- TOC entry 271 (class 1259 OID 25910)
 -- Name: storage_turns_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1148,8 +1146,8 @@ CREATE SEQUENCE public.storage_turns_id_seq
 ALTER TABLE public.storage_turns_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2715 (class 0 OID 0)
--- Dependencies: 274
+-- TOC entry 2710 (class 0 OID 0)
+-- Dependencies: 271
 -- Name: storage_turns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1157,7 +1155,7 @@ ALTER SEQUENCE public.storage_turns_id_seq OWNED BY public.storage_turns.id;
 
 
 --
--- TOC entry 244 (class 1259 OID 17645)
+-- TOC entry 241 (class 1259 OID 17645)
 -- Name: storages; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1170,7 +1168,7 @@ CREATE TABLE public.storages (
 ALTER TABLE public.storages OWNER TO postgres;
 
 --
--- TOC entry 243 (class 1259 OID 17643)
+-- TOC entry 240 (class 1259 OID 17643)
 -- Name: storages_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1186,8 +1184,8 @@ CREATE SEQUENCE public.storages_id_seq
 ALTER TABLE public.storages_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2716 (class 0 OID 0)
--- Dependencies: 243
+-- TOC entry 2711 (class 0 OID 0)
+-- Dependencies: 240
 -- Name: storages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1195,21 +1193,21 @@ ALTER SEQUENCE public.storages_id_seq OWNED BY public.storages.id;
 
 
 --
--- TOC entry 229 (class 1259 OID 17194)
+-- TOC entry 226 (class 1259 OID 17194)
 -- Name: subdivisions; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.subdivisions (
     id integer NOT NULL,
-    key character varying(5),
-    name character varying(18)
+    key character varying(255),
+    name character varying(255)
 );
 
 
 ALTER TABLE public.subdivisions OWNER TO postgres;
 
 --
--- TOC entry 262 (class 1259 OID 17820)
+-- TOC entry 259 (class 1259 OID 17820)
 -- Name: trains; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1222,7 +1220,7 @@ CREATE TABLE public.trains (
 ALTER TABLE public.trains OWNER TO postgres;
 
 --
--- TOC entry 261 (class 1259 OID 17818)
+-- TOC entry 258 (class 1259 OID 17818)
 -- Name: trains_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1238,8 +1236,8 @@ CREATE SEQUENCE public.trains_id_seq
 ALTER TABLE public.trains_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2717 (class 0 OID 0)
--- Dependencies: 261
+-- TOC entry 2712 (class 0 OID 0)
+-- Dependencies: 258
 -- Name: trains_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1247,27 +1245,72 @@ ALTER SEQUENCE public.trains_id_seq OWNED BY public.trains.id;
 
 
 --
--- TOC entry 230 (class 1259 OID 17202)
+-- TOC entry 282 (class 1259 OID 27665)
+-- Name: transportation_notes; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.transportation_notes (
+    id integer NOT NULL,
+    transportation integer NOT NULL,
+    Time Timestamp without Time zone NOT NULL,
+    note character varying(255) NOT NULL,
+    creator integer NOT NULL
+);
+
+
+ALTER TABLE public.transportation_notes OWNER TO postgres;
+
+--
+-- TOC entry 281 (class 1259 OID 27663)
+-- Name: transportation_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.transportation_notes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.transportation_notes_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2713 (class 0 OID 0)
+-- Dependencies: 281
+-- Name: transportation_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.transportation_notes_id_seq OWNED BY public.transportation_notes.id;
+
+
+--
+-- TOC entry 227 (class 1259 OID 17202)
 -- Name: transportations; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.transportations (
     id integer NOT NULL,
     archive boolean,
-    uid character varying(36),
+    uid character varying(255),
     creator integer,
     document_organisation integer,
     driver integer,
-    time_in integer,
-    time_out integer,
-    vehicle integer
+    Time_in integer,
+    Time_out integer,
+    vehicle integer,
+    weight integer,
+    sun_analyses integer,
+    oil_analyses integer,
+    cake_analyses integer
 );
 
 
 ALTER TABLE public.transportations OWNER TO postgres;
 
 --
--- TOC entry 267 (class 1259 OID 17838)
+-- TOC entry 264 (class 1259 OID 17838)
 -- Name: truck_transportation; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1281,7 +1324,7 @@ CREATE TABLE public.truck_transportation (
 ALTER TABLE public.truck_transportation OWNER TO postgres;
 
 --
--- TOC entry 265 (class 1259 OID 17834)
+-- TOC entry 262 (class 1259 OID 17834)
 -- Name: truck_transportation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1297,8 +1340,8 @@ CREATE SEQUENCE public.truck_transportation_id_seq
 ALTER TABLE public.truck_transportation_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2718 (class 0 OID 0)
--- Dependencies: 265
+-- TOC entry 2714 (class 0 OID 0)
+-- Dependencies: 262
 -- Name: truck_transportation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1306,7 +1349,7 @@ ALTER SEQUENCE public.truck_transportation_id_seq OWNED BY public.truck_transpor
 
 
 --
--- TOC entry 266 (class 1259 OID 17836)
+-- TOC entry 263 (class 1259 OID 17836)
 -- Name: truck_transportation_truck_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1321,8 +1364,8 @@ CREATE SEQUENCE public.truck_transportation_truck_seq
 ALTER TABLE public.truck_transportation_truck_seq OWNER TO postgres;
 
 --
--- TOC entry 2719 (class 0 OID 0)
--- Dependencies: 266
+-- TOC entry 2715 (class 0 OID 0)
+-- Dependencies: 263
 -- Name: truck_transportation_truck_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1330,7 +1373,7 @@ ALTER SEQUENCE public.truck_transportation_truck_seq OWNED BY public.truck_trans
 
 
 --
--- TOC entry 264 (class 1259 OID 17828)
+-- TOC entry 261 (class 1259 OID 17828)
 -- Name: trucks; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1344,7 +1387,7 @@ CREATE TABLE public.trucks (
 ALTER TABLE public.trucks OWNER TO postgres;
 
 --
--- TOC entry 263 (class 1259 OID 17826)
+-- TOC entry 260 (class 1259 OID 17826)
 -- Name: trucks_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1360,8 +1403,8 @@ CREATE SEQUENCE public.trucks_id_seq
 ALTER TABLE public.trucks_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2720 (class 0 OID 0)
--- Dependencies: 263
+-- TOC entry 2716 (class 0 OID 0)
+-- Dependencies: 260
 -- Name: trucks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1369,14 +1412,14 @@ ALTER SEQUENCE public.trucks_id_seq OWNED BY public.trucks.id;
 
 
 --
--- TOC entry 231 (class 1259 OID 17207)
+-- TOC entry 228 (class 1259 OID 17207)
 -- Name: turn_settings; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.turn_settings (
     id integer NOT NULL,
-    _begin time without time zone,
-    _end time without time zone,
+    _begin Time without Time zone,
+    _end Time without Time zone,
     number integer
 );
 
@@ -1384,13 +1427,13 @@ CREATE TABLE public.turn_settings (
 ALTER TABLE public.turn_settings OWNER TO postgres;
 
 --
--- TOC entry 269 (class 1259 OID 17847)
+-- TOC entry 266 (class 1259 OID 17847)
 -- Name: turns; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.turns (
     id integer NOT NULL,
-    date timestamp without time zone NOT NULL,
+    date Timestamp without Time zone NOT NULL,
     number integer NOT NULL
 );
 
@@ -1398,7 +1441,7 @@ CREATE TABLE public.turns (
 ALTER TABLE public.turns OWNER TO postgres;
 
 --
--- TOC entry 232 (class 1259 OID 17212)
+-- TOC entry 229 (class 1259 OID 17212)
 -- Name: turns_extraction; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1411,7 +1454,7 @@ CREATE TABLE public.turns_extraction (
 ALTER TABLE public.turns_extraction OWNER TO postgres;
 
 --
--- TOC entry 268 (class 1259 OID 17845)
+-- TOC entry 265 (class 1259 OID 17845)
 -- Name: turns_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1427,8 +1470,8 @@ CREATE SEQUENCE public.turns_id_seq
 ALTER TABLE public.turns_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2721 (class 0 OID 0)
--- Dependencies: 268
+-- TOC entry 2717 (class 0 OID 0)
+-- Dependencies: 265
 -- Name: turns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1436,7 +1479,7 @@ ALTER SEQUENCE public.turns_id_seq OWNED BY public.turns.id;
 
 
 --
--- TOC entry 233 (class 1259 OID 17217)
+-- TOC entry 230 (class 1259 OID 17217)
 -- Name: turns_vro; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1449,19 +1492,19 @@ CREATE TABLE public.turns_vro (
 ALTER TABLE public.turns_vro OWNER TO postgres;
 
 --
--- TOC entry 234 (class 1259 OID 17222)
+-- TOC entry 231 (class 1259 OID 17222)
 -- Name: uid; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.uid (
-    uid character varying(36) NOT NULL
+    uid character varying(255) NOT NULL
 );
 
 
 ALTER TABLE public.uid OWNER TO postgres;
 
 --
--- TOC entry 235 (class 1259 OID 17227)
+-- TOC entry 232 (class 1259 OID 17227)
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1479,7 +1522,7 @@ CREATE TABLE public.users (
 ALTER TABLE public.users OWNER TO postgres;
 
 --
--- TOC entry 236 (class 1259 OID 17235)
+-- TOC entry 233 (class 1259 OID 17235)
 -- Name: vehicles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1495,7 +1538,7 @@ CREATE TABLE public.vehicles (
 ALTER TABLE public.vehicles OWNER TO postgres;
 
 --
--- TOC entry 237 (class 1259 OID 17243)
+-- TOC entry 234 (class 1259 OID 17243)
 -- Name: vro_crude; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1508,8 +1551,8 @@ CREATE TABLE public.vro_crude (
     pulp_humidity_1 real,
     soreness_after real,
     soreness_before real,
-    "time" timestamp without time zone,
-    create_time integer,
+    "Time" Timestamp without Time zone,
+    createTime integer,
     creator integer,
     turn integer,
     pulp_humidity_2 real DEFAULT 0 NOT NULL
@@ -1519,7 +1562,7 @@ CREATE TABLE public.vro_crude (
 ALTER TABLE public.vro_crude OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1259 OID 17248)
+-- TOC entry 235 (class 1259 OID 17248)
 -- Name: vro_dailys; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1530,7 +1573,7 @@ CREATE TABLE public.vro_dailys (
     husk_soreness real,
     kernel_humidity real,
     kernel_percent real,
-    create_time integer,
+    createTime integer,
     creator integer,
     turn integer
 );
@@ -1539,7 +1582,7 @@ CREATE TABLE public.vro_dailys (
 ALTER TABLE public.vro_dailys OWNER TO postgres;
 
 --
--- TOC entry 239 (class 1259 OID 17253)
+-- TOC entry 236 (class 1259 OID 17253)
 -- Name: vro_oil; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1549,7 +1592,7 @@ CREATE TABLE public.vro_oil (
     color integer,
     peroxide real,
     phosphorus real,
-    create_time integer,
+    createTime integer,
     creator integer,
     turn integer
 );
@@ -1558,20 +1601,20 @@ CREATE TABLE public.vro_oil (
 ALTER TABLE public.vro_oil OWNER TO postgres;
 
 --
--- TOC entry 240 (class 1259 OID 17258)
+-- TOC entry 237 (class 1259 OID 17258)
 -- Name: weight_units; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.weight_units (
     id integer NOT NULL,
-    name character varying(3)
+    name character varying(255)
 );
 
 
 ALTER TABLE public.weight_units OWNER TO postgres;
 
 --
--- TOC entry 241 (class 1259 OID 17263)
+-- TOC entry 238 (class 1259 OID 17263)
 -- Name: weights; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1579,10 +1622,9 @@ CREATE TABLE public.weights (
     id integer NOT NULL,
     brutto real,
     tara real,
-    uid character varying(36),
-    brutto_time integer,
-    tara_time integer,
-    transportation integer NOT NULL,
+    uid character varying(255),
+    bruttoTime integer,
+    taraTime integer,
     correction real DEFAULT 0 NOT NULL
 );
 
@@ -1590,7 +1632,7 @@ CREATE TABLE public.weights (
 ALTER TABLE public.weights OWNER TO postgres;
 
 --
--- TOC entry 242 (class 1259 OID 17268)
+-- TOC entry 239 (class 1259 OID 17268)
 -- Name: workers; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1604,7 +1646,7 @@ CREATE TABLE public.workers (
 ALTER TABLE public.workers OWNER TO postgres;
 
 --
--- TOC entry 2372 (class 2604 OID 25998)
+-- TOC entry 2373 (class 2604 OID 25998)
 -- Name: act_numbers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1612,7 +1654,7 @@ ALTER TABLE ONLY public.act_numbers ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 2370 (class 2604 OID 25975)
+-- TOC entry 2371 (class 2604 OID 25975)
 -- Name: administration id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1620,7 +1662,7 @@ ALTER TABLE ONLY public.administration ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 2348 (class 2604 OID 17701)
+-- TOC entry 2349 (class 2604 OID 17701)
 -- Name: extraction_storage_grease id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1628,7 +1670,7 @@ ALTER TABLE ONLY public.extraction_storage_grease ALTER COLUMN id SET DEFAULT ne
 
 
 --
--- TOC entry 2339 (class 2604 OID 17666)
+-- TOC entry 2340 (class 2604 OID 17666)
 -- Name: extraction_storage_protein id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1636,7 +1678,7 @@ ALTER TABLE ONLY public.extraction_storage_protein ALTER COLUMN id SET DEFAULT n
 
 
 --
--- TOC entry 2345 (class 2604 OID 17691)
+-- TOC entry 2346 (class 2604 OID 17691)
 -- Name: extraction_turn_grease id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1644,7 +1686,7 @@ ALTER TABLE ONLY public.extraction_turn_grease ALTER COLUMN id SET DEFAULT nextv
 
 
 --
--- TOC entry 2342 (class 2604 OID 17676)
+-- TOC entry 2343 (class 2604 OID 17676)
 -- Name: extraction_turn_protein id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1652,7 +1694,7 @@ ALTER TABLE ONLY public.extraction_turn_protein ALTER COLUMN id SET DEFAULT next
 
 
 --
--- TOC entry 2358 (class 2604 OID 17732)
+-- TOC entry 2359 (class 2604 OID 17732)
 -- Name: kpo_parts id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1660,7 +1702,7 @@ ALTER TABLE ONLY public.kpo_parts ALTER COLUMN id SET DEFAULT nextval('public.kp
 
 
 --
--- TOC entry 2350 (class 2604 OID 17710)
+-- TOC entry 2351 (class 2604 OID 17710)
 -- Name: oil_mass_fractions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1668,7 +1710,7 @@ ALTER TABLE ONLY public.oil_mass_fractions ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- TOC entry 2355 (class 2604 OID 17722)
+-- TOC entry 2356 (class 2604 OID 17722)
 -- Name: oil_mass_fractions_dry id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1676,7 +1718,7 @@ ALTER TABLE ONLY public.oil_mass_fractions_dry ALTER COLUMN id SET DEFAULT nextv
 
 
 --
--- TOC entry 2367 (class 2604 OID 25907)
+-- TOC entry 2368 (class 2604 OID 25907)
 -- Name: probe_oilcake id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1684,7 +1726,15 @@ ALTER TABLE ONLY public.probe_oilcake ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 2369 (class 2604 OID 25923)
+-- TOC entry 2374 (class 2604 OID 27617)
+-- Name: product_properties id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_properties ALTER COLUMN id SET DEFAULT nextval('public.product_properties_id_seq'::regclass);
+
+
+--
+-- TOC entry 2370 (class 2604 OID 25923)
 -- Name: storage_analyses id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1692,7 +1742,7 @@ ALTER TABLE ONLY public.storage_analyses ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 2338 (class 2604 OID 17658)
+-- TOC entry 2339 (class 2604 OID 17658)
 -- Name: storage_product id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1700,7 +1750,7 @@ ALTER TABLE ONLY public.storage_product ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 2368 (class 2604 OID 25915)
+-- TOC entry 2369 (class 2604 OID 25915)
 -- Name: storage_turns id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1708,7 +1758,7 @@ ALTER TABLE ONLY public.storage_turns ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 2337 (class 2604 OID 17648)
+-- TOC entry 2338 (class 2604 OID 17648)
 -- Name: storages id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1716,7 +1766,7 @@ ALTER TABLE ONLY public.storages ALTER COLUMN id SET DEFAULT nextval('public.sto
 
 
 --
--- TOC entry 2361 (class 2604 OID 17823)
+-- TOC entry 2362 (class 2604 OID 17823)
 -- Name: trains id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1724,7 +1774,15 @@ ALTER TABLE ONLY public.trains ALTER COLUMN id SET DEFAULT nextval('public.train
 
 
 --
--- TOC entry 2363 (class 2604 OID 17841)
+-- TOC entry 2375 (class 2604 OID 27668)
+-- Name: transportation_notes id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.transportation_notes ALTER COLUMN id SET DEFAULT nextval('public.transportation_notes_id_seq'::regclass);
+
+
+--
+-- TOC entry 2364 (class 2604 OID 17841)
 -- Name: truck_transportation id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1732,7 +1790,7 @@ ALTER TABLE ONLY public.truck_transportation ALTER COLUMN id SET DEFAULT nextval
 
 
 --
--- TOC entry 2364 (class 2604 OID 17842)
+-- TOC entry 2365 (class 2604 OID 17842)
 -- Name: truck_transportation truck; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1740,7 +1798,7 @@ ALTER TABLE ONLY public.truck_transportation ALTER COLUMN truck SET DEFAULT next
 
 
 --
--- TOC entry 2362 (class 2604 OID 17831)
+-- TOC entry 2363 (class 2604 OID 17831)
 -- Name: trucks id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1748,7 +1806,7 @@ ALTER TABLE ONLY public.trucks ALTER COLUMN id SET DEFAULT nextval('public.truck
 
 
 --
--- TOC entry 2365 (class 2604 OID 17850)
+-- TOC entry 2366 (class 2604 OID 17850)
 -- Name: turns id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1756,7 +1814,7 @@ ALTER TABLE ONLY public.turns ALTER COLUMN id SET DEFAULT nextval('public.turns_
 
 
 --
--- TOC entry 2366 (class 2604 OID 17858)
+-- TOC entry 2367 (class 2604 OID 17858)
 -- Name: turns_laboratory id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1764,7 +1822,7 @@ ALTER TABLE ONLY public.turns_laboratory ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 2504 (class 2606 OID 26000)
+-- TOC entry 2501 (class 2606 OID 26000)
 -- Name: act_numbers act_numbers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1773,16 +1831,16 @@ ALTER TABLE ONLY public.act_numbers
 
 
 --
--- TOC entry 2374 (class 2606 OID 17011)
--- Name: action_time action_time_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2377 (class 2606 OID 17011)
+-- Name: actionTime actionTime_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.action_time
-    ADD CONSTRAINT action_time_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.actionTime
+    ADD CONSTRAINT actionTime_pkey PRIMARY KEY (id);
 
 
 --
--- TOC entry 2502 (class 2606 OID 25977)
+-- TOC entry 2499 (class 2606 OID 25977)
 -- Name: administration administration_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1791,7 +1849,7 @@ ALTER TABLE ONLY public.administration
 
 
 --
--- TOC entry 2376 (class 2606 OID 17016)
+-- TOC entry 2379 (class 2606 OID 17016)
 -- Name: analyses_cake analyses_cake_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1800,7 +1858,7 @@ ALTER TABLE ONLY public.analyses_cake
 
 
 --
--- TOC entry 2378 (class 2606 OID 17021)
+-- TOC entry 2381 (class 2606 OID 17021)
 -- Name: analyses_oil analyses_oil_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1809,7 +1867,7 @@ ALTER TABLE ONLY public.analyses_oil
 
 
 --
--- TOC entry 2380 (class 2606 OID 17026)
+-- TOC entry 2383 (class 2606 OID 17026)
 -- Name: analyses_sun analyses_sun_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1818,34 +1876,7 @@ ALTER TABLE ONLY public.analyses_sun
 
 
 --
--- TOC entry 2382 (class 2606 OID 17031)
--- Name: analyses_transportation_cake analyses_transportation_cake_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_cake
-    ADD CONSTRAINT analyses_transportation_cake_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 2384 (class 2606 OID 17036)
--- Name: analyses_transportation_oil analyses_transportation_oil_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_oil
-    ADD CONSTRAINT analyses_transportation_oil_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 2386 (class 2606 OID 17041)
--- Name: analyses_transportation_sun analyses_transportation_sun_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_sun
-    ADD CONSTRAINT analyses_transportation_sun_pkey PRIMARY KEY (id);
-
-
---
--- TOC entry 2388 (class 2606 OID 17046)
+-- TOC entry 2385 (class 2606 OID 17046)
 -- Name: app_settings app_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1854,7 +1885,7 @@ ALTER TABLE ONLY public.app_settings
 
 
 --
--- TOC entry 2390 (class 2606 OID 17054)
+-- TOC entry 2387 (class 2606 OID 17054)
 -- Name: bot_settings bot_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1863,7 +1894,7 @@ ALTER TABLE ONLY public.bot_settings
 
 
 --
--- TOC entry 2392 (class 2606 OID 17059)
+-- TOC entry 2389 (class 2606 OID 17059)
 -- Name: bot_uids bot_uids_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1872,7 +1903,7 @@ ALTER TABLE ONLY public.bot_uids
 
 
 --
--- TOC entry 2394 (class 2606 OID 17067)
+-- TOC entry 2391 (class 2606 OID 17067)
 -- Name: bot_user_settings bot_user_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1881,7 +1912,7 @@ ALTER TABLE ONLY public.bot_user_settings
 
 
 --
--- TOC entry 2396 (class 2606 OID 17075)
+-- TOC entry 2393 (class 2606 OID 17075)
 -- Name: change_log change_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1890,7 +1921,7 @@ ALTER TABLE ONLY public.change_log
 
 
 --
--- TOC entry 2398 (class 2606 OID 17083)
+-- TOC entry 2395 (class 2606 OID 17083)
 -- Name: changes changes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1899,7 +1930,7 @@ ALTER TABLE ONLY public.changes
 
 
 --
--- TOC entry 2400 (class 2606 OID 17091)
+-- TOC entry 2397 (class 2606 OID 17091)
 -- Name: deals deals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1908,7 +1939,7 @@ ALTER TABLE ONLY public.deals
 
 
 --
--- TOC entry 2402 (class 2606 OID 17096)
+-- TOC entry 2399 (class 2606 OID 17096)
 -- Name: document_organisations document_organisations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1917,7 +1948,7 @@ ALTER TABLE ONLY public.document_organisations
 
 
 --
--- TOC entry 2404 (class 2606 OID 17101)
+-- TOC entry 2401 (class 2606 OID 17101)
 -- Name: drivers drivers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1926,7 +1957,7 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- TOC entry 2406 (class 2606 OID 17106)
+-- TOC entry 2403 (class 2606 OID 17106)
 -- Name: extraction_crude extraction_crude_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1935,7 +1966,7 @@ ALTER TABLE ONLY public.extraction_crude
 
 
 --
--- TOC entry 2408 (class 2606 OID 17111)
+-- TOC entry 2405 (class 2606 OID 17111)
 -- Name: extraction_oil extraction_oil_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1944,7 +1975,7 @@ ALTER TABLE ONLY public.extraction_oil
 
 
 --
--- TOC entry 2410 (class 2606 OID 17116)
+-- TOC entry 2407 (class 2606 OID 17116)
 -- Name: extraction_raw extraction_raw_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1953,7 +1984,7 @@ ALTER TABLE ONLY public.extraction_raw
 
 
 --
--- TOC entry 2478 (class 2606 OID 17704)
+-- TOC entry 2475 (class 2606 OID 17704)
 -- Name: extraction_storage_grease extraction_storage_grease_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1962,7 +1993,7 @@ ALTER TABLE ONLY public.extraction_storage_grease
 
 
 --
--- TOC entry 2472 (class 2606 OID 17670)
+-- TOC entry 2469 (class 2606 OID 17670)
 -- Name: extraction_storage_protein extraction_storage_protein_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1971,7 +2002,7 @@ ALTER TABLE ONLY public.extraction_storage_protein
 
 
 --
--- TOC entry 2476 (class 2606 OID 17695)
+-- TOC entry 2473 (class 2606 OID 17695)
 -- Name: extraction_turn_grease extraction_turn_grease_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1980,7 +2011,7 @@ ALTER TABLE ONLY public.extraction_turn_grease
 
 
 --
--- TOC entry 2474 (class 2606 OID 17680)
+-- TOC entry 2471 (class 2606 OID 17680)
 -- Name: extraction_turn_protein extraction_turn_protein_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1989,7 +2020,7 @@ ALTER TABLE ONLY public.extraction_turn_protein
 
 
 --
--- TOC entry 2414 (class 2606 OID 17126)
+-- TOC entry 2411 (class 2606 OID 17126)
 -- Name: forpress_cake forpress_cake_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1998,7 +2029,7 @@ ALTER TABLE ONLY public.forpress_cake
 
 
 --
--- TOC entry 2412 (class 2606 OID 17121)
+-- TOC entry 2409 (class 2606 OID 17121)
 -- Name: forpress forpress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2007,7 +2038,7 @@ ALTER TABLE ONLY public.forpress
 
 
 --
--- TOC entry 2484 (class 2606 OID 17734)
+-- TOC entry 2481 (class 2606 OID 17734)
 -- Name: kpo_parts kpo_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2016,7 +2047,7 @@ ALTER TABLE ONLY public.kpo_parts
 
 
 --
--- TOC entry 2494 (class 2606 OID 17860)
+-- TOC entry 2491 (class 2606 OID 17860)
 -- Name: turns_laboratory laboratory_turns_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2025,7 +2056,7 @@ ALTER TABLE ONLY public.turns_laboratory
 
 
 --
--- TOC entry 2416 (class 2606 OID 17134)
+-- TOC entry 2413 (class 2606 OID 17134)
 -- Name: load_plans load_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2034,7 +2065,7 @@ ALTER TABLE ONLY public.load_plans
 
 
 --
--- TOC entry 2480 (class 2606 OID 17716)
+-- TOC entry 2477 (class 2606 OID 17716)
 -- Name: oil_mass_fractions oil_mass_fraction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2043,7 +2074,7 @@ ALTER TABLE ONLY public.oil_mass_fractions
 
 
 --
--- TOC entry 2482 (class 2606 OID 17726)
+-- TOC entry 2479 (class 2606 OID 17726)
 -- Name: oil_mass_fractions_dry oil_mass_fractions_dry_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2052,7 +2083,7 @@ ALTER TABLE ONLY public.oil_mass_fractions_dry
 
 
 --
--- TOC entry 2418 (class 2606 OID 17139)
+-- TOC entry 2415 (class 2606 OID 17139)
 -- Name: organisation_types organisation_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2061,7 +2092,7 @@ ALTER TABLE ONLY public.organisation_types
 
 
 --
--- TOC entry 2420 (class 2606 OID 17147)
+-- TOC entry 2417 (class 2606 OID 17147)
 -- Name: organisations organisations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2070,7 +2101,7 @@ ALTER TABLE ONLY public.organisations
 
 
 --
--- TOC entry 2422 (class 2606 OID 17155)
+-- TOC entry 2419 (class 2606 OID 17155)
 -- Name: persons persons_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2079,7 +2110,7 @@ ALTER TABLE ONLY public.persons
 
 
 --
--- TOC entry 2424 (class 2606 OID 17160)
+-- TOC entry 2421 (class 2606 OID 17160)
 -- Name: phones phones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2088,7 +2119,7 @@ ALTER TABLE ONLY public.phones
 
 
 --
--- TOC entry 2426 (class 2606 OID 17165)
+-- TOC entry 2423 (class 2606 OID 17165)
 -- Name: probe_oil probe_oil_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2097,7 +2128,7 @@ ALTER TABLE ONLY public.probe_oil
 
 
 --
--- TOC entry 2496 (class 2606 OID 25909)
+-- TOC entry 2493 (class 2606 OID 25909)
 -- Name: probe_oilcake probe_oilcake_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2106,7 +2137,7 @@ ALTER TABLE ONLY public.probe_oilcake
 
 
 --
--- TOC entry 2428 (class 2606 OID 17170)
+-- TOC entry 2425 (class 2606 OID 17170)
 -- Name: probe_sun probe_sun_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2115,7 +2146,7 @@ ALTER TABLE ONLY public.probe_sun
 
 
 --
--- TOC entry 2430 (class 2606 OID 17175)
+-- TOC entry 2427 (class 2606 OID 17175)
 -- Name: product_group product_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2124,7 +2155,16 @@ ALTER TABLE ONLY public.product_group
 
 
 --
--- TOC entry 2432 (class 2606 OID 17183)
+-- TOC entry 2503 (class 2606 OID 27619)
+-- Name: product_properties product_properties_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.product_properties
+    ADD CONSTRAINT product_properties_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2429 (class 2606 OID 17183)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2133,7 +2173,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 2436 (class 2606 OID 17193)
+-- TOC entry 2433 (class 2606 OID 17193)
 -- Name: seals_batch seals_batch_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2142,7 +2182,7 @@ ALTER TABLE ONLY public.seals_batch
 
 
 --
--- TOC entry 2434 (class 2606 OID 17188)
+-- TOC entry 2431 (class 2606 OID 17188)
 -- Name: seals seals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2151,7 +2191,7 @@ ALTER TABLE ONLY public.seals
 
 
 --
--- TOC entry 2500 (class 2606 OID 25925)
+-- TOC entry 2497 (class 2606 OID 25925)
 -- Name: storage_analyses storage_analyses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2160,7 +2200,7 @@ ALTER TABLE ONLY public.storage_analyses
 
 
 --
--- TOC entry 2470 (class 2606 OID 17660)
+-- TOC entry 2467 (class 2606 OID 17660)
 -- Name: storage_product storage_product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2169,7 +2209,7 @@ ALTER TABLE ONLY public.storage_product
 
 
 --
--- TOC entry 2498 (class 2606 OID 25917)
+-- TOC entry 2495 (class 2606 OID 25917)
 -- Name: storage_turns storage_turns_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2178,7 +2218,7 @@ ALTER TABLE ONLY public.storage_turns
 
 
 --
--- TOC entry 2466 (class 2606 OID 17650)
+-- TOC entry 2463 (class 2606 OID 17650)
 -- Name: storages storages_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2187,7 +2227,7 @@ ALTER TABLE ONLY public.storages
 
 
 --
--- TOC entry 2438 (class 2606 OID 17201)
+-- TOC entry 2435 (class 2606 OID 17201)
 -- Name: subdivisions subdivisions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2196,7 +2236,7 @@ ALTER TABLE ONLY public.subdivisions
 
 
 --
--- TOC entry 2486 (class 2606 OID 17825)
+-- TOC entry 2483 (class 2606 OID 17825)
 -- Name: trains trains_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2205,7 +2245,16 @@ ALTER TABLE ONLY public.trains
 
 
 --
--- TOC entry 2440 (class 2606 OID 17206)
+-- TOC entry 2505 (class 2606 OID 27670)
+-- Name: transportation_notes transportation_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.transportation_notes
+    ADD CONSTRAINT transportation_notes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2437 (class 2606 OID 17206)
 -- Name: transportations transportations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2214,7 +2263,7 @@ ALTER TABLE ONLY public.transportations
 
 
 --
--- TOC entry 2490 (class 2606 OID 17844)
+-- TOC entry 2487 (class 2606 OID 17844)
 -- Name: truck_transportation truck_transportation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2223,7 +2272,7 @@ ALTER TABLE ONLY public.truck_transportation
 
 
 --
--- TOC entry 2488 (class 2606 OID 17833)
+-- TOC entry 2485 (class 2606 OID 17833)
 -- Name: trucks trucks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2232,7 +2281,7 @@ ALTER TABLE ONLY public.trucks
 
 
 --
--- TOC entry 2444 (class 2606 OID 17216)
+-- TOC entry 2441 (class 2606 OID 17216)
 -- Name: turns_extraction turns_extraction_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2241,7 +2290,7 @@ ALTER TABLE ONLY public.turns_extraction
 
 
 --
--- TOC entry 2442 (class 2606 OID 17211)
+-- TOC entry 2439 (class 2606 OID 17211)
 -- Name: turn_settings turns_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2250,7 +2299,7 @@ ALTER TABLE ONLY public.turn_settings
 
 
 --
--- TOC entry 2492 (class 2606 OID 17852)
+-- TOC entry 2489 (class 2606 OID 17852)
 -- Name: turns turns_pkey1; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2259,7 +2308,7 @@ ALTER TABLE ONLY public.turns
 
 
 --
--- TOC entry 2446 (class 2606 OID 17221)
+-- TOC entry 2443 (class 2606 OID 17221)
 -- Name: turns_vro turns_vro_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2268,7 +2317,7 @@ ALTER TABLE ONLY public.turns_vro
 
 
 --
--- TOC entry 2448 (class 2606 OID 17226)
+-- TOC entry 2445 (class 2606 OID 17226)
 -- Name: uid uid_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2277,7 +2326,7 @@ ALTER TABLE ONLY public.uid
 
 
 --
--- TOC entry 2468 (class 2606 OID 17652)
+-- TOC entry 2465 (class 2606 OID 17652)
 -- Name: storages unique_id; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2286,7 +2335,7 @@ ALTER TABLE ONLY public.storages
 
 
 --
--- TOC entry 2450 (class 2606 OID 17234)
+-- TOC entry 2447 (class 2606 OID 17234)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2295,7 +2344,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2452 (class 2606 OID 17242)
+-- TOC entry 2449 (class 2606 OID 17242)
 -- Name: vehicles vehicles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2304,7 +2353,7 @@ ALTER TABLE ONLY public.vehicles
 
 
 --
--- TOC entry 2454 (class 2606 OID 17247)
+-- TOC entry 2451 (class 2606 OID 17247)
 -- Name: vro_crude vro_crude_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2313,7 +2362,7 @@ ALTER TABLE ONLY public.vro_crude
 
 
 --
--- TOC entry 2456 (class 2606 OID 17252)
+-- TOC entry 2453 (class 2606 OID 17252)
 -- Name: vro_dailys vro_dailys_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2322,7 +2371,7 @@ ALTER TABLE ONLY public.vro_dailys
 
 
 --
--- TOC entry 2458 (class 2606 OID 17257)
+-- TOC entry 2455 (class 2606 OID 17257)
 -- Name: vro_oil vro_oil_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2331,7 +2380,7 @@ ALTER TABLE ONLY public.vro_oil
 
 
 --
--- TOC entry 2460 (class 2606 OID 17262)
+-- TOC entry 2457 (class 2606 OID 17262)
 -- Name: weight_units weight_units_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2340,7 +2389,7 @@ ALTER TABLE ONLY public.weight_units
 
 
 --
--- TOC entry 2462 (class 2606 OID 17267)
+-- TOC entry 2459 (class 2606 OID 17267)
 -- Name: weights weights_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2349,7 +2398,7 @@ ALTER TABLE ONLY public.weights
 
 
 --
--- TOC entry 2464 (class 2606 OID 17272)
+-- TOC entry 2461 (class 2606 OID 17272)
 -- Name: workers workers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2358,7 +2407,7 @@ ALTER TABLE ONLY public.workers
 
 
 --
--- TOC entry 2561 (class 2606 OID 17563)
+-- TOC entry 2556 (class 2606 OID 17563)
 -- Name: vro_crude fk1714re058pwrb9pb7kjvivf07; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2367,7 +2416,7 @@ ALTER TABLE ONLY public.vro_crude
 
 
 --
--- TOC entry 2518 (class 2606 OID 17338)
+-- TOC entry 2513 (class 2606 OID 17338)
 -- Name: app_settings fk1fpie18wyg86rhlfrgenrmcpp; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2376,7 +2425,7 @@ ALTER TABLE ONLY public.app_settings
 
 
 --
--- TOC entry 2562 (class 2606 OID 17568)
+-- TOC entry 2557 (class 2606 OID 17568)
 -- Name: vro_crude fk28ipxf246dk1v3y8e33n6fbm7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2385,16 +2434,16 @@ ALTER TABLE ONLY public.vro_crude
 
 
 --
--- TOC entry 2570 (class 2606 OID 17608)
+-- TOC entry 2565 (class 2606 OID 17608)
 -- Name: weights fk2mi07em26rfbaipmr9a9k6rpf; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.weights
-    ADD CONSTRAINT fk2mi07em26rfbaipmr9a9k6rpf FOREIGN KEY (tara_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fk2mi07em26rfbaipmr9a9k6rpf FOREIGN KEY (taraTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2553 (class 2606 OID 17518)
+-- TOC entry 2548 (class 2606 OID 17518)
 -- Name: transportations fk2xh1qs9b27gp81px370tnqxbr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2403,25 +2452,25 @@ ALTER TABLE ONLY public.transportations
 
 
 --
--- TOC entry 2557 (class 2606 OID 17538)
+-- TOC entry 2552 (class 2606 OID 17538)
 -- Name: transportations fk2yc3o26vdj0fj2qdyht4a8tng; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.transportations
-    ADD CONSTRAINT fk2yc3o26vdj0fj2qdyht4a8tng FOREIGN KEY (time_out) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fk2yc3o26vdj0fj2qdyht4a8tng FOREIGN KEY (Time_out) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2534 (class 2606 OID 17418)
+-- TOC entry 2529 (class 2606 OID 17418)
 -- Name: extraction_oil fk3c8qj02rwu2cmhg7mavr4738c; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.extraction_oil
-    ADD CONSTRAINT fk3c8qj02rwu2cmhg7mavr4738c FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fk3c8qj02rwu2cmhg7mavr4738c FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2544 (class 2606 OID 17473)
+-- TOC entry 2539 (class 2606 OID 17473)
 -- Name: phones fk3f8vr9cnwj4rl0y9fe2p0j50w; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2430,7 +2479,7 @@ ALTER TABLE ONLY public.phones
 
 
 --
--- TOC entry 2567 (class 2606 OID 17593)
+-- TOC entry 2562 (class 2606 OID 17593)
 -- Name: vro_oil fk3gv0ju84pwq8g1q1iexi9sy7b; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2439,7 +2488,7 @@ ALTER TABLE ONLY public.vro_oil
 
 
 --
--- TOC entry 2527 (class 2606 OID 17383)
+-- TOC entry 2522 (class 2606 OID 17383)
 -- Name: deals fk42518ajlhsjblq8mh4orfhq34; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2448,34 +2497,16 @@ ALTER TABLE ONLY public.deals
 
 
 --
--- TOC entry 2514 (class 2606 OID 17318)
--- Name: analyses_transportation_oil fk43prmp0uvv7ob98wbhqfqctlt; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_oil
-    ADD CONSTRAINT fk43prmp0uvv7ob98wbhqfqctlt FOREIGN KEY (analyses) REFERENCES public.analyses_oil(id);
-
-
---
--- TOC entry 2515 (class 2606 OID 17323)
--- Name: analyses_transportation_oil fk46ql65f8kyu494otfghi7ywy1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_oil
-    ADD CONSTRAINT fk46ql65f8kyu494otfghi7ywy1 FOREIGN KEY (transportation) REFERENCES public.transportations(id);
-
-
---
--- TOC entry 2510 (class 2606 OID 17298)
+-- TOC entry 2511 (class 2606 OID 17298)
 -- Name: analyses_sun fk4a09dhjeyolho5i47p692rwsr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.analyses_sun
-    ADD CONSTRAINT fk4a09dhjeyolho5i47p692rwsr FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fk4a09dhjeyolho5i47p692rwsr FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2522 (class 2606 OID 17358)
+-- TOC entry 2517 (class 2606 OID 17358)
 -- Name: changes fk5lb47kpm715jxk9bsxpjjywnd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2484,7 +2515,7 @@ ALTER TABLE ONLY public.changes
 
 
 --
--- TOC entry 2539 (class 2606 OID 17443)
+-- TOC entry 2534 (class 2606 OID 17443)
 -- Name: extraction_raw fk6d4qc0m9hbfj6i7rmbvntwt8q; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2493,7 +2524,7 @@ ALTER TABLE ONLY public.extraction_raw
 
 
 --
--- TOC entry 2511 (class 2606 OID 17303)
+-- TOC entry 2512 (class 2606 OID 17303)
 -- Name: analyses_sun fk6e2ib59suwo8s5hd3qmegml72; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2502,7 +2533,7 @@ ALTER TABLE ONLY public.analyses_sun
 
 
 --
--- TOC entry 2536 (class 2606 OID 17428)
+-- TOC entry 2531 (class 2606 OID 17428)
 -- Name: extraction_oil fk6qdqvx3b5tp4437o7vr928w17; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2511,16 +2542,7 @@ ALTER TABLE ONLY public.extraction_oil
 
 
 --
--- TOC entry 2512 (class 2606 OID 17308)
--- Name: analyses_transportation_cake fk789npt42r3pja6cq8fallxlay; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_cake
-    ADD CONSTRAINT fk789npt42r3pja6cq8fallxlay FOREIGN KEY (analyses) REFERENCES public.analyses_cake(id);
-
-
---
--- TOC entry 2519 (class 2606 OID 17343)
+-- TOC entry 2514 (class 2606 OID 17343)
 -- Name: bot_uids fk7d322kbek4drptnqx5dboekh; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2529,7 +2551,7 @@ ALTER TABLE ONLY public.bot_uids
 
 
 --
--- TOC entry 2545 (class 2606 OID 17478)
+-- TOC entry 2540 (class 2606 OID 17478)
 -- Name: probe_oil fk7hkoubtgxlv2rwurt2n7evo8o; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2538,16 +2560,16 @@ ALTER TABLE ONLY public.probe_oil
 
 
 --
--- TOC entry 2508 (class 2606 OID 17288)
+-- TOC entry 2509 (class 2606 OID 17288)
 -- Name: analyses_oil fk7mf098ysdyfuon8or1i8v7nba; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.analyses_oil
-    ADD CONSTRAINT fk7mf098ysdyfuon8or1i8v7nba FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fk7mf098ysdyfuon8or1i8v7nba FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2524 (class 2606 OID 17368)
+-- TOC entry 2519 (class 2606 OID 17368)
 -- Name: deals fk7vhpsw2dwph2ufhyw25hk8amw; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2556,7 +2578,7 @@ ALTER TABLE ONLY public.deals
 
 
 --
--- TOC entry 2533 (class 2606 OID 17413)
+-- TOC entry 2528 (class 2606 OID 17413)
 -- Name: extraction_crude fk8pxdtvwvnnw8i4svfi68odipg; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2565,16 +2587,16 @@ ALTER TABLE ONLY public.extraction_crude
 
 
 --
--- TOC entry 2506 (class 2606 OID 17278)
+-- TOC entry 2507 (class 2606 OID 17278)
 -- Name: analyses_cake fk8t4ordakcdprtk3l2o92q2xri; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.analyses_cake
-    ADD CONSTRAINT fk8t4ordakcdprtk3l2o92q2xri FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fk8t4ordakcdprtk3l2o92q2xri FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2568 (class 2606 OID 17598)
+-- TOC entry 2563 (class 2606 OID 17598)
 -- Name: vro_oil fk95hhnkjl0dnjqg56miu7tsanr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2583,25 +2605,16 @@ ALTER TABLE ONLY public.vro_oil
 
 
 --
--- TOC entry 2566 (class 2606 OID 17588)
+-- TOC entry 2561 (class 2606 OID 17588)
 -- Name: vro_oil fk9i36sk6gapabk5jlm6bqq5cr3; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.vro_oil
-    ADD CONSTRAINT fk9i36sk6gapabk5jlm6bqq5cr3 FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fk9i36sk6gapabk5jlm6bqq5cr3 FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2513 (class 2606 OID 17313)
--- Name: analyses_transportation_cake fk9og4qajte6ecviudhx61h8o3n; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_cake
-    ADD CONSTRAINT fk9og4qajte6ecviudhx61h8o3n FOREIGN KEY (transportation) REFERENCES public.transportations(id);
-
-
---
--- TOC entry 2559 (class 2606 OID 17548)
+-- TOC entry 2554 (class 2606 OID 17548)
 -- Name: users fk9r2keh7ibi9nklqmpewwhyes5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2610,7 +2623,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 2532 (class 2606 OID 17408)
+-- TOC entry 2527 (class 2606 OID 17408)
 -- Name: extraction_crude fkaslweg68ylq0d0jkctc1ko8s2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2619,7 +2632,7 @@ ALTER TABLE ONLY public.extraction_crude
 
 
 --
--- TOC entry 2565 (class 2606 OID 17583)
+-- TOC entry 2560 (class 2606 OID 17583)
 -- Name: vro_dailys fkatlk6889ltpnwdmlum1sfl3qq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2628,16 +2641,16 @@ ALTER TABLE ONLY public.vro_dailys
 
 
 --
--- TOC entry 2569 (class 2606 OID 17603)
+-- TOC entry 2564 (class 2606 OID 17603)
 -- Name: weights fkauod47m7gs8mvb0lvrdth3cbc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.weights
-    ADD CONSTRAINT fkauod47m7gs8mvb0lvrdth3cbc FOREIGN KEY (brutto_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fkauod47m7gs8mvb0lvrdth3cbc FOREIGN KEY (bruttoTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2546 (class 2606 OID 17483)
+-- TOC entry 2541 (class 2606 OID 17483)
 -- Name: probe_oil fkc1u2196ke9ndbfqh7w49upo2j; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2646,7 +2659,7 @@ ALTER TABLE ONLY public.probe_oil
 
 
 --
--- TOC entry 2540 (class 2606 OID 17453)
+-- TOC entry 2535 (class 2606 OID 17453)
 -- Name: forpress_cake fkc4f9q5snwcw7hhsoj9a7kl92g; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2655,7 +2668,7 @@ ALTER TABLE ONLY public.forpress_cake
 
 
 --
--- TOC entry 2542 (class 2606 OID 17463)
+-- TOC entry 2537 (class 2606 OID 17463)
 -- Name: load_plans fkd0efufh9s386lbq8a9e7b7913; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2664,7 +2677,7 @@ ALTER TABLE ONLY public.load_plans
 
 
 --
--- TOC entry 2549 (class 2606 OID 17498)
+-- TOC entry 2544 (class 2606 OID 17498)
 -- Name: products fkdcul4cpjmdfc7fluiml4n0452; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2673,7 +2686,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 2535 (class 2606 OID 17423)
+-- TOC entry 2530 (class 2606 OID 17423)
 -- Name: extraction_oil fkdhtk4o95jpkqegpcmamtiv3tq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2682,7 +2695,7 @@ ALTER TABLE ONLY public.extraction_oil
 
 
 --
--- TOC entry 2520 (class 2606 OID 17348)
+-- TOC entry 2515 (class 2606 OID 17348)
 -- Name: bot_user_settings fke7i0g9v9uxovg1vj33xshj07o; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2691,16 +2704,16 @@ ALTER TABLE ONLY public.bot_user_settings
 
 
 --
--- TOC entry 2505 (class 2606 OID 17273)
--- Name: action_time fke81u4um2nb3gceh5pa8qctoxc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2506 (class 2606 OID 17273)
+-- Name: actionTime fke81u4um2nb3gceh5pa8qctoxc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.action_time
+ALTER TABLE ONLY public.actionTime
     ADD CONSTRAINT fke81u4um2nb3gceh5pa8qctoxc FOREIGN KEY (creator) REFERENCES public.workers(id);
 
 
 --
--- TOC entry 2572 (class 2606 OID 17618)
+-- TOC entry 2566 (class 2606 OID 17618)
 -- Name: workers fkefxcfvntfoere54u43pt2kgkb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2709,7 +2722,7 @@ ALTER TABLE ONLY public.workers
 
 
 --
--- TOC entry 2538 (class 2606 OID 17438)
+-- TOC entry 2533 (class 2606 OID 17438)
 -- Name: extraction_raw fkfo57g0t0vb8d8wj4tryj0ddbk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2718,7 +2731,7 @@ ALTER TABLE ONLY public.extraction_raw
 
 
 --
--- TOC entry 2530 (class 2606 OID 17398)
+-- TOC entry 2525 (class 2606 OID 17398)
 -- Name: drivers fkh6gclrmv9e3nd4wm3bsgaati1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2727,16 +2740,16 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- TOC entry 2560 (class 2606 OID 17558)
+-- TOC entry 2555 (class 2606 OID 17558)
 -- Name: vro_crude fkhglohdre0hk4a9kkl20oqg458; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.vro_crude
-    ADD CONSTRAINT fkhglohdre0hk4a9kkl20oqg458 FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fkhglohdre0hk4a9kkl20oqg458 FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2564 (class 2606 OID 17578)
+-- TOC entry 2559 (class 2606 OID 17578)
 -- Name: vro_dailys fkhlnxtumvbp4ixkv1pvqpt2msp; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2745,7 +2758,7 @@ ALTER TABLE ONLY public.vro_dailys
 
 
 --
--- TOC entry 2525 (class 2606 OID 17373)
+-- TOC entry 2520 (class 2606 OID 17373)
 -- Name: deals fki138ngdyxomhvtvpxs54iiaji; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2754,16 +2767,7 @@ ALTER TABLE ONLY public.deals
 
 
 --
--- TOC entry 2517 (class 2606 OID 17333)
--- Name: analyses_transportation_sun fkipnw0n5nv9yomykjp5j6dnul6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_sun
-    ADD CONSTRAINT fkipnw0n5nv9yomykjp5j6dnul6 FOREIGN KEY (transportation) REFERENCES public.transportations(id);
-
-
---
--- TOC entry 2541 (class 2606 OID 17458)
+-- TOC entry 2536 (class 2606 OID 17458)
 -- Name: load_plans fkiro775fwsbrb392dk2s0v4ju6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2772,16 +2776,16 @@ ALTER TABLE ONLY public.load_plans
 
 
 --
--- TOC entry 2531 (class 2606 OID 17403)
+-- TOC entry 2526 (class 2606 OID 17403)
 -- Name: extraction_crude fkj33n77favw8t20xii43g6lsr1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.extraction_crude
-    ADD CONSTRAINT fkj33n77favw8t20xii43g6lsr1 FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fkj33n77favw8t20xii43g6lsr1 FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2543 (class 2606 OID 17468)
+-- TOC entry 2538 (class 2606 OID 17468)
 -- Name: load_plans fkj7mnyeil2kmqvnr665jncfsdu; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2790,7 +2794,7 @@ ALTER TABLE ONLY public.load_plans
 
 
 --
--- TOC entry 2528 (class 2606 OID 17388)
+-- TOC entry 2523 (class 2606 OID 17388)
 -- Name: drivers fkjiob10wby3981io0m3d9nwhra; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2799,7 +2803,7 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- TOC entry 2550 (class 2606 OID 17503)
+-- TOC entry 2545 (class 2606 OID 17503)
 -- Name: seals fkjlogglkw5awbbt0ppu05qhhmr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2808,7 +2812,7 @@ ALTER TABLE ONLY public.seals
 
 
 --
--- TOC entry 2529 (class 2606 OID 17393)
+-- TOC entry 2524 (class 2606 OID 17393)
 -- Name: drivers fkkexepta0e34epgs43tur30jtt; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2817,7 +2821,7 @@ ALTER TABLE ONLY public.drivers
 
 
 --
--- TOC entry 2509 (class 2606 OID 17293)
+-- TOC entry 2510 (class 2606 OID 17293)
 -- Name: analyses_oil fkkjt5ptpqodv5apwsafrasbayn; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2826,16 +2830,16 @@ ALTER TABLE ONLY public.analyses_oil
 
 
 --
--- TOC entry 2563 (class 2606 OID 17573)
+-- TOC entry 2558 (class 2606 OID 17573)
 -- Name: vro_dailys fkl9r3h4nmdd0pd0fd1d3dsxiox; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.vro_dailys
-    ADD CONSTRAINT fkl9r3h4nmdd0pd0fd1d3dsxiox FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fkl9r3h4nmdd0pd0fd1d3dsxiox FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2558 (class 2606 OID 17543)
+-- TOC entry 2553 (class 2606 OID 17543)
 -- Name: transportations fklvtm80d1sdqdlg39s43mokm2o; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2844,7 +2848,7 @@ ALTER TABLE ONLY public.transportations
 
 
 --
--- TOC entry 2555 (class 2606 OID 17528)
+-- TOC entry 2550 (class 2606 OID 17528)
 -- Name: transportations fkn7xjeqdgqm832t97ba1my7b4s; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2853,16 +2857,16 @@ ALTER TABLE ONLY public.transportations
 
 
 --
--- TOC entry 2537 (class 2606 OID 17433)
+-- TOC entry 2532 (class 2606 OID 17433)
 -- Name: extraction_raw fknhjb44qybi9lsfhyo5im9rl3n; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.extraction_raw
-    ADD CONSTRAINT fknhjb44qybi9lsfhyo5im9rl3n FOREIGN KEY (create_time) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fknhjb44qybi9lsfhyo5im9rl3n FOREIGN KEY (createTime) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2551 (class 2606 OID 17508)
+-- TOC entry 2546 (class 2606 OID 17508)
 -- Name: seals fknj1n5eglub0c9a8rmph7emr7j; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2871,16 +2875,16 @@ ALTER TABLE ONLY public.seals
 
 
 --
--- TOC entry 2556 (class 2606 OID 17533)
+-- TOC entry 2551 (class 2606 OID 17533)
 -- Name: transportations fko4qx5ps3exgd5k24jlcpq0mwd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.transportations
-    ADD CONSTRAINT fko4qx5ps3exgd5k24jlcpq0mwd FOREIGN KEY (time_in) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fko4qx5ps3exgd5k24jlcpq0mwd FOREIGN KEY (Time_in) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2526 (class 2606 OID 17378)
+-- TOC entry 2521 (class 2606 OID 17378)
 -- Name: deals fkoknr6iu7c6nnulclfsba2a8ah; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2889,16 +2893,16 @@ ALTER TABLE ONLY public.deals
 
 
 --
--- TOC entry 2552 (class 2606 OID 17513)
+-- TOC entry 2547 (class 2606 OID 17513)
 -- Name: seals_batch fkoqidmhxwye4nhm85jumw0ru5; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.seals_batch
-    ADD CONSTRAINT fkoqidmhxwye4nhm85jumw0ru5 FOREIGN KEY (created) REFERENCES public.action_time(id);
+    ADD CONSTRAINT fkoqidmhxwye4nhm85jumw0ru5 FOREIGN KEY (created) REFERENCES public.actionTime(id);
 
 
 --
--- TOC entry 2507 (class 2606 OID 17283)
+-- TOC entry 2508 (class 2606 OID 17283)
 -- Name: analyses_cake fkpqeol6mngttax1gucdpdutt47; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2907,7 +2911,7 @@ ALTER TABLE ONLY public.analyses_cake
 
 
 --
--- TOC entry 2554 (class 2606 OID 17523)
+-- TOC entry 2549 (class 2606 OID 17523)
 -- Name: transportations fkq62baqktq6ntlsoynfsucn87; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2916,7 +2920,7 @@ ALTER TABLE ONLY public.transportations
 
 
 --
--- TOC entry 2521 (class 2606 OID 17353)
+-- TOC entry 2516 (class 2606 OID 17353)
 -- Name: change_log fkqij04i9jkqosuxu98h8awtx5r; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2925,16 +2929,7 @@ ALTER TABLE ONLY public.change_log
 
 
 --
--- TOC entry 2516 (class 2606 OID 17328)
--- Name: analyses_transportation_sun fkr26bypj43bndth0f3n4799wuf; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.analyses_transportation_sun
-    ADD CONSTRAINT fkr26bypj43bndth0f3n4799wuf FOREIGN KEY (analyses) REFERENCES public.analyses_sun(id);
-
-
---
--- TOC entry 2547 (class 2606 OID 17488)
+-- TOC entry 2542 (class 2606 OID 17488)
 -- Name: probe_sun fkrmpdwdd2jw6lw47e6tbev10nc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2943,16 +2938,7 @@ ALTER TABLE ONLY public.probe_sun
 
 
 --
--- TOC entry 2571 (class 2606 OID 17613)
--- Name: weights fks0suvx6hmh1myndkxpqp162o9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.weights
-    ADD CONSTRAINT fks0suvx6hmh1myndkxpqp162o9 FOREIGN KEY (transportation) REFERENCES public.transportations(id);
-
-
---
--- TOC entry 2548 (class 2606 OID 17493)
+-- TOC entry 2543 (class 2606 OID 17493)
 -- Name: probe_sun fks1gb54xwy6b8oemk3tmrjj5mc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2961,7 +2947,7 @@ ALTER TABLE ONLY public.probe_sun
 
 
 --
--- TOC entry 2523 (class 2606 OID 17363)
+-- TOC entry 2518 (class 2606 OID 17363)
 -- Name: deals fks3fqqb4ysty7pot6r5v0ir2vi; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2969,28 +2955,9 @@ ALTER TABLE ONLY public.deals
     ADD CONSTRAINT fks3fqqb4ysty7pot6r5v0ir2vi FOREIGN KEY (creator) REFERENCES public.workers(id);
 
 
--- Completed on 2019-06-18 14:31:44
+-- Completed on 2019-06-26 13:51:35
 
 --
 -- PostgreSQL database dump complete
 --
-INSERT INTO public.persons VALUES (1, 'Станіслав', 'Миколайович', 'Василина');
-INSERT INTO public.workers VALUES (1, 1, 'ua');
-INSERT INTO public.users VALUES (1,'stasvasilin@gmail.com','UEJQQUxkbFc=', 'admin', 'Olololo', 1, 1 );
-INSERT INTO public.document_organisations VALUES (1, TRUE, 'СЗПТ');
-INSERT INTO public.organisations VALUES (1, 'Сумський ЗПТ', 'ПрАТ');
-INSERT INTO public.products VALUES (1, 'sun', 'Насіння Соняшника', NULL);
-INSERT INTO public.products VALUES (2, 'oil', 'Олія нерафінована', NULL);
-INSERT INTO public.products VALUES (3, 'oil', 'Олія рафінована', NULL);
-INSERT INTO public.products VALUES (4, 'suncake', 'Макуха', NULL);
-INSERT INTO public.products VALUES (5, 'meal', 'Шрот', NULL);
-INSERT INTO public.storages VALUES (1, 'Склад Шроту');
-INSERT INTO public.storages VALUES (2, 'Ємність 150 м2 №1');
-INSERT INTO public.storages VALUES (3, 'Ємність 150 м2 №2');
-INSERT INTO public.storages VALUES (4, 'Ємність 150 м3 №3');
-INSERT INTO public.storages VALUES (5, 'Свічка №1');
-INSERT INTO public.storages VALUES (6, 'Свічка №2');
-INSERT INTO public.storages VALUES (7, 'Свічка №3');
-INSERT INTO public.subdivisions VALUES(1, 'ex', 'Екстракція');
-INSERT INTO public.subdivisions VALUES(2, 'vro', 'ВРО');
-INSERT INTO public.subdivisions VALUES(3, 'kpo', 'КПО');
+

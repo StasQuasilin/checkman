@@ -9,6 +9,7 @@ var deamon = new Vue({
         items:[],
         timeout:-1,
         types:[],
+        attributes:{},
         menu:{
             id:-1,
             show:false,
@@ -48,8 +49,6 @@ var deamon = new Vue({
                 }
             }
             if (!doNot) {
-                console.log('add -->');
-                console.log(item);
                 this.items.push({item: item});
             }
         },
@@ -62,7 +61,6 @@ var deamon = new Vue({
                     }
                 }
             }
-
         },
         drop:function(id){
             for(var i in this.items){
@@ -88,6 +86,11 @@ var deamon = new Vue({
             }
             if (this.req_filter.date){
                 parameters['reqDate'] = this.req_filter.date;
+            }
+            for (var a in this.attributes){
+                if (this.attributes.hasOwnProperty(a)){
+                    parameters[a] = this.attributes[a];
+                }
             }
             PostApi(this.url, parameters, function(e){
                 if (e.add.length || e.update.length || e.remove.length) {

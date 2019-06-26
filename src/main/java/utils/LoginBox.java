@@ -6,6 +6,7 @@ import constants.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,16 +38,17 @@ public class LoginBox {
 
     public void init() throws IOException {
         properties = new Properties();
-
-        inputStream = new FileInputStream(FILE_NAME);
-
-        try {
-            properties.load(inputStream);
-            fileRead = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            inputStream.close();
+        File file = new File(FILE_NAME);
+        if (file.exists()) {
+            inputStream = new FileInputStream(FILE_NAME);
+            try {
+                properties.load(inputStream);
+                fileRead = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                inputStream.close();
+            }
         }
     }
     public String getLogin() {
@@ -55,7 +57,7 @@ public class LoginBox {
     public String getPassword() {
         return properties.getProperty("password");
     }
-    public boolean trySignIn(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public boolean trySignIn(HttpServletRequest req) throws IOException {
         if (fileRead) {
             String login = getLogin();
             String password = getPassword();

@@ -53,22 +53,27 @@ public class JsonParser {
         }
         return json;
     }
-
+    
+    public static final String DATE_TO = "date_to";
+    public static final String VISIBILITY = "visibility";
+    public static final String DONE = "done";
+    public static final String PRICE = "price";
+    
     public static JSONObject toJson(Deal deal) {
         JSONObject json = new JSONObject();
-        json.put("id", deal.getId());
-        json.put("date", deal.getDate().toString());
-        json.put("date_to", deal.getDateTo().toString());
-        json.put("organisation", toJson(deal.getOrganisation()));
-        json.put("visibility", deal.getDocumentOrganisation().getValue());
-        json.put("product", toJson(deal.getProduct()));
-        json.put("quantity", deal.getQuantity());
-        json.put("done", deal.getDone());
-        json.put("price", deal.getPrice());
-        json.put("creator", toJson(deal.getCreator()));
-        json.put("hash", deal.getHash());
-        json.put("unit", deal.getUnit().getName());
-        json.put("type", deal.getType().toString());
+        json.put(ID, deal.getId());
+        json.put(DATE, deal.getDate().toString());
+        json.put(DATE_TO, deal.getDateTo().toString());
+        json.put(ORGANISATION, toJson(deal.getOrganisation()));
+        json.put(VISIBILITY, deal.getDocumentOrganisation().getValue());
+        json.put(PRODUCT, toJson(deal.getProduct()));
+        json.put(QUANTITY, deal.getQuantity());
+        json.put(DONE, deal.getDone());
+        json.put(PRICE, deal.getPrice());
+        json.put(CREATOR, toJson(deal.getCreator()));
+        json.put(HASH, deal.getHash());
+        json.put(UNIT, deal.getUnit().getName());
+        json.put(TYPE, deal.getType().toString());
         return json;
     }
 
@@ -105,8 +110,8 @@ public class JsonParser {
 
     private static JSONObject toJson(PhoneNumber number) {
         JSONObject json = new JSONObject();
-        json.put("id", number.getId());
-        json.put("number", number.getNumber());
+        json.put(ID, number.getId());
+        json.put(NUMBER, number.getNumber());
         return json;
     }
 
@@ -119,24 +124,29 @@ public class JsonParser {
         json.put(ANALYSES, product.getAnalysesType().toString());
         return json;
     }
-
+    
+    public static final String STATUS = "status";
+    
     public static JSONObject toJson(IAnswer answer) {
         JSONObject json = new JSONObject();
-        json.put("status", answer.status());
+        json.put(STATUS, answer.status());
         for (Map.Entry<String, String> entry : answer.getParams().entrySet()){
             json.put(entry.getKey(), entry.getValue());
         }
         return json;
     }
 
+    public static final String PLAN = "plan";
+    public static final String CUSTOMER = "customer";
+
     public static JSONObject toJson(LoadPlan lp) {
         JSONObject json = new JSONObject();
-        json.put("id", lp.getId());
-        json.put("date", lp.getDate().toString());
-        json.put("plan", lp.getPlan());
-        json.put("customer", lp.getCustomer().toString());
-        json.put("transportation", toJson(lp.getTransportation()));
-        json.put("hash", lp.hashCode());
+        json.put(ID, lp.getId());
+        json.put(DATE, lp.getDate().toString());
+        json.put(PLAN, lp.getPlan());
+        json.put(CUSTOMER, lp.getCustomer().toString());
+        json.put(TRANSPORTATION, toJson(lp.getTransportation()));
+        json.put(HASH, lp.hashCode());
         return json;
     }
 
@@ -258,35 +268,35 @@ public class JsonParser {
     }
 
     public static final String BRUTTO = "brutto";
-    public static final String BRUTTO_TIME = "brutto_time";
+    public static final String BRUTTO_Time = "brutto_Time";
     public static final String TARA = "tara";
     public static final String NETTO = "netto";
     public static final String CORRECTION = "correction";
-    public static final String TARA_TIME = "tara_time";
+    public static final String TARA_Time = "tara_Time";
 
     private static JSONObject toJson(Weight weight) {
         JSONObject json = pool.getObject();
         if (weight != null) {
             json.put(ID, weight.getId());
             json.put(BRUTTO, weight.getBrutto());
-            json.put(BRUTTO_TIME, toJson(weight.getBruttoTime()));
+            json.put(BRUTTO_Time, toJson(weight.getBruttoTime()));
             json.put(TARA, weight.getTara());
             json.put(NETTO, weight.getNetto());
             json.put(CORRECTION, weight.getCorrection());
-            json.put(TARA_TIME, toJson(weight.getTaraTime()));
+            json.put(TARA_Time, toJson(weight.getTaraTime()));
         }
         return json;
     }
 
     final static String CREATOR = "creator";
-    final static String TIME = "time";
+    final static String Time = "Time";
 
     private static JSONObject toJson(ActionTime actionTime) {
         JSONObject json = pool.getObject();
         if (actionTime != null){
             json.put(ID, actionTime.getId());
             json.put(CREATOR, toJson(actionTime.getCreator()));
-            json.put(TIME, actionTime.getTime().toString());
+            json.put(Time, actionTime.getTime().toString());
         }
         return json;
     }
@@ -702,8 +712,8 @@ public class JsonParser {
 
 //                private int id;
                 json.put("id", crude.getId());
-//                private Timestamp time;
-                json.put("time", crude.getTime().toString());
+//                private Timestamp Time;
+                json.put("Time", crude.getTime().toString());
 //                private float humidityIncome;
                 json.put("humidityIncome", crude.getHumidityIncome());
 //                private float fraction;
@@ -884,8 +894,8 @@ public class JsonParser {
             JSONObject json = new JSONObject();
 //            private int id;
             json.put("id", crude.getId());
-//            private Timestamp time;
-            json.put("time", crude.getTime().toString());
+//            private Timestamp Time;
+            json.put("Time", crude.getTime().toString());
 //            private float humidityBefore;
             json.put("humidityBefore", crude.getHumidityBefore());
 //            private float sorenessBefore;

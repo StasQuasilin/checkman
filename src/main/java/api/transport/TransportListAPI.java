@@ -6,6 +6,7 @@ import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.JsonPool;
 import utils.PostUtil;
 
 import javax.servlet.ServletException;
@@ -20,22 +21,24 @@ import java.io.IOException;
 @WebServlet(Branches.API.TRANSPORT_LIST)
 public class TransportListAPI extends API {
 
-
+    final JsonPool pool = JsonPool.getPool();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
-        final JSONObject array = new JSONObject();
-        final JSONArray add = new JSONArray();
-        final JSONArray update = new JSONArray();
-        final JSONArray remove = new JSONArray();
+        JSONObject body = parseBody(req);
+        final JSONObject array = pool.getObject();
+        final JSONArray add = pool.getArray();
+        final JSONArray update = pool.getArray();
+        final JSONArray remove = pool.getArray();
 
         array.put("add", add);
         array.put("update", update);
         array.put("remove", remove);
+
         if (body != null) {
+            String id;
             for (LoadPlan loadPlan : dao.getActiveTransportations(null)) {
-                String id = String.valueOf(loadPlan.getId());
+                id = String.valueOf(loadPlan.getId());
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);
                     if (hash != loadPlan.hashCode()) {
@@ -52,8 +55,6 @@ public class TransportListAPI extends API {
         }
 
         write(resp, array.toJSONString());
-        add.clear();
-        update.clear();
-        remove.clear();
+        pool.put(array);
     }
 }

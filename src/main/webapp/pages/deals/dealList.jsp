@@ -12,13 +12,14 @@
 <script src="${context}/vue/dataList.js"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script>
-  deamon.setUrls('${updateLink}', '${showLink}')
+  deamon.setUrls('${update}', '${show}');
+  deamon.attributes['type'] = '${type}';
   function stopContent(){
     deamon.stop();
   }
 </script>
 <div id="container-header" class="container-header">
-  <button onclick="loadModal('${editLink}')"><fmt:message key="button.add"/> </button>
+  <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
 </div>
 <div id="container" >
   <transition-group name="flip-list" tag="div" class="container" >
@@ -93,9 +94,9 @@
 
   <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
     <div v-bind:style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-      <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${editLink}')"><fmt:message key="menu.edit"/> </div>
-      <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${editLink}')"><fmt:message key="menu.copy"/></div>
-      <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${deleteLink}')"> <fmt:message key="menu.delete"/></div>
+      <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/> </div>
+      <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
+      <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${delete}')"> <fmt:message key="menu.delete"/></div>
       <div class="custom-data-list-item"><fmt:message key="menu.archive"/></div>
     </div>
   </div>

@@ -4,12 +4,15 @@
 
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (url) {
+        if (context && url.substring(0, context.length) != context) {
+            url = context + url;
+        }
+
         if (debug) {
             console.log('[ Application Core ] Request to \'' + url + '\'...');
         }
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function (e) {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
@@ -29,12 +32,8 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
             }
         };
 
-        if (context && url.substring(0, context.length) != context) {
-            url = context + url;
-        }
-        var json = JSON.stringify(parametrs);
-        console.log(json);
-        xhr.send(json);
+
+        xhr.send(JSON.stringify(parametrs));
     } else {
         console.error('Empty url!!!');
     }
@@ -86,16 +85,16 @@ function valid(input, min){
     return true;
 }
 function find(url, input, list, onClick){
-    var timer;
+    var Timer;
     var value;
     return function() {
         if (this.value != value && this.value.length > 2) {
             value = this.value
 
-            if (timer) {
-                clearTimeout(timer);
+            if (Timer) {
+                clearTimeout(Timer);
             }
-            timer = setTimeout(function () {
+            Timer = setTimeout(function () {
                 $(list).html('');
 
                 var parameters = [];

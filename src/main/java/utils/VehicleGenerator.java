@@ -18,9 +18,13 @@ public class VehicleGenerator {
 
     public static void main(String[] args) {
         StringBuilder builder = new StringBuilder();
-        builder.append(models[random.nextInt(models.length - 1)]);
-        for (int i = 0; i < 1 + random.nextInt(2); i++) {
-            builder.append(" ").append(generateNumber());
+
+        for (int j = 0; j < 10; j++) {
+            builder.append(models[random.nextInt(models.length - 1)]);
+            for (int i = 0; i < 2; i++) {
+                builder.append(" ").append(generateNumber().toLowerCase());
+            }
+            builder.append("\n");
         }
         System.out.println(builder.toString());
     }
