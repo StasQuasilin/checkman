@@ -77,9 +77,13 @@ public class Person {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * forename.hashCode() + hash;
+        if (forename != null) {
+            hash = 31 * forename.hashCode() + hash;
+        }
         hash = 31 * surname.hashCode() + hash;
-        hash = 31 * patronymic.hashCode() + hash;
+        if (patronymic != null) {
+            hash = 31 * patronymic.hashCode() + hash;
+        }
         return hash;
     }
 

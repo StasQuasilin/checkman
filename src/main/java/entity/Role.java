@@ -9,5 +9,6 @@ public enum Role {
     logistic,
     security,
     weigher,
-    analyser
+    analyser,
+    guest
 }

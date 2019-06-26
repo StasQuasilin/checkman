@@ -27,7 +27,7 @@ public abstract class API extends IServlet{
     final JSONParser parser = new JSONParser();
     protected final dbDAO dao = dbDAOService.getDAO();
     public static final String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
-    public static final String emptyBody = JsonParser.toJson(new ErrorAnswer("msg", "Body parse erro")).toJSONString();
+    public static final String emptyBody = JsonParser.toJson(new ErrorAnswer("msg", "Body parse error")).toJSONString();
     public JSONObject parseBody(HttpServletRequest req){
         try {
             return (JSONObject) parser.parse(req.getReader());

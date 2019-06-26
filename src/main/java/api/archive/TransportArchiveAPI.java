@@ -6,6 +6,7 @@ import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.JsonPool;
 import utils.PostUtil;
 import utils.hibernate.DateContainers.LE;
 import utils.hibernate.dbDAO;
@@ -26,20 +27,20 @@ import java.util.HashMap;
 @WebServlet(Branches.API.TRANSPORT_ARCHIVE)
 public class TransportArchiveAPI extends API {
 
-
+    final JsonPool pool = JsonPool.getPool();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final JSONObject array = new JSONObject();
-        final JSONArray add = new JSONArray();
-        final JSONArray update = new JSONArray();
-        final JSONArray remove = new JSONArray();
+        final JSONObject array = pool.getObject();
+        final JSONArray add = pool.getArray();
+        final JSONArray update = pool.getArray();
+        final JSONArray remove = pool.getArray();
 
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
+        array.put(ADD, add);
+        array.put(UPDATE, update);
+        array.put(REMOVE, remove);
 
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         if (body != null) {
             for (LoadPlan plan : dao.getTransportArchive()) {
                 String id = String.valueOf(plan.getId());
@@ -58,5 +59,6 @@ public class TransportArchiveAPI extends API {
             }
         }
         write(resp, array.toJSONString());
+        pool.put(array);
     }
 }

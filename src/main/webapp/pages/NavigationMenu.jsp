@@ -9,13 +9,13 @@
   <div class="navigation-menu" id="nav-menu">
     <ul>
       <c:choose>
-        <c:when test="${role eq 'admin'}">
+        <c:when test="${role eq 'admin' or role eq 'guest'}">
           <ul class="nav-drop-menu">
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
                 <fmt:message key="menu.deals"/>&#9205;
               </span>
-              <div class="nav-drop-menu-content" style="transform: rotateZ(15deg);">
+              <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/deals.jsp"/>
               </div>
             </li>
@@ -23,7 +23,7 @@
               <span class="main">
                 <fmt:message key="menu.logistic"/>&#9205;
               </span>
-              <div class="nav-drop-menu-content" style="transform: rotateZ(-10deg);">
+              <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/logistic.jsp"/>
               </div>
             </li>
@@ -31,7 +31,7 @@
               <span class="main">
                 <fmt:message key="menu.transport"/>&#9205;
               </span>
-              <div class="nav-drop-menu-content" style="transform: rotateZ(20deg);">
+              <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/transport.jsp"/>
               </div>
             </li>
@@ -39,7 +39,7 @@
               <span class="main">
                 <fmt:message key="menu.weight"/>&#9205;
               </span>
-              <div class="nav-drop-menu-content" style="transform: rotateZ(12deg);">
+              <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/weight.jsp"/>
               </div>
             </li>
@@ -47,20 +47,22 @@
               <span class="main">
                 <fmt:message key="menu.laboratory"/>&#9205;
               </span>
-              <div class="nav-drop-menu-content" style="transform: rotateZ(-8deg);">
+              <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/laboratory.jsp"/>
               </div>
             </li>
-            <li class="menu-item" onclick="loadContent('${admin}')">
+            <c:if test="${role eq 'admin'}">
+              <li class="menu-item" onclick="loadContent('${admin}')">
               <span class="main">
                 <fmt:message key="menu.admin"/>
               </span>
-            </li>
-            <li class="menu-item" onclick="loadContent('${referencesList}')">
+              </li>
+              <li class="menu-item" onclick="loadContent('${referencesList}')">
               <span class="main">
                 <fmt:message key="menu.references"/>
               </span>
-            </li>
+              </li>
+            </c:if>
           </ul>
         </c:when>
         <c:when test="${role eq 'manager'}">

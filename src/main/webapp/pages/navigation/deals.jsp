@@ -22,14 +22,6 @@
   </span>
     </li>
     <li class="menu-item">
-    <span class="main" onclick="loadContent('${railList}')">
-      <fmt:message key="rail.shipment"/>
-    </span>
-    <span>
-      <a onclick="loadContent('${railArchive}')" ><fmt:message key="archive"/> </a>
-    </span>
-    </li>
-    <li class="menu-item">
   <span class="main" onclick="loadContent('${summaryList}')">
     <fmt:message key="consolidated.table"/>
   </span>

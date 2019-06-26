@@ -31,16 +31,15 @@ public class LoginBox {
         }
     }
 
-    static final String FILE_NAME = "D:\\server.txt";
     Properties properties;
     InputStream inputStream;
     boolean fileRead = false;
 
     public void init() throws IOException {
         properties = new Properties();
-        File file = new File(FILE_NAME);
+        File file = new File(System.getProperty("user.home") + "\\server_access.txt");
         if (file.exists()) {
-            inputStream = new FileInputStream(FILE_NAME);
+            inputStream = new FileInputStream(file);
             try {
                 properties.load(inputStream);
                 fileRead = true;
@@ -49,6 +48,8 @@ public class LoginBox {
             } finally {
                 inputStream.close();
             }
+        } else {
+            System.out.println("File \'" + file.getPath() + " not found");
         }
     }
     public String getLogin() {
