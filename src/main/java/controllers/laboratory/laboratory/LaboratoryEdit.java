@@ -4,8 +4,10 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.AnalysesType;
+import entity.Role;
 import entity.documents.LoadPlan;
 import utils.TransportUtil;
+import utils.turns.LaboratoryTurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +32,7 @@ public class LaboratoryEdit extends IModal {
                 req.setAttribute("title", Constants.Titles.SUN_EDIT);
                 req.setAttribute("save", Branches.API.LABORATORY_SAVE_SUN);
                 req.setAttribute("print", Branches.API.LABORATORY_SUN_PRINT);
+                req.setAttribute("laborants", dao.getWorkersByRole(Role.analyser));
                 break;
             case oil:
                 req.setAttribute("modalContent", "/pages/laboratory/oilEdit.jsp");

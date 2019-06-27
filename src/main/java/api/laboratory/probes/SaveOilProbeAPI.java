@@ -11,6 +11,8 @@ import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.turns.TurnBox;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,14 +20,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by quasilin on 01.04.2019.
  */
 @WebServlet(Branches.API.PROBE_OIL_SAVE)
 public class SaveOilProbeAPI extends API {
-
-
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,6 +38,7 @@ public class SaveOilProbeAPI extends API {
                 probe = dao.getOilProbeById(body.get(Constants.ID));
             } else {
                 probe = new OilProbe();
+                probe.setTurn(TurnService.getTurn(TurnBox.getBox().getTurnDate(LocalDateTime.now())));
                 probe.setAnalyses(new OilAnalyses());
             }
 

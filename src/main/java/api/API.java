@@ -20,6 +20,7 @@ import java.io.PrintWriter;
  * Created by szpt_user045 on 12.03.2019.
  */
 public abstract class API extends IServlet{
+    public final static String EMPTY = "{\"add\":[],\"update\":[],\"remove\":[]}";
     public static final String ADD = "add";
     public static final String UPDATE = "update";
     public static final String REMOVE = "remove";

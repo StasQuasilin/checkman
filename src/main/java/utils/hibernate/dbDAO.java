@@ -152,10 +152,8 @@ public interface dbDAO {
     List<DealHash> getDealHashByType(DealType dealType);
     Turn getTurnByTime(Timestamp timestamp);
     List<LaboratoryTurn> getAnyTurnByDate(LocalDate date);
-
     List<VROTurn> getVroTurnsBetween(LocalDate from, LocalDate to);
-
     List<VROTurn> getVroTurns();
-
     List<User> findUser(Object key);
+    List<Worker> getWorkersByRole(Role role);
 }

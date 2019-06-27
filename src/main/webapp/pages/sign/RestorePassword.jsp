@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title><fmt:message key="password.restore"/> </title>
     <link rel="stylesheet" href="${context}/css/login.css">
-    <script src="${context}/js/Logic.js"></script>
+    <script src="${context}/js/Core.js"></script>
     <script>
       const context = '${context}';
     </script>

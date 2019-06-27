@@ -154,6 +154,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public void saveLoadPlan(LoadPlan plan) {
+
         hb.save(plan);
     }
 
@@ -624,7 +625,10 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getLoadPlansByDealType(DealType dealType) {
-        return hb.query(LoadPlan.class, "deal/type", dealType);
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("transportation/archive", false);
+        parameters.put("deal/type", dealType);
+        return hb.query(LoadPlan.class, parameters);
     }
 
     @Override
@@ -722,12 +726,17 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<VROTurn> getVroTurns() {
-        return hb.query(VROTurn.class, "turn", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
+        return hb.limitQuery(VROTurn.class, "turn", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 14);
     }
 
     @Override
     public List<User> findUser(Object key) {
         final List<Worker> workers = findWorker(key);
-        return workers.stream().map(this::getUserByWorker).collect(Collectors.toCollection(LinkedList::new));
+        return workers.stream().map(this::getUserByWorker).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public List<Worker> getWorkersByRole(Role role) {
+        return hb.query(User.class, "role", role).stream().map(User::getWorker).collect(Collectors.toList());
     }
 }

@@ -5,24 +5,22 @@
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <script>
-    req_filter = {}
-  </script>
   <script src="${context}/vue/dataList.js"></script>
   <link rel="stylesheet" href="${context}/css/DataContainer.css">
   <link rel="stylesheet" href="${context}/css/TransportList.css">
 
   <script>
-    deamon.setUrls('${updateLink}', '${showLink}')
-    deamon.types['buy'] = '<fmt:message key="_buy"/>'
-    deamon.types['sell'] = '<fmt:message key="_sell"/>'
-    function stopContent(){
-      deamon.stop();
-    }
+    list.api.update = '${update}';
+    list.api.edit = '${edit}';
+    list.types['buy'] = '<fmt:message key="_buy"/>'
+    list.types['sell'] = '<fmt:message key="_sell"/>'
+    list.doRequest();
   </script>
   <transition-group name="flip-list" tag="div" class="container" id="container">
-    <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
-         class="container-item" style="position: relative" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)" v-on:dblclick="">
+    <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
+         class="container-item" style="position: relative"
+         :class="'container-item-' + new Date(value.item.date).getDay()"
+         v-on:click="show(value.item.id)" v-on:dblclick="">
         <div class="upper-row">
           <span>
             {{new Date(value.item.date).toLocaleDateString()}}

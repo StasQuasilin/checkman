@@ -2,6 +2,7 @@ package entity.laboratory.probes;
 
 import entity.Worker;
 import entity.laboratory.SunAnalyses;
+import entity.production.Turn;
 
 import javax.persistence.*;
 
@@ -12,10 +13,10 @@ import javax.persistence.*;
 @Table(name = "probe_sun")
 public class SunProbe {
     private int id;
+    private Turn turn;
     private Worker manager;
     private String organisation;
     private SunAnalyses analyses;
-
 
     @Id
     @GeneratedValue
@@ -24,6 +25,15 @@ public class SunProbe {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "turn")
+    public Turn getTurn() {
+        return turn;
+    }
+    public void setTurn(Turn turn) {
+        this.turn = turn;
     }
 
     @OneToOne

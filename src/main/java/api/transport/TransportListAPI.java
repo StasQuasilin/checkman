@@ -31,9 +31,9 @@ public class TransportListAPI extends API {
         final JSONArray update = pool.getArray();
         final JSONArray remove = pool.getArray();
 
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
+        array.put(ADD, add);
+        array.put(UPDATE, update);
+        array.put(REMOVE, remove);
 
         if (body != null) {
             String id;
@@ -54,7 +54,7 @@ public class TransportListAPI extends API {
             }
         }
 
-        write(resp, array.toJSONString());
+        write(resp, add.size() == 0 && update.size() == 0 && remove.size() == 0 ? EMPTY : array.toJSONString());
         pool.put(array);
     }
 }

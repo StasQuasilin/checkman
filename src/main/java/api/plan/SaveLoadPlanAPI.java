@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 /**
@@ -39,7 +40,6 @@ public class SaveLoadPlanAPI extends API {
     final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);
     final LoadPlanComparator planComparator = new LoadPlanComparator();
     final TransportationComparator transportationComparator = new TransportationComparator();
-    final
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,16 +47,18 @@ public class SaveLoadPlanAPI extends API {
 
         if(body != null) {
             log.info(body);
-            long dealId = (long) body.get("dealId");
+            long dealId = (long) body.get(Constants.DEAL_ID);
             Deal deal = dao.getDealById(dealId);
             log.info("Save load plan for deal \'" + deal.getId() + "\'...");
 
-            HashMap<Long, LoadPlan> planHashMap = new HashMap<>();
+            final HashMap<Long, LoadPlan> planHashMap = new HashMap<>();
             for (LoadPlan lp : dao.getLoadPlanByDeal(deal)) {
                 planHashMap.put((long) lp.getId(), lp);
             }
 
             float quantity = 0;
+            Date from = Date.valueOf(LocalDate.now());
+            Date to = Date.valueOf(LocalDate.now());
             for (Object o : (JSONArray) body.get("plans")) {
                 JSONObject json = (JSONObject) o;
 
@@ -95,6 +97,14 @@ public class SaveLoadPlanAPI extends API {
                 if (loadPlan.getDate() == null || !loadPlan.getDate().equals(date)) {
                     loadPlan.setDate(date);
                     save = true;
+                }
+
+                if (date.before(from)){
+                    from = date;
+                }
+
+                if (date.after(to)){
+                    to = date;
                 }
 
                 float plan = Float.parseFloat(String.valueOf(json.get(Constants.PLAN)));
@@ -166,8 +176,23 @@ public class SaveLoadPlanAPI extends API {
                 }
             }
 
+            boolean saveDeal = false;
             if (quantity > deal.getQuantity()){
                 deal.setQuantity(quantity);
+                saveDeal = true;
+
+            }
+            if (deal.getDate().after(from)){
+                deal.setDate(from);
+                saveDeal = true;
+            }
+
+            if (deal.getDateTo().before(to)){
+                deal.setDateTo(to);
+                saveDeal = true;
+            }
+
+            if (saveDeal){
                 dao.save(deal);
             }
 

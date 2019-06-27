@@ -7,7 +7,7 @@
 <head>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title><fmt:message key="sign.in"/></title>
-    <script src="${context}/js/Logic.js"></script>
+    <script src="${context}/js/Core.js"></script>
     <link rel="stylesheet" href="${context}/css/login.css">
 </head>
 <body>

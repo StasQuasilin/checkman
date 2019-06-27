@@ -7,13 +7,11 @@
 <script src="${context}/vue/dealFilter.js"></script>
 <link rel="stylesheet" href="${context}/css/filter.css">
 <div id="filter">
-    <table>
+    <table width="100%">
         <tr>
-            <th>
+            <td align="center" colspan="2">
                 <fmt:message key="filter"/>
-            </th>
-            <td>
-                <a v-on:click="clear"><fmt:message key="button.clear"/> </a>
+                <a class="mini-close" v-on:click="clear"><fmt:message key="button.clear"/> </a>
             </td>
         </tr>
         <tr>
@@ -23,7 +21,7 @@
                 </label>
             </td>
             <td>
-                <select id="date" v-model="filter.date">
+                <select id="date" v-model="filter.date" style="width: 100%">
                     <option value="-1"><fmt:message key="all"/> </option>
                     <option v-for="date in dates()" :value="date">{{new Date(date).toLocaleDateString()}}</option>
                 </select>
@@ -38,7 +36,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <select id="organisation" v-model="filter.organisation">
+                <select id="organisation" v-model="filter.organisation" style="width: 100%">
                     <option value="-1"><fmt:message key="all"/> </option>
                     <option v-for="organisation in organisations()"
                             :value="organisation.id">{{organisation.value}}</option>
@@ -53,8 +51,8 @@
             </td>
         </tr>
         <tr>
-            <td>
-                <select id="product" v-model="filter.product">
+            <td colspan="2">
+                <select id="product" v-model="filter.product" style="width: 100%">
                     <option value="-1"><fmt:message key="all"/> </option>
                     <option v-for="product in products()" :value="product.id">
                         {{product.name}}
@@ -71,7 +69,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <select id="manager" v-model="filter.creator">
+                <select id="manager" v-model="filter.creator" style="width: 100%">
                     <option value="-1"><fmt:message key="all"/> </option>
                     <option v-for="creator in creators()" :value="creator.id">
                         {{creator.person.value}}

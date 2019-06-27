@@ -53,6 +53,17 @@
             </span>
             </div>
             <div class="lower-row">
+            <span  style="font-size: 10pt;">
+                <fmt:message key="transportation.time.in"/>
+                <span v-if="value.item.transportation.timeIn.id" style="font-weight: bold">
+                    {{new Date(value.item.transportation.timeIn.time).toLocaleDateString().substring(0, 5)}}
+                    {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+                </span>
+                <span v-else="">
+                    --.-- --:--
+                </span>
+
+            </span>
             <span>
                 <fmt:message key="transportation.automobile"/>:
                 <span v-if="value.item.transportation.vehicle.id">

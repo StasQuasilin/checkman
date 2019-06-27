@@ -3,6 +3,7 @@ package utils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -15,8 +16,8 @@ public class JsonPool {
         return pool;
     }
 
-    private LinkedList<JSONObject> objects = new LinkedList<>();
-    private LinkedList<JSONArray> arrays = new LinkedList<>();
+    private ArrayList<JSONObject> objects = new ArrayList<>();
+    private ArrayList<JSONArray> arrays = new ArrayList<>();
 
     public void put(JSONObject json){
         for (Object o : json.values()){

@@ -36,9 +36,9 @@ public class LogisticListAPI extends API {
         final JSONArray update = pool.getArray();
         final JSONArray remove = pool.getArray();
 
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
+        array.put(ADD, add);
+        array.put(UPDATE, update);
+        array.put(REMOVE, remove);
 
         if (body != null) {
             List<LoadPlan> loadPlans = dao.getTransportationsByCustomer(customer);
@@ -61,8 +61,5 @@ public class LogisticListAPI extends API {
         }
         write(resp, array.toJSONString());
         pool.put(array);
-        add.clear();
-        update.clear();
-        remove.clear();
     }
 }

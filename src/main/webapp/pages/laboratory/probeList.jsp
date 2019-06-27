@@ -19,9 +19,15 @@
     archive.updReq();
 </script>
 <div id="archive" class="container">
-    <div v-for="item in items" class="container-item">
+    <div v-for="item in items" class="container-item" :class="'container-item-' + new Date(item.item.date).getDay()">
         <div class="upper-row">
-            {{new Date(item.item.date).toLocaleDateString()}}
+            <span v-if="item.item.turn">
+                {{new Date(item.item.turn.date).toLocaleDateString()}}
+                <fmt:message key="turn"/> <span>#</span>{{item.item.turn.number}}
+            </span>
+            <span v-else>
+                {{new Date(item.item.date).toLocaleDateString()}}
+            </span>
             <span v-if="item.item.manager">
                 <fmt:message key="deal.manager"/>:
                 <b>
@@ -37,6 +43,7 @@
         </div>
         <div class="lower-row" style="font-size: 10pt">
             <template v-if="item.item.type == 'sun'">
+                <b style="color: #535353"><fmt:message key="sun"/></b>
                 <fmt:message key="sun.humidity"/>:
                 {{item.item.analyses.humidity}},
                 <fmt:message key="sun.soreness"/>:
@@ -52,6 +59,7 @@
                 </b>
             </template>
             <template v-if="item.item.type == 'oil'">
+                <b style="color: #929b00"><fmt:message key="oil"/></b>
                 <fmt:message key="oil.color.value"/>:
                 {{item.item.analyses.color}},
                 <fmt:message key="sun.acid.value"/>:

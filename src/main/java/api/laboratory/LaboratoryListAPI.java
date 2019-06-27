@@ -2,11 +2,13 @@ package api.laboratory;
 
 import api.API;
 import constants.Branches;
+import constants.Constants;
 import entity.DealType;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.JsonPool;
 import utils.PostUtil;
 
 import javax.servlet.ServletException;
@@ -22,24 +24,25 @@ import java.util.HashMap;
 @WebServlet(Branches.API.LABORATORY_LIST)
 public class LaboratoryListAPI extends API {
 
+    final JsonPool pool = JsonPool.getPool();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final HashMap<String, Object> parameters = new HashMap<>();
-        final JSONObject array  = new JSONObject();
-        final JSONArray add = new JSONArray();
-        final JSONArray update = new JSONArray();
-        final JSONArray remove = new JSONArray();
-        parameters.put("transportation/archive", false);
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
+        final JSONObject array = pool.getObject();
+        final JSONArray add = pool.getArray();
+        final JSONArray update = pool.getArray();
+        final JSONArray remove = pool.getArray();
+        array.put(ADD, add);
+        array.put(UPDATE, update);
+        array.put(REMOVE, remove);
 
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
-            String type = req.getParameter("type");
+            String type = req.getParameter(Constants.TYPE);
 
+            String id;
             for (LoadPlan plan : dao.getLoadPlansByDealType(DealType.valueOf(type))) {
-                String id = String.valueOf(plan.id);
+                id = String.valueOf(plan.id);
                 if (body.containsKey(id)) {
                     long hash = (long) body.remove(id);
                     if (plan.hashCode() != hash) {
@@ -54,10 +57,7 @@ public class LaboratoryListAPI extends API {
             }
             body.clear();
         }
-        write(resp, array.toJSONString());
-
-        add.clear();
-        update.clear();
-        remove.clear();
+        write(resp, add.size() == 0 && update.size() == 0 && remove.size() == 0 ? EMPTY : array.toJSONString());
+        pool.put(array);
     }
 }

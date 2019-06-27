@@ -2,6 +2,7 @@ package entity.laboratory.probes;
 
 import entity.Worker;
 import entity.laboratory.OilAnalyses;
+import entity.production.Turn;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Table(name = "probe_oil")
 public class OilProbe {
     private int id;
+    private Turn turn;
     private Worker manager;
     private String organisation;
     private OilAnalyses analyses;
@@ -23,6 +25,15 @@ public class OilProbe {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "turn")
+    public Turn getTurn() {
+        return turn;
+    }
+    public void setTurn(Turn turn) {
+        this.turn = turn;
     }
 
     @OneToOne

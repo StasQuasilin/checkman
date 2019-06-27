@@ -1,44 +1,32 @@
-var deamon = new Vue({
+var list = new Vue({
     el: '#container',
     data:{
-        url:'',
-        showLink:'',
-        itemClass: function() {
-            return 'custom-item-'
+        api:{
+            update:'',
+            edit:''
         },
         items:[],
         timeout:-1,
-        types:[],
         attributes:{},
+        types:{},
         menu:{
             id:-1,
             show:false,
             x:0,
             y:0
         },
-        filter:filter_control,
-        req_filter:req_filter,
         timer :1000
     },
     mounted:function(){
-        this.filter.items = this.items;
-    },
-    beforeDestroy:function(){
-        console.log('before destroy')
+        console.log('list mounted')
+        if (filter_control !== 'undefined'){
+            filter_control.items = this.items;
+            this.getItems = function(){
+                return filter_control.filteredItems();
+            }
+        }
     },
     methods:{
-        filteredItems:function(){
-            if (typeof this.filter.filteredItems === 'function') {
-                return this.filter.filteredItems();
-            } else {
-                return this.items;
-            }
-        },
-        setUrls:function(url, show){
-            this.url = url;
-            this.showLink = show;
-            this.doRequest()
-        },
         add:function(item){
             var doNot = false;
             for (var a in this.items){
@@ -72,8 +60,8 @@ var deamon = new Vue({
                 }
             }
         },
-        show:function(id, type){
-            loadModal(this.showLink + '?id=' + id)
+        show:function(id){
+            loadModal(this.api.show, {id:id})
         },
         doRequest:function(){
             const self = this;
@@ -84,15 +72,12 @@ var deamon = new Vue({
                     parameters[item.id] = item.hash;
                 }
             }
-            if (this.req_filter.date){
-                parameters['reqDate'] = this.req_filter.date;
-            }
             for (var a in this.attributes){
                 if (this.attributes.hasOwnProperty(a)){
                     parameters[a] = this.attributes[a];
                 }
             }
-            PostApi(this.url, parameters, function(e){
+            PostApi(this.api.update, parameters, function(e){
                 if (e.add.length || e.update.length || e.remove.length) {
                     console.log(e);
                     for(var a in e.add){
@@ -117,7 +102,6 @@ var deamon = new Vue({
             })
         },
         stop:function(){
-            console.log('Stop deamon list');
             clearTimeout(this.timeout)
         },
         contextMenu:function(id){
@@ -131,15 +115,14 @@ var deamon = new Vue({
             this.menu.show = false;
             //event.preventDefault();
         },
-        rowName:function(date){
-            return 'container-item-' + new Date(date).getDay();
-        },
         edit:function(id){
             const self = this;
-            loadModal(this.showLink, {id : id}, function(){
+            loadModal(this.api.show, {id : id}, function(){
                 self.doRequest();
             })
+        },
+        getItems:function(){
+            return this.items;
         }
-
     }
 });

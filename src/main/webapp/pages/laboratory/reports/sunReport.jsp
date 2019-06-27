@@ -108,50 +108,49 @@
             Кислотне число олії, мг КОН/г
           </th>
         </tr>
-        <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
-          <tr>
-            <td align="center">
-              1
-            </td>
-            <td>
-              ${plan.transportation.driver.person.value}
-            </td>
-            <td>
-              <c:choose>
-                <c:when test="${sun.analyses.humidity1 > 0 && sun.analyses.humidity2 > 0}">
-                  <table style="font-size: 10pt">
-                    <tr>
-                      <td>
-                        М.&nbsp;-&nbsp;${sun.analyses.humidity1}
-                      </td>
-                      <td rowspan="2">
-                        Сер.&nbsp;<fmt:formatNumber value="${(sun.analyses.humidity1 + sun.analyses.humidity2) / 2}"/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Пр.&nbsp;-&nbsp;${sun.analyses.humidity2}
-                      </td>
-                    </tr>
-                  </table>
-                </c:when>
-                <c:otherwise>
-                  М.&nbsp;-&nbsp;${sun.analyses.humidity1}
-                </c:otherwise>
-              </c:choose>
+        <c:set value="${plan.transportation.sunAnalyses}" var="sun"/>
+        <tr>
+          <td align="center">
+            1
+          </td>
+          <td>
+            ${plan.transportation.driver.person.value}
+          </td>
+          <td>
+            <c:choose>
+              <c:when test="${sun.humidity1 > 0 && sun.humidity2 > 0}">
+                <table style="font-size: 10pt">
+                  <tr>
+                    <td>
+                      М.&nbsp;-&nbsp;${sun.humidity1}
+                    </td>
+                    <td rowspan="2">
+                      Сер.&nbsp;<fmt:formatNumber value="${(sun.humidity1 + sun.humidity2) / 2}"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Пр.&nbsp;-&nbsp;${sun.humidity2}
+                    </td>
+                  </tr>
+                </table>
+              </c:when>
+              <c:otherwise>
+                М.&nbsp;-&nbsp;${sun.humidity1}
+              </c:otherwise>
+            </c:choose>
 
-            </td>
-            <td align="center">
-              ${sun.analyses.soreness}
-            </td>
-            <td align="center">
-              ${sun.analyses.oilImpurity}
-            </td>
-            <td align="center">
-              ${sun.analyses.acidValue}
-            </td>
-          </tr>
-        </c:forEach>
+          </td>
+          <td align="center">
+            ${sun.soreness}
+          </td>
+          <td align="center">
+            ${sun.oilImpurity}
+          </td>
+          <td align="center">
+            ${sun.acidValue}
+          </td>
+        </tr>
       </table>
     </td>
   </tr>
@@ -287,9 +286,7 @@
               М.П.
             </td>
             <td align="right">
-              <c:forEach items="${plan.transportation.sunAnalyses}" var="sun">
-                ${sun.analyses.createTime.creator.value}
-              </c:forEach>
+              ${sun.createTime.creator.value}
             </td>
           </tr>
         </table>

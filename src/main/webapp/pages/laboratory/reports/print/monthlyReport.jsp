@@ -16,7 +16,7 @@
   }
 </style>
 <div class="content">
-  <table>
+  <table width="100%">
     <tr>
       <th>
         #
@@ -31,13 +31,16 @@
         <fmt:message key="waybill.vehicle"/>
       </th>
       <th>
-        <fmt:message key="weight"/>
+        <fmt:message key="sun.humidity"/>
+      </th>
+      <th>
+        <fmt:message key="sun.soreness"/>
       </th>
     </tr>
     <c:forEach items="${plans}" var="plan" varStatus="status">
       <tr>
         <td>
-          ${status.index}
+          ${status.index + 1}
         </td>
         <td>
           ${plan.deal.organisation.value}
@@ -46,14 +49,16 @@
           ${plan.transportation.driver.person.value}
         </td>
         <td>
-          ${plan.transportation.vehicle.value}
+          ${plan.transportation.vehicle.model}<br>
+          ${plan.transportation.vehicle.number}
+          ${plan.transportation.vehicle.trailer}
+
         </td>
-        <c:set var="weight">0</c:set>
-        <c:forEach items="${plan.transportation.weights}" var="w">
-          <c:set var="weight">${weight+w.netto}</c:set>
-        </c:forEach>
         <td>
-          <fmt:formatNumber value="${weight}"/>
+          <fmt:formatNumber value="${plan.transportation.weight.netto}"/>
+        </td>
+        <td>
+          <fmt:formatNumber value="${plan.transportation.sunAnalyses.soreness}"/>
         </td>
       </tr>
     </c:forEach>

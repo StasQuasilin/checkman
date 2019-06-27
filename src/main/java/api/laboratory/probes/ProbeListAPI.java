@@ -8,12 +8,14 @@ import entity.laboratory.probes.SunProbe;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.JsonPool;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,52 +26,46 @@ import java.util.List;
 @WebServlet(Branches.API.PROBE_LIST)
 public class ProbeListAPI extends API {
 
-
-
-    final HashMap<String, Object> parameters = new HashMap<>();
-    final JSONObject array = new JSONObject();
-    final JSONArray add = new JSONArray();
-    final JSONArray update = new JSONArray();
-    final JSONArray remove = new JSONArray();
-    {
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
-    }
-
-    final int LIMIT = 20;
-
+    final JsonPool pool = JsonPool.getPool();
+    public static final String ITEMS = "items";
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
+        final JSONObject array = pool.getObject();
+        final JSONArray add = pool.getArray();
+        final JSONArray update = pool.getArray();
+        final JSONArray remove = pool.getArray();
+        {
+            array.put(ADD, add);
+            array.put(UPDATE, update);
+            array.put(REMOVE, remove);
+        }
         if (body != null) {
-            JSONObject items = (JSONObject) body.get("items");
+            JSONObject items = (JSONObject) body.get(ITEMS);
 
-            List<AnalysesType> types = new LinkedList<>();
-            if (types.size() == 0) {
-                List<SunProbe> sunProbes = dao.getLimitSunProbes(null);
-                for (SunProbe sun : sunProbes) {
-                    String id = String.valueOf(sun.getId());
-                    if (items.containsKey(id)) {
-                        long hash = (long) items.remove(id);
-                        if (sun.hashCode() != hash) {
-                            update.add(JsonParser.toJson(sun));
-                        }
-                    } else {
-                        add.add(JsonParser.toJson(sun));
+            List<SunProbe> sunProbes = dao.getLimitSunProbes(null);
+            String id;
+            for (SunProbe sun : sunProbes) {
+                id = "" + (sun.getId());
+                if (items.containsKey(id)) {
+                    long hash = (long) items.remove(id);
+                    if (sun.hashCode() != hash) {
+                        update.add(JsonParser.toJson(sun));
                     }
+                } else {
+                    add.add(JsonParser.toJson(sun));
                 }
-                List<OilProbe> oilProbes = dao.getLimitOilProbes(null);
-                for (OilProbe oil : oilProbes) {
-                    String id = String.valueOf(oil.getId());
-                    if (items.containsKey(id)) {
-                        long hash = (long) items.remove(id);
-                        if (oil.hashCode() != hash) {
-                            update.add(JsonParser.toJson(oil));
-                        }
-                    } else {
-                        add.add(JsonParser.toJson(oil));
+            }
+            List<OilProbe> oilProbes = dao.getLimitOilProbes(null);
+            for (OilProbe oil : oilProbes) {
+                id = "" + (oil.getId());
+                if (items.containsKey(id)) {
+                    long hash = (long) items.remove(id);
+                    if (oil.hashCode() != hash) {
+                        update.add(JsonParser.toJson(oil));
                     }
+                } else {
+                    add.add(JsonParser.toJson(oil));
                 }
             }
 
@@ -78,8 +74,6 @@ public class ProbeListAPI extends API {
             }
         }
         write(resp, array.toJSONString());
-        add.clear();
-        update.clear();
-        remove.clear();
+        pool.put(array);
     }
 }

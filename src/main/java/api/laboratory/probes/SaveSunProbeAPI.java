@@ -6,11 +6,15 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.SunProbe;
+import entity.production.Turn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.TurnDateTime;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.turns.TurnBox;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by szpt_user045 on 01.04.2019.
@@ -32,12 +37,16 @@ public class SaveSunProbeAPI extends API {
         JSONObject body = parseBody(req);
         if (body != null) {
             SunProbe probe;
+
             boolean save = false;
             if (body.containsKey(Constants.ID)) {
                 Object id = body.get(Constants.ID);
                 probe = dao.getSunProbeById(id);
             } else {
                 probe = new SunProbe();
+                final TurnDateTime turnDate = TurnBox.getBox().getTurnDate(LocalDateTime.now());
+                final Turn turn = TurnService.getTurn(turnDate);
+                probe.setTurn(turn);
                 probe.setAnalyses(new SunAnalyses());
             }
 

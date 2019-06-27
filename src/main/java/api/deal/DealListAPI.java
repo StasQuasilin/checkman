@@ -23,7 +23,6 @@ import java.io.IOException;
 public class DealListAPI extends API {
 
     final JsonPool pool = JsonPool.getPool();
-    final static String EMPTY = "{\"add\":[],\"update\":[],\"remove\":[]}";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

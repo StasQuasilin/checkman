@@ -8,7 +8,9 @@ var filter_control = new Vue({
             product:-1,
             creator:-1
         }
-
+    },
+    mounted:function(){
+        console.log('filter mounted')
     },
     methods:{
         organisations:function(){

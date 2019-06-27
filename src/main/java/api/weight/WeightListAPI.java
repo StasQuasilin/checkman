@@ -51,10 +51,7 @@ public class WeightListAPI extends API {
             }
             remove.addAll((Collection) body.keySet().stream().map(key -> Integer.parseInt((String) key)).collect(Collectors.toList()));
         }
-        write(resp, array.toJSONString());
+        write(resp, add.size() == 0 && update.size() == 0 && remove.size() == 0 ? EMPTY : array.toJSONString());
         pool.put(array);
-        pool.put(add);
-        pool.put(update);
-        pool.put(remove);
     }
 }

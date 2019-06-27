@@ -289,14 +289,14 @@ public class JsonParser {
     }
 
     final static String CREATOR = "creator";
-    final static String Time = "Time";
+    final static String TIME = "time";
 
     private static JSONObject toJson(ActionTime actionTime) {
         JSONObject json = pool.getObject();
         if (actionTime != null){
             json.put(ID, actionTime.getId());
             json.put(CREATOR, toJson(actionTime.getCreator()));
-            json.put(Time, actionTime.getTime().toString());
+            json.put(TIME, actionTime.getTime().toString());
         }
         return json;
     }
@@ -357,36 +357,43 @@ public class JsonParser {
         return json;
     }
 
-
+    public static final String MANAGER = "manager";
+    public static final String TURN = "turn";
     public static JSONObject toJson(SunProbe sun) {
         JSONObject json = new JSONObject();
-        json.put("id", sun.getId());
-        json.put("type", AnalysesType.sun.toString());
-        json.put("date", sun.getAnalyses().getCreateTime().getTime().toString());
+        json.put(ID, sun.getId());
+        if (sun.getTurn() != null) {
+            json.put(TURN, toJson(sun.getTurn()));
+        }
+        json.put(TYPE, AnalysesType.sun.toString());
+        json.put(DATE, sun.getAnalyses().getCreateTime().getTime().toString());
         if (sun.getManager() != null) {
-            json.put("manager", toJson(sun.getManager()));
+            json.put(MANAGER, toJson(sun.getManager()));
         }
         if (sun.getOrganisation() != null) {
-            json.put("organisation", sun.getOrganisation());
+            json.put(ORGANISATION, sun.getOrganisation());
         }
-        json.put("analyses", toJson(sun.getAnalyses()));
-        json.put("hash", sun.hashCode());
+        json.put(ANALYSES, toJson(sun.getAnalyses()));
+        json.put(HASH, sun.hashCode());
         return json;
     }
 
     public static JSONObject toJson(OilProbe oil) {
         JSONObject json = new JSONObject();
-        json.put("id", oil.getId());
-        json.put("type", AnalysesType.oil.toString());
-        json.put("date", oil.getAnalyses().getCreateTime().getTime().toString());
+        json.put(ID, oil.getId());
+        if (oil.getTurn() != null) {
+            json.put(TURN, toJson(oil.getTurn()));
+        }
+        json.put(TYPE, AnalysesType.oil.toString());
+        json.put(DATE, oil.getAnalyses().getCreateTime().getTime().toString());
         if (oil.getManager() != null) {
-            json.put("manager", toJson(oil.getManager()));
+            json.put(MANAGER, toJson(oil.getManager()));
         }
         if (oil.getOrganisation() != null) {
-            json.put("organisation", oil.getOrganisation());
+            json.put(ORGANISATION, oil.getOrganisation());
         }
-        json.put("analyses", toJson(oil.getAnalyses()));
-        json.put("hash", oil.hashCode());
+        json.put(ANALYSES, toJson(oil.getAnalyses()));
+        json.put(HASH, oil.hashCode());
         return json;
     }
 
@@ -713,7 +720,7 @@ public class JsonParser {
 //                private int id;
                 json.put("id", crude.getId());
 //                private Timestamp Time;
-                json.put("Time", crude.getTime().toString());
+                json.put("time", crude.getTime().toString());
 //                private float humidityIncome;
                 json.put("humidityIncome", crude.getHumidityIncome());
 //                private float fraction;
@@ -895,7 +902,7 @@ public class JsonParser {
 //            private int id;
             json.put("id", crude.getId());
 //            private Timestamp Time;
-            json.put("Time", crude.getTime().toString());
+            json.put("time", crude.getTime().toString());
 //            private float humidityBefore;
             json.put("humidityBefore", crude.getHumidityBefore());
 //            private float sorenessBefore;

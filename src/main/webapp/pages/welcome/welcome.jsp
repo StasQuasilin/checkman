@@ -8,6 +8,5 @@
   <span>
     <fmt:message key="welcome.text"/>
   </span>
-
 </div>
 </html>

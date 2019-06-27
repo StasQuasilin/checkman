@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="${context}/css/date-picker.css">
 <script src="${context}/vue/laboratory/extractionCrude.js"></script>
 <script>
-    editor.api.save = '${saveUrl}'
+    editor.api.save = '${saveUrl}';
     editor.times = [
         {
             hour:'08',
@@ -64,7 +64,7 @@
     editor.laborants.push({
         id:${l.id},
         value:'${l.person.value}'
-    })
+    });
     </c:forEach>
     <c:choose>
     <c:when test="${not empty crude}">
@@ -79,7 +79,7 @@
         dissolvent:${crude.dissolvent},
         grease:${crude.grease},
         creator:${crude.creator.id}
-    }
+    };
     </c:when>
     <c:otherwise>
     editor.crude = {
@@ -92,7 +92,7 @@
         dissolvent:0,
         grease:0,
         creator:${worker.id}
-    }
+    };
     </c:otherwise>
     </c:choose>
 
@@ -208,7 +208,10 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3" align="center">
+        <td colspan="3" align="right">
+            <a class="mini-close" v-if="crude.id">
+                <fmt:message key="button.delete"/>
+            </a>
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>

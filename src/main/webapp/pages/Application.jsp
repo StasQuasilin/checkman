@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="${context}/css/Application.css">
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="${context}/js/Logic.js"></script>
+    <script src="${context}/js/Core.js"></script>
     <script src="${context}/js/Application.js"></script>
     <script>
         context = '${context}';

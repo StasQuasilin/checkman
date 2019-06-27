@@ -144,7 +144,7 @@
                         </span>
                     </th>
                 </tr>
-                <tr v-for="crude in (value.item.crudes)" class="selectable" :item="crude.id" onclick="editableModal('${crudeEdit}')">
+                <tr v-for="crude in (value.item.crudes)" class="selectable" :item="crude.id" v-on:click="edit(crude.id)">
                     <td align="center" :item="crude.id">
                         {{new Date(crude.time).getHours()}}:{{new Date(crude.time).getMinutes()}}
                     </td>

@@ -14,6 +14,9 @@ import utils.hibernate.dbDAOService;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
@@ -28,11 +31,15 @@ public class ContextFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        gcTimer = new Timer(20 * 1000, e -> System.gc());
+        gcTimer.start();
         HibernateSessionFactory.init();
         TransportBox.getBox().init();
         DealBox.getBox().init();
         initBot();
     }
+
+    Timer gcTimer;
 
     public void initBot(){
         log.info("Read bot settings...");
@@ -61,6 +68,7 @@ public class ContextFilter implements Filter {
 
     @Override
     public void destroy() {
+        gcTimer.stop();
         HibernateSessionFactory.shutdown();
     }
 }
