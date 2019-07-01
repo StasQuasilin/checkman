@@ -5,6 +5,7 @@ import constants.Branches;
 import entity.seals.Seal;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.SealsUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -21,7 +22,6 @@ import java.io.IOException;
 public class RemoveSeals extends API {
 
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -31,6 +31,7 @@ public class RemoveSeals extends API {
             Seal seal = dao.getSealById(sealId);
             seal.setTransportation(null);
             dao.save(seal);
+            SealsUtil.checkBatch(seal.getBatch());
             write(resp, answer);
         }
 

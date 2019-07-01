@@ -11,8 +11,10 @@ import javax.persistence.*;
 @Table(name = "seals_batch")
 public class SealBatch {
     private int id;
+    private String title;
     private ActionTime created;
-    private int free;
+    private long free;
+    private long total;
     private boolean archive;
 
     @Id
@@ -22,6 +24,16 @@ public class SealBatch {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String name) {
+        this.title = name;
     }
 
     @OneToOne
@@ -35,11 +47,20 @@ public class SealBatch {
 
     @Basic
     @Column(name = "free")
-    public int getFree() {
+    public long getFree() {
         return free;
     }
-    public void setFree(int hash) {
-        this.free = hash;
+    public void setFree(long free) {
+        this.free = free;
+    }
+
+    @Basic
+    @Column(name = "total")
+    public long getTotal() {
+        return total;
+    }
+    public void setTotal(long total) {
+        this.total = total;
     }
 
     @Basic
@@ -49,5 +70,14 @@ public class SealBatch {
     }
     public void setArchive(boolean archive) {
         this.archive = archive;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * Long.hashCode(free) + hash;
+        hash = 31 * Long.hashCode(total) + hash;
+        hash = 31 * Boolean.hashCode(archive) + hash;
+        return hash;
     }
 }

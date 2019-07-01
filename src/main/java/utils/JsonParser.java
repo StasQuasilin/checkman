@@ -631,12 +631,17 @@ public class JsonParser {
         return array;
     }
 
+    public static final String TITLE = "title";
     public static final String FREE = "free";
+    public static final String TOTAL = "total";
     public static JSONObject toJson(SealBatch batch) {
         JSONObject json = pool.getObject();
         json.put(ID, batch.getId());
+        json.put(TITLE, batch.getTitle());
         json.put(DATE, toJson(batch.getCreated()));
         json.put(FREE, batch.getFree());
+        json.put(TOTAL, batch.getTotal());
+        json.put(HASH, batch.hashCode());
         return json;
     }
 

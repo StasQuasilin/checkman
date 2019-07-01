@@ -10,8 +10,12 @@
   <script>
     list.api.update = '${update}';
     list.api.edit = '${edit}';
+    list.api.show = '${show}';
     list.attributes['type'] = '${type}';
     list.doRequest();
+    stopContent = function(){
+      list.stop();
+    }
   </script>
   <div id="container-header" class="container-header">
     <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>

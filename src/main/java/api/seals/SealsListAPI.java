@@ -39,8 +39,8 @@ public class SealsListAPI extends API {
             for (SealBatch batch : dao.getActiveSealsBatches()){
                 id = String.valueOf(batch.getId());
                 if (body.containsKey(id)){
-                    long free = (long) body.remove(id);
-                    if (free != batch.getFree()){
+                    long hash = (long) body.remove(id);
+                    if (hash != batch.hashCode()){
                         update.add(JsonParser.toJson(batch));
                     }
                 } else {

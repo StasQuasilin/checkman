@@ -751,4 +751,9 @@ public class HibernateDAO implements dbDAO {
     public List<SealBatch> getActiveSealsBatches() {
         return hb.query(SealBatch.class, "archive", false);
     }
+
+    @Override
+    public List<Seal> getSealsByBatch(SealBatch batch) {
+        return hb.query(Seal.class, "batch", batch);
+    }
 }

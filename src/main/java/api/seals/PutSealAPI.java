@@ -5,6 +5,7 @@ import constants.Branches;
 import entity.seals.Seal;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
+import utils.SealsUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -20,8 +21,6 @@ import java.io.IOException;
 @WebServlet(Branches.API.SEAL_PUT)
 public class PutSealAPI extends API {
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -32,6 +31,7 @@ public class PutSealAPI extends API {
             if (seal != null) {
                 seal.setTransportation(transportation);
                 dao.save(seal);
+                SealsUtil.checkBatch(seal.getBatch());
             }
 
             write(resp, answer);

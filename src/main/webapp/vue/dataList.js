@@ -3,7 +3,8 @@ var list = new Vue({
     data:{
         api:{
             update:'',
-            edit:''
+            edit:'',
+            show:''
         },
         items:[],
         timeout:-1,
@@ -65,9 +66,6 @@ var list = new Vue({
                 }
             }
         },
-        show:function(id){
-            loadModal(this.api.show, {id:id})
-        },
         doRequest:function(){
             const self = this;
             var parameters = {};
@@ -125,6 +123,9 @@ var list = new Vue({
             loadModal(this.api.edit + '?id=' + id, {id : id}, function(){
                 self.doRequest();
             })
+        },
+        show:function(id){
+            loadModal(this.api.show + '?id=' + id, {id : id})
         },
         getItems:function(){
             return this.items;

@@ -67,6 +67,7 @@ public class Branches {
         public static final String LABORATORY_STORAGES = "/laboratory/storages.j";
         public static final String LABORATORY_STORAGE_EDIT = "/laboratory/storages/edit.j";
         public static final String FORGOT = "/forgot";
+        public static final String FEEDBACK = "/feedback";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -176,6 +177,7 @@ public class Branches {
         public static final String LABORATORY_MEAL_PRINT = API + "/laboratory/meal/print";
         public static final String PASSWORD_RESTORE = "/a/password/restore";
         public static final String SEAL_UPDATE = API + "/seals/list";
+        public static final String FEEDBACK_EDIT = API + "/feedback/edit";
 
 
         public class References {

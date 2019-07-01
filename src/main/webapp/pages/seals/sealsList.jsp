@@ -12,9 +12,18 @@
   list.api.update = '${update}';
   list.doRequest();
 </script>
-<div id="container">
-  <div v-for="(value, key) in getItems()">
-    {{value}}
+<div id="container" style="display: flex; flex-wrap: wrap;">
+  <div v-for="(value, key) in getItems()" style="border: solid 1pt; margin: 4pt 8pt; padding: 4pt;">
+    <div style="text-align: center">
+      {{value.item.title}}
+    </div>
+    <div>
+      {{new Date(value.item.date.time).toLocaleDateString()}}
+    </div>
+    <div style="text-align: center">
+      {{value.item.free}}/{{value.item.total}}
+    </div>
+
   </div>
 </div>
 </html>

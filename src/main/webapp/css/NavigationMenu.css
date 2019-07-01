@@ -55,6 +55,7 @@
     display: inline-block;
     width: 70%;
     padding: 4pt;
+    -moz-user-select: none;
 }
 .menu-item .archive{
     /*width: 20%;*/

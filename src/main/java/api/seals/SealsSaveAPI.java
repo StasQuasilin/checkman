@@ -25,6 +25,7 @@ import java.sql.Timestamp;
 public class SealsSaveAPI extends API {
 
     private final Logger log = Logger.getLogger(SealsSaveAPI.class);
+    public static final String DELIMITER = " ... ";
 
 
     @Override
@@ -37,24 +38,36 @@ public class SealsSaveAPI extends API {
             long quantity = (long) body.get("quantity");
 
             log.info(getWorker(req).getValue() + " put seals " + doSeal(prefix, number, suffix) + " ... " + doSeal(prefix, number + quantity, suffix));
+            if (quantity > 0) {
+                SealBatch batch = new SealBatch();
+                ActionTime time = new ActionTime();
+                time.setTime(new Timestamp(System.currentTimeMillis()));
+                time.setCreator(getWorker(req));
+                batch.setCreated(time);
+                batch.setFree(quantity);
+                batch.setTotal(quantity);
 
-            SealBatch batch = new SealBatch();
-            ActionTime time = new ActionTime();
-            time.setTime(new Timestamp(System.currentTimeMillis()));
-            time.setCreator(getWorker(req));
-            batch.setCreated(time);
+                dao.save(time, batch);
+                StringBuilder builder = new StringBuilder();
 
-            Seal[] seals = new Seal[(int) quantity];
-            for (int i = 0; i < quantity; i++) {
-                Seal seal = new Seal();
-                seal.setBatch(batch);
-                seal.setNumber(doSeal(prefix, number + i, suffix));
-                seals[i] = seal;
+                for (int i = 0; i < quantity; i++) {
+
+                    Seal seal = new Seal();
+                    seal.setBatch(batch);
+                    seal.setNumber(doSeal(prefix, number + i, suffix));
+                    if (i == 0) {
+                        builder.append(seal.getNumber()).append(DELIMITER);
+                    } else if (i == quantity -1) {
+                        builder.append(seal.getNumber());
+                    }
+                    dao.save(seal);
+                }
+
+                batch.setTitle(builder.toString());
+                dao.save(batch);
+
+                body.clear();
             }
-
-            dao.save(time, batch, seals);
-
-            body.clear();
             write(resp, answer);
         } else {
             write(resp, emptyBody);

@@ -159,4 +159,5 @@ public interface dbDAO {
     List<Worker> getWorkersByRole(Role role);
     List<Seal> getSeals();
     List<SealBatch> getActiveSealsBatches();
+    List<Seal> getSealsByBatch(SealBatch batch);
 }

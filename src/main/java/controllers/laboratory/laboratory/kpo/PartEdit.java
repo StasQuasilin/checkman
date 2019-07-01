@@ -1,10 +1,8 @@
 package controllers.laboratory.laboratory.kpo;
 
-import com.sun.deploy.panel.PathEditor;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
-import entity.laboratory.subdivisions.kpo.KPOPart;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -14,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 22.05.2019.
