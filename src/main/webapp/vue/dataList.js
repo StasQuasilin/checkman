@@ -19,10 +19,15 @@ var list = new Vue({
     },
     mounted:function(){
         console.log('list mounted')
-        if (filter_control !== 'undefined'){
+        console.log(typeof (filter_control));
+        if (typeof filter_control !== 'undefined'){
+            console.log('do filter')
             filter_control.items = this.items;
-            this.getItems = function(){
-                return filter_control.filteredItems();
+            if (typeof filter_control.filteredItems === 'function') {
+                console.log('do function')
+                this.getItems = function () {
+                    return filter_control.filteredItems();
+                }
             }
         }
     },
@@ -117,7 +122,7 @@ var list = new Vue({
         },
         edit:function(id){
             const self = this;
-            loadModal(this.api.show, {id : id}, function(){
+            loadModal(this.api.edit + '?id=' + id, {id : id}, function(){
                 self.doRequest();
             })
         },

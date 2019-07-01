@@ -25,6 +25,7 @@ import entity.production.TurnSettings;
 import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.seals.Seal;
+import entity.seals.SealBatch;
 import entity.storages.Storage;
 import entity.transport.*;
 import entity.weight.Weight;
@@ -156,4 +157,6 @@ public interface dbDAO {
     List<VROTurn> getVroTurns();
     List<User> findUser(Object key);
     List<Worker> getWorkersByRole(Role role);
+    List<Seal> getSeals();
+    List<SealBatch> getActiveSealsBatches();
 }

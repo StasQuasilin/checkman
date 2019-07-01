@@ -48,7 +48,7 @@ public class JsonPool {
         }
     }
 
-    public JSONObject getObject(){
+    public synchronized JSONObject getObject(){
         if (objects.size() > 0){
             return objects.remove(0);
         } else {
@@ -56,7 +56,7 @@ public class JsonPool {
         }
     }
 
-    public JSONArray getArray(){
+    public synchronized JSONArray getArray(){
         if (arrays.size() > 0) {
             return arrays.remove(0);
         } else {

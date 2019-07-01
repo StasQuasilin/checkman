@@ -15,8 +15,8 @@ public class SummaryController extends IUIServlet {
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("title", Constants.Titles.SUMMARY_LIST);
-		req.setAttribute("updateUrl", Branches.API.TRANSPORT_LIST);
-		req.setAttribute("showUrl", Branches.UI.SUMMARY_SHOW);
+		req.setAttribute("update", Branches.API.TRANSPORT_LIST);
+		req.setAttribute("show", Branches.UI.SUMMARY_SHOW);
 		req.setAttribute("content", "/pages/summary/summaryList.jsp");
 		req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
 		show(req, resp);

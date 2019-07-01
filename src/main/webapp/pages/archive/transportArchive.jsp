@@ -10,16 +10,19 @@
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 
 <script>
-    deamon.setUrls('${update}', '${show}');
-    deamon.types['buy'] = '<fmt:message key="_buy"/>';
-    deamon.types['sell'] = '<fmt:message key="_sell"/>'
+    list.api.update = '${update}';
+    list.api.edit = '${show}';
+    list.types['buy'] = '<fmt:message key="_buy"/>';
+    list.types['sell'] = '<fmt:message key="_sell"/>'
+    list.doRequest();
 
 </script>
 <transition-group
         name="flip-list" tag="div"
         class="container" id="container">
-    <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
-         class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)">
+    <div v-for="(value, key) in getItems()"
+         :key="value.item.id" :id="value.item.id"
+         class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()" v-on:click="show(value.item.id)">
         <div class="upper-row">
         <span>
           {{new Date(value.item.date).toLocaleDateString()}}

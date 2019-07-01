@@ -7,13 +7,11 @@
 <div id="container-header" class="container-header">
   <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/></button>
 </div>
-<script>
-  filter_control = {};
-  req_filter = {};
-</script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
-  deamon.setUrls('${update}', '${show}')
+  list.api.update = '${update}';
+  list.api.edit = '${show}';
+  list.doRequest();
 </script>
 
 <div id="container">

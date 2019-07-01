@@ -5,17 +5,16 @@
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <script>
-    req_filter={}
-  </script>
   <script src="${context}/vue/dataList.js"></script>
   <link rel="stylesheet" href="${context}/css/DataContainer.css">
    <script>
-    deamon.setUrls('${updateUrl}', '${showUrl}')
+     list.api.update = '${update}';
+     list.api.edit = '${show}';
+     list.doRequest();
   </script>
   <transition-group  name="flip-list" tag="div" class="container" id="container">
-      <div v-for="(value, key) in filteredItems()" v-bind:key="value.item.id" v-bind:id="value.item.id"
-           class="container-item" v-bind:class="rowName(value.item.date)" v-on:click="show(value.item.id)">
+      <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
+           class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()" v-on:click="edit(value.item.id)">
         <div class="upper-row">
           <span>
             {{new Date(value.item.date).toLocaleDateString()}}

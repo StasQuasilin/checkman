@@ -9,21 +9,15 @@
     <fmt:message key="analyses"/>
   </button>
 </div>
-<script>
-  var filter_control={};
-  var req_filter = {};
-</script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
-  deamon.url = '${update}?type=${type}';
-  deamon.doRequest();
-  function stopContent(){
-    deamon.stop();
-  }
+  list.api.update = '${update}?type=${type}';
+  list.doRequest();
 </script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <div id="container">
-  <div v-for="(value, key) in items" class="container-item" :class="rowName(value.item.turn.date)" style="padding: 4pt">
+  <div v-for="(value, key) in items" class="container-item"
+       :class="'container-item-' + new Date(value.item.turn.date).getDay()" style="padding: 4pt">
     <div class="turn-date" :class="'t-' + value.item.turn.number">
             <span>
                 {{new Date(value.item.turn.date).toLocaleDateString()}}

@@ -26,6 +26,7 @@ import entity.production.TurnSettings;
 import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.seals.Seal;
+import entity.seals.SealBatch;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
 import entity.transport.*;
@@ -33,6 +34,7 @@ import entity.weight.Weight;
 import entity.weight.WeightUnit;
 import utils.TurnDateTime;
 import utils.hibernate.DateContainers.BETWEEN;
+import utils.hibernate.DateContainers.GT;
 import utils.hibernate.DateContainers.LE;
 
 import java.sql.Date;
@@ -726,7 +728,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<VROTurn> getVroTurns() {
-        return hb.limitQuery(VROTurn.class, "turn", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 14);
+        return hb.limitQuery(VROTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 14);
     }
 
     @Override
@@ -738,5 +740,15 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<Worker> getWorkersByRole(Role role) {
         return hb.query(User.class, "role", role).stream().map(User::getWorker).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Seal> getSeals() {
+        return hb.query(Seal.class, "transportation", State.isNull);
+    }
+
+    @Override
+    public List<SealBatch> getActiveSealsBatches() {
+        return hb.query(SealBatch.class, "archive", false);
     }
 }

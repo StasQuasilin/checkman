@@ -3,9 +3,6 @@ package controllers.weight;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
-import entity.documents.LoadPlan;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,10 +13,8 @@ import java.io.IOException;
 /**
  * Created by szpt_user045 on 19.03.2019.
  */
-@WebServlet(Branches.UI.WEIGHT_PUT)
+@WebServlet(Branches.UI.WEIGHT_EDIT)
 public class WeightEdit extends IModal {
-
-
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

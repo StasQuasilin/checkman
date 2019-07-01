@@ -53,19 +53,14 @@
         </div>
     </div>
 </div>
-<script>
-    var filter_control={};
-</script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
-    deamon.url = '${update}';
-    deamon.doRequest();
-    function stopContent(){
-        deamon.stop();
-    }
+    list.api.update = '${update}';
+    list.doRequest();
 </script>
 <div id="container">
-    <div v-for="(value, key) in items" class="container-item" :class="rowName(value.item.date)" style="padding: 4pt">
+    <div v-for="(value, key) in items" class="container-item"
+         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt">
         <div class="turn-date" :class="'t-' + value.item.number">
             <span>
                 {{new Date(value.item.date).toLocaleDateString()}}

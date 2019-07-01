@@ -21,7 +21,7 @@ public class Branches {
         public static final String TRANSPORT_SHOW = "/transport/show.j";
         public static final String TRANSPORT_EDIT = "/transport/edit.j";
         public static final String WEIGHT_LIST = "/weight/list.j";
-        public static final String WEIGHT_PUT = "/weight/edit.j";
+        public static final String WEIGHT_EDIT = "/weight/edit.j";
         public static final String WEIGHT_ADD = "/weight/add.j";
 
         public static final String HOME = APPLICATION;
@@ -175,6 +175,7 @@ public class Branches {
         public static final String LABORATORY_OIL_PRINT = API + "/laboratory/oil/print";
         public static final String LABORATORY_MEAL_PRINT = API + "/laboratory/meal/print";
         public static final String PASSWORD_RESTORE = "/a/password/restore";
+        public static final String SEAL_UPDATE = API + "/seals/list";
 
 
         public class References {

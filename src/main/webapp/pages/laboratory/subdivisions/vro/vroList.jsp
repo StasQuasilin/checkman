@@ -52,27 +52,24 @@
     }
 </style>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-<script>
-    var filter_control={};
-</script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
-    deamon.url = '${update}';
-    deamon.forpress=[];
+    list.api.update = '${update}';
+    list.forpress = [];
     <c:forEach items="${forpress}" var="fp">
-    deamon.forpress.push({
+    list.forpress.push({
         value:'${fp.name}'
     });
     </c:forEach>
-    deamon.doRequest();
+    list.doRequest();
     function stopContent(){
-        deamon.stop();
+        list.stop();
     }
 </script>
 
 <div id="container">
     <div v-for="(value, key) in items" class="container-item"
-         :class="rowName(value.item.date)" style="padding: 4pt">
+         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt">
         <div class="turn-date" :class="'t-' + value.item.number">
             <span>
             {{new Date(value.item.date).toLocaleDateString()}}

@@ -7,4 +7,14 @@
 <div id="container-header" class="container-header" style="display: inline">
   <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
 </div>
+<script src="${context}/vue/dataList.js"></script>
+<script>
+  list.api.update = '${update}';
+  list.doRequest();
+</script>
+<div id="container">
+  <div v-for="(value, key) in getItems()">
+    {{value}}
+  </div>
+</div>
 </html>

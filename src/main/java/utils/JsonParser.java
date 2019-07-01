@@ -25,6 +25,7 @@ import entity.products.Product;
 import entity.rails.Train;
 import entity.rails.Truck;
 import entity.seals.Seal;
+import entity.seals.SealBatch;
 import entity.transport.ActionTime;
 import entity.transport.Driver;
 import entity.transport.Transportation;
@@ -595,29 +596,69 @@ public class JsonParser {
         }
         return array;
     }
-
+    
+    public static final String STORAGE = "storage";
+    
     private static JSONObject toJson(StorageAnalyses analyse) {
         JSONObject json = new JSONObject();
-        json.put("id", analyse.getId());
-        json.put("storage", analyse.getStorage().getName());
-        json.put("oil", toJson(analyse.getOilAnalyses()));
+        json.put(ID, analyse.getId());
+        json.put(STORAGE, analyse.getStorage().getName());
+        json.put(OIL, toJson(analyse.getOilAnalyses()));
         return json;
     }
 
+    public static final String BATCH = "batch";
+    public static JSONArray toJson(HashMap<SealBatch, List<Seal>> map) {
+        JSONArray array = pool.getArray();
+        for (Map.Entry<SealBatch, List<Seal>> entry : map.entrySet()){
+            array.add(toJson(entry.getKey(), entry.getValue()));
+        }
+        return array;
+    }
+    public static final String SEALS = "seals";
+    private static JSONObject toJson(SealBatch sealBatch, List<Seal> seals) {
+        JSONObject json = pool.getObject();
+        json.put(BATCH, toJson(sealBatch));
+        json.put(SEALS, toSealJson(seals));
+        return json;
+    }
+
+    private static JSONArray toSealJson(List<Seal> seals) {
+        JSONArray array = pool.getArray();
+        for (Seal seal : seals){
+            array.add(seal.getNumber());
+        }
+        return array;
+    }
+
+    public static final String FREE = "free";
+    public static JSONObject toJson(SealBatch batch) {
+        JSONObject json = pool.getObject();
+        json.put(ID, batch.getId());
+        json.put(DATE, toJson(batch.getCreated()));
+        json.put(FREE, batch.getFree());
+        return json;
+    }
+
+    public static final String CRUDES = "crude";
+    public static final String STORAGE_PROTEIN = "storageProtein";
+    public static final String STORAGE_GREASE = "storageGrease";
+    public static final String TURN_PROTEIN = "turnProtein";
+    public static final String TURN_GREASE = "turnGrease";
     public static class Laboratory {
         public static class Extraction {
             public static JSONObject toJson(ExtractionTurn turn) {
                 JSONObject json = new JSONObject();
-                json.put("id", turn.getId());
-                json.put("number", turn.getTurn().getNumber());
-                json.put("date", turn.getTurn().getDate().toString());
-                json.put("crudes", toJson(turn.getCrudes()));
-                json.put("storageProtein", toRawJson(turn.getProtein()));
-                json.put("storageGrease", toGreaseJson(turn.getGreases()));
-                json.put("oil", toOilJson(turn.getOils()));
-                json.put("turnProtein", toTurnJson(turn.getTurnProteins()));
-                json.put("turnGrease", toTurnGrease(turn.getTurnGreases()));
-                json.put("hash", turn.hashCode());
+                json.put(ID, turn.getId());
+                json.put(NUMBER, turn.getTurn().getNumber());
+                json.put(DATE, turn.getTurn().getDate().toString());
+                json.put(CRUDES, toJson(turn.getCrudes()));
+                json.put(STORAGE_PROTEIN, toRawJson(turn.getProtein()));
+                json.put(STORAGE_GREASE, toGreaseJson(turn.getGreases()));
+                json.put(OIL, toOilJson(turn.getOils()));
+                json.put(TURN_PROTEIN, toTurnJson(turn.getTurnProteins()));
+                json.put(TURN_GREASE, toTurnGrease(turn.getTurnGreases()));
+                json.put(HASH, turn.hashCode());
 
                 return json;
             }

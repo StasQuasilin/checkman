@@ -12,6 +12,8 @@ import javax.persistence.*;
 public class SealBatch {
     private int id;
     private ActionTime created;
+    private int free;
+    private boolean archive;
 
     @Id
     @GeneratedValue
@@ -29,5 +31,23 @@ public class SealBatch {
     }
     public void setCreated(ActionTime created) {
         this.created = created;
+    }
+
+    @Basic
+    @Column(name = "free")
+    public int getFree() {
+        return free;
+    }
+    public void setFree(int hash) {
+        this.free = hash;
+    }
+
+    @Basic
+    @Column(name = "archive")
+    public boolean isArchive() {
+        return archive;
+    }
+    public void setArchive(boolean archive) {
+        this.archive = archive;
     }
 }

@@ -9,18 +9,16 @@
 <div id="container-header" class="container-header">
     <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
 </div>
-<script>
-    filter_control = {}
-    req_filter = {}
-</script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
-    deamon.timer=1000*5;
-    deamon.setUrls('${update}', '${edit}')
+    list.api.update = '${update}';
+    list.api.edit = '${edit}';
+    list.timer=1000*5;
+    list.doRequest();
 </script>
 <div id="container">
     <div v-for="(value, key) in items" :id="value.item.id"
-         class="container-item" :class="rowName(value.item.date)"
+         class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()"
          v-on:click="edit(value.item.id)">
         <div class="upper-row">
             <div class="turn-date" :class="'t-' + value.item.number">

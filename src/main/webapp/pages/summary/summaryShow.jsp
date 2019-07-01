@@ -9,6 +9,9 @@
   summary.api.update = '${update}';
   summary.id = ${plan.id};
   summary.update();
+  addOnCloseEvent(function(){
+    summary.stop();
+  })
 </script>
 <table id="summary" border="0">
   <tr>
@@ -89,7 +92,7 @@
               <%--!--%>
               <%--!--%>
               <div class="page-container">
-                <table width="100%">
+                <table width="100%" v-if="weight.id">
                   <tr>
                     <th colspan="3">
                       <fmt:message key="weight"/>
@@ -139,50 +142,50 @@
               <%--ANALYSES--%>
               <%--!--%>
               <%--!--%>
-              <div class="page-container" v-if="analyses.sun">
-                <table>
-                  <tr>
-                    <th colspan="3">
-                      <fmt:message key="analyses"/>
-                    </th>
-                  </tr>
-                  <template v-for="sun in analyses.sun">
-                    <tr>
-                      <td>
-                        <fmt:message key="sun.humidity"/>
-                      </td>
-                      <td>
-                        :
-                      </td>
-                      <td>
-                        {{(sun.humidity).toLocaleString()}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <fmt:message key="sun.soreness"/>
-                      </td>
-                      <td>
-                        :
-                      </td>
-                      <td>
-                        {{(sun.soreness).toLocaleString()}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <fmt:message key="sun.oiliness"/>
-                      </td>
-                      <td>
-                        :
-                      </td>
-                      <td>
-                        {{(sun.oiliness).toLocaleString()}}
-                      </td>
-                    </tr>
-                  </template>
-                </table>
-              </div>
+              <%--<div class="page-container" v-if="analyses.sun">--%>
+                <%--<table>--%>
+                  <%--<tr>--%>
+                    <%--<th colspan="3">--%>
+                      <%--<fmt:message key="analyses"/>--%>
+                    <%--</th>--%>
+                  <%--</tr>--%>
+                  <%--<template v-for="sun in analyses.sun">--%>
+                    <%--<tr>--%>
+                      <%--<td>--%>
+                        <%--<fmt:message key="sun.humidity"/>--%>
+                      <%--</td>--%>
+                      <%--<td>--%>
+                        <%--:--%>
+                      <%--</td>--%>
+                      <%--<td>--%>
+                        <%--{{(sun.humidity).toLocaleString()}}--%>
+                      <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                      <%--<td>--%>
+                        <%--<fmt:message key="sun.soreness"/>--%>
+                      <%--</td>--%>
+                      <%--<td>--%>
+                        <%--:--%>
+                      <%--</td>--%>
+                      <%--<td>--%>
+                        <%--{{(sun.soreness).toLocaleString()}}--%>
+                      <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                      <%--<td>--%>
+                        <%--<fmt:message key="sun.oiliness"/>--%>
+                      <%--</td>--%>
+                      <%--<td>--%>
+                        <%--:--%>
+                      <%--</td>--%>
+                      <%--<td>--%>
+                        <%--{{(sun.oiliness).toLocaleString()}}--%>
+                      <%--</td>--%>
+                    <%--</tr>--%>
+                  <%--</template>--%>
+                <%--</table>--%>
+              <%--</div>--%>
             </td>
           </tr>
           <tr>
@@ -344,7 +347,12 @@
               :
             </td>
             <td>
-              {{(weight.netto).toLocaleString()}}&nbsp;${plan.deal.unit.name}
+              <span v-if="weight.id">
+                {{(weight.netto).toLocaleString()}}&nbsp;${plan.deal.unit.name}
+              </span>
+              <span v-else>
+                0
+              </span>
             </td>
           </tr>
         </table>

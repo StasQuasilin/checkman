@@ -20,20 +20,14 @@
     </div>
 </div>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-<script>
-    var filter_control={};
-</script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
-    deamon.url = '${update}';
-    deamon.doRequest();
-    function stopContent(){
-        deamon.stop();
-    }
+    list.api.update = '${update}';
+    list.doRequest();
 </script>
 <div id="container">
     <div v-for="(value, key) in items" class="container-item"
-         :class="rowName(value.item.date)" style="padding: 4pt"
+         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt"
          :id="value.item.id" onclick="editableModal('${edit}')">
         {{new Date(value.item.date).toLocaleString()}}
         <fmt:message key="vro.part"/>&nbsp;<span>#</span>{{value.item.number}}

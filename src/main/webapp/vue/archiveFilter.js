@@ -12,7 +12,7 @@ var filter_control = new Vue({
             date:new Date().toISOString().substring(0, 10),
             organisation:'',
             driver:'',
-            vehicle:'',
+            vehicle:''
         },
         items:{
             products:[],

@@ -26,8 +26,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_ADD)
 public class WeightAdd extends IModal {
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);

@@ -19,20 +19,19 @@
         </div>
     </div>
 </div>
-<script>
-    req_filter = {}
-</script>
 <script src="${context}/vue/dataList.js"></script>
 <script>
-    deamon.setUrls('${update}', '${edit}')
+    list.api.update = '${update}';
+    list.api.edit = '${edit}';
+    list.doRequest();
 </script>
 <div id="container">
     <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
         <fmt:message key="empty.list"/>
     </div>
     <transition-group  name="flip-list" tag="div" class="container">
-        <div v-for="(value, key) in filteredItems()" :key="value.item.id" :id="value.item.id"
-             class="container-item" :class="rowName(value.item.date)" v-on:click="show(value.item.id)">
+        <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
+             class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()" v-on:click="show(value.item.id)">
             <div class="upper-row">
                 {{new Date(value.item.date).toLocaleDateString()}}
             <span>

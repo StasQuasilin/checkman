@@ -219,236 +219,236 @@
             </table>
         </td>
         <td valign="top" align="center" width="200px">
-            <table border="0" style="width: 100%">
-                <tr>
-                    <th>
-                        <fmt:message key="menu.seals"/>
-                    </th>
-                </tr>
-                <c:forEach items="${plan.transportation.seals}" var="seal">
-                    <tr>
-                        <td>
-                            ${seal.number}
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
+            <%--<table border="0" style="width: 100%">--%>
+                <%--<tr>--%>
+                    <%--<th>--%>
+                        <%--<fmt:message key="menu.seals"/>--%>
+                    <%--</th>--%>
+                <%--</tr>--%>
+                <%--<c:forEach items="${plan.transportation.seals}" var="seal">--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--${seal.number}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                <%--</c:forEach>--%>
+            <%--</table>--%>
         </td>
     </tr>
     <tr>
         <td valign="top" align="center">
-            <table width="100%">
-                <tr>
-                    <th colspan="3">
-                        <fmt:message key="analyses"/>
-                    </th>
-                </tr>
-                <template v-for="sun in analyses.sun">
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.humidity.1"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{sun.humidity1}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.humidity.2"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{sun.humidity2}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.soreness"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{sun.soreness}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.oiliness"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{sun.oiliness}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.oil.impurity"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{sun.oilImpurity}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.acid.value"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{sun.acid}}
-                        </td>
-                    </tr>
+            <%--<table width="100%">--%>
+                <%--<tr>--%>
+                    <%--<th colspan="3">--%>
+                        <%--<fmt:message key="analyses"/>--%>
+                    <%--</th>--%>
+                <%--</tr>--%>
+                <%--<template v-for="sun in analyses.sun">--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.humidity.1"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{sun.humidity1}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.humidity.2"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{sun.humidity2}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.soreness"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{sun.soreness}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.oiliness"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{sun.oiliness}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.oil.impurity"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{sun.oilImpurity}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.acid.value"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{sun.acid}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
 
-                </template>
-                <template v-for="oil in analyses.oil">
-                    <tr>
-                        <td>
-                            <fmt:message key="oil.organoleptic"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            <input type="checkbox" readonly v-model="oil.organoleptic" onclick="return false;">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="oil.color.value"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{oil.color}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.acid.value"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{oil.acid}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="oil.peroxide"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{oil.peroxide}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="oil.phosphorus"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{oil.phosphorus}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.humidity"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{oil.humidity}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="oil.soap"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{oil.soap}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="oil.wax"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{oil.wax}}
-                        </td>
-                    </tr>
-                </template>
-                <template v-for="cake in analyses.cake" style="font-size: 9pt">
-                    <tr >
-                        <td>
-                            <fmt:message key="sun.humidity"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{cake.humidity}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="cake.protein"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{cake.protein}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="cake.cellulose"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{cake.cellulose}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="sun.oiliness"/>
-                        </td>
-                        <td>
-                            :
-                        </td>
-                        <td>
-                            {{cake.oiliness}}
-                        </td>
-                    </tr>
-                </template>
-            </table>
+                <%--</template>--%>
+                <%--<template v-for="oil in analyses.oil">--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="oil.organoleptic"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--<input type="checkbox" readonly v-model="oil.organoleptic" onclick="return false;">--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="oil.color.value"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{oil.color}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.acid.value"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{oil.acid}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="oil.peroxide"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{oil.peroxide}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="oil.phosphorus"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{oil.phosphorus}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.humidity"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{oil.humidity}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="oil.soap"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{oil.soap}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="oil.wax"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{oil.wax}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                <%--</template>--%>
+                <%--<template v-for="cake in analyses.cake" style="font-size: 9pt">--%>
+                    <%--<tr >--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.humidity"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{cake.humidity}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="cake.protein"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{cake.protein}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="cake.cellulose"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{cake.cellulose}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<fmt:message key="sun.oiliness"/>--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--:--%>
+                        <%--</td>--%>
+                        <%--<td>--%>
+                            <%--{{cake.oiliness}}--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                <%--</template>--%>
+            <%--</table>--%>
 
         </td>
     </tr>
