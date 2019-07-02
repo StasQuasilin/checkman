@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/dealFilter.js"></script>
+<script src="${context}/vue/dealFilter.vue"></script>
 <link rel="stylesheet" href="${context}/css/filter.css">
 <div id="filter">
     <table width="100%">

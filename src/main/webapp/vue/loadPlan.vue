@@ -19,7 +19,8 @@ var plan = new Vue({
         foundDrivers:[],
         fnd:-1,
         upd:-1,
-        picker:false
+        picker:false,
+        worker:{}
     },
     methods:{
 
@@ -39,7 +40,8 @@ var plan = new Vue({
                 customer:this.customers[0].id,
                 transportation:{
                     vehicle:{},
-                    driver:{}
+                    driver:{},
+                    notes:[]
                 }
             })
         },
@@ -75,31 +77,11 @@ var plan = new Vue({
                 key : randomUUID(),
                 editVehicle:false,
                 editDriver:false,
+                editNote:false,
                 vehicleInput:'',
                 driverInput : '',
-                item : plan,
-                weight : function() {
-                    var w = {
-                        brutto : 0,
-                        tara : 0,
-                        netto : function(){
-                            if (brutto > 0 && tara > 0) {
-                                return brutto - tara;
-                            } else {
-                                return 0;
-                            }
-                        }
-                    };
-
-                    for (var i in this.item.transportation.weights) {
-                        if (this.item.transportation.weights.hasOwnProperty(i)){
-                            var weight = this.item.transportation.weights[i];
-                            w.brutto += weight.brutto;
-                            w.tara += weight.tara;
-                        }
-                    }
-                    return w;
-                }
+                noteInput:'',
+                item : plan
             });
         },
         update:function(plan){
@@ -129,28 +111,29 @@ var plan = new Vue({
             this.plans.splice(id, 1);
         },
         save:function(){
-            var parameters = {};
-            parameters.dealId = this.deal;
             var plans = [];
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)) {
                     var plan = this.plans[i].item;
+                    var notes = [];
+                    for (var j in plan.transportation.notes){
+                        if (plan.transportation.notes.hasOwnProperty(j)){
+                            notes.push(plan.transportation.notes[j]);
+                        }
+                    }
                     plans.push({
                         id:plan.id,
                         date:plan.date,
                         plan:plan.plan,
                         customer:plan.customer,
                         vehicle:plan.transportation.vehicle.id,
-                        driver:plan.transportation.driver.id
+                        driver:plan.transportation.driver.id,
+                        notes:notes
                     });
                 }
             }
-            parameters.plans = plans;
 
-            console.log(parameters);
-
-            
-            PostApi(this.api.save, parameters, function(a){
+            PostApi(this.api.save, {dealId : this.deal, plans : plans}, function(a){
                 if (a.status == 'success'){
                     closeModal();
                 }
@@ -231,16 +214,6 @@ var plan = new Vue({
             this.setVehicle({}, key);
             this.setDriver({}, key);
         },
-        weighs:function(weights){
-            var total = 0;
-            for (var i in weights){
-                if (weights.hasOwnProperty(i)) {
-                    var w = weights[i];
-                    total += w.brutto == 0 || w.tara == 0 ? 0 : w.brutto - w.tara;
-                }
-            }
-            return total;
-        },
         weight:function(item){
             if (item.weight == 'undefined') {
                 console.log('calculate weight');
@@ -312,7 +285,7 @@ var plan = new Vue({
             })
         },
         different:function(w, plan){
-            var netto = this.weighs(w);
+            var netto = w.netto;
             if (netto > 0  && netto !== plan){
                 var d = netto - plan;
                 if (d > 0) {
@@ -322,6 +295,54 @@ var plan = new Vue({
                 }
                 return '(' + d + ')';
             }
+        },
+        addNote:function(key){
+            for (var i in this.plans){
+                if (this.plans.hasOwnProperty(i)){
+                    this.plans[i].editNote = this.plans[i].key === key;
+                }
+            }
+        },
+        saveNote:function(key){
+            for (var i in this.plans){
+                if (this.plans.hasOwnProperty(i)){
+                    var p = this.plans[i];
+                    if (p.key === key){
+                        p.item.transportation.notes.push({
+                            id:-randomNumber(),
+                            creator:this.worker,
+                            note:p.noteInput
+                        });
+                        p.noteInput='';
+                        p.editNote = false;
+                        break;
+                    }
+                }
+            }
+        },
+        closeNote:function(key){
+            for (var i in this.plans){
+                if (this.plans.hasOwnProperty(i)){
+                    this.plans[i].editNote = !(this.plans[i].key === key);
+                }
+            }
+        },
+        removeNote:function(key, id){
+            for (var i in this.plans){
+                if (this.plans.hasOwnProperty(i)){
+                    var p = this.plans[i].item;
+                    for (var j in p.transportation.notes){
+                        if (p.transportation.notes.hasOwnProperty(j)){
+                            var n = p.transportation.notes[j];
+                            if (n.id === id){
+                                p.transportation.notes.splice(j, 1);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
+
     }
 });

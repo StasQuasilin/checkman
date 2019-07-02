@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
-<script src="${context}/vue/probeEdit.js"></script>
+<script src="${context}/vue/probeEdit.vue"></script>
 <script>
   editor.api.findManagerAPI = '${findManager}';
   editor.api.findOrganisationAPI = '${findOrganisation}';

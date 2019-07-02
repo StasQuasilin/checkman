@@ -8,7 +8,7 @@
 <html>
 <link rel="stylesheet" href="${context}/css/LoadPlan.css">
 <link rel="stylesheet" href="${context}/css/date-picker.css">
-<script src="${context}/vue/loadPlan.js"></script>
+<script src="${context}/vue/loadPlan.vue"></script>
 <script>
   <c:forEach items="${customers}" var="customer">
   plan.customers.push({
@@ -25,6 +25,10 @@
   plan.api.findDriverAPI = '${findDriverAPI}';
   plan.api.editVehicleAPI = '${editVehicle}';
   plan.api.editDriverAPI = '${editDriver}';
+  plan.worker = {
+    id:${worker.id},
+    value:'${worker.value}'
+  }
   addOnCloseEvent(function(){
     plan.stop();
   })
@@ -197,62 +201,57 @@
                             {{unit}}
                           </span>
                         </span>
-
                       <%--CUSTOMER INPUT--%>
                       <select v-model="value.item.customer" title="${customerTitle}">
                         <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
                       </select>
                       <span class="fact-info">
                         <span title="${factTitle}" style="padding: 2pt">
-                          <span>
+                          <span v-if="value.item.transportation.weight.id">
                             <b>
-                              {{weighs(value.item.transportation.weights).toLocaleString()}}&nbsp;{{unit}}
+                              {{value.item.transportation.weight.netto.toLocaleString()}}&nbsp;{{unit}}
                             </b>
                             <span>
-                              {{different(value.item.transportation.weights, value.item.plan)}}
+                              {{different(value.item.transportation.weight.netto, value.item.plan)}}
                             </span>
                           </span>
                         </span>
-                        <div class="fact-details">
+                        <div class="fact-details" v-if="value.item.transportation.weight.id">
                           <table>
-                            <template v-for="w in value.item.transportation.weights">
-                              <tr>
-                                <td>
-                                  <fmt:message key="weight.brutto"/>
-                                </td>
-                                <td>
-                                  :
-                                </td>
-                                <td>
-                                  {{(w.brutto).toLocaleString()}}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <fmt:message key="weight.tara"/>
-                                </td>
-                                <td>
-                                  :
-                                </td>
-                                <td>
-                                  {{(w.tara).toLocaleString()}}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <fmt:message key="weight.netto"/>
-                                </td>
-                                <td>
-                                  :
-                                </td>
-                                <td v-if="w.brutto > 0 && w.tara > 0">
-                                  {{(w.brutto - w.tara).toLocaleString()}}
-                                </td>
-                                <td v-else>
-                                  0
-                                </td>
-                              </tr>
-                            </template>
+                            <tr>
+                              <td>
+                                <fmt:message key="weight.brutto"/>
+                              </td>
+                              <td>
+                                :
+                              </td>
+                              <td>
+                                {{(value.item.transportation.weight.brutto).toLocaleString()}}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <fmt:message key="weight.tara"/>
+                              </td>
+                              <td>
+                                :
+                              </td>
+                              <td>
+                                {{(value.item.transportation.weight.tara).toLocaleString()}}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <fmt:message key="weight.netto"/>
+                              </td>
+                              <td>
+                                :
+                              </td>
+
+                              <td>
+                                {{(value.item.transportation.weight.netto).toLocaleString()}}
+                              </td>
+                            </tr>
                           </table>
                         </div>
                       </span>
@@ -363,9 +362,28 @@
                               </span>
                             </span>
                           </td>
+                          <td>
+                            <a class="mini-close" v-on:click="addNote(value.key)">
+                              +<fmt:message key="note.add"/>
+                            </a>
+                          </td>
                         </tr>
                       </table>
-
+                    </div>
+                    <div class="lower">
+                      <span v-if="value.editNote">
+                        <input v-on:keyup.enter="saveNote(value.key)" v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput"
+                               style="width: 100%; background: transparent">
+                      </span>
+                      <div style="flex-wrap: wrap">
+                        <div v-for="note in value.item.transportation.notes" style="display-inside: inline-flex;">
+                          <span v-if="note.creator.id !== worker.id">{{note.creator.value}}</span>
+                          <span v-else>
+                            <span v-on:click="removeNote(value.key, note.id)" class="mini-close">&times;</span>
+                            <fmt:message key="you"/>
+                          </span>:{{note.note}}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </transition-group>

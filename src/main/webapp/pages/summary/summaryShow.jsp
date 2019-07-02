@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/summary.js"></script>
+<script src="${context}/vue/summary.vue"></script>
 <script>
   summary.api.update = '${update}';
   summary.id = ${plan.id};

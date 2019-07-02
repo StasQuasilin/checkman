@@ -73,7 +73,7 @@
     </div>
 </div>
 
-<script src="${context}/vue/SignIn.js"></script>
+<script src="${context}/vue/SignIn.vue"></script>
 <script>
     const context = '${context}';
     login.api.find = '${userApi}';

@@ -23,6 +23,7 @@ public class WeightList extends IUIServlet{
         req.setAttribute("update", Branches.API.WEIGHT_LIST);
         req.setAttribute("edit", Branches.UI.WEIGHT_EDIT);
         req.setAttribute("add", Branches.UI.WEIGHT_ADD);
+        req.setAttribute("notes", Branches.UI.NOTES_LIST);
         req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
         req.setAttribute("content", "/pages/weight/weightList.jsp");
         req.setAttribute("filter", "/pages/filters/transportFilter.jsp");

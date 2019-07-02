@@ -32,6 +32,7 @@ public class Personal extends IUIServlet {
         req.setAttribute("botStatus", Branches.API.USER_BOT_SETTINGS);
         req.setAttribute("botSettings", dao.getBotSettingsByWorker(getWorker(req)));
         req.setAttribute("languages", LanguageBase.getBase().languages);
+        req.setAttribute("changeLanguage", Branches.API.CHANGE_LANGUAGE);
         req.setAttribute("roles", Role.values());
         req.setAttribute("registration", Branches.API.FRIENDLY_REGISTRATION);
         show(req, resp);

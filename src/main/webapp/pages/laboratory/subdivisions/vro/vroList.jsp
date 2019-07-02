@@ -52,7 +52,7 @@
     }
 </style>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-<script src="${context}/vue/dataList.js"></script>
+<script src="${context}/vue/dataList.vue"></script>
 <script>
     list.api.update = '${update}';
     list.forpress = [];

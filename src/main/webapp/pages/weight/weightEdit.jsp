@@ -7,7 +7,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
-<script src="${context}/vue/weightEdit.js"></script>
+<script src="${context}/vue/weightEdit.vue"></script>
 <script>
     editor.api.saveWeightAPI = '${saveWeightAPI}';
     editor.api.print = '${print}';

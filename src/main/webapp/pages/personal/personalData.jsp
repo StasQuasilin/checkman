@@ -4,46 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script>
-    var editor = new Vue({
-        el: '#editor',
-        data:{
-            person:{
-                forename:'',
-                surname:'',
-                patronymic:'',
-                phones:[],
-                newForename:'',
-                newSurname:'',
-                newPatronymic:'',
-                newPhones:[]
-            }
-        },
-        computed:{
-            ne:function(){
-                return this.person.forename != this.person.newForename ||
-                        this.person.surname != this.person.newSurname ||
-                        this.person.patronymic != this.person.newPatronymic;
-            }
-        },
-        methods:{
-            editNumber:function(id, edit){
-                this.person.phones[id].edit = edit;
-            }
-        }
-    });
-    editor.person.surname = editor.person.newSurname = '${worker.person.surname}';
-    editor.person.forename = editor.person.newForename = '${worker.person.forename}';
-    editor.person.patronymic = editor.person.newPatronymic = '${worker.person.patronymic}';
-    <c:forEach items="${worker.person.phones}" var="phone">
-    editor.person.phones.push({
-        id:${phone.id},
-        number:'${phone.number}',
-        edit:false
-    });
-    </c:forEach>
-</script>
-<table id="editor">
+<table>
     <tr>
         <th colspan="3">
             <fmt:message key="personal.data"/>
@@ -51,71 +12,46 @@
     </tr>
     <tr>
         <td>
-            <label for="surname">
-                <fmt:message key="person.surname"/>
-            </label>
+            <fmt:message key="person.surname"/>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="surname" v-model="person.newSurname">
+            ${worker.person.surname}
         </td>
     </tr>
     <tr>
         <td>
-            <label for="forename">
-                <fmt:message key="person.forename"/>
-            </label>
+            <fmt:message key="person.forename"/>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="forename" v-model="person.newForename">
+            ${worker.person.forename}
         </td>
     </tr>
     <tr>
         <td>
-            <label for="patronymic">
-                <fmt:message key="person.patronymic"/>
-            </label>
+            <fmt:message key="person.patronymic"/>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="patronymic" v-model="person.newPatronymic">
+            ${worker.person.patronymic}
         </td>
     </tr>
     <tr>
-        <th colspan="3">
-            <fmt:message key="phones"/>
-            <span class="mini-close">+</span>
-
-        </th>
-    </tr>
-    <tr v-for="(value, key) in person.phones">
-        <td colspan="3" align="right">
-            <span class="mini-close">&times</span>
-                        <span v-if="value.edit">
-                            <input v-model="value.number" v-on:keyup.enter="editNumber(key, false)">
-                        </span>
-                        <span v-else v-on:click="editNumber(key, true)">
-                            {{value.number}}
-                        </span>
+        <td>
+            <fmt:message key="user.group"/>
         </td>
-    </tr>
-    <tr>
-        <td colspan="3" align="center">
-            <template v-if="ne">
-                <button>
-                    <fmt:message key="button.cancel"/>
-                </button>
-                <button>
-                    <fmt:message key="button.save"/>
-                </button>
-            </template>
+        <td>
+            :
+        </td>
+        <td>
+            <fmt:message key="${role}"/>
         </td>
     </tr>
 </table>

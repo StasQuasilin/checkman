@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 
 <html>
-<script src="${context}/vue/railsEdit.js"></script>
+<script src="${context}/vue/railsEdit.vue"></script>
 <script>
   edit.api.save = '${save}';
   <c:forEach items="${trains}" var="train">

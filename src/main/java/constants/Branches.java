@@ -68,6 +68,8 @@ public class Branches {
         public static final String LABORATORY_STORAGE_EDIT = "/laboratory/storages/edit.j";
         public static final String FORGOT = "/forgot";
         public static final String FEEDBACK = "/feedback";
+        public static final String DEAL_SHOW_NEW = DEAL_SHOW + "_v2";
+        public static final String NOTES_LIST = "/transportation/notes";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -178,6 +180,10 @@ public class Branches {
         public static final String PASSWORD_RESTORE = "/a/password/restore";
         public static final String SEAL_UPDATE = API + "/seals/list";
         public static final String FEEDBACK_EDIT = API + "/feedback/edit";
+        public static final String CHANGE_LANGUAGE = API + "/personal/language";
+        public static final String SAVE_NOTE = API + "/transportation/note/save";
+        public static final String REMOVE_NOTE = API + "/transportation/note/remove";
+        public static final String TRANSPORT_NOTES_LIST = API + "/transport/notes";
 
 
         public class References {

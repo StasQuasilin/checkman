@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <link rel="stylesheet" href="${context}/css/LogisticList.css">
-  <script src="${context}/vue/logisticList.js"></script>
+  <script src="${context}/vue/logisticList.vue"></script>
   <script>
     <c:forEach items="${dealTypes}" var="type">
     logistic.addType('${type}', '<fmt:message key="_${type}"/>');
@@ -19,12 +19,17 @@
     logistic.api.findDriverAPI = '${findDriverApi}';
     logistic.api.vehicleInput = '${vehicleInput}';
     logistic.api.driverInput = '${driverInput}';
+    logistic.api.saveNote = '${saveNote}';
+    logistic.api.removeNote = '${removeNote}';
     logistic.api.vehicleDriverInput = '${vehicleDriverInput}';
     logistic.api.changeDate = '${changeDate}'
     logistic.api.update = '${update}';
     logistic.api.save = '${save}';
     logistic.loadItems();
-
+    logistic.worker={
+      id:${worker.id},
+      value:'${worker.person.value}'
+    }
     function stopContent(){
       logistic.stop()
     }
@@ -33,7 +38,8 @@
 <c:set var="dateRight"><fmt:message key="date.right"/></c:set>
   <div id="logistic">
     <transition-group name="flip-list" tag="div" class="container">
-      <div v-for="(value, key) in filteredItems()" class="container-item" :class="rowName(value.item.date)" :key="value.item.id">
+      <div v-for="(value, key) in filteredItems()" class="container-item" :class="rowName(value.item.date)"
+           :key="value.item.id" :id="value.item.id">
         <div class="upper-row">
         <span class="date-container">
           <span title="${dateLeft}" class="arrow" v-on:click="changeDate(key, -1)">&#9664;</span>
@@ -69,7 +75,7 @@
           </b>
         </span>
         </div>
-        <div class="lower-row" style="font-size: 10pt">
+        <div class="middle-row" style="font-size: 10pt">
           <div style="display: inline-block; ">
             <div>
               <fmt:message key="transportation.time.in"/>:
@@ -90,7 +96,6 @@
             </span>
             </div>
           </div>
-
           <div style="display: inline-block">
             <div>
             <span class="transport-label">
@@ -179,6 +184,42 @@
             </div>
 
             </div>
+          </div>
+          <div v-if="value.item.transportation.notes.length == 0"
+               style="display: inline-block">
+            <a class="mini-close" v-on:click="openNote(value.item.id, true)">
+              +<fmt:message key="note.add"/>
+            </a>
+          </div>
+        </div>
+        <div v-if="value.item.transportation.notes.length > 0 || value.editNote"
+             class="lower-row">
+          <div v-if="value.editNote" style="display: inline-block">
+            <span v-on:click="openNote(value.item.id, false)" class="mini-close">&times;</span>
+            <input v-model="value.noteInput"
+                   v-on:keyup.escape="openNote(value.item.id, false)"
+                v-on:keyup.enter="saveNote(value.item.id)">
+          </div>
+          <div v-else style="display: inline-block">
+            <a class="mini-close" v-on:click="openNote(value.item.id, true)">
+              +<fmt:message key="note.add"/>
+            </a>
+          </div>
+          <div v-for="note in value.item.transportation.notes"
+               style="display: inline-block; padding: 0 6pt">
+            <span v-if="worker.id===note.creator.id">
+              <span class="mini-close" v-on:click="removeNote(note.id)" style="padding: 0">
+                &times;
+              </span>
+              <span style="padding: 0">
+                <fmt:message key="you"/>
+              </span>
+
+            </span>
+            <span v-else>
+            {{note.creator.person.value}}
+            </span>
+            :{{note.note}}
           </div>
         </div>
       </div>

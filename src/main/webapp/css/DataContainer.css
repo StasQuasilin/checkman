@@ -56,8 +56,14 @@
     border-bottom: solid #474747 1pt;
     background: linear-gradient(rgba(0, 221, 28, 0.16), transparent);
 }
-.container-item .lower-row{
+.container-item .middle-row{
     padding: 2pt 4pt;
+}
+.container-item .lower-row{
+    border-top: solid #474747 1pt;
+    padding: 2pt 4pt;
+    font-size: 10pt;
+    background: linear-gradient(0.25deg, rgba(0, 221, 28, 0.16), transparent);
 }
 .container-item b{
     color: #0a0a0a;

@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
-<script src="${context}/vue/weightAdd.js"></script>
+<script src="${context}/vue/weightAdd.vue"></script>
 <script>
     editor.api.findOrganisation = '${findOrganisations}';
     editor.api.parseOrganisation = '${parseOrganisation}';

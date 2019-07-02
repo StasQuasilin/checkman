@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/dailyReportPrint.js"></script>
+<script src="${context}/vue/dailyReportPrint.vue"></script>
 <script>
   report.api.print = '${print}'
 </script>

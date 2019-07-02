@@ -30,6 +30,7 @@ import entity.storages.Storage;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
+import org.json.simple.JSONObject;
 import org.omg.PortableInterceptor.ObjectReferenceFactory;
 import utils.TurnDateTime;
 
@@ -124,7 +125,7 @@ public interface dbDAO {
     List<OrganisationType> getOrganisationTypeList();
     Organisation findOrganisation(String type, String name);
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
-    List<UserBotSetting> getBotSettingsByWorker(Worker worker);
+    UserBotSetting getBotSettingsByWorker(Worker worker);
     User getUserByEmail(String email);
     StorageAnalyses getStorageAnalysesById(Object id);
     StorageTurn getStorageTurnByTurn(Turn turn);
@@ -160,4 +161,8 @@ public interface dbDAO {
     List<Seal> getSeals();
     List<SealBatch> getActiveSealsBatches();
     List<Seal> getSealsByBatch(SealBatch batch);
+
+    List<TransportationNote> getTransportationNotesByTransportation(Transportation transportation);
+
+    TransportationNote getTransportationNotesById(Object id);
 }

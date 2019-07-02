@@ -8,6 +8,8 @@ var logistic = new Vue({
             parseDriverAPI:'',
             vehicleInput:'',
             driverInput:'',
+            saveNote:'',
+            removeNote:'',
             update:'',
             save:'',
             saveTransportationVehicleApi:'',
@@ -27,7 +29,8 @@ var logistic = new Vue({
             filed:'',
             x:0,
             y:0
-        }
+        },
+        worker:{}
     },
     mounted:function(){
         this.filter.items = this.items;
@@ -57,8 +60,10 @@ var logistic = new Vue({
             this.items.push({
                 vehicleEdit:false,
                 driverEdit:false,
+                editNote:false,
                 vehicleInput:'',
                 driverInput:'',
+                noteInput:'',
                 fnd:-1,
                 item:item
             });
@@ -235,6 +240,37 @@ var logistic = new Vue({
                     this.setDriver(id, null, null)
                 }
             }
+        },
+        openNote:function(id, open){
+            for (var i in this.items){
+                if (this.items.hasOwnProperty(i)){
+                    var item = this.items[i];
+                    if (item.item.id == id){
+                        item.editNote = open;
+                        item.noteInput = '';
+                    } else {
+                        item.editNote = false;
+                    }
+                }
+            }
+        },
+        saveNote:function(id){
+            for (var i in this.items) {
+                if (this.items.hasOwnProperty(i)) {
+                    var item = this.items[i];
+                    if (item.item.id == id){
+                        PostApi(this.api.saveNote, {plan:item.item.id, note:item.noteInput}, function(){
+                            item.editNote = false;
+                            item.noteInput = '';
+                        })
+
+                        break;
+                    }
+                }
+            }
+        },
+        removeNote:function(id){
+            PostApi(this.api.removeNote, {id:id})
         }
 
     }

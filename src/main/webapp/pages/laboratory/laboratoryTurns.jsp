@@ -9,7 +9,7 @@
 <div id="container-header" class="container-header">
     <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
 </div>
-<script src="${context}/vue/dataList.js"></script>
+<script src="${context}/vue/dataList.vue"></script>
 <script>
     list.api.update = '${update}';
     list.api.edit = '${edit}';

@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "transportation_notes")
-public class TransportationNotes {
+public class TransportationNote {
     private int id;
     private Transportation transportation;
     private Timestamp time;
@@ -36,7 +36,7 @@ public class TransportationNotes {
     }
 
     @Basic
-    @Column(name = "_time")
+    @Column(name = "date")
     public Timestamp getTime() {
         return time;
     }

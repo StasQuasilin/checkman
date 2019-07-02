@@ -32,6 +32,7 @@ public class Transportation extends IDocument{
     private OilAnalyses oilAnalyses;
     private CakeAnalyses cakeAnalyses;
     private Set<Seal> seals;
+    private Set<TransportationNote> notes;
     private boolean archive;
     private String uid;
 
@@ -144,6 +145,14 @@ public class Transportation extends IDocument{
         this.seals = seals;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    public Set<TransportationNote> getNotes() {
+        return notes;
+    }
+    public void setNotes(Set<TransportationNote> notes) {
+        this.notes = notes;
+    }
+
     @Basic
     @Column(name = "archive")
     public boolean isArchive() {
@@ -199,6 +208,10 @@ public class Transportation extends IDocument{
 
         for (Seal seal : seals){
             hash = 31 * seal.getNumber().hashCode() + hash;
+        }
+
+        for (TransportationNote note : notes) {
+            hash = 31 * note.getNote().hashCode() + hash;
         }
 
         hash = 31 * Boolean.hashCode(anyAction()) + hash;

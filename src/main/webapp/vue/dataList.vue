@@ -129,6 +129,9 @@ var list = new Vue({
         },
         getItems:function(){
             return this.items;
+        },
+        openModal:function(url, attr){
+            loadModal(url, attr)
         }
     }
 });

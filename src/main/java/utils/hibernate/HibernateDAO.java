@@ -34,7 +34,6 @@ import entity.weight.Weight;
 import entity.weight.WeightUnit;
 import utils.TurnDateTime;
 import utils.hibernate.DateContainers.BETWEEN;
-import utils.hibernate.DateContainers.GT;
 import utils.hibernate.DateContainers.LE;
 
 import java.sql.Date;
@@ -540,8 +539,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<UserBotSetting> getBotSettingsByWorker(Worker worker) {
-        return hb.query(UserBotSetting.class, "worker", worker);
+    public UserBotSetting getBotSettingsByWorker(Worker worker) {
+        return hb.get(UserBotSetting.class, "worker", worker);
     }
 
     @Override
@@ -755,5 +754,15 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<Seal> getSealsByBatch(SealBatch batch) {
         return hb.query(Seal.class, "batch", batch);
+    }
+
+    @Override
+    public List<TransportationNote> getTransportationNotesByTransportation(Transportation transportation) {
+        return hb.query(TransportationNote.class, "transportation", transportation);
+    }
+
+    @Override
+    public TransportationNote getTransportationNotesById(Object id) {
+        return hb.get(TransportationNote.class, "id", id);
     }
 }

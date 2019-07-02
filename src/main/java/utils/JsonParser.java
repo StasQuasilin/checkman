@@ -26,10 +26,7 @@ import entity.rails.Train;
 import entity.rails.Truck;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
-import entity.transport.ActionTime;
-import entity.transport.Driver;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -156,6 +153,7 @@ public class JsonParser {
     final static String TIME_IN = "timeIn";
     final static String TIME_OUT = "timeOut";
     final static String WEIGHT = "weight";
+    final static String NOTES = "notes";
     final static String ANY = "any";
     final static String ARCHIVE = "archive";
 
@@ -171,9 +169,28 @@ public class JsonParser {
             json.put(HASH, transportation.hashCode());
             json.put(WEIGHT, toJson(transportation.getWeight()));
             json.put(ANALYSES, toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
+            json.put(NOTES, toNotesJson(transportation.getNotes()));
             json.put(ANY, transportation.anyAction());
             json.put(ARCHIVE, transportation.isArchive());
         }
+        return json;
+    }
+
+    private static JSONArray toNotesJson(Set<TransportationNote> notes) {
+        final JSONArray array = pool.getArray();
+        for (TransportationNote note : notes) {
+            array.add(toJson(note));
+        }
+        return array;
+    }
+
+    final static String NOTE = "note";
+    public static JSONObject toJson(TransportationNote note) {
+        JSONObject json = pool.getObject();
+        json.put(ID, note.getId());
+        json.put(TIME, note.getTime().toString());
+        json.put(NOTE, note.getNote());
+        json.put(CREATOR, toJson(note.getCreator()));
         return json;
     }
 

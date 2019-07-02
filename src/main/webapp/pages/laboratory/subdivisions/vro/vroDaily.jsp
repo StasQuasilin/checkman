@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
-<script src="${context}/vue/daily.js"></script>
+<script src="${context}/vue/daily.vue"></script>
 <script>
     editor.api.save = '${save}';
     <c:forEach items="${turns}" var="t">

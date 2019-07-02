@@ -5,7 +5,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/daily.js"></script>
+<script src="${context}/vue/daily.vue"></script>
 <script>
   editor.api.save = '${save}';
   //    TURNS

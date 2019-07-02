@@ -9,10 +9,7 @@ import entity.documents.DocumentUID;
 import entity.documents.LoadPlan;
 import entity.log.comparators.LoadPlanComparator;
 import entity.log.comparators.TransportationComparator;
-import entity.transport.Driver;
-import entity.transport.TransportCustomer;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,8 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -36,7 +35,6 @@ import java.util.HashMap;
 @WebServlet(Branches.API.PLAN_LIST_SAVE)
 public class SaveLoadPlanAPI extends API {
 
-    final static String answer = JsonParser.toJson(new SuccessAnswer()).toJSONString();
     final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);
     final LoadPlanComparator planComparator = new LoadPlanComparator();
     final TransportationComparator transportationComparator = new TransportationComparator();
@@ -50,6 +48,7 @@ public class SaveLoadPlanAPI extends API {
             long dealId = (long) body.get(Constants.DEAL_ID);
             Deal deal = dao.getDealById(dealId);
             log.info("Save load plan for deal \'" + deal.getId() + "\'...");
+            Worker worker = getWorker(req);
 
             final HashMap<Long, LoadPlan> planHashMap = new HashMap<>();
             for (LoadPlan lp : dao.getLoadPlanByDeal(deal)) {
@@ -152,10 +151,42 @@ public class SaveLoadPlanAPI extends API {
                     save = true;
                 }
 
+                final HashSet<TransportationNote> notes = new HashSet<>();
+                notes.addAll(dao.getTransportationNotesByTransportation(transportation));
+                for (Object n : (JSONArray)json.get("notes")){
+                    JSONObject nj = (JSONObject) n;
+                    Object noteId = null;
+                    if (nj.containsKey(Constants.ID)){
+                        noteId = nj.get(Constants.ID);
+                    }
+                    TransportationNote note = null;
+                    if (noteId != null) {
+                        note = dao.getTransportationNotesById(noteId);
+                    }
+                    if (note == null){
+                        note = new TransportationNote();
+                        note.setTransportation(transportation);
+                        note.setTime(new Timestamp(System.currentTimeMillis()));
+                        note.setCreator(worker);
+                    }
+                    if (notes.contains(note)){
+                        notes.remove(note);
+                    }
+                    String noteText = (String) nj.get("note");
+                    noteText = noteText.trim().toLowerCase();
+                    noteText = noteText.substring(0, 1).toUpperCase() + noteText.substring(1);
+                    if (U.exist(noteText) && note.getNote() == null || !note.getNote().equals(noteText)){
+                        note.setNote(noteText);
+                        dao.save(note);
+                    }
+                }
+
                 if (save) {
                     dao.save(transportation, loadPlan);
                 }
-                Worker worker = getWorker(req);
+
+                notes.forEach(dao::remove);
+
                 planComparator.compare(loadPlan, worker);
                 transportationComparator.compare(transportation, worker);
             }

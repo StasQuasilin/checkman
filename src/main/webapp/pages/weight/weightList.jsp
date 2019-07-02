@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/dataList.js"></script>
+<script src="${context}/vue/dataList.vue"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <script>
@@ -60,7 +60,7 @@
                     </b>
                 </span>
                 </div>
-                <div class="lower-row">
+                <div class="middle-row">
                     <div style="display: inline-block; font-size: 10pt; width: 12em">
                         <div>
                             <fmt:message key="transportation.time.in"/>:
@@ -141,10 +141,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="lower-row" v-if="value.item.transportation.notes.length > 0">
+                    <div v-for="note in value.item.transportation.notes" style="display: inline-block; padding-left: 4pt">
+                        {{note.creator.person.value}}:
+                        <b>
+                            {{note.note}}
+                        </b>
+                    </div>
+                </div>
             </div>
         </transition-group>
         <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
             <div v-bind:style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+                <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${notes}')"><fmt:message key="notes"/></div>
                 <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/> </div>
                 <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
                 <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${cancel}')"><fmt:message key="menu.cancel"/></div>

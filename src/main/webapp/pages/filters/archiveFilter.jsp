@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/archiveFilter.js"></script>
+<script src="${context}/vue/archiveFilter.vue"></script>
 <script>
     <c:forEach items="${products}" var="p">
     filter_control.items.products.push({

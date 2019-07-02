@@ -26,6 +26,8 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("saveTransportationDriverAPI", Branches.API.SAVE_TRANSPORTATION_DRIVER);
         req.setAttribute("update", Branches.API.LOGISTIC_LIST);
         req.setAttribute("save", Branches.API.LOGISTIC_SAVE);
+        req.setAttribute("saveNote", Branches.API.SAVE_NOTE);
+        req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
         req.setAttribute("dealTypes", DealType.values());
         req.setAttribute("vehicleInput", Branches.UI.VEHICLE_MODAL);
         req.setAttribute("driverInput", Branches.UI.DRIVER_MODAL);

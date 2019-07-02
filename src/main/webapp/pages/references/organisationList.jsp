@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/referenceList.js"></script>
+<script src="${context}/vue/referenceList.vue"></script>
 <script>
     referenceList.sort = function(){
         this.items.sort(function(a, b){

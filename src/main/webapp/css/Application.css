@@ -148,7 +148,7 @@ a:hover{
     border-radius: 8pt;
     padding: 0 5px;
     position: relative;
-    color: lightgray;
+    color: #b9b9b9;
 }
 .mini-close:hover{
     color: gray;

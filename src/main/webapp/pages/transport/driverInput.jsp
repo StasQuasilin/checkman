@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/personEdit.js"></script>
+<script src="${context}/vue/personEdit.vue"></script>
 <script>
     editor.api.saveDriverAPI = '${saveDriverAPI}';
     editor.person.id = '${driver.id}';

@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/vehicleEdit.js"></script>
+<script src="${context}/vue/vehicleEdit.vue"></script>
 <script>
     editor.api.findOrganisationAPI = '${findOrganisationAPI}'
     editor.api.saveVehicleAPI = '${saveVehicleAPI}'

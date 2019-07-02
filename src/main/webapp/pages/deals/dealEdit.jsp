@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-    <script src="${context}/vue/dealEdit.js"></script>
+    <script src="${context}/vue/dealEdit.vue"></script>
     <script>
         <c:forEach items="${types}" var="t">
         editor.types.push({

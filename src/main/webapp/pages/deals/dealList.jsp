@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<script src="${context}/vue/dataList.js"></script>
+<script src="${context}/vue/dataList.vue"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
   <script>
     list.api.update = '${update}';
@@ -23,7 +23,9 @@
   <div id="container" >
     <transition-group name="flip-list" tag="div" class="container" >
       <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
-           class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()" v-on:click="show(value.item.id)"
+           class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()"
+           v-on:click="show(value.item.id)"
+           v-on:dblclick=""
            v-on:click.right="contextMenu(value.item.id)">
         <div style="display: table-cell; border-right: solid gray 1.2pt; padding: 2pt 4pt; vertical-align: middle" >
           <span>

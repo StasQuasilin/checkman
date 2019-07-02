@@ -40,7 +40,7 @@
                        v-model="date" @input="put"></v-date-picker>
     </div>
 </div>
-<script src="${context}/vue/datetimePicker.js"></script>
+<script src="${context}/vue/datetimePicker.vue"></script>
 <script>
     <c:choose>
     <c:when test="${lang eq 'ua'}">

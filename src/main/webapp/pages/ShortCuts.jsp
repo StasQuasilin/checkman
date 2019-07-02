@@ -97,7 +97,7 @@
         </div>
     </div>
 </div>
-<script src="${context}/vue/shortCuts.js"></script>
+<script src="${context}/vue/shortCuts.vue"></script>
 <script>
     short.api.update = '${shortCutUpdate}';
     short.updReq();
