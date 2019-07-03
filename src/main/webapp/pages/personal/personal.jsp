@@ -53,10 +53,13 @@
             </td>
         </tr>
         <tr>
-            <td valign="top">
+            <td valign="top" align="center">
                 <jsp:include page="personalData.jsp"/>
                 <%--<jsp:include page="changePassword.jsp"/>--%>
-                <jsp:include page="contact  s.jsp"/>
+                <jsp:include page="contacts.jsp"/>
+                <button onclick="loadModal('${changePassword}')">
+                    <fmt:message key="password.change"/>
+                </button>
             </td>
             <td valign="top">
                 <jsp:include page="telegramBotSettings.jsp"/>

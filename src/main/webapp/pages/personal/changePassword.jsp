@@ -37,6 +37,10 @@
                             self.password.password = '';
                             self.repeat= '';
                             self.err ='';
+                            setTimeout(function(){
+                                closeModal();
+                            }, 1000)
+
                         } else {
                             self.err = a.msg;
                             self.success = false;
@@ -115,10 +119,13 @@
     </tr>
     <tr>
         <td colspan="3" align="center">
-            <button v-on:click="change">
-                <fmt:message key="password.change"/>
+            <button onclick="closeModal()">
+                <fmt:message key="button.cancel"/>
             </button>
-            <span v-if="success" style="color: green">
+            <button v-on:click="change">
+                <fmt:message key="button.continue"/>
+            </button>
+            <span v-show="success" style="color: green">
                 &#10003;
             </span>
         </td>

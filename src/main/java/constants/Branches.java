@@ -70,6 +70,7 @@ public class Branches {
         public static final String FEEDBACK = "/feedback";
         public static final String DEAL_SHOW_NEW = DEAL_SHOW + "_v2";
         public static final String NOTES_LIST = "/transportation/notes";
+        public static final String CHANGE_PASSWORD = "/personal/change/password.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";

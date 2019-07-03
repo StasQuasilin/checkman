@@ -1,8 +1,8 @@
-
 INSERT INTO public.persons VALUES (1, 'Станіслав', 'Миколайович', 'Василина');
 INSERT INTO public.workers VALUES (1, 1, 'ua');
 INSERT INTO public.users VALUES (1,'stasvasilin@gmail.com','UEJQQUxkbFc=', 'admin', 'OlololoTrololo', 1, 1 );
 INSERT INTO public.document_organisations VALUES (1, TRUE, 'СЗПТ');
+INSERT INTO public.document_organisations VALUES (2, TRUE, 'ПП Млин');
 INSERT INTO public.organisations VALUES (1, 'Сумський ЗПТ', 'ПрАТ');
 INSERT INTO public.products VALUES (1, 'sun', 'Насіння Соняшника', NULL);
 INSERT INTO public.products VALUES (2, 'oil', 'Олія нерафінована', NULL);

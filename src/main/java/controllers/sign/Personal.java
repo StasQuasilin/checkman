@@ -21,18 +21,16 @@ import java.io.IOException;
 @WebServlet(Branches.UI.PERSONAL)
 public class Personal extends IUIServlet {
 
-    final
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.PERSONAL);
         req.setAttribute("content", "/pages/personal/personal.jsp");
-        req.setAttribute("changePassword", Branches.API.CHANGE_PASSWORD);
         req.setAttribute("uidGenerator", Branches.API.BOT_UID);
         req.setAttribute("botStatus", Branches.API.USER_BOT_SETTINGS);
         req.setAttribute("botSettings", dao.getBotSettingsByWorker(getWorker(req)));
         req.setAttribute("languages", LanguageBase.getBase().languages);
         req.setAttribute("changeLanguage", Branches.API.CHANGE_LANGUAGE);
+        req.setAttribute("changePassword", Branches.UI.CHANGE_PASSWORD);
         req.setAttribute("roles", Role.values());
         req.setAttribute("registration", Branches.API.FRIENDLY_REGISTRATION);
         show(req, resp);
