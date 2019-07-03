@@ -13,8 +13,6 @@ import org.json.simple.JSONObject;
 import utils.PasswordGenerator;
 import utils.LanguageBase;
 import utils.email.RegistratorEmail;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,7 +58,7 @@ public class SignUpAPI extends API {
 
                 Worker worker = new Worker();
                 user.setWorker(worker);
-                worker.setLanguage(LanguageBase.getBase().defLang);
+                worker.setLanguage(LanguageBase.getBase().DEFAULT_LANGUAGE);
 
                 Person person;
                 if (personId == -1) {

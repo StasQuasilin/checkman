@@ -22,7 +22,6 @@ public class UserBotSetting {
     private boolean vro;
     private boolean kpo;
 
-
     @Id
     @GeneratedValue
     public int getId() {

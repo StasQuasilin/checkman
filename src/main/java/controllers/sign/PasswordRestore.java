@@ -17,7 +17,7 @@ import java.io.IOException;
 public class PasswordRestore extends IUIServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("lang", LanguageBase.getBase().defLang);
+        req.setAttribute("lang", LanguageBase.getBase().DEFAULT_LANGUAGE);
         req.setAttribute("restore", Branches.API.PASSWORD_RESTORE);
         req.setAttribute("signIn", Branches.UI.SING_IN);
         req.getRequestDispatcher("/pages/sign/RestorePassword.jsp").forward(req, resp);

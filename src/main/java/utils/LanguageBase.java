@@ -1,42 +1,34 @@
 package utils;
 
-import org.apache.log4j.Logger;
-import sun.misc.PostVMInitHook;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.MissingResourceException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class LanguageBase{
 
     static LanguageBase base = new LanguageBase();
 
-    public final String[] languages = {"ua", "ru"};
-    public final String defLang = languages[0];
-    final String baseName = "messages_";
+    public static final String[] LANGUAGES = {"ua", "ru"};
+    public static final String DEFAULT_LANGUAGE = LANGUAGES[0];
+    final static String BASE_NAME = "messages_";
     public static LanguageBase getBase() {
         return base;
     }
 
     public LanguageBase() {
 //        for (String l : languages){
-//            String resourceName = baseName + l;
+//            String resourceName = BASE_NAME + l;
 //            HashMap<String, ResourceBundle> BUNDLES = new HashMap<>();
 //            BUNDLES.put(l, ResourceBundle.getBundle(resourceName));
 //        }
     }
 
     public String get(String key){
-        return get(defLang, key);
+        return get(DEFAULT_LANGUAGE, key);
     }
     public String get(String language, String key){
         if (language == null){
-            language = defLang;
+            language = DEFAULT_LANGUAGE;
         }
-        ResourceBundle bundle = ResourceBundle.getBundle(baseName + language);
+        ResourceBundle bundle = ResourceBundle.getBundle(BASE_NAME + language);
         if (bundle.containsKey(key)){
             return bundle.getString(key);
         } else {

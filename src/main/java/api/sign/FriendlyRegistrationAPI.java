@@ -11,8 +11,6 @@ import entity.Worker;
 import org.json.simple.JSONObject;
 import utils.LanguageBase;
 import utils.PasswordGenerator;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,7 +40,7 @@ public class FriendlyRegistrationAPI extends API {
             user.setPassword(PasswordGenerator.getPassword());
             user.setRole(Role.valueOf(String.valueOf(body.get("role"))));
 
-            worker.setLanguage(LanguageBase.getBase().defLang);
+            worker.setLanguage(LanguageBase.getBase().DEFAULT_LANGUAGE);
 
             person.setSurname(String.valueOf(body.get("surname")));
             person.setForename(String.valueOf(body.get("forename")));

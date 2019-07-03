@@ -102,13 +102,16 @@ public class TelegramBot extends IBot {
                     lb.get(settings.isShow() ? ON : OFF)
             ));
 
-        } else {
-            sendMsg(id, lb.get(LOG_IN));
         }
     }
 
     private boolean signed(long id){
-        return botSettings.contain(id);
+        boolean contain = botSettings.contain(id);
+        if (!contain){
+            sendMsg(id, lb.get(LOG_IN));
+        }
+        return contain;
+
     }
 
     private void start(long id) {
@@ -116,8 +119,6 @@ public class TelegramBot extends IBot {
             UserBotSetting settings = botSettings.getSettings(id);
             settings.setShow(true);
             botSettings.addSettings(settings);
-        } else {
-            sendMsg(id, lb.get(LOG_IN));
         }
     }
 
@@ -126,13 +127,11 @@ public class TelegramBot extends IBot {
             UserBotSetting settings = botSettings.getSettings(id);
             settings.setShow(false);
             botSettings.addSettings(settings);
-        } else {
-            sendMsg(id, lb.get(LOG_IN));
         }
     }
 
     private void signIn(long id, String text) {
-        if (signed(id)){
+        if (botSettings.contain(id)){
             sendMsg(id, DOESNT_NEED);
         } else {
             BotUID uid = botUIDs.getUID(text);
@@ -142,11 +141,12 @@ public class TelegramBot extends IBot {
             } else if (uid.isOld()){
                 answer = lb.get(OLD_TOKEN);
             } else {
+                Worker worker = uid.getWorker();
                 UserBotSetting settings = new UserBotSetting();
                 settings.setTelegramId(id);
-                Worker worker = uid.getWorker();
                 settings.setWorker(worker);
-                answer = String.format(lb.get(WELCOME), worker.getPerson().getAccost());
+                settings.setLanguage(LanguageBase.DEFAULT_LANGUAGE);
+                answer = lb.get(WELCOME);
                 botSettings.save(settings);
             }
             sendMsg(id, answer);
