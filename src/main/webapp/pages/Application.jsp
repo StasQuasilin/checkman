@@ -52,38 +52,43 @@
     </c:choose>
 </script>
 
-<table border="1" style="width: 100%; height: 100%">
+<table class="body-table" border="0" style="width: 100%; height: 100%">
     <tr>
-        <td rowspan="2" valign="top" style="height: 40%; width: 1px">
+        <td rowspan="2" valign="top" style="height: 40%; width: 1px; padding: 0; border-right: solid 2pt">
             <jsp:include page="NavigationMenu.jsp"/>
-
         </td>
-        <td width="806px">
-            <div class="header" id="header"></div>
-        </td>
-        <td width="240px">
-          <div class="header" style="font-size: 10pt; height: 100%; padding: 5pt 0">
-              <div style="padding: 0 4pt">
-                  <a onclick="loadContent('${personal}')">
-                      ${worker.value}
-                  </a>
-                  (<a onclick="logout()">
-                  <fmt:message key="sign.out"/>
-              </a>)
-              </div>
-          </div>
+        <td width="100%" style="background-color: #d3dbe2;">
+            <table style="width: 100%; height: 100%">
+                <tr>
+                    <td>
+                        <div class="header" id="header"></div>
+                    </td>
+                    <td>
+                        <div class="header" style="font-size: 10pt; text-align: right">
+                            <div style="padding: 0 4pt">
+                                <a onclick="loadContent('${personal}')">
+                                    ${worker.value}
+                                </a>
+                                <a onclick="logout()">
+                                    (<fmt:message key="sign.out"/>)
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </td>
         <td rowspan="3">
             <%--<jsp:include page="ShortCuts.jsp"/>--%>
         </td>
     </tr>
     <tr>
-        <td rowspan="2" colspan="2" height="100%" style="max-width: 1266px; width: 1px">
+        <td rowspan="2" height="100%" style="max-width: 1267px; width: 1px">
             <div class="wrapper" id="content"></div>
         </td>
     </tr>
     <tr>
-        <td height="100%" valign="top">
+        <td height="100%" valign="top" style="border-right: solid 2pt">
             <div id="filter" class="filter" ></div>
         </td>
     </tr>

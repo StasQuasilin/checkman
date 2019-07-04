@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/filter.css">
-<script src="${context}/vue/filters/transportFilter.js"></script>
+<script src="${context}/vue/filters/transportFilter.vue"></script>
 <script>
     filter_control.filters.types.push({
         id:'buy',

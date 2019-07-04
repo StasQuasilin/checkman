@@ -131,5 +131,5 @@ function randomUUID(){
     return s4() + '-' + s4() + '-' + s4() + s4() + '-' + s4() + '-' + s4();
 }
 function randomNumber(){
-    return Math.random() * 100000
+    return Math.round(Math.random() * 100000);
 }

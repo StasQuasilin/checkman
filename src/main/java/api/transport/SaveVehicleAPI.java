@@ -59,18 +59,20 @@ public class SaveVehicleAPI extends API {
             }
 
             dao.save(vehicle);
-            Object transportationId = -1;
+            Object transportationId = null;
 
             if (body.containsKey(Constants.TRANSPORTATION_ID)) {
                 transportationId = body.get(Constants.TRANSPORTATION_ID);
             }
             if (transportationId != null) {
+                logger.info("Put in transportation " + transportationId.toString());
                 Transportation transportation = dao.getTransportationById(transportationId);
-                comparator.fix(transportation);
-                transportation.setVehicle(vehicle);
-                dao.saveTransportation(transportation);
-                comparator.compare(transportation, getWorker(req));
-                logger.info("Put in transportation " + transportation.getId());
+                if (transportation != null) {
+                    comparator.fix(transportation);
+                    transportation.setVehicle(vehicle);
+                    dao.saveTransportation(transportation);
+                    comparator.compare(transportation, getWorker(req));
+                }
             }
 
             write(resp, JsonParser.toJson(vehicle).toJSONString());

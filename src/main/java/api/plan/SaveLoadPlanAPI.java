@@ -151,6 +151,10 @@ public class SaveLoadPlanAPI extends API {
                     save = true;
                 }
 
+                if (save) {
+                    dao.save(transportation, loadPlan);
+                }
+
                 final HashSet<TransportationNote> notes = new HashSet<>();
                 notes.addAll(dao.getTransportationNotesByTransportation(transportation));
                 for (Object n : (JSONArray)json.get("notes")){
@@ -181,9 +185,7 @@ public class SaveLoadPlanAPI extends API {
                     }
                 }
 
-                if (save) {
-                    dao.save(transportation, loadPlan);
-                }
+
 
                 notes.forEach(dao::remove);
 

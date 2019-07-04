@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/datepick.vue"></script>
 <link rel="stylesheet" href="${context}/css/date-picker.css">
-<script src="${context}/vue/laboratory/extractionCrude.js"></script>
+<script src="${context}/vue/laboratory/extractionCrude.vue"></script>
 <script>
     editor.api.save = '${saveUrl}';
     editor.times = [

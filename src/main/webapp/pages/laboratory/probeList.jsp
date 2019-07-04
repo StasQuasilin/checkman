@@ -12,7 +12,7 @@
         </button>
     </c:forEach>
 </div>
-<script src="${context}/vue/archiveList.vue"></script>
+<script src="${context}/vue/archive/archiveList.vue"></script>
 <script>
     archive.api.update = '${updateURL}';
     archive.api.show = '${showUrl}';

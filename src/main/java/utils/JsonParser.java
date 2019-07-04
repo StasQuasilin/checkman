@@ -375,7 +375,7 @@ public class JsonParser {
         return json;
     }
 
-    public static final String MANAGER = "manager";
+    public static final String MANAGER = "role.manager";
     public static final String TURN = "turn";
     public static JSONObject toJson(SunProbe sun) {
         JSONObject json = new JSONObject();

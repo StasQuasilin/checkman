@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-<script src="${context}/vue/archive/dealArchive.js"></script>
+<script src="${context}/vue/archive/dealArchive.vue"></script>
 <script>
     arch.api.update = '${api}';
     arch.parameters.type='${type}';

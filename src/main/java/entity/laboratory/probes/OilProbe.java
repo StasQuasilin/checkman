@@ -37,7 +37,7 @@ public class OilProbe {
     }
 
     @OneToOne
-    @JoinColumn(name = "manager")
+    @JoinColumn(name = "role.manager")
     public Worker getManager() {
         return manager;
     }

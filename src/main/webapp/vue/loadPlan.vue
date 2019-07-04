@@ -34,14 +34,15 @@ var plan = new Vue({
         },
         newPlan:function(){
             this.add({
-                id:-1,
+                id:-randomNumber(),
                 date: new Date().toISOString().substring(0, 10),
                 plan:0,
                 customer:this.customers[0].id,
                 transportation:{
                     vehicle:{},
                     driver:{},
-                    notes:[]
+                    notes:[],
+                    weight:{}
                 }
             })
         },
@@ -81,7 +82,8 @@ var plan = new Vue({
                 vehicleInput:'',
                 driverInput : '',
                 noteInput:'',
-                item : plan
+                item : plan,
+                removed:false
             });
         },
         update:function(plan){
@@ -99,37 +101,44 @@ var plan = new Vue({
                 this.add(plan);
             }
         },
-        remove:function(id){
+        remove:function(key){
             for (var r in this.plans){
                 if (this.plans.hasOwnProperty(r)){
-                    if (this.plans[r].item.id === id) {
-                        this.plans.splice(r, 1);
-                        break;
+                    var item = this.plans[r];
+                    if (item.key === key) {
+                        if (item.item.id > 0){
+                            console.log('mark as removed ' + key);
+                            item.removed = true;
+                        } else {
+                            console.log('remove ' + key);
+                            this.plans.splice(r, 1);
+                        }
                     }
                 }
             }
-            this.plans.splice(id, 1);
         },
         save:function(){
             var plans = [];
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)) {
-                    var plan = this.plans[i].item;
-                    var notes = [];
-                    for (var j in plan.transportation.notes){
-                        if (plan.transportation.notes.hasOwnProperty(j)){
-                            notes.push(plan.transportation.notes[j]);
+                    if (!this.plans[i].removed) {
+                        var plan = this.plans[i].item;
+                        var notes = [];
+                        for (var j in plan.transportation.notes) {
+                            if (plan.transportation.notes.hasOwnProperty(j)) {
+                                notes.push(plan.transportation.notes[j]);
+                            }
                         }
+                        plans.push({
+                            id: plan.id,
+                            date: plan.date,
+                            plan: plan.plan,
+                            customer: plan.customer,
+                            vehicle: plan.transportation.vehicle.id,
+                            driver: plan.transportation.driver.id,
+                            notes: notes
+                        });
                     }
-                    plans.push({
-                        id:plan.id,
-                        date:plan.date,
-                        plan:plan.plan,
-                        customer:plan.customer,
-                        vehicle:plan.transportation.vehicle.id,
-                        driver:plan.transportation.driver.id,
-                        notes:notes
-                    });
                 }
             }
 

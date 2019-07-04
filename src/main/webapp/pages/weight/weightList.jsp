@@ -16,7 +16,7 @@
     list.doRequest();
 </script>
 <div id="container-header" class="container-header">
-    <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
+    <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
 </div>
     <div id="container">
         <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">

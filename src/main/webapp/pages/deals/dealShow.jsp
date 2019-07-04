@@ -179,209 +179,211 @@
                 <%--TABLE--%>
                 <transition-group name="flip-list" tag="div" class="plan-container">
                   <div v-for="(value, key) in plans" :key="value.key" class="plan-item">
-                    <%--UPPER ROW--%>
-                    <div class="upper">
-                      <%--REMOVE BUTTON--%>
-                      <div style="display: inline-block; width: 10pt">
-                        <span title="${dropTitle}" class="mini-close" style="left: 0"
-                              v-show="!value.item.transportation.archive" v-on:click="remove(key)">&times;</span>
-                        <span v-show="value.item.transportation.archive" style="color: green">
-                          &#10003;
-                        </span>
-                      </div>
-                      <%--DATE INPUT--%>
-                      <input readonly style="width: 7em"
-                             v-model="new Date(value.item.date).toLocaleDateString()"
-                             v-on:click="dateTimePicker(key)">
-                      <%--PLAN INPUT--%>
-                        <span style="position: relative">
-                          <input v-model="value.item.plan" onclick="this.select()" type="number"
-                                 title="${planTitle}" style="width: 6em; text-align: right;" min="1">
-                          <span style="position: absolute; top: 0; right: 12px">
-                            {{unit}}
+                    <div v-if="!value.removed">
+                      <%--UPPER ROW--%>
+                      <div class="upper">
+                        <%--REMOVE BUTTON--%>
+                        <div style="display: inline-block; width: 10pt">
+                          <span title="${dropTitle}" class="mini-close" style="left: 0"
+                                v-show="!value.item.transportation.archive" v-on:click="remove(value.key)">&times;</span>
+                          <span v-show="value.item.transportation.archive" style="color: green">
+                            &#10003;
                           </span>
-                        </span>
-                      <%--CUSTOMER INPUT--%>
-                      <select v-model="value.item.customer" title="${customerTitle}">
-                        <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
-                      </select>
-                      <span class="fact-info">
-                        <span title="${factTitle}" style="padding: 2pt">
-                          <span v-if="value.item.transportation.weight.id">
-                            <b>
-                              {{value.item.transportation.weight.netto.toLocaleString()}}&nbsp;{{unit}}
-                            </b>
-                            <span>
-                              {{different(value.item.transportation.weight.netto, value.item.plan)}}
+                        </div>
+                        <%--DATE INPUT--%>
+                        <input readonly style="width: 7em"
+                               v-model="new Date(value.item.date).toLocaleDateString()"
+                               v-on:click="dateTimePicker(key)">
+                        <%--PLAN INPUT--%>
+                          <span style="position: relative">
+                            <input v-model="value.item.plan" onclick="this.select()" type="number"
+                                   title="${planTitle}" style="width: 6em; text-align: right;" min="1">
+                            <span style="position: absolute; top: 0; right: 12px">
+                              {{unit}}
                             </span>
                           </span>
-                        </span>
-                        <div class="fact-details" v-if="value.item.transportation.weight.id">
-                          <table>
-                            <tr>
-                              <td>
-                                <fmt:message key="weight.brutto"/>
-                              </td>
-                              <td>
-                                :
-                              </td>
-                              <td>
-                                {{(value.item.transportation.weight.brutto).toLocaleString()}}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <fmt:message key="weight.tara"/>
-                              </td>
-                              <td>
-                                :
-                              </td>
-                              <td>
-                                {{(value.item.transportation.weight.tara).toLocaleString()}}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <fmt:message key="weight.netto"/>
-                              </td>
-                              <td>
-                                :
-                              </td>
+                        <%--CUSTOMER INPUT--%>
+                        <select v-model="value.item.customer" title="${customerTitle}">
+                          <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
+                        </select>
+                        <span class="fact-info">
+                          <span title="${factTitle}" style="padding: 2pt">
+                            <span v-if="value.item.transportation.weight.id">
+                              <b>
+                                {{value.item.transportation.weight.netto.toLocaleString()}}&nbsp;{{unit}}
+                              </b>
+                              <span>
+                                {{different(value.item.transportation.weight.netto, value.item.plan)}}
+                              </span>
+                            </span>
+                          </span>
+                          <div class="fact-details" v-if="value.item.transportation.weight.id">
+                            <table>
+                              <tr>
+                                <td>
+                                  <fmt:message key="weight.brutto"/>
+                                </td>
+                                <td>
+                                  :
+                                </td>
+                                <td>
+                                  {{(value.item.transportation.weight.brutto).toLocaleString()}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <fmt:message key="weight.tara"/>
+                                </td>
+                                <td>
+                                  :
+                                </td>
+                                <td>
+                                  {{(value.item.transportation.weight.tara).toLocaleString()}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <fmt:message key="weight.netto"/>
+                                </td>
+                                <td>
+                                  :
+                                </td>
 
-                              <td>
-                                {{(value.item.transportation.weight.netto).toLocaleString()}}
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
-                      </span>
-                    </div>
-                      <%--LOWER ROW--%>
-                    <div class="lower">
-                      <table style="font-size: 10pt">
-                        <tr>
-                          <td>
-                            <span><fmt:message key="transportation.automobile"/></span>
-                          </td>
-                          <td>
-                            :
-                          </td>
-                          <td>
-                            <%--VEHICLE STUFF--%>
-                            <div>
-                              <div style="display: inline-block" v-if="value.item.transportation.vehicle.id" v-on:click.right="">
-                                {{value.item.transportation.vehicle.model}}
-                                '{{value.item.transportation.vehicle.number}}'
-                                <template v-if="value.item.transportation.vehicle.trailer">
-                                  '{{value.item.transportation.vehicle.trailer}}'
+                                <td>
+                                  {{(value.item.transportation.weight.netto).toLocaleString()}}
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                        </span>
+                      </div>
+                        <%--LOWER ROW--%>
+                      <div class="lower">
+                        <table style="font-size: 10pt">
+                          <tr>
+                            <td>
+                              <span><fmt:message key="transportation.automobile"/></span>
+                            </td>
+                            <td>
+                              :
+                            </td>
+                            <td>
+                              <%--VEHICLE STUFF--%>
+                              <div>
+                                <div style="display: inline-block" v-if="value.item.transportation.vehicle.id" v-on:click.right="">
+                                  {{value.item.transportation.vehicle.model}}
+                                  '{{value.item.transportation.vehicle.number}}'
+                                  <template v-if="value.item.transportation.vehicle.trailer">
+                                    '{{value.item.transportation.vehicle.trailer}}'
+                                  </template>
+                                </div>
+                                <template v-else-if="value.editVehicle">
+                                  <div style="display: inline-block">
+                                    <%--VEHICLE INPUT--%>
+                                    <input v-on:keyup="findVehicle(value.vehicleInput)"
+                                           v-on:keyup.enter="editVehicle(value.vehicleInput, key)"
+                                           v-model="value.vehicleInput"
+                                           placeholder="${vehicleHolder}">
+                                    <div class="custom-data-list">
+                                      <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="setVehicle(vehicle, key)">
+                                        {{vehicle.model}}
+                                        '{{vehicle.number}}'
+                                        <template v-if="vehicle.trailer">
+                                          '{{vehicle.trailer}}'
+                                        </template>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <span v-on:click="closeVehicleInput(key)" class="mini-close" style="left: -22pt">&times;</span>
                                 </template>
+                                <a v-else v-on:click="openVehicleInput(value.item.id)">
+                                  <fmt:message key="transportation.automobile.insert.info"/>
+                                </a>
+                              <span v-if="value.item.transportation.vehicle.id" class="edit-menu-header">
+                                <span style="position: relative">
+                                  &nbsp;
+                                </span>
+                                <div class="edit-menu">
+                                  <span>
+                                    <fmt:message key="vehicle.edit"/>
+                                  </span>
+                                  <span v-on:click="cancel(key)">
+                                    <fmt:message key="menu.cancel"/>
+                                  </span>
+                                </div>
+                                <span class="arrow">
+                                  &#9660;
+                                </span>
+                              </span>
                               </div>
-                              <template v-else-if="value.editVehicle">
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span><fmt:message key="transportation.driver"/></span>
+                            </td>
+                            <td>
+                              :
+                            </td>
+                            <td>
+                              <%--DRIVER STUFF--%>
+                              <span v-if="value.item.transportation.driver.id">
+                                {{value.item.transportation.driver.person.value}}
+                              </span>
+                              <template v-else-if="value.editDriver">
                                 <div style="display: inline-block">
-                                  <%--VEHICLE INPUT--%>
-                                  <input v-on:keyup="findVehicle(value.vehicleInput)"
-                                         v-on:keyup.enter="editVehicle(value.vehicleInput, key)"
-                                         v-model="value.vehicleInput"
-                                         placeholder="${vehicleHolder}">
+                                  <%--DRIVER INPUT--%>
+                                  <input v-on:keyup="findDriver(value.driverInput)"
+                                         v-on:keyup.enter="editDriver(value.driverInput, key)"
+                                         v-model="value.driverInput"
+                                         placeholder="${driverHolder}">
                                   <div class="custom-data-list">
-                                    <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="setVehicle(vehicle, key)">
-                                      {{vehicle.model}}
-                                      '{{vehicle.number}}'
-                                      <template v-if="vehicle.trailer">
-                                        '{{vehicle.trailer}}'
-                                      </template>
+                                    <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="setDriver(driver, key)">
+                                      {{driver.person.value}}
                                     </div>
                                   </div>
                                 </div>
-                                <span v-on:click="closeVehicleInput(key)" class="mini-close" style="left: -22pt">&times;</span>
+                                <span v-on:click="closeDriverInput(key)" class="mini-close" style="left: -22pt">&times;</span>
                               </template>
-                              <a v-else v-on:click="openVehicleInput(value.item.id)">
-                                <fmt:message key="transportation.automobile.insert.info"/>
+                              <a v-else v-on:click="openDriverInput(value.item.id)">
+                                <fmt:message key="transportation.driver.insert.info"/>
                               </a>
-                            <span v-if="value.item.transportation.vehicle.id" class="edit-menu-header">
-                              <span style="position: relative">
-                                &nbsp;
-                              </span>
-                              <div class="edit-menu">
-                                <span>
-                                  <fmt:message key="vehicle.edit"/>
-                                </span>
-                                <span v-on:click="cancel(key)">
-                                  <fmt:message key="menu.cancel"/>
-                                </span>
-                              </div>
-                              <span class="arrow">
-                                &#9660;
-                              </span>
-                            </span>
-                            </div>
-
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <span><fmt:message key="transportation.driver"/></span>
-                          </td>
-                          <td>
-                            :
-                          </td>
-                          <td>
-                            <%--DRIVER STUFF--%>
-                            <span v-if="value.item.transportation.driver.id">
-                              {{value.item.transportation.driver.person.value}}
-                            </span>
-                            <template v-else-if="value.editDriver">
-                              <div style="display: inline-block">
-                                <%--DRIVER INPUT--%>
-                                <input v-on:keyup="findDriver(value.driverInput)"
-                                       v-on:keyup.enter="editDriver(value.driverInput, key)"
-                                       v-model="value.driverInput"
-                                       placeholder="${driverHolder}">
-                                <div class="custom-data-list">
-                                  <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="setDriver(driver, key)">
-                                    {{driver.person.value}}
-                                  </div>
+                              <span v-if="value.item.transportation.driver.id" class="edit-menu-header">
+                                <div class="edit-menu">
+                                  <span>
+                                    <fmt:message key="driver.edit"/>
+                                  </span>
+                                  <span v-on:click="cancel(key)">
+                                    <fmt:message key="menu.cancel"/>
+                                  </span>
                                 </div>
-                              </div>
-                              <span v-on:click="closeDriverInput(key)" class="mini-close" style="left: -22pt">&times;</span>
-                            </template>
-                            <a v-else v-on:click="openDriverInput(value.item.id)">
-                              <fmt:message key="transportation.driver.insert.info"/>
-                            </a>
-                            <span v-if="value.item.transportation.driver.id" class="edit-menu-header">
-                              <div class="edit-menu">
-                                <span>
-                                  <fmt:message key="driver.edit"/>
+                                <span class="arrow">
+                                  &#9660;
                                 </span>
-                                <span v-on:click="cancel(key)">
-                                  <fmt:message key="menu.cancel"/>
-                                </span>
-                              </div>
-                              <span class="arrow">
-                                &#9660;
                               </span>
-                            </span>
-                          </td>
-                          <td>
-                            <a class="mini-close" v-on:click="addNote(value.key)">
-                              +<fmt:message key="note.add"/>
-                            </a>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="lower">
-                      <span v-if="value.editNote">
-                        <input v-on:keyup.enter="saveNote(value.key)" v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput"
-                               style="width: 100%; background: transparent">
-                      </span>
-                      <div style="flex-wrap: wrap">
-                        <div v-for="note in value.item.transportation.notes" style="display-inside: inline-flex;">
-                          <span v-if="note.creator.id !== worker.id">{{note.creator.value}}</span>
-                          <span v-else>
-                            <span v-on:click="removeNote(value.key, note.id)" class="mini-close">&times;</span>
-                            <fmt:message key="you"/>
-                          </span>:{{note.note}}
+                            </td>
+                            <td>
+                              <a class="mini-close" v-on:click="addNote(value.key)">
+                                +<fmt:message key="note.add"/>
+                              </a>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                      <div class="lower">
+                        <span v-if="value.editNote">
+                          <input v-on:keyup.enter="saveNote(value.key)" v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput"
+                                 style="width: 100%; background: transparent">
+                        </span>
+                        <div style="flex-wrap: wrap">
+                          <div v-for="note in value.item.transportation.notes" style="display-inside: inline-flex;">
+                            <span v-if="note.creator.id !== worker.id">{{note.creator.value}}</span>
+                            <span v-else>
+                              <span v-on:click="removeNote(value.key, note.id)" class="mini-close">&times;</span>
+                              <fmt:message key="you"/>
+                            </span>:{{note.note}}
+                          </div>
                         </div>
                       </div>
                     </div>

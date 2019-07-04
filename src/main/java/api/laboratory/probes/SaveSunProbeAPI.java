@@ -9,10 +9,7 @@ import entity.laboratory.probes.SunProbe;
 import entity.production.Turn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
 import utils.TurnDateTime;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
 
@@ -82,8 +79,8 @@ public class SaveSunProbeAPI extends API {
                 save = true;
             }
 
-            if (body.containsKey("manager")) {
-                probe.setManager(dao.getWorkerById(body.get("manager")));
+            if (body.containsKey("role.manager")) {
+                probe.setManager(dao.getWorkerById(body.get("role.manager")));
                 save = true;
             }
 

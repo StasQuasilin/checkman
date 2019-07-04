@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
   <link rel="stylesheet" href="${context}/css/editor.css">
-  <script src="${context}/vue/laboratory/extractionCrude.js"></script>
+  <script src="${context}/vue/laboratory/extractionCrude.vue"></script>
   <script>
     editor.storages=[];
     editor.api.save = '${save}';

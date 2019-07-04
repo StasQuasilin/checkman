@@ -18,9 +18,14 @@ public class WeightEdit extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        int id = Integer.parseInt(req.getParameter(Constants.ID));
-        req.setAttribute("plan", dao.getLoadPlanById(id));
+        String parameterId = req.getParameter(Constants.ID);
+        int id = -1;
+        if (parameterId != null) {
+            id = Integer.parseInt(parameterId);
+        }
+        if (id != -1) {
+            req.setAttribute("plan", dao.getLoadPlanById(id));
+        }
         req.setAttribute("title", "title.weight.insert");
         req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
         req.setAttribute("title", Constants.Titles.WEIGHT_EDIT);

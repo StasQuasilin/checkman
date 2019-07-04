@@ -23,6 +23,10 @@
     </span>
   </li>
   <jsp:include page="laboratoryTransport.jsp"/>
-
+  <li class="menu-item">
+    <span class="main" onclick="loadContent('${laboratoryTurns}')">
+      <fmt:message key="laboratory.turns"/>
+    </span>
+  </li>
 </ul>
 

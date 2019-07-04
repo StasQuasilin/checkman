@@ -51,7 +51,7 @@
             :
         </td>
         <td>
-            <fmt:message key="${role}"/>
+            <fmt:message key="role.${role}s"/>
         </td>
     </tr>
 </table>
