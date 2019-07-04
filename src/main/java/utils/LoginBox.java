@@ -3,6 +3,7 @@ package utils;
 import api.sign.SignInAPI;
 import constants.Branches;
 import constants.Constants;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import java.util.Properties;
 public class LoginBox {
 
     static final LoginBox instance = new LoginBox();
+    private Logger log = Logger.getLogger(LoginBox.class);
 
     public static LoginBox getInstance() {
         return instance;
@@ -37,7 +39,8 @@ public class LoginBox {
 
     public void init() throws IOException {
         properties = new Properties();
-        File file = new File(System.getProperty("user.home") + "\\server_access.txt");
+        File file = new File(System.getProperty("user.home") + "/server_access.txt");
+
         if (file.exists()) {
             inputStream = new FileInputStream(file);
             try {
@@ -49,7 +52,7 @@ public class LoginBox {
                 inputStream.close();
             }
         } else {
-            System.out.println("File \'" + file.getPath() + " not found");
+            log.info("File \'" + file.getPath() + " not found");
         }
     }
     public String getLogin() {

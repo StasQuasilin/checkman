@@ -107,8 +107,9 @@
                        v-on:keyup.enter="parseOrganisation()"
                        v-on:blur="parseOrganisation()"
                        v-model="contragentInput"/>
-                <div id="contragent-list" class="custom-data-list">
-                    <div class="custom-data-list-item" v-for="contragent in foundContragents" v-on:click="setContragent(contragent)">{{contragent.value}}</div>
+                <div id="contragent-list" class="custom-data-list" v-if="foundContragents.length > 0">
+                    <div class="custom-data-list-item" v-for="contragent in foundContragents"
+                         v-on:click="setContragent(contragent)">{{contragent.value}}</div>
                 </div>
             </td>
         </tr>
@@ -182,14 +183,14 @@
                 {{(deal.price * deal.quantity).toLocaleString()}}
             </td>
         </tr>
-        <tr>
-            <td colspan="3">
-                <input id="rails" type="checkbox" v-model="deal.rails">
-                <label for="rails">
-                    <fmt:message key="deal.edit.be.rails"/>
-                </label>
-            </td>
-        </tr>
+        <%--<tr>--%>
+            <%--<td colspan="3">--%>
+                <%--<input id="rails" type="checkbox" v-model="deal.rails">--%>
+                <%--<label for="rails">--%>
+                    <%--<fmt:message key="deal.edit.be.rails"/>--%>
+                <%--</label>--%>
+            <%--</td>--%>
+        <%--</tr>--%>
         <tr>
             <td colspan="3" align="center">
                 <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>

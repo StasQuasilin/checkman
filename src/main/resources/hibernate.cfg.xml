@@ -9,19 +9,8 @@
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
         <!--suppress HibernateConfigDomInspection -->
-        <property name="connection.password">53721456</property>
+        <property name="connection.password">postgres_53721456</property>
         <property name="current_session_context_class">thread</property>
-        <!--suppress HibernateConfigDomInspection -->
-        <!--<property name="connection.password">!Bezdrik14</property>-->
-        <!--<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>-->
-        <!--<property name="hibernate.c3p0.acquire_increment">1</property>-->
-        <!--<property name="hibernate.c3p0.min_size">5</property>-->
-        <!--<property name="hibernate.c3p0.max_size">15</property>-->
-        <!--<property name="hibernate.c3p0.max_statements">50</property>-->
-        <!--<property name="hibernate.c3p0.timeout">0</property>-->
-        <!--<property name="hibernate.c3p0.acquireRetryAttempts">1</property>-->
-        <!--<property name="hibernate.c3p0.acquireRetryDelay">250</property>-->
-
         <property name="connection.pool_size">20</property>
         <property name="show_sql">false</property>
         <!--<property name="hibernate.hbm2ddl.auto">create</property>-->

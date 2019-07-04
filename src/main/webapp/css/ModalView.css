@@ -13,8 +13,11 @@
     bottom: 50%;
     left: 0;
     right: 0;
-    height: max-content;
-    width: max-content;
+    /*height: fit-content;*/
+    height: 260px;
+    overflow: hidden;
+    width: fit-content;
+    width: -moz-fit-content;
 }
 .modal-header{
     border-radius: 6pt 6pt 0 0;

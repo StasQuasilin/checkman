@@ -2,6 +2,7 @@
     font-family: SegouUI, monospace;
     color: #333333;
     user-select: none;
+    -moz-user-select: -moz-none;
 }
 body{
     background-color: aliceblue;
