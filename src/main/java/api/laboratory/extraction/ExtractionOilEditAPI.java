@@ -2,6 +2,7 @@ package api.laboratory.extraction;
 
 import api.API;
 import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -115,7 +116,10 @@ public class ExtractionOilEditAPI extends API {
                 }
                 oil.setCreator(worker);
                 dao.save(createTime, oil);
-                BotFactory.getNotificator().extractionShow(oil);
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.extractionShow(oil);
+                }
             }
 
             write(resp, answer);

@@ -60,12 +60,6 @@
             minute:30
         }
     ]
-    <c:forEach items="${laborants}" var="l">
-    editor.laborants.push({
-        id:${l.id},
-        value:'${l.person.value}'
-    });
-    </c:forEach>
     <c:choose>
     <c:when test="${not empty crude}">
     editor.crude = {

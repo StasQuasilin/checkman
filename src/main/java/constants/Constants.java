@@ -36,6 +36,12 @@ public class Constants {
     public static final String PRODUCT = "product";
     public static final String REALISATION = "realisation";
     public static final Object ADD = "add";
+    public static final String TITLE = "title";
+    public static final String SAVE = "save";
+    public static final String MODAL_CONTENT = "modalContent";
+    public static final String PROBE = "probe";
+    public static final String FIND_MANGER = "findManager";
+    public static final String FIND_ORGANISATION = "findOrganisation";
 
 
     public static class Languages {

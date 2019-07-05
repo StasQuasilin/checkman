@@ -7,6 +7,7 @@ import entity.production.Turn;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.JsonPool;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
 
@@ -26,46 +27,45 @@ import java.util.List;
 @WebServlet(Branches.API.LABORATORY_TURN_LIST)
 public class LaboratoryTurnListAPI extends API {
 
-    public static final int LIMIT = 14;
+    final JsonPool pool = JsonPool.getPool();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JSONObject body = parseBody(req);
-        final JSONObject array = new JSONObject();
-        final JSONArray add = new JSONArray();
-        final JSONArray update = new JSONArray();
-        final JSONArray remove = new JSONArray();
-        array.put("add", add);
-        array.put("update", update);
-        array.put("remove", remove);
+        final JSONObject array = pool.getObject();
+        final JSONArray add = pool.getArray();
+        final JSONArray update = pool.getArray();
+        final JSONArray remove = pool.getArray();
+        array.put(ADD, add);
+        array.put(UPDATE, update);
+        array.put(REMOVE, remove);
 
         if (body != null) {
-            final HashMap<String, Object> parameters = new HashMap<>();
+            List<Turn> turns;
             if (body.containsKey("reqDate")){
                 String date = String.valueOf(body.remove("reqDate"));
                 LocalDate localDate = LocalDate.parse(date);
-                final BETWEEN between = new BETWEEN(Date.valueOf(localDate), Date.valueOf(localDate.plusDays(1)));
-                parameters.put("date", between);
+                turns = dao.getTurnsBetween(localDate, localDate.plusDays(1));
             } else {
-                final LE le = new LE(Date.valueOf(LocalDate.now()));
-                le.setDate(Date.valueOf(LocalDate.now().plusYears(1)));
-                parameters.put("date", le);
+                turns = dao.getLimitTurns();
             }
 
-            for (Turn turn : dao.getLimitTurns()){
+            for (Turn turn : turns){
                 String id = String.valueOf(turn.getId());
                 List<LaboratoryTurn> turnList = dao.getLaboratoryTurnByTurn(turn);
-                if (body.containsKey(id)){
-                    long hash = (long) body.remove(id);
-                    int hashCode = turn.hashCode();
-                    for (LaboratoryTurn l : turnList){
-                        hashCode = 31 * l.getWorker().hashCode() + hashCode;
+                if (turnList.size() > 0) {
+                    if (body.containsKey(id)) {
+                        long hash = (long) body.remove(id);
+                        int hashCode = turn.hashCode();
+                        for (LaboratoryTurn l : turnList) {
+                            hashCode = 31 * l.getWorker().hashCode() + hashCode;
+                        }
+                        if (hashCode != hash) {
+                            update.add(JsonParser.toJson(turn, turnList));
+                        }
+                    } else {
+                        add.add(JsonParser.toJson(turn, turnList));
                     }
-                    if (hashCode != hash){
-                        update.add(JsonParser.toJson(turn, turnList));
-                    }
-                } else {
-                    add.add(JsonParser.toJson(turn, turnList));
                 }
             }
 

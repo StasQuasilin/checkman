@@ -49,7 +49,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("laboratorySellArchive", Branches.UI.LABORATORY_SELL_ARCHIVE);
         req.setAttribute("laboratoryTurns", Branches.UI.LABORATORY_TURNS);
         req.setAttribute("referencesList", Branches.UI.REFERENCES);
-        req.setAttribute("role.admin", Branches.UI.ADMIN);
+        req.setAttribute("admin", Branches.UI.ADMIN);
         req.setAttribute("personal", Branches.UI.PERSONAL);
         req.setAttribute("feedback", Branches.UI.FEEDBACK);
 

@@ -28,8 +28,8 @@
   editor.api.save ='${edit}';
   <c:forEach items="${storages}" var="storage">
   editor.storages.push({
-    id:${storage.storage.id},
-    name:'${storage.storage.name}'
+    id:${storage.id},
+    name:'${storage.name}'
   });
   </c:forEach>
   editor.analyses={

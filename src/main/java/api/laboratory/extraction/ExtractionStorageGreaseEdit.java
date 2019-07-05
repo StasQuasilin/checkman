@@ -2,6 +2,7 @@ package api.laboratory.extraction;
 
 import api.API;
 import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -87,7 +88,11 @@ public class ExtractionStorageGreaseEdit extends API {
                 storageGrease.setCreator(worker);
 
                 dao.save(createTime, storageGrease);
-                BotFactory.getNotificator().extractionShow(storageGrease);
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.extractionShow(storageGrease);
+                }
+
             }
             write(resp, answer);
         } else {

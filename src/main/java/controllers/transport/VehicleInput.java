@@ -62,7 +62,7 @@ public class VehicleInput extends IModal {
             log.warn("Body parse error!");
         }
         req.setAttribute("vehicle", vehicle);
-        req.setAttribute("findOrganisationAPI", Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("saveVehicleAPI", Branches.API.References.SAVE_VEHICLE);
         req.setAttribute("transportation", transportationId);
         req.setAttribute("modalContent", "/pages/transport/vehicleInput.jsp");

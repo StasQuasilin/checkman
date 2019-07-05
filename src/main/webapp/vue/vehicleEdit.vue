@@ -2,7 +2,7 @@ var editor = new Vue({
     el: '#vehicleEditor',
     data:{
         api:{
-            findOrganisationAPI:'',
+            findOrganisation:'',
             saveVehicleAPI:''
         },
         transportationId:'',
@@ -18,7 +18,7 @@ var editor = new Vue({
             const self = this;
             var p = [];
             p.key = input;
-            PostApi(this.api.findOrganisationAPI, p, function(a){
+            PostApi(this.api.findOrganisation, p, function(a){
                 self.findTransporters = a;
             })
         },

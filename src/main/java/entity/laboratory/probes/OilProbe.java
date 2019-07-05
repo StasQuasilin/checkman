@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class OilProbe {
     private int id;
     private Turn turn;
-    private Worker manager;
+    private String manager;
     private String organisation;
     private OilAnalyses analyses;
 
@@ -36,12 +36,12 @@ public class OilProbe {
         this.turn = turn;
     }
 
-    @OneToOne
-    @JoinColumn(name = "role.manager")
-    public Worker getManager() {
+    @Basic
+    @Column(name = "manager")
+    public String getManager() {
         return manager;
     }
-    public void setManager(Worker manager) {
+    public void setManager(String manager) {
         this.manager = manager;
     }
 

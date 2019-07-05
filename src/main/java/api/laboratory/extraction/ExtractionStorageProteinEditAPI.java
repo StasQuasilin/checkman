@@ -2,6 +2,7 @@ package api.laboratory.extraction;
 
 import api.API;
 import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -28,7 +29,7 @@ import java.time.LocalTime;
  * Created by szpt_user045 on 15.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_STORAGE_PROTEIN_EDIT)
-public class ExtractionStorageProteinEdit extends API {
+public class ExtractionStorageProteinEditAPI extends API {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -87,7 +88,11 @@ public class ExtractionStorageProteinEdit extends API {
                 storageProtein.setCreator(worker);
 
                 dao.save(createTime, storageProtein);
-                BotFactory.getNotificator().extractionShow(storageProtein);
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator !=null) {
+                    notificator.extractionShow(storageProtein);
+                }
+
             }
             write(resp, answer);
         } else {

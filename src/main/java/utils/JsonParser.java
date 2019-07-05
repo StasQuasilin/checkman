@@ -375,7 +375,7 @@ public class JsonParser {
         return json;
     }
 
-    public static final String MANAGER = "role.manager";
+    public static final String MANAGER = "manager";
     public static final String TURN = "turn";
     public static JSONObject toJson(SunProbe sun) {
         JSONObject json = new JSONObject();
@@ -385,10 +385,10 @@ public class JsonParser {
         }
         json.put(TYPE, AnalysesType.sun.toString());
         json.put(DATE, sun.getAnalyses().getCreateTime().getTime().toString());
-        if (sun.getManager() != null) {
-            json.put(MANAGER, toJson(sun.getManager()));
+        if (U.exist(sun.getManager())) {
+            json.put(MANAGER, sun.getManager());
         }
-        if (sun.getOrganisation() != null) {
+        if (U.exist(sun.getOrganisation())) {
             json.put(ORGANISATION, sun.getOrganisation());
         }
         json.put(ANALYSES, toJson(sun.getAnalyses()));
@@ -405,7 +405,7 @@ public class JsonParser {
         json.put(TYPE, AnalysesType.oil.toString());
         json.put(DATE, oil.getAnalyses().getCreateTime().getTime().toString());
         if (oil.getManager() != null) {
-            json.put(MANAGER, toJson(oil.getManager()));
+            json.put(MANAGER, oil.getManager());
         }
         if (oil.getOrganisation() != null) {
             json.put(ORGANISATION, oil.getOrganisation());

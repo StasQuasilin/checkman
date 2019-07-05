@@ -6,7 +6,7 @@
 <html>
 <script src="${context}/vue/vehicleEdit.vue"></script>
 <script>
-    editor.api.findOrganisationAPI = '${findOrganisationAPI}'
+    editor.api.findOrganisation = '${findOrganisationAPI}'
     editor.api.saveVehicleAPI = '${saveVehicleAPI}'
     editor.transportationId = ${transportation}
     editor.vehicleId = ${vehicle.id}

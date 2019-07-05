@@ -66,7 +66,7 @@ public class DriverInput extends IModal {
         }
 
         req.setAttribute("driver", driver);
-        req.setAttribute("findOrganisationAPI", Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("saveDriverAPI", Branches.API.References.SAVE_DRIVER);
         req.setAttribute("transportation", transportationId);
         req.setAttribute("modalContent", "/pages/transport/driverInput.jsp");

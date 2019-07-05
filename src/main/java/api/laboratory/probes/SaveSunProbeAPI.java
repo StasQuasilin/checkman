@@ -6,10 +6,12 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.SunProbe;
+import entity.organisations.Organisation;
 import entity.production.Turn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
+import utils.U;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
 
@@ -78,14 +80,37 @@ public class SaveSunProbeAPI extends API {
                 analyses.setAcidValue(acidValue);
                 save = true;
             }
+            JSONObject m = (JSONObject) body.get("manager");
+            Worker manager = null;
+            String managerValue = null;
+            if (m != null){
+                manager = dao.getWorkerById(m.get(Constants.ID));
+                managerValue = String.valueOf(m.get("value"));
+            }
 
-            if (body.containsKey("role.manager")) {
-                probe.setManager(dao.getWorkerById(body.get("role.manager")));
+            if (manager != null){
+                managerValue = manager.getValue();
+            }
+
+            if(U.exist(managerValue) && !managerValue.equals(probe.getManager())) {
+                probe.setManager(managerValue);
                 save = true;
             }
 
-            if (body.containsKey("organisation")) {
-                probe.setOrganisation((String) body.get("organisation"));
+            JSONObject o = (JSONObject) body.get("organisation");
+            Organisation organisation = null;
+            String organisationValue = null;
+            if (o != null) {
+                organisation = dao.getOrganisationById(o.get("id"));
+                organisationValue = String.valueOf(o.get("value"));
+            }
+
+            if (organisation != null){
+                organisationValue = organisation.getValue();
+            }
+
+            if (U.exist(organisationValue) && !organisationValue.equals(probe.getOrganisation())) {
+                probe.setOrganisation(organisationValue);
                 save = true;
             }
 

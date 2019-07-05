@@ -24,9 +24,9 @@ public class ProbeList extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.PROBE_LIST);
         req.setAttribute("content", "/pages/laboratory/probeList.jsp");
-        req.setAttribute("updateURL", Branches.API.PROBE_LIST);
-        req.setAttribute("showURL", Branches.UI.PROBE_SHOW);
-        req.setAttribute("editURL", Branches.UI.PROBE_EDIT);
+        req.setAttribute("update", Branches.API.PROBE_LIST);
+        req.setAttribute("show", Branches.UI.PROBE_SHOW);
+        req.setAttribute("edit", Branches.UI.PROBE_EDIT);
         req.setAttribute("analysesTypes", AnalysesType.values());
         req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
         show(req, resp);

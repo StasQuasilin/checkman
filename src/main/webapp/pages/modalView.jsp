@@ -34,13 +34,19 @@
 </script>
 <link rel="stylesheet" href="${context}/css/ModalView.css">
     <div class="modal-wrapper">
-        <div class="modal-body">
-            <div class="modal-header">
-                <fmt:message key="${title}"/>
-            </div>
-            <div class="modal-content" id="modal-content">
-                <jsp:include page="${modalContent}"/>
-            </div>
-        </div>
+        <table style="width: 100%; height: 100%">
+            <tr>
+                <td>
+                    <div class="modal-body">
+                        <div class="modal-header">
+                            <fmt:message key="${title}"/>
+                        </div>
+                        <div class="modal-content" id="modal-content">
+                            <jsp:include page="${modalContent}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </html>

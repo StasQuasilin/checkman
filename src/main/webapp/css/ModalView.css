@@ -7,14 +7,13 @@
     border: solid gray 1.2pt;
     border-radius: 8pt;
     background-color: aliceblue;
-    position: absolute;
+    /*position: absolute;*/
     margin: auto;
-    top: 50%;
-    bottom: 50%;
     left: 0;
     right: 0;
-    /*height: fit-content;*/
-    height: 260px;
+    height: fit-content;
+    /*top: 50%;*/
+    /*bottom: 50%;*/
     overflow: hidden;
     width: fit-content;
     width: -moz-fit-content;

@@ -23,9 +23,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 15.05.2019.
  */
 @WebServlet(Branches.UI.Extraction.STORAGE_PROTEIN)
-public class ExtractionStorageProtein extends IModal {
-
-    final
+public class ExtractionStorageProteinEdit extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

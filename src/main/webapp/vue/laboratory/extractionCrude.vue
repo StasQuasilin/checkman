@@ -6,8 +6,8 @@ var editor = new Vue({
         },
         laborants:[],
         times: [],
-        crude:{
-        }
+        crude:{},
+        storages:[]
     },
     methods:{
         currentTime:function(target){

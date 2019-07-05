@@ -2,6 +2,7 @@ package controllers.laboratory.laboratory;
 
 import constants.Branches;
 import controllers.IModal;
+import entity.Role;
 import entity.laboratory.LaboratoryTurn;
 import entity.production.Turn;
 import org.json.simple.JSONObject;
@@ -31,11 +32,11 @@ public class LaboratoryTurnEdit extends IModal {
         if(body != null) {
 
         }
-
         req.setAttribute("title", "title.laboratory.turn.edit");
         req.setAttribute("turns", turnBox.getTurns());
         req.setAttribute("modalContent", "/pages/laboratory/turnEdit.jsp");
         req.setAttribute("save", Branches.API.LABORATORY_TURN_EDIT);
+        req.setAttribute("laborants", dao.getWorkersByRole(Role.analyser));
         show(req, resp);
     }
 }

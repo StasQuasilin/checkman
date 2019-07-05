@@ -133,8 +133,8 @@
                     </span>
                 </div>
                 <div>
-                    <input style="width: -webkit-fill-available" v-model="sealInput" v-on:keyup="findSeals()">
-                    <div class="custom-data-list">
+                    <input style="width: 100%" v-model="sealInput" v-on:keyup="findSeals()">
+                    <div class="custom-data-list" v-if="foundSeals.length > 0">
                         <div v-for="seal in foundSeals" v-on:click="addSeal(seal)" class="custom-data-list-item">
                             {{seal.number}}
                         </div>

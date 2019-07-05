@@ -36,10 +36,13 @@
     });
     registrator.api.find = '${find}';
     registrator.api.registration = '${registration}';
-    <c:forEach items="${roles}" var="role">
+    <c:forEach items="${roles}" var="r">
+    <c:if test="${r ne 'guest'}">
     registrator.roles.push({
-        value:'${role}'
+        id:'${r}',
+        value: '<fmt:message key="role.${r}"/>'
     });
+    </c:if>
     </c:forEach>
 </script>
 <table id="registrator">
@@ -88,17 +91,22 @@
         </td>
     </tr>
     <tr>
-        <td>
+        <td colspan="3">
             <label for="role">
-                <fmt:message key="role"/>
+                <fmt:message key="user.group"/>
             </label>
         </td>
+    </tr>
+    <tr>
         <td>
-            :
+            &nbsp;
         </td>
         <td>
-            <select id="role" v-model="user.role">
-                <option v-for="role in roles">{{role.value}}</option>
+            &nbsp;
+        </td>
+        <td>
+            <select id="role" v-model="user.role" style="width: 100%">
+                <option v-for="role in roles" :value="role.id">{{role.value}}</option>
             </select>
         </td>
     </tr>

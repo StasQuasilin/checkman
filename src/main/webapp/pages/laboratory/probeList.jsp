@@ -7,15 +7,15 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <div id="container-header" style="display: inline">
     <c:forEach items="${analysesTypes}" var="a">
-        <button onclick="loadModal('${editURL}?type=${a}')">
+        <button ondblclick="" onclick="loadModal('${edit}?type=${a}')">
             <fmt:message key="${a}"/>
         </button>
     </c:forEach>
 </div>
 <script src="${context}/vue/archive/archiveList.vue"></script>
 <script>
-    archive.api.update = '${updateURL}';
-    archive.api.show = '${showUrl}';
+    archive.api.update = '${update}';
+    archive.api.show = '${show}';
     archive.updReq();
 </script>
 <div id="archive" class="container">
@@ -28,10 +28,13 @@
             <span v-else>
                 {{new Date(item.item.date).toLocaleDateString()}}
             </span>
-            <span v-if="item.item.manager">
+            <span>
                 <fmt:message key="deal.manager"/>:
-                <b>
-                    {{item.item.manager.person.value}}
+                <b v-if="item.item.manager">
+                    {{item.item.manager}}
+                </b>
+                <b v-else>
+                    <fmt:message key="no.data"/>
                 </b>
             </span>
             <span>
@@ -69,7 +72,14 @@
                 <fmt:message key="oil.phosphorus"/>:
                 {{item.item.analyses.phosphorus}},
                 <fmt:message key="oil.wax"/>
-                {{item.item.analyses.wax}}
+                {{item.item.analyses.wax}},
+                <fmt:message key="oil.soap"/>
+                <span v-if="item.item.analyses.soap">
+                    +
+                </span>
+                <span v-else>
+                    -
+                </span>
             </template>
         </div>
     </div>

@@ -2,6 +2,7 @@ package api.laboratory.extraction;
 
 import api.API;
 import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -87,7 +88,11 @@ public class ExtractionTurnGreaseEdit extends API {
                 }
                 turnGrease.setCreator(worker);
                 dao.save(createTime, turnGrease);
-                BotFactory.getNotificator().extractionShow(turnGrease);
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null){
+                    notificator.extractionShow(turnGrease);
+                }
+
             }
 
             write(resp, answer);

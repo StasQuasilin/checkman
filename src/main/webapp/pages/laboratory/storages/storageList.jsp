@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <div id="container-header" style="display: inline">
-  <button onclick="loadModal('${edit}?type=${type}')">
+  <button ondblclick="" onclick="loadModal('${edit}?type=${type}')">
     <fmt:message key="analyses"/>
   </button>
 </div>

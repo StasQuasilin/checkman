@@ -161,8 +161,7 @@ public interface dbDAO {
     List<Seal> getSeals();
     List<SealBatch> getActiveSealsBatches();
     List<Seal> getSealsByBatch(SealBatch batch);
-
     List<TransportationNote> getTransportationNotesByTransportation(Transportation transportation);
-
     TransportationNote getTransportationNotesById(Object id);
+    List<Turn> getTurnsBetween(LocalDate from, LocalDate to);
 }

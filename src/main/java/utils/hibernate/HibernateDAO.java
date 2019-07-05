@@ -765,4 +765,9 @@ public class HibernateDAO implements dbDAO {
     public TransportationNote getTransportationNotesById(Object id) {
         return hb.get(TransportationNote.class, "id", id);
     }
+
+    @Override
+    public List<Turn> getTurnsBetween(LocalDate from, LocalDate to) {
+        return hb.limitQuery(Turn.class, "date", new BETWEEN(Date.valueOf(from), Date.valueOf(to)), 14);
+    }
 }

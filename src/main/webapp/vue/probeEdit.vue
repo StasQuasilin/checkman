@@ -5,53 +5,71 @@ var editor = new Vue({
     el: '#editor',
     data:{
         api:{
-            findManagerAPI:'',
-            findOrganisationAPI:'',
-            saveAPI:''
+            findManager:'',
+            findOrganisation:'',
+            save:''
         },
         probe:{},
         laborants:[],
-        managerInput:'',
         foundManagers:[],
-        organisationInput:'',
         foundOrganisations:[],
-        fnd:-1
+        fnd:-1,
+        manager:'',
+        organisation:''
     },
     methods:{
         findManager:function(){
             clearTimeout(this.fnd);
-            const self = this;
-            this.fnd = setTimeout(function(){
-                var parameters = {};
-                parameters.key = self.managerInput;
-                PostApi(self.api.findManagerAPI, parameters, function(a){
-                    self.foundManagers = a;
-                })
-            }, 500);
+            var inp = this.probe.manager.value;
+            if (inp) {
+                const self = this;
+                this.fnd = setTimeout(function () {
+                    PostApi(self.api.findManager, {key: inp}, function (a) {
+                        self.foundManagers = a;
+                    })
+                }, 500);
+            } else {
+                self.foundManagers = [];
+            }
         },
         setManager:function(manager){
-            this.probe.manager = manager.id;
-            this.managerInput = manager.person.value;
+            this.probe.manager = {
+                id:manager.id,
+                value:manager.person.value
+            };
+            this.manager = manager.person.value;
             this.foundManagers = [];
         },
         findOrganisation:function(){
             clearTimeout(this.fnd);
-            const self = this;
-            this.fnd = setTimeout(function(){
-                var parameters = {};
-                parameters.key = self.organisationInput;
-                PostApi(self.api.findOrganisationAPI, parameters, function(a){
-                    self.foundOrganisations = a;
-                })
-            }, 500);
+            var inp = this.probe.organisation.value;
+            if (inp) {
+                const self = this;
+                this.fnd = setTimeout(function () {
+                    PostApi(self.api.findOrganisation, {key : inp}, function (a) {
+                        self.foundOrganisations = a;
+                    })
+                }, 500);
+            } else {
+                this.foundOrganisations = [];
+            }
         },
         setOrganisation:function(organisation){
-            this.probe.organisation = organisation.value;
-            this.organisationInput = organisation.value;
+            this.probe.organisation = {
+                id:organisation.id,
+                value:organisation.value
+            };
+            this.organisation = organisation.value;
             this.foundOrganisations = [];
         },
         save:function(){
-            PostApi(this.api.saveAPI, this.probe, function(a){
+            if (this.manager !== this.probe.manager.value){
+                this.probe.manager.id = -1;
+            }
+            if (this.organisation !== this.probe.organisation.value){
+                this.probe.organisation.id = -1;
+            }
+            PostApi(this.api.save, this.probe, function(a){
                 if (a.status == 'success'){
                     closeModal();
                 }

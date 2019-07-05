@@ -2,6 +2,7 @@ package api.laboratory.extraction;
 
 import api.API;
 import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -92,7 +93,10 @@ public class ExtractionTurnProteinEdit extends API {
                 }
                 turnProtein.setCreator(worker);
                 dao.save(createTime, turnProtein);
-                BotFactory.getNotificator().extractionShow(turnProtein);
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.extractionShow(turnProtein);
+                }
             }
 
             write(resp, answer);

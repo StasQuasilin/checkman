@@ -31,7 +31,7 @@
     </div>
     <transition-group  name="flip-list" tag="div" class="container">
         <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
-             class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()" v-on:click="show(value.item.id)">
+             class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()" v-on:click="edit(value.item.id)">
             <div class="upper-row">
                 {{new Date(value.item.date).toLocaleDateString()}}
             <span>

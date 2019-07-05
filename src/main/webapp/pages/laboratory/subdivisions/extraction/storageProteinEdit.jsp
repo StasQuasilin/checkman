@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="${context}/css/editor.css">
   <script src="${context}/vue/laboratory/extractionCrude.vue"></script>
   <script>
-    editor.storages=[];
     editor.api.save = '${save}';
     editor.times = [
       {
