@@ -31,6 +31,8 @@ function loadContent(url){
     if (url && currentPage != url) {
         currentPage = url;
         coverlet.style.display='block';
+        content.style.display='none';
+        filter.style.display='none';
         console.log('[ Application ] Load page ' + url);
         localStorage.setItem(last_url, url);
         PostReq(url, null, function (e) {
@@ -42,10 +44,16 @@ function loadContent(url){
             $(header).html(GetChildElemById(content, 'header-content'));
             $(header).append(GetChildElemById(content, 'container-header'));
             $(filter).html(GetChildElemById(content, 'filter-content'));
+            coverlet.style.display='none';
+            content.style.display='block';
+            filter.style.display='block';
         }, function (e) {
-            console.error('[ Application ] Load content error ' + e)
+            console.error('[ Application ] Load content error ' + e);
+            coverlet.style.display='none';
+            content.style.display='block';
+            filter.style.display='block';
         }, true);
-        coverlet.style.display='none';
+
     }
 }
 
@@ -69,13 +77,17 @@ function editableModal(url){
 function loadModal(url, parameters, onSave){
     console.log('[ Application ] Load modal ' + url);
     console.log(parameters);
+    coverlet.style.display='block';
     PostReq(url, parameters, function(m){
         addModal(m, onSave);
+        coverlet.style.display='none';
     }, function (e) {
         console.error('Error ' + e);
         modalLayer.style.display='none';
+        coverlet.style.display='none';
     }, function(e){
         console.log(e);
+        coverlet.style.display='none';
     }, true)
 }
 var modals = [];

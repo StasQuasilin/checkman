@@ -25,7 +25,16 @@
     </script>
 </head>
 <body style="margin: 0">
-<div class="coverlet" id="coverlet"></div>
+<div class="coverlet" id="coverlet">
+    <table style="width: 100%; height: 100%;">
+        <tr>
+            <td align="center">
+                <div class="lds-dual-ring"></div>
+            </td>
+        </tr>
+    </table>
+
+</div>
 <div class="modal-layer" style="display: none" id="modal"></div>
 <link rel="stylesheet" href="${context}/css/datepick.css">
 

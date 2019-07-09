@@ -22,7 +22,7 @@ import java.io.IOException;
 /**
  * Created by quasilin on 13.03.2019.
  */
-@WebFilter(value = {Branches.UI.APPLICATION, "*.j"})
+@WebFilter(value = {Branches.UI.APPLICATION, "*.j", Branches.UI.FORGOT})
 public class ContextFilter implements Filter {
 
     public static BotSettings settings;
@@ -61,9 +61,7 @@ public class ContextFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         req.setAttribute("context", req.getContextPath());
-
         filterChain.doFilter(req, servletResponse);
-
     }
 
     @Override

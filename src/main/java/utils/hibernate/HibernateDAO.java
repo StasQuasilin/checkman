@@ -732,8 +732,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<User> findUser(Object key) {
-        final List<Worker> workers = findWorker(key);
-        return workers.stream().map(this::getUserByWorker).collect(Collectors.toCollection(ArrayList::new));
+        return findWorker(key).stream().map(this::getUserByWorker).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
