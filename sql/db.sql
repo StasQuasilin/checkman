@@ -58,7 +58,7 @@ ALTER TABLE public.act_numbers OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.act_numbers_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -135,7 +135,7 @@ ALTER TABLE public.administration OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.administration_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -718,7 +718,7 @@ ALTER TABLE public.extraction_storage_grease OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.extraction_storage_grease_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -762,7 +762,7 @@ ALTER TABLE public.extraction_storage_protein OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.extraction_storage_protein_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -804,7 +804,7 @@ ALTER TABLE public.extraction_turn_grease OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.extraction_turn_grease_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -846,7 +846,7 @@ ALTER TABLE public.extraction_turn_protein OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.extraction_turn_protein_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -960,7 +960,7 @@ ALTER TABLE public.kpo_parts OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.kpo_parts_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -999,7 +999,7 @@ ALTER TABLE public.turns_laboratory OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.laboratory_turns_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1087,7 +1087,7 @@ ALTER TABLE public.oil_mass_fractions OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.oil_mass_fraction_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1129,7 +1129,7 @@ ALTER TABLE public.oil_mass_fractions_dry OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.oil_mass_fractions_dry_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1362,7 +1362,7 @@ ALTER TABLE public.probe_oilcake OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.probe_oilcake_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1455,7 +1455,7 @@ ALTER TABLE public.product_properties OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.product_properties_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1614,7 +1614,7 @@ ALTER TABLE public.storage_analyses OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.storage_analyses_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1653,7 +1653,7 @@ ALTER TABLE public.storage_product OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.storage_product_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1691,7 +1691,7 @@ ALTER TABLE public.storage_turns OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.storage_turns_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1729,7 +1729,7 @@ ALTER TABLE public.storages OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.storages_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1781,7 +1781,7 @@ ALTER TABLE public.trains OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.trains_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1822,7 +1822,7 @@ ALTER TABLE public.transportation_notes OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.transportation_notes_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1909,7 +1909,7 @@ ALTER TABLE public.truck_transportation OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.truck_transportation_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1972,7 +1972,7 @@ ALTER TABLE public.trucks OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.trucks_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2063,7 +2063,7 @@ ALTER SEQUENCE public.turns_extraction_id_seq OWNED BY public.turns_extraction.i
 --
 
 CREATE SEQUENCE public.turns_id_seq
-    AS integer
+    
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE

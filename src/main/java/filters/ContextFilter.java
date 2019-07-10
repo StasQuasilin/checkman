@@ -7,16 +7,12 @@ import org.apache.log4j.Logger;
 import utils.boxes.DealBox;
 import utils.boxes.TransportBox;
 import utils.hibernate.HibernateSessionFactory;
-import utils.hibernate.Hibernator;
-import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
@@ -27,8 +23,6 @@ public class ContextFilter implements Filter {
 
     public static BotSettings settings;
     final Logger log = Logger.getLogger(ContextFilter.class);
-
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         gcTimer = new Timer(20 * 1000, e -> System.gc());
