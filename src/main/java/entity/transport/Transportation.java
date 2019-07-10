@@ -10,6 +10,7 @@ import entity.seals.Seal;
 import entity.weight.Weight;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Set;
 
 /**
@@ -33,7 +34,7 @@ public class Transportation extends IDocument{
     private CakeAnalyses cakeAnalyses;
     private Set<Seal> seals;
     private Set<TransportationNote> notes;
-    private boolean archive;
+    private Timestamp archivation;
     private String uid;
 
     @Override
@@ -154,12 +155,12 @@ public class Transportation extends IDocument{
     }
 
     @Basic
-    @Column(name = "archive")
-    public boolean isArchive() {
-        return archive;
+    @Column(name = "archivation")
+    public Timestamp getArchivation() {
+        return archivation;
     }
-    public void setArchive(boolean archive) {
-        this.archive = archive;
+    public void setArchivation(Timestamp archivation) {
+        this.archivation = archivation;
     }
 
     @Transient
@@ -214,8 +215,10 @@ public class Transportation extends IDocument{
             hash = 31 * note.getNote().hashCode() + hash;
         }
 
-        hash = 31 * Boolean.hashCode(anyAction()) + hash;
-        hash = 31 * Boolean.hashCode(archive) + hash;
+        if (archivation != null){
+            hash = 31 * archivation.hashCode() + hash;
+        }
+
         return hash;
     }
 
@@ -228,4 +231,8 @@ public class Transportation extends IDocument{
         this.uid = uid;
     }
 
+    @Transient
+    public boolean isArchive() {
+        return archivation != null;
+    }
 }

@@ -64,8 +64,12 @@ public class Vehicle {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * model.hashCode() + hash;
-        hash = 31 * number.hashCode() + hash;
+        if (model != null) {
+            hash = 31 * model.hashCode() + hash;
+        }
+        if (number != null) {
+            hash = 31 * number.hashCode() + hash;
+        }
         if (trailer != null){
             hash = 31 * trailer.hashCode() + hash;
         }
@@ -74,7 +78,10 @@ public class Vehicle {
 
     @Transient
     public String getValue() {
-        return model + " \'" + number + "\'" + (trailer != null ? "\'" + trailer + "\'" : "");
+        return
+            (model != null ? model : "") +
+            (number != null ? " \'" + number + "\'" : "") +
+            (trailer != null ? "\'" + trailer + "\'" : "");
     }
 
     @Override

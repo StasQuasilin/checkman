@@ -60,7 +60,7 @@
         customer:'${plan.customer}',
 //        VEHICLE
         <c:choose>
-        <c:when test="${plan.transportation.vehicle.id}">
+        <c:when test="${not empty plan.transportation.vehicle.id}">
         vehicle:${plan.transportation.vehicle.id},
         </c:when>
         <c:otherwise>
@@ -69,7 +69,7 @@
         </c:choose>
 //        DRIVER
         <c:choose>
-        <c:when test="${plan.transportation.driver.id}">
+        <c:when test="${not empty plan.transportation.driver.id}">
         driver:${plan.transportation.driver.id}
         </c:when>
         <c:otherwise>
@@ -79,7 +79,7 @@
     };
     editor.input.organisation = '${plan.deal.organisation.value}';
     <c:choose>
-    <c:when test="${plan.transportation.vehicle.id}">
+    <c:when test="${not empty plan.transportation.vehicle.id}">
     editor.input.vehicle = '${plan.transportation.vehicle.model} ${plan.transportation.vehicle.number} ${plan.transportation.vehicle.trailer}';
     </c:when>
     <c:otherwise>
@@ -87,7 +87,7 @@
     </c:otherwise>
     </c:choose>
     <c:choose>
-    <c:when test="${plan.transportation.driver.id}">
+    <c:when test="${not empty plan.transportation.driver.id}">
     editor.input.driver = '${plan.transportation.driver.person.value}';
     </c:when>
     <c:otherwise>

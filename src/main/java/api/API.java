@@ -24,6 +24,8 @@ public abstract class API extends IServlet{
     public static final String ADD = "add";
     public static final String UPDATE = "update";
     public static final String REMOVE = "remove";
+    public static final String VERSION = "version";
+
 
     final JSONParser parser = new JSONParser();
     protected final dbDAO dao = dbDAOService.getDAO();

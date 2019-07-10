@@ -32,13 +32,17 @@ import entity.storages.StorageProduct;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.TurnDateTime;
+import utils.UpdateBox;
 import utils.hibernate.DateContainers.BETWEEN;
+import utils.hibernate.DateContainers.GE;
 import utils.hibernate.DateContainers.LE;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -46,17 +50,24 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 24.06.2019.
  */
 public class HibernateDAO implements dbDAO {
+    
+    private static final String ID = "id";
+    private static final String DEAL = "deal";
+    
     private final Hibernator hb = Hibernator.getInstance();
+    private final UpdateBox updateBox = UpdateBox.instance();
 
     @Override
     public void saveDeal(Deal deal){
         deal.setHash(deal.hashCode());
         hb.save(deal);
+        updateBox.update(UpdateBox.BoxType.deal);
+        updateBox.update(UpdateBox.BoxType.dealArchive);
     }
 
     @Override
     public List<LoadPlan> getPlanByDeal(Deal deal) {
-        return hb.query(LoadPlan.class, "deal", deal);
+        return hb.query(LoadPlan.class, DEAL, deal);
     }
 
     @Override
@@ -66,22 +77,22 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Deal getDealById(Object id) {
-        return hb.get(Deal.class, "id", id);
+        return hb.get(Deal.class, ID, id);
     }
 
     @Override
     public Organisation getOrganisationById(Object organisationId) {
-        return hb.get(Organisation.class, "id", organisationId);
+        return hb.get(Organisation.class, ID, organisationId);
     }
 
     @Override
     public Product getProductById(Object id) {
-        return hb.get(Product.class, "id", id);
+        return hb.get(Product.class, ID, id);
     }
 
     @Override
     public DocumentOrganisation getDocumentOrganisationById(Object id) {
-        return hb.get(DocumentOrganisation.class, "id", id);
+        return hb.get(DocumentOrganisation.class, ID, id);
     }
 
     @Override
@@ -132,7 +143,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getLoadPlanByDeal(Object deal) {
-        return hb.query(LoadPlan.class, "deal", deal);
+        return hb.query(LoadPlan.class, DEAL, deal);
     }
 
     @Override
@@ -150,7 +161,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public LoadPlan getLoadPlanById(Object id) {
-        return hb.get(LoadPlan.class, "id", id);
+        return hb.get(LoadPlan.class, ID, id);
     }
 
     @Override
@@ -176,7 +187,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Person getPersonById(Object personId) {
-        return hb.get(Person.class, "id", personId);
+        return hb.get(Person.class, ID, personId);
     }
 
     @Override
@@ -191,7 +202,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Worker getWorkerById(Object id) {
-        return hb.get(Worker.class, "id", id);
+        return hb.get(Worker.class, ID, id);
     }
 
     @Override
@@ -252,7 +263,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public <T> void remove(Class<T> tClass, Object id) {
-        hb.remove(hb.get(tClass, "id", id));
+        hb.remove(hb.get(tClass, ID, id));
     }
 
     @Override
@@ -282,7 +293,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Driver getDriverByID(Object id) {
-        return hb.get(Driver.class, "id", id);
+        return hb.get(Driver.class, ID, id);
     }
 
     @Override
@@ -297,12 +308,12 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Seal getSealById(Object id) {
-        return hb.get(Seal.class, "id", id);
+        return hb.get(Seal.class, ID, id);
     }
 
     @Override
     public VROOil getVROOilById(Object id) {
-        return hb.get(VROOil.class, "id", id);
+        return hb.get(VROOil.class, ID, id);
     }
 
     @Override
@@ -312,37 +323,37 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public OilMassFractionDry getOilMassFractionDry(Object id) {
-        return hb.get(OilMassFractionDry.class, "id", id);
+        return hb.get(OilMassFractionDry.class, ID, id);
     }
 
     @Override
     public Transportation getTransportationById(Object id) {
-        return hb.get(Transportation.class, "id", id);
+        return hb.get(Transportation.class, ID, id);
     }
 
     @Override
     public KPOPart getKPOPartById(Object id) {
-        return hb.get(KPOPart.class, "id", id);
+        return hb.get(KPOPart.class, ID, id);
     }
 
     @Override
     public SunProbe getSunProbeById(Object id) {
-        return hb.get(SunProbe.class, "id", id);
+        return hb.get(SunProbe.class, ID, id);
     }
 
     @Override
     public OilProbe getOilProbeById(Object id) {
-        return hb.get(OilProbe.class, "id", id);
+        return hb.get(OilProbe.class, ID, id);
     }
 
     @Override
     public Vehicle getVehicleById(Object id) {
-        return hb.get(Vehicle.class, "id", id);
+        return hb.get(Vehicle.class, ID, id);
     }
 
     @Override
     public VRODaily getVRODailyById(Object id) {
-        return hb.get(VRODaily.class, "id", id);
+        return hb.get(VRODaily.class, ID, id);
     }
 
     @Override
@@ -362,7 +373,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public VROCrude getVroCrudeById(Object id) {
-        return hb.get(VROCrude.class, "id", id);
+        return hb.get(VROCrude.class, ID, id);
     }
 
     @Override
@@ -372,12 +383,12 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Forpress getForpressById(Object id) {
-        return hb.get(Forpress.class,"id", id);
+        return hb.get(Forpress.class,ID, id);
     }
 
     @Override
     public ExtractionCrude getExtractionCrudeById(Object id) {
-        return hb.get(ExtractionCrude.class, "id", id);
+        return hb.get(ExtractionCrude.class, ID, id);
     }
 
     @Override
@@ -402,7 +413,7 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<LoadPlan> getActiveTransportations(Date date) {
         final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("transportation/archive", false);
+        parameters.put("transportation/archivation", null);
         if (date == null) {
             parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
             return hb.limitQuery(LoadPlan.class, parameters, 30);
@@ -410,6 +421,12 @@ public class HibernateDAO implements dbDAO {
             parameters.put("date", date);
             return hb.query(LoadPlan.class, parameters);
         }
+    }
+
+    private static final String TRANSPORTATION_ARCHIVE = "transportation/archivation";
+    private void getTransportations(HashMap<String, Object> parameters){
+        parameters.put(TRANSPORTATION_ARCHIVE, null);
+        parameters.put(TRANSPORTATION_ARCHIVE, new GE(Date.valueOf(LocalDate.now().plusDays(1))));
     }
 
     @Override
@@ -427,7 +444,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public WeightUnit getWeightUnitById(Object id) {
-        return hb.get(WeightUnit.class, "id", id);
+        return hb.get(WeightUnit.class, ID, id);
     }
 
     @Override
@@ -483,12 +500,12 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public TurnProtein getExtractionTurnProteinById(long id) {
-        return hb.get(TurnProtein.class, "id", id);
+        return hb.get(TurnProtein.class, ID, id);
     }
 
     @Override
     public OilMassFraction getOilMassFractionById(long id) {
-        return hb.get(OilMassFraction.class, "id", id);
+        return hb.get(OilMassFraction.class, ID, id);
     }
 
     @Override
@@ -550,7 +567,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public StorageAnalyses getStorageAnalysesById(Object id) {
-        return hb.get(StorageAnalyses.class, "id", id);
+        return hb.get(StorageAnalyses.class, ID, id);
     }
 
     @Override
@@ -560,22 +577,22 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Storage getStorageById(Object id) {
-        return hb.get(Storage.class, "id", id);
+        return hb.get(Storage.class, ID, id);
     }
 
     @Override
     public ExtractionRaw getExtractionRawById(Object id) {
-        return hb.get(ExtractionRaw.class, "id", id);
+        return hb.get(ExtractionRaw.class, ID, id);
     }
 
     @Override
     public VRODaily getVroDailyById(Object id) {
-        return hb.get(VRODaily.class, "id", id);
+        return hb.get(VRODaily.class, ID, id);
     }
 
     @Override
     public ExtractionOIl getExtractionOilById(Object id) {
-        return hb.get(ExtractionOIl.class, "id", id);
+        return hb.get(ExtractionOIl.class, ID, id);
     }
 
     @Override
@@ -621,7 +638,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public StorageGrease getStorageGreaseById(Object id) {
-        return hb.get(StorageGrease.class, "id", id);
+        return hb.get(StorageGrease.class, ID, id);
     }
 
     @Override
@@ -640,7 +657,7 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<LoadPlan> getTransportationsByCustomer(TransportCustomer customer) {
         final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("transportation/archive", false);
+        parameters.put("transportation/archivation", null);
         parameters.put("customer", customer);
         return hb.query(LoadPlan.class, parameters);
     }
@@ -655,7 +672,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public StorageProtein getStorageProteinById(Object id) {
-        return hb.get(StorageProtein.class, "id", id);
+        return hb.get(StorageProtein.class, ID, id);
     }
 
     @Override
@@ -689,7 +706,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public DealProduct getDealProductById(int id) {
-        return hb.get(DealProduct.class, "id", id);
+        return hb.get(DealProduct.class, ID, id);
     }
 
     @Override
@@ -699,7 +716,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public TurnGrease getTurnGreaseById(Object id) {
-        return hb.get(TurnGrease.class, "id", id);
+        return hb.get(TurnGrease.class, ID, id);
     }
 
     @Override
@@ -762,7 +779,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public TransportationNote getTransportationNotesById(Object id) {
-        return hb.get(TransportationNote.class, "id", id);
+        return hb.get(TransportationNote.class, ID, id);
     }
 
     @Override

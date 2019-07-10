@@ -37,8 +37,7 @@
 </div>
 <div class="modal-layer" style="display: none" id="modal"></div>
 <link rel="stylesheet" href="${context}/css/datepick.css">
-
-<div class="dateTime-picker" id="picker" v-show="onSelects.length" v-on:click="close">
+<div class="datetime-picker" id="picker" v-show="onSelects.length" v-on:click="close">
     <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
         <v-date-picker class="date-picker"
                        :no-title="true"

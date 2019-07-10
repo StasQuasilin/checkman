@@ -12,6 +12,8 @@ import utils.hibernate.Hibernator;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +38,11 @@ public class TransportUtil{
             isArchive = false;
         }
         if (transportation.isArchive() != isArchive) {
-            transportation.setArchive(isArchive);
+            if (isArchive){
+                transportation.setArchivation(Timestamp.valueOf(LocalDateTime.now()));
+            } else {
+                transportation.setArchivation(null);
+            }
             dao.saveTransportation(transportation);
         }
     }

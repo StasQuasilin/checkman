@@ -83,6 +83,7 @@ var list = new Vue({
             PostApi(this.api.update, parameters, function(e){
                 if (e.add.length || e.update.length || e.remove.length) {
                     console.log(e);
+                    self.attributes['version', e.version];
                     for(var a in e.add){
                         self.add(e.add[a])
                     }
