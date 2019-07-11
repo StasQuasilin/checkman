@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "document_organisations")
-public class DocumentOrganisation {
+public class Shipper {
     private int id;
     private String value;
     private boolean active;

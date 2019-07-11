@@ -4,11 +4,8 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.DealType;
-import entity.products.Product;
 import entity.Worker;
 import entity.documents.Deal;
-import entity.documents.DocumentOrganisation;
-import entity.weight.WeightUnit;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -60,11 +57,12 @@ public class DealEdit extends IModal {
         req.setAttribute("type", req.getParameter("type"));
         req.setAttribute("types", DealType.values());
         req.setAttribute("products", dao.getProductList());
-        req.setAttribute("documentOrganisations", dao.getDocumentOrganisationList());
+        req.setAttribute("shippers", dao.getShipperList());
         req.setAttribute("units", dao.getWeightUnits());
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
-        req.setAttribute("saveUrl", Branches.API.DEAL_SAVE);
+        req.setAttribute("save", Branches.API.DEAL_SAVE);
+        req.setAttribute("redirect", Branches.UI.DEAL_SHOW);
         req.setAttribute("modalContent", "/pages/deals/dealEdit.jsp");
         show(req, resp);
     }

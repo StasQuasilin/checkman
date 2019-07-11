@@ -158,7 +158,7 @@
         </td>
         <td>:</td>
         <td>
-            ${plan.deal.documentOrganisation.value}
+            ${plan.deal.shipper.value}
         </td>
     </tr>
     <tr>

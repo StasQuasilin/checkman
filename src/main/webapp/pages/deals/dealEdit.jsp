@@ -16,10 +16,10 @@
             id:${product.id},
             value:'${product.name}'
         })</c:forEach>
-        <c:forEach items="${documentOrganisations}" var="d">
+        <c:forEach items="${shippers}" var="shipper">
         editor.realisations.push({
-            id:${d.id},
-            value:'${d.value}'
+            id:${shipper.id},
+            value:'${shipper.value}'
         })</c:forEach>
         <c:forEach items="${units}" var="u">
         editor.units.push({
@@ -28,9 +28,10 @@
         })
         </c:forEach>
 
-        editor.api.findOrganisationUrl = '${findOrganisation}';
-        editor.api.parseOrganisationUrl = '${parseOrganisation}';
-        editor.api.saveUrl = '${saveUrl}';
+        editor.api.findOrganisation = '${findOrganisation}';
+        editor.api.parseOrganisation = '${parseOrganisation}';
+        editor.api.save = '${save}';
+        editor.api.redirect = '${redirect}';
         <c:choose>
         <c:when test="${not empty deal}">
         editor.deal={
@@ -38,22 +39,30 @@
             type : '${deal.type}',
             date : '${deal.date}',
             dateTo : '${deal.dateTo}',
-            contragent : ${deal.organisation.id},
-            realisation : ${deal.documentOrganisation.id},
+            counterparty : ${deal.organisation.id},
+            realisation : ${deal.shipper.id},
             product : ${deal.product.id},
             quantity : ${deal.quantity},
-            rails : false
+            price: ${deal.price}
         }
 
         <c:if test="${not empty deal.unit}">
         editor.deal.unit = ${deal.unit.id};
         </c:if>
         editor.deal.price = ${deal.price};
-        editor.contragentInput = editor.contragentName = '${deal.organisation.value}';
+        editor.counterpartyInput = editor.counterpartyName = '${deal.organisation.value}';
         </c:when>
         <c:otherwise>
         editor.deal.type = '${type}';
-        editor.init();
+        if (editor.realisations.length > 0){
+            editor.deal.realisation= editor.realisations[0].id;
+        }
+        if (editor.products.length > 0){
+            editor.deal.product = editor.products[0].id;
+        }
+        if (editor.units.length > 0){
+            editor.deal.unit = editor.units[0].id;
+        }
         </c:otherwise>
         </c:choose>
 
@@ -92,7 +101,7 @@
         </tr>
         <tr>
             <td>
-                <label for="contragent">
+                <label for="counterparty">
                     <fmt:message key="deal.organisation"/>
                 </label>
             </td>
@@ -100,16 +109,16 @@
                 :
             </td>
             <td>
-                <input id="contragent" autocomplete="off" style="width: 100%"
+                <input id="counterparty" autocomplete="off" style="width: 100%"
                        :class="{error : errors.organisation}"
                        onclick = "this.select()"
                        v-on:keyup="findOrganisation()"
                        v-on:keyup.enter="parseOrganisation()"
                        v-on:blur="parseOrganisation()"
-                       v-model="contragentInput"/>
-                <div id="contragent-list" class="custom-data-list" v-if="foundContragents.length > 0">
-                    <div class="custom-data-list-item" v-for="contragent in foundContragents"
-                         v-on:click="setContragent(contragent)">{{contragent.value}}</div>
+                       v-model="counterpartyInput"/>
+                <div id="contragent-list" class="custom-data-list" v-if="foundOrganisations.length > 0">
+                    <div class="custom-data-list-item" v-for="organisation in foundOrganisations"
+                         v-on:click="setCounterparty(organisation)">{{organisation.value}}</div>
                 </div>
             </td>
         </tr>
@@ -183,18 +192,17 @@
                 {{(deal.price * deal.quantity).toLocaleString()}}
             </td>
         </tr>
-        <%--<tr>--%>
-            <%--<td colspan="3">--%>
-                <%--<input id="rails" type="checkbox" v-model="deal.rails">--%>
-                <%--<label for="rails">--%>
-                    <%--<fmt:message key="deal.edit.be.rails"/>--%>
-                <%--</label>--%>
-            <%--</td>--%>
-        <%--</tr>--%>
         <tr>
             <td colspan="3" align="center">
-                <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>
-                <button v-on:click="save()"><fmt:message key="button.save"/> </button>
+                <button class="left-button close-button" onclick="closeModal()" ondblclick="">
+                    <fmt:message key="button.cancel"/>
+                </button>
+                <button class="middle-button save-button" v-on:click="saveAndClose()" v-on:dblclick="">
+                    <fmt:message key="button.save.and.close"/>
+                </button>
+                <button class="right-button save-button" v-on:click="saveAndRedirect()" v-on:dblclick="">
+                    <fmt:message key="button.save.and.continue"/>
+                </button>
             </td>
         </tr>
     </table>

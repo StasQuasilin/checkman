@@ -42,6 +42,7 @@ public class Constants {
     public static final String PROBE = "probe";
     public static final String FIND_MANGER = "findManager";
     public static final String FIND_ORGANISATION = "findOrganisation";
+    public static final String COUNTERPARTY = "counterparty";
 
 
     public static class Languages {

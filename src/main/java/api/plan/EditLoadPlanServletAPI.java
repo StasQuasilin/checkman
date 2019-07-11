@@ -6,7 +6,7 @@ import constants.Constants;
 import entity.DealType;
 import entity.Worker;
 import entity.documents.Deal;
-import entity.documents.DocumentOrganisation;
+import entity.documents.Shipper;
 import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
@@ -37,7 +37,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             log.info(body );
             Date date = Date.valueOf(String.valueOf(body.get("date")));
             long plan = (long) body.get("plan");
-            DocumentOrganisation documentOrganisation = dao.getDocumentOrganisationByValue(body.get("from"));
+            Shipper shipper = dao.getDocumentOrganisationByValue(body.get("from"));
             long dealId = (long) body.get("deal");
             Deal deal;
             Worker creator = getWorker(req);
@@ -49,7 +49,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 deal.setDate(date);
                 deal.setDateTo(date);
                 deal.setOrganisation(dao.getOrganisationById(body.get("organisation")));
-                deal.setDocumentOrganisation(documentOrganisation);
+                deal.setShipper(shipper);
                 deal.setProduct(dao.getProductById(body.get("product")));
                 deal.setQuantity(plan);
                 deal.setUnit(dao.getWeightUnitById(body.get("unit")));
@@ -75,12 +75,12 @@ public class EditLoadPlanServletAPI extends ServletAPI {
 
             loadPlan.setDate(date);
             loadPlan.setDeal(deal);
-            loadPlan.setDocumentOrganisation(documentOrganisation);
+            loadPlan.setShipper(shipper);
             loadPlan.setPlan(plan);
             loadPlan.setCustomer(TransportCustomer.valueOf(String.valueOf(body.get("customer"))));
 
             if (!transportation.isArchive()) {
-                transportation.setDocumentOrganisation(documentOrganisation);
+                transportation.setShipper(shipper);
 
                 long vehicleId = (long) body.get("vehicle");
                 if (vehicleId != -1) {

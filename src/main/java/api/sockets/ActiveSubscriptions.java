@@ -55,7 +55,9 @@ public class ActiveSubscriptions {
     public void send(Subscriber sub, String txt) throws IOException {
         txt = prepareMessage(sub, txt);
         for (Session session : subscribes.get(sub)){
-            session.getBasicRemote().sendText(txt);
+            if (session.isOpen()){
+                session.getBasicRemote().sendText(txt);
+            }
         }
     }
 

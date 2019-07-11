@@ -3931,7 +3931,7 @@ ALTER TABLE ONLY public.extraction_raw
 --
 
 ALTER TABLE ONLY public.seals
-    ADD CONSTRAINT fknj1n5eglub0c9a8rmph7emr7j FOREIGN KEY (transportation) REFERENCES public.transportations(id);
+    ADD CONSTRAINT fknj1n5eglub0c9a8rmph7emr7j FOREIGN KEY (cargo) REFERENCES public.transportations(id);
 
 
 --

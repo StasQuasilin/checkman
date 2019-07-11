@@ -32,17 +32,16 @@ import entity.storages.StorageProduct;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.TurnDateTime;
-import utils.UpdateBox;
+import utils.UpdateUtil;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.GE;
 import utils.hibernate.DateContainers.LE;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -54,6 +53,7 @@ public class HibernateDAO implements dbDAO {
     private static final String ID = "id";
     private static final String DEAL = "deal";
     private final Hibernator hb = Hibernator.getInstance();
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     public void saveDeal(Deal deal){
@@ -87,8 +87,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public DocumentOrganisation getDocumentOrganisationById(Object id) {
-        return hb.get(DocumentOrganisation.class, ID, id);
+    public Shipper getShipperById(Object id) {
+        return hb.get(Shipper.class, ID, id);
     }
 
     @Override
@@ -273,8 +273,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<DocumentOrganisation> getDocumentOrganisationList() {
-        return hb.query(DocumentOrganisation.class, null);
+    public List<Shipper> getShipperList() {
+        return hb.query(Shipper.class, null);
     }
 
     @Override
@@ -439,8 +439,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public DocumentOrganisation getDocumentOrganisationByValue(Object value) {
-        return hb.get(DocumentOrganisation.class, "value", value);
+    public Shipper getDocumentOrganisationByValue(Object value) {
+        return hb.get(Shipper.class, "value", value);
     }
 
     @Override

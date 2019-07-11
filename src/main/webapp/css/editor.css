@@ -1,3 +1,19 @@
 .editor input[type="number"]{
     width: 6em;
 }
+.left-button{
+    border-radius: 8pt 0 0 8pt;
+}
+.middle-button{
+    border-radius: 0;
+}
+.right-button{
+    border-radius: 0 8pt 8pt 0;
+}
+.close-button{
+    background-color: #b43e08;
+    color: white;
+}
+.save-button{
+
+}

@@ -20,7 +20,7 @@ public class Deal extends IDocument{
 
     private Date dateTo;
     private DealType type;
-    private DocumentOrganisation documentOrganisation;
+    private Shipper shipper;
     private Organisation organisation;
     private Product product;
     private float quantity;
@@ -74,11 +74,11 @@ public class Deal extends IDocument{
 
     @OneToOne
     @JoinColumn(name = "visibility")
-    public DocumentOrganisation getDocumentOrganisation() {
-        return documentOrganisation;
+    public Shipper getShipper() {
+        return shipper;
     }
-    public void setDocumentOrganisation(DocumentOrganisation documentOrganisation) {
-        this.documentOrganisation = documentOrganisation;
+    public void setShipper(Shipper shipper) {
+        this.shipper = shipper;
     }
 
     @OneToOne

@@ -18,13 +18,9 @@ var list = new Vue({
         timer :1000
     },
     mounted:function(){
-        console.log('list mounted')
-        console.log(typeof (filter_control));
         if (typeof filter_control !== 'undefined'){
-            console.log('do filter')
             filter_control.items = this.items;
             if (typeof filter_control.filteredItems === 'function') {
-                console.log('do function')
                 this.getItems = function () {
                     return filter_control.filteredItems();
                 }
@@ -44,6 +40,7 @@ var list = new Vue({
             if (!doNot) {
                 this.items.push({item: item});
             }
+            this.sort();
         },
         update:function(item){
             for(var i in this.items){
@@ -54,6 +51,7 @@ var list = new Vue({
                     }
                 }
             }
+            this.sort();
         },
         drop:function(id){
             for(var i in this.items){
@@ -64,6 +62,7 @@ var list = new Vue({
                     }
                 }
             }
+            this.sort();
         },
         handler:function(e){
             const self = this;

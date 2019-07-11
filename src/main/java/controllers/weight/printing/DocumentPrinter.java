@@ -42,7 +42,7 @@ public class DocumentPrinter extends ServletAPI {
             req.setAttribute("weight", plan.getTransportation().getWeight());
             req.setAttribute("driver", plan.getTransportation().getDriver());
             req.setAttribute("vehicle", plan.getTransportation().getVehicle());
-            req.setAttribute("from", plan.getDeal().getDocumentOrganisation());
+            req.setAttribute("from", plan.getDeal().getShipper());
             req.getRequestDispatcher("/pages/documents/waybill.jsp").forward(req, resp);
         }
     }

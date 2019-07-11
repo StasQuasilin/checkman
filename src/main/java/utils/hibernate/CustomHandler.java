@@ -1,5 +1,6 @@
 package utils.hibernate;
 
+import entity.documents.LoadPlan;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.transport.ActionTime;
@@ -14,21 +15,9 @@ import java.util.List;
 public class CustomHandler {
     public static void main(String[] args) {
         Hibernator hibernator = Hibernator.getInstance();
-        for (Transportation transportation : hibernator.query(Transportation.class, null)){
-            ActionTime timeIn = transportation.getTimeIn();
-            ActionTime timeOut = transportation.getTimeOut();
-            if (timeIn != null && timeOut != null) {
-                Timestamp timeInTime = timeIn.getTime();
-                Timestamp timeOutTime = timeOut.getTime();
-
-                if (timeInTime.after(timeOutTime)){
-                    transportation.setArchivation(timeInTime);
-                } else {
-                    transportation.setArchivation(timeOutTime);
-                }
-                hibernator.save(transportation);
-            }
-
+        for (LoadPlan plan : hibernator.query(LoadPlan.class, null)){
+            plan.getTransportation().setDate(plan.getDate());
+            hibernator.save(plan.getTransportation());
         }
         HibernateSessionFactory.shutdown();
     }

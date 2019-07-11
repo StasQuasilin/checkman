@@ -1,16 +1,18 @@
 package entity.transport;
 
+import entity.DealType;
 import entity.Worker;
-import entity.documents.DocumentOrganisation;
-import entity.documents.IDocument;
+import entity.documents.Shipper;
 import entity.laboratory.CakeAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
+import entity.organisations.Organisation;
+import entity.products.Product;
 import entity.seals.Seal;
 import entity.weight.Weight;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.Set;
 
 /**
@@ -18,34 +20,61 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "transportations")
-public class Transportation extends IDocument{
-//    private int id;
-//    private Date date;
-
+public class Transportation {
+    private int id;
+    private Date date;
+    private Organisation counterparty;
+    private DealType type;
     private Vehicle vehicle;
     private Driver driver;
-    private DocumentOrganisation documentOrganisation;
+    private Shipper shipper;
     private ActionTime timeIn;
     private ActionTime timeOut;
-    private Worker creator;
+    private Product product;
     private Weight weight;
     private SunAnalyses sunAnalyses;
     private OilAnalyses oilAnalyses;
     private CakeAnalyses cakeAnalyses;
     private Set<Seal> seals;
+    private Worker creator;
     private Set<TransportationNote> notes;
-    private Timestamp archivation;
+    private boolean archive;
     private String uid;
 
-    @Override
     @Id
     @GeneratedValue
     public int getId() {
         return id;
     }
-    @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "date")
+    public Date getDate() {
+        return date;
+    }
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "counterparty")
+    public Organisation getCounterparty() {
+        return counterparty;
+    }
+    public void setCounterparty(Organisation organisation) {
+        this.counterparty = organisation;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    public DealType getType() {
+        return type;
+    }
+    public void setType(DealType type) {
+        this.type = type;
     }
 
     @OneToOne
@@ -67,12 +96,12 @@ public class Transportation extends IDocument{
     }
 
     @OneToOne
-    @JoinColumn(name = "document_organisation")
-    public DocumentOrganisation getDocumentOrganisation() {
-        return documentOrganisation;
+    @JoinColumn(name = "shipper")
+    public Shipper getShipper() {
+        return shipper;
     }
-    public void setDocumentOrganisation(DocumentOrganisation documentOrganisation) {
-        this.documentOrganisation = documentOrganisation;
+    public void setShipper(Shipper shipper) {
+        this.shipper = shipper;
     }
 
     @OneToOne
@@ -94,12 +123,12 @@ public class Transportation extends IDocument{
     }
 
     @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
+    @JoinColumn(name = "product")
+    public Product getProduct() {
+        return product;
     }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @OneToOne
@@ -130,7 +159,7 @@ public class Transportation extends IDocument{
     }
 
     @OneToOne
-    @JoinColumn(name = "cake_analyses")
+    @JoinColumn(name = "meal_analyses")
     public CakeAnalyses getCakeAnalyses() {
         return cakeAnalyses;
     }
@@ -146,7 +175,16 @@ public class Transportation extends IDocument{
         this.seals = seals;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "creator")
+    public Worker getCreator() {
+        return creator;
+    }
+    public void setCreator(Worker creator) {
+        this.creator = creator;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transportation", cascade = CascadeType.ALL)
     public Set<TransportationNote> getNotes() {
         return notes;
     }
@@ -155,12 +193,12 @@ public class Transportation extends IDocument{
     }
 
     @Basic
-    @Column(name = "archivation")
-    public Timestamp getArchivation() {
-        return archivation;
+    @Column(name = "archive")
+    public boolean isArchive() {
+        return archive;
     }
-    public void setArchivation(Timestamp archivation) {
-        this.archivation = archivation;
+    public void setArchive(boolean archive) {
+        this.archive = archive;
     }
 
     @Transient
@@ -183,7 +221,7 @@ public class Transportation extends IDocument{
         if (driver != null) {
             hash = 31 * driver.hashCode() + hash;
         }
-        hash = 31 * documentOrganisation.hashCode() + hash;
+        hash = 31 * shipper.hashCode() + hash;
         if (timeIn != null) {
             hash = 31 * timeIn.hashCode() + hash;
         }
@@ -215,9 +253,7 @@ public class Transportation extends IDocument{
             hash = 31 * note.getNote().hashCode() + hash;
         }
 
-        if (archivation != null){
-            hash = 31 * archivation.hashCode() + hash;
-        }
+        hash = 31 * Boolean.hashCode(archive) + hash;
 
         return hash;
     }
@@ -229,10 +265,5 @@ public class Transportation extends IDocument{
     }
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    @Transient
-    public boolean isArchive() {
-        return archivation != null;
     }
 }

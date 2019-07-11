@@ -200,10 +200,10 @@
                             <b>
                                 <fmt:message key="vro.daily.oil.mass.dry"/>
                             </b>
-                            <c:forEach items="${turn.oilMassFractionDries}" var="d">
-                                <fmt:message key="oil.mass.fraction.seed"/>:&nbsp;${d.seed},
-                                <fmt:message key="oil.mass.fraction.husk"/>:&nbsp;${d.husk}
-                                <c:forEach items="${d.forpressCakes}" var="f">
+                            <c:forEach items="${turn.oilMassFractionDries}" var="shipper">
+                                <fmt:message key="oil.mass.fraction.seed"/>:&nbsp;${shipper.seed},
+                                <fmt:message key="oil.mass.fraction.husk"/>:&nbsp;${shipper.husk}
+                                <c:forEach items="${shipper.forpressCakes}" var="f">
                                     <div style="width: 100%; padding-left: 24pt">
                                         <b>
                                             ${f.forpress.name}

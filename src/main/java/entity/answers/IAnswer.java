@@ -8,17 +8,17 @@ import java.util.HashMap;
 public abstract class IAnswer {
 
     public abstract String status();
-    private HashMap<String, String> params;
+    private HashMap<String, Object> params;
 
     public IAnswer() {
         params = new HashMap<>();
     }
 
-    public void add(String key, String value){
+    public void add(String key, Object value){
         params.put(key, value);
     }
 
-    public HashMap<String, String> getParams() {
+    public HashMap<String, Object> getParams() {
         return params;
     }
 }

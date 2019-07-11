@@ -77,10 +77,11 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                     loadPlan = new LoadPlan();
                     loadPlan.setUid(DocumentUIDGenerator.generateUID());
                     loadPlan.setDeal(deal);
-                    loadPlan.setDocumentOrganisation(deal.getDocumentOrganisation());
+                    loadPlan.setShipper(deal.getShipper());
                     transportation = new Transportation();
                     transportation.setUid(DocumentUIDGenerator.generateUID());
                     transportation.setCreator(getWorker(req));
+                    transportation.setType(deal.getType());
                     loadPlan.setTransportation(transportation);
                     planComparator.fix(null);
                     transportationComparator.fix(null);
@@ -118,7 +119,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                     save = true;
                 }
 
-                transportation.setDocumentOrganisation(loadPlan.getDocumentOrganisation());
+                transportation.setShipper(loadPlan.getShipper());
 
                 long vehicleId = -1;
                 if (json.containsKey("vehicle")) {

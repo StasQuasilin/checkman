@@ -1,16 +1,11 @@
 package entity.log.comparators;
 
 import entity.Worker;
-import entity.documents.Deal;
-import entity.documents.DocumentOrganisation;
 import entity.documents.LoadPlan;
 import entity.log.IChangeComparator;
 import entity.transport.TransportCustomer;
-import entity.transport.Transportation;
 import utils.ChangeLogUtil;
 import utils.DateUtil;
-
-import java.sql.Date;
 
 /**
  * Created by szpt_user045 on 26.04.2019.
@@ -33,7 +28,7 @@ public class LoadPlanComparator extends IChangeComparator<LoadPlan> {
             dealId = oldObject.getDeal().getId();
             plan = oldObject.getPlan();
             customer = oldObject.getCustomer();
-            documentOrganisation = oldObject.getDocumentOrganisation().getValue();
+            documentOrganisation = oldObject.getShipper().getValue();
             canceled = oldObject.isCanceled();
         }
     }
@@ -44,7 +39,7 @@ public class LoadPlanComparator extends IChangeComparator<LoadPlan> {
         compare(newPlan ? null : dealId, newObject.getDeal().getId(), "plan.deal");
         compare(newPlan ? null : plan, newObject.getPlan(), "plan.plan");
         compare(newPlan ? null : customer, newObject.getCustomer(), "plan.customer");
-        compare(newPlan ? null : documentOrganisation, newObject.getDocumentOrganisation().getValue(), "plan.from");
+        compare(newPlan ? null : documentOrganisation, newObject.getShipper().getValue(), "plan.from");
         if (!newPlan) {
             compare(canceled, newObject.isCanceled(), "plan.canceled");
         }

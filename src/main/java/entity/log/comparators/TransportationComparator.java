@@ -1,24 +1,14 @@
 package entity.log.comparators;
 
 import entity.Worker;
-import entity.documents.DocumentOrganisation;
-import entity.laboratory.transportation.CakeTransportationAnalyses;
-import entity.laboratory.transportation.OilTransportationAnalyses;
-import entity.laboratory.transportation.SunTransportationAnalyses;
-import entity.log.Change;
 import entity.log.IChangeComparator;
-import entity.seals.Seal;
-import entity.transport.ActionTime;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
-import entity.weight.Weight;
 import utils.ChangeLogUtil;
 import utils.DateUtil;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by szpt_user045 on 26.04.2019.

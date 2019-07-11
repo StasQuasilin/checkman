@@ -33,9 +33,9 @@
         value:'${unit.name}'
     });
     </c:forEach>
-    <c:forEach items="${documentOrganisations}" var="d">
+    <c:forEach items="${documentOrganisations}" var="shipper">
     editor.visibles.push(
-        '${d.value}'
+        '${shipper.value}'
     );
     </c:forEach>
     <c:forEach items="${customers}" var="customer">
@@ -54,7 +54,7 @@
         organisation:${plan.deal.organisation.id},
         product:${plan.deal.product.id},
         plan:${plan.plan},
-        from:'${plan.deal.documentOrganisation.value}',
+        from:'${plan.deal.shipper.value}',
         price:${plan.deal.price},
         unit:${plan.deal.unit.id},
         customer:'${plan.customer}',
@@ -104,7 +104,7 @@
             id:${plan.deal.product.id},
             name:'${plan.deal.product.name}'
         },
-        visibility:'${plan.deal.documentOrganisation.value}',
+        visibility:'${plan.deal.shipper.value}',
         unit:${plan.deal.unit.id},
         price:${plan.deal.price}
     });

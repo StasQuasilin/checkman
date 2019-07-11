@@ -38,11 +38,7 @@ public class TransportUtil{
             isArchive = false;
         }
         if (transportation.isArchive() != isArchive) {
-            if (isArchive){
-                transportation.setArchivation(Timestamp.valueOf(LocalDateTime.now()));
-            } else {
-                transportation.setArchivation(null);
-            }
+            transportation.setArchive(isArchive);
             dao.saveTransportation(transportation);
         }
     }

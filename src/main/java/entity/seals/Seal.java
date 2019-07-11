@@ -43,7 +43,7 @@ public class Seal {
     }
 
     @ManyToOne
-    @JoinColumn(name = "transportation")
+    @JoinColumn(name = "cargo")
     public Transportation getTransportation() {
         return transportation;
     }

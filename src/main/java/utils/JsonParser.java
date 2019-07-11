@@ -67,7 +67,7 @@ public class JsonParser {
         json.put(DATE, deal.getDate().toString());
         json.put(DATE_TO, deal.getDateTo().toString());
         json.put(ORGANISATION, toJson(deal.getOrganisation()));
-        json.put(VISIBILITY, deal.getDocumentOrganisation().getValue());
+        json.put(VISIBILITY, deal.getShipper().getValue());
         json.put(PRODUCT, toJson(deal.getProduct()));
         json.put(QUANTITY, deal.getQuantity());
         json.put(DONE, deal.getDone());
@@ -130,9 +130,9 @@ public class JsonParser {
     public static final String STATUS = "status";
     
     public JSONObject toJson(IAnswer answer) {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         json.put(STATUS, answer.status());
-        for (Map.Entry<String, String> entry : answer.getParams().entrySet()){
+        for (Map.Entry<String, Object> entry : answer.getParams().entrySet()){
             json.put(entry.getKey(), entry.getValue());
         }
         return json;
@@ -372,7 +372,7 @@ public class JsonParser {
         json.put(PRODUCT, toJson(loadPlan.getDeal().getProduct()));
         json.put(QUANTITY, loadPlan.getPlan());
         json.put(UNIT, loadPlan.getDeal().getUnit().getName());
-        json.put(REALISATION, loadPlan.getDocumentOrganisation().getValue());
+        json.put(REALISATION, loadPlan.getShipper().getValue());
         json.put(TRANSPORTATION, toJson(loadPlan.getTransportation()));
         json.put(HASH, loadPlan.hashCode());
 

@@ -4,15 +4,10 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.DealType;
-import entity.products.Product;
-import entity.documents.DocumentOrganisation;
 import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
-import entity.weight.WeightUnit;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,7 +56,7 @@ public class WeightAdd extends IModal {
         req.setAttribute("save", Branches.API.PLAN_LIST_ADD);
         req.setAttribute("products", dao.getProductList());
         req.setAttribute("units", dao.getUnitsList());
-        req.setAttribute("documentOrganisations", dao.getDocumentOrganisationList());
+        req.setAttribute("documentOrganisations", dao.getShipperList());
         req.setAttribute("types", DealType.values());
         req.setAttribute("customers", TransportCustomer.values());
         show(req, resp);

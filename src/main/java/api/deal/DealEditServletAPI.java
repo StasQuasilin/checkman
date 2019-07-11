@@ -4,15 +4,17 @@ import api.IChangeServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.DealType;
+import entity.answers.IAnswer;
+import entity.documents.Shipper;
 import entity.products.Product;
 import entity.Worker;
 import entity.documents.Deal;
-import entity.documents.DocumentOrganisation;
 import entity.log.comparators.DealComparator;
 import entity.organisations.Organisation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.*;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +31,7 @@ public class DealEditServletAPI extends IChangeServletAPI {
 
     private final DealComparator comparator = new DealComparator();
     private final Logger log = Logger.getLogger(DealEditServletAPI.class);
-    private final UpdateBox updateBox = UpdateBox.instance();
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -81,7 +83,7 @@ public class DealEditServletAPI extends IChangeServletAPI {
             }
 
             Organisation organisation;
-            long organisationId = (long) body.get(Constants.CONTRAGENT);
+            long organisationId = (long) body.get(Constants.COUNTERPARTY);
             if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisationId) {
                 organisation = dao.getOrganisationById(organisationId);
                 deal.setOrganisation(organisation);
@@ -111,22 +113,32 @@ public class DealEditServletAPI extends IChangeServletAPI {
                 save = true;
             }
 
-            DocumentOrganisation dO = dao.getDocumentOrganisationById(body.get(Constants.REALISATION));
-            if (deal.getDocumentOrganisation() == null || deal.getDocumentOrganisation().getId() != dO.getId()) {
-                deal.setDocumentOrganisation(dO);
+            Shipper shipper = dao.getShipperById(body.get(Constants.REALISATION));
+            if (deal.getShipper() == null || deal.getShipper().getId() != shipper.getId()) {
+                deal.setShipper(shipper);
                 save = true;
             }
 
             if (save) {
                 dao.saveDeal(deal);
+
+                IAnswer resultAnswer = new SuccessAnswer();
+                resultAnswer.add("id", deal.getId());
+                JSONObject answerJson = parser.toJson(resultAnswer);
+                write(resp, answerJson.toJSONString());
+                pool.put(answerJson);
+
+                updateUtil.onSave(UpdateUtil.Command.update, deal);
                 try {
                     comparator.compare(deal, worker);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+            } else {
+                write(resp, answer);
             }
 
-            write(resp, answer);
 
             body.clear();
         } else {

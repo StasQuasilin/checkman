@@ -30,8 +30,6 @@ import entity.storages.Storage;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
-import org.json.simple.JSONObject;
-import org.omg.PortableInterceptor.ObjectReferenceFactory;
 import utils.TurnDateTime;
 
 import java.sql.Date;
@@ -51,7 +49,7 @@ public interface dbDAO {
     Deal getDealById(Object id);
     Organisation getOrganisationById(Object organisationId);
     Product getProductById(Object id);
-    DocumentOrganisation getDocumentOrganisationById(Object id);
+    Shipper getShipperById(Object id);
     int getActNumber(ActType type);
     BotSettings getBotSettings();
     List<TurnSettings> getTurnSettings();
@@ -84,7 +82,7 @@ public interface dbDAO {
     <T> void remove (Class<T> tClass, Object id);
     List<Product> getProductList();
     List<WeightUnit> getUnitsList();
-    List<DocumentOrganisation> getDocumentOrganisationList();
+    List<Shipper> getShipperList();
     List<Seal> findSeal(String key);
     Turn getTurnByDate(TurnDateTime turnDate);
     Driver getDriverByID(Object id);
@@ -110,7 +108,7 @@ public interface dbDAO {
     Collection<Organisation> findOrganisation(String key);
     List<LoadPlan> getActiveTransportations(Date date);
     List<Deal> getArchiveDeals(DealType type);
-    DocumentOrganisation getDocumentOrganisationByValue(Object value);
+    Shipper getDocumentOrganisationByValue(Object value);
     WeightUnit getWeightUnitById(Object unit);
     BotUID getBotUidByWorker(Worker worker);
     BotUID getBotUidByUid(String uid);

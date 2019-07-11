@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import utils.JsonParser;
+import utils.JsonPool;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
@@ -20,12 +21,11 @@ import java.io.PrintWriter;
  * Created by szpt_user045 on 12.03.2019.
  */
 public abstract class ServletAPI extends IServlet{
-    public final static String EMPTY = "{\"add\":[],\"update\":[],\"remove\":[]}";
     public static final String ADD = "add";
     public static final String UPDATE = "update";
     public static final String REMOVE = "remove";
-    public static final String VERSION = "version";
     public static final JsonParser parser = new JsonParser();
+    public static final JsonPool pool = JsonPool.getPool();
 
 
 //    final JSONParser parser = new JSONParser();

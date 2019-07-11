@@ -2,7 +2,6 @@ package entity.documents;
 
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
-import org.glassfish.jersey.server.BackgroundScheduler;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -20,7 +19,7 @@ public class LoadPlan extends IDocument{
     private float plan;
     private TransportCustomer customer;
     private Transportation transportation;
-    private DocumentOrganisation documentOrganisation;
+    private Shipper shipper;
     private boolean canceled;
     private String uid;
 
@@ -84,11 +83,11 @@ public class LoadPlan extends IDocument{
 
     @OneToOne
     @JoinColumn(name = "document_organisation")
-    public DocumentOrganisation getDocumentOrganisation() {
-        return documentOrganisation;
+    public Shipper getShipper() {
+        return shipper;
     }
-    public void setDocumentOrganisation(DocumentOrganisation documentOrganisation) {
-        this.documentOrganisation = documentOrganisation;
+    public void setShipper(Shipper shipper) {
+        this.shipper = shipper;
     }
 
     @Basic
@@ -117,7 +116,7 @@ public class LoadPlan extends IDocument{
         hash = 31 * Float.hashCode(plan) + hash;
         hash = 31 * customer.hashCode() + hash;
         hash = 31 * transportation.hashCode() + hash;
-        hash = 31 * documentOrganisation.hashCode() + hash;
+        hash = 31 * shipper.hashCode() + hash;
         return hash;
     }
 }
