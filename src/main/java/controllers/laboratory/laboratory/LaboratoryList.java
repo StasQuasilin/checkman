@@ -1,5 +1,6 @@
 package controllers.laboratory.laboratory;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
@@ -26,6 +27,7 @@ public class LaboratoryList extends IUIServlet{
         req.setAttribute("edit", Branches.UI.LABORATORY_EDIT);
         req.setAttribute("print", Branches.UI.LABORATORY_PRINT);
         req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
+        req.setAttribute("subscribe", "TRANSPORT_" + type.toString().toUpperCase());
         show(req, resp);
     }
 }

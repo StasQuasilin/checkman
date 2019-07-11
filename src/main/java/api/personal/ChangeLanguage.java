@@ -1,6 +1,6 @@
 package api.personal;
 
-import api.API;
+import api.ServletAPI;
 import constants.Branches;
 import entity.Worker;
 import org.json.simple.JSONObject;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 02.07.2019.
  */
 @WebServlet(Branches.API.CHANGE_LANGUAGE)
-public class ChangeLanguage extends API {
+public class ChangeLanguage extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

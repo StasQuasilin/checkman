@@ -53,16 +53,12 @@ public class HibernateDAO implements dbDAO {
     
     private static final String ID = "id";
     private static final String DEAL = "deal";
-    
     private final Hibernator hb = Hibernator.getInstance();
-    private final UpdateBox updateBox = UpdateBox.instance();
 
     @Override
     public void saveDeal(Deal deal){
         deal.setHash(deal.hashCode());
         hb.save(deal);
-        updateBox.update(UpdateBox.BoxType.deal);
-        updateBox.update(UpdateBox.BoxType.dealArchive);
     }
 
     @Override
@@ -430,6 +426,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<Deal> getDealsByType(DealType type) {
+        return hb.query(Deal.class, "type", type);
+    }
+
+    @Override
     public List<Deal> getArchiveDeals(DealType type) {
         final HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("archive", true);
@@ -644,7 +645,7 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<LoadPlan> getLoadPlansByDealType(DealType dealType) {
         final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("transportation/archive", false);
+        parameters.put("transportation/archivation", null);
         parameters.put("deal/type", dealType);
         return hb.query(LoadPlan.class, parameters);
     }
@@ -717,14 +718,6 @@ public class HibernateDAO implements dbDAO {
     @Override
     public TurnGrease getTurnGreaseById(Object id) {
         return hb.get(TurnGrease.class, ID, id);
-    }
-
-    @Override
-    public List<DealHash> getDealHashByType(DealType dealType) {
-        final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("archive", false);
-        parameters.put("type", dealType);
-        return hb.query(DealHash.class, parameters);
     }
 
     @Override

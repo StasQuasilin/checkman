@@ -1,6 +1,6 @@
 package api.laboratory.extraction;
 
-import api.API;
+import api.ServletAPI;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -11,8 +11,6 @@ import entity.laboratory.subdivisions.extraction.TurnProtein;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
 
@@ -29,7 +27,7 @@ import java.time.LocalDateTime;
  * Created by szpt_user045 on 16.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_TURN_PROTEIN_EDIT)
-public class ExtractionTurnProteinEdit extends API {
+public class ExtractionTurnProteinEdit extends ServletAPI {
 
 
 

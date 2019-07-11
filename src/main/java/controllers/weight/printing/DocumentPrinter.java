@@ -1,11 +1,9 @@
 package controllers.weight.printing;
 
-import api.API;
+import api.ServletAPI;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONObject;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +15,7 @@ import java.io.*;
  * Created by szpt_user045 on 24.04.2019.
  */
 @WebServlet(Branches.UI.PRINT_DOCUMENT)
-public class DocumentPrinter extends API {
+public class DocumentPrinter extends ServletAPI {
 
 
 

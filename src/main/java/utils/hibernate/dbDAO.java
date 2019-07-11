@@ -151,7 +151,6 @@ public interface dbDAO {
     DealProduct getDealProductById(int id);
     List<Subdivision> getSubdivisions();
     TurnGrease getTurnGreaseById(Object id);
-    List<DealHash> getDealHashByType(DealType dealType);
     Turn getTurnByTime(Timestamp timestamp);
     List<LaboratoryTurn> getAnyTurnByDate(LocalDate date);
     List<VROTurn> getVroTurnsBetween(LocalDate from, LocalDate to);
@@ -164,4 +163,5 @@ public interface dbDAO {
     List<TransportationNote> getTransportationNotesByTransportation(Transportation transportation);
     TransportationNote getTransportationNotesById(Object id);
     List<Turn> getTurnsBetween(LocalDate from, LocalDate to);
+    List<Deal> getDealsByType(DealType type);
 }

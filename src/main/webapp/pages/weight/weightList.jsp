@@ -8,12 +8,16 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <script>
-    list.api.update = '${update}';
     list.api.edit = '${edit}';
     <c:forEach items="${types}" var="t">
     list.types['${t}'] = '<fmt:message key="_${t}"/> '
     </c:forEach>
-    list.doRequest();
+    subscribe('${subscribe}', function(a){
+        list.handler(a);
+    });
+    stopContent = function(){
+        unSubscribe('${subscribe}');
+    }
 </script>
 <div id="container-header" class="container-header">
     <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>

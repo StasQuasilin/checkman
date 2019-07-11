@@ -21,9 +21,13 @@
 </div>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
-    list.api.update = '${update}';
     list.api.edit = '${edit}';
-    list.doRequest();
+    subscribe('${subscribe}', function(a){
+        list.handler(a);
+    });
+    stopContent = function(){
+        unSubscribe('${subscribe}');
+    }
 </script>
 <div id="container">
     <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">

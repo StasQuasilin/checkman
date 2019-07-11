@@ -1,5 +1,6 @@
 package controllers.weight;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
@@ -20,7 +21,7 @@ public class WeightList extends IUIServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.WEIGHT_LIST);
-        req.setAttribute("update", Branches.API.WEIGHT_LIST);
+        req.setAttribute("subscribe", Subscriber.TRANSPORT);
         req.setAttribute("edit", Branches.UI.WEIGHT_EDIT);
         req.setAttribute("add", Branches.UI.WEIGHT_ADD);
         req.setAttribute("notes", Branches.UI.NOTES_LIST);

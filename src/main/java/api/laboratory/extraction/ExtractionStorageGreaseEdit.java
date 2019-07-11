@@ -1,6 +1,6 @@
 package api.laboratory.extraction;
 
-import api.API;
+import api.ServletAPI;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
@@ -8,7 +8,6 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.extraction.StorageGrease;
-import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
@@ -29,7 +28,7 @@ import java.time.LocalTime;
  * Created by szpt_user045 on 16.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_STORAGE_GREASE_EDIT)
-public class ExtractionStorageGreaseEdit extends API {
+public class ExtractionStorageGreaseEdit extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

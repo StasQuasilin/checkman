@@ -1,12 +1,10 @@
 package controllers.admin;
 
-import api.sign.SignUpAPI;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
 import entity.Role;
 
-import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;

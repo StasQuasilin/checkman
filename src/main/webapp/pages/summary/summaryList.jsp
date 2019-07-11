@@ -8,9 +8,13 @@
   <script src="${context}/vue/dataList.vue"></script>
   <link rel="stylesheet" href="${context}/css/DataContainer.css">
    <script>
-     list.api.update = '${update}';
      list.api.edit = '${show}';
-     list.doRequest();
+     subscribe('${subscribe}', function(a){
+       list.handler(a);
+     });
+     stopContent = function(){
+       unSubscribe('${subscribe}');
+     }
   </script>
   <transition-group  name="flip-list" tag="div" class="container" id="container">
       <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"

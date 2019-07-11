@@ -31,7 +31,6 @@
         <mapping class="entity.transport.TransportationNote"/>
         <mapping class="entity.transport.ActionTime"/>
         <mapping class="entity.documents.Deal"/>
-        <mapping class="entity.documents.DealHash"/>
         <mapping class="entity.documents.DocumentOrganisation"/>
         <mapping class="entity.documents.LoadPlan"/>
         <mapping class="entity.log.ChangeLog"/>

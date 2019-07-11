@@ -36,8 +36,8 @@ public class SignInBox {
                 log.info("Success, user " + user.getWorker().getPerson().getValue());
                 req.getSession().setAttribute("token", UserBox.getUserBox().addUser(new UserData(user, req.getSession())));
                 req.getSession().setAttribute("lang", user.getWorker().getLanguage());
-                log.info("User language: " + user.getWorker().getLanguage());
                 req.getSession().setAttribute("worker", user.getWorker());
+                req.getSession().setAttribute("uid", user.getUid());
                 req.getSession().setAttribute("role", user.getRole());
             } else {
                 answer = new ErrorAnswer("msd", lb.get(Constants.Languages.WRONG_PASSWORD));

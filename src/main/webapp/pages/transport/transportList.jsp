@@ -10,11 +10,15 @@
   <link rel="stylesheet" href="${context}/css/TransportList.css">
 
   <script>
-    list.api.update = '${update}';
     list.api.edit = '${edit}';
     list.types['buy'] = '<fmt:message key="_buy"/>'
     list.types['sell'] = '<fmt:message key="_sell"/>'
-    list.doRequest();
+    subscribe('${subscribe}', function(a){
+      list.handler(a);
+    });
+    stopContent = function(){
+      unSubscribe('${subscribe}');
+    }
   </script>
   <transition-group name="flip-list" tag="div" class="container" id="container">
     <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"

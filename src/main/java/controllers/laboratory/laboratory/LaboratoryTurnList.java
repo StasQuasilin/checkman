@@ -1,5 +1,6 @@
 package controllers.laboratory.laboratory;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import controllers.IUIServlet;
 
@@ -18,8 +19,8 @@ public class LaboratoryTurnList extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", "title.laboratory.turns");
         req.setAttribute("content", "/pages/laboratory/laboratoryTurns.jsp");
-        req.setAttribute("update", Branches.API.LABORATORY_TURN_LIST);
         req.setAttribute("edit", Branches.UI.LABORATORY_TURNS_EDIT);
+        req.setAttribute("subscribe", Subscriber.LABORATORY_TURNS);
         show(req, resp);
     }
 }

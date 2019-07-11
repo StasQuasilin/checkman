@@ -8,13 +8,14 @@
 <script src="${context}/vue/dataList.vue"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
   <script>
-    list.api.update = '${update}';
     list.api.edit = '${edit}';
     list.api.show = '${show}';
     list.attributes['type'] = '${type}';
-    list.doRequest();
+    subscribe('${subscribe}', function(a){
+      list.handler(a);
+    });
     stopContent = function(){
-      list.stop();
+      unSubscribe('${subscribe}');
     }
   </script>
   <div id="container-header" class="container-header">

@@ -1,5 +1,6 @@
 package controllers.logistic;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
@@ -24,7 +25,6 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("findDriverApi", Branches.API.References.FIND_DRIVER);
         req.setAttribute("saveTransportationVehicleAPI", Branches.API.SAVE_TRANSPORTATION_VEHICLE);
         req.setAttribute("saveTransportationDriverAPI", Branches.API.SAVE_TRANSPORTATION_DRIVER);
-        req.setAttribute("update", Branches.API.LOGISTIC_LIST);
         req.setAttribute("save", Branches.API.LOGISTIC_SAVE);
         req.setAttribute("saveNote", Branches.API.SAVE_NOTE);
         req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
@@ -35,6 +35,7 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("changeDate", Branches.API.CHANGE_DATE);
         req.setAttribute("content", "/pages/logistic/logisticList.jsp");
         req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
+        req.setAttribute("subscribe", Subscriber.TRANSPORT);
         show(req, resp);
     }
 }

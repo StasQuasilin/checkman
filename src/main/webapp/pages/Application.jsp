@@ -49,6 +49,7 @@
     </div>
 </div>
 <script src="${context}/vue/datetimePicker.vue"></script>
+<script src="${context}/js/Subscriber.js"></script>
 <script>
     <c:choose>
     <c:when test="${lang eq 'ua'}">

@@ -1,31 +1,8 @@
 package utils;
 
-import api.sign.SignUpAPI;
-import bot.BotFactory;
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
-import constants.Branches;
-import entity.documents.Deal;
-import entity.documents.LoadPlan;
-import entity.transport.Transportation;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
-import utils.email.RegistratorEmail;
-import utils.hibernate.HibernateSessionFactory;
-import utils.hibernate.Hibernator;
 
-import javax.mail.MessagingException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

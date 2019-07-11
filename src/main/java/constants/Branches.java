@@ -104,7 +104,7 @@ public class Branches {
         }
     }
     public class API{
-        public static final String API = "/api";
+        public static final String API = "/api/old";
         public static final String DEAL_SAVE =          API + "/deal/save";
         public static final String DEAL_DELETE =        API + "/deal/delete";
         public static final String SIGN_IN =            "/a/sign/in";

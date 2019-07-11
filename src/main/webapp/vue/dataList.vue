@@ -2,7 +2,6 @@ var list = new Vue({
     el: '#container',
     data:{
         api:{
-            update:'',
             edit:'',
             show:''
         },
@@ -66,39 +65,29 @@ var list = new Vue({
                 }
             }
         },
-        doRequest:function(){
+        handler:function(e){
             const self = this;
-            var parameters = {};
-            for (var k in self.items){
-                if (self.items.hasOwnProperty(k)) {
-                    var item = self.items[k].item;
-                    parameters[item.id] = item.hash;
-                }
-            }
-            for (var a in this.attributes){
-                if (this.attributes.hasOwnProperty(a)){
-                    parameters[a] = this.attributes[a];
-                }
-            }
-            PostApi(this.api.update, parameters, function(e){
-                if (e.add.length || e.update.length || e.remove.length) {
-                    console.log(e);
-                    self.attributes['version', e.version];
-                    for(var a in e.add){
+            if (e.add){
+                for(var a in e.add){
+                    if (e.add.hasOwnProperty(a)) {
                         self.add(e.add[a])
                     }
-                    for(var u in e.update){
-                        self.update(e.update[u])
-                    }
-                    for(var d in e.remove){
-                        self.drop(e.remove[d])
-                    }
-                    self.sort();
                 }
-            })
-            self.timeout = setTimeout(function(){
-                self.doRequest();
-            }, self.timer)
+            }
+            if (e.update) {
+                for (var u in e.update) {
+                    if (e.update.hasOwnProperty(u)) {
+                        self.update(e.update[u]);
+                    }
+                }
+            }
+            if (e.remove){
+                for(var r in e.remove){
+                    if (e.remove.hasOwnProperty(r)) {
+                        self.drop(e.remove[r])
+                    }
+                }
+            }
         },
         sort:function(){
             this.items.sort(function(a, b){
