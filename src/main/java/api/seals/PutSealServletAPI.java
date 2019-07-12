@@ -27,7 +27,7 @@ public class PutSealServletAPI extends ServletAPI {
             Seal seal = dao.getSealById(body.get("seal"));
             Transportation transportation = dao.getTransportationById(body.get("transportation"));
             if (seal != null) {
-                seal.setTransportation(transportation);
+                seal.setCargo(transportation);
                 dao.save(seal);
                 SealsUtil.checkBatch(seal.getBatch());
             }

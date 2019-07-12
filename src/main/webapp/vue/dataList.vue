@@ -43,13 +43,18 @@ var list = new Vue({
             this.sort();
         },
         update:function(item){
+            var found = false;
             for(var i in this.items){
                 if (this.items.hasOwnProperty(i)) {
                     if (this.items[i].item.id == item.id) {
+                        found = true;
                         this.items[i].item = item;
                         break;
                     }
                 }
+            }
+            if (!found){
+                this.add(item);
             }
             this.sort();
         },

@@ -6,6 +6,7 @@ package api.sockets;
 public enum Subscriber {
     DEAL_BUY,
     DEAL_SELL,
+    LOAD_PLAN,
     TRANSPORT,
     TRANSPORT_BUY,
     TRANSPORT_SELL,

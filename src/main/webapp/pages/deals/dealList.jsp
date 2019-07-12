@@ -27,6 +27,7 @@
            class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()"
            v-on:click="show(value.item.id)"
            v-on:dblclick=""
+           ondblclick=""
            v-on:click.right="contextMenu(value.item.id)">
         <div style="display: table-cell; border-right: solid gray 1.2pt; padding: 2pt 4pt; vertical-align: middle" >
           <span>

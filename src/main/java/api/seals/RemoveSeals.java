@@ -26,7 +26,7 @@ public class RemoveSeals extends ServletAPI {
             Object sealId = body.get("seal");
 
             Seal seal = dao.getSealById(sealId);
-            seal.setTransportation(null);
+            seal.setCargo(null);
             dao.save(seal);
             SealsUtil.checkBatch(seal.getBatch());
             write(resp, answer);

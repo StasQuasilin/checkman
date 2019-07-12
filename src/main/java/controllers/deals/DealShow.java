@@ -1,5 +1,6 @@
 package controllers.deals;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
@@ -36,17 +37,20 @@ public class DealShow extends IModal{
 
         if (dealId != -1) {
             req.setAttribute("deal", dao.getDealById(dealId));
+            req.setAttribute("plans", dao.getLoadPlanByDeal(dealId));
             req.setAttribute("title", Constants.Titles.DEAL_SHOW);
-            req.setAttribute("update", Branches.API.PLAN_LIST);
             req.setAttribute("save", Branches.API.PLAN_LIST_SAVE);
             req.setAttribute("vehicleModal", Branches.UI.VEHICLE_MODAL);
             req.setAttribute("driverModal", Branches.UI.DRIVER_MODAL);
-            req.setAttribute("findVehicleAPI", Branches.API.References.FIND_VEHICLE);
-            req.setAttribute("findDriverAPI", Branches.API.References.FIND_DRIVER);
+            req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
+            req.setAttribute("parseVehicle", Branches.API.PARSE_VEHICLE);
+            req.setAttribute("findDriver", Branches.API.References.FIND_DRIVER);
+            req.setAttribute("parseDriver", Branches.API.PARSE_PERSON);
             req.setAttribute("editVehicle", Branches.UI.VEHICLE_MODAL);
             req.setAttribute("editDriver", Branches.UI.DRIVER_MODAL);
             req.setAttribute("modalContent", "/pages/deals/dealShow.jsp");
             req.setAttribute("customers", TransportCustomer.values());
+            req.setAttribute("subscribe", Subscriber.TRANSPORT);
             show(req, resp);
         }
 

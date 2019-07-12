@@ -16,7 +16,11 @@ public class CustomHandler {
     public static void main(String[] args) {
         Hibernator hibernator = Hibernator.getInstance();
         for (LoadPlan plan : hibernator.query(LoadPlan.class, null)){
-            plan.getTransportation().setDate(plan.getDate());
+            Transportation transportation = plan.getTransportation();
+            transportation.setDate(plan.getDate());
+            transportation.setType(plan.getDeal().getType());
+            transportation.setProduct(plan.getDeal().getProduct());
+            transportation.setCounterparty(plan.getDeal().getOrganisation());
             hibernator.save(plan.getTransportation());
         }
         HibernateSessionFactory.shutdown();

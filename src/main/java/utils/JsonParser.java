@@ -340,7 +340,7 @@ public class JsonParser {
     final static String TRAILER = "trailer";
 
     public JSONObject toJson(Vehicle vehicle) {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         if (vehicle != null){
             json.put(ID, vehicle.getId());
             json.put(MODEL, vehicle.getModel());

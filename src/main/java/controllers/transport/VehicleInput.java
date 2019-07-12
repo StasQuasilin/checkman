@@ -26,7 +26,6 @@ public class VehicleInput extends IModal {
     
     static final Logger log = Logger.getLogger(VehicleInput.class);
 
-    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);

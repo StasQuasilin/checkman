@@ -167,7 +167,7 @@ public class Transportation {
         this.cakeAnalyses = cakeAnalyses;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cargo", cascade = CascadeType.ALL)
     public Set<Seal> getSeals() {
         return seals;
     }
@@ -184,7 +184,7 @@ public class Transportation {
         this.creator = creator;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transportation", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
     public Set<TransportationNote> getNotes() {
         return notes;
     }

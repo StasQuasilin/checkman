@@ -25,7 +25,7 @@ public class FindSeals extends ServletAPI {
         if (body != null) {
             String key = String.valueOf(body.get(Constants.KEY));
             JSONArray array = dao.findSeal(key).stream()
-                    .filter(seal -> seal.getTransportation() == null)
+                    .filter(seal -> seal.getCargo() == null)
                     .map(parser::toJson).collect(Collectors.toCollection(JSONArray::new));
             write(resp, array.toJSONString());
             body.clear();

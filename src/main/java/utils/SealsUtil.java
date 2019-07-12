@@ -22,7 +22,7 @@ public class SealsUtil {
         List<Seal> seals = dao.getSealsByBatch(batch);
         int free = 0;
         for (Seal seal : seals){
-            if (seal.getTransportation() == null) {
+            if (seal.getCargo() == null) {
                 free ++;
             }
         }

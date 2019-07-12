@@ -1,5 +1,6 @@
 package api.sockets;
 
+import constants.Branches;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by szpt_user045 on 11.07.2019.
  */
-@ServerEndpoint(value = "/api/subscribes")
+@ServerEndpoint(value = Branches.API.SUBSCRIBER)
 public class SubscribesAPI extends API{
     final static ArrayList<Session> sessions = new ArrayList<>();
     final static Logger logger = Logger.getLogger(SubscribesAPI.class);

@@ -3976,7 +3976,7 @@ ALTER TABLE ONLY public.analyses_cake
 --
 
 ALTER TABLE ONLY public.transportations
-    ADD CONSTRAINT fkq62baqktq6ntlsoynfsucn87 FOREIGN KEY (document_organisation) REFERENCES public.document_organisations(id);
+    ADD CONSTRAINT fkq62baqktq6ntlsoynfsucn87 FOREIGN KEY (shipper) REFERENCES public.document_organisations(id);
 
 
 --

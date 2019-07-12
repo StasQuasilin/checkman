@@ -94,16 +94,22 @@ public class Parser {
         }
     }
     public static void main(String[] args) throws IOException, DocumentException {
+        System.out.println(parsePerson("Лопа В.в."));
     }
 
 
     public static List<String> parsePerson(String value) {
-        value = value.replaceAll("\\s+", " ").replaceAll("[^a-z^A-Zа-яА-ЯіІ\\s]", "").toLowerCase().trim();
+//        value = value.replaceAll("\\s+", " ").replaceAll("[^a-z^A-Zа-яА-ЯіІ\\s]", "").toLowerCase().trim();
+        value = value.replaceAll("\\.", " ");
 
         String[] split = value.split(" ");
         List<String> result = new ArrayList<>();
         for (String s : split){
-            result.add(s.substring(0, 1).toUpperCase() + s.substring(1));
+            if (s.length()> 1) {
+                result.add(s.substring(0, 1).toUpperCase() + s.substring(1));
+            } else {
+                result.add(s.toUpperCase() + ".");
+            }
         }
         return result;
     }

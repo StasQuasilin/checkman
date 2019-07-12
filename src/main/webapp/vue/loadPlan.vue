@@ -1,16 +1,18 @@
 var plan = new Vue({
     el: '#load_plan',
-
     data: {
         api: {
             save: '',
-            update: '',
-            findVehicleAPI: '',
-            findDriverAPI: '',
-            editVehicleAPI: '',
-            editDriverAPI: ''
+            findVehicle: '',
+            parseVehicle:'',
+            findDriver: '',
+            parseDriver:'',
+            editVehicle: '',
+            editDriver: ''
         },
         deal:0,
+        dateFrom:'',
+        dateTo:'',
         quantity:0,
         unit:'',
         customers:[],
@@ -23,7 +25,9 @@ var plan = new Vue({
         worker:{}
     },
     methods:{
+        handler:function(a){
 
+        },
         messages:function(){
             var msgs = [];
             var total = this.totalPlan();
@@ -33,14 +37,24 @@ var plan = new Vue({
             return msgs;
         },
         newPlan:function(){
+            var date = new Date();
+            if (date < this.dateFrom){
+                date = this.dateFrom;
+            }else if (date > this.dateTo){
+                date = this.dateTo;
+            }
             this.add({
                 id:-randomNumber(),
-                date: new Date().toISOString().substring(0, 10),
+                date: date.toISOString().substring(0, 10),
                 plan:0,
                 customer:this.customers[0].id,
                 transportation:{
-                    vehicle:{},
-                    driver:{},
+                    vehicle:{
+                        id:-1
+                    },
+                    driver:{
+                        id:-1
+                    },
                     notes:[],
                     weight:{}
                 }
@@ -83,8 +97,29 @@ var plan = new Vue({
                 driverInput : '',
                 noteInput:'',
                 item : plan,
-                removed:false
+                removed:false,
+                saveTimer:-1
             });
+        },
+        initSaveTimer:function(key){
+            console.log('Init save for ' + key);
+            for (var i in this.plans){
+                if (this.plans.hasOwnProperty(i)){
+                    var plan = this.plans[i];
+                    if(plan.key === key){
+                        const p = plan;
+                        const self = this;
+
+                        clearTimeout(plan.saveTimer);
+
+                        plan.saveTimer = setTimeout(function(){
+
+                            self.save(p.item, key);
+                        }, 2500);
+                        break;
+                    }
+                }
+            }
         },
         update:function(plan){
             var found = false;
@@ -117,107 +152,127 @@ var plan = new Vue({
                 }
             }
         },
-        save:function(){
-            var plans = [];
-            for (var i in this.plans){
-                if (this.plans.hasOwnProperty(i)) {
-                    if (!this.plans[i].removed) {
-                        var plan = this.plans[i].item;
-                        var notes = [];
-                        for (var j in plan.transportation.notes) {
-                            if (plan.transportation.notes.hasOwnProperty(j)) {
-                                notes.push(plan.transportation.notes[j]);
-                            }
-                        }
-                        plans.push({
-                            id: plan.id,
-                            date: plan.date,
-                            plan: plan.plan,
-                            customer: plan.customer,
-                            vehicle: plan.transportation.vehicle.id,
-                            driver: plan.transportation.driver.id,
-                            notes: notes
-                        });
-                    }
+        save:function(item, key){
+            console.log('-------------');
+            console.log('Save');
+            const plan = item;
+            console.log(plan);
+            const self = this;
+            PostApi(this.api.save, {dealId : this.deal, plan : item},function(a){
+                if (a.status === 'success'){
+                    plan.id = a.id;
+                    //for (var i in self.plans){
+                    //    if (self.plans.hasOwnProperty(i)){
+                    //        var p = self.plans[i];
+                    //        if (p.key === key){
+                    //            p.item.id = a.id;
+                    //            break;
+                    //        }
+                    //    }
+                    //}
                 }
-            }
-
-            PostApi(this.api.save, {dealId : this.deal, plans : plans}, function(a){
-                if (a.status == 'success'){
-                    closeModal();
-                }
-            }, null, true)
+            });
         },
-        openVehicleInput:function(id){
+        openVehicleInput:function(key){
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
                     var plan = this.plans[i];
-                    plan.editVehicle = plan.item.id == id;
+                    plan.editVehicle = plan.key == key;
                     plan.editDriver = false;
                     plan.vehicleInput = '';
                 }
             }
+            this.focusInput();
+        },
+        focusInput:function(){
+            setTimeout(function(){
+                var inp = document.getElementById('input');
+                if (inp){
+                    inp.focus();
+                }else {
+                    console.log('input not found')
+                }
+            }, 100)
         },
         closeVehicleInput:function(key){
             this.plans[key].editVehicle = false;
             this.plans[key].vehicleInput = '';
+            this.foundVehicles=[];
         },
         findVehicle:function(input){
             clearTimeout(this.fnd);
-            const self = this;
-            this.fnd = setTimeout(function(){
-                PostApi(self.api.findVehicleAPI, {key : input}, function(a){
-                    self.foundVehicles = a;
-                })
-            }, 500)
-        },
-        setVehicle:function(vehicle, key){
-            this.plans[key].item.transportation.vehicle = vehicle;
-        },
-        editVehicle:function(value, key){
-            var parameters = {};
-            parameters.key = value;
-            const self = this;
-            loadModal(this.api.editVehicleAPI, parameters, function(a){
-                self.plans[key].item.transportation.vehicle = a;
-            })
+            if (input) {
+                const self = this;
+                this.fnd = setTimeout(function () {
+                    PostApi(self.api.findVehicle, {key: input}, function (a) {
+                        self.foundVehicles = a;
+                    })
+                }, 500)
+            } else {
+                this.foundVehicles=[]
+            }
 
         },
-        openDriverInput:function(id){
+        setVehicle:function(vehicle, key){
+            console.log('---------');
+            console.log('Set vehicle');
+            console.log(vehicle);
+            console.log('---------');
+            this.plans[key].item.transportation.vehicle = vehicle;
+            this.closeVehicleInput(key);
+            this.initSaveTimer(this.plans[key].key);
+        },
+        editVehicle:function(value, key){
+            if (value) {
+                const self = this;
+                PostApi(this.api.parseVehicle, {key: value}, function (a) {
+                    console.log(a);
+                    self.setVehicle(a, key);
+                })
+            }
+        },
+        openDriverInput:function(key){
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
                     var plan = this.plans[i];
-                    plan.editDriver = plan.item.id == id;
+                    plan.editDriver = plan.key == key;
                     plan.editVehicle = false;
                     plan.driverInput = '';
                 }
             }
+            this.focusInput();
         },
         closeDriverInput:function(key){
             this.plans[key].editDriver = false;
             this.plans[key].driverInput = '';
+            this.foundDrivers=[];
         },
         findDriver:function(input){
+            clearTimeout(this.fnd);
             if (input) {
-                clearTimeout(this.fnd);
                 const self = this;
                 this.fnd = setTimeout(function () {
-                    PostApi(self.api.findDriverAPI, {key : input}, function (a) {
+                    PostApi(self.api.findDriver, {key : input}, function (a) {
                         self.foundDrivers = a;
                     })
                 }, 500)
+            } else {
+                this.foundDrivers=[];
             }
         },
         setDriver:function(driver, key){
-            this.plans[key].item.transportation.driver = driver
+            this.plans[key].item.transportation.driver = driver;
+            this.closeDriverInput(key);
+            this.initSaveTimer(this.plans[key].key);
         },
         editDriver:function(value, key){
-            var parameters = {};
-            parameters.key = value;
-            const self = this;
-            loadModal(this.api.editDriverAPI, parameters, function(a){
-                self.plans[key].item.transportation.driver = a;
-            })
+            if(value) {
+                const self = this;
+                PostApi(this.api.parseDriver, {key: value}, function (a) {
+                    console.log(a);
+                    self.setDriver(a, key);
+                })
+            }
         },
         cancel:function(key){
             this.setVehicle({}, key);
@@ -281,12 +336,12 @@ var plan = new Vue({
             clearTimeout(this.upd);
         },
         dateTimePicker:function(key){
-            const self =this;
+            const self = this;
             datepicker.show(function (date) {
                 self.plans[key].item.date = date;
                 self.sort();
+                self.initSaveTimer(self.plans[key].key);
             }, this.plans[key].item.date)
-
         },
         sort:function(){
             this.plans.sort(function(a, b){

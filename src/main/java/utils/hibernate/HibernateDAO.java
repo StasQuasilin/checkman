@@ -409,7 +409,7 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<LoadPlan> getActiveTransportations(Date date) {
         final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("transportation/archivation", null);
+        parameters.put("transportation/archive", false);
         if (date == null) {
             parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
             return hb.limitQuery(LoadPlan.class, parameters, 30);
@@ -691,6 +691,16 @@ public class HibernateDAO implements dbDAO {
         findDriver("person/patronymic", key, ids, drivers);
         ids.clear();
         return drivers;
+    }
+
+    @Override
+    public Person getPersonByName(String s) {
+        return hb.get(Person.class, "surname", s);
+    }
+
+    @Override
+    public Driver getDriverByPerson(Person person) {
+        return hb.get(Driver.class, "person", person);
     }
 
     private void findDriver(String key, String value, Set<Integer> ids, List<Driver> drivers){

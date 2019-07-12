@@ -13,7 +13,7 @@ public class Seal {
     private int id;
     private SealBatch batch;
     private String number;
-    private Transportation transportation;
+    private Transportation cargo;
 
     @Id
     @GeneratedValue
@@ -44,10 +44,10 @@ public class Seal {
 
     @ManyToOne
     @JoinColumn(name = "cargo")
-    public Transportation getTransportation() {
-        return transportation;
+    public Transportation getCargo() {
+        return cargo;
     }
-    public void setTransportation(Transportation transportation) {
-        this.transportation = transportation;
+    public void setCargo(Transportation transportation) {
+        this.cargo = transportation;
     }
 }

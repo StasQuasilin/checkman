@@ -162,4 +162,6 @@ public interface dbDAO {
     TransportationNote getTransportationNotesById(Object id);
     List<Turn> getTurnsBetween(LocalDate from, LocalDate to);
     List<Deal> getDealsByType(DealType type);
+    Person getPersonByName(String s);
+    Driver getDriverByPerson(Person person);
 }

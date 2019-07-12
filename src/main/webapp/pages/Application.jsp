@@ -49,6 +49,12 @@
     </div>
 </div>
 <script src="${context}/vue/datetimePicker.vue"></script>
+<script src="${context}/js/Settings.js"></script>
+<script>
+    Settings.address=window.location.host;
+    Settings.context='${context}';
+    Settings.api='${SUBSCRIBER}';
+</script>
 <script src="${context}/js/Subscriber.js"></script>
 <script>
     <c:choose>

@@ -186,6 +186,9 @@ public class Branches {
         public static final String SAVE_NOTE = API + "/transportation/note/save";
         public static final String REMOVE_NOTE = API + "/transportation/note/remove";
         public static final String TRANSPORT_NOTES_LIST = API + "/transport/notes";
+        public static final String SUBSCRIBER = "/api/subscriber";
+        public static final String PARSE_VEHICLE = API + "/vehicle/parse";
+        public static final String PARSE_PERSON = API + "/person/parse";
 
 
         public class References {
