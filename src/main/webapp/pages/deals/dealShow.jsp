@@ -31,13 +31,38 @@
       },
       </c:otherwise>
       </c:choose>
+      <c:choose>
+      <c:when test="${not empty plan.transportation.driver.id}">
+      driver:{
+        id:${plan.transportation.driver.id},
+        person:{
+          value:'${plan.transportation.driver.person.value}'
+        }
+      },
+      </c:when>
+      <c:otherwise>
       driver:{
         id:-1
       },
-      notes:[],
+      </c:otherwise>
+      </c:choose>
+      notes:[
+        <c:forEach items="${plan.transportation.notes}" var="note">
+        {
+          id:${note.id},
+          creator:{
+            id:${note.creator.id},
+            person:{
+              value:'${note.creator.person.value}'
+            }
+          },
+          note:'${note.note}'
+        }
+        </c:forEach>
+      ],
       weight:{}
     }
-  })
+  });
   </c:forEach>
   <c:forEach items="${customers}" var="customer">
   plan.customers.push({
@@ -51,6 +76,7 @@
   plan.quantity = ${deal.quantity};
   plan.unit = "${deal.unit.name}";
   plan.api.save = '${save}';
+  plan.api.remove = '${remove}';
   plan.api.findVehicle = '${findVehicle}';
   plan.api.parseVehicle = '${parseVehicle}';
   plan.api.findDriver = '${findDriver}';
@@ -223,7 +249,7 @@
                         <%--REMOVE BUTTON--%>
                         <div style="display: inline-block; width: 10pt">
                           <span title="${dropTitle}" class="mini-close" style="left: 0"
-                                v-show="!value.item.transportation.archive" v-on:click="remove(value.key)">&times;</span>
+                                v-show="!value.item.transportation.archive" v-on:click="remove(key)">&times;</span>
                           <span v-show="value.item.transportation.archive" style="color: green">
                             &#10003;
                           </span>
@@ -418,11 +444,16 @@
                       </div>
                       <div class="lower">
                         <span v-if="value.editNote">
-                          <input v-on:keyup.enter="saveNote(value.key)" v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput"
-                                 style="width: 100%; background: transparent">
+<%--suppress XmlDuplicatedId --%>
+                          <input id="input"
+                                 v-on:keyup.enter="saveNote(key)"
+                                 v-on:blur="saveNote(key)"
+                                 v-on:keyup.escape="closeNote(value.key)"
+                                 v-model="value.noteInput"
+                                 style="width: 100%; background: white; border: none">
                         </span>
                         <div style="flex-wrap: wrap">
-                          <div v-for="note in value.item.transportation.notes" style="display-inside: inline-flex;">
+                          <div v-for="note in value.item.transportation.notes" style="display: inline-flex;">
                             <span v-if="note.creator.id !== worker.id">{{note.creator.value}}</span>
                             <span v-else>
                               <span v-on:click="removeNote(value.key, note.id)" class="mini-close">&times;</span>

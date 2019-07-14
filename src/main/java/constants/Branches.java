@@ -189,6 +189,7 @@ public class Branches {
         public static final String SUBSCRIBER = "/api/subscriber";
         public static final String PARSE_VEHICLE = API + "/vehicle/parse";
         public static final String PARSE_PERSON = API + "/person/parse";
+        public static final String REMOVE_PLAN = API + "/plan/remove";
 
 
         public class References {

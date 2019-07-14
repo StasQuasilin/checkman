@@ -3,6 +3,7 @@ var plan = new Vue({
     data: {
         api: {
             save: '',
+            remove:'',
             findVehicle: '',
             parseVehicle:'',
             findDriver: '',
@@ -137,19 +138,17 @@ var plan = new Vue({
             }
         },
         remove:function(key){
-            for (var r in this.plans){
-                if (this.plans.hasOwnProperty(r)){
-                    var item = this.plans[r];
-                    if (item.key === key) {
-                        if (item.item.id > 0){
-                            console.log('mark as removed ' + key);
-                            item.removed = true;
-                        } else {
-                            console.log('remove ' + key);
-                            this.plans.splice(r, 1);
-                        }
+            var plan = this.plans[key].item;
+            if (plan.id){
+                console.log('remove ' + key);
+                const self = this;
+                PostApi(this.api.remove, {id:plan.id},function(a){
+                    if (a.status === 'success'){
+                        self.plans.splice(key, 1);
                     }
-                }
+                })
+            } else {
+                this.plans.splice(key, 1);
             }
         },
         save:function(item, key){
@@ -366,22 +365,19 @@ var plan = new Vue({
                     this.plans[i].editNote = this.plans[i].key === key;
                 }
             }
+            this.focusInput();
         },
         saveNote:function(key){
-            for (var i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    var p = this.plans[i];
-                    if (p.key === key){
-                        p.item.transportation.notes.push({
-                            id:-randomNumber(),
-                            creator:this.worker,
-                            note:p.noteInput
-                        });
-                        p.noteInput='';
-                        p.editNote = false;
-                        break;
-                    }
-                }
+            var plan = this.plans[key];
+            if (plan.noteInput) {
+                plan.item.transportation.notes.push({
+                    id: -randomNumber(),
+                    creator: this.worker,
+                    note: plan.noteInput
+                });
+                plan.noteInput = '';
+                plan.editNote = false;
+                this.initSaveTimer(plan.key);
             }
         },
         closeNote:function(key){

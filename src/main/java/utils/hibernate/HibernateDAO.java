@@ -207,8 +207,10 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public void remove(Object o) {
-        hb.remove(o);
+    public void remove(Object ... objects) {
+        for (Object o : objects){
+            hb.remove(o);
+        }
     }
 
     @Override

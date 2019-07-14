@@ -40,6 +40,7 @@ public class DealShow extends IModal{
             req.setAttribute("plans", dao.getLoadPlanByDeal(dealId));
             req.setAttribute("title", Constants.Titles.DEAL_SHOW);
             req.setAttribute("save", Branches.API.PLAN_LIST_SAVE);
+            req.setAttribute("remove", Branches.API.REMOVE_PLAN);
             req.setAttribute("vehicleModal", Branches.UI.VEHICLE_MODAL);
             req.setAttribute("driverModal", Branches.UI.DRIVER_MODAL);
             req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);

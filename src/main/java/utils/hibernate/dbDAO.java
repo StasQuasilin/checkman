@@ -71,7 +71,7 @@ public interface dbDAO {
     List<User> getUsersByToken(String token);
     Worker getWorkerById(Object id);
     void saveCakeAnalyses(CakeAnalyses cakeAnalyses);
-    void remove(Object o);
+    void remove(Object ... o);
     void save(Object ... o);
     List<SunProbe> getLimitSunProbes(Date date);
     List<OilProbe> getLimitOilProbes(Date date);
