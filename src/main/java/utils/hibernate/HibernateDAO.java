@@ -254,12 +254,6 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public void saveTransportation(ActionTime time, Transportation transportation) {
-        hb.save(time);
-        saveTransportation(transportation);
-    }
-
-    @Override
     public <T> void remove(Class<T> tClass, Object id) {
         hb.remove(hb.get(tClass, ID, id));
     }
@@ -647,9 +641,14 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<LoadPlan> getLoadPlansByDealType(DealType dealType) {
         final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("transportation/archivation", null);
+        parameters.put("transportation/archive", false);
         parameters.put("deal/type", dealType);
         return hb.query(LoadPlan.class, parameters);
+    }
+
+    @Override
+    public List<Transportation> getTransportationsByType(DealType type) {
+        return hb.query(Transportation.class, "type", type);
     }
 
     @Override

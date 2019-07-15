@@ -83,7 +83,7 @@ function loadModal(url, parameters, onSave){
         coverlet.style.display='none';
     }, function (e) {
         console.error('Error ' + e);
-        modalLayer.style.display='none';
+        //modalLayer.style.display='none';
         coverlet.style.display='none';
     }, function(e){
         console.log(e);

@@ -18,6 +18,8 @@ import java.io.IOException;
 @WebServlet(Branches.UI.LOGISTIC_LIST)
 public class LogisticList extends IUIServlet{
 
+    final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.LOGISTIC_LIST);
@@ -35,7 +37,7 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("changeDate", Branches.API.CHANGE_DATE);
         req.setAttribute("content", "/pages/logistic/logisticList.jsp");
         req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
-        req.setAttribute("subscribe", Subscriber.TRANSPORT);
+        req.setAttribute("subscribe", subscribers);
         show(req, resp);
     }
 }

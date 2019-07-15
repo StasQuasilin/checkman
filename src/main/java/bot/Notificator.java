@@ -59,7 +59,7 @@ public class Notificator {
     public Notificator(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
     }
-    public void transportShow(LoadPlan plan){
+    public void transportShow(Transportation transportation){
         String message;
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
@@ -67,16 +67,15 @@ public class Notificator {
                 boolean show = false;
                 switch (setting.getTransport()) {
                     case my:
-                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        show = transportation.getCreator().getId() == worker.getId();
                         break;
                     case all:
                         show = true;
                         break;
                 }
-                Transportation transportation = plan.getTransportation();
                 if (show && transportation.getTimeIn() != null && !transportation.isArchive()) {
                     String language = setting.getLanguage();
-                    message = prepareMessage(plan);
+                    message = prepareMessage(transportation);
                     message += "\n" + lb.get(language, TRANSPORT_IN);
                     sendMessage(setting.getTelegramId(), message, null);
                 }
@@ -106,7 +105,7 @@ public class Notificator {
                     if (brutto > 0 && tara > 0) {
                         netto = brutto - tara;
                     }
-                    message = prepareMessage(plan);
+                    message = "";//prepareMessage(plan);
                     if (brutto > 0) {
                         message += "\n" + String.format(lb.get(BRUTTO), brutto);
                     }
@@ -144,7 +143,7 @@ public class Notificator {
                     float oilImpurity = analyses.getOilImpurity();
                     float acid = analyses.getAcidValue();
 
-                    message = prepareMessage(plan);
+                    message = "";//prepareMessage(plan);
 
                     if (humidity1 > 0) {
                         message += "\n" + String.format(lb.get(HUMIDITY_1), humidity1);
@@ -192,7 +191,7 @@ public class Notificator {
                         break;
                 }
                 if (show) {
-                    message = prepareMessage(plan);
+                    message = "";//prepareMessage(plan);
                     message += "\n" + String.format(lb.get(HUMIDITY_1), analyses.getHumidity());
                     message += "\n" + String.format(lb.get(PROTEIN), analyses.getProtein());
                     message += "\n" + String.format(lb.get(CELLULOSE), analyses.getCellulose());
@@ -227,7 +226,7 @@ public class Notificator {
                         break;
                 }
                 if (show) {
-                    message = prepareMessage(plan);
+                    message = "";//prepareMessage(plan);
                     message += "\n" + lb.get("oil.organoleptic") + ": " + (organoleptic ? lb.get("oil.organoleptic.match") : lb.get("oil.organoleptic.doesn't.match"));
                     message += "\n" + String.format(lb.get(COLOR), Math.round(color));
                     message += "\n" + String.format(lb.get(ACID), acid);
@@ -310,13 +309,12 @@ public class Notificator {
         }
     }
 
-    String prepareMessage(LoadPlan plan){
-        Transportation transportation = plan.getTransportation();
-        DealType type = plan.getDeal().getType();
+    String prepareMessage(Transportation transportation){
+        DealType type = transportation.getType();
         String vehicle = transportation.getVehicle() != null ? transportation.getVehicle().getValue() : lb.get(NO_DATA);
         String driver = transportation.getDriver() != null ? transportation.getDriver().getPerson().getValue() : lb.get(NO_DATA);
-        String organisation = plan.getDeal().getOrganisation().getValue();
-        String product = plan.getDeal().getProduct().getName();
+        String organisation = transportation.getCounterparty().getValue();
+        String product = transportation.getProduct().getName();
         String action = lb.get("_" + type.toString()).toLowerCase();
 
         return String.format(

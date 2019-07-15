@@ -51,7 +51,6 @@ public class DealShow extends IModal{
             req.setAttribute("editDriver", Branches.UI.DRIVER_MODAL);
             req.setAttribute("modalContent", "/pages/deals/dealShow.jsp");
             req.setAttribute("customers", TransportCustomer.values());
-            req.setAttribute("subscribe", Subscriber.TRANSPORT);
             show(req, resp);
         }
 

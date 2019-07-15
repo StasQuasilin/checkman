@@ -18,10 +18,13 @@ import java.io.IOException;
 
 @WebServlet(Branches.UI.WEIGHT_LIST)
 public class WeightList extends IUIServlet{
+
+    final Subscriber[] subscribers =new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.WEIGHT_LIST);
-        req.setAttribute("subscribe", Subscriber.TRANSPORT);
+        req.setAttribute("subscribe", subscribers);
         req.setAttribute("edit", Branches.UI.WEIGHT_EDIT);
         req.setAttribute("add", Branches.UI.WEIGHT_ADD);
         req.setAttribute("notes", Branches.UI.NOTES_LIST);

@@ -32,8 +32,9 @@ var list = new Vue({
             var doNot = false;
             for (var a in this.items){
                 if (this.items.hasOwnProperty(a)){
-                    if (this.items[a].item.id == item.id){
+                    if (this.items[a].item.id === item.id){
                         doNot = true;
+                        break;
                     }
                 }
             }

@@ -30,17 +30,13 @@ public class TransportHandler extends OnSubscribeHandler {
     public void handle(Session session) throws IOException {
         JSONObject json = ActiveSubscriptions.pool.getObject();
         JSONArray add = ActiveSubscriptions.pool.getArray();
-        add.addAll(getTransport().stream().map(parser::toLogisticJson).collect(Collectors.toList()));
+        add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
         json.put(ActiveSubscriptions.ADD, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json.toJSONString()));
         ActiveSubscriptions.pool.put(json);
     }
 
-    List<LoadPlan> getTransport(){
-        if (type == null) {
-            return dao.getActiveTransportations(null);
-        } else {
-            return dao.getLoadPlansByDealType(type);
-        }
+    List<Transportation> getTransport(){
+        return dao.getTransportationsByType(type);
     }
 }

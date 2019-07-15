@@ -78,7 +78,6 @@ public interface dbDAO {
     void saveChangeLod(ChangeLog log);
     void saveChange(Change change);
     LoadPlan getLoadPlanByTransportationId(Object id);
-    void saveTransportation(ActionTime time, Transportation transportation);
     <T> void remove (Class<T> tClass, Object id);
     List<Product> getProductList();
     List<WeightUnit> getUnitsList();
@@ -164,4 +163,5 @@ public interface dbDAO {
     List<Deal> getDealsByType(DealType type);
     Person getPersonByName(String s);
     Driver getDriverByPerson(Person person);
+    List<Transportation> getTransportationsByType(DealType type);
 }

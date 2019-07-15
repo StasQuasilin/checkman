@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import entity.weight.Weight;
 
 import javax.servlet.ServletException;
@@ -21,8 +22,8 @@ public class TransportationShow extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
-        LoadPlan loadPlan = dao.getLoadPlanById(id);
-        Weight weight = loadPlan.getTransportation().getWeight();
+        Transportation transportation = dao.getTransportationById(id);
+        Weight weight = transportation.getWeight();
         float b = 0;
         float t = 0;
         float n = 0;
@@ -36,7 +37,7 @@ public class TransportationShow extends IModal {
         req.setAttribute("brutto", b);
         req.setAttribute("tara", t);
         req.setAttribute("netto", n);
-        req.setAttribute("plan", loadPlan);
+        req.setAttribute("transportation", transportation);
         req.setAttribute("title", Constants.Titles.TRANSPORT_SHOW);
         req.setAttribute("timeInLink", Branches.API.TRANSPORT_TIME_IN);
         req.setAttribute("timeOutLink", Branches.API.TRANSPORT_TIME_OUT);

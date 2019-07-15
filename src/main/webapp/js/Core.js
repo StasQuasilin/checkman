@@ -31,11 +31,12 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
                 }
             }
         };
-
-
         xhr.send(JSON.stringify(parametrs));
     } else {
-        console.error('Empty url!!!');
+        console.error('Empty url!');
+        if (onError){
+            onError('Empty url!');
+        }
     }
 }
 function PostApi(url, parameters, onSuccess, onError, debug){

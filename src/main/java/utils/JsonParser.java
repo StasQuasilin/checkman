@@ -44,6 +44,7 @@ public class JsonParser {
 
     final static String NAME = "name";
     final static String VALUE = "value";
+    private static final String SHIPPER = "shipper";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -141,16 +142,7 @@ public class JsonParser {
     public static final String PLAN = "plan";
     public static final String CUSTOMER = "customer";
 
-    public JSONObject toJson(LoadPlan lp) {
-        JSONObject json = new JSONObject();
-        json.put(ID, lp.getId());
-        json.put(DATE, lp.getDate().toString());
-        json.put(PLAN, lp.getPlan());
-        json.put(CUSTOMER, lp.getCustomer().toString());
-        json.put(TRANSPORTATION, toJson(lp.getTransportation()));
-        json.put(HASH, lp.hashCode());
-        return json;
-    }
+
 
     final static String VEHICLE = "vehicle";
     final static String DRIVER = "driver";
@@ -161,11 +153,25 @@ public class JsonParser {
     final static String ANY = "any";
     final static String ARCHIVE = "archive";
 
+    public JSONObject toJson(LoadPlan lp) {
+        JSONObject json = toJson(lp.getTransportation());
+        json.put(ID, lp.getId());
+        json.put(PLAN, lp.getPlan());
+        json.put(CUSTOMER, lp.getCustomer().toString());
+        json.put(HASH, lp.hashCode());
+        return json;
+    }
+
     public JSONObject toJson(Transportation transportation) {
 
         JSONObject json = pool.getObject();
         if (transportation != null){
             json.put(ID, transportation.getId());
+            json.put(TYPE, transportation.getType().toString());
+            json.put(DATE, transportation.getDate().toString());
+            json.put(PRODUCT, toJson(transportation.getProduct()));
+            json.put(ORGANISATION, toJson(transportation.getCounterparty()));
+            json.put(SHIPPER, transportation.getShipper().getValue().toString());
             json.put(VEHICLE, toJson(transportation.getVehicle()));
             json.put(DRIVER, toJson(transportation.getDriver()));
             json.put(TIME_IN, toJson(transportation.getTimeIn()));

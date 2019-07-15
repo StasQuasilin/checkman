@@ -151,14 +151,23 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
 
             if (newVehicle) {
                 dao.save(vehicle);
+
+            }
+
+            if (vehicle != null){
                 transportation.setVehicle(vehicle);
                 save = true;
             }
+
             if(newDriver) {
                 dao.save(driver.getPerson(), driver);
+            }
+
+            if (driver != null) {
                 transportation.setDriver(driver);
                 save = true;
             }
+
             if (save) {
                 dao.save(transportation, loadPlan);
             }

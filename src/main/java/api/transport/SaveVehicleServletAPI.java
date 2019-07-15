@@ -25,8 +25,6 @@ import java.io.IOException;
 public class SaveVehicleServletAPI extends ServletAPI {
 
     final Logger logger = Logger.getLogger(SaveVehicleServletAPI.class);
-    final TransportationComparator comparator = new TransportationComparator();
-
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,30 +48,10 @@ public class SaveVehicleServletAPI extends ServletAPI {
             vehicle.setTrailer(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.TRAILER))));
             logger.info("\t...Trailer: " + vehicle.getTrailer());
 
-            if (body.containsKey(Constants.Vehicle.TRANSPORTER_ID)) {
-                Organisation organisation = dao.getOrganisationById(body.get(Constants.Vehicle.TRANSPORTER_ID));
-                vehicle.setTransporter(organisation);
-                logger.info("\t...Transporter: \'" + vehicle.getTransporter().getValue() + "\'");
-            }
-
             dao.save(vehicle);
-            Object transportationId = null;
-
-            if (body.containsKey(Constants.TRANSPORTATION_ID)) {
-                transportationId = body.get(Constants.TRANSPORTATION_ID);
-            }
-            if (transportationId != null) {
-                logger.info("Put in transportation " + transportationId.toString());
-                Transportation transportation = dao.getTransportationById(transportationId);
-                if (transportation != null) {
-                    comparator.fix(transportation);
-                    transportation.setVehicle(vehicle);
-                    dao.saveTransportation(transportation);
-                    comparator.compare(transportation, getWorker(req));
-                }
-            }
-
-            write(resp, parser.toJson(vehicle).toJSONString());
+            JSONObject jsonObject = parser.toJson(vehicle);
+            write(resp, jsonObject.toJSONString());
+            pool.put(jsonObject);
             body.clear();
         } else {
             write(resp, emptyBody);

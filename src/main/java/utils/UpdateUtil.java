@@ -35,10 +35,13 @@ public class UpdateUtil {
     }
 
     public void onSave(Command command, Transportation transportation) throws IOException {
-        doAction(command, getSubscriber(transportation.getType()), parser.toJson(transportation));
+        log.info("Command " + command + " for transportation " + transportation.getId());
+        Subscriber subscriber = transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
+        doAction(command, subscriber, parser.toJson(transportation));
     }
 
     void doAction(Command command, Subscriber subscriber, Object ... obj) throws IOException {
+        log.info(command.toString().toUpperCase() + " for " + subscriber.toString());
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
         for (Object o : obj){

@@ -11,9 +11,11 @@ import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.TransportUtil;
+import utils.UpdateUtil;
 import utils.WeightUtil;
 import utils.answers.SuccessAnswer;
 
@@ -32,7 +34,8 @@ import java.sql.Timestamp;
 public class TransportTimeServletAPI extends ServletAPI {
 
     private final TransportationComparator comparator = new TransportationComparator();
-
+    final UpdateUtil updateUtil = new UpdateUtil();
+    private final Logger log = Logger.getLogger(TransportTimeServletAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,8 +43,8 @@ public class TransportTimeServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             Object id = body.get(Constants.ID);
-            LoadPlan plan = dao.getLoadPlanByTransportationId(id);
-            Transportation transportation = plan.getTransportation();
+            Transportation transportation = dao.getTransportationById(id);
+            log.info("Set time" + direction.toString().toUpperCase() + " for transportation " + transportation.getId());
             comparator.fix(transportation);
             ActionTime time = null;
             switch (direction) {
@@ -66,14 +69,16 @@ public class TransportTimeServletAPI extends ServletAPI {
             Worker worker = getWorker(req);
             time.setTime(new Timestamp(System.currentTimeMillis()));
             time.setCreator(worker);
-            dao.saveTransportation(time, transportation);
+            dao.save(time);
+            dao.saveTransportation(transportation);
+            updateUtil.onSave(UpdateUtil.Command.update, transportation);
             Notificator notificator = BotFactory.getNotificator();
             if (notificator != null) {
-                notificator.transportShow(plan);
+                notificator.transportShow(transportation);
             }
             TransportUtil.checkTransport(transportation);
             comparator.compare(transportation, worker);
-            WeightUtil.calculateDealDone(plan.getDeal());
+//            WeightUtil.calculateDealDone(plan.getDeal());
 
             body.clear();
             IAnswer answer = new SuccessAnswer();

@@ -169,7 +169,6 @@ input.error {
     color: #808080;
 }
 .edit-menu-header .arrow{
-    z-index: 1;
     position: absolute;
     right: 50%;
     top: 0;
@@ -183,6 +182,7 @@ input.error {
 .edit-menu{
     display: none;
     position: absolute;
+    width: 15em;
     right: -2px;
     top: 2px;
     background-color: #909090;
@@ -190,7 +190,7 @@ input.error {
     font-size: 8pt;
     border-radius: 2pt;
     box-shadow: 0 0 6px 4px white;
-    z-index: 1;
+    z-index: 100;
 }
 .edit-menu span{
     color: #d1d1d1;
