@@ -244,13 +244,15 @@ public class Transportation {
         if (cakeAnalyses != null) {
             hash = 31 * cakeAnalyses.hashCode() + hash;
         }
-
-        for (Seal seal : seals){
-            hash = 31 * seal.getNumber().hashCode() + hash;
+        if (seals != null) {
+            for (Seal seal : seals) {
+                hash = 31 * seal.getNumber().hashCode() + hash;
+            }
         }
-
-        for (TransportationNote note : notes) {
-            hash = 31 * note.getNote().hashCode() + hash;
+        if (notes != null) {
+            for (TransportationNote note : notes) {
+                hash = 31 * note.getNote().hashCode() + hash;
+            }
         }
 
         hash = 31 * Boolean.hashCode(archive) + hash;

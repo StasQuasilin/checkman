@@ -3,7 +3,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <script src="${context}/vue/dataList.vue"></script>
   <link rel="stylesheet" href="${context}/css/DataContainer.css">
@@ -11,8 +10,8 @@
 
   <script>
     list.api.edit = '${edit}';
-    list.types['buy'] = '<fmt:message key="_buy"/>'
-    list.types['sell'] = '<fmt:message key="_sell"/>'
+    list.types['buy'] = '<fmt:message key="_buy"/>';
+    list.types['sell'] = '<fmt:message key="_sell"/>';
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
       list.handler(a);
@@ -58,19 +57,19 @@
           <div>
             <fmt:message key="transportation.time.in"/>:
             <span v-if="value.item.timeIn.time">
-              {{new Date(value.item.timeIn.time).toLocaleTimeString()}}
+              {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
             </span>
             <span v-else>
-              --:--:--
+              --:--
             </span>
           </div>
           <div>
             <fmt:message key="transportation.time.out"/>:
             <span v-if="value.item.timeOut.time">
-              {{new Date(value.item.timeOut.time).toLocaleTimeString()}}
+              {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
             </span>
             <span v-else>
-              --:--:--
+              --:--
             </span>
           </div>
         </div>
@@ -89,7 +88,7 @@
                   {{value.item.vehicle.trailer}}
                 </span>
               </template>
-              <span v-else="value.item.vehicle.id">
+              <span v-else>
                 <fmt:message key="no.data"/>
               </span>
             </span>

@@ -53,7 +53,6 @@ public class HibernateDAO implements dbDAO {
     private static final String ID = "id";
     private static final String DEAL = "deal";
     private final Hibernator hb = Hibernator.getInstance();
-    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     public void saveDeal(Deal deal){
@@ -226,6 +225,11 @@ public class HibernateDAO implements dbDAO {
         }
 
 
+    }
+
+    @Override
+    public List<LoadPlan> getLoadPlans() {
+        return hb.query(LoadPlan.class, "transportation/archive", false);
     }
 
     @Override

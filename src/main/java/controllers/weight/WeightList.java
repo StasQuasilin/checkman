@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_LIST)
 public class WeightList extends IUIServlet{
 
-    final Subscriber[] subscribers =new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

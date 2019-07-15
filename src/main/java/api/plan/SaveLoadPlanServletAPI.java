@@ -7,7 +7,6 @@ import entity.Person;
 import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
-import entity.documents.DocumentUID;
 import entity.documents.LoadPlan;
 import entity.log.comparators.LoadPlanComparator;
 import entity.log.comparators.TransportationComparator;
@@ -25,8 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -38,6 +35,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
     final Logger log = Logger.getLogger(SaveLoadPlanServletAPI.class);
     final LoadPlanComparator planComparator = new LoadPlanComparator();
     final TransportationComparator transportationComparator = new TransportationComparator();
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -170,6 +168,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
 
             if (save) {
                 dao.save(transportation, loadPlan);
+                updateUtil.onSave(transportation);
             }
 
             final HashSet<TransportationNote> notes = new HashSet<>();

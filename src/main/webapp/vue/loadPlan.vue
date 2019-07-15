@@ -108,18 +108,19 @@ var plan = new Vue({
                 this.add(plan);
             }
         },
-        remove:function(key){
-            var plan = this.plans[key].item;
+        remove:function(id){
+            const _id = id;
+            var plan = this.plans[id].item;
             if (plan.id){
-                console.log('remove ' + key);
+                console.log('remove ' + id);
                 const self = this;
                 PostApi(this.api.remove, {id:plan.id},function(a){
                     if (a.status === 'success'){
-                        self.plans.splice(key, 1);
+                        self.plans.splice(_id, 1);
                     }
                 })
             } else {
-                this.plans.splice(key, 1);
+                this.plans.splice(id, 1);
             }
         },
         save:function(item, key){
@@ -156,7 +157,7 @@ var plan = new Vue({
                 }else {
                     console.log('input not found')
                 }
-            }, 100)
+            }, 200)
         },
         closeVehicleInput:function(key){
             this.plans[key].parseVehicle = false;

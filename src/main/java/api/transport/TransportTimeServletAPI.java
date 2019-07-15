@@ -7,16 +7,13 @@ import constants.Branches;
 import constants.Constants;
 import entity.Worker;
 import entity.answers.IAnswer;
-import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.TransportUtil;
 import utils.UpdateUtil;
-import utils.WeightUtil;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -71,7 +68,7 @@ public class TransportTimeServletAPI extends ServletAPI {
             time.setCreator(worker);
             dao.save(time);
             dao.saveTransportation(transportation);
-            updateUtil.onSave(UpdateUtil.Command.update, transportation);
+            updateUtil.onSave(transportation);
             Notificator notificator = BotFactory.getNotificator();
             if (notificator != null) {
                 notificator.transportShow(transportation);

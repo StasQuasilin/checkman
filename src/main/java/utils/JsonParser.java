@@ -188,8 +188,10 @@ public class JsonParser {
 
     private JSONArray toNotesJson(Set<TransportationNote> notes) {
         final JSONArray array = pool.getArray();
-        for (TransportationNote note : notes) {
-            array.add(toJson(note));
+        if (notes != null) {
+            for (TransportationNote note : notes) {
+                array.add(toJson(note));
+            }
         }
         return array;
     }

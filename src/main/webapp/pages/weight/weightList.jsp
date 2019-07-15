@@ -12,11 +12,17 @@
     <c:forEach items="${types}" var="t">
     list.types['${t}'] = '<fmt:message key="_${t}"/> '
     </c:forEach>
-    subscribe('${subscribe}', function(a){
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
         list.handler(a);
     });
+    </c:forEach>
     stopContent = function(){
-        unSubscribe('${subscribe}');
+        <c:forEach items="${subscribe}" var="s">
+        subscribe('${s}', function(a){
+            unSubscribe('${s}');
+        });
+        </c:forEach>
     }
 </script>
 <div id="container-header" class="container-header">
@@ -53,14 +59,14 @@
                 <span>
                     <fmt:message key="deal.quantity"/>:
                     <b>
-                        {{(value.item.quantity).toLocaleString()}}
+                        {{(value.item.plan).toLocaleString()}}
                         {{value.item.unit}}
                     </b>
                 </span>
                 <span>
                     <fmt:message key="deal.from"/>:
                     <b>
-                        {{value.item.realisation}}
+                        {{value.item.shipper}}
                     </b>
                 </span>
                 </div>
@@ -68,8 +74,8 @@
                     <div style="display: inline-block; font-size: 10pt; width: 12em">
                         <div>
                             <fmt:message key="transportation.time.in"/>:
-                        <span v-if="value.item.transportation.timeIn.time">
-                            {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+                        <span v-if="value.item.timeIn.time">
+                            {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
                         </span>
                         <span v-else>
                             --:--
@@ -77,8 +83,8 @@
                         </div>
                         <div>
                             <fmt:message key="transportation.time.out"/>:
-                      <span v-if="value.item.transportation.timeOut.time">
-                        {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString().substring(0, 5)}}
+                      <span v-if="value.item.timeOut.time">
+                        {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
                       </span>
                         <span v-else>
                             --:--
@@ -89,24 +95,24 @@
                         <div>
                             <fmt:message key="transportation.automobile"/>:
                         <span>
-                            <template v-if="value.item.transportation.vehicle.id">
-                                {{value.item.transportation.vehicle.model}}
+                            <template v-if="value.item.vehicle.id">
+                                {{value.item.vehicle.model}}
                             <span class="vehicle-number">
-                            {{value.item.transportation.vehicle.number}}
+                            {{value.item.vehicle.number}}
                             </span>
-                            <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
-                            {{value.item.transportation.vehicle.trailer}}
+                            <span v-if="value.item.vehicle.trailer" class="vehicle-number">
+                            {{value.item.vehicle.trailer}}
                             </span>
                             </template>
-                            <span v-else="value.item.transportation.vehicle.id">
-                            <fmt:message key="no.data"/>
+                            <span v-else>
+                                <fmt:message key="no.data"/>
                             </span>
                         </span>
                         </div>
                         <div>
                             <fmt:message key="transportation.driver"/>:
-                            <template v-if="value.item.transportation.driver.id">
-                                {{value.item.transportation.driver.person.value}}
+                            <template v-if="value.item.driver.id">
+                                {{value.item.driver.person.value}}
                             </template>
                             <template v-else>
                                 <fmt:message key="no.data"/>
@@ -114,39 +120,39 @@
                         </div>
                     </div>
                     <div style="display: inline-block; font-size: 10pt">
-                        <div v-if="value.item.transportation.weight.id">
-                            <fmt:message key="weight.brutto"/>:{{value.item.transportation.weight.brutto}},
-                            <fmt:message key="weight.tara"/>:{{value.item.transportation.weight.tara}},
-                            <fmt:message key="weight.netto"/>:{{value.item.transportation.weight.brutto > 0 &&
-                            value.item.transportation.weight.tara > 0 ?
-                            (value.item.transportation.weight.brutto -
-                            value.item.transportation.weight.tara).toLocaleString() : 0}}
-                            <span v-if="value.item.transportation.weight.correction">
-                                ({{(value.item.transportation.weight.netto).toLocaleString()}},
-                                -{{(value.item.transportation.weight.correction).toLocaleString()}}%)
+                        <div v-if="value.item.weight.id">
+                            <fmt:message key="weight.brutto"/>:{{value.item.weight.brutto}},
+                            <fmt:message key="weight.tara"/>:{{value.item.weight.tara}},
+                            <fmt:message key="weight.netto"/>:{{value.item.weight.brutto > 0 &&
+                            value.item.weight.tara > 0 ?
+                            (value.item.weight.brutto -
+                            value.item.weight.tara).toLocaleString() : 0}}
+                            <span v-if="value.item.weight.correction">
+                                ({{(value.item.weight.netto).toLocaleString()}},
+                                -{{(value.item.weight.correction).toLocaleString()}}%)
                             </span>
                         </div>
-                        <div v-if="value.item.transportation.analyses.sun.id">
-                            <fmt:message key="sun.humidity.1"/>:{{value.item.transportation.analyses.sun.humidity1}},
-                            <fmt:message key="sun.humidity.2"/>:{{value.item.transportation.analyses.sun.humidity2}},
-                            <fmt:message key="sun.soreness"/>:{{value.item.transportation.analyses.sun.soreness}},
-                            <fmt:message key="sun.oiliness"/>:{{value.item.transportation.analyses.sun.oiliness}}
+                        <div v-if="value.item.analyses.sun.id">
+                            <fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},
+                            <fmt:message key="sun.humidity.2"/>:{{value.item.analyses.sun.humidity2}},
+                            <fmt:message key="sun.soreness"/>:{{value.item.analyses.sun.soreness}},
+                            <fmt:message key="sun.oiliness"/>:{{value.item.analyses.sun.oiliness}}
                         </div>
-                        <div v-if="value.item.transportation.analyses.oil.id">
-                            <fmt:message key="sun.acid.value"/>:{{value.item.transportation.analyses.oil.acid}},
-                            <fmt:message key="oil.peroxide"/>:{{value.item.transportation.analyses.oil.peroxide}},
-                            <fmt:message key="oil.phosphorus"/>:{{value.item.transportation.analyses.oil.phosphorus}}
+                        <div v-if="value.item.analyses.oil.id">
+                            <fmt:message key="sun.acid.value"/>:{{value.item.analyses.oil.acid}},
+                            <fmt:message key="oil.peroxide"/>:{{value.item.analyses.oil.peroxide}},
+                            <fmt:message key="oil.phosphorus"/>:{{value.item.analyses.oil.phosphorus}}
                         </div>
-                        <div v-if="value.item.transportation.analyses.cake.id">
-                            <fmt:message key="sun.humidity"/>:{{value.item.transportation.analyses.cake.humidity}},
-                            <fmt:message key="cake.protein"/>:{{value.item.transportation.analyses.cake.protein}},
-                            <fmt:message key="cake.cellulose"/>:{{value.item.transportation.analyses.cake.cellulose}},
-                            <fmt:message key="sun.oiliness"/>:{{value.item.transportation.analyses.cake.oiliness}}
+                        <div v-if="value.item.analyses.cake.id">
+                            <fmt:message key="sun.humidity"/>:{{value.item.analyses.cake.humidity}},
+                            <fmt:message key="cake.protein"/>:{{value.item.analyses.cake.protein}},
+                            <fmt:message key="cake.cellulose"/>:{{value.item.analyses.cake.cellulose}},
+                            <fmt:message key="sun.oiliness"/>:{{value.item.analyses.cake.oiliness}}
                         </div>
                     </div>
                 </div>
-                <div class="lower-row" v-if="value.item.transportation.notes.length > 0">
-                    <div v-for="note in value.item.transportation.notes" style="display: inline-block; padding-left: 4pt">
+                <div class="lower-row" v-if="value.item.notes.length > 0">
+                    <div v-for="note in value.item.notes" style="display: inline-block; padding-left: 4pt">
                         {{note.creator.person.value}}:
                         <b>
                             {{note.note}}

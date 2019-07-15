@@ -1,9 +1,11 @@
 package api.sockets;
 
 import api.sockets.handlers.DealHandler;
+import api.sockets.handlers.LoadPlanHandler;
 import api.sockets.handlers.OnSubscribeHandler;
 import api.sockets.handlers.TransportHandler;
 import entity.DealType;
+import entity.Subdivision;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonPool;
@@ -33,6 +35,7 @@ public class ActiveSubscriptions {
         }
         handlers.put(Subscriber.DEAL_BUY, new DealHandler(DealType.buy, Subscriber.DEAL_BUY));
         handlers.put(Subscriber.DEAL_SELL, new DealHandler(DealType.sell, Subscriber.DEAL_SELL));
+        handlers.put(Subscriber.LOAD_PLAN, new LoadPlanHandler(Subscriber.LOAD_PLAN));
         handlers.put(Subscriber.TRANSPORT_BUY, new TransportHandler(Subscriber.TRANSPORT_BUY, DealType.buy));
         handlers.put(Subscriber.TRANSPORT_SELL, new TransportHandler(Subscriber.TRANSPORT_SELL, DealType.sell));
     }

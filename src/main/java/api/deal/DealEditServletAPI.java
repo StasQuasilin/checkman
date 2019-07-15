@@ -128,7 +128,7 @@ public class DealEditServletAPI extends IChangeServletAPI {
                 write(resp, answerJson.toJSONString());
                 pool.put(answerJson);
 
-                updateUtil.onSave(UpdateUtil.Command.update, deal);
+                updateUtil.onSave(deal);
                 try {
                     comparator.compare(deal, worker);
                 } catch (Exception e) {

@@ -164,4 +164,6 @@ public interface dbDAO {
     Person getPersonByName(String s);
     Driver getDriverByPerson(Person person);
     List<Transportation> getTransportationsByType(DealType type);
+    List<LoadPlan> getLoadPlans();
+
 }

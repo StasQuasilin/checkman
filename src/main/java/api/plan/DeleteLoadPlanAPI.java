@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.API.REMOVE_PLAN)
 public class DeleteLoadPlanAPI extends ServletAPI{
+
+    final UpdateUtil updateUtil = new UpdateUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -25,9 +29,13 @@ public class DeleteLoadPlanAPI extends ServletAPI{
             LoadPlan loadPlanById = dao.getLoadPlanById(id);
             if(loadPlanById.getTransportation().anyAction()){
                 loadPlanById.setCanceled(true);
+                loadPlanById.getTransportation().setArchive(true);
                 dao.save(loadPlanById);
+                dao.save(loadPlanById.getTransportation());
+                updateUtil.onRemove(loadPlanById.getTransportation());
             } else {
                 dao.remove(loadPlanById, loadPlanById.getTransportation());
+                updateUtil.onRemove(loadPlanById.getTransportation());
             }
 
             write(resp, answer);
