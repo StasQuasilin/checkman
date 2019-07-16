@@ -15,8 +15,8 @@
     </c:forEach>
     logistic.api.saveTransportationVehicleApi = '${saveTransportationVehicleAPI}';
     logistic.api.saveTransportationDriverApi = '${saveTransportationDriverAPI}';
-    logistic.api.findVehicleAPI = '${findVehicleApi}';
-    logistic.api.findDriverAPI = '${findDriverApi}';
+    logistic.api.findVehicle = '${findVehicle}';
+    logistic.api.findDriver = '${findDriver}';
     logistic.api.vehicleInput = '${vehicleInput}';
     logistic.api.driverInput = '${driverInput}';
     logistic.api.saveNote = '${saveNote}';
@@ -25,13 +25,21 @@
     logistic.api.changeDate = '${changeDate}'
     logistic.api.update = '${update}';
     logistic.api.save = '${save}';
-    logistic.loadItems();
     logistic.worker={
       id:${worker.id},
       value:'${worker.person.value}'
     }
-    function stopContent(){
-      logistic.stop()
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
+      logistic.handler(a);
+    });
+    </c:forEach>
+    stopContent = function(){
+      <c:forEach items="${subscribe}" var="s">
+      subscribe('${s}', function(a){
+        unSubscribe('${s}');
+      });
+      </c:forEach>
     }
   </script>
 <c:set var="dateLeft"><fmt:message key="date.left"/></c:set>
@@ -64,14 +72,14 @@
         <span>
           <fmt:message key="deal.quantity"/>:
           <b>
-            {{(value.item.quantity).toLocaleString()}}
+            {{(value.item.plan).toLocaleString()}}
             {{value.item.unit}},
           </b>
         </span>
         <span>
           <fmt:message key="deal.from"/>:
           <b>
-            {{value.item.realisation}}
+            {{value.item.shipper}}
           </b>
         </span>
         </div>
@@ -79,8 +87,8 @@
           <div style="display: inline-block; ">
             <div>
               <fmt:message key="transportation.time.in"/>:
-              <b v-if="value.item.transportation.timeIn.id">
-                {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+              <b v-if="value.item.timeIn.id">
+                {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
               </b>
             <span v-else>
               --:--
@@ -88,8 +96,8 @@
             </div>
             <div>
               <fmt:message key="transportation.time.out"/>:
-              <b v-if="value.item.transportation.timeOut.id">
-                {{new Date(value.item.transportation.timeOut.time).toLocaleTimeString().substring(0, 5)}}
+              <b v-if="value.item.timeOut.id">
+                {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
               </b>
             <span v-else>
               --:--
@@ -102,13 +110,13 @@
               <fmt:message key="transportation.automobile"/>:
             </span>
               <div class="content-item">
-              <span v-if="value.item.transportation.vehicle.id">
-                <b>{{value.item.transportation.vehicle.model}}</b>
+              <span v-if="value.item.vehicle.id">
+                <b>{{value.item.vehicle.model}}</b>
                 <span class="vehicle-number">
-                {{value.item.transportation.vehicle.number}}
+                {{value.item.vehicle.number}}
                 </span>
-                <span v-if="value.item.transportation.vehicle.trailer" class="vehicle-number">
-                {{value.item.transportation.vehicle.trailer}}
+                <span v-if="value.item.vehicle.trailer" class="vehicle-number">
+                {{value.item.vehicle.trailer}}
                 </span>
                 <span class="edit-menu-header">
                   &#9660;
@@ -151,15 +159,15 @@
               <fmt:message key="transportation.driver"/>:
             </span>
               <div style="display: inline-block;">
-              <span v-if="value.item.transportation.driver.id">
-                <b>{{value.item.transportation.driver.person.value}}</b>
+              <span v-if="value.item.driver.id">
+                <b>{{value.item.driver.person.value}}</b>
                 <span class="edit-menu-header">
                   &#9660;
                   <div class="edit-menu">
                     <span v-on:click="parseDriver(value)">
                       <fmt:message key="edit"/>
                     </span>
-                    <span v-on:click="deleteDriver(value.item.transportation.id)">
+                    <span v-on:click="deleteDriver(value.item.id)">
                       <fmt:message key="button.cancel"/>
                     </span>
                   </div>
@@ -185,14 +193,14 @@
 
             </div>
           </div>
-          <div v-if="value.item.transportation.notes.length == 0"
+          <div v-if="value.item.notes.length == 0"
                style="display: inline-block">
             <a class="mini-close" v-on:click="openNote(value.item.id, true)">
               +<fmt:message key="note.add"/>
             </a>
           </div>
         </div>
-        <div v-if="value.item.transportation.notes.length > 0 || value.editNote"
+        <div v-if="value.item.notes.length > 0 || value.editNote"
              class="lower-row">
           <div v-if="value.editNote" style="display: inline-block">
             <span v-on:click="openNote(value.item.id, false)" class="mini-close">&times;</span>
@@ -205,7 +213,7 @@
               +<fmt:message key="note.add"/>
             </a>
           </div>
-          <div v-for="note in value.item.transportation.notes"
+          <div v-for="note in value.item.notes"
                style="display: inline-block; padding: 0 6pt">
             <span v-if="worker.id===note.creator.id">
               <span class="mini-close" v-on:click="removeNote(note.id)" style="padding: 0">

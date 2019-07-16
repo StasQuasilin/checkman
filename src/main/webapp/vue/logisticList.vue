@@ -2,26 +2,22 @@ var logistic = new Vue({
     el:'#logistic',
     data:{
         api:{
-            findVehicleAPI:'',
-            findDriverAPI:'',
+            findVehicle:'',
+            findDriver:'',
             parseVehicleAPI:'',
             parseDriverAPI:'',
-            vehicleInput:'',
-            driverInput:'',
             saveNote:'',
             removeNote:'',
             update:'',
             save:'',
-            saveTransportationVehicleApi:'',
-            saveTransportationDriverApi:'',
             changeDate:''
         },
-        vehicleFind:{},
-        driverFind:{},
+        foundVehicles:[],
+        foundDrivers:[],
+        input:'',
         items:[],
         types:{},
         timeout:-1,
-        filter:filter_control,
         menu:{
             show:false,
             title:'',
@@ -33,12 +29,45 @@ var logistic = new Vue({
         worker:{}
     },
     mounted:function(){
-        this.filter.items = this.items;
-    },
-    computed:{
-
+        if (typeof filter_control !== 'undefined'){
+            filter_control.items = this.items;
+            if (typeof filter_control.filteredItems === 'function') {
+                this.getItems = function () {
+                    return filter_control.filteredItems();
+                }
+            }
+        }
     },
     methods:{
+        sort:function(){
+            this.items.sort(function(a, b){
+                return new Date(b.item.date) - new Date(a.item.date);
+            })
+        },
+        handler:function(e){
+            const self = this;
+            if (e.add){
+                for(var a in e.add){
+                    if (e.add.hasOwnProperty(a)) {
+                        self.add(e.add[a])
+                    }
+                }
+            }
+            if (e.update) {
+                for (var u in e.update) {
+                    if (e.update.hasOwnProperty(u)) {
+                        self.update(e.update[u]);
+                    }
+                }
+            }
+            if (e.remove){
+                for(var r in e.remove){
+                    if (e.remove.hasOwnProperty(r)) {
+                        self.drop(e.remove[r])
+                    }
+                }
+            }
+        },
         changeDate:function(key, days){
             var item = this.items[key].item;
             var date = new Date(item.date);
@@ -46,145 +75,115 @@ var logistic = new Vue({
             item.date = date.toISOString().substring(0, 10);
             PostApi(this.api.changeDate, {id: item.id, date: date.toISOString().substring(0, 10)})
         },
-        filteredItems:function(){
-            if (typeof this.filter.filteredItems === 'function') {
-                return this.filter.filteredItems();
-            } else {
-                return this.items;
-            }
-        },
-        rowName:function(date){
-            return 'container-item-' + new Date(date).getDay();
+        getItems:function(){
+            return this.items;
         },
         add:function(item){
             this.items.push({
-                vehicleEdit:false,
-                driverEdit:false,
+                editVehicle:false,
+                editDriver:false,
                 editNote:false,
-                vehicleInput:'',
-                driverInput:'',
-                noteInput:'',
                 fnd:-1,
                 item:item
             });
+            this.sort();
         },
         update:function(item){
+            var found = false;
             for (var i in this.items){
-                if (this.items[i].item.id == item.id){
+                if (this.items[i].item.id === item.id){
+                    found = true;
                     this.items[i].item=item;
                     break;
                 }
             }
+            if (!found){
+                this.add(item);
+            } else {
+                this.sort();
+            }
+
         },
         remove:function(id){
             for(var i in this.items){
-                if (this.items[i].item.id === id){
-                    this.items.splice(i, 1)
-                    break;
+                if (this.items.hasOwnProperty(i)) {
+                    if (this.items[i].item.id === id) {
+                        this.items.splice(i, 1)
+                        this.sort();
+                        break;
+                    }
                 }
             }
-        },
-        loadItems: function () {
-            const self = this;
-            var parameters = {};
-            for (var i in this.items){
-                if (this.items.hasOwnProperty(i)){
-                    var item = this.items[i];
-                    parameters[item.item.id] = item.item.hash;
-                }
 
-            }
-            PostApi(this.api.update, parameters, function(e){
-                if (e.add.length || e.update.length || e.remove.length) {
-                    console.log(e)
-                    for (var a in e.add){
-                        self.add(e.add[a])
-                    }
-                    for (var u in e.update){
-                        self.update(e.update[u])
-                    }
-                    for (var d in e.remove){
-                        self.remove(e.remove[d])
-                    }
-                    self.items.sort(function(a, b){
-                        return new Date(b.item.date) - new Date(a.item.date);
-                    })
-                }
-            }, null, false)
-            self.timeout = setTimeout(function(){self.loadItems()}, 1000);
-        },
-        addType:function(key, value){
-            Vue.set(this.types, key, value)
-        },
-        stop:function(){
-            console.log('Stop logistic list')
-            clearTimeout(this.timeout)
         },
         openVehicleInput:function(id){
             for(var i in this.items){
                 var item = this.items[i];
-                item.vehicleEdit = item.item.id == id;
-                item.driverEdit = false;
+                item.editVehicle = item.item.id == id;
+                item.editDriver = false;
+                item.editNote = false;
             }
+            this.input = '';
         },
-        closeVehicleInput:function(key){
-            this.items[key].vehicleEdit=false
+        closeVehicleInput:function(id){
+            this.items[id].editVehicle=false
+            this.input = '';
+            this.foundVehicles = [];
+            clearTimeout(this.items[id].fnd);
         },
         openDriverInput:function(id){
             this.driverFind={};
             for(var i in this.items){
                 var item = this.items[i];
-                item.driverEdit = item.item.id == id;
-                item.vehicleEdit = false;
+                item.editDriver = item.item.id == id;
+                item.editVehicle = false;
+                item.editNote = false;
             }
+            this.input = '';
         },
-        closeDriverInput:function(key){
-            this.driverFind={};
-            this.items[key].driverInput = '';
-            this.items[key].driverEdit = false;
-            clearTimeout(this.items[key].fnd);
+        closeDriverInput:function(id){
+            this.items[id].editDriver = false;
+            this.foundDrivers = [];
+            this.input = [];
+            clearTimeout(this.items[id].fnd);
         },
         findDriver:function(value){
             const self = this;
-
-            clearTimeout(value.fnd);
-            value.fnd = setTimeout(function(){
-                var p = {};
-                p.key = value.driverInput;
-                PostApi(self.api.findDriverAPI, p, function(a){
-                    self.driverFind = a;
-                })
-            }, 500)
+            if (this.input) {
+                clearTimeout(value.fnd);
+                value.fnd = setTimeout(function () {
+                    PostApi(self.api.findDriver, {key : this.input}, function (a) {
+                        self.driverFind = a;
+                    })
+                }, 500)
+            } else {
+                this.foundDrivers = [];
+            }
         },
         findVehicle:function(value){
             const self = this;
-            clearTimeout(value.fnd);
-            if (value.vehicleInput) {
+            if (this.input) {
+                clearTimeout(value.fnd);
                 value.fnd = setTimeout(function () {
-                    var p = {};
-                    p.key = value.vehicleInput;
-                    PostApi(self.api.findVehicleAPI, p, function (a) {
+                    PostApi(self.api.findVehicle, {key : this.input}, function (a) {
                         self.vehicleFind = a;
                     })
                 }, 500)
+            } else {
+                this.foundVehicles = [];
             }
         },
-        setDriver:function(transportation, driver, key){
-            this.driverFind = {};
-            this.closeDriverInput(key);
-            var p = {};
-            p.transportation_id = transportation;
-            p.driver_id = driver;
-            PostApi(this.api.saveTransportationDriverApi, p, function(a){
-                console.log(a)
+        setDriver:function(id, driver){
+            const _id = id;
+            const item = this.items[id];
+            const self = this;
+            PostApi(this.api.save, {id : item.item.id, driver : driver.id}, function(a){
+                if (a.status === 'success') {
+                    self.closeDriverInput(_id);
+                }
             })
         },
         setVehicle:function(transportation, vehicle, key){
-            this.vehicleFind = {};
-            this.closeVehicleInput(key);
-            var p = {};
-            p.transportation_id = transportation;
-            p.vehicle_id = vehicle;
             PostApi(this.api.saveTransportationVehicleApi, p, function(a){
                 console.log(a)
             })

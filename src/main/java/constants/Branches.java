@@ -26,8 +26,8 @@ public class Branches {
         public static final String WEIGHT_ADD = "/weight/add.j";
 
         public static final String HOME = APPLICATION;
-        public static final String VEHICLE_MODAL = "/vehicle/modal.j";
-        public static final String DRIVER_MODAL = "/driver/modal.j";
+        public static final String EDIT_VEHICLE = "/vehicle/modal.j";
+        public static final String EDIT_DRIVER = "/driver/modal.j";
         public static final String VEHICLE_DRIVER_MODAL = "/vehicle/driver/modal.j";
         public static final String PROBE_LIST = "/laboratory/probe.j";
         public static final String SUBDIVISION_LIST = "/laboratory/turn.j";
@@ -190,6 +190,8 @@ public class Branches {
         public static final String PARSE_VEHICLE = API + "/vehicle/parse";
         public static final String PARSE_PERSON = API + "/person/parse";
         public static final String REMOVE_PLAN = API + "/plan/remove";
+        public static final String PARSE_AND_PUT_VEHICLE = API + "/parse/put/vehicle";
+        public static final String PARSE_AND_PUT_DRIVER = API + "/parse/put/driver";
 
 
         public class References {

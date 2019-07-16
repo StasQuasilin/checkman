@@ -15,13 +15,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by szpt_user045 on 21.03.2019.
  */
-@WebServlet(Branches.UI.DRIVER_MODAL)
+@WebServlet(Branches.UI.EDIT_DRIVER)
 public class EditDriver extends IModal {
 
     static final Logger log = Logger.getLogger(EditDriver.class);

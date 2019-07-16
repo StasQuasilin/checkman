@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by szpt_user045 on 21.03.2019.
  */
-@WebServlet(Branches.UI.VEHICLE_MODAL)
+@WebServlet(Branches.UI.EDIT_VEHICLE)
 public class EditVehicle extends IModal {
     
     static final Logger log = Logger.getLogger(EditVehicle.class);

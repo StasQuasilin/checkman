@@ -40,8 +40,9 @@ var list = new Vue({
             }
             if (!doNot) {
                 this.items.push({item: item});
+                this.sort();
             }
-            this.sort();
+
         },
         update:function(item){
             var found = false;
@@ -56,8 +57,10 @@ var list = new Vue({
             }
             if (!found){
                 this.add(item);
+            } else {
+                this.sort();
             }
-            this.sort();
+
         },
         drop:function(id){
             for(var i in this.items){
@@ -98,9 +101,6 @@ var list = new Vue({
             this.items.sort(function(a, b){
                 return new Date(b.item.date) - new Date(a.item.date);
             })
-        },
-        stop:function(){
-            clearTimeout(this.timeout)
         },
         contextMenu:function(id){
             this.menu.id = id;

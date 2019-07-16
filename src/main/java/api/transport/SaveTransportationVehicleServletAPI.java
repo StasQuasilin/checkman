@@ -8,6 +8,7 @@ import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class SaveTransportationVehicleServletAPI extends ServletAPI {
 
     private final TransportationComparator comparator = new TransportationComparator();
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,7 +52,9 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
             }
 
             dao.saveTransportation(transportation);
+            updateUtil.onSave(transportation);
             comparator.compare(transportation, getWorker(req));
+
             write(resp, answer);
 
             body.clear();

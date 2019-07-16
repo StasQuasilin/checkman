@@ -663,9 +663,14 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<LoadPlan> getTransportationsByCustomer(TransportCustomer customer) {
         final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put("transportation/archivation", null);
+        parameters.put("transportation/archive", false);
         parameters.put("customer", customer);
         return hb.query(LoadPlan.class, parameters);
+    }
+
+    @Override
+    public Vehicle getVehicleByNumber(String number) {
+        return hb.get(Vehicle.class, "number", number);
     }
 
     @Override

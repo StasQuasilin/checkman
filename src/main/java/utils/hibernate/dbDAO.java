@@ -165,5 +165,5 @@ public interface dbDAO {
     Driver getDriverByPerson(Person person);
     List<Transportation> getTransportationsByType(DealType type);
     List<LoadPlan> getLoadPlans();
-
+    Vehicle getVehicleByNumber(String number);
 }

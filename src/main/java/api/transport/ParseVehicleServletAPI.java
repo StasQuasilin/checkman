@@ -6,6 +6,8 @@ import constants.Constants;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
 import utils.Parser;
+import utils.U;
+import utils.VehicleParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,29 +26,8 @@ public class ParseVehicleServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             String key = String.valueOf(body.get(Constants.KEY));
-            List<String> vehicleData = Parser.parseVehicle(key);
-            Vehicle vehicle = new Vehicle();
-            if (vehicleData.size() > 0) {
-                vehicle.setModel(vehicleData.get(0));
-            }
-            if (vehicleData.size() > 1) {
-                vehicle.setNumber(vehicleData.get(1));
-            }
-            if (vehicleData.size() > 2){
-                vehicle.setTrailer(vehicleData.get(2));
-            }
 
-            if (vehicleData.size() > 1) {
-                List<Vehicle> vehicles = dao.findVehicle(vehicleData.get(1));
-                if (vehicles.size() == 1){
-                    vehicle = vehicles.get(0);
-                } else if (vehicleData.size() > 2){
-                    vehicles = dao.findVehicle(vehicleData.get(2));
-                    if (vehicles.size() == 1){
-                        vehicle = vehicles.get(0);
-                    }
-                }
-            }
+            Vehicle vehicle = VehicleParser.parse(key);
             JSONObject ans = parser.toJson(vehicle);
             write(resp, ans.toJSONString());
             pool.put(ans);

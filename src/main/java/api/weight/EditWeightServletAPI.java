@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
 import utils.TransportUtil;
+import utils.UpdateUtil;
 import utils.WeightUtil;
 
 import javax.servlet.ServletException;
@@ -33,7 +34,7 @@ public class EditWeightServletAPI extends ServletAPI {
     private final WeightComparator comparator = new WeightComparator();
     private final TransportationComparator transportationComparator = new TransportationComparator();
     private final Logger log = Logger.getLogger(EditWeightServletAPI.class);
-
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -65,6 +66,7 @@ public class EditWeightServletAPI extends ServletAPI {
             if (saveIt){
                 comparator.compare(weight, worker);
                 dao.saveTransportation(plan.getTransportation());
+                updateUtil.onSave(plan.getTransportation());
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.weightShow(plan, weight);

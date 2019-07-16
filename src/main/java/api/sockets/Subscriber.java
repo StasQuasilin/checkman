@@ -7,6 +7,7 @@ public enum Subscriber {
     DEAL_BUY,
     DEAL_SELL,
     LOAD_PLAN,
+    LOGISTIC,
     TRANSPORT_BUY,
     TRANSPORT_SELL,
     PROBES,
