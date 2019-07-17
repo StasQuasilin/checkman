@@ -6,6 +6,7 @@ import entity.documents.LoadPlan;
 import entity.transport.TransportationNote;
 import org.json.simple.JSONObject;
 import utils.U;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,9 @@ import java.sql.Timestamp;
  */
 @WebServlet(Branches.API.SAVE_NOTE)
 public class SaveNoteServletAPI extends ServletAPI {
+
+    final UpdateUtil updateUtil = new UpdateUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

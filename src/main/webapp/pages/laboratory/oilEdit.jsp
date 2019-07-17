@@ -10,29 +10,29 @@
     editor.api.save = '${save}';
     editor.api.print = '${print}';
     editor.plan = ${plan.id};
-    editor.organisation = '${plan.deal.organisation.value}';
-    <c:if test="${not empty plan.transportation.vehicle}">
-    editor.vehicle.model = '${plan.transportation.vehicle.model}';
-    editor.vehicle.number = '\'${plan.transportation.vehicle.number}\'';
-    editor.vehicle.trailer = ' \'${plan.transportation.vehicle.trailer}\'';
+    editor.organisation = '${plan.counterparty.value}';
+    <c:if test="${not empty plan.vehicle}">
+    editor.vehicle.model = '${plan.vehicle.model}';
+    editor.vehicle.number = '\'${plan.vehicle.number}\'';
+    editor.vehicle.trailer = ' \'${plan.vehicle.trailer}\'';
     </c:if>
-    <c:if test="${not empty plan.transportation.driver}">
-    editor.driver = '${plan.transportation.driver.person.value}';
+    <c:if test="${not empty plan.driver}">
+    editor.driver = '${plan.driver.person.value}';
     </c:if>
     <c:choose>
-    <c:when test="${not empty plan.transportation.oilAnalyses.id}">
+    <c:when test="${not empty plan.oilAnalyses.id}">
     editor.analyses =
     {
-        id:${plan.transportation.oilAnalyses.id},
-        organoleptic:${plan.transportation.oilAnalyses.organoleptic},
-        color:${plan.transportation.oilAnalyses.color},
-        acidValue:${plan.transportation.oilAnalyses.acidValue},
-        peroxideValue:${plan.transportation.oilAnalyses.peroxideValue},
-        phosphorus:${plan.transportation.oilAnalyses.phosphorus},
-        humidity:${plan.transportation.oilAnalyses.humidity},
-        soap:${plan.transportation.oilAnalyses.soap},
-        wax:${plan.transportation.oilAnalyses.wax},
-        creator:${plan.transportation.oilAnalyses.createTime.creator.id}
+        id:${plan.oilAnalyses.id},
+        organoleptic:${plan.oilAnalyses.organoleptic},
+        color:${plan.oilAnalyses.color},
+        acidValue:${plan.oilAnalyses.acidValue},
+        peroxideValue:${plan.oilAnalyses.peroxideValue},
+        phosphorus:${plan.oilAnalyses.phosphorus},
+        humidity:${plan.oilAnalyses.humidity},
+        soap:${plan.oilAnalyses.soap},
+        wax:${plan.oilAnalyses.wax},
+        creator:${plan.oilAnalyses.createTime.creator.id}
 
     };
     </c:when>
@@ -116,7 +116,7 @@
             :
         </td>
         <td>
-            ${plan.deal.product.name}
+            ${plan.product.name}
         </td>
     </tr>
     <tr>

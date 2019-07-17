@@ -7,8 +7,10 @@ var editor = new Vue({
             findDeals:'',
             findVehicle:'',
             parseVehicle:'',
+            editVehicle:'',
             findDriver:'',
             parseDriver:'',
+            editDriver:'',
             save:''
         },
         types:{},
@@ -21,8 +23,11 @@ var editor = new Vue({
         input:{
             organisation:'',
             vehicle:'',
-            driver:''
+            driver:'',
+            editDriver:false,
+            editVehicle:false,
         },
+
         foundOrganisations:[],
         foundVehicles:[],
         foundDrivers:[]
@@ -158,15 +163,21 @@ var editor = new Vue({
         parseVehicle:function(){
             if (this.foundVehicles.length == 0 && this.input.vehicle){
                 const self = this;
-                loadModal(this.api.parseVehicle, {key:this.input.vehicle}, function(v){
-                    self.plan.vehicle = v.id;
-                    self.input.vehicle = v.model + ' \'' + v.number + '\' ' + v.trailer;
+                PostApi(this.api.parseVehicle, {key:this.input.vehicle}, function(v){
+                    self.plan.vehicle = v;
+                    self.input.vehicle = '';
                 })
             }
         },
+        editVehicle:function(){
+            const self = this;
+            loadModal(this.api.editVehicle, this.plan.vehicle, function(a){
+                self.plan.vehicle = a;
+            })
+        },
         putVehicle:function(vehicle){
-            this.plan.vehicle = vehicle.id;
-            this.input.vehicle = vehicle.model + ' \'' + vehicle.number + '\' ' + vehicle.trailer
+            this.plan.vehicle = vehicle;
+            this.input.vehicle = '';
             this.foundVehicles = [];
         },
         findDriver:function(){
@@ -183,11 +194,18 @@ var editor = new Vue({
         parseDriver:function(){
             if (this.foundDrivers.length == 0 && this.input.driver){
                 const self = this;
-                loadModal(this.api.parseDriver, {key:this.input.driver}, function(d){
-                    self.plan.driver = d.id;
-                    self.input.driver = d.person.value;
+                PostApi(this.api.parseDriver, {key:this.input.driver}, function(d){
+                    self.plan.driver = d;
+                    self.input.driver = '';
                 })
             }
+        },
+        editDriver:function(){
+            const self = this;
+            loadModal(this.api.editDriver, this.plan.driver, function(a){
+                self.plan.driver = a;
+                self.input.driver = '';
+            });
         },
         putDriver:function(driver){
             this.plan.driver = driver.id;

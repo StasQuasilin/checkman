@@ -9,9 +9,11 @@ import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.laboratory.SunAnalyses;
 import entity.transport.ActionTime;
+import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.TransportUtil;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +29,7 @@ import java.sql.Timestamp;
 public class EditSunServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(EditSunServletAPI.class);
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,13 +37,13 @@ public class EditSunServletAPI extends ServletAPI {
         if (body != null) {
             long planId = (long) body.get(Constants.PLAN);
             log.info("Edit SUN analyses for plan \'" + planId + "\'...");
-            final LoadPlan loadPlan = dao.getLoadPlanById(planId);
+            final Transportation transportation = dao.getTransportationById(planId);
 
             boolean save = false;
-            SunAnalyses sunAnalyses = loadPlan.getTransportation().getSunAnalyses();
+            SunAnalyses sunAnalyses = transportation.getSunAnalyses();
             if (sunAnalyses == null) {
                 sunAnalyses = new SunAnalyses();
-                loadPlan.getTransportation().setSunAnalyses(sunAnalyses);
+                transportation.setSunAnalyses(sunAnalyses);
             }
 
             JSONObject a = (JSONObject) body.get("analyses");
@@ -114,12 +117,13 @@ public class EditSunServletAPI extends ServletAPI {
                 createTime.setCreator(creator);
                 sunAnalyses.setCreator(worker);
 
-                dao.save(createTime, sunAnalyses, loadPlan.getTransportation());
-                TransportUtil.calculateWeight(loadPlan.getTransportation());
+                dao.save(createTime, sunAnalyses, transportation);
+                updateUtil.onSave(transportation);
+                TransportUtil.calculateWeight(transportation);
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
-                    notificator.sunAnalysesShow(loadPlan, sunAnalyses);
+                    notificator.sunAnalysesShow(transportation, sunAnalyses);
                 }
             }
             write(resp, answer);

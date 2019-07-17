@@ -18,8 +18,7 @@ var filter_control = new Vue({
             var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    var organisation = items[i].item.organisation;
-                    organisations[organisation.id] = organisation;
+                    organisations[organisation.id] = items[i].item.organisation;
                 }
             }
             return organisations;

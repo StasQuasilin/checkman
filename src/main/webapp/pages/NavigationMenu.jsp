@@ -13,7 +13,7 @@
           <ul class="nav-drop-menu">
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.deals"/>&#9205;
+                <fmt:message key="menu.deals"/>>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/deals.jsp"/>
@@ -21,7 +21,7 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.logistic"/>&#9205;
+                <fmt:message key="menu.logistic"/>>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/logistic.jsp"/>
@@ -29,7 +29,7 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.transport"/>&#9205;
+                <fmt:message key="menu.transport"/>>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/transport.jsp"/>
@@ -37,7 +37,7 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.weight"/>&#9205;
+                <fmt:message key="menu.weight"/>>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/weight.jsp"/>
@@ -45,7 +45,7 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.laboratory"/>&#9205;
+                <fmt:message key="menu.laboratory"/>>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/laboratory.jsp"/>

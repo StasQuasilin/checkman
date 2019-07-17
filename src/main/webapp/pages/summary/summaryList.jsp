@@ -9,11 +9,17 @@
   <link rel="stylesheet" href="${context}/css/DataContainer.css">
    <script>
      list.api.edit = '${show}';
-     subscribe('${subscribe}', function(a){
+     <c:forEach items="${subscribe}" var="s">
+     subscribe('${s}', function(a){
        list.handler(a);
      });
+     </c:forEach>
      stopContent = function(){
-       unSubscribe('${subscribe}');
+       <c:forEach items="${subscribe}" var="s">
+       subscribe('${s}', function(a){
+         unSubscribe('${s}');
+       });
+       </c:forEach>
      }
   </script>
   <transition-group  name="flip-list" tag="div" class="container" id="container">

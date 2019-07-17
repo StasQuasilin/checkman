@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.Parser;
 import utils.PostUtil;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,11 +28,13 @@ public class EditVehicle extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
+        log.info(body);
         Vehicle vehicle = null;
+
         if (body != null) {
+
             if (body.containsKey(Constants.ID)) {
                 vehicle = dao.getVehicleById(body.get(Constants.ID));
-                log.info("Vehicle: " + vehicle.getId());
             } else if (body.containsKey(Constants.KEY)){
                 vehicle = new Vehicle();
                 List<String> strings = Parser.parseVehicle(String.valueOf(body.get(Constants.KEY)));
@@ -47,6 +50,18 @@ public class EditVehicle extends IModal {
                             log.info("\t...Trailer: " + vehicle.getTrailer());
                         }
                     }
+                }
+            }
+            if (vehicle == null) {
+                vehicle = new Vehicle();
+                if (body.containsKey("model")){
+                    vehicle.setModel(String.valueOf(body.get("model")));
+                }
+                if (body.containsKey("number")){
+                    vehicle.setNumber(String.valueOf(body.get("number")));
+                }
+                if (body.containsKey("trailer")){
+                    vehicle.setTrailer(String.valueOf(body.get("trailer")));
                 }
             }
         } else {

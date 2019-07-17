@@ -3,8 +3,8 @@
  */
 var address = Settings.getAddress();
 console.log('Subscribe api ' + address);
-const subscriber = new WebSocket(address
-);
+const subscriber = new WebSocket(address);
+
 subscriber.onmessage = function(env){
     var json = JSON.parse(env.data);
     var type = json['type'];
@@ -13,7 +13,11 @@ subscriber.onmessage = function(env){
     console.log('Receive type:' + type + ', data');
     console.log(data);
     console.log('--------');
-    subscribes[type] ( data );
+    if (typeof subscribes[type] === 'function') {
+        subscribes[type](data);
+    } else{
+        console.log(typeof subscribes[type])
+    }
 };
 var subscribes = {};
 function subscribe(sub, on){

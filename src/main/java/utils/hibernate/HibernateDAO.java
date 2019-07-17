@@ -439,7 +439,7 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Shipper getDocumentOrganisationByValue(Object value) {
+    public Shipper getShipperByValue(Object value) {
         return hb.get(Shipper.class, "value", value);
     }
 
@@ -679,6 +679,21 @@ public class HibernateDAO implements dbDAO {
         parameters.put("archive", false);
         parameters.put("organisation", organisation);
         return hb.query(Deal.class, parameters);
+    }
+
+    @Override
+    public List<Transportation> getTransportationByDriver(Driver driver) {
+        return hb.query(Transportation.class, "driver", driver);
+    }
+
+    @Override
+    public List<ArchivatorData> getArchivatorData() {
+        return hb.query(ArchivatorData.class, null);
+    }
+
+    @Override
+    public List<Transportation> getTransportationByVehicle(Vehicle vehicle) {
+        return hb.query(Transportation.class, "vehicle", vehicle);
     }
 
     @Override

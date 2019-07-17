@@ -64,8 +64,8 @@ var plan = new Vue({
         add:function(plan){
             this.plans.push({
                 key : randomUUID(),
-                parseVehicle:false,
-                parseDriver:false,
+                editVehicle:false,
+                editDriver:false,
                 editNote:false,
                 vehicleInput:'',
                 driverInput : '',
@@ -87,7 +87,7 @@ var plan = new Vue({
                         clearTimeout(plan.saveTimer);
                         plan.saveTimer = setTimeout(function(){
                             self.save(p.item, key);
-                        }, 2500);
+                        }, 1500);
                         break;
                     }
                 }
@@ -139,15 +139,22 @@ var plan = new Vue({
             });
         },
         openVehicleInput:function(key){
+            console.log('open vi ' + key);
+            var any = false;
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
                     var plan = this.plans[i];
-                    plan.parseVehicle = plan.key == key;
-                    plan.parseDriver = false;
+                    if (plan.key === key){
+                        any = true;
+                    }
+                    plan.editVehicle = plan.key === key;
+                    plan.editDriver = false;
                     plan.vehicleInput = '';
                 }
             }
-            this.focusInput();
+            if (any) {
+                this.focusInput();
+            }
         },
         focusInput:function(){
             setTimeout(function(){
@@ -157,10 +164,10 @@ var plan = new Vue({
                 }else {
                     console.log('input not found')
                 }
-            }, 200)
+            }, 500)
         },
         closeVehicleInput:function(key){
-            this.plans[key].parseVehicle = false;
+            this.plans[key].editVehicle = false;
             this.plans[key].vehicleInput = '';
             this.foundVehicles=[];
         },
@@ -221,15 +228,15 @@ var plan = new Vue({
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
                     var plan = this.plans[i];
-                    plan.parseDriver = plan.key == key;
-                    plan.parseVehicle = false;
+                    plan.editDriver = plan.key === key;
+                    plan.editVehicle = false;
                     plan.driverInput = '';
                 }
             }
             this.focusInput();
         },
         closeDriverInput:function(key){
-            this.plans[key].parseDriver = false;
+            this.plans[key].editDriver = false;
             this.plans[key].driverInput = '';
             this.foundDrivers=[];
         },

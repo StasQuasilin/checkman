@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 
@@ -20,12 +21,14 @@ import java.io.IOException;
 public class DeleteLoadPlanAPI extends ServletAPI{
 
     final UpdateUtil updateUtil = new UpdateUtil();
+    final Logger log = Logger.getLogger(DeleteLoadPlanAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
             long id = (long) body.get(Constants.ID);
+            log.info("Delete load plan " + id);
             LoadPlan loadPlanById = dao.getLoadPlanById(id);
             if(loadPlanById.getTransportation().anyAction()){
                 loadPlanById.setCanceled(true);
@@ -34,8 +37,8 @@ public class DeleteLoadPlanAPI extends ServletAPI{
                 dao.save(loadPlanById.getTransportation());
                 updateUtil.onRemove(loadPlanById.getTransportation());
             } else {
-                dao.remove(loadPlanById, loadPlanById.getTransportation());
                 updateUtil.onRemove(loadPlanById.getTransportation());
+                dao.remove(loadPlanById, loadPlanById.getTransportation());
             }
 
             write(resp, answer);

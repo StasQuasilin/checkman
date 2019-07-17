@@ -4,15 +4,19 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.DealType;
+import entity.Person;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.Shipper;
 import entity.documents.LoadPlan;
+import entity.transport.Driver;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
+import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +32,7 @@ import java.sql.Date;
 public class EditLoadPlanServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(EditLoadPlanServletAPI.class);
-
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,8 +41,8 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             log.info(body );
             Date date = Date.valueOf(String.valueOf(body.get("date")));
             long plan = (long) body.get("plan");
-            Shipper shipper = dao.getDocumentOrganisationByValue(body.get("from"));
-            long dealId = (long) body.get("deal");
+            Shipper shipper = dao.getShipperByValue(body.get("from"));
+            long dealId = Long.parseLong(String.valueOf(body.get("deal")));
             Deal deal;
             Worker creator = getWorker(req);
 
@@ -55,6 +59,8 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 deal.setUnit(dao.getWeightUnitById(body.get("unit")));
                 deal.setPrice(Float.parseFloat(String.valueOf(body.get("price"))));
                 deal.setCreator(creator);
+                dao.saveDeal(deal);
+                updateUtil.onSave(deal);
             } else {
                 deal = dao.getDealById(dealId);
             }
@@ -69,38 +75,78 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 transportation = loadPlan.getTransportation();
             } else {
                 loadPlan = new LoadPlan();
+                loadPlan.setDeal(deal);
                 transportation = new Transportation();
+                transportation.setUid(DocumentUIDGenerator.generateUID());
+                transportation.setProduct(deal.getProduct());
+                transportation.setType(deal.getType());
+                transportation.setCounterparty(deal.getOrganisation());
                 loadPlan.setTransportation(transportation);
             }
 
             loadPlan.setDate(date);
-            loadPlan.setDeal(deal);
+            transportation.setDate(date);
             loadPlan.setShipper(shipper);
+            transportation.setShipper(shipper);
             loadPlan.setPlan(plan);
             loadPlan.setCustomer(TransportCustomer.valueOf(String.valueOf(body.get("customer"))));
 
             if (!transportation.isArchive()) {
                 transportation.setShipper(shipper);
+                JSONObject vehicleJson = (JSONObject) body.get("vehicle");
+                if (vehicleJson != null){
+                    Vehicle vehicle = null;
+                    if (vehicleJson.containsKey(Constants.ID)) {
+                        long vehicleId = (long) vehicleJson.get("id");
+                        if (vehicleId > 0) {
+                            vehicle = dao.getVehicleById(vehicleId);
+                        } else if (vehicleId == 0){
+                            vehicle = new Vehicle();
+                            vehicle.setModel(String.valueOf(vehicleJson.get("model")));
+                            vehicle.setNumber(String.valueOf(vehicleJson.get("number")));
+                            vehicle.setTrailer(String.valueOf(vehicleJson.get("trailer")));
+                            dao.save(vehicle);
+                        }
+                    }
+                    if (vehicle != null) {
+                        transportation.setVehicle(vehicle);
+                    } else if (transportation.getVehicle() != null) {
+                        transportation.setVehicle(null);
+                    }
 
-                long vehicleId = (long) body.get("vehicle");
-                if (vehicleId != -1) {
-                    transportation.setVehicle(dao.getVehicleById(vehicleId));
-                } else if (transportation.getVehicle() != null) {
-                    transportation.setVehicle(null);
-                }
-                long driverId = (long) body.get("driver");
-                if (driverId != -1) {
-                    transportation.setDriver(dao.getDriverByID(driverId));
-                } else if (transportation.getDriver() != null) {
-                    transportation.setDriver(null);
                 }
 
+                JSONObject driverJson = (JSONObject) body.get("driver");
+                if (driverJson !=null){
+                    Driver driver = null;
+                    if (driverJson.containsKey(Constants.ID)){
+                        long driverId = (long) driverJson.get(Constants.ID);
+                        if (driverId > 0){
+                            driver = dao.getDriverByID(driverId);
+                        } else if(driverId == 0){
+                            driver = new Driver();
+                            Person person = new Person();
+                            JSONObject personJson = (JSONObject) driverJson.get("person");
+                            person.setForename(String.valueOf(personJson.get("forename")));
+                            person.setSurname(String.valueOf(personJson.get("surname")));
+                            person.setPatronymic(String.valueOf(personJson.get("patronymic")));
+
+                            driver.setPerson(person);
+                            dao.save(person, driver);
+                        }
+                    }
+                    if (driver != null) {
+                        transportation.setDriver(driver);
+                    } else if (transportation.getDriver() != null) {
+                        transportation.setDriver(null);
+                    }
+                }
                 transportation.setCreator(creator);
             }
 
-            dao.saveDeal(deal);
             dao.saveTransportation(transportation);
             dao.saveLoadPlan(loadPlan);
+            updateUtil.onSave(transportation);
             write(resp, answer);
 
         } else {

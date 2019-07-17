@@ -81,5 +81,6 @@
         <mapping class="entity.laboratory.storages.StorageAnalyses"/>
         <mapping class="entity.Admin"/>
         <mapping class="entity.laboratory.transportation.ActNumber"/>
+        <mapping class="entity.ArchivatorData"/>
     </session-factory>
 </hibernate-configuration>

@@ -40,6 +40,7 @@ public class ParseAndPutVehicleServletAPI extends ServletAPI {
             dao.saveTransportation(transportation);
             updateUtil.onSave(transportation);
             transportationComparator.compare(transportation, getWorker(req));
+            write(resp, answer);
         }
     }
 }

@@ -9,8 +9,10 @@ import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.laboratory.OilAnalyses;
 import entity.transport.ActionTime;
+import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +28,7 @@ import java.sql.Timestamp;
 public class EditOilServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(EditOilServletAPI.class);
-    final
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,13 +37,13 @@ public class EditOilServletAPI extends ServletAPI {
             long planId = (long) body.get(Constants.PLAN);
             log.info("Edit OIL analyses for plan \'" + planId + "\'...");
 
-            LoadPlan loadPlan = dao.getLoadPlanById(planId);
+            Transportation transportation = dao.getTransportationById(planId);
 
             boolean save = false;
-            OilAnalyses oilAnalyses = loadPlan.getTransportation().getOilAnalyses();
+            OilAnalyses oilAnalyses = transportation.getOilAnalyses();
             if (oilAnalyses == null){
                 oilAnalyses = new OilAnalyses();
-                loadPlan.getTransportation().setOilAnalyses(oilAnalyses);
+                transportation.setOilAnalyses(oilAnalyses);
             }
             
             JSONObject a = (JSONObject) body.get("analyses");
@@ -119,11 +121,12 @@ public class EditOilServletAPI extends ServletAPI {
                 log.info("\t\tCreator: " + createTime.getCreator().getValue());
                 oilAnalyses.setCreator(worker);
 
-                dao.save(oilAnalyses.getCreateTime(), oilAnalyses, loadPlan.getTransportation());
+                dao.save(oilAnalyses.getCreateTime(), oilAnalyses, transportation);
+                updateUtil.onSave(transportation);
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
-                    notificator.oilAnalysesShow(loadPlan, oilAnalyses);
+                    notificator.oilAnalysesShow(transportation, oilAnalyses);
                 }
             }
             write(resp, answer);

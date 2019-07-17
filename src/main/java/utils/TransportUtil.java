@@ -37,9 +37,8 @@ public class TransportUtil{
         if (transportation.getTimeOut() == null) {
             isArchive = false;
         }
-        if (transportation.isArchive() != isArchive) {
-            transportation.setArchive(isArchive);
-            dao.saveTransportation(transportation);
+        if (isArchive){
+            Archivator.add(transportation);
         }
     }
     public static final int HUMIDITY_BASIS = 7;

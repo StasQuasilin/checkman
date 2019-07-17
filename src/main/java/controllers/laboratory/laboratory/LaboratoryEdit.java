@@ -6,6 +6,8 @@ import controllers.IModal;
 import entity.AnalysesType;
 import entity.Role;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation;
+import org.apache.log4j.Logger;
 import utils.TransportUtil;
 import utils.turns.LaboratoryTurnService;
 
@@ -20,12 +22,16 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.LABORATORY_EDIT)
 public class LaboratoryEdit extends IModal {
+
+    final Logger log = Logger.getLogger(LaboratoryEdit.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
-        LoadPlan loadPlan = dao.getLoadPlanById(id);
-        req.setAttribute("plan", loadPlan);
-        AnalysesType analysesType = loadPlan.getDeal().getProduct().getAnalysesType();
+        log.info("Edit analyses for transportation=" + id);
+        Transportation transportation = dao.getTransportationById(id);
+        req.setAttribute("plan", transportation);
+        AnalysesType analysesType = transportation.getProduct().getAnalysesType();
         switch (analysesType){
             case sun:
                 req.setAttribute("modalContent", "/pages/laboratory/sunEdit.jsp");

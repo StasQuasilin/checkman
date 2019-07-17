@@ -198,10 +198,13 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 if (U.exist(noteText) && note.getNote() == null || !note.getNote().equals(noteText)){
                     note.setNote(noteText);
                     dao.save(note);
+                    updateUtil.onSave(transportation);
                 }
             }
-
-            notes.forEach(dao::remove);
+            for (TransportationNote note : notes){
+                dao.remove(note);
+                updateUtil.onSave(transportation);
+            }
 
             planComparator.compare(loadPlan, worker);
             transportationComparator.compare(transportation, worker);

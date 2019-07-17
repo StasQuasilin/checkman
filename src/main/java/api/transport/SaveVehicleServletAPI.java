@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.Parser;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ import java.io.IOException;
 public class SaveVehicleServletAPI extends ServletAPI {
 
     final Logger logger = Logger.getLogger(SaveVehicleServletAPI.class);
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,6 +51,7 @@ public class SaveVehicleServletAPI extends ServletAPI {
             logger.info("\t...Trailer: " + vehicle.getTrailer());
 
             dao.save(vehicle);
+            updateUtil.onSave(vehicle);
             JSONObject jsonObject = parser.toJson(vehicle);
             write(resp, jsonObject.toJSONString());
             pool.put(jsonObject);

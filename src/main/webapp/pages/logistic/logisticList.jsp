@@ -11,7 +11,7 @@
   <script src="${context}/vue/logisticList.vue"></script>
   <script>
     <c:forEach items="${dealTypes}" var="type">
-    logistic.addType('${type}', '<fmt:message key="_${type}"/>');
+    logistic.types['${type}'] = '<fmt:message key="_${type}"/>';
     </c:forEach>
     logistic.api.saveTransportationVehicleApi = '${saveTransportationVehicleAPI}';
     logistic.api.saveTransportationDriverApi = '${saveTransportationDriverAPI}';

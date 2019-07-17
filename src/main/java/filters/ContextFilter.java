@@ -4,6 +4,7 @@ import bot.BotFactory;
 import constants.Branches;
 import entity.bot.BotSettings;
 import org.apache.log4j.Logger;
+import utils.Archivator;
 import utils.boxes.DealBox;
 import utils.boxes.TransportBox;
 import utils.hibernate.HibernateSessionFactory;
@@ -28,9 +29,8 @@ public class ContextFilter implements Filter {
         gcTimer = new Timer(20 * 1000, e -> System.gc());
         gcTimer.start();
         HibernateSessionFactory.init();
-        TransportBox.getBox().init();
-        DealBox.getBox().init();
         initBot();
+        Archivator.init();
     }
 
     Timer gcTimer;
@@ -62,5 +62,6 @@ public class ContextFilter implements Filter {
     public void destroy() {
         gcTimer.stop();
         HibernateSessionFactory.shutdown();
+        Archivator.stop();
     }
 }

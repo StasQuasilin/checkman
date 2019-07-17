@@ -120,7 +120,7 @@ public class Notificator {
             }
         }
     }
-    public void sunAnalysesShow(LoadPlan plan, SunAnalyses analyses) {
+    public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses) {
         String message;
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
@@ -128,7 +128,7 @@ public class Notificator {
                 boolean show = false;
                 switch (setting.getTransport()) {
                     case my:
-                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        show = transportation.getId() == worker.getId();
                         break;
                     case all:
                         show = true;
@@ -202,7 +202,7 @@ public class Notificator {
             }
         }
     }
-    public void oilAnalysesShow(LoadPlan plan, OilAnalyses analysesList) {
+    public void oilAnalysesShow(Transportation transportation, OilAnalyses analysesList) {
         boolean organoleptic = analysesList.isOrganoleptic();
         float color = analysesList.getColor();
         float acid = analysesList.getAcidValue();
@@ -219,7 +219,7 @@ public class Notificator {
                 boolean show = false;
                 switch (setting.getTransport()) {
                     case my:
-                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        show = transportation.getCreator().getId() == worker.getId();
                         break;
                     case all:
                         show = true;

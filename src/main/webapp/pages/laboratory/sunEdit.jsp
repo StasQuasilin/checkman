@@ -10,27 +10,27 @@
     editor.api.save = '${save}';
     editor.api.print = '${print}';
     editor.plan = ${plan.id};
-    editor.organisation = '${plan.deal.organisation.value}';
-    <c:if test="${not empty plan.transportation.vehicle}">
-        editor.vehicle.model = '${plan.transportation.vehicle.model}';
-        editor.vehicle.number = '\'${plan.transportation.vehicle.number}\''
-        editor.vehicle.trailer = ' \'${plan.transportation.vehicle.trailer}\''
+    editor.organisation = '${plan.counterparty.value}';
+    <c:if test="${not empty plan.vehicle}">
+        editor.vehicle.model = '${plan.vehicle.model}';
+        editor.vehicle.number = '\'${plan.vehicle.number}\''
+        editor.vehicle.trailer = ' \'${plan.vehicle.trailer}\''
     </c:if>
-    <c:if test="${not empty plan.transportation.driver}">
-        editor.driver = '${plan.transportation.driver.person.value}';
+    <c:if test="${not empty plan.driver}">
+        editor.driver = '${plan.driver.person.value}';
     </c:if>
 
     <c:choose>
-    <c:when test="${not empty plan.transportation.sunAnalyses.id}">
+    <c:when test="${not empty plan.sunAnalyses.id}">
     editor.analyses = {
-        id:${plan.transportation.sunAnalyses.id},
-        oiliness:${plan.transportation.sunAnalyses.oiliness},
-        humidity1:${plan.transportation.sunAnalyses.humidity1},
-        humidity2:${plan.transportation.sunAnalyses.humidity2},
-        soreness:${plan.transportation.sunAnalyses.soreness},
-        oilImpurity:${plan.transportation.sunAnalyses.oilImpurity},
-        acidValue:${plan.transportation.sunAnalyses.acidValue},
-        contamination:${plan.transportation.sunAnalyses.contamination},
+        id:${plan.sunAnalyses.id},
+        oiliness:${plan.sunAnalyses.oiliness},
+        humidity1:${plan.sunAnalyses.humidity1},
+        humidity2:${plan.sunAnalyses.humidity2},
+        soreness:${plan.sunAnalyses.soreness},
+        oilImpurity:${plan.sunAnalyses.oilImpurity},
+        acidValue:${plan.sunAnalyses.acidValue},
+        contamination:${plan.sunAnalyses.contamination},
     }    
     </c:when>
     <c:otherwise>
@@ -84,6 +84,17 @@
         </td>
         <td colspan="2">
             {{organisation}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <fmt:message key="deal.product"/>
+        </td>
+        <td>
+            :
+        </td>
+        <td colspan="2">
+            ${plan.product.name}
         </td>
     </tr>
     <tr>

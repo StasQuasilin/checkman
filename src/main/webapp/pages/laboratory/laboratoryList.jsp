@@ -22,11 +22,17 @@
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.api.edit = '${edit}';
-    subscribe('${subscribe}', function(a){
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
         list.handler(a);
     });
+    </c:forEach>
     stopContent = function(){
-        unSubscribe('${subscribe}');
+        <c:forEach items="${subscribe}" var="s">
+        subscribe('${s}', function(a){
+            unSubscribe('${s}');
+        });
+        </c:forEach>
     }
 </script>
 <div id="container">
@@ -51,16 +57,16 @@
                 </b>
                 <fmt:message key="deal.from"/>:
                 <b>
-                    {{value.item.realisation}}
+                    {{value.item.shipper}}
                 </b>
             </span>
             </div>
             <div class="lower-row">
             <span  style="font-size: 10pt;">
                 <fmt:message key="transportation.time.in"/>
-                <span v-if="value.item.transportation.timeIn.id" style="font-weight: bold">
-                    {{new Date(value.item.transportation.timeIn.time).toLocaleDateString().substring(0, 5)}}
-                    {{new Date(value.item.transportation.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+                <span v-if="value.item.timeIn.id" style="font-weight: bold">
+                    {{new Date(value.item.timeIn.time).toLocaleDateString().substring(0, 5)}}
+                    {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
                 </span>
                 <span v-else="">
                     --.-- --:--
@@ -69,11 +75,11 @@
             </span>
             <span>
                 <fmt:message key="transportation.automobile"/>:
-                <span v-if="value.item.transportation.vehicle.id">
-                    {{value.item.transportation.vehicle.model}}
-                    '{{value.item.transportation.vehicle.number}}'
-                    <template v-if="value.item.transportation.vehicle.trailer">
-                        '{{value.item.transportation.vehicle.trailer}}'
+                <span v-if="value.item.vehicle.id">
+                    {{value.item.vehicle.model}}
+                    '{{value.item.vehicle.number}}'
+                    <template v-if="value.item.vehicle.trailer">
+                        '{{value.item.vehicle.trailer}}'
                     </template>
                 </span>
                 <span v-else>
@@ -82,30 +88,31 @@
             </span>
             <span>
                 <fmt:message key="transportation.driver"/>:
-                <span v-if="value.item.transportation.driver.id">
-                    {{value.item.transportation.driver.person.value}}
+                <span v-if="value.item.driver.id">
+                    {{value.item.driver.person.value}}
                 </span>
                 <span v-else>
                     <fmt:message key="no.data"/>
                 </span>
             </span>
-                <div style="display: inline-block; font-size: 10pt">
-                    <div v-if="value.item.transportation.analyses.sun.id">
-                        <fmt:message key="sun.humidity.1"/>:{{value.item.transportation.analyses.sun.humidity1}},
-                        <fmt:message key="sun.humidity.2"/>:{{value.item.transportation.analyses.sun.humidity2}},
-                        <fmt:message key="sun.soreness"/>:{{value.item.transportation.analyses.sun.soreness}},
-                        <fmt:message key="sun.oiliness"/>:{{value.item.transportation.analyses.sun.oiliness}}
+
+                <div style="display: block; font-size: 10pt">
+                    <div v-if="value.item.analyses.sun.id">
+                        <fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},
+                        <fmt:message key="sun.humidity.2"/>:{{value.item.analyses.sun.humidity2}},
+                        <fmt:message key="sun.soreness"/>:{{value.item.analyses.sun.soreness}},
+                        <fmt:message key="sun.oiliness"/>:{{value.item.analyses.sun.oiliness}}
                     </div>
-                    <div v-if="value.item.transportation.analyses.oil.id">
-                        <fmt:message key="sun.acid.value"/>:{{value.item.transportation.analyses.oil.acid}},
-                        <fmt:message key="oil.peroxide"/>:{{value.item.transportation.analyses.oil.peroxide}},
-                        <fmt:message key="oil.phosphorus"/>:{{value.item.transportation.analyses.oil.phosphorus}}
+                    <div v-if="value.item.analyses.oil.id">
+                        <fmt:message key="sun.acid.value"/>:{{value.item.analyses.oil.acid}},
+                        <fmt:message key="oil.peroxide"/>:{{value.item.analyses.oil.peroxide}},
+                        <fmt:message key="oil.phosphorus"/>:{{value.item.analyses.oil.phosphorus}}
                     </div>
-                    <div v-if="value.item.transportation.analyses.cake.id">
-                        <fmt:message key="sun.humidity"/>:{{value.item.transportation.analyses.cake.humidity}},
-                        <fmt:message key="cake.protein"/>:{{value.item.transportation.analyses.cake.protein}},
-                        <fmt:message key="cake.cellulose"/>:{{value.item.transportation.analyses.cake.cellulose}},
-                        <fmt:message key="sun.oiliness"/>:{{value.item.transportation.analyses.cake.oiliness}}
+                    <div v-if="value.item.analyses.cake.id">
+                        <fmt:message key="sun.humidity"/>:{{value.item.analyses.cake.humidity}},
+                        <fmt:message key="cake.protein"/>:{{value.item.analyses.cake.protein}},
+                        <fmt:message key="cake.cellulose"/>:{{value.item.analyses.cake.cellulose}},
+                        <fmt:message key="sun.oiliness"/>:{{value.item.analyses.cake.oiliness}}
                     </div>
                 </div>
             </div>

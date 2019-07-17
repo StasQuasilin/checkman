@@ -363,27 +363,25 @@
                                   </span>
                                 </div>
                                 <div v-else-if="value.editVehicle">
-                                  <template v-show="value.editVehicle">
-                                    <div style="display: inline-block" v-on:blur="editVehicle(value.vehicleInput, key)">
-                                      <%--VEHICLE INPUT--%>
-                                      <input v-on:keyup="findVehicle(value.vehicleInput)" id="input"
-                                             v-on:keyup.enter="parseVehicle(value.vehicleInput, key)"
-                                             v-on:keyup.escape="closeVehicleInput(key)"
-                                             v-model="value.vehicleInput" autofocus
-                                             placeholder="${vehicleHolder}" style="border: none">
-                                      <div class="custom-data-list">
-                                        <div v-for="vehicle in foundVehicles" class="custom-data-list-item"
-                                             v-on:click="setVehicle(vehicle, key)">
-                                          {{vehicle.model}}
-                                          '{{vehicle.number}}'
-                                          <template v-if="vehicle.trailer">
-                                            '{{vehicle.trailer}}'
-                                          </template>
-                                        </div>
+                                  <div style="display: inline-block" v-on:blur="parseVehicle(value.vehicleInput, key)">
+                                    <%--VEHICLE INPUT--%>
+                                    <input v-on:keyup="findVehicle(value.vehicleInput)" id="input"
+                                           v-on:keyup.enter="parseVehicle(value.vehicleInput, key)"
+                                           v-on:keyup.escape="closeVehicleInput(key)"
+                                           v-model="value.vehicleInput" autofocus
+                                           placeholder="${vehicleHolder}" style="border: none">
+                                    <div class="custom-data-list">
+                                      <div v-for="vehicle in foundVehicles" class="custom-data-list-item"
+                                           v-on:click="setVehicle(vehicle, key)">
+                                        {{vehicle.model}}
+                                        '{{vehicle.number}}'
+                                        <template v-if="vehicle.trailer">
+                                          '{{vehicle.trailer}}'
+                                        </template>
                                       </div>
                                     </div>
-                                    <span v-on:click="closeVehicleInput(key)" class="mini-close" style="left: -22pt">&times;</span>
-                                  </template>
+                                  </div>
+                                  <span v-on:click="closeVehicleInput(key)" class="mini-close" style="left: -22pt">&times;</span>
                                 </div>
                                 <a v-else v-on:click="openVehicleInput(value.key)">
                                   <fmt:message key="transportation.automobile.insert.info"/>

@@ -24,7 +24,9 @@ public class WeightUtil {
         }
         if (deal.getDone() != done) {
             deal.setDone(done);
-            deal.setArchive(done >= deal.getQuantity());
+            if (done >= deal.getQuantity()){
+                Archivator.add(deal);
+            }
             dao.saveDeal(deal);
         }
     }

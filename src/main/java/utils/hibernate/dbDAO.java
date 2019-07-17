@@ -107,7 +107,7 @@ public interface dbDAO {
     Collection<Organisation> findOrganisation(String key);
     List<LoadPlan> getActiveTransportations(Date date);
     List<Deal> getArchiveDeals(DealType type);
-    Shipper getDocumentOrganisationByValue(Object value);
+    Shipper getShipperByValue(Object value);
     WeightUnit getWeightUnitById(Object unit);
     BotUID getBotUidByWorker(Worker worker);
     BotUID getBotUidByUid(String uid);
@@ -166,4 +166,7 @@ public interface dbDAO {
     List<Transportation> getTransportationsByType(DealType type);
     List<LoadPlan> getLoadPlans();
     Vehicle getVehicleByNumber(String number);
+    List<Transportation> getTransportationByVehicle(Vehicle vehicle);
+    List<Transportation> getTransportationByDriver(Driver driver);
+    List<ArchivatorData> getArchivatorData();
 }

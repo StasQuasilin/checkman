@@ -5,7 +5,9 @@ import api.sockets.Subscriber;
 import entity.DealType;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.transport.Driver;
 import entity.transport.Transportation;
+import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -74,6 +76,22 @@ public class UpdateUtil {
         json.put(command.toString(), array);
         subscriptions.send(subscriber, json.toJSONString());
         pool.put(json);
+    }
+
+    public void onSave(Vehicle vehicle) throws IOException {
+        for (Transportation transportation : dao.getTransportationByVehicle(vehicle)){
+            if (!transportation.isArchive()) {
+                onSave(transportation);
+            }
+        }
+    }
+
+    public void onSave(Driver driver) throws IOException {
+        for (Transportation transportation : dao.getTransportationByDriver(driver)){
+            if (!transportation.isArchive()) {
+                onSave(transportation);
+            }
+        }
     }
 
     public enum Command {
