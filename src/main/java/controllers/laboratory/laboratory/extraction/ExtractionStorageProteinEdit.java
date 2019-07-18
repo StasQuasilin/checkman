@@ -4,9 +4,13 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.AnalysesType;
+import entity.laboratory.subdivisions.extraction.StorageProtein;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
 import utils.TransportUtil;
+import utils.U;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -27,6 +31,24 @@ public class ExtractionStorageProteinEdit extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        StorageProtein protein = null;
+        String id = req.getParameter("id");
+        if (U.exist(id)){
+            protein = dao.getStorageProteinById(Integer.parseInt(id));
+        } else {
+            JSONObject body = PostUtil.parseBodyJson(req);
+            if (body != null){
+                if (body.containsKey(Constants.ID)){
+                    protein = dao.getStorageProteinById(body.get(Constants.ID));
+                }
+            }
+        }
+
+        if (protein != null) {
+            req.setAttribute("protein", protein);
+        }
+
         req.setAttribute("title", Constants.Titles.EXTRACTION_STORAGE_PROTEIN);
         req.setAttribute("storages", dao.getStoragesByAnalysesType(AnalysesType.meal));
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/storageProteinEdit.jsp");

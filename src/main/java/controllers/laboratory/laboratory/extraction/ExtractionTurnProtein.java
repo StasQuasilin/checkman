@@ -3,7 +3,10 @@ package controllers.laboratory.laboratory.extraction;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
-import utils.TransportUtil;
+import entity.laboratory.subdivisions.extraction.TurnProtein;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
+import utils.U;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -19,6 +22,24 @@ import java.io.IOException;
 public class ExtractionTurnProtein extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        TurnProtein protein = null;
+
+        String id = req.getParameter("id");
+        if (U.exist(id)){
+            protein = dao.getTurnProteinById(Integer.parseInt(id));
+        } else {
+            JSONObject body = PostUtil.parseBodyJson(req);
+            if (body != null){
+                if (body.containsKey(Constants.ID)){
+                    protein = dao.getTurnProteinById(body.get(Constants.ID));
+                }
+            }
+        }
+
+        if (protein != null) {
+            req.setAttribute("protein", protein);
+        }
         req.setAttribute("title", Constants.Titles.EXTRACTION_TURN_PROTEIN);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/turnProteinEdit.jsp");
         req.setAttribute("turns", TurnBox.getBox().getTurns());

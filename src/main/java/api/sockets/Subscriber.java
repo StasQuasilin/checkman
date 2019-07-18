@@ -11,6 +11,6 @@ public enum Subscriber {
     TRANSPORT_BUY,
     TRANSPORT_SELL,
     PROBES,
-    LABORATORY_TURNS,
-    SUBDIVISIONS
+    EXTRACTION,
+    LABORATORY_TURNS, VRO,
 }

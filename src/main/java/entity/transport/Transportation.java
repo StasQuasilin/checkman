@@ -39,6 +39,7 @@ public class Transportation {
     private Worker creator;
     private Set<TransportationNote> notes;
     private boolean archive;
+    private boolean done;
     private String uid;
 
     @Id

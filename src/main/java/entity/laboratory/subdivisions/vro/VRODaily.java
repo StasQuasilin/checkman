@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Created by szpt_user045 on 11.04.2019.
  */
 @Entity
-@Table(name = "vro_dailys")
+@Table(name = "vro_dailies")
 public class VRODaily {
     private int id;
     private VROTurn turn;

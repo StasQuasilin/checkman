@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(Branches.UI.SUMMARY_LIST)
-public class SummaryController extends IUIServlet {
+public class SummaryList extends IUIServlet {
 
 	final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
 
@@ -21,6 +21,9 @@ public class SummaryController extends IUIServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("title", Constants.Titles.SUMMARY_LIST);
 		req.setAttribute("edit", Branches.UI.SUMMARY_SHOW);
+		req.setAttribute("add", Branches.UI.WEIGHT_ADD);
+		req.setAttribute("notes", Branches.UI.NOTES_LIST);
+		req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
 		req.setAttribute("types", DealType.values());
 		req.setAttribute("content", "/pages/weight/weightList.jsp");
 		req.setAttribute("filter", "/pages/filters/transportFilter.jsp");

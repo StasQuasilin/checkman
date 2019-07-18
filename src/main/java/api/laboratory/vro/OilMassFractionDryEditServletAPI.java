@@ -10,6 +10,7 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
 import utils.turns.VROTurnService;
@@ -34,7 +35,7 @@ import java.util.List;
 public class OilMassFractionDryEditServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(OilMassFractionDryEditServletAPI.class);
-
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,7 +48,6 @@ public class OilMassFractionDryEditServletAPI extends ServletAPI {
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
-            VROTurn turn = VROTurnService.getTurn(turnDate);
             boolean save = false;
 
             OilMassFractionDry oilMassFraction;
@@ -62,7 +62,12 @@ public class OilMassFractionDryEditServletAPI extends ServletAPI {
                 oilMassFraction = new OilMassFractionDry();
             }
 
-            oilMassFraction.setTurn(turn);
+            VROTurn targetTurn = VROTurnService.getTurn(turnDate);
+            VROTurn currentTurn = oilMassFraction.getTurn();
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
+                oilMassFraction.setTurn(targetTurn);
+                save = true;
+            }
 
             float seed = Float.parseFloat(String.valueOf(body.get("seed")));
             if (oilMassFraction.getSeed() != seed) {
@@ -114,8 +119,9 @@ public class OilMassFractionDryEditServletAPI extends ServletAPI {
                 }
             }
 
-            for (Object k : forpressCakes.values()){
-                dao.remove(k);
+            forpressCakes.values().forEach(dao::remove);
+            if (forpressList.size() > 0) {
+                save = true;
             }
 
             if (save) {
@@ -135,10 +141,12 @@ public class OilMassFractionDryEditServletAPI extends ServletAPI {
                 oilMassFraction.setCreator(worker);
                 dao.save(createTime);
                 dao.save(oilMassFraction);
-
                 forpressList.forEach(dao::save);
                 forpressList.clear();
-
+                updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && currentTurn.getId() != targetTurn.getId()) {
+                    updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
+                }
             }
             write(resp, answer);
         } else {

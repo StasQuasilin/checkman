@@ -11,6 +11,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
+import utils.UpdateUtil;
 import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
 
@@ -29,6 +30,9 @@ import java.time.LocalTime;
  */
 @WebServlet(Branches.API.EXTRACTION_STORAGE_PROTEIN_EDIT)
 public class ExtractionStorageProteinEditServletAPI extends ServletAPI {
+
+    final UpdateUtil updateUtil = new UpdateUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -37,7 +41,7 @@ public class ExtractionStorageProteinEditServletAPI extends ServletAPI {
             boolean save = false;
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
+            LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
             long id = -1;
             if (body.containsKey(Constants.ID)){
@@ -47,11 +51,22 @@ public class ExtractionStorageProteinEditServletAPI extends ServletAPI {
                 storageProtein = dao.getStorageProteinById(id);
             } else {
                 storageProtein = new StorageProtein();
-                ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
-                storageProtein.setTurn(turn);
+
                 save = true;
             }
-            storageProtein.setTime(Timestamp.valueOf(localDateTime));
+
+            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(turnDate);
+            ExtractionTurn currentTurn = storageProtein.getTurn();
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()) {
+                storageProtein.setTurn(targetTurn);
+                save = true;
+            }
+
+            Timestamp timestamp = Timestamp.valueOf(localDateTime);
+            if (storageProtein.getTime() == null || !storageProtein.getTime().equals(timestamp)) {
+                storageProtein.setTime(timestamp);
+                save = true;
+            }
 
             long storageId = (long) body.get("storage");
             if (storageProtein.getStorage() == null || storageProtein.getStorage().getId() != storageId) {
@@ -87,6 +102,11 @@ public class ExtractionStorageProteinEditServletAPI extends ServletAPI {
                 storageProtein.setCreator(worker);
 
                 dao.save(createTime, storageProtein);
+
+                updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
+                    updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
+                }
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator !=null) {
                     notificator.extractionShow(storageProtein);

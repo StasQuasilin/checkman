@@ -2279,7 +2279,7 @@ CREATE TABLE public.vro_dailys (
 );
 
 
-ALTER TABLE public.vro_dailys OWNER TO postgres;
+ALTER TABLE public.vro_dailies OWNER TO postgres;
 
 --
 -- TOC entry 308 (class 1259 OID 37193)
@@ -2302,7 +2302,7 @@ ALTER TABLE public.vro_dailys_id_seq OWNER TO postgres;
 -- Name: vro_dailys_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.vro_dailys_id_seq OWNED BY public.vro_dailys.id;
+ALTER SEQUENCE public.vro_dailys_id_seq OWNED BY public.vro_dailies.id;
 
 
 --
@@ -2854,7 +2854,7 @@ ALTER TABLE ONLY public.vro_crude ALTER COLUMN id SET DEFAULT (nextval('public.v
 -- Name: vro_dailys id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.vro_dailys ALTER COLUMN id SET DEFAULT (nextval('public.vro_dailys_id_seq'::regclass))::regclass;
+ALTER TABLE ONLY public.vro_dailies ALTER COLUMN id SET DEFAULT (nextval('public.vro_dailys_id_seq'::regclass))::regclass;
 
 
 --
@@ -3435,7 +3435,7 @@ ALTER TABLE ONLY public.vro_crude
 -- Name: vro_dailys vro_dailys_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.vro_dailys
+ALTER TABLE ONLY public.vro_dailies
     ADD CONSTRAINT vro_dailys_pkey PRIMARY KEY (id);
 
 
@@ -3705,7 +3705,7 @@ ALTER TABLE ONLY public.extraction_crude
 -- Name: vro_dailys fkatlk6889ltpnwdmlum1sfl3qq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.vro_dailys
+ALTER TABLE ONLY public.vro_dailies
     ADD CONSTRAINT fkatlk6889ltpnwdmlum1sfl3qq FOREIGN KEY (turn) REFERENCES public.turns_vro(id);
 
 
@@ -3813,7 +3813,7 @@ ALTER TABLE ONLY public.vro_crude
 -- Name: vro_dailys fkhlnxtumvbp4ixkv1pvqpt2msp; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.vro_dailys
+ALTER TABLE ONLY public.vro_dailies
     ADD CONSTRAINT fkhlnxtumvbp4ixkv1pvqpt2msp FOREIGN KEY (creator) REFERENCES public.workers(id);
 
 
@@ -3894,7 +3894,7 @@ ALTER TABLE ONLY public.analyses_oil
 -- Name: vro_dailys fkl9r3h4nmdd0pd0fd1d3dsxiox; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.vro_dailys
+ALTER TABLE ONLY public.vro_dailies
     ADD CONSTRAINT fkl9r3h4nmdd0pd0fd1d3dsxiox FOREIGN KEY (create_time) REFERENCES public.action_time(id);
 
 

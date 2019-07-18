@@ -9,11 +9,11 @@
 <script>
     filter_control.filters.types.push({
         id:'buy',
-        value:'<fmt:message key="_buy"/>'
+        value:'<fmt:message key="buy"/>'
     });
     filter_control.filters.types.push({
         id:'sell',
-        value:'<fmt:message key="_sell"/>'
+        value:'<fmt:message key="sell"/>'
     });
 </script>
 <div id="filter_view">

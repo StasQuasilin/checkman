@@ -55,8 +55,46 @@
 </div>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
-    list.api.update = '${update}';
-    list.doRequest();
+    list.limit = 14;
+    list.api.crudeEdit ='${crudeEdit}';
+    list.api.proteinStorageEdit = '${storageProtein}';
+    list.api.greaseStorageEdit = '${storageGrease}';
+    list.api.proteinTurnEdit = '${turnProtein}';
+    list.api.greaseTurnEdit = '${turnGrease}';
+    list.api.oilEdit = '${oilEdit}';
+    list.crudeEdit = function(id){
+        this.edit(this.api.crudeEdit, id);
+    };
+    list.proteinStorageEdit = function(id){
+        this.edit(this.api.proteinStorageEdit, id);
+    };
+    list.greaseStorageEdit = function(id){
+        this.edit(this.api.greaseStorageEdit, id);
+    };
+    list.proteinTurnEdit = function(id){
+        this.edit(this.api.proteinTurnEdit, id);
+    };
+    list.greaseTurnEdit = function(id){
+        this.edit(this.api.greaseTurnEdit, id);
+    };
+    list.oilEdit = function(id){
+        this.edit(this.api.oilEdit, id);
+    };
+    list.edit = function(api, id){
+        loadModal(api + '?id=' + id, {id :id});
+    };
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
+        list.handler(a);
+    });
+    </c:forEach>
+    stopContent = function(){
+        <c:forEach items="${subscribe}" var="s">
+        subscribe('${s}', function(a){
+            unSubscribe('${s}');
+        });
+        </c:forEach>
+    }
 </script>
 <div id="container">
     <div v-for="(value, key) in items" class="container-item"
@@ -139,30 +177,31 @@
                         </span>
                     </th>
                 </tr>
-                <tr v-for="crude in value.item.crude" class="selectable" :item="crude.id" v-on:click="edit(crude.id)">
-                    <td align="center" :item="crude.id">
+                <tr v-for="crude in value.item.crude" class="selectable" :item="crude.id">
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{new Date(crude.time).toLocaleTimeString().substring(0,5)}}
                     </td>
-                    <td align="center" :item="crude.id">
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.humidityIncome).toLocaleString()}}
                     </td>
-                    <td align="center" :item="crude.id">
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.fraction).toLocaleString()}}
                     </td>
-                    <td align="center" :item="crude.id">
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.miscellas).toLocaleString()}}
                     </td>
-                    <td align="center" :item="crude.id">
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.humidity).toLocaleString()}}
                     </td>
-                    <td align="center" :item="crude.id">
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.dissolvent).toLocaleString()}}
                     </td>
-                    <td align="center" :item="crude.id">
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.grease).toLocaleString()}}
                     </td>
                     <td align="center">
-                        <span v-if="value.item.storageProtein[crude.time]">
+                        <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"
+                              v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
                             {{value.item.storageProtein[crude.time].protein}}
                         </span>
                         <span v-else>
@@ -170,7 +209,8 @@
                         </span>
                     </td>
                     <td align="center">
-                        <span v-if="value.item.storageProtein[crude.time]">
+                        <span v-if="value.item.storageProtein[crude.time]" style="width: 100% display: inline-block"
+                              v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
                             {{value.item.storageProtein[crude.time].humidity}}
                         </span>
                         <span v-else>
@@ -178,7 +218,8 @@
                         </span>
                     </td>
                     <td align="center">
-                        <span v-if="value.item.storageGrease[crude.time]">
+                        <span v-if="value.item.storageGrease[crude.time]" style="width: 100% display: inline-block"
+                              v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
                             {{value.item.storageGrease[crude.time].grease}}
                         </span>
                         <span v-else>
@@ -186,7 +227,8 @@
                         </span>
                     </td>
                     <td align="center">
-                        <span v-if="value.item.storageGrease[crude.time]">
+                        <span v-if="value.item.storageGrease[crude.time]" style="width: 100% display: inline-block"
+                              v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
                             {{value.item.storageGrease[crude.time].humidity}}
                         </span>
                         <span v-else>
@@ -197,7 +239,7 @@
             </table>
         </div>
         <div>
-            <div v-for="protein in value.item.turnProtein"
+            <div v-for="protein in value.item.turnProtein" v-on:click="proteinTurnEdit(protein.id)"
                  style="font-size: 10pt; display: inline-block" class="selectable">
                 <b>
                     <fmt:message key="title.extraction.turn.protein"/>:
@@ -207,7 +249,7 @@
                 <fmt:message key="sun.humidity"/>:
                 {{protein.humidity}}
             </div>
-            <div v-for="grease in value.item.turnGrease"
+            <div v-for="grease in value.item.turnGrease" v-on:click="greaseTurnEdit(grease.id)"
                  style="font-size: 10pt; display: inline-block" class="selectable">
                 <b>
                     <fmt:message key="title.extraction.turn.grease"/>:
@@ -218,7 +260,8 @@
                 {{grease.humidity}}
             </div>
         </div>
-        <div v-for="oil in value.item.oil" style="font-size: 10pt" class="selectable">
+        <div v-for="oil in value.item.oil" style="font-size: 10pt" class="selectable"
+            v-on:click="oilEdit(oil.id)">
             <b>
                 <fmt:message key="extraction.oil"/>:
             </b>

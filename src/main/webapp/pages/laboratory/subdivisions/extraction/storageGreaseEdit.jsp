@@ -42,7 +42,16 @@
     });
     </c:forEach>
     <c:choose>
-    <c:when test="${not empty crude}">
+    <c:when test="${not empty grease}">
+    editor.crude = {
+      id:${grease.id},
+      date : new Date('${grease.time}').toISOString().substring(0, 10),
+      time : editor.currentTime(new Date('${grease.time}')),
+      storage: editor.storages[0].id,
+      humidity:${grease.humidity},
+      grease:${grease.grease},
+      creator:${worker.id}
+    };
     </c:when>
     <c:otherwise>
     editor.crude = {

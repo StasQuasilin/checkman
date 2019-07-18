@@ -15,7 +15,8 @@ var list = new Vue({
             x:0,
             y:0
         },
-        timer :1000
+        timer :1000,
+        limit:-1
     },
     mounted:function(){
         if (typeof filter_control !== 'undefined'){
@@ -41,9 +42,19 @@ var list = new Vue({
             if (!doNot) {
                 this.items.push({item: item});
                 this.sort();
+                if (this.limit > 0){
+                    this.clean();
+                }
             }
 
         },
+        clean:function(){
+            if (this.items.length > this.limit){
+                this.items.splice(this.items.length - 1, 1);
+                this.clean();
+            }
+        }
+        ,
         update:function(item){
             var found = false;
             for(var i in this.items){

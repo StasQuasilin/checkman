@@ -5,6 +5,8 @@ import api.sockets.Subscriber;
 import entity.DealType;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
@@ -92,6 +94,14 @@ public class UpdateUtil {
                 onSave(transportation);
             }
         }
+    }
+
+    public void onSave(ExtractionTurn turn) throws IOException {
+        doAction(Command.update, Subscriber.EXTRACTION, parser.toJson(turn));
+    }
+
+    public void onSave(VROTurn turn) throws IOException {
+        doAction(Command.update, Subscriber.VRO, parser.toJson(turn));
     }
 
     public enum Command {

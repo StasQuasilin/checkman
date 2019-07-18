@@ -33,12 +33,10 @@ import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
 import utils.TurnDateTime;
-import utils.UpdateUtil;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.GE;
 import utils.hibernate.DateContainers.LE;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -500,7 +498,7 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public TurnProtein getExtractionTurnProteinById(long id) {
+    public TurnProtein getTurnProteinById(Object id) {
         return hb.get(TurnProtein.class, ID, id);
     }
 
@@ -771,7 +769,7 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<VROTurn> getVroTurns() {
+    public List<VROTurn> getLimitVroTurns() {
         return hb.limitQuery(VROTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 14);
     }
 

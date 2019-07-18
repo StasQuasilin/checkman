@@ -116,7 +116,7 @@ public interface dbDAO {
     List<ProductProperty> getProductProperties(Product product);
     List<ExtractionTurn> getLimitExtractionTurns();
     List<Worker> findWorker(Object key);
-    TurnProtein getExtractionTurnProteinById(long id);
+    TurnProtein getTurnProteinById(Object id);
     OilMassFraction getOilMassFractionById(long id);
     List<Vehicle> findVehicle(Object key);
     List<OrganisationType> getOrganisationTypeList();
@@ -151,7 +151,7 @@ public interface dbDAO {
     Turn getTurnByTime(Timestamp timestamp);
     List<LaboratoryTurn> getAnyTurnByDate(LocalDate date);
     List<VROTurn> getVroTurnsBetween(LocalDate from, LocalDate to);
-    List<VROTurn> getVroTurns();
+    List<VROTurn> getLimitVroTurns();
     List<User> findUser(Object key);
     List<Worker> getWorkersByRole(Role role);
     List<Seal> getSeals();

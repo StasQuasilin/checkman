@@ -11,6 +11,7 @@ import entity.laboratory.subdivisions.extraction.TurnGrease;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
 
@@ -27,7 +28,10 @@ import java.time.LocalDateTime;
  * Created by szpt_user045 on 16.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_TURN_GREASE_EDIT)
-public class ExtractionTurnGreaseEdit extends ServletAPI {
+public class ExtractionTurnGreaseEditServletAPI extends ServletAPI {
+
+    final UpdateUtil updateUtil = new UpdateUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -49,16 +53,15 @@ public class ExtractionTurnGreaseEdit extends ServletAPI {
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }
-            LocalDateTime turnTime = LocalDateTime.of(
-                    date.getYear(),
-                    date.getMonth(),
-                    date.getDayOfMonth(),
-                    turn.getBegin().toLocalTime().getHour(),
-                    turn.getBegin().toLocalTime().getMinute());
-            ExtractionTurn extractionTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
-
-            turnGrease.setTurn(extractionTurn);
+            LocalDateTime turnTime = LocalDateTime.of(date, turn.getBegin().toLocalTime());
             boolean save = false;
+
+            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
+            ExtractionTurn currentTurn = turnGrease.getTurn();
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
+                turnGrease.setTurn(targetTurn);
+                save = true;
+            }
 
             float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
             if (turnGrease.getHumidity() != humidity) {
@@ -88,6 +91,10 @@ public class ExtractionTurnGreaseEdit extends ServletAPI {
                 }
                 turnGrease.setCreator(worker);
                 dao.save(createTime, turnGrease);
+                updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
+                    updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
+                }
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null){
                     notificator.extractionShow(turnGrease);

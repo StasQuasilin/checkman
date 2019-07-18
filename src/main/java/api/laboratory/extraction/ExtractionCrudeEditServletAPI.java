@@ -11,6 +11,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
+import utils.UpdateUtil;
 import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
 
@@ -30,7 +31,7 @@ import java.time.LocalTime;
 @WebServlet(Branches.API.EXTRACTION_CRUDE_EDIT)
 public class ExtractionCrudeEditServletAPI extends ServletAPI {
 
-
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -99,6 +100,8 @@ public class ExtractionCrudeEditServletAPI extends ServletAPI {
                 save = true;
             }
 
+            write(resp, answer);
+
             if (save) {
                 ActionTime createTime = crude.getCreateTime();
                 if (createTime == null) {
@@ -117,13 +120,16 @@ public class ExtractionCrudeEditServletAPI extends ServletAPI {
 
                 dao.save(createTime);
                 dao.save(crude);
+
+                updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && targetTurn.getId() != currentTurn.getId()){
+                    updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
+                }
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.extractionShow(crude);
                 }
             }
-
-            write(resp, answer);
         } else {
             write(resp, emptyBody);
         }

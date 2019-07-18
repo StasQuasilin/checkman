@@ -1,5 +1,6 @@
 package controllers.laboratory.subdivisions;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
@@ -20,6 +21,9 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SUBDIVISION_LIST)
 public class SubdivisionList extends IUIServlet {
 
+    final Subscriber[] extractionSubscribes = new Subscriber[]{Subscriber.EXTRACTION};
+    final Subscriber[] vroSubscribes = new Subscriber[]{Subscriber.VRO};
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -37,6 +41,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("oilEdit", Branches.UI.Extraction.OIL_EDIT);
                 req.setAttribute("dailyPrint", Branches.UI.Extraction.DAILY_REPORT_PRINT);
                 req.setAttribute("update", Branches.API.EXTRACTION_LIST);
+                req.setAttribute("subscribe", extractionSubscribes);
                 break;
             case vro:
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_VRO);
@@ -49,6 +54,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("update", Branches.API.VRO_LIST);
                 req.setAttribute("dailyPrint", Branches.UI.VRO.DAILY_REPORT_PRINT);
                 req.setAttribute("forpress", dao.getForpressList());
+                req.setAttribute("subscribe", vroSubscribes);
                 break;
             case kpo:
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_KPO);

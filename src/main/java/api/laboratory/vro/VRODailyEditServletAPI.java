@@ -10,6 +10,7 @@ import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
 import utils.turns.VROTurnService;
@@ -32,7 +33,7 @@ import java.util.List;
 public class VRODailyEditServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(VRODailyEditServletAPI.class);
-    final
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,10 +43,9 @@ public class VRODailyEditServletAPI extends ServletAPI {
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             List<TurnSettings> turns = TurnBox.getBox().getTurns();
             LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();
-            LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
+            LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
 
-            VROTurn turn = VROTurnService.getTurn(turnDate);
             boolean save = false;
 
             VRODaily daily;
@@ -55,7 +55,13 @@ public class VRODailyEditServletAPI extends ServletAPI {
                 daily = new VRODaily();
             }
 
-            daily.setTurn(turn);
+            VROTurn targetTurn = VROTurnService.getTurn(turnDate);
+            VROTurn currentTurn = daily.getTurn();
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
+                daily.setTurn(targetTurn);
+                save = true;
+            }
+
 
             float kernelHumidity = Float.parseFloat(String.valueOf(body.get("kernelHumidity")));
             if (daily.getKernelHumidity() != kernelHumidity) {
@@ -103,6 +109,10 @@ public class VRODailyEditServletAPI extends ServletAPI {
                 }
                 daily.setCreator(worker);
                 dao.save(createTime, daily);
+                updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && currentTurn.getId() != targetTurn.getId()) {
+                    updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
+                }
             }
 
             write(resp, answer);

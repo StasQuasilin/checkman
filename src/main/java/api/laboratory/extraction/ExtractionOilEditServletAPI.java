@@ -12,6 +12,7 @@ import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.ExtractionTurnService;
 import utils.PostUtil;
 import utils.turns.TurnBox;
@@ -32,7 +33,7 @@ import java.time.LocalDateTime;
 public class ExtractionOilEditServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(ExtractionOilEditServletAPI.class);
-    final
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,16 +57,16 @@ public class ExtractionOilEditServletAPI extends ServletAPI {
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }
-            LocalDateTime turnTime = LocalDateTime.of(
-                    date.getYear(),
-                    date.getMonth(),
-                    date.getDayOfMonth(),
-                    turn.getBegin().toLocalTime().getHour(),
-                    turn.getBegin().toLocalTime().getMinute());
-            ExtractionTurn extractionTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
+            LocalDateTime turnTime = LocalDateTime.of(date, turn.getBegin().toLocalTime());
 
-            oil.setTurn(extractionTurn);
             boolean save = false;
+
+            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
+            ExtractionTurn currentTurn = oil.getTurn();
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()) {
+                oil.setTurn(targetTurn);
+                save = true;
+            }
 
             float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
             if (oil.getHumidity() != humidity) {
@@ -114,6 +115,10 @@ public class ExtractionOilEditServletAPI extends ServletAPI {
                 }
                 oil.setCreator(worker);
                 dao.save(createTime, oil);
+                updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
+                    updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
+                }
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.extractionShow(oil);

@@ -4,9 +4,13 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.AnalysesType;
+import entity.laboratory.subdivisions.extraction.StorageGrease;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
 import utils.TransportUtil;
+import utils.U;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -25,6 +29,24 @@ import java.util.stream.Collectors;
 public class ExtractionStorageGrease extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        StorageGrease grease = null;
+
+        String id = req.getParameter("id");
+        if (U.exist(id)){
+            grease = dao.getStorageGreaseById(Integer.parseInt(id));
+        } else {
+            JSONObject body = PostUtil.parseBodyJson(req);
+            if (body != null){
+                if (body.containsKey(Constants.ID)){
+                    grease = dao.getStorageGreaseById(body.get(Constants.ID));
+                }
+            }
+        }
+
+        if (grease != null) {
+            req.setAttribute("grease", grease);
+        }
         req.setAttribute("title", Constants.Titles.EXTRACTION_STORAGE_GREASE);
         req.setAttribute("storages", dao.getStoragesByAnalysesType(AnalysesType.meal));
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/storageGreaseEdit.jsp");

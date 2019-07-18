@@ -13,6 +13,7 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
 import utils.turns.VROTurnService;
@@ -37,7 +38,7 @@ import java.util.List;
 public class VROCrudeEditServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(VROCrudeEditServletAPI.class);
-
+    private UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -59,8 +60,8 @@ public class VROCrudeEditServletAPI extends ServletAPI {
             }
 
             VROTurn targetTurn = VROTurnService.getTurn(turnDate);
-            VROTurn vroTurn = crude.getTurn();
-            if (vroTurn == null || vroTurn.getId() != targetTurn.getId()){
+            VROTurn currentTurn = crude.getTurn();
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
                 crude.setTurn(targetTurn);
                 save = true;
             }
@@ -169,6 +170,11 @@ public class VROCrudeEditServletAPI extends ServletAPI {
                 dao.save(createTime);
                 dao.save(crude);
                 cakes.forEach(dao::save);
+
+                updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && targetTurn.getId() != currentTurn.getId()){
+                    updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
+                }
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

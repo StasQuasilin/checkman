@@ -816,188 +816,186 @@ public class JsonParser {
         return json;
     }
 
-    public static class VRO {
-        public JSONObject toJson(VROTurn turn) {
-            JSONObject json = new JSONObject();
-            json.put("id", turn.getId());
-            json.put("date", turn.getTurn().getDate().toString());
-            json.put("number", turn.getTurn().getNumber());
-            json.put("crudes", toCrudeJson(turn.getCrudes()));
-            json.put("oil", toOilJson(turn.getOils()));
-            json.put("dailies", toDailyJson(turn.getDailies()));
-            json.put("oilMass", toOilMass(turn.getOilMassFractions()));
-            json.put("oilMassDry", toOilMassDry(turn.getOilMassFractionDries()));
-            json.put("hash", turn.hashCode());
+    public JSONObject toJson(VROTurn turn) {
+        JSONObject json = new JSONObject();
+        json.put("id", turn.getId());
+        json.put("date", turn.getTurn().getDate().toString());
+        json.put("number", turn.getTurn().getNumber());
+        json.put("crudes", toCrudeJson(turn.getCrudes()));
+        json.put("oil", toVroOilJson(turn.getOils()));
+        json.put("dailies", toDailyJson(turn.getDailies()));
+        json.put("oilMass", toOilMass(turn.getOilMassFractions()));
+        json.put("oilMassDry", toOilMassDry(turn.getOilMassFractionDries()));
+        json.put("hash", turn.hashCode());
 
-            return json;
+        return json;
+    }
+
+    private JSONArray toOilMassDry(Set<OilMassFractionDry> oilMassFractionDries) {
+        JSONArray array = new JSONArray();
+        for (OilMassFractionDry omf : oilMassFractionDries) {
+            array.add(toJson(omf));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(OilMassFractionDry omf) {
+        JSONObject json = new JSONObject();
+        json.put("id", omf.getId());
+        json.put("seed", omf.getSeed());
+        json.put("husk", omf.getHusk());
+        json.put("forpress", toForpressDryJson(omf.getForpressCakes()));
+        return json;
+    }
+
+    private JSONArray toForpressDryJson(Set<ForpressCakeDailyDry> forpressCakes) {
+        JSONArray array = new JSONArray();
+        for (ForpressCakeDailyDry fcd : forpressCakes) {
+            array.add(toJson(fcd));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(ForpressCakeDailyDry fcd) {
+        JSONObject json = new JSONObject();
+        json.put("id", fcd.getId());
+        json.put("forpress", fcd.getForpress().getName());
+        json.put("oilcake", fcd.getOilcake());
+        return json;
+    }
+
+    private JSONArray toOilMass(Set<OilMassFraction> oilMassFractions) {
+        JSONArray array = new JSONArray();
+        for (OilMassFraction omf : oilMassFractions) {
+            array.add(toJson(omf));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(OilMassFraction omf) {
+        JSONObject json = new JSONObject();
+        json.put("id", omf.getId());
+        json.put("seed", omf.getSeed());
+        json.put("seedHumidity", omf.getSeedHumidity());
+        json.put("husk", omf.getHusk());
+        json.put("huskHumidity", omf.getHuskHumidity());
+        json.put("forpress", toForpressJson(omf.getForpressCakes()));
+        return json;
+    }
+
+    private JSONArray toForpressJson(Set<ForpressCakeDaily> forpressCakes) {
+        JSONArray array = new JSONArray();
+        for (ForpressCakeDaily fcd : forpressCakes) {
+            array.add(toJson(fcd));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(ForpressCakeDaily fcd) {
+        JSONObject json = new JSONObject();
+        json.put("id", fcd.getId());
+        json.put("forpress", fcd.getForpress().getName());
+        json.put("oiliness", fcd.getOiliness());
+        json.put("humidity", fcd.getHumidity());
+        return json;
+    }
+
+    private JSONArray toDailyJson(Set<VRODaily> dailies) {
+        JSONArray array = new JSONArray();
+
+        for (VRODaily daily : dailies){
+            array.add(toJson(daily));
         }
 
-        private JSONArray toOilMassDry(Set<OilMassFractionDry> oilMassFractionDries) {
-            JSONArray array = new JSONArray();
-            for (OilMassFractionDry omf : oilMassFractionDries) {
-                array.add(toJson(omf));
-            }
-            return array;
+        return array;
+    }
+
+    private JSONObject toJson(VRODaily daily) {
+        JSONObject json = new JSONObject();
+        json.put("id", daily.getId());
+        json.put("kernelHumidity", daily.getKernelHumidity());
+        json.put("huskHumidity", daily.getHuskHumidity());
+        json.put("huskSoreness", daily.getHuskSoreness());
+        json.put("kernelPercent", daily.getKernelPercent());
+        json.put("huskPercent", daily.getHuskPercent());
+        return json;
+    }
+
+    private JSONArray toVroOilJson(Set<VROOil> oils) {
+        JSONArray array = new JSONArray();
+        for (VROOil oil : oils) {
+            array.add(toJson(oil));
         }
+        return array;
+    }
 
-        private JSONObject toJson(OilMassFractionDry omf) {
-            JSONObject json = new JSONObject();
-            json.put("id", omf.getId());
-            json.put("seed", omf.getSeed());
-            json.put("husk", omf.getHusk());
-            json.put("forpress", toForpressDryJson(omf.getForpressCakes()));
-            return json;
-        }
-
-        private JSONArray toForpressDryJson(Set<ForpressCakeDailyDry> forpressCakes) {
-            JSONArray array = new JSONArray();
-            for (ForpressCakeDailyDry fcd : forpressCakes) {
-                array.add(toJson(fcd));
-            }
-            return array;
-        }
-
-        private JSONObject toJson(ForpressCakeDailyDry fcd) {
-            JSONObject json = new JSONObject();
-            json.put("id", fcd.getId());
-            json.put("forpress", fcd.getForpress().getName());
-            json.put("oilcake", fcd.getOilcake());
-            return json;
-        }
-
-        private JSONArray toOilMass(Set<OilMassFraction> oilMassFractions) {
-            JSONArray array = new JSONArray();
-            for (OilMassFraction omf : oilMassFractions) {
-                array.add(toJson(omf));
-            }
-            return array;
-        }
-
-        private JSONObject toJson(OilMassFraction omf) {
-            JSONObject json = new JSONObject();
-            json.put("id", omf.getId());
-            json.put("seed", omf.getSeed());
-            json.put("seedHumidity", omf.getSeedHumidity());
-            json.put("husk", omf.getHusk());
-            json.put("huskHumidity", omf.getHuskHumidity());
-            json.put("forpress", toForpressJson(omf.getForpressCakes()));
-            return json;
-        }
-
-        private JSONArray toForpressJson(Set<ForpressCakeDaily> forpressCakes) {
-            JSONArray array = new JSONArray();
-            for (ForpressCakeDaily fcd : forpressCakes) {
-                array.add(toJson(fcd));
-            }
-            return array;
-        }
-
-        private JSONObject toJson(ForpressCakeDaily fcd) {
-            JSONObject json = new JSONObject();
-            json.put("id", fcd.getId());
-            json.put("forpress", fcd.getForpress().getName());
-            json.put("oiliness", fcd.getOiliness());
-            json.put("humidity", fcd.getHumidity());
-            return json;
-        }
-
-        private JSONArray toDailyJson(Set<VRODaily> dailies) {
-            JSONArray array = new JSONArray();
-
-            for (VRODaily daily : dailies){
-                array.add(toJson(daily));
-            }
-
-            return array;
-        }
-
-        private JSONObject toJson(VRODaily daily) {
-            JSONObject json = new JSONObject();
-            json.put("id", daily.getId());
-            json.put("kernelHumidity", daily.getKernelHumidity());
-            json.put("huskHumidity", daily.getHuskHumidity());
-            json.put("huskSoreness", daily.getHuskSoreness());
-            json.put("kernelPercent", daily.getKernelPercent());
-            json.put("huskPercent", daily.getHuskPercent());
-            return json;
-        }
-
-        private JSONArray toOilJson(Set<VROOil> oils) {
-            JSONArray array = new JSONArray();
-            for (VROOil oil : oils) {
-                array.add(toJson(oil));
-            }
-            return array;
-        }
-
-        private JSONObject toJson(VROOil oil) {
-            JSONObject json = new JSONObject();
+    private JSONObject toJson(VROOil oil) {
+        JSONObject json = new JSONObject();
 //            private int id;
-            json.put("id", oil.getId());
+        json.put("id", oil.getId());
 //            private float acid;
-            json.put("acid", oil.getAcid());
+        json.put("acid", oil.getAcid());
 //            private float peroxide;
-            json.put("peroxide", oil.getPeroxide());
+        json.put("peroxide", oil.getPeroxide());
 //            private float phosphorus;
-            json.put("phosphorus", oil.getPhosphorus());
+        json.put("phosphorus", oil.getPhosphorus());
 //            private int color;
-            json.put("color", oil.getColor());
+        json.put("color", oil.getColor());
 
-            return json;
+        return json;
+    }
+
+    private JSONObject toCakeJson(Set<ForpressCake> forpressCakes) {
+        JSONObject json = new JSONObject();
+        for (ForpressCake cake : forpressCakes){
+            json.put(cake.getForpress().getName(), toJson(cake));
         }
+        return json;
+    }
 
-        private JSONObject toCakeJson(Set<ForpressCake> forpressCakes) {
-            JSONObject json = new JSONObject();
-            for (ForpressCake cake : forpressCakes){
-                json.put(cake.getForpress().getName(), toJson(cake));
-            }
-            return json;
+    private JSONObject toJson(ForpressCake cake) {
+        JSONObject json = new JSONObject();
+
+        json.put("id", cake.getId());
+        json.put("forpress", cake.getForpress().getName());
+        json.put("humidity", cake.getHumidity());
+        json.put("oiliness", cake.getOiliness());
+
+        return json;
+    }
+
+    private JSONArray toCrudeJson(List<VROCrude> crudes) {
+        JSONArray array = new JSONArray();
+        Collections.sort(crudes);
+        for (VROCrude crude : crudes) {
+            array.add(toJson(crude));
         }
+        return array;
+    }
 
-        private JSONObject toJson(ForpressCake cake) {
-            JSONObject json = new JSONObject();
-
-            json.put("id", cake.getId());
-            json.put("forpress", cake.getForpress().getName());
-            json.put("humidity", cake.getHumidity());
-            json.put("oiliness", cake.getOiliness());
-
-            return json;
-        }
-
-        private JSONArray toCrudeJson(List<VROCrude> crudes) {
-            JSONArray array = new JSONArray();
-            Collections.sort(crudes);
-            for (VROCrude crude : crudes) {
-                array.add(toJson(crude));
-            }
-            return array;
-        }
-
-        private JSONObject toJson(VROCrude crude) {
-            JSONObject json = new JSONObject();
+    private JSONObject toJson(VROCrude crude) {
+        JSONObject json = new JSONObject();
 //            private int id;
-            json.put("id", crude.getId());
+        json.put("id", crude.getId());
 //            private Timestamp Time;
-            json.put("time", crude.getTime().toString());
+        json.put("time", crude.getTime().toString());
 //            private float humidityBefore;
-            json.put("humidityBefore", crude.getHumidityBefore());
+        json.put("humidityBefore", crude.getHumidityBefore());
 //            private float sorenessBefore;
-            json.put("sorenessBefore", crude.getSorenessBefore());
+        json.put("sorenessBefore", crude.getSorenessBefore());
 //            private float humidityAfter;
-            json.put("humidityAfter", crude.getHumidityAfter());
+        json.put("humidityAfter", crude.getHumidityAfter());
 //            private float sorenessAfter;
-            json.put("sorenessAfter", crude.getSorenessAfter());
+        json.put("sorenessAfter", crude.getSorenessAfter());
 //            private float huskiness;
-            json.put("huskiness", crude.getHuskiness());
+        json.put("huskiness", crude.getHuskiness());
 //            private float kernelOffset;
-            json.put("kernelOffset", crude.getKernelOffset());
+        json.put("kernelOffset", crude.getKernelOffset());
 //            private float pulpHumidity;
-            json.put("pulpHumidity1", crude.getPulpHumidity1());
-            json.put("pulpHumidity2", crude.getPulpHumidity2());
+        json.put("pulpHumidity1", crude.getPulpHumidity1());
+        json.put("pulpHumidity2", crude.getPulpHumidity2());
 
-            json.put("cakes", toCakeJson(crude.getForpressCakes()));
-            return json;
-        }
+        json.put("cakes", toCakeJson(crude.getForpressCakes()));
+        return json;
     }
 }

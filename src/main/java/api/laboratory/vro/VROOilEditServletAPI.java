@@ -11,6 +11,7 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
+import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.turns.VROTurnService;
 
@@ -31,6 +32,7 @@ public class VROOilEditServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(VROOilEditServletAPI.class);
     private final TurnBox turnBox = TurnBox.getBox();
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
 
     @Override
@@ -55,9 +57,10 @@ public class VROOilEditServletAPI extends ServletAPI {
             LocalDateTime turnTime = LocalDateTime.of(date, turn.getBegin().toLocalTime());
             TurnDateTime turnDate = turnBox.getTurnDate(turnTime);
 
+            boolean save = false;
+
             VROTurn targetTurn = VROTurnService.getTurn(turnDate);
             VROTurn currentTurn = oil.getTurn();
-            boolean save = false;
             if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
                 oil.setTurn(targetTurn);
                 save = true;
@@ -104,6 +107,10 @@ public class VROOilEditServletAPI extends ServletAPI {
                 oil.setCreator(worker);
                 dao.save(createTime);
                 dao.save(oil);
+                updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
+                    updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
+                }
             }
 
             write(resp, answer);

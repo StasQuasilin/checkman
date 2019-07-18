@@ -116,7 +116,9 @@ public class ExtractionOIl {
 //        private float explosionT;
         hash = 31 * Float.hashCode(explosionT) + hash;
 //        private ActionTime createTime;
-        hash = 31 * createTime.hashCode() + hash;
+        if (createTime != null) {
+            hash = 31 * createTime.hashCode() + hash;
+        }
 //        private Worker creator;
         hash = 31 * creator.hashCode() + hash;
         return hash;

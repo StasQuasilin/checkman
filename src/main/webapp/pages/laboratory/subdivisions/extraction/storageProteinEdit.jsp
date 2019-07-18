@@ -40,8 +40,19 @@
       value:'${l.person.value}'
     });
     </c:forEach>
+    //${protein.time}
     <c:choose>
-    <c:when test="${not empty crude}">
+    <c:when test="${not empty protein}">
+
+    editor.crude = {
+      id:${protein.id},
+      date : new Date('${protein.time}').toISOString().substring(0, 10),
+      time : editor.currentTime(new Date('${protein.time}')),
+      storage: editor.storages[0].id,
+      humidity:${protein.humidity},
+      protein:${protein.protein},
+      creator:${worker.id}
+    };
     </c:when>
     <c:otherwise>
     editor.crude = {

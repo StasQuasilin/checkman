@@ -8,6 +8,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionRaw;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
 import utils.turns.ExtractionTurnService;
@@ -28,7 +29,7 @@ import java.time.LocalTime;
 @WebServlet(Branches.API.EXTRACTION_RAW_EDIT)
 public class ExtractionRawEditServletAPI extends ServletAPI {
 
-    final
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,8 +47,13 @@ public class ExtractionRawEditServletAPI extends ServletAPI {
                 raw = dao.getExtractionRawById(id);
             } else {
                 raw = new ExtractionRaw();
-                ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
-                raw.setTurn(turn);
+                save = true;
+            }
+
+            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(turnDate);
+            ExtractionTurn currentTurn = raw.getTurn();
+            if(currentTurn == null || currentTurn.getId() != targetTurn.getId()){
+                raw.setTurn(targetTurn);
                 save = true;
             }
 
@@ -81,6 +87,10 @@ public class ExtractionRawEditServletAPI extends ServletAPI {
                 }
                 raw.setCreator(worker);
                 dao.save(createTime, raw);
+                updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && targetTurn.getId() != currentTurn.getId()){
+                    updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
+                }
             }
 
             write(resp, answer);

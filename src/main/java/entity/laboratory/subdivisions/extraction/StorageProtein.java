@@ -98,7 +98,9 @@ public class StorageProtein {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 31 * time.hashCode() + hash;
+        if (time != null) {
+            hash = 31 * time.hashCode() + hash;
+        }
         hash = 31 * Float.hashCode(protein) + hash;
         hash = 31 * Float.hashCode(humidity) + hash;
         return hash;

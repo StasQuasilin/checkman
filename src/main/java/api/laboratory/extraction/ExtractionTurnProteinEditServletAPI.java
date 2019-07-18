@@ -11,6 +11,7 @@ import entity.laboratory.subdivisions.extraction.TurnProtein;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
 
@@ -27,9 +28,9 @@ import java.time.LocalDateTime;
  * Created by szpt_user045 on 16.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_TURN_PROTEIN_EDIT)
-public class ExtractionTurnProteinEdit extends ServletAPI {
+public class ExtractionTurnProteinEditServletAPI extends ServletAPI {
 
-
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,7 +42,7 @@ public class ExtractionTurnProteinEdit extends ServletAPI {
                 id = (long) body.get(Constants.ID);
             }
             if (id != -1){
-                turnProtein = dao.getExtractionTurnProteinById(id);
+                turnProtein = dao.getTurnProteinById(id);
             } else {
                 turnProtein = new TurnProtein();
             }
@@ -52,16 +53,15 @@ public class ExtractionTurnProteinEdit extends ServletAPI {
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }
-            LocalDateTime turnTime = LocalDateTime.of(
-                    date.getYear(),
-                    date.getMonth(),
-                    date.getDayOfMonth(),
-                    turn.getBegin().toLocalTime().getHour(),
-                    turn.getBegin().toLocalTime().getMinute());
-            ExtractionTurn extractionTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
 
-            turnProtein.setTurn(extractionTurn);
             boolean save = false;
+            LocalDateTime turnTime = LocalDateTime.of(date, turn.getBegin().toLocalTime());
+            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
+            ExtractionTurn currentTurn = turnProtein.getTurn();
+            if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
+                turnProtein.setTurn(targetTurn);
+                save = true;
+            }
 
             float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
             if (turnProtein.getHumidity() != humidity) {
@@ -91,6 +91,10 @@ public class ExtractionTurnProteinEdit extends ServletAPI {
                 }
                 turnProtein.setCreator(worker);
                 dao.save(createTime, turnProtein);
+                updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
+                    updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
+                }
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.extractionShow(turnProtein);

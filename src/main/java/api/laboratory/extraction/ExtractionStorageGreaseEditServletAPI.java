@@ -11,6 +11,7 @@ import entity.laboratory.subdivisions.extraction.StorageGrease;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
+import utils.UpdateUtil;
 import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
 
@@ -28,7 +29,10 @@ import java.time.LocalTime;
  * Created by szpt_user045 on 16.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_STORAGE_GREASE_EDIT)
-public class ExtractionStorageGreaseEdit extends ServletAPI {
+public class ExtractionStorageGreaseEditServletAPI extends ServletAPI {
+
+    final UpdateUtil updateUtil = new UpdateUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -37,7 +41,7 @@ public class ExtractionStorageGreaseEdit extends ServletAPI {
             boolean save = false;
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            LocalDateTime localDateTime = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
+            LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
             long id = -1;
             if (body.containsKey(Constants.ID)){
@@ -47,11 +51,20 @@ public class ExtractionStorageGreaseEdit extends ServletAPI {
                 storageGrease = dao.getStorageGreaseById(id);
             } else {
                 storageGrease = new StorageGrease();
-                ExtractionTurn turn = ExtractionTurnService.getTurn(turnDate);
-                storageGrease.setTurn(turn);
+            }
+
+            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(turnDate);
+            ExtractionTurn currentTurn = storageGrease.getTurn();
+            if (currentTurn == null || targetTurn.getId() != currentTurn.getId()){
+                storageGrease.setTurn(targetTurn);
                 save = true;
             }
-            storageGrease.setTime(Timestamp.valueOf(localDateTime));
+
+            Timestamp timestamp = Timestamp.valueOf(localDateTime);
+            if (storageGrease.getTime() == null || !storageGrease.getTime().equals(timestamp)) {
+                storageGrease.setTime(timestamp);
+                save = true;
+            }
 
             long storageId = (long) body.get("storage");
             if (storageGrease.getStorage() == null || storageGrease.getStorage().getId() != storageId) {
@@ -87,6 +100,11 @@ public class ExtractionStorageGreaseEdit extends ServletAPI {
                 storageGrease.setCreator(worker);
 
                 dao.save(createTime, storageGrease);
+                updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
+                    updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
+                }
+
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.extractionShow(storageGrease);

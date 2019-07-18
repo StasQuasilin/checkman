@@ -15,12 +15,15 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.LABORATORY_TURNS)
 public class LaboratoryTurnList extends IUIServlet {
+
+    final Subscriber[]subscribers = new Subscriber[]{Subscriber.LABORATORY_TURNS};
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", "title.laboratory.turns");
         req.setAttribute("content", "/pages/laboratory/laboratoryTurns.jsp");
         req.setAttribute("edit", Branches.UI.LABORATORY_TURNS_EDIT);
-        req.setAttribute("subscribe", Subscriber.LABORATORY_TURNS);
+        req.setAttribute("subscribe", subscribers);
         show(req, resp);
     }
 }

@@ -54,16 +54,24 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script src="${context}/vue/dataList.vue"></script>
 <script>
-    list.api.update = '${update}';
+    list.limit = 14;
     list.forpress = [];
     <c:forEach items="${forpress}" var="fp">
     list.forpress.push({
         value:'${fp.name}'
     });
     </c:forEach>
-    list.doRequest();
-    function stopContent(){
-        list.stop();
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
+        list.handler(a);
+    });
+    </c:forEach>
+    stopContent = function(){
+        <c:forEach items="${subscribe}" var="s">
+        subscribe('${s}', function(a){
+            unSubscribe('${s}');
+        });
+        </c:forEach>
     }
 </script>
 
@@ -81,10 +89,8 @@
         <div style="padding-left: 12pt">
             <table style="font-size: 10pt;">
                 <tr>
-                    <th rowspan="2">
-                        <span style="width: 5em">
-                            <fmt:message key="time"/>
-                        </span>
+                    <th rowspan="2" style="width: 4em">
+                        <fmt:message key="time"/>
                     </th>
                     <td colspan="2" align="center">
                         <fmt:message key="vro.sun.before"/>
