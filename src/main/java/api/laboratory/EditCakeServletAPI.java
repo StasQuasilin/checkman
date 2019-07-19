@@ -7,7 +7,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.Worker;
 import entity.documents.LoadPlan;
-import entity.laboratory.CakeAnalyses;
+import entity.laboratory.MealAnalyses;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -36,47 +36,47 @@ public class EditCakeServletAPI extends ServletAPI {
             log.info("Edit CAKE analyses for plan \'" + planId + "\'...");
 
             LoadPlan loadPlan = dao.getLoadPlanById(planId);
-            CakeAnalyses cakeAnalyses = loadPlan.getTransportation().getCakeAnalyses();
-            if (cakeAnalyses == null) {
-                cakeAnalyses = new CakeAnalyses();
-                loadPlan.getTransportation().setCakeAnalyses(cakeAnalyses);
+            MealAnalyses mealAnalyses = loadPlan.getTransportation().getMealAnalyses();
+            if (mealAnalyses == null) {
+                mealAnalyses = new MealAnalyses();
+                loadPlan.getTransportation().setMealAnalyses(mealAnalyses);
             }
 
             JSONObject a = (JSONObject) body.get("analyses");
             boolean save = false;
             float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY)));
             log.info("\t\tHumidity: " + humidity);
-            if (cakeAnalyses.getHumidity() != humidity) {
-                cakeAnalyses.setHumidity(humidity);
+            if (mealAnalyses.getHumidity() != humidity) {
+                mealAnalyses.setHumidity(humidity);
                 save = true;
             }
 
             float protein = Float.parseFloat(String.valueOf(a.get(Constants.Cake.PROTEIN)));
             log.info("\t\tProtein: " + protein);
-            if (cakeAnalyses.getProtein() != protein) {
-                cakeAnalyses.setProtein(protein);
+            if (mealAnalyses.getProtein() != protein) {
+                mealAnalyses.setProtein(protein);
                 save = true;
             }
 
             float cellulose = Float.parseFloat(String.valueOf(a.get(Constants.Cake.CELLULOSE)));
             log.info("\t\tCellulose: " + cellulose);
-            if (cakeAnalyses.getCellulose() != cellulose) {
-                cakeAnalyses.setCellulose(cellulose);
+            if (mealAnalyses.getCellulose() != cellulose) {
+                mealAnalyses.setCellulose(cellulose);
                 save = true;
             }
 
             float oiliness = Float.parseFloat(String.valueOf(a.get(Constants.Sun.OILINESS)));
             log.info("\t\tOiliness: " + oiliness);
-            if (cakeAnalyses.getOiliness() != oiliness) {
-                cakeAnalyses.setOiliness(oiliness);
+            if (mealAnalyses.getOiliness() != oiliness) {
+                mealAnalyses.setOiliness(oiliness);
                 save = true;
             }
 
             if (save) {
-                ActionTime createTime = cakeAnalyses.getCreateTime();
+                ActionTime createTime = mealAnalyses.getCreateTime();
                 if (createTime == null) {
                     createTime = new ActionTime();
-                    cakeAnalyses.setCreateTime(createTime);
+                    mealAnalyses.setCreateTime(createTime);
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
@@ -88,14 +88,14 @@ public class EditCakeServletAPI extends ServletAPI {
                     log.info("\t\tDoesn't have creator");
                     createTime.setCreator(worker);
                 }
-                cakeAnalyses.setCreator(worker);
+                mealAnalyses.setCreator(worker);
 
-                dao.saveCakeAnalyses(cakeAnalyses);
+                dao.saveCakeAnalyses(mealAnalyses);
                 dao.saveTransportation(loadPlan.getTransportation());
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
-                    notificator.cakeAnalysesShow(loadPlan, cakeAnalyses);
+                    notificator.cakeAnalysesShow(loadPlan, mealAnalyses);
                 }
             }
 

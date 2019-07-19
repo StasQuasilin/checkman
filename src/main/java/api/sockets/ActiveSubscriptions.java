@@ -22,7 +22,6 @@ public class ActiveSubscriptions {
     final HashMap<Subscriber, ArrayList<Session>> subscribes = new HashMap<>();
     final HashMap<Subscriber, OnSubscribeHandler> handlers = new HashMap<>();
     public static final JsonPool pool = JsonPool.getPool();
-    public static final String ADD = "add";
     public static final String TYPE = "type";
     private static final String DATA = "data";
 
@@ -36,8 +35,11 @@ public class ActiveSubscriptions {
         handlers.put(Subscriber.LOGISTIC, new LogisticHandler(Subscriber.LOGISTIC));
         handlers.put(Subscriber.TRANSPORT_BUY, new TransportHandler(Subscriber.TRANSPORT_BUY, DealType.buy));
         handlers.put(Subscriber.TRANSPORT_SELL, new TransportHandler(Subscriber.TRANSPORT_SELL, DealType.sell));
+        handlers.put(Subscriber.PROBES, new ProbesHandler(Subscriber.PROBES));
         handlers.put(Subscriber.EXTRACTION, new ExtractionHandler(Subscriber.EXTRACTION));
         handlers.put(Subscriber.VRO, new VroHandler(Subscriber.VRO));
+        handlers.put(Subscriber.KPO, new KpoHandler(Subscriber.KPO));
+        handlers.put(Subscriber.LABORATORY_STORAGES, new StoragesHandler(Subscriber.LABORATORY_STORAGES));
         handlers.put(Subscriber.LABORATORY_TURNS, new TurnHandler(Subscriber.LABORATORY_TURNS));
     }
 

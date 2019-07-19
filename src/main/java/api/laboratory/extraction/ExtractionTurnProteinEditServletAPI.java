@@ -12,8 +12,8 @@ import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
-import utils.turns.ExtractionTurnService;
 import utils.turns.TurnBox;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,14 +49,14 @@ public class ExtractionTurnProteinEditServletAPI extends ServletAPI {
 
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             long turnId = (long) body.get("turn");
-            TurnSettings turn = TurnBox.getBox().getTurn(turnId);
+            TurnSettings turn = TurnBox.getTurn(turnId);
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }
 
             boolean save = false;
             LocalDateTime turnTime = LocalDateTime.of(date, turn.getBegin().toLocalTime());
-            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
+            ExtractionTurn targetTurn = TurnService.getExtractionTurn(TurnBox.getTurnDate(turnTime));
             ExtractionTurn currentTurn = turnProtein.getTurn();
             if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
                 turnProtein.setTurn(targetTurn);

@@ -6,7 +6,7 @@ import entity.User;
 import entity.Worker;
 import entity.bot.UserBotSetting;
 import entity.documents.LoadPlan;
-import entity.laboratory.CakeAnalyses;
+import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.subdivisions.extraction.*;
@@ -174,7 +174,7 @@ public class Notificator {
             }
         }
     }
-    public void cakeAnalysesShow(LoadPlan plan, CakeAnalyses analyses) {
+    public void cakeAnalysesShow(LoadPlan plan, MealAnalyses analyses) {
 
 
         String message;

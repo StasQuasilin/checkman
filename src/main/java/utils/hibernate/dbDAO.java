@@ -5,15 +5,17 @@ import entity.*;
 import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
 import entity.documents.*;
-import entity.laboratory.CakeAnalyses;
+import entity.laboratory.MealAnalyses;
 import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
+import entity.laboratory.probes.ProbeTurn;
 import entity.laboratory.probes.SunProbe;
 import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
+import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
@@ -50,7 +52,8 @@ public interface dbDAO {
     Organisation getOrganisationById(Object organisationId);
     Product getProductById(Object id);
     Shipper getShipperById(Object id);
-    int getActNumber(ActType type);
+    ActNumber getActNumber(ActType type);
+    int getActNumberIncrement(ActType type);
     BotSettings getBotSettings();
     List<TurnSettings> getTurnSettings();
     List<UserBotSetting> getUserBotSettings();
@@ -70,7 +73,7 @@ public interface dbDAO {
     void saveWorker(Worker worker, User user);
     List<User> getUsersByToken(String token);
     Worker getWorkerById(Object id);
-    void saveCakeAnalyses(CakeAnalyses cakeAnalyses);
+    void saveCakeAnalyses(MealAnalyses mealAnalyses);
     void remove(Object ... o);
     void save(Object ... o);
     List<SunProbe> getLimitSunProbes(Date date);
@@ -115,6 +118,7 @@ public interface dbDAO {
     User getUserByUID(String uid);
     List<ProductProperty> getProductProperties(Product product);
     List<ExtractionTurn> getLimitExtractionTurns();
+    List<ProbeTurn> getLimitProbeTurns();
     List<Worker> findWorker(Object key);
     TurnProtein getTurnProteinById(Object id);
     OilMassFraction getOilMassFractionById(long id);
@@ -169,4 +173,5 @@ public interface dbDAO {
     List<Transportation> getTransportationByVehicle(Vehicle vehicle);
     List<Transportation> getTransportationByDriver(Driver driver);
     List<ArchivatorData> getArchivatorData();
+    ProbeTurn getProbeTurnByTurn(Turn turn);
 }

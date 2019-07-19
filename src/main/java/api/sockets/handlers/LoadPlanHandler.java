@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
  * Created by Kvasik on 15.07.2019.
  */
 public class LoadPlanHandler extends OnSubscribeHandler {
-    final Subscriber subscriber;
+
     public LoadPlanHandler(Subscriber subscriber) {
-        this.subscriber = subscriber;
+        super(subscriber);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class LoadPlanHandler extends OnSubscribeHandler {
         JSONObject json = ActiveSubscriptions.pool.getObject();
         JSONArray add = ActiveSubscriptions.pool.getArray();
         add.addAll(getPlans().stream().map(parser::toJson).collect(Collectors.toList()));
-        json.put(ActiveSubscriptions.ADD, add);
+        json.put(ADD, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json.toJSONString()));
         ActiveSubscriptions.pool.put(json);
     }

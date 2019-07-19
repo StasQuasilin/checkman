@@ -41,10 +41,14 @@
         <mapping class="entity.weight.WeightUnit"/>
         <mapping class="entity.laboratory.SunAnalyses"/>
         <mapping class="entity.laboratory.OilAnalyses"/>
+        <mapping class="entity.laboratory.MealAnalyses"/>
         <mapping class="entity.laboratory.CakeAnalyses"/>
         <mapping class="entity.Subdivision"/>
+        <mapping class="entity.laboratory.probes.ProbeTurn"/>
         <mapping class="entity.laboratory.probes.SunProbe"/>
         <mapping class="entity.laboratory.probes.OilProbe"/>
+        <mapping class="entity.laboratory.probes.MealProbe"/>
+        <mapping class="entity.laboratory.probes.CakeProbe"/>
         <mapping class="entity.production.TurnSettings"/>
         <mapping class="entity.production.Turn"/>
         <mapping class="entity.production.Forpress"/>

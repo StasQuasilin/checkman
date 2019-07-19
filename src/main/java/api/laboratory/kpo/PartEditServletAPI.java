@@ -7,9 +7,13 @@ import constants.Branches;
 import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.kpo.KPOPart;
+import entity.laboratory.transportation.ActNumber;
+import entity.laboratory.transportation.ActType;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.UpdateBox;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +32,7 @@ import java.time.LocalTime;
 public class PartEditServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(PartEditServletAPI.class);
+    final UpdateUtil updateUtil = new UpdateUtil();
 
 
     @Override
@@ -94,6 +99,12 @@ public class PartEditServletAPI extends ServletAPI {
             }
 
             if (save){
+                ActNumber actNumber = dao.getActNumber(ActType.VRO);
+                if (actNumber.getNumber() != number){
+                    actNumber.setNumber(number);
+                    dao.save(actNumber);
+                }
+
                 ActionTime createTime = part.getCreateTime();
                 if (createTime == null) {
                     createTime = new ActionTime();
@@ -110,6 +121,7 @@ public class PartEditServletAPI extends ServletAPI {
                 part.setCreator(worker);
                 dao.save(part.getCreateTime());
                 dao.save(part);
+                updateUtil.onSave(part);
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.kpoShow(part);

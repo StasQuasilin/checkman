@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
-import utils.turns.VROTurnService;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,10 +41,10 @@ public class VRODailyEditServletAPI extends ServletAPI {
         if (body != null) {
             log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            List<TurnSettings> turns = TurnBox.getBox().getTurns();
+            List<TurnSettings> turns = TurnBox.getTurns();
             LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
-            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+            TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
             boolean save = false;
 
@@ -55,7 +55,7 @@ public class VRODailyEditServletAPI extends ServletAPI {
                 daily = new VRODaily();
             }
 
-            VROTurn targetTurn = VROTurnService.getTurn(turnDate);
+            VROTurn targetTurn = TurnService.getVROTurn(turnDate);
             VROTurn currentTurn = daily.getTurn();
             if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
                 daily.setTurn(targetTurn);

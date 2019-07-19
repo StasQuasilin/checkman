@@ -71,7 +71,9 @@
         },
         </c:when>
         <c:otherwise>
-        vehicle:{},
+        vehicle:{
+            id:-1
+        },
         </c:otherwise>
         </c:choose>
 //        DRIVER
@@ -85,7 +87,9 @@
         }
         </c:when>
         <c:otherwise>
-        driver:{}
+        driver:{
+            id:-1
+        }
         </c:otherwise>
         </c:choose>
     };
@@ -116,9 +120,13 @@
         from:editor.visibles[0],
         price:0,
         unit:editor.units[0].id,
-        customer:'${customer}',
-        vehicle:-1,
-        driver:-1
+        customer:'szpt',
+        vehicle:{
+            id:-1
+        },
+        driver:{
+            id:-1
+        }
     };
     </c:otherwise>
     </c:choose>
@@ -166,14 +174,17 @@
             <%--!--%>
             <%--!--%>
             <%--ORGANISATION--%>
-            <input id="organisation" v-model="input.organisation" autocomplete="off"
-                   v-on:keyup="findOrganisation()"
-                   v-on:keyup.enter="parseOrganisation()"
-                   v-on:blur="parseOrganisation()"
-                   onclick="this.select()">
-            <div class="custom-data-list">
-                <div v-for="organisation in foundOrganisations" class="custom-data-list-item" v-on:click="putOrganisation(organisation)">
-                    {{organisation.value}}
+            <div v-on:blur="parseOrganisation()" >
+                <input id="organisation" v-model="input.organisation" autocomplete="off"
+                       v-on:keyup="findOrganisation()"
+                       v-on:keyup.enter="parseOrganisation()"
+                       onclick="this.select()">
+                <div class="custom-data-list">
+                    <div v-for="organisation in foundOrganisations"
+                         class="custom-data-list-item"
+                         v-on:click="putOrganisation(organisation)">
+                        {{organisation.value}}
+                    </div>
                 </div>
             </div>
         </td>

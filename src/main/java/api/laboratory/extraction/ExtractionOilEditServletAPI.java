@@ -13,9 +13,9 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
-import utils.turns.ExtractionTurnService;
 import utils.PostUtil;
 import utils.turns.TurnBox;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -53,7 +53,7 @@ public class ExtractionOilEditServletAPI extends ServletAPI {
 
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             long turnId = (long) body.get("turn");
-            TurnSettings turn = TurnBox.getBox().getTurn(turnId);
+            TurnSettings turn = TurnBox.getTurn(turnId);
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }
@@ -61,7 +61,7 @@ public class ExtractionOilEditServletAPI extends ServletAPI {
 
             boolean save = false;
 
-            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(TurnBox.getBox().getTurnDate(turnTime));
+            ExtractionTurn targetTurn = TurnService.getExtractionTurn(TurnBox.getTurnDate(turnTime));
             ExtractionTurn currentTurn = oil.getTurn();
             if (currentTurn == null || currentTurn.getId() != targetTurn.getId()) {
                 oil.setTurn(targetTurn);

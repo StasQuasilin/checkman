@@ -22,14 +22,26 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script src="${context}/vue/dataList.vue"></script>
 <script>
-    list.api.update = '${update}';
-    list.doRequest();
+    list.limit = 14;
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
+        list.handler(a);
+    });
+    </c:forEach>
+    stopContent = function(){
+        <c:forEach items="${subscribe}" var="s">
+        subscribe('${s}', function(a){
+            unSubscribe('${s}');
+        });
+        </c:forEach>
+    }
 </script>
 <div id="container">
     <div v-for="(value, key) in items" class="container-item"
          :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt"
          :id="value.item.id" onclick="editableModal('${edit}')">
-        {{new Date(value.item.date).toLocaleString()}}
+        {{new Date(value.item.date).toLocaleDateString()}}
+        {{new Date(value.item.date).toLocaleTimeString().substring(0, 5)}}
         <fmt:message key="vro.part"/>&nbsp;<span>#</span>{{value.item.number}}
         <fmt:message key="oil.organoleptic"/>:
         <span v-if="value.item.organoleptic">

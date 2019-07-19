@@ -1,5 +1,6 @@
 package api.sockets.handlers;
 
+import api.sockets.Subscriber;
 import utils.JsonParser;
 import utils.JsonPool;
 import utils.hibernate.dbDAO;
@@ -13,8 +14,15 @@ import java.io.IOException;
  */
 public abstract class OnSubscribeHandler {
 
+    public static final String ADD = "add";
     final dbDAO dao = dbDAOService.getDAO();
+
     public abstract void handle(Session session) throws IOException;
     public final JsonParser parser = new JsonParser();
+    public final Subscriber subscriber;
+
+    protected OnSubscribeHandler(Subscriber subscriber) {
+        this.subscriber = subscriber;
+    }
 
 }

@@ -25,9 +25,8 @@ var editor = new Vue({
             vehicle:'',
             driver:'',
             editDriver:false,
-            editVehicle:false,
+            editVehicle:false
         },
-
         foundOrganisations:[],
         foundVehicles:[],
         foundDrivers:[]
@@ -100,7 +99,7 @@ var editor = new Vue({
                     self.foundOrganisations = a;
                 })
             } else {
-                this.foundOrganisations = []
+                this.foundOrganisations = [];
                 this.plan.organisation = -1;
             }
         },
@@ -111,11 +110,13 @@ var editor = new Vue({
                     self.plan.organisation = a.id;
                     self.input.organisation = a.value;
                 })
-            } else {
+            } else if (this.foundOrganisations.length > 0){
+                this.putOrganisation(this.foundOrganisations[0]);
                 this.foundOrganisations = [];
             }
         },
         putOrganisation:function(organisation){
+            console.log(organisation);
             this.plan.organisation = organisation.id;
             this.input.organisation = organisation.value;
             this.findDeals(organisation.id);
@@ -180,6 +181,11 @@ var editor = new Vue({
             this.input.vehicle = '';
             this.foundVehicles = [];
         },
+        cancelVehicle:function(){
+            this.plan.vehicle = {
+                id:-1
+            }
+        },
         findDriver:function(){
             if (this.input.driver){
                 const self = this;
@@ -208,9 +214,14 @@ var editor = new Vue({
             });
         },
         putDriver:function(driver){
-            this.plan.driver = driver.id;
-            this.input.driver = driver.person.value;
+            this.plan.driver = driver;
+            this.input.driver = '';
             this.foundDrivers = [];
+        },
+        cancelDriver:function(){
+            this.plan.driver = {
+                id:-1
+            }
         },
         save:function(){
             PostApi(this.api.save, this.plan, function(a){

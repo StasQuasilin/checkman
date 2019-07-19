@@ -17,6 +17,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.PROBE_LIST)
 public class ProbeList extends IUIServlet {
+
+    final Subscriber[] subscribe = new Subscriber[]{Subscriber.PROBES};
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Constants.Titles.PROBE_LIST);
@@ -25,7 +28,7 @@ public class ProbeList extends IUIServlet {
         req.setAttribute("edit", Branches.UI.PROBE_EDIT);
         req.setAttribute("analysesTypes", AnalysesType.values());
         req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
-        req.setAttribute("subscribe", Subscriber.PROBES);
+        req.setAttribute("subscribe", subscribe);
         show(req, resp);
     }
 }

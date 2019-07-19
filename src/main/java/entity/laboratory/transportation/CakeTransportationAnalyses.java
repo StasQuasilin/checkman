@@ -1,6 +1,6 @@
 package entity.laboratory.transportation;
 
-import entity.laboratory.CakeAnalyses;
+import entity.laboratory.MealAnalyses;
 import entity.transport.Transportation;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class CakeTransportationAnalyses {
     private int id;
     private Transportation transportation;
-    private CakeAnalyses analyses;
+    private MealAnalyses analyses;
 
     @Id
     @GeneratedValue
@@ -35,10 +35,10 @@ public class CakeTransportationAnalyses {
 
     @OneToOne
     @JoinColumn(name = "analyses")
-    public CakeAnalyses getAnalyses() {
+    public MealAnalyses getAnalyses() {
         return analyses;
     }
-    public void setAnalyses(CakeAnalyses analyses) {
+    public void setAnalyses(MealAnalyses analyses) {
         this.analyses = analyses;
     }
 

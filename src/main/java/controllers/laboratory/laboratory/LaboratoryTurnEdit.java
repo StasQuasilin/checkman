@@ -23,8 +23,6 @@ import java.util.HashMap;
 @WebServlet(Branches.UI.LABORATORY_TURNS_EDIT)
 public class LaboratoryTurnEdit extends IModal {
 
-    private final TurnBox turnBox = TurnBox.getBox();
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -33,7 +31,7 @@ public class LaboratoryTurnEdit extends IModal {
 
         }
         req.setAttribute("title", "title.laboratory.turn.edit");
-        req.setAttribute("turns", turnBox.getTurns());
+        req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("modalContent", "/pages/laboratory/turnEdit.jsp");
         req.setAttribute("save", Branches.API.LABORATORY_TURN_EDIT);
         req.setAttribute("laborants", dao.getWorkersByRole(Role.analyser));

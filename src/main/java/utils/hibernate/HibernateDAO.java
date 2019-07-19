@@ -5,9 +5,10 @@ import entity.*;
 import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
 import entity.documents.*;
-import entity.laboratory.CakeAnalyses;
+import entity.laboratory.MealAnalyses;
 import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
+import entity.laboratory.probes.ProbeTurn;
 import entity.laboratory.probes.SunProbe;
 import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.storages.StorageTurn;
@@ -89,14 +90,21 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public int getActNumber(ActType type) {
+    public ActNumber getActNumber(ActType type) {
         ActNumber actNumber = hb.get(ActNumber.class, "type", type);
         if (actNumber == null) {
             actNumber = new ActNumber(type);
+            hb.save(actNumber);
         }
-        int increment = actNumber.increment();
-        hb.save(actNumber);
-        return increment;
+        return actNumber;
+    }
+
+    @Override
+    public int getActNumberIncrement(ActType type){
+        ActNumber number = getActNumber(type);
+        int actNumber = number.increment();
+        hb.save(number);
+        return actNumber;
     }
 
     @Override
@@ -199,8 +207,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public void saveCakeAnalyses(CakeAnalyses cakeAnalyses) {
-        hb.save(cakeAnalyses);
+    public void saveCakeAnalyses(MealAnalyses mealAnalyses) {
+        hb.save(mealAnalyses);
     }
 
     @Override
@@ -477,6 +485,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<ProbeTurn> getLimitProbeTurns(){
+        return hb.limitQuery(ProbeTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
+    }
+
+    @Override
     public List<Worker> findWorker(Object key) {
         final Set<Integer> ids = new HashSet<>();
         final List<Worker> workers = new LinkedList<>();
@@ -489,12 +502,10 @@ public class HibernateDAO implements dbDAO {
     }
 
     private void findWorker(String key, String value, Set<Integer> ids, List<Worker> workers){
-        for(Worker worker : find(Worker.class, key, value)){
-            if (!ids.contains(worker.getId())){
-                ids.add(worker.getId());
-                workers.add(worker);
-            }
-        }
+        find(Worker.class, key, value).stream().filter(worker -> !ids.contains(worker.getId())).forEach(worker -> {
+            ids.add(worker.getId());
+            workers.add(worker);
+        });
     }
 
     @Override
@@ -628,6 +639,11 @@ public class HibernateDAO implements dbDAO {
     @Override
     public ExtractionTurn getExtractionTurnByTurn(Turn turn) {
         return hb.get(ExtractionTurn.class, "turn", turn);
+    }
+
+    @Override
+    public ProbeTurn getProbeTurnByTurn(Turn turn) {
+        return hb.get(ProbeTurn.class, "turn", turn);
     }
 
     @Override

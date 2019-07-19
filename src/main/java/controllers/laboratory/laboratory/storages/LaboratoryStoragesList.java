@@ -1,5 +1,6 @@
 package controllers.laboratory.laboratory.storages;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import controllers.IUIServlet;
 import entity.AnalysesType;
@@ -15,6 +16,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.LABORATORY_STORAGES)
 public class LaboratoryStoragesList extends IUIServlet {
+
+    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LABORATORY_STORAGES};
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AnalysesType analysesType = AnalysesType.valueOf(req.getParameter("type"));
@@ -22,7 +26,7 @@ public class LaboratoryStoragesList extends IUIServlet {
         req.setAttribute("title", "title.laboratory.storages");
         req.setAttribute("content", "/pages/laboratory/storages/storageList.jsp");
         req.setAttribute("edit", Branches.UI.LABORATORY_STORAGE_EDIT);
-        req.setAttribute("update", Branches.API.LABORATORY_STORAGE_LIST);
+        req.setAttribute("subscribe", subscribers);
 
         show(req, resp);
     }

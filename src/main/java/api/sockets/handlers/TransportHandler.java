@@ -3,7 +3,6 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
 import entity.DealType;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,11 +17,10 @@ import java.util.stream.Collectors;
  */
 public class TransportHandler extends OnSubscribeHandler {
 
-    final Subscriber subscriber;
     final DealType type;
 
     public TransportHandler(Subscriber subscriber, DealType type) {
-        this.subscriber = subscriber;
+        super(subscriber);
         this.type = type;
     }
 
@@ -31,7 +29,7 @@ public class TransportHandler extends OnSubscribeHandler {
         JSONObject json = ActiveSubscriptions.pool.getObject();
         JSONArray add = ActiveSubscriptions.pool.getArray();
         add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
-        json.put(ActiveSubscriptions.ADD, add);
+        json.put(ADD, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json.toJSONString()));
         ActiveSubscriptions.pool.put(json);
     }

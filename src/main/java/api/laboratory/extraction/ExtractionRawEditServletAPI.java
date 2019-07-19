@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
-import utils.turns.ExtractionTurnService;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,7 +40,7 @@ public class ExtractionRawEditServletAPI extends ServletAPI {
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
-            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+            TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
             if (body.containsKey(Constants.ID)) {
                 long id = (long) body.get(Constants.ID);
@@ -50,7 +50,7 @@ public class ExtractionRawEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            ExtractionTurn targetTurn = ExtractionTurnService.getTurn(turnDate);
+            ExtractionTurn targetTurn = TurnService.getExtractionTurn(turnDate);
             ExtractionTurn currentTurn = raw.getTurn();
             if(currentTurn == null || currentTurn.getId() != targetTurn.getId()){
                 raw.setTurn(targetTurn);

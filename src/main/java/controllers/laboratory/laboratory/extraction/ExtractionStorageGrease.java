@@ -50,7 +50,7 @@ public class ExtractionStorageGrease extends IModal {
         req.setAttribute("title", Constants.Titles.EXTRACTION_STORAGE_GREASE);
         req.setAttribute("storages", dao.getStoragesByAnalysesType(AnalysesType.meal));
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/storageGreaseEdit.jsp");
-        req.setAttribute("turns", TurnBox.getBox().getTurns());
+        req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("save", Branches.API.EXTRACTION_STORAGE_GREASE_EDIT);
         show(req, resp);
     }

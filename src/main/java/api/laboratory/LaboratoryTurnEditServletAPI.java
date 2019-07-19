@@ -25,7 +25,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.LABORATORY_TURN_EDIT)
 public class LaboratoryTurnEditServletAPI extends ServletAPI {
 
-    private final TurnBox turnBox = TurnBox.getBox();
+
 
 
     @Override
@@ -34,10 +34,10 @@ public class LaboratoryTurnEditServletAPI extends ServletAPI {
         if (body != null) {
             System.out.println(body);
             final LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            final LocalTime time = turnBox.getTurn((Long) body.get("turn")).getBegin().toLocalTime();
+            final LocalTime time = TurnBox.getTurn((Long) body.get("turn")).getBegin().toLocalTime();
             final LocalDateTime dateTime = LocalDateTime.of(date, time);
 
-            final Turn turn = TurnService.getTurn(turnBox.getTurnDate(dateTime));
+            final Turn turn = TurnService.getTurn(TurnBox.getTurnDate(dateTime));
             final HashMap<Long, LaboratoryTurn> laboratoryTurns = new HashMap<>();
             for (LaboratoryTurn t : dao.getLaboratoryTurnByTurn(turn)){
                 laboratoryTurns.put((long) t.getWorker().getId(), t);

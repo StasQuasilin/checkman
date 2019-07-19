@@ -30,7 +30,7 @@
       }
     }
   });
-  editor.api.save = '${save}'
+  editor.api.save = '${save}';
   <c:choose>
   <c:when test="${not empty part}">
   editor.part = {
@@ -47,8 +47,8 @@
   <c:otherwise>
   editor.part = {
     date:new Date().toISOString().substring(0, 10),
-    number:0,
-    organoleptic:true,
+    number:${number},
+    organoleptic:false,
     color:0,
     acid:0,
     peroxide:0,
@@ -83,7 +83,7 @@
       #
     </td>
     <td>
-      <input id="number" type="number" v-model="part.number">
+      <input id="number" type="number" v-model="part.number" autocomplete="off">
     </td>
   </tr>
   <tr>

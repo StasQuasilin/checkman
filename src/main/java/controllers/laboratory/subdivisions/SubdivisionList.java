@@ -23,6 +23,7 @@ public class SubdivisionList extends IUIServlet {
 
     final Subscriber[] extractionSubscribes = new Subscriber[]{Subscriber.EXTRACTION};
     final Subscriber[] vroSubscribes = new Subscriber[]{Subscriber.VRO};
+    final Subscriber[] kpoSubscribes = new Subscriber[]{Subscriber.KPO};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -60,7 +61,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_KPO);
                 req.setAttribute("content", "/pages/laboratory/subdivisions/kpoList.jsp");
                 req.setAttribute("edit", Branches.UI.KPO.PART_EDIT);
-                req.setAttribute("update", Branches.API.KPO_PART_LIST);
+                req.setAttribute("subscribe", kpoSubscribes);
                 break;
         }
         req.setAttribute("filter", "/pages/laboratory/subdivisions/subdivisionFilter.jsp");

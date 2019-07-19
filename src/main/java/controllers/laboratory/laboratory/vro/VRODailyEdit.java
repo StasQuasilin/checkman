@@ -43,7 +43,7 @@ public class VRODailyEdit extends IModal{
         req.setAttribute("title", Constants.Titles.DAILY_ANALYSES);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/vroDaily.jsp");
         req.setAttribute("save", Branches.API.VRO_DAILY_EDIT);
-        req.setAttribute("turns", TurnBox.getBox().getTurns());
+        req.setAttribute("turns", TurnBox.getTurns());
         show(req, resp);
     }
 }

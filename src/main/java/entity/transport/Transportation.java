@@ -3,7 +3,7 @@ package entity.transport;
 import entity.DealType;
 import entity.Worker;
 import entity.documents.Shipper;
-import entity.laboratory.CakeAnalyses;
+import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.organisations.Organisation;
@@ -34,7 +34,7 @@ public class Transportation {
     private Weight weight;
     private SunAnalyses sunAnalyses;
     private OilAnalyses oilAnalyses;
-    private CakeAnalyses cakeAnalyses;
+    private MealAnalyses mealAnalyses;
     private Set<Seal> seals;
     private Worker creator;
     private Set<TransportationNote> notes;
@@ -161,11 +161,11 @@ public class Transportation {
 
     @OneToOne
     @JoinColumn(name = "meal_analyses")
-    public CakeAnalyses getCakeAnalyses() {
-        return cakeAnalyses;
+    public MealAnalyses getMealAnalyses() {
+        return mealAnalyses;
     }
-    public void setCakeAnalyses(CakeAnalyses cakeAnalyses) {
-        this.cakeAnalyses = cakeAnalyses;
+    public void setMealAnalyses(MealAnalyses mealAnalyses) {
+        this.mealAnalyses = mealAnalyses;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cargo", cascade = CascadeType.ALL)
@@ -210,7 +210,7 @@ public class Transportation {
             weight != null ||
             sunAnalyses != null ||
             oilAnalyses != null ||
-            cakeAnalyses != null;
+            mealAnalyses != null;
     }
 
     @Override
@@ -242,8 +242,8 @@ public class Transportation {
             hash = 31 * oilAnalyses.hashCode() + hash;
         }
 
-        if (cakeAnalyses != null) {
-            hash = 31 * cakeAnalyses.hashCode() + hash;
+        if (mealAnalyses != null) {
+            hash = 31 * mealAnalyses.hashCode() + hash;
         }
         if (seals != null) {
             for (Seal seal : seals) {

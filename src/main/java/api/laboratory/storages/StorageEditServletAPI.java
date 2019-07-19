@@ -13,6 +13,7 @@ import entity.production.Turn;
 import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
 
@@ -30,8 +31,7 @@ import java.time.LocalDateTime;
 @WebServlet(Branches.API.LABORATORY_STORAGE_EDIT)
 public class StorageEditServletAPI extends ServletAPI {
 
-    final TurnBox turnBox = TurnBox.getBox();
-    final
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,11 +44,13 @@ public class StorageEditServletAPI extends ServletAPI {
             }
             StorageAnalyses analyses;
             boolean save = false;
+            LocalDateTime dateTime = LocalDateTime.now();
+            Turn turn = TurnService.getTurn(TurnBox.getTurnDate(dateTime));
+
             if (id != -1){
                 analyses = dao.getStorageAnalysesById(id);
             } else {
-                LocalDateTime dateTime = LocalDateTime.now();
-                Turn turn = TurnService.getTurn(turnBox.getTurnDate(dateTime));
+
                 StorageTurn storageTurn = dao.getStorageTurnByTurn(turn);
                 if (storageTurn == null) {
                     storageTurn = new StorageTurn();
@@ -108,6 +110,7 @@ public class StorageEditServletAPI extends ServletAPI {
                 oilAnalyses.setCreator(worker);
 
                 dao.save(createTime, oilAnalyses, analyses.getTurn(), analyses);
+                updateUtil.onSave(dao.getStorageTurnByTurn(turn));
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.storagesShow(oilAnalyses);

@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.TurnDateTime;
-import utils.turns.VROTurnService;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,7 +50,7 @@ public class VROCrudeEditServletAPI extends ServletAPI {
             LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
-            TurnDateTime turnDate = TurnBox.getBox().getTurnDate(localDateTime);
+            TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
             if (body.containsKey(Constants.ID)) {
                 Object id = body.get(Constants.ID);
@@ -59,7 +59,7 @@ public class VROCrudeEditServletAPI extends ServletAPI {
                 crude = new VROCrude();
             }
 
-            VROTurn targetTurn = VROTurnService.getTurn(turnDate);
+            VROTurn targetTurn = TurnService.getVROTurn(turnDate);
             VROTurn currentTurn = crude.getTurn();
             if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
                 crude.setTurn(targetTurn);

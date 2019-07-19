@@ -35,13 +35,13 @@
   </c:when>
   <c:otherwise>
   editor.probe={
-    organoleptic:0,
+    organoleptic:false,
     color:0,
     acidValue:0,
     peroxideValue:0,
     phosphorus:0,
     humidity:0,
-    soap:0,
+    soap:false,
     wax:0,
     manager:{
       id:-1,

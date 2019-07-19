@@ -6,12 +6,11 @@ import entity.answers.IAnswer;
 import entity.bot.UserBotSetting;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
-import entity.laboratory.CakeAnalyses;
+import entity.laboratory.MealAnalyses;
 import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
-import entity.laboratory.probes.OilProbe;
-import entity.laboratory.probes.SunProbe;
+import entity.laboratory.probes.*;
 import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.*;
@@ -45,6 +44,7 @@ public class JsonParser {
     final static String NAME = "name";
     final static String VALUE = "value";
     private static final String SHIPPER = "shipper";
+    private static final String MEAL = "meal";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -178,7 +178,7 @@ public class JsonParser {
             json.put(TIME_OUT, toJson(transportation.getTimeOut()));
             json.put(HASH, transportation.hashCode());
             json.put(WEIGHT, toJson(transportation.getWeight()));
-            json.put(ANALYSES, toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getCakeAnalyses()));
+            json.put(ANALYSES, toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getMealAnalyses()));
             json.put(NOTES, toNotesJson(transportation.getNotes()));
             json.put(ANY, transportation.anyAction());
             json.put(ARCHIVE, transportation.isArchive());
@@ -210,19 +210,19 @@ public class JsonParser {
     public static final String OIL = "oil";
     public static final String CAKE = "cake";
 
-    private JSONObject toJson(SunAnalyses sunAnalyses, OilAnalyses oilAnalyses, CakeAnalyses cakeAnalyses) {
+    private JSONObject toJson(SunAnalyses sunAnalyses, OilAnalyses oilAnalyses, MealAnalyses mealAnalyses) {
         JSONObject json = pool.getObject();
 
         json.put(SUN, toJson(sunAnalyses));
         json.put(OIL, toJson(oilAnalyses));
-        json.put(CAKE, toJson(cakeAnalyses));
+        json.put(CAKE, toJson(mealAnalyses));
         return json;
     }
 
     public static final String PROTEIN = "protein";
     public static final String CELLULOSE = "cellulose";
 
-    private JSONObject toJson(CakeAnalyses analyses) {
+    private JSONObject toJson(MealAnalyses analyses) {
         JSONObject json = new JSONObject();
         if (analyses != null) {
             json.put(ID, analyses.getId());
@@ -392,9 +392,6 @@ public class JsonParser {
     public JSONObject toJson(SunProbe sun) {
         JSONObject json = new JSONObject();
         json.put(ID, sun.getId());
-        if (sun.getTurn() != null) {
-            json.put(TURN, toJson(sun.getTurn()));
-        }
         json.put(TYPE, AnalysesType.sun.toString());
         json.put(DATE, sun.getAnalyses().getCreateTime().getTime().toString());
         if (U.exist(sun.getManager())) {
@@ -411,9 +408,6 @@ public class JsonParser {
     public JSONObject toJson(OilProbe oil) {
         JSONObject json = new JSONObject();
         json.put(ID, oil.getId());
-        if (oil.getTurn() != null) {
-            json.put(TURN, toJson(oil.getTurn()));
-        }
         json.put(TYPE, AnalysesType.oil.toString());
         json.put(DATE, oil.getAnalyses().getCreateTime().getTime().toString());
         if (oil.getManager() != null) {
@@ -496,7 +490,7 @@ public class JsonParser {
         json.put("analyses", toJson(
                 transportation.getSunAnalyses(),
                 transportation.getOilAnalyses(),
-                transportation.getCakeAnalyses())
+                transportation.getMealAnalyses())
         );
         json.put("logs", toJson(logs));
         return json;
@@ -628,7 +622,7 @@ public class JsonParser {
     
     public static final String STORAGE = "storage";
     
-    private JSONObject toJson(StorageAnalyses analyse) {
+    public JSONObject toJson(StorageAnalyses analyse) {
         JSONObject json = new JSONObject();
         json.put(ID, analyse.getId());
         json.put(STORAGE, analyse.getStorage().getName());
@@ -997,5 +991,54 @@ public class JsonParser {
 
         json.put("cakes", toCakeJson(crude.getForpressCakes()));
         return json;
+    }
+
+    public JSONObject toJson(ProbeTurn turn) {
+        JSONObject json = toJson(turn.getTurn());
+        json.put(SUN, toSunProbes(turn.getSunProbes()));
+        json.put(OIL, toOilProbes(turn.getOilProbes()));
+        json.put(MEAL, toMealProbes(turn.getMealProbes()));
+        json.put(CAKE, toCakeProbes(turn.getCakeProbes()));
+        return json;
+    }
+
+    private JSONArray toCakeProbes(Set<CakeProbe> cakeProbes) {
+        JSONArray array = pool.getArray();
+        for (CakeProbe probe : cakeProbes) {
+            array.add(toJson(probe));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(CakeProbe probe) {
+        return pool.getObject();
+    }
+
+    private JSONArray toMealProbes(Set<MealProbe> mealProbes) {
+        JSONArray array = pool.getArray();
+        for (MealProbe probe : mealProbes) {
+            array.add(toJson(probe));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(MealProbe probe) {
+        return pool.getObject();
+    }
+
+    private JSONArray toOilProbes(Set<OilProbe> oilProbes) {
+        JSONArray array = pool.getArray();
+        for (OilProbe probe : oilProbes) {
+            array.add(toJson(probe));
+        }
+        return array;
+    }
+
+    private JSONArray toSunProbes(Set<SunProbe> sunProbes) {
+        JSONArray array = pool.getArray();
+        for (SunProbe probe : sunProbes) {
+            array.add(toJson(probe));
+        }
+        return array;
     }
 }

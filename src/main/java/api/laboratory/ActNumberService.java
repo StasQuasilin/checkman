@@ -15,6 +15,6 @@ public class ActNumberService {
     static dbDAO dao = dbDAOService.getDAO();
 
     public static int getActNumber(ActType type) {
-        return dao.getActNumber(type);
+        return dao.getActNumberIncrement(type);
     }
 }

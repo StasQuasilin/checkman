@@ -8,7 +8,7 @@ import entity.production.TurnSettings;
 import org.json.simple.JSONObject;
 import utils.turns.LaboratoryTurnService;
 import utils.turns.TurnBox;
-import utils.turns.VROTurnService;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,8 +29,6 @@ import java.util.List;
 @WebServlet(Branches.API.VRO_DAILY_REPORT_PRINT)
 public class VRODailyReportPrintServletAPI extends ServletAPI {
 
-    final TurnBox turnBox = TurnBox.getBox();
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -39,10 +37,10 @@ public class VRODailyReportPrintServletAPI extends ServletAPI {
             final LocalDate date = LocalDate.parse(String.valueOf(parameters.get("date")));
             final List<VROTurn> turns = new LinkedList<>();
             final HashMap<Integer, List<LaboratoryTurn>> laboratoryTurns = new HashMap<>();
-            for (TurnSettings turn : turnBox.getTurns()) {
+            for (TurnSettings turn : TurnBox.getTurns()) {
                 LocalTime time = turn.getBegin().toLocalTime();
                 LocalDateTime dateTime = LocalDateTime.of(date, time);
-                VROTurn vroTurn = VROTurnService.getTurn(turnBox.getTurnDate(dateTime));
+                VROTurn vroTurn = TurnService.getVROTurn(TurnBox.getTurnDate(dateTime));
                 if (vroTurn.getCrudes() != null) {
                     Collections.sort(vroTurn.getCrudes());
                 }

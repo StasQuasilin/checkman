@@ -20,14 +20,14 @@
     editor.driver = '${plan.transportation.driver.person.value}';
     </c:if>
     <c:choose>
-    <c:when test="${not empty plan.transportation.cakeAnalyses.id}">
+    <c:when test="${not empty plan.transportation.mealAnalyses.id}">
     editor.analyses = {
-        id:${plan.transportation.cakeAnalyses.id},
-        humidity:${plan.transportation.cakeAnalyses.humidity},
-        protein:${plan.transportation.cakeAnalyses.protein},
-        cellulose:${plan.transportation.cakeAnalyses.cellulose},
-        oiliness:${plan.transportation.cakeAnalyses.oiliness},
-        creator:${plan.transportation.cakeAnalyses.createTime.creator.id}
+        id:${plan.transportation.mealAnalyses.id},
+        humidity:${plan.transportation.mealAnalyses.humidity},
+        protein:${plan.transportation.mealAnalyses.protein},
+        cellulose:${plan.transportation.mealAnalyses.cellulose},
+        oiliness:${plan.transportation.mealAnalyses.oiliness},
+        creator:${plan.transportation.mealAnalyses.createTime.creator.id}
     };
     </c:when>
     <c:otherwise>

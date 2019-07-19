@@ -15,17 +15,13 @@ import java.util.List;
 /**
  * Created by quasilin on 01.04.2019.
  */
-public class TurnBox{
+public final class TurnBox{
 
-    private static final TurnBox BOX = new TurnBox();
-    dbDAO dao = dbDAOService.getDAO();
-    public static TurnBox getBox() {
-        return BOX;
-    }
+    static final dbDAO dao = dbDAOService.getDAO();
 
-    private List<TurnSettings> turns;
-    private final TurnDateTime def;
-    public TurnBox() {
+    private static List<TurnSettings> turns;
+    private static final TurnDateTime def;
+    static  {
         turns = dao.getTurnSettings();
         turns.sort((o1, o2) -> Integer.compare( o1.getNumber(), o2.getNumber()));
 
@@ -36,7 +32,7 @@ public class TurnBox{
         }
     }
 
-    public TurnDateTime getTurnDate(LocalDateTime date){
+    public static TurnDateTime getTurnDate(LocalDateTime date){
         System.out.println("Look at: " + date);
         for (TurnSettings turn : turns) {
             LocalTime _b = turn.getBegin().toLocalTime();
@@ -62,11 +58,11 @@ public class TurnBox{
         return def;
     }
 
-    public List<TurnSettings> getTurns() {
+    public static List<TurnSettings> getTurns() {
         return turns;
     }
 
-    public TurnSettings getTurn(long turnId) {
+    public static TurnSettings getTurn(long turnId) {
         for (TurnSettings turn : turns) {
             if (turn.getId() == turnId) {
                 return turn;
@@ -74,15 +70,4 @@ public class TurnBox{
         }
         return turns.get(0);
     }
-
-    public static void main(String[] args) {
-        LocalDateTime of = LocalDateTime.of(2019, 4, 8, 2, 0);
-        for (int i = 0; i < 6; i++){
-            getBox().getTurnDate(of);
-            of = of.plusHours(6);
-        }
-
-        HibernateSessionFactory.shutdown();
-    }
-
 }

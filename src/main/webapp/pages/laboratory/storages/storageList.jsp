@@ -11,8 +11,19 @@
 </div>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
-  list.api.update = '${update}?type=${type}';
-  list.doRequest();
+    list.limit= 14;
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
+        list.handler(a);
+    });
+    </c:forEach>
+    stopContent = function(){
+        <c:forEach items="${subscribe}" var="s">
+        subscribe('${s}', function(a){
+            unSubscribe('${s}');
+        });
+        </c:forEach>
+    }
 </script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <div id="container">

@@ -16,10 +16,8 @@ import java.util.stream.Collectors;
  */
 public class ExtractionHandler extends OnSubscribeHandler {
 
-    final Subscriber subscriber;
-
     public ExtractionHandler(Subscriber subscriber) {
-        this.subscriber = subscriber;
+        super(subscriber);
     }
 
     @Override
@@ -28,7 +26,7 @@ public class ExtractionHandler extends OnSubscribeHandler {
         JSONArray array = ActiveSubscriptions.pool.getArray();
         List<ExtractionTurn> turns = dao.getLimitExtractionTurns();
         array.addAll(turns.stream().map(parser::toJson).collect(Collectors.toList()));
-        json.put(ActiveSubscriptions.ADD, array);
+        json.put(ADD, array);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json.toJSONString()));
         ActiveSubscriptions.pool.put(json);
     }

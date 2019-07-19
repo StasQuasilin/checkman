@@ -47,7 +47,7 @@ public class ExtractionTurnGrease extends IModal {
         }
         req.setAttribute("title", Constants.Titles.EXTRACTION_TURN_GREASE);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/turnGreaseEdit.jsp");
-        req.setAttribute("turns", TurnBox.getBox().getTurns());
+        req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("save", Branches.API.EXTRACTION_TURN_GREASE_EDIT);
         show(req, resp);
     }

@@ -4,13 +4,14 @@ import entity.Worker;
 import entity.transport.ActionTime;
 
 import javax.persistence.*;
+import java.io.PrintWriter;
 
 /**
  * Created by szpt_user045 on 27.03.2019.
  */
 @Entity
-@Table(name = "analyses_cake")
-public class CakeAnalyses {
+@Table(name = "analyses_meal")
+public class MealAnalyses {
     private int id;
     private float humidity;
     private float protein;

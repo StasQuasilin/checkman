@@ -48,7 +48,7 @@ public class VROOilMassFractionDryEdit extends IModal {
         req.setAttribute("title", Constants.Titles.OIL_MASS_FRACTION_DRY);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/oilMassFractionDry.jsp");
         req.setAttribute("save", Branches.API.OIL_MASS_FRACTION_DRY);
-        req.setAttribute("turns", TurnBox.getBox().getTurns());
+        req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("forpress", dao.getForpressList());
         show(req, resp);
     }

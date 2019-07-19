@@ -22,7 +22,7 @@ public class VROOilEdit extends IModal {
         req.setAttribute("title", Constants.Titles.OIL_EDIT);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/oilEdit.jsp");
         req.setAttribute("save", Branches.API.VRO_OIL_EDIT);
-        req.setAttribute("turns", TurnBox.getBox().getTurns());
+        req.setAttribute("turns", TurnBox.getTurns());
         show(req, resp);
     }
 }

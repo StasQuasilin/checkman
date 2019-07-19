@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "probe_sun")
 public class SunProbe {
     private int id;
-    private Turn turn;
+    private ProbeTurn turn;
     private String manager;
     private String organisation;
     private SunAnalyses analyses;
@@ -27,12 +27,12 @@ public class SunProbe {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "turn")
-    public Turn getTurn() {
+    public ProbeTurn getTurn() {
         return turn;
     }
-    public void setTurn(Turn turn) {
+    public void setTurn(ProbeTurn turn) {
         this.turn = turn;
     }
 

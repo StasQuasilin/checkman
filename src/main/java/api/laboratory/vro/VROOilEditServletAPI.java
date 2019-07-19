@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 import utils.TurnDateTime;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
-import utils.turns.VROTurnService;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 public class VROOilEditServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(VROOilEditServletAPI.class);
-    private final TurnBox turnBox = TurnBox.getBox();
+
     private final UpdateUtil updateUtil = new UpdateUtil();
 
 
@@ -50,16 +50,16 @@ public class VROOilEditServletAPI extends ServletAPI {
 
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
             long turnId = (long) body.get("turn");
-            TurnSettings turn = turnBox.getTurn(turnId);
+            TurnSettings turn = TurnBox.getTurn(turnId);
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
             }
             LocalDateTime turnTime = LocalDateTime.of(date, turn.getBegin().toLocalTime());
-            TurnDateTime turnDate = turnBox.getTurnDate(turnTime);
+            TurnDateTime turnDate = TurnBox.getTurnDate(turnTime);
 
             boolean save = false;
 
-            VROTurn targetTurn = VROTurnService.getTurn(turnDate);
+            VROTurn targetTurn = TurnService.getVROTurn(turnDate);
             VROTurn currentTurn = oil.getTurn();
             if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
                 oil.setTurn(targetTurn);

@@ -6,9 +6,9 @@ import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.production.TurnSettings;
 import org.json.simple.JSONObject;
-import utils.turns.ExtractionTurnService;
 import utils.turns.LaboratoryTurnService;
 import utils.turns.TurnBox;
+import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,8 +29,6 @@ import java.util.List;
 @WebServlet(Branches.API.EXTRACTION_DAILY_REPORT_PRINT)
 public class ExtractionDailyReportPrintServletAPI extends ServletAPI {
 
-    final TurnBox turnBox = TurnBox.getBox();
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -39,10 +37,10 @@ public class ExtractionDailyReportPrintServletAPI extends ServletAPI {
             final LocalDate date = LocalDate.parse(String.valueOf(parameters.get("date")));
             final List<ExtractionTurn> turns = new LinkedList<>();
             final HashMap<Integer, List<LaboratoryTurn>> laboratoryTurns = new HashMap<>();
-            for (TurnSettings turn : turnBox.getTurns()) {
+            for (TurnSettings turn : TurnBox.getTurns()) {
                 LocalTime time = turn.getBegin().toLocalTime();
                 LocalDateTime dateTime = LocalDateTime.of(date, time);
-                ExtractionTurn extractionTurn = ExtractionTurnService.getTurn(turnBox.getTurnDate(dateTime));
+                ExtractionTurn extractionTurn = TurnService.getExtractionTurn(TurnBox.getTurnDate(dateTime));
                 if (extractionTurn.getCrudes() != null) {
                     Collections.sort(extractionTurn.getCrudes());
                 }

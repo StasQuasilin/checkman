@@ -55,7 +55,7 @@
         <%--}--%>
     <%--)--%>
     <%--</c:forEach>--%>
-    <%--<c:forEach items="${plan.transportation.cakeAnalyses}" var="cake">--%>
+    <%--<c:forEach items="${plan.transportation.mealAnalyses}" var="cake">--%>
     <%--editor.analyses.cake.push(--%>
         <%--{--%>
             <%--id:${cake.id},--%>

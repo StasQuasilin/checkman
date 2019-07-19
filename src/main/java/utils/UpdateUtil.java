@@ -5,7 +5,11 @@ import api.sockets.Subscriber;
 import entity.DealType;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.laboratory.probes.ProbeTurn;
+import entity.laboratory.storages.StorageAnalyses;
+import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
+import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.transport.Driver;
 import entity.transport.Transportation;
@@ -102,6 +106,18 @@ public class UpdateUtil {
 
     public void onSave(VROTurn turn) throws IOException {
         doAction(Command.update, Subscriber.VRO, parser.toJson(turn));
+    }
+
+    public void onSave(ProbeTurn turn) throws IOException {
+        doAction(Command.update, Subscriber.PROBES, parser.toJson(turn));
+    }
+
+    public void onSave(KPOPart part) throws IOException {
+        doAction(Command.update, Subscriber.KPO, parser.toJson(part));
+    }
+
+    public void onSave(StorageTurn turn) throws IOException {
+        doAction(Command.update, Subscriber.LABORATORY_STORAGES, parser.toJson(turn));
     }
 
     public enum Command {
