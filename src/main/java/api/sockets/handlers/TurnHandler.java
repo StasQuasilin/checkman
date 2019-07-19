@@ -21,7 +21,7 @@ public class TurnHandler extends OnSubscribeHandler {
     public void handle(Session session) throws IOException {
         JSONArray array = ActiveSubscriptions.pool.getArray();
         for (Turn turn :dao.getLimitTurns()){
-            
+
         }
     }
 }
