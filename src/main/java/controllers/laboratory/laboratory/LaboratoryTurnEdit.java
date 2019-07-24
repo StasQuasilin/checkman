@@ -3,11 +3,8 @@ package controllers.laboratory.laboratory;
 import constants.Branches;
 import controllers.IModal;
 import entity.Role;
-import entity.laboratory.LaboratoryTurn;
-import entity.production.Turn;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
-import utils.TransportUtil;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -15,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 03.06.2019.

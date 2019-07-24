@@ -23,27 +23,27 @@
     <tr>
         <td>
             <label for="model">
-                <fmt:message key="transportation.automobile.model"/>*
+                <fmt:message key="transportation.automobile.model"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="model" v-model="vehicleModel">
+            <input id="model" v-model="vehicleModel" v-on:keyup.enter="save" autocomplete="off" onclick="this.select()" autofocus>
         </td>
     </tr>
     <tr>
         <td>
             <label for="number">
-                <fmt:message key="transportation.automobile.number"/>*
+                <fmt:message key="transportation.automobile.number"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="number" v-model="vehicleNumber">
+            <input id="number" v-model="vehicleNumber" v-on:keyup.enter="save" autocomplete="off" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -56,31 +56,31 @@
             :
         </td>
         <td>
-            <input id="trailer" v-model="vehicleTrailer">
+            <input id="trailer" v-model="vehicleTrailer" v-on:keyup.enter="save" autocomplete="off" onclick="this.select()">
         </td>
     </tr>
-    <tr>
-        <td>
-            <label for="transporter">
-                <fmt:message key="transportation.transporter"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <div style="display: inline-block">
-                <input id="transporter" v-model="transporterInput">
-                <div class="custom-data-list"></div>
-            </div>
-        </td>
-    </tr>
+    <%--<tr>--%>
+        <%--<td>--%>
+            <%--<label for="transporter">--%>
+                <%--<fmt:message key="transportation.transporter"/>--%>
+            <%--</label>--%>
+        <%--</td>--%>
+        <%--<td>--%>
+            <%--:--%>
+        <%--</td>--%>
+        <%--<td>--%>
+            <%--<div style="display: inline-block">--%>
+                <%--<input id="transporter" v-model="transporterInput">--%>
+                <%--<div class="custom-data-list"></div>--%>
+            <%--</div>--%>
+        <%--</td>--%>
+    <%--</tr>--%>
     <tr>
         <td colspan="3" align="center" v-on:click="close">
-            <button>
+            <button class="left-button close-button">
                 <fmt:message key="button.cancel"/>
             </button>
-            <button v-on:click="save">
+            <button class="right-button" v-on:click="save">
                 <fmt:message key="button.save"/>
             </button>
         </td>

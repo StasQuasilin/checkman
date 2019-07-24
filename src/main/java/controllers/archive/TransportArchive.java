@@ -1,8 +1,10 @@
 package controllers.archive;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
+import entity.DealType;
 import entity.products.Product;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
@@ -19,7 +21,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_ARCHIVE)
 public class TransportArchive extends IUIServlet {
 
-
+    final Subscriber[] summarySubscriber = new Subscriber[]{Subscriber.LOAD_PLAN_ARCHIVE};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,10 +29,19 @@ public class TransportArchive extends IUIServlet {
         ArchiveType type = ArchiveType.valueOf(req.getParameter("type"));
         req.setAttribute("show", Branches.UI.ARCHIVE_SHOW + type.toString() + ".j");
         req.setAttribute("title", Constants.Titles.TRANSPORT_ARCHIVE + "." + type.toString());
-        req.setAttribute("content", "/pages/archive/transportArchive.jsp");
+        switch (type){
+            case summary:
+                req.setAttribute("content", "/pages/weight/weightList.jsp");
+                req.setAttribute("subscribe", summarySubscriber);
+                req.setAttribute("types", DealType.values());
+                break;
+            default:
+                req.setAttribute("content", "/pages/archive/transportArchive.jsp");
+                break;
+        }
+
         req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
         req.setAttribute("products", dao.getProductList());
-        req.setAttribute("update", Branches.API.TRANSPORT_ARCHIVE);
 
         show(req, resp);
     }

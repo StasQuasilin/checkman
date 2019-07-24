@@ -6,7 +6,7 @@ import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
-import entity.laboratory.LaboratoryTurn;
+import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
 import entity.laboratory.probes.SunProbe;
@@ -239,6 +239,14 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<LoadPlan> getLimitLoadPlanArchive() {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("transportation/archive", true);
+        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
+        return hb.limitQuery(LoadPlan.class, parameters, 14);
+    }
+
+    @Override
     public List<SunProbe> getLimitSunProbes(Date date) {
         return hb.query(SunProbe.class, null);
     }
@@ -379,8 +387,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<LaboratoryTurn> getLaboratoryTurnByTurn(Turn turn) {
-        return hb.query(LaboratoryTurn.class, "turn", turn);
+    public LaboratoryTurn getLaboratoryTurnByTurn(Turn turn) {
+        return hb.get(LaboratoryTurn.class, "turn", turn);
     }
 
     @Override
@@ -437,11 +445,12 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Deal> getArchiveDeals(DealType type) {
+    public List<Deal> getLimitArchiveDeals(DealType type) {
         final HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("archive", true);
         parameters.put("type", type);
-        return hb.query(Deal.class, parameters);
+        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
+        return hb.limitQuery(Deal.class, parameters, 14);
     }
 
     @Override
@@ -637,6 +646,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<LaboratoryTurn> getLimitLaboratoryTurn() {
+        return hb.limitQuery(LaboratoryTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 14);
+    }
+
+    @Override
     public ExtractionTurn getExtractionTurnByTurn(Turn turn) {
         return hb.get(ExtractionTurn.class, "turn", turn);
     }
@@ -666,7 +680,10 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getTransportationsByType(DealType type) {
-        return hb.query(Transportation.class, "type", type);
+        final HashMap<String,Object> parameters = new HashMap<>();
+        parameters.put("type", type);
+        parameters.put("archive", false);
+        return hb.query(Transportation.class, parameters);
     }
 
     @Override

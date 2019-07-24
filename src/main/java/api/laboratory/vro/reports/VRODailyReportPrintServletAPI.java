@@ -2,7 +2,7 @@ package api.laboratory.vro.reports;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.laboratory.LaboratoryTurn;
+import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.TurnSettings;
 import org.json.simple.JSONObject;

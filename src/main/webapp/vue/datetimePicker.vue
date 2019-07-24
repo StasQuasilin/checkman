@@ -3,7 +3,7 @@ const datepicker = new Vue({
     data:{
         date:new Date().toISOString().substring(0, 10),
         color:'aliceblue',
-        locale:'uk',
+        locale:'ru',
         onSelects:[],
         type:'date',
         y:0,

@@ -16,14 +16,17 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.DEAL_ARCHIVE)
 public class DealArchive extends IUIServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DealType type = DealType.valueOf(req.getParameter("type"));
         req.setAttribute("title", Constants.Titles.Archive.DEAL + "." + type.toString());
         req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
-        req.setAttribute("api", Branches.API.Archive.DEALS);
+        req.setAttribute("show", "");
         req.setAttribute("type", type.toString());
-        req.setAttribute("content", "/pages/archive/archiveList.jsp");
+        req.setAttribute("content", "/pages/deals/dealList.jsp");
+        req.setAttribute("subscribe", "DEAL_" + type.toString().toUpperCase() + "_ARCHIVE");
+        req.setAttribute("limit", 14);
         show(req, resp);
     }
 }

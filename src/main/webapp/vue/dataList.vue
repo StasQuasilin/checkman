@@ -22,10 +22,13 @@ var list = new Vue({
         if (typeof filter_control !== 'undefined'){
             filter_control.items = this.items;
             if (typeof filter_control.filteredItems === 'function') {
+                console.log('Overwrite get items funcion')
                 this.getItems = function () {
                     return filter_control.filteredItems();
                 }
             }
+        } else {
+            console.log('Filter control undefined')
         }
     },
     methods:{
@@ -118,6 +121,20 @@ var list = new Vue({
             this.menu.x = event.pageX;
             this.menu.y = event.pageY;
             this.menu.show = true;
+            const self = this;
+            var menu = this.$refs.contextMenu;
+            if (menu){
+                setTimeout(function(){
+                    var menuBottom = menu.getBoundingClientRect().bottom;
+                    var screenBottom = document.body.getBoundingClientRect().bottom;
+                    if (menuBottom > screenBottom){
+                        self.menu.y += self.menu.y - menuBottom;
+                    }
+                }, 0);
+            } else {
+                console.log('Context menu not connected... For fix it add attribute \'ref="contextMenu"\'')
+            }
+
             event.preventDefault();
         },
         closeMenu:function(){

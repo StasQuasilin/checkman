@@ -11,10 +11,20 @@
 </div>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
-    list.api.update = '${update}';
     list.api.edit = '${edit}';
-    list.timer=1000*5;
-    list.doRequest();
+    list.limit = 14;
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
+        list.handler(a);
+    });
+    </c:forEach>
+    stopContent = function(){
+        <c:forEach items="${subscribe}" var="s">
+        subscribe('${s}', function(a){
+            unSubscribe('${s}');
+        });
+        </c:forEach>
+    }
 </script>
 <div id="container">
     <div v-for="(value, key) in items" :id="value.item.id"

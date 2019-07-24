@@ -10,6 +10,8 @@
   <script>
     list.api.edit = '${edit}';
     list.api.show = '${show}';
+    list.limit = ${limit};
+
     list.attributes['type'] = '${type}';
     subscribe('${subscribe}', function(a){
       list.handler(a);
@@ -93,7 +95,7 @@
     </transition-group>
 
     <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
-      <div v-bind:style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+      <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
         <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/> </div>
         <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
         <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${delete}')"> <fmt:message key="menu.delete"/></div>

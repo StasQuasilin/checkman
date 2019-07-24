@@ -6,7 +6,7 @@ import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
-import entity.laboratory.LaboratoryTurn;
+import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
 import entity.laboratory.probes.SunProbe;
@@ -104,12 +104,12 @@ public interface dbDAO {
     DocumentUID getDocumentUID(String uid);
     User getUserByWorker(Worker worker);
     VROCrude getVroCrudeById(Object id);
-    List<LaboratoryTurn> getLaboratoryTurnByTurn(Turn turn);
+    LaboratoryTurn getLaboratoryTurnByTurn(Turn turn);
     Forpress getForpressById(Object forpressId);
     ExtractionCrude getExtractionCrudeById(Object id);
     Collection<Organisation> findOrganisation(String key);
     List<LoadPlan> getActiveTransportations(Date date);
-    List<Deal> getArchiveDeals(DealType type);
+    List<Deal> getLimitArchiveDeals(DealType type);
     Shipper getShipperByValue(Object value);
     WeightUnit getWeightUnitById(Object unit);
     BotUID getBotUidByWorker(Worker worker);
@@ -174,4 +174,6 @@ public interface dbDAO {
     List<Transportation> getTransportationByDriver(Driver driver);
     List<ArchivatorData> getArchivatorData();
     ProbeTurn getProbeTurnByTurn(Turn turn);
+    List<LaboratoryTurn> getLimitLaboratoryTurn();
+    List<LoadPlan> getLimitLoadPlanArchive();
 }

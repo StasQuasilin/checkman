@@ -6,7 +6,6 @@ import entity.DealType;
 import entity.documents.Deal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +28,7 @@ public class DealArchiveServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             DealType type = DealType.valueOf(String.valueOf(body.get("type")));
-            List<Deal> deals = dao.getArchiveDeals(type);
+            List<Deal> deals = dao.getLimitArchiveDeals(type);
 
             array.addAll(deals.stream().map(parser::toJson).collect(Collectors.toList()));
 

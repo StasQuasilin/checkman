@@ -34,6 +34,7 @@ public class SaveVehicleServletAPI extends ServletAPI {
         Vehicle vehicle;
 
         if (body != null) {
+            logger.info(body);
             if (body.containsKey(Constants.VEHICLE_ID)) {
                 vehicle = dao.getVehicleById(body.get(Constants.VEHICLE_ID));
                 logger.info("Edit vehicle " + vehicle.getId() + "...");

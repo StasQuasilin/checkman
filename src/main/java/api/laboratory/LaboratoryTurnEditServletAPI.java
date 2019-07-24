@@ -2,10 +2,12 @@ package api.laboratory;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.laboratory.LaboratoryTurn;
+import entity.laboratory.turn.LaboratoryTurn;
+import entity.laboratory.turn.LaboratoryTurnWorker;
 import entity.production.Turn;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
 
@@ -17,7 +19,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 04.06.2019.
@@ -25,8 +30,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.LABORATORY_TURN_EDIT)
 public class LaboratoryTurnEditServletAPI extends ServletAPI {
 
-
-
+    final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,25 +42,23 @@ public class LaboratoryTurnEditServletAPI extends ServletAPI {
             final LocalDateTime dateTime = LocalDateTime.of(date, time);
 
             final Turn turn = TurnService.getTurn(TurnBox.getTurnDate(dateTime));
-            final HashMap<Long, LaboratoryTurn> laboratoryTurns = new HashMap<>();
-            for (LaboratoryTurn t : dao.getLaboratoryTurnByTurn(turn)){
-                laboratoryTurns.put((long) t.getWorker().getId(), t);
+            LaboratoryTurn laboratoryTurn = dao.getLaboratoryTurnByTurn(turn);
+            if (laboratoryTurn == null) {
+                laboratoryTurn = new LaboratoryTurn();
+                laboratoryTurn.setTurn(turn);
             }
 
-            for (Object o : (JSONArray)body.get("personal")){
-                JSONObject j = (JSONObject) o;
-                long id = (long) j.get("id");
-
-                if (laboratoryTurns.containsKey(id)){
-                    laboratoryTurns.remove(id);
-                } else {
-                    LaboratoryTurn laboratoryTurn = new LaboratoryTurn();
-                    laboratoryTurn.setTurn(turn);
-                    laboratoryTurn.setWorker(dao.getWorkerById(id));
-                    dao.save(laboratoryTurn);
-                }
+            final ArrayList<LaboratoryTurnWorker> workers = new ArrayList<>();
+            final HashMap<Integer, LaboratoryTurnWorker> currentWorkers = new HashMap<>();
+            for (LaboratoryTurnWorker w : laboratoryTurn.getWorkers()){
+                currentWorkers.put(w.getId(), w);
             }
-            laboratoryTurns.values().forEach(dao::remove);
+
+//            for (Object o : (JSONArray)body.get("personal")){
+//                JSONObject j = (JSONObject) o;
+//                long id = (long) j.get("id");
+//
+//            }
 
             write(resp, answer);
         } else {

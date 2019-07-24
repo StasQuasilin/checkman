@@ -6,7 +6,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <link rel="stylesheet" href="${context}/css/LoadPlan.css">
-<link rel="stylesheet" href="${context}/css/date-picker.css">
 <script src="${context}/vue/loadPlan.vue"></script>
 <script>
   <c:forEach items="${plans}" var="plan">

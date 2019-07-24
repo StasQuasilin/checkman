@@ -80,7 +80,8 @@
         <mapping class="entity.rails.Train"/>
         <mapping class="entity.rails.Truck"/>
         <mapping class="entity.rails.TruckTransportation"/>
-        <mapping class="entity.laboratory.LaboratoryTurn"/>
+        <mapping class="entity.laboratory.turn.LaboratoryTurn"/>
+        <mapping class="entity.laboratory.turn.LaboratoryTurnWorker"/>
         <mapping class="entity.laboratory.storages.StorageTurn"/>
         <mapping class="entity.laboratory.storages.StorageAnalyses"/>
         <mapping class="entity.Admin"/>

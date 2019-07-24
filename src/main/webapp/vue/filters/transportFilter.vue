@@ -12,16 +12,25 @@ var filter_control = new Vue({
         vehicle:-1,
         driver:-1
     },
+    computed:{
+
+    },
     methods:{
         organisations:function(){
             var organisations = {};
             var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    organisations[organisation.id] = items[i].item.organisation;
+                    var organisation = items[i].item.organisation;
+                    if (organisation[organisation.id] == undefined) {
+                        organisations[organisation.id] = organisation;
+                    } else{
+                        console.log('+');
+                    }
                 }
             }
-            return organisations;
+            console.log(organisations);
+            return Object.values(organisations);
         },
         products:function() {
             var products = {};
@@ -54,7 +63,7 @@ var filter_control = new Vue({
             var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    var vehicle = items[i].item.transportation.vehicle;
+                    var vehicle = items[i].item.vehicle;
                     if (vehicle.id != undefined && vehicles[vehicle.id] == undefined){
                         vehicles[vehicle.id] = vehicle;
                     }
@@ -67,7 +76,7 @@ var filter_control = new Vue({
             var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
-                    var driver = items[i].item.transportation.driver;
+                    var driver = items[i].item.driver;
                     if (driver.id != undefined && drivers[driver.id] == undefined){
                         drivers[driver.id] = driver;
                     }
@@ -79,11 +88,11 @@ var filter_control = new Vue({
             const self = this;
             return this.items.filter(function(item){
                 var byVehicle = self.vehicle == -1 ||
-                    (self.vehicle == 0 && item.item.transportation.vehicle.id == undefined) ||
-                    (item.item.transportation.vehicle.id == self.vehicle);
+                    (self.vehicle == 0 && item.item.vehicle.id == undefined) ||
+                    (item.item.vehicle.id == self.vehicle);
                 var byDriver = self.driver == -1 ||
-                    (self.driver == 0 && item.item.transportation.driver.id == undefined) ||
-                    (item.item.transportation.driver.id == self.driver);
+                    (self.driver == 0 && item.item.driver.id == undefined) ||
+                    (item.item.driver.id == self.driver);
                 return (self.type == -1 || item.item.type == self.type) &
                     (self.organisation == -1 || item.item.organisation.id == self.organisation) &
                     (self.product == -1 || item.item.product.id == self.product) &

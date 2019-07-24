@@ -5,17 +5,15 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
-
-    <%--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">--%>
+    <script src="${context}/ext/vue.js"></script>
+    <script src="${context}/ext/vuetify.js"></script>
+    <script src="${context}/ext/jquery.min.js"></script>
     <title>
         <fmt:message key="application.title"/>.${lang}
     </title>
     <link rel="stylesheet" href="${context}/css/Application.css">
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script src="${context}/js/Core.js"></script>
     <script src="${context}/js/Application.js"></script>
     <script>
@@ -36,7 +34,7 @@
 
 </div>
 <div class="modal-layer" style="display: none" id="modal"></div>
-<link rel="stylesheet" href="${context}/css/datepick.css">
+<link rel="stylesheet" href="${context}/css/date-picker.css">
 <div class="datetime-picker" id="picker" v-show="onSelects.length" v-on:click="close">
     <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
         <v-date-picker class="date-picker"

@@ -7,7 +7,7 @@ import entity.bot.UserBotSetting;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.laboratory.MealAnalyses;
-import entity.laboratory.LaboratoryTurn;
+import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.*;
@@ -16,6 +16,7 @@ import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
+import entity.laboratory.turn.LaboratoryTurnWorker;
 import entity.log.Change;
 import entity.log.ChangeLog;
 import entity.organisations.Organisation;
@@ -45,6 +46,7 @@ public class JsonParser {
     final static String VALUE = "value";
     private static final String SHIPPER = "shipper";
     private static final String MEAL = "meal";
+    private static final String WORKERS = "workers";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -569,9 +571,14 @@ public class JsonParser {
     }
 
     public JSONObject toJson(LaboratoryTurn laboratoryTurn) {
-        JSONObject json = new JSONObject();
-        json.put("id", laboratoryTurn.getId());
-        json.put("worker", toJson(laboratoryTurn.getWorker()));
+        JSONObject json = pool.getObject();
+        json.put(ID, laboratoryTurn.getId());
+        json.put(TURN, toJson(laboratoryTurn.getTurn()));
+        JSONArray array = pool.getArray();
+        for (LaboratoryTurnWorker worker : laboratoryTurn.getWorkers()){
+            array.add(toJson(worker.getWorker()));
+        }
+        json.put(WORKERS, array);
         return json;
     }
 
@@ -579,14 +586,12 @@ public class JsonParser {
         JSONObject json = toJson(turn);
         json.put("laboratory", toLaboratoryJson(query));
         int hash = turn.hashCode();
-        for (LaboratoryTurn l : query){
-            hash = 31 * l.getWorker().hashCode() + hash;
-        }
+
         json.put("hash", hash);
         return json;
     }
 
-    private JSONObject toJson(Turn turn) {
+    public JSONObject toJson(Turn turn) {
         JSONObject json = new JSONObject();
         json.put("id", turn.getId());
         json.put("date", turn.getDate().toString());

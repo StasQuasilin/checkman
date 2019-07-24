@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <script>
     list.api.edit = '${edit}';
+    <c:if test="${not empty limit}">
+    list.limit = ${limit};
+    </c:if>
     <c:forEach items="${types}" var="t">
     list.types['${t}'] = '<fmt:message key="_${t}"/> '
     </c:forEach>
@@ -162,7 +165,7 @@
             </div>
         </transition-group>
         <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
-            <div v-bind:style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+            <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
                 <%--<div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${notes}')"><fmt:message key="notes"/></div>--%>
                 <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
                 <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>

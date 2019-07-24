@@ -3,14 +3,10 @@ package controllers.laboratory.laboratory.extraction;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
-import entity.laboratory.LaboratoryTurn;
 import entity.laboratory.subdivisions.extraction.TurnGrease;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.U;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
-import utils.turns.LaboratoryTurnService;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;

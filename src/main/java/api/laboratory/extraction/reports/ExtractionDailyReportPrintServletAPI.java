@@ -2,7 +2,7 @@ package api.laboratory.extraction.reports;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.laboratory.LaboratoryTurn;
+import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.production.TurnSettings;
 import org.json.simple.JSONObject;

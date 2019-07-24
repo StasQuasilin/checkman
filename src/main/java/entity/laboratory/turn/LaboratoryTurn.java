@@ -1,9 +1,11 @@
-package entity.laboratory;
+package entity.laboratory.turn;
 
 import entity.Worker;
 import entity.production.Turn;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 03.06.2019.
@@ -13,7 +15,7 @@ import javax.persistence.*;
 public class LaboratoryTurn {
     private int id;
     private Turn turn;
-    private Worker worker;
+    private Set<LaboratoryTurnWorker> workers = new HashSet<>();
 
     @Id
     @GeneratedValue
@@ -33,12 +35,11 @@ public class LaboratoryTurn {
         this.turn = turn;
     }
 
-    @OneToOne
-    @JoinColumn(name = "worker")
-    public Worker getWorker() {
-        return worker;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
+    public Set<LaboratoryTurnWorker> getWorkers() {
+        return workers;
     }
-    public void setWorker(Worker worker) {
-        this.worker = worker;
+    public void setWorkers(Set<LaboratoryTurnWorker> workers) {
+        this.workers = workers;
     }
 }

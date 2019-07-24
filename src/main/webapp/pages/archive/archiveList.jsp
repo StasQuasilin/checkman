@@ -7,9 +7,7 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script src="${context}/vue/archive/dealArchive.vue"></script>
 <script>
-    arch.api.update = '${api}';
-    arch.parameters.type='${type}';
-    arch.doRequest();
+
 </script>
 <div id="archive">
     <div v-for="(value, key) in items" class="container-item" :class="rowName(value.date)" style="padding: 0 4pt">
