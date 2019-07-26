@@ -3,22 +3,27 @@
  */
 var address = Settings.getAddress();
 console.log('Subscribe api ' + address);
-const subscriber = new WebSocket(address);
+var subscriber;
+Connect();
 
-subscriber.onmessage = function(env){
-    var json = JSON.parse(env.data);
-    var type = json['type'];
-    var data = JSON.parse(json['data']);
-    console.log('--------');
-    console.log('Receive type:' + type + ', data');
-    console.log(data);
-    console.log('--------');
-    if (typeof subscribes[type] === 'function') {
-        subscribes[type](data);
-    } else{
-        console.log(typeof subscribes[type])
-    }
-};
+function Connect(){
+    subscriber = new WebSocket(address);
+    subscriber.onmessage = function(env){
+        var json = JSON.parse(env.data);
+        var type = json['type'];
+        var data = JSON.parse(json['data']);
+        console.log('--------');
+        console.log('Receive type:' + type + ', data');
+        console.log(data);
+        console.log('--------');
+        if (typeof subscribes[type] === 'function') {
+            subscribes[type](data);
+        } else{
+            console.log('Subscribe ' + type + ' = ' + typeof subscribes[type]);
+        }
+    };
+}
+
 var subscribes = {};
 function subscribe(sub, on){
     console.log('Subscribe on ' + sub);
@@ -40,6 +45,7 @@ function send(msg){
         }, 500);
     } else {
         console.log('Subscriber are closed')
+
     }
 }
 function closeConnection(){

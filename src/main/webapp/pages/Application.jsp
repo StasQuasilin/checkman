@@ -13,9 +13,10 @@
     </title>
     <link rel="stylesheet" href="${context}/css/Application.css">
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
-
+    <link rel="stylesheet" href="${context}/chat/chat-holder.css">
     <script src="${context}/js/Core.js"></script>
     <script src="${context}/js/Application.js"></script>
+
     <script>
         context = '${context}';
         logoutAPI = '${logoutAPI}';
@@ -34,6 +35,8 @@
 
 </div>
 <div class="modal-layer" style="display: none" id="modal"></div>
+<jsp:include page="chat/chatHolder.jsp"/>
+
 <link rel="stylesheet" href="${context}/css/date-picker.css">
 <div class="datetime-picker" id="picker" v-show="onSelects.length" v-on:click="close">
     <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
@@ -65,7 +68,7 @@
     </c:choose>
 </script>
 
-<table class="body-table" border="0" style="width: 100%; height: 100%">
+<table class="body-table" border="1" style="width: 100%; height: 100%">
     <tr>
         <td rowspan="2" valign="top" style="height: 40%; width: 1px; padding: 0; border-right: solid 2pt">
             <jsp:include page="NavigationMenu.jsp"/>
@@ -103,6 +106,11 @@
     <tr>
         <td height="100%" valign="top" style="border-right: solid 2pt">
             <div id="filter" class="filter" ></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+
         </td>
     </tr>
 </table>

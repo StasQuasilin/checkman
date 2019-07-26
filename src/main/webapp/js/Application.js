@@ -1,13 +1,13 @@
 var coverlet;
 var header;
 var modalLayer;
+var chatLayer;
 var filter;
 var content;
 const last_url = 'last-page';
 var welcome = '';
 var logoutAPI = '';
 var currentPage = '';
-
 
 $(document).ready(function(){
     coverlet = document.getElementById('coverlet');
@@ -113,4 +113,10 @@ function logout(){
             location.href=context + a['redirect'];
         }
     })
+}
+function showChat(){
+
+}
+function closeChat(){
+
 }
