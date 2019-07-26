@@ -55,7 +55,6 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public void saveDeal(Deal deal){
-        deal.setHash(deal.hashCode());
         hb.save(deal);
     }
 

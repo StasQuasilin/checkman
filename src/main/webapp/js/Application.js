@@ -22,9 +22,6 @@ $(document).ready(function(){
     } else {
         loadContent(welcome)
     }
-    document.addEventListener('push', function(event){
-        alert(event)
-    })
 });
 
 function loadContent(url){

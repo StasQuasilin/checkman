@@ -43,8 +43,6 @@ function send(msg){
     }
 }
 function closeConnection(){
+    console.log('Close subscriber connection');
     subscriber.close();
 }
-$(window).unload(function(){
-    closeConnection();
-});

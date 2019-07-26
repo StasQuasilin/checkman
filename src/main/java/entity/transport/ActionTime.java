@@ -16,7 +16,7 @@ public class ActionTime {
     private Worker creator;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public int getId() {
         return id;
     }

@@ -17,6 +17,7 @@ public class CustomHandler {
         Hibernator hibernator = Hibernator.getInstance();
         for (LoadPlan plan : hibernator.query(LoadPlan.class, null)){
             Transportation transportation = plan.getTransportation();
+
             transportation.setDate(plan.getDate());
             transportation.setType(plan.getDeal().getType());
             transportation.setProduct(plan.getDeal().getProduct());

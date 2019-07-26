@@ -76,7 +76,7 @@ public class JsonParser {
         json.put(DONE, deal.getDone());
         json.put(PRICE, deal.getPrice());
         json.put(CREATOR, toJson(deal.getCreator()));
-        json.put(HASH, deal.getHash());
+        json.put(HASH, deal.hashCode());
         json.put(UNIT, deal.getUnit().getName());
         json.put(TYPE, deal.getType().toString());
         return json;
