@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Created by szpt_user045 on 27.03.2019.
  */
 @Entity
-@Table(name = "analyses_cake")
+@Table(name = "analyses_meal")
 public class CakeAnalyses {
     private int id;
     private float humidity;

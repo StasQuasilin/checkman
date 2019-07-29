@@ -3,7 +3,33 @@
     text-align: center;
     border-bottom: solid gray 1pt;
 }
-.chat-list{
+.message-list {
     height: 100%;
     overflow-y: scroll;
+}
+.my{
+    text-align: right;
+}
+.my .message{
+    background-color: olive;
+}
+.message-wrapper{
+    margin: 4pt;
+}
+.message{
+    text-align: left;
+    display: inline-block;
+    max-width: 80%;
+    padding: 4pt;
+    border-radius: 12pt;
+    border: solid gray 1pt;
+    background-color: orange;
+    box-shadow: 0 0 10pt gray;
+}
+.message-sender{
+    font-size: 10pt;
+    font-weight: bold;
+}
+.message-text{
+    padding-left: 22pt;
 }

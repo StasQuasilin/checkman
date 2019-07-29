@@ -761,8 +761,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<ArchivatorData> getArchivatorData() {
-        return hb.query(ArchivatorData.class, null);
+    public List<ArchiveData> getArchivatorData() {
+        return hb.query(ArchiveData.class, null);
     }
 
     @Override

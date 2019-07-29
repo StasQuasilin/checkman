@@ -1,6 +1,6 @@
 package entity;
 
-import utils.ArchivatorType;
+import utils.ArchiveType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -9,10 +9,10 @@ import java.sql.Timestamp;
  * Created by szpt_user045 on 17.07.2019.
  */
 @Entity
-@Table(name= "archivator_data")
-public class ArchivatorData {
+@Table(name= "archive_data")
+public class ArchiveData {
     private int id;
-    private ArchivatorType type;
+    private ArchiveType type;
     private int document;
     private Timestamp time;
 
@@ -27,10 +27,10 @@ public class ArchivatorData {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    public ArchivatorType getType() {
+    public ArchiveType getType() {
         return type;
     }
-    public void setType(ArchivatorType type) {
+    public void setType(ArchiveType type) {
         this.type = type;
     }
 

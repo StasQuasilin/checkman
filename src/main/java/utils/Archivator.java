@@ -1,6 +1,6 @@
 package utils;
 
-import entity.ArchivatorData;
+import entity.ArchiveData;
 import entity.documents.Deal;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
@@ -21,7 +21,7 @@ public final class Archivator {
 
     final static Logger log = Logger.getLogger(Archivator.class);
     final static dbDAO dao = dbDAOService.getDAO();
-    final static ArrayList<ArchivatorData> data = new ArrayList<>();
+    final static ArrayList<ArchiveData> data = new ArrayList<>();
     final static UpdateUtil updateUtil = new UpdateUtil();
 
     public static void init(){
@@ -33,7 +33,7 @@ public final class Archivator {
 
     private static void check() {
         final LocalDateTime now = LocalDateTime.now();
-        final ArrayList<ArchivatorData> toClose = new ArrayList<>();
+        final ArrayList<ArchiveData> toClose = new ArrayList<>();
         data.stream().filter(d -> now.isAfter(d.getTime().toLocalDateTime())).forEach(toClose::add);
         toClose.forEach(Archivator::close);
         toClose.clear();
@@ -48,7 +48,7 @@ public final class Archivator {
         timer.start();
     }
 
-    private static void close(ArchivatorData d) {
+    private static void close(ArchiveData d) {
         switch (d.getType()){
             case deal:
                 Deal deal = dao.getDealById(d.getDocument());
@@ -78,8 +78,8 @@ public final class Archivator {
         dao.remove(d);
     }
 
-    public static void add(ArchivatorType type, int document){
-        ArchivatorData d = new ArchivatorData();
+    public static void add(ArchiveType type, int document){
+        ArchiveData d = new ArchiveData();
         d.setType(type);
         d.setDocument(document);
         d.setTime(Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
@@ -89,12 +89,12 @@ public final class Archivator {
 
     public static void add(Deal deal){
         log.info("Add deal " + deal.getId());
-        add(ArchivatorType.deal, deal.getId());
+        add(ArchiveType.deal, deal.getId());
     }
 
     public static void add(Transportation transportation){
         log.info("Add transportation " + transportation.getId());
-        add(ArchivatorType.transportation, transportation.getId());
+        add(ArchiveType.transportation, transportation.getId());
     }
 
     public static void stop(){

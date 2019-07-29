@@ -170,7 +170,7 @@ CREATE TABLE public.analyses_cake (
 );
 
 
-ALTER TABLE public.analyses_cake OWNER TO postgres;
+ALTER TABLE public.analyses_meal OWNER TO postgres;
 
 --
 -- TOC entry 203 (class 1259 OID 36873)
@@ -193,7 +193,7 @@ ALTER TABLE public.analyses_cake_id_seq OWNER TO postgres;
 -- Name: analyses_cake_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.analyses_cake_id_seq OWNED BY public.analyses_cake.id;
+ALTER SEQUENCE public.analyses_cake_id_seq OWNED BY public.analyses_meal.id;
 
 
 --
@@ -348,7 +348,7 @@ CREATE TABLE public.archivator_data (
 );
 
 
-ALTER TABLE public.archivator_data OWNER TO postgres;
+ALTER TABLE public.archive_data OWNER TO postgres;
 
 --
 -- TOC entry 316 (class 1259 OID 37740)
@@ -372,7 +372,7 @@ ALTER TABLE public.archivators_id_seq OWNER TO postgres;
 -- Name: archivators_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.archivators_id_seq OWNED BY public.archivator_data.id;
+ALTER SEQUENCE public.archivators_id_seq OWNED BY public.archive_data.id;
 
 
 --
@@ -2663,7 +2663,7 @@ ALTER TABLE ONLY public.administration ALTER COLUMN id SET DEFAULT nextval('publ
 -- Name: analyses_cake id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.analyses_cake ALTER COLUMN id SET DEFAULT nextval('public.analyses_cake_id_seq'::regclass);
+ALTER TABLE ONLY public.analyses_meal ALTER COLUMN id SET DEFAULT nextval('public.analyses_cake_id_seq'::regclass);
 
 
 --
@@ -2687,7 +2687,7 @@ ALTER TABLE ONLY public.analyses_sun ALTER COLUMN id SET DEFAULT (nextval('publi
 -- Name: archivator_data id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.archivator_data ALTER COLUMN id SET DEFAULT nextval('public.archivators_id_seq'::regclass);
+ALTER TABLE ONLY public.archive_data ALTER COLUMN id SET DEFAULT nextval('public.archivators_id_seq'::regclass);
 
 
 --
@@ -3138,7 +3138,7 @@ ALTER TABLE ONLY public.administration
 -- Name: analyses_cake analyses_cake_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.analyses_cake
+ALTER TABLE ONLY public.analyses_meal
     ADD CONSTRAINT analyses_cake_pkey PRIMARY KEY (id);
 
 
@@ -3183,7 +3183,7 @@ ALTER TABLE ONLY public.app_settings
 -- Name: archivator_data archivators_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.archivator_data
+ALTER TABLE ONLY public.archive_data
     ADD CONSTRAINT archivators_pkey PRIMARY KEY (id);
 
 
@@ -3930,7 +3930,7 @@ ALTER TABLE ONLY public.extraction_crude
 -- Name: analyses_cake fk8t4ordakcdprtk3l2o92q2xri; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.analyses_cake
+ALTER TABLE ONLY public.analyses_meal
     ADD CONSTRAINT fk8t4ordakcdprtk3l2o92q2xri FOREIGN KEY (create_time) REFERENCES public.action_time(id);
 
 
@@ -4236,7 +4236,7 @@ ALTER TABLE ONLY public.seals_batch
 -- Name: analyses_cake fkpqeol6mngttax1gucdpdutt47; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.analyses_cake
+ALTER TABLE ONLY public.analyses_meal
     ADD CONSTRAINT fkpqeol6mngttax1gucdpdutt47 FOREIGN KEY (creator) REFERENCES public.workers(id);
 
 

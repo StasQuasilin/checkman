@@ -33,7 +33,7 @@
                 &times;
               </span>
             </div>
-            <div class="chat-list">
+            <div class="message-list">
               <table>
                 <tr v-for="(value, key) in contacts" class="selected">
                   <td v-on:click="openChat(value)">
@@ -55,14 +55,17 @@
             </tr>
             <tr>
               <td height="100%" valign="bottom">
-                <div v-for="(msg, key) in chats[selectedChat].messages">
-                  <div v-if="message.sender.id == worker">
-                    {{msg}}
+                <div class="message-list" ref="messagesList">
+                  <div v-for="(msg, key) in chats[selectedChat].messages" :class="{my : msg.sender.id !== worker}" class="message-wrapper">
+                    <div class="message">
+                      <div class="message-sender">
+                        {{new Date(msg.time).toLocaleTimeString().substring(0, 5)}}&nbsp;{{msg.sender.person.value}}
+                      </div>
+                      <div class="message-text">
+                        {{msg.message}}
+                      </div>
+                    </div>
                   </div>
-                  <div v-else>
-                    {{msg.message}}
-                  </div>
-
                 </div>
               </td>
             </tr>

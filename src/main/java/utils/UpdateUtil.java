@@ -136,10 +136,11 @@ public class UpdateUtil {
     }
 
     public void onSave(ChatMessage message, Worker member) throws IOException {
-        doAction(Command.update, member, parser.toJson(message));
+        doAction(Command.addMessage, member, parser.toJson(message));
     }
 
     public enum Command {
+        addMessage,
         update,
         remove
     }

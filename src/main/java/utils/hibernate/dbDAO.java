@@ -175,7 +175,7 @@ public interface dbDAO {
     Vehicle getVehicleByNumber(String number);
     List<Transportation> getTransportationByVehicle(Vehicle vehicle);
     List<Transportation> getTransportationByDriver(Driver driver);
-    List<ArchivatorData> getArchivatorData();
+    List<ArchiveData> getArchivatorData();
     ProbeTurn getProbeTurnByTurn(Turn turn);
     List<LaboratoryTurn> getLimitLaboratoryTurn();
     List<LoadPlan> getLimitLoadPlanArchive();

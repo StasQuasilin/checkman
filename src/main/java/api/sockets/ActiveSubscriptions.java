@@ -24,7 +24,7 @@ public class ActiveSubscriptions {
     private final Logger log = Logger.getLogger(ActiveSubscriptions.class);
     final HashMap<Subscriber, OnSubscribeHandler> handlers = new HashMap<>();
     final HashMap<Subscriber, ArrayList<Session>> bySubscribe = new HashMap<>();
-    final HashMap<Worker, Session> byWorker = new HashMap<>();
+    final HashMap<Integer, Session> byWorker = new HashMap<>();
     final MessageHandler messageHandler = new MessageHandler();
     public static final JsonPool pool = JsonPool.getPool();
     public static final String TYPE = "type";
@@ -63,7 +63,7 @@ public class ActiveSubscriptions {
             }
         } else {
             Worker worker = dao.getWorkerById(workerId);
-            byWorker.put(worker, session);
+            byWorker.put(worker.getId(), session);
             messageHandler.handle(worker, session);
         }
 
@@ -73,6 +73,7 @@ public class ActiveSubscriptions {
     public void unSubscribe(Subscriber sub, Session session){
         bySubscribe.get(sub).remove(session);
     }
+
     public void send(Subscriber sub, String txt) throws IOException {
         txt = prepareMessage(sub, txt);
         for (Session session : bySubscribe.get(sub)){
@@ -82,8 +83,16 @@ public class ActiveSubscriptions {
         }
     }
     public void send(Worker worker, String message) throws IOException {
-        if (byWorker.containsKey(worker)) {
-            byWorker.get(worker).getBasicRemote().sendText(message);
+        if (byWorker.containsKey(worker.getId())) {
+            Session session = byWorker.get(worker.getId());
+            if(session.isOpen()) {
+                session.getBasicRemote().sendText(prepareMessage(Subscriber.MESSAGES.toString(), message));
+            } else {
+                byWorker.remove(worker.getId());
+            }
+
+        } else {
+            System.out.println("No worker " + worker.getId());
         }
     }
     public static String prepareMessage(Subscriber type, String msg){
