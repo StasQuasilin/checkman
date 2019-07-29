@@ -2,12 +2,14 @@ package api.chat;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.answers.IAnswer;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
+import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -99,7 +101,11 @@ public class SendMessageAPI extends ServletAPI {
                 updateUtil.onSave(message, member.getMember());
             }
 
-            write(resp, answer);
+            IAnswer success = new SuccessAnswer();
+            success.add("chat", chat.getId());
+            JSONObject jsonAnswer = parser.toJson(success);
+            write(resp, jsonAnswer.toJSONString());
+            pool.put(jsonAnswer);
         }
     }
 }

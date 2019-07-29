@@ -74,7 +74,7 @@ public class ActiveSubscriptions {
         bySubscribe.get(sub).remove(session);
     }
 
-    public void send(Subscriber sub, String txt) throws IOException {
+    public synchronized void send(Subscriber sub, String txt) throws IOException {
         txt = prepareMessage(sub, txt);
         for (Session session : bySubscribe.get(sub)){
             if (session.isOpen()){
@@ -82,7 +82,7 @@ public class ActiveSubscriptions {
             }
         }
     }
-    public void send(Worker worker, String message) throws IOException {
+    public synchronized void send(Worker worker, String message) throws IOException {
         if (byWorker.containsKey(worker.getId())) {
             Session session = byWorker.get(worker.getId());
             if(session.isOpen()) {
