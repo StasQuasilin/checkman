@@ -35,7 +35,8 @@ public class SubscribesAPI extends API{
                 case "subscribe":
                     if (json.containsKey("subscriber")){
                         Subscriber subscriber = Subscriber.valueOf(String.valueOf(json.get("subscriber")));
-                        activeSubscriptions.subscribe(subscriber, session);
+                        long worker = (long) json.get("worker");
+                        activeSubscriptions.subscribe(subscriber, session, worker);
                     }
                     break;
                 case "unsubscribe":

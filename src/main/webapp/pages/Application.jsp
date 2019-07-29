@@ -5,23 +5,37 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
-    <script src="${context}/ext/vue.js"></script>
-    <script src="${context}/ext/vuetify.js"></script>
-    <script src="${context}/ext/jquery.min.js"></script>
     <title>
         <fmt:message key="application.title"/>.${lang}
     </title>
     <link rel="stylesheet" href="${context}/css/Application.css">
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
-    <link rel="stylesheet" href="${context}/chat/chat-holder.css">
+    <link rel="stylesheet" href="${context}/css/chat/chat-holder.css">
+    <link rel="stylesheet" href="${context}/css/date-picker.css">
+    <script src="${context}/ext/vue.js"></script>
+    <script src="${context}/ext/vuetify.js"></script>
+    <script src="${context}/ext/jquery.min.js"></script>
     <script src="${context}/js/Core.js"></script>
     <script src="${context}/js/Application.js"></script>
-
+    <script src="${context}/js/Settings.js"></script>
     <script>
-        context = '${context}';
-        logoutAPI = '${logoutAPI}';
-        welcome = '${welcome}';
+    context = '${context}';
+    logoutAPI = '${logoutAPI}';
+    welcome = '${welcome}';
+    Settings.address=window.location.host;
+    Settings.context='${context}';
+    Settings.api='${SUBSCRIBER}';
+    Settings.worker = ${worker.id};
     </script>
+    <script src="${context}/js/Subscriber.js"></script>
+    <script>
+    <c:forEach items="${subscribe}" var="sub">
+    subscribe('${sub}', function(a){
+        chat.handle(a);
+    });
+    </c:forEach>
+    </script>
+
 </head>
 <body style="margin: 0">
 <div class="coverlet" id="coverlet">
@@ -32,12 +46,13 @@
             </td>
         </tr>
     </table>
-
 </div>
 <div class="modal-layer" style="display: none" id="modal"></div>
 <jsp:include page="chat/chatHolder.jsp"/>
+<script>
+    chat.api.send = '${sendMessage}';
+</script>
 
-<link rel="stylesheet" href="${context}/css/date-picker.css">
 <div class="datetime-picker" id="picker" v-show="onSelects.length" v-on:click="close">
     <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
         <v-date-picker class="date-picker"
@@ -50,13 +65,6 @@
     </div>
 </div>
 <script src="${context}/vue/datetimePicker.vue"></script>
-<script src="${context}/js/Settings.js"></script>
-<script>
-    Settings.address=window.location.host;
-    Settings.context='${context}';
-    Settings.api='${SUBSCRIBER}';
-</script>
-<script src="${context}/js/Subscriber.js"></script>
 <script>
     <c:choose>
     <c:when test="${lang eq 'ua'}">

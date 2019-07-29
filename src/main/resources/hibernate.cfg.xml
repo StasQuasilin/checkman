@@ -87,5 +87,8 @@
         <mapping class="entity.Admin"/>
         <mapping class="entity.laboratory.transportation.ActNumber"/>
         <mapping class="entity.ArchivatorData"/>
+        <mapping class="entity.chat.Chat"/>
+        <mapping class="entity.chat.ChatMember"/>
+        <mapping class="entity.chat.ChatMessage"/>
     </session-factory>
 </hibernate-configuration>

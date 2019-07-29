@@ -4,6 +4,9 @@ import bot.BotUID;
 import entity.*;
 import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
+import entity.chat.Chat;
+import entity.chat.ChatMember;
+import entity.chat.ChatMessage;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.turn.LaboratoryTurn;
@@ -176,4 +179,13 @@ public interface dbDAO {
     ProbeTurn getProbeTurnByTurn(Turn turn);
     List<LaboratoryTurn> getLimitLaboratoryTurn();
     List<LoadPlan> getLimitLoadPlanArchive();
+    List<Worker> getWorkersWithout(Worker worker);
+    List<ChatMember> getChatMembersByWorker(Worker worker);
+    Chat getChatById(Object id);
+    List<ChatMember> getMembersByChat(Chat chat);
+    ChatMember getChatMember(Chat chat, Worker worker);
+
+    ChatMessage getMessageById(long messageId);
+
+    List<ChatMessage> getLimitMessagesByChat(Chat chat);
 }

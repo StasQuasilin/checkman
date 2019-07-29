@@ -192,6 +192,8 @@ public class Branches {
         public static final String REMOVE_PLAN = API + "/plan/remove";
         public static final String PARSE_AND_PUT_VEHICLE = API + "/parse/put/vehicle";
         public static final String PARSE_AND_PUT_DRIVER = API + "/parse/put/driver";
+        public static final String CHAT_SEND = API + "/chat/send";
+        public static final String CHAT_CREATE = API + "/chat/create";
 
 
         public class References {

@@ -2,10 +2,12 @@ package api.sockets;
 
 import api.sockets.handlers.*;
 import entity.DealType;
-import entity.Subdivision;
+import entity.Worker;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonPool;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -17,17 +19,20 @@ import java.util.HashMap;
  */
 public class ActiveSubscriptions {
 
+    private final dbDAO dao = dbDAOService.getDAO();
     private static ActiveSubscriptions instance = new ActiveSubscriptions();
     private final Logger log = Logger.getLogger(ActiveSubscriptions.class);
-    final HashMap<Subscriber, ArrayList<Session>> subscribes = new HashMap<>();
     final HashMap<Subscriber, OnSubscribeHandler> handlers = new HashMap<>();
+    final HashMap<Subscriber, ArrayList<Session>> bySubscribe = new HashMap<>();
+    final HashMap<Worker, Session> byWorker = new HashMap<>();
+    final MessageHandler messageHandler = new MessageHandler();
     public static final JsonPool pool = JsonPool.getPool();
     public static final String TYPE = "type";
     private static final String DATA = "data";
 
     private ActiveSubscriptions(){
         for(Subscriber s : Subscriber.values()){
-            subscribes.put(s, new ArrayList<>());
+            bySubscribe.put(s, new ArrayList<>());
         }
         handlers.put(Subscriber.DEAL_BUY, new DealHandler(DealType.buy, Subscriber.DEAL_BUY));
         handlers.put(Subscriber.DEAL_BUY_ARCHIVE, new DealArchiveHandler(DealType.buy, Subscriber.DEAL_BUY_ARCHIVE));
@@ -50,28 +55,44 @@ public class ActiveSubscriptions {
         return instance;
     }
 
-    public void subscribe(Subscriber sub, Session session) throws IOException {
-        subscribes.get(sub).add(session);
-        if (handlers.containsKey(sub)) {
-            handlers.get(sub).handle(session);
+    public void subscribe(Subscriber sub, Session session, long workerId) throws IOException {
+        if (sub != Subscriber.MESSAGES) {
+            bySubscribe.get(sub).add(session);
+            if (handlers.containsKey(sub)) {
+                handlers.get(sub).handle(session);
+            }
+        } else {
+            Worker worker = dao.getWorkerById(workerId);
+            byWorker.put(worker, session);
+            messageHandler.handle(worker, session);
         }
+
+
         log.info("Session #" + session.getId() + ", subscribe on " + sub.toString());
     }
     public void unSubscribe(Subscriber sub, Session session){
-        subscribes.get(sub).remove(session);
+        bySubscribe.get(sub).remove(session);
     }
     public void send(Subscriber sub, String txt) throws IOException {
         txt = prepareMessage(sub, txt);
-        for (Session session : subscribes.get(sub)){
+        for (Session session : bySubscribe.get(sub)){
             if (session.isOpen()){
                 session.getBasicRemote().sendText(txt);
             }
         }
     }
-
+    public void send(Worker worker, String message) throws IOException {
+        if (byWorker.containsKey(worker)) {
+            byWorker.get(worker).getBasicRemote().sendText(message);
+        }
+    }
     public static String prepareMessage(Subscriber type, String msg){
+        return prepareMessage(type.toString(), msg);
+    }
+
+    public static String prepareMessage(String type, String msg){
         JSONObject object = pool.getObject();
-        object.put(TYPE, type.toString());
+        object.put(TYPE, type);
         object.put(DATA, msg);
         return object.toJSONString();
     }

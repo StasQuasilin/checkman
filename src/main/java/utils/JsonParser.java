@@ -4,6 +4,9 @@ import bot.BotUID;
 import entity.*;
 import entity.answers.IAnswer;
 import entity.bot.UserBotSetting;
+import entity.chat.Chat;
+import entity.chat.ChatMember;
+import entity.chat.ChatMessage;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.laboratory.MealAnalyses;
@@ -47,6 +50,10 @@ public class JsonParser {
     private static final String SHIPPER = "shipper";
     private static final String MEAL = "meal";
     private static final String WORKERS = "workers";
+    private static final String MEMBERS = "members";
+    private static final String CHAT = "chat";
+    private static final String SENDER = "sender";
+    private static final String MESSAGE = "message";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -1045,5 +1052,37 @@ public class JsonParser {
             array.add(toJson(probe));
         }
         return array;
+    }
+
+    public JSONObject toJson(Chat chat) {
+        JSONObject json = pool.getObject();
+        json.put(ID, chat.getId());
+        json.put(TITLE, chat.getTitle());
+        JSONArray members = pool.getArray();
+        for (ChatMember member : chat.getMembers()) {
+            members.add(toJson(member.getMember()));
+        }
+        json.put(MEMBERS, members);
+        return json;
+    }
+
+    public JSONObject toJson(ChatMessage message) {
+        JSONObject object = pool.getObject();
+        object.put(ID, message.getId());
+        object.put(CHAT, message.getChat().getId());
+        object.put(TIME, message.getTimestamp().toString());
+        object.put(SENDER, toJson(message.getSender().getMember()));
+        object.put(MESSAGE, message.getMessage());
+        return object;
+    }
+
+    public JSONObject toJson(Chat chat, List<ChatMessage> messages) {
+        JSONObject json = toJson(chat);
+        JSONArray array = pool.getArray();
+        for (ChatMessage message : messages) {
+            array.add(toJson(message));
+        }
+        json.put("messages", array);
+        return json;
     }
 }

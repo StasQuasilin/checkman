@@ -3,6 +3,8 @@ package utils;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
 import entity.DealType;
+import entity.Worker;
+import entity.chat.ChatMessage;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.laboratory.turn.LaboratoryTurn;
@@ -71,7 +73,16 @@ public class UpdateUtil {
         doAction(Command.remove, Subscriber.LOAD_PLAN, plan.getId());
     }
 
-
+    void doAction(Command command, Worker worker, Object ... obj) throws IOException {
+        JSONObject json = pool.getObject();
+        JSONArray array = pool.getArray();
+        for (Object o : obj){
+            array.add(o);
+        }
+        json.put(command.toString(), array);
+        subscriptions.send(worker, json.toJSONString());
+        pool.put(json);
+    }
     void doAction(Command command, Subscriber subscriber, Object ... obj) throws IOException {
         log.info(command.toString().toUpperCase() + " for " + subscriber.toString());
         JSONObject json = pool.getObject();
@@ -122,6 +133,10 @@ public class UpdateUtil {
 
     public void onSave(LaboratoryTurn turn) throws IOException{
         doAction(Command.update, Subscriber.LABORATORY_TURNS, parser.toJson(turn));
+    }
+
+    public void onSave(ChatMessage message, Worker member) throws IOException {
+        doAction(Command.update, member, parser.toJson(message));
     }
 
     public enum Command {

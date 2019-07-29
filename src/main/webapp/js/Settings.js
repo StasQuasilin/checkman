@@ -6,6 +6,7 @@ var Settings = {
     address:'',
     context:'',
     api:'/api/subscribes',
+    worker:'',
     getAddress:function(){
         return this.protocol + '://' + this.address + this.context + this.api;
     }

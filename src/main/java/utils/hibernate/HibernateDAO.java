@@ -4,6 +4,9 @@ import bot.BotUID;
 import entity.*;
 import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
+import entity.chat.Chat;
+import entity.chat.ChatMember;
+import entity.chat.ChatMessage;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.turn.LaboratoryTurn;
@@ -56,6 +59,47 @@ public class HibernateDAO implements dbDAO {
     @Override
     public void saveDeal(Deal deal){
         hb.save(deal);
+    }
+
+    @Override
+    public List<ChatMember> getChatMembersByWorker(Worker worker) {
+        return hb.query(ChatMember.class, "member", worker);
+    }
+
+    @Override
+    public Chat getChatById(Object id) {
+        return hb.get(Chat.class, "id", id);
+    }
+
+    @Override
+    public List<ChatMember> getMembersByChat(Chat chat) {
+        return hb.query(ChatMember.class, "chat", chat);
+    }
+
+    @Override
+    public ChatMember getChatMember(Chat chat, Worker worker) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("chat", chat);
+        parameters.put("member", worker);
+        return hb.get(ChatMember.class, parameters);
+    }
+
+    @Override
+    public ChatMessage getMessageById(long messageId) {
+        return hb.get(ChatMessage.class, "id", messageId);
+    }
+
+    @Override
+    public List<ChatMessage> getLimitMessagesByChat(Chat chat) {
+        final HashMap<String, Object> parameters  = new HashMap<>();
+        parameters.put("timestamp", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
+        parameters.put("chat", chat);
+        return hb.limitQuery(ChatMessage.class, parameters, 20);
+    }
+
+    @Override
+    public List<Worker> getWorkersWithout(Worker worker) {
+        return hb.query(User.class, null).stream().filter(user -> user.getWorker().getId() != worker.getId()).map(User::getWorker).collect(Collectors.toList());
     }
 
     @Override

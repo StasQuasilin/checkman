@@ -1,5 +1,6 @@
 package controllers.application;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import controllers.IServlet;
 import controllers.archive.ArchiveType;
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class ApplicationControl extends IServlet{
 
     final dbDAO dao = dbDAOService.getDAO();
+    final Subscriber[] applicationSubscribes = new Subscriber[]{Subscriber.MESSAGES};
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,6 +55,8 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("admin", Branches.UI.ADMIN);
         req.setAttribute("personal", Branches.UI.PERSONAL);
         req.setAttribute("feedback", Branches.UI.FEEDBACK);
+        req.setAttribute("subscribe", applicationSubscribes);
+        req.setAttribute("sendMessage", Branches.API.CHAT_SEND);
 
         req.setAttribute("shortCutUpdate", Branches.ShortCuts.UPDATE);
         req.setAttribute("logoutAPI", Branches.Sign.LOGOUT);

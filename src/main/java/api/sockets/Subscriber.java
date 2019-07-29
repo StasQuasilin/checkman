@@ -22,4 +22,7 @@ public enum Subscriber {
     VRO,
     KPO,
     LABORATORY_STORAGES,
+    MESSAGES
 }
+
+//10592
