@@ -3,6 +3,8 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
 import entity.Worker;
+import entity.chat.Chat;
+import entity.chat.ChatMember;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
@@ -12,6 +14,7 @@ import utils.hibernate.dbDAOService;
 
 import javax.websocket.Session;
 import java.io.IOException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -29,8 +32,17 @@ public class MessageHandler {
         contacts.addAll(dao.getWorkersWithout(worker).stream().map(parser::toJson).collect(Collectors.toList()));
 
         JSONArray chats = pool.getArray();
-        chats.addAll(dao.getChatMembersByWorker(worker).stream().map(member ->
-                parser.toJson(member.getChat(), dao.getLimitMessagesByChat(member.getChat()))).collect(Collectors.toList()));
+        for (ChatMember member : dao.getChatMembersByWorker(worker)){
+            Chat chat = member.getChat();
+            Set<ChatMember> members = chat.getMembers();
+            if (members.size() == 2){
+                members.stream().filter(m -> m.getMember().getId() != worker.getId()).forEach(m -> {
+                    chat.setTitle(m.getMember().getValue());
+                });
+            }
+            chats.add(parser.toJson(chat, dao.getLimitMessagesByChat(chat)));
+
+        }
 
         JSONObject data = pool.getObject();
         data.put("contacts", contacts);

@@ -29,7 +29,6 @@ var filter_control = new Vue({
                     }
                 }
             }
-            console.log(organisations);
             return Object.values(organisations);
         },
         products:function() {

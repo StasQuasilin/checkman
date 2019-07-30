@@ -36,7 +36,6 @@ var login = new Vue({
             }
         },
         setUser:function(user){
-            console.log(user);
             this.user.uid = user.uid;
             this.worker = user.person.value;
             this.foundUsers = [];

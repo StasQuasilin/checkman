@@ -10,7 +10,6 @@ function Connect(){
     subscriber = new WebSocket(address);
     subscriber.onmessage = function(env){
         var json = JSON.parse(env.data);
-        console.log(json);
         var type = json['type'];
         var data = JSON.parse(json['data']);
         console.log('--------');

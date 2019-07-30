@@ -2,6 +2,7 @@ package api.chat;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.Worker;
 import entity.answers.IAnswer;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
@@ -40,6 +41,7 @@ public class SendMessageAPI extends ServletAPI {
             if (body.containsKey("chat")){
                 chatId = (long) body.get("chat");
             }
+            Worker worker = getWorker(req);
             Chat chat;
             List<ChatMember> members;
             if (chatId != -1){
@@ -73,7 +75,7 @@ public class SendMessageAPI extends ServletAPI {
                 chat.setTitle(title);
                 dao.save(chat);
                 ChatMember member = new ChatMember();
-                member.setMember(getWorker(req));
+                member.setMember(worker);
                 member.setChat(chat);
                 members.add(member);
                 members.forEach(dao::save);
@@ -97,7 +99,13 @@ public class SendMessageAPI extends ServletAPI {
             String text = String.valueOf(messageJson.get("text"));
             message.setMessage(text);
             dao.save(message);
+
             for (ChatMember member : members) {
+                if (chatId == -1){
+                    if (worker.getId() != member.getMember().getId()) {
+                        updateUtil.onSave(chat, member.getMember());
+                    }
+                }
                 updateUtil.onSave(message, member.getMember());
             }
 

@@ -12,11 +12,33 @@ var chat = new Vue({
         showContacts:false,
         selectedChat:-1,
         search:'',
-        messageInput:''
+        messageInput:'',
+        worker:Settings.worker
     },
     methods:{
         selectChat:function(id){
             this.selectedChat = id;
+            this.sortMessages();
+        },
+        sortMessages:function(){
+            this.chats[this.selectedChat].messages.sort(function (a, b) {
+                return new Date(a.time) - new Date(b.time);
+            });
+            const self = this;
+            setTimeout(function(){
+                var list = self.$refs.messagesList;
+                list.scrollTop = list.scrollHeight;
+            },0);
+
+        },
+        totalUnread:function(){
+            var total = 0;
+            for (var i in this.chats){
+                if (this.chats.hasOwnProperty(i)){
+                   total += this.chats[i].unread;
+                }
+            }
+            return total;
         },
         showChat:function(){
             this.show = true;
@@ -53,8 +75,27 @@ var chat = new Vue({
                             this.chats.push(chats[j]);
                         }
                     }
-
                 }
+            }
+            if (a.addMessage){
+                var message = a.addMessage;
+                for (var m in message){
+                    if (message.hasOwnProperty(m)){
+                        var msg = message[m];
+                        for (var c in this.chats){
+                            if (this.chats.hasOwnProperty(c)){
+                                var chat = this.chats[c];
+                                if (chat.id === msg.chat){
+                                    chat.messages.push(msg);
+                                    if (chat.id === this.chats[this.selectedChat].id){
+                                        this.sortMessages();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         },
         openChat:function(worker){
@@ -80,7 +121,8 @@ var chat = new Vue({
                     title:worker.person.value,
                     members:[
                         worker
-                    ]
+                    ],
+                    messages:[]
                 }, 0);
                 this.selectChat(0);
                 this.showContacts = false;
@@ -101,9 +143,10 @@ var chat = new Vue({
                 }
 
                 console.log('Send ' + this.messageInput + ' to chat ' + chatId);
+                const self = this;
                 PostApi(this.api.send, msg, function(a){
                     if (a.status === 'success'){
-                        this.clearMessage();
+                        self.clearMessage();
                     }
                 });
             }

@@ -4,6 +4,7 @@ import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
 import entity.DealType;
 import entity.Worker;
+import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
@@ -139,7 +140,14 @@ public class UpdateUtil {
         doAction(Command.addMessage, member, parser.toJson(message));
     }
 
+    public void onSave(Chat chat, Worker member) throws IOException {
+        JSONObject object = pool.getObject();
+        object.put("chat", parser.toJson(chat));
+        doAction(Command.add, member, object);
+    }
+
     public enum Command {
+        add,
         addMessage,
         update,
         remove
