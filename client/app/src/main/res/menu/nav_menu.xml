@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/navigation_header_container"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="@string/nav_menu"/>
+    <group android:id="@+id/toolbar">
+        <item
+            android:icon="@drawable/ic_launcher_foreground"
+            android:title="@string/messages"/>
+    </group>
+
 </menu>
