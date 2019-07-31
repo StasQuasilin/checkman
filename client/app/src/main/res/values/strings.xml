@@ -17,4 +17,15 @@
     <string name="messages">Messages</string>
     <string name="nav_menu">Navigation Menu</string>
     <string name="notify">Notify</string>
+    <string name="notification_description">Твоє улюблене підприємство тепер і в смарфоні</string>
+    <string name="contacts">Контакти</string>
+    <string name="search">Пошук</string>
+    <string name="login">Користувач</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Увійти</string>
+    <string name="forgot_password">Забув пароль</string>
+    <string name="sing_in_error">Помилка авторизації</string>
+    <string name="sing_in_incorect_login">Невірний логін</string>
+    <string name="sing_in_incorect_password">Невірний пароль</string>
+    <string name="sing_in_error_405">Помилка авторизації, код 405</string>
 </resources>

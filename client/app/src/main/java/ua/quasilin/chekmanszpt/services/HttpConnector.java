@@ -2,6 +2,8 @@ package ua.quasilin.chekmanszpt.services;
 
 import android.os.AsyncTask;
 
+import org.json.simple.JSONObject;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import ua.quasilin.chekmanszpt.packets.JsonPool;
 import ua.quasilin.chekmanszpt.packets.Packet;
 
 /**
@@ -20,6 +23,8 @@ import ua.quasilin.chekmanszpt.packets.Packet;
  */
 
 public class HttpConnector extends AsyncTask<String, Void, String> {
+
+    final static JsonPool pool = JsonPool.getPool();
 
     private final static HttpConnector connector = new HttpConnector();
 
@@ -42,7 +47,7 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
         StringBuilder builder = new StringBuilder();
         try {
             URL u = new URL(strings[0]);
-            HttpURLConnection urlConnection = (HttpsURLConnection) u.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) u.openConnection();
             urlConnection.setRequestMethod(METHOD);
             urlConnection.connect();
             BufferedOutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
@@ -50,14 +55,12 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
             writer.write(strings[1]);
             writer.close();
             out.close();
-            int responseCode = urlConnection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK){
-                Scanner httpResponseScanner = new Scanner(urlConnection.getInputStream(), ENCODING);
-                while (httpResponseScanner.hasNextLine()) {
-                    builder.append(httpResponseScanner.nextLine());
-                }
-                httpResponseScanner.close();
+
+            Scanner httpResponseScanner = new Scanner(urlConnection.getInputStream(), ENCODING);
+            while (httpResponseScanner.hasNextLine()) {
+                builder.append(httpResponseScanner.nextLine());
             }
+            httpResponseScanner.close();
 
         } catch (MalformedURLException e) {
             e.printStackTrace();

@@ -8,5 +8,5 @@ public enum LoginStatus {
     success,
     incorrectLogin,
     incorrectPassword,
-    error
+    error405, error
 }

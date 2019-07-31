@@ -1,6 +1,7 @@
 package ua.quasilin.chekmanszpt.services;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.simple.JSONObject;
 
@@ -26,12 +27,12 @@ public final class SignService {
         String login = preferences.get(LOGIN_KEY, null);
         String password = preferences.get(PASSWORD_KEY, null);
 
-        return login != null && password != null && SignIn(login, password) == LoginStatus.success;
+        return login != null && password != null && signIn(login, password) == LoginStatus.success;
     }
 
-    public boolean SignIn(Context context, String login, String password, boolean save){
-        boolean answer = SignIn(login, password) == LoginStatus.success;
-        if (answer && save){
+    public static LoginStatus signIn(Context context, String login, String password, boolean save){
+        LoginStatus answer = signIn(login, password);
+        if (answer == LoginStatus.success && save){
             Preferences preferences = Preferences.getPreferences(context);
             preferences.put(LOGIN_KEY, login);
             preferences.put(PASSWORD_KEY, password);
@@ -39,8 +40,9 @@ public final class SignService {
         return answer;
     }
 
-    private static LoginStatus SignIn(String login, String password){
-        String answer = connector.request(URL.LOGIN, new SignInPacket(login, password));
+    private static LoginStatus signIn(String login, String password){
+        String answer = connector.request(URL.buildAddress(URL.LOGIN), new SignInPacket(login, password));
+        Log.i("ANSWER", answer);
         JSONObject json = JsonParser.parse(answer);
         LoginStatus status = LoginStatus.error;
         if (json != null){
@@ -48,6 +50,8 @@ public final class SignService {
             if (s != null && !s.isEmpty()){
                 if (s.equals("success")){
                     status = LoginStatus.success;
+                } else if(s.equals("405")){
+                    status = LoginStatus.error405;
                 }
             }
 

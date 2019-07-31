@@ -1,19 +1,18 @@
 package ua.quasilin.chekmanszpt.services;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import ua.quasilin.chekmanszpt.R;
+import java.util.UUID;
+
+import ua.quasilin.chekmanszpt.services.socket.Socket;
+import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
 
 /**
  * Created by szpt_user045 on 30.07.2019.
@@ -35,35 +34,23 @@ public class BackgroundService extends Service {
         Log.i(String.valueOf(BackgroundService.class), "BACKGROUND SERVICE CREATE");
     }
 
+    private static final int NOTIFICATION_ID = UUID.randomUUID().hashCode();
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         Log.i(String.valueOf(BackgroundService.class), "BACKGROUND SERVICE STARTED");
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            super.startForeground(1, buildNotification(getBaseContext()));
+            super.startForeground(NOTIFICATION_ID, NotificationBuilder.build(getBaseContext(), NOTIFICATION_ID));
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Служба работает в фоновом режиме", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(getApplicationContext(),
-                "Служба работает в фоновом режиме", Toast.LENGTH_LONG).show();
+
+//        Socket.connect(getApplicationContext());
+
         return START_STICKY;
-
-    }
-    private static final String channelId = "ua.quasilin.checkman";
-
-    Notification buildNotification(Context context){
-        Intent resultIntent = new Intent(context, BackgroundService.class);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(context, channelId)
-                        .setSmallIcon(android.R.drawable.ic_dialog_info)
-                        .setOngoing(true)
-                        .setContentText(context.getResources().getString(R.string.notify))
-                        .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .setContentIntent(resultPendingIntent)
-                ;
-
-        //        notificationManager.notify(id, notification);
-        return builder.build();
     }
 
     public class ServiceBinder extends Binder {

@@ -1,5 +1,6 @@
 package filters;
 
+import api.sockets.EchoSocket;
 import bot.BotFactory;
 import constants.Branches;
 import entity.bot.BotSettings;
@@ -31,6 +32,7 @@ public class ContextFilter implements Filter {
         HibernateSessionFactory.init();
         initBot();
         Archivator.init();
+        EchoSocket.start();
     }
 
     Timer gcTimer;
@@ -63,5 +65,6 @@ public class ContextFilter implements Filter {
         gcTimer.stop();
         HibernateSessionFactory.shutdown();
         Archivator.stop();
+        EchoSocket.stop();
     }
 }

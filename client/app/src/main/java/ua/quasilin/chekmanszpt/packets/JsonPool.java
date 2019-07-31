@@ -14,6 +14,9 @@ public class JsonPool {
     public static JsonPool getPool() {
         return pool;
     }
+
+    private JsonPool() {}
+
     private final ArrayList<JSONObject> objects = new ArrayList<>();
     public synchronized JSONObject getObject(){
         JSONObject object;

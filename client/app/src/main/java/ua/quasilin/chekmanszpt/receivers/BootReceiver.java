@@ -12,7 +12,7 @@ import ua.quasilin.chekmanszpt.utils.ServiceStarter;
 public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        ServiceStarter.start(context, intent);
+        ServiceStarter.start(context);
 
     }
 }

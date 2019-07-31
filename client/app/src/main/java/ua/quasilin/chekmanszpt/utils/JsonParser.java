@@ -1,5 +1,7 @@
 package ua.quasilin.chekmanszpt.utils;
 
+import android.util.Log;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,6 +17,7 @@ public final class JsonParser {
             return (JSONObject) parser.parse(json);
         } catch (ParseException e) {
             e.printStackTrace();
+            Log.i("JSON", json);
         }
         return null;
     }

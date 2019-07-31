@@ -12,14 +12,12 @@ import ua.quasilin.chekmanszpt.services.BackgroundService;
  */
 
 public class ServiceStarter {
-    public static void start(Context context, Intent intent) {
+    public static void start(Context context) {
         if (!RunChecker.isRun(BackgroundService.class, context)) {
-            if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
-                } else {
-                    context.startService(new Intent(context, BackgroundService.class));
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
+            } else {
+                context.startService(new Intent(context, BackgroundService.class));
             }
         }
 

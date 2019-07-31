@@ -1,6 +1,5 @@
 package ua.quasilin.chekmanszpt.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import ua.quasilin.chekmanszpt.R;
+import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
+import ua.quasilin.chekmanszpt.services.MessagesHandler;
 import ua.quasilin.chekmanszpt.services.SignService;
 import ua.quasilin.chekmanszpt.utils.ServiceStarter;
 
@@ -25,6 +26,8 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MessagesHandler.init(getApplicationContext());
+
         setContentView(R.layout.loading);
         Log.i(String.valueOf(StartActivity.class), "Application Start");
 
@@ -34,7 +37,8 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.getData().getBoolean(ANSWER)){
-
+                    ServiceStarter.start(getApplicationContext());
+                    startActivity(new Intent(getApplicationContext(), MessageActivity.class));
                 } else {
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
@@ -48,5 +52,18 @@ public class StartActivity extends AppCompatActivity {
             message.setData(bundle);
             handler.sendMessage(message);
         }).start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("MAIN", "Pause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("MAIN", "Resume");
+//        startActivity(new Intent(getApplicationContext(), EchoActivity.class));
     }
 }

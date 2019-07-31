@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 @ServerEndpoint(value = Branches.API.SUBSCRIBER)
 public class SubscribesAPI extends API{
+
     final static ArrayList<Session> sessions = new ArrayList<>();
     final static Logger logger = Logger.getLogger(SubscribesAPI.class);
     final ActiveSubscriptions activeSubscriptions = ActiveSubscriptions.getInstance();
@@ -45,6 +46,9 @@ public class SubscribesAPI extends API{
                         activeSubscriptions.unSubscribe(subscriber, session);
                     }
                     break;
+                case "ping":{
+                    session.getBasicRemote().sendText("Success, " + msg);
+                }
                 default:
                     logger.info("Unhandled action \'" + action + "\'");
                     break;
