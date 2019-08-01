@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -19,6 +20,9 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 }
 
@@ -38,7 +42,7 @@ dependencies {
     implementation 'info.guardianproject.netcipher:netcipher:1.2'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     compile "org.java-websocket:Java-WebSocket:1.4.0"
-    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+    compile 'com.android.support:multidex:1.0.3'
 
 }

@@ -2,17 +2,32 @@ package ua.quasilin.chekmanszpt.services;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.widget.Toast;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import ua.quasilin.chekmanszpt.activity.messages.ContactsActivity;
+import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
+import ua.quasilin.chekmanszpt.entity.subscribes.Subscriber;
+import ua.quasilin.chekmanszpt.utils.JsonParser;
+
 /**
  * Created by szpt_user045 on 31.07.2019.
  */
 
 public final class MessagesHandler {
+
+    private static final String TYPE = "type";
+    private static final String DATA = "data";
+    private static final String ADD = "add";
+    private static final String CONTACTS = "contacts";
+    public static final String CHATS = "chats";
 
     @SuppressLint("StaticFieldLeak")
     private static MessagesHandler handler = null;
@@ -35,7 +50,28 @@ public final class MessagesHandler {
         Handler handler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
-                Toast.makeText(context, msg.getData().getString(MESSAGE), Toast.LENGTH_SHORT).show();
+                String message = msg.getData().getString(MESSAGE);
+                JSONObject json = JsonParser.parse(message);
+                if (json != null) {
+                    Object type = json.get(TYPE);
+                    if (type != null) {
+                        Subscriber subscriber = Subscriber.valueOf(type.toString());
+                        JSONObject data = (JSONObject) json.get(DATA);
+                        switch (subscriber){
+                            case MESSAGES:
+                                JSONObject add = (JSONObject) data.get(ADD);
+
+                                for (Object contact : (JSONArray) add.get(CONTACTS)){
+                                    System.out.println(contact);
+                                    ContactsActivity.addContact(contact);
+                                }
+                                for (Object chat : (JSONArray)add.get(CHATS)){
+                                    MessageActivity.addChat(chat);
+                                }
+                                break;
+                        }
+                    }
+                }
             }
         };
         new Thread(() -> {

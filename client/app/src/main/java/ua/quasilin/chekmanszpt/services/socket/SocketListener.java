@@ -28,12 +28,18 @@ public class SocketListener extends WebSocketListener {
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
-        Log.i("WS", text.toUpperCase());
+        Log.i("WS", text);
         MessagesHandler.getHandler().handle(text);
     }
 
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, @Nullable Response response) {
         Log.e("WS", t.getMessage());
+    }
+
+    @Override
+    public void onClosed(WebSocket webSocket, int code, String reason) {
+        super.onClosed(webSocket, code, reason);
+        Log.i("Socket Listener", "Socket closed");
     }
 }

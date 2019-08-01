@@ -95,14 +95,16 @@ public class ActiveSubscriptions {
             System.out.println("No worker " + worker.getId());
         }
     }
-    public static String prepareMessage(Subscriber type, String msg){
+    public static String prepareMessage(Subscriber type, Object msg){
         return prepareMessage(type.toString(), msg);
     }
 
-    public static String prepareMessage(String type, String msg){
+    public static String prepareMessage(String type, Object msg){
         JSONObject object = pool.getObject();
         object.put(TYPE, type);
         object.put(DATA, msg);
-        return object.toJSONString();
+        String result = object.toJSONString();
+        pool.put(object);
+        return result;
     }
 }

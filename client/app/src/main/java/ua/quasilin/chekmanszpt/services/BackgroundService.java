@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.UUID;
 
+import ua.quasilin.chekmanszpt.entity.subscribes.Subscriber;
 import ua.quasilin.chekmanszpt.services.socket.Socket;
 import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
 
@@ -48,7 +49,8 @@ public class BackgroundService extends Service {
                     "Служба работает в фоновом режиме", Toast.LENGTH_LONG).show();
         }
 
-//        Socket.connect(getApplicationContext());
+        Socket.connect(getApplicationContext());
+        Socket.subscribe(Subscriber.MESSAGES);
 
         return START_STICKY;
     }

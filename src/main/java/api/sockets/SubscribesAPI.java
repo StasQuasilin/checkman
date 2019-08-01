@@ -17,18 +17,18 @@ import java.util.ArrayList;
 public class SubscribesAPI extends API{
 
     final static ArrayList<Session> sessions = new ArrayList<>();
-    final static Logger logger = Logger.getLogger(SubscribesAPI.class);
+    final static Logger log = Logger.getLogger(SubscribesAPI.class);
     final ActiveSubscriptions activeSubscriptions = ActiveSubscriptions.getInstance();
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config){
         sessions.add(session);
-        logger.info("Session #" + session.getId() +" open, total sessions: " + sessions.size());
+        log.info("Session #" + session.getId() + " open, total sessions: " + sessions.size());
     }
 
     @OnMessage
     public void onMessage(Session session, String msg) throws ParseException, IOException {
-        logger.info("Session #" + session.getId()+ ", message: \'" + msg + "\'");
+        log.info("Session #" + session.getId() + ", message: \'" + msg + "\'");
         JSONObject json = (JSONObject) parseJson(msg);
         if(json.containsKey("action")){
             String action = String.valueOf(json.get("action"));
@@ -50,7 +50,7 @@ public class SubscribesAPI extends API{
                     session.getBasicRemote().sendText("Success, " + msg);
                 }
                 default:
-                    logger.info("Unhandled action \'" + action + "\'");
+                    log.info("Unhandled action \'" + action + "\'");
                     break;
             }
         }
@@ -59,12 +59,13 @@ public class SubscribesAPI extends API{
     @OnClose
     public void onClose(Session session){
         sessions.remove(session);
-        logger.info("Session #" + session.getId()+ " close, total sessions: " + sessions.size());
+        log.info("Session #" + session.getId() + " close, total sessions: " + sessions.size());
     }
 
     @OnError
     public void onError(Session session, Throwable t){
-        logger.error("Error in session #" + session.getId());
+        log.error("Error in session #" + session.getId());
         t.printStackTrace();
+
     }
 }

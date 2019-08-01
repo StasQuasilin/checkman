@@ -19,7 +19,6 @@ public class EchoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Socket.connect(getApplicationContext());
         setContentView(R.layout.activity_echo);
         EditText editText = findViewById(R.id.echoText);
         Button button = findViewById(R.id.echoButton);

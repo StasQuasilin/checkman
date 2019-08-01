@@ -51,7 +51,7 @@ public class MessageHandler {
         json.put("add", data);
 
 
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(Subscriber.MESSAGES, json.toJSONString()));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(Subscriber.MESSAGES, json));
         pool.put(data);
     }
 }

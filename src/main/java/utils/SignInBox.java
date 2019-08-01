@@ -23,16 +23,22 @@ public class SignInBox {
     private static Logger log = Logger.getLogger(SignInBox.class);
     final static dbDAO dao = dbDAOService.getDAO();
     final static LanguageBase lb = LanguageBase.getBase();
+    private static JsonParser parser = new JsonParser();
 
     public static synchronized IAnswer signIn(HttpServletRequest req, String uid, String password) throws IOException {
         IAnswer answer;
-        log.info("Sign in by user token " + uid);
         User user = dao.getUserByUID(uid);
+        if (user == null) {
+            user = dao.getUserByEmail(uid);
+        }
 
         if (user != null ){
             if (user.getPassword().equals(password)) {
                 answer = new SuccessAnswer();
                 answer.add("redirect", Branches.UI.HOME);
+                answer.add("user", parser.toJson(user.getWorker()));
+                answer.add("uid", user.getUid());
+                answer.add("role", user.getRole().toString());
                 log.info("Success, user " + user.getWorker().getPerson().getValue());
                 req.getSession().setAttribute("token", UserBox.getUserBox().addUser(new UserData(user, req.getSession())));
                 req.getSession().setAttribute("lang", user.getWorker().getLanguage());

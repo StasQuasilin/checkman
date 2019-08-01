@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.simple.JSONObject;
 
 import ua.quasilin.chekmanszpt.constants.URL;
+import ua.quasilin.chekmanszpt.entity.LoginAnswer;
 import ua.quasilin.chekmanszpt.packets.SignInPacket;
 import ua.quasilin.chekmanszpt.utils.JsonParser;
 import ua.quasilin.chekmanszpt.utils.LoginStatus;
@@ -27,12 +28,12 @@ public final class SignService {
         String login = preferences.get(LOGIN_KEY, null);
         String password = preferences.get(PASSWORD_KEY, null);
 
-        return login != null && password != null && signIn(login, password) == LoginStatus.success;
+        return login != null && password != null && signIn(login, password).getStatus() == LoginStatus.success;
     }
 
-    public static LoginStatus signIn(Context context, String login, String password, boolean save){
-        LoginStatus answer = signIn(login, password);
-        if (answer == LoginStatus.success && save){
+    public static LoginAnswer signIn(Context context, String login, String password, boolean save){
+        LoginAnswer answer = signIn(login, password);
+        if (answer.getStatus() == LoginStatus.success && save){
             Preferences preferences = Preferences.getPreferences(context);
             preferences.put(LOGIN_KEY, login);
             preferences.put(PASSWORD_KEY, password);
@@ -40,22 +41,27 @@ public final class SignService {
         return answer;
     }
 
-    private static LoginStatus signIn(String login, String password){
-        String answer = connector.request(URL.buildAddress(URL.LOGIN), new SignInPacket(login, password));
+
+    private static LoginAnswer signIn(String login, String password){
+        String answer = connector.request(URL.buildHttpAddress(URL.LOGIN), new SignInPacket(login, password));
         Log.i("ANSWER", answer);
         JSONObject json = JsonParser.parse(answer);
-        LoginStatus status = LoginStatus.error;
+
+        LoginAnswer loginAnswer = new LoginAnswer(LoginStatus.error);
         if (json != null){
             String s = String.valueOf(json.get("status"));
+
             if (s != null && !s.isEmpty()){
                 if (s.equals("success")){
-                    status = LoginStatus.success;
-                } else if(s.equals("405")){
-                    status = LoginStatus.error405;
+                    loginAnswer = new LoginAnswer(LoginStatus.success);
+                } else {
+                    Object msg = json.get("msd");
+                    loginAnswer = new LoginAnswer(LoginStatus.error, msg != null ? msg.toString() : null);
                 }
             }
 
         }
-        return status;
+
+        return loginAnswer;
     }
 }

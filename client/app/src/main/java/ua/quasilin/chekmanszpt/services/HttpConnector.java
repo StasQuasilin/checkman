@@ -28,14 +28,14 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
 
     private final static HttpConnector connector = new HttpConnector();
 
-    static HttpConnector getConnector() {
+    public static HttpConnector getConnector() {
         return connector;
     }
 
     private static final String METHOD = "POST";
     private static final String ENCODING = "UTF-8";
 
-    String request(String url, Packet packet){
+    public String request(String url, Packet packet){
         return request(url, packet.toJson());
     }
     private String request(String url, String body){

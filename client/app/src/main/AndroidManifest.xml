@@ -40,7 +40,8 @@
         </service>
 
         <activity android:name=".activity.EchoActivity" />
-        <activity android:name=".activity.messages.ContactsActivity"></activity>
+        <activity android:name=".activity.messages.ContactsActivity" />
+        <activity android:name=".activity.PasswordRestoreActivity"></activity>
     </application>
 
 </manifest>

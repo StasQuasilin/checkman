@@ -24,4 +24,8 @@ public class MessageActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), ContactsActivity.class));
         });
     }
+
+    public static void addChat(Object chat) {
+
+    }
 }

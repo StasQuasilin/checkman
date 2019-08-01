@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
-@WebFilter(value = {Branches.UI.APPLICATION, "*.j", "/api/*"})
+@WebFilter(value = {Branches.UI.APPLICATION, "*.j", Branches.API.API + "*"})
 public class SignInFilter implements Filter{
 
     final UserBox userBox = UserBox.getUserBox();

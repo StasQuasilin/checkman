@@ -6,7 +6,5 @@ package ua.quasilin.chekmanszpt.utils;
 
 public enum LoginStatus {
     success,
-    incorrectLogin,
-    incorrectPassword,
-    error405, error
+    error
 }
