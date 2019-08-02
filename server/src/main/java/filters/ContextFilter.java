@@ -32,7 +32,6 @@ public class ContextFilter implements Filter {
         HibernateSessionFactory.init();
         initBot();
         Archivator.init();
-        EchoSocket.start();
     }
 
     Timer gcTimer;
@@ -65,6 +64,5 @@ public class ContextFilter implements Filter {
         gcTimer.stop();
         HibernateSessionFactory.shutdown();
         Archivator.stop();
-        EchoSocket.stop();
     }
 }
