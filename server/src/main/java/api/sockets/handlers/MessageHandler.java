@@ -9,6 +9,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.JsonPool;
+import utils.UpdateUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -22,9 +23,14 @@ import java.util.stream.Collectors;
  */
 public class MessageHandler {
 
+
+    private static final String UPDATE = "update";
     final dbDAO dao = dbDAOService.getDAO();
     final JsonPool pool= JsonPool.getPool();
     final JsonParser parser = new JsonParser();
+    public static final String CONTACTS = "contacts";
+    public static final String CHATS = "chats";
+    public static final String MESSAGES = "messages";
 
     public void handle(Worker worker, Session session) throws IOException {
 
@@ -45,11 +51,11 @@ public class MessageHandler {
         }
 
         JSONObject data = pool.getObject();
-        data.put("contacts", contacts);
-        data.put("chats", chats);
-        JSONObject json = pool.getObject();
-        json.put("add", data);
+        data.put(CONTACTS, contacts);
+        data.put(CHATS, chats);
 
+        JSONObject json = pool.getObject();
+        json.put(UPDATE, data);
 
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(Subscriber.MESSAGES, json));
         pool.put(data);

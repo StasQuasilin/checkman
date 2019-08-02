@@ -1,23 +1,9 @@
 <resources>
     <string name="app_name">checkman.szpt</string>
-    <string name="title_activity_login">Sign in</string>
-
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
     <string name="messages">Messages</string>
     <string name="nav_menu">Navigation Menu</string>
     <string name="notify">Notify</string>
-    <string name="notification_description">Твоє улюблене підприємство тепер і в смарфоні</string>
+    <string name="notification_description">Улюблене підприємство тепер і в смартфоні</string>
     <string name="contacts">Контакти</string>
     <string name="search">Пошук</string>
     <string name="login">Користувач</string>
@@ -28,4 +14,6 @@
     <string name="sing_in_incorect_login">Невірний логін</string>
     <string name="sing_in_incorect_password">Невірний пароль</string>
     <string name="sing_in_error_405">Помилка авторизації, код 405</string>
+    <string name="close">Закрити</string>
+    <string name="chats">Розмови</string>
 </resources>

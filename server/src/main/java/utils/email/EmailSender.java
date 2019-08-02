@@ -1,6 +1,7 @@
 package utils.email;
 
 import constants.Constants;
+import org.apache.log4j.Logger;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -13,6 +14,8 @@ import java.util.Properties;
  * Created by szpt_user045 on 25.09.2018.
  */
 public class EmailSender {
+
+    private final Logger log = Logger.getLogger(EmailSender.class);
     private final String username="checkman.szpt@gmail.com";
     private final String password="53721456";
     private final Properties props;
@@ -23,7 +26,7 @@ public class EmailSender {
         return instance;
     }
 
-    public EmailSender() {
+    private EmailSender() {
         props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", "smtp.gmail.com");
@@ -36,16 +39,20 @@ public class EmailSender {
     }
 
     public void sendEmail(String recipient, String subject, String text) throws MessagingException, UnsupportedEncodingException {
+        InternetAddress recipientAddress = new InternetAddress(recipient);
+        recipientAddress.validate();
+        log.info("Address is valid");
+
         Session session = createSession();
 
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(username));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+        message.addRecipient(Message.RecipientType.TO, recipientAddress);
         message.setSubject(subject, Constants.ENCODING);
         message.setSentDate(new Date());
         message.setContent(text, "text/html; charset=utf-8");
 
-
+        log.info("Send email \'" + subject + "\' for \'" + recipientAddress + "\'");
         Transport.send(message);
     }
 

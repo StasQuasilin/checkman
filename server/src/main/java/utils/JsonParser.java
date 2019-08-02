@@ -54,6 +54,7 @@ public class JsonParser {
     private static final String CHAT = "chat";
     private static final String SENDER = "sender";
     private static final String MESSAGE = "message";
+    private static final String IS_GROUP = "isGroup";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -1058,6 +1059,7 @@ public class JsonParser {
         JSONObject json = pool.getObject();
         json.put(ID, chat.getId());
         json.put(TITLE, chat.getTitle());
+        json.put(IS_GROUP, chat.getIsGroup());
         JSONArray members = pool.getArray();
         for (ChatMember member : chat.getMembers()) {
             members.add(toJson(member.getMember()));

@@ -26,7 +26,7 @@ public class LoadPlanHandler extends OnSubscribeHandler {
         JSONArray add = ActiveSubscriptions.pool.getArray();
         add.addAll(getPlans().stream().map(parser::toJson).collect(Collectors.toList()));
         json.put(ADD, add);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json.toJSONString()));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         ActiveSubscriptions.pool.put(json);
     }
 

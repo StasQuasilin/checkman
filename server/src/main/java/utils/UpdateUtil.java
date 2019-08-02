@@ -2,6 +2,7 @@ package utils;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
+import api.sockets.handlers.MessageHandler;
 import entity.DealType;
 import entity.Worker;
 import entity.chat.Chat;
@@ -29,6 +30,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 11.07.2019.
  */
 public class UpdateUtil {
+    private static final String KEY = "key";
     final JsonPool pool = JsonPool.getPool();
     final ActiveSubscriptions subscriptions = ActiveSubscriptions.getInstance();
     final JsonParser parser = new JsonParser();
@@ -81,7 +83,7 @@ public class UpdateUtil {
             array.add(o);
         }
         json.put(command.toString(), array);
-        subscriptions.send(worker, json.toJSONString());
+        subscriptions.send(worker, json);
         pool.put(json);
     }
     void doAction(Command command, Subscriber subscriber, Object ... obj) throws IOException {
@@ -92,7 +94,7 @@ public class UpdateUtil {
             array.add(o);
         }
         json.put(command.toString(), array);
-        subscriptions.send(subscriber, json.toJSONString());
+        subscriptions.send(subscriber, json);
         pool.put(json);
     }
 
@@ -137,18 +139,27 @@ public class UpdateUtil {
     }
 
     public void onSave(ChatMessage message, Worker member) throws IOException {
-        doAction(Command.addMessage, member, parser.toJson(message));
+        JSONObject object = pool.getObject();
+        object.put(MessageHandler.MESSAGES, parser.toJson(message));
+        doAction(Command.update, member, object);
     }
 
-    public void onSave(Chat chat, Worker member) throws IOException {
+    public void onSave(Chat chat, String chatKey, Worker member) throws IOException {
         JSONObject object = pool.getObject();
-        object.put("chat", parser.toJson(chat));
-        doAction(Command.add, member, object);
+        JSONObject json = parser.toJson(chat);
+        json.put(KEY, chatKey);
+        object.put(MessageHandler.CHATS, json);
+        doAction(Command.update, member, object);
+    }
+
+    public void onSave(Worker worker) throws IOException {
+        JSONObject object = pool.getObject();
+        object.put(MessageHandler.CONTACTS, parser.toJson(worker));
+        doAction(Command.update, Subscriber.MESSAGES, object);
     }
 
     public enum Command {
         add,
-        addMessage,
         update,
         remove
     }

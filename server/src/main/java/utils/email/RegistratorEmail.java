@@ -13,11 +13,7 @@ public class RegistratorEmail {
 
     static final String subject = LanguageBase.getBase().get("registration.email.subject");
     static final String text = LanguageBase.getBase().get("registration.email.text");
-    public static void sendEmail(String email, String link, String password) {
-        try {
-            sender.sendEmail(email, subject, String.format(text, link, link, password));
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+    public static void sendEmail(String email, String link, String password) throws UnsupportedEncodingException, MessagingException {
+        sender.sendEmail(email, subject, String.format(text, link, link, password));
     }
 }

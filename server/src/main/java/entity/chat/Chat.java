@@ -12,6 +12,7 @@ import java.util.Set;
 public class Chat {
     private int id;
     private String title;
+    private boolean isGroup = false;
     private Set<ChatMember> members = new HashSet<>();
 
     @Id
@@ -30,6 +31,15 @@ public class Chat {
     }
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Basic
+    @Column(name = "is_group")
+    public boolean getIsGroup() {
+        return isGroup;
+    }
+    public void setIsGroup(boolean isGroup) {
+        this.isGroup = isGroup;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "chat", cascade = CascadeType.ALL)

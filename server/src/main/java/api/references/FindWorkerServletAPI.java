@@ -3,6 +3,7 @@ package api.references;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class FindWorkerServletAPI extends ServletAPI {
 
     final JsonPool pool = JsonPool.getPool();
+    final Logger log = Logger.getLogger(FindWorkerServletAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,12 +31,13 @@ public class FindWorkerServletAPI extends ServletAPI {
         if (body != null) {
             JSONArray array = pool.getArray();
             Object key = body.get(Constants.KEY);
+            log.info("Find users by key " + key.toString());
 
             array.addAll(dao.findUser(key).stream().map(parser::toJson).collect(Collectors.toList()));
 
             write(resp, array.toJSONString());
             body.clear();
-            array.clear();
+            pool.put(array);
         }
 
     }

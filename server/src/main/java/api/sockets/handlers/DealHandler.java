@@ -27,7 +27,7 @@ public class DealHandler extends OnSubscribeHandler {
         JSONArray add = parser.toDealJson(dao.getDealsByType(type));
         json.put(ADD, add);
         session.getBasicRemote().sendText(
-                ActiveSubscriptions.prepareMessage(subscriber, json.toJSONString())
+                ActiveSubscriptions.prepareMessage(subscriber, json)
         );
         ActiveSubscriptions.pool.put(json);
     }

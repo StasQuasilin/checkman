@@ -16,7 +16,6 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         toolbar.setTitle(getApplicationContext().getResources().getString(R.string.messages));
         setSupportActionBar(toolbar);
         Button contacts = findViewById(R.id.contacts);

@@ -24,7 +24,7 @@ public class TurnHandler extends OnSubscribeHandler {
         array.addAll(dao.getLimitLaboratoryTurn().stream().map(parser::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json.toJSONString()));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         ActiveSubscriptions.pool.put(json);
     }
 }

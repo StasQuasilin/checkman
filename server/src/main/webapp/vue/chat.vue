@@ -58,44 +58,99 @@ var chat = new Vue({
         clearSearch:function(){
             this.search = '';
         },
-        handle:function(a){
-            if (a.add){
-                var contacts = a.add['contacts'];
-                if (contacts){
-                    for (var i in contacts){
-                        if (contacts.hasOwnProperty(i)){
-                            this.contacts.push(contacts[i])
+        updateMessage:function(message){
+            for (var c in this.chats) {
+                if (this.chats.hasOwnProperty(c)) {
+                    var chat = this.chats[c];
+                    if (chat.id === message.chat) {
+                        chat.messages.push(message);
+                        if (chat.id === this.chats[this.selectedChat].id) {
+                            this.sortMessages();
+                        } else {
+                            chat.unread++;
                         }
+                        break;
                     }
                 }
-                var chats = a.add['chats'];
-                if (chats){
-                    for (var j in chats){
-                        if(chats.hasOwnProperty(j)){
-                            this.chats.push(chats[j]);
+            }
+        },
+        updateChat:function(chats){
+            var noChat = true;
+            if (chats.key) {
+                for (var i in this.chats) {
+                    if (this.chats.hasOwnProperty(i)) {
+                        var chat = this.chats[i];
+                        if (chat.key === chats.key) {
+                            chat.id = chats.id;
+                            noChat = false;
+                            break;
                         }
                     }
                 }
             }
-            if (a.addMessage){
-                var message = a.addMessage;
-                for (var m in message){
-                    if (message.hasOwnProperty(m)){
-                        var msg = message[m];
-                        for (var c in this.chats){
-                            if (this.chats.hasOwnProperty(c)){
-                                var chat = this.chats[c];
-                                if (chat.id === msg.chat){
-                                    chat.messages.push(msg);
-                                    if (chat.id === this.chats[this.selectedChat].id){
-                                        this.sortMessages();
-                                    }
-                                }
+            if (noChat) {
+                this.addChat(chats);
+            }
+        },
+        addChat:function(chat){
+            chat.key = randomUUID();
+            chat.unread = 0;
+            this.chats.unshift(chat);
+        },
+        updateContact:function(contacts){
+            var noContact = true;
+            for (var i in this.contacts){
+                if (this.contacts.hasOwnProperty(i)){
+                    var contact = this.contacts[i];
+                    if (contact.id === contacts.id){
+                        this.contacts.splice(i, 1, contacts);
+                        noContact = false;
+                        break;
+                    }
+                }
+            }
+            if (noContact){
+                this.addContact(contacts);
+            }
+        },
+        addContact:function(contact){
+            this.contacts.push(contact)
+        },
+        handle:function(a){
+            if (a.update){
+                if (a.update.length){
+                    for (var m in a.update){
+                        if (a.update.hasOwnProperty(m)) {
+                            var chats = a.update[m].chats;
+                            if (chats){
+                                this.updateChat(chats);
+                            }
+                            var message = a.update[m].messages;
+                            if (message) {
+                                this.updateMessage(message);
+                            }
+                            var contacts = a.update[m].contacts;
+                            if (contacts){
+                                this.updateContact(contacts);
+                            }
+                        }
+                    }
+                } else {
+                    if (a.update.chats) {
+                        for (var i in a.update.chats) {
+                            if (a.update.chats.hasOwnProperty(i)) {
+                                this.updateChat(a.update.chats[i]);
+                            }
+                        }
+                    }
+                    if (a.update.contacts) {
+                        for (var j in a.update.contacts) {
+                            if (a.update.contacts.hasOwnProperty(j)){
+                                this.updateContact(a.update.contacts[j]);
                             }
                         }
                     }
                 }
-
             }
         },
         openChat:function(worker){
@@ -116,23 +171,25 @@ var chat = new Vue({
             }
             if (!haveChat){
                 console.log('No chat for ' + worker.person.value);
-                this.chats.push({
+                this.addChat({
                     id:-1,
                     title:worker.person.value,
                     members:[
                         worker
                     ],
                     messages:[]
-                }, 0);
+                });
                 this.selectChat(0);
                 this.showContacts = false;
             }
         },
         sendMessage:function(){
             if (this.messageInput){
-                var chatId = this.chats[this.selectedChat].id;
+                var chat = this.chats[this.selectedChat];
+                var chatId = chat.id;
                 var msg = {
                     chat: chatId,
+                    key:chat.key,
                     message: {
                         id:-1,
                         text:this.messageInput

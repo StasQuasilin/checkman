@@ -11,6 +11,7 @@ import android.util.Log;
 
 import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
+import ua.quasilin.chekmanszpt.constants.Container;
 import ua.quasilin.chekmanszpt.services.MessagesHandler;
 import ua.quasilin.chekmanszpt.services.SignService;
 import ua.quasilin.chekmanszpt.utils.ServiceStarter;

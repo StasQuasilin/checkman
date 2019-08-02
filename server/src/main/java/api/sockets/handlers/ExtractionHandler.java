@@ -27,7 +27,7 @@ public class ExtractionHandler extends OnSubscribeHandler {
         List<ExtractionTurn> turns = dao.getLimitExtractionTurns();
         array.addAll(turns.stream().map(parser::toJson).collect(Collectors.toList()));
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json.toJSONString()));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         ActiveSubscriptions.pool.put(json);
     }
 }

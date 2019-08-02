@@ -38,6 +38,7 @@ public class SendMessageAPI extends ServletAPI {
         if (body != null) {
             System.out.println(body);
             long chatId = -1;
+            String chatKey = String.valueOf(body.get("key"));
             if (body.containsKey("chat")){
                 chatId = (long) body.get("chat");
             }
@@ -100,20 +101,21 @@ public class SendMessageAPI extends ServletAPI {
             message.setMessage(text);
             dao.save(message);
 
-            for (ChatMember member : members) {
-                if (chatId == -1){
-                    if (worker.getId() != member.getMember().getId()) {
-                        updateUtil.onSave(chat, member.getMember());
-                    }
-                }
-                updateUtil.onSave(message, member.getMember());
-            }
-
             IAnswer success = new SuccessAnswer();
-            success.add("chat", chat.getId());
+            if (chatId == -1) {
+                success.add("chat", chat.getId());
+                success.add("key", chatKey);
+            }
             JSONObject jsonAnswer = parser.toJson(success);
             write(resp, jsonAnswer.toJSONString());
             pool.put(jsonAnswer);
+
+            for (ChatMember member : members) {
+                if (chatId == -1){
+                    updateUtil.onSave(chat, chatKey, member.getMember());
+                }
+                updateUtil.onSave(message, member.getMember());
+            }
         }
     }
 }

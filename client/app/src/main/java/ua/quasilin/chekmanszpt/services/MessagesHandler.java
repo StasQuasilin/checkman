@@ -63,7 +63,7 @@ public final class MessagesHandler {
 
                                 for (Object contact : (JSONArray) add.get(CONTACTS)){
                                     System.out.println(contact);
-                                    ContactsActivity.addContact(contact);
+                                    ContactsActivity.addContact(context, contact);
                                 }
                                 for (Object chat : (JSONArray)add.get(CHATS)){
                                     MessageActivity.addChat(chat);

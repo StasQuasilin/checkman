@@ -11,7 +11,7 @@ function Connect(){
     subscriber.onmessage = function(env){
         var json = JSON.parse(env.data);
         var type = json['type'];
-        var data = JSON.parse(json['data']);
+        var data = json['data'];
         console.log('--------');
         console.log('Receive type:' + type + ', data');
         console.log(data);

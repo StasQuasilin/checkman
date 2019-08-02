@@ -7,13 +7,19 @@ import entity.Person;
 import entity.Role;
 import entity.User;
 import entity.Worker;
+import entity.answers.ErrorAnswer;
+import entity.answers.IAnswer;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.JsonParser;
 import utils.PasswordGenerator;
 import utils.LanguageBase;
+import utils.UpdateUtil;
+import utils.email.EmailSender;
 import utils.email.RegistratorEmail;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +35,7 @@ import java.util.UUID;
 public class SignUpServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(SignUpServletAPI.class);
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,7 +65,7 @@ public class SignUpServletAPI extends ServletAPI {
 
                 Worker worker = new Worker();
                 user.setWorker(worker);
-                worker.setLanguage(LanguageBase.getBase().DEFAULT_LANGUAGE);
+                worker.setLanguage(LanguageBase.DEFAULT_LANGUAGE);
 
                 Person person;
                 if (personId == -1) {
@@ -73,12 +80,18 @@ public class SignUpServletAPI extends ServletAPI {
 
                 worker.setPerson(person);
                 dao.saveWorker(worker, user);
-                RegistratorEmail.sendEmail(
-                        email,
-                        getAddress(req),
-                        new String(Base64.getDecoder().decode(user.getPassword())));
+                updateUtil.onSave(worker);
 
-                write(resp, answer);
+                try {
+                    RegistratorEmail.sendEmail(email, getAddress(req), new String(Base64.getDecoder().decode(user.getPassword())));
+                    write(resp, answer);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                    IAnswer answer = new ErrorAnswer("msg", e.getMessage());
+                    JSONObject jsonAnswer = parser.toJson(answer);
+                    write(resp, jsonAnswer.toJSONString());
+                    pool.put(jsonAnswer);
+                }
             }
         } else {
             write(resp, emptyBody);
@@ -86,10 +99,8 @@ public class SignUpServletAPI extends ServletAPI {
     }
 
     public static String getAddress(HttpServletRequest req){
-        return req.getRequestURL().toString().replace(req.getRequestURI(), "") + Branches.UI.SING_IN;
+        return req.getRequestURL().toString().replace(req.getRequestURI(), "") + req.getContextPath() + Branches.UI.SING_IN;
     }
-
-
 
     synchronized String getToken(){
         String token = UUID.randomUUID().toString();

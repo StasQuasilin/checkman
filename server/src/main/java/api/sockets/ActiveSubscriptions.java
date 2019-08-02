@@ -24,7 +24,7 @@ public class ActiveSubscriptions {
     private final Logger log = Logger.getLogger(ActiveSubscriptions.class);
     final HashMap<Subscriber, OnSubscribeHandler> handlers = new HashMap<>();
     final HashMap<Subscriber, ArrayList<Session>> bySubscribe = new HashMap<>();
-    final HashMap<Integer, Session> byWorker = new HashMap<>();
+    final HashMap<Integer, ArrayList<Session>> byWorker = new HashMap<>();
     final MessageHandler messageHandler = new MessageHandler();
     public static final JsonPool pool = JsonPool.getPool();
     public static final String TYPE = "type";
@@ -63,7 +63,10 @@ public class ActiveSubscriptions {
             }
         } else {
             Worker worker = dao.getWorkerById(workerId);
-            byWorker.put(worker.getId(), session);
+            if (!byWorker.containsKey(worker.getId())){
+                byWorker.put(worker.getId(), new ArrayList<>());
+            }
+            byWorker.get(worker.getId()).add(session);
             messageHandler.handle(worker, session);
         }
 
@@ -74,23 +77,24 @@ public class ActiveSubscriptions {
         bySubscribe.get(sub).remove(session);
     }
 
-    public synchronized void send(Subscriber sub, String txt) throws IOException {
-        txt = prepareMessage(sub, txt);
+    public synchronized void send(Subscriber sub, Object txt) throws IOException {
+        String prepareMessage = prepareMessage(sub, txt);
         for (Session session : bySubscribe.get(sub)){
             if (session.isOpen()){
-                session.getBasicRemote().sendText(txt);
+                session.getBasicRemote().sendText(prepareMessage);
             }
         }
     }
-    public synchronized void send(Worker worker, String message) throws IOException {
+    public synchronized void send(Worker worker, Object message) throws IOException {
         if (byWorker.containsKey(worker.getId())) {
-            Session session = byWorker.get(worker.getId());
-            if(session.isOpen()) {
-                session.getBasicRemote().sendText(prepareMessage(Subscriber.MESSAGES.toString(), message));
-            } else {
-                byWorker.remove(worker.getId());
+            String prepareMessage = prepareMessage(Subscriber.MESSAGES, message);
+            for (Session session : byWorker.get(worker.getId())){
+                if(session.isOpen()) {
+                    session.getBasicRemote().sendText(prepareMessage);
+                } else {
+                    byWorker.remove(worker.getId());
+                }
             }
-
         } else {
             System.out.println("No worker " + worker.getId());
         }
