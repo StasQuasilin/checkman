@@ -54,10 +54,10 @@ public class MessageHandler {
         data.put(CONTACTS, contacts);
         data.put(CHATS, chats);
 
-        JSONObject json = pool.getObject();
-        json.put(UPDATE, data);
+        JSONObject update = pool.getObject();
+        update.put(UPDATE, data);
 
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(Subscriber.MESSAGES, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(Subscriber.MESSAGES, update));
         pool.put(data);
     }
 }

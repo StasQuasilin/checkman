@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import ua.quasilin.chekmanszpt.R;
+import ua.quasilin.chekmanszpt.activity.messages.ChatsActivity;
 import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
 import ua.quasilin.chekmanszpt.constants.Container;
 import ua.quasilin.chekmanszpt.services.MessagesHandler;
@@ -39,7 +40,7 @@ public class StartActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 if (msg.getData().getBoolean(ANSWER)){
                     ServiceStarter.start(getApplicationContext());
-                    startActivity(new Intent(getApplicationContext(), MessageActivity.class));
+                    startActivity(new Intent(getApplicationContext(), ChatsActivity.class));
                 } else {
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }

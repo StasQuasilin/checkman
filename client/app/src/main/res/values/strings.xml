@@ -16,4 +16,6 @@
     <string name="sing_in_error_405">Помилка авторизації, код 405</string>
     <string name="close">Закрити</string>
     <string name="chats">Розмови</string>
+    <string name="send">Надіслати</string>
+    <string name="time_mask">--:--</string>
 </resources>

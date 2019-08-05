@@ -6,7 +6,9 @@ import android.util.Log;
 import org.json.simple.JSONObject;
 
 import ua.quasilin.chekmanszpt.constants.URL;
+import ua.quasilin.chekmanszpt.entity.ChatContainer;
 import ua.quasilin.chekmanszpt.entity.LoginAnswer;
+import ua.quasilin.chekmanszpt.entity.Worker;
 import ua.quasilin.chekmanszpt.packets.SignInPacket;
 import ua.quasilin.chekmanszpt.utils.JsonParser;
 import ua.quasilin.chekmanszpt.utils.LoginStatus;
@@ -37,6 +39,7 @@ public final class SignService {
             Preferences preferences = Preferences.getPreferences(context);
             preferences.put(LOGIN_KEY, login);
             preferences.put(PASSWORD_KEY, password);
+
         }
         return answer;
     }
@@ -44,9 +47,7 @@ public final class SignService {
 
     private static LoginAnswer signIn(String login, String password){
         String answer = connector.request(URL.buildHttpAddress(URL.LOGIN), new SignInPacket(login, password));
-        Log.i("ANSWER", answer);
         JSONObject json = JsonParser.parse(answer);
-
         LoginAnswer loginAnswer = new LoginAnswer(LoginStatus.error);
         if (json != null){
             String s = String.valueOf(json.get("status"));
@@ -54,6 +55,7 @@ public final class SignService {
             if (s != null && !s.isEmpty()){
                 if (s.equals("success")){
                     loginAnswer = new LoginAnswer(LoginStatus.success);
+                    ChatContainer.worker = new Worker(json.get("user"));
                 } else {
                     Object msg = json.get("msd");
                     loginAnswer = new LoginAnswer(LoginStatus.error, msg != null ? msg.toString() : null);

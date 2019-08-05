@@ -76,13 +76,9 @@ public class UpdateUtil {
         doAction(Command.remove, Subscriber.LOAD_PLAN, plan.getId());
     }
 
-    void doAction(Command command, Worker worker, Object ... obj) throws IOException {
+    void doAction(Command command, Worker worker, Object obj) throws IOException {
         JSONObject json = pool.getObject();
-        JSONArray array = pool.getArray();
-        for (Object o : obj){
-            array.add(o);
-        }
-        json.put(command.toString(), array);
+        json.put(command.toString(), obj);
         subscriptions.send(worker, json);
         pool.put(json);
     }
@@ -139,16 +135,26 @@ public class UpdateUtil {
     }
 
     public void onSave(ChatMessage message, Worker member) throws IOException {
+        JSONArray array = pool.getArray();
+        array.add(parser.toJson(message));
+
         JSONObject object = pool.getObject();
-        object.put(MessageHandler.MESSAGES, parser.toJson(message));
+        object.put(MessageHandler.MESSAGES, array);
+
         doAction(Command.update, member, object);
     }
 
     public void onSave(Chat chat, String chatKey, Worker member) throws IOException {
-        JSONObject object = pool.getObject();
+
         JSONObject json = parser.toJson(chat);
         json.put(KEY, chatKey);
-        object.put(MessageHandler.CHATS, json);
+
+        JSONArray array = pool.getArray();
+        array.add(json);
+
+        JSONObject object = pool.getObject();
+        object.put(MessageHandler.CHATS, array);
+
         doAction(Command.update, member, object);
     }
 

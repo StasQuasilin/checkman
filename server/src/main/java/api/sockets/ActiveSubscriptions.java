@@ -91,8 +91,6 @@ public class ActiveSubscriptions {
             for (Session session : byWorker.get(worker.getId())){
                 if(session.isOpen()) {
                     session.getBasicRemote().sendText(prepareMessage);
-                } else {
-                    byWorker.remove(worker.getId());
                 }
             }
         } else {

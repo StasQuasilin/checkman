@@ -76,6 +76,8 @@ var chat = new Vue({
         },
         updateChat:function(chats){
             var noChat = true;
+            console.log('update chat');
+            console.log(chats);
             if (chats.key) {
                 for (var i in this.chats) {
                     if (this.chats.hasOwnProperty(i)) {
@@ -89,12 +91,16 @@ var chat = new Vue({
                 }
             }
             if (noChat) {
+                console.log('no chat');
                 this.addChat(chats);
             }
         },
         addChat:function(chat){
-            chat.key = randomUUID();
+            if (!chat.key){
+                chat.key = randomUUID();
+            }
             chat.unread = 0;
+            chat.messages = [];
             this.chats.unshift(chat);
         },
         updateContact:function(contacts){
@@ -147,6 +153,13 @@ var chat = new Vue({
                         for (var j in a.update.contacts) {
                             if (a.update.contacts.hasOwnProperty(j)){
                                 this.updateContact(a.update.contacts[j]);
+                            }
+                        }
+                    }
+                    if (a.update.messages){
+                        for (var n in a.update.messages){
+                            if (a.update.messages.hasOwnProperty(n)){
+                                this.updateMessage(a.update.messages[n]);
                             }
                         }
                     }

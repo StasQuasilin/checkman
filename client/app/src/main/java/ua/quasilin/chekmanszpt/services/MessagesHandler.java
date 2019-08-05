@@ -2,18 +2,18 @@ package ua.quasilin.chekmanszpt.services;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import ua.quasilin.chekmanszpt.activity.messages.ContactsActivity;
-import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
+import ua.quasilin.chekmanszpt.activity.messages.ChatsActivity;
+import ua.quasilin.chekmanszpt.entity.Chat;
+import ua.quasilin.chekmanszpt.entity.ChatContainer;
+import ua.quasilin.chekmanszpt.entity.ChatMessage;
 import ua.quasilin.chekmanszpt.entity.subscribes.Subscriber;
 import ua.quasilin.chekmanszpt.utils.JsonParser;
 
@@ -25,9 +25,9 @@ public final class MessagesHandler {
 
     private static final String TYPE = "type";
     private static final String DATA = "data";
-    private static final String ADD = "add";
     private static final String CONTACTS = "contacts";
-    public static final String CHATS = "chats";
+    private static final String CHATS = "chats";
+    private static final String UPDATE = "update";
 
     @SuppressLint("StaticFieldLeak")
     private static MessagesHandler handler = null;
@@ -45,12 +45,12 @@ public final class MessagesHandler {
         handler  = new MessagesHandler(context);
     }
 
-    private static final String MESSAGE = "message";
+    private static final String MESSAGES = "messages";
     public void handle(String text){
         Handler handler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
-                String message = msg.getData().getString(MESSAGE);
+                String message = msg.getData().getString(MESSAGES);
                 JSONObject json = JsonParser.parse(message);
                 if (json != null) {
                     Object type = json.get(TYPE);
@@ -59,15 +59,21 @@ public final class MessagesHandler {
                         JSONObject data = (JSONObject) json.get(DATA);
                         switch (subscriber){
                             case MESSAGES:
-                                JSONObject add = (JSONObject) data.get(ADD);
+                                JSONObject update = (JSONObject) data.get(UPDATE);
+                                JSONArray chats = (JSONArray) update.get(CHATS);
+                                if (chats != null) {
+                                    for (Object c : chats) {
+                                        ChatContainer.addChat(new Chat(c));
+                                    }
+                                }
+                                JSONArray messages = (JSONArray) update.get(MESSAGES);
+                                if (messages != null) {
+                                    for (Object m : messages){
+                                        ChatContainer.addMessage(new ChatMessage(m));
+                                    }
+                                }
 
-                                for (Object contact : (JSONArray) add.get(CONTACTS)){
-                                    System.out.println(contact);
-                                    ContactsActivity.addContact(context, contact);
-                                }
-                                for (Object chat : (JSONArray)add.get(CHATS)){
-                                    MessageActivity.addChat(chat);
-                                }
+
                                 break;
                         }
                     }
@@ -77,7 +83,7 @@ public final class MessagesHandler {
         new Thread(() -> {
             Message message = handler.obtainMessage();
             Bundle bundle = new Bundle();
-            bundle.putString(MESSAGE, text);
+            bundle.putString(MESSAGES, text);
             message.setData(bundle);
             handler.sendMessage(message);
         }).start();
