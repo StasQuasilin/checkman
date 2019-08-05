@@ -26,9 +26,8 @@ public class SignInServletAPI extends ServletAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         if (body != null) {
-            log.info(body);
             IAnswer answer = SignInBox.signIn(req, String.valueOf(body.get(Constants.UID)), String.valueOf(body.get(Constants.PASSWORD)));
             JSONObject json = parser.toJson(answer);
             PostUtil.write(resp, json.toJSONString());

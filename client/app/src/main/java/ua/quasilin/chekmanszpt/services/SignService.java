@@ -58,6 +58,9 @@ public final class SignService {
                     ChatContainer.worker = new Worker(json.get("user"));
                 } else {
                     Object msg = json.get("msd");
+                    if (msg == null) {
+                        msg = json.get("msg");
+                    }
                     loginAnswer = new LoginAnswer(LoginStatus.error, msg != null ? msg.toString() : null);
                 }
             }

@@ -1,6 +1,7 @@
 package ua.quasilin.chekmanszpt.services;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.simple.JSONObject;
 
@@ -25,6 +26,8 @@ import ua.quasilin.chekmanszpt.packets.Packet;
 public class HttpConnector extends AsyncTask<String, Void, String> {
 
     final static JsonPool pool = JsonPool.getPool();
+    final static String TAG = "HttpConnector";
+    final static int CONNECTION_TIMEOUT = 5000;
 
     private final static HttpConnector connector = new HttpConnector();
 
@@ -46,10 +49,14 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... strings) {
         StringBuilder builder = new StringBuilder();
         try {
+            Log.i(TAG, "Connect to " + strings[0]);
             URL u = new URL(strings[0]);
             HttpURLConnection urlConnection = (HttpURLConnection) u.openConnection();
             urlConnection.setRequestMethod(METHOD);
+            urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
             urlConnection.connect();
+
+
             BufferedOutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, ENCODING));
             writer.write(strings[1]);
@@ -65,7 +72,13 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            JSONObject object = pool.getObject();
+            object.put("status", "error");
+            object.put("msg", e.getLocalizedMessage());
+            builder.append(object.toJSONString());
+            pool.put(object);
             e.printStackTrace();
+
         }
         return builder.toString();
     }

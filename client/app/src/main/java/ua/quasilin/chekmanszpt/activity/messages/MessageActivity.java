@@ -1,9 +1,12 @@
 package ua.quasilin.chekmanszpt.activity.messages;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,18 +18,26 @@ import ua.quasilin.chekmanszpt.entity.ChatContainer;
 
 public class MessageActivity extends AppCompatActivity {
 
+    MessagesViewAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         int chatPosition = getIntent().getIntExtra("chat", -1);
         Chat chat = ChatContainer.getChat(chatPosition);
-        System.out.println("Open chat " + chatPosition);
 
-        MessagesViewAdapter adapter = new MessagesViewAdapter(getApplicationContext(),R.layout.message_list_row, chat.getMessages());
+        adapter = new MessagesViewAdapter(getApplicationContext(),R.layout.message_list_row, chat.getMessages());
+        adapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                Log.i("MA", "onChange");
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getString(R.string.messages) + " #" + chatPosition);
+        toolbar.setTitle(chat.getTitle());
         setSupportActionBar(toolbar);
 
         ListView messagesList = findViewById(R.id.messagesList);

@@ -35,19 +35,13 @@ public class MessagesViewAdapter extends ArrayAdapter<ChatMessage> {
         this.messages = messages;
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-//        super.notifyDataSetChanged();
-        System.out.println("DATA CHANGED");
-    }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view;
         if (convertView == null){
             LayoutInflater inflater = LayoutInflater.from(context);
-            view = inflater.inflate(R.layout.message_list_row,parent, false);
+            view = inflater.inflate(R.layout.message_list_row, parent, false);
         } else {
             view = convertView;
         }

@@ -14,15 +14,11 @@ import java.util.Date;
 
 public class ChatMessage implements Comparable<ChatMessage> {
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
-
     private long id;
     private long chat;
     private Date time;
     private Worker sender;
     private String text;
-//    2019-08-05 10:01:15.246
-
 
     public ChatMessage(Object o) {
         JSONObject message = (JSONObject) o;
@@ -30,7 +26,8 @@ public class ChatMessage implements Comparable<ChatMessage> {
         chat = (long) message.get("chat");
         sender = new Worker(message.get("sender"));
         text = (String) message.get("message");
-        time = Calendar.getInstance().getTime();
+        time = new Date((Long) message.get("epoch"));
+
     }
 
     @Override
@@ -58,9 +55,9 @@ public class ChatMessage implements Comparable<ChatMessage> {
         return text;
     }
 
-
     public String getTimeString() {
-
-        return null;
+        return dateFormat.format(time);
     }
+
+    java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("HH:mm");
 }

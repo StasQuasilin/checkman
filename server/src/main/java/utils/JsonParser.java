@@ -55,6 +55,7 @@ public class JsonParser {
     private static final String SENDER = "sender";
     private static final String MESSAGE = "message";
     private static final String IS_GROUP = "isGroup";
+    private static final String EPOCH = "epoch";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -1073,6 +1074,7 @@ public class JsonParser {
         object.put(ID, message.getId());
         object.put(CHAT, message.getChat().getId());
         object.put(TIME, message.getTimestamp().toString());
+        object.put(EPOCH, message.getTimestamp().getTime());
         object.put(SENDER, toJson(message.getSender().getMember()));
         object.put(MESSAGE, message.getMessage());
         return object;
