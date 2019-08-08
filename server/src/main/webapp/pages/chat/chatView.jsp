@@ -49,7 +49,7 @@
             <tr>
               <td>
                 <div class="chat-title">
-                  <fmt:message key="chat.messages"/>
+                  {{chats[selectedChat].title}}
                 </div>
               </td>
             </tr>

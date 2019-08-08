@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="signInError">#FF6940</color>
-    <color name="message_my">#ffffff</color>
-    <color name="message">#ffdbb9</color>
+    <color name="message_my">#ffdbaf</color>
+    <color name="message">#cde4b7</color>
 </resources>

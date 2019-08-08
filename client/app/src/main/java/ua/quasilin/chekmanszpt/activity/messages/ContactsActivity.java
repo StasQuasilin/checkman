@@ -14,28 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ua.quasilin.chekmanszpt.R;
+import ua.quasilin.chekmanszpt.entity.ChatContainer;
+import ua.quasilin.chekmanszpt.services.MessagesHandler;
+import ua.quasilin.chekmanszpt.utils.AdapterList;
 
 public class ContactsActivity extends AppCompatActivity {
 
-    static List<String> data = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
+
         Button buttonClose = findViewById(R.id.closeContacts);
         buttonClose.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), MessageActivity.class));
+            startActivity(new Intent(getApplicationContext(), ChatsActivity.class));
         });
 
+        ContactsViewAdapter adapter = new ContactsViewAdapter(getApplicationContext(),
+                R.layout.chat_list_row, ChatContainer.getContacts());
         ListView contactList = findViewById(R.id.contactList);
-        ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, data);
         contactList.setAdapter(adapter);
-    }
-
-    public static void addContact(Context context, Object contact) {
-        JSONObject json = (JSONObject) (contact);
-        JSONObject person = (JSONObject) json.get("person");
-
-        data.add(String.valueOf(person.get("value")));
+        AdapterList.add(adapter);
     }
 }

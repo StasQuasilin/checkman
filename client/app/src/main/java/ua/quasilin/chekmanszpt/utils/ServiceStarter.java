@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 
+import ua.quasilin.chekmanszpt.entity.ChatContainer;
 import ua.quasilin.chekmanszpt.services.BackgroundService;
 
 /**
@@ -14,6 +15,9 @@ import ua.quasilin.chekmanszpt.services.BackgroundService;
 public class ServiceStarter {
     public static void start(Context context) {
         if (!RunChecker.isRun(BackgroundService.class, context)) {
+            Intent intent = new Intent(context, BackgroundService.class);
+
+            intent.putExtra("container", new ChatContainer());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 ContextCompat.startForegroundService(context, new Intent(context, BackgroundService.class));
             } else {

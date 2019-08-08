@@ -18,4 +18,5 @@
     <string name="chats">Розмови</string>
     <string name="send">Надіслати</string>
     <string name="time_mask">--:--</string>
+    <string name="newChat">Новий чат</string>
 </resources>

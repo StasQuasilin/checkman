@@ -15,6 +15,7 @@ import utils.hibernate.dbDAOService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -36,6 +37,7 @@ public abstract class ServletAPI extends IServlet{
     public static final String emptyBody = parser.toJson(new ErrorAnswer("msg", "Body parse error")).toJSONString();
 
     public JSONObject parseBody(HttpServletRequest req){
+
         try {
             return (JSONObject) parser.parse(req.getReader());
         } catch (IOException | ParseException e) {

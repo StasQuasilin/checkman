@@ -2,7 +2,8 @@ var chat = new Vue({
     el:'#chat',
     data:{
         api:{
-            send:''
+            send:'',
+            get:''
         },
         show:false,
         contacts:[],
@@ -18,7 +19,24 @@ var chat = new Vue({
     methods:{
         selectChat:function(id){
             this.selectedChat = id;
-            this.sortMessages();
+            const self = this;
+            var chat = self.chats[this.selectedChat];
+            var chatId = chat.id;
+
+            if (chat.messages.length == 0) {
+                PostApi(this.api.get, {chat: chatId}, function (a) {
+                    console.log(a);
+                    if (a.messages) {
+                        for (var i in a.messages) {
+                            if (a.messages.hasOwnProperty(i)) {
+                                self.updateMessage(a.messages[i])
+                            }
+                        }
+                    }
+                });
+            }
+            self.sortMessages();
+
         },
         sortMessages:function(){
             this.chats[this.selectedChat].messages.sort(function (a, b) {
@@ -42,15 +60,12 @@ var chat = new Vue({
         },
         showChat:function(){
             this.show = true;
-            console.log('Show chat');
         },
         hideChat:function(){
             this.show = false;
-            console.log('Hide chat');
         },
         switchChat:function(){
             this.show = !this.show;
-            console.log('Switch chat view, show=\'' + this.show + '\'');
         },
         switchContacts:function(){
             this.showContacts = !this.showContacts;
@@ -64,8 +79,10 @@ var chat = new Vue({
                     var chat = this.chats[c];
                     if (chat.id === message.chat) {
                         chat.messages.push(message);
-                        if (chat.id === this.chats[this.selectedChat].id) {
-                            this.sortMessages();
+                        if (this.selectedChat != -1) {
+                            if (chat.id === this.chats[this.selectedChat].id) {
+                                this.sortMessages();
+                            }
                         } else {
                             chat.unread++;
                         }
@@ -91,7 +108,7 @@ var chat = new Vue({
                 }
             }
             if (noChat) {
-                console.log('no chat');
+                console.log('add chat');
                 this.addChat(chats);
             }
         },
@@ -167,6 +184,7 @@ var chat = new Vue({
             }
         },
         openChat:function(worker){
+            console.log('Open chat for ' + worker.person.value);
             var haveChat = false;
             for (var i in this.chats){
                 if (this.chats.hasOwnProperty(i)){
@@ -194,6 +212,8 @@ var chat = new Vue({
                 });
                 this.selectChat(0);
                 this.showContacts = false;
+            } else{
+
             }
         },
         sendMessage:function(){

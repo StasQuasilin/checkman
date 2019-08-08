@@ -57,6 +57,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("feedback", Branches.UI.FEEDBACK);
         req.setAttribute("subscribe", applicationSubscribes);
         req.setAttribute("sendMessage", Branches.API.CHAT_SEND);
+        req.setAttribute("getMessages", Branches.API.GET_CHAT);
 
         req.setAttribute("shortCutUpdate", Branches.ShortCuts.UPDATE);
         req.setAttribute("logoutAPI", Branches.Sign.LOGOUT);

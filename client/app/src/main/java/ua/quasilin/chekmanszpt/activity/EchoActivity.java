@@ -39,7 +39,6 @@ public class EchoActivity extends AppCompatActivity {
                 new Thread(() -> {
                     Message message = handler.obtainMessage();
                     Bundle bundle = new Bundle();
-                    bundle.putString(DATA, Socket.send(text));
                     message.setData(bundle);
                     handler.sendMessage(message);
                 }).start();

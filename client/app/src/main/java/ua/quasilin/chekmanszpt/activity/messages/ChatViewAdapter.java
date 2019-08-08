@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.entity.Chat;
+import ua.quasilin.chekmanszpt.entity.ChatContainer;
+import ua.quasilin.chekmanszpt.entity.Worker;
 
 /**
  * Created by szpt_user045 on 05.08.2019.
@@ -37,10 +39,9 @@ public class ChatViewAdapter extends ArrayAdapter<Chat> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-
         View view;
         if (convertView == null) {
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
             view = layoutInflater.inflate(R.layout.chat_list_row, parent, false);
         } else {
             view = convertView;
@@ -49,6 +50,9 @@ public class ChatViewAdapter extends ArrayAdapter<Chat> {
 
         TextView chatName = view.findViewById(R.id.chatName);
         chatName.setText(item.getTitle());
+
+        TextView chatDescription = view.findViewById(R.id.chatDescription);
+        chatDescription.setText(item.getDescription());
 
         view.setOnClickListener(v -> {
             Intent intent = new Intent(context, MessageActivity.class);

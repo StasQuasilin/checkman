@@ -81,7 +81,7 @@ public class LoginActivity extends Activity {
                                 }
                                 break;
                             case success:
-                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                startActivity(new Intent(getApplicationContext(), StartActivity.class));
                                 break;
                         }
                     }

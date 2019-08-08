@@ -29,7 +29,7 @@ public class MessagesViewAdapter extends ArrayAdapter<ChatMessage> {
     private final Context context;
     private final ArrayList<ChatMessage> messages;
 
-    public MessagesViewAdapter(@NonNull Context context, int resource, ArrayList<ChatMessage> messages) {
+    MessagesViewAdapter(@NonNull Context context, int resource, ArrayList<ChatMessage> messages) {
         super(context, resource, messages);
         this.context = context;
         this.messages = messages;

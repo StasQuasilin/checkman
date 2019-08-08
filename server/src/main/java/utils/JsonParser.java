@@ -1079,14 +1079,4 @@ public class JsonParser {
         object.put(MESSAGE, message.getMessage());
         return object;
     }
-
-    public JSONObject toJson(Chat chat, List<ChatMessage> messages) {
-        JSONObject json = toJson(chat);
-        JSONArray array = pool.getArray();
-        for (ChatMessage message : messages) {
-            array.add(toJson(message));
-        }
-        json.put("messages", array);
-        return json;
-    }
 }

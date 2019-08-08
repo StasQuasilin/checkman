@@ -90,7 +90,7 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<ChatMessage> getLimitMessagesByChat(Chat chat) {
+    public List<ChatMessage> getLimitMessagesByChat(Object chat) {
         final HashMap<String, Object> parameters  = new HashMap<>();
         parameters.put("timestamp", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
         parameters.put("chat", chat);

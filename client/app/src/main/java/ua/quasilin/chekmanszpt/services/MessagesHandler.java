@@ -1,27 +1,41 @@
 package ua.quasilin.chekmanszpt.services;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import ua.quasilin.chekmanszpt.activity.messages.ChatsActivity;
+import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
 import ua.quasilin.chekmanszpt.entity.Chat;
+import ua.quasilin.chekmanszpt.entity.ChatContact;
 import ua.quasilin.chekmanszpt.entity.ChatContainer;
 import ua.quasilin.chekmanszpt.entity.ChatMessage;
 import ua.quasilin.chekmanszpt.entity.subscribes.Subscriber;
+import ua.quasilin.chekmanszpt.utils.AdapterList;
 import ua.quasilin.chekmanszpt.utils.JsonParser;
+import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
 
 /**
  * Created by szpt_user045 on 31.07.2019.
  */
 
-public final class MessagesHandler {
+public class MessagesHandler {
 
     private static final String TYPE = "type";
     private static final String DATA = "data";
@@ -29,20 +43,9 @@ public final class MessagesHandler {
     private static final String CHATS = "chats";
     private static final String UPDATE = "update";
 
-    @SuppressLint("StaticFieldLeak")
-    private static MessagesHandler handler = null;
-
-    public static MessagesHandler getHandler() {
-        return handler;
-    }
-
-    private Context context;
-    private MessagesHandler(Context context) {
+    private final Context context;
+    MessagesHandler(Context context) {
         this.context = context;
-    }
-
-    public static void init(Context context){
-        handler  = new MessagesHandler(context);
     }
 
     private static final String MESSAGES = "messages";
@@ -69,13 +72,30 @@ public final class MessagesHandler {
                                 JSONArray messages = (JSONArray) update.get(MESSAGES);
                                 if (messages != null) {
                                     for (Object m : messages){
-                                        ChatContainer.addMessage(new ChatMessage(m));
+                                        ChatMessage chatMessage = new ChatMessage(m);
+                                        if (!ChatContainer.addMessage(chatMessage)){
+                                            int notificationId = (int) chatMessage.getId();
+                                            Intent intent = new Intent(context, MessageActivity.class);
+                                            intent.putExtra("chatId", chatMessage.getChat());
+                                            Notification build = NotificationBuilder.build(
+                                                    context, notificationId,
+                                                    chatMessage.getSender().getValue(),
+                                                    chatMessage.getText(), intent);
+                                            NotificationManagerCompat compat = NotificationManagerCompat.from(context);
+                                            compat.notify(notificationId, build);
+                                        }
                                     }
                                 }
-
-
+                                JSONArray contacts = (JSONArray) update.get(CONTACTS);
+                                if (contacts != null) {
+                                    for (Object c : contacts) {
+                                        ChatContainer.addContact(new ChatContact(c));
+                                    }
+                                }
                                 break;
                         }
+                        AdapterList.update();
+
                     }
                 }
             }

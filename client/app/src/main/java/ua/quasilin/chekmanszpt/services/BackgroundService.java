@@ -9,8 +9,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.UUID;
 
+import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
 import ua.quasilin.chekmanszpt.entity.subscribes.Subscriber;
 import ua.quasilin.chekmanszpt.services.socket.Socket;
 import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
@@ -22,6 +24,7 @@ import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
 public class BackgroundService extends Service {
 
     final IBinder binder = new ServiceBinder();
+    private Socket socket;
 
     @Nullable
     @Override
@@ -32,15 +35,12 @@ public class BackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(String.valueOf(BackgroundService.class), "BACKGROUND SERVICE CREATE");
     }
 
     private static final int NOTIFICATION_ID = UUID.randomUUID().hashCode();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        Log.i(String.valueOf(BackgroundService.class), "BACKGROUND SERVICE STARTED");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             super.startForeground(NOTIFICATION_ID, NotificationBuilder.build(getBaseContext(), NOTIFICATION_ID));
@@ -49,8 +49,11 @@ public class BackgroundService extends Service {
                     "Служба работает в фоновом режиме", Toast.LENGTH_LONG).show();
         }
 
-        Socket.connect(getApplicationContext());
-        Socket.subscribe(Subscriber.MESSAGES);
+        Serializable container = intent.getSerializableExtra("container");
+        MessagesHandler messagesHandler = new MessagesHandler(getApplicationContext());
+
+        socket = new Socket(getApplicationContext(), messagesHandler);
+        socket.subscribe(Subscriber.MESSAGES);
 
         return START_STICKY;
     }
@@ -64,5 +67,6 @@ public class BackgroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        socket.disconnect();
     }
 }

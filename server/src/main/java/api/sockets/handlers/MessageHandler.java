@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
  */
 public class MessageHandler {
 
-
     private static final String UPDATE = "update";
     final dbDAO dao = dbDAOService.getDAO();
     final JsonPool pool= JsonPool.getPool();
@@ -46,7 +45,7 @@ public class MessageHandler {
                     chat.setTitle(m.getMember().getValue());
                 });
             }
-            chats.add(parser.toJson(chat, dao.getLimitMessagesByChat(chat)));
+            chats.add(parser.toJson(chat));
 
         }
 

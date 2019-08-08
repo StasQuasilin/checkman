@@ -7,6 +7,7 @@ import entity.answers.IAnswer;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
@@ -31,6 +32,7 @@ public class SendMessageAPI extends ServletAPI {
 
     final dbDAO dao = dbDAOService.getDAO();
     final UpdateUtil updateUtil = new UpdateUtil();
+    final Logger log = Logger.getLogger(SendMessageAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,78 +45,99 @@ public class SendMessageAPI extends ServletAPI {
                 chatId = (long) body.get("chat");
             }
             Worker worker = getWorker(req);
-            Chat chat;
-            List<ChatMember> members;
-            if (chatId != -1){
-                chat = dao.getChatById(chatId);
-                members = dao.getMembersByChat(chat);
-            } else {
-                chat = new Chat();
-                members = new ArrayList<>();
-                for (Object membersObject : (JSONArray)body.get("members")){
-                    JSONObject memberJson = (JSONObject) (membersObject);
-                    ChatMember member = new ChatMember();
-                    member.setMember(dao.getWorkerById(memberJson.get("id")));
-                    member.setChat(chat);
-                    members.add(member);
-                }
-                //title
-                String title;
-                if(body.containsKey("title")){
-                    title = String.valueOf(body.get("title"));
+            if (worker == null) {
+                worker = dao.getWorkerById(body.get("sender"));
+            }
+            if (worker != null) {
+                Chat chat;
+                List<ChatMember> members;
+                if (chatId != -1) {
+                    chat = dao.getChatById(chatId);
+                    members = dao.getMembersByChat(chat);
                 } else {
-                    int membersCount = members.size() > 3 ? 3 : members.size();
-                    String[] names = new String[membersCount];
-                    for (int i = 0; i < membersCount; i++){
-                        names[i] = members.get(i).getMember().getValue();
+                    chat = new Chat();
+                    members = new ArrayList<>();
+                    boolean alreadyContainMe = false;
+                    for (Object membersObject : (JSONArray) body.get("members")) {
+                        JSONObject memberJson = (JSONObject) (membersObject);
+                        ChatMember member = new ChatMember();
+                        Worker workerById = dao.getWorkerById(memberJson.get("id"));
+                        if (workerById.getId() == worker.getId()){
+                            alreadyContainMe = true;
+                        }
+                        member.setMember(workerById);
+                        member.setChat(chat);
+                        members.add(member);
                     }
-                    title = String.join(", ", names);
-                    if (membersCount < members.size()){
-                        title += "...";
-                    }
-                }
-                chat.setTitle(title);
-                dao.save(chat);
-                ChatMember member = new ChatMember();
-                member.setMember(worker);
-                member.setChat(chat);
-                members.add(member);
-                members.forEach(dao::save);
-            }
+                    //title
+                    String title;
+                    int membersCount = members.size();
 
-            ChatMessage message;
-            long messageId = -1;
-            JSONObject messageJson = (JSONObject) body.get("message");
-            if (messageJson.containsKey("id")){
-                messageId = (long) messageJson.get("id");
-            }
-            if (messageId != -1){
-                message = dao.getMessageById(messageId);
+                    if (membersCount > 2){
+                        chat.setIsGroup(true);
+                    }
+
+                    if (body.containsKey("title")) {
+                        title = String.valueOf(body.get("title"));
+                    } else {
+                        membersCount = membersCount > 3 ? 3 : membersCount;
+                        String[] names = new String[membersCount ];
+                        for (int i = 0; i < membersCount; i++) {
+                            names[i] = members.get(i).getMember().getValue();
+                        }
+                        title = String.join(", ", names);
+                    }
+
+                    chat.setTitle(title);
+                    dao.save(chat);
+
+                    if (!alreadyContainMe) {
+                        ChatMember member = new ChatMember();
+                        member.setMember(worker);
+                        member.setChat(chat);
+                        members.add(member);
+                    }
+
+                    members.forEach(dao::save);
+                }
+
+                ChatMessage message;
+                long messageId = -1;
+
+                JSONObject messageJson = (JSONObject) body.get("message");
+                if (messageJson.containsKey("id")) {
+                    messageId = (long) messageJson.get("id");
+                }
+                if (messageId != -1) {
+                    message = dao.getMessageById(messageId);
+                } else {
+                    message = new ChatMessage();
+                    message.setChat(chat);
+                    message.setTimestamp(new Timestamp(System.currentTimeMillis()));
+                    message.setSender(dao.getChatMember(chat, worker));
+                }
+
+                String text = String.valueOf(messageJson.get("text"));
+                message.setMessage(text);
+                dao.save(message);
+
+                IAnswer success = new SuccessAnswer();
+                if (chatId == -1) {
+                    success.add("chat", chat.getId());
+                    success.add("key", chatKey);
+                }
+                JSONObject jsonAnswer = parser.toJson(success);
+                write(resp, jsonAnswer.toJSONString());
+                pool.put(jsonAnswer);
+
+                for (ChatMember member : members) {
+                    if (chatId == -1) {
+                        updateUtil.onSave(chat, chatKey, member.getMember());
+                    }
+                    updateUtil.onSave(message, member.getMember());
+                }
             } else {
-                message = new ChatMessage();
-                message.setChat(chat);
-                message.setTimestamp(new Timestamp(System.currentTimeMillis()));
-                message.setSender(dao.getChatMember(chat, getWorker(req)));
-            }
-
-            String text = String.valueOf(messageJson.get("text"));
-            message.setMessage(text);
-            dao.save(message);
-
-            IAnswer success = new SuccessAnswer();
-            if (chatId == -1) {
-                success.add("chat", chat.getId());
-                success.add("key", chatKey);
-            }
-            JSONObject jsonAnswer = parser.toJson(success);
-            write(resp, jsonAnswer.toJSONString());
-            pool.put(jsonAnswer);
-
-            for (ChatMember member : members) {
-                if (chatId == -1){
-                    updateUtil.onSave(chat, chatKey, member.getMember());
-                }
-                updateUtil.onSave(message, member.getMember());
+                log.error("No worker data");
             }
         }
     }

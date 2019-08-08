@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 /**
  * Created by szpt_user045 on 05.08.2019.
@@ -17,22 +18,35 @@ public class Chat implements Comparable<Chat>{
 
     private long id;
     private String title;
+    private final ArrayList<Worker> members = new ArrayList<>();
     private final ArrayList<ChatMessage> messagesArray = new ArrayList<>();
+    private String key;
+    private boolean open = false;
 
     public Chat(Object chat) {
         JSONObject json = (JSONObject) chat;
         id = (long) json.get("id");
         title = (String) json.get("title");
-        JSONArray messages = (JSONArray) json.get("messages");
-        if (messages != null) {
-            for (Object o : messages){
-                messagesArray.add(new ChatMessage(o));
-            }
+
+        for (Object o : (JSONArray)json.get("members")){
+            members.add(new Worker(o));
         }
+        key = UUID.randomUUID().toString();
+    }
+
+    public Chat(long id, String title, ArrayList<Worker> members){
+        this.id = id;
+        this.title = title;
+        this.members.addAll(members);
+        key = UUID.randomUUID().toString();
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -40,8 +54,12 @@ public class Chat implements Comparable<Chat>{
     }
 
     public String getDescription() {
-        Collections.sort(messagesArray);
-        return messagesArray.get(0).getText();
+        if (messagesArray.size() > 0) {
+            Collections.sort(messagesArray);
+            ChatMessage chatMessage = messagesArray.get(0);
+            return chatMessage.getSender().getValue() + ": " + chatMessage.getText();
+        }
+        return "";
     }
 
     @Override
@@ -49,12 +67,32 @@ public class Chat implements Comparable<Chat>{
         return 0;
     }
 
-    public void addMessage(ChatMessage message) {
+    void addMessage(ChatMessage message) {
         messagesArray.add(message);
         Collections.sort(messagesArray);
     }
 
     public ArrayList<ChatMessage> getMessages() {
         return messagesArray;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+    public ArrayList<Worker> getMembers() {
+        return members;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

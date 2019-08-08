@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import io.reactivex.annotations.Nullable;
 import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.activity.MainActivity;
 
@@ -21,25 +22,52 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 public class NotificationBuilder {
     private static final String CHANNEL_NAME = "Checkman Channel";
     private static final String CHANNEL_ID = "checkman";
+
     public static Notification build(Context context, int id){
+        return build(
+                context, id,
+                true,
+                null,
+                context.getResources().getString(R.string.notification_description),
+                NotificationCompat.PRIORITY_MAX, null
+        );
+    }
+
+    public static Notification build(Context context, int id, String title, String content, Intent intent){
+        return build(context, id, false, title, content, NotificationCompat.PRIORITY_DEFAULT, intent);
+    }
+
+    public static Notification build(Context context, int id, boolean ongoing,
+                                     @Nullable String title, @Nullable String contentText,
+                                     int priority, Intent intent){
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-            assert notificationManager != null;
-            notificationManager.createNotificationChannel(notificationChannel);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager != null){
+            NotificationChannel channel = notificationManager.getNotificationChannel(CHANNEL_ID);
+            if (channel == null) {
+                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+                notificationManager.createNotificationChannel(channel);
+            }
         }
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(context, id, resultIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, CHANNEL_ID)
                         .setSmallIcon(android.R.drawable.ic_dialog_info)
-                        .setOngoing(true)
-                        .setContentText(context.getResources().getString(R.string.notification_description))
-                        .setPriority(NotificationCompat.PRIORITY_MAX)
-                        .setContentIntent(resultPendingIntent)
+                        .setOngoing(ongoing)
+                        .setPriority(priority)
                 ;
+
+        if (title != null) {
+            builder.setContentTitle(title);
+        }
+        if (contentText != null) {
+            builder.setContentText(contentText);
+        }
+        if (intent != null) {
+            builder.setContentIntent(
+                    PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            );
+        }
         return builder.build();
     }
 }

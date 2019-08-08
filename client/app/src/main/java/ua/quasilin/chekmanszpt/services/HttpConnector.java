@@ -48,14 +48,15 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         StringBuilder builder = new StringBuilder();
+
         try {
             Log.i(TAG, "Connect to " + strings[0]);
             URL u = new URL(strings[0]);
             HttpURLConnection urlConnection = (HttpURLConnection) u.openConnection();
             urlConnection.setRequestMethod(METHOD);
             urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
+            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
             urlConnection.connect();
-
 
             BufferedOutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, ENCODING));
@@ -63,6 +64,7 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
             writer.close();
             out.close();
 
+            Log.i("Response code", String.valueOf(urlConnection.getResponseCode()));
             Scanner httpResponseScanner = new Scanner(urlConnection.getInputStream(), ENCODING);
             while (httpResponseScanner.hasNextLine()) {
                 builder.append(httpResponseScanner.nextLine());

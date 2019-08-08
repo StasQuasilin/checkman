@@ -10,8 +10,9 @@ public final class URL {
 
     };
     public static final String[] INTERNAL_SERVER_ADDRESS = {
-            "192.168.0.106:3322/checkman",
-            "10.10.10.201:3322/checkman"
+            "10.10.10.201:3322/checkman",
+            "10.10.10.45:3332/che",
+            "192.168.0.106:3322/checkman"
     };
     private static final String PROTOCOL_WS = "ws";
     private static final String PROTOCOL_HTTP = "http";
@@ -22,6 +23,7 @@ public final class URL {
     public static final String FIND_WORKER = "/a/worker/find";
     private static final String API = "/api/old";
     public static final String CHAT_SEND = API + "/chat/send";
+    public static final String GET_CHAT = API + "/chat/get";
 
     public static String buildWsAddress(String url){
         return buildAddress(PROTOCOL_WS, url);

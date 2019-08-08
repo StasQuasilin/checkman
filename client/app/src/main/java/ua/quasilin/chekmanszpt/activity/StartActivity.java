@@ -28,7 +28,6 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MessagesHandler.init(getApplicationContext());
 
         setContentView(R.layout.loading);
         Log.i(String.valueOf(StartActivity.class), "Application Start");
@@ -39,7 +38,10 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.getData().getBoolean(ANSWER)){
+
                     ServiceStarter.start(getApplicationContext());
+                    Intent intent = new Intent(getApplicationContext(), ChatsActivity.class);
+
                     startActivity(new Intent(getApplicationContext(), ChatsActivity.class));
                 } else {
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));

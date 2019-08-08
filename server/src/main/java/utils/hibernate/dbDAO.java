@@ -184,8 +184,6 @@ public interface dbDAO {
     Chat getChatById(Object id);
     List<ChatMember> getMembersByChat(Chat chat);
     ChatMember getChatMember(Chat chat, Worker worker);
-
     ChatMessage getMessageById(long messageId);
-
-    List<ChatMessage> getLimitMessagesByChat(Chat chat);
+    List<ChatMessage> getLimitMessagesByChat(Object chat);
 }

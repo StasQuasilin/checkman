@@ -1,5 +1,6 @@
 package ua.quasilin.chekmanszpt.packets;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class JsonPool {
     private JsonPool() {}
 
     private final ArrayList<JSONObject> objects = new ArrayList<>();
+    private final ArrayList<JSONArray> arrays = new ArrayList<>();
+
     public synchronized JSONObject getObject(){
         JSONObject object;
         if (objects.size() > 0){
@@ -33,9 +36,26 @@ public class JsonPool {
         for (Object o : json.values()){
             if(o instanceof JSONObject){
                 put((JSONObject) o);
+            } else if (o instanceof JSONArray){
+                put((JSONArray)o);
             }
         }
         json.clear();
         objects.add(json);
+    }
+
+    private void put(JSONArray o) {
+        arrays.add(o);
+    }
+
+    public synchronized JSONArray getArray() {
+        JSONArray array;
+        if (arrays.size() == 0) {
+            array = new JSONArray();
+        } else {
+            array = arrays.get(0);
+            arrays.remove(array);
+        }
+        return array;
     }
 }

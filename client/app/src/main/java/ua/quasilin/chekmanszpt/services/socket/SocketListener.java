@@ -1,9 +1,7 @@
 package ua.quasilin.chekmanszpt.services.socket;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import okhttp3.*;
 import okhttp3.WebSocket;
@@ -15,10 +13,11 @@ import ua.quasilin.chekmanszpt.services.MessagesHandler;
 
 public class SocketListener extends WebSocketListener {
 
-    private final Context context;
+    private static final String TAG = "ws";
+    private MessagesHandler handler;
 
-    SocketListener(Context context) {
-        this.context = context;
+    SocketListener(MessagesHandler handler) {
+        this.handler = handler;
     }
 
     @Override
@@ -28,18 +27,18 @@ public class SocketListener extends WebSocketListener {
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
-        Log.i("WS", text);
-        MessagesHandler.getHandler().handle(text);
+        Log.i(TAG, text);
+        handler.handle(text);
     }
 
     @Override
     public void onFailure(WebSocket webSocket, Throwable t, @Nullable Response response) {
-        Log.e("WS", t.getMessage());
+        Log.e(TAG, t.getMessage());
     }
 
     @Override
     public void onClosed(WebSocket webSocket, int code, String reason) {
         super.onClosed(webSocket, code, reason);
-        Log.i("Socket Listener", "Socket closed");
+        Log.i(TAG, "Socket closed");
     }
 }

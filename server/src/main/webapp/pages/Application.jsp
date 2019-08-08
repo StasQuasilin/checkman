@@ -51,6 +51,7 @@
 <jsp:include page="chat/chatHolder.jsp"/>
 <script>
     chat.api.send = '${sendMessage}';
+    chat.api.get = '${getMessages}';
 </script>
 
 <div class="datetime-picker" id="picker" v-show="onSelects.length" v-on:click="close">

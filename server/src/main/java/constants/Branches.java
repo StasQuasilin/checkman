@@ -194,6 +194,7 @@ public class Branches {
         public static final String PARSE_AND_PUT_DRIVER = API + "/parse/put/driver";
         public static final String CHAT_SEND = API + "/chat/send";
         public static final String CHAT_CREATE = API + "/chat/create";
+        public static final String GET_CHAT = API + "/chat/get";
 
 
         public class References {
