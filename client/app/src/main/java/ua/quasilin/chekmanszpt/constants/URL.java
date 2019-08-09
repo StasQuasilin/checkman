@@ -15,7 +15,7 @@ public final class URL {
             "192.168.0.106:3322/checkman"
     };
     private static final String PROTOCOL_WS = "ws";
-    private static final String PROTOCOL_HTTP = "http";
+    public static final String PROTOCOL_HTTP = "http";
     private static String currentAddress = INTERNAL_SERVER_ADDRESS[0];
     public static final String SUBSCRIBER = "/api/subscriber";
     public static final String PING = "/ping";
@@ -32,6 +32,10 @@ public final class URL {
         return buildAddress(PROTOCOL_HTTP, url);
     }
     private static String buildAddress(String protocol, String url){
-        return protocol + "://" + currentAddress + url;
+        return buildAddress(protocol, currentAddress, url);
+    }
+
+    public static String buildAddress(String protocol, String address, String url){
+        return protocol + "://" + address + url;
     }
 }

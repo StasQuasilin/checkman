@@ -56,13 +56,13 @@ public class ContactsViewAdapter extends ArrayAdapter<ChatContact> {
                 final ArrayList<Worker> members = new ArrayList<>();
                 members.add(contact.getWorker());
                 members.add(ChatContainer.worker);
-                ChatContainer.addChat(
-                        new Chat(
-                                -1,
-                                contact.getWorker().getValue(),
-                                members
-                        )
-                , chatPosition);
+                Chat chat = new Chat(
+                        -1,
+                        contact.getWorker().getValue(),
+                        members
+                );
+                chat.setOpen(true);
+                ChatContainer.addChat(chat, chatPosition);
             }
             Intent intent = new Intent(context, MessageActivity.class);
             intent.putExtra("chat", chatPosition);

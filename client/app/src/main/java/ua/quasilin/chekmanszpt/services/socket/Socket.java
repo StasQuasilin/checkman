@@ -11,6 +11,7 @@ import ua.quasilin.chekmanszpt.constants.URL;
 import ua.quasilin.chekmanszpt.entity.ChatContainer;
 import ua.quasilin.chekmanszpt.entity.subscribes.Subscriber;
 import ua.quasilin.chekmanszpt.packets.JsonPool;
+import ua.quasilin.chekmanszpt.services.BackgroundService;
 import ua.quasilin.chekmanszpt.services.MessagesHandler;
 
 /**
@@ -18,15 +19,15 @@ import ua.quasilin.chekmanszpt.services.MessagesHandler;
  */
 
 public class Socket {
-    private final Context context;
 
-    public Socket(Context context, MessagesHandler messagesHandler) {
-        this.context = context;
-        connect(messagesHandler);
+    private final MessagesHandler handler;
+
+    public Socket(MessagesHandler handler) {
+        this.handler = handler;
     }
 
     public void disconnect() {
-        ws.close(0,null);
+        ws.close(1000,null);
     }
 
     enum Action{
@@ -41,17 +42,14 @@ public class Socket {
     private static WebSocket ws;
     private static boolean isConnected = false;
 
-    private void connect(MessagesHandler messagesHandler){
-        if (!isConnected) {
-            OkHttpClient client = new OkHttpClient.Builder().build();
-            Request request = new Request.Builder()
-                    .url(URL.buildWsAddress(URL.SUBSCRIBER))
-                    .build();
-            SocketListener listener = new SocketListener(messagesHandler);
-            ws = client.newWebSocket(request, listener);
-            client.dispatcher().executorService().shutdown();
-            isConnected = true;
-        }
+    public void connect(){
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Request request = new Request.Builder()
+                .url(URL.buildWsAddress(URL.SUBSCRIBER))
+                .build();
+        ws = client.newWebSocket(request, new SocketListener(handler));
+        client.dispatcher().executorService().shutdown();
+        isConnected = true;
     }
 
     public void subscribe(Subscriber subscriber){

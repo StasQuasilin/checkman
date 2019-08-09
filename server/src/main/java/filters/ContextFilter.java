@@ -1,5 +1,6 @@
 package filters;
 
+import api.sockets.ActiveSubscriptions;
 import api.sockets.EchoSocket;
 import bot.BotFactory;
 import constants.Branches;
@@ -64,5 +65,6 @@ public class ContextFilter implements Filter {
         gcTimer.stop();
         HibernateSessionFactory.shutdown();
         Archivator.stop();
+        ActiveSubscriptions.getInstance().close();
     }
 }

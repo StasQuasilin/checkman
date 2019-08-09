@@ -1,6 +1,5 @@
 package ua.quasilin.chekmanszpt.services;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
@@ -8,19 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.Collections;
 
-import ua.quasilin.chekmanszpt.activity.messages.ChatsActivity;
+import ua.quasilin.chekmanszpt.activity.StartActivity;
 import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
 import ua.quasilin.chekmanszpt.entity.Chat;
 import ua.quasilin.chekmanszpt.entity.ChatContact;
@@ -30,6 +24,7 @@ import ua.quasilin.chekmanszpt.entity.subscribes.Subscriber;
 import ua.quasilin.chekmanszpt.utils.AdapterList;
 import ua.quasilin.chekmanszpt.utils.JsonParser;
 import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
+import ua.quasilin.chekmanszpt.utils.Starter;
 
 /**
  * Created by szpt_user045 on 31.07.2019.
@@ -44,8 +39,10 @@ public class MessagesHandler {
     private static final String UPDATE = "update";
 
     private final Context context;
-    MessagesHandler(Context context) {
+    private final BackgroundService service;
+    MessagesHandler(Context context, BackgroundService service) {
         this.context = context;
+        this.service = service;
     }
 
     private static final String MESSAGES = "messages";
@@ -91,6 +88,7 @@ public class MessagesHandler {
                                     for (Object c : contacts) {
                                         ChatContainer.addContact(new ChatContact(c));
                                     }
+                                    Collections.sort(ChatContainer.getContacts());
                                 }
                                 break;
                         }
@@ -107,5 +105,10 @@ public class MessagesHandler {
             message.setData(bundle);
             handler.sendMessage(message);
         }).start();
+    }
+
+    public void stop() {
+        context.startActivity(new Intent(context, StartActivity.class));
+        service.findServer();
     }
 }

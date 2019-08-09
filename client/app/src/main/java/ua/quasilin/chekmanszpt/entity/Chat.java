@@ -31,7 +31,12 @@ public class Chat implements Comparable<Chat>{
         for (Object o : (JSONArray)json.get("members")){
             members.add(new Worker(o));
         }
-        key = UUID.randomUUID().toString();
+        if (json.containsKey("key")){
+            key = String.valueOf(json.get("key"));
+        } else {
+            key = UUID.randomUUID().toString();
+        }
+
     }
 
     public Chat(long id, String title, ArrayList<Worker> members){

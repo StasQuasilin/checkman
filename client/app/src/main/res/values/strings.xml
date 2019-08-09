@@ -19,4 +19,8 @@
     <string name="send">Надіслати</string>
     <string name="time_mask">--:--</string>
     <string name="newChat">Новий чат</string>
+    <string name="no_connection">З\'єднання відсутнє</string>
+    <string name="findServer">Пошук сервера</string>
+    <string name="serviceRun">Служба працює в фоновому режимі</string>
+    <string name="applicationStop">Зупинити програму</string>
 </resources>

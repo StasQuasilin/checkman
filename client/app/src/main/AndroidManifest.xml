@@ -42,7 +42,8 @@
         <activity android:name=".activity.EchoActivity" />
         <activity android:name=".activity.messages.ContactsActivity" />
         <activity android:name=".activity.PasswordRestoreActivity" />
-        <activity android:name=".activity.messages.ChatsActivity"></activity>
+        <activity android:name=".activity.messages.ChatsActivity" />
+        <activity android:name=".activity.NoConnectionActivity"></activity>
     </application>
 
 </manifest>

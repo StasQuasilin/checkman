@@ -28,7 +28,7 @@ public class NotificationBuilder {
                 context, id,
                 true,
                 null,
-                context.getResources().getString(R.string.notification_description),
+                null,
                 NotificationCompat.PRIORITY_MAX, null
         );
     }
@@ -52,9 +52,10 @@ public class NotificationBuilder {
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setSmallIcon(android.R.drawable.ic_dialog_info)
-                        .setOngoing(ongoing)
-                        .setPriority(priority)
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setOngoing(ongoing)
+                    .setPriority(priority)
+                    .setAutoCancel(true)
                 ;
 
         if (title != null) {

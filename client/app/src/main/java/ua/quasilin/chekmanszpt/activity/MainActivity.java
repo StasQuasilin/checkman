@@ -1,13 +1,11 @@
 package ua.quasilin.chekmanszpt.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import ua.quasilin.chekmanszpt.R;
-import ua.quasilin.chekmanszpt.utils.ServiceStarter;
 
 public class MainActivity extends AppCompatActivity {
 

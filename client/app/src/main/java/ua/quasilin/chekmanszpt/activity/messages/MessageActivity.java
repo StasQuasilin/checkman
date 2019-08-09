@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -82,7 +83,7 @@ public class MessageActivity extends AppCompatActivity {
                 }
                 return false;
             });
-            Button sendButton = findViewById(R.id.sendButton);
+            ImageButton sendButton = findViewById(R.id.sendButton);
 
             sendButton.setOnClickListener(v -> {
                 sendMessage(chat, messageInput);
@@ -105,7 +106,7 @@ public class MessageActivity extends AppCompatActivity {
             new Thread(() -> {
                 Bundle bundle = new Bundle();
                 bundle.putString(MESSAGES, connector.request(URL.buildHttpAddress(URL.GET_CHAT), new GetMessagesPacket(chat.getId())));
-                Message message = new Message();
+                Message message = handler.obtainMessage();
                 message.setData(bundle);
                 handler.sendMessage(message);
             }).start();

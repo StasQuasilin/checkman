@@ -31,4 +31,9 @@ public class ChatsActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), ContactsActivity.class));
         });
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

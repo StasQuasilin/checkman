@@ -76,10 +76,10 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             JSONObject object = pool.getObject();
             object.put("status", "error");
-            object.put("msg", e.getLocalizedMessage());
+            object.put("msg", e.getMessage());
             builder.append(object.toJSONString());
             pool.put(object);
-            e.printStackTrace();
+            Log.e("Connection", e.getMessage());
 
         }
         return builder.toString();

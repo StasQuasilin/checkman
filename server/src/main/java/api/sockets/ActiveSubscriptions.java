@@ -109,4 +109,30 @@ public class ActiveSubscriptions {
         pool.put(object);
         return result;
     }
+
+    public void close() {
+        log.info("Close all subscribe sessions");
+
+        for (ArrayList<Session> sessions : bySubscribe.values()){
+            sessions.stream().filter(Session::isOpen).forEach(session -> {
+                try {
+                    session.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        bySubscribe.clear();
+        for (ArrayList<Session> sessions : byWorker.values()){
+            sessions.stream().filter(Session::isOpen).forEach(session -> {
+                try {
+                    session.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        byWorker.clear();
+
+    }
 }

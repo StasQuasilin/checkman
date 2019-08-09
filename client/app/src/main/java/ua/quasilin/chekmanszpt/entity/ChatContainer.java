@@ -24,7 +24,6 @@ public class ChatContainer implements Serializable {
                 break;
             }
         }
-        System.out.println("Have chat " + haveChat);
         if (!haveChat) {
             if (chat.getTitle().isEmpty()){
                 for (Worker worker : chat.getMembers()){
@@ -56,7 +55,6 @@ public class ChatContainer implements Serializable {
     }
 
     public static void addContact(ChatContact contact) {
-        System.out.println("Add contact " + contact.getWorker().getValue());
         contacts.add(contact);
     }
 

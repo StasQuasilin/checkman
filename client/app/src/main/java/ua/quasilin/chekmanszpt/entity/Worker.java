@@ -1,12 +1,14 @@
 package ua.quasilin.chekmanszpt.entity;
 
+import android.support.annotation.NonNull;
+
 import org.json.simple.JSONObject;
 
 /**
  * Created by szpt_user045 on 05.08.2019.
  */
 
-public class Worker {
+public class Worker implements Comparable<Worker>{
     private long id;
     private Person person;
 
@@ -26,5 +28,10 @@ public class Worker {
 
     public String getValue() {
         return person.getValue();
+    }
+
+    @Override
+    public int compareTo(@NonNull Worker o) {
+        return person.compareTo(o.person);
     }
 }
