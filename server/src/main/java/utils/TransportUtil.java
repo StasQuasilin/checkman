@@ -3,6 +3,7 @@ package utils;
 import entity.Role;
 import entity.User;
 import entity.Worker;
+import entity.documents.LoadPlan;
 import entity.laboratory.SunAnalyses;
 import entity.transport.Transportation;
 import entity.weight.Weight;
@@ -12,6 +13,7 @@ import utils.hibernate.Hibernator;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +26,7 @@ public class TransportUtil{
 
     private final Logger log = Logger.getLogger(TransportUtil.class);
     static dbDAO dao = dbDAOService.getDAO();
+    private static UpdateUtil updateUtil = new UpdateUtil();
 
     public static void checkTransport(Transportation transportation) {
         boolean isArchive = true;
@@ -37,8 +40,17 @@ public class TransportUtil{
         if (transportation.getTimeOut() == null) {
             isArchive = false;
         }
+
+        transportation.setDone(isArchive);
+        dao.save(transportation);
+
         if (isArchive){
             Archivator.add(transportation);
+            try {
+                updateUtil.onSave(transportation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     public static final int HUMIDITY_BASIS = 7;
@@ -65,5 +77,12 @@ public class TransportUtil{
                 dao.saveWeight(weight);
             }
         }
+    }
+
+    public static void archive(LoadPlan loadPlan) throws IOException {
+        Transportation transportation = loadPlan.getTransportation();
+        transportation.setArchive(true);
+        dao.save(transportation);
+        updateUtil.onArchive(loadPlan);
     }
 }

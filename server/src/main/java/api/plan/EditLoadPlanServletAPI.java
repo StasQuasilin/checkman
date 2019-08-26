@@ -117,7 +117,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 }
 
                 JSONObject driverJson = (JSONObject) body.get("driver");
-                if (driverJson !=null){
+                if (driverJson != null){
                     Driver driver = null;
                     if (driverJson.containsKey(Constants.ID)){
                         long driverId = (long) driverJson.get(Constants.ID);

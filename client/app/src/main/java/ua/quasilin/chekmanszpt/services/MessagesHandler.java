@@ -108,6 +108,7 @@ public class MessagesHandler {
     }
 
     public void stop() {
+        ChatContainer.clear();
         context.startActivity(new Intent(context, StartActivity.class));
         service.findServer();
     }

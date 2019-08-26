@@ -35,6 +35,7 @@ import entity.storages.Storage;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
+import utils.ArchiveType;
 import utils.TurnDateTime;
 
 import java.sql.Date;
@@ -64,7 +65,7 @@ public interface dbDAO {
     List<Admin> getAdminList();
     void saveTransportation(Transportation transportation);
     void saveWeight(Weight weight);
-    List<LoadPlan> getLoadPlanByDeal(Object deal);
+    List<LoadPlan> getLoadPlanByDeal(Object deal, Boolean done, Boolean archive);
     ApplicationSettings getApplicationSettings();
     List<LoadPlan> getTransportArchive();
     LoadPlan getLoadPlanById(Object id);
@@ -175,7 +176,7 @@ public interface dbDAO {
     Vehicle getVehicleByNumber(String number);
     List<Transportation> getTransportationByVehicle(Vehicle vehicle);
     List<Transportation> getTransportationByDriver(Driver driver);
-    List<ArchiveData> getArchivatorData();
+    List<ArchiveData> getArchiveData();
     ProbeTurn getProbeTurnByTurn(Turn turn);
     List<LaboratoryTurn> getLimitLaboratoryTurn();
     List<LoadPlan> getLimitLoadPlanArchive();
@@ -186,4 +187,5 @@ public interface dbDAO {
     ChatMember getChatMember(Chat chat, Worker worker);
     ChatMessage getMessageById(long messageId);
     List<ChatMessage> getLimitMessagesByChat(Object chat);
+    ArchiveData getArchiveData(ArchiveType type, int document);
 }

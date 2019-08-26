@@ -16,6 +16,8 @@ import java.util.UUID;
 
 public class Chat implements Comparable<Chat>{
 
+    private static final int MESSAGE_ARRAY_SIZE = 10;
+
     private long id;
     private String title;
     private final ArrayList<Worker> members = new ArrayList<>();
@@ -61,7 +63,7 @@ public class Chat implements Comparable<Chat>{
     public String getDescription() {
         if (messagesArray.size() > 0) {
             Collections.sort(messagesArray);
-            ChatMessage chatMessage = messagesArray.get(0);
+            ChatMessage chatMessage = messagesArray.get(messagesArray.size() - 1);
             return chatMessage.getSender().getValue() + ": " + chatMessage.getText();
         }
         return "";
@@ -73,8 +75,19 @@ public class Chat implements Comparable<Chat>{
     }
 
     void addMessage(ChatMessage message) {
-        messagesArray.add(message);
+        boolean contain = false;
+        for (ChatMessage m : messagesArray) {
+            if (m.getId() == message.getId()){
+                contain = true;
+            }
+        }
+        if (!contain){
+            messagesArray.add(message);
+        }
         Collections.sort(messagesArray);
+        for (int i = 0; i < messagesArray.size() - MESSAGE_ARRAY_SIZE; i++){
+            messagesArray.remove(0);
+        }
     }
 
     public ArrayList<ChatMessage> getMessages() {

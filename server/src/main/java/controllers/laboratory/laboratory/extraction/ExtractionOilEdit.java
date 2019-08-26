@@ -2,10 +2,10 @@ package controllers.laboratory.laboratory.extraction;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
 import entity.laboratory.subdivisions.extraction.ExtractionOIl;
 import utils.PostUtil;
-import utils.TransportUtil;
 import utils.U;
 import utils.turns.TurnBox;
 
@@ -40,7 +40,7 @@ public class ExtractionOilEdit extends IModal {
         if (oil != null) {
             req.setAttribute("oil", oil);
         }
-        req.setAttribute("title", Constants.Titles.EXTRACTION_OIL);
+        req.setAttribute("title", Titles.EXTRACTION_OIL);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/oilEdit.jsp");
         req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("save", Branches.API.EXTRACTION_OIL_EDIT);

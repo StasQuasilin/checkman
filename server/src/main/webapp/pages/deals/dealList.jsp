@@ -30,7 +30,7 @@
            v-on:click="show(value.item.id)"
            v-on:dblclick=""
            ondblclick=""
-           v-on:click.right="contextMenu(value.item.id)">
+           v-on:click.right="contextMenu(value.item)">
         <div style="display: table-cell; border-right: solid gray 1.2pt; padding: 2pt 4pt; vertical-align: middle" >
           <span>
             {{new Date(value.item.date).toLocaleDateString()}}
@@ -47,20 +47,6 @@
               {{value.item.organisation.value}}
             </b>
           </span>
-          <span style="width: 12%">
-            <fmt:message key="deal.from"/>:
-            <b>
-              {{value.item.visibility}}
-            </b>
-          </span>
-          <span style="width: 30%">
-            <fmt:message key="deal.manager"/>:
-            <b>
-              {{value.item.creator.person.value}}
-            </b>
-          </span>
-          </div>
-          <div class="row" style="font-size: 10pt">
           <span>
             <fmt:message key="deal.product"/>:
             <b>
@@ -80,26 +66,40 @@
               {{(value.item.price).toLocaleString()}}
             </b>
           </span>
+          <span style="width: 12%">
+            <fmt:message key="deal.from"/>:
+            <b>
+              {{value.item.visibility}}
+            </b>
+          </span>
+
+          </div>
+          <div class="row" style="font-size: 10pt">
           <span>
             <fmt:message key="deal.done"/>:
             <b>
-              {{(value.item.done).toLocaleString()}}
-              <%--{{value.item.unit}}--%>
+              {{(value.item.complete).toLocaleString()}}
+              {{value.item.unit}}
             </b>
-            ( {{(value.item.done / value.item.quantity * 100).toLocaleString() + ' %'}} ),
-            {{(value.item.quantity-value.item.done).toLocaleString()}} <fmt:message key="deal.leave"/>
+            ( {{(value.item.complete / value.item.quantity * 100).toLocaleString() + ' %'}} ),
+            {{(value.item.quantity-value.item.complete).toLocaleString()}} {{value.item.unit}} <fmt:message key="deal.leave"/>
+          </span>
+          <span style="float: right">
+            <fmt:message key="deal.manager"/>:
+            <b>
+              {{value.item.creator.person.value}}
+            </b>
           </span>
           </div>
         </div>
       </div>
     </transition-group>
-
     <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
       <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/> </div>
+        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/></div>
         <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
-        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${delete}')"> <fmt:message key="menu.delete"/></div>
-        <div class="custom-data-list-item"><fmt:message key="menu.archive"/></div>
+        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${delete}')"> <fmt:message key="menu.cancel"/></div>
+        <div class="custom-data-list-item" v-if="menu.item.done"><fmt:message key="menu.archive"/></div>
       </div>
     </div>
   </div>

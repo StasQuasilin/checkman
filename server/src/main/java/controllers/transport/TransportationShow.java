@@ -1,10 +1,9 @@
 package controllers.transport;
 
-import api.transport.TransportDirection;
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import entity.weight.Weight;
 
@@ -38,7 +37,7 @@ public class TransportationShow extends IModal {
         req.setAttribute("tara", t);
         req.setAttribute("netto", n);
         req.setAttribute("transportation", transportation);
-        req.setAttribute("title", Constants.Titles.TRANSPORT_SHOW);
+        req.setAttribute("title", Titles.TRANSPORT_SHOW);
         req.setAttribute("timeInLink", Branches.API.TRANSPORT_TIME_IN);
         req.setAttribute("timeOutLink", Branches.API.TRANSPORT_TIME_OUT);
         req.setAttribute("findSeals", Branches.API.SEALS_FIND);

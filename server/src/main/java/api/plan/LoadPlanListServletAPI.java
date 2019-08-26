@@ -6,7 +6,6 @@ import constants.Constants;
 import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,7 +35,7 @@ public class LoadPlanListServletAPI extends ServletAPI {
             parameters.put("deal", deal);
 
             JSONObject plans = (JSONObject) body.get("plans");
-            for (LoadPlan plan : dao.getLoadPlanByDeal(deal)) {
+            for (LoadPlan plan : dao.getLoadPlanByDeal(deal, null, null)) {
                 String id = String.valueOf(plan.getId());
                 if (plans.containsKey(id)) {
                     long hash = (long) plans.remove(id);

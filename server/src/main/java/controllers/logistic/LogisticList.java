@@ -2,7 +2,7 @@ package controllers.logistic;
 
 import api.sockets.Subscriber;
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
 
@@ -22,7 +22,7 @@ public class LogisticList extends IUIServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Constants.Titles.LOGISTIC_LIST);
+        req.setAttribute("title", Titles.LOGISTIC_LIST);
         req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
         req.setAttribute("findDriver", Branches.API.References.FIND_DRIVER);
         req.setAttribute("saveVehicle", Branches.API.SAVE_TRANSPORTATION_VEHICLE);

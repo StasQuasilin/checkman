@@ -24,9 +24,9 @@ public final class SignService {
     private static final String LOGIN_KEY = "login";
     private static final String PASSWORD_KEY = "password";
 
-    public static boolean trySignIn(Context context) {
-        Preferences preferences = Preferences.getPreferences(context);
 
+    public static boolean trySignIn(Context context) {
+        Preferences preferences = new Preferences(context);
         String login = preferences.get(LOGIN_KEY, null);
         String password = preferences.get(PASSWORD_KEY, null);
 
@@ -36,7 +36,7 @@ public final class SignService {
     public static LoginAnswer signIn(Context context, String login, String password, boolean save){
         LoginAnswer answer = signIn(login, password);
         if (answer.getStatus() == LoginStatus.success && save){
-            Preferences preferences = Preferences.getPreferences(context);
+            Preferences preferences = new Preferences(context);
             preferences.put(LOGIN_KEY, login);
             preferences.put(PASSWORD_KEY, password);
 

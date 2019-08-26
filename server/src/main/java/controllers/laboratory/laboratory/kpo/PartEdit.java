@@ -2,8 +2,8 @@ package controllers.laboratory.laboratory.kpo;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
-import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -39,7 +39,7 @@ public class PartEdit extends IModal {
             req.setAttribute("number", dao.getActNumber(ActType.VRO).getNumber() + 1);
         }
 
-        req.setAttribute("title", Constants.Titles.PART_EDIT);
+        req.setAttribute("title", Titles.PART_EDIT);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/kpo/partEdit.jsp");
         req.setAttribute("save", Branches.API.KPO_PART_EDIT);
         show(req, resp);

@@ -3,7 +3,8 @@ var list = new Vue({
     data:{
         api:{
             edit:'',
-            show:''
+            show:'',
+            archive:''
         },
         items:[],
         timeout:-1,
@@ -11,6 +12,7 @@ var list = new Vue({
         types:{},
         menu:{
             id:-1,
+            item:{},
             show:false,
             x:0,
             y:0
@@ -22,13 +24,10 @@ var list = new Vue({
         if (typeof filter_control !== 'undefined'){
             filter_control.items = this.items;
             if (typeof filter_control.filteredItems === 'function') {
-                console.log('Overwrite get items funcion')
                 this.getItems = function () {
                     return filter_control.filteredItems();
                 }
             }
-        } else {
-            console.log('Filter control undefined')
         }
     },
     methods:{
@@ -116,8 +115,9 @@ var list = new Vue({
                 return new Date(b.item.date) - new Date(a.item.date);
             })
         },
-        contextMenu:function(id){
-            this.menu.id = id;
+        contextMenu:function(item){
+            this.menu.id = item.id;
+            this.menu.item = item;
             this.menu.x = event.pageX;
             this.menu.y = event.pageY;
             this.menu.show = true;
@@ -149,6 +149,9 @@ var list = new Vue({
         },
         show:function(id){
             loadModal(this.api.show + '?id=' + id, {id : id})
+        },
+        archive:function(id){
+            PostApi(this.api.archive, {id: id});
         },
         getItems:function(){
             return this.items;

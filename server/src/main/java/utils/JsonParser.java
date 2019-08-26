@@ -39,6 +39,7 @@ import org.json.simple.parser.ParseException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -56,6 +57,9 @@ public class JsonParser {
     private static final String MESSAGE = "message";
     private static final String IS_GROUP = "isGroup";
     private static final String EPOCH = "epoch";
+    private static final String COMPLETE = "complete";
+    private static final String DELIVERED = "delivered";
+    private static final String READ = "read";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -74,7 +78,7 @@ public class JsonParser {
     public static final String PRICE = "price";
     
     public JSONObject toJson(Deal deal) {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         json.put(ID, deal.getId());
         json.put(DATE, deal.getDate().toString());
         json.put(DATE_TO, deal.getDateTo().toString());
@@ -82,12 +86,14 @@ public class JsonParser {
         json.put(VISIBILITY, deal.getShipper().getValue());
         json.put(PRODUCT, toJson(deal.getProduct()));
         json.put(QUANTITY, deal.getQuantity());
-        json.put(DONE, deal.getDone());
+        json.put(COMPLETE, deal.getComplete());
         json.put(PRICE, deal.getPrice());
         json.put(CREATOR, toJson(deal.getCreator()));
         json.put(HASH, deal.hashCode());
         json.put(UNIT, deal.getUnit().getName());
         json.put(TYPE, deal.getType().toString());
+        json.put(DONE, deal.isDone());
+        json.put(ARCHIVE, deal.isArchive());
         return json;
     }
 
@@ -182,7 +188,7 @@ public class JsonParser {
             json.put(DATE, transportation.getDate().toString());
             json.put(PRODUCT, toJson(transportation.getProduct()));
             json.put(ORGANISATION, toJson(transportation.getCounterparty()));
-            json.put(SHIPPER, transportation.getShipper().getValue().toString());
+            json.put(SHIPPER, transportation.getShipper().getValue());
             json.put(VEHICLE, toJson(transportation.getVehicle()));
             json.put(DRIVER, toJson(transportation.getDriver()));
             json.put(TIME_IN, toJson(transportation.getTimeIn()));
@@ -193,6 +199,7 @@ public class JsonParser {
             json.put(NOTES, toNotesJson(transportation.getNotes()));
             json.put(ANY, transportation.anyAction());
             json.put(ARCHIVE, transportation.isArchive());
+            json.put(DONE, transportation.isDone());
         }
         return json;
     }
@@ -1062,9 +1069,7 @@ public class JsonParser {
         json.put(TITLE, chat.getTitle());
         json.put(IS_GROUP, chat.getIsGroup());
         JSONArray members = pool.getArray();
-        for (ChatMember member : chat.getMembers()) {
-            members.add(toJson(member.getMember()));
-        }
+        members.addAll(chat.getMembers().stream().map(member -> toJson(member.getMember())).collect(Collectors.toList()));
         json.put(MEMBERS, members);
         return json;
     }
@@ -1077,6 +1082,8 @@ public class JsonParser {
         object.put(EPOCH, message.getTimestamp().getTime());
         object.put(SENDER, toJson(message.getSender().getMember()));
         object.put(MESSAGE, message.getMessage());
+        object.put(DELIVERED, message.getDelivered().toString());
+        object.put(READ, message.getRead().toString());
         return object;
     }
 }

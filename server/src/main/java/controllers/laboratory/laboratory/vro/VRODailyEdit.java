@@ -2,14 +2,11 @@ package controllers.laboratory.laboratory.vro;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
-import entity.laboratory.subdivisions.vro.VRODaily;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
-import utils.TransportUtil;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -40,7 +37,7 @@ public class VRODailyEdit extends IModal{
                 req.setAttribute("daily", dao.getVRODailyById(id));
             }
         }
-        req.setAttribute("title", Constants.Titles.DAILY_ANALYSES);
+        req.setAttribute("title", Titles.DAILY_ANALYSES);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/vroDaily.jsp");
         req.setAttribute("save", Branches.API.VRO_DAILY_EDIT);
         req.setAttribute("turns", TurnBox.getTurns());

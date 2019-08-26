@@ -1,7 +1,7 @@
 package controllers.seals;
 
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ public class SealsList extends IUIServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Constants.Titles.SEAL_LIST);
+        req.setAttribute("title", Titles.SEAL_LIST);
         req.setAttribute("edit", Branches.UI.SEAL_CREATE);
         req.setAttribute("update", Branches.API.SEAL_UPDATE);
         req.setAttribute("content", "/pages/seals/sealsList.jsp");

@@ -9,6 +9,7 @@ import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.ProbeTurn;
 import entity.laboratory.storages.StorageTurn;
@@ -45,27 +46,34 @@ public class UpdateUtil {
         doAction(Command.remove, getSubscriber(deal.getType()), deal.getId());
     }
 
-    Subscriber getSubscriber(DealType type){
-        switch (type){
-            case buy:
-                return Subscriber.DEAL_BUY;
-            default:
-                return Subscriber.DEAL_SELL;
-        }
+    public void onArchive(Deal deal) throws IOException {
+        onRemove(deal);
+        Subscriber subscriber = deal.getType() == DealType.buy ? Subscriber.DEAL_BUY_ARCHIVE : Subscriber.DEAL_SELL_ARCHIVE;
+        doAction(Command.update, subscriber, parser.toJson(deal));
+    }
+
+    static Subscriber getSubscriber(DealType type){
+        return type == DealType.buy ? Subscriber.DEAL_BUY : Subscriber.DEAL_SELL;
+    }
+
+    static Subscriber getSubscriber(Transportation transportation){
+        return transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
     }
 
     public void onSave(Transportation transportation) throws IOException {
-        Subscriber subscriber = transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
-        doAction(Command.update, subscriber, parser.toJson(transportation));
+        doAction(Command.update, getSubscriber(transportation), parser.toJson(transportation));
         final LoadPlan plan = dao.getLoadPlanByTransportationId(transportation.getId());
         onSave(plan);
     }
 
     public void onRemove(Transportation transportation) throws IOException {
-        Subscriber subscriber = transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
-        doAction(Command.remove, subscriber, transportation.getId());
-        final LoadPlan plan = dao.getLoadPlanByTransportationId(transportation.getId());
-        onRemove(plan);
+        doAction(Command.remove, getSubscriber(transportation), transportation.getId());
+    }
+
+    private void onArchive(Transportation transportation) throws IOException {
+        onRemove(transportation);
+        Subscriber subscriber = transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY_ARCHIVE : Subscriber.TRANSPORT_SELL_ARCHIVE;
+        doAction(Command.update, subscriber, transportation);
     }
 
     public void onSave(LoadPlan plan) throws IOException {
@@ -74,6 +82,18 @@ public class UpdateUtil {
 
     public void onRemove(LoadPlan plan) throws IOException {
         doAction(Command.remove, Subscriber.LOAD_PLAN, plan.getId());
+    }
+
+    public void onArchive(LoadPlan loadPlan) throws IOException {
+        onRemove(loadPlan);
+        onArchive(loadPlan.getTransportation());
+    }
+
+
+
+
+    public void onRemove(ExtractionCrude crude) throws IOException {
+        doAction(Command.remove, Subscriber.EXTRACTION, crude.getId());
     }
 
     void doAction(Command command, Worker worker, Object obj) throws IOException {
@@ -163,6 +183,9 @@ public class UpdateUtil {
         object.put(MessageHandler.CONTACTS, parser.toJson(worker));
         doAction(Command.update, Subscriber.MESSAGES, object);
     }
+
+
+
 
     public enum Command {
         add,

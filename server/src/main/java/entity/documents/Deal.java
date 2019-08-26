@@ -26,9 +26,10 @@ public class Deal extends IDocument{
     private float quantity;
     private WeightUnit unit;
     private float price;
-    private float done;
+    private float complete;
     private Worker creator;
     private String uid;
+    private boolean done;
     private boolean archive;
 
     @Override
@@ -126,12 +127,12 @@ public class Deal extends IDocument{
     }
 
     @Basic
-    @Column(name = "done")
-    public float getDone() {
-        return done;
+    @Column(name = "complete")
+    public float getComplete() {
+        return complete;
     }
-    public void setDone(float done) {
-        this.done = done;
+    public void setComplete(float done) {
+        this.complete = done;
     }
 
     @OneToOne
@@ -153,6 +154,15 @@ public class Deal extends IDocument{
     }
 
     @Basic
+    @Column(name = "done")
+    public boolean isDone() {
+        return done;
+    }
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    @Basic
     @Column(name = "archive")
     public boolean isArchive() {
         return archive;
@@ -170,7 +180,7 @@ public class Deal extends IDocument{
         h = 31 * product.getId() + h;
         h = 31 * Float.hashCode(quantity) + h;
         h = 31 * Float.hashCode(price) + h;
-        h = 31 * Float.hashCode(done) + h;
+        h = 31 * Float.hashCode(complete) + h;
         h = 31 * type.hashCode() + h;
         h = 31 * Boolean.hashCode(archive) + h;
         h = 31 * creator.hashCode() + h;

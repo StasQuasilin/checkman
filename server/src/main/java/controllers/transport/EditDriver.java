@@ -2,6 +2,7 @@ package controllers.transport;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
 import entity.Person;
 import entity.transport.Driver;
@@ -57,7 +58,7 @@ public class EditDriver extends IModal {
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("saveDriverAPI", Branches.API.References.SAVE_DRIVER);
         req.setAttribute("modalContent", "/pages/transport/driverInput.jsp");
-        req.setAttribute("title", Constants.Titles.DRIVER_INPUT);
+        req.setAttribute("title", Titles.DRIVER_INPUT);
         show(req, resp);
     }
 }

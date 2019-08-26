@@ -206,12 +206,12 @@ VALUES (
   117,	'2019-07-10',	'2019-07-21',	0,	6309,	150,	'sell',	'd89786a0-8662-4c2c-baf5-1dea8e232c32',	2,	1,	116,	5,	1
 );
 INSERT INTO public.deals
-(id, archive, date, date_to, done, price, quantity, type, uid, creator, visibility, organisation, product, unit)
+(id, archive, date, date_to, complete, price, quantity, type, uid, creator, visibility, organisation, product, unit)
 VALUES (
   75,	'2019-07-10',	'2019-07-22',	27.28,	21000,	200,	'sell',	'dd73e15d-86c1-42fa-8d00-ab47f7e9dcef',	2,	1,	74,	2,	1
 );
 INSERT INTO public.deals
-(id, archive, date, date_to, done, price, quantity, type, uid, creator, visibility, organisation, product, unit)
+(id, archive, date, date_to, complete, price, quantity, type, uid, creator, visibility, organisation, product, unit)
 VALUES (
   37,	'2019-07-05',	'2019-07-12',	0,	9850,	22,	'buy',	'de92c4e5-f9f0-436a-8ef1-1bdf94a71f6e',	1,	1,	36,	1,	1
 );

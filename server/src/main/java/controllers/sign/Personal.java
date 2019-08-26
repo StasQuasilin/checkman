@@ -1,13 +1,10 @@
 package controllers.sign;
 
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 import entity.Role;
-import entity.bot.UserBotSetting;
 import utils.LanguageBase;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +20,7 @@ public class Personal extends IUIServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Constants.Titles.PERSONAL);
+        req.setAttribute("title", Titles.PERSONAL);
         req.setAttribute("content", "/pages/personal/personal.jsp");
         req.setAttribute("uidGenerator", Branches.API.BOT_UID);
         req.setAttribute("botStatus", Branches.API.USER_BOT_SETTINGS);

@@ -19,7 +19,13 @@ var login = new Vue({
             password:false
         }
     },
+    mounted:function(){
+
+    },
     methods:{
+        check:function(){
+            console.log(this.worker);
+        },
         findUser:function(){
             const self = this;
             if (this.worker != '') {
@@ -40,12 +46,35 @@ var login = new Vue({
             this.worker = user.person.value;
             this.foundUsers = [];
         },
+        signIn2:function(){
+            const self = this;
+            var worker = this.worker._value;
+            var index = worker.indexOf(' ');
+            var surname = worker.substring(0, index);
+            PostApi(self.api.find, {key: surname}, function(a){
+                if (a.length == 1){
+                    self.user.uid = a[0].uid;
+                    self.signIn();
+                } else {
+                    for (var i in a){
+                        if (a.hasOwnProperty(i)){
+                            if (a[i].person.value === worker){
+                                self.user.uid = a[i].uid;
+                                self.signIn();
+                            }
+                        }
+                    }
+                }
+            })
+        },
         signIn:function(){
-
+            if (this.user.uid === ''){
+                this.signIn2();
+            }
             this.errors.user = this.user.uid === '';
             this.errors.password = this.user.password === '';
+
             if (!this.errors.user && !this.errors.password) {
-                console.log('!!!');
                 if (this.user.uid && this.user.password) {
 
                     this.cover = true;
@@ -55,18 +84,22 @@ var login = new Vue({
                             uid:this.user.uid,
                             password:btoa(this.user.password)
                         }, function (a) {
-                        console.log(a);
-                        if (a.status == 'success') {
-                            location.href = context + a['redirect'];
-                        } else {
-                            self.err = a['msd'];
-                            self.cover = false;
-                        }
+                            console.log(a);
+                            if (a.status === 'success') {
+                                location.replace(context + a['redirect']);
+                            } else {
+                                self.err = a['msd'];
+                                self.cover = false;
+                            }
                     })
                 } else {
                     console.error('Something wrong with uid')
                 }
             }
+        },
+        clearErrors:function(){
+            this.errors.user = false;
+            this.errors.password = false;
         }
     }
 });

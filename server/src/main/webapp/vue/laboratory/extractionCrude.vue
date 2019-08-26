@@ -2,7 +2,8 @@ var editor = new Vue({
     el: '#editor',
     data: {
         api:{
-            save:''
+            save:'',
+            remove:''
         },
         laborants:[],
         times: [],
@@ -43,9 +44,15 @@ var editor = new Vue({
             datepicker.show(function(date){
                 self.crude.date = date;
             }, this.crude.date)
+        },
+        removeAnalyses:function(){
+            if (this.api.remove) {
+                closeModal();
+                loadModal(this.api.remove + '?id=' + this.crude.id);
+            }
         }
     },
     mounted:function(){
         this.time = this.currentTime();
     }
-})
+});

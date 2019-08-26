@@ -2,6 +2,7 @@ package controllers.laboratory.laboratory.extraction;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
 import entity.laboratory.subdivisions.extraction.TurnProtein;
 import org.json.simple.JSONObject;
@@ -40,7 +41,7 @@ public class ExtractionTurnProtein extends IModal {
         if (protein != null) {
             req.setAttribute("protein", protein);
         }
-        req.setAttribute("title", Constants.Titles.EXTRACTION_TURN_PROTEIN);
+        req.setAttribute("title", Titles.EXTRACTION_TURN_PROTEIN);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/turnProteinEdit.jsp");
         req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("save", Branches.API.EXTRACTION_TURN_PROTEIN_EDIT);

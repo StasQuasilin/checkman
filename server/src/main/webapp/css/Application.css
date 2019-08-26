@@ -47,6 +47,7 @@ button:focus, input:focus{
 
 .modal-layer{
     width: 100%;
+    max-width: 1390px;
     height: 100%;
     position: absolute;
     z-index: 3;
@@ -55,6 +56,14 @@ button:focus, input:focus{
 .wrapper {
     height: 100%;
     overflow-y: scroll;
+    max-width: 1170px;
+}
+.fast-container{
+    border-left: solid gray 1pt;
+    height: 100%;
+}
+.fast-content{
+    height: 100%;
 }
 .custom-data-list{
     font-size: 10pt;

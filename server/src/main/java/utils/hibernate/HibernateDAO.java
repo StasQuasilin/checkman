@@ -36,6 +36,7 @@ import entity.storages.StorageProduct;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
+import utils.ArchiveType;
 import utils.TurnDateTime;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.GE;
@@ -186,8 +187,16 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<LoadPlan> getLoadPlanByDeal(Object deal) {
-        return hb.query(LoadPlan.class, DEAL, deal);
+    public List<LoadPlan> getLoadPlanByDeal(Object deal, Boolean done, Boolean archive) {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put(DEAL, deal);
+        if (done != null) {
+            parameters.put("transportation/done", done);
+        }
+        if (archive != null) {
+            parameters.put("transportation/archive", archive);
+        }
+        return hb.query(LoadPlan.class, parameters);
     }
 
     @Override
@@ -484,7 +493,10 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Deal> getDealsByType(DealType type) {
-        return hb.query(Deal.class, "type", type);
+        final HashMap<String, Object> param = new HashMap<>();
+        param.put("type", type);
+        param.put("archive", false);
+        return hb.query(Deal.class, param);
     }
 
     @Override
@@ -761,8 +773,16 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<ArchiveData> getArchivatorData() {
+    public List<ArchiveData> getArchiveData() {
         return hb.query(ArchiveData.class, null);
+    }
+
+    @Override
+    public ArchiveData getArchiveData(ArchiveType type, int document) {
+        final HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("type", type);
+        parameters.put("document", document);
+        return hb.get(ArchiveData.class, parameters);
     }
 
     @Override

@@ -2,12 +2,9 @@ package controllers.archive;
 
 import api.sockets.Subscriber;
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
-import entity.products.Product;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +25,7 @@ public class TransportArchive extends IUIServlet {
 
         ArchiveType type = ArchiveType.valueOf(req.getParameter("type"));
         req.setAttribute("show", Branches.UI.ARCHIVE_SHOW + type.toString() + ".j");
-        req.setAttribute("title", Constants.Titles.TRANSPORT_ARCHIVE + "." + type.toString());
+        req.setAttribute("title", Titles.TRANSPORT_ARCHIVE + "." + type.toString());
         switch (type){
             case summary:
                 req.setAttribute("content", "/pages/weight/weightList.jsp");

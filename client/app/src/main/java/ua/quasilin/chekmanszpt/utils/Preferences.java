@@ -14,7 +14,7 @@ public class Preferences extends Preference {
     private static final String PREFERENCE_NAME = "preferences";
     private Context context;
 
-    private Preferences(Context context) {
+    public Preferences(Context context) {
         super(context);
         this.context = context;
     }
@@ -35,14 +35,5 @@ public class Preferences extends Preference {
 
     public String get(String key, String def){
         return getSettings().getString(key, def);
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private static Preferences preferences = null;
-    public static Preferences getPreferences(Context context) {
-        if(preferences == null){
-            preferences = new Preferences(context);
-        }
-        return preferences;
     }
 }

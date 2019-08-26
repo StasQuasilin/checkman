@@ -1,12 +1,8 @@
 package controllers.laboratory.laboratory.vro;
 
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
-import entity.production.Forpress;
-import utils.TransportUtil;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -25,7 +21,7 @@ public class VROOilMassFractionEdit extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Constants.Titles.OIL_MASS_FRACTION);
+        req.setAttribute("title", Titles.OIL_MASS_FRACTION);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/oilMassFraction.jsp");
         req.setAttribute("save", Branches.API.OIL_MASS_FRACTION);
         req.setAttribute("turns", TurnBox.getTurns());

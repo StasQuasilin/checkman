@@ -14,9 +14,20 @@ var chat = new Vue({
         selectedChat:-1,
         search:'',
         messageInput:'',
-        worker:Settings.worker
+        worker:Settings.worker,
+        windowWidth:0
+    },
+    created:function(){
+        window.addEventListener('resize', this.handleResize);
+        this.handleResize();
     },
     methods:{
+        handleResize:function(){
+            this.windowWidth = window.innerWidth;
+        },
+        oversize:function(){
+            return this.windowWidth > Settings.switchWidth;
+        },
         selectChat:function(id){
             this.selectedChat = id;
             const self = this;

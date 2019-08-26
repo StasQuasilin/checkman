@@ -9,5 +9,6 @@ var Settings = {
     worker:'',
     getAddress:function(){
         return this.protocol + '://' + this.address + this.context + this.api;
-    }
+    },
+    switchWidth:1390
 };

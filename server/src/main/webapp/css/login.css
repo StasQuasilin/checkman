@@ -63,6 +63,7 @@ a:hover{
     border-radius: 8pt;
     background-color: aliceblue;
     padding: 8pt;
+    box-shadow: 4pt 4pt 8pt gray;
 }
 
 .custom-data-list{

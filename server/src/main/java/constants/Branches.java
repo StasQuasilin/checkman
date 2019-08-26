@@ -11,8 +11,7 @@ public class Branches {
     public static class UI{
 
         public static final String SING_IN = "/login";
-        public static final String SIMPLE_PIMPLE = "/simple/login";
-        public static final String APPLICATION = "/application.j";
+        public static final String APPLICATION = "/CheckmanSZPT";
         public static final String DEAL_LIST = "/deals/list.j";
         public static final String DEAL_BUY = DEAL_LIST + "?type=buy";
         public static final String DEAL_SELL = DEAL_LIST + "?type=sell";
@@ -74,6 +73,7 @@ public class Branches {
         public static final String DEAL_SHOW_NEW = DEAL_SHOW + "_v2";
         public static final String NOTES_LIST = "/transportation/notes";
         public static final String CHANGE_PASSWORD = "/personal/change/password.j";
+        public static final String EXTRACTION_CRUDE_REMOVE = "/laboratory/crude/remove.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -195,8 +195,11 @@ public class Branches {
         public static final String PARSE_AND_PUT_VEHICLE = API + "/parse/put/vehicle";
         public static final String PARSE_AND_PUT_DRIVER = API + "/parse/put/driver";
         public static final String CHAT_SEND = API + "/chat/send";
-        public static final String CHAT_CREATE = API + "/chat/create";
         public static final String GET_CHAT = API + "/chat/get";
+        public static final String EXTRACTION_CRUDE_REMOVE = API + "/extraction/crude/remove";
+        public static final String ARCHIVE_LOAD_PLAN = API + "/archive/loadplan";
+        public static final String ARCHIVE_TRANSPORTATION = API + "/archive/transportation";
+        public static final String ARCHIVE_DEAL = API + "/archive/deal";
 
 
         public class References {

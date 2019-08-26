@@ -2,6 +2,7 @@ package controllers.deals;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
 import entity.transport.TransportCustomer;
 import org.json.simple.JSONObject;
@@ -35,8 +36,8 @@ public class DealShow extends IModal{
 
         if (dealId != -1) {
             req.setAttribute("deal", dao.getDealById(dealId));
-            req.setAttribute("plans", dao.getLoadPlanByDeal(dealId));
-            req.setAttribute("title", Constants.Titles.DEAL_SHOW);
+            req.setAttribute("plans", dao.getLoadPlanByDeal(dealId, null, null));
+            req.setAttribute("title", Titles.DEAL_SHOW);
             req.setAttribute("save", Branches.API.PLAN_LIST_SAVE);
             req.setAttribute("remove", Branches.API.REMOVE_PLAN);
             req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);

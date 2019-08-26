@@ -2,15 +2,11 @@ package controllers.laboratory.laboratory.vro;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
-import entity.laboratory.subdivisions.vro.OilMassFractionDry;
-import entity.production.Forpress;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
-import utils.TransportUtil;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -45,7 +41,7 @@ public class VROOilMassFractionDryEdit extends IModal {
                 log.info("New document");
             }
         }
-        req.setAttribute("title", Constants.Titles.OIL_MASS_FRACTION_DRY);
+        req.setAttribute("title", Titles.OIL_MASS_FRACTION_DRY);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/oilMassFractionDry.jsp");
         req.setAttribute("save", Branches.API.OIL_MASS_FRACTION_DRY);
         req.setAttribute("turns", TurnBox.getTurns());

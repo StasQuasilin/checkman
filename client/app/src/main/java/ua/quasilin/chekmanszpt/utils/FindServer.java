@@ -29,18 +29,26 @@ public class FindServer {
         return serverFound;
     }
     private static boolean checkAddress(String[] address){
-        String protocolHttp = URL.PROTOCOL_HTTP;
-        for (String string : address){
-            String answer = connector.request(URL.buildAddress(protocolHttp, string, URL.PING), new PingPacket());
-            Log.i(TAG, answer);
-            JSONObject parse = JsonParser.parse(answer);
-            if (parse != null) {
-                String status = String.valueOf(parse.get("status"));
-                if (status.equals("success")){
-                    return true;
-                }
+        for (String url : address){
+            boolean check = checkAddress(url);
+            if (check){
+                return true;
             }
+        }
+        return false;
+    }
 
+    public static boolean checkAddress(String string){
+        String protocolHttp = URL.PROTOCOL_HTTP;
+        String answer = connector.request(URL.buildAddress(protocolHttp, string, URL.PING), new PingPacket());
+        Log.i(TAG, answer);
+        JSONObject parse = JsonParser.parse(answer);
+        if (parse != null) {
+            String status = String.valueOf(parse.get("status"));
+            if (status.equals("success")){
+                URL.currentAddress = string;
+                return true;
+            }
         }
         return false;
     }

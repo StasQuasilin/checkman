@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/laboratory/extractionCrude.vue"></script>
 <script>
-    editor.api.save = '${saveUrl}';
+    editor.api.save = '${save}';
+    editor.api.remove = '${remove}';
     editor.times = [
         {
             hour:'08',
@@ -201,7 +202,7 @@
     </tr>
     <tr>
         <td colspan="3" align="right">
-            <a class="mini-close" v-if="crude.id">
+            <a class="mini-close" v-if="crude.id" v-on:click="removeAnalyses">
                 <fmt:message key="button.delete"/>
             </a>
             <button onclick="closeModal()">

@@ -2,7 +2,7 @@ package controllers.summary;
 
 import api.sockets.Subscriber;
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
 
@@ -19,10 +19,11 @@ public class SummaryList extends IUIServlet {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("title", Constants.Titles.SUMMARY_LIST);
+		req.setAttribute("title", Titles.SUMMARY_LIST);
 		req.setAttribute("edit", Branches.UI.SUMMARY_SHOW);
 		req.setAttribute("add", Branches.UI.WEIGHT_ADD);
 		req.setAttribute("notes", Branches.UI.NOTES_LIST);
+		req.setAttribute("archive", Branches.API.ARCHIVE_LOAD_PLAN);
 		req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
 		req.setAttribute("types", DealType.values());
 		req.setAttribute("content", "/pages/weight/weightList.jsp");

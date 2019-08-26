@@ -1,5 +1,7 @@
 package ua.quasilin.chekmanszpt.entity;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -85,5 +87,15 @@ public class ChatContainer implements Serializable {
                 chat.setId(id);
             }
         }
+    }
+
+    public static void clear() {
+        for (Chat chat : chats){
+            Log.i("Clear chat", chat.getTitle());
+            chat.getMembers().clear();
+            chat.getMessages().clear();
+        }
+        chats.clear();
+        contacts.clear();
     }
 }

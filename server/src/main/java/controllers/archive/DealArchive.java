@@ -1,7 +1,7 @@
 package controllers.archive;
 
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
 
@@ -20,7 +20,7 @@ public class DealArchive extends IUIServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DealType type = DealType.valueOf(req.getParameter("type"));
-        req.setAttribute("title", Constants.Titles.Archive.DEAL + "." + type.toString());
+        req.setAttribute("title", Titles.Archive.DEAL + "." + type.toString());
         req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
         req.setAttribute("show", "");
         req.setAttribute("type", type.toString());

@@ -15,7 +15,6 @@ public class SocketListener extends WebSocketListener {
 
     private static final String TAG = "ws";
     private MessagesHandler handler;
-    private static final int NORMAL_CLOSURE_STATUS = 1000;
 
     SocketListener(MessagesHandler handler) {
         this.handler = handler;

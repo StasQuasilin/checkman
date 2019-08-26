@@ -31,10 +31,7 @@ public class FindWorkerServletAPI extends ServletAPI {
         if (body != null) {
             JSONArray array = pool.getArray();
             Object key = body.get(Constants.KEY);
-            log.info("Find users by key " + key.toString());
-
             array.addAll(dao.findUser(key).stream().map(parser::toJson).collect(Collectors.toList()));
-
             write(resp, array.toJSONString());
             body.clear();
             pool.put(array);

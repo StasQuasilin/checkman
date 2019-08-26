@@ -59,5 +59,10 @@ public class ChatMessage implements Comparable<ChatMessage> {
         return dateFormat.format(time);
     }
 
-    java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("HH:mm");
+    @Override
+    public int hashCode() {
+        return (int) id;
+    }
+
+    private static java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("HH:mm");
 }

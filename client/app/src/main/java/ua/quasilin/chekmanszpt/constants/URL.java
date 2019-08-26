@@ -11,12 +11,13 @@ public final class URL {
     };
     public static final String[] INTERNAL_SERVER_ADDRESS = {
             "10.10.10.201:3322/checkman",
+            "192.168.88.254:3322/checkman",
             "10.10.10.45:3332/che",
             "192.168.0.106:3322/checkman"
     };
     private static final String PROTOCOL_WS = "ws";
     public static final String PROTOCOL_HTTP = "http";
-    private static String currentAddress = INTERNAL_SERVER_ADDRESS[0];
+    public static String currentAddress = INTERNAL_SERVER_ADDRESS[0];
     public static final String SUBSCRIBER = "/api/subscriber";
     public static final String PING = "/ping";
     public static final String LOGIN = "/a/sign/in";

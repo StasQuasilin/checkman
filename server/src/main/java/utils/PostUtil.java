@@ -42,19 +42,10 @@ public class PostUtil {
         resp.getWriter().write(txt);
     }
     public synchronized static JSONObject parseBodyJson(HttpServletRequest req) throws IOException {
-//        String collect = "";
         try {
-//            collect = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-//            System.out.println(collect);
-//            if (U.exist(collect)) {
-//                return (JSONObject) parser.parse(collect);
-//            } else {
-//                return empty;
-//            }
             return (JSONObject) parser.parse(req.getReader());
         } catch (ParseException e) {
-//            System.out.println(collect);
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
 
         return null;

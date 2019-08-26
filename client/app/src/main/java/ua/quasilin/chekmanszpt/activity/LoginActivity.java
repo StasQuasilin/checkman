@@ -24,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ua.quasilin.chekmanszpt.R;
+import ua.quasilin.chekmanszpt.activity.messages.ChatsActivity;
 import ua.quasilin.chekmanszpt.constants.URL;
 import ua.quasilin.chekmanszpt.entity.LoginAnswer;
 import ua.quasilin.chekmanszpt.packets.FindUserPacket;
@@ -81,7 +82,7 @@ public class LoginActivity extends Activity {
                                 }
                                 break;
                             case success:
-                                startActivity(new Intent(getApplicationContext(), StartActivity.class));
+                                startActivity(new Intent(getApplicationContext(), ChatsActivity.class));
                                 break;
                         }
                     }

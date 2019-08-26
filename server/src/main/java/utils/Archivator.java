@@ -26,7 +26,7 @@ public final class Archivator {
 
     public static void init(){
         log.info("Init archivator");
-        data.addAll(dao.getArchivatorData().stream().collect(Collectors.toList()));
+        data.addAll(dao.getArchiveData().stream().collect(Collectors.toList()));
         check();
         next();
     }
@@ -79,9 +79,13 @@ public final class Archivator {
     }
 
     public static void add(ArchiveType type, int document){
-        ArchiveData d = new ArchiveData();
-        d.setType(type);
-        d.setDocument(document);
+        ArchiveData d = dao.getArchiveData(type, document);
+        if (d == null){
+            d = new ArchiveData();
+            d.setType(type);
+            d.setDocument(document);
+        }
+
         d.setTime(Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
         dao.save(d);
         data.add(d);

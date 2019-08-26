@@ -1,8 +1,7 @@
 package controllers.laboratory.laboratory;
 
-import api.sockets.Subscriber;
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
 
@@ -20,7 +19,7 @@ public class LaboratoryList extends IUIServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DealType type = DealType.valueOf(req.getParameter("type"));
-        req.setAttribute("title", Constants.Titles.LABORATORY + "." + type.toString());
+        req.setAttribute("title", Titles.LABORATORY + "." + type.toString());
         req.setAttribute("type", type.toString());
         req.setAttribute("content", "/pages/laboratory/laboratoryList.jsp");
         req.setAttribute("update", Branches.API.LABORATORY_LIST + "?type=" + type.toString());

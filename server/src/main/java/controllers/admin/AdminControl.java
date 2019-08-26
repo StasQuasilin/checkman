@@ -1,7 +1,7 @@
 package controllers.admin;
 
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 import entity.Role;
 
@@ -19,7 +19,7 @@ public class AdminControl extends IUIServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        req.setAttribute("title", Constants.Titles.ADMIN);
+        req.setAttribute("title", Titles.ADMIN);
         req.setAttribute("content", "/pages/admin/admin.jsp");
         req.setAttribute("roles", Role.values());
         req.setAttribute("find", Branches.API.References.FIND_WORKER);

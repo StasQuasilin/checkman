@@ -2,14 +2,12 @@ package controllers.laboratory.laboratory;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
 import entity.AnalysesType;
 import entity.Role;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
-import utils.TransportUtil;
-import utils.turns.LaboratoryTurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,20 +33,20 @@ public class LaboratoryEdit extends IModal {
         switch (analysesType){
             case sun:
                 req.setAttribute("modalContent", "/pages/laboratory/sunEdit.jsp");
-                req.setAttribute("title", Constants.Titles.SUN_EDIT);
+                req.setAttribute("title", Titles.SUN_EDIT);
                 req.setAttribute("save", Branches.API.LABORATORY_SAVE_SUN);
                 req.setAttribute("print", Branches.API.LABORATORY_SUN_PRINT);
                 req.setAttribute("laborants", dao.getWorkersByRole(Role.analyser));
                 break;
             case oil:
                 req.setAttribute("modalContent", "/pages/laboratory/oilEdit.jsp");
-                req.setAttribute("title", Constants.Titles.OIL_EDIT);
+                req.setAttribute("title", Titles.OIL_EDIT);
                 req.setAttribute("save", Branches.API.LABORATORY_SAVE_OIL);
                 req.setAttribute("print", Branches.API.LABORATORY_OIL_PRINT);
                 break;
             case meal:
                 req.setAttribute("modalContent", "/pages/laboratory/cakeEdit.jsp");
-                req.setAttribute("title", Constants.Titles.CAKE_EDIT);
+                req.setAttribute("title", Titles.CAKE_EDIT);
                 req.setAttribute("save", Branches.API.LABORATORY_SAVE_CAKE);
                 req.setAttribute("print", Branches.API.LABORATORY_MEAL_PRINT);
                 break;

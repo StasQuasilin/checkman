@@ -157,7 +157,7 @@ var editor = new Vue({
                 })
             } else {
                 this.foundVehicles =[]
-                this.plan.vehicle = -1;
+                this.plan.vehicle = {};
             }
 
         },
@@ -194,7 +194,7 @@ var editor = new Vue({
                 })
             } else {
                 this.foundDrivers = [];
-                this.plan.driver = -1;
+                this.plan.driver = {};
             }
         },
         parseDriver:function(){
@@ -225,7 +225,7 @@ var editor = new Vue({
         },
         save:function(){
             PostApi(this.api.save, this.plan, function(a){
-                if (a.status == 'success'){
+                if (a.status === 'success'){
                     closeModal();
                 }
             })

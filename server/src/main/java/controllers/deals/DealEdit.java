@@ -45,7 +45,7 @@ public class DealEdit extends IModal {
         } else if (copy != -1){
             Deal deal = dao.getDealById(copy);
             deal.setId(-1);
-            deal.setDone(0);
+            deal.setComplete(0);
             req.setAttribute("deal", deal);
             req.setAttribute("title", Constants.Languages.DEAL_COPY);
             log.info("User \'" + worker.getValue() + "\' open copy deal \'" + copy + "\'");

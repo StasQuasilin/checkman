@@ -23,8 +23,10 @@ import java.util.UUID;
 import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.activity.LoginActivity;
 import ua.quasilin.chekmanszpt.activity.NoConnectionActivity;
+import ua.quasilin.chekmanszpt.activity.StartActivity;
 import ua.quasilin.chekmanszpt.activity.messages.ChatsActivity;
 import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
+import ua.quasilin.chekmanszpt.constants.URL;
 import ua.quasilin.chekmanszpt.entity.subscribes.Subscriber;
 import ua.quasilin.chekmanszpt.services.socket.Socket;
 import ua.quasilin.chekmanszpt.utils.*;
@@ -80,13 +82,18 @@ public class BackgroundService extends Service {
                     findServer = false;
                     boolean serverFound = msg.getData().getBoolean(STATUS);
                     if (serverFound) {
+                        Preferences preferences = new Preferences(context);
+                        preferences.put("address", URL.currentAddress);
                         login();
                         if (timerRunning) {
                             timerRunning = false;
                             findTimer.cancel();
                         }
                     } else {
-                        startActivity(new Intent(context, NoConnectionActivity.class));
+                        if (StartActivity.active) {
+                            AppState.state = AppState.State.noServer;
+                            startActivity(new Intent(context, NoConnectionActivity.class));
+                        }
                         if (!timerRunning) {
                             timerRunning = true;
                             findTimer.schedule(new FindServerTask(), 0, 5000);
@@ -95,9 +102,18 @@ public class BackgroundService extends Service {
                 }
             };
             new Thread(() -> {
+                Preferences preferences = new Preferences(context);
+                String address = preferences.get("address", null);
+                boolean found = false;
+                if (address != null) {
+                    found = FindServer.checkAddress(address);
+                }
+                if (!found){
+                    found = FindServer.find();
+                }
                 Message message = handler.obtainMessage();
                 Bundle bundle = new Bundle();
-                bundle.putBoolean(STATUS, FindServer.find());
+                bundle.putBoolean(STATUS, found);
                 message.setData(bundle);
                 handler.sendMessage(message);
             }).start();
@@ -113,8 +129,10 @@ public class BackgroundService extends Service {
                     socket.connect();
                     socket.subscribe(Subscriber.MESSAGES);
                     context.startActivity(new Intent(context, ChatsActivity.class));
+                    AppState.state = AppState.State.chats;
                 } else {
                     context.startActivity(new Intent(context, LoginActivity.class));
+                    AppState.state = AppState.State.login;
                 }
             }
         };
@@ -145,6 +163,9 @@ public class BackgroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(timerRunning){
+            findTimer.cancel();
+        }
         socket.disconnect();
     }
 

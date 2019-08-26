@@ -9,11 +9,12 @@
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <script>
     list.api.edit = '${edit}';
+    list.api.archive = '${archive}';
     <c:if test="${not empty limit}">
     list.limit = ${limit};
     </c:if>
     <c:forEach items="${types}" var="t">
-    list.types['${t}'] = '<fmt:message key="_${t}"/> '
+    list.types['${t}'] = '<fmt:message key="_${t}"/> ';
     </c:forEach>
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
@@ -29,7 +30,9 @@
     }
 </script>
 <div id="container-header" class="container-header">
-    <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
+    <c:if test="${not empty add}">
+        <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
+    </c:if>
 </div>
     <div id="container">
         <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
@@ -39,7 +42,7 @@
             <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
                  class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()"
                  v-on:click="edit(value.item.id)"
-                 v-on:click.right="contextMenu(value.item.id)">
+                 v-on:click.right="contextMenu(value.item)">
                 <div class="upper-row">
                 <span>
                     {{new Date(value.item.date).toLocaleDateString()}}
@@ -170,6 +173,8 @@
                 <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
                 <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
                 <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${cancel}')"><fmt:message key="menu.cancel"/></div>
+                <div class="custom-data-list-item" v-if="menu.item.done && !menu.item.archive"
+                     v-on:click="archive(menu.item.id)"><fmt:message key="menu.archive"/></div>
             </div>
         </div>
     </div>

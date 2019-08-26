@@ -34,10 +34,17 @@
         chat.handle(a);
     });
     </c:forEach>
+    var windowWidth = 0;
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    function handleResize(){
+        windowWidth = window.innerWidth;
+    }
+
     </script>
 
 </head>
-<body style="margin: 0">
+<body style="margin: 0; max-width: 1390px">
 <div class="coverlet" id="coverlet">
     <table style="width: 100%; height: 100%;">
         <tr>
@@ -77,7 +84,7 @@
     </c:choose>
 </script>
 
-<table class="body-table" border="1" style="width: 100%; height: 100%">
+<table class="body-table" border="1" style="width: 100%; height: 100%; max-width: 1390px">
     <tr>
         <td rowspan="2" valign="top" style="height: 40%; width: 1px; padding: 0; border-right: solid 2pt">
             <jsp:include page="NavigationMenu.jsp"/>
@@ -92,7 +99,7 @@
                         <div class="header" style="font-size: 10pt; text-align: right">
                             <div style="padding: 0 4pt">
                                 <a onclick="loadContent('${personal}')">
-                                    ${worker.value}
+                                    ${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}
                                 </a>
                                 <a onclick="logout()">
                                     (<fmt:message key="sign.out"/>)
@@ -103,23 +110,15 @@
                 </tr>
             </table>
         </td>
-        <td rowspan="3">
-            <%--<jsp:include page="ShortCuts.jsp"/>--%>
-        </td>
     </tr>
     <tr>
-        <td rowspan="2" height="100%" style="max-width: 1267px; width: 1px">
+        <td rowspan="2" height="100%" style="width: 1px">
             <div class="wrapper" id="content"></div>
         </td>
     </tr>
     <tr>
         <td height="100%" valign="top" style="border-right: solid 2pt">
             <div id="filter" class="filter" ></div>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-
         </td>
     </tr>
 </table>

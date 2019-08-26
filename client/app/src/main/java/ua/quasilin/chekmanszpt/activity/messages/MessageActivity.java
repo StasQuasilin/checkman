@@ -44,6 +44,7 @@ public class MessageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         int chatPosition = -1;
@@ -83,11 +84,9 @@ public class MessageActivity extends AppCompatActivity {
                 }
                 return false;
             });
-            ImageButton sendButton = findViewById(R.id.sendButton);
 
-            sendButton.setOnClickListener(v -> {
-                sendMessage(chat, messageInput);
-            });
+            ImageButton sendButton = findViewById(R.id.sendButton);
+            sendButton.setOnClickListener(v -> sendMessage(chat, messageInput));
 
             ProgressBar progressBar = findViewById(R.id.messagesLoadProgress);
             Handler handler = new Handler(Looper.getMainLooper()) {

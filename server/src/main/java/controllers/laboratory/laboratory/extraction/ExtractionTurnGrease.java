@@ -2,6 +2,7 @@ package controllers.laboratory.laboratory.extraction;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
 import entity.laboratory.subdivisions.extraction.TurnGrease;
 import org.json.simple.JSONObject;
@@ -41,7 +42,7 @@ public class ExtractionTurnGrease extends IModal {
         if (grease != null) {
             req.setAttribute("grease", grease);
         }
-        req.setAttribute("title", Constants.Titles.EXTRACTION_TURN_GREASE);
+        req.setAttribute("title", Titles.EXTRACTION_TURN_GREASE);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/turnGreaseEdit.jsp");
         req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("save", Branches.API.EXTRACTION_TURN_GREASE_EDIT);

@@ -30,10 +30,8 @@ public class SignInServletAPI extends ServletAPI {
         if (body != null) {
             IAnswer answer = SignInBox.signIn(req, String.valueOf(body.get(Constants.UID)), String.valueOf(body.get(Constants.PASSWORD)));
             JSONObject json = parser.toJson(answer);
-            PostUtil.write(resp, json.toJSONString());
-            log.info(json);
-            json.clear();
-            body.clear();
+             write(resp, json.toJSONString());
+            pool.put(json);
         }
     }
 

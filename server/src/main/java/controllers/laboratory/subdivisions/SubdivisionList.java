@@ -2,12 +2,9 @@ package controllers.laboratory.subdivisions;
 
 import api.sockets.Subscriber;
 import constants.Branches;
-import constants.Constants;
+import constants.Titles;
 import controllers.IUIServlet;
 import entity.SubdivisionKey;
-import entity.production.Forpress;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,7 +29,7 @@ public class SubdivisionList extends IUIServlet {
 
         switch (key){
             case ex:
-                req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_EXTRACTION);
+                req.setAttribute("title", Titles.SUBDIVISION_LIST_EXTRACTION);
                 req.setAttribute("content", "/pages/laboratory/subdivisions/extractionList.jsp");
                 req.setAttribute("crudeEdit", Branches.UI.Extraction.CRUDE_EDIT);
                 req.setAttribute("turnProtein", Branches.UI.Extraction.TURN_PROTEIN);
@@ -45,7 +42,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("subscribe", extractionSubscribes);
                 break;
             case vro:
-                req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_VRO);
+                req.setAttribute("title", Titles.SUBDIVISION_LIST_VRO);
                 req.setAttribute("content", "/pages/laboratory/subdivisions/vro/vroList.jsp");
                 req.setAttribute("crudeEdit", Branches.UI.VRO.CRUDE_EDIT);
                 req.setAttribute("oilEdit", Branches.UI.VRO.OIL_EDIT);
@@ -58,7 +55,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("subscribe", vroSubscribes);
                 break;
             case kpo:
-                req.setAttribute("title", Constants.Titles.SUBDIVISION_LIST_KPO);
+                req.setAttribute("title", Titles.SUBDIVISION_LIST_KPO);
                 req.setAttribute("content", "/pages/laboratory/subdivisions/kpoList.jsp");
                 req.setAttribute("edit", Branches.UI.KPO.PART_EDIT);
                 req.setAttribute("subscribe", kpoSubscribes);

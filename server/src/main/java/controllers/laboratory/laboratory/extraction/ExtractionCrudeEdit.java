@@ -2,19 +2,17 @@ package controllers.laboratory.laboratory.extraction;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
-import utils.TransportUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 28.03.2019.
@@ -40,9 +38,10 @@ public class ExtractionCrudeEdit extends IModal {
             }
         }
 
-        req.setAttribute("title", Constants.Titles.EXTRACTION_CRUDE);
+        req.setAttribute("title", Titles.EXTRACTION_CRUDE);
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/crudeEdit.jsp");
-        req.setAttribute("saveUrl", Branches.API.EXTRACTION_CRUDE_EDIT);
+        req.setAttribute("save", Branches.API.EXTRACTION_CRUDE_EDIT);
+        req.setAttribute("remove", Branches.UI.EXTRACTION_CRUDE_REMOVE);
         show(req, resp);
     }
 }

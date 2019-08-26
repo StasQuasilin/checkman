@@ -1,6 +1,7 @@
 package utils.turns;
 
 import entity.production.TurnSettings;
+import org.apache.log4j.Logger;
 import utils.TurnDateTime;
 import utils.boxes.IBox;
 import utils.hibernate.HibernateSessionFactory;
@@ -17,11 +18,15 @@ import java.util.List;
  */
 public final class TurnBox{
 
-    static final dbDAO dao = dbDAOService.getDAO();
-
+    private static final Logger log = Logger.getLogger(TurnBox.class);
+    private static final dbDAO dao = dbDAOService.getDAO();
     private static List<TurnSettings> turns;
-    private static final TurnDateTime def;
+    private static TurnDateTime def;
     static  {
+        init();
+    }
+
+    static void init(){
         turns = dao.getTurnSettings();
         turns.sort((o1, o2) -> Integer.compare( o1.getNumber(), o2.getNumber()));
 
@@ -33,7 +38,13 @@ public final class TurnBox{
     }
 
     public static TurnDateTime getTurnDate(LocalDateTime date){
-        System.out.println("Look at: " + date);
+        if (turns.size() == 0) {
+            log.warn("No any turn setting!!!");
+        } else {
+            log.info("Look at turn for: " + date);
+        }
+
+
         for (TurnSettings turn : turns) {
             LocalTime _b = turn.getBegin().toLocalTime();
             LocalDateTime begin = LocalDateTime.of(date.getYear(), date.getMonth(), date.getDayOfMonth(), _b.getHour(), _b.getMinute());
@@ -49,8 +60,8 @@ public final class TurnBox{
             }
 
             if ((date.isAfter(begin) || date.equals(begin)) && date.isBefore(end)){
-                System.out.println("\tTurn# " + turn.getNumber() + ", ");
-                System.out.println("\t" + begin);
+                log.info("\tTurn# " + turn.getNumber() + ", ");
+                log.info("\t" + begin);
                 return new TurnDateTime(turn.getNumber(), begin);
             }
         }

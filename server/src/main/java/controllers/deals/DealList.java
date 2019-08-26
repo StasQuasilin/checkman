@@ -1,8 +1,7 @@
 package controllers.deals;
 
 import constants.Branches;
-import constants.Constants;
-import controllers.IServlet;
+import constants.Titles;
 import controllers.IUIServlet;
 
 import javax.servlet.ServletException;
@@ -19,7 +18,7 @@ public class DealList extends IUIServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
-        req.setAttribute("title", Constants.Titles.DEAL_LIST + '-' + type);
+        req.setAttribute("title", Titles.DEAL_LIST + '-' + type);
         req.setAttribute("content", "/pages/deals/dealList.jsp");
         req.setAttribute("filter", "/pages/filters/dealFilter.jsp");
         req.setAttribute("type", type);

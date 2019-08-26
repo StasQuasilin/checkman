@@ -111,6 +111,7 @@
     </c:when>
     <c:otherwise>
     editor.plan = {
+        id:-1,
         type:'sell',
         date:new Date().toISOString().substring(0, 10),
         deal:-1,
@@ -201,9 +202,9 @@
         <td>
             <select id="deal" style="width: 100%" v-model="plan.deal">
                 <option value="-1"><fmt:message key="deal.new"/></option>
-                <optgroup  v-for="deal in deals" :label="new Date(deal.date).toLocaleDateString().substring(0, 5) +'-' + new Date(deal.date_to).toLocaleDateString().substring(0, 5)">
+                <optgroup  v-for="deal in deals" :label="new Date(deal.date).toLocaleDateString().substring(0, 5) + '-' + new Date(deal.date_to).toLocaleDateString().substring(0, 5)">
                     <option :value="deal.id">
-                        {{new Date(deal.date).toLocaleDateString().substring(0, 5)}} - {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}
+                        {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}
                     </option>
                 </optgroup>
             </select>

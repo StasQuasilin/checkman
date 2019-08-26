@@ -119,8 +119,6 @@ public class ExtractionOIl {
         if (createTime != null) {
             hash = 31 * createTime.hashCode() + hash;
         }
-//        private Worker creator;
-        hash = 31 * creator.hashCode() + hash;
         return hash;
     }
 }

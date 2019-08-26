@@ -2,11 +2,9 @@ package controllers.laboratory.probe;
 
 import constants.Branches;
 import constants.Constants;
+import constants.Titles;
 import controllers.IModal;
 import entity.AnalysesType;
-import entity.laboratory.probes.OilProbe;
-import entity.laboratory.probes.SunProbe;
-import utils.TransportUtil;
 import utils.U;
 
 import javax.servlet.ServletException;
@@ -38,7 +36,7 @@ public class ProbeEdit extends IModal {
         }
         switch (type){
             case sun:
-                req.setAttribute(TITLE, Constants.Titles.PROBE_SUN_EDIT);
+                req.setAttribute(TITLE, Titles.PROBE_SUN_EDIT);
                 req.setAttribute(SAVE, Branches.API.PROBE_SUN_SAVE);
                 req.setAttribute(MODAL_CONTENT, "/pages/laboratory/probes/sunProbe.jsp");
                 if (id != -1){
@@ -46,7 +44,7 @@ public class ProbeEdit extends IModal {
                 }
                 break;
             case oil:
-                req.setAttribute(TITLE, Constants.Titles.PROBE_OIL_EDIT);
+                req.setAttribute(TITLE, Titles.PROBE_OIL_EDIT);
                 req.setAttribute(SAVE, Branches.API.PROBE_OIL_SAVE);
                 req.setAttribute(MODAL_CONTENT, "/pages/laboratory/probes/oilProbe.jsp");
                 if (id != -1){
@@ -54,7 +52,7 @@ public class ProbeEdit extends IModal {
                 }
                 break;
             case cake:
-                req.setAttribute(TITLE, Constants.Titles.PROBE_CAKE_EDIT);
+                req.setAttribute(TITLE, Titles.PROBE_CAKE_EDIT);
                 req.setAttribute(SAVE, Branches.API.PROBE_CAKE_SAVE);
 //                req.setAttribute(MODAL_CONTENT, "/pages/laboratory/probes/cakeProbe.jsp");
                 if (id != -1){

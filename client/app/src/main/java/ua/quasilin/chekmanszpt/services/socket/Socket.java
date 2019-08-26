@@ -27,7 +27,10 @@ public class Socket {
     }
 
     public void disconnect() {
-        ws.close(1000,null);
+        if (ws != null) {
+            ws.close(1000, null);
+        }
+
     }
 
     enum Action{
@@ -39,8 +42,8 @@ public class Socket {
     private static final String WORKER = "worker";
     private static final JsonPool pool = JsonPool.getPool();
 
-    private static WebSocket ws;
-    private static boolean isConnected = false;
+    private WebSocket ws;
+    private boolean isConnected = false;
 
     public void connect(){
         OkHttpClient client = new OkHttpClient.Builder().build();

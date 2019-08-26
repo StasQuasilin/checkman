@@ -1,6 +1,7 @@
 package entity.chat;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -14,6 +15,8 @@ public class ChatMessage {
     private Chat chat;
     private ChatMember sender;
     private String message;
+    private Timestamp delivered;
+    private Timestamp read;
 
     @Id
     @GeneratedValue
@@ -58,5 +61,24 @@ public class ChatMessage {
     }
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Basic
+    @Column(name = "delivered")
+    public Timestamp getDelivered() {
+        return delivered;
+    }
+    public void setDelivered(Timestamp delivered) {
+        this.delivered = delivered;
+    }
+
+    @Basic
+    @Column(name = "read")
+    public Timestamp getRead() {
+        return read;
+    }
+
+    public void setRead(Timestamp read) {
+        this.read = read;
     }
 }

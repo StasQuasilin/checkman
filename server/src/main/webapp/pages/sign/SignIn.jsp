@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="${context}/ext/vue.js"></script>
     <title><fmt:message key="sign.in"/></title>
     <script src="${context}/js/Core.js"></script>
     <link rel="stylesheet" href="${context}/css/login.css">
@@ -34,10 +34,10 @@
                     </td>
                     <td>
                         <div>
-                            <input id="worker" autocomplete="off" v-model="worker" :class="{error : errors.user}" v-on:keyup="findUser()" onclick="this.select()">
+                            <input id="worker" autocomplete="off" v-model="worker" :class="{error : errors.user}" v-on:keyup.enter="check()" v-on:keyup="findUser()" onclick="this.select()">
                             <div class="custom-data-list" v-show="foundUsers.length > 0">
                                 <div class="custom-data-list-item" v-for="user in foundUsers" v-on:click="setUser(user)">
-                                    {{user.person.value}}
+                                    {{user.person.surname}}&nbsp;{{user.person.forename}}&nbsp;{{user.person.patronymic}}
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
     </div>
 </div>
 
-<script src="${context}/vue/SignIn.vue"></script>
+<script type="text/javascript" src="${context}/vue/SignIn.vue"></script>
 <script>
     const context = '${context}';
     login.api.find = '${userApi}';
