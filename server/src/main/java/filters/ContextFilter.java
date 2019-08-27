@@ -4,6 +4,7 @@ import api.sockets.ActiveSubscriptions;
 import api.sockets.EchoSocket;
 import bot.BotFactory;
 import constants.Branches;
+import constants.Constants;
 import entity.bot.BotSettings;
 import org.apache.log4j.Logger;
 import utils.Archivator;
@@ -56,7 +57,7 @@ public class ContextFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
-        req.setAttribute("context", req.getContextPath());
+        req.setAttribute(Constants.CONTEXT, req.getContextPath());
         filterChain.doFilter(req, servletResponse);
     }
 

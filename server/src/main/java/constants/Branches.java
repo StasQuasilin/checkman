@@ -11,7 +11,7 @@ public class Branches {
     public static class UI{
 
         public static final String SING_IN = "/login";
-        public static final String APPLICATION = "/CheckmanSZPT";
+        public static final String APPLICATION = "/app";
         public static final String DEAL_LIST = "/deals/list.j";
         public static final String DEAL_BUY = DEAL_LIST + "?type=buy";
         public static final String DEAL_SELL = DEAL_LIST + "?type=sell";

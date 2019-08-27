@@ -10,7 +10,7 @@
     <c:set var="send"><fmt:message key="chat.send"/></c:set>
     <table style="width: 100%; height: 100%" border="1">
       <tr>
-        <td valign="top" width="150pt">
+        <td valign="top" width="180pt">
           <div v-if="!showContacts">
             <div class="chat-title">
               <fmt:message key="chat.conversations"/>
@@ -18,10 +18,21 @@
                 +
               </span>
             </div>
-            <table>
+            <table width="100%">
               <tr v-for="(value, key) in chats">
                 <td v-on:click="selectChat(key)">
-                  {{value.title}}
+                  <div style="border-bottom: solid gray 1pt">
+                    <div style="display: inline-block" :class="{bold : value.unread > 0}">
+                      {{value.title}}
+                    </div>
+                    <div style="display: inline-block color: darkgray; font-size: 10pt; font-style: italic; float: right">
+                      {{new Date(value.message.time).toLocaleTimeString().substring(0, 5)}}
+                    </div>
+
+                    <div style="color: darkgray; font-size: 10pt; font-style: italic;">
+                      {{value.message.message.substring(0, 23)}}
+                    </div>
+                  </div>
                 </td>
               </tr>
             </table>
@@ -33,14 +44,10 @@
                 &times;
               </span>
             </div>
-            <div class="message-list">
-              <table>
-                <tr v-for="(value, key) in contacts" class="selected">
-                  <td v-on:click="openChat(value)">
-                    {{value.person.value}}
-                  </td>
-                </tr>
-              </table>
+            <div class="message-list" style="overflow-y: scroll">
+              <div v-for="(value, key) in contacts" class="selected" v-on:click="openChat(value)">
+                {{value.person.value}}
+              </div>
             </div>
           </div>
         </td>

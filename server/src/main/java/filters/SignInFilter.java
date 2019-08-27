@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
-@WebFilter(value = {Branches.UI.APPLICATION, "*.j", Branches.API.API + "*"})
+@WebFilter(value = {Branches.UI.APPLICATION, "*.j", Branches.API.API + "/*"})
 public class SignInFilter implements Filter{
 
     final UserBox userBox = UserBox.getUserBox();
@@ -40,8 +40,8 @@ public class SignInFilter implements Filter{
             String path = request.getContextPath();
             uri = uri.substring(path.length(), uri.length());
             HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-            if (uri.substring(0, Branches.API.API.length()).equals(Branches.API.API)){
+            int length = Branches.API.API.length();
+            if (uri.length() >= length && uri.substring(0, length).equals(Branches.API.API)){
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             } else {
                 response.sendRedirect(request.getContextPath() + Branches.UI.SING_IN);

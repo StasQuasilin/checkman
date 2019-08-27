@@ -14,6 +14,10 @@
     bottom: 20px;
 }
 .chat-button{
+    display: block;
+    text-align: center;
+    width: 38px;
+    height: 38px;
     color: black;
     font-size: 20pt;
     background-color: white;
@@ -27,6 +31,9 @@
     height: 100%;
     position: absolute;
 }
+.bold{
+    font-weight: bold;
+}
 .drop-shadow{
     box-shadow: 0 0 20px gray
 }
@@ -35,8 +42,8 @@
     top: -6px;
     left: -6px;
     background: orangered;
-    border-radius: 8pt;
-    padding: 2pt;
+    border-radius: 16pt;
+    padding: 4pt;
     font-size: 10pt;
     color: #1f1f1f;
     min-width: 14px;

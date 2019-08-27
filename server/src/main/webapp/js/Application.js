@@ -57,7 +57,6 @@ function loadContent(url){
 function editableModal(url){
     console.log(event);
     var id = event.toElement.getAttribute("id");
-//| event.toElement.getAttribute("item");
     var copy = event.toElement.getAttribute('copy');
 
     var parameters = {};
@@ -109,10 +108,15 @@ function addModal(modal, onSave){
 }
 function logout(){
     PostApi(logoutAPI, null, function (a) {
+        console.log(a);
         if (a.status == 'success'){
-            location.href=context + a['redirect'];
+            var p = document.location.origin + context + a['redirect'];
+            console.log(p);
+            location.replace(p);
         }
-    })
+    }, function(e){
+        console.log(e)
+    }, true);
 }
 function showChat(){
 

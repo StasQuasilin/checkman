@@ -4,10 +4,10 @@
     <div>
       <div class="chat-button-holder" v-on:click="switchChat()">
         <span class="chat-button">
-          &#128386;
+          &#9993;
         </span>
-        <span class="chat-messages-counter" v-show="unread > 0">
-          {{unread}}
+        <span class="chat-messages-counter" v-show="totalUnread() > 0">
+          {{totalUnread()}}
         </span>
       </div>
     </div>

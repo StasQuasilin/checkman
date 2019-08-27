@@ -1,5 +1,6 @@
 package utils.answers;
 
+import constants.Constants;
 import entity.answers.IAnswer;
 
 /**
@@ -7,8 +8,13 @@ import entity.answers.IAnswer;
  */
 public class SuccessAnswer extends IAnswer {
 
+    public SuccessAnswer() {}
+    public SuccessAnswer(String key, String value) {
+        add(key, value);
+    }
+
     @Override
     public String status() {
-        return "success";
+        return Constants.SUCCESS;
     }
 }

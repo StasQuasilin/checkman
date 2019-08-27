@@ -43,6 +43,9 @@ public class Constants {
     public static final String FIND_MANGER = "findManager";
     public static final String FIND_ORGANISATION = "findOrganisation";
     public static final String COUNTERPARTY = "counterparty";
+    public static final String SUCCESS = "success";
+    public static final String ERROR = "error";
+    public static final String CONTEXT = "context";
 
 
     public static class Languages {

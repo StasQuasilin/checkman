@@ -14,6 +14,7 @@ public class Chat {
     private String title;
     private boolean isGroup = false;
     private Set<ChatMember> members = new HashSet<>();
+    private ChatMessage lastMessage = null;
 
     @Id
     @GeneratedValue
@@ -48,6 +49,14 @@ public class Chat {
     }
     public void setMembers(Set<ChatMember> members) {
         this.members = members;
+    }
+
+    @Transient
+    public ChatMessage getLastMessage() {
+        return lastMessage;
+    }
+    public void setLastMessage(ChatMessage lastMessage) {
+        this.lastMessage = lastMessage;
     }
 
     @Override

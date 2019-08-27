@@ -48,7 +48,8 @@ var login = new Vue({
         },
         signIn2:function(){
             const self = this;
-            var worker = this.worker._value;
+            console.log(this.worker);
+            var worker = this.worker;
             var index = worker.indexOf(' ');
             var surname = worker.substring(0, index);
             PostApi(self.api.find, {key: surname}, function(a){
@@ -85,8 +86,8 @@ var login = new Vue({
                             password:btoa(this.user.password)
                         }, function (a) {
                             console.log(a);
-                            if (a.status === 'success') {
-                                location.replace(context + a['redirect']);
+                            if (a.status == 'success') {
+                                location.href = (context + a['redirect']);
                             } else {
                                 self.err = a['msd'];
                                 self.cover = false;

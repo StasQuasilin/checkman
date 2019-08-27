@@ -201,7 +201,7 @@ COPY public.changes (id, field, new_value, old_value, log) FROM stdin;
 --
 
 INSERT INTO public.deals
-(id, archive, date, date_to, done, price, quantity, type, uid, creator, visibility, organisation, product, unit)
+(id, archive, date, date_to, complete, price, quantity, type, uid, creator, visibility, organisation, product, unit)
 VALUES (
   117,	'2019-07-10',	'2019-07-21',	0,	6309,	150,	'sell',	'd89786a0-8662-4c2c-baf5-1dea8e232c32',	2,	1,	116,	5,	1
 );

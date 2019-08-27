@@ -1,4 +1,4 @@
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
@@ -175,8 +175,9 @@
             <%--!--%>
             <%--!--%>
             <%--ORGANISATION--%>
-            <div v-on:blur="parseOrganisation()" >
+            <div>
                 <input id="organisation" v-model="input.organisation" autocomplete="off"
+                       v-on:blur="parseOrganisation()"
                        v-on:keyup="findOrganisation()"
                        v-on:keyup.enter="parseOrganisation()"
                        onclick="this.select()">

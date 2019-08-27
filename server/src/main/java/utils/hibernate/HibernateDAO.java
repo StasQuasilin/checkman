@@ -92,10 +92,15 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<ChatMessage> getLimitMessagesByChat(Object chat) {
+        return getLimitMessagesByChat(chat, 20);
+    }
+
+    @Override
+    public List<ChatMessage> getLimitMessagesByChat(Object chat, int limit) {
         final HashMap<String, Object> parameters  = new HashMap<>();
         parameters.put("timestamp", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
         parameters.put("chat", chat);
-        return hb.limitQuery(ChatMessage.class, parameters, 20);
+        return hb.limitQuery(ChatMessage.class, parameters, limit);
     }
 
     @Override

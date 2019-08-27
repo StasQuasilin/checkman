@@ -5,6 +5,7 @@ import api.sockets.Subscriber;
 import entity.Worker;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
+import entity.chat.ChatMessage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
@@ -15,6 +16,7 @@ import utils.hibernate.dbDAOService;
 
 import javax.websocket.Session;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,11 +41,13 @@ public class MessageHandler {
         JSONArray chats = pool.getArray();
         for (ChatMember member : dao.getChatMembersByWorker(worker)){
             Chat chat = member.getChat();
+            List<ChatMessage> messagesByChat = dao.getLimitMessagesByChat(chat, 1);
+            if (messagesByChat.size() > 0) {
+                chat.setLastMessage(messagesByChat.get(0));
+            }
             Set<ChatMember> members = chat.getMembers();
             if (members.size() == 2){
-                members.stream().filter(m -> m.getMember().getId() != worker.getId()).forEach(m -> {
-                    chat.setTitle(m.getMember().getValue());
-                });
+                members.stream().filter(m -> m.getMember().getId() != worker.getId()).forEach(m -> chat.setTitle(m.getMember().getValue()));
             }
             chats.add(parser.toJson(chat));
 

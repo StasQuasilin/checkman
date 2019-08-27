@@ -1068,6 +1068,7 @@ public class JsonParser {
         json.put(ID, chat.getId());
         json.put(TITLE, chat.getTitle());
         json.put(IS_GROUP, chat.getIsGroup());
+        json.put(MESSAGE, toJson(chat.getLastMessage()));
         JSONArray members = pool.getArray();
         members.addAll(chat.getMembers().stream().map(member -> toJson(member.getMember())).collect(Collectors.toList()));
         json.put(MEMBERS, members);
@@ -1076,14 +1077,20 @@ public class JsonParser {
 
     public JSONObject toJson(ChatMessage message) {
         JSONObject object = pool.getObject();
-        object.put(ID, message.getId());
-        object.put(CHAT, message.getChat().getId());
-        object.put(TIME, message.getTimestamp().toString());
-        object.put(EPOCH, message.getTimestamp().getTime());
-        object.put(SENDER, toJson(message.getSender().getMember()));
-        object.put(MESSAGE, message.getMessage());
-        object.put(DELIVERED, message.getDelivered().toString());
-        object.put(READ, message.getRead().toString());
+        if (message != null) {
+            object.put(ID, message.getId());
+            object.put(CHAT, message.getChat().getId());
+            object.put(TIME, message.getTimestamp().toString());
+            object.put(EPOCH, message.getTimestamp().getTime());
+            object.put(SENDER, toJson(message.getSender().getMember()));
+            object.put(MESSAGE, message.getMessage());
+            if (message.getDelivered() != null) {
+                object.put(DELIVERED, message.getDelivered().toString());
+            }
+            if (message.getRead() != null) {
+                object.put(READ, message.getRead().toString());
+            }
+        }
         return object;
     }
 }

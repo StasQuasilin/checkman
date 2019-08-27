@@ -84,12 +84,22 @@ var chat = new Vue({
         clearSearch:function(){
             this.search = '';
         },
+        sortConversations:function(){
+            var d1, d2;
+            this.chats.sort(function(a, b){
+                d1 = new Date(b.message.time);
+                d2 = new Date(a.message.time);
+                return d1 - d2;
+            });
+        },
         updateMessage:function(message){
             for (var c in this.chats) {
                 if (this.chats.hasOwnProperty(c)) {
                     var chat = this.chats[c];
                     if (chat.id === message.chat) {
                         chat.messages.push(message);
+                        chat.message = message;
+                        this.sortConversations();
                         if (this.selectedChat != -1) {
                             if (chat.id === this.chats[this.selectedChat].id) {
                                 this.sortMessages();
@@ -104,7 +114,6 @@ var chat = new Vue({
         },
         updateChat:function(chats){
             var noChat = true;
-            console.log('update chat');
             console.log(chats);
             if (chats.key) {
                 for (var i in this.chats) {
@@ -119,17 +128,19 @@ var chat = new Vue({
                 }
             }
             if (noChat) {
-                console.log('add chat');
                 this.addChat(chats);
             }
         },
         addChat:function(chat){
+
             if (!chat.key){
                 chat.key = randomUUID();
             }
             chat.unread = 0;
             chat.messages = [];
             this.chats.unshift(chat);
+            this.sortConversations();
+
         },
         updateContact:function(contacts){
             var noContact = true;
@@ -148,7 +159,10 @@ var chat = new Vue({
             }
         },
         addContact:function(contact){
-            this.contacts.push(contact)
+            this.contacts.push(contact);
+            this.contacts.sort(function(a, b){
+                return a.person.value.localeCompare(b.person.value);
+            })
         },
         handle:function(a){
             if (a.update){
@@ -201,11 +215,14 @@ var chat = new Vue({
                 if (this.chats.hasOwnProperty(i)){
                     var chat = this.chats[i];
                     if(chat.members) {
-                        if (chat.members.length == 1) {
-                            if (chat.members[0].id === worker.id) {
-                                this.selectChat(i);
-                                haveChat = true;
-                                break;
+                        for (var a in chat.members){
+                            if (chat.members.hasOwnProperty(a)){
+                                if(chat.members[a].id === worker.id){
+                                    this.selectChat(i);
+                                    haveChat = true;
+                                    this.showContacts = false;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -219,7 +236,12 @@ var chat = new Vue({
                     members:[
                         worker
                     ],
-                    messages:[]
+                    messages:[],
+                    message:{
+                        time:new Date().toISOString(),
+                        message:''
+                    }
+
                 });
                 this.selectChat(0);
                 this.showContacts = false;
@@ -243,7 +265,6 @@ var chat = new Vue({
                     msg.members = this.chats[this.selectedChat].members;
                 }
 
-                console.log('Send ' + this.messageInput + ' to chat ' + chatId);
                 const self = this;
                 PostApi(this.api.send, msg, function(a){
                     if (a.status === 'success'){
