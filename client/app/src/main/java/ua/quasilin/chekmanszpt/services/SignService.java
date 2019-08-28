@@ -56,6 +56,7 @@ public final class SignService {
                 if (s.equals("success")){
                     loginAnswer = new LoginAnswer(LoginStatus.success);
                     ChatContainer.worker = new Worker(json.get("user"));
+                    ChatContainer.token = String.valueOf(json.get("token"));
                 } else {
                     Object msg = json.get("msd");
                     if (msg == null) {

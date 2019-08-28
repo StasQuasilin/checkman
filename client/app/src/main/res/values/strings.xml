@@ -23,4 +23,6 @@
     <string name="findServer">Пошук сервера</string>
     <string name="serviceRun">Служба працює в фоновому режимі</string>
     <string name="applicationStop">Зупинити програму</string>
+    <string name="ololoTrololo">OloloTrololo</string>
+    <string name="time">00:00</string>
 </resources>

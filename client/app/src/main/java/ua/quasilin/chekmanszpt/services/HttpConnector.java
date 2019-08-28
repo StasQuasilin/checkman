@@ -1,6 +1,7 @@
 package ua.quasilin.chekmanszpt.services;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import org.json.simple.JSONObject;
@@ -12,12 +13,18 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import ua.quasilin.chekmanszpt.entity.ChatContainer;
 import ua.quasilin.chekmanszpt.packets.JsonPool;
 import ua.quasilin.chekmanszpt.packets.Packet;
+
+import static java.lang.System.out;
+import static ua.quasilin.chekmanszpt.entity.ChatContainer.token;
 
 /**
  * Created by Kvasik on 30.07.2019.
@@ -56,7 +63,11 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
             urlConnection.setRequestMethod(METHOD);
             urlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+            if (token != null){
+                urlConnection.setRequestProperty("token", token);
+            }
             urlConnection.connect();
+
 
             BufferedOutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, ENCODING));
@@ -64,12 +75,18 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
             writer.close();
             out.close();
 
+            List<String> token = urlConnection.getHeaderFields().get("token");
+            if (token != null && token.size() > 0) {
+                ChatContainer.token = token.get(0);
+            }
+
             Log.i("Response code", String.valueOf(urlConnection.getResponseCode()));
             Scanner httpResponseScanner = new Scanner(urlConnection.getInputStream(), ENCODING);
             while (httpResponseScanner.hasNextLine()) {
                 builder.append(httpResponseScanner.nextLine());
             }
             httpResponseScanner.close();
+
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -79,9 +96,9 @@ public class HttpConnector extends AsyncTask<String, Void, String> {
             object.put("msg", e.getMessage());
             builder.append(object.toJSONString());
             pool.put(object);
-            Log.e("Connection", e.getMessage());
-
         }
+
+        Log.i(TAG, builder.toString());
         return builder.toString();
     }
 }

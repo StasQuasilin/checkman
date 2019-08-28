@@ -27,9 +27,7 @@ public class ChatsActivity extends AppCompatActivity {
         ChatViewAdapter adapter = new ChatViewAdapter(getApplicationContext(), R.layout.chat_list_row, ChatContainer.getChats());
         chatList.setAdapter(adapter);
         ImageButton button = findViewById(R.id.newChat);
-        button.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), ContactsActivity.class));
-        });
+        button.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ContactsActivity.class)));
     }
 
     @Override

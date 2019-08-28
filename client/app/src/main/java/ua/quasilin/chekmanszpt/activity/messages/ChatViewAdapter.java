@@ -10,12 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.entity.Chat;
 import ua.quasilin.chekmanszpt.entity.ChatContainer;
 import ua.quasilin.chekmanszpt.entity.Worker;
+import ua.quasilin.chekmanszpt.utils.DateUtil;
 
 /**
  * Created by szpt_user045 on 05.08.2019.
@@ -39,6 +46,7 @@ public class ChatViewAdapter extends ArrayAdapter<Chat> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
         View view;
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -53,6 +61,13 @@ public class ChatViewAdapter extends ArrayAdapter<Chat> {
 
         TextView chatDescription = view.findViewById(R.id.chatDescription);
         chatDescription.setText(item.getDescription());
+
+        String now = DateUtil.getDate(Calendar.getInstance().getTime());
+        String date = DateUtil.getDate(item.getMessage().getTime());
+        String time = now.equals(date) ? DateUtil.getTime(item.getMessage().getTime()) : date;
+
+        TextView chatTime = view.findViewById(R.id.chatTime);
+        chatTime.setText(time);
 
         view.setOnClickListener(v -> {
             Intent intent = new Intent(context, MessageActivity.class);

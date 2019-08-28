@@ -22,6 +22,7 @@ public class Chat implements Comparable<Chat>{
     private String title;
     private final ArrayList<Worker> members = new ArrayList<>();
     private final ArrayList<ChatMessage> messagesArray = new ArrayList<>();
+    private ChatMessage message;
     private String key;
     private boolean open = false;
 
@@ -37,6 +38,10 @@ public class Chat implements Comparable<Chat>{
             key = String.valueOf(json.get("key"));
         } else {
             key = UUID.randomUUID().toString();
+        }
+
+        if (json.containsKey("message")){
+            message = new ChatMessage(json.get("message"));
         }
 
     }
@@ -61,17 +66,15 @@ public class Chat implements Comparable<Chat>{
     }
 
     public String getDescription() {
-        if (messagesArray.size() > 0) {
-            Collections.sort(messagesArray);
-            ChatMessage chatMessage = messagesArray.get(messagesArray.size() - 1);
-            return chatMessage.getSender().getValue() + ": " + chatMessage.getText();
+        if (message != null) {
+            return message.getText();
         }
         return "";
     }
 
     @Override
     public int compareTo(@NonNull Chat o) {
-        return 0;
+        return message.getTime().compareTo(o.getMessage().getTime());
     }
 
     void addMessage(ChatMessage message) {
@@ -82,6 +85,7 @@ public class Chat implements Comparable<Chat>{
             }
         }
         if (!contain){
+            this.message = message;
             messagesArray.add(message);
         }
         Collections.sort(messagesArray);
@@ -112,5 +116,9 @@ public class Chat implements Comparable<Chat>{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public ChatMessage getMessage() {
+        return message;
     }
 }

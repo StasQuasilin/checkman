@@ -27,19 +27,31 @@ public class SignInFilter implements Filter{
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        final Object token = request.getSession().getAttribute(TOKEN);
+        final Object t = request.getSession().getAttribute(TOKEN);
+        String token = t != null ? t.toString() : null;
+        boolean inAttribute = false;
+        if (token == null){
+            inAttribute= true;
+            token = request.getHeader(TOKEN);
+        }
 
-        if (token != null && userBox.containsKey(token.toString())) {
-            request.getSession().setAttribute(TOKEN, userBox.updateToken(token.toString()));
-            filterChain.doFilter(servletRequest, servletResponse);
+        if (token != null && userBox.containsKey(token)) {
+            String updateToken = userBox.updateToken(token);
+            if (inAttribute){
+                response.setHeader(TOKEN, updateToken);
+            } else {
+                request.getSession().setAttribute(TOKEN, updateToken);
+            }
+
+            filterChain.doFilter(request, response);
         } else if (LoginBox.getInstance().trySignIn(request)){
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             String uri = request.getRequestURI();
             String path = request.getContextPath();
             uri = uri.substring(path.length(), uri.length());
-            HttpServletResponse response = (HttpServletResponse) servletResponse;
             int length = Branches.API.API.length();
             if (uri.length() >= length && uri.substring(0, length).equals(Branches.API.API)){
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);

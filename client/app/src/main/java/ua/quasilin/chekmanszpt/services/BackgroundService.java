@@ -52,6 +52,7 @@ public class BackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
     }
 
     private static final int NOTIFICATION_ID = UUID.randomUUID().hashCode();
@@ -62,7 +63,7 @@ public class BackgroundService extends Service {
         createNotification(context);
         MessagesHandler messagesHandler = new MessagesHandler(context, BackgroundService.this);
         socket = new Socket(messagesHandler);
-        findServer();
+        findServer(context);
         return START_STICKY;
     }
 
@@ -169,7 +170,7 @@ public class BackgroundService extends Service {
         socket.disconnect();
     }
 
-    private class FindServerTask extends TimerTask {
+    public class FindServerTask extends TimerTask {
         @Override
         public void run() {
             Log.i("Find task", "Start auto");

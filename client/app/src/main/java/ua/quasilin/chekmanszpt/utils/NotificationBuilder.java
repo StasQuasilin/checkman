@@ -52,7 +52,8 @@ public class NotificationBuilder {
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setSmallIcon(android.R.drawable.ic_media_play)
+                    .setShowWhen(false)
                     .setOngoing(ongoing)
                     .setPriority(priority)
                     .setAutoCancel(true)

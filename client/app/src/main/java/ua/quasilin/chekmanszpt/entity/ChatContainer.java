@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
 
@@ -15,6 +16,7 @@ public class ChatContainer implements Serializable {
     public static Worker worker;
     private static final ArrayList<Chat> chats = new ArrayList<>();
     private static final ArrayList<ChatContact> contacts = new ArrayList<>();
+    public static String token;
 
     public static void addChat(Chat chat){
 
@@ -38,6 +40,11 @@ public class ChatContainer implements Serializable {
             chats.add(chat);
         }
     }
+
+    public static void sortChats(){
+        Collections.sort(chats);
+    }
+
     public static boolean addMessage(ChatMessage message){
         for (Chat chat : chats){
             if (chat.getId() == message.getChat() && chat.isOpen()){

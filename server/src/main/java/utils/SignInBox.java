@@ -20,10 +20,12 @@ import java.io.IOException;
  */
 public class SignInBox {
 
+    private static final String TOKEN = "token";
     private static Logger log = Logger.getLogger(SignInBox.class);
     final static dbDAO dao = dbDAOService.getDAO();
     final static LanguageBase lb = LanguageBase.getBase();
     private static JsonParser parser = new JsonParser();
+    private static final UserBox userBox = UserBox.getUserBox();
 
     public static synchronized IAnswer signIn(HttpServletRequest req, String uid, String password) throws IOException {
         IAnswer answer;
@@ -34,13 +36,15 @@ public class SignInBox {
 
         if (user != null ){
             if (user.getPassword().equals(password)) {
+                String token = userBox.addUser(user);
                 answer = new SuccessAnswer();
                 answer.add("redirect", Branches.UI.HOME);
                 answer.add("user", parser.toJson(user.getWorker()));
                 answer.add("uid", user.getUid());
                 answer.add("role", user.getRole().toString());
-                log.info("Success, user " + user.getWorker().getPerson().getValue());
-                req.getSession().setAttribute("token", UserBox.getUserBox().addUser(new UserData(user, req.getSession())));
+                answer.add(TOKEN, token);
+
+                req.getSession().setAttribute(TOKEN, token);
                 req.getSession().setAttribute("lang", user.getWorker().getLanguage());
                 req.getSession().setAttribute("worker", user.getWorker());
                 req.getSession().setAttribute("uid", user.getUid());
