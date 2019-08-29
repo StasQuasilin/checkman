@@ -12,11 +12,9 @@ import entity.answers.IAnswer;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.PasswordGenerator;
 import utils.LanguageBase;
 import utils.UpdateUtil;
-import utils.email.EmailSender;
 import utils.email.RegistratorEmail;
 
 import javax.mail.MessagingException;
@@ -84,7 +82,7 @@ public class SignUpServletAPI extends ServletAPI {
 
                 try {
                     RegistratorEmail.sendEmail(email, getAddress(req), new String(Base64.getDecoder().decode(user.getPassword())));
-                    write(resp, answer);
+                    write(resp, SUCCESS_ANSWER);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                     IAnswer answer = new ErrorAnswer("msg", e.getMessage());

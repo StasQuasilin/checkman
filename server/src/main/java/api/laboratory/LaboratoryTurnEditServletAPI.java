@@ -5,7 +5,6 @@ import constants.Branches;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.turn.LaboratoryTurnWorker;
 import entity.production.Turn;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
@@ -21,8 +20,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by szpt_user045 on 04.06.2019.
@@ -60,7 +57,7 @@ public class LaboratoryTurnEditServletAPI extends ServletAPI {
 //
 //            }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

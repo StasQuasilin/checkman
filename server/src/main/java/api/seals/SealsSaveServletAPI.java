@@ -66,7 +66,7 @@ public class SealsSaveServletAPI extends ServletAPI {
 
                 body.clear();
             }
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

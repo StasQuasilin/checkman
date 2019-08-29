@@ -51,7 +51,7 @@ public class FriendlyRegistrationServletAPI extends ServletAPI {
             if (notificator != null) {
                 notificator.registrationShow(user);
             }
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

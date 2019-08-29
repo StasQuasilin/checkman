@@ -157,7 +157,7 @@ public class EditOilProbeServletAPI extends ServletAPI {
                 updateUtil.onSave(dao.getProbeTurnByTurn(target.getTurn()));
             }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

@@ -147,7 +147,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             dao.saveTransportation(transportation);
             dao.saveLoadPlan(loadPlan);
             updateUtil.onSave(transportation);
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
 
         } else {
             write(resp, emptyBody);

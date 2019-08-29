@@ -186,7 +186,7 @@ public class VROCrudeEditServletAPI extends ServletAPI {
                 forpressCakeHashMap.clear();
             }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
 
         } else {
             write(resp, emptyBody);

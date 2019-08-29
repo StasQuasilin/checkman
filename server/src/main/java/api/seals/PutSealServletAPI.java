@@ -32,7 +32,7 @@ public class PutSealServletAPI extends ServletAPI {
                 SealsUtil.checkBatch(seal.getBatch());
             }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

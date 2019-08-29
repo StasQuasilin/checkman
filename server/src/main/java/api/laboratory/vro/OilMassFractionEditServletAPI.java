@@ -167,7 +167,7 @@ public class OilMassFractionEditServletAPI extends ServletAPI {
                     updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
                 }
             }
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

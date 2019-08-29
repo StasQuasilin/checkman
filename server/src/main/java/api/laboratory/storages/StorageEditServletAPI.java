@@ -115,7 +115,7 @@ public class StorageEditServletAPI extends ServletAPI {
                 if (notificator != null) {
                     notificator.storagesShow(oilAnalyses);
                 }
-                write(resp, answer);
+                write(resp, SUCCESS_ANSWER);
             }
 
         } else {

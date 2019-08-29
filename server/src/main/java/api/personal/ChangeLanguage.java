@@ -26,7 +26,7 @@ public class ChangeLanguage extends ServletAPI {
                 worker.setLanguage(lang);
                 dao.save(worker);
                 req.getSession().setAttribute("lang", lang);
-                write(resp, answer);
+                write(resp, SUCCESS_ANSWER);
             }
         } else {
             write(resp, emptyBody);

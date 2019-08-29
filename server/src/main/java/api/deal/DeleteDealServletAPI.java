@@ -48,7 +48,7 @@ public class DeleteDealServletAPI extends ServletAPI{
                 updateUtil.onRemove(deal);
             }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         }
     }
 }

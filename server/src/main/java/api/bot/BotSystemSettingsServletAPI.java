@@ -44,7 +44,7 @@ public class BotSystemSettingsServletAPI extends ServletAPI {
             BotFactory.setSettings(settings);
         }
 
-        write(resp, answer);
+        write(resp, SUCCESS_ANSWER);
     }
 
 

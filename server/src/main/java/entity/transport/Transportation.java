@@ -28,6 +28,7 @@ public class Transportation {
     private Vehicle vehicle;
     private Driver driver;
     private Shipper shipper;
+    private ActionTime timeRegistration;
     private ActionTime timeIn;
     private ActionTime timeOut;
     private Product product;
@@ -103,6 +104,15 @@ public class Transportation {
     }
     public void setShipper(Shipper shipper) {
         this.shipper = shipper;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "time_registration")
+    public ActionTime getTimeRegistration() {
+        return timeRegistration;
+    }
+    public void setTimeRegistration(ActionTime timeRegistration) {
+        this.timeRegistration = timeRegistration;
     }
 
     @OneToOne

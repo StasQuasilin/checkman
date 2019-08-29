@@ -52,6 +52,7 @@ public class Notificator {
 
     
     private static final String NO_DATA = "no.data";
+    private static final String TRANSPORT_REGISTRATION = "bot.transport.registration";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -59,6 +60,7 @@ public class Notificator {
     public Notificator(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
     }
+
     public void transportShow(Transportation transportation){
         String message;
         for (UserBotSetting setting : getSettings()){
@@ -82,6 +84,21 @@ public class Notificator {
             }
         }
     }
+
+    public void transportRegistration(Transportation transportation) {
+        DealType type = transportation.getType();
+        String action = lb.get("_" + type.toString()).toLowerCase();
+        String product = transportation.getProduct().getThanName().toLowerCase();
+        String driver = "--";
+        if (transportation.getDriver() != null) {
+            driver = transportation.getDriver().getPerson().getValue();
+        }
+        String organisation = transportation.getCounterparty().getValue();
+        String message = String.format(lb.get(TRANSPORT_REGISTRATION), action, product, driver, organisation);
+
+        getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> sendMessage(setting.getTelegramId(), message, null));
+    }
+
     public void weightShow(LoadPlan plan, Weight weight) {
         String message;
         for (UserBotSetting setting : getSettings()){
@@ -330,7 +347,6 @@ public class Notificator {
     private void sendMessage(long telegramId, String message, ReplyKeyboard keyboard) {
         telegramBot.sendMsg(telegramId, message, keyboard);
     }
-
     public void extractionShow(StorageProtein storageProtein) {
         String storage = storageProtein.getStorage().getName();
         String time = storageProtein.getTime().toLocalDateTime().toLocalTime().toString();
@@ -349,7 +365,6 @@ public class Notificator {
             }
         }
     }
-
     public void extractionShow(ExtractionOIl oil) {
         final int turn = oil.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(oil.getTurn().getTurn().getDate());
@@ -373,7 +388,6 @@ public class Notificator {
             }
         }
     }
-
     public void extractionShow(TurnProtein turnProtein) {
         final int turn = turnProtein.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(turnProtein.getTurn().getTurn().getDate());
@@ -395,7 +409,6 @@ public class Notificator {
         }
 
     }
-
     public void extractionShow(TurnGrease turnGrease) {
         final int turn = turnGrease.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(turnGrease.getTurn().getTurn().getDate());
@@ -415,7 +428,6 @@ public class Notificator {
             }
         }
     }
-
     public void extractionShow(StorageGrease storageGrease) {
         String storage = storageGrease.getStorage().getName();
         String time = storageGrease.getTime().toLocalDateTime().toLocalTime().toString();
@@ -435,7 +447,6 @@ public class Notificator {
             }
         }
     }
-
     public void kpoShow(KPOPart part) {
         final HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()) {
@@ -494,4 +505,6 @@ public class Notificator {
         }
 
     }
+
+
 }

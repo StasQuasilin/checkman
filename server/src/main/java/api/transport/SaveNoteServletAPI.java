@@ -39,7 +39,7 @@ public class SaveNoteServletAPI extends ServletAPI {
                 note.setTransportation(plan.getTransportation());
                 note.setNote(noteText);
                 dao.save(note);
-                write(resp, answer);
+                write(resp, SUCCESS_ANSWER);
             }
         }
     }

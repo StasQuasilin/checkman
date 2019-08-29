@@ -23,6 +23,6 @@ public class Test extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding(ENCODING);
-        resp.getWriter().write("{answer:success}");
+        resp.getWriter().write("{SUCCESS_ANSWER:success}");
     }
 }

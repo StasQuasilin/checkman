@@ -43,7 +43,7 @@ public class EditOrganisationServletAPI extends ServletAPI {
             organisation.setType(type);
 
             dao.save(organisation);
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
             OrganisationType organisationType = dao.getOrganisationTypeByName(type);
             if (organisationType == null) {
                 organisationType = new OrganisationType();

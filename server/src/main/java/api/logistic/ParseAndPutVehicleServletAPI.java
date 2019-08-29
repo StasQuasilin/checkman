@@ -8,7 +8,6 @@ import entity.log.comparators.TransportationComparator;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
-import utils.U;
 import utils.UpdateUtil;
 import utils.VehicleParser;
 
@@ -40,7 +39,7 @@ public class ParseAndPutVehicleServletAPI extends ServletAPI {
             dao.saveTransportation(transportation);
             updateUtil.onSave(transportation);
             transportationComparator.compare(transportation, getWorker(req));
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         }
     }
 }

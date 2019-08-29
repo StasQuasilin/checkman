@@ -38,7 +38,7 @@ public class ChangeLoadPlanDateServletAPI extends ServletAPI {
                 plan.setDate(date);
                 dao.saveLoadPlan(plan);
                 comparator.compare(plan, getWorker(req));
-                write(resp, answer);
+                write(resp, SUCCESS_ANSWER);
             } else {
                 write(resp, emptyBody);
             }

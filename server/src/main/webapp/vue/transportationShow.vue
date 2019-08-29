@@ -4,11 +4,13 @@ var show = new Vue({
         api:{
             timeInApi:'',
             timeOutApi:'',
+            registration:'',
             findSeals:'',
             saveSeal:'',
             removeSeal:''
         },
         id:-1,
+        registrationTime:'',
         timeIn:'',
         timeOut:'',
         seals:[],
@@ -65,16 +67,20 @@ var show = new Vue({
         },
         removeSeal:function(key){
             var seal = this.seals[key];
-            var parameters = {};
-            parameters.seal = seal.id;
             var self = this;
-            PostApi(this.api.removeSeal, parameters, function(a){
+            PostApi(this.api.removeSeal, {seal : seal.id}, function(a){
                 if (a.status = 'success'){
-                    self.seals.splice(key, 1)
+                    self.seals.splice(key, 1);
                     console.log('remove seal \'' + key + '\'')
                 }
             })
 
+        },
+        registration:function(){
+            var self = this;
+            PostApi(this.api.registration, {transportation : this.id}, function(a){
+                console.log(a);
+            })
         }
     }
 });

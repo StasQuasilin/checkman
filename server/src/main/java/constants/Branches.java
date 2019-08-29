@@ -200,6 +200,7 @@ public class Branches {
         public static final String ARCHIVE_LOAD_PLAN = API + "/archive/loadplan";
         public static final String ARCHIVE_TRANSPORTATION = API + "/archive/transportation";
         public static final String ARCHIVE_DEAL = API + "/archive/deal";
+        public static final String TRANSPORT_REGISTRATION = API + "/transport/registration";
 
 
         public class References {

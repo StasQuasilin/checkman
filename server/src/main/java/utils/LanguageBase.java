@@ -13,14 +13,6 @@ public class LanguageBase{
         return base;
     }
 
-    public LanguageBase() {
-//        for (String l : languages){
-//            String resourceName = BASE_NAME + l;
-//            HashMap<String, ResourceBundle> BUNDLES = new HashMap<>();
-//            BUNDLES.put(l, ResourceBundle.getBundle(resourceName));
-//        }
-    }
-
     public String get(String key){
         return get(DEFAULT_LANGUAGE, key);
     }

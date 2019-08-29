@@ -60,6 +60,7 @@ public class JsonParser {
     private static final String COMPLETE = "complete";
     private static final String DELIVERED = "delivered";
     private static final String READ = "read";
+    private static final String REGISTRATION = "registration";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -191,6 +192,7 @@ public class JsonParser {
             json.put(SHIPPER, transportation.getShipper().getValue());
             json.put(VEHICLE, toJson(transportation.getVehicle()));
             json.put(DRIVER, toJson(transportation.getDriver()));
+            json.put(REGISTRATION, toJson(transportation.getTimeRegistration()));
             json.put(TIME_IN, toJson(transportation.getTimeIn()));
             json.put(TIME_OUT, toJson(transportation.getTimeOut()));
             json.put(HASH, transportation.hashCode());

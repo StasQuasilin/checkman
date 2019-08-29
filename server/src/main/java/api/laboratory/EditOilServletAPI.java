@@ -6,7 +6,6 @@ import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.documents.LoadPlan;
 import entity.laboratory.OilAnalyses;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
@@ -129,7 +128,7 @@ public class EditOilServletAPI extends ServletAPI {
                     notificator.oilAnalysesShow(transportation, oilAnalyses);
                 }
             }
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

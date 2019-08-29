@@ -79,7 +79,7 @@ public class EditWeightServletAPI extends ServletAPI {
                 transportationComparator.compare(plan.getTransportation(), getWorker(req));
             }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
             body.clear();
         } else {
             write(resp, emptyBody);

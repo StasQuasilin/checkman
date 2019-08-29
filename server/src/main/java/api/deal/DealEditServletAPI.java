@@ -136,7 +136,7 @@ public class DealEditServletAPI extends IChangeServletAPI {
                 }
 
             } else {
-                write(resp, answer);
+                write(resp, SUCCESS_ANSWER);
             }
 
 

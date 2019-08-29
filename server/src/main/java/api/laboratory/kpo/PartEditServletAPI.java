@@ -12,7 +12,6 @@ import entity.laboratory.transportation.ActType;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.UpdateBox;
 import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
@@ -127,7 +126,7 @@ public class PartEditServletAPI extends ServletAPI {
                     notificator.kpoShow(part);
                 }
             }
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

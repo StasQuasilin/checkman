@@ -100,7 +100,7 @@ public class ExtractionCrudeEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
 
             if (save) {
                 ActionTime createTime = crude.getCreateTime();

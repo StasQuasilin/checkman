@@ -29,7 +29,7 @@ public class RemoveSeals extends ServletAPI {
             seal.setCargo(null);
             dao.save(seal);
             SealsUtil.checkBatch(seal.getBatch());
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         }
 
     }

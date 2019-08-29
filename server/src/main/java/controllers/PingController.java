@@ -22,6 +22,6 @@ public class PingController extends ServletAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        write(resp, answer);
+        write(resp, SUCCESS_ANSWER);
     }
 }

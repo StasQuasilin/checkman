@@ -41,7 +41,7 @@ public class DeleteLoadPlanAPI extends ServletAPI{
                 dao.remove(loadPlanById, loadPlanById.getTransportation());
             }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         }
     }
 }

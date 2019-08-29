@@ -6,7 +6,6 @@ import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.documents.LoadPlan;
 import entity.laboratory.SunAnalyses;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
@@ -126,7 +125,7 @@ public class EditSunServletAPI extends ServletAPI {
                     notificator.sunAnalysesShow(transportation, sunAnalyses);
                 }
             }
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

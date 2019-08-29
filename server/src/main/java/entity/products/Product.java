@@ -13,6 +13,7 @@ public class Product {
     private int id;
     private ProductGroup productGroup;
     private String name;
+    private String thanName;
     private AnalysesType analysesType;
 
     @Id
@@ -42,6 +43,15 @@ public class Product {
         this.name = name;
     }
 
+    @Basic
+    @Column(name = "than")
+    public String getThanName() {
+        return thanName;
+    }
+    public void setThanName(String thanName) {
+        this.thanName = thanName;
+    }
+
     @Enumerated(EnumType.STRING)
     @Column(name = "analyses")
     public AnalysesType getAnalysesType() {
@@ -50,14 +60,6 @@ public class Product {
     public void setAnalysesType(AnalysesType analysesType) {
         this.analysesType = analysesType;
     }
-
-//    @Transient
-//    public AnalysesType getA() {
-//        return AnalysesType.valueOf(analysesType);
-//    }
-//    public void setA(AnalysesType a) {
-//        analysesType = a.toString();
-//    }
 
     @Override
     public String toString() {

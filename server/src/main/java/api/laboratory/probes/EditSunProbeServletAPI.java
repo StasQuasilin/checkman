@@ -8,7 +8,6 @@ import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.ProbeTurn;
 import entity.laboratory.probes.SunProbe;
 import entity.organisations.Organisation;
-import entity.production.Turn;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
@@ -140,7 +139,7 @@ public class EditSunProbeServletAPI extends ServletAPI {
                 updateUtil.onSave(dao.getProbeTurnByTurn(targetTurn.getTurn()));
             }
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);
         }

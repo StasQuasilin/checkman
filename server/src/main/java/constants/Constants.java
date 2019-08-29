@@ -46,6 +46,7 @@ public class Constants {
     public static final String SUCCESS = "success";
     public static final String ERROR = "error";
     public static final String CONTEXT = "context";
+    public static final String TRANSPORTATION = "transportation";
 
 
     public static class Languages {

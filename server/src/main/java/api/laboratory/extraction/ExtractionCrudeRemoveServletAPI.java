@@ -28,7 +28,7 @@ public class ExtractionCrudeRemoveServletAPI extends ServletAPI {
             Object id = body.get(Constants.ID);
             ExtractionCrude crude = dao.getExtractionCrudeById(id);
             dao.remove(crude);
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
             updateUtil.onRemove(crude);
         }
     }

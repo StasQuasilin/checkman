@@ -8,6 +8,7 @@
 <script>
     show.api.timeInApi = '${timeInLink}';
     show.api.timeOutApi = '${timeOutLink}';
+    show.api.registration = '${registration}';
     show.api.findSeals = '${findSeals}';
     show.api.saveSeal = '${saveSeal}';
     show.api.removeSeal = '${removeSeal}';
@@ -76,15 +77,6 @@
     </tr>
     <tr>
         <td>
-            <fmt:message key="deal.from"/>
-        </td>
-        <td>:</td>
-        <td>
-            ${transportation.shipper.value}
-        </td>
-    </tr>
-    <tr>
-        <td>
             <fmt:message key="transportation.automobile"/>
         </td>
         <td>
@@ -132,6 +124,19 @@
                     <fmt:message key="no.data"/>
                 </c:otherwise>
             </c:choose>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            &nbsp;
+        </td>
+        <td>
+            &nbsp;
+        </td>
+        <td>
+            <button>
+                <fmt:message key="transportation.registrate"/>
+            </button>
         </td>
     </tr>
     <tr>

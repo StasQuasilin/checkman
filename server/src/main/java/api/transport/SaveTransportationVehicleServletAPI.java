@@ -55,7 +55,7 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
             updateUtil.onSave(transportation);
             comparator.compare(transportation, getWorker(req));
 
-            write(resp, answer);
+            write(resp, SUCCESS_ANSWER);
 
             body.clear();
         } else {

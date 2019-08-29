@@ -33,7 +33,7 @@ public abstract class ServletAPI extends IServlet{
 
 
     protected final dbDAO dao = dbDAOService.getDAO();
-    public static final String answer = parser.toJson(new SuccessAnswer()).toJSONString();
+    public static final String SUCCESS_ANSWER = parser.toJson(new SuccessAnswer()).toJSONString();
     public static final String emptyBody = parser.toJson(new ErrorAnswer("msg", "Body parse error")).toJSONString();
 
     public JSONObject parseBody(HttpServletRequest req){
