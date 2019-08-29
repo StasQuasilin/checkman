@@ -10,7 +10,7 @@
     <c:set var="send"><fmt:message key="chat.send"/></c:set>
     <table style="width: 100%; height: 100%" border="1">
       <tr>
-        <td valign="top" width="180pt">
+        <td valign="top" width="240pt">
           <div v-if="!showContacts">
             <div class="chat-title">
               <fmt:message key="chat.conversations"/>

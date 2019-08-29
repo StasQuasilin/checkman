@@ -11,7 +11,7 @@
     text-align: right;
 }
 .my .message{
-    background-color: olive;
+    background-color: #bfdec5;
 }
 .message-wrapper{
     margin: 4pt;
@@ -23,7 +23,7 @@
     padding: 4pt;
     border-radius: 12pt;
     border: solid gray 1pt;
-    background-color: orange;
+    background-color: #ffe1a3;
     box-shadow: 0 0 10pt gray;
 }
 .message-sender{
@@ -32,4 +32,5 @@
 }
 .message-text{
     padding-left: 22pt;
+    overflow-wrap: break-word;
 }
