@@ -52,15 +52,18 @@ public class BackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
     }
 
-    private static final int NOTIFICATION_ID = UUID.randomUUID().hashCode();
+    public static final int NOTIFICATION_ID = UUID.randomUUID().hashCode();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Context context = getApplicationContext();
-        createNotification(context);
+        int flag = intent.getIntExtra(Starter.FLAG, -1);
+        if (flag != -1 && flag == 1){
+            createNotification(context);
+        }
+
         MessagesHandler messagesHandler = new MessagesHandler(context, BackgroundService.this);
         socket = new Socket(messagesHandler);
         findServer(context);
@@ -176,5 +179,10 @@ public class BackgroundService extends Service {
             Log.i("Find task", "Start auto");
             findServer();
         }
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        createNotification(getApplicationContext());
     }
 }

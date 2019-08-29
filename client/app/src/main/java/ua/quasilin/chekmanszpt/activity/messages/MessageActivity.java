@@ -30,10 +30,12 @@ import ua.quasilin.chekmanszpt.entity.ChatMessage;
 import ua.quasilin.chekmanszpt.entity.SimpleChatMessage;
 import ua.quasilin.chekmanszpt.packets.GetMessagesPacket;
 import ua.quasilin.chekmanszpt.packets.SendMessagePacket;
+import ua.quasilin.chekmanszpt.services.BackgroundService;
 import ua.quasilin.chekmanszpt.services.HttpConnector;
 import ua.quasilin.chekmanszpt.services.MessagesHandler;
 import ua.quasilin.chekmanszpt.utils.AdapterList;
 import ua.quasilin.chekmanszpt.utils.JsonParser;
+import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -44,8 +46,9 @@ public class MessageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        NotificationBuilder.closeNotification(getApplicationContext(), BackgroundService.NOTIFICATION_ID);
+
         setContentView(R.layout.activity_message);
         int chatPosition = -1;
 
@@ -140,5 +143,10 @@ public class MessageActivity extends AppCompatActivity {
             connector.request(URL.buildHttpAddress(URL.CHAT_SEND), new SendMessagePacket(chat, message));
         });
         sendThread.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), ChatsActivity.class));
     }
 }

@@ -1,11 +1,15 @@
 package ua.quasilin.chekmanszpt.entity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import ua.quasilin.chekmanszpt.R;
+import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
 import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
 
 /**
@@ -104,5 +108,55 @@ public class ChatContainer implements Serializable {
         }
         chats.clear();
         contacts.clear();
+    }
+
+    private static boolean selected = false;
+    public static void selectAllContacts() {
+        selected = !selected;
+        for (ChatContact contact : contacts){
+            contact.select(selected);
+        }
+    }
+
+    public static boolean createChat(String chatName, Context context) {
+        long id = -1;
+        ArrayList<Worker> members = new ArrayList<>();
+        for (ChatContact contact : contacts){
+            if (contact.isSelected()){
+                members.add(contact.getWorker());
+            }
+        }
+        if(members.size() > 0) {
+            for (ChatContact contact : contacts){
+                contact.select(false);
+            }
+            String title;
+            if (chatName == null || chatName.isEmpty()) {
+                StringBuilder builder = new StringBuilder();
+                int titleSize = members.size() < 3 ? members.size() : 3;
+                for (int i = 0; i < titleSize; i++) {
+                    builder.append(members.get(i).getPerson().getSurname());
+                    if (i < titleSize - 1) {
+                        builder.append(", ");
+                    }
+                    if (members.size() > 3) {
+                        builder.append(context.getResources().getString(R.string.andOthers));
+                    }
+                }
+                title = builder.toString();
+            } else {
+                title = chatName;
+            }
+
+            Chat chat = new Chat(id, title, members);
+            int chatPosition = 0;
+            chat.setOpen(true);
+            addChat(chat, chatPosition);
+            Intent intent = new Intent(context, MessageActivity.class);
+            intent.putExtra("chat", chatPosition);
+            context.startActivity(intent);
+            return true;
+        }
+        return false;
     }
 }

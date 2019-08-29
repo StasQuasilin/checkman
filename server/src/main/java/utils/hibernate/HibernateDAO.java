@@ -645,6 +645,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<User> getUsersByEmail(String email) {
+        return hb.query(User.class, "email", email);
+    }
+
+    @Override
     public StorageAnalyses getStorageAnalysesById(Object id) {
         return hb.get(StorageAnalyses.class, ID, id);
     }

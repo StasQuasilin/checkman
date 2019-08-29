@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 20.06.2019.
@@ -49,18 +50,22 @@ public class PasswordRestoreServletAPI extends ServletAPI {
             JSONObject body = parseBody(req);
             if (body != null) {
                 String email = (String) body.get("email");
-                User user = dao.getUserByEmail(email);
+                List<User> users = dao.getUsersByEmail(email);
 
-                if (user != null) {
-                    String language = user.getWorker().getLanguage();
+                if (users.size() > 0) {
+                    String language = users.get(0).getWorker().getLanguage();
+                    StringBuilder builder = new StringBuilder();
+                    for (User user : users){
+                        builder.append(String.format(
+                                lb.get(language, "password.restore.email.text"),
+                                user.getWorker().getValue(),
+                                new String(Base64.getDecoder().decode(user.getPassword())))).append("\n");
+                    }
                     try {
                         EmailSender.getInstance().sendEmail(
                                 email,
                                 lb.get(language, "password.restore.email.subject"),
-                                String.format(
-                                        lb.get(language, "password.restore.email.text"),
-                                        user.getWorker().getValue(),
-                                        new String(Base64.getDecoder().decode(user.getPassword()))));
+                                builder.toString());
                         answer = new SuccessAnswer();
                     } catch (MessagingException e) {
                         e.printStackTrace();

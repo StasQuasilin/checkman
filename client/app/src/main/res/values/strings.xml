@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">checkman.szpt</string>
+    <string name="app_name">Checkman СЗПТ</string>
     <string name="messages">Messages</string>
     <string name="nav_menu">Navigation Menu</string>
     <string name="notify">Notify</string>
-    <string name="notification_description">Улюблене підприємство тепер і в смартфоні</string>
+    <string name="notification_description">Мессенджер СЗПТ працює в фоновому режимі</string>
     <string name="contacts">Контакти</string>
     <string name="search">Пошук</string>
     <string name="login">Користувач</string>
@@ -25,4 +25,9 @@
     <string name="applicationStop">Зупинити програму</string>
     <string name="ololoTrololo">OloloTrololo</string>
     <string name="time">00:00</string>
+    <string name="group">Груповий чат</string>
+    <string name="groupName">Назва групи</string>
+    <string name="createChat">Створити чат</string>
+    <string name="selectAll">Вибрати всіх</string>
+    <string name="andOthers">та інші</string>
 </resources>

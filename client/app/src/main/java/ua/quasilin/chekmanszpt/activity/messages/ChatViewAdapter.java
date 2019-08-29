@@ -63,8 +63,11 @@ public class ChatViewAdapter extends ArrayAdapter<Chat> {
         chatDescription.setText(item.getDescription());
 
         String now = DateUtil.getDate(Calendar.getInstance().getTime());
-        String date = DateUtil.getDate(item.getMessage().getTime());
-        String time = now.equals(date) ? DateUtil.getTime(item.getMessage().getTime()) : date;
+        String time = now;
+        if (item.getMessage() != null) {
+            String date = DateUtil.getDate(item.getMessage().getTime());
+            time = now.equals(date) ? DateUtil.getTime(item.getMessage().getTime()) : date;
+        }
 
         TextView chatTime = view.findViewById(R.id.chatTime);
         chatTime.setText(time);

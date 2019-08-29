@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import io.reactivex.annotations.Nullable;
 import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.activity.MainActivity;
+import ua.quasilin.chekmanszpt.activity.messages.ChatsActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -20,39 +21,50 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  */
 
 public class NotificationBuilder {
-    private static final String CHANNEL_NAME = "Checkman Channel";
+    private static final String CHANNEL_NAME = "Checkman Messages";
     private static final String CHANNEL_ID = "checkman";
+    private static final String MESSAGE_CHANNEL = "Checkman messages";
 
     public static Notification build(Context context, int id){
+        int importance = -1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            importance = NotificationManager.IMPORTANCE_MIN;
+        }
         return build(
                 context, id,
                 true,
                 null,
-                null,
-                NotificationCompat.PRIORITY_MAX, null
-        );
+                context.getResources().getString(R.string.notification_description),
+                NotificationCompat.PRIORITY_MIN, new Intent(context, ChatsActivity.class),
+                android.R.drawable.ic_media_play, CHANNEL_ID, importance);
     }
 
     public static Notification build(Context context, int id, String title, String content, Intent intent){
-        return build(context, id, false, title, content, NotificationCompat.PRIORITY_DEFAULT, intent);
+        int importance = -1;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            importance = NotificationManager.IMPORTANCE_DEFAULT;
+        }
+        return build(context, id, false, title, content,
+                NotificationCompat.PRIORITY_DEFAULT, intent, android.R.drawable.ic_dialog_email,
+                MESSAGE_CHANNEL, importance);
     }
 
     public static Notification build(Context context, int id, boolean ongoing,
                                      @Nullable String title, @Nullable String contentText,
-                                     int priority, Intent intent){
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                                     int priority, Intent intent, int icon, String channelId, int importance){
 
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && notificationManager != null){
-            NotificationChannel channel = notificationManager.getNotificationChannel(CHANNEL_ID);
+            NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
             if (channel == null) {
-                channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+                channel = new NotificationChannel(channelId, CHANNEL_NAME, importance);
                 notificationManager.createNotificationChannel(channel);
             }
         }
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(android.R.drawable.ic_media_play)
+                    .setSmallIcon(icon)
                     .setShowWhen(false)
                     .setOngoing(ongoing)
                     .setPriority(priority)
@@ -71,5 +83,12 @@ public class NotificationBuilder {
             );
         }
         return builder.build();
+    }
+
+    public static void closeNotification(Context context, int notificationId){
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager != null) {
+            manager.cancel(notificationId);
+        }
     }
 }

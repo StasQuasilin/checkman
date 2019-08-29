@@ -132,6 +132,7 @@ public interface dbDAO {
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
     UserBotSetting getBotSettingsByWorker(Worker worker);
     User getUserByEmail(String email);
+    List<User> getUsersByEmail(String email);
     StorageAnalyses getStorageAnalysesById(Object id);
     StorageTurn getStorageTurnByTurn(Turn turn);
     Storage getStorageById(Object id);

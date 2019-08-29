@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,28 +46,44 @@ public class ContactsViewAdapter extends ArrayAdapter<ChatContact> {
         }
 
         ChatContact contact = contacts.get(position);
+        CheckBox inGroup = view.findViewById(R.id.inGroup);
+        inGroup.setOnClickListener(v -> contact.select(inGroup.isChecked()));
+        inGroup.setChecked(contact.isSelected());
+        ViewGroup.LayoutParams layoutParams = inGroup.getLayoutParams();
+        if (ContactsActivity.isGroupChecked){
+            layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        }else {
+            layoutParams.width = 0;
+        }
+        inGroup.setLayoutParams(layoutParams);
         TextView contactName = view.findViewById(R.id.contactName);
         contactName.setText(contact.getWorker().getValue());
 
         view.setOnClickListener((View v) -> {
-            int chatPosition = ChatContainer.findChatByWorker(contact.getWorker().getId());
+            if (ContactsActivity.isGroupChecked){
+                inGroup.setChecked(!inGroup.isChecked());
+                contact.select(inGroup.isChecked());
+            } else {
+                int chatPosition = ChatContainer.findChatByWorker(contact.getWorker().getId());
 
-            if (chatPosition == -1){
-                chatPosition = 0;
-                final ArrayList<Worker> members = new ArrayList<>();
-                members.add(contact.getWorker());
-                members.add(ChatContainer.worker);
-                Chat chat = new Chat(
-                        -1,
-                        contact.getWorker().getValue(),
-                        members
-                );
-                chat.setOpen(true);
-                ChatContainer.addChat(chat, chatPosition);
+                if (chatPosition == -1){
+                    chatPosition = 0;
+                    final ArrayList<Worker> members = new ArrayList<>();
+                    members.add(contact.getWorker());
+                    members.add(ChatContainer.worker);
+                    Chat chat = new Chat(
+                            -1,
+                            contact.getWorker().getValue(),
+                            members
+                    );
+                    chat.setOpen(true);
+                    ChatContainer.addChat(chat, chatPosition);
+                }
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("chat", chatPosition);
+                context.startActivity(intent);
             }
-            Intent intent = new Intent(context, MessageActivity.class);
-            intent.putExtra("chat", chatPosition);
-            context.startActivity(intent);
+
         });
 
         return view;

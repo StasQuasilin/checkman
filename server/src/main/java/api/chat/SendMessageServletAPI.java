@@ -28,11 +28,11 @@ import java.util.List;
  * Created by szpt_user045 on 29.07.2019.
  */
 @WebServlet(Branches.API.CHAT_SEND)
-public class SendMessageAPI extends ServletAPI {
+public class SendMessageServletAPI extends ServletAPI {
 
     final dbDAO dao = dbDAOService.getDAO();
     final UpdateUtil updateUtil = new UpdateUtil();
-    final Logger log = Logger.getLogger(SendMessageAPI.class);
+    final Logger log = Logger.getLogger(SendMessageServletAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -129,7 +129,7 @@ public class SendMessageAPI extends ServletAPI {
                 JSONObject jsonAnswer = parser.toJson(success);
                 write(resp, jsonAnswer.toJSONString());
                 pool.put(jsonAnswer);
-
+                chat.setLastMessage(message);
                 for (ChatMember member : members) {
                     if (chatId == -1) {
                         updateUtil.onSave(chat, chatKey, member.getMember());

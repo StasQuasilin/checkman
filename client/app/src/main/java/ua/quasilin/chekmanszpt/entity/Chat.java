@@ -41,7 +41,10 @@ public class Chat implements Comparable<Chat>{
         }
 
         if (json.containsKey("message")){
-            message = new ChatMessage(json.get("message"));
+            Object message = json.get("message");
+            if (message != null) {
+                this.message = new ChatMessage(message);
+            }
         }
 
     }
@@ -74,7 +77,7 @@ public class Chat implements Comparable<Chat>{
 
     @Override
     public int compareTo(@NonNull Chat o) {
-        return message.getTime().compareTo(o.getMessage().getTime());
+        return o.message.getTime().compareTo(message.getTime());
     }
 
     void addMessage(ChatMessage message) {

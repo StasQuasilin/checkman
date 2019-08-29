@@ -93,7 +93,6 @@ public class MessagesHandler {
                                 break;
                         }
                         AdapterList.update();
-
                     }
                 }
             }

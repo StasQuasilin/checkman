@@ -43,6 +43,7 @@ public class SendMessagePacket extends Packet {
                 }
             }
             object.put("members", array);
+            object.put("title", chat.getTitle());
         }
         String result = object.toJSONString();
         pool.put(object);

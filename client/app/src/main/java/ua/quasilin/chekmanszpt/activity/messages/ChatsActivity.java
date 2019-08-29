@@ -11,12 +11,15 @@ import android.widget.ListView;
 
 import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.entity.ChatContainer;
+import ua.quasilin.chekmanszpt.services.BackgroundService;
+import ua.quasilin.chekmanszpt.utils.NotificationBuilder;
 
 public class ChatsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_chats);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -28,6 +31,12 @@ public class ChatsActivity extends AppCompatActivity {
         chatList.setAdapter(adapter);
         ImageButton button = findViewById(R.id.newChat);
         button.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ContactsActivity.class)));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        NotificationBuilder.closeNotification(getApplicationContext(), BackgroundService.NOTIFICATION_ID);
     }
 
     @Override

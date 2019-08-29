@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.utils.AppState;
@@ -23,7 +24,7 @@ public class StartActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Starter.serviceStart(getApplicationContext());
+        Starter.serviceStart(getApplicationContext(), 0);
         setContentView(R.layout.loading);
         if (AppState.state == AppState.State.findServer) {
             TextView loadingInfo = findViewById(R.id.loadingInfo);

@@ -8,6 +8,8 @@ import org.json.simple.JSONObject;
 import java.util.Calendar;
 import java.util.Date;
 
+import ua.quasilin.chekmanszpt.utils.DateUtil;
+
 /**
  * Created by szpt_user045 on 05.08.2019.
  */
@@ -56,7 +58,7 @@ public class ChatMessage implements Comparable<ChatMessage> {
     }
 
     public String getTimeString() {
-        return dateFormat.format(time);
+        return DateUtil.getTime(time);
     }
 
     @Override
@@ -64,5 +66,4 @@ public class ChatMessage implements Comparable<ChatMessage> {
         return (int) id;
     }
 
-    private static java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("HH:mm");
 }
