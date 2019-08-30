@@ -10,6 +10,7 @@ import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.log.comparators.WeightComparator;
 import entity.transport.ActionTime;
+import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -29,11 +30,11 @@ import java.sql.Timestamp;
  * Created by szpt_user045 on 22.03.2019.
  */
 @WebServlet(Branches.API.SAVE_WEIGHT)
-public class EditWeightServletAPI extends ServletAPI {
+public class WeightEditServletAPI extends ServletAPI {
 
     private final WeightComparator comparator = new WeightComparator();
     private final TransportationComparator transportationComparator = new TransportationComparator();
-    private final Logger log = Logger.getLogger(EditWeightServletAPI.class);
+    private final Logger log = Logger.getLogger(WeightEditServletAPI.class);
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -41,16 +42,17 @@ public class EditWeightServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if(body != null) {
             log.info(body);
+            boolean saveIt = false;
 
             long planId = (long) body.get(Constants.ID);
             LoadPlan plan = dao.getLoadPlanById(planId);
-            Weight weight = plan.getTransportation().getWeight();
-            boolean saveIt = false;
+            Transportation transportation = plan.getTransportation();
+            Weight weight = transportation.getWeight();
 
             if (weight == null) {
                 weight = new Weight();
                 weight.setUid(DocumentUIDGenerator.generateUID());
-                plan.getTransportation().setWeight(weight);
+                transportation.setWeight(weight);
                 saveIt = true;
             }
 
@@ -65,18 +67,21 @@ public class EditWeightServletAPI extends ServletAPI {
 
             if (saveIt){
                 comparator.compare(weight, worker);
-                dao.saveTransportation(plan.getTransportation());
-                updateUtil.onSave(plan.getTransportation());
-                Notificator notificator = BotFactory.getNotificator();
-                if (notificator != null) {
-                    notificator.weightShow(plan, weight);
-                }
-                WeightUtil.calculateDealDone(plan.getDeal());
-                TransportUtil.calculateWeight(plan.getTransportation());
+                dao.saveTransportation(transportation);
+                updateUtil.onSave(transportation);
 
-                transportationComparator.fix(plan.getTransportation());
-                TransportUtil.checkTransport(plan.getTransportation());
-                transportationComparator.compare(plan.getTransportation(), getWorker(req));
+                WeightUtil.calculateDealDone(plan.getDeal());
+                TransportUtil.calculateWeight(transportation);
+
+                transportationComparator.fix(transportation);
+                TransportUtil.checkTransport(transportation);
+                transportationComparator.compare(transportation, getWorker(req));
+                if (weight.getNetto() > 0) {
+                    Notificator notificator = BotFactory.getNotificator();
+                    if (notificator != null) {
+                        notificator.weightShow(transportation);
+                    }
+                }
             }
 
             write(resp, SUCCESS_ANSWER);

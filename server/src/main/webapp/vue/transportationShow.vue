@@ -78,8 +78,10 @@ var show = new Vue({
         },
         registration:function(){
             var self = this;
-            PostApi(this.api.registration, {transportation : this.id}, function(a){
-                console.log(a);
+            PostApi(this.api.registration, {transportation: this.id}, function (a) {
+                if (a.status === 'success') {
+                    self.registrationTime = new Date();
+                }
             })
         }
     }

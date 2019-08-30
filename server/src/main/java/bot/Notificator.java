@@ -13,6 +13,8 @@ import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
+import entity.products.Product;
+import entity.products.ProductProperty;
 import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -20,6 +22,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import utils.DateUtil;
 import utils.LanguageBase;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import java.sql.Date;
 import java.util.*;
@@ -49,13 +53,14 @@ public class Notificator {
     private static final String PHOSPHORUS = "bot.notificator.phosphorus";
     private static final String SOAP = "bot.notificator.soap";
     private static final String WAX = "bot.notificator.wax";
-
-    
     private static final String NO_DATA = "no.data";
     private static final String TRANSPORT_REGISTRATION = "bot.transport.registration";
+    private static final String TRANSPORT_INTO = "bot.transport.into";
+    private static final String TRANSPORTATION_WEIGHT = "bot.transport.weight";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
+    private dbDAO dao = dbDAOService.getDAO();
 
     public Notificator(TelegramBot telegramBot) {
         this.telegramBot = telegramBot;
@@ -85,57 +90,46 @@ public class Notificator {
         }
     }
 
-    public void transportRegistration(Transportation transportation) {
+    public void transportRegistration(Transportation transportation){
+        transportRegistration(transportation, lb.get(TRANSPORT_REGISTRATION));
+    }
+
+    public void transportInto(Transportation transportation){
+        transportRegistration(transportation, lb.get(TRANSPORT_INTO));
+    }
+
+    public void transportRegistration(Transportation transportation, String messageFormat) {
         DealType type = transportation.getType();
         String action = lb.get("_" + type.toString()).toLowerCase();
-        String product = transportation.getProduct().getThanName().toLowerCase();
+
+        Product product = transportation.getProduct();
+        ProductProperty productProperty = dao.getProductProperty(product, type.toString());
+        String productName = (productProperty != null ? productProperty.getValue() : product.getName()).toLowerCase();
         String driver = "--";
         if (transportation.getDriver() != null) {
             driver = transportation.getDriver().getPerson().getValue();
         }
         String organisation = transportation.getCounterparty().getValue();
-        String message = String.format(lb.get(TRANSPORT_REGISTRATION), action, product, driver, organisation);
+        String message = String.format(messageFormat, action, productName, driver, organisation);
 
         getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> sendMessage(setting.getTelegramId(), message, null));
     }
 
-    public void weightShow(LoadPlan plan, Weight weight) {
-        String message;
-        for (UserBotSetting setting : getSettings()){
-            if (setting.isShow()) {
-                Worker worker = setting.getWorker();
-                boolean show = false;
-                switch (setting.getTransport()) {
-                    case my:
-                        show = plan.getDeal().getCreator().getId() == worker.getId();
-                        break;
-                    case all:
-                        show = true;
-                        break;
-                }
-                if (show) {
+    public void weightShow(Transportation transportation) {
 
-                    float brutto = weight.getBrutto();
-                    float tara = weight.getTara();
-
-                    float netto = 0;
-                    if (brutto > 0 && tara > 0) {
-                        netto = brutto - tara;
-                    }
-                    message = "";//prepareMessage(plan);
-                    if (brutto > 0) {
-                        message += "\n" + String.format(lb.get(BRUTTO), brutto);
-                    }
-                    if (tara > 0) {
-                        message += "\n" + String.format(lb.get(TARA), tara);
-                    }
-                    if (netto > 0) {
-                        message += "\n" + String.format(lb.get(NETTO), netto);
-                    }
-                    sendMessage(setting.getTelegramId(), message, null);
-                }
-            }
+        DealType type = transportation.getType();
+        String action = lb.get("_" + type + ".do");
+        String driver = "--";
+        if (transportation.getDriver() !=null){
+            driver = transportation.getDriver().getPerson().getValue();
         }
+        String organisation = transportation.getCounterparty().getValue();
+        String product = transportation.getProduct().getName();
+        String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product, transportation.getWeight().getNetto());
+
+        getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> {
+            sendMessage(setting.getTelegramId(), message, null);
+        });
     }
     public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses) {
         String message;

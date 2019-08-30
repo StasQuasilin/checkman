@@ -140,9 +140,11 @@ public class JsonParser {
 
     private JSONObject toJson(Product product) {
         JSONObject json = pool.getObject();
-        json.put(ID, product.getId());
-        json.put(NAME, product.getName());
-        json.put(ANALYSES, product.getAnalysesType().toString());
+        if (product != null) {
+            json.put(ID, product.getId());
+            json.put(NAME, product.getName());
+            json.put(ANALYSES, product.getAnalysesType().toString());
+        }
         return json;
     }
     

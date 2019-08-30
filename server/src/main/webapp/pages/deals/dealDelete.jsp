@@ -66,7 +66,7 @@
                 :
             </td>
             <td>
-                <fmt:formatNumber value="${deal.done}"/>&nbsp;${deal.unit.name}
+                <fmt:formatNumber value="${deal.complete}"/>&nbsp;${deal.unit.name}
             </td>
         </tr>
         <tr>
@@ -84,8 +84,8 @@
         <c:forEach items="${loads}" var="load">
             <tr>
                 <td>
-                    <fmt:formatDate value="${load.date}" pattern="dd.MM"/>
-                    <b><fmt:formatNumber value="${load.plan}"/>&nbsp;${deal.unit.name}</b>
+                    <%--<fmt:formatDate value="${load.date}" pattern="dd.MM"/>--%>
+                    <%--<b><fmt:formatNumber value="${load.plan}"/>&nbsp;${deal.unit.name}</b>--%>
                 </td>
                 <td colspan="2">
                     <c:if test="${empty load.transportation.vehicle or empty load.transportation.driver}">
@@ -107,7 +107,7 @@
                 </button>
                 <button onclick="remove()">
                     <c:choose>
-                        <c:when test="${deal.done gt 0}">
+                        <c:when test="${deal.complete gt 0}">
                             <fmt:message key="menu.archive"/>
                         </c:when>
                         <c:otherwise>

@@ -549,6 +549,14 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public ProductProperty getProductProperty(Product product, String key) {
+        final HashMap<String, Object> param= new HashMap<>();
+        param.put("product", product);
+        param.put("key", key);
+        return hb.get(ProductProperty.class, param);
+    }
+
+    @Override
     public List<ExtractionTurn> getLimitExtractionTurns() {
         return hb.limitQuery(ExtractionTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
     }

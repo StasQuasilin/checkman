@@ -13,6 +13,9 @@
     show.api.saveSeal = '${saveSeal}';
     show.api.removeSeal = '${removeSeal}';
     show.id = ${transportation.id};
+    <c:if test="${not empty transportation.timeRegistration}">
+    show.registrationTime = new Date('${transportation.timeRegistration.time}');
+    </c:if>
     <c:if test="${not empty transportation.timeIn}">
     show.timeIn = new Date('${transportation.timeIn.time}');</c:if>
     <c:if test="${not empty transportation.timeOut}">
@@ -127,14 +130,16 @@
         </td>
     </tr>
     <tr>
-        <td>
-            &nbsp;
+        <td colspan="2">
+            <span v-if="registrationTime">
+                <fmt:message key="transportation.registered.at"/>
+            </span>
         </td>
         <td>
-            &nbsp;
-        </td>
-        <td>
-            <button>
+            <button v-if="registrationTime">
+                {{(registrationTime).toLocaleString()}}
+            </button>
+            <button v-else v-on:click="registration()">
                 <fmt:message key="transportation.registrate"/>
             </button>
         </td>

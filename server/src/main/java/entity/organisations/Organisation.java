@@ -44,7 +44,7 @@ public class Organisation {
 
     @Transient
     public String getValue() {
-        return name + (U.exist(type) ? ", " + type : "");
+        return (U.exist(type) ? type + " " : "") + name;
     }
 
     @Override

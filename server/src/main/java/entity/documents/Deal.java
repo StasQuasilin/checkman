@@ -173,19 +173,7 @@ public class Deal extends IDocument{
 
     @Override
     public int hashCode() {
-        int h = 7;
-        h = 31 * date.hashCode() + h;
-        h = 31 * dateTo.hashCode() + h;
-        h = 31 * organisation.getId() + h;
-        h = 31 * product.getId() + h;
-        h = 31 * Float.hashCode(quantity) + h;
-        h = 31 * Float.hashCode(price) + h;
-        h = 31 * Float.hashCode(complete) + h;
-        h = 31 * type.hashCode() + h;
-        h = 31 * Boolean.hashCode(archive) + h;
-        h = 31 * creator.hashCode() + h;
-
-        return h;
+        return id;
     }
 
     @Override

@@ -42,6 +42,7 @@ public class TransportRegistrationServletAPI extends ServletAPI {
             dao.save(transportation);
             updateUtil.onSave(transportation);
             write(resp, SUCCESS_ANSWER);
+
             Notificator notificator = BotFactory.getNotificator();
             if (notificator != null) {
                 notificator.transportRegistration(transportation);

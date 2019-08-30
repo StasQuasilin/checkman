@@ -30,16 +30,19 @@ public class DeleteDealServletAPI extends ServletAPI{
             final Object id = body.get(Constants.ID);
             final Deal deal = dao.getDealById(id);
 
-            final List<LoadPlan> planList = dao.getLoadPlanByDeal(deal, false, null);
 
-            for (LoadPlan plan : planList){
+            final List<LoadPlan> toRemove = dao.getLoadPlanByDeal(deal, false, null);
+
+            for (LoadPlan plan : toRemove){
                 dao.remove(plan);
                 updateUtil.onRemove(plan);
                 dao.remove(plan.getTransportation());
                 updateUtil.onRemove(plan.getTransportation());
             }
 
-            if (deal.getComplete() > 0){
+            final List<LoadPlan> allPlans = dao.getLoadPlanByDeal(deal, null, null);
+
+            if (deal.getComplete() > 0 || allPlans.size() > 0){
                 deal.setArchive(true);
                 dao.save(deal);
                 updateUtil.onArchive(deal);

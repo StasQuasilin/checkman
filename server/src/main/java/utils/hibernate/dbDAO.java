@@ -190,4 +190,5 @@ public interface dbDAO {
     List<ChatMessage> getLimitMessagesByChat(Object chat);
     ArchiveData getArchiveData(ArchiveType type, int document);
     List<ChatMessage> getLimitMessagesByChat(Object chat, int limit);
+    ProductProperty getProductProperty(Product product, String key);
 }

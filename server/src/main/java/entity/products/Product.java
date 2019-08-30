@@ -13,7 +13,6 @@ public class Product {
     private int id;
     private ProductGroup productGroup;
     private String name;
-    private String thanName;
     private AnalysesType analysesType;
 
     @Id
@@ -41,15 +40,6 @@ public class Product {
     }
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Basic
-    @Column(name = "than")
-    public String getThanName() {
-        return thanName;
-    }
-    public void setThanName(String thanName) {
-        this.thanName = thanName;
     }
 
     @Enumerated(EnumType.STRING)
