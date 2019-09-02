@@ -13,8 +13,8 @@
     <c:forEach items="${dealTypes}" var="type">
     logistic.types['${type}'] = '<fmt:message key="_${type}"/>';
     </c:forEach>
-    logistic.api.saveTransportationVehicleApi = '${saveTransportationVehicleAPI}';
-    logistic.api.saveTransportationDriverApi = '${saveTransportationDriverAPI}';
+    logistic.api.saveTransportationVehicleApi = '${saveVehicle}';
+    logistic.api.saveTransportationDriverApi = '${saveDriver}';
     logistic.api.findVehicle = '${findVehicle}';
     logistic.api.findDriver = '${findDriver}';
     logistic.api.vehicleInput = '${vehicleInput}';
@@ -46,7 +46,7 @@
 <c:set var="dateRight"><fmt:message key="date.right"/></c:set>
   <div id="logistic">
     <transition-group name="flip-list" tag="div" class="container">
-      <div v-for="(value, key) in filteredItems()" class="container-item" :class="rowName(value.item.date)"
+      <div v-for="(value, key) in getItems()" class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()"
            :key="value.item.id" :id="value.item.id">
         <div class="upper-row">
         <span class="date-container">
@@ -130,19 +130,19 @@
                   </div>
                 </span>
               </span>
-                <template v-else-if="value.vehicleEdit">
+                <template v-else-if="value.editVehicle">
                   <div style="display: inline-block;">
                     <input v-model="value.vehicleInput" style="width: 100%; border: none" v-on:keyup="findVehicle(value)"
                            v-on:keyup.enter="parseVehicle(value)" onclick="this.select()" >
                     <div class="custom-data-list">
-                      <div class="custom-data-list-item" v-for="vehicle in vehicleFind"
-                           v-on:click="setVehicle(value.item.transportation.id, vehicle.id, key)">
+                      <div class="custom-data-list-item" v-for="vehicle in foundVehicles"
+                           v-on:click="setVehicle(value.item.id, vehicle.id, key)">
                         {{vehicle.model}}
                       <span>
-                        '{{vehicle.number}}'
+                        {{vehicle.number}}
                       </span>
                       <span v-if="vehicle.trailer">
-                        '{{vehicle.trailer}}'
+                        {{vehicle.trailer}}
                       </span>
                       </div>
                     </div>

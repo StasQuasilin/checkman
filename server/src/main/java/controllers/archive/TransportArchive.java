@@ -18,22 +18,45 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_ARCHIVE)
 public class TransportArchive extends IUIServlet {
 
-    final Subscriber[] summarySubscriber = new Subscriber[]{Subscriber.LOAD_PLAN_ARCHIVE};
+    final String CONTENT = "content";
+    final String SUBSCRIBE = "subscribe";
+    final String EDIT = "edit";
+    final Subscriber[] summaryArchiveSubscriber = new Subscriber[]{
+            Subscriber.LOAD_PLAN_ARCHIVE
+    };
+    final Subscriber[] transportArchiveSubscriber = new Subscriber[]{
+            Subscriber.TRANSPORT_BUY_ARCHIVE,
+            Subscriber.TRANSPORT_SELL_ARCHIVE
+    };
+    final Subscriber[] weightArchiveSubscribe = new Subscriber[]{
+            Subscriber.LOAD_PLAN_ARCHIVE
+    };
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         ArchiveType type = ArchiveType.valueOf(req.getParameter("type"));
-        req.setAttribute("show", Branches.UI.ARCHIVE_SHOW + type.toString() + ".j");
-        req.setAttribute("title", Titles.TRANSPORT_ARCHIVE + "." + type.toString());
+        req.setAttribute("title", Titles.ARCHIVE + "." + type.toString());
+        req.setAttribute(EDIT, Branches.UI.ARCHIVE_SHOW + type.toString() + ".j");
+        req.setAttribute("types", DealType.values());
+        req.setAttribute("haveMenu", false);
         switch (type){
             case summary:
-                req.setAttribute("content", "/pages/weight/weightList.jsp");
-                req.setAttribute("subscribe", summarySubscriber);
-                req.setAttribute("types", DealType.values());
+                req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");
+                req.setAttribute(SUBSCRIBE, summaryArchiveSubscriber);
                 break;
+            case transportation:
+                req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
+                req.setAttribute(SUBSCRIBE, transportArchiveSubscriber);
+                break;
+            case weight:{
+                req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");
+                req.setAttribute(SUBSCRIBE, weightArchiveSubscribe);
+                break;
+            }
             default:
-                req.setAttribute("content", "/pages/archive/transportArchive.jsp");
+                req.setAttribute("content", "/pages/archive/archiveTypeErr.jsp");
+                req.setAttribute("type", type);
                 break;
         }
 

@@ -54,7 +54,7 @@ function send(msg){
         }, 500);
     } else {
         console.log('Subscriber are closed');
-        restart(5);
+        restart(1);
     }
 }
 function restart(sec){

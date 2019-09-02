@@ -67,5 +67,6 @@ public class ContextFilter implements Filter {
         HibernateSessionFactory.shutdown();
         Archivator.stop();
         ActiveSubscriptions.getInstance().close();
+        BotFactory.shutdown();
     }
 }

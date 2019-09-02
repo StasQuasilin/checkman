@@ -77,7 +77,9 @@ public class UpdateUtil {
     }
 
     public void onSave(LoadPlan plan) throws IOException {
-        doAction(Command.update, Subscriber.LOAD_PLAN, parser.toJson(plan));
+        JSONObject json = parser.toJson(plan);
+        doAction(Command.update, Subscriber.LOAD_PLAN, json);
+        doAction(Command.update, Subscriber.LOGISTIC, json);
     }
 
     public void onRemove(LoadPlan plan) throws IOException {

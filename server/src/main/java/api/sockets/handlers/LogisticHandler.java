@@ -27,10 +27,9 @@ public class LogisticHandler extends OnSubscribeHandler {
     @Override
     public void handle(Session session) throws IOException {
         if(applicationSettings != null ){
-
-            JSONObject json = ActiveSubscriptions.pool.getObject();
             JSONArray add = ActiveSubscriptions.pool.getArray();
             add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
+            JSONObject json = ActiveSubscriptions.pool.getObject();
             json.put(ADD, add);
             session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
             ActiveSubscriptions.pool.put(json);

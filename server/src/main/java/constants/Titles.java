@@ -35,7 +35,7 @@ public class Titles {
     public static final String SEAL_LIST = "title.seals";
     public static final String SEAL_EDIT = "title.seal.edit";
     public static final String DAILY_ANALYSES = "title.daily.analyses";
-    public static final String TRANSPORT_ARCHIVE = "title.transport.archive";
+    public static final String ARCHIVE = "title.transport.archive";
     public static final String PERSONAL = "title.personal";
     public static final String ADMIN = "title.admin";
     public static final String WELCOME = "title.welcome";

@@ -218,6 +218,15 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<Transportation> getLimitArchiveTransportations(DealType type) {
+        final HashMap<String, Object>parameters = new HashMap<>();
+        parameters.put("archive", true);
+        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
+        parameters.put("type", type);
+        return hb.query(Transportation.class, parameters);
+    }
+
+    @Override
     public LoadPlan getLoadPlanById(Object id) {
         return hb.get(LoadPlan.class, ID, id);
     }

@@ -3,6 +3,7 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.Driver;
 import entity.transport.Transportation;
@@ -30,11 +31,12 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
 
         if (body != null) {
-            Transportation transportation = dao.getTransportationById(body.get(Constants.TRANSPORTATION_ID));
+            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION_ID));
+            Transportation transportation = plan.getTransportation();
             comparator.fix(transportation);
             long vehicleId = -1;
-            if (body.containsKey(Constants.VEHICLE_ID)){
-                vehicleId = (long) body.get(Constants.VEHICLE_ID);
+            if (body.containsKey(Constants.VEHICLE)){
+                vehicleId = (long) body.get(Constants.VEHICLE);
             }
 
             if (vehicleId != -1){

@@ -142,16 +142,19 @@ var list = new Vue({
             //event.preventDefault();
         },
         edit:function(id){
-            const self = this;
-            loadModal(this.api.edit + '?id=' + id, {id : id}, function(){
-                self.doRequest();
-            })
+            if (this.api.edit){
+                loadModal(this.api.edit + '?id=' + id, {id : id})
+            }
         },
         show:function(id){
-            loadModal(this.api.show + '?id=' + id, {id : id})
+            if (this.api.show) {
+                loadModal(this.api.show + '?id=' + id, {id: id})
+            }
         },
         archive:function(id){
-            PostApi(this.api.archive, {id: id});
+            if (this.api.archive) {
+                PostApi(this.api.archive, {id: id});
+            }
         },
         getItems:function(){
             return this.items;

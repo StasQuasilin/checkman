@@ -45,6 +45,7 @@ var logistic = new Vue({
             })
         },
         handler:function(e){
+            console.log(e);
             const self = this;
             if (e.add){
                 for(var a in e.add){
@@ -118,10 +119,12 @@ var logistic = new Vue({
         },
         openVehicleInput:function(id){
             for(var i in this.items){
-                var item = this.items[i];
-                item.editVehicle = item.item.id == id;
-                item.editDriver = false;
-                item.editNote = false;
+                if (this.items.hasOwnProperty(i)) {
+                    var item = this.items[i];
+                    item.editVehicle = item.item.id == id;
+                    item.editDriver = false;
+                    item.editNote = false;
+                }
             }
             this.input = '';
         },
@@ -162,11 +165,13 @@ var logistic = new Vue({
         },
         findVehicle:function(value){
             const self = this;
-            if (this.input) {
+            if (value.vehicleInput) {
+
                 clearTimeout(value.fnd);
                 value.fnd = setTimeout(function () {
-                    PostApi(self.api.findVehicle, {key : this.input}, function (a) {
-                        self.vehicleFind = a;
+                    PostApi(self.api.findVehicle, {key : value.vehicleInput}, function (a) {
+                        console.log(a);
+                        self.foundVehicles = a;
                     })
                 }, 500)
             } else {
@@ -184,7 +189,8 @@ var logistic = new Vue({
             })
         },
         setVehicle:function(transportation, vehicle, key){
-            PostApi(this.api.saveTransportationVehicleApi, p, function(a){
+            console.log(transportation+', ' + vehicle);
+            PostApi(this.api.saveTransportationVehicleApi, {transportation_id : transportation, vehicle : vehicle}, function(a){
                 console.log(a)
             })
         },
@@ -270,7 +276,6 @@ var logistic = new Vue({
         },
         removeNote:function(id){
             PostApi(this.api.removeNote, {id:id})
-        }
-
+        },
     }
 });
