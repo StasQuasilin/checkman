@@ -800,6 +800,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<Transportation> getTransportationByOrganisation(Object organisation) {
+        return hb.query(Transportation.class, "counterparty", organisation);
+    }
+
+    @Override
     public List<ArchiveData> getArchiveData() {
         return hb.query(ArchiveData.class, null);
     }

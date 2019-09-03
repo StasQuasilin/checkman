@@ -17,6 +17,7 @@
     editor.api.parseDriver = '${parseDriver}';
     editor.api.editDriver = '${editDriver}';
     editor.api.save = '${save}';
+    editor.api.editCounterparty = '${editOrganisation}';
     <c:forEach items="${types}" var="type">
     editor.types['${type}'] = {
         id:'${type}',
@@ -133,7 +134,7 @@
     </c:choose>
 
 </script>
-<table id="editor" class="editor">
+<table id="editor" class="editor" style="width: 400pt">
     <tr>
         <td>
             <label for="type">
@@ -176,18 +177,35 @@
             <%--!--%>
             <%--ORGANISATION--%>
             <div>
-                <input id="organisation" v-model="input.organisation" autocomplete="off"
-                       v-on:blur="parseOrganisation()"
-                       v-on:keyup="findOrganisation()"
-                       v-on:keyup.enter="parseOrganisation()"
-                       onclick="this.select()">
-                <div class="custom-data-list">
-                    <div v-for="organisation in foundOrganisations"
-                         class="custom-data-list-item"
-                         v-on:click="putOrganisation(organisation)">
-                        {{organisation.value}}
+                <div v-if="plan.organisation == -1">
+                    <input id="organisation" v-model="input.organisation" autocomplete="off"
+                           v-on:blur="parseOrganisation()"
+                           v-on:keyup="findOrganisation()"
+                           v-on:keyup.enter="parseOrganisation()"
+                           :class="{error : errors.organisation}"
+                           v-on:click="errors.organisation = false"
+                           onclick="this.select()">
+                    <div class="custom-data-list">
+                        <div v-for="organisation in foundOrganisations"
+                             class="custom-data-list-item"
+                             v-on:click="putOrganisation(organisation)">
+                            {{organisation.value}}
+                        </div>
                     </div>
                 </div>
+                <div  v-else>
+                    <span>
+                        {{input.organisation}}
+                    </span>
+                    <span class="mini-close flipY" style="padding: 0"
+                          v-on:click="editOrganisation()"
+                          style="-webkit-transform: scaleX(-1)">
+                        &#9998;</span>
+                    <span class="mini-close" style="padding: 0">
+                        &times;</span>
+                </div>
+
+
             </div>
         </td>
     </tr>
@@ -221,7 +239,8 @@
             :
         </td>
         <td>
-            <select id="product" style="width: 200px" v-model="plan.product">
+            <select id="product" style="width: 200px" v-model="plan.product" :class="{error : errors.product}"
+                    v-on:click="errors.product = false">
                 <option v-if="plan.deal == -1" disabled value="-1"><fmt:message key="need.select"/></option>
                 <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
             </select>
@@ -269,8 +288,7 @@
             :
         </td>
         <td>
-            <input id="price" v-if="plan.deal == -1" type="number" v-model="plan.price" autocomplete="off">
-            <input :id="'price'" v-else type="number" v-model="getPrice()" readonly autocomplete="off">
+            <input id="price" type="number" v-model="plan.price" onclick="this.select()" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -373,10 +391,10 @@
 
     <tr>
         <td colspan="3" align="center">
-            <button onclick="closeModal()">
+            <button onclick="closeModal()" class="left-button close-button">
                 <fmt:message key="button.cancel"/>
             </button>
-            <button v-on:click="save">
+            <button v-on:click="save" class="right-button save-button">
                 <fmt:message key="button.save"/>
             </button>
         </td>

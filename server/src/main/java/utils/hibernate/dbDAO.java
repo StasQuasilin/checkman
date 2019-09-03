@@ -192,4 +192,5 @@ public interface dbDAO {
     List<ChatMessage> getLimitMessagesByChat(Object chat, int limit);
     ProductProperty getProductProperty(Product product, String key);
     List<Transportation> getLimitArchiveTransportations(DealType type);
+    List<Transportation> getTransportationByOrganisation(Object organisation);
 }

@@ -11,13 +11,13 @@ function Connect(){
     //subscriber.onerror = function(){
     //    console.log('Error on socket connection');
     //};
-    //subscriber.onclose = function(cause){
-    //    console.log('Close socket connection');
-    //    console.log(cause);
-    //    if(cause.code == 1000) {
-    //        restart(10);
-    //    }
-    //};
+    subscriber.onclose = function(cause){
+        console.log('Close socket connection');
+        console.log(cause);
+        if(cause.code == 1000) {
+            restart(3);
+        }
+    };
     subscriber.onmessage = function(env){
         var json = JSON.parse(env.data);
         var type = json['type'];

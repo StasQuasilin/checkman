@@ -1,12 +1,7 @@
 var editor = new Vue({
     el: '#editor',
     data:{
-        api:{
-            findOrganisation:'',
-            parseOrganisation:'',
-            save:'',
-            redirect:''
-        },
+        api:{},
         types:[],
         realisations:[],
         products:[],
@@ -112,6 +107,15 @@ var editor = new Vue({
             datepicker.show(function(date){
                 self.deal.dateTo = date
             }, self.deal.dateTo)
+        },
+        editOrganisation:function(){
+            const self = this;
+            loadModal(this.api.editCounterparty + '?id=' + this.deal.counterparty, null, function(a){
+                console.log(a);
+                if (a.status === 'success'){
+                    self.counterpartyInput = a.organisation.value;
+                }
+            });
         }
     }
 });

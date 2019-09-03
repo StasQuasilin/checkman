@@ -162,6 +162,11 @@ a:hover{
     color: gray;
     text-shadow: 0 0 2px gray;
 }
+.flipY{
+    transform: scaleX(-1);
+    display: inline-block;
+}
+
 .error{
     font-size: 10pt;
     font-weight: bold;

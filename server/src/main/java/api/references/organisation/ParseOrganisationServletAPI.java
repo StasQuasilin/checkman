@@ -31,9 +31,7 @@ public class ParseOrganisationServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
 
         if (body != null) {
-            log.info(body);
             String origin = String.valueOf(body.get("name"));
-            log.info("Parse organisation name: \'" + origin + "\'");
             origin = origin.trim().toUpperCase();
             String name = " " + origin + " ";
 

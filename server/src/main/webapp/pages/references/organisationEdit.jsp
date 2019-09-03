@@ -8,14 +8,16 @@
   var editor = new Vue({
     el:'#edit',
     data:{
-      api:{
-        save:''
-      },
-      organisation:[]
+      api:{},
+      organisation:{
+        name:'',
+        type:''
+      }
     },
     methods:{
       save:function(){
         PostApi(this.api.save, this.organisation, function(a){
+          saveModal(a);
           if(a.status == 'success'){
             closeModal();
           }
@@ -32,12 +34,6 @@
     type:'${organisation.type}'
   };
   </c:when>
-  <c:otherwise>
-  editor.organisation={
-    name:'',
-    type:''
-  };
-  </c:otherwise>
   </c:choose>
 </script>
 <table id="edit">

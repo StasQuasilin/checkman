@@ -3,9 +3,12 @@ package api.references.organisation;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.answers.IAnswer;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +22,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.References.EDIT_ORGANISATION)
 public class EditOrganisationServletAPI extends ServletAPI {
 
-
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,13 +46,19 @@ public class EditOrganisationServletAPI extends ServletAPI {
             organisation.setType(type);
 
             dao.save(organisation);
-            write(resp, SUCCESS_ANSWER);
+            IAnswer answer = new SuccessAnswer("organisation", parser.toJson(organisation));
+            JSONObject json = parser.toJson(answer);
+            write(resp, json.toJSONString());
+            pool.put(json);
+            updateUtil.onSave(organisation);
+
             OrganisationType organisationType = dao.getOrganisationTypeByName(type);
             if (organisationType == null) {
                 organisationType = new OrganisationType();
                 organisationType.setName(type);
                 dao.save(organisationType);
             }
+
         } else {
             write(resp, emptyBody);
         }

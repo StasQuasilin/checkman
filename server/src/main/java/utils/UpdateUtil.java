@@ -16,6 +16,7 @@ import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.VROTurn;
+import entity.organisations.Organisation;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
@@ -186,9 +187,18 @@ public class UpdateUtil {
     }
 
     public void onArchive(Chat chat) throws IOException {
-        JSONObject object= pool.getObject();
+        JSONObject object = pool.getObject();
         object.put("id", chat.getId());
         doAction(Command.remove, Subscriber.MESSAGES, object);
+    }
+
+    public void onSave(Organisation organisation) throws IOException {
+        for (Deal deal : dao.getDealsByOrganisation(organisation)){
+            onSave(deal);
+        }
+        for (Transportation transportation : dao.getTransportationByOrganisation(organisation)){
+            onSave(transportation);
+        }
     }
 
 

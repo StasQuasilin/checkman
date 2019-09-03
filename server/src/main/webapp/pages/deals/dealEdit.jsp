@@ -10,26 +10,27 @@
         editor.types.push({
             id:'${t}',
             value:'<fmt:message key="${t}"/>'
-        })</c:forEach>
+        });</c:forEach>
         <c:forEach items="${products}" var="product">
         editor.products.push({
             id:${product.id},
             value:'${product.name}'
-        })</c:forEach>
+        });</c:forEach>
         <c:forEach items="${shippers}" var="shipper">
         editor.realisations.push({
             id:${shipper.id},
             value:'${shipper.value}'
-        })</c:forEach>
+        });</c:forEach>
         <c:forEach items="${units}" var="u">
         editor.units.push({
             id:${u.id},
             value:'${u.name}'
-        })
+        });
         </c:forEach>
 
         editor.api.findOrganisation = '${findOrganisation}';
         editor.api.parseOrganisation = '${parseOrganisation}';
+        editor.api.editCounterparty = '${editOrganisation}';
         editor.api.save = '${save}';
         editor.api.redirect = '${redirect}';
         <c:choose>
@@ -44,7 +45,7 @@
             product : ${deal.product.id},
             quantity : ${deal.quantity},
             price: ${deal.price}
-        }
+        };
 
         <c:if test="${not empty deal.unit}">
         editor.deal.unit = ${deal.unit.id};
@@ -109,17 +110,33 @@
                 :
             </td>
             <td>
-                <input id="counterparty" autocomplete="off" style="width: 100%"
-                       :class="{error : errors.organisation}"
-                       onclick = "this.select()"
-                       v-on:keyup="findOrganisation()"
-                       v-on:keyup.enter="parseOrganisation()"
-                       v-on:blur="parseOrganisation()"
-                       v-model="counterpartyInput"/>
-                <div id="contragent-list" class="custom-data-list" v-if="foundOrganisations.length > 0">
-                    <div class="custom-data-list-item" v-for="organisation in foundOrganisations"
-                         v-on:click="setCounterparty(organisation)">{{organisation.value}}</div>
+                <div v-if="deal.counterparty == -1">
+                    <input id="counterparty" autocomplete="off" style="width: 100%"
+                           :class="{error : errors.organisation}"
+                           onclick = "this.select()"
+                           v-on:keyup="findOrganisation()"
+                           v-on:keyup.enter="parseOrganisation()"
+                           v-on:blur="parseOrganisation()"
+                           v-model="counterpartyInput"/>
+                    <div id="contragent-list" class="custom-data-list" v-if="foundOrganisations.length > 0">
+                        <div class="custom-data-list-item" v-for="organisation in foundOrganisations"
+                             v-on:click="setCounterparty(organisation)">{{organisation.value}}</div>
+                    </div>
                 </div>
+                <div v-else>
+                    <span>
+                        {{counterpartyInput}}
+                    </span>
+                    <span>
+                        <span class="mini-close flipY" style="padding: 0"
+                              v-on:click="editOrganisation()"
+                              style="-webkit-transform: scaleX(-1)">
+                            &#9998;</span>
+                        <span class="mini-close" style="padding: 0">
+                            &times;</span>
+                    </span>
+                </div>
+
             </td>
         </tr>
         <tr>

@@ -61,6 +61,7 @@ public class DealEdit extends IModal {
         req.setAttribute("units", dao.getWeightUnits());
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
+        req.setAttribute("editOrganisation", Branches.UI.References.ORGANISATION_EDIT);
         req.setAttribute("save", Branches.API.DEAL_SAVE);
         req.setAttribute("redirect", Branches.UI.DEAL_SHOW);
         req.setAttribute("modalContent", "/pages/deals/dealEdit.jsp");

@@ -80,7 +80,7 @@
         </c:choose>
     </script>
 
-        <table class="body-table" border="1" style="width: 100%; height: 100%; max-width: 1390px">
+        <table class="body-table" border="1" style="width: 100%; height: 100%; max-width: 1280px">
             <tr>
                 <td rowspan="2" valign="top" style="height: 40%; width: 1px; padding: 0; border-right: solid 2pt">
                     <jsp:include page="NavigationMenu.jsp"/>

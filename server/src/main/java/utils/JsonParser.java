@@ -161,8 +161,6 @@ public class JsonParser {
     public static final String PLAN = "plan";
     public static final String CUSTOMER = "customer";
 
-
-
     final static String VEHICLE = "vehicle";
     final static String DRIVER = "driver";
     final static String TIME_IN = "timeIn";

@@ -46,9 +46,12 @@ public class WeightAdd extends IModal {
         }
 
         req.setAttribute("modalContent", "/pages/weight/weightAdd.jsp");
+
+        req.setAttribute("findDeals", Branches.API.FIND_DEALS);
+
         req.setAttribute("findOrganisations", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
-        req.setAttribute("findDeals", Branches.API.FIND_DEALS);
+        req.setAttribute("editOrganisation", Branches.UI.References.ORGANISATION_EDIT);
 
         req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
         req.setAttribute("parseVehicle", Branches.API.PARSE_VEHICLE);

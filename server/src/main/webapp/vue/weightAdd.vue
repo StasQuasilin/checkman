@@ -1,18 +1,7 @@
 var editor = new Vue({
     el: '#editor',
     data:{
-        api:{
-            findOrganisation:'',
-            parseOrganisation:'',
-            findDeals:'',
-            findVehicle:'',
-            parseVehicle:'',
-            editVehicle:'',
-            findDriver:'',
-            parseDriver:'',
-            editDriver:'',
-            save:''
-        },
+        api:{},
         types:{},
         products:[],
         units:[],
@@ -29,7 +18,14 @@ var editor = new Vue({
         },
         foundOrganisations:[],
         foundVehicles:[],
-        foundDrivers:[]
+        foundDrivers:[],
+        errors:{
+            organisation:false,
+            product:false,
+            any:function(){
+                return organisation || product;
+            }
+        }
     },
     methods:{
         productList:function(){
@@ -224,11 +220,27 @@ var editor = new Vue({
             }
         },
         save:function(){
-            PostApi(this.api.save, this.plan, function(a){
+            var e = this.errors;
+            e.organisation = this.plan.organisation == -1;
+            e.product = this.plan.product == -1;
+            console.log(this.plan);
+            console.log(e);
+            if (!e.organisation && !e.product) {
+                PostApi(this.api.save, this.plan, function (a) {
+                    if (a.status === 'success') {
+                        closeModal();
+                    }
+                })
+            }
+        },
+        editOrganisation:function(){
+            const self = this;
+            loadModal(this.api.editCounterparty + '?id=' + this.plan.organisation, null, function(a){
+                console.log(a);
                 if (a.status === 'success'){
-                    closeModal();
+                    self.input.organisation = a.organisation.value;
                 }
-            })
+            });
         }
     }
 });
