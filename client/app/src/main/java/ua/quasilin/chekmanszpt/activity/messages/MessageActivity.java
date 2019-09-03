@@ -1,9 +1,14 @@
 package ua.quasilin.chekmanszpt.activity.messages;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.DataSetObserver;
+import android.media.MediaPlayer;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -43,18 +48,21 @@ public class MessageActivity extends AppCompatActivity {
     public static final String MESSAGES = "messages";
     private final HttpConnector connector = HttpConnector.getConnector();
     Chat chat;
+    BackgroundService backgroundService;
+    boolean isBound = false;
+    public static boolean isOpen = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NotificationBuilder.closeNotification(getApplicationContext(), BackgroundService.NOTIFICATION_ID);
-
         setContentView(R.layout.activity_message);
+
         int chatPosition = -1;
 
         chatPosition = getIntent().getIntExtra("chat", chatPosition);
         if (chatPosition ==-1){
-            long chatId = getIntent().getLongExtra("chatId", -1);
+            int chatId = getIntent().getIntExtra("chatId", -1);
             if (chatId != -1) {
                 int i = 0;
                 for (Chat chat : ChatContainer.getChats()){
@@ -66,8 +74,10 @@ public class MessageActivity extends AppCompatActivity {
             }
         }
         if (chatPosition != -1) {
+
             chat = ChatContainer.getChat(chatPosition);
             chat.setOpen(true);
+            NotificationBuilder.closeNotification(getApplicationContext(), chat.getId());
 
             adapter = new MessagesViewAdapter(getApplicationContext(), R.layout.message_list_row, chat.getMessages());
 
@@ -114,6 +124,33 @@ public class MessageActivity extends AppCompatActivity {
             }).start();
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(getApplicationContext(), BackgroundService.class);
+        if (!isBound) {
+            bindService(intent, connection, Context.BIND_ABOVE_CLIENT);
+            if (backgroundService != null) {
+                backgroundService.removeNotification();
+            }
+        }
+
+    }
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            BackgroundService.ServiceBinder binder = (BackgroundService.ServiceBinder) service;
+            backgroundService = binder.getService();
+            isBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+        }
+    };
 
     @Override
     protected void onPause() {

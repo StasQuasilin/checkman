@@ -16,16 +16,16 @@ import ua.quasilin.chekmanszpt.utils.DateUtil;
 
 public class ChatMessage implements Comparable<ChatMessage> {
 
-    private long id;
-    private long chat;
+    private int id;
+    private int chat;
     private Date time;
     private Worker sender;
     private String text;
 
     public ChatMessage(Object o) {
         JSONObject message = (JSONObject) o;
-        id = (long) message.get("id");
-        chat = (long) message.get("chat");
+        id = Integer.parseInt(String.valueOf(message.get("id")));
+        chat = Integer.parseInt(String.valueOf(message.get("chat")));
         sender = new Worker(message.get("sender"));
         text = (String) message.get("message");
         time = new Date((Long) message.get("epoch"));
@@ -37,11 +37,11 @@ public class ChatMessage implements Comparable<ChatMessage> {
         return time.compareTo(o.time);
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public long getChat() {
+    public int getChat() {
         return chat;
     }
 

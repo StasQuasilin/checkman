@@ -18,18 +18,19 @@ public class Chat implements Comparable<Chat>{
 
     private static final int MESSAGE_ARRAY_SIZE = 10;
 
-    private long id;
+    private int id;
     private String title;
     private final ArrayList<Worker> members = new ArrayList<>();
     private final ArrayList<ChatMessage> messagesArray = new ArrayList<>();
     private ChatMessage message;
     private String key;
     private boolean open = false;
+    private int unread = 0;
 
     public Chat(Object chat) {
         JSONObject json = (JSONObject) chat;
-        id = (long) json.get("id");
-        title = (String) json.get("title");
+        id = Integer.parseInt(String.valueOf(json.get("id")));
+        title = String.valueOf(json.get("title"));
 
         for (Object o : (JSONArray)json.get("members")){
             members.add(new Worker(o));
@@ -49,18 +50,18 @@ public class Chat implements Comparable<Chat>{
 
     }
 
-    public Chat(long id, String title, ArrayList<Worker> members){
+    public Chat(int id, String title, ArrayList<Worker> members){
         this.id = id;
         this.title = title;
         this.members.addAll(members);
         key = UUID.randomUUID().toString();
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -90,6 +91,7 @@ public class Chat implements Comparable<Chat>{
         if (!contain){
             this.message = message;
             messagesArray.add(message);
+            setMessage(message);
         }
         Collections.sort(messagesArray);
         for (int i = 0; i < messagesArray.size() - MESSAGE_ARRAY_SIZE; i++){
@@ -105,12 +107,13 @@ public class Chat implements Comparable<Chat>{
         return key;
     }
 
-    public boolean isOpen() {
+    boolean isOpen() {
         return open;
     }
 
     public void setOpen(boolean open) {
         this.open = open;
+        resetUnreadCount();
     }
 
     public ArrayList<Worker> getMembers() {
@@ -123,5 +126,21 @@ public class Chat implements Comparable<Chat>{
 
     public ChatMessage getMessage() {
         return message;
+    }
+
+    public void setMessage(ChatMessage message) {
+        this.message = message;
+    }
+
+    public void increaseUnreadCount(){
+        unread++;
+    }
+
+    public void  resetUnreadCount(){
+        unread = 0;
+    }
+
+    public int getUnread() {
+        return unread;
     }
 }

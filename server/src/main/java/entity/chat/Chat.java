@@ -12,9 +12,10 @@ import java.util.Set;
 public class Chat {
     private int id;
     private String title;
-    private boolean isGroup = false;
+    private boolean groupChat = false;
     private Set<ChatMember> members = new HashSet<>();
     private ChatMessage lastMessage = null;
+    private boolean archive = false;
 
     @Id
     @GeneratedValue
@@ -35,12 +36,12 @@ public class Chat {
     }
 
     @Basic
-    @Column(name = "is_group")
-    public boolean getIsGroup() {
-        return isGroup;
+    @Column(name = "group_chat")
+    public boolean getGroupChat() {
+        return groupChat;
     }
-    public void setIsGroup(boolean isGroup) {
-        this.isGroup = isGroup;
+    public void setGroupChat(boolean isGroup) {
+        this.groupChat = isGroup;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "chat", cascade = CascadeType.ALL)
@@ -49,6 +50,15 @@ public class Chat {
     }
     public void setMembers(Set<ChatMember> members) {
         this.members = members;
+    }
+
+    @Basic
+    @Column(name = "archive")
+    public boolean isArchive() {
+        return archive;
+    }
+    public void setArchive(boolean archive) {
+        this.archive = archive;
     }
 
     @Transient

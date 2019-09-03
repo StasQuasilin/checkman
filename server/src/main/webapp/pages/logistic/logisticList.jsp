@@ -13,8 +13,8 @@
     <c:forEach items="${dealTypes}" var="type">
     logistic.types['${type}'] = '<fmt:message key="_${type}"/>';
     </c:forEach>
-    logistic.api.saveTransportationVehicleApi = '${saveVehicle}';
-    logistic.api.saveTransportationDriverApi = '${saveDriver}';
+    logistic.api.saveVehicle = '${saveVehicle}';
+    logistic.api.saveDriver = '${saveDriver}';
     logistic.api.findVehicle = '${findVehicle}';
     logistic.api.findDriver = '${findDriver}';
     logistic.api.vehicleInput = '${vehicleInput}';
@@ -36,9 +36,7 @@
     </c:forEach>
     stopContent = function(){
       <c:forEach items="${subscribe}" var="s">
-      subscribe('${s}', function(a){
-        unSubscribe('${s}');
-      });
+      unSubscribe('${s}');
       </c:forEach>
     }
   </script>
@@ -155,42 +153,43 @@
               </div>
             </div>
             <div>
-            <span class="transport-label">
-              <fmt:message key="transportation.driver"/>:
-            </span>
-              <div style="display: inline-block;">
-              <span v-if="value.item.driver.id">
-                <b>{{value.item.driver.person.value}}</b>
-                <span class="edit-menu-header">
-                  &#9660;
-                  <div class="edit-menu">
-                    <span v-on:click="parseDriver(value)">
-                      <fmt:message key="edit"/>
-                    </span>
-                    <span v-on:click="deleteDriver(value.item.id)">
-                      <fmt:message key="button.cancel"/>
-                    </span>
-                  </div>
-                </span>
+              <span class="transport-label">
+                <fmt:message key="transportation.driver"/>:
               </span>
-            <template v-else-if="value.driverEdit">
-              <div style="display: inline-block; width: 85%">
-                <input v-model="value.driverInput" style="width: 100%; border: none" v-on:keyup="findDriver(value)"
-                       v-on:keyup.enter="parseDriver(value)">
-                <div class="custom-data-list" v-show="driverFind">
-                  <div class="custom-data-list-item" v-for="driver in driverFind"
-                       v-on:click="setDriver(value.item.transportation.id, driver.id, key)">
-                    {{driver.person.value}}
+              <div style="display: inline-block;">
+                <span v-if="value.item.driver.id">
+                  <b>{{value.item.driver.person.value}}</b>
+                  <span class="edit-menu-header">
+                    &#9660;
+                    <div class="edit-menu">
+                      <span v-on:click="parseDriver(value)">
+                        <fmt:message key="edit"/>
+                      </span>
+                      <span v-on:click="deleteDriver(value.item.id)">
+                        <fmt:message key="button.cancel"/>
+                      </span>
+                    </div>
+                  </span>
+                </span>
+                <template v-else-if="value.editDriver">
+                  <div style="display: inline-block; width: 85%">
+                    <input v-model="value.driverInput" style="width: 100%; border: none"
+                           v-on:keyup="findDriver(value)"
+                           v-on:keyup.enter="parseDriver(value)"
+                        >
+                    <div class="custom-data-list" v-show="foundDrivers">
+                      <div class="custom-data-list-item" v-for="driver in foundDrivers"
+                           v-on:click="setDriver(value.item.id, driver.id, key)">
+                        {{driver.person.value}}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                  <span class="mini-close" v-on:click="closeDriverInput(key)" style="left: -22px;">&times;</span>
+                </template>
+                <a v-else v-on:click="openDriverInput(value.item.id)">
+                  <fmt:message key="transportation.driver.insert.info"/>
+                </a>
               </div>
-              <span class="mini-close" v-on:click="closeDriverInput(key)" style="left: -22px;">&times;</span>
-            </template>
-            <a v-else v-on:click="openDriverInput(value.item.id)">
-              <fmt:message key="transportation.driver.insert.info"/>
-            </a>
-            </div>
-
             </div>
           </div>
           <div v-if="value.item.notes.length == 0"

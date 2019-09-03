@@ -97,8 +97,6 @@ public class ActiveSubscriptions {
                     session.getBasicRemote().sendText(prepareMessage);
                 }
             }
-        } else {
-            System.out.println("No worker " + worker.getId());
         }
     }
     public static String prepareMessage(Subscriber type, Object msg){

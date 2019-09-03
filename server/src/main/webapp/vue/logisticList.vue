@@ -135,12 +135,14 @@ var logistic = new Vue({
             clearTimeout(this.items[id].fnd);
         },
         openDriverInput:function(id){
-            this.driverFind={};
+            this.foundDrivers=[];
             for(var i in this.items){
-                var item = this.items[i];
-                item.editDriver = item.item.id == id;
-                item.editVehicle = false;
-                item.editNote = false;
+                if (this.items.hasOwnProperty(i)) {
+                    var item = this.items[i];
+                    item.editDriver = item.item.id == id;
+                    item.editVehicle = false;
+                    item.editNote = false;
+                }
             }
             this.input = '';
         },
@@ -152,11 +154,11 @@ var logistic = new Vue({
         },
         findDriver:function(value){
             const self = this;
-            if (this.input) {
+            if (value.driverInput) {
                 clearTimeout(value.fnd);
                 value.fnd = setTimeout(function () {
-                    PostApi(self.api.findDriver, {key : this.input}, function (a) {
-                        self.driverFind = a;
+                    PostApi(self.api.findDriver, {key : value.driverInput}, function (a) {
+                        self.foundDrivers = a;
                     })
                 }, 500)
             } else {
@@ -178,19 +180,15 @@ var logistic = new Vue({
                 this.foundVehicles = [];
             }
         },
-        setDriver:function(id, driver){
-            const _id = id;
-            const item = this.items[id];
-            const self = this;
-            PostApi(this.api.save, {id : item.item.id, driver : driver.id}, function(a){
-                if (a.status === 'success') {
-                    self.closeDriverInput(_id);
-                }
+        setDriver:function(id, driver, key){
+            console.log(id+', ' + driver);
+            PostApi(this.api.saveDriver, {transportation : id, driver_id : driver}, function(a){
+                console.log(a)
             })
         },
         setVehicle:function(transportation, vehicle, key){
             console.log(transportation+', ' + vehicle);
-            PostApi(this.api.saveTransportationVehicleApi, {transportation_id : transportation, vehicle : vehicle}, function(a){
+            PostApi(this.api.saveVehicle, {transportation_id : transportation, vehicle : vehicle}, function(a){
                 console.log(a)
             })
         },
@@ -206,12 +204,12 @@ var logistic = new Vue({
             loadModal(this.api.vehicleInput, p);
         },
         deleteVehicle:function(transportation){
-            PostApi(this.api.saveTransportationVehicleApi, {transportation_id : transportation}, function(a){
+            PostApi(this.api.saveVehicle, {transportation_id : transportation}, function(a){
                 console.log(a)
             })
         },
         deleteDriver:function(transportation){
-            PostApi(this.api.saveTransportationDriverApi, {transportation_id : transportation}, function(a){
+            PostApi(this.api.saveDriver, {transportation_id : transportation}, function(a){
                 console.log(a)
             })
         },

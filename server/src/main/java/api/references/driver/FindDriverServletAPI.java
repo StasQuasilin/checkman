@@ -31,8 +31,6 @@ public class FindDriverServletAPI extends ServletAPI {
             final JSONArray array = new JSONArray();
             String key = (String) body.get(Constants.KEY);
             key = key.trim().replaceAll("  ", " ");
-            log.info("Find driver \'" + key + "\'");
-
 
             array.addAll(dao.findDriver(key).stream().map(parser::toJson).collect(Collectors.toCollection(JSONArray::new)));
 

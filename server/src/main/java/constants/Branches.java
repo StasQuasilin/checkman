@@ -201,6 +201,9 @@ public class Branches {
         public static final String ARCHIVE_TRANSPORTATION = API + "/archive/transportation";
         public static final String ARCHIVE_DEAL = API + "/archive/deal";
         public static final String TRANSPORT_REGISTRATION = API + "/transport/registration";
+        public static final String LEAVE_CHAT = API + "/chat/leave";
+        public static final String REMOVE_CHAT = API + "/chat/remove";
+        public static final String RENAME_CHAT = API + "/chat/rename";
 
 
         public class References {

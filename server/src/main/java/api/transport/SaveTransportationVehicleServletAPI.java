@@ -35,6 +35,7 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
             Transportation transportation = plan.getTransportation();
             comparator.fix(transportation);
             long vehicleId = -1;
+
             if (body.containsKey(Constants.VEHICLE)){
                 vehicleId = (long) body.get(Constants.VEHICLE);
             }

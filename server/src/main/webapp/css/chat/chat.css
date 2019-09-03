@@ -12,9 +12,13 @@
 }
 .my .message{
     background-color: #bfdec5;
+    box-shadow: -2pt 2pt 6pt gray;
 }
 .message-wrapper{
     margin: 4pt;
+}
+.setting-container{
+    padding: 4pt;
 }
 .message{
     text-align: left;
@@ -24,7 +28,7 @@
     border-radius: 12pt;
     border: solid gray 1pt;
     background-color: #ffe1a3;
-    box-shadow: 0 0 10pt gray;
+    box-shadow: 2pt 2pt 6pt gray;
 }
 .message-sender{
     font-size: 10pt;

@@ -74,7 +74,7 @@ public class SendMessageServletAPI extends ServletAPI {
                     int membersCount = members.size();
 
                     if (membersCount > 2){
-                        chat.setIsGroup(true);
+                        chat.setGroupChat(true);
                     }
 
                     if (body.containsKey("title")) {

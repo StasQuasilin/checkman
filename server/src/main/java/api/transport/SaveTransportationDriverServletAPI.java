@@ -3,6 +3,7 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.Driver;
 import entity.transport.Transportation;
@@ -25,12 +26,13 @@ public class SaveTransportationDriverServletAPI extends ServletAPI {
     private final TransportationComparator comparator = new TransportationComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            Transportation transportation = dao.getTransportationById(body.get(Constants.TRANSPORTATION_ID));
+            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
+            Transportation transportation = plan.getTransportation();
+
             comparator.fix(transportation);
             long driverId = -1;
             if (body.containsKey(Constants.DRIVER_ID)){

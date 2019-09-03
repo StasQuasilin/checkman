@@ -62,8 +62,7 @@ public class UpdateUtil {
 
     public void onSave(Transportation transportation) throws IOException {
         doAction(Command.update, getSubscriber(transportation), parser.toJson(transportation));
-        final LoadPlan plan = dao.getLoadPlanByTransportationId(transportation.getId());
-        onSave(plan);
+        onSave(dao.getLoadPlanByTransportationId(transportation.getId()));
     }
 
     public void onRemove(Transportation transportation) throws IOException {
@@ -186,7 +185,11 @@ public class UpdateUtil {
         doAction(Command.update, Subscriber.MESSAGES, object);
     }
 
-
+    public void onArchive(Chat chat) throws IOException {
+        JSONObject object= pool.getObject();
+        object.put("id", chat.getId());
+        doAction(Command.remove, Subscriber.MESSAGES, object);
+    }
 
 
     public enum Command {

@@ -51,9 +51,14 @@ public class ChatContainer implements Serializable {
 
     public static boolean addMessage(ChatMessage message){
         for (Chat chat : chats){
-            if (chat.getId() == message.getChat() && chat.isOpen()){
-                chat.addMessage(message);
-                return true;
+            if (chat.getId() == message.getChat()){
+                if (chat.isOpen()){
+                    chat.addMessage(message);
+                    return true;
+                } else {
+                    chat.setMessage(message);
+                    chat.increaseUnreadCount();
+                }
             }
         }
         return false;
@@ -92,7 +97,7 @@ public class ChatContainer implements Serializable {
         chats.add(index, chat);
     }
 
-    public static void addChatId(long id, String key) {
+    public static void addChatId(int id, String key) {
         for (Chat chat : chats){
             if (chat.getKey().equals(key)){
                 chat.setId(id);
@@ -119,7 +124,7 @@ public class ChatContainer implements Serializable {
     }
 
     public static boolean createChat(String chatName, Context context) {
-        long id = -1;
+        int id = -1;
         ArrayList<Worker> members = new ArrayList<>();
         for (ChatContact contact : contacts){
             if (contact.isSelected()){

@@ -5,7 +5,6 @@ import entity.*;
 import entity.answers.IAnswer;
 import entity.bot.UserBotSetting;
 import entity.chat.Chat;
-import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
@@ -1071,7 +1070,7 @@ public class JsonParser {
         JSONObject json = pool.getObject();
         json.put(ID, chat.getId());
         json.put(TITLE, chat.getTitle());
-        json.put(IS_GROUP, chat.getIsGroup());
+        json.put(IS_GROUP, chat.getGroupChat());
         json.put(MESSAGE, toJson(chat.getLastMessage()));
         JSONArray members = pool.getArray();
         members.addAll(chat.getMembers().stream().map(member -> toJson(member.getMember())).collect(Collectors.toList()));

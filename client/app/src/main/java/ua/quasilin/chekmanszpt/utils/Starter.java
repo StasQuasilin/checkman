@@ -3,8 +3,15 @@ package ua.quasilin.chekmanszpt.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ua.quasilin.chekmanszpt.entity.ChatContainer;
 import ua.quasilin.chekmanszpt.services.BackgroundService;
@@ -28,8 +35,14 @@ public class Starter {
 //
 //            }
             context.startService(intent);
+
         }
+
+
     }
+
+
+
     private static void serviceStop(Context context){
         Log.i(tag, "Service stop");
         context.stopService(new Intent(context, BackgroundService.class));

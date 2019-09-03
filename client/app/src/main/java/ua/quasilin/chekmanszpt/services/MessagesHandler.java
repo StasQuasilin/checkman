@@ -3,6 +3,7 @@ package ua.quasilin.chekmanszpt.services;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,7 +15,9 @@ import org.json.simple.JSONObject;
 
 import java.util.Collections;
 
+import ua.quasilin.chekmanszpt.R;
 import ua.quasilin.chekmanszpt.activity.StartActivity;
+import ua.quasilin.chekmanszpt.activity.messages.ChatsActivity;
 import ua.quasilin.chekmanszpt.activity.messages.MessageActivity;
 import ua.quasilin.chekmanszpt.entity.Chat;
 import ua.quasilin.chekmanszpt.entity.ChatContact;
@@ -40,9 +43,11 @@ public class MessagesHandler {
 
     private final Context context;
     private final BackgroundService service;
+    private MediaPlayer sound;
     MessagesHandler(Context context, BackgroundService service) {
         this.context = context;
         this.service = service;
+        sound = MediaPlayer.create(context, R.raw.message_sound);
     }
 
     private static final String MESSAGES = "messages";
@@ -70,8 +75,8 @@ public class MessagesHandler {
                                 if (messages != null) {
                                     for (Object m : messages){
                                         ChatMessage chatMessage = new ChatMessage(m);
-                                        if (!ChatContainer.addMessage(chatMessage)){
-                                            int notificationId = (int) chatMessage.getId();
+                                        if (!ChatContainer.addMessage(chatMessage) && !ChatsActivity.isOpen){
+                                            int notificationId = (int) chatMessage.getChat();
                                             Intent intent = new Intent(context, MessageActivity.class);
                                             intent.putExtra("chatId", chatMessage.getChat());
                                             Notification build = NotificationBuilder.build(
@@ -79,10 +84,15 @@ public class MessagesHandler {
                                                     chatMessage.getSender().getValue(),
                                                     chatMessage.getText(), intent);
                                             NotificationManagerCompat compat = NotificationManagerCompat.from(context);
+
                                             compat.notify(notificationId, build);
+                                        }else if (chatMessage.getSender().getId() != ChatContainer.worker.getId()){
+                                            sound.start();
                                         }
+
                                     }
                                 }
+                                ChatContainer.sortChats();
                                 JSONArray contacts = (JSONArray) update.get(CONTACTS);
                                 if (contacts != null) {
                                     for (Object c : contacts) {

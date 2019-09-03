@@ -42,7 +42,6 @@ public class BackgroundService extends Service {
     private static final String STATUS = "status";
     private static final String ANSWER = "answer";
 
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -54,12 +53,14 @@ public class BackgroundService extends Service {
         super.onCreate();
     }
 
-    public static final int NOTIFICATION_ID = UUID.randomUUID().hashCode();
+    public static final int NOTIFICATION_ID = -327759159;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Context context = getApplicationContext();
-        int flag = intent.getIntExtra(Starter.FLAG, -1);
+
+        int flag = -1;
+        flag = intent.getIntExtra(Starter.FLAG, flag);
         if (flag != -1 && flag == 1){
             createNotification(context);
         }
@@ -184,5 +185,11 @@ public class BackgroundService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         createNotification(getApplicationContext());
+    }
+
+    public void removeNotification(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(Service.STOP_FOREGROUND_REMOVE);
+        }
     }
 }

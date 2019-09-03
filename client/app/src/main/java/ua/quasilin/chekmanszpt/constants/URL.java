@@ -22,7 +22,7 @@ public final class URL {
     public static final String PING = "/ping";
     public static final String LOGIN = "/a/sign/in";
     public static final String FIND_WORKER = "/a/worker/find";
-    private static final String API = "/api/old";
+    private static final String API = "/api/v1";
     public static final String CHAT_SEND = API + "/chat/send";
     public static final String GET_CHAT = API + "/chat/get";
 

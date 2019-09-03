@@ -41,16 +41,17 @@ public class MessageHandler {
         JSONArray chats = pool.getArray();
         for (ChatMember member : dao.getChatMembersByWorker(worker)){
             Chat chat = member.getChat();
-            List<ChatMessage> messagesByChat = dao.getLimitMessagesByChat(chat, 1);
-            if (messagesByChat.size() > 0) {
-                chat.setLastMessage(messagesByChat.get(0));
+            if (!chat.isArchive()) {
+                List<ChatMessage> messagesByChat = dao.getLimitMessagesByChat(chat, 1);
+                if (messagesByChat.size() > 0) {
+                    chat.setLastMessage(messagesByChat.get(0));
+                }
+                Set<ChatMember> members = chat.getMembers();
+                if (members.size() == 2) {
+                    members.stream().filter(m -> m.getMember().getId() != worker.getId()).forEach(m -> chat.setTitle(m.getMember().getValue()));
+                }
+                chats.add(parser.toJson(chat));
             }
-            Set<ChatMember> members = chat.getMembers();
-            if (members.size() == 2){
-                members.stream().filter(m -> m.getMember().getId() != worker.getId()).forEach(m -> chat.setTitle(m.getMember().getValue()));
-            }
-            chats.add(parser.toJson(chat));
-
         }
 
         JSONObject data = pool.getObject();

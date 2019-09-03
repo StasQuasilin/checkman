@@ -52,6 +52,9 @@
     <script>
         chat.api.send = '${sendMessage}';
         chat.api.get = '${getMessages}';
+        chat.api.leave = '${leaveChat}';
+        chat.api.rename = '${renameChat}';
+        chat.api.remove = '${removeChat}';
     </script>
 
     <div class="datetime-picker" id="picker" v-show="onSelects.length" v-on:click="close">
