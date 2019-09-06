@@ -214,12 +214,12 @@
         </td>
         <td>
             <input id="soap" type="checkbox" v-model="analyses.soap"/>
-                <span v-if="analyses.soap">
-                    <fmt:message key="notification.kpo.soap.yes"/>
-                </span>
-                <span v-else>
-                    <fmt:message key="notification.kpo.soap.no"/>
-                </span>
+            <span v-if="analyses.soap">
+                <fmt:message key="notification.kpo.soap.yes"/>
+            </span>
+            <span v-else>
+                <fmt:message key="notification.kpo.soap.no"/>
+            </span>
         </td>
 
     </tr>

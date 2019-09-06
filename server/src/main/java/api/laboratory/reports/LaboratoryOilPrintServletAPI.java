@@ -5,6 +5,7 @@ import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.products.Product;
 import entity.products.ProductProperty;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -31,17 +32,17 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                 id = (long) body.get("id");
             }
             if (id != -1) {
-                LoadPlan plan = dao.getLoadPlanById(id);
-                Product product = plan.getDeal().getProduct();
+                Transportation transportation = dao.getTransportationById(id);
+                Product product = transportation.getProduct();
                 final HashMap<String, String> properties = new HashMap<>();
                 for (ProductProperty property : dao.getProductProperties(product)){
                     properties.put(property.getKey(), property.getValue());
                 }
 
-                req.setAttribute("plan", plan);
+                req.setAttribute("plan", transportation);
                 req.setAttribute("properties", properties);
-                req.setAttribute("analyses", plan.getTransportation().getOilAnalyses());
-                req.setAttribute("weight", plan.getTransportation().getWeight());
+                req.setAttribute("analyses", transportation.getOilAnalyses());
+                req.setAttribute("weight", transportation.getWeight());
                 req.getRequestDispatcher("/pages/laboratory/reports/oilReport.jsp").forward(req, resp);
             }
         }
