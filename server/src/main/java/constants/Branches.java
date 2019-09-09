@@ -74,6 +74,7 @@ public class Branches {
         public static final String NOTES_LIST = "/transportation/notes";
         public static final String CHANGE_PASSWORD = "/personal/change/password.j";
         public static final String EXTRACTION_CRUDE_REMOVE = "/laboratory/crude/remove.j";
+        public static final String LABORATORY_PRINT_OPTIONS = "/laboratory/print/optins.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";

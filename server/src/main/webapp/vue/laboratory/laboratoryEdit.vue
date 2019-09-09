@@ -1,9 +1,7 @@
 var editor = new Vue({
     el: '#editor',
     data: {
-        api: {
-            save: ''
-        },
+        api: {},
         empty: '',
         plan: -1,
         organisation: '',
@@ -13,8 +11,7 @@ var editor = new Vue({
             trailer: ''
         },
         driver: '',
-        analyses: {},
-        laborants: []
+        analyses: {}
     },
     methods:{
         saveLogic:function(onSave){
@@ -37,20 +34,21 @@ var editor = new Vue({
         print:function(){
             const self = this;
             this.saveLogic(function(a){
-                PostReq(self.api.print, {id: self.plan}, function (p) {
-                    if (p) {
-                        var print = window.open();
-                        print.document.write(p);
-                        print.document.close();
-                        $(print.document).ready(function(){
-                            setTimeout(function(){
-                                print.print();
-                                print.close();
-                            }, 10);
-                        });
-                        //print.document.write('<div style="top: 0; left: 0; position: absolute; background-color: white; width: 100%; height: 100%"></div>')
-                    }
-                })
+                loadModal(self.api.print + '?type=' + self.type, {id: self.plan});
+                //PostReq(self.api.print, {id: self.plan}, function (p) {
+                //    if (p) {
+                //        var print = window.open();
+                //        print.document.write(p);
+                //        print.document.close();
+                //        $(print.document).ready(function(){
+                //            setTimeout(function(){
+                //                print.print();
+                //                print.close();
+                //            }, 10);
+                //        });
+                //        //print.document.write('<div style="top: 0; left: 0; position: absolute; background-color: white; width: 100%; height: 100%"></div>')
+                //    }
+                //})
             })
         }
     }

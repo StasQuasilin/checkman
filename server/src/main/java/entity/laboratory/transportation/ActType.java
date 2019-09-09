@@ -5,5 +5,7 @@ package entity.laboratory.transportation;
  */
 public enum ActType {
     sun,
-    VRO, waybill
+    oilAct,
+    VRO,
+    waybill
 }

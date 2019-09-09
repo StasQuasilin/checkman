@@ -29,26 +29,27 @@ public class LaboratoryEdit extends IModal {
         log.info("Edit analyses for transportation=" + id);
         Transportation transportation = dao.getTransportationById(id);
         req.setAttribute("plan", transportation);
+        req.setAttribute("print", Branches.UI.LABORATORY_PRINT_OPTIONS);
         AnalysesType analysesType = transportation.getProduct().getAnalysesType();
+        req.setAttribute("type", analysesType.toString());
         switch (analysesType){
             case sun:
                 req.setAttribute("modalContent", "/pages/laboratory/sunEdit.jsp");
                 req.setAttribute("title", Titles.SUN_EDIT);
                 req.setAttribute("save", Branches.API.LABORATORY_SAVE_SUN);
-                req.setAttribute("print", Branches.API.LABORATORY_SUN_PRINT);
-                req.setAttribute("laborants", dao.getWorkersByRole(Role.analyser));
+
                 break;
             case oil:
                 req.setAttribute("modalContent", "/pages/laboratory/oilEdit.jsp");
                 req.setAttribute("title", Titles.OIL_EDIT);
                 req.setAttribute("save", Branches.API.LABORATORY_SAVE_OIL);
-                req.setAttribute("print", Branches.API.LABORATORY_OIL_PRINT);
+
                 break;
             case meal:
                 req.setAttribute("modalContent", "/pages/laboratory/cakeEdit.jsp");
                 req.setAttribute("title", Titles.CAKE_EDIT);
                 req.setAttribute("save", Branches.API.LABORATORY_SAVE_CAKE);
-                req.setAttribute("print", Branches.API.LABORATORY_MEAL_PRINT);
+
                 break;
         }
         show(req, resp);
