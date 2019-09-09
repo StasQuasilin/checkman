@@ -4,54 +4,65 @@ var modalLayer;
 var chatLayer;
 var filter;
 var content;
-const last_url = 'last-page';
+const lastPage = 'last-page';
 var welcome = '';
 var logoutAPI = '';
 var currentPage = '';
 
 $(document).ready(function(){
+    document.body.style.maxWidth = Settings.switchWidth + 'px';
     coverlet = document.getElementById('coverlet');
     header = document.getElementById('header');
     modalLayer = document.getElementById('modal');
     filter = document.getElementById('filter');
     content = document.getElementById('content');
 
-    var last = localStorage.getItem(last_url);
+    var last = localStorage.getItem(lastPage + ';' + Settings.worker);
+
     if (last){
-        loadContent(last);
+        document.addEventListener('loading', function(event){
+            loadContent(last);
+        });
+        document.dispatchEvent(new Event('loading'));
+
     } else {
         loadContent(welcome)
     }
 });
 
 function loadContent(url){
-    if (url && currentPage != url) {
-        currentPage = url;
-        coverlet.style.display='block';
-        content.style.display='none';
-        filter.style.display='none';
-        console.log('[ Application ] Load page ' + url);
-        localStorage.setItem(last_url, url);
-        PostReq(url, null, function (e) {
-            if (typeof stopContent === 'function'){
-                stopContent();
-            }
-            $(content).empty();
-            $(content).html(e);
-            $(header).html(GetChildElemById(content, 'header-content'));
-            $(header).append(GetChildElemById(content, 'container-header'));
-            $(filter).html(GetChildElemById(content, 'filter-content'));
-            coverlet.style.display='none';
-            content.style.display='block';
-            filter.style.display='block';
-        }, function (e) {
-            console.error('[ Application ] Load content error ' + e);
-            coverlet.style.display='none';
-            content.style.display='block';
-            filter.style.display='block';
-        }, true);
-
+    if (event){
+        if (url && currentPage != url) {
+            currentPage = url;
+            coverlet.style.display='block';
+            content.style.display='none';
+            filter.style.display='none';
+            console.log('[ Application ] Load page ' + url);
+            localStorage.setItem(lastPage + ';' + Settings.worker, url);
+            PostReq(url, null, function (e) {
+                if (typeof stopContent === 'function'){
+                    stopContent();
+                }
+                $(content).empty();
+                $(content).html(e);
+                $(header).html(GetChildElemById(content, 'header-content'));
+                $(header).append(GetChildElemById(content, 'container-header'));
+                $(filter).html(GetChildElemById(content, 'filter-content'));
+                coverlet.style.display='none';
+                content.style.display='block';
+                filter.style.display='block';
+            }, function (e) {
+                console.error('[ Application ] Load content error ' + e);
+                coverlet.style.display='none';
+                content.style.display='block';
+                filter.style.display='block';
+            }, true);
+        }
+    } else {
+        return 'No!'
     }
+
+
 }
 
 function editableModal(url){

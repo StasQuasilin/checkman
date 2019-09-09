@@ -5,12 +5,12 @@
 <fmt:setBundle basename="messages"/>
 <link rel="stylesheet" href="${context}/css/chat/chat.css">
 <html>
-  <div>
+  <div :style="{width : width() + 'px'}">
     <c:set var="enterMessage"><fmt:message key="chat.enter.message"/></c:set>
     <c:set var="send"><fmt:message key="chat.send"/></c:set>
     <table style="width: 100%; height: 100%; border-collapse: collapse">
       <tr style="border-collapse: collapse">
-        <td valign="top" width="240pt" style="border-left: solid gray 1.2pt">
+        <td valign="top" width="38%" style="border-left: solid gray 1.2pt">
           <div v-if="!showContacts">
             <div class="chat-title">
               <fmt:message key="chat.conversations"/>

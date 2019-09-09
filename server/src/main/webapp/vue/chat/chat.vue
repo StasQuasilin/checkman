@@ -36,6 +36,9 @@ var chat = new Vue({
         oversize:function(){
             return this.windowWidth > Settings.switchWidth;
         },
+        width:function(){
+            return this.oversize() ? this.windowWidth - Settings.switchWidth : 480;
+        },
         selectChat:function(id){
             this.selectedChat = id;
             const self = this;

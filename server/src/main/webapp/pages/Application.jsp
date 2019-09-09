@@ -37,7 +37,7 @@
     </script>
 
 </head>
-    <body style="margin: 0; max-width: 1390px">
+    <body style="margin: 0;">
     <div class="coverlet" id="coverlet">
         <table style="width: 100%; height: 100%;">
             <tr>
@@ -79,8 +79,7 @@
                 </div>
                 <div style="display: inline-block">
                     <div style="width: 100%; text-align: center">
-                        <%--<fmt:message key="hours"/>--%>
-                        HH
+                        <fmt:message key="hours"/>
                     </div>
                     <div v-for="i in 6">
                         <span class="mini-close" v-for="j in 4" v-on:click="setHours(hours[(i - 1) * 4 + (j - 1)])">
@@ -90,8 +89,7 @@
                 </div>
                 <div style="display: inline-block; border-left: solid gray 1pt">
                     <div style="width: 100%; text-align: center">
-                        <%--<fmt:message key="minutes"/>--%>
-                        MM
+                        <fmt:message key="minutes"/>
                     </div>
                     <div v-for="i in 6">
                         <span class="mini-close" v-for="j in 2" v-on:click="setMinutes(minutes[(i - 1) * 2 + (j - 1)])">
@@ -121,8 +119,7 @@
         </c:otherwise>
         </c:choose>
     </script>
-
-        <table class="body-table" border="1" style="width: 100%; height: 100%; max-width: 1280px">
+        <table class="body-table" border="1" style="width: 100%; height: 100%;">
             <tr>
                 <td rowspan="2" valign="top" style="height: 40%; width: 1px; padding: 0; border-right: solid 2pt">
                     <jsp:include page="NavigationMenu.jsp"/>
