@@ -22,7 +22,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -44,7 +46,8 @@ public class StorageEditServletAPI extends ServletAPI {
             }
             StorageAnalyses analyses;
             boolean save = false;
-            LocalDateTime dateTime = LocalDateTime.now();
+            Timestamp timestamp = Timestamp.valueOf(String.valueOf(body.get("convert")));
+            LocalDateTime dateTime = timestamp.toLocalDateTime();
             Turn turn = TurnService.getTurn(TurnBox.getTurnDate(dateTime));
 
             if (id != -1){
@@ -60,6 +63,11 @@ public class StorageEditServletAPI extends ServletAPI {
                 analyses = new StorageAnalyses();
                 analyses.setTurn(storageTurn);
                 analyses.setOilAnalyses(new OilAnalyses());
+                save = true;
+            }
+
+            if (analyses.getDate() == null || !analyses.getDate().equals(timestamp)){
+                analyses.setDate(timestamp);
                 save = true;
             }
 

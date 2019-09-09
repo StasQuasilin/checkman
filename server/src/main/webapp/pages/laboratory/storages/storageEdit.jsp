@@ -9,19 +9,49 @@
   var editor = new Vue({
     el: '#editor',
     data:{
-      api:{
-        save:''
-      },
+      api:{},
       storages:[],
       analyses:{}
     },
     methods:{
       save:function(){
+        var year = this.analyses.date.getFullYear();
+        var month = this.analyses.date.getMonth();
+        var date = this.analyses.date.getDate();
+        this.analyses.convert = year + '-' + (month + 1) + '-' + date + ' ' + this.analyses.date.toLocaleTimeString();
+        console.log(this.analyses);
         PostApi(this.api.save, this.analyses, function(a){
-          if (a.status == 'success'){
+          if (a.status === 'success'){
             closeModal();
           }
         })
+      },
+      selectDate:function(){
+        const self = this;
+        datepicker.show(function(a){
+          var date = new Date(a);
+          self.analyses.date = new Date(
+              date.getFullYear(),
+              date.getMonth(),
+              date.getDate(),
+              self.analyses.date.getHours(),
+              self.analyses.date.getMinutes(),
+              0,0
+          )
+        }, this.analyses.date.toISOString().substring(0, 10));
+      },
+      selectTime:function(){
+        const self = this;
+        timepicker.show(function(a){
+          self.analyses.date = new Date(
+              self.analyses.date.getFullYear(),
+              self.analyses.date.getMonth(),
+              self.analyses.date.getDate(),
+            a.getHours(),
+            a.getMinutes(),
+            0,0
+          )
+        }, this.analyses.date.getHours(), this.analyses.date.getMinutes())
       }
     }
   });
@@ -34,6 +64,7 @@
   </c:forEach>
   editor.analyses={
     storage:-1,
+    date:new Date(),
     phosphorus:0,
     acid:0,
     peroxide:0,
@@ -49,10 +80,22 @@
     </td>
     <td>
       <select id="storage" style="width: 100%" v-model="analyses.storage">
+        <option disabled value="-1"><fmt:message key="need.select"/></option>
         <option v-for="storage in storages" :value="storage.id">
           {{storage.name}}
         </option>
       </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="date">
+        <fmt:message key="select.date"/>
+      </label>
+    </td>
+    <td v-if="analyses.date">
+      <input id="date" readonly v-model="analyses.date.toLocaleDateString()" v-on:click="selectDate" style="width: 7em">
+      <input readonly v-model="analyses.date.toLocaleTimeString().substring(0,5)" style="width: 4.4em" title="Time" v-on:click="selectTime">
     </td>
   </tr>
   <tr>
@@ -62,7 +105,7 @@
       </label>
     </td>
     <td>
-      <input id="phosphorus" type="number" step="0.01" v-model="analyses.phosphorus">
+      <input id="phosphorus" type="number" step="0.01" v-model="analyses.phosphorus" onclick="this.select()">
     </td>
   </tr>
   <tr>
@@ -72,7 +115,7 @@
       </label>
     </td>
     <td>
-      <input id="acid" type="number" step="0.01" v-model="analyses.acid">
+      <input id="acid" type="number" step="0.01" v-model="analyses.acid" onclick="this.select()">
     </td>
   </tr>
   <tr>
@@ -82,7 +125,7 @@
       </label>
     </td>
     <td>
-      <input id="peroxide" type="number" step="0.01" v-model="analyses.peroxide">
+      <input id="peroxide" type="number" step="0.01" v-model="analyses.peroxide" onclick="this.select()">
     </td>
   </tr>
   <tr>
@@ -92,7 +135,7 @@
       </label>
     </td>
     <td>
-      <input id="color" type="number" step="1" v-model="analyses.color">
+      <input id="color" type="number" step="1" v-model="analyses.color" onclick="this.select()">
     </td>
   </tr>
   <tr>

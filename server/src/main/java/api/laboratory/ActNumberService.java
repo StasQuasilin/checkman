@@ -14,6 +14,12 @@ public class ActNumberService {
 
     static dbDAO dao = dbDAOService.getDAO();
 
+    public static void updateNumber(ActType type, int number){
+        ActNumber actNumber = dao.getActNumber(type);
+        actNumber.setNumber(number);
+        dao.save(actNumber);
+    }
+
     public static int getActNumber(ActType type) {
         return dao.getActNumberIncrement(type);
     }

@@ -2,7 +2,17 @@
 * Vuetify v1.5.9
 * Forged by John Leider
 * Released under the MIT License.
-*/@-webkit-keyframes shake{
+
+
+*/
+.v-time-picker-clock__hand {
+	background-color: #005caf !important;
+	border-color:#005caf !important;
+}
+.accent{
+	background-color: #005caf !important;
+}
+@-webkit-keyframes shake{
 	
       59%{
 	
@@ -4768,7 +4778,7 @@ legend{
 	align-items:center;
 	display:inline-flex;
 	height:70px;
-	font-size:70px;
+	font-size:40px;
 	justify-content:center}
 .v-time-picker-title__ampm{
 	align-self:flex-end;

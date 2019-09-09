@@ -85,6 +85,12 @@ public class ExtractionStorageProteinEditServletAPI extends ServletAPI {
                 storageProtein.setHumidity(humidity);
                 save = true;
             }
+
+            float nuclear = Float.parseFloat(String.valueOf(body.get("nuclear")));
+            if (storageProtein.getNuclearGrease() != nuclear) {
+                storageProtein.setNuclearGrease(nuclear);
+                save = true;
+            }
             if (save) {
                 ActionTime createTime = storageProtein.getCreateTime();
                 if (createTime == null) {

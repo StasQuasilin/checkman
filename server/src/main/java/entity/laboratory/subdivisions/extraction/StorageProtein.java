@@ -19,6 +19,7 @@ public class StorageProtein {
     private Storage storage;
     private float protein;
     private float humidity;
+    private float nuclearGrease;
     private ActionTime createTime;
     private Worker creator;
 
@@ -74,6 +75,15 @@ public class StorageProtein {
     }
     public void setHumidity(float humidity) {
         this.humidity = humidity;
+    }
+
+    @Basic
+    @Column(name = "nuclear")
+    public float getNuclearGrease() {
+        return nuclearGrease;
+    }
+    public void setNuclearGrease(float nuclearGrease) {
+        this.nuclearGrease = nuclearGrease;
     }
 
     @OneToOne

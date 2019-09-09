@@ -61,7 +61,7 @@
             </tr>
             <tr v-for="analyse in value.item.analyses">
                 <td>
-                    {{new Date(analyse.oil.create.time).toLocaleTimeString().substring(0, 5)}}
+                    {{new Date(analyse.date).toLocaleTimeString().substring(0, 5)}}
                 </td>
                 <td>
                     {{analyse.storage}}

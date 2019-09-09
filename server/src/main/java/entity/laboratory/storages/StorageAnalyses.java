@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 public class StorageAnalyses {
     private int id;
     private StorageTurn turn;
+    private Timestamp date;
     private Storage storage;
     private OilAnalyses oilAnalyses;
 
@@ -34,6 +35,15 @@ public class StorageAnalyses {
     }
     public void setTurn(StorageTurn turn) {
         this.turn = turn;
+    }
+
+    @Basic
+    @Column(name = "date")
+    public Timestamp getDate() {
+        return date;
+    }
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 
     @OneToOne

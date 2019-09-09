@@ -58,7 +58,7 @@
             hour:'06',
             minute:30
         }
-    ]
+    ];
     <c:choose>
     <c:when test="${not empty crude}">
     editor.crude = {
@@ -172,6 +172,19 @@
         </td>
         <td>
             <input id="humidity" type="number" v-model="crude.humidity" step="0.01" autocomplete="off">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="oilHumidity">
+                <fmt:message key="extraction.oil.humidity"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="oilHumidity" type="number" step="0.01" autocomplete="off" v-model="crude.oilHumidity">
         </td>
     </tr>
     <tr>

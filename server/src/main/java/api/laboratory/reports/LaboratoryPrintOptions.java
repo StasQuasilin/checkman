@@ -6,12 +6,15 @@ import controllers.IModal;
 import entity.AnalysesType;
 import entity.Role;
 import entity.laboratory.transportation.ActType;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by Kvasik on 07.09.2019.
@@ -23,26 +26,30 @@ public class LaboratoryPrintOptions extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String parameter = req.getParameter("type");
         if (parameter != null) {
-            req.setAttribute("title", "title.laboratory.print.options");
-            req.setAttribute("modalContent", "/pages/laboratory/reports/printOptions.jsp");
+            JSONObject json = PostUtil.parseBodyJson(req);
+            if (json != null){
+                req.setAttribute("title", "title.laboratory.print.options");
+                req.setAttribute("modalContent", "/pages/laboratory/reports/printOptions.jsp");
+                req.setAttribute("id", json.get("id"));
+                AnalysesType type = AnalysesType.valueOf(parameter);
+                req.setAttribute("type", type.toString());
+                req.setAttribute("workers", dao.getWorkersByRole(Role.analyser));
+                req.setAttribute("number", ActNumberService.getActNumber(ActType.valueOf(type.name() + "Act")));
 
-            AnalysesType type = AnalysesType.valueOf(parameter);
-            req.setAttribute("workers", dao.getWorkersByRole(Role.analyser));
-            req.setAttribute("number", ActNumberService.getActNumber(ActType.valueOf(type.name() + "Act")));
-            switch (type) {
-                case sun:
-                    req.setAttribute("print", Branches.API.LABORATORY_SUN_PRINT);
-                    break;
-                case oil:
-                    req.setAttribute("print", Branches.API.LABORATORY_OIL_PRINT);
-                    break;
-                case cake:
-                    req.setAttribute("print", Branches.API.LABORATORY_MEAL_PRINT);
-                    break;
+                switch (type) {
+                    case sun:
+                        req.setAttribute("print", Branches.API.LABORATORY_SUN_PRINT);
+                        break;
+                    case oil:
+                        req.setAttribute("print", Branches.API.LABORATORY_OIL_PRINT);
+                        break;
+                    case cake:
+                        req.setAttribute("print", Branches.API.LABORATORY_MEAL_PRINT);
+                        break;
+                }
+
+                show(req, resp);
             }
-
-
-            show(req, resp);
         }
     }
 }

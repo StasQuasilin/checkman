@@ -1,5 +1,5 @@
 const datepicker = new Vue({
-    el: '#picker',
+    el: '#datePicker',
     data:{
         date:new Date().toISOString().substring(0, 10),
         color:'aliceblue',

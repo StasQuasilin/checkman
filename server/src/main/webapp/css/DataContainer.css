@@ -10,7 +10,10 @@
     color: white;
     font-weight: bold;
 }
-
+.round{
+    padding: 0 4pt;
+    border-radius: 8pt;
+}
 .t-1{
     background: linear-gradient(to right, #5F9EA0, transparent);
 }

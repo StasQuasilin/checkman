@@ -223,3 +223,6 @@ input.error {
 .body-table {
     border-collapse: collapse;
 }
+.underlined{
+    text-decoration: underline;
+}

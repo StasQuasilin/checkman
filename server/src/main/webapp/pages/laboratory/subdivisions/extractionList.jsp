@@ -72,6 +72,7 @@
         this.edit(this.api.greaseStorageEdit, id);
     };
     list.proteinTurnEdit = function(id){
+        console.log('Edit turn protein ' + id);
         this.edit(this.api.proteinTurnEdit, id);
     };
     list.greaseTurnEdit = function(id){
@@ -163,7 +164,7 @@
                     </th>
                     <th>
                         <span style="display: inline-block; width: 5em;">
-                            <fmt:message key="sun.humidity"/>
+                            <fmt:message key="nmr"/>
                         </span>
                     </th>
                     <th>
@@ -211,7 +212,7 @@
                     <td align="center">
                         <span v-if="value.item.storageProtein[crude.time]" style="width: 100% display: inline-block"
                               v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
-                            {{value.item.storageProtein[crude.time].humidity}}
+                            {{value.item.storageProtein[crude.time].nuclear}}
                         </span>
                         <span v-else>
                             --
@@ -240,17 +241,19 @@
         </div>
         <div>
             <div v-for="protein in value.item.turnProtein" v-on:click="proteinTurnEdit(protein.id)"
-                 style="font-size: 10pt; display: inline-block" class="selectable">
+                 style="font-size: 10pt; display: inline-block" class="selectable round">
                 <b>
                     <fmt:message key="title.extraction.turn.protein"/>:
                 </b>
                 <fmt:message key="cake.protein"/>:
                 {{protein.protein}},
                 <fmt:message key="sun.humidity"/>:
-                {{protein.humidity}}
+                {{protein.humidity}},
+                <fmt:message key="oil.nmr.grease"/>:
+                {{protein.nuclear}}
             </div>
             <div v-for="grease in value.item.turnGrease" v-on:click="greaseTurnEdit(grease.id)"
-                 style="font-size: 10pt; display: inline-block" class="selectable">
+                 style="font-size: 10pt; display: inline-block" class="selectable round">
                 <b>
                     <fmt:message key="title.extraction.turn.grease"/>:
                 </b>
@@ -260,7 +263,7 @@
                 {{grease.humidity}}
             </div>
         </div>
-        <div v-for="oil in value.item.oil" style="font-size: 10pt" class="selectable"
+        <div v-for="oil in value.item.oil" style="font-size: 10pt" class="selectable round"
             v-on:click="oilEdit(oil.id)">
             <b>
                 <fmt:message key="extraction.oil"/>:

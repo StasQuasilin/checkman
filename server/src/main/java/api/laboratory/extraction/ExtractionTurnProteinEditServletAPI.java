@@ -75,6 +75,12 @@ public class ExtractionTurnProteinEditServletAPI extends ServletAPI {
                 save = true;
             }
 
+            float nuclear = Float.parseFloat(String.valueOf(body.get("nuclear")));
+            if (turnProtein.getNuclearGrease() != nuclear){
+                turnProtein.setNuclearGrease(nuclear);
+                save = true;
+            }
+
             if (save) {
                 ActionTime createTime = turnProtein.getCreateTime();
                 if (createTime == null) {

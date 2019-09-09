@@ -57,7 +57,7 @@
         chat.api.remove = '${removeChat}';
     </script>
 
-    <div class="datetime-picker" id="picker" v-show="onSelects.length" v-on:click="close">
+    <div class="datetime-picker" id="datePicker" v-show="onSelects.length" v-on:click="close">
         <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
             <v-date-picker class="date-picker"
                            :no-title="true"
@@ -68,7 +68,49 @@
                            v-model="date" @input="put"></v-date-picker>
         </div>
     </div>
-    <script src="${context}/vue/datetimePicker.vue"></script>
+    <script src="${context}/vue/datetime/datePicker.vue"></script>
+
+    <div id="timepicker" class="datetime-picker" v-on:click="saveAndClose"
+        v-show="onSave.length">
+        <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
+            <div style="background-color: aliceblue;">
+                <div style="width: 100%; text-align: center">
+                    {{hh}}:{{mm}}
+                </div>
+                <div style="display: inline-block">
+                    <div style="width: 100%; text-align: center">
+                        <%--<fmt:message key="hours"/>--%>
+                        HH
+                    </div>
+                    <div v-for="i in 6">
+                        <span class="mini-close" v-for="j in 4" v-on:click="setHours(hours[(i - 1) * 4 + (j - 1)])">
+                            {{hours[(i - 1) * 4 + (j - 1)]}}
+                        </span>
+                    </div>
+                </div>
+                <div style="display: inline-block; border-left: solid gray 1pt">
+                    <div style="width: 100%; text-align: center">
+                        <%--<fmt:message key="minutes"/>--%>
+                        MM
+                    </div>
+                    <div v-for="i in 6">
+                        <span class="mini-close" v-for="j in 2" v-on:click="setMinutes(minutes[(i - 1) * 2 + (j - 1)])">
+                            {{minutes[(i - 1) * 2 + (j - 1)]}}
+                        </span>
+                    </div>
+                </div>
+                <div style="width: 100%; text-align: center">
+                    <span v-on:click="save">
+                        &#10003;
+                    </span>
+                    <span v-on:click="close">
+                        &times;
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="${context}/vue/datetime/timePicker.vue"></script>
     <script>
         <c:choose>
         <c:when test="${lang eq 'ua'}">

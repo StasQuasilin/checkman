@@ -629,7 +629,6 @@ public class JsonParser {
         json.put("id", turn.getId());
         json.put("turn", toJson(turn.getTurn()));
         json.put("analyses", toAnalysesJson(turn.getAnalyses()));
-        json.put("hash", turn.hashCode());
 
         return json;
     }
@@ -645,9 +644,10 @@ public class JsonParser {
     public static final String STORAGE = "storage";
     
     public JSONObject toJson(StorageAnalyses analyse) {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         json.put(ID, analyse.getId());
         json.put(STORAGE, analyse.getStorage().getName());
+        json.put(DATE, analyse.getDate().toString());
         json.put(OIL, toJson(analyse.getOilAnalyses()));
         return json;
     }
@@ -762,6 +762,7 @@ public class JsonParser {
         json.put("id", protein.getId());
         json.put("protein", protein.getProtein());
         json.put("humidity", protein.getHumidity());
+        json.put("nuclear", protein.getNuclearGrease());
         return json;
     }
 
@@ -797,6 +798,7 @@ public class JsonParser {
         json.put("id", raw.getId());
         json.put("protein", raw.getProtein());
         json.put("humidity", raw.getHumidity());
+        json.put("nuclear", raw.getNuclearGrease());
         return json;
     }
 

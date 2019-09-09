@@ -51,7 +51,7 @@
       storage: editor.storages[0].id,
       humidity:${protein.humidity},
       protein:${protein.protein},
-      creator:${worker.id}
+      nuclear:${protein.nuclearGrease}
     };
     </c:when>
     <c:otherwise>
@@ -61,7 +61,7 @@
       storage: editor.storages[0].id,
       humidity:0,
       protein:0,
-      creator:${worker.id}
+      nuclear:0
     };
     </c:otherwise>
     </c:choose>
@@ -139,6 +139,19 @@
     </td>
     <td>
       <input id="humidity" type="number" v-model="crude.humidity" step="0.1" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="nuclear">
+        <fmt:message key="oil.nmr.grease"/>
+      </label>
+    </td>
+    <td>
+      :
+    </td>
+    <td>
+      <input id="nuclear" type="number" step="0.01" autocomplete="off" v-model="crude.nuclear"/>
     </td>
   </tr>
   <tr>
