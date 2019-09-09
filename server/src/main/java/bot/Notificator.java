@@ -16,7 +16,6 @@ import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.transport.Transportation;
-import entity.weight.Weight;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -369,7 +368,7 @@ public class Notificator {
                 if (!messages.containsKey(language)) {
                     String message = lb.get(language, "extraction.oil.title");
                     message += "\n" + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
-                    message += "\n" + String.format(lb.get(language, "extraction.oil.humidity"), oil.getHumidity());
+                    message += "\n" + String.format(lb.get(language, "bot.extraction.oil.humidity"), oil.getHumidity());
                     message += "\n" + String.format(lb.get(language, "extraction.oil.acid.value"), oil.getAcid());
                     message += "\n" + String.format(lb.get(language, "extraction.oil.peroxide.value"), oil.getPeroxide());
                     message += "\n" + String.format(lb.get(language, "extraction.oil.phosphorus.value"), oil.getPhosphorus());

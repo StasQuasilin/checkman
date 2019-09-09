@@ -132,7 +132,7 @@
             :
         </td>
         <td>
-            <input id="humidityIncome" type="number" v-model="crude.humidityIncome" step="0.1" autocomplete="off">
+            <input id="humidityIncome" type="number" v-model="crude.humidityIncome" step="0.1" autocomplete="off" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -145,7 +145,7 @@
             :
         </td>
         <td>
-            <input id="smallFraction" type="number" v-model="crude.fraction" step="0.01" autocomplete="off">
+            <input id="smallFraction" type="number" v-model="crude.fraction" step="0.01" autocomplete="off" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -158,7 +158,7 @@
             :
         </td>
         <td>
-            <input id="miscellas" type="number" v-model="crude.miscellas" step="0.01" autocomplete="off">
+            <input id="miscellas" type="number" v-model="crude.miscellas" step="0.01" autocomplete="off" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -171,7 +171,7 @@
             :
         </td>
         <td>
-            <input id="humidity" type="number" v-model="crude.humidity" step="0.01" autocomplete="off">
+            <input id="humidity" type="number" v-model="crude.humidity" step="0.01" autocomplete="off" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -184,7 +184,7 @@
             :
         </td>
         <td>
-            <input id="oilHumidity" type="number" step="0.01" autocomplete="off" v-model="crude.oilHumidity">
+            <input id="oilHumidity" type="number" step="0.01" autocomplete="off" v-model="crude.oilHumidity" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -197,7 +197,7 @@
             :
         </td>
         <td>
-            <input id="dissolvent" type="number" v-model="crude.dissolvent" step="0.0001" autocomplete="off">
+            <input id="dissolvent" type="number" v-model="crude.dissolvent" step="0.0001" autocomplete="off" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -210,7 +210,7 @@
             :
         </td>
         <td>
-            <input id="grease" type="number" v-model="crude.grease" step="0.01" autocomplete="off">
+            <input id="grease" type="number" v-model="crude.grease" step="0.01" autocomplete="off" onclick="this.select()">
         </td>
     </tr>
     <tr>

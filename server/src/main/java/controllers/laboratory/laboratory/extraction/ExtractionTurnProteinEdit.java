@@ -20,7 +20,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 15.05.2019.
  */
 @WebServlet(Branches.UI.Extraction.TURN_PROTEIN)
-public class ExtractionTurnProtein extends IModal {
+public class ExtractionTurnProteinEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
