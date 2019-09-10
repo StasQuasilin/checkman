@@ -66,14 +66,19 @@
     </c:forEach>
     <c:choose>
     <c:when test="${not empty crude}">
+    editor.crude = {
+        date : new Date().toISOString().substring(0, 10),
+        time : editor.currentTime(),
+        protein:0,
+        cellulose:0
+    };
     </c:when>
     <c:otherwise>
     editor.crude = {
         date : new Date().toISOString().substring(0, 10),
         time : editor.currentTime(),
         protein:0,
-        cellulose:0,
-        creator:${worker.id}
+        cellulose:0
     };
     </c:otherwise>
     </c:choose>

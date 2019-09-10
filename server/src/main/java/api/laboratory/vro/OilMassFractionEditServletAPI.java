@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 20.05.2019.
@@ -45,8 +44,9 @@ public class OilMassFractionEditServletAPI extends ServletAPI {
         if (body != null) {
             log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            List<TurnSettings> turns = TurnBox.getTurns();
-            LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();
+            int turnNumber = Integer.parseInt(String.valueOf(body.get("turn")));
+            TurnSettings turn = TurnBox.getTurnByNumber(turnNumber);
+            LocalTime time = turn.getBegin().toLocalTime();
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
@@ -71,9 +71,9 @@ public class OilMassFractionEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float seed = Float.parseFloat(String.valueOf(body.get("seed")));
-            if (oilMassFraction.getSeed() != seed) {
-                oilMassFraction.setSeed(seed);
+            float seedWed = Float.parseFloat(String.valueOf(body.get("seedWet")));
+            if (oilMassFraction.getSeedWet() != seedWed) {
+                oilMassFraction.setSeedWet(seedWed);
                 save = true;
             }
 
@@ -83,15 +83,27 @@ public class OilMassFractionEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float husk = Float.parseFloat(String.valueOf(body.get("husk")));
-            if (oilMassFraction.getHusk() != husk) {
-                oilMassFraction.setHusk(husk);
+            float seedDry = Float.parseFloat(String.valueOf(body.get("seedDry")));
+            if (oilMassFraction.getSeedDry() != seedDry){
+                oilMassFraction.setSeedDry(seedDry);
+                save = true;
+            }
+
+            float huskWed = Float.parseFloat(String.valueOf(body.get("huskWet")));
+            if (oilMassFraction.getHuskWet() != huskWed) {
+                oilMassFraction.setHuskWet(huskWed);
                 save = true;
             }
 
             float huskHumidity = Float.parseFloat(String.valueOf(body.get("huskHumidity")));
             if (oilMassFraction.getHuskHumidity() != huskHumidity) {
                 oilMassFraction.setHuskHumidity(huskHumidity);
+                save = true;
+            }
+
+            float huskDry = Float.parseFloat(String.valueOf(body.get("huskDry")));
+            if (oilMassFraction.getHuskDry() != huskDry){
+                oilMassFraction.setHuskDry(huskDry);
                 save = true;
             }
 
@@ -126,15 +138,21 @@ public class OilMassFractionEditServletAPI extends ServletAPI {
                     save = true;
                 }
 
+                float wet = Float.parseFloat(String.valueOf(forpress.get("wet")));
+                if (fcd.getWet() != wet) {
+                    fcd.setHumidity(wet);
+                    save = true;
+                }
+
                 float humidity = Float.parseFloat(String.valueOf(forpress.get("humidity")));
                 if (fcd.getHumidity() != humidity) {
                     fcd.setHumidity(humidity);
                     save = true;
                 }
-
-                float oiliness = Float.parseFloat(String.valueOf(forpress.get("oiliness")));
-                if (fcd.getOiliness() != oiliness) {
-                    fcd.setOiliness(oiliness);
+                
+                float dry = Float.parseFloat(String.valueOf(forpress.get("dry")));
+                if (fcd.getDry() != dry) {
+                    fcd.setDry(dry);
                     save = true;
                 }
             }

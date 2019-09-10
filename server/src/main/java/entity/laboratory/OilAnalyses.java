@@ -20,6 +20,9 @@ public class OilAnalyses{
     private float humidity;
     private boolean soap;
     private float wax;
+    private float degreaseImpurity;
+    private float transparency;
+    private float benzopyrene;
     private ActionTime createTime;
     private Worker creator;
 
@@ -102,6 +105,33 @@ public class OilAnalyses{
     }
     public void setWax(float wax) {
         this.wax = wax;
+    }
+
+    @Basic
+    @Column(name = "degrease_impurity")
+    public float getDegreaseImpurity() {
+        return degreaseImpurity;
+    }
+    public void setDegreaseImpurity(float degreaseImpurity) {
+        this.degreaseImpurity = degreaseImpurity;
+    }
+
+    @Basic
+    @Column(name = "transparency")
+    public float getTransparency() {
+        return transparency;
+    }
+    public void setTransparency(float transparency) {
+        this.transparency = transparency;
+    }
+
+    @Basic
+    @Column(name = "benzopyrene")
+    public float getBenzopyrene() {
+        return benzopyrene;
+    }
+    public void setBenzopyrene(float benzopyrene) {
+        this.benzopyrene = benzopyrene;
     }
 
     @OneToOne

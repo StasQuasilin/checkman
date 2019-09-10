@@ -81,4 +81,13 @@ public final class TurnBox{
         }
         return turns.get(0);
     }
+
+    public static TurnSettings getTurnByNumber(int number) {
+        for (TurnSettings turn : turns) {
+            if (turn.getNumber() == number) {
+                return turn;
+            }
+        }
+        return turns.get(0);
+    }
 }

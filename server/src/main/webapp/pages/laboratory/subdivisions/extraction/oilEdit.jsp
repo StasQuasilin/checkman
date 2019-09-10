@@ -11,6 +11,7 @@
     <c:forEach items="${turns}" var="turn">
     editor.turns.push({
         id:${turn.id},
+        number:${turn.number},
         value:'<fmt:message key="turn"/> #${turn.number}',
         <c:choose>
         <c:when test="${turn.begin lt turn.end}">
@@ -30,6 +31,15 @@
     </c:forEach>
     <c:choose>
     <c:when test="${not empty oil}">
+    editor.oil = {
+        date : new Date('${oil.turn.turn.date}').toISOString().substring(0, 10),
+        turn : ${oil.turn.turn.number},
+        humidity:${oil.humidity},
+        acid:${oil.acid},
+        peroxide:${oil.peroxide},
+        phosphorus:${oil.phosphorus},
+        explosion:${oil.explosionT}
+    };
     </c:when>
     <c:otherwise>
     editor.oil = {
@@ -39,8 +49,7 @@
         acid:0,
         peroxide:0,
         phosphorus:0,
-        explosion:0,
-        creator:${worker.id}
+        explosion:0
     };
     </c:otherwise>
     </c:choose>
@@ -71,7 +80,7 @@
         </td>
         <td>
             <select id="time" v-model="oil.turn">
-                <option v-for="turn in turns" :value="turn.id">
+                <option v-for="turn in turns" :value="turn.number">
                     {{turnDate(turn.day)}}
                     {{turn.value}}
                 </option>

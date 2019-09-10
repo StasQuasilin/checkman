@@ -58,10 +58,10 @@
                   Масова частка фосфоровміснх речовн в перерахунку<br>
                   на стеароолеолецитин - <b><fmt:formatNumber value="${analyses.phosphorus}"/></b><br>
                   Масова частка вологи та летких речовин - <b><fmt:formatNumber value="${analyses.humidity}"/></b><br>
-                  Масова частка нежирових домішок<br>
-                  Ступінь прозорості, фем<br>
+                  Масова частка нежирових домішок - <b><fmt:formatNumber value="${analyses.degreaseImpurity}"/></b><br>
+                  Ступінь прозорості, фем - <b><fmt:formatNumber value="${analyses.transparency}"/></b><br>
                   Перекисне число, &#189;O ммоль/кг - <b><fmt:formatNumber value="${analyses.peroxideValue}"/></b><br>
-                  Бенз(а)пірен, мкг/кг<br>
+                  Бенз(а)пірен, мкг/кг - <b><fmt:formatNumber value="${analyses.benzopyrene}"/></b><br>
                 </p>
                 <p>
                   Залишковий вміст хлорорганічних пестицидів, токсичних елементів,<br>

@@ -386,7 +386,7 @@ COPY public.forpress (id, name) FROM stdin;
 -- Data for Name: forpress_cake; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.forpress_cake (id, humidity, oiliness, crude, forpress) FROM stdin;
+COPY public.forpress_cake (id, humidity, dry, crude, forpress) FROM stdin;
 26	0.0599999987	0.100000001	25	1
 29	0.0900000036	0.100000001	28	1
 \.
@@ -461,7 +461,7 @@ INSERT INTO public.load_plans (id, canceled, transport_customer, date, plan, uid
 -- Data for Name: oil_mass_fractions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.oil_mass_fractions (id, turn, seed, seed_humidity, husk, husk_humidity, create_time, creator) FROM stdin;
+COPY public.oil_mass_fractions (id, turn, seed_wet, seed_humidity, husk_wet, husk_humidity, create_time, creator) FROM stdin;
 \.
 
 

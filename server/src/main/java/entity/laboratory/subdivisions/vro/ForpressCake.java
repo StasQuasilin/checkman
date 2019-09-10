@@ -53,7 +53,7 @@ public class ForpressCake {
     }
 
     @Basic
-    @Column(name = "oiliness")
+    @Column(name = "dry")
     public float getOiliness() {
         return oiliness;
     }

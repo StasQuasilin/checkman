@@ -16,11 +16,14 @@ public class ExtractionCrude implements Comparable<ExtractionCrude>{
     private ExtractionTurn turn;
     private Timestamp time;
     private float humidityIncome;
+    private float oilinessIncome;
     private float fraction;
     private float miscellas;
     private float humidity;
     private float dissolvent;
     private float grease;
+    private float explosionTemperature;
+    private float oilHumidity;
     private ActionTime createTime;
     private Worker creator;
 
@@ -58,6 +61,15 @@ public class ExtractionCrude implements Comparable<ExtractionCrude>{
     }
     public void setHumidityIncome(float humidityIncome) {
         this.humidityIncome = humidityIncome;
+    }
+
+    @Basic
+    @Column(name = "oiliness_income")
+    public float getOilinessIncome() {
+        return oilinessIncome;
+    }
+    public void setOilinessIncome(float oilinessIncome) {
+        this.oilinessIncome = oilinessIncome;
     }
 
     @Basic
@@ -103,6 +115,24 @@ public class ExtractionCrude implements Comparable<ExtractionCrude>{
     }
     public void setGrease(float grease) {
         this.grease = grease;
+    }
+
+    @Basic
+    @Column(name = "explosion_temperature")
+    public float getExplosionTemperature() {
+        return explosionTemperature;
+    }
+    public void setExplosionTemperature(float explosionTemperature) {
+        this.explosionTemperature = explosionTemperature;
+    }
+
+    @Basic
+    @Column(name = "oil_humidity")
+    public float getOilHumidity() {
+        return oilHumidity;
+    }
+    public void setOilHumidity(float oilHumidity) {
+        this.oilHumidity = oilHumidity;
     }
 
     @OneToOne

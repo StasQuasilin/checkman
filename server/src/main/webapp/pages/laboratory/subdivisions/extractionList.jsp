@@ -116,11 +116,14 @@
                             <fmt:message key="time"/>
                         </span>
                     </th>
-                    <td colspan="3" align="center">
+                    <td colspan="4" align="center">
                         <fmt:message key="extraction.crude"/>
                     </td>
-                    <td colspan="3" align="center">
+                    <td colspan="4" align="center">
                         <fmt:message key="extraction.meal"/>
+                    </td>
+                    <td rowspan="2" align="center">
+                        <fmt:message key="extraction.crude.oil.humidity.short"/>
                     </td>
                     <td colspan="4" align="center">
                         <fmt:message key="storage"/>
@@ -128,23 +131,33 @@
                 </tr>
                 <tr>
                     <th>
-                        <span style="display: inline-block; width: 8em;">
+                        <span style="display: inline-block; width: 5em;">
                             <fmt:message key="extraction.crude.humidity.income.short"/>
                         </span>
                     </th>
                     <th>
-                        <span style="display: inline-block; width: 8em;">
+                        <span style="display: inline-block; width: 5em;">
+                            <fmt:message key="extraction.crude.oilines.income.short"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 5em;">
                             <fmt:message key="extraction.crude.small.fraction.short"/>
                         </span>
                     </th>
                     <th>
-                        <span style="display: inline-block; width: 8em;">
+                        <span style="display: inline-block; width: 5em;">
                             <fmt:message key="extraction.crude.miscellas.short"/>
                         </span>
                     </th>
                     <th>
-                        <span style="display: inline-block; width: 7em;">
+                        <span style="display: inline-block; width: 5em;">
                             <fmt:message key="extraction.crude.humidity.short"/>
+                        </span>
+                    </th>
+                    <th>
+                        <span style="display: inline-block; width: 6em;">
+                            <fmt:message key="extraction.crude.explosion.short"/>
                         </span>
                     </th>
                     <th>
@@ -186,6 +199,9 @@
                         {{(crude.humidityIncome).toLocaleString()}}
                     </td>
                     <td align="center" v-on:click="crudeEdit(crude.id)">
+                        {{(crude.oilinessIncome).toLocaleString()}}
+                    </td>
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.fraction).toLocaleString()}}
                     </td>
                     <td align="center" v-on:click="crudeEdit(crude.id)">
@@ -195,10 +211,16 @@
                         {{(crude.humidity).toLocaleString()}}
                     </td>
                     <td align="center" v-on:click="crudeEdit(crude.id)">
+                        {{(crude.explosionTemperature).toLocaleString()}}
+                    </td>
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.dissolvent).toLocaleString()}}
                     </td>
                     <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.grease).toLocaleString()}}
+                    </td>
+                    <td align="center" v-on:click="crudeEdit(crude.id)">
+                        {{(crude.oilHumidity).toLocaleString()}}
                     </td>
                     <td align="center">
                         <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"

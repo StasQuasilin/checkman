@@ -33,8 +33,9 @@
         humidity:${plan.oilAnalyses.humidity},
         soap:${plan.oilAnalyses.soap},
         wax:${plan.oilAnalyses.wax},
-        creator:${plan.oilAnalyses.createTime.creator.id}
-
+        degreaseImpurity:${plan.oilAnalyses.degreaseImpurity},
+        transparency:${plan.oilAnalyses.transparency},
+        benzopyrene:${plan.oilAnalyses.benzopyrene}
     };
     </c:when>
     <c:otherwise>
@@ -48,16 +49,12 @@
         humidity:0,
         soap:false,
         wax:0,
-        creator:${worker.id}
+        degreaseImpurity:0,
+        transparency:0,
+        benzopyrene:0
     };
     </c:otherwise>
     </c:choose>
-    <c:forEach items="${laborants}" var="l">
-    editor.laborants.push({
-        id:${l.id},
-        value:'${l.person.value}'
-    });
-    </c:forEach>
 
 </script>
 <table id="editor" class="editor">
@@ -122,21 +119,21 @@
     </tr>
     <tr>
         <td>
-            <label for="organoleptic">
-                <fmt:message key="oil.organoleptic"/>
-            </label>
+            <fmt:message key="oil.organoleptic"/>
         </td>
         <td>
             :
         </td>
         <td style="width: 9em">
             <input id="organoleptic" type="checkbox" v-model="analyses.organoleptic" style="width: auto">
+            <label for="organoleptic">
                 <span v-if="analyses.organoleptic">
                     <fmt:message key="oil.organoleptic.match"/>
                 </span>
                 <span v-else>
                     <fmt:message key="oil.organoleptic.doesn't.match"/>
                 </span>
+            </label>
         </td>
     </tr>
     <tr>
@@ -149,7 +146,7 @@
             :
         </td>
         <td>
-            <input id="color" type="number" v-model="analyses.color"/>
+            <input id="color" type="number" v-model="analyses.color" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -162,7 +159,7 @@
             :
         </td>
         <td>
-            <input id="acid" type="number" step="0.01" v-model="analyses.acidValue"/>
+            <input id="acid" type="number" step="0.01" v-model="analyses.acidValue" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -175,7 +172,7 @@
             :
         </td>
         <td>
-            <input id="peroxide" type="number" step="0.01" v-model="analyses.peroxideValue"/>
+            <input id="peroxide" type="number" step="0.01" v-model="analyses.peroxideValue" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -188,7 +185,7 @@
             :
         </td>
         <td>
-            <input id="phosphorus" type="number" step="0.01" v-model="analyses.phosphorus"/>
+            <input id="phosphorus" type="number" step="0.01" v-model="analyses.phosphorus" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -201,26 +198,26 @@
             :
         </td>
         <td>
-            <input id="humidity" type="number" step="0.01" v-model="analyses.humidity"/>
+            <input id="humidity" type="number" step="0.01" v-model="analyses.humidity" onclick="this.select()">
         </td>
     </tr>
     <tr>
         <td>
-            <label for="soap">
-                <fmt:message key="oil.soap"/>
-            </label>
+            <fmt:message key="oil.soap"/>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="soap" type="checkbox" v-model="analyses.soap"/>
-            <span v-if="analyses.soap">
-                <fmt:message key="notification.kpo.soap.yes"/>
-            </span>
-            <span v-else>
-                <fmt:message key="notification.kpo.soap.no"/>
-            </span>
+            <input id="soap" type="checkbox" v-model="analyses.soap" onclick="this.select()">
+            <label for="soap">
+                <span v-if="analyses.soap">
+                    <fmt:message key="notification.kpo.soap.yes"/>
+                </span>
+                <span v-else>
+                    <fmt:message key="notification.kpo.soap.no"/>
+                </span>
+            </label>
         </td>
 
     </tr>
@@ -234,7 +231,49 @@
             :
         </td>
         <td>
-            <input id="wax" type="number" step="0.01" v-model="analyses.wax"/>
+            <input id="wax" type="number" step="0.01" v-model="analyses.wax" onclick="this.select()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="degreaseImpurity">
+                <fmt:message key="oil.degrease.impurity"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="degreaseImpurity" type="number" step="0.01"
+                   autocomplete="off" v-model="analyses.degreaseImpurity" onclick="this.select()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="transparency">
+                <fmt:message key="oil.transparency"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="transparency" type="number" step="0.01" onclick="this.select()"
+                   autocomplete="off" v-model="analyses.transparency">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="benzopyrene">
+                <fmt:message key="oil.benzopyrene"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="benzopyrene" type="number" step="0.001" onclick="this.select()"
+                autocomplete="off" v-model="analyses.benzopyrene">
         </td>
     </tr>
 

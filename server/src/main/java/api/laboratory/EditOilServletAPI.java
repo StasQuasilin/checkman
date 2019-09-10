@@ -102,6 +102,27 @@ public class EditOilServletAPI extends ServletAPI {
                 save = true;
             }
 
+            float degreaseImpurity = Float.parseFloat(String.valueOf(a.get("degreaseImpurity")));
+            log.info("\t\tDegreaseImpurity: " + degreaseImpurity);
+            if (oilAnalyses.getDegreaseImpurity() != degreaseImpurity) {
+                oilAnalyses.setDegreaseImpurity(degreaseImpurity);
+                save = true;
+            }
+
+            float transparency = Float.parseFloat(String.valueOf(a.get("transparency")));
+            log.info("\t\tTransparency: " + transparency);
+            if (oilAnalyses.getTransparency() != transparency) {
+                oilAnalyses.setTransparency(transparency);
+                save = true;
+            }
+
+            float benzopyrene = Float.parseFloat(String.valueOf(a.get("benzopyrene")));
+            log.info("\t\tBenzopyrene: " + benzopyrene);
+            if (oilAnalyses.getBenzopyrene() != benzopyrene) {
+                oilAnalyses.setBenzopyrene(benzopyrene);
+                save = true;
+            }
+
             if (save) {
                 ActionTime createTime = oilAnalyses.getCreateTime();
                 if (createTime == null) {

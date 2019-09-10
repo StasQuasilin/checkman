@@ -57,8 +57,6 @@
   </c:otherwise>
   </c:choose>
 </script>
-
-
 <table id="editor" class="editor">
   <tr>
     <td>
@@ -71,6 +69,21 @@
     </td>
     <td>
       <input id="date" v-model="new Date(part.date).toLocaleDateString()" readonly v-on:click="pickDate">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="turn">
+        <fmt:message key="turn"/>
+      </label>
+    </td>
+    <td>
+      :
+    </td>
+    <td>
+      <select id="turn">
+
+      </select>
     </td>
   </tr>
   <tr>
@@ -88,21 +101,21 @@
   </tr>
   <tr>
     <td>
-      <label for="organoleptic">
-        <fmt:message key="oil.organoleptic"/>
-      </label>
+      <fmt:message key="oil.organoleptic"/>
     </td>
     <td>
       :
     </td>
     <td>
       <input id="organoleptic" type="checkbox" v-model="part.organoleptic">
-      <span v-if="part.organoleptic">
-        <fmt:message key="oil.organoleptic.match"/>
-      </span>
-      <span v-else>
-        <fmt:message key="oil.organoleptic.doesn't.match"/>
-      </span>
+      <label for="organoleptic">
+        <span v-if="part.organoleptic">
+          <fmt:message key="oil.organoleptic.match"/>
+        </span>
+        <span v-else>
+          <fmt:message key="oil.organoleptic.doesn't.match"/>
+        </span>
+      </label>
     </td>
   </tr>
   <tr>
@@ -146,21 +159,21 @@
   </tr>
   <tr>
     <td>
-      <label for="soap">
-        <fmt:message key="oil.soap"/>
-      </label>
+      <fmt:message key="oil.soap"/>
     </td>
     <td>
       :
     </td>
     <td>
       <input id="soap" type="checkbox" v-model="part.soap">
-      <span v-if="part.soap">
-        <fmt:message key="oil.soap.yes"/>
-      </span>
-      <span v-else>
-        <fmt:message key="oil.soap.no"/>
-      </span>
+      <label for="soap">
+        <span v-if="part.soap">
+          <fmt:message key="oil.soap.yes"/>
+        </span>
+        <span v-else>
+          <fmt:message key="oil.soap.no"/>
+        </span>
+      </label>
     </td>
   </tr>
   <tr>

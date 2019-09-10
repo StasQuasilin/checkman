@@ -13,8 +13,9 @@ public class ForpressCakeDaily {
     private int id;
     private OilMassFraction oilMassFraction;
     private Forpress forpress;
+    private float wet;
     private float humidity;
-    private float oiliness;
+    private float dry;
 
     @Id
     @GeneratedValue
@@ -44,6 +45,15 @@ public class ForpressCakeDaily {
     }
 
     @Basic
+    @Column(name = "wet")
+    public float getWet() {
+        return wet;
+    }
+    public void setWet(float wet) {
+        this.wet = wet;
+    }
+
+    @Basic
     @Column(name = "humidity")
     public float getHumidity() {
         return humidity;
@@ -53,12 +63,12 @@ public class ForpressCakeDaily {
     }
 
     @Basic
-    @Column(name = "oiliness")
-    public float getOiliness() {
-        return oiliness;
+    @Column(name = "dry")
+    public float getDry() {
+        return dry;
     }
-    public void setOiliness(float oiliness) {
-        this.oiliness = oiliness;
+    public void setDry(float oiliness) {
+        this.dry = oiliness;
     }
 
     @Override
@@ -66,7 +76,7 @@ public class ForpressCakeDaily {
         int hash = 7;
         hash = 31 * forpress.getId() + hash;
         hash = 31 * Float.hashCode(humidity) + hash;
-        hash = 31 * Float.hashCode(oiliness) + hash;
+        hash = 31 * Float.hashCode(dry) + hash;
         return hash;
     }
 }

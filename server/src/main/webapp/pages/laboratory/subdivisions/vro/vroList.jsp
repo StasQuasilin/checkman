@@ -21,17 +21,12 @@
             </div>
             <div class="drop-menu-item" onclick="loadModal('${dailyEdit}')">
                 <span style="padding: 0 2pt">
-                    <fmt:message key="vro.daily"/>
+                    <fmt:message key="vro.turn.analyses"/>
                 </span>
             </div>
             <div class="drop-menu-item" onclick="loadModal('${oilMassFraction}')">
                 <span>
                     <fmt:message key="oil.mass.fraction"/>
-                </span>
-            </div>
-            <div class="drop-menu-item" onclick="loadModal('${oilMassFractionDry}')">
-                <span>
-                    <fmt:message key="oil.mass.fraction.dry"/>
                 </span>
             </div>
         </div>
@@ -221,61 +216,137 @@
             {{oil.color}}
         </div>
         <div style="padding-left: 8pt; font-size: 10pt" v-for="daily in value.item.dailies"
-             class="selectable" :id="daily.id" onclick="editableModal('${dailyEdit}')">
-            <b>
-                <fmt:message key="vro.daily"/>
-            </b>
-            <fmt:message key="kernel.humidity"/>:
-            {{(daily.kernelHumidity).toLocaleString()}},
-            <fmt:message key="husk.humidity"/>:
-            {{(daily.huskHumidity).toLocaleString()}},
-            <fmt:message key="husk.soreness"/>:
-            {{(daily.huskSoreness).toLocaleString()}},
-            <fmt:message key="kernel.percent"/>:
-            {{(daily.kernelPercent).toLocaleString()}},
-            <fmt:message key="husk.percent"/>:
-            {{(daily.huskPercent).toLocaleString()}}
+             class="selectable" :id="daily.id" v-on:click="edit('${dailyEdit}')">
+
+            <table style="font-size: 10pt">
+                <tr>
+                    <td colspan="2">
+                        <b>
+                            <fmt:message key="vro.turn.analyses"/>
+                        </b>
+                    </td>
+                    <td colspan="2" align="center">
+                        <fmt:message key="vro.sun.before"/>
+                    </td>
+                    <td colspan="2" align="center">
+                        <fmt:message key="vro.sun.after"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fmt:message key="vro.huskiness"/>:
+                        {{(daily.huskiness).toLocaleString()}}
+                    </td>
+                    <td>
+                        <fmt:message key="vro.kernel.offset"/>:
+                        {{(daily.kernelOffset).toLocaleString()}}
+                    </td>
+                    <td>
+                        <fmt:message key="sun.humidity"/>:
+                        {{(daily.humidityBefore).toLocaleString()}}
+                    </td>
+                    <td>
+                        <fmt:message key="sun.soreness"/>:
+                        {{(daily.sorenessBefore).toLocaleString()}}
+                    </td>
+                    <td>
+                        <fmt:message key="sun.humidity"/>:
+                        {{(daily.humidityAfter).toLocaleString()}}
+                    </td>
+                    <td>
+                        <fmt:message key="sun.soreness"/>:
+                        {{(daily.sorenessAfter).toLocaleString()}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fmt:message key="kernel.humidity"/>:
+                        {{(daily.kernelHumidity).toLocaleString()}}
+                    </td>
+                    <td>
+                        <fmt:message key="husk.humidity"/>:
+                        {{(daily.huskHumidity).toLocaleString()}}
+                    </td>
+                    <td colspan="2">
+                        <fmt:message key="husk.soreness"/>:
+                        {{(daily.huskSoreness).toLocaleString()}}
+                    </td>
+                    <td>
+                        <fmt:message key="kernel.percent"/>:
+                        {{(daily.kernelPercent).toLocaleString()}}
+                    </td>
+                    <td>
+                        <fmt:message key="husk.percent"/>:
+                        {{(daily.huskPercent).toLocaleString()}}
+                    </td>
+                </tr>
+
+            </table>
         </div>
         <div style="padding-left: 8pt; font-size: 10pt" v-for="oilMass in value.item.oilMass" class="selectable">
-            <b>
-                <fmt:message key="vro.daily.oil.mass"/>
-            </b>
-            <fmt:message key="oil.mass.fraction.seed"/>:
-            {{oilMass.seed}},
-            <fmt:message key="oil.mass.fraction.seed.humidity"/>:
-            {{oilMass.seedHumidity}},
-            <fmt:message key="oil.mass.fraction.husk"/>:
-            {{oilMass.husk}},
-            <fmt:message key="oil.mass.fraction.husk.humidity"/>:
-            {{oilMass.huskHumidity}}
-            <div v-for="fp in oilMass.forpress">
-                <b>
-                    {{fp.forpress}}
-                </b>
-                <fmt:message key="oilcake"/>:
-                {{fp.oilcake}},
-                <fmt:message key="oilcake.humidity"/>:
-                {{fp.oilcakeHumidity}}
-            </div>
-        </div>
-        <div style="padding-left: 8pt; font-size: 10pt"
-             v-for="oilMass in value.item.oilMassDry" :id="oilMass.id"
-             onclick="editableModal('${oilMassFractionDry}')"
-             class="selectable">
-            <b>
-                <fmt:message key="vro.daily.oil.mass.dry"/>
-            </b>
-            <fmt:message key="oil.mass.fraction.seed"/>:
-            {{oilMass.seed}},
-            <fmt:message key="oil.mass.fraction.husk"/>:
-            {{oilMass.husk}}
-            <template v-for="fp in oilMass.forpress">
-                <b>
-                    {{fp.forpress}}
-                </b>
-                <fmt:message key="oilcake"/>:
-                {{fp.oilcake}}
-            </template>
+            <table style="font-size: 9pt">
+                <tr>
+                    <th colspan="4">
+                        <fmt:message key="vro.daily.oil.mass"/>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <fmt:message key="sun.humidity"/>
+                    </td>
+                    <td>
+                        <fmt:message key="wet.indicator"/>
+                    </td>
+                    <td>
+                        <fmt:message key="dry.indicator"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fmt:message key="oil.mass.fraction.seed"/>
+                    </td>
+                    <td>
+                        {{oilMass.seedHumidity}}
+                    </td>
+                    <td>
+                        {{oilMass.seedWet}}
+                    </td>
+                    <td>
+                        {{oilMass.seedDry}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fmt:message key="oil.mass.fraction.husk"/>
+                    </td>
+                    <td>
+                        {{oilMass.huskHumidity}}
+                    </td>
+                    <td>
+                        {{oilMass.huskWet}}
+                    </td>
+                    <td>
+                        {{oilMass.huskDry}}
+                    </td>
+                </tr>
+                <tr v-for="fp in oilMass.forpress">
+                    <td>
+                        {{fp.forpress}}
+                    </td>
+                    <td>
+                        {{fp.humidity}}
+                    </td>
+                    <td>
+                        {{fp.wet}}
+                    </td>
+                    <td>
+                        {{fp.dry}}
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

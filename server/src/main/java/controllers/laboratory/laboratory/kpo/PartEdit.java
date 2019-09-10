@@ -8,6 +8,7 @@ import entity.laboratory.transportation.ActType;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,6 +41,7 @@ public class PartEdit extends IModal {
         }
 
         req.setAttribute("title", Titles.PART_EDIT);
+        req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("modalContent", "/pages/laboratory/subdivisions/kpo/partEdit.jsp");
         req.setAttribute("save", Branches.API.KPO_PART_EDIT);
         show(req, resp);

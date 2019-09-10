@@ -21,7 +21,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 16.05.2019.
  */
 @WebServlet(Branches.UI.Extraction.STORAGE_GREASE)
-public class ExtractionStorageGrease extends IModal {
+public class ExtractionStorageGreaseEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

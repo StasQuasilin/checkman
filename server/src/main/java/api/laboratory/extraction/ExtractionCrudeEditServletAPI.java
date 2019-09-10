@@ -70,6 +70,12 @@ public class ExtractionCrudeEditServletAPI extends ServletAPI {
                 save = true;
             }
 
+            float oilinessIncome = Float.parseFloat(String.valueOf(body.get("oilinessIncome")));
+            if (crude.getOilinessIncome() != oilinessIncome){
+                crude.setOilinessIncome(oilinessIncome);
+                save = true;
+            }
+
             float fraction = Float.parseFloat(String.valueOf(body.get("fraction")));
             if (crude.getFraction() != fraction) {
                 crude.setFraction(fraction);
@@ -97,6 +103,18 @@ public class ExtractionCrudeEditServletAPI extends ServletAPI {
             float grease = Float.parseFloat(String.valueOf(body.get("grease")));
             if (crude.getGrease() != grease) {
                 crude.setGrease(grease);
+                save = true;
+            }
+
+            float explosionTemperature = Float.parseFloat(String.valueOf(body.get("explosionTemperature")));
+            if (crude.getExplosionTemperature() != explosionTemperature){
+                crude.setExplosionTemperature(explosionTemperature);
+                save = true;
+            }
+
+            float oilHumidity = Float.parseFloat(String.valueOf(body.get("oilHumidity")));
+            if (crude.getOilHumidity() != oilHumidity){
+                crude.setOilHumidity(oilHumidity);
                 save = true;
             }
 

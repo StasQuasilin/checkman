@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.vro.VRODaily;
 import entity.laboratory.subdivisions.vro.VROTurn;
+import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
@@ -41,8 +42,9 @@ public class VRODailyEditServletAPI extends ServletAPI {
         if (body != null) {
             log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            List<TurnSettings> turns = TurnBox.getTurns();
-            LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();
+            int turnNumber = Integer.parseInt(String.valueOf(body.get("turn")));
+            TurnSettings turn = TurnBox.getTurnByNumber(turnNumber);
+            LocalTime time = turn.getBegin().toLocalTime();
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
@@ -90,6 +92,42 @@ public class VRODailyEditServletAPI extends ServletAPI {
             float huskPercent = Float.parseFloat(String.valueOf(body.get("huskPercent")));
             if (daily.getHuskPercent() != huskPercent) {
                 daily.setHuskPercent(huskPercent);
+                save = true;
+            }
+
+            float huskiness = Float.parseFloat(String.valueOf(body.get("huskiness")));
+            if (daily.getHuskiness() != huskiness) {
+                daily.setHuskiness(huskiness);
+                save = true;
+            }
+
+            float kernelOffset = Float.parseFloat(String.valueOf(body.get("kernelOffset")));
+            if (daily.getKernelOffset() != kernelOffset) {
+                daily.setKernelOffset(kernelOffset);
+                save = true;
+            }
+
+            float humidityBefore = Float.parseFloat(String.valueOf(body.get("humidityBefore")));
+            if (daily.getHumidityBefore() != humidityBefore) {
+                daily.setHumidityBefore(humidityBefore);
+                save = true;
+            }
+
+            float sorenessBefore = Float.parseFloat(String.valueOf(body.get("sorenessBefore")));
+            if (daily.getSorenessBefore() != sorenessBefore) {
+                daily.setSorenessBefore(sorenessBefore);
+                save = true;
+            }
+
+            float humidityAfter = Float.parseFloat(String.valueOf(body.get("humidityAfter")));
+            if (daily.getHumidityAfter() != humidityAfter) {
+                daily.setHumidityAfter(humidityAfter);
+                save = true;
+            }
+
+            float sorenessAfter = Float.parseFloat(String.valueOf(body.get("sorenessAfter")));
+            if (daily.getSorenessAfter() != sorenessAfter) {
+                daily.setSorenessAfter(sorenessAfter);
                 save = true;
             }
 

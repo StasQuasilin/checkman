@@ -14,10 +14,12 @@ import java.util.Set;
 public class OilMassFraction {
     private int id;
     private VROTurn turn;
-    private float seed;
+    private float seedWet;
     private float seedHumidity;
-    private float husk;
+    private float seedDry;
+    private float huskWet;
     private float huskHumidity;
+    private float huskDry;
     private Set<ForpressCakeDaily> forpressCakes;
     private ActionTime createTime;
     private Worker creator;
@@ -41,12 +43,12 @@ public class OilMassFraction {
     }
 
     @Basic
-    @Column(name = "seed")
-    public float getSeed() {
-        return seed;
+    @Column(name = "seed_wet")
+    public float getSeedWet() {
+        return seedWet;
     }
-    public void setSeed(float seed) {
-        this.seed = seed;
+    public void setSeedWet(float seedWed) {
+        this.seedWet = seedWed;
     }
 
     @Basic
@@ -59,12 +61,21 @@ public class OilMassFraction {
     }
 
     @Basic
-    @Column(name = "husk")
-    public float getHusk() {
-        return husk;
+    @Column(name = "seed_dry")
+    public float getSeedDry() {
+        return seedDry;
     }
-    public void setHusk(float husk) {
-        this.husk = husk;
+    public void setSeedDry(float seedDry) {
+        this.seedDry = seedDry;
+    }
+
+    @Basic
+    @Column(name = "husk_wet")
+    public float getHuskWet() {
+        return huskWet;
+    }
+    public void setHuskWet(float husk) {
+        this.huskWet = husk;
     }
 
     @Basic
@@ -74,6 +85,15 @@ public class OilMassFraction {
     }
     public void setHuskHumidity(float huskHumidity) {
         this.huskHumidity = huskHumidity;
+    }
+
+    @Basic
+    @Column(name = "husk_dry")
+    public float getHuskDry() {
+        return huskDry;
+    }
+    public void setHuskDry(float huskDry) {
+        this.huskDry = huskDry;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "oilMassFraction", cascade = CascadeType.ALL)
@@ -104,15 +124,6 @@ public class OilMassFraction {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * Float.hashCode(seed) + hash;
-        hash = 31 * Float.hashCode(seedHumidity) + hash;
-        hash = 31 * Float.hashCode(husk) + hash;
-        hash = 31 * Float.hashCode(huskHumidity) + hash;
-
-        for (ForpressCakeDaily fcd : forpressCakes) {
-            hash = 31 * fcd.hashCode() + hash;
-        }
-        return hash;
+        return id;
     }
 }

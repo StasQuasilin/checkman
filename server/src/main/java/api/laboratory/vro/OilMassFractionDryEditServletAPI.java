@@ -43,8 +43,10 @@ public class OilMassFractionDryEditServletAPI extends ServletAPI {
         if (body != null) {
             log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            List<TurnSettings> turns = TurnBox.getTurns();
-            LocalTime time = turns.get(turns.size() - 1).getBegin().toLocalTime();
+            int turnNumber = Integer.parseInt(String.valueOf(body.get("turn")));
+            TurnSettings turn = TurnBox.getTurnByNumber(turnNumber);
+
+            LocalTime time = turn.getBegin().toLocalTime();
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
@@ -69,9 +71,9 @@ public class OilMassFractionDryEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float seed = Float.parseFloat(String.valueOf(body.get("seed")));
-            if (oilMassFraction.getSeed() != seed) {
-                oilMassFraction.setSeed(seed);
+            float seedWed = Float.parseFloat(String.valueOf(body.get("seedWed")));
+            if (oilMassFraction.getSeed() != seedWed) {
+                oilMassFraction.setSeed(seedWed);
                 save = true;
             }
 
