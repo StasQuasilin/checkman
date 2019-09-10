@@ -18,7 +18,7 @@
         id:${plan.transportation.weight.id},
         brutto:${plan.transportation.weight.brutto},
         tara:${plan.transportation.weight.tara}
-    }
+    };
     </c:when>
     <c:otherwise>
     editor.weight={
@@ -81,9 +81,9 @@
         width: 50%
     }
 </style>
-<table border="1" id="editor" >
+<table border="0" id="editor" >
     <tr>
-        <td rowspan="2">
+        <td>
             <table class="editor" border="0">
                 <tr>
                     <td>
@@ -196,9 +196,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="netto">
-                            <fmt:message key="weight.netto"/>
-                        </label>
+                        <fmt:message key="weight.netto"/>
                     </td>
                     <td>
                         :
@@ -209,30 +207,34 @@
                 </tr>
                 <tr>
                     <td colspan="3" align="center">
-                        <button onclick="closeModal()"><fmt:message key="button.cancel"/> </button>
-                        <button v-on:click="save"><fmt:message key="button.save"/> </button>
-                        <button v-on:click="print()">
-                            <fmt:message key="document.print"/>
+                        <button onclick="closeModal()" class="close-button left-button">
+                            <fmt:message key="button.cancel"/>
                         </button>
+                        <button v-on:click="save" class="save-button right-button">
+                            <fmt:message key="button.save"/>
+                        </button>
+                        <span v-on:click="print()" class="mini-close">
+                            <fmt:message key="document.print"/>
+                        </span>
                     </td>
                 </tr>
             </table>
         </td>
-        <td valign="top" align="center" width="200px">
-            <%--<table border="0" style="width: 100%">--%>
-                <%--<tr>--%>
-                    <%--<th>--%>
-                        <%--<fmt:message key="menu.seals"/>--%>
-                    <%--</th>--%>
-                <%--</tr>--%>
-                <%--<c:forEach items="${plan.transportation.seals}" var="seal">--%>
-                    <%--<tr>--%>
-                        <%--<td>--%>
-                            <%--${seal.number}--%>
-                        <%--</td>--%>
-                    <%--</tr>--%>
-                <%--</c:forEach>--%>
-            <%--</table>--%>
+        <td valign="top" align="center">
+            <div style="overflow-y: scroll">
+                <c:if test="${fn:length(plan.transportation.seals) > 0}">
+                    <fmt:message key="seals"/>
+                    <c:forEach items="${plan.transportation.seals}" var="seal">
+                        <div>
+                                ${seal.number}
+                        </div>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${not empty plan.transportation.sunAnalyses}">
+                    <fmt:message key="analyses"/>
+
+                </c:if>
+            </div>
         </td>
     </tr>
     <tr>

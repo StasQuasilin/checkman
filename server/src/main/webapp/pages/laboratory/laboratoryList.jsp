@@ -75,22 +75,22 @@
             </span>
             <span>
                 <fmt:message key="transportation.automobile"/>:
-                <span v-if="value.item.vehicle.id">
+                <b v-if="value.item.vehicle.id">
                     {{value.item.vehicle.model}}
                     '{{value.item.vehicle.number}}'
                     <template v-if="value.item.vehicle.trailer">
                         '{{value.item.vehicle.trailer}}'
                     </template>
-                </span>
+                </b>
                 <span v-else>
                     <fmt:message key="no.data"/>
                 </span>
             </span>
             <span>
                 <fmt:message key="transportation.driver"/>:
-                <span v-if="value.item.driver.id">
+                <b v-if="value.item.driver.id">
                     {{value.item.driver.person.value}}
-                </span>
+                </b>
                 <span v-else>
                     <fmt:message key="no.data"/>
                 </span>
