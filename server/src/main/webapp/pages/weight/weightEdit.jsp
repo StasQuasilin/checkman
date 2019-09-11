@@ -226,13 +226,39 @@
                     <fmt:message key="seals"/>
                     <c:forEach items="${plan.transportation.seals}" var="seal">
                         <div>
-                                ${seal.number}
+                            ${seal.number}
                         </div>
                     </c:forEach>
                 </c:if>
-                <c:if test="${not empty plan.transportation.sunAnalyses}">
+                <c:if test="${plan.transportation.sunAnalyses ne null}">
                     <fmt:message key="analyses"/>
-
+                    <div style="width:100%; text-align: left">
+                        <div>
+                            <fmt:message key="sun.humidity.1"/>:
+                            ${plan.transportation.sunAnalyses.humidity1}
+                        </div>
+                        <div>
+                            <fmt:message key="sun.humidity.2"/>:
+                            ${plan.transportation.sunAnalyses.humidity2}
+                        </div>
+                        <div>
+                            <fmt:message key="sun.soreness"/>:
+                            ${plan.transportation.sunAnalyses.soreness}
+                        </div>
+                        <div>
+                            <fmt:message key="sun.oil.impurity"/>:
+                            ${plan.transportation.sunAnalyses.oilImpurity}
+                        </div>
+                        <div>
+                            <fmt:message key="sun.oiliness"/>:
+                            ${plan.transportation.sunAnalyses.oiliness}
+                        </div>
+                        <c:if test="${plan.transportation.sunAnalyses.contamination}">
+                        <div>
+                            <fmt:message key="sun.contamination"/>
+                        </div>
+                        </c:if>
+                    </div>
                 </c:if>
             </div>
         </td>
@@ -270,7 +296,7 @@
                     <%--</tr>--%>
                     <%--<tr>--%>
                         <%--<td>--%>
-                            <%--<fmt:message key="sun.soreness"/>--%>
+
                         <%--</td>--%>
                         <%--<td>--%>
                             <%--:--%>

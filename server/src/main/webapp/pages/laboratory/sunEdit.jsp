@@ -144,7 +144,7 @@
             :
         </td>
         <td>
-            <input id="humidity1" step="0.01" type="number" v-model.number="analyses.humidity1">
+            <input id="humidity1" step="0.01" type="number" v-model.number="analyses.humidity1" onclick="this.select()">
         </td>
         <td rowspan="2" style="border-left: solid darkgray 1pt; width: 7em" align="center">
             <div style="font-size: 8pt">
@@ -169,7 +169,7 @@
             :
         </td>
         <td>
-            <input id="humidity2" step="0.01" type="number" v-model.number="analyses.humidity2">
+            <input id="humidity2" step="0.01" type="number" v-model.number="analyses.humidity2" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -195,7 +195,7 @@
             :
         </td>
         <td colspan="2">
-            <input id="oilImp" step="0.01" type="number" v-model="analyses.oilImpurity">
+            <input id="oilImp" step="0.01" type="number" v-model="analyses.oilImpurity" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -208,7 +208,7 @@
             :
         </td>
         <td colspan="2">
-            <input id="oiliness" step="0.01" type="number" v-model="analyses.oiliness">
+            <input id="oiliness" step="0.01" type="number" v-model="analyses.oiliness" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -221,7 +221,7 @@
             :
         </td>
         <td colspan="2">
-            <input id="acid" step="0.01" type="number" v-model="analyses.acidValue">
+            <input id="acid" step="0.01" type="number" v-model="analyses.acidValue" onclick="this.select()">
         </td>
     </tr>
     <tr>
