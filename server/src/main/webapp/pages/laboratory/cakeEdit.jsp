@@ -10,24 +10,24 @@
     editor.api.save = '${save}';
     editor.api.print = '${print}';
     editor.plan = ${plan.id};
-    editor.organisation = '${plan.deal.organisation.value}';
-    <c:if test="${not empty plan.transportation.vehicle}">
-    editor.vehicle.model = '${plan.transportation.vehicle.model}';
-    editor.vehicle.number = '\'${plan.transportation.vehicle.number}\''
-    editor.vehicle.trailer = ' \'${plan.transportation.vehicle.trailer}\''
+    editor.organisation = '${plan.counterparty.value}';
+    <c:if test="${not empty plan.vehicle}">
+    editor.vehicle.model = '${plan.vehicle.model}';
+    editor.vehicle.number = '\'${plan.vehicle.number}\''
+    editor.vehicle.trailer = ' \'${plan.vehicle.trailer}\''
     </c:if>
-    <c:if test="${not empty plan.transportation.driver}">
-    editor.driver = '${plan.transportation.driver.person.value}';
+    <c:if test="${not empty plan.driver}">
+    editor.driver = '${plan.driver.person.value}';
     </c:if>
     <c:choose>
-    <c:when test="${not empty plan.transportation.mealAnalyses.id}">
+    <c:when test="${not empty plan.mealAnalyses.id}">
     editor.analyses = {
-        id:${plan.transportation.mealAnalyses.id},
-        humidity:${plan.transportation.mealAnalyses.humidity},
-        protein:${plan.transportation.mealAnalyses.protein},
-        cellulose:${plan.transportation.mealAnalyses.cellulose},
-        oiliness:${plan.transportation.mealAnalyses.oiliness},
-        creator:${plan.transportation.mealAnalyses.createTime.creator.id}
+        id:${plan.mealAnalyses.id},
+        humidity:${plan.mealAnalyses.humidity},
+        protein:${plan.mealAnalyses.protein},
+        cellulose:${plan.mealAnalyses.cellulose},
+        oiliness:${plan.mealAnalyses.oiliness},
+        creator:${plan.mealAnalyses.createTime.creator.id}
     };
     </c:when>
     <c:otherwise>

@@ -142,7 +142,9 @@ public class JsonParser {
         if (product != null) {
             json.put(ID, product.getId());
             json.put(NAME, product.getName());
-            json.put(ANALYSES, product.getAnalysesType().toString());
+            if (product.getAnalysesType() != null) {
+                json.put(ANALYSES, product.getAnalysesType().toString());
+            }
         }
         return json;
     }

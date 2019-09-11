@@ -193,4 +193,5 @@ public interface dbDAO {
     ProductProperty getProductProperty(Product product, String key);
     List<Transportation> getLimitArchiveTransportations(DealType type);
     List<Transportation> getTransportationByOrganisation(Object organisation);
+    List<Transportation> getTransportationByAnalyses(DealType type);
 }

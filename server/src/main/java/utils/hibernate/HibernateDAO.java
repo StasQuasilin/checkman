@@ -769,6 +769,15 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<Transportation> getTransportationByAnalyses(DealType type) {
+        final HashMap<String,Object> parameters = new HashMap<>();
+        parameters.put("type", type);
+        parameters.put("archive", false);
+        parameters.put("product/analysesType", State.notNull);
+        return hb.query(Transportation.class, parameters);
+    }
+
+    @Override
     public VROTurn getVROTurnByTurn(Turn turn) {
         return hb.get(VROTurn.class, "turn", turn);
     }

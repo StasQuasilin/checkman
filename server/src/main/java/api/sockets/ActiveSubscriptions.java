@@ -53,6 +53,8 @@ public class ActiveSubscriptions {
         handlers.put(Subscriber.KPO, new KpoHandler(Subscriber.KPO));
         handlers.put(Subscriber.LABORATORY_STORAGES, new StoragesHandler(Subscriber.LABORATORY_STORAGES));
         handlers.put(Subscriber.LABORATORY_TURNS, new TurnHandler(Subscriber.LABORATORY_TURNS));
+        handlers.put(Subscriber.LABORATORY_BUY, new LaboratoryHandler(Subscriber.LABORATORY_BUY, DealType.buy));
+        handlers.put(Subscriber.LABORATORY_SELL, new LaboratoryHandler(Subscriber.LABORATORY_SELL, DealType.sell));
     }
 
     public static ActiveSubscriptions getInstance() {
