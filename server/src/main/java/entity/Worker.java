@@ -11,6 +11,7 @@ public class Worker {
     private int id;
     private Person person;
     private String language;
+    private String office;
 
     @Id
     @GeneratedValue
@@ -37,6 +38,15 @@ public class Worker {
     }
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    @Basic
+    @Column(name = "office")
+    public String getOffice() {
+        return office;
+    }
+    public void setOffice(String office) {
+        this.office = office;
     }
 
     @Transient

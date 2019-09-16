@@ -8,15 +8,17 @@
 <div style="padding: 18pt">
     <table>
         <tr>
-            <td>
+            <td align="center">
                 <jsp:include page="registration.jsp"/>
+                <button onclick="loadModal('${userList}', {})">
+                    <fmt:message key="admin.user.list"/>
+                </button>
             </td>
-            <td>
+            <td valign="top">
                 <jsp:include page="botSettings.jsp"/>
             </td>
         </tr>
     </table>
-
 </div>
 
 </html>

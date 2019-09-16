@@ -11,6 +11,7 @@ public class BotSettings {
     private int id;
     private String token;
     private String name;
+    private boolean run;
 
     @Id
     @GeneratedValue
@@ -37,5 +38,14 @@ public class BotSettings {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "run")
+    public boolean isRun() {
+        return run;
+    }
+    public void setRun(boolean isRun) {
+        this.run = isRun;
     }
 }

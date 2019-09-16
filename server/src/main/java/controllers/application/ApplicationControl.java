@@ -42,6 +42,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("sealList", Branches.UI.SEAL_LIST);
         req.setAttribute("weightList", Branches.UI.WEIGHT_LIST);
         req.setAttribute("weightArchive", Branches.UI.WEIGHT_ARCHIVE);
+        req.setAttribute("manufactureReport", Branches.UI.MANUFACTURE_REPORT);
         req.setAttribute("probeList", Branches.UI.PROBE_LIST);
         req.setAttribute("subdivisionList", Branches.UI.SUBDIVISION_LIST);
         req.setAttribute("subdivisions", dao.getSubdivisions());

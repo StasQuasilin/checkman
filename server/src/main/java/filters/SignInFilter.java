@@ -1,6 +1,7 @@
 package filters;
 
 import constants.Branches;
+import utils.IpUtil;
 import utils.LoginBox;
 import utils.access.UserBox;
 
@@ -38,7 +39,10 @@ public class SignInFilter implements Filter{
         }
 
         if (token != null && userBox.containsKey(token)) {
-            String updateToken = userBox.updateToken(token);
+            String ip = IpUtil.getIp(request);
+
+
+            String updateToken = userBox.updateToken(token, ip);
             if (inAttribute){
                 response.setHeader(TOKEN, updateToken);
             } else {

@@ -55,6 +55,7 @@ public class ActiveSubscriptions {
         handlers.put(Subscriber.LABORATORY_TURNS, new TurnHandler(Subscriber.LABORATORY_TURNS));
         handlers.put(Subscriber.LABORATORY_BUY, new LaboratoryHandler(Subscriber.LABORATORY_BUY, DealType.buy));
         handlers.put(Subscriber.LABORATORY_SELL, new LaboratoryHandler(Subscriber.LABORATORY_SELL, DealType.sell));
+        handlers.put(Subscriber.USERS, new UserHandler(Subscriber.USERS));
     }
 
     public static ActiveSubscriptions getInstance() {

@@ -45,12 +45,13 @@ public class ContextFilter implements Filter {
             log.info("\t...Bot settings read successfully");
             try {
                 BotFactory.setSettings(settings);
+                settings.setRun(true);
+                dbDAOService.getDAO().save(settings);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             log.info("\t...Settings not found");
-            settings = new BotSettings();
         }
     }
 

@@ -16,6 +16,7 @@ public abstract class OnSubscribeHandler {
 
     public static final String ADD = "add";
     final dbDAO dao = dbDAOService.getDAO();
+    final JsonPool pool = JsonPool.getPool();
 
     public abstract void handle(Session session) throws IOException;
     public final JsonParser parser = new JsonParser();

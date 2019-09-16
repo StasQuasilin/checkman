@@ -60,6 +60,7 @@ public class JsonParser {
     private static final String DELIVERED = "delivered";
     private static final String READ = "read";
     private static final String REGISTRATION = "registration";
+    private static final String OFFICE = "office";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -101,6 +102,7 @@ public class JsonParser {
         JSONObject json = pool.getObject();
         json.put(ID, worker.getId());
         json.put(PERSON, toJson(worker.getPerson()));
+        json.put(OFFICE, worker.getOffice());
         return json;
     }
 

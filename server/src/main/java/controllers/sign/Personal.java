@@ -28,6 +28,7 @@ public class Personal extends IUIServlet {
         req.setAttribute("languages", LanguageBase.LANGUAGES);
         req.setAttribute("changeLanguage", Branches.API.CHANGE_LANGUAGE);
         req.setAttribute("changePassword", Branches.UI.CHANGE_PASSWORD);
+        req.setAttribute("changeOffice", Branches.API.CHANGE_OFFICE);
         req.setAttribute("roles", Role.values());
         req.setAttribute("registration", Branches.API.FRIENDLY_REGISTRATION);
         show(req, resp);

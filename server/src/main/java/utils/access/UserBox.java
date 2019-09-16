@@ -1,9 +1,11 @@
 package utils.access;
 
 import entity.User;
+import entity.UserInfo;
 import org.apache.log4j.Logger;
 
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -17,7 +19,7 @@ public class UserBox {
     public static UserBox getUserBox() {
         return USER_BOX;
     }
-    final HashMap<String, User> users = new HashMap<>();
+    final HashMap<String, UserInfo> users = new HashMap<>();
 
     public String getToken(){
         final String token = UUID.randomUUID().toString();
@@ -31,15 +33,19 @@ public class UserBox {
         return users.containsKey(token);
     }
 
-    public String updateToken(String oldToken) {
+    public String updateToken(String oldToken, String ip) {
         final String token = getToken();
         users.put(token, users.remove(oldToken));
         return token;
     }
 
-    public String addUser(User user) {
+    public Collection<UserInfo> getUsers(){
+        return users.values();
+    }
+
+    public String addUser(User user, String ip) {
         final String token = getToken();
-        users.put(token, user);
+        users.put(token, new UserInfo(user, ip));
         return token;
     }
 }

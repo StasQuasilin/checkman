@@ -20,11 +20,11 @@ public class VroHandler extends OnSubscribeHandler {
 
     @Override
     public void handle(Session session) throws IOException {
-        JSONArray array = ActiveSubscriptions.pool.getArray();
+        JSONArray array = pool.getArray();
         array.addAll(dao.getLimitVroTurns().stream().map(parser::toJson).collect(Collectors.toList()));
-        JSONObject json = ActiveSubscriptions.pool.getObject();
+        JSONObject json = pool.getObject();
         json.put(ADD, array);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
-        ActiveSubscriptions.pool.put(json);
+        pool.put(json);
     }
 }

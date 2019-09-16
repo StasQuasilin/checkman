@@ -90,5 +90,9 @@
         <mapping class="entity.chat.Chat"/>
         <mapping class="entity.chat.ChatMember"/>
         <mapping class="entity.chat.ChatMessage"/>
+        <mapping class="entity.reports.ManufactureReport"/>
+        <mapping class="entity.reports.ReportField"/>
+        <mapping class="entity.reports.ReportFieldSettings"/>
+        <mapping class="entity.reports.ReportFieldCategory"/>
     </session-factory>
 </hibernate-configuration>

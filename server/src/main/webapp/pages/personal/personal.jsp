@@ -12,11 +12,12 @@
                 save:''
             },
             languages:[],
+            language:'',
             lang:''
         },
         methods:{
             save:function(){
-                PostApi(this.api.save, {lang : this.lang}, function(a){
+                PostApi(this.api.save, {lang : this.language}, function(a){
                     if (a.status === 'success'){
                         location.reload()
                     }
@@ -32,6 +33,7 @@
         value:'<fmt:message key="${language}"/>'
     });
     </c:forEach>
+    language.language = '${lang}';
     language.lang = '${lang}'
 
 </script>
@@ -42,12 +44,12 @@
                 <label for="language">
                     <fmt:message key="language"/>:
                 </label>
-                <select id="language" v-model="lang">
+                <select id="language" v-model="language">
                     <option v-for="l in languages" :value="l.id">
                         {{l.value}}
                     </option>
                 </select>
-                <button v-on:click="save">
+                <button v-on:click="save" v-show="lang !== language">
                     <fmt:message key="button.save"/>
                 </button>
             </td>
@@ -55,7 +57,7 @@
         <tr>
             <td valign="top" align="center">
                 <jsp:include page="personalData.jsp"/>
-                <%--<jsp:include page="changePassword.jsp"/>--%>
+                <jsp:include page="workerOffice.jsp"/>
                 <jsp:include page="contacts.jsp"/>
                 <button onclick="loadModal('${changePassword}')">
                     <fmt:message key="password.change"/>

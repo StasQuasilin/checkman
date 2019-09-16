@@ -11,4 +11,9 @@
           <a onclick="loadContent('${weightArchive}')"><fmt:message key="archive"/> </a>
         </span>
     </li>
+    <li class="menu-item">
+        <span class="main" onclick="loadContent('${manufactureReport}')">
+            <fmt:message key="menu.manufacture.report"/>
+        </span>
+    </li>
 </ul>

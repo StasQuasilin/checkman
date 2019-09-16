@@ -36,7 +36,7 @@ public class SignInBox {
 
         if (user != null ){
             if (user.getPassword().equals(password)) {
-                String token = userBox.addUser(user);
+                String token = userBox.addUser(user, IpUtil.getIp(req));
                 answer = new SuccessAnswer();
                 answer.add("redirect", Branches.UI.HOME);
                 answer.add("user", parser.toJson(user.getWorker()));

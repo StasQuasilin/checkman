@@ -29,6 +29,7 @@ import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
 import entity.products.ProductProperty;
+import entity.reports.ReportFieldSettings;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.storages.Storage;
@@ -109,6 +110,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<Worker> getWorkers() {
+        return hb.query(User.class, null).stream().map(User::getWorker).collect(Collectors.toList());
+    }
+
+    @Override
     public List<LoadPlan> getPlanByDeal(Deal deal) {
         return hb.query(LoadPlan.class, DEAL, deal);
     }
@@ -158,7 +164,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public BotSettings getBotSettings() {
-        return hb.get(BotSettings.class, null);
+        return hb.get(BotSettings.class, "run", false);
     }
 
     @Override
@@ -948,5 +954,10 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<Turn> getTurnsBetween(LocalDate from, LocalDate to) {
         return hb.limitQuery(Turn.class, "date", new BETWEEN(Date.valueOf(from), Date.valueOf(to)), 14);
+    }
+
+    @Override
+    public List<ReportFieldSettings> getReportFields() {
+        return hb.query(ReportFieldSettings.class, null);
     }
 }

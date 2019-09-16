@@ -26,6 +26,7 @@ public class AdminControl extends IUIServlet {
         req.setAttribute("registration", Branches.API.SIGN_UP);
         req.setAttribute("botSettings", Branches.API.BOT_SETTINGS);
         req.setAttribute("botStatus", Branches.API.BOT_STATUS);
+        req.setAttribute("userList", Branches.UI.USER_LIST);
         show(req, resp);
 
     }

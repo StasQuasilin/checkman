@@ -29,6 +29,7 @@ import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
 import entity.products.ProductProperty;
+import entity.reports.ReportFieldSettings;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.storages.Storage;
@@ -194,4 +195,6 @@ public interface dbDAO {
     List<Transportation> getLimitArchiveTransportations(DealType type);
     List<Transportation> getTransportationByOrganisation(Object organisation);
     List<Transportation> getTransportationByAnalyses(DealType type);
+    List<Worker> getWorkers();
+    List<ReportFieldSettings> getReportFields();
 }

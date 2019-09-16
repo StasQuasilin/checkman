@@ -75,6 +75,9 @@ public class Branches {
         public static final String CHANGE_PASSWORD = "/personal/change/password.j";
         public static final String EXTRACTION_CRUDE_REMOVE = "/laboratory/crude/remove.j";
         public static final String LABORATORY_PRINT_OPTIONS = "/laboratory/print/optins.j";
+        public static final String USER_LIST = "/admin/user/list.j";
+        public static final String MANUFACTURE_REPORT = "/manufacture/reports.j";
+        public static final String MANUFACTURE_REPORT_EDIT = "/manufacture/report/edit.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -205,6 +208,8 @@ public class Branches {
         public static final String LEAVE_CHAT = API + "/chat/leave";
         public static final String REMOVE_CHAT = API + "/chat/remove";
         public static final String RENAME_CHAT = API + "/chat/rename";
+        public static final String CHANGE_OFFICE = API + "/change/office";
+        public static final String SAVE_MANUFACTURE_REPORT = API + "/manufacture/report/edit";
 
 
         public class References {

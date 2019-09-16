@@ -8,6 +8,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import utils.PropertyReader;
+import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ public class BotFactory {
     private static String name;
     private static BotStatus status = BotStatus.stopped;
     private static Notificator notificator;
+    private static BotSettings currentSettings;
 
     public static IBot getBot() {
         return bot;
@@ -85,6 +87,8 @@ public class BotFactory {
     public static void shutdown() {
         if (botThread != null && botThread.isAlive()) {
             botThread.interrupt();
+            currentSettings.setRun(false);
+            dbDAOService.getDAO().save(currentSettings);
         }
     }
 
@@ -93,7 +97,7 @@ public class BotFactory {
     }
 
     public static void setSettings(BotSettings settings) throws IOException {
-        log.info("Set settings");
+        currentSettings = settings;
         token = settings.getToken();
         name = settings.getName();
         start();
