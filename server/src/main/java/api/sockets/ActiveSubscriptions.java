@@ -5,6 +5,7 @@ import constants.Branches;
 import entity.DealType;
 import entity.Worker;
 import entity.documents.Deal;
+import entity.reports.ManufactureReport;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonPool;
@@ -56,6 +57,7 @@ public class ActiveSubscriptions {
         handlers.put(Subscriber.LABORATORY_BUY, new LaboratoryHandler(Subscriber.LABORATORY_BUY, DealType.buy));
         handlers.put(Subscriber.LABORATORY_SELL, new LaboratoryHandler(Subscriber.LABORATORY_SELL, DealType.sell));
         handlers.put(Subscriber.USERS, new UserHandler(Subscriber.USERS));
+        handlers.put(Subscriber.MANUFACTURE_REPORTS, new ManufactureReportHandler(Subscriber.MANUFACTURE_REPORTS));
     }
 
     public static ActiveSubscriptions getInstance() {

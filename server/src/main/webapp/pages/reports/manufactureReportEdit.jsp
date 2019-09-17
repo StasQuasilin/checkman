@@ -4,63 +4,49 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+<style>
+  .field-title .comment-button{
+    visibility: hidden;
+  }
+  .field-title:hover .comment-button{
+    visibility: visible;
+  }
+</style>
+<script src="${context}/vue/reportEdit.vue"></script>
 <script>
-  var editor = new Vue({
-    el:'#edit',
-    data:{
-      api:{},
-      fields:{},
-      categories:[],
-      turns:[],
-      units:[],
-      report:{}
-    },
-    methods:{
-      addField:function(field){
-        var category = null;
-        if (field.category){
-          category = field.category.id;
-        }
-        if (!this.fields[category]){
-          this.fields[category] = [];
-          this.categories.push(field.category);
-        }
-        field.value = 0;
-        field.editComment = false;
-        field.comment = '';
-        this.fields[category].push(field);
-      },
-      getFields:function(category){
-        if (category){
-          return this.fields[category.id];
-        } else{
-          return this.fields[null];
-        }
-      },
-      getCategories:function(){
-        return this.categories;
-      },
-      editComment:function(field, edit){
-
-          field.editComment = edit;
-        console.log(field);
-      }
-    }
-  });
+  //API
+  editor.api.save = '${save}';
   //REPORT
   <c:choose>
   <c:when test="${not empty report}">
-
+  editor.report = {
+    id:${report.id},
+    date:new Date('${report.turn.date}').toISOString().substring(0, 10),
+    turn:${report.turn.number}
+  };
   </c:when>
   <c:otherwise>
   editor.report = {
-    date:new Date().toISOString(),
+    date:new Date().toISOString().substring(0, 10),
     turn:-1
   };
   </c:otherwise>
   </c:choose>
-  //API
-  editor.api.save = '${save}';
+  //CATEGORIES
+  <%--<c:forEach items="${categories}" var="category">--%>
+  <%--editor.categories[${category.id}] = {--%>
+    <%--id:${category.id},--%>
+    <%--title:'${category.title}',--%>
+    <%--number:${category.number}--%>
+  <%--};--%>
+  <%--</c:forEach>--%>
+  //STORAGES
+  <c:forEach items="${storages}" var="storage">
+  editor.storages[${storage.id}] = {
+    id:${storage.id},
+    title:'${storage.name}'
+  };
+  </c:forEach>
   //TURNS
   <c:forEach items="${turns}" var="turn">
   editor.turns.push({
@@ -78,44 +64,35 @@
   </c:forEach>
   //FIELDS
   <c:forEach items="${fields}" var="field">
+  var category = null;
+  <c:if test="${not empty field.category.id}">
+  category = {
+    id:${field.category.id},
+    title:'${field.category.title}',
+    number:${field.category.number}
+  };
+  </c:if>
   editor.addField({
-    id:${field.id},
+    setting:${field.id},
     title:'${field.title}',
-    unit:{
-      id:${field.unit.id},
-      name:'${field.unit.name}'
-    },
+    unit:${field.unit.id},
     //FIELD CATEGORY
   <c:choose>
   <c:when test="${not empty field.category.id}">
-    category:{
-      id:${field.category.id},
-      title:'${field.category.title}',
-      number:${field.category.number}
-    },
+    category:${field.category.id},
   </c:when>
-    <c:otherwise>
-    category:null,
-    </c:otherwise>
   </c:choose>
     //FIELD STORAGE
   <c:choose>
     <c:when test="${not empty field.storage.id}">
-    storage:{
-      id:${field.storage.id},
-      title:'${field.storage.name}'
-    }
+    storage:${field.storage.id}
     </c:when>
-    <c:otherwise>
-    storage:null
-    </c:otherwise>
   </c:choose>
-  });
+  }, category);
   </c:forEach>
-  console.log(editor.fields)
 </script>
 <link rel="stylesheet" href="${context}/css/editor.css">
-<table id="edit" class="editor">
+<table id="edit" class="editor" style="border-collapse: collapse">
   <tr>
     <td>
       <label for="date">
@@ -133,7 +110,7 @@
       </label>
     </td>
     <td>
-      <select id="turn" style="width: 100%" v-model="report.turn">
+      <select id="turn" style="width: 100%" v-model="report.turn" :class="{error : errors.turn}" v-on:click="errors.turn = false">
         <option disabled value="-1"><fmt:message key="need.select"/></option>
         <option v-for="turn in turns" :value="turn.number">
           {{turn.title}}
@@ -147,39 +124,38 @@
         {{category.title}}
       </th>
     </tr>
-    <template v-for="field in getFields(category)">
+    <template v-for="(field, key) in getFields(category)">
       <tr>
-        <td valign="top">
+        <td valign="top" class="field-title">
           <label :for="field.id">
             {{field.title}}
           <span v-if="field.storage">
-            {{field.storage.title}}
+            {{storages[field.storage].title}}
           </span>
           </label>
-        </td>
-        <td>
-          <input :id="field.id" type="number" v-model="field.value" style="border-radius: 8pt 0 0 8pt">
-          {{field.unit.name}}
-        <span class="mini-close" style="font-size: 8pt" v-on:click="editComment(field, true)">
-          <fmt:message key="comment.plus"/>
-        </span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          {{field.editComment}}
-        </td>
-      </tr>
-      <tr v-if="field.editComment">
-        <td class="2">
-          <input v-model="field.comment">
-        </td>
-      </tr>
-      <tr v-else-if="field.comment" v-on:click="editComment(field, true)">
-        <td>
-          {{field.comment}}
-        </td>
 
+        </td>
+        <td valign="top">
+          <input :id="field.id" type="number" v-model="field.value" style="border-radius: 8pt 0 0 8pt">
+          <select v-model="field.unit">
+            <option v-for="unit in units" :value="unit.id">
+              {{unit.name}}
+            </option>
+          </select>
+        </td>
+      </tr>
+      <%--<tr>--%>
+        <%--<td colspan="2">--%>
+          <%--<div class="mini-close comment-button" style="font-size: 8pt" v-on:click="editComment(key, true)">--%>
+            <%--<fmt:message key="comment.plus"/>--%>
+          <%--</div>--%>
+        <%--</td>--%>
+      <%--</tr>--%>
+
+      <tr>
+        <td colspan="2">
+         {{field.setting}} {{settings[field.setting].comment}}
+        </td>
       </tr>
     </template>
   </template>
@@ -188,7 +164,7 @@
       <button class="close-button left-button" onclick="closeModal()">
         <fmt:message key="button.close"/>
       </button>
-      <button class="save-button right-button">
+      <button class="save-button right-button" v-on:click="save">
         <fmt:message key="button.save"/>
       </button>
     </td>

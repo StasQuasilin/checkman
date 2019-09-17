@@ -21,6 +21,9 @@ public class ReportEdit extends IModal {
         req.setAttribute("modalContent", "/pages/reports/manufactureReportEdit.jsp");
         req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("fields", dao.getReportFields());
+        req.setAttribute("units", dao.getWeightUnits());
+        req.setAttribute("storages", dao.getStorages());
+        req.setAttribute("categories", dao.getReportCategories());
         req.setAttribute("save", Branches.API.SAVE_MANUFACTURE_REPORT);
         show(req, resp);
     }

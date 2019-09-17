@@ -26,6 +26,7 @@ import entity.production.Turn;
 import entity.products.Product;
 import entity.rails.Train;
 import entity.rails.Truck;
+import entity.reports.ManufactureReport;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.transport.*;
@@ -1102,5 +1103,12 @@ public class JsonParser {
             }
         }
         return object;
+    }
+
+    public JSONObject toJson(ManufactureReport report) {
+        JSONObject json = pool.getObject();
+        json.put(ID, report.getId());
+        json.put(TURN, toJson(report.getTurn()));
+        return json;
     }
 }

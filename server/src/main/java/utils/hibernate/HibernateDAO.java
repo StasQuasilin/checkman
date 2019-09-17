@@ -29,6 +29,9 @@ import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
 import entity.products.ProductProperty;
+import entity.reports.ManufactureReport;
+import entity.reports.ReportField;
+import entity.reports.ReportFieldCategory;
 import entity.reports.ReportFieldSettings;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
@@ -959,5 +962,30 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<ReportFieldSettings> getReportFields() {
         return hb.query(ReportFieldSettings.class, null);
+    }
+
+    @Override
+    public ManufactureReport getManufactureReport(Object id) {
+        return hb.get(ManufactureReport.class, "id", id);
+    }
+
+    @Override
+    public ReportField getReportField(Object fieldId) {
+        return hb.get(ReportField.class, "id", fieldId);
+    }
+
+    @Override
+    public List<Storage> getStorages() {
+        return hb.query(Storage.class, null);
+    }
+
+    @Override
+    public List<ReportFieldCategory> getReportCategories() {
+        return hb.query(ReportFieldCategory.class, null);
+    }
+
+    @Override
+    public List<ManufactureReport> getLimitManufactureReports() {
+        return hb.limitQuery(ManufactureReport.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
     }
 }

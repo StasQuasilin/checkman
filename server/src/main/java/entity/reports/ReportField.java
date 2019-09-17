@@ -38,7 +38,7 @@ public class ReportField {
         this.category = category;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "report")
     public ManufactureReport getReport() {
         return report;
