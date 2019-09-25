@@ -5,11 +5,30 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <style>
-  .field-title .comment-button{
+  .field-title{
+    position: relative;
+  }
+  .field-title .add-comment{
     visibility: hidden;
   }
-  .field-title:hover .comment-button{
+  .field-title:hover .add-comment{
     visibility: visible;
+  }
+  .add-comment{
+    position: absolute;
+    font-size: 8pt;
+    top: 10pt;
+    background-color: white;
+  }
+  .comment-button-container{
+    position: relative;
+  }
+  .comment-button{
+    font-size: 10pt;
+    color: orangered;
+    position: absolute;
+    right: 0;
+    top: 3pt;
   }
 </style>
 <script src="${context}/vue/reportEdit.vue"></script>
@@ -33,13 +52,13 @@
   </c:otherwise>
   </c:choose>
   //CATEGORIES
-  <%--<c:forEach items="${categories}" var="category">--%>
-  <%--editor.categories[${category.id}] = {--%>
-    <%--id:${category.id},--%>
-    <%--title:'${category.title}',--%>
-    <%--number:${category.number}--%>
-  <%--};--%>
-  <%--</c:forEach>--%>
+  <c:forEach items="${categories}" var="category">
+  editor.categories[${category.id}] = {
+    id:${category.id},
+    title:'${category.title}',
+    number:${category.number}
+  };
+  </c:forEach>
   //STORAGES
   <c:forEach items="${storages}" var="storage">
   editor.storages[${storage.id}] = {
@@ -79,7 +98,7 @@
     //FIELD CATEGORY
   <c:choose>
   <c:when test="${not empty field.category.id}">
-    category:${field.category.id},
+    category:category,
   </c:when>
   </c:choose>
     //FIELD STORAGE
@@ -88,7 +107,7 @@
     storage:${field.storage.id}
     </c:when>
   </c:choose>
-  }, category);
+  });
   </c:forEach>
 </script>
 <link rel="stylesheet" href="${context}/css/editor.css">
@@ -118,46 +137,64 @@
       </select>
     </td>
   </tr>
-  <template v-for="category in getCategories()">
-    <tr v-if="category">
-      <th colspan="2">
-        {{category.title}}
-      </th>
+  <template v-for="(field, key) in fields">
+    <tr v-if="key == 0 && field.category ||
+    key > 0 && !fields[key - 1].category && field.category ||
+    key > 0 && fields[key - 1].category && field.category && fields[key - 1].category.id != field.category.id">
+      <td colspan="2" align="right">
+        <b>
+          &nbsp;{{field.category.title}}
+        </b>
+      </td>
     </tr>
-    <template v-for="(field, key) in getFields(category)">
-      <tr>
-        <td valign="top" class="field-title">
-          <label :for="field.id">
-            {{field.title}}
+    <tr>
+      <td>
+        <div class="field-title">
+          <span>
+            {{key}}. {{field.title}}
+          </span>
           <span v-if="field.storage">
             {{storages[field.storage].title}}
           </span>
-          </label>
+          <div v-if="!field.editComment && !field.comment" class="mini-close add-comment" style="font-size: 8pt" v-on:click="openComment(field)" >
+            <span>
+              <fmt:message key="comment.plus"/>
+            </span>
+          </div>
+        </div>
 
-        </td>
-        <td valign="top">
-          <input :id="field.id" type="number" v-model="field.value" style="border-radius: 8pt 0 0 8pt">
-          <select v-model="field.unit">
-            <option v-for="unit in units" :value="unit.id">
-              {{unit.name}}
-            </option>
-          </select>
-        </td>
-      </tr>
-      <%--<tr>--%>
-        <%--<td colspan="2">--%>
-          <%--<div class="mini-close comment-button" style="font-size: 8pt" v-on:click="editComment(key, true)">--%>
-            <%--<fmt:message key="comment.plus"/>--%>
-          <%--</div>--%>
-        <%--</td>--%>
-      <%--</tr>--%>
-
-      <tr>
-        <td colspan="2">
-         {{field.setting}} {{settings[field.setting].comment}}
-        </td>
-      </tr>
-    </template>
+      </td>
+      <td>
+        <input type="number" v-model="field.value">
+        <select v-model="field.unit">
+          <option disabled value="-1"></option>
+          <option v-for="unit in units" :value="unit.id">
+            {{unit.name}}
+          </option>
+        </select>
+      </td>
+    </tr>
+    <tr class="field-title">
+      <td colspan="2">
+        <div v-if="field.editComment">
+          <input v-model="commentInput" style="border: none; width: 100%; font-size: 8pt" ref="commentInput"
+                 v-on:keyup.enter="editComment(key)" v-on:keyup.escape="field.editComment = false">
+          <span class="comment-button-container">
+            <span class="mini-close comment-button" style="right: 8pt; color: darkgreen; font-size: 8pt" v-on:click="editComment(key)">
+              &#10003;
+            </span>
+            <span class="mini-close comment-button" v-on:click="field.editComment = false">
+              &times;
+            </span>
+          </span>
+        </div>
+        <div v-else>
+          <span v-if="field.comment" class="mini-close" v-on:click="openComment(field)" style="font-size: 8pt">
+            {{field.comment}}
+        </span>
+        </div>
+      </td>
+    </tr>
   </template>
   <tr>
     <td colspan="2" align="center">

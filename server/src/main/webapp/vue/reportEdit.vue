@@ -2,8 +2,8 @@ var editor = new Vue({
     el:'#edit',
     data:{
         api:{},
-        fields:{},
-        settings:{},
+        fields:[],
+        edit:[],
         categories:[],
         turns:[],
         units:[],
@@ -11,24 +11,30 @@ var editor = new Vue({
         storages:{},
         errors:{
             turn:false
-        }
+        },
+        commentInput:''
+
     },
     methods:{
-        addField:function(field, category){
-            var categoryId = null;
-            if (category){
-                categoryId = category.id;
-            }
-            if (!this.fields[categoryId]){
-                this.fields[categoryId] = [];
-                this.categories.push(category);
-            }
+        addField:function(field){
             field.value = 0;
             field.comment = '';
-            this.fields[categoryId].push(field);
-            this.settings[field.setting] = {
-                comment: false
-            }
+            field.editComment = false;
+            this.fields.push(field);
+            this.sortFields();
+        },
+        sortFields:function(){
+            this.fields.sort(function(a, b){
+                if (a.category && b.category){
+                    return b.category.number - a.category.number;
+                } else if (a.category){
+                    return 1;
+                } else if (b.category){
+                    return -1;
+                } else {
+                    return 0;
+                }
+            })
         },
         getFields:function(category){
             if (category){
@@ -40,19 +46,29 @@ var editor = new Vue({
         getCategories:function(){
             return this.categories;
         },
-        editComment:function(field, edit){
-            for (var i in this.settings){
-                if (this.settings.hasOwnProperty(i)) {
-                    if (i == field) {
-                        this.settings[i].comment = edit;
-                    } else {
-                        this.settings[i].comment = false;
+        openComment:function(field){
+            this.commentInput = '';
+            const self = this;
+            for (var i in this.fields){
+                if (this.fields.hasOwnProperty(i)) {
+                    this.fields[i].editComment = this.fields[i] == field;
+                    if (this.fields[i].editComment){
+                        this.commentInput = this.fields[i].comment;
+                        setTimeout(function(){
+                            self.$refs.commentInput[0].select()
+                        }, 100)
                     }
                 }
             }
         },
+        editComment:function(id){
+            var field = this.fields[id];
+            field.comment = this.commentInput;
+            field.editComment = false;
+            this.commentInput = '';
+        },
         getSettings:function(field){
-            return this.settings[field.id];
+            return this.edit[field.setting];
         },
         save:function(){
             console.log(this.report);

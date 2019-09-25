@@ -33,7 +33,7 @@ public class ManufactureReportEditAPI extends ServletAPI {
         System.out.println(body);
         if (body != null) {
             JSONObject report = (JSONObject) body.get("report");
-            JSONObject fields = (JSONObject) body.get("fields");
+            JSONArray fields = (JSONArray) body.get("fields");
             long reportId = -1;
             if (report.containsKey("id")){
                 reportId = (long) report.get("id");
@@ -60,43 +60,40 @@ public class ManufactureReportEditAPI extends ServletAPI {
             }
             ArrayList<ReportField> reportFields = new ArrayList<>();
 
-            for(Object field : fields.values()){
-
-                for (Object o : (JSONArray)field) {
-                    System.out.println(o);
-                    JSONObject fj = (JSONObject) o;
-                    long fieldId = -1;
-                    if (fj.containsKey("id")){
-                        fieldId = (long) fj.get("id");
-                    }
-                    ReportField reportField;
-                    if (fieldId != -1){
-                        reportField = dao.getReportField(fieldId);
-                    } else {
-                        reportField = new ReportField();
-                        reportField.setReport(manufactureReport);
-                    }
-
-                    String title = String.valueOf(fj.get("title"));
-                    if (reportField.getTitle() == null || !reportField.getTitle().equals(title)){
-                        reportField.setTitle(title);
-                        save = true;
-                    }
-
-                    float value = Float.parseFloat(String.valueOf(fj.get("value")));
-                    if (reportField.getValue() != value){
-                        reportField.setValue(value);
-                        save = true;
-                    }
-
-                    long unitId = (long) fj.get("unit");
-                    if (reportField.getUnit() == null || reportField.getUnit().getId() != unitId) {
-                        reportField.setUnit(dao.getWeightUnitById(unitId));
-                        save=true;
-                    }
-
-                    reportFields.add(reportField);
+            for(Object field : fields){
+                System.out.println(field);
+                JSONObject fj = (JSONObject) field;
+                long fieldId = -1;
+                if (fj.containsKey("id")){
+                    fieldId = (long) fj.get("id");
                 }
+                ReportField reportField;
+                if (fieldId != -1){
+                    reportField = dao.getReportField(fieldId);
+                } else {
+                    reportField = new ReportField();
+                    reportField.setReport(manufactureReport);
+                }
+
+                String title = String.valueOf(fj.get("title"));
+                if (reportField.getTitle() == null || !reportField.getTitle().equals(title)){
+                    reportField.setTitle(title);
+                    save = true;
+                }
+
+                float value = Float.parseFloat(String.valueOf(fj.get("value")));
+                if (reportField.getValue() != value){
+                    reportField.setValue(value);
+                    save = true;
+                }
+
+                long unitId = (long) fj.get("unit");
+                if (reportField.getUnit() == null || reportField.getUnit().getId() != unitId) {
+                    reportField.setUnit(dao.getWeightUnitById(unitId));
+                    save=true;
+                }
+
+                reportFields.add(reportField);
             }
 
             if (save){
