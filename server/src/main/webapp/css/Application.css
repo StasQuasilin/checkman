@@ -4,6 +4,12 @@
     user-select: none;
     -moz-user-select: -moz-none;
 }
+.note{
+    font-size: 10pt;
+    color: dimgray;
+    flex-wrap: wrap;
+    overflow-wrap: break-word;
+}
 body{
     background-color: aliceblue;
 }

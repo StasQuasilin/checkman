@@ -10,12 +10,23 @@ var editor = new Vue({
         report:{},
         storages:{},
         errors:{
-            turn:false
+            turn:false,
+            categoryName:false,
+            newFieldName:false
         },
-        commentInput:''
-
+        commentInput:'',
+        newField:false,
+        newCategory:false,
+        field:{},
+        category:{}
     },
     methods:{
+        selectDate:function(){
+            const self = this;
+            datepicker.show(function(a){
+                self.report.date = a;
+            }, this.report.date)
+        },
         addField:function(field){
             field.value = 0;
             field.comment = '';
@@ -74,11 +85,71 @@ var editor = new Vue({
             console.log(this.report);
             this.errors.turn = this.report.turn == -1;
             if (!this.errors.turn){
+                var fields = this.fields;
+                fields.forEach(function(item){
+                    delete item['editComment'];
+
+                    if (item.category == null){
+                        delete item['category'];
+                    }
+                    if (item.storage == null){
+                        delete item['storage'];
+                    }
+                });
                 PostApi(this.api.save, {report: this.report, fields: this.fields}, function(a){
                     if (a.status === 'success'){
                         closeModal();
                     }
                 })
+            }
+        },
+        addNewField:function(){
+            var f = this.field;
+            var err = this.errors.newFieldName = f.title == '' && f.storage == -1;
+            if (!err) {
+                var category = null;
+                if (f.category != -1) {
+                    category = this.categories[f.category];
+                }
+                var storage = null;
+                if (f.storage != -1) {
+                    storage = this.storages[f.storage];
+                }
+                var field = {
+                    category: category,
+                    title: f.title,
+                    unit: f.unit,
+                    storage: storage,
+                    once: f.once
+                };
+
+                this.addField(field);
+                this.newField = false;
+                this.initField();
+            }
+        },
+        initField:function(){
+            this.field = {
+                category:-1,
+                title:'',
+                unit:-1,
+                storage:-1,
+                once:false
+            }
+        },
+        initCategory:function(){
+            this.category = {
+                id:-1,
+                title:'',
+                once:false
+            }
+        },
+        saveCategory:function(){
+            var err = this.errors.categoryName = this.category.title == '';
+            if (!err){
+                this.categories.push(this.category);
+                this.initCategory();
+                this.newCategory = false;
             }
         }
     }

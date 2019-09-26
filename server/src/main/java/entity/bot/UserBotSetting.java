@@ -21,6 +21,7 @@ public class UserBotSetting {
     private boolean extraction;
     private boolean vro;
     private boolean kpo;
+    private boolean reports;
 
     @Id
     @GeneratedValue
@@ -124,5 +125,13 @@ public class UserBotSetting {
         this.kpo = kpo;
     }
 
+    @Basic
+    @Column(name = "report")
+    public boolean isReports() {
+        return reports;
+    }
 
+    public void setReports(boolean reports) {
+        this.reports = reports;
+    }
 }

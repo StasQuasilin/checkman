@@ -204,6 +204,6 @@ public interface dbDAO {
     ReportField getReportField(Object fieldId);
     List<Storage> getStorages();
     List<ReportFieldCategory> getReportCategories();
-
     List<ManufactureReport> getLimitManufactureReports();
+    ReportFieldCategory getReportCategory(Object categoryId);
 }

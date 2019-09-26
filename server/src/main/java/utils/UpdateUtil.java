@@ -17,6 +17,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.organisations.Organisation;
+import entity.reports.ManufactureReport;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
@@ -199,6 +200,10 @@ public class UpdateUtil {
         for (Transportation transportation : dao.getTransportationByOrganisation(organisation)){
             onSave(transportation);
         }
+    }
+
+    public void onSave(ManufactureReport manufactureReport) throws IOException {
+        doAction(Command.update, Subscriber.MANUFACTURE_REPORTS, parser.toJson(manufactureReport));
     }
 
 

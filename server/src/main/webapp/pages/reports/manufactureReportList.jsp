@@ -41,9 +41,20 @@
 <div id="container">
   <transition-group  name="flip-list" tag="div" class="container">
     <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
-         class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()" v-on:click="edit(value.item.id)">
-      {{value}}
+         class="container-item" :class="'container-item-' + new Date(value.item.turn.date).getDay()"
+         v-on:click="show(value.item.id)" v-on:click.right="contextMenu(value.item)">
+      <div class="upper-row">
+        <fmt:message key="turn"/> <span>#</span>{{value.item.turn.number}}
+        {{new Date(value.item.turn.date).toLocaleDateString()}}
+        {{new Date(value.item.turn.date).toLocaleTimeString().substring(0, 5)}}
+      </div>
     </div>
   </transition-group>
+  <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
+    <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+      <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/></div>
+      <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
+    </div>
+  </div>
 </div>
 </html>

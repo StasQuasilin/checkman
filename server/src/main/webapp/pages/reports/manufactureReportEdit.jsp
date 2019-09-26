@@ -53,11 +53,11 @@
   </c:choose>
   //CATEGORIES
   <c:forEach items="${categories}" var="category">
-  editor.categories[${category.id}] = {
+  editor.categories.push({
     id:${category.id},
     title:'${category.title}',
     number:${category.number}
-  };
+  });
   </c:forEach>
   //STORAGES
   <c:forEach items="${storages}" var="storage">
@@ -109,9 +109,14 @@
   </c:choose>
   });
   </c:forEach>
+  editor.initField();
+  editor.initCategory();
 </script>
 <link rel="stylesheet" href="${context}/css/editor.css">
-<table id="edit" class="editor" style="border-collapse: collapse">
+<table id="edit" class="editor" style="border-collapse: collapse; width: 360px">
+  <%------%>
+  <%--DATE--%>
+  <%------%>
   <tr>
     <td>
       <label for="date">
@@ -119,9 +124,13 @@
       </label>
     </td>
     <td>
-      <input id="date" readonly style="width: 7em" v-model="new Date(report.date).toLocaleDateString().substring(0, 10)">
+      <input id="date" readonly style="width: 7em" v-on:click="selectDate()" v-on:dblclick="selectDate()"
+             v-model="new Date(report.date).toLocaleDateString().substring(0, 10)">
     </td>
   </tr>
+  <%------%>
+  <%--TURN--%>
+  <%------%>
   <tr>
     <td>
       <label for="turn">
@@ -138,6 +147,9 @@
     </td>
   </tr>
   <template v-for="(field, key) in fields">
+    <%------%>
+    <%--CATEGORY NAME--%>
+    <%------%>
     <tr v-if="key == 0 && field.category ||
     key > 0 && !fields[key - 1].category && field.category ||
     key > 0 && fields[key - 1].category && field.category && fields[key - 1].category.id != field.category.id">
@@ -147,11 +159,14 @@
         </b>
       </td>
     </tr>
+    <%------%>
+    <%--FIELD NAME--%>
+    <%------%>
     <tr>
       <td>
         <div class="field-title">
           <span>
-            {{key}}. {{field.title}}
+            {{key + 1}}. {{field.title}}
           </span>
           <span v-if="field.storage">
             {{storages[field.storage].title}}
@@ -162,10 +177,12 @@
             </span>
           </div>
         </div>
-
       </td>
+      <%------%>
+      <%--FIELD VALUE--%>
+      <%------%>
       <td>
-        <input type="number" v-model="field.value">
+        <input type="number" v-model="field.value" onclick="this.select()">
         <select v-model="field.unit">
           <option disabled value="-1"></option>
           <option v-for="unit in units" :value="unit.id">
@@ -174,6 +191,9 @@
         </select>
       </td>
     </tr>
+    <%------%>
+    <%--COMMENT--%>
+    <%------%>
     <tr class="field-title">
       <td colspan="2">
         <div v-if="field.editComment">
@@ -193,6 +213,163 @@
             {{field.comment}}
         </span>
         </div>
+      </td>
+    </tr>
+  </template>
+    <%------%>
+    <%--NEW BUTTONS--%>
+    <%------%>
+  <tr>
+    <td colspan="2" align="right">
+      <span class="mini-close" v-if="!newField" v-on:click="newField=true">
+        <fmt:message key="button.add.field"/>
+      </span>
+      <span class="mini-close" v-if="!newCategory" v-on:click="newCategory=true">
+        <fmt:message key="button.add.category"/>
+      </span>
+    </td>
+  </tr>
+    <%------%>
+    <%--NEW CATEGORY--%>
+    <%------%>
+  <template v-if="newCategory">
+    <tr>
+      <td colspan="2" align="right" style="border-top: solid gray 1pt">
+        <b>
+          <fmt:message key="field.new.category"/>
+        </b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="categoryName">
+          <fmt:message key="field.category.name"/>
+        </label>
+      </td>
+      <td>
+        <input id="categoryName" v-model="category.title" autocomplete="off"
+               v-on:click="errors.categoryName = false" :class="{error : errors.categoryName}">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center" style="border-bottom: solid gray 1pt">
+        <span class="mini-close" v-on:click="saveCategory()">
+          +
+        </span>
+        <span class="mini-close" v-on:click="newCategory = false">
+          &times;
+        </span>
+      </td>
+    </tr>
+  </template>
+    <%------%>
+    <%--NEW FIELD--%>
+    <%------%>
+  <template v-if="newField">
+    <%--LABEL--%>
+    <tr>
+      <td colspan="2" align="right" style="border-top: solid gray 1pt">
+        <b>
+          <fmt:message key="field.edit"/>
+        </b>
+      </td>
+    </tr>
+      <%--CATEGORY--%>
+    <tr>
+      <td>
+        <label for="category">
+          <fmt:message key="report.category"/>
+        </label>
+      </td>
+      <td>
+        <select id="category" v-model="field.category">
+          <option value="-1"><fmt:message key="none"/></option>
+          <option v-for="(category, categoryKey) in categories" :value="categoryKey">
+            {{category.title}}
+          </option>
+        </select>
+      </td>
+    </tr>
+      <%--NAME--%>
+    <tr>
+      <td>
+        <label for="fieldName">
+          <fmt:message key="field.name"/>
+        </label>
+      </td>
+      <td>
+        <input id="fieldName" v-model="field.title" autocomplete="off"
+               :class="{error : errors.newFieldName}" v-on:click="errors.newFieldName = false">
+      </td>
+    </tr>
+      <%--UNIT--%>
+    <tr>
+      <td>
+        <label for="unit">
+          <fmt:message key="unit"/>
+        </label>
+      </td>
+      <td>
+        <select id="unit" v-model="field.unit">
+          <option v-for="unit in units" :value="unit.id">
+            {{unit.name}}
+          </option>
+        </select>
+      </td>
+    </tr>
+      <%--STORAGE--%>
+    <tr>
+      <td>
+        <label for="storage">
+          <fmt:message key="storage.oil"/>
+        </label>
+      </td>
+      <td>
+        <select id="storage" v-model="field.storage"
+                :class="{error : errors.newFieldName}" v-on:click="errors.newFieldName=false">
+          <option value="-1"><fmt:message key="none"/></option>
+          <option v-for="(storage, storageKey) in storages" :value="storageKey">
+            {{storage.title}}
+          </option>
+        </select>
+      </td>
+    </tr>
+      <%--NAME ERROR--%>
+    <tr v-if="errors.newFieldName">
+      <td colspan="2">
+        <span class="note error">
+          <fmt:message key="field.name.error"/>
+        </span>
+      </td>
+    </tr>
+      <%--ONCE--%>
+    <tr>
+      <td colspan="2" style="width: 100%">
+        <div>
+          <input id="once" type="checkbox" v-model="field.once">
+          <label for="once">
+            <fmt:message key="field.once"/>
+          </label>
+        </div>
+        <div style="max-width: 100%">
+          <div v-if="field.once" class="note">
+            <fmt:message key="field.note.no.save"/>
+          </div>
+          <div v-else class="note">
+            <fmt:message key="field.note.save"/>
+          </div>
+        </div>
+      </td>
+    </tr>
+      <%--SAVE BUTTONS--%>
+    <tr>
+      <td colspan="2" align="center" style="border-bottom: solid gray 1pt">
+        <span class="mini-close" v-on:click="newField = false">
+          &times;
+        </span>
+        <span class="mini-close" v-on:click="addNewField()">
+          &#10003;
+        </span>
       </td>
     </tr>
   </template>

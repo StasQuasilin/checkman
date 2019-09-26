@@ -1108,6 +1108,7 @@ public class JsonParser {
     public JSONObject toJson(ManufactureReport report) {
         JSONObject json = pool.getObject();
         json.put(ID, report.getId());
+        json.put(DATE, report.getTurn().getDate().toString());
         json.put(TURN, toJson(report.getTurn()));
         return json;
     }

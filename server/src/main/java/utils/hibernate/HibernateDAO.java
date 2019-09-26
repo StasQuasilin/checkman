@@ -985,6 +985,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public ReportFieldCategory getReportCategory(Object categoryId) {
+        return hb.get(ReportFieldCategory.class, "id", categoryId);
+    }
+
+    @Override
     public List<ManufactureReport> getLimitManufactureReports() {
         return hb.limitQuery(ManufactureReport.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
     }

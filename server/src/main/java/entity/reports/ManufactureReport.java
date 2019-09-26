@@ -4,6 +4,7 @@ import entity.Worker;
 import entity.production.Turn;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,7 +16,7 @@ public class ManufactureReport {
     private int id;
     private Turn turn;
     private Worker creator;
-    private Set<ReportField> fields;
+    private Set<ReportField> fields = new HashSet<>();
 
     @Id
     @GeneratedValue

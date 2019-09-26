@@ -15,6 +15,8 @@ import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.products.Product;
 import entity.products.ProductProperty;
+import entity.reports.ManufactureReport;
+import entity.reports.ReportField;
 import entity.transport.Transportation;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -500,4 +502,28 @@ public class Notificator {
     }
 
 
+    public void manufactureReportShow(ManufactureReport manufactureReport) {
+
+        HashMap<String, String> messages = new HashMap<>();
+
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.isReports()){
+                String language = setting.getLanguage();
+                if (!messages.containsKey(language)){
+                    StringBuilder builder = new StringBuilder();
+
+                    builder.append(manufactureReport.getTurn().getDate());
+                    builder.append(lb.get(language, "turn"));
+                    builder.append(" " + manufactureReport.getTurn().getNumber());
+
+                    for (ReportField reportField : manufactureReport.getFields()){
+
+                    }
+
+                    messages.put(language, builder.toString());
+                }
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
+    }
 }
