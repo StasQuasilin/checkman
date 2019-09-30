@@ -134,7 +134,7 @@ public interface dbDAO {
     List<OrganisationType> getOrganisationTypeList();
     Organisation findOrganisation(String type, String name);
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
-    UserBotSetting getBotSettingsByWorker(Worker worker);
+    List<UserBotSetting> getBotSettingsByWorker(Worker worker);
     User getUserByEmail(String email);
     List<User> getUsersByEmail(String email);
     StorageAnalyses getStorageAnalysesById(Object id);
@@ -206,4 +206,7 @@ public interface dbDAO {
     List<ReportFieldCategory> getReportCategories();
     List<ManufactureReport> getLimitManufactureReports();
     ReportFieldCategory getReportCategory(Object categoryId);
+    BotSettings getBotSettingsById(Object id);
+    BotSettings getBotSettingsByChatId(Object id);
+    UserBotSetting getUserBotSettingsByChat(Object id);
 }

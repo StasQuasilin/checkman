@@ -4,7 +4,9 @@ import entity.Worker;
 import entity.production.Turn;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,7 +18,7 @@ public class ManufactureReport {
     private int id;
     private Turn turn;
     private Worker creator;
-    private Set<ReportField> fields = new HashSet<>();
+    private List<ReportField> fields = new ArrayList<>();
 
     @Id
     @GeneratedValue
@@ -46,10 +48,10 @@ public class ManufactureReport {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "report", cascade = CascadeType.ALL)
-    public Set<ReportField> getFields() {
+    public List<ReportField> getFields() {
         return fields;
     }
-    public void setFields(Set<ReportField> fields) {
+    public void setFields(List<ReportField> fields) {
         this.fields = fields;
     }
 }

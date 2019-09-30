@@ -13,6 +13,7 @@ import entity.storages.Storage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
+import utils.U;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
@@ -102,31 +103,42 @@ public class ManufactureReportEditAPI extends ServletAPI {
                     save=true;
                 }
 
-                if (!field.containsKey("setting")) {
-                    if (!Boolean.parseBoolean(String.valueOf(field.get("once")))){
-                        ReportFieldSettings settings = new ReportFieldSettings();
-                        if (field.containsKey("category")){
-                            ReportFieldCategory category;
-                            JSONObject _category = (JSONObject) field.get("category");
-                            int categoryId = Integer.parseInt(String.valueOf(_category.get("id")));
-                            if (categoryId == -1){
-                                category = new ReportFieldCategory();
-                                category.setTitle(String.valueOf(_category.get("title")));
-                                dao.save(category);
-                            } else {
-                                category = dao.getReportCategory(categoryId);
-                            }
-                            settings.setCategory(category);
-                        }
-                        settings.setTitle(String.valueOf(field.get("title")));
-                        settings.setUnit(dao.getWeightUnitById(field.get("unit")));
-                        if (field.containsKey("storage")){
-                            settings.setStorage(dao.getStorageById(field.get("storage")));
-                        }
-                        dao.save(settings);
-                    }
+                Storage storage = null;
+                if (field.containsKey("storage")){
+                    storage = dao.getStorageById(field.get("storage"));
+                    reportField.setStorage(storage);
                 }
 
+                if (field.containsKey("category")){
+                    ReportFieldCategory category;
+                    JSONObject _category = (JSONObject) field.get("category");
+                    int categoryId = Integer.parseInt(String.valueOf(_category.get("id")));
+                    if (categoryId == -1){
+                        category = new ReportFieldCategory();
+                        category.setTitle(String.valueOf(_category.get("title")));
+                        dao.save(category);
+                    } else {
+                        category = dao.getReportCategory(categoryId);
+                    }
+
+                    reportField.setCategory(category);
+                    if (!field.containsKey("setting")) {
+                        if (!Boolean.parseBoolean(String.valueOf(field.get("once")))){
+                            ReportFieldSettings settings = new ReportFieldSettings();
+
+                            settings.setTitle(String.valueOf(field.get("title")));
+                            settings.setUnit(dao.getWeightUnitById(field.get("unit")));
+                            settings.setStorage(storage);
+                            settings.setCategory(category);
+                            dao.save(settings);
+                        }
+                    }
+                }
+                String comment = String.valueOf(field.get("comment"));
+                if (!U.exist(reportField.getComment()) || !reportField.getComment().equals(comment) ){
+                    reportField.setComment(comment);
+                    save = true;
+                }
                 reportFields.add(reportField);
             }
 

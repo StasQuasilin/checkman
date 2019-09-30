@@ -8,7 +8,7 @@
 <div id="container-header" class="container-header">
   <link rel="stylesheet" href="${context}/css/drop-menu.css">
   <button onclick="loadModal('${edit}')">
-    <fmt:message key="edit"/>
+    <fmt:message key="button.add"/>
   </button>
   <%--<div class="drop-menu">--%>
     <%--<a class="drop-btn"><fmt:message key="document.print"/>&nbsp;&#9660;</a>--%>

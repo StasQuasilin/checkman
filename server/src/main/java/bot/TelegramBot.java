@@ -6,12 +6,17 @@ import entity.bot.Command;
 import entity.bot.UserBotSetting;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import utils.LanguageBase;
+import utils.U;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import java.nio.charset.Charset;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,53 +41,75 @@ public class TelegramBot extends IBot {
     private final BotUIDs botUIDs = BotUIDs.getBox();
     private final BotSettings botSettings = BotSettings.getInstance();
 
-
     private final String token;
     private final String name;
+
+    dbDAO dao = dbDAOService.getDAO();
 
     public TelegramBot(String token, String name) {
         this.token = token;
         this.name = new String(name.getBytes(), Charset.forName("UTF-8"));
-        log.info("Bot " + name +" started successfully");
+        log.info("Bot \'" + name + "\' started successfully");
     }
 
     void updateProcessing(Update update){
+        long id = update.getMessage().getChatId();
+
+        if (update.getMessage().getText() == null){
+            Chat chat = update.getMessage().getChat();
+            UserBotSetting setting = dao.getUserBotSettingsByChat(id);
+
+            if (setting != null) {
+                boolean save = false;
+                String title = chat.getTitle();
+                if (!U.exist(setting.getTitle()) || !setting.getTitle().equals(title)){
+                    setting.setTitle(title);
+                    save = true;
+                }
+                if (save){
+                    dao.save(setting);
+                }
+            }
+        }
         if (update.hasCallbackQuery()){
             System.out.println(update.getCallbackQuery().getData());
         } else if (update.hasMessage()){
-            long id = update.getMessage().getChatId();
             if (update.getMessage().isCommand()){
-                parseCommand(id, update.getMessage().getText());
+                parseCommand(id, update.getMessage().getText(), update.getMessage().getChat().getTitle());
             }
         }
-
     }
 
     final Pattern commandPattern = Pattern.compile("^\\/\\w{2,}");
-    private void parseCommand(long id, String text) {
+    final String unknownCommandFormat = "_Command \'%s\' not found_";
+    private void parseCommand(long id, String text, String title) {
 
         Matcher matcher = commandPattern.matcher(text);
         if (matcher.find()) {
             String group = matcher.group();
-            Command command = Command.valueOf(group.substring(1));
-            text = text.replace(group, "").trim();
+            try {
+                Command command = Command.valueOf(group.substring(1));
+                text = text.replace(group, "").trim();
 
-            switch (command) {
-                case help:
-                    showHelp(id);
-                    break;
-                case token:
-                    signIn(id, text);
-                    break;
-                case status:
-                    status(id);
-                    break;
-                case start:
-                    start(id);
-                    break;
-                case stop:
-                    stop(id);
-                    break;
+                switch (command) {
+                    case help:
+                        showHelp(id);
+                        break;
+                    case token:
+                        signIn(id, text, title);
+                        break;
+                    case status:
+                        status(id);
+                        break;
+                    case start:
+                        start(id);
+                        break;
+                    case stop:
+                        stop(id);
+                        break;
+                }
+            } catch (IllegalArgumentException e){
+                sendMsg(id, String.format(unknownCommandFormat, group));
             }
         }
 
@@ -130,7 +157,7 @@ public class TelegramBot extends IBot {
         }
     }
 
-    private void signIn(long id, String text) {
+    private void signIn(long id, String text, String title) {
         if (botSettings.contain(id)){
             sendMsg(id, DOESNT_NEED);
         } else {
@@ -143,8 +170,10 @@ public class TelegramBot extends IBot {
             } else {
                 Worker worker = uid.getWorker();
                 UserBotSetting settings = new UserBotSetting();
+
                 settings.setTelegramId(id);
                 settings.setWorker(worker);
+                settings.setTitle(title);
                 settings.setLanguage(LanguageBase.DEFAULT_LANGUAGE);
                 answer = lb.get(WELCOME);
                 botSettings.save(settings);
@@ -193,7 +222,8 @@ public class TelegramBot extends IBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error("Can\'t send message cause " + e.getMessage());
+            log.error("Can\'t send message cause ");
+            e.printStackTrace();
         }
     }
 

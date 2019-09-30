@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class UserBotSetting {
     private int id;
     private long telegramId;
+    private String title;
     private Worker worker;
     private String language;
     private boolean show;
@@ -39,6 +40,15 @@ public class UserBotSetting {
     }
     public void setTelegramId(long telegramId) {
         this.telegramId = telegramId;
+    }
+
+    @Basic
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @OneToOne

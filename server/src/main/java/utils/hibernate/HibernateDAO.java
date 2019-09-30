@@ -661,8 +661,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public UserBotSetting getBotSettingsByWorker(Worker worker) {
-        return hb.get(UserBotSetting.class, "worker", worker);
+    public List<UserBotSetting> getBotSettingsByWorker(Worker worker) {
+        return hb.query(UserBotSetting.class, "worker", worker);
     }
 
     @Override
@@ -992,5 +992,20 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<ManufactureReport> getLimitManufactureReports() {
         return hb.limitQuery(ManufactureReport.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
+    }
+
+    @Override
+    public BotSettings getBotSettingsByChatId(Object id) {
+        return hb.get(BotSettings.class, "telegramId", id);
+    }
+
+    @Override
+    public BotSettings getBotSettingsById(Object id) {
+        return hb.get(BotSettings.class, "id", id);
+    }
+
+    @Override
+    public UserBotSetting getUserBotSettingsByChat(Object id) {
+        return hb.get(UserBotSetting.class, "telegramId", id);
     }
 }

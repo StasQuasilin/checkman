@@ -17,12 +17,14 @@ import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
+import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import utils.DateUtil;
 import utils.LanguageBase;
+import utils.U;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -58,6 +60,7 @@ public class Notificator {
     private static final String TRANSPORT_REGISTRATION = "bot.transport.registration";
     private static final String TRANSPORT_INTO = "bot.transport.into";
     private static final String TRANSPORTATION_WEIGHT = "bot.transport.weight";
+    private static final String TURN = "turn";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -501,6 +504,12 @@ public class Notificator {
 
     }
 
+    public static final String HYPHEN = " - ";
+    public static final String SPACE = " ";
+    public static final String SEMICOLON = "; ";
+    public static final String NEW_LINE = "\n";
+    public static final String FORMAT = "%1$,.3f";
+    public static final String STAR = "*";
 
     public void manufactureReportShow(ManufactureReport manufactureReport) {
 
@@ -512,12 +521,36 @@ public class Notificator {
                 if (!messages.containsKey(language)){
                     StringBuilder builder = new StringBuilder();
 
-                    builder.append(manufactureReport.getTurn().getDate());
-                    builder.append(lb.get(language, "turn"));
-                    builder.append(" " + manufactureReport.getTurn().getNumber());
+                    builder.append(DateUtil.prettyDate(manufactureReport.getTurn().getDate()));
+                    builder.append(SPACE).append(manufactureReport.getTurn().getNumber());
+                    builder.append(SPACE).append(lb.get(language, TURN));
+                    builder.append(NEW_LINE);
 
+                    U.sort(manufactureReport.getFields());
+                    ReportFieldCategory category = null;
                     for (ReportField reportField : manufactureReport.getFields()){
 
+                        if (!U.equals(reportField.getCategory(), category)){
+                            category = reportField.getCategory();
+                            if (category != null) {
+                                builder.append(NEW_LINE);
+                                builder.append(STAR).append(category.getTitle()).append(STAR).append(NEW_LINE);
+                            }
+                        }
+                        if (U.exist(reportField.getTitle())){
+                            builder.append(reportField.getTitle());
+                        }
+                        if (reportField.getStorage() != null){
+                            builder.append(reportField.getStorage().getName()).append(SPACE);
+                        }
+
+                        builder.append(HYPHEN).append(String.format(FORMAT, reportField.getValue()));
+                        builder.append(SPACE).append(reportField.getUnit().getName());
+
+                        if (U.exist(reportField.getComment())) {
+                            builder.append(SEMICOLON).append(SPACE).append(reportField.getComment());
+                        }
+                        builder.append(NEW_LINE);
                     }
 
                     messages.put(language, builder.toString());

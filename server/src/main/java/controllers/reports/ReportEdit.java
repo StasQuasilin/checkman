@@ -1,7 +1,10 @@
 package controllers.reports;
 
 import constants.Branches;
+import constants.Constants;
 import controllers.IModal;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -17,6 +20,21 @@ import java.io.IOException;
 public class ReportEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = -1;
+        String parameter = req.getParameter(Constants.ID);
+        if (parameter != null){
+            id = Integer.parseInt(parameter);
+        } else {
+            JSONObject body = PostUtil.parseBodyJson(req);
+            if (body != null && body.containsKey(Constants.ID)){
+                id = Integer.parseInt((String) body.get(Constants.ID));
+            }
+        }
+
+        if (id != -1){
+            req.setAttribute("report", dao.getManufactureReport(id));
+        }
+
         req.setAttribute("title", "title.manufacture.reports.edit");
         req.setAttribute("modalContent", "/pages/reports/manufactureReportEdit.jsp");
         req.setAttribute("turns", TurnBox.getTurns());

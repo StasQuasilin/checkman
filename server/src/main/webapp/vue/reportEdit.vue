@@ -28,22 +28,29 @@ var editor = new Vue({
             }, this.report.date)
         },
         addField:function(field){
-            field.value = 0;
-            field.comment = '';
+
+            if (!field.value) {
+                field.value = 0;
+            }
+            if (!field.comment){
+                field.comment = '';
+            }
+
             field.editComment = false;
+
+            console.log(field);
+
             this.fields.push(field);
             this.sortFields();
         },
         sortFields:function(){
             this.fields.sort(function(a, b){
                 if (a.category && b.category){
-                    return b.category.number - a.category.number;
+                    return a.category.number - b.category.number;
                 } else if (a.category){
                     return 1;
-                } else if (b.category){
-                    return -1;
                 } else {
-                    return 0;
+                    return -1;
                 }
             })
         },
@@ -112,16 +119,17 @@ var editor = new Vue({
                     category = this.categories[f.category];
                 }
                 var storage = null;
-                if (f.storage != -1) {
-                    storage = this.storages[f.storage];
-                }
+
                 var field = {
                     category: category,
                     title: f.title,
                     unit: f.unit,
-                    storage: storage,
                     once: f.once
                 };
+
+                if (f.storage != -1) {
+                    field.storage = f.storage;
+                }
 
                 this.addField(field);
                 this.newField = false;
@@ -132,7 +140,7 @@ var editor = new Vue({
             this.field = {
                 category:-1,
                 title:'',
-                unit:-1,
+                unit:this.units[0].id,
                 storage:-1,
                 once:false
             }

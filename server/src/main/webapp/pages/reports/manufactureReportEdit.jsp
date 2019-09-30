@@ -33,6 +33,7 @@
 </style>
 <script src="${context}/vue/reportEdit.vue"></script>
 <script>
+  var category = null;
   //API
   editor.api.save = '${save}';
   //REPORT
@@ -43,12 +44,69 @@
     date:new Date('${report.turn.date}').toISOString().substring(0, 10),
     turn:${report.turn.number}
   };
+  //FIELDS
+  <c:forEach items="${report.fields}" var="field">
+
+  <c:if test="${not empty field.category.id}">
+  category = {
+    id:${field.category.id},
+    title:'${field.category.title}',
+    number:${field.category.number}
+  };
+  </c:if>
+  editor.addField({
+    id:${field.id},
+    setting:${field.id},
+    title:'${field.title}',
+    unit:${field.unit.id},
+    value:${field.value},
+    //FIELD CATEGORY
+    <c:choose>
+    <c:when test="${not empty field.category.id}">
+    category:category,
+    </c:when>
+    </c:choose>
+    //FIELD STORAGE
+    <c:choose>
+    <c:when test="${not empty field.storage.id}">
+    storage:${field.storage.id}
+    </c:when>
+    </c:choose>
+  });
+  </c:forEach>
   </c:when>
   <c:otherwise>
   editor.report = {
     date:new Date().toISOString().substring(0, 10),
     turn:-1
   };
+  //FIELDS
+  <c:forEach items="${fields}" var="field">
+  <c:if test="${not empty field.category.id}">
+  category = {
+    id:${field.category.id},
+    title:'${field.category.title}',
+    number:${field.category.number}
+  };
+  </c:if>
+  editor.addField({
+    setting:${field.id},
+    title:'${field.title}',
+    unit:${field.unit.id},
+    //FIELD CATEGORY
+    <c:choose>
+    <c:when test="${not empty field.category.id}">
+    category:category,
+    </c:when>
+    </c:choose>
+    //FIELD STORAGE
+    <c:choose>
+    <c:when test="${not empty field.storage.id}">
+    storage:${field.storage.id}
+    </c:when>
+    </c:choose>
+  });
+  </c:forEach>
   </c:otherwise>
   </c:choose>
   //CATEGORIES
@@ -81,34 +139,7 @@
     name:'${unit.name}'
   });
   </c:forEach>
-  //FIELDS
-  <c:forEach items="${fields}" var="field">
-  var category = null;
-  <c:if test="${not empty field.category.id}">
-  category = {
-    id:${field.category.id},
-    title:'${field.category.title}',
-    number:${field.category.number}
-  };
-  </c:if>
-  editor.addField({
-    setting:${field.id},
-    title:'${field.title}',
-    unit:${field.unit.id},
-    //FIELD CATEGORY
-  <c:choose>
-  <c:when test="${not empty field.category.id}">
-    category:category,
-  </c:when>
-  </c:choose>
-    //FIELD STORAGE
-  <c:choose>
-    <c:when test="${not empty field.storage.id}">
-    storage:${field.storage.id}
-    </c:when>
-  </c:choose>
-  });
-  </c:forEach>
+
   editor.initField();
   editor.initCategory();
 </script>
@@ -220,7 +251,7 @@
     <%--NEW BUTTONS--%>
     <%------%>
   <tr>
-    <td colspan="2" align="right">
+    <td colspan="2" align="right" style="font-size: 10pt">
       <span class="mini-close" v-if="!newField" v-on:click="newField=true">
         <fmt:message key="button.add.field"/>
       </span>
@@ -373,7 +404,7 @@
       </td>
     </tr>
   </template>
-  <tr>
+  <tr v-if="!newField && !newCategory">
     <td colspan="2" align="center">
       <button class="close-button left-button" onclick="closeModal()">
         <fmt:message key="button.close"/>

@@ -87,9 +87,9 @@ public class BotFactory {
     public static void shutdown() {
         if (botThread != null && botThread.isAlive()) {
             botThread.interrupt();
-            currentSettings.setRun(false);
-            dbDAOService.getDAO().save(currentSettings);
         }
+        currentSettings.setRun(false);
+        dbDAOService.getDAO().save(currentSettings);
     }
 
     public static BotStatus getStatus() {

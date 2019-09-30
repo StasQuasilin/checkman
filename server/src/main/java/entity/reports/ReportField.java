@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "report_fields")
-public class ReportField {
+public class ReportField implements Comparable<ReportField> {
     private int id;
     private ReportFieldCategory category;
     private ManufactureReport report;
@@ -90,5 +90,19 @@ public class ReportField {
     }
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public int compareTo(ReportField o) {
+        if (o != null) {
+            int compare;
+            if (category != null){
+                compare = category.compareTo(o.category);
+            } else {
+                compare = 1;
+            }
+            return compare;
+        }
+        return 0;
     }
 }

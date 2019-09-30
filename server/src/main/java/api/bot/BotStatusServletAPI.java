@@ -18,7 +18,7 @@ import java.io.IOException;
 public class BotStatusServletAPI extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject json = new JSONObject();
+        JSONObject json = pool.getObject();
         json.put("token", BotFactory.getToken());
         json.put("name", BotFactory.getName());
         json.put("status", BotFactory.getStatus().toString());
