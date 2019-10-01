@@ -209,4 +209,5 @@ public interface dbDAO {
     BotSettings getBotSettingsById(Object id);
     BotSettings getBotSettingsByChatId(Object id);
     UserBotSetting getUserBotSettingsByChat(Object id);
+    <T>List<T> query(Class<T> tClass, HashMap<String, Object> parameters);
 }

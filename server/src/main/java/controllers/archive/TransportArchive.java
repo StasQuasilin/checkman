@@ -62,6 +62,7 @@ public class TransportArchive extends IUIServlet {
 
         req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
         req.setAttribute("products", dao.getProductList());
+        req.setAttribute("find", Branches.API.ARCHIVE_FIND);
 
         show(req, resp);
     }

@@ -208,10 +208,14 @@ public class TelegramBot extends IBot {
         return token;
     }
     public synchronized void sendMsg(long chatId, String msg){
-        sendMsg(chatId, msg, null);
+        try {
+            sendMsg(chatId, msg, null);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
-    public synchronized void sendMsg(long chatId, String s, ReplyKeyboard keyboard) {
+    public synchronized void sendMsg(long chatId, String s, ReplyKeyboard keyboard) throws TelegramApiException {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
@@ -219,12 +223,7 @@ public class TelegramBot extends IBot {
         if (keyboard != null) {
             sendMessage.setReplyMarkup(keyboard);
         }
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            log.error("Can\'t send message cause ");
-            e.printStackTrace();
-        }
+        execute(sendMessage);
     }
 
     public BotSettings getBotSettings() {

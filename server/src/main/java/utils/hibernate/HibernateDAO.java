@@ -230,7 +230,7 @@ public class HibernateDAO implements dbDAO {
     public List<Transportation> getLimitArchiveTransportations(DealType type) {
         final HashMap<String, Object>parameters = new HashMap<>();
         parameters.put("archive", true);
-        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
+        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(10))));
         parameters.put("type", type);
         return hb.query(Transportation.class, parameters);
     }
@@ -317,7 +317,7 @@ public class HibernateDAO implements dbDAO {
     public List<LoadPlan> getLimitLoadPlanArchive() {
         final HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("transportation/archive", true);
-        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
+        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(10))));
         return hb.limitQuery(LoadPlan.class, parameters, 14);
     }
 
@@ -1007,5 +1007,10 @@ public class HibernateDAO implements dbDAO {
     @Override
     public UserBotSetting getUserBotSettingsByChat(Object id) {
         return hb.get(UserBotSetting.class, "telegramId", id);
+    }
+
+    @Override
+    public <T> List<T> query(Class<T> tClass, HashMap<String, Object> parameters) {
+        return hb.query(tClass, parameters);
     }
 }

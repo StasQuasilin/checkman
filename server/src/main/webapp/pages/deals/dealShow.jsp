@@ -102,6 +102,9 @@
 </script>
 <c:set var="vehicleHolder"><fmt:message key="transportation.automobile"/>... </c:set>
 <c:set var="driverHolder"><fmt:message key="transportation.driver"/>... </c:set>
+<c:set var="editVehicle"><fmt:message key="vehicle.edit"/></c:set>
+<c:set var="editDriver"><fmt:message key="driver.edit"/></c:set>
+<c:set var="cancel"><fmt:message key="button.cancel"/></c:set>
   <table border="0" style="height: 100%" id="load_plan">
     <tr>
       <td valign="top">
@@ -344,21 +347,11 @@
                                   <template v-if="value.item.transportation.vehicle.trailer">
                                     '{{value.item.transportation.vehicle.trailer}}'
                                   </template>
-                                  <span class="edit-menu-header">
-                                    <span style="position: relative">
-                                      &nbsp;
-                                    </span>
-                                    <div class="edit-menu">
-                                      <span v-on:click="editVehicle(key)">
-                                        <fmt:message key="vehicle.edit"/>
-                                      </span>
-                                      <span v-on:click="cancelVehicle(key)">
-                                        <fmt:message key="menu.cancel"/>
-                                      </span>
-                                    </div>
-                                    <span class="arrow">
-                                      &#9660;
-                                    </span>
+                                  <span title="${editVehicle}" v-on:click="editVehicle(key)" class="mini-close flipY" style="padding: 0">
+                                    &#9998;
+                                  </span>
+                                  <span title="${cancel}" v-on:click="cancelVehicle(key)" class="mini-close" style="padding: 0">
+                                    &times;
                                   </span>
                                 </div>
                                 <div v-else-if="value.editVehicle">
@@ -404,19 +397,12 @@
                               <%--DRIVER STUFF--%>
                               <span v-if="value.item.transportation.driver.id > -1 && !value.editDriver">
                                 {{value.item.transportation.driver.person.value}}
-                                <span class="edit-menu-header">
-                                  <div class="edit-menu">
-                                    <span v-on:click="editDriver(key)">
-                                      <fmt:message key="driver.edit"/>
-                                    </span>
-                                    <span v-on:click="cancelDriver(key)">
-                                      <fmt:message key="menu.cancel"/>
-                                    </span>
-                                  </div>
-                                  <span class="arrow">
-                                    &#9660;
+                                <span title="${editDriver}" v-on:click="editDriver(key)" class="mini-close flipY" style="padding: 0">
+                                    &#9998;
                                   </span>
-                                </span>
+                                  <span title="${cancel}" v-on:click="cancelDriver(key)" class="mini-close" style="padding: 0">
+                                    &times;
+                                  </span>
                               </span>
 
                               <template v-else-if="value.editDriver">

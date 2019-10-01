@@ -6,11 +6,13 @@
 <html>
 <script src="${context}/vue/archive/archiveFilter.vue"></script>
 <script>
+    filter_control.api.find = '${find}';
     <c:forEach items="${products}" var="p">
-    filter_control.items.products.push({
+
+    filter_control.productList.push({
         id:${p.id},
         value:'${p.name}'
-    })
+    });
     </c:forEach>
 </script>
 <link rel="stylesheet" href="${context}/css/filter.css">
@@ -36,9 +38,9 @@
         </tr>
         <tr>
             <td>
-                <select id="product" style="width: 100%" v-model="filter.product">
-                    <option :value="-1"><fmt:message key="all"/> </option>
-                    <option v-for="product in items.products" :value="product.id">{{product.value}}</option>
+                <select id="product" style="width: 100%" v-model="filter.product" v-on:change="find">
+                    <option value="-1"><fmt:message key="all"/></option>
+                    <option v-for="product in productList" :value="product.id">{{product.value}}</option>
                 </select>
             </td>
         </tr>

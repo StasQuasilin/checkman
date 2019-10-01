@@ -134,7 +134,7 @@
     </c:choose>
 
 </script>
-<table id="editor" class="editor" style="width: 400pt">
+<table id="editor" class="editor" style="width: 400pt" border="0">
     <tr>
         <td>
             <label for="type">
@@ -318,18 +318,11 @@
         <td>
             <span v-if="plan.vehicle.id > -1">
                 {{(plan.vehicle.model + ' ' + plan.vehicle.number + ' ' + plan.vehicle.trailer).trim()}}
-                <span class="edit-menu-header">
-                  <div class="edit-menu">
-                    <span v-on:click="editVehicle()">
-                      <fmt:message key="vehicle.edit"/>
-                    </span>
-                    <span v-on:click="cancelVehicle()">
-                      <fmt:message key="menu.cancel"/>
-                    </span>
-                  </div>
-                    <span class="arrow">
-                        &nbsp;&#9660;
-                    </span>
+                <span v-on:click="editVehicle()" class="mini-close flipY" style="padding: 0">
+                  &#9998;
+                </span>
+                <span v-on:click="cancelVehicle()" class="mini-close flipY" style="padding: 0">
+                    &times;
                 </span>
             </span>
             <div v-else>
@@ -360,18 +353,11 @@
         <td>
             <span v-if="plan.driver.id> -1">
                 {{plan.driver.person.value}}
-                <span class="edit-menu-header">
-                  <div class="edit-menu">
-                    <span v-on:click="editDriver()">
-                      <fmt:message key="driver.edit"/>
-                    </span>
-                    <span v-on:click="cancelDriver()">
-                      <fmt:message key="menu.cancel"/>
-                    </span>
-                  </div>
-                    <span class="arrow">
-                        &nbsp;&#9660;
-                    </span>
+                <span v-on:click="editDriver()" class="mini-close flipY" style="padding: 0">
+                  &#9998;
+                </span>
+                <span v-on:click="cancelDriver()" class="mini-close flipY" style="padding: 0">
+                  &times;
                 </span>
             </span>
             <div v-else>

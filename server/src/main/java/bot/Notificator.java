@@ -22,6 +22,7 @@ import entity.transport.Transportation;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import utils.DateUtil;
 import utils.LanguageBase;
 import utils.U;
@@ -48,7 +49,7 @@ public class Notificator {
     private static final String SORENESS = "bot.notificator.soreness";
     private static final String OILINESS = "bot.notificator.oiliness";
     private static final String PROTEIN = "bot.notificator.protein";
-    private static final String CELLULOSE = "";
+    private static final String CELLULOSE = "bot.notificator.cellulose";
     private static final String OIL_IMPURITY = "bot.notificator.oil.impurity";
     private static final String ACID = "bot.notificator.oil.acid";
     private static final String COLOR = "bot.notificator.color";
@@ -61,6 +62,9 @@ public class Notificator {
     private static final String TRANSPORT_INTO = "bot.transport.into";
     private static final String TRANSPORTATION_WEIGHT = "bot.transport.weight";
     private static final String TURN = "turn";
+    private static final String ORGANOLEPTIC = "oil.organoleptic";
+    private static final String MATCH = "oil.organoleptic.match";
+    private static final String NO_MATCH = "oil.organoleptic.match";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -136,7 +140,7 @@ public class Notificator {
         });
     }
     public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses) {
-        String message;
+        HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
                 Worker worker = setting.getWorker();
@@ -151,83 +155,56 @@ public class Notificator {
                 }
                 if (show) {
 
-                    float humidity1 = analyses.getHumidity1();
-                    float humidity2 = analyses.getHumidity2();
-                    float soreness = analyses.getSoreness();
-                    float oiliness = analyses.getOiliness();
-                    float oilImpurity = analyses.getOilImpurity();
-                    float acid = analyses.getAcidValue();
-
-                    message = "";//prepareMessage(plan);
-
-                    if (humidity1 > 0) {
-                        message += "\n" + String.format(lb.get(HUMIDITY_1), humidity1);
+                    String language = setting.getLanguage();
+                    if (!messages.containsKey(language)){
+                        messages.put(language, prepareMessage(transportation) + NEW_LINE +
+                            String.format(lb.get(HUMIDITY_1), analyses.getHumidity1()) + NEW_LINE +
+                            String.format(lb.get(HUMIDITY_2), analyses.getHumidity2()) + NEW_LINE +
+                            String.format(lb.get(SORENESS), analyses.getSoreness()) + NEW_LINE +
+                            String.format(lb.get(OILINESS), analyses.getOiliness()) + NEW_LINE +
+                            String.format(lb.get(OIL_IMPURITY), analyses.getOilImpurity()) + NEW_LINE +
+                            String.format(lb.get(ACID), analyses.getAcidValue())
+                        );
                     }
-
-                    if (humidity2 > 0) {
-                        message += "\n" + String.format(lb.get(HUMIDITY_2), humidity2);
-                    }
-
-                    if (soreness > 0) {
-                        message += "\n" + String.format(lb.get(SORENESS), soreness);
-                    }
-
-                    if (oiliness > 0) {
-                        message += "\n" + String.format(lb.get(OILINESS), oiliness);
-                    }
-
-                    if (oilImpurity > 0) {
-                        message += "\n" + String.format(lb.get(OIL_IMPURITY), oilImpurity);
-                    }
-
-                    if (acid > 0) {
-                        message += "\n" + String.format(lb.get(ACID), acid);
-                    }
-
-                    sendMessage(setting.getTelegramId(), message, null);
+                    sendMessage(setting.getTelegramId(), messages.get(language), null);
                 }
             }
         }
     }
-    public void cakeAnalysesShow(LoadPlan plan, MealAnalyses analyses) {
-
-
-        String message;
+    public void cakeAnalysesShow(Transportation plan, MealAnalyses analyses) {
+        HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()){
             if(setting.isShow()) {
                 Worker worker = setting.getWorker();
                 boolean show = false;
                 switch (setting.getTransport()) {
                     case my:
-                        show = plan.getDeal().getCreator().getId() == worker.getId();
+                        show = plan.getCreator().getId() == worker.getId();
                         break;
                     case all:
                         show = true;
                         break;
                 }
                 if (show) {
-                    message = "";//prepareMessage(plan);
-                    message += "\n" + String.format(lb.get(HUMIDITY_1), analyses.getHumidity());
-                    message += "\n" + String.format(lb.get(PROTEIN), analyses.getProtein());
-                    message += "\n" + String.format(lb.get(CELLULOSE), analyses.getCellulose());
-                    message += "\n" + String.format(lb.get(OILINESS), analyses.getOiliness());
-
-                    sendMessage(setting.getTelegramId(), message, null);
+                    String language = setting.getLanguage();
+                    if (!messages.containsKey(language)){
+                        messages.put(language, prepareMessage(plan) + NEW_LINE +
+                                String.format(lb.get(HUMIDITY_1), analyses.getHumidity()) + NEW_LINE +
+                                String.format(lb.get(PROTEIN), analyses.getProtein()) + NEW_LINE +
+                                String.format(lb.get(CELLULOSE), analyses.getCellulose()) + NEW_LINE +
+                                String.format(lb.get(OILINESS), analyses.getOiliness()));
+                    }
+                    sendMessage(setting.getTelegramId(), messages.get(language), null);
                 }
             }
         }
-    }
-    public void oilAnalysesShow(Transportation transportation, OilAnalyses analysesList) {
-        boolean organoleptic = analysesList.isOrganoleptic();
-        float color = analysesList.getColor();
-        float acid = analysesList.getAcidValue();
-        float peroxide = analysesList.getPeroxideValue();
-        float phosphorus = analysesList.getPhosphorus();
-        float humidity = analysesList.getHumidity();
-        boolean soap = analysesList.isSoap();
-        float wax = analysesList.getWax();
 
-        String message;
+        messages.clear();
+    }
+    public void oilAnalysesShow(Transportation transportation, OilAnalyses analyses) {
+
+        HashMap<String, String> messages = new HashMap<>();
+
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
                 Worker worker = setting.getWorker();
@@ -241,20 +218,26 @@ public class Notificator {
                         break;
                 }
                 if (show) {
-                    message = "";//prepareMessage(plan);
-                    message += "\n" + lb.get("oil.organoleptic") + ": " + (organoleptic ? lb.get("oil.organoleptic.match") : lb.get("oil.organoleptic.doesn't.match"));
-                    message += "\n" + String.format(lb.get(COLOR), Math.round(color));
-                    message += "\n" + String.format(lb.get(ACID), acid);
-                    message += "\n" + String.format(lb.get(PEROXIDE), peroxide);
-                    message += "\n" + String.format(lb.get(PHOSPHORUS), phosphorus);
-                    message += "\n" + String.format(lb.get(HUMIDITY_1), humidity);
-                    message += "\n" + String.format(lb.get(SOAP), (soap ? lb.get("oil.organoleptic.match") : lb.get("oil.organoleptic.doesn't.match")));
-                    message += "\n" + String.format(lb.get(WAX), wax);
+                    String language = setting.getLanguage();
+                    if (!messages.containsKey(language)){
+                        messages.put(language, prepareMessage(transportation) + NEW_LINE +
+                            lb.get(ORGANOLEPTIC) + (analyses.isOrganoleptic() ? lb.get(MATCH) : lb.get(NO_MATCH)) + NEW_LINE +
+                            String.format(lb.get(COLOR), Math.round(analyses.getColor())) + NEW_LINE +
+                            String.format(lb.get(ACID), analyses.getAcidValue()) + NEW_LINE +
+                            String.format(lb.get(PEROXIDE), analyses.getPeroxideValue()) + NEW_LINE +
+                            String.format(lb.get(PHOSPHORUS), analyses.getPhosphorus()) + NEW_LINE +
+                            String.format(lb.get(HUMIDITY_1), analyses.getHumidity()) + NEW_LINE +
+                            String.format(lb.get(SOAP), (analyses.isSoap() ? lb.get(MATCH) : lb.get(NO_MATCH))) + NEW_LINE +
+                            String.format(lb.get(WAX), analyses.getWax())
+                        );
+                    }
 
-                    sendMessage(setting.getTelegramId(), message, null);
+                    sendMessage(setting.getTelegramId(), messages.get(language), null);
                 }
             }
         }
+
+        messages.clear();
     }
     public void extractionShow(ExtractionCrude crude){
         int turnNumber = crude.getTurn().getTurn().getNumber();
@@ -282,6 +265,8 @@ public class Notificator {
                 sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
+
+        messages.clear();
     }
 
     public void vroShow(VROCrude crude, List<ForpressCake> cakes) {
@@ -325,25 +310,23 @@ public class Notificator {
     }
 
     String prepareMessage(Transportation transportation){
-        DealType type = transportation.getType();
-        String vehicle = transportation.getVehicle() != null ? transportation.getVehicle().getValue() : lb.get(NO_DATA);
         String driver = transportation.getDriver() != null ? transportation.getDriver().getPerson().getValue() : lb.get(NO_DATA);
         String organisation = transportation.getCounterparty().getValue();
         String product = transportation.getProduct().getName();
-        String action = lb.get("_" + type.toString()).toLowerCase();
 
-        return String.format(
-                lb.get(TRANSPORT),
-                vehicle,
-                driver,
-                organisation,
-                action + " " + product);
+        return String.format(lb.get(TRANSPORT), organisation, driver, product);
     }
     private Collection<UserBotSetting> getSettings() {
         return telegramBot.getBotSettings().get();
     }
     private void sendMessage(long telegramId, String message, ReplyKeyboard keyboard) {
-        telegramBot.sendMsg(telegramId, message, keyboard);
+        try {
+            telegramBot.sendMsg(telegramId, message, keyboard);
+        } catch (TelegramApiException e) {
+            System.out.println(e.getMessage() + ":" + Arrays.toString(e.getSuppressed()));
+
+            e.printStackTrace();
+        }
     }
     public void extractionShow(StorageProtein storageProtein) {
         String storage = storageProtein.getStorage().getName();

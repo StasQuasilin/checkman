@@ -210,6 +210,7 @@ public class Branches {
         public static final String RENAME_CHAT = API + "/chat/rename";
         public static final String CHANGE_OFFICE = API + "/change/office";
         public static final String SAVE_MANUFACTURE_REPORT = API + "/manufacture/report/edit";
+        public static final String ARCHIVE_FIND = API + "/archive/find";
 
 
         public class References {

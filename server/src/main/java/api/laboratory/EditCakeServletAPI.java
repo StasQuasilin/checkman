@@ -9,6 +9,7 @@ import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.laboratory.MealAnalyses;
 import entity.transport.ActionTime;
+import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 
@@ -35,11 +36,12 @@ public class EditCakeServletAPI extends ServletAPI {
             long planId = (long) body.get(Constants.PLAN);
             log.info("Edit CAKE analyses for plan \'" + planId + "\'...");
 
-            LoadPlan loadPlan = dao.getLoadPlanById(planId);
-            MealAnalyses mealAnalyses = loadPlan.getTransportation().getMealAnalyses();
+            Transportation transportation = dao.getTransportationById(planId);
+            MealAnalyses mealAnalyses = transportation.getMealAnalyses();
             if (mealAnalyses == null) {
                 mealAnalyses = new MealAnalyses();
-                loadPlan.getTransportation().setMealAnalyses(mealAnalyses);
+                transportation.setMealAnalyses(mealAnalyses);
+
             }
 
             JSONObject a = (JSONObject) body.get("analyses");
@@ -80,22 +82,17 @@ public class EditCakeServletAPI extends ServletAPI {
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
-                if (a.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) a.get(Constants.CREATOR);
-                    log.info("\t\tHave creator");
-                    createTime.setCreator(dao.getWorkerById(creatorId));
-                } else {
-                    log.info("\t\tDoesn't have creator");
-                    createTime.setCreator(worker);
-                }
-                mealAnalyses.setCreator(worker);
 
-                dao.saveCakeAnalyses(mealAnalyses);
-                dao.saveTransportation(loadPlan.getTransportation());
+                createTime.setCreator(worker);
+                dao.save(createTime);
+
+                mealAnalyses.setCreator(worker);
+                dao.save(mealAnalyses);
+                dao.saveTransportation(transportation);
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
-                    notificator.cakeAnalysesShow(loadPlan, mealAnalyses);
+                    notificator.cakeAnalysesShow(transportation, mealAnalyses);
                 }
             }
 

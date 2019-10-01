@@ -30,15 +30,17 @@ public class DeleteLoadPlanAPI extends ServletAPI{
             long id = (long) body.get(Constants.ID);
             log.info("Delete load plan " + id);
             LoadPlan loadPlanById = dao.getLoadPlanById(id);
-            if(loadPlanById.getTransportation().anyAction()){
-                loadPlanById.setCanceled(true);
-                loadPlanById.getTransportation().setArchive(true);
-                dao.save(loadPlanById);
-                dao.save(loadPlanById.getTransportation());
-                updateUtil.onRemove(loadPlanById.getTransportation());
-            } else {
-                updateUtil.onRemove(loadPlanById.getTransportation());
-                dao.remove(loadPlanById, loadPlanById.getTransportation());
+            if (loadPlanById != null) {
+                if (loadPlanById.getTransportation().anyAction()) {
+                    loadPlanById.setCanceled(true);
+                    loadPlanById.getTransportation().setArchive(true);
+                    dao.save(loadPlanById);
+                    dao.save(loadPlanById.getTransportation());
+                    updateUtil.onRemove(loadPlanById.getTransportation());
+                } else {
+                    updateUtil.onRemove(loadPlanById.getTransportation());
+                    dao.remove(loadPlanById, loadPlanById.getTransportation());
+                }
             }
 
             write(resp, SUCCESS_ANSWER);

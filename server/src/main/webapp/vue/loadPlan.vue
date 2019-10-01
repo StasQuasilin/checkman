@@ -111,8 +111,8 @@ var plan = new Vue({
         remove:function(id){
             const _id = id;
             var plan = this.plans[id].item;
-            if (plan.id){
-                console.log('remove ' + id);
+            if (plan.id > 0){
+                console.log('remove ' + plan.id);
                 const self = this;
                 PostApi(this.api.remove, {id:plan.id},function(a){
                     if (a.status === 'success'){

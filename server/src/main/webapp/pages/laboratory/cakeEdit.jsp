@@ -26,8 +26,7 @@
         humidity:${plan.mealAnalyses.humidity},
         protein:${plan.mealAnalyses.protein},
         cellulose:${plan.mealAnalyses.cellulose},
-        oiliness:${plan.mealAnalyses.oiliness},
-        creator:${plan.mealAnalyses.createTime.creator.id}
+        oiliness:${plan.mealAnalyses.oiliness}
     };
     </c:when>
     <c:otherwise>
@@ -35,17 +34,10 @@
         humidity:0,
         protein:0,
         cellulose:0,
-        oiliness:0,
-        creator:${worker.id}
+        oiliness:0
     };
     </c:otherwise>
     </c:choose>
-    <c:forEach items="${laborants}" var="l">
-    editor.laborants.push({
-        id:${l.id},
-        value:'${l.person.value}'
-    });
-    </c:forEach>
 </script>
 <table id="editor" class="editor">
     <tr>
@@ -112,7 +104,7 @@
             :
         </td>
         <td>
-            <input id="humidity" type="number" step="0.01" v-model="analyses.humidity">
+            <input id="humidity" type="number" step="0.01" v-model="analyses.humidity" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -125,7 +117,7 @@
             :
         </td>
         <td>
-            <input id="protein" type="number" step="0.01" v-model="analyses.protein">
+            <input id="protein" type="number" step="0.01" v-model="analyses.protein" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -138,7 +130,7 @@
             :
         </td>
         <td>
-            <input id="cellulose" type="number" step="0.01" v-model="analyses.cellulose">
+            <input id="cellulose" type="number" step="0.01" v-model="analyses.cellulose" onclick="this.select()">
         </td>
     </tr>
     <tr>
@@ -151,22 +143,7 @@
             :
         </td>
         <td>
-            <input id="oiliness" type="number" step="0.01" v-model="analyses.oiliness">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="creator">
-                <fmt:message key="laboratory.creator"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="creator" style="width: 100%" v-model="analyses.creator">
-                <option v-for="laborant in laborants" :value="laborant.id">{{laborant.value}}</option>
-            </select>
+            <input id="oiliness" type="number" step="0.01" v-model="analyses.oiliness" onclick="this.select()">
         </td>
     </tr>
     <tr>

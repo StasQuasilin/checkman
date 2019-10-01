@@ -180,7 +180,6 @@ public class JsonParser {
         json.put(ID, lp.getId());
         json.put(PLAN, lp.getPlan());
         json.put(CUSTOMER, lp.getCustomer().toString());
-        json.put(HASH, lp.hashCode());
         return json;
     }
 
