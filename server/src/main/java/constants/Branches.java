@@ -78,6 +78,7 @@ public class Branches {
         public static final String USER_LIST = "/admin/user/list.j";
         public static final String MANUFACTURE_REPORT = "/manufacture/reports.j";
         public static final String MANUFACTURE_REPORT_EDIT = "/manufacture/report/edit.j";
+        public static final String ARCHIVE_WEIGHT_SHOW = "/archive/weight/show.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -211,6 +212,7 @@ public class Branches {
         public static final String CHANGE_OFFICE = API + "/change/office";
         public static final String SAVE_MANUFACTURE_REPORT = API + "/manufacture/report/edit";
         public static final String ARCHIVE_FIND = API + "/archive/find";
+        public static final String USER_BOT_DELETE = API + "/user/bot/delete";
 
 
         public class References {

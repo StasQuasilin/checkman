@@ -86,6 +86,14 @@ var editor = new Vue({
                 })
             }
         },
+        newCounterparty:function(){
+            const self = this;
+            loadModal(this.api.editCounterparty, {}, function(a){
+                if (a.status === 'success'){
+                    self.setCounterparty(a.organisation);
+                }
+            })
+        },
         saveAndClose:function(){
             this.save()
         },
@@ -116,6 +124,10 @@ var editor = new Vue({
                     self.counterpartyInput = a.organisation.value;
                 }
             });
+        },
+        cancelOrganisation:function(){
+            this.deal.counterparty = -1;
+            this.counterpartyInput = '';
         }
     }
 });

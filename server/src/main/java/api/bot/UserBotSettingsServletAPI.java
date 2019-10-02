@@ -29,7 +29,7 @@ public class UserBotSettingsServletAPI extends ServletAPI {
         if (body != null) {
             UserBotSetting setting;
             if (body.containsKey(Constants.ID)) {
-                setting = botSettings.getSettings((long) body.get(Constants.ID));
+                setting = botSettings.getSettings((long) body.get(Constants.TELEGRAM_ID));
             } else {
                 setting = dao.getUseBorSettingsByWorker(getWorker(req));
             }
@@ -72,10 +72,16 @@ public class UserBotSettingsServletAPI extends ServletAPI {
                     setting.setShow(show);
                     save = true;
                 }
+                boolean reports = Boolean.parseBoolean(String.valueOf(body.get("reports")));
+                if (setting.isReports() != reports){
+                    setting.setReports(reports);
+                    save = true;
+                }
                 if (save) {
                     botSettings.save(setting);
                 }
                 write(resp, parser.toJson(setting).toJSONString());
+
             }
 
         }

@@ -43,16 +43,5 @@
             ${worker.person.patronymic}
         </td>
     </tr>
-    <tr>
-        <td>
-            <fmt:message key="user.group"/>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <fmt:message key="role.${role}s"/>
-        </td>
-    </tr>
 </table>
 </html>

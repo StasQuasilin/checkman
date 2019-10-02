@@ -1,6 +1,7 @@
 package utils.hibernate;
 
 import bot.BotUID;
+import constants.Constants;
 import entity.*;
 import entity.bot.BotSettings;
 import entity.bot.UserBotSetting;
@@ -59,6 +60,7 @@ public class HibernateDAO implements dbDAO {
     
     private static final String ID = "id";
     private static final String DEAL = "deal";
+    private static final String SPACE = Constants.SPACE;
     private final Hibernator hb = Hibernator.getInstance();
 
     @Override
@@ -480,8 +482,12 @@ public class HibernateDAO implements dbDAO {
     public Collection<Organisation> findOrganisation(String key) {
         Set<Integer> ids = new HashSet<>();
         List<Organisation> organisations = new LinkedList<>();
-        findOrganisation("type", key, ids, organisations);
-        findOrganisation("name", key, ids, organisations);
+        for (String string : key.split(SPACE)){
+            String s = string.trim();
+            findOrganisation("type", s, ids, organisations);
+            findOrganisation("name", s, ids, organisations);
+        }
+
         ids.clear();
         return organisations;
     }
@@ -617,10 +623,13 @@ public class HibernateDAO implements dbDAO {
     public List<Vehicle> findVehicle(Object key) {
         final Set<Integer> ids = new HashSet<>();
         final List<Vehicle> vehicles = new LinkedList<>();
-        String k = String.valueOf(key);
-        findVehicle("model", k, ids, vehicles);
-        findVehicle("number", k, ids, vehicles);
-        findVehicle("trailer", k, ids, vehicles);
+
+        for (String s : String.valueOf(key).split(SPACE)){
+            String k = s.trim();
+            findVehicle("model", k, ids, vehicles);
+            findVehicle("number", k, ids, vehicles);
+            findVehicle("trailer", k, ids, vehicles);
+        }
 
         ids.clear();
         return vehicles;
@@ -802,6 +811,11 @@ public class HibernateDAO implements dbDAO {
     @Override
     public Vehicle getVehicleByNumber(String number) {
         return hb.get(Vehicle.class, "number", number);
+    }
+
+    @Override
+    public Vehicle getVehicleByHash(int hash) {
+        return hb.get(Vehicle.class, "hash", hash);
     }
 
     @Override
@@ -1012,5 +1026,15 @@ public class HibernateDAO implements dbDAO {
     @Override
     public <T> List<T> query(Class<T> tClass, HashMap<String, Object> parameters) {
         return hb.query(tClass, parameters);
+    }
+
+    @Override
+    public List<Organisation> getOrganisations() {
+        return hb.query(Organisation.class, null);
+    }
+
+    @Override
+    public <T> T getObjectById(Class<T> _class, Object id) {
+        return hb.get(_class, ID, id);
     }
 }

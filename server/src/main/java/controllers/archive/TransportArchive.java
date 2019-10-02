@@ -18,9 +18,10 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_ARCHIVE)
 public class TransportArchive extends IUIServlet {
 
-    final String CONTENT = "content";
-    final String SUBSCRIBE = "subscribe";
-    final String EDIT = "edit";
+    static final String CONTENT = "content";
+    static final String SUBSCRIBE = "subscribe";
+    static final String EDIT = "edit";
+
     final Subscriber[] summaryArchiveSubscriber = new Subscriber[]{
             Subscriber.LOAD_PLAN_ARCHIVE
     };
@@ -37,7 +38,7 @@ public class TransportArchive extends IUIServlet {
 
         ArchiveType type = ArchiveType.valueOf(req.getParameter("type"));
         req.setAttribute("title", Titles.ARCHIVE + "." + type.toString());
-        req.setAttribute(EDIT, Branches.UI.ARCHIVE_SHOW + type.toString() + ".j");
+
         req.setAttribute("types", DealType.values());
         req.setAttribute("haveMenu", false);
         switch (type){
@@ -52,6 +53,7 @@ public class TransportArchive extends IUIServlet {
             case weight:{
                 req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");
                 req.setAttribute(SUBSCRIBE, weightArchiveSubscribe);
+                req.setAttribute(EDIT, Branches.UI.ARCHIVE_WEIGHT_SHOW);
                 break;
             }
             default:

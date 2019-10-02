@@ -1,6 +1,7 @@
 package entity.transport;
 
 import entity.organisations.Organisation;
+import utils.U;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ public class Vehicle {
     private String number;
     private String trailer;
     private Organisation transporter;
+    private int hash;
 
     @Id
     @GeneratedValue
@@ -41,6 +43,7 @@ public class Vehicle {
     }
     public void setNumber(String number) {
         this.number = number;
+        calculateHash();
     }
 
     @Basic
@@ -50,6 +53,16 @@ public class Vehicle {
     }
     public void setTrailer(String trailer) {
         this.trailer = trailer;
+        calculateHash();
+    }
+
+    @Basic
+    @Column(name = "hash")
+    public int getHash() {
+        return hash;
+    }
+    public void setHash(int hash) {
+        this.hash = hash;
     }
 
     @OneToOne
@@ -59,6 +72,18 @@ public class Vehicle {
     }
     public void setTransporter(Organisation transporter) {
         this.transporter = transporter;
+    }
+
+    public void calculateHash(){
+        StringBuilder builder = new StringBuilder();
+        if (U.exist(number)){
+            for(Character c : number.toUpperCase().toCharArray()){
+                if (Character.isLetter(c) || Character.isDigit(c)){
+                    builder.append(c);
+                }
+            }
+        }
+        hash = builder.toString().hashCode();
     }
 
     @Override

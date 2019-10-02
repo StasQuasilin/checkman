@@ -49,6 +49,12 @@ public class Constants {
     public static final String TRANSPORTATION = "transportation";
     public static final String VEHICLE = "vehicle";
     public static final String DRIVER = "driver";
+    public static final String WEIGHT = "weight";
+    public static final String SPACE = " ";
+    public static final String EMPTY = "";
+    public static final String COMMA = ",";
+    public static final String SLASH = "/";
+    public static final String TELEGRAM_ID = "telegramId";
 
 
     public static class Languages {

@@ -10,6 +10,8 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
 
         if (debug) {
             console.log('[ Application Core ] Request to \'' + url + '\'...');
+            console.log('<-------Parameters------->');
+            console.log(parametrs);
         }
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);

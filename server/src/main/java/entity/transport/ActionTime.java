@@ -15,6 +15,12 @@ public class ActionTime {
     private Timestamp time;
     private Worker creator;
 
+    public ActionTime() {}
+    public ActionTime(Worker worker) {
+        time = new Timestamp(System.currentTimeMillis());
+        this.creator = worker;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public int getId() {

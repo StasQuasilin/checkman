@@ -4,7 +4,5 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<table>
 
-</table>
 </html>

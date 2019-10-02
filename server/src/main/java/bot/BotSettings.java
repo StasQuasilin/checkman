@@ -43,8 +43,8 @@ public class BotSettings {
         return botSettingHashMap.containsKey(id);
     }
 
-    public UserBotSetting getSettings(long id) {
-        return botSettingHashMap.get(id);
+    public UserBotSetting getSettings(long telegramId) {
+        return botSettingHashMap.get(telegramId);
     }
 
     public Collection<UserBotSetting> get() {

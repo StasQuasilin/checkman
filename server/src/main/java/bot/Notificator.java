@@ -135,9 +135,7 @@ public class Notificator {
         String product = transportation.getProduct().getName();
         String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product, transportation.getWeight().getNetto());
 
-        getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> {
-            sendMessage(setting.getTelegramId(), message, null);
-        });
+        getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> sendMessage(setting.getTelegramId(), message, null));
     }
     public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses) {
         HashMap<String, String> messages = new HashMap<>();

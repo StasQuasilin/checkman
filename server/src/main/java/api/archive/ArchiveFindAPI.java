@@ -3,6 +3,7 @@ package api.archive;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -23,6 +24,14 @@ import java.util.stream.Collectors;
  */
 @WebServlet(Branches.API.ARCHIVE_FIND)
 public class ArchiveFindAPI extends ServletAPI {
+    
+    public static final String TRANSPORTATION = Constants.TRANSPORTATION;
+    public static final String DATE = TRANSPORTATION + Constants.SLASH + Constants.DATE;
+    public static final String DRIVER = TRANSPORTATION + Constants.SLASH + Constants.DRIVER;
+    public static final String ORGANISATION = TRANSPORTATION + Constants.SLASH + Constants.ORGANISATION;
+    public static final String PRODUCT = TRANSPORTATION + Constants.SLASH + Constants.PRODUCT;
+    public static final String VEHICLE = TRANSPORTATION + Constants.SLASH + Constants.VEHICLE;
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -31,32 +40,32 @@ public class ArchiveFindAPI extends ServletAPI {
 
             String date = String.valueOf(body.get(Constants.DATE));
             if (U.exist(date)){
-                parameters.put(Constants.DATE, Date.valueOf(date));
+                parameters.put(DATE, Date.valueOf(date));
             }
 
             int driverId = Integer.parseInt(String.valueOf(body.get(Constants.DRIVER)));
             if (driverId > 0){
-                parameters.put(Constants.DRIVER, driverId);
+                parameters.put(DRIVER, driverId);
             }
 
             int organisationId = Integer.parseInt(String.valueOf(body.get(Constants.ORGANISATION)));
             if (organisationId > 0){
-                parameters.put(Constants.ORGANISATION, organisationId);
+                parameters.put(ORGANISATION, organisationId);
             }
 
             int productId = Integer.parseInt(String.valueOf(body.get(Constants.PRODUCT)));
             if (productId > 0){
-                parameters.put(Constants.PRODUCT, productId);
+                parameters.put(PRODUCT, productId);
             }
 
             int vehicleId = Integer.parseInt(String.valueOf(body.get(Constants.VEHICLE)));
             if (vehicleId > 0){
-                parameters.put(Constants.VEHICLE, vehicleId);
+                parameters.put(VEHICLE, vehicleId);
             }
 
             if (parameters.size() > 0) {
                 JSONArray array = pool.getArray();
-                array.addAll(dao.query(Transportation.class, parameters).stream().map(parser::toJson).collect(Collectors.toList()));
+                array.addAll(dao.query(LoadPlan.class, parameters).stream().map(parser::toJson).collect(Collectors.toList()));
                 write(resp, array.toJSONString());
                 pool.put(array);
             }

@@ -37,7 +37,7 @@
     language.lang = '${lang}'
 
 </script>
-<div style="padding: 18pt">
+<div style="margin: 18pt">
     <table border="0">
         <tr>
             <td colspan="3" id="languageBase">
@@ -55,19 +55,32 @@
             </td>
         </tr>
         <tr>
-            <td valign="top" align="center">
-                <jsp:include page="personalData.jsp"/>
-                <jsp:include page="workerOffice.jsp"/>
-                <jsp:include page="contacts.jsp"/>
-                <button onclick="loadModal('${changePassword}')">
-                    <fmt:message key="password.change"/>
-                </button>
-            </td>
             <td valign="top">
+                <jsp:include page="personalData.jsp"/>
+            </td>
+            <td valign="top" rowspan="4">
                 <jsp:include page="telegramBotSettings.jsp"/>
             </td>
             <td valign="top">
 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <jsp:include page="workerOffice.jsp"/>
+                <jsp:include page="contacts.jsp"/>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <button onclick="loadModal('${changePassword}')">
+                    <fmt:message key="password.change"/>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 100%">
+                &nbsp;
             </td>
         </tr>
     </table>

@@ -6,25 +6,37 @@
 <html>
 <script src="${context}/vue/referenceList.vue"></script>
 <script>
-    referenceList.sort = function(){
-        this.items.sort(function(a, b){
-            return a.name.localeCompare(b.name);
-        })
-    };
     referenceList.api.update='${update}';
     referenceList.api.edit = '${edit}';
     referenceList.update();
 </script>
+<style>
+    .block{
+        display: inline-flex;
+        margin: 0 4pt;
+        border: solid darkslategray 1pt;
+        padding: 0 2pt;
+        background-color: lightgray;
+    }
+</style>
 <div id="referencesList" style="width: 100%">
     <table>
-        <tr v-for="organisation in items" v-on:click="edit(organisation.id)">
-            <td>
-                {{organisation.name}}
-            </td>
-            <td>
-                {{organisation.type}}
-            </td>
-        </tr>
+        <template v-for="(organisations, key) in items">
+            <tr>
+                <td>
+                    <span style="font-size: 18pt; font-weight: bold">
+                        {{key}}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div v-for="organisation in organisations" class="block" v-on:click="edit(organisation.id)">
+                        {{organisation.value}}
+                    </div>
+                </td>
+            </tr>
+        </template>
     </table>
 </div>
 </html>

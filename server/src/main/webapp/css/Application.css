@@ -16,7 +16,7 @@ body{
 button{
     border: solid #7ecfcf 1.2pt;
     min-width: 70pt;
-    border-radius: 8pt;
+    border-radius: 4pt;
     font-size: 10pt;
     background-color: whitesmoke;
 }
