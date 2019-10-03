@@ -46,7 +46,6 @@ public class EditOrganisationServletAPI extends ServletAPI {
             String name = String.valueOf(body.get(Constants.NAME));
             name = name.trim().toUpperCase();
             if (!U.exist(organisation.getName()) || !organisation.getName().equals(name)) {
-
                 organisation.setName(name);
                 save = true;
             }
@@ -77,7 +76,10 @@ public class EditOrganisationServletAPI extends ServletAPI {
                     dao.save(organisationType);
                 }
             } else {
-                write(resp, SUCCESS_ANSWER);
+                IAnswer answer = new SuccessAnswer("organisation", parser.toJson(organisation));
+                JSONObject json = parser.toJson(answer);
+                write(resp, json.toJSONString());
+                pool.put(json);
             }
 
         } else {

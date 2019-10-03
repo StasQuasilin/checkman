@@ -51,7 +51,7 @@ public class LaboratorySunPrintServletAPI extends ServletAPI {
                 float mean = (h1 + h2) / ((h1 > 0 ? 1 : 0) + (h2 > 0 ? 1 : 0));
                 if (mean > humidityBasis || soreness > sorenessBasis){
                     if (a.getAct() < 1) {
-                        a.setAct(ActNumberService.getActNumber(ActType.sun));
+                        a.setAct(ActNumberService.getActNumber(ActType.sunAct));
                         dao.save(a);
                     }
                     req.setAttribute("number", a.getAct());

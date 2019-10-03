@@ -94,11 +94,11 @@
     </tr>
     <tr>
         <td colspan="3" align="center">
-            <button onclick="closeModal()">
+            <button onclick="closeModal()" class="close-button">
                 <fmt:message key="button.cancel"/>
             </button>
-            <button onclick="cancelIt()">
-                <fmt:message key="button.continue"/>
+            <button onclick="cancelIt()" class="save-button">
+                <fmt:message key="button.delete"/>
             </button>
         </td>
     </tr>

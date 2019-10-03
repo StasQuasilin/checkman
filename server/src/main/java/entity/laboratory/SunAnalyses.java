@@ -20,7 +20,6 @@ public class SunAnalyses{
     private float acidValue;
     private boolean contamination;
     private ActionTime createTime;
-    private Worker creator;
     private int act;
 
     @Id
@@ -104,15 +103,6 @@ public class SunAnalyses{
         this.createTime = createTime;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
-    }
-
     @Basic
     @Column(name = "act")
     public int getAct() {
@@ -124,21 +114,7 @@ public class SunAnalyses{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * Float.hashCode(oiliness) + hash;
-        hash = 31 * Float.hashCode(humidity1) + hash;
-        hash = 31 * Float.hashCode(humidity2) + hash;
-        hash = 31 * Float.hashCode(soreness) + hash;
-        hash = 31 * Float.hashCode(oilImpurity) + hash;
-        hash = 31 * Float.hashCode(acidValue) + hash;
-        hash = 31 * Boolean.hashCode(contamination) + hash;
-        if (createTime != null){
-            hash = 31 * createTime.hashCode() + hash;
-        }
-        if (creator != null) {
-            hash = 31 * creator.hashCode() + hash;
-        }
-        return hash;
+        return id;
 
     }
 }

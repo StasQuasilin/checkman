@@ -37,7 +37,6 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
             if (body.containsKey("id")) {
                 id = Long.parseLong(String.valueOf(body.get("id")));
             }
-
             if (id != -1) {
                 int number = Integer.parseInt(String.valueOf(body.get("number")));
                 Object dateObj = body.get("date");
@@ -47,24 +46,40 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                 Worker responsible = dao.getWorkerById(body.get("worker"));
                 AnalysesType type = AnalysesType.valueOf(String.valueOf(body.get("type")));
 
-
                 Transportation transportation = dao.getTransportationById(id);
                 Product product = transportation.getProduct();
                 final HashMap<String, String> properties = new HashMap<>();
                 for (ProductProperty property : dao.getProductProperties(product)){
                     properties.put(property.getKey(), property.getValue());
                 }
+
                 switch (type){
                     case sun:
                         req.setAttribute("analyses", transportation.getSunAnalyses());
+                        req.getRequestDispatcher("/pages/laboratory/reports/sunReport.jsp").forward(req, resp);
+                        if (transportation.getSunAnalyses().getAct() != number){
+                            transportation.getSunAnalyses().setAct(number);
+                            dao.save(transportation);
+                        }
                         break;
                     case oil:
                         req.setAttribute("analyses", transportation.getOilAnalyses());
+                        req.getRequestDispatcher("/pages/laboratory/reports/oilReport.jsp").forward(req, resp);
+                        if (transportation.getOilAnalyses().getAct() != number){
+                            transportation.getOilAnalyses().setAct(number);
+                            dao.save(transportation);
+                        }
                         break;
                     case meal:
                         req.setAttribute("analyses", transportation.getMealAnalyses());
+                        req.getRequestDispatcher("/pages/laboratory/reports/mealReport.jsp").forward(req, resp);
+                        if (transportation.getMealAnalyses().getAct() != number){
+                            transportation.getMealAnalyses().setAct(number);
+                            dao.save(transportation);
+                        }
                         break;
                 }
+
                 req.setAttribute("number", number);
                 req.setAttribute("date", date);
                 req.setAttribute("manufacture", manufacture);
@@ -73,8 +88,6 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                 req.setAttribute("properties", properties);
                 req.setAttribute("analyses", transportation.getOilAnalyses());
                 req.setAttribute("weight", transportation.getWeight());
-                req.getRequestDispatcher("/pages/laboratory/reports/oilReport.jsp").forward(req, resp);
-
 
                 ActNumberService.updateNumber(ActType.valueOf(type.name() + "Act"), number);
             }

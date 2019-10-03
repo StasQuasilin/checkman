@@ -255,10 +255,6 @@ public class JsonParser {
             json.put(OILINESS, analyses.getOiliness());
 
             json.put(CREATE, toJson(analyses.getCreateTime()));
-
-            if (analyses.getCreator() != null) {
-                json.put(CREATOR, toJson(analyses.getCreator()));
-            }
         }
         return json;
     }
@@ -285,9 +281,6 @@ public class JsonParser {
             json.put(SOAP, analyses.isSoap());
             json.put(WAX, analyses.getWax());
             json.put(CREATE, toJson(analyses.getCreateTime()));
-            if (analyses.getCreator() != null) {
-                json.put(CREATOR, toJson(analyses.getCreator()));
-            }
         }
         return json;
     }
@@ -313,9 +306,7 @@ public class JsonParser {
             json.put(ACID_VALUE, analyses.getAcidValue());
             json.put(CONTAMINATION, analyses.isContamination());
             json.put(CREATE, toJson(analyses.getCreateTime()));
-            if (analyses.getCreator() != null) {
-                json.put(CREATOR, toJson(analyses.getCreator()));
-            }
+
         }
         return json;
     }

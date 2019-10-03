@@ -17,7 +17,7 @@
     <td align="center">
       <div style="padding-top: 12pt">
         <b>
-          Декларація віробника №
+          Декларація виробника № ${number}
         </b>
       </div>
     </td>
@@ -32,7 +32,7 @@
   <tr>
     <td align="center">
       <div style="padding-top: 12pt">
-        14 червня 2019 р.
+        <fmt:formatDate value="${date}" pattern="dd MMMM yyyy"/>
       </div>
     </td>
   </tr>

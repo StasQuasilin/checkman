@@ -114,7 +114,6 @@ public class EditSunServletAPI extends ServletAPI {
 
                 log.info("\t\tCreator: " + creator.getValue());
                 createTime.setCreator(creator);
-                sunAnalyses.setCreator(worker);
 
                 dao.save(createTime, sunAnalyses, transportation);
                 updateUtil.onSave(transportation);

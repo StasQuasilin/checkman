@@ -122,10 +122,10 @@
                     <tr v-for="oil in item.item.oil">
                         <td>
                             <span v-if="oil.analyses.organoleptic">
-                                +
+                                <fmt:message key="oil.organoleptic.match"/>
                             </span>
                             <span v-else>
-                                -
+                                <fmt:message key="oil.organoleptic.doesn't.match"/>
                             </span>
                         </td>
                         <td>

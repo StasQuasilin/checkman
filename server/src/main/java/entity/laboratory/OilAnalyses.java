@@ -24,7 +24,7 @@ public class OilAnalyses{
     private float transparency;
     private float benzopyrene;
     private ActionTime createTime;
-    private Worker creator;
+    private int act;
 
     @Id
     @GeneratedValue
@@ -143,42 +143,17 @@ public class OilAnalyses{
         this.createTime = createTime;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
+    @Basic
+    @Column(name = "act")
+    public int getAct() {
+        return act;
     }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
+    public void setAct(int act) {
+        this.act = act;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-//        private boolean organoleptic;
-        hash = 31 * Boolean.hashCode(organoleptic) + hash;
-//        private int color;
-        hash = 31 * Integer.hashCode(color) + hash;
-//        private float acidValue;
-        hash = 31 * Float.hashCode(acidValue) + hash;
-//        private float peroxideValue;
-        hash = 31 * Float.hashCode(peroxideValue) + hash;
-//        private float phosphorus;
-        hash = 31 * Float.hashCode(phosphorus) + hash;
-//        private float humidity;
-        hash = 31 * Float.hashCode(humidity) + hash;
-//        private float soap;
-        hash = 31 * Boolean.hashCode(soap) + hash;
-//        private float wax;
-        hash = 31 * Float.hashCode(wax) + hash;
-//        private ActionTime createTime;
-        if (createTime != null){
-            hash = 31 * createTime.hashCode() + hash;
-        }
-//        private Worker creator;
-        if (creator != null) {
-            hash = 31 * creator.hashCode() + hash;
-        }
-        return hash;
+        return id;
     }
 }

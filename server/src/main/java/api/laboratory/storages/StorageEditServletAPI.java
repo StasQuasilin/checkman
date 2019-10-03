@@ -115,7 +115,6 @@ public class StorageEditServletAPI extends ServletAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                oilAnalyses.setCreator(worker);
 
                 dao.save(createTime, oilAnalyses, analyses.getTurn(), analyses);
                 updateUtil.onSave(dao.getStorageTurnByTurn(turn));

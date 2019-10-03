@@ -86,7 +86,6 @@ public class EditCakeServletAPI extends ServletAPI {
                 createTime.setCreator(worker);
                 dao.save(createTime);
 
-                mealAnalyses.setCreator(worker);
                 dao.save(mealAnalyses);
                 dao.saveTransportation(transportation);
 

@@ -138,8 +138,6 @@ public class EditOilServletAPI extends ServletAPI {
                     log.info("\t\tDoesn't have creator");
                     createTime.setCreator(worker);
                 }
-                log.info("\t\tCreator: " + createTime.getCreator().getValue());
-                oilAnalyses.setCreator(worker);
 
                 dao.save(oilAnalyses.getCreateTime(), oilAnalyses, transportation);
                 updateUtil.onSave(transportation);

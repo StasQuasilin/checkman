@@ -18,19 +18,50 @@
                 surname:'',
                 forename:'',
                 patronymic:'',
-                role:'',
+                role:''-1,
                 email:''
-            }
+            },
+            err:{
+                surname:false,
+                forename:false,
+                patronymic:false,
+                role:false,
+                email:false
+            },
+            already:false
         },
         methods:{
             registration:function(){
-                var users = [];
-                users.push(this.user);
-                var par = {};
-                par.users = users;
-                PostApi(this.api.registration, par, function(a){
-                    alert(a.status);
-                })
+                if (!this.already) {
+                    var e1 = this.err.surname = this.user.surname === '';
+                    var e2 = this.err.forename = this.user.forename == '';
+                    var e3 = this.err.patronymic = this.user.patronymic == '';
+                    var e4 = this.err.role = this.user.role == -1;
+                    var e5 = this.err.email = this.user.email === '';
+                    if (!e1 && !e2 && !e3 && !e4 && !e5) {
+                        this.already = true;
+                        var users = [];
+                        users.push(this.user);
+                        var par = {};
+                        par.users = users;
+                        const self = this;
+                        PostApi(this.api.registration, par, function (a) {
+                            alert(a.status);
+                            self.already = false;
+                            self.clear();
+                        }, function (e) {
+                            console.log(e);
+                            self.already = false;
+                        })
+                    }
+                }
+            },
+            clear:function(){
+                this.user.surname='';
+                this.user.forename='';
+                this.user.patronymic='';
+                this.user.role=-1;
+                this.user.email='';
             }
         }
     });
@@ -61,7 +92,8 @@
             :
         </td>
         <td>
-            <input id="surname" v-model="user.surname" autocomplete="off">
+            <input id="surname" v-model="user.surname" v-on:click="err.surname = false"
+                   onclick="this.select()" autocomplete="off" :class="{error : err.surname}">
         </td>
     </tr>
     <tr>
@@ -74,7 +106,8 @@
             :
         </td>
         <td>
-            <input id="forename" v-model="user.forename" autocomplete="off">
+            <input id="forename" v-model="user.forename" v-on:click="err.forename = false"
+                   onclick="this.select()" autocomplete="off" :class="{error : err.forename}">
         </td>
     </tr>
     <tr>
@@ -87,7 +120,8 @@
             :
         </td>
         <td>
-            <input id="patronymic" v-model="user.patronymic" autocomplete="off">
+            <input id="patronymic" v-model="user.patronymic" v-on:click="err.patronymic = false"
+                   onclick="this.select()" autocomplete="off" :class="{error : err.patronymic}">
         </td>
     </tr>
     <tr>
@@ -105,7 +139,8 @@
             &nbsp;
         </td>
         <td>
-            <select id="role" v-model="user.role" style="width: 100%">
+            <select id="role" v-model="user.role" style="width: 100%" v-on:click="err.role = false" :class="{error : err.role}">
+                <option disabled value="-1"><fmt:message key="need.select"/></option>
                 <option v-for="role in roles" :value="role.id">{{role.value}}</option>
             </select>
         </td>
@@ -120,13 +155,19 @@
             :
         </td>
         <td>
-            <input id="email" v-model="user.email" autocomplete="off">
+            <input id="email" v-model="user.email" autocomplete="off" v-on:click="err.email = false"
+                onclick="this.select()" :class="{error : err.email}">
         </td>
     </tr>
     <tr>
         <td colspan="3" align="center">
             <button v-on:click="registration">
-                <fmt:message key="button.registration"/>
+                <span v-if="already">
+                    <fmt:message key="button.registration.process"/>...
+                </span>
+                <span v-else>
+                    <fmt:message key="button.registration"/>
+                </span>
             </button>
         </td>
     </tr>

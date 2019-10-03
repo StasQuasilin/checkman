@@ -175,7 +175,6 @@ a:hover{
 
 .error{
     font-size: 10pt;
-    font-weight: bold;
     color: orangered;
 }
 input.error {

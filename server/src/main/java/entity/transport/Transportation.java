@@ -38,6 +38,7 @@ public class Transportation {
     private MealAnalyses mealAnalyses;
     private Set<Seal> seals;
     private Worker creator;
+    private Worker manager;
     private Set<TransportationNote> notes;
     private boolean archive;
     private boolean done;
@@ -193,6 +194,15 @@ public class Transportation {
     }
     public void setCreator(Worker creator) {
         this.creator = creator;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "manager")
+    public Worker getManager() {
+        return manager;
+    }
+    public void setManager(Worker manager) {
+        this.manager = manager;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
