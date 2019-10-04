@@ -31,7 +31,7 @@ public class WeightCancel extends IModal {
             if (!plan.getTransportation().isArchive()){
                 req.setAttribute("modalContent", "/pages/weight/weightCancel.jsp");
                 req.setAttribute("plan", plan);
-                req.setAttribute("cancel", Branches.API.WEIGHT_CANCEL);
+                req.setAttribute("cancel", Branches.API.REMOVE_PLAN);
             } else {
                 req.setAttribute("modalContent", "/pages/weight/weightCancelImpossible.jsp");
             }

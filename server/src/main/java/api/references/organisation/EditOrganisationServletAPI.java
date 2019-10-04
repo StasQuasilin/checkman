@@ -6,7 +6,9 @@ import constants.Constants;
 import entity.answers.IAnswer;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
+import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.U;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
 
@@ -31,32 +33,53 @@ public class EditOrganisationServletAPI extends ServletAPI {
             
             Organisation organisation;
             Object id = body.get(Constants.ID);
+            boolean isNew = false;
+            boolean save = false;
             if (id != null) {
                 organisation = dao.getOrganisationById(id);
             } else {
                 organisation = new Organisation();
+                organisation.setCreate(new ActionTime(getWorker(req)));
+                isNew = true;
             }
 
             String name = String.valueOf(body.get(Constants.NAME));
             name = name.trim().toUpperCase();
-            organisation.setName(name);
+            if (!U.exist(organisation.getName()) || !organisation.getName().equals(name)) {
+                organisation.setName(name);
+                save = true;
+            }
 
             String type = String.valueOf(body.get("type"));
             type = type.trim().toUpperCase();
-            organisation.setType(type);
+            if (!U.exist(organisation.getType()) || !organisation.getType().equals(type)){
+                organisation.setType(type);
+                save = true;
+            }
 
-            dao.save(organisation);
-            IAnswer answer = new SuccessAnswer("organisation", parser.toJson(organisation));
-            JSONObject json = parser.toJson(answer);
-            write(resp, json.toJSONString());
-            pool.put(json);
-            updateUtil.onSave(organisation);
+            if (save) {
+                if (isNew) {
+                    dao.save(organisation.getCreate());
+                }
+                dao.save(organisation);
 
-            OrganisationType organisationType = dao.getOrganisationTypeByName(type);
-            if (organisationType == null) {
-                organisationType = new OrganisationType();
-                organisationType.setName(type);
-                dao.save(organisationType);
+                IAnswer answer = new SuccessAnswer("organisation", parser.toJson(organisation));
+                JSONObject json = parser.toJson(answer);
+                write(resp, json.toJSONString());
+                pool.put(json);
+                updateUtil.onSave(organisation);
+
+                OrganisationType organisationType = dao.getOrganisationTypeByName(type);
+                if (organisationType == null) {
+                    organisationType = new OrganisationType();
+                    organisationType.setName(type);
+                    dao.save(organisationType);
+                }
+            } else {
+                IAnswer answer = new SuccessAnswer("organisation", parser.toJson(organisation));
+                JSONObject json = parser.toJson(answer);
+                write(resp, json.toJSONString());
+                pool.put(json);
             }
 
         } else {

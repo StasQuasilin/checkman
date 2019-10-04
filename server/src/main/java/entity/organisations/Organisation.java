@@ -1,5 +1,7 @@
 package entity.organisations;
 
+import constants.Constants;
+import entity.transport.ActionTime;
 import utils.U;
 
 import javax.persistence.*;
@@ -14,6 +16,10 @@ public class Organisation {
     private int id;
     private String type;
     private String name;
+    private ActionTime create;
+
+    public static final String EMPTY = Constants.EMPTY;
+    public static final String COMMA = Constants.COMMA + Constants.SPACE;
 
     @Id
     @GeneratedValue
@@ -42,9 +48,19 @@ public class Organisation {
         this.name = name;
     }
 
+    @OneToOne
+    @JoinColumn(name = "created")
+    public ActionTime getCreate() {
+        return create;
+    }
+
+    public void setCreate(ActionTime create) {
+        this.create = create;
+    }
+
     @Transient
     public String getValue() {
-        return (U.exist(type) ? type + " " : "") + name;
+        return name + (U.exist(type) ? COMMA + type: EMPTY);
     }
 
     @Override

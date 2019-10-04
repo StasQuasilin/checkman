@@ -125,7 +125,7 @@ var chat = new Vue({
         },
         updateChat:function(chats){
             var noChat = true;
-            console.log(chats);
+            //console.log(chats);
             if (chats.key) {
                 for (var i in this.chats) {
                     if (this.chats.hasOwnProperty(i)) {

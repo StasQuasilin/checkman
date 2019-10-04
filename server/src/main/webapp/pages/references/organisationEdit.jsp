@@ -12,16 +12,22 @@
       organisation:{
         name:'',
         type:''
+      },
+      err:{
+        name:false
       }
     },
     methods:{
       save:function(){
-        PostApi(this.api.save, this.organisation, function(a){
-          saveModal(a);
-          if(a.status == 'success'){
-            closeModal();
-          }
-        })
+        var err = this.err.name = this.organisation.name === '';
+        if (!err) {
+          PostApi(this.api.save, this.organisation, function (a) {
+            saveModal(a);
+            if (a.status == 'success') {
+              closeModal();
+            }
+          })
+        }
       }
     }
   });
@@ -47,7 +53,8 @@
       :
     </td>
     <td>
-      <input id="name" v-model="organisation.name">
+      <input id="name" v-model="organisation.name" v-on:click="err.name = false"
+          onclick="this.select()" :class="{error : err.name}" autocomplete="off">
     </td>
   </tr>
   <tr>

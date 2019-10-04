@@ -135,6 +135,7 @@
 
 </script>
 <table id="editor" class="editor" style="width: 400pt" border="0">
+    <%--DEAL TYPE--%>
     <tr>
         <td>
             <label for="type">
@@ -150,6 +151,7 @@
             </select>
         </td>
     </tr>
+    <%--DATE--%>
     <tr>
         <td>
             <label for="date">
@@ -163,6 +165,7 @@
             <input id="date" readonly style="width: 7em" v-on:click="pickDate()" v-model="new Date(plan.date).toLocaleDateString()">
         </td>
     </tr>
+    <%--ORGANISATION--%>
     <tr>
         <td>
             <label for="organisation">
@@ -178,13 +181,14 @@
             <%--ORGANISATION--%>
             <div>
                 <div v-if="plan.organisation == -1">
-                    <input id="organisation" v-model="input.organisation" autocomplete="off"
-                           v-on:blur="parseOrganisation()"
-                           v-on:keyup="findOrganisation()"
-                           v-on:keyup.enter="parseOrganisation()"
-                           :class="{error : errors.organisation}"
-                           v-on:click="errors.organisation = false"
-                           onclick="this.select()">
+                    <div style="display: inline-block">
+                        <input id="organisation" v-model="input.organisation" autocomplete="off"
+                               v-on:keyup="findOrganisation()"
+                               :class="{error : errors.organisation}"
+                               v-on:click="errors.organisation = false"
+                               onclick="this.select()">
+                    </div>
+                    <span class="mini-close" v-on:click="newCounterparty()">+</span>
                     <div class="custom-data-list">
                         <div v-for="organisation in foundOrganisations"
                              class="custom-data-list-item"
@@ -209,6 +213,7 @@
             </div>
         </td>
     </tr>
+    <%--DEAL--%>
     <tr>
         <td>
             <label for="deal">
@@ -229,6 +234,7 @@
             </select>
         </td>
     </tr>
+    <%--PRODUCT--%>
     <tr>
         <td>
             <label for="product">
@@ -246,6 +252,7 @@
             </select>
         </td>
     </tr>
+    <%--QUASNTITY--%>
     <tr>
         <td>
             <label for="quantity">
@@ -256,7 +263,7 @@
             :
         </td>
         <td>
-            <input id="quantity" type="number" v-model.number="plan.plan">
+            <input id="quantity" type="number" v-model.number="plan.plan" onclick="this.select()" autocomplete="off">
             <c:set var="units"><fmt:message key="units"/></c:set>
             <select title="${units}" v-model="plan.unit">
                 <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>

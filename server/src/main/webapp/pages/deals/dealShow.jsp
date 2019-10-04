@@ -360,6 +360,7 @@
                                     <input v-on:keyup="findVehicle(value.vehicleInput)" id="input"
                                            v-on:keyup.enter="parseVehicle(value.vehicleInput, key)"
                                            v-on:keyup.escape="closeVehicleInput(key)"
+                                           v-on:blur="parseVehicle(value.vehicleInput, key)"
                                            v-model="value.vehicleInput" autofocus
                                            placeholder="${vehicleHolder}" style="border: none">
                                     <div class="custom-data-list">
@@ -406,11 +407,12 @@
                               </span>
 
                               <template v-else-if="value.editDriver">
-                                <div style="display: inline-block" v-on:blur="editDriver(value.driverInput, key)">
+                                <div style="display: inline-block" v-on:blur="parseDriver(value.driverInput, key)">
                                   <%--DRIVER INPUT--%>
                                   <input v-on:keyup="findDriver(value.driverInput)" id="input"
                                          v-on:keyup.escape="closeDriverInput(key)"
                                          v-on:keyup.enter="parseDriver(value.driverInput, key)"
+                                         v-on:blur="parseDriver(value.driverInput, key)"
                                          v-model="value.driverInput" autofocus
                                          placeholder="${driverHolder}" style="border:none;">
                                   <div class="custom-data-list">

@@ -11,7 +11,9 @@ var editor = new Vue({
             trailer: ''
         },
         driver: '',
-        analyses: {}
+        analyses: {},
+        laborants:[]
+
     },
     methods:{
         saveLogic:function(onSave){

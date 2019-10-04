@@ -86,6 +86,18 @@ var editor = new Vue({
                 })
             }
         },
+        newCounterparty:function(){
+            const self = this;
+            this.foundOrganisations=[];
+            loadModal(this.api.editCounterparty, {key:this.counterpartyInput}, function(a){
+                console.log(a);
+                if (a.status === 'success'){
+                    if (a.organisation) {
+                        self.setCounterparty(a.organisation);
+                    }
+                }
+            })
+        },
         saveAndClose:function(){
             this.save()
         },
@@ -113,9 +125,15 @@ var editor = new Vue({
             loadModal(this.api.editCounterparty + '?id=' + this.deal.counterparty, null, function(a){
                 console.log(a);
                 if (a.status === 'success'){
-                    self.counterpartyInput = a.organisation.value;
+                    if (a.organisation) {
+                        self.counterpartyInput = a.organisation.value;
+                    }
                 }
             });
+        },
+        cancelOrganisation:function(){
+            this.deal.counterparty = -1;
+            this.counterpartyInput = '';
         }
     }
 });

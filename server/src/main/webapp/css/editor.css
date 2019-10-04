@@ -2,19 +2,19 @@
     width: 6em;
 }
 .left-button{
-    border-radius: 8pt 0 0 8pt;
+    border-radius: 4pt 0 0 4pt;
 }
 .middle-button{
     border-radius: 0;
 }
 .right-button{
-    border-radius: 0 8pt 8pt 0;
+    border-radius: 0 4pt 4pt 0;
 }
 .close-button{
     background-color: rgb(254, 235, 227);
     color: #2b2b2b;
 }
 .save-button{
-    background-color: rgb(190, 255, 227);
+    background-color: rgb(205, 236, 211);
     color: #2b2b2b;
 }

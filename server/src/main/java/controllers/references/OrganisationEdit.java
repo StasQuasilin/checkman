@@ -1,8 +1,12 @@
 package controllers.references;
 
+import api.references.organisation.ParseOrganisationServletAPI;
 import constants.Branches;
+import constants.Constants;
 import controllers.IModal;
 import entity.organisations.Organisation;
+import org.json.simple.JSONObject;
+import utils.PostUtil;
 import utils.U;
 
 import javax.servlet.ServletException;
@@ -16,15 +20,30 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.References.ORGANISATION_EDIT)
 public class OrganisationEdit extends IModal {
+
+    public static final String ID = Constants.ID;
+    public static final String ORGANISATION = Constants.ORGANISATION;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        String id = req.getParameter(ID);
         if(U.exist(id)){
-            req.setAttribute("organisation", dao.getOrganisationById(Integer.parseInt(id)));
+            req.setAttribute(ORGANISATION, dao.getOrganisationById(Integer.parseInt(id)));
+        } else {
+            JSONObject body = PostUtil.parseBodyJson(req);
+
+            if (body != null) {
+                if (body.containsKey(Constants.KEY)){
+                    String key = String.valueOf(body.get(Constants.KEY));
+                    req.setAttribute(ORGANISATION, ParseOrganisationServletAPI.parseOrganisation(key, dao, getWorker(req)));
+                }
+            }
         }
-        req.setAttribute("title", "references.organisation.edit");
-        req.setAttribute("modalContent", "/pages/references/organisationEdit.jsp");
-        req.setAttribute("save", Branches.API.References.EDIT_ORGANISATION);
+
+
+        req.setAttribute(TITLE, "references.organisation.edit");
+        req.setAttribute(MODAL_CONTENT, "/pages/references/organisationEdit.jsp");
+        req.setAttribute(SAVE, Branches.API.References.EDIT_ORGANISATION);
         show(req, resp);
     }
 }

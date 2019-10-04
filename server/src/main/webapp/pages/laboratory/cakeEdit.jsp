@@ -9,6 +9,7 @@
 <script>
     editor.api.save = '${save}';
     editor.api.print = '${print}';
+    editor.type = '${type}';
     editor.plan = ${plan.id};
     editor.organisation = '${plan.counterparty.value}';
     <c:if test="${not empty plan.vehicle}">

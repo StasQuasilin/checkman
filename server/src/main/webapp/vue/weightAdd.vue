@@ -46,6 +46,15 @@ var editor = new Vue({
                 return products;
             }
         },
+        newCounterparty:function(){
+            const self = this;
+            loadModal(this.api.editCounterparty, {}, function(a){
+                console.log(a);
+                if (a.status == 'success'){
+                    self.putOrganisation(a.organisation);
+                }
+            })
+        },
         visibleList:function(){
             if (this.plan.deal == -1){
                 return this.visibles;

@@ -4,6 +4,8 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.organisations.Organisation;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.hibernate.DateContainers.LE;
 
@@ -14,7 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 24.04.2019.
@@ -22,21 +28,28 @@ import java.util.HashMap;
 @WebServlet(Branches.API.References.ORGANISATION_LIST)
 public class OrganisationListServletAPI extends ServletAPI {
 
-    final HashMap<String,Object> parameters = new HashMap<>();
-    final LE le = new LE(Date.valueOf(LocalDate.now()));
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        HashMap<Integer, Organisation> organisations = new HashMap<>();
-        for (LoadPlan plan : dao.getLastPlans()){
-            Organisation organisation = plan.getDeal().getOrganisation();
-            if (!organisations.containsKey(organisation.getId())){
-                organisations.put(organisation.getId(), organisation);
+        HashMap<String, List<Organisation>> organisations = new HashMap<>();
+        for (Organisation organisation : dao.getOrganisations()){
+            String substring = organisation.getName().substring(0, 1);
+            if (!organisations.containsKey(substring)){
+                organisations.put(substring, new ArrayList<>());
             }
+            organisations.get(substring).add(organisation);
         }
 
-        write(resp, parser.toJson(organisations.values()).toJSONString());
+        List<String> keys = new ArrayList<>(organisations.keySet());
+        Collections.sort(keys);
+        JSONObject json = pool.getObject();
+        for (String key : keys){
+            JSONArray array = pool.getArray();
+            array.addAll(organisations.get(key).stream().map(parser::toJson).collect(Collectors.toList()));
+            json.put(key, array);
+        }
+        write(resp, json.toJSONString());
+        pool.put(json);
     }
 }

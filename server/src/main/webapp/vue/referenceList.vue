@@ -11,8 +11,8 @@ var referenceList = new Vue({
         update:function(){
             const self = this;
             PostApi(this.api.update, null, function(a){
+                console.log(a);
                 self.items = a;
-                self.sort();
             })
         },
         sort:function(){

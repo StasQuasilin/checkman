@@ -69,6 +69,8 @@
 
     </script>
     <link rel="stylesheet" href="${context}/css/editor.css">
+    <c:set var="findCunterparty"><fmt:message key="counterparty.find"/></c:set>
+    <c:set var="addCunterparty"><fmt:message key="counterparty.add"/></c:set>
     <table id="editor" class="editor">
         <tr>
             <td>
@@ -111,13 +113,15 @@
             </td>
             <td>
                 <div v-if="deal.counterparty == -1">
-                    <input id="counterparty" autocomplete="off" style="width: 100%"
-                           :class="{error : errors.organisation}"
-                           onclick = "this.select()"
-                           v-on:keyup="findOrganisation()"
-                           v-on:keyup.enter="parseOrganisation()"
-                           v-on:blur="parseOrganisation()"
-                           v-model="counterpartyInput"/>
+                    <span  style="display: inline-block">
+                        <input id="counterparty" autocomplete="off" style="width: 100%"
+                               :class="{error : errors.organisation}"
+                               onclick = "this.select()"
+                               placeholder="${findCounterparty}"
+                               v-on:keyup="findOrganisation()"
+                               v-model="counterpartyInput"/>
+                    </span>
+                    <span class="mini-close" v-on:click="newCounterparty()" title="${newCounterparty}">+</span>
                     <div id="contragent-list" class="custom-data-list" v-if="foundOrganisations.length > 0">
                         <div class="custom-data-list-item" v-for="organisation in foundOrganisations"
                              v-on:click="setCounterparty(organisation)">{{organisation.value}}</div>
@@ -132,7 +136,7 @@
                               v-on:click="editOrganisation()"
                               style="-webkit-transform: scaleX(-1)">
                             &#9998;</span>
-                        <span class="mini-close" style="padding: 0">
+                        <span class="mini-close" style="padding: 0" v-on:click="cancelOrganisation()">
                             &times;</span>
                     </span>
                 </div>

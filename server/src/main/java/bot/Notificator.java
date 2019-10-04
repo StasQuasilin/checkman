@@ -82,7 +82,7 @@ public class Notificator {
                 boolean show = false;
                 switch (setting.getTransport()) {
                     case my:
-                        show = transportation.getCreator().getId() == worker.getId();
+                        show = transportation.getManager().getId() == worker.getId();
                         break;
                     case all:
                         show = true;
@@ -135,9 +135,7 @@ public class Notificator {
         String product = transportation.getProduct().getName();
         String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product, transportation.getWeight().getNetto());
 
-        getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> {
-            sendMessage(setting.getTelegramId(), message, null);
-        });
+        getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> sendMessage(setting.getTelegramId(), message, null));
     }
     public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses) {
         HashMap<String, String> messages = new HashMap<>();
@@ -147,7 +145,7 @@ public class Notificator {
                 boolean show = false;
                 switch (setting.getTransport()) {
                     case my:
-                        show = transportation.getId() == worker.getId();
+                        show = transportation.getManager().getId() == worker.getId();
                         break;
                     case all:
                         show = true;
@@ -171,7 +169,7 @@ public class Notificator {
             }
         }
     }
-    public void cakeAnalysesShow(Transportation plan, MealAnalyses analyses) {
+    public void cakeAnalysesShow(Transportation transportation, MealAnalyses analyses) {
         HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()){
             if(setting.isShow()) {
@@ -179,7 +177,7 @@ public class Notificator {
                 boolean show = false;
                 switch (setting.getTransport()) {
                     case my:
-                        show = plan.getCreator().getId() == worker.getId();
+                        show = transportation.getManager().getId() == worker.getId();
                         break;
                     case all:
                         show = true;
@@ -188,7 +186,7 @@ public class Notificator {
                 if (show) {
                     String language = setting.getLanguage();
                     if (!messages.containsKey(language)){
-                        messages.put(language, prepareMessage(plan) + NEW_LINE +
+                        messages.put(language, prepareMessage(transportation) + NEW_LINE +
                                 String.format(lb.get(HUMIDITY_1), analyses.getHumidity()) + NEW_LINE +
                                 String.format(lb.get(PROTEIN), analyses.getProtein()) + NEW_LINE +
                                 String.format(lb.get(CELLULOSE), analyses.getCellulose()) + NEW_LINE +
@@ -211,7 +209,7 @@ public class Notificator {
                 boolean show = false;
                 switch (setting.getTransport()) {
                     case my:
-                        show = transportation.getCreator().getId() == worker.getId();
+                        show = transportation.getManager().getId() == worker.getId();
                         break;
                     case all:
                         show = true;

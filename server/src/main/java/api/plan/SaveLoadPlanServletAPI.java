@@ -73,6 +73,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 transportation.setCounterparty(deal.getOrganisation());
                 transportation.setProduct(deal.getProduct());
                 transportation.setType(deal.getType());
+                transportation.setManager(deal.getCreator());
                 loadPlan.setTransportation(transportation);
                 planComparator.fix(null);
                 transportationComparator.fix(null);

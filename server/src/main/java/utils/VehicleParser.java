@@ -31,6 +31,11 @@ public class VehicleParser {
             Vehicle vehicleByNumber = dao.getVehicleByNumber(vehicle.getNumber());
             if (vehicleByNumber != null) {
                 vehicle = vehicleByNumber;
+            } else {
+                vehicleByNumber = dao.getVehicleByHash(vehicle.getHash());
+                if (vehicleByNumber != null){
+                    vehicle = vehicleByNumber;
+                }
             }
         }
         return vehicle;

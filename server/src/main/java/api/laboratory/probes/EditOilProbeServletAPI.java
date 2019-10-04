@@ -149,7 +149,6 @@ public class EditOilProbeServletAPI extends ServletAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                analyses.setCreator(worker);
 
                 dao.save(createTime);
                 dao.save(analyses);

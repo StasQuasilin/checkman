@@ -9,7 +9,7 @@
   <div class="navigation-menu" id="nav-menu">
     <ul>
       <c:choose>
-        <c:when test="${role eq 'admin' or role eq 'guest'}">
+        <c:when test="${role eq 'admin' or role eq 'top'}">
           <ul class="nav-drop-menu">
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">

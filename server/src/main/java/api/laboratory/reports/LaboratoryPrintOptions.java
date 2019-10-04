@@ -6,6 +6,7 @@ import controllers.IModal;
 import entity.AnalysesType;
 import entity.Role;
 import entity.laboratory.transportation.ActType;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -24,30 +25,34 @@ public class LaboratoryPrintOptions extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String parameter = req.getParameter("type");
+        String parameter = req.getParameter(TYPE);
         if (parameter != null) {
             JSONObject json = PostUtil.parseBodyJson(req);
             if (json != null){
-                req.setAttribute("title", "title.laboratory.print.options");
-                req.setAttribute("modalContent", "/pages/laboratory/reports/printOptions.jsp");
-                req.setAttribute("id", json.get("id"));
-                AnalysesType type = AnalysesType.valueOf(parameter);
-                req.setAttribute("type", type.toString());
-                req.setAttribute("workers", dao.getWorkersByRole(Role.analyser));
-                req.setAttribute("number", ActNumberService.getActNumber(ActType.valueOf(type.name() + "Act")));
+                req.setAttribute(TITLE, "title.laboratory.print.options");
+                req.setAttribute(MODAL_CONTENT, "/pages/laboratory/reports/printOptions.jsp");
+                Object id = json.get(ID);
+                req.setAttribute(ID, id);
 
-                switch (type) {
-                    case sun:
-                        req.setAttribute("print", Branches.API.LABORATORY_SUN_PRINT);
-                        break;
-                    case oil:
-                        req.setAttribute("print", Branches.API.LABORATORY_OIL_PRINT);
-                        break;
-                    case cake:
-                        req.setAttribute("print", Branches.API.LABORATORY_MEAL_PRINT);
-                        break;
+                AnalysesType type = AnalysesType.valueOf(parameter);
+                req.setAttribute(TYPE, type.toString());
+
+                Transportation transportation = dao.getTransportationById(id);
+                if (transportation.getSunAnalyses() != null && transportation.getSunAnalyses().getAct() > 0) {
+                    req.setAttribute(NUMBER, transportation.getSunAnalyses().getAct());
+                } else if (transportation.getOilAnalyses() != null && transportation.getOilAnalyses().getAct() > 0){
+                    req.setAttribute(NUMBER, transportation.getOilAnalyses().getAct());
+                } else if (transportation.getMealAnalyses() != null && transportation.getMealAnalyses().getAct() > 0){
+                    req.setAttribute(NUMBER, transportation.getMealAnalyses().getAct());
+                } else {
+                    int number = dao.getActNumber(ActType.valueOf(type.name() + "Act")).getNumber();
+                    req.setAttribute(NUMBER, ++number);
                 }
 
+
+                req.setAttribute("workers", dao.getWorkersByRole(Role.analyser));
+
+                req.setAttribute("print", Branches.API.LABORATORY_OIL_PRINT);
                 show(req, resp);
             }
         }
