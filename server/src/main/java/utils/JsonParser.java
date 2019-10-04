@@ -205,6 +205,7 @@ public class JsonParser {
             json.put(ANY, transportation.anyAction());
             json.put(ARCHIVE, transportation.isArchive());
             json.put(DONE, transportation.isDone());
+            json.put(MANAGER, toJson(transportation.getManager()));
         }
         return json;
     }

@@ -26,7 +26,7 @@ public class SummaryList extends IUIServlet {
 		req.setAttribute("archive", Branches.API.ARCHIVE_LOAD_PLAN);
 		req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
 		req.setAttribute("types", DealType.values());
-		req.setAttribute("content", "/pages/weight/weightList.jsp");
+		req.setAttribute("content", "/pages/summary/summaryList.jsp");
 		req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
 		req.setAttribute("subscribe", subscribers);
 		show(req, resp);

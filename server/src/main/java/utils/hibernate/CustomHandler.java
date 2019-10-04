@@ -19,6 +19,7 @@ public class CustomHandler {
         Hibernator instance = Hibernator.getInstance();
         for (LoadPlan plan : instance.query(LoadPlan.class, null)){
             plan.getTransportation().setManager(plan.getDeal().getCreator());
+            System.out.println("... Update " + plan.getTransportation().getId() );
             instance.save(plan.getTransportation());
         }
         HibernateSessionFactory.shutdown();
