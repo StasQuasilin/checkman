@@ -4,6 +4,7 @@ var modalLayer;
 var chatLayer;
 var filter;
 var content;
+var staticContent;
 const lastPage = 'last-page';
 var welcome = '';
 var logoutAPI = '';
@@ -16,6 +17,7 @@ $(document).ready(function(){
     modalLayer = document.getElementById('modal');
     filter = document.getElementById('filter');
     content = document.getElementById('content');
+    staticContent = document.getElementById('static');
 
     var last = localStorage.getItem(lastPage + ';' + Settings.worker);
 
@@ -34,26 +36,30 @@ function loadContent(url){
     if (url && currentPage != url) {
         currentPage = url;
         coverlet.style.display='block';
-        content.style.display='none';
-        filter.style.display='none';
+        //content.style.display='none';
+        //filter.style.display='none';
         console.log('[ Application ] Load page ' + url);
         localStorage.setItem(lastPage + ';' + Settings.worker, url);
         PostReq(url, null, function (e) {
             if (typeof stopContent === 'function'){
                 stopContent();
             }
-            $(content).empty();
-            $(content).html(e);
-            $(header).html(GetChildElemById(content, 'header-content'));
-            $(header).append(GetChildElemById(content, 'container-header'));
-            $(filter).html(GetChildElemById(content, 'filter-content'));
+            if (content) {
+                $(content).empty();
+                $(staticContent).empty();
+                $(content).html(e);
+                $(header).html(GetChildElemById(content, 'header-content'));
+                $(header).append(GetChildElemById(content, 'container-header'));
+                $(filter).html(GetChildElemById(content, 'filter-content'));
+                $(staticContent).html(GetChildElemById(content, 'static-content'));
+                content.style.display='block';
+            }
             coverlet.style.display='none';
-            content.style.display='block';
             filter.style.display='block';
         }, function (e) {
             console.error('[ Application ] Load content error ' + e);
             coverlet.style.display='none';
-            content.style.display='block';
+            //content.style.display='block';
             filter.style.display='block';
         }, true);
     }

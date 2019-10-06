@@ -22,10 +22,13 @@ var editor = new Vue({
         errors:{
             organisation:false,
             product:false,
+            manager:false,
             any:function(){
-                return organisation || product;
+                return organisation || product || manager;
             }
-        }
+        },
+        managers:[],
+        role:''
     },
     methods:{
         productList:function(){
@@ -48,7 +51,8 @@ var editor = new Vue({
         },
         newCounterparty:function(){
             const self = this;
-            loadModal(this.api.editCounterparty, {}, function(a){
+            self.foundOrganisations = [];
+            loadModal(this.api.editCounterparty, {key : this.input.organisation}, function(a){
                 console.log(a);
                 if (a.status == 'success'){
                     self.putOrganisation(a.organisation);
@@ -161,13 +165,13 @@ var editor = new Vue({
                     self.foundVehicles = a;
                 })
             } else {
-                this.foundVehicles =[]
+                this.foundVehicles =[];
                 this.plan.vehicle = {};
             }
 
         },
         parseVehicle:function(){
-            if (this.foundVehicles.length == 0 && this.input.vehicle){
+            if (this.input.vehicle){
                 const self = this;
                 PostApi(this.api.parseVehicle, {key:this.input.vehicle}, function(v){
                     self.plan.vehicle = v;
@@ -203,7 +207,7 @@ var editor = new Vue({
             }
         },
         parseDriver:function(){
-            if (this.foundDrivers.length == 0 && this.input.driver){
+            if (this.input.driver){
                 const self = this;
                 PostApi(this.api.parseDriver, {key:this.input.driver}, function(d){
                     self.plan.driver = d;
@@ -232,6 +236,7 @@ var editor = new Vue({
             var e = this.errors;
             e.organisation = this.plan.organisation == -1;
             e.product = this.plan.product == -1;
+            e.manager = this.plan.manager == -1;
             console.log(this.plan);
             console.log(e);
             if (!e.organisation && !e.product) {

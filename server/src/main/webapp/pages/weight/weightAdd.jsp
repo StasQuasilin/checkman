@@ -18,6 +18,12 @@
     editor.api.editDriver = '${editDriver}';
     editor.api.save = '${save}';
     editor.api.editCounterparty = '${editOrganisation}';
+    <c:forEach items="${managers}" var="manager">
+    editor.managers.push({
+        id:${manager.id},
+        value:'${manager.person.value}'
+    });
+    </c:forEach>
     <c:forEach items="${types}" var="type">
     editor.types['${type}'] = {
         id:'${type}',
@@ -128,11 +134,15 @@
         },
         driver:{
             id:-1
-        }
+        },
+        manager:-1
     };
     </c:otherwise>
     </c:choose>
-
+    editor.role = '${role}';
+    <c:if test="${role ne 'weigher'}">
+    editor.plan.manager = ${worker.id}
+    </c:if>
 </script>
 <table id="editor" class="editor" style="width: 400pt" border="0">
     <%--DEAL TYPE--%>
@@ -381,7 +391,27 @@
             </div>
         </td>
     </tr>
-
+    <tr v-if="role === 'weigher'">
+        <td>
+            <label for="manager">
+                <fmt:message key="deal.manager"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <select id="manager" v-model="plan.manager" v-on:click="this.errors.manager = false"
+                    :class="{error : errors.manager}">
+                <option disabled value="-1">
+                    <fmt:message key="need.select"/>
+                </option>
+                <option v-for="manager in managers" :value="manager.id">
+                    {{manager.value}}
+                </option>
+            </select>
+        </td>
+    </tr>
     <tr>
         <td colspan="3" align="center">
             <button onclick="closeModal()" class="left-button close-button">

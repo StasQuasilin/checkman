@@ -13,6 +13,7 @@ public class StorageProduct {
     private int id;
     private Storage storage;
     private Product product;
+    private int max;
 
     @Id
     @GeneratedValue
@@ -37,8 +38,16 @@ public class StorageProduct {
     public Product getProduct() {
         return product;
     }
-
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    @Basic
+    @Column(name = "max")
+    public int getMax() {
+        return max;
+    }
+    public void setMax(int max) {
+        this.max = max;
     }
 }

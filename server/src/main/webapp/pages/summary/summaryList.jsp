@@ -29,12 +29,12 @@
         </c:forEach>
     }
 </script>
-<div id="container-header" class="container-header">
-    <c:if test="${not empty add}">
-        <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
-    </c:if>
-</div>
-    <div id="container" style="display: inline-block; border: solid orange 1pt;">
+    <div id="container-header" class="container-header">
+        <c:if test="${not empty add}">
+            <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
+        </c:if>
+    </div>
+    <div id="container">
         <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
             <fmt:message key="empty.list"/>
         </div>
@@ -177,5 +177,8 @@
             </div>
         </c:if>
     </div>
+<div id="static-content">
     <jsp:include page="/pages/summary/calendar.jsp"/>
+</div>
+
 </html>

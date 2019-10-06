@@ -31,6 +31,7 @@ import java.sql.Date;
 @WebServlet(Branches.API.PLAN_LIST_ADD)
 public class EditLoadPlanServletAPI extends ServletAPI {
 
+
     private final Logger log = Logger.getLogger(EditLoadPlanServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -45,6 +46,10 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             long dealId = Long.parseLong(String.valueOf(body.get("deal")));
             Deal deal;
             Worker creator = getWorker(req);
+            Worker manager = dao.getWorkerById(body.get(MANAGER));
+            if (manager == null){
+                manager = creator;
+            }
 
             if (dealId == -1){
                 deal = new Deal();
@@ -81,6 +86,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 transportation.setProduct(deal.getProduct());
                 transportation.setType(deal.getType());
                 transportation.setCounterparty(deal.getOrganisation());
+                transportation.setManager(manager);
                 loadPlan.setTransportation(transportation);
             }
 

@@ -101,9 +101,11 @@ public class JsonParser {
 
     public JSONObject toJson(Worker worker) {
         JSONObject json = pool.getObject();
-        json.put(ID, worker.getId());
-        json.put(PERSON, toJson(worker.getPerson()));
-        json.put(OFFICE, worker.getOffice());
+        if (worker != null) {
+            json.put(ID, worker.getId());
+            json.put(PERSON, toJson(worker.getPerson()));
+            json.put(OFFICE, worker.getOffice());
+        }
         return json;
     }
 
@@ -206,6 +208,7 @@ public class JsonParser {
             json.put(ARCHIVE, transportation.isArchive());
             json.put(DONE, transportation.isDone());
             json.put(MANAGER, toJson(transportation.getManager()));
+
         }
         return json;
     }

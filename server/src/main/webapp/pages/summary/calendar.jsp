@@ -7,81 +7,82 @@
     var calendar = new Vue({
         el:'#calendar',
         data:{
-            calendar:[]
+            items:{}
         },
         methods:{
             handle:function(t){
                 for (var a in t.add){
                     if (t.add.hasOwnProperty(a)){
-                        this.add(t.add[a]);
+                        this.update(t.add[a]);
+                    }
+                }
+                for (var u in t.update){
+                    if (t.update.hasOwnProperty(u)){
+                        this.update(t.update[u]);
                     }
                 }
             },
-            add:function(a){
-                console.log(a);
-                var has = false;
-                for (var i in this.calendar){
-                    if (this.calendar.hasOwnProperty(i)){
-                        if (this.calendar[i].date === a.date){
-                            has = true;
-                            var product = this.calendar[i].values[a.product.name];
-                            if (!product){
-                                product = this.calendar[i].values[a.product.name] = {
-                                    open:false,
-                                    load:0,
-                                    values:{}
-                                };
-                            }
-                            product.load += a.plan;
-                            var manager = product.values[a.manager.person.value];
-
-                            if (!manager){
-                                manager = product.values[a.manager.person.value] = {
-                                    open:false,
-                                    load:0,
-                                    values:{}
-                                }
-                            }
-
-                            manager.load += a.plan;
-
-                            var counterparty = manager.values[a.organisation.value];
-                            if (!counterparty){
-                                counterparty = manager.values[a.organisation.value] = {
-                                    open:false,
-                                    load:0,
-                                    values:{}
-                                }
-                            }
-                            counterparty.load += a.plan;
-
-                            var driver = counterparty.values[a.id];
-                            var driverName = a.driver.person ? a.driver.person.value : null;
-                            if (!driver){
-                                driver = counterparty.values[a.id] = {
-                                    load: a.plan,
-                                    name: driverName
-                                }
-                            }
-
+            getData:function(){
+                return this.calendar;
+            },
+            getCalendar:function(){
+                var calendar = {};
+                for (var i in this.items){
+                    if (this.items.hasOwnProperty(i)){
+                        var a = this.items[i];
+                        var date = calendar[a.date];
+                        if (!date){
+                            date = Vue.set(calendar, a.date, {
+                                values:{}
+                            })
                         }
+                        var product = date.values[a.product.name];
+                        if (!product){
+                            product = Vue.set(date.values, a.product.name, {
+                                open:false,
+                                count:0,
+                                values:{}
+                            })
+                        }
+                        product.count += a.plan;
+                        var manager = product.values[a.manager.person.value];
+                        if (!manager){
+                            manager = Vue.set(product.values, a.manager.person.value, {
+                                open:false,
+                                count:0,
+                                values:{}
+                            })
+                        }
+                        manager.count += a.plan;
+
+                        var counterparty = manager.values[a.organisation.value];
+                        if (!counterparty){
+                            counterparty = Vue.set(manager.values, a.organisation.value, {
+                                open:false,
+                                count:0,
+                                values:{}
+                            })
+                        }
+                        counterparty.count += a.plan;
+
+                        if (!counterparty.values[a.id]){
+                            var driver = a.driver.person ? a.driver.person.value : '--'
+                            Vue.set(counterparty.values, a.id, {
+                                driver:driver,
+                                count: a.plan
+                            })
+                        }
+
                     }
                 }
-                if (!has) {
-                    this.calendar.push({
-                        date: a.date,
-                        values: {}
-                    });
-                    this.add(a);
-                }
+                return calendar;
+
             },
             update:function(a) {
-                var has = false;
-                for (var i in this.calendar){
-                    if (this.calendar.hasOwnProperty(i)){
-
-                    }
-                }
+                Vue.set(this.items, a.id, a);
+            },
+            openItem:function(a, idx){
+                console.log(idx);
             }
         }
     });
@@ -98,64 +99,80 @@
         </c:forEach>
     }
 </script>
+<style>
+    .calendar{
+        display: inline-block;
+        border: solid orange 1pt;
+        font-size: 8pt;
+        width: 100%;
+    }
+</style>
 <html>
-    <div id="calendar" style="display: inline-block; border: solid orange 1pt; font-size: 8pt;">
-        <table>
-            <template v-for="(value, key) in calendar">
-                <%--<tr>--%>
-                    <%--<td>--%>
-                        <%--{{key}} {{value}}--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
+    <div id="calendar" class="calendar">
+        <table width="100%">
+            <template v-for="(value, key) in getCalendar()">
                 <tr>
-                    <td colspan="4">
-                        {{new Date(value.date).toLocaleDateString().substring(0, 5)}}
+                    <td>
+                        {{new Date(key).toLocaleDateString().substring(0, 5)}}
                     </td>
                 </tr>
-                <template  v-for="(product, productName) in value.values">
-                    <tr>
-                        <td>
-                            {{productName}}
+                <template v-for="(product, productName) in value.values">
+                    <tr v-on:click="product.open=!product.open">
+                        <td style="padding-left: 4pt">
+                            <span v-if="product.open">
+                                &#9207;
+                            </span>
+                            <span v-else>
+                                &#9205;
+                            </span>
+                            <span :class="{bold : product.open}">
+                                {{productName}}
+                            </span>
                         </td>
                         <td>
-                            0
-                        </td>
-                        <td>
-                            0
-                        </td>
-                        <td>
-                            {{product.load}}
+                            {{product.count}}
                         </td>
                     </tr>
-                    <template v-for="(manager, managerName) in product.values">
-                        <tr>
-                            <td colspan="3" style="padding-left: 8pt">
-                                {{managerName}}
+                    <template v-if="product.open" v-for="(manager, managerName) in product.values">
+                        <tr v-on:click="manager.open=!manager.open">
+                            <td style="padding-left: 12pt">
+                                <span v-if="manager.open">
+                                    &#9207;
+                                </span>
+                                <span v-else>
+                                    &#9205;
+                                </span>
+                                <span :class="{bold : manager.open}">
+                                    {{managerName}}
+                                </span>
                             </td>
                             <td>
-                                {{manager.load}}
+                                {{manager.count}}
                             </td>
                         </tr>
-                        <template v-for="(counterparty, counterpartyName) in manager.values">
-                            <tr>
-                                <td colspan="3" style="padding-left: 16pt">
-                                    {{counterpartyName}}
-                                </td>
-                                <td>
-                                    {{counterparty.load}}
-                                </td>
-                            </tr>
-                            <tr v-for="(driver) in counterparty.values">
-                                <td colspan="3" style="padding-left: 24pt">
-                                    <span v-if="driver.name">
-                                        {{driver.name}}
+                        <template v-if="manager.open" v-for="counterparty, counterpartyName) in manager.values">
+                            <tr v-on:click="counterparty.open=!counterparty.open">
+                                <td style="padding-left: 20pt">
+                                    <span v-if="counterparty.open">
+                                        &#9207;
                                     </span>
                                     <span v-else>
-                                        --
+                                        &#9205;
+                                    </span>
+                                    <span :class="{bold : counterparty.open}">
+                                        {{counterpartyName}}
                                     </span>
                                 </td>
                                 <td>
-                                {{driver.load}}
+                                    {{counterparty.count}}
+                                </td>
+                            </tr>
+                            <tr v-if="counterparty.open" v-for="driver in counterparty.values">
+                                <td style="padding-left: 28pt">
+                                    {{driver.driver}}
+                                </td>
+                                <td>
+                                    {{driver.count}}
                                 </td>
                             </tr>
                         </template>

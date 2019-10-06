@@ -1,8 +1,7 @@
 .filter{
-    height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    background-color: #d3dbe2;
+
     width: 201px;
 }
 

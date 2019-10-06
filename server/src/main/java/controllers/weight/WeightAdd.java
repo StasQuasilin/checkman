@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.DealType;
+import entity.Role;
 import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
 import org.json.simple.JSONObject;
@@ -35,20 +36,19 @@ public class WeightAdd extends IModal {
         }
         if (id != -1) {
             req.setAttribute("plan", dao.getLoadPlanById(id));
-            req.setAttribute("title", "title.weight.edit");
+            req.setAttribute(TITLE, "title.weight.edit");
         } else if (copy != -1) {
             LoadPlan plan = dao.getLoadPlanById(copy);
             plan.setId(-1);
             plan.getTransportation().setVehicle(null);
             plan.getTransportation().setDriver(null);
             req.setAttribute("plan", plan);
-            req.setAttribute("title", "title.weight.copy");
+            req.setAttribute(TITLE, "title.weight.copy");
         } else {
-            req.setAttribute("title", "title.weight.add");
+            req.setAttribute(TITLE, "title.weight.add");
         }
-
-        req.setAttribute("modalContent", "/pages/weight/weightAdd.jsp");
-
+        req.setAttribute("managers", dao.getWorkersByRole(Role.manager));
+        req.setAttribute(MODAL_CONTENT, "/pages/weight/weightAdd.jsp");
         req.setAttribute("findDeals", Branches.API.FIND_DEALS);
 
         req.setAttribute("findOrganisations", Branches.API.References.FIND_ORGANISATION);
