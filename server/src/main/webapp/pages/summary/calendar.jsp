@@ -7,9 +7,87 @@
     var calendar = new Vue({
         el:'#calendar',
         data:{
-            items:{}
+            items:list.getItems(),
+            calendar:{},
+            refresh:0,
+            opens:{}
         },
         methods:{
+            getOpen:function(id){
+                if (!this.opens[id]){
+                    Vue.set(this.opens, id, false);
+                }
+                return this.opens[id];
+            },
+            getItems:function(){
+                var calendar = {};
+                var items = list.getItems();
+                for (var i in items){
+                    if (items.hasOwnProperty(i)){
+                        var a = items[i].item;
+                        var date = calendar[a.date];
+                        if (!date){
+                            date = Vue.set(calendar, a.date, {
+                                values:{}
+                            })
+                        }
+                        var product = date.values[a.product.name];
+                        var productKey = a.date + '/' + a.product.name;
+                        if (!product){
+
+                            product = Vue.set(date.values, a.product.name, {
+                                key:productKey,
+                                open:this.getOpen(productKey),
+                                count:0,
+                                values:{}
+                            })
+                        }
+
+                        product.count += a.plan;
+
+                        var mn = a.manager.person ? a.manager.person.value : 'Unknown ' + a.id;
+                        var manager = product.values[mn];
+                        var managerKey = productKey + '/' + mn;
+                        if (!manager){
+                            manager = Vue.set(product.values, mn, {
+                                key:managerKey,
+                                open:this.getOpen(managerKey),
+                                count:0,
+                                values:{}
+                            })
+                        }
+
+                        manager.count += a.plan;
+
+                        var counterparty = manager.values[a.organisation.value];
+                        var counterpartyKey = managerKey + '/' + a.organisation.value;
+                        if (!counterparty){
+                            counterparty = manager.values[a.organisation.value] = {
+                                key:counterpartyKey,
+                                open:this.getOpen(counterpartyKey),
+                                count:0,
+                                values:{}
+                            };
+//                            counterparty = Vue.set(manager.values, a.organisation.value, {
+//                                open:false,
+//                                count:0,
+//                                values:{}
+//                            })
+                        }
+                        counterparty.count += a.plan;
+
+                        var driver = counterparty.values[a.id];
+                        if (!driver){
+                            var dn = a.driver.person ? a.driver.person.value : '--';
+                            driver = Vue.set(counterparty.values, a.id, {
+                                driver:dn,
+                                count:a.plan
+                            });
+                        }
+                    }
+                }
+                return calendar;
+            },
             handle:function(t){
                 for (var a in t.add){
                     if (t.add.hasOwnProperty(a)){
@@ -22,67 +100,24 @@
                     }
                 }
             },
+            open:function(item){
+                this.opens[item] = !this.opens[item];
+                this.refresh++;
+            },
             getData:function(){
                 return this.calendar;
             },
-            getCalendar:function(){
-                var calendar = {};
-                for (var i in this.items){
-                    if (this.items.hasOwnProperty(i)){
-                        var a = this.items[i];
-                        var date = calendar[a.date];
-                        if (!date){
-                            date = Vue.set(calendar, a.date, {
-                                values:{}
-                            })
-                        }
-                        var product = date.values[a.product.name];
-                        if (!product){
-                            product = Vue.set(date.values, a.product.name, {
-                                open:false,
-                                count:0,
-                                values:{}
-                            })
-                        }
-                        product.count += a.plan;
-                        var manager = product.values[a.manager.person.value];
-                        if (!manager){
-                            manager = Vue.set(product.values, a.manager.person.value, {
-                                open:false,
-                                count:0,
-                                values:{}
-                            })
-                        }
-                        manager.count += a.plan;
-
-                        var counterparty = manager.values[a.organisation.value];
-                        if (!counterparty){
-                            counterparty = Vue.set(manager.values, a.organisation.value, {
-                                open:false,
-                                count:0,
-                                values:{}
-                            })
-                        }
-                        counterparty.count += a.plan;
-
-                        if (!counterparty.values[a.id]){
-                            var driver = a.driver.person ? a.driver.person.value : '--'
-                            Vue.set(counterparty.values, a.id, {
-                                driver:driver,
-                                count: a.plan
-                            })
-                        }
+            remove:function(a){
+                var date = this.calendar[a.date];
+                if (date){
+                    var product = date.values[a.product.name];
+                    if (product){
 
                     }
                 }
-                return calendar;
+            },
+            update:function(a){
 
-            },
-            update:function(a) {
-                Vue.set(this.items, a.id, a);
-            },
-            openItem:function(a, idx){
-                console.log(idx);
             }
         }
     });
@@ -102,22 +137,21 @@
 <style>
     .calendar{
         display: inline-block;
-        border: solid orange 1pt;
         font-size: 8pt;
         width: 100%;
     }
 </style>
 <html>
-    <div id="calendar" class="calendar">
+    <div id="calendar" class="calendar" style="width: 200pt">
         <table width="100%">
-            <template v-for="(value, key) in getCalendar()">
+            <template v-for="(value, key) in getItems()">
                 <tr>
-                    <td>
+                    <td colspan="2">
                         {{new Date(key).toLocaleDateString().substring(0, 5)}}
                     </td>
                 </tr>
                 <template v-for="(product, productName) in value.values">
-                    <tr v-on:click="product.open=!product.open">
+                    <tr v-on:click="open(product.key)">
                         <td style="padding-left: 4pt">
                             <span v-if="product.open">
                                 &#9207;
@@ -134,7 +168,7 @@
                         </td>
                     </tr>
                     <template v-if="product.open" v-for="(manager, managerName) in product.values">
-                        <tr v-on:click="manager.open=!manager.open">
+                        <tr v-on:click="open(manager.key)">
                             <td style="padding-left: 12pt">
                                 <span v-if="manager.open">
                                     &#9207;
@@ -151,8 +185,8 @@
                             </td>
                         </tr>
                         <template v-if="manager.open" v-for="counterparty, counterpartyName) in manager.values">
-                            <tr v-on:click="counterparty.open=!counterparty.open">
-                                <td style="padding-left: 20pt">
+                            <tr v-on:click="open(counterparty.key)">
+                                <td style="padding-left: 20pt; overflow: hidden">
                                     <span v-if="counterparty.open">
                                         &#9207;
                                     </span>

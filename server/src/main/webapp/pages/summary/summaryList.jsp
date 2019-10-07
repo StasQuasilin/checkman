@@ -48,26 +48,33 @@
                         {{new Date(value.item.date).toLocaleDateString()}}
                     </span>
                     <span style="width: 20em">
-                        <fmt:message key="deal.organisation"/>:
+                        <span style="font-size: 10pt">
+                            <fmt:message key="deal.organisation"/>:
+                        </span>
                         <b>
                             {{value.item.organisation.value}}
                         </b>
                     </span>
                     <span>
-                        <fmt:message key="deal.product"/>:
+                        <span style="font-size: 10pt">
+                            <fmt:message key="deal.product"/>:
+                        </span>
                         <b>
                             {{value.item.product.name}}
                         </b>
                     </span>
                     <span>
-                        <fmt:message key="deal.quantity"/>:
+                        <span style="font-size: 10pt">
+                            <fmt:message key="deal.quantity"/>:
+                        </span>
                         <b>
                             {{(value.item.plan).toLocaleString()}}
-                            {{value.item.unit}}
                         </b>
                     </span>
                     <span>
-                        <fmt:message key="deal.from"/>:
+                        <span style="font-size: 10pt">
+                            <fmt:message key="deal.from"/>:
+                        </span>
                         <b>
                             {{value.item.shipper}}
                         </b>
@@ -124,12 +131,26 @@
                     </div>
                     <div style="display: inline-block; font-size: 10pt">
                         <div v-if="value.item.weight.id">
-                            <fmt:message key="weight.brutto"/>:{{value.item.weight.brutto}},
-                            <fmt:message key="weight.tara"/>:{{value.item.weight.tara}},
-                            <fmt:message key="weight.netto"/>:{{value.item.weight.brutto > 0 &&
-                            value.item.weight.tara > 0 ?
-                            (value.item.weight.brutto -
-                            value.item.weight.tara).toLocaleString() : 0}}
+                            <span>
+                                Б:
+                            </span>
+                            <b>
+                                {{(value.item.weight.brutto).toLocaleString()}},
+                            </b>
+                            <span>
+                                Т:
+                            </span>
+                            <b>
+                                {{(value.item.weight.tara).toLocaleString()}},
+                            </b>
+                            <span>
+                                Н:
+                            </span>
+                            <b>
+                                {{value.item.weight.brutto > 0 && value.item.weight.tara > 0 ?
+                                (value.item.weight.brutto - value.item.weight.tara).toLocaleString() : 0}}
+                            </b>
+
                             <span v-if="value.item.weight.correction">
                                 ({{(value.item.weight.netto).toLocaleString()}},
                                 -{{(value.item.weight.correction).toLocaleString()}}%)
@@ -149,7 +170,6 @@
                         <div v-if="value.item.analyses.cake.id">
                             <fmt:message key="sun.humidity"/>:{{value.item.analyses.cake.humidity}},
                             <fmt:message key="cake.protein"/>:{{value.item.analyses.cake.protein}},
-                            <fmt:message key="cake.cellulose"/>:{{value.item.analyses.cake.cellulose}},
                             <fmt:message key="sun.oiliness"/>:{{value.item.analyses.cake.oiliness}}
                         </div>
                     </div>

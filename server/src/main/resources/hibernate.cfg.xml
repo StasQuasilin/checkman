@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
-        <property name="connection.url">jdbc:postgresql://localhost:5432/chm_db</property>
+        <property name="connection.url">jdbc:postgresql://10.10.10.201:5432/chm_db</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
         <!--suppress HibernateConfigDomInspection -->
@@ -77,9 +77,6 @@
         <mapping class="entity.laboratory.subdivisions.vro.ForpressCakeDaily"/>
         <mapping class="entity.laboratory.subdivisions.vro.ForpressCakeDailyDry"/>
         <mapping class="entity.laboratory.subdivisions.kpo.KPOPart"/>
-        <mapping class="entity.rails.Train"/>
-        <mapping class="entity.rails.Truck"/>
-        <mapping class="entity.rails.TruckTransportation"/>
         <mapping class="entity.laboratory.turn.LaboratoryTurn"/>
         <mapping class="entity.laboratory.turn.LaboratoryTurnWorker"/>
         <mapping class="entity.laboratory.storages.StorageTurn"/>
@@ -94,5 +91,8 @@
         <mapping class="entity.reports.ReportField"/>
         <mapping class="entity.reports.ReportFieldSettings"/>
         <mapping class="entity.reports.ReportFieldCategory"/>
+        <mapping class="entity.rails.Carriage"/>
+        <mapping class="entity.rails.CarriageLoadPlan"/>
+        <mapping class="entity.rails.CarriageAnalyses"/>
     </session-factory>
 </hibernate-configuration>

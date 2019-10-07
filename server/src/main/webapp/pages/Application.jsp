@@ -119,65 +119,38 @@
         </c:otherwise>
         </c:choose>
     </script>
-    <table border="1" class="body-table" style="width: 100%; height: 100%;">
-        <tr>
-            <td rowspan="2" valign="top" style="height: 100%; width: 1px; padding: 0; border-right: solid 2pt; background-color: #d3dbe2;">
-                <jsp:include page="NavigationMenu.jsp"/>
-                <div id="filter" class="filter" ></div>
-            </td>
-            <td colspan="2">
-                <div class="header-wrapper">
-                    <div class="header" id="header">
-                        Header
-                    </div>
-                    <div style="font-size: 10pt; text-align: right; float: right;">
-                        <div style="padding: 6.5pt 4pt">
-                            <a onclick="loadContent('${personal}')">
-                                ${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}
-                            </a>
-                            <a onclick="logout()">
-                                (<fmt:message key="sign.out"/>)
-                            </a>
+        <table border="1" class="body-table" style="width: 100%; height: 100%;">
+            <tr>
+                <td rowspan="2" valign="top" style="height: 100%; width: 1px; padding: 0; border-right: solid 2pt; background-color: #d3dbe2;">
+                    <jsp:include page="NavigationMenu.jsp"/>
+                    <div id="filter" class="filter" ></div>
+                </td>
+                <td colspan="2">
+                    <div class="header-wrapper">
+                        <div class="header" id="header">
+                            Header
+                        </div>
+                        <div style="font-size: 10pt; text-align: right; float: right;">
+                            <div style="padding: 6.5pt 4pt">
+                                <a onclick="loadContent('${personal}')">
+                                    ${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}
+                                </a>
+                                <a onclick="logout()">
+                                    (<fmt:message key="sign.out"/>)
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td valign="top" height="100%">
-                <div class="wrapper" id="content">
-                    <div>
-                        CoCoContent
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="static-content" id="static">
-
-                </div>
-            </td>
-        </tr>
-    </table>
-        <%--<table >--%>
-            <%--<tr>--%>
-                <%--<td width="100%" style="background-color: #d3dbe2;">--%>
-                    <%--<table style="width: 100%; height: 100%">--%>
-                        <%--<tr>--%>
-                            <%--<td>--%>
-
-                            <%--</td>--%>
-                            <%--<td>--%>
-
-                            <%--</td>--%>
-                        <%--</tr>--%>
-                    <%--</table>--%>
-                <%--</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-                <%--<td rowspan="2" height="100%" style="width: 1px">--%>
-                    <%----%>
-                <%--</td>--%>
-            <%--</tr>--%>
-        <%--</table>--%>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top" height="100%">
+                    <div class="wrapper" id="content"></div>
+                </td>
+                <td>
+                    <div class="static-content" id="static"></div>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
