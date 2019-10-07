@@ -24,8 +24,6 @@ import entity.log.ChangeLog;
 import entity.organisations.Organisation;
 import entity.production.Turn;
 import entity.products.Product;
-import entity.rails.Train;
-import entity.rails.Truck;
 import entity.reports.ManufactureReport;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
@@ -559,30 +557,6 @@ public class JsonParser {
         json.put("peroxide", part.getPeroxide());
         json.put("soap", part.isSoap());
         json.put("hash", part.hashCode());
-        return json;
-    }
-
-    public JSONObject toJson(Train train) {
-        JSONObject json = new JSONObject();
-        json.put("id", train.getId());
-        json.put("deal", toJson(train.getDeal()));
-        return json;
-    }
-
-    private JSONArray toTruckJson(Set<Truck> trucks) {
-        JSONArray array = new JSONArray();
-        for (Truck truck : trucks){
-            array.add(toJson(truck));
-        }
-        return array;
-    }
-
-    public JSONObject toJson(Truck truck) {
-        JSONObject json = new JSONObject();
-        json.put("id", truck.getId());
-        json.put("train", toJson(truck.getTrain()));
-        json.put("number", truck.getNumber());
-        json.put("hash", truck.hashCode());
         return json;
     }
 

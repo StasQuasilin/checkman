@@ -9,5 +9,6 @@ public enum ArchiveType {
     transportation,
     weight,
     laboratory_buy,
-    laboratory_sell
+    laboratory_sell,
+    warehousing
 }

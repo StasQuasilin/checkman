@@ -147,7 +147,7 @@
                 <td valign="top" height="100%">
                     <div class="wrapper" id="content"></div>
                 </td>
-                <td>
+                <td style="max-width: 200pt">
                     <div class="static-content" id="static"></div>
                 </td>
             </tr>

@@ -22,13 +22,19 @@ public class ApplicationControl extends IServlet{
 
     final dbDAO dao = dbDAOService.getDAO();
     final Subscriber[] applicationSubscribes = new Subscriber[]{Subscriber.MESSAGES};
+    public static final String SUBSCRIBER = "SUBSCRIBER";
+    public static final String WELCOME = "welcome";
+    public static final String BUI_LIST = "buyList";
+    public static final String BUY_ARCHIVE = "buyArchive";
+    public static final String WAREHOUSING_LIST = "warehousing";
+    public static final String WAREHOUSING_ARCHIVE = "warehousingArchive";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("SUBSCRIBER", Branches.API.SUBSCRIBER);
-        req.setAttribute("welcome", Branches.UI.WELCOME);
-        req.setAttribute("buyList", Branches.UI.DEAL_BUY);
-        req.setAttribute("buyArchive", Branches.UI.BUY_ARCHIVE);
+        req.setAttribute(SUBSCRIBER, Branches.API.SUBSCRIBER);
+        req.setAttribute(WELCOME, Branches.UI.WELCOME);
+        req.setAttribute(BUI_LIST, Branches.UI.DEAL_BUY);
+        req.setAttribute(BUY_ARCHIVE, Branches.UI.BUY_ARCHIVE);
         req.setAttribute("sellList", Branches.UI.DEAL_SELL);
         req.setAttribute("sellArchive", Branches.UI.SELL_ARCHIVE);
         req.setAttribute("railList", Branches.UI.RAIL_LIST);
@@ -42,11 +48,14 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("sealList", Branches.UI.SEAL_LIST);
         req.setAttribute("weightList", Branches.UI.WEIGHT_LIST);
         req.setAttribute("weightArchive", Branches.UI.WEIGHT_ARCHIVE);
+        req.setAttribute(WAREHOUSING_LIST, Branches.UI.WAREHOUSING_LIST);
+        req.setAttribute(WAREHOUSING_ARCHIVE, Branches.UI.WAREHOUSING_ARCHIVE);
+        req.setAttribute("storages", Branches.UI.STORAGE_LIST);
         req.setAttribute("manufactureReport", Branches.UI.MANUFACTURE_REPORT);
         req.setAttribute("probeList", Branches.UI.PROBE_LIST);
         req.setAttribute("subdivisionList", Branches.UI.SUBDIVISION_LIST);
         req.setAttribute("subdivisions", dao.getSubdivisions());
-        req.setAttribute("storages", Branches.UI.LABORATORY_STORAGES + "?type=" + AnalysesType.oil);
+        req.setAttribute("laboratoryStorages", Branches.UI.LABORATORY_STORAGES + "?type=" + AnalysesType.oil);
         req.setAttribute("laboratoryBuyList", Branches.UI.LABORATORY_BUY);
         req.setAttribute("laboratoryBuyArchive", Branches.UI.LABORATORY_BUY_ARCHIVE);
         req.setAttribute("laboratorySellList", Branches.UI.LABORATORY_SELL);

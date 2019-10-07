@@ -55,6 +55,8 @@ public class Constants {
     public static final String COMMA = ",";
     public static final String SLASH = "/";
     public static final String TELEGRAM_ID = "telegramId";
+    public static final String STORAGE = "storage";
+    public static final String STORAGE_PRODUCTS = "storageProducts";
 
 
     public static class Languages {

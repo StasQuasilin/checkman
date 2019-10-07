@@ -21,7 +21,7 @@ public class TransportList extends IUIServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", Titles.TRANSPORT_LIST);
         req.setAttribute("edit", Branches.UI.TRANSPORT_SHOW);
-        req.setAttribute("content", "/pages/transport/transportList.jsp");
+        req.setAttribute("content", "/pages/transport/warehousingList.jsp");
         req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
         req.setAttribute("subscribe", subscribers);
         show(req, resp);

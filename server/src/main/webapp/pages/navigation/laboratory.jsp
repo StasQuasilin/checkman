@@ -17,7 +17,7 @@
       </span>
     </li>
   </c:forEach>
-  <li class="menu-item" onclick="loadContent('${storages}')">
+  <li class="menu-item" onclick="loadContent('${laboratoryStorages}')">
     <span class="main">
       <fmt:message key="menu.volumes"/>
     </span>

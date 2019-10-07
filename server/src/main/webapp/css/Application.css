@@ -191,6 +191,7 @@ a:hover{
 }
 .flipY{
     transform: scaleX(-1);
+    -webkit-transform: scaleX(-1)
     display: inline-block;
 }
 

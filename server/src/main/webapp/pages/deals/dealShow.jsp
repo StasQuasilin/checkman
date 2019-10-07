@@ -212,7 +212,8 @@
             <tr>
               <td colspan="4" align="center">
                 <fmt:message key="load.plans"/>
-                <button v-on:click="newPlan" v-on:dblclick=""><fmt:message key="button.add"/> </button>
+                <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
+                <%--<button v-on:click="newCarriage()"><fmt:message key="button.add.carriage"/> </button>--%>
               </td>
             </tr>
             <%--HEADER--%>

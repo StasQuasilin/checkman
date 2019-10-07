@@ -37,7 +37,11 @@ var plan = new Vue({
             }
             return msgs;
         },
-        newPlan:function(){
+        newCarriage:function(){
+
+
+        },
+        newVehicle:function(){
             var date = new Date();
             if (date < this.dateFrom){
                 date = this.dateFrom;

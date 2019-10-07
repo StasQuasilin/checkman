@@ -12,7 +12,6 @@ import javax.persistence.*;
 public class CarriageLoadPlan {
     private int id;
     private Carriage carriage;
-    private float plan;
     private LoadPlan loadPlan;
 
     @Id

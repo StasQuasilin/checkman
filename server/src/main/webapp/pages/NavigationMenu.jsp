@@ -13,7 +13,7 @@
           <ul class="nav-drop-menu">
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.deals"/>>
+                <fmt:message key="menu.deals"/>&nbsp;>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/deals.jsp"/>
@@ -21,7 +21,7 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.logistic"/>>
+                <fmt:message key="menu.logistic"/>&nbsp;>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/logistic.jsp"/>
@@ -29,7 +29,7 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.transport"/>>
+                <fmt:message key="menu.transport"/>&nbsp;>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/transport.jsp"/>
@@ -37,7 +37,7 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.weight"/>>
+                <fmt:message key="menu.weight"/>&nbsp;>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/weight.jsp"/>
@@ -45,7 +45,15 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
-                <fmt:message key="menu.laboratory"/>>
+                <fmt:message key="menu.warehousing"/>&nbsp;>
+              </span>
+              <div class="nav-drop-menu-content">
+                <jsp:include page="navigation/warehousing.jsp"/>
+              </div>
+            </li>
+            <li class="nav-menu-item nav-drop-menu-item">
+              <span class="main">
+                <fmt:message key="menu.laboratory"/>&nbsp;>
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/laboratory.jsp"/>

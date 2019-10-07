@@ -211,15 +211,13 @@
                     <span>
                         {{input.organisation}}
                     </span>
-                    <span class="mini-close flipY" style="padding: 0"
+                    <span class="mini-close flipY"
                           v-on:click="editOrganisation()"
-                          style="-webkit-transform: scaleX(-1)">
+                          style="padding: 0">
                         &#9998;</span>
                     <span class="mini-close" style="padding: 0">
                         &times;</span>
                 </div>
-
-
             </div>
         </td>
     </tr>

@@ -1037,4 +1037,19 @@ public class HibernateDAO implements dbDAO {
     public <T> T getObjectById(Class<T> _class, Object id) {
         return hb.get(_class, ID, id);
     }
+
+    @Override
+    public <T> List<T> getObjects(Class<T> tClass) {
+        return hb.query(tClass, null);
+    }
+
+    @Override
+    public List<StorageProduct> getStorageProductByProduct(Product product) {
+        return hb.query(StorageProduct.class, "product", product);
+    }
+
+    @Override
+    public List<StorageProduct> getStorageProductByStorage(Object storage) {
+        return hb.query(StorageProduct.class, "storage", storage);
+    }
 }

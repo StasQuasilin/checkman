@@ -4,16 +4,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <ul>
     <li class="menu-item">
-        <span class="main" onclick="loadContent('${weightList}')">
-          <fmt:message key="menu.weight"/>
+        <span class="main" onclick="loadContent('${warehousing}')">
+          <fmt:message key="menu.transport"/>
         </span>
         <span>
-          <a onclick="loadContent('${weightArchive}')"><fmt:message key="archive"/> </a>
-        </span>
-    </li>
-    <li class="menu-item">
-        <span class="main" onclick="loadContent('${manufactureReport}')">
-            <fmt:message key="menu.manufacture.report"/>
+          <a onclick="loadContent('${warehousingArchive}')"><fmt:message key="archive"/> </a>
         </span>
     </li>
     <li class="menu-item">

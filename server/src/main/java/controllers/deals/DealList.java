@@ -18,8 +18,8 @@ public class DealList extends IUIServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
-        req.setAttribute("title", Titles.DEAL_LIST + '-' + type);
-        req.setAttribute("content", "/pages/deals/dealList.jsp");
+        req.setAttribute(TITLE, Titles.DEAL_LIST + '-' + type);
+        req.setAttribute(CONTENT, "/pages/deals/dealList.jsp");
         req.setAttribute("filter", "/pages/filters/dealFilter.jsp");
         req.setAttribute("type", type);
         req.setAttribute("show", Branches.UI.DEAL_SHOW);

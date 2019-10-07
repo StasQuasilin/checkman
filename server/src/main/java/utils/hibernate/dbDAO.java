@@ -36,6 +36,7 @@ import entity.reports.ReportFieldSettings;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.storages.Storage;
+import entity.storages.StorageProduct;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
@@ -213,4 +214,7 @@ public interface dbDAO {
     List<Organisation> getOrganisations();
     Vehicle getVehicleByHash(int hash);
     <T>T getObjectById(Class<T> _class, Object o);
+    <T> List<T> getObjects(Class<T> tClass);
+    List<StorageProduct> getStorageProductByProduct(Product product);
+    List<StorageProduct> getStorageProductByStorage(Object id);
 }

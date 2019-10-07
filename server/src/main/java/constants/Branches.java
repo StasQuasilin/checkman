@@ -79,6 +79,11 @@ public class Branches {
         public static final String MANUFACTURE_REPORT = "/manufacture/reports.j";
         public static final String MANUFACTURE_REPORT_EDIT = "/manufacture/report/edit.j";
         public static final String ARCHIVE_WEIGHT_SHOW = "/archive/weight/show.j";
+        public static final String STORAGE_LIST = "/storages.j";
+        public static final String WAREHOUSING_LIST = "/warehousing.j";
+        public static final String WAREHOUSING_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.warehousing.toString();
+        public static final String WAREHOUSING_EDIT = "/warehousing/edit.j";
+        public static final String STORAGE_EDIT = "/storage/edit.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -213,6 +218,7 @@ public class Branches {
         public static final String SAVE_MANUFACTURE_REPORT = API + "/manufacture/report/edit";
         public static final String ARCHIVE_FIND = API + "/archive/find";
         public static final String USER_BOT_DELETE = API + "/user/bot/delete";
+        public static final String STORAGE_EDIT = API + "/storage/edit";
 
 
         public class References {

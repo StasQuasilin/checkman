@@ -18,8 +18,18 @@ public class IServlet extends HttpServlet {
 
     public static final String ID = Constants.ID;
     public static final String TITLE = Constants.TITLE;
+    public static final String SUBSCRIBE = "subscribe";
+    public static final String FILTER = "filter";
+    public static final String EDIT = "edit";
+    public static final String EDIT_STORAGE = "editStorage";
+    public static final String TYPES = "types";
+    public static final String CONTENT = "content";
     public static final String WEIGHT_SHOW = "";
     public static final String MODAL_CONTENT = "modalContent";
+    public static final String STORAGE = Constants.STORAGE;
+    public static final String STORAGE_PRODUCTS = Constants.STORAGE_PRODUCTS;
+    public static final String PRODUCT = "product";
+    public static final String PRODUCTS = "products";
     public static final String WEIGHT = Constants.WEIGHT;
     public static final String SAVE = Constants.SAVE;
     public static final String NUMBER = "number";

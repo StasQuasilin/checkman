@@ -101,8 +101,7 @@
                 }
             },
             open:function(item){
-                this.opens[item] = !this.opens[item];
-                this.refresh++;
+                this.opens[item.key] = !this.opens[item.key];
             },
             getData:function(){
                 return this.calendar;
@@ -147,11 +146,13 @@
             <template v-for="(value, key) in getItems()">
                 <tr>
                     <td colspan="2">
-                        {{new Date(key).toLocaleDateString().substring(0, 5)}}
+                        <span style="font-size: 10pt">
+                            {{new Date(key).toLocaleDateString().substring(0, 5)}}
+                        </span>
                     </td>
                 </tr>
                 <template v-for="(product, productName) in value.values">
-                    <tr v-on:click="open(product.key)">
+                    <tr v-on:click="open(product)">
                         <td style="padding-left: 4pt">
                             <span v-if="product.open">
                                 &#9207;
@@ -168,7 +169,7 @@
                         </td>
                     </tr>
                     <template v-if="product.open" v-for="(manager, managerName) in product.values">
-                        <tr v-on:click="open(manager.key)">
+                        <tr v-on:click="open(manager)">
                             <td style="padding-left: 12pt">
                                 <span v-if="manager.open">
                                     &#9207;
@@ -185,7 +186,7 @@
                             </td>
                         </tr>
                         <template v-if="manager.open" v-for="counterparty, counterpartyName) in manager.values">
-                            <tr v-on:click="open(counterparty.key)">
+                            <tr v-on:click="open(counterparty)">
                                 <td style="padding-left: 20pt; overflow: hidden">
                                     <span v-if="counterparty.open">
                                         &#9207;
