@@ -16,14 +16,18 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.TRANSPORT_LIST)
 public class TransportList extends IUIServlet{
+
+    private static final long serialVersionUID = -3161276220497815575L;
+
     Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Titles.TRANSPORT_LIST);
-        req.setAttribute("edit", Branches.UI.TRANSPORT_SHOW);
-        req.setAttribute("content", "/pages/transport/warehousingList.jsp");
-        req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
-        req.setAttribute("subscribe", subscribers);
+        req.setAttribute(TITLE, Titles.TRANSPORT_LIST);
+        req.setAttribute(EDIT, Branches.UI.TRANSPORT_SHOW);
+        req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
+        req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
+        req.setAttribute(SUBSCRIBE, subscribers);
         show(req, resp);
     }
 }

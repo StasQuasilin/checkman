@@ -47,6 +47,7 @@ function loadContent(url){
             if (content) {
                 $(content).empty();
                 $(staticContent).empty();
+                $(filter).empty();
                 $(content).html(e);
                 $(header).html(GetChildElemById(content, 'header-content'));
                 $(header).append(GetChildElemById(content, 'container-header'));

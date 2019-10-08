@@ -48,13 +48,17 @@
                     {{new Date(value.item.date).toLocaleDateString()}}
                 </span>
                 <span style="width: 20em">
-                    <fmt:message key="deal.organisation"/>:
+                    <span style="font-size: 10pt">
+                        <fmt:message key="deal.organisation"/>:
+                    </span>
                     <b>
                         {{value.item.organisation.value}}
                     </b>
                 </span>
                 <span>
-                    <fmt:message key="deal.product"/>:
+                    <span style="font-size: 10pt">
+                        <fmt:message key="deal.product"/>:
+                    </span>
                     <b v-if="types[value.item.type]">
                         {{(types[value.item.type]).toLowerCase()}}
                     </b>
@@ -63,10 +67,11 @@
                     </b>
                 </span>
                 <span>
-                    <fmt:message key="deal.quantity"/>:
+                    <span style="font-size: 10pt;">
+                        <fmt:message key="deal.quantity"/>:
+                    </span>
                     <b>
                         {{(value.item.plan).toLocaleString()}}
-                        {{value.item.unit}}
                     </b>
                 </span>
                 <span>

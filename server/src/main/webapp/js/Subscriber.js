@@ -25,31 +25,20 @@ function Connect(){
         console.log('--------');
         console.log('Receive type:' + type + ', data');
         console.log(data);
-        if (subscribes[type]){
-            for (var i in subscribes[type]){
-                if (subscribes[type].hasOwnProperty(i)){
-                    subscribes[type][i](data);
-                }
-            }
-        }
 
-        //if (typeof subscribes[type] === 'function') {
-        //    subscribes[type](data);
-        //} else{
-        //    console.log('Subscribe \'' + type + '\' = ' + typeof subscribes[type]);
-        //}
+        if (typeof subscribes[type] === 'function') {
+            subscribes[type](data);
+        } else{
+            console.log('Subscribe \'' + type + '\' = ' + typeof subscribes[type]);
+        }
     };
 }
 
 var subscribes = {};
 function subscribe(sub, on){
     console.log('Subscribe on ' + sub);
-
-    if (!subscribes[sub]){
-        subscribes[sub]=[];
-        send(JSON.stringify({action:'subscribe', subscriber:sub, worker:Settings.worker}));
-    }
-    subscribes[sub].push(on);
+    subscribes[sub]=on;
+    send(JSON.stringify({action:'subscribe', subscriber:sub, worker:Settings.worker}));
 }
 function unSubscribe(sub){
     console.log('Unsubscribe ' + sub);
