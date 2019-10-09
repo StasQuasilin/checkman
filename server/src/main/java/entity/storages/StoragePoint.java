@@ -13,7 +13,6 @@ import java.sql.Date;
 public class StoragePoint {
     private int id;
     private Date date;
-    private PointScale scale;
     private Storage storage;
     private Product product;
     private float amount;

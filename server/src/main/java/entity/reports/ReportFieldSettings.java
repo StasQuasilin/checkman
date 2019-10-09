@@ -16,6 +16,7 @@ public class ReportFieldSettings {
     private WeightUnit unit;
     private ReportFieldCategory category;
     private Storage storage;
+    private String calculator;
 
     @Id
     @GeneratedValue
@@ -60,5 +61,14 @@ public class ReportFieldSettings {
     }
     public void setStorage(Storage storage) {
         this.storage = storage;
+    }
+
+    @Basic
+    @Column(name = "calculator")
+    public String getCalculator() {
+        return calculator;
+    }
+    public void setCalculator(String calculator) {
+        this.calculator = calculator;
     }
 }

@@ -8,6 +8,7 @@ var filter_control = new Vue({
         type:-1,
         organisation:-1,
         product:-1,
+        on:false,
         date:-1,
         vehicle:-1,
         driver:-1
@@ -92,7 +93,11 @@ var filter_control = new Vue({
                 var byDriver = self.driver == -1 ||
                     (self.driver == 0 && item.item.driver.id == undefined) ||
                     (item.item.driver.id == self.driver);
-                return (self.type == -1 || item.item.type == self.type) &
+                var on = true;
+                if (self.on){
+                    on = item.item.timeIn.time && !item.item.timeOut.time;
+                }
+                return (self.type == -1 || item.item.type == self.type) & on &
                     (self.organisation == -1 || item.item.organisation.id == self.organisation) &
                     (self.product == -1 || item.item.product.id == self.product) &
                     (self.date == -1 || item.item.date === self.date) & byVehicle & byDriver;
@@ -102,6 +107,7 @@ var filter_control = new Vue({
             this.type = -1;
             this.product = -1;
             this.organisation = -1;
+            this.on = false;
             this.date = -1;
             this.vehicle = -1;
             this.driver = -1;

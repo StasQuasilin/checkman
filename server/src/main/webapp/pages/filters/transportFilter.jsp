@@ -87,6 +87,14 @@
         </tr>
         <tr>
             <td colspan="2">
+                <input id="on" type="checkbox" v-model="on">
+                <label for="on">
+                    <fmt:message key="on.territory"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
                 <label for="vehicle">
                     <fmt:message key="transportation.automobile"/>
                 </label>

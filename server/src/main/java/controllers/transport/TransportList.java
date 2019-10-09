@@ -20,7 +20,7 @@ public class TransportList extends IUIServlet{
     private static final long serialVersionUID = -3161276220497815575L;
 
     Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.TRANSPORT_LIST);

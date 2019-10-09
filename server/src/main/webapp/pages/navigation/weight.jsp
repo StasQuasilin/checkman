@@ -16,9 +16,9 @@
             <fmt:message key="menu.manufacture.report"/>
         </span>
     </li>
-    <li class="menu-item">
-        <span class="main" onclick="loadContent('${storages}')">
-            <fmt:message key="menu.storages"/>
-        </span>
-    </li>
+    <%--<li class="menu-item">--%>
+        <%--<span class="main" onclick="loadContent('${storages}')">--%>
+            <%--<fmt:message key="menu.storages"/>--%>
+        <%--</span>--%>
+    <%--</li>--%>
 </ul>

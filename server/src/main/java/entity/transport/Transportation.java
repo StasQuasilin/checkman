@@ -44,6 +44,8 @@ public class Transportation {
     private boolean done;
     private String uid;
 
+    public Transportation() {}
+
     @Id
     @GeneratedValue
     public int getId() {

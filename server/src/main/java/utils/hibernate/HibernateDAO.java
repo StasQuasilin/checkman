@@ -1052,4 +1052,9 @@ public class HibernateDAO implements dbDAO {
     public List<StorageProduct> getStorageProductByStorage(Object storage) {
         return hb.query(StorageProduct.class, "storage", storage);
     }
+
+    @Override
+    public <T> float sum(Class<T> tClass, HashMap<String, Object> param, String... columns) {
+        return hb.sum(tClass, param, columns);
+    }
 }

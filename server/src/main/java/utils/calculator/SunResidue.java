@@ -1,14 +1,11 @@
 package utils.calculator;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 /**
  * Created by szpt_user045 on 08.10.2019.
  */
-public class SunResidue extends AbstractCalculator<Float>{
+public class SunResidue extends Calculator {
 
-    private static final String KEY = "vOJpfvOC60";
+    public static final String KEY = "vOJpfvOC60";
     private static final String TITLE = "calculator.sun.resuide";
 
     @Override
@@ -22,12 +19,12 @@ public class SunResidue extends AbstractCalculator<Float>{
     }
 
     @Override
-    public void writeValue(Float value) {
-
+    public String getDescription() {
+        return null;
     }
 
     @Override
-    public Float readValue() {
-        return null;
+    public float readValue() {
+        return 0;
     }
 }

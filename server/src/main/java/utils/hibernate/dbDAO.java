@@ -217,4 +217,5 @@ public interface dbDAO {
     <T> List<T> getObjects(Class<T> tClass);
     List<StorageProduct> getStorageProductByProduct(Product product);
     List<StorageProduct> getStorageProductByStorage(Object id);
+    <T> float sum(Class<T> tClass, HashMap<String, Object> param, String... columns);
 }

@@ -144,7 +144,7 @@
                 </td>
             </tr>
             <tr>
-                <td valign="top" height="100%">
+                <td valign="top" height="100%" width="100%">
                     <div class="wrapper" id="content"></div>
                 </td>
                 <td style="max-width: 200pt">

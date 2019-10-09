@@ -57,6 +57,10 @@ public class Constants {
     public static final String TELEGRAM_ID = "telegramId";
     public static final String STORAGE = "storage";
     public static final String STORAGE_PRODUCTS = "storageProducts";
+    public static final String BRUTTO = "brutto";
+    public static final String TARA = "tara";
+    public static final String WEIGHT_BRUTTO = WEIGHT + SLASH + BRUTTO;
+    public static final String WEIGHT_TARA = WEIGHT + SLASH + TARA;
 
 
     public static class Languages {

@@ -1,8 +1,6 @@
 package utils.hibernate;
 
-import entity.transport.Driver;
-import entity.transport.Transportation;
-import entity.weight.Weight;
+import constants.Constants;
 import org.hibernate.Session;
 import utils.hibernate.DateContainers.*;
 
@@ -44,71 +42,114 @@ public class Hibernator {
         param.put(parameter, value);
         return limitQuery(tClass, param, limit);
     }
-    private <T> CriteriaQuery<T> getCriteriaQuery(Session session, Class<T> tClass, HashMap<String, Object> parameters) {
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<T> query = criteriaBuilder.createQuery(tClass);
-        Root<T> from = query.from(tClass);
 
-        if (parameters != null){
+    public static final String SLASH = Constants.SLASH;
 
-            Predicate[] predicates = new Predicate[parameters.size()];
+    private <T, K> Root<K> buildQuery(CriteriaBuilder criteriaBuilder, CriteriaQuery<T> query, Class<K> tClass, HashMap<String, Object> param){
+        Root<K> from = query.from(tClass);
+        if (param != null){
+            Predicate[] predicates = new Predicate[param.size()];
             int i = 0;
 
-            for (Map.Entry<String, Object> entry : parameters.entrySet()){
-                String[] split = entry.getKey().split("/");
+            for (Map.Entry<String, Object> entry : param.entrySet()){
 
-                Path<Date> objectPath = null;
-
-                for (String s : split){
-                    if (objectPath == null) {
-                        objectPath = from.get(s);
-                    } else {
-                        objectPath = objectPath.get(s);
-                    }
-                }
+                Path<Date> path = parsePath(from, entry.getKey());
 
                 if (entry.getValue() == null || entry.getValue().equals(State.isNull)){
-                    predicates[i] = criteriaBuilder.isNull(objectPath);
+                    predicates[i] = criteriaBuilder.isNull(path);
                 } else if(entry.getValue().equals(State.notNull)) {
-                    predicates[i] = criteriaBuilder.isNotNull(objectPath);
+                    predicates[i] = criteriaBuilder.isNotNull(path);
                 } else if (entry.getValue() instanceof EQ){
                     EQ eq = (EQ) entry.getValue();
-                    predicates[i] = criteriaBuilder.greaterThanOrEqualTo(objectPath, eq.getDate());
+                    predicates[i] = criteriaBuilder.greaterThanOrEqualTo(path, eq.getDate());
                 }else if (entry.getValue() instanceof NOT) {
                     NOT not = (NOT) entry.getValue();
-                    predicates[i] = criteriaBuilder.notEqual(objectPath, not.getObject());
+                    predicates[i] = criteriaBuilder.notEqual(path, not.getObject());
                 } else if (entry.getValue() instanceof BETWEEN){
                     BETWEEN between = (BETWEEN) entry.getValue();
-                    predicates[i] = criteriaBuilder.between(objectPath,between.getFrom(),between.getTo());
+                    predicates[i] = criteriaBuilder.between(path,between.getFrom(),between.getTo());
                 }else if (entry.getValue() instanceof GE) {
                     GE ge = (GE) entry.getValue();
-                    predicates[i] = criteriaBuilder.greaterThanOrEqualTo(objectPath, ge.getDate());
-                    query.orderBy(criteriaBuilder.asc(objectPath));
+                    predicates[i] = criteriaBuilder.greaterThanOrEqualTo(path, ge.getDate());
+                    query.orderBy(criteriaBuilder.asc(path));
                 }else if (entry.getValue() instanceof GT) {
                     GT gt = (GT) entry.getValue();
-                    predicates[i] = criteriaBuilder.greaterThan(objectPath, gt.getDate());
-                    query.orderBy(criteriaBuilder.asc(objectPath));
+                    predicates[i] = criteriaBuilder.greaterThan(path, gt.getDate());
+                    query.orderBy(criteriaBuilder.asc(path));
                 } else if (entry.getValue() instanceof LE) {
                     LE le = (LE) entry.getValue();
-                    predicates[i] = criteriaBuilder.lessThanOrEqualTo(objectPath, le.getDate());
-                    query.orderBy(criteriaBuilder.desc(objectPath));
+                    predicates[i] = criteriaBuilder.lessThanOrEqualTo(path, le.getDate());
+                    query.orderBy(criteriaBuilder.desc(path));
                 } else if (entry.getValue() instanceof LT) {
                     LT lt = (LT) entry.getValue();
-                    predicates[i] = criteriaBuilder.lessThan(objectPath, lt.getDate());
-                    query.orderBy(criteriaBuilder.desc(objectPath));
+                    predicates[i] = criteriaBuilder.lessThan(path, lt.getDate());
+                    query.orderBy(criteriaBuilder.desc(path));
                 } else {
-                    predicates[i] = criteriaBuilder.equal(objectPath, entry.getValue());
+                    predicates[i] = criteriaBuilder.equal(path, entry.getValue());
                 }
                 i++;
             }
             query.where(predicates);
         }
+        return from;
+    }
+
+    private <T> CriteriaQuery<T> getCriteriaQuery(Session session, Class<T> tClass, HashMap<String, Object> parameters) {
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<T> query = criteriaBuilder.createQuery(tClass);
+
+        buildQuery(criteriaBuilder, query, tClass, parameters);
 
         return query;
     }
 
+    private <T> Path<Date> parsePath(Root<T> root, String value){
+        Path<Date> objectPath = null;
+        String[] split = value.split(SLASH);
 
-    public <T>List<T> query(Class<T> tClass, HashMap<String, Object> params){
+        for (String s : split){
+            if (objectPath == null) {
+                objectPath = root.get(s);
+            } else {
+                objectPath = objectPath.get(s);
+            }
+        }
+
+        return objectPath;
+    }
+
+    public synchronized <T> float sum(Class<T> tClass, HashMap<String, Object> param, String... columns){
+        Session session = HibernateSessionFactory.getSession();
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Float> query = criteriaBuilder.createQuery(Float.class);
+        Root<T> root = buildQuery(criteriaBuilder, query, tClass, param);
+
+        for (String column : columns){
+
+            Path<Float> path = null;
+            for (String s : column.split(SLASH)){
+                if (path == null){
+                    path = root.get(s);
+                }else {
+                    path = path.get(s);
+                }
+            }
+            query.select(criteriaBuilder.sum(path));
+        }
+
+        float sum = 0;
+        try {
+            sum = session.createQuery(query).uniqueResult();
+        } catch (Exception ignored) {}
+
+        HibernateSessionFactory.putSession(session);
+
+        return sum;
+    }
+
+
+    public synchronized <T>List<T> query(Class<T> tClass, HashMap<String, Object> params){
         Session session = HibernateSessionFactory.getSession();
         CriteriaQuery<T> query = getCriteriaQuery(session, tClass, params);
 
@@ -214,48 +255,7 @@ public class Hibernator {
         return find(tClass, par);
     }
 
-    public <T> int sumOfIntegers(Class<T> tClass, String column, HashMap<String, Object> parameters){
-        Session session = HibernateSessionFactory.getSession();
 
-        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<Integer> query = criteriaBuilder.createQuery(Integer.class);
-        Root<T> from = query.from(tClass);
-
-        if (parameters != null) {
-            Predicate[] predicates = new Predicate[parameters.size()];
-            int i = 0;
-
-            for (Map.Entry<String, Object> entry : parameters.entrySet()){
-                String[] split = entry.getKey().split("/");
-                Path<String> objectPath = null;
-
-                for (String s : split){
-                    if (objectPath == null) {
-                        objectPath = from.get(s);
-                    } else {
-                        objectPath = objectPath.get(s);
-                    }
-                }
-                if (entry.getValue() != null) {
-                    predicates[i] = criteriaBuilder.equal(objectPath, entry.getValue());
-                } else {
-                    predicates[i] = criteriaBuilder.isNull(objectPath);
-                }
-                i++;
-            }
-            query.where(predicates);
-        }
-
-        query.select(criteriaBuilder.sum(from.get(column)));
-        int sum = 0;
-        try {
-            sum = session.createQuery(query).uniqueResult();
-        } catch (Exception ignored) {}
-
-        HibernateSessionFactory.putSession(session);
-
-        return sum;
-    }
 
 
     public void save(Object ... objects) {
