@@ -1,7 +1,6 @@
 package utils.calculator;
 
 import utils.LanguageBase;
-import utils.hibernate.Hibernator;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -15,7 +14,8 @@ public abstract class Calculator {
 
     public static final HashMap<String, Calculator> calculators = new HashMap<>();
     static {
-        calculators.put(SunResidue.KEY, new SunResidue());
+        calculators.put(ProductResidue.KEY, new ProductResidue());
+        calculators.put(ProductLoadCalculator.KEY, new ProductLoadCalculator());
     }
 
     public static Collection<Calculator> calculatorList(){

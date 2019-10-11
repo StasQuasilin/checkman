@@ -5,6 +5,7 @@ import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.AnalysesType;
+import entity.laboratory.probes.CakeProbe;
 import utils.U;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,8 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.PROBE_EDIT)
 public class ProbeEdit extends IModal {
+
+    private static final long serialVersionUID = 4536325166551991094L;
 
     final static String TITLE = Constants.TITLE;
     final static String SAVE = Constants.SAVE;
@@ -54,9 +57,9 @@ public class ProbeEdit extends IModal {
             case cake:
                 req.setAttribute(TITLE, Titles.PROBE_CAKE_EDIT);
                 req.setAttribute(SAVE, Branches.API.PROBE_CAKE_SAVE);
-//                req.setAttribute(MODAL_CONTENT, "/pages/laboratory/probes/cakeProbe.jsp");
+                req.setAttribute(MODAL_CONTENT, "/pages/laboratory/probes/cakeProbe.jsp");
                 if (id != -1){
-//                    req.setAttribute("probe", dao.getCake);
+                    req.setAttribute("probe", dao.getObjectById(CakeProbe.class, id));
                 }
                 break;
 

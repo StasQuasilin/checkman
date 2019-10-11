@@ -36,15 +36,7 @@
                     }
                 });
             },
-            botStatus:function(){
-                const self = this;
-                PostApi(this.api.status, null, function(a){
-                    self.bot = a;
-                });
-                this.upd = setTimeout(function(){
-                    self.botStatus()
-                }, 5000)
-            }
+            botStatus:function(){}
         }
 
     });

@@ -5,6 +5,7 @@ import constants.Constants;
 import controllers.IModal;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.calculator.Calculator;
 import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,8 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.MANUFACTURE_REPORT_EDIT)
 public class ReportEdit extends IModal {
+    ;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = -1;
@@ -35,12 +38,14 @@ public class ReportEdit extends IModal {
             req.setAttribute("report", dao.getManufactureReport(id));
         }
 
-        req.setAttribute("title", "title.manufacture.reports.edit");
-        req.setAttribute("modalContent", "/pages/reports/manufactureReportEdit.jsp");
+        req.setAttribute(TITLE, "title.manufacture.reports.edit");
+        req.setAttribute(MODAL_CONTENT, "/pages/reports/manufactureReportEdit.jsp");
         req.setAttribute("turns", TurnBox.getTurns());
         req.setAttribute("fields", dao.getReportFields());
         req.setAttribute("units", dao.getWeightUnits());
         req.setAttribute("storages", dao.getStorages());
+        req.setAttribute(PRODUCTS, dao.getProductList());
+        req.setAttribute(CALCULATORS, Calculator.calculatorList());
         req.setAttribute("categories", dao.getReportCategories());
         req.setAttribute("save", Branches.API.SAVE_MANUFACTURE_REPORT);
         show(req, resp);

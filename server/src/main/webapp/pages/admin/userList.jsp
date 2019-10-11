@@ -75,10 +75,10 @@
             {{user.person.value}}
           </div>
           <div class="user-office">
-            {{user.office}}
-          </div>
-          <div class="user-ip">
             {{user.ip}}
+          </div>
+          <div class="user-office">
+            {{user.session}}
           </div>
         </div>
       </div>

@@ -186,6 +186,7 @@ var editor = new Vue({
             })
         },
         putVehicle:function(vehicle){
+            console.log(vehicle);
             this.plan.vehicle = vehicle;
             this.input.vehicle = '';
             this.foundVehicles = [];

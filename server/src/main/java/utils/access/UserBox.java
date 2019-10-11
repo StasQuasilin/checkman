@@ -4,6 +4,7 @@ import entity.User;
 import entity.UserInfo;
 import org.apache.log4j.Logger;
 
+import javax.servlet.jsp.tagext.TagInfo;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,19 +34,33 @@ public class UserBox {
         return users.containsKey(token);
     }
 
-    public String updateToken(String oldToken, String ip) {
+    public String updateToken(String oldToken) {
+        UserInfo remove = users.remove(oldToken);
+        remove.updateActivity();
         final String token = getToken();
-        users.put(token, users.remove(oldToken));
+        users.put(token, remove);
+
         return token;
     }
 
-    public Collection<UserInfo> getUsers(){
-        return users.values();
+    public HashMap<String, UserInfo> getUsers() {
+        return users;
     }
 
-    public String addUser(User user, String ip) {
+    public String addUser(User user, String ip, String sessionId) {
+
         final String token = getToken();
-        users.put(token, new UserInfo(user, ip));
+        System.out.println("Add: " + token);
+
+        users.put(token, new UserInfo(user, ip, sessionId));
         return token;
+    }
+
+    public void remove(String token) {
+        users.remove(token);
+    }
+
+    public UserInfo getUser(String token) {
+        return users.get(token);
     }
 }

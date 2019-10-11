@@ -5,6 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
+
     <title>
         <fmt:message key="application.title"/>.${lang}
     </title>

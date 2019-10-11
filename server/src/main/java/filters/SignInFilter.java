@@ -38,11 +38,10 @@ public class SignInFilter implements Filter{
             token = request.getHeader(TOKEN);
         }
 
-        if (token != null && userBox.containsKey(token)) {
-            String ip = IpUtil.getIp(request);
+        String ip = IpUtil.getIp(request);
 
-
-            String updateToken = userBox.updateToken(token, ip);
+        if (token != null && userBox.containsKey(token) && userBox.getUser(token).isValid(ip)) {
+            String updateToken = userBox.updateToken(token);
             if (inAttribute){
                 response.setHeader(TOKEN, updateToken);
             } else {

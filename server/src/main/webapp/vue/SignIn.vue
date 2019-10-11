@@ -10,6 +10,7 @@ var login = new Vue({
             uid:'',
             password:''
         },
+        state:0,
         worker:'',
         fnd:-1,
         err:'',
@@ -20,7 +21,10 @@ var login = new Vue({
         }
     },
     mounted:function(){
-
+        const self = this;
+        setTimeout(function(){
+            self.$refs.worker.select();
+        },10);
     },
     methods:{
         check:function(){
@@ -45,6 +49,21 @@ var login = new Vue({
             this.user.uid = user.uid;
             this.worker = user.person.value;
             this.foundUsers = [];
+            this.state = 1;
+            const self = this;
+            setTimeout(function(){
+                self.$refs.password.select();
+            },10);
+
+        },
+        back:function(){
+            this.user.uid = '';
+            this.worker = '';
+            this.state = 0;
+            const self = this;
+            setTimeout(function(){
+                self.$refs.worker.select();
+            },10);
         },
         signIn2:function(){
             const self = this;

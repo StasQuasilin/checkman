@@ -22,13 +22,13 @@ public class ProbeList extends IUIServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Titles.PROBE_LIST);
-        req.setAttribute("content", "/pages/laboratory/probeList.jsp");
+        req.setAttribute(TITLE, Titles.PROBE_LIST);
+        req.setAttribute(CONTENT, "/pages/laboratory/probeList.jsp");
         req.setAttribute("show", Branches.UI.PROBE_SHOW);
-        req.setAttribute("edit", Branches.UI.PROBE_EDIT);
+        req.setAttribute(EDIT, Branches.UI.PROBE_EDIT);
         req.setAttribute("analysesTypes", AnalysesType.values());
-        req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
-        req.setAttribute("subscribe", subscribe);
+        req.setAttribute(FILTER, "/pages/filters/archiveFilter.jsp");
+        req.setAttribute(SUBSCRIBE, subscribe);
         show(req, resp);
     }
 }

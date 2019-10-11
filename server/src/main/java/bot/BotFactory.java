@@ -88,8 +88,10 @@ public class BotFactory {
         if (botThread != null && botThread.isAlive()) {
             botThread.interrupt();
         }
-        currentSettings.setRun(false);
-        dbDAOService.getDAO().save(currentSettings);
+        if (currentSettings != null) {
+            currentSettings.setRun(false);
+            dbDAOService.getDAO().save(currentSettings);
+        }
     }
 
     public static BotStatus getStatus() {

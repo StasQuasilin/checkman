@@ -17,7 +17,6 @@ public class CakeAnalyses {
     private float cellulose;
     private float oiliness;
     private ActionTime createTime;
-    private Worker creator;
 
     @Id
     @GeneratedValue
@@ -73,34 +72,8 @@ public class CakeAnalyses {
         this.createTime = createTime;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-//        private float humidity;
-        hash = 31 * Float.hashCode(humidity) + hash;
-//        private float protein;
-        hash = 31 * Float.hashCode(protein) + hash;
-//        private float cellulose;
-        hash = 31 * Float.hashCode(cellulose) + hash;
-//        private float oiliness;
-        hash = 31 * Float.hashCode(oiliness) + hash;
-//        private ActionTime createTime;
-        if (createTime != null) {
-            hash = 31 * createTime.hashCode() + hash;
-        }
-//        private Worker creator;
-        if (creator != null ){
-            hash = 31 * creator.hashCode() + hash;
-        }
-        return hash;
+        return id;
     }
 }

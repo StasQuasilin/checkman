@@ -16,7 +16,8 @@ import java.util.HashMap;
 public class ProductLoadCalculator extends Calculator {
 
     public static final String KEY = "S3P36nIiix";
-    private static final String TITLE = "calculator.load.products";
+    private static final String TITLE = "calculator.load.products.title";
+    public static final String DESCRIPTION = "calculator.load.products.description";
 
     private Product product;
     private Date from, to;
@@ -34,12 +35,12 @@ public class ProductLoadCalculator extends Calculator {
 
     @Override
     public String getTitle() {
-        return lang.get(TITLE);
+        return TITLE;
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return DESCRIPTION;
     }
 
     public void setProduct(Product product) {

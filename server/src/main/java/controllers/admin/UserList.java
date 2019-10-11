@@ -16,12 +16,13 @@ import java.io.IOException;
 @WebServlet(Branches.UI.USER_LIST)
 public class UserList extends IModal {
 
+    private static final long serialVersionUID = 3036740553163445206L;
     private final Subscriber[] subscribers = new Subscriber[]{Subscriber.USERS};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", "title.user.list");
-        req.setAttribute("subscribe", subscribers);
+        req.setAttribute(TITLE, "title.user.list");
+        req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute("modalContent", "/pages/admin/userList.jsp");
         show(req, resp);
     }

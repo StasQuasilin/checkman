@@ -1,5 +1,6 @@
 package utils;
 
+import filters.SignInFilter;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,11 +59,13 @@ public class LoginBox {
         return properties.getProperty("password");
     }
     public boolean trySignIn(HttpServletRequest req) throws IOException {
-        if (fileRead) {
-            String login = getLogin();
-            String password = getPassword();
+        if (req.getSession().getAttribute(SignInFilter.TOKEN) == null) {
+            if (fileRead) {
+                String login = getLogin();
+                String password = getPassword();
 
-            return SignInBox.signIn(req, login, password).status().equals("success");
+                return SignInBox.signIn(req, login, password).status().equals("success");
+            }
         }
         return false;
     }

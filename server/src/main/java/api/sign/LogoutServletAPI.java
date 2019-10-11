@@ -3,9 +3,11 @@ package api.sign;
 import api.ServletAPI;
 import constants.Branches;
 import entity.answers.IAnswer;
+import filters.SignInFilter;
 import org.apache.log4j.Logger;
 import utils.JsonParser;
 import utils.PostUtil;
+import utils.access.UserBox;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -26,11 +28,13 @@ public class LogoutServletAPI extends ServletAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        UserBox.getUserBox().remove(String.valueOf(req.getSession().getAttribute(SignInFilter.TOKEN)));
         log.info("Clear session");
         Enumeration<String> attributeNames = req.getSession().getAttributeNames();
         while (attributeNames.hasMoreElements()){
             req.getSession().removeAttribute(attributeNames.nextElement());
         }
+
         write(resp, success);
     }
 }

@@ -260,7 +260,7 @@
             </select>
         </td>
     </tr>
-    <%--QUASNTITY--%>
+    <%--QUANTITY--%>
     <tr>
         <td>
             <label for="quantity">
@@ -340,11 +340,10 @@
                     &times;
                 </span>
             </span>
-            <div v-else>
+            <div v-else v-on:blur="parseVehicle()">
                 <input id="vehicle" v-model="input.vehicle" autocomplete="off"
                        v-on:keyup="findVehicle()"
                        v-on:keyup.enter="parseVehicle()"
-                       v-on:blur="parseVehicle()"
                        :title="input.vehicle">
                 <div class="custom-data-list">
                     <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="putVehicle(vehicle)">
@@ -375,11 +374,10 @@
                   &times;
                 </span>
             </span>
-            <div v-else>
+            <div v-else v-on:blur="parseDriver()">
                 <input id="driver" v-model="input.driver"
                        v-on:keyup="findDriver()"
                        v-on:keyup.enter="parseDriver()"
-                       v-on:blur="parseDriver()"
                        :title="input.driver">
                 <div class="custom-data-list">
                     <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="putDriver(driver)">

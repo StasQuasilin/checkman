@@ -30,6 +30,12 @@
     right: 0;
     top: 3pt;
   }
+  .row .edit{
+    visibility: hidden;
+  }
+  .row:hover .edit{
+    visibility: visible;
+  }
 </style>
 <script src="${context}/vue/reportEdit.vue"></script>
 <script>
@@ -139,7 +145,21 @@
     name:'${unit.name}'
   });
   </c:forEach>
-
+  //PRODUCTS
+  <c:forEach items="${products}" var="product">
+  editor.products.push({
+    id:${product.id},
+    name:'${product.name}'
+  });
+  </c:forEach>
+  //CALCULATORS
+  <c:forEach items="${calculators}" var="calculator">
+  editor.calculators['${calculator.key}'] = {
+    key:'${calculator.key}',
+    title:'<fmt:message key="${calculator.title}"/>',
+    description:'<fmt:message key="${calculator.description}"/>'
+  };
+  </c:forEach>
   editor.initField();
   editor.initCategory();
 </script>
@@ -190,38 +210,44 @@
         </b>
       </td>
     </tr>
-    <%------%>
-    <%--FIELD NAME--%>
-    <%------%>
-    <tr>
-      <td>
-        <div class="field-title">
+      <template>
+        <%------%>
+        <%--FIELD NAME--%>
+        <%------%>
+        <tr class="row">
+          <td>
+            <div class="field-title">
           <span>
             {{key + 1}}. {{field.title}}
           </span>
           <span v-if="field.storage">
             {{storages[field.storage].title}}
           </span>
-          <div v-if="!field.editComment && !field.comment" class="mini-close add-comment" style="font-size: 8pt" v-on:click="openComment(field)" >
+              <div v-if="!field.editComment && !field.comment" class="mini-close add-comment" style="font-size: 8pt" v-on:click="openComment(field)" >
             <span>
               <fmt:message key="comment.plus"/>
             </span>
-          </div>
-        </div>
-      </td>
-      <%------%>
-      <%--FIELD VALUE--%>
-      <%------%>
-      <td>
-        <input type="number" v-model="field.value" onclick="this.select()">
-        <select v-model="field.unit">
-          <option disabled value="-1"></option>
-          <option v-for="unit in units" :value="unit.id">
-            {{unit.name}}
-          </option>
-        </select>
-      </td>
-    </tr>
+              </div>
+            </div>
+          </td>
+          <%------%>
+          <%--FIELD VALUE--%>
+          <%------%>
+          <td>
+            <input type="number" v-model="field.value" onclick="this.select()">
+            <select v-model="field.unit">
+              <option disabled value="-1"></option>
+              <option v-for="unit in units" :value="unit.id">
+                {{unit.name}}
+              </option>
+            </select>
+            <span class="mini-close edit" v-on:click="editField(field)">
+              !
+            </span>
+          </td>
+        </tr>
+      </template>
+
     <%------%>
     <%--COMMENT--%>
     <%------%>
@@ -348,6 +374,24 @@
         </select>
       </td>
     </tr>
+      <%--PRODUCT--%>
+      <tr>
+        <td>
+          <label for="product">
+            <fmt:message key="deal.product"/>
+          </label>
+        </td>
+        <td>
+          <select id="product" v-model="field.product">
+            <option value="-1">
+              <fmt:message key="none"/>
+            </option>
+            <option v-for="product in products" :value="product.id">
+              {{product.name}}
+            </option>
+          </select>
+        </td>
+      </tr>
       <%--STORAGE--%>
     <tr>
       <td>

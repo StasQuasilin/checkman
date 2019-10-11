@@ -3,10 +3,11 @@ package utils.calculator;
 /**
  * Created by szpt_user045 on 08.10.2019.
  */
-public class SunResidue extends Calculator {
+public class ProductResidue extends Calculator {
 
     public static final String KEY = "vOJpfvOC60";
-    private static final String TITLE = "calculator.sun.resuide";
+    private static final String TITLE = "calculator.resuide.title";
+    private static final String DESCRIPTION = "calculator.resuide.description";
 
     @Override
     public String getKey() {
@@ -15,12 +16,12 @@ public class SunResidue extends Calculator {
 
     @Override
     public String getTitle() {
-        return lang.get(TITLE);
+        return TITLE;
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return DESCRIPTION;
     }
 
     @Override

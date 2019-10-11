@@ -9,6 +9,8 @@ var editor = new Vue({
         units:[],
         report:{},
         storages:{},
+        products:[],
+        calculators:{},
         errors:{
             turn:false,
             categoryName:false,
@@ -79,6 +81,13 @@ var editor = new Vue({
                 }
             }
         },
+        editField:function(field){
+            console.log('Edit');
+            console.log(field);
+            this.newField = true;
+            this.field.category = field.category ? field.category.id : null;
+            this.field.title = field.title;
+        },
         editComment:function(id){
             var field = this.fields[id];
             field.comment = this.commentInput;
@@ -140,6 +149,7 @@ var editor = new Vue({
             this.field = {
                 category:-1,
                 title:'',
+                product:-1,
                 unit:this.units[0].id,
                 storage:-1,
                 once:false
