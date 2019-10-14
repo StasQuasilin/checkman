@@ -17,14 +17,16 @@ import java.io.IOException;
 public class ReportList extends IUIServlet {
 
     final Subscriber[] subscribe = new Subscriber[]{Subscriber.MANUFACTURE_REPORTS};
+    private static final String _TITLE = "title.manufacture.reports";
+    private static final String _CONTENT = "/pages/reports/manufactureReportList.jsp";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", "title.manufacture.reports");
-        req.setAttribute("content", "/pages/reports/manufactureReportList.jsp");
-        req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
-        req.setAttribute("edit", Branches.UI.MANUFACTURE_REPORT_EDIT);
-        req.setAttribute("subscribe", subscribe);
+        req.setAttribute(TITLE, _TITLE);
+        req.setAttribute(CONTENT, _CONTENT);
+        req.setAttribute(FILTER, "/pages/filters/archiveFilter.jsp");
+        req.setAttribute(EDIT, Branches.UI.MANUFACTURE_REPORT_EDIT);
+        req.setAttribute(SUBSCRIBE, subscribe);
         show(req, resp);
     }
 }

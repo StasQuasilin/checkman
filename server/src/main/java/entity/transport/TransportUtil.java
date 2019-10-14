@@ -1,23 +1,19 @@
-package utils;
+package entity.transport;
 
-import entity.Role;
-import entity.User;
 import entity.Worker;
+import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.documents.Shipper;
 import entity.laboratory.SunAnalyses;
-import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
-import utils.boxes.IBox;
-import utils.hibernate.Hibernator;
+import utils.Archivator;
+import utils.DocumentUIDGenerator;
+import utils.UpdateUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by quasilin on 18.03.2019.
@@ -85,4 +81,21 @@ public class TransportUtil{
         dao.save(transportation);
         updateUtil.onArchive(loadPlan);
     }
+
+    public synchronized static Transportation createTransportation(Deal deal, Worker manager, Worker creator) {
+        Transportation transportation = new Transportation();
+
+        transportation.setUid(DocumentUIDGenerator.generateUID());
+        transportation.setProduct(deal.getProduct());
+        transportation.setType(deal.getType());
+        transportation.setCounterparty(deal.getOrganisation());
+        transportation.setManager(manager);
+
+        transportation.setCreator(creator);
+        transportation.setShipper(deal.getShipper());
+
+        return transportation;
+    }
+
+
 }

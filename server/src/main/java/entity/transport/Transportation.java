@@ -13,6 +13,7 @@ import entity.weight.Weight;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,11 +41,10 @@ public class Transportation {
     private Worker creator;
     private Worker manager;
     private Set<TransportationNote> notes;
+    private List<TransportStorageUsed> usedStorages;
     private boolean archive;
     private boolean done;
     private String uid;
-
-    public Transportation() {}
 
     @Id
     @GeneratedValue
@@ -213,6 +213,14 @@ public class Transportation {
     }
     public void setNotes(Set<TransportationNote> notes) {
         this.notes = notes;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    public List<TransportStorageUsed> getUsedStorages() {
+        return usedStorages;
+    }
+    public void setUsedStorages(List<TransportStorageUsed> usedStorages) {
+        this.usedStorages = usedStorages;
     }
 
     @Basic

@@ -12,7 +12,7 @@ import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.TransportUtil;
+import entity.transport.TransportUtil;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
 

@@ -38,6 +38,7 @@
     </script>
 
 </head>
+<%--oncontextmenu="return false;"--%>
     <body style="margin: 0;">
     <div class="coverlet" id="coverlet">
         <table style="width: 100%; height: 100%;">

@@ -7,6 +7,7 @@ import entity.organisations.Organisation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
+import utils.U;
 import utils.hibernate.DateContainers.LE;
 
 import javax.servlet.ServletException;
@@ -28,13 +29,14 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.References.ORGANISATION_LIST)
 public class OrganisationListServletAPI extends ServletAPI {
 
-
+    public static final String CHAR = "#";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, List<Organisation>> organisations = new HashMap<>();
         for (Organisation organisation : dao.getOrganisations()){
-            String substring = organisation.getName().substring(0, 1);
+
+            String substring = U.exist(organisation.getName()) ? organisation.getName().substring(0, 1) : CHAR;
             if (!organisations.containsKey(substring)){
                 organisations.put(substring, new ArrayList<>());
             }

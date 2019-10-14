@@ -7,7 +7,7 @@ import entity.documents.LoadPlan;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.transportation.ActType;
 import org.json.simple.JSONObject;
-import utils.TransportUtil;
+import entity.transport.TransportUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

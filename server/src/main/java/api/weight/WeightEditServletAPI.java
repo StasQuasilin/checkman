@@ -15,7 +15,7 @@ import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
-import utils.TransportUtil;
+import entity.transport.TransportUtil;
 import utils.UpdateUtil;
 import utils.WeightUtil;
 

@@ -36,6 +36,10 @@ public class IServlet extends HttpServlet {
     public static final String TYPE = "type";
     public static final String MANAGER = "manager";
     public static final String CALCULATORS = "calculators";
+    public static final String AMOUNT = "amount";
+    public static final String PLAN = "plan";
+    public static final String STORAGES = "storages";
+    public static final String SHIPPERS = "shippers";
 
     public static final LanguageBase lb = LanguageBase.getBase();
     public Worker getWorker(HttpServletRequest req){

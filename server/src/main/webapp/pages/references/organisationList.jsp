@@ -21,7 +21,7 @@
 </style>
 <div id="referencesList" style="width: 100%">
     <table>
-        <template v-for="(organisations, key) in items">
+        <template v-for="key in getKeys()">
             <tr>
                 <td>
                     <span style="font-size: 18pt; font-weight: bold">
@@ -31,7 +31,7 @@
             </tr>
             <tr>
                 <td>
-                    <div v-for="organisation in organisations" class="block" v-on:click="edit(organisation.id)">
+                    <div v-for="organisation in items[key]" class="block" v-on:click="edit(organisation.id)">
                         {{organisation.value}}
                     </div>
                 </td>

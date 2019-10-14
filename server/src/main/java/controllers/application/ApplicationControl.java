@@ -20,6 +20,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.APPLICATION)
 public class ApplicationControl extends IServlet{
 
+
     final dbDAO dao = dbDAOService.getDAO();
     final Subscriber[] applicationSubscribes = new Subscriber[]{Subscriber.MESSAGES};
     public static final String SUBSCRIBER = "SUBSCRIBER";
@@ -28,6 +29,7 @@ public class ApplicationControl extends IServlet{
     public static final String BUY_ARCHIVE = "buyArchive";
     public static final String WAREHOUSING_LIST = "warehousing";
     public static final String WAREHOUSING_ARCHIVE = "warehousingArchive";
+    public static final String REPORTS = "reports";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,6 +52,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("weightArchive", Branches.UI.WEIGHT_ARCHIVE);
         req.setAttribute(WAREHOUSING_LIST, Branches.UI.WAREHOUSING_LIST);
         req.setAttribute(WAREHOUSING_ARCHIVE, Branches.UI.WAREHOUSING_ARCHIVE);
+        req.setAttribute(REPORTS, Branches.UI.REPORTS);
         req.setAttribute("storages", Branches.UI.STORAGE_LIST);
         req.setAttribute("manufactureReport", Branches.UI.MANUFACTURE_REPORT);
         req.setAttribute("probeList", Branches.UI.PROBE_LIST);

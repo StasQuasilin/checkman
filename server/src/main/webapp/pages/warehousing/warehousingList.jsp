@@ -132,34 +132,41 @@
                     </div>
                     <div style="display: inline-block; font-size: 10pt">
                         <div v-if="value.item.weight.id">
-                            <fmt:message key="weight.brutto"/>:{{value.item.weight.brutto}},
-                            <fmt:message key="weight.tara"/>:{{value.item.weight.tara}},
-                            <fmt:message key="weight.netto"/>:{{value.item.weight.brutto > 0 &&
-                            value.item.weight.tara > 0 ?
-                            (value.item.weight.brutto -
-                            value.item.weight.tara).toLocaleString() : 0}}
-                            <span v-if="value.item.weight.correction">
-                                ({{(value.item.weight.netto).toLocaleString()}},
-                                -{{(value.item.weight.correction).toLocaleString()}}%)
-                            </span>
+                            <div>
+                                Б:{{value.item.weight.brutto}},
+                                Т:{{value.item.weight.tara}}
+                            </div>
+                            <div>
+                                <span>
+                                    <fmt:message key="weight.netto"/>:{{value.item.weight.brutto > 0 &&
+                                    value.item.weight.tara > 0 ?
+                                    (value.item.weight.brutto -
+                                    value.item.weight.tara).toLocaleString() : 0}}
+                                </span>
+                                <span v-if="value.item.weight.correction">
+                                    ({{(value.item.weight.netto).toLocaleString()}},
+                                    -{{(value.item.weight.correction).toLocaleString()}}%)
+                                </span>
+                            </div>
+
                         </div>
-                        <div v-if="value.item.analyses.sun.id">
-                            <fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},
-                            <fmt:message key="sun.humidity.2"/>:{{value.item.analyses.sun.humidity2}},
-                            <fmt:message key="sun.soreness"/>:{{value.item.analyses.sun.soreness}},
-                            <fmt:message key="sun.oiliness"/>:{{value.item.analyses.sun.oiliness}}
-                        </div>
-                        <div v-if="value.item.analyses.oil.id">
-                            <fmt:message key="sun.acid.value"/>:{{value.item.analyses.oil.acid}},
-                            <fmt:message key="oil.peroxide"/>:{{value.item.analyses.oil.peroxide}},
-                            <fmt:message key="oil.phosphorus"/>:{{value.item.analyses.oil.phosphorus}}
-                        </div>
-                        <div v-if="value.item.analyses.cake.id">
-                            <fmt:message key="sun.humidity"/>:{{value.item.analyses.cake.humidity}},
-                            <fmt:message key="cake.protein"/>:{{value.item.analyses.cake.protein}},
-                            <fmt:message key="cake.cellulose"/>:{{value.item.analyses.cake.cellulose}},
-                            <fmt:message key="sun.oiliness"/>:{{value.item.analyses.cake.oiliness}}
-                        </div>
+                        <%--<div v-if="value.item.analyses.sun.id">--%>
+                            <%--<fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},--%>
+                            <%--<fmt:message key="sun.humidity.2"/>:{{value.item.analyses.sun.humidity2}},--%>
+                            <%--<fmt:message key="sun.soreness"/>:{{value.item.analyses.sun.soreness}},--%>
+                            <%--<fmt:message key="sun.oiliness"/>:{{value.item.analyses.sun.oiliness}}--%>
+                        <%--</div>--%>
+                        <%--<div v-if="value.item.analyses.oil.id">--%>
+                            <%--<fmt:message key="sun.acid.value"/>:{{value.item.analyses.oil.acid}},--%>
+                            <%--<fmt:message key="oil.peroxide"/>:{{value.item.analyses.oil.peroxide}},--%>
+                            <%--<fmt:message key="oil.phosphorus"/>:{{value.item.analyses.oil.phosphorus}}--%>
+                        <%--</div>--%>
+                        <%--<div v-if="value.item.analyses.cake.id">--%>
+                            <%--<fmt:message key="sun.humidity"/>:{{value.item.analyses.cake.humidity}},--%>
+                            <%--<fmt:message key="cake.protein"/>:{{value.item.analyses.cake.protein}},--%>
+                            <%--<fmt:message key="cake.cellulose"/>:{{value.item.analyses.cake.cellulose}},--%>
+                            <%--<fmt:message key="sun.oiliness"/>:{{value.item.analyses.cake.oiliness}}--%>
+                        <%--</div>--%>
                     </div>
                 </div>
                 <div class="lower-row" v-if="value.item.notes.length > 0">

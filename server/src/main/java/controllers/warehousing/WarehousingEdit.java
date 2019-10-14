@@ -20,12 +20,16 @@ public class WarehousingEdit extends IModal{
     public static final String _TITLE = "title.warehousing.edit";
     public static final String _CONTENT = "/pages/warehousing/warehousingEdit.jsp";
 
+
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(ID));
         LoadPlan plan = dao.getLoadPlanById(id);
-        req.setAttribute("plan", plan);
-        req.setAttribute("storages", dao.getStorageProductByProduct(plan.getTransportation().getProduct()));
+        req.setAttribute(PLAN, plan);
+        req.setAttribute(STORAGES, dao.getStorageProductByProduct(plan.getTransportation().getProduct()));
+        req.setAttribute(SHIPPERS, dao.getShipperList());
+        req.setAttribute(SAVE, Branches.API.WAREHOUSING_EDIT);
 
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(MODAL_CONTENT, _CONTENT);

@@ -65,15 +65,8 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 loadPlan.setUid(DocumentUIDGenerator.generateUID());
                 loadPlan.setDeal(deal);
                 loadPlan.setShipper(deal.getShipper());
-                transportation = new Transportation();
-                transportation.setUid(DocumentUIDGenerator.generateUID());
-                transportation.setCreator(getWorker(req));
-                transportation.setType(deal.getType());
-                transportation.setShipper(loadPlan.getShipper());
-                transportation.setCounterparty(deal.getOrganisation());
-                transportation.setProduct(deal.getProduct());
-                transportation.setType(deal.getType());
-                transportation.setManager(deal.getCreator());
+                transportation = TransportUtil.createTransportation(deal, deal.getCreator(), getWorker(req));
+
                 loadPlan.setTransportation(transportation);
                 planComparator.fix(null);
                 transportationComparator.fix(null);

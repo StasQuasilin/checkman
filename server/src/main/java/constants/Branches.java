@@ -84,6 +84,7 @@ public class Branches {
         public static final String WAREHOUSING_ARCHIVE = TRANSPORT_ARCHIVE + "?type=" + ArchiveType.warehousing.toString();
         public static final String WAREHOUSING_EDIT = "/warehousing/edit.j";
         public static final String STORAGE_EDIT = "/storage/edit.j";
+        public static final String REPORTS = "/reports.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -219,6 +220,7 @@ public class Branches {
         public static final String ARCHIVE_FIND = API + "/archive/find";
         public static final String USER_BOT_DELETE = API + "/user/bot/delete";
         public static final String STORAGE_EDIT = API + "/storage/edit";
+        public static final String WAREHOUSING_EDIT = API + "/warehousing/edit";
 
 
         public class References {

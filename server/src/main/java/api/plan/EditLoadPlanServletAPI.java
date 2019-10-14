@@ -16,6 +16,7 @@ import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
+import entity.transport.TransportUtil;
 import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
@@ -81,12 +82,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             } else {
                 loadPlan = new LoadPlan();
                 loadPlan.setDeal(deal);
-                transportation = new Transportation();
-                transportation.setUid(DocumentUIDGenerator.generateUID());
-                transportation.setProduct(deal.getProduct());
-                transportation.setType(deal.getType());
-                transportation.setCounterparty(deal.getOrganisation());
-                transportation.setManager(manager);
+                transportation = TransportUtil.createTransportation(deal, manager, creator);
                 loadPlan.setTransportation(transportation);
             }
 
