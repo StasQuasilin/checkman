@@ -218,4 +218,5 @@ public interface dbDAO {
     List<StorageProduct> getStorageProductByProduct(Product product);
     List<StorageProduct> getStorageProductByStorage(Object id);
     <T> float sum(Class<T> tClass, HashMap<String, Object> param, String... columns);
+    <T> List<T> getObjectsByParams(Class<T> tClass, HashMap<String, Object> params);
 }

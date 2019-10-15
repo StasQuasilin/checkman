@@ -67,7 +67,10 @@
   edit.api.save = '${save}';
   edit.document = ${plan.transportation.id};
   edit.shipper = ${plan.transportation.shipper.id};
+  <c:if test="${plan.transportation.weight.netto > 0}">
   edit.netto = Math.round((${plan.transportation.weight.netto}) * 100) / 100;
+  </c:if>
+
 
   var r = {};
   <c:forEach items="${plan.transportation.usedStorages}" var="use">

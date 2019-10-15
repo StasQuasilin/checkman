@@ -1,6 +1,7 @@
 package utils;
 
 import bot.BotUID;
+import constants.Constants;
 import entity.*;
 import entity.answers.IAnswer;
 import entity.bot.UserBotSetting;
@@ -60,6 +61,8 @@ public class JsonParser {
     private static final String READ = "read";
     private static final String REGISTRATION = "registration";
     private static final String OFFICE = "office";
+    private static final String STORGES = Constants.STORAGE;
+    private static final String AMOUNT = Constants.AMOUNT;
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -198,7 +201,7 @@ public class JsonParser {
             json.put(REGISTRATION, toJson(transportation.getTimeRegistration()));
             json.put(TIME_IN, toJson(transportation.getTimeIn()));
             json.put(TIME_OUT, toJson(transportation.getTimeOut()));
-            json.put(HASH, transportation.hashCode());
+            json.put(STORGES, toStoragesJson(transportation.getUsedStorages()));
             json.put(WEIGHT, toJson(transportation.getWeight()));
             json.put(ANALYSES, toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getMealAnalyses()));
             json.put(NOTES, toNotesJson(transportation.getNotes()));
@@ -208,6 +211,23 @@ public class JsonParser {
             json.put(MANAGER, toJson(transportation.getManager()));
 
         }
+        return json;
+    }
+
+    private JSONArray toStoragesJson(List<TransportStorageUsed> list) {
+        JSONArray array = pool.getArray();
+        for (TransportStorageUsed u : list){
+            array.add(toJson(u));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(TransportStorageUsed tsu) {
+        JSONObject json = pool.getObject();
+        json.put(ID, tsu.getId());
+        json.put(STORAGE, tsu.getStorage().getName());
+        json.put(AMOUNT, tsu.getAmount());
+
         return json;
     }
 

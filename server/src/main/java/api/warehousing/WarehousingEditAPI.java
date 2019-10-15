@@ -10,6 +10,7 @@ import entity.transport.TransportStorageUsed;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +29,8 @@ public class WarehousingEditAPI extends ServletAPI {
     private static final String DOCUMENT = Constants.DOCUMENT;
     private static final String RELATIONS = "relations";
     private static final String SHIPPER = Constants.SHIPPER;
+
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
 
     @Override
@@ -104,8 +107,10 @@ public class WarehousingEditAPI extends ServletAPI {
                 }
                 dao.save(u);
             }
+            if (save.size() > 0){
+                updateUtil.onSave(transportation);
+            }
             save.clear();
-
 
             write(resp, SUCCESS_ANSWER);
 

@@ -18,13 +18,16 @@ import java.io.IOException;
 @WebServlet(Branches.UI.LOGISTIC_LIST)
 public class LogisticList extends IUIServlet{
 
+    private static final long serialVersionUID = 8487428665694665680L;
     final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOGISTIC};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Titles.LOGISTIC_LIST);
+        req.setAttribute(TITLE, Titles.LOGISTIC_LIST);
         req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
         req.setAttribute("findDriver", Branches.API.References.FIND_DRIVER);
+        req.setAttribute("parseVehicle", Branches.API.PARSE_VEHICLE);
+        req.setAttribute("parseDriver", Branches.API.PARSE_PERSON);
         req.setAttribute("saveVehicle", Branches.API.SAVE_TRANSPORTATION_VEHICLE);
         req.setAttribute("saveDriver", Branches.API.SAVE_TRANSPORTATION_DRIVER);
         req.setAttribute("editVehicle", Branches.UI.EDIT_VEHICLE);
@@ -33,9 +36,9 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
         req.setAttribute("dealTypes", DealType.values());
         req.setAttribute("changeDate", Branches.API.CHANGE_DATE);
-        req.setAttribute("content", "/pages/logistic/logisticList.jsp");
-        req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
-        req.setAttribute("subscribe", subscribers);
+        req.setAttribute(CONTENT, "/pages/logistic/logisticList.jsp");
+        req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
+        req.setAttribute(SUBSCRIBE, subscribers);
         show(req, resp);
     }
 }

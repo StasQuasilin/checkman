@@ -1,10 +1,12 @@
 package entity.transport;
 
+import api.warehousing.WarehousingEditAPI;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.documents.Shipper;
 import entity.laboratory.SunAnalyses;
+import entity.storages.StorageProduct;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import utils.Archivator;
@@ -14,6 +16,7 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by quasilin on 18.03.2019.
@@ -42,6 +45,19 @@ public class TransportUtil{
 
         if (isArchive){
             Archivator.add(transportation);
+            if (transportation.getUsedStorages().size() == 0){
+                List<StorageProduct> storageProducts = dao.getStorageProductByProduct(transportation.getProduct());
+                if (storageProducts.size() > 0){
+                    TransportStorageUsed used = new TransportStorageUsed();
+                    used.setTransportation(transportation);
+                    used.setStorage(storageProducts.get(0).getStorage());
+                    used.setShipper(transportation.getShipper());
+                    used.setAmount(1f * Math.round(transportation.getWeight().getNetto() * 100) / 100);
+                    used.setCreate(new ActionTime(transportation.getCreator()));
+                    dao.save(used.getCreate());
+                    dao.save(used);
+                }
+            }
             try {
                 updateUtil.onSave(transportation);
             } catch (IOException e) {

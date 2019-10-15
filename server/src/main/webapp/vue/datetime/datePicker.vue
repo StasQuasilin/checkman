@@ -25,6 +25,14 @@ const datepicker = new Vue({
                 this.date = new Date().toISOString().substring(0, 10)
             }
             this.onSelects.push(onSelect);
+            const self = this;
+            setTimeout(function(){
+                var bound = self.$refs.date.getBoundingClientRect();
+                if (bound.x + bound.width > document.body.clientWidth){
+                    self.x = document.body.clientWidth - bound.width;
+                }
+            }, 10);
+
             return this.onSelects.length;
         },
         put:function(){

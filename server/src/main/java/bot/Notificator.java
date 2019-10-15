@@ -321,8 +321,7 @@ public class Notificator {
         try {
             telegramBot.sendMsg(telegramId, message, keyboard);
         } catch (TelegramApiException e) {
-            System.out.println(e.getMessage() + ":" + Arrays.toString(e.getSuppressed()));
-
+            System.out.println(e.getMessage() + ":" + e);
             e.printStackTrace();
         }
     }

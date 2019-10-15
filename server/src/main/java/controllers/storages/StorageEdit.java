@@ -18,7 +18,7 @@ public class StorageEdit extends IModal {
 
     public static final String _TITLE = "title.storage.edit";
     public static final String _CONTENT = "/pages/storages/storageEdit.jsp";
-
+    private static final long serialVersionUID = 3173904142641540463L;
 
 
     @Override

@@ -4,6 +4,8 @@ import constants.Branches;
 import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
+import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -24,6 +26,7 @@ import java.util.List;
 public class EditVehicle extends IModal {
     
     static final Logger log = Logger.getLogger(EditVehicle.class);
+    private static final long serialVersionUID = -3408219322560525726L;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -70,8 +73,8 @@ public class EditVehicle extends IModal {
         req.setAttribute("vehicle", vehicle);
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("saveVehicleAPI", Branches.API.References.SAVE_VEHICLE);
-        req.setAttribute("modalContent", "/pages/transport/vehicleInput.jsp");
-        req.setAttribute("title", Titles.VEHICLE_INPUT);
+        req.setAttribute(MODAL_CONTENT, "/pages/transport/vehicleInput.jsp");
+        req.setAttribute(TITLE, Titles.VEHICLE_INPUT);
         show(req, resp);
     }
 }

@@ -31,7 +31,8 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
 
         if (body != null) {
-            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION_ID));
+            System.out.println(body);
+            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
             Transportation transportation = plan.getTransportation();
             comparator.fix(transportation);
             long vehicleId = -1;

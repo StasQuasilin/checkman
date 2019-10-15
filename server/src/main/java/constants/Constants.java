@@ -63,6 +63,8 @@ public class Constants {
     public static final String WEIGHT_TARA = WEIGHT + SLASH + TARA;
     public static final String DOCUMENT = "document";
     public static final String SHIPPER = "shipper";
+    public static final String AMOUNT = "amount";
+    public static final String TURN = "turn";
 
 
     public static class Languages {

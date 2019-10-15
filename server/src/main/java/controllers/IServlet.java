@@ -18,6 +18,8 @@ public class IServlet extends HttpServlet {
 
     public static final String ID = Constants.ID;
     public static final String TITLE = Constants.TITLE;
+    public static final String DATE = Constants.DATE;
+    public static final String TURN = Constants.TURN;
     public static final String SUBSCRIBE = "subscribe";
     public static final String FILTER = "filter";
     public static final String EDIT = "edit";

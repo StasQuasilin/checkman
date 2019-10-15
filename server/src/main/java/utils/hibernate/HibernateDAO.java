@@ -1057,4 +1057,9 @@ public class HibernateDAO implements dbDAO {
     public <T> float sum(Class<T> tClass, HashMap<String, Object> param, String... columns) {
         return hb.sum(tClass, param, columns);
     }
+
+    @Override
+    public <T> List<T> getObjectsByParams(Class<T> tClass, HashMap<String, Object> params) {
+        return hb.query(tClass, params);
+    }
 }

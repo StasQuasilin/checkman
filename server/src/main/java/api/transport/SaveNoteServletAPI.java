@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 @WebServlet(Branches.API.SAVE_NOTE)
 public class SaveNoteServletAPI extends ServletAPI {
 
+    private static final long serialVersionUID = 2163860344702139213L;
     final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -39,6 +40,7 @@ public class SaveNoteServletAPI extends ServletAPI {
                 note.setTransportation(plan.getTransportation());
                 note.setNote(noteText);
                 dao.save(note);
+                updateUtil.onSave(plan.getTransportation());
                 write(resp, SUCCESS_ANSWER);
             }
         }

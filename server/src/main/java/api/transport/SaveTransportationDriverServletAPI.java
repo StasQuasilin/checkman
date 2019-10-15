@@ -23,6 +23,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.SAVE_TRANSPORTATION_DRIVER)
 public class SaveTransportationDriverServletAPI extends ServletAPI {
 
+    private static final long serialVersionUID = 6195420614719257948L;
     private final TransportationComparator comparator = new TransportationComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -30,8 +31,9 @@ public class SaveTransportationDriverServletAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
-            Transportation transportation = plan.getTransportation();
+            System.out.println(body);
+            LoadPlan loadPlan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
+            Transportation transportation = loadPlan.getTransportation();
 
             comparator.fix(transportation);
             long driverId = -1;

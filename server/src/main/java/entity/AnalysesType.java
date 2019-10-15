@@ -7,5 +7,6 @@ public enum AnalysesType {
     sun,
     oil,
     cake,
-    meal
+    meal,
+    none
 }

@@ -30,22 +30,24 @@
     <c:forEach items="${storages}" var="storage">
     storages.storages.push({
       id:${storage.id},
-      name:'${storage.name}'
+      name:'${storage.name}',
+      open:false
     });
     </c:forEach>
   </script>
-  <div id="static-content">
+  <div id="static-content" style="width: 150pt">
     <div id="storages">
-
-        <div v-for="storage in storages">
+        <div v-for="storage in storages" v-on:click="storage.open = !storage.open">
+          <span v-if="storage.open">
+            &#9207;
+          </span>
+          <span v-else>
+            &#9205;
+          </span>
           <span>
               {{storage.name}}
           </span>
-          <span class="mini-close flipY" style="padding: 0" v-on:click="edit(storage.id)">
-            &#9998;
-          </span>
         </div>
-
     </div>
   </div>
 </html>

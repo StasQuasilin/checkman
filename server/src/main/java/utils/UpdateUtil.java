@@ -78,9 +78,8 @@ public class UpdateUtil {
     }
 
     public void onSave(LoadPlan plan) throws IOException {
-        JSONObject json = parser.toJson(plan);
-        doAction(Command.update, Subscriber.LOAD_PLAN, json);
-        doAction(Command.update, Subscriber.LOGISTIC, json);
+        doAction(Command.update, Subscriber.LOAD_PLAN, parser.toJson(plan));
+        doAction(Command.update, Subscriber.LOGISTIC, parser.toJson(plan));
     }
 
     public void onRemove(LoadPlan plan) throws IOException {
@@ -91,9 +90,6 @@ public class UpdateUtil {
         onRemove(loadPlan);
         onArchive(loadPlan.getTransportation());
     }
-
-
-
 
     public void onRemove(ExtractionCrude crude) throws IOException {
         doAction(Command.remove, Subscriber.EXTRACTION, crude.getId());
@@ -114,6 +110,7 @@ public class UpdateUtil {
         }
         json.put(command.toString(), array);
         subscriptions.send(subscriber, json);
+
         pool.put(json);
     }
 

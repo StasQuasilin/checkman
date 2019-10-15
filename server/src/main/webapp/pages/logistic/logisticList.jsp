@@ -15,8 +15,12 @@
     </c:forEach>
     logistic.api.saveVehicle = '${saveVehicle}';
     logistic.api.saveDriver = '${saveDriver}';
+    logistic.api.parseVehicle = '${parseVehicle}';
+    logistic.api.parseDriver = '${parseDriver}';
     logistic.api.findVehicle = '${findVehicle}';
     logistic.api.findDriver = '${findDriver}';
+    logistic.api.editVehicle = '${editVehicle}';
+    logistic.api.editDriver = '${editDriver}';
     logistic.api.vehicleInput = '${vehicleInput}';
     logistic.api.driverInput = '${driverInput}';
     logistic.api.saveNote = '${saveNote}';
@@ -44,7 +48,8 @@
 <c:set var="dateRight"><fmt:message key="date.right"/></c:set>
   <div id="logistic">
     <transition-group name="flip-list" tag="div" class="container">
-      <div v-for="(value, key) in getItems()" class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()"
+      <div v-for="(value, key) in getItems()" class="container-item"
+           :class="'container-item-' + new Date(value.item.date).getDay()"
            :key="value.item.id" :id="value.item.id">
         <div class="upper-row">
         <span class="date-container">
@@ -119,10 +124,10 @@
                 <span class="edit-menu-header">
                   &#9660;
                   <div class="edit-menu">
-                    <span v-on:click="parseVehicle(value)">
+                    <span v-on:click="editVehicle(value)">
                       <fmt:message key="edit"/>
                     </span>
-                    <span v-on:click="deleteVehicle(value.item.transportation.id)">
+                    <span v-on:click="deleteVehicle(value.item.id)">
                       <fmt:message key="button.cancel"/>
                     </span>
                   </div>
@@ -130,7 +135,8 @@
               </span>
                 <template v-else-if="value.editVehicle">
                   <div style="display: inline-block;">
-                    <input v-model="value.vehicleInput" style="width: 100%; border: none" v-on:keyup="findVehicle(value)"
+                    <input v-model="value.vehicleInput" style="width: 100%; border: none"
+                           v-on:keyup="findVehicle(value)"
                            v-on:keyup.enter="parseVehicle(value)" onclick="this.select()" >
                     <div class="custom-data-list">
                       <div class="custom-data-list-item" v-for="vehicle in foundVehicles"
@@ -152,7 +158,7 @@
                 </a>
               </div>
             </div>
-            <div>
+            <div style="padding: 2pt 0">
               <span class="transport-label">
                 <fmt:message key="transportation.driver"/>:
               </span>
@@ -162,7 +168,7 @@
                   <span class="edit-menu-header">
                     &#9660;
                     <div class="edit-menu">
-                      <span v-on:click="parseDriver(value)">
+                      <span v-on:click="editDriver(value)">
                         <fmt:message key="edit"/>
                       </span>
                       <span v-on:click="deleteDriver(value.item.id)">
@@ -172,14 +178,13 @@
                   </span>
                 </span>
                 <template v-else-if="value.editDriver">
-                  <div style="display: inline-block; width: 85%">
+                  <div style="display: inline-block; width: 90%">
                     <input v-model="value.driverInput" style="width: 100%; border: none"
                            v-on:keyup="findDriver(value)"
-                           v-on:keyup.enter="parseDriver(value)"
-                        >
+                           v-on:keyup.enter="parseDriver(value)">
                     <div class="custom-data-list" v-show="foundDrivers">
                       <div class="custom-data-list-item" v-for="driver in foundDrivers"
-                           v-on:click="setDriver(value.item.id, driver.id, key)">
+                           v-on:click="setDriver(value.item.id, driver.id)">
                         {{driver.person.value}}
                       </div>
                     </div>
@@ -221,7 +226,6 @@
               <span style="padding: 0">
                 <fmt:message key="you"/>
               </span>
-
             </span>
             <span v-else>
             {{note.creator.person.value}}

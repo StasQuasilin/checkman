@@ -221,6 +221,7 @@ public class Branches {
         public static final String USER_BOT_DELETE = API + "/user/bot/delete";
         public static final String STORAGE_EDIT = API + "/storage/edit";
         public static final String WAREHOUSING_EDIT = API + "/warehousing/edit";
+        public static final String REPORT_BUILDER = API + "/report/builder";
 
 
         public class References {

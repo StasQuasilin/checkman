@@ -60,7 +60,7 @@
     </script>
 
     <div class="datetime-picker" id="datePicker" v-show="onSelects.length" v-on:click="close">
-        <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
+        <div class="picker-content" ref="date" :style="{top:y + 'px', left:x + 'px'}">
             <v-date-picker class="date-picker"
                            :no-title="true"
                            :locale="locale"
@@ -151,6 +151,11 @@
                 </td>
                 <td style="max-width: 200pt">
                     <div class="static-content" id="static"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="font-size: 8pt" align="center">
+                    Цілодобова моральна підтримка: +38(050)-965-79-89
                 </td>
             </tr>
         </table>
