@@ -214,11 +214,9 @@ public class JsonParser {
         return json;
     }
 
-    private JSONArray toStoragesJson(List<TransportStorageUsed> list) {
+    private JSONArray toStoragesJson(Set<TransportStorageUsed> list) {
         JSONArray array = pool.getArray();
-        for (TransportStorageUsed u : list){
-            array.add(toJson(u));
-        }
+        array.addAll(list.stream().map(this::toJson).collect(Collectors.toList()));
         return array;
     }
 

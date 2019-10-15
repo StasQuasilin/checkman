@@ -34,9 +34,11 @@ public class ReportBuilder extends ServletAPI {
         if (body != null){
 
             JSONObject report = pool.getObject();
+            HashMap<String, Object> params = new HashMap<>();
 
             Date date = Date.valueOf(String.valueOf(body.get(DATE)));
             report.put("date", date.toString());
+            params.put("date", date);
 
             int turnNumber = Integer.parseInt(String.valueOf(body.get(TURN)));
             if (turnNumber != -1) {
@@ -45,16 +47,26 @@ public class ReportBuilder extends ServletAPI {
             }
 
             int productId = Integer.parseInt(String.valueOf(body.get(PRODUCT)));
+            if (productId != -1){
+                params.put("product", productId);
+            }
             int storageId = Integer.parseInt(String.valueOf(body.get(STORAGE)));
 
-
-
-            HashMap<String, Object> params = new HashMap<>();
-
-            params.put("date", date);
-            JSONArray loads = pool.getArray();
+            JSONObject loads = pool.getObject();
             for (Transportation transportation : dao.getObjectsByParams(Transportation.class, params)){
-                loads.add(parser.toJson(transportation));
+                String product = transportation.getProduct().getName();
+                if (!loads.containsKey(product)){
+                    JSONObject j = pool.getObject();
+                    j.put("weight", 0);
+                    j.put("values", pool.getArray());
+                    loads.put(product, j);
+                }
+                JSONObject o = (JSONObject) loads.get(product);
+                float weight = Float.parseFloat(String.valueOf(o.get("weight")));
+                weight += transportation.getWeight().getNetto();
+                o.put("weight", weight);
+                JSONArray a = (JSONArray) o.get("values");
+                a.add(parser.toJson(transportation));
             }
 
             report.put("loads", loads);

@@ -41,7 +41,7 @@ public class Transportation {
     private Worker creator;
     private Worker manager;
     private Set<TransportationNote> notes;
-    private List<TransportStorageUsed> usedStorages;
+    private Set<TransportStorageUsed> usedStorages;
     private boolean archive;
     private boolean done;
     private String uid;
@@ -216,10 +216,10 @@ public class Transportation {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public List<TransportStorageUsed> getUsedStorages() {
+    public Set<TransportStorageUsed> getUsedStorages() {
         return usedStorages;
     }
-    public void setUsedStorages(List<TransportStorageUsed> usedStorages) {
+    public void setUsedStorages(Set<TransportStorageUsed> usedStorages) {
         this.usedStorages = usedStorages;
     }
 

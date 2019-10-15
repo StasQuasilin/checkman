@@ -181,14 +181,21 @@ var logistic = new Vue({
                 this.foundVehicles = [];
             }
         },
-        setDriver:function(id, driver){
+        setDriver:function(id, driver, item){
             console.log(id+', ' + driver);
+            item.driverInput = '';
+            item.editDriver = false;
+            this.foundDrivers = [];
             PostApi(this.api.saveDriver, {transportation : id, driver_id : driver}, function(a){
                 console.log(a)
+
             })
         },
-        setVehicle:function(transportation, vehicle, key){
+        setVehicle:function(transportation, vehicle, item){
             console.log(transportation+', ' + vehicle);
+            item.vehicleInput = '';
+            item.editVehicle = false;
+            this.foundVehicles = [];
             PostApi(this.api.saveVehicle, {transportation : transportation, vehicle : vehicle}, function(a){
                 console.log(a)
             })

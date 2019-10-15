@@ -107,12 +107,12 @@
             </span>
             </div>
           </div>
-          <div style="display: inline-block">
+          <div style="display: inline-block; width: 340pt">
             <div>
             <span class="transport-label">
               <fmt:message key="transportation.automobile"/>:
             </span>
-              <div class="content-item">
+              <div class="content-item" style="width: 80%">
               <span v-if="value.item.vehicle.id">
                 <b>{{value.item.vehicle.model}}</b>
                 <span class="vehicle-number">
@@ -134,13 +134,13 @@
                 </span>
               </span>
                 <template v-else-if="value.editVehicle">
-                  <div style="display: inline-block;">
-                    <input v-model="value.vehicleInput" style="width: 100%; border: none"
+                  <div style="display: inline-block; width: 90%">
+                    <input v-model="value.vehicleInput" style="width: 100%; border: solid paleturquoise 1pt"
                            v-on:keyup="findVehicle(value)"
                            v-on:keyup.enter="parseVehicle(value)" onclick="this.select()" >
                     <div class="custom-data-list">
                       <div class="custom-data-list-item" v-for="vehicle in foundVehicles"
-                           v-on:click="setVehicle(value.item.id, vehicle.id, key)">
+                           v-on:click="setVehicle(value.item.id, vehicle.id, value)">
                         {{vehicle.model}}
                       <span>
                         {{vehicle.number}}
@@ -151,18 +151,18 @@
                       </div>
                     </div>
                   </div>
-                  <span class="mini-close" v-on:click="closeVehicleInput(key)" style="left: -22px">&times;</span>
+                  <span class="mini-close" v-on:click="closeVehicleInput(key)" style="left: -24px">&times;</span>
                 </template>
                 <a v-else v-on:click="openVehicleInput(value.item.id)">
                   <fmt:message key="transport.insert.infortation"/>
                 </a>
               </div>
             </div>
-            <div style="padding: 2pt 0">
+            <div style="padding: 2pt 0; width: 100%" >
               <span class="transport-label">
                 <fmt:message key="transportation.driver"/>:
               </span>
-              <div style="display: inline-block;">
+              <div style="display: inline-block; width: 80%">
                 <span v-if="value.item.driver.id">
                   <b>{{value.item.driver.person.value}}</b>
                   <span class="edit-menu-header">
@@ -179,17 +179,17 @@
                 </span>
                 <template v-else-if="value.editDriver">
                   <div style="display: inline-block; width: 90%">
-                    <input v-model="value.driverInput" style="width: 100%; border: none"
+                    <input v-model="value.driverInput" style="width: 100%; border: solid paleturquoise 1pt"
                            v-on:keyup="findDriver(value)"
                            v-on:keyup.enter="parseDriver(value)">
                     <div class="custom-data-list" v-show="foundDrivers">
                       <div class="custom-data-list-item" v-for="driver in foundDrivers"
-                           v-on:click="setDriver(value.item.id, driver.id)">
+                           v-on:click="setDriver(value.item.id, driver.id, value)">
                         {{driver.person.value}}
                       </div>
                     </div>
                   </div>
-                  <span class="mini-close" v-on:click="closeDriverInput(key)" style="left: -22px;">&times;</span>
+                  <span class="mini-close" v-on:click="closeDriverInput(key)" style="left: -24px;">&times;</span>
                 </template>
                 <a v-else v-on:click="openDriverInput(value.item.id)">
                   <fmt:message key="transportation.driver.insert.info"/>
@@ -230,7 +230,11 @@
             <span v-else>
             {{note.creator.person.value}}
             </span>
-            :{{note.note}}
+            :
+            <i>
+              {{note.note}}
+            </i>
+
           </div>
         </div>
       </div>
