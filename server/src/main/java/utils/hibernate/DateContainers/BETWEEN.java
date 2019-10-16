@@ -1,6 +1,8 @@
 package utils.hibernate.DateContainers;
 
-import java.sql.Date;
+import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by szpt_user045 on 22.11.2018.
@@ -12,6 +14,11 @@ public class BETWEEN {
     public BETWEEN(Date from, Date to) {
         this.from = from;
         this.to = to;
+    }
+
+    public BETWEEN(LocalDateTime from, LocalDateTime to) {
+        this.from = Timestamp.valueOf(from);
+        this.to = Timestamp.valueOf(to);
     }
 
     public Date getFrom() {

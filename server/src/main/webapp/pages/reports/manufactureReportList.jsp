@@ -171,23 +171,42 @@
         <b>
           {{new Date(report.date).toLocaleDateString().substring(0, 10)}}
         </b>
+        <b v-if="report.turn">
+          <fmt:message key="turn"/> {{report.turn}}
+        </b>
       </td>
     </tr>
     <template v-if="report.loads">
       <tr>
-        <td>
+        <td style="border-bottom: solid black 1pt">
           <fmt:message key="deal.loads.done"/>
         </td>
       </tr>
       <template v-for="(load, key) in report.loads">
         <tr>
           <td>
-            {{key}} {{load.length}} {{load.weight}}
-          </td>
-        </tr>
-        <tr v-for="l in load.values">
-          <td>
-            {{l}}
+            <div style="padding-left: 18pt; font-weight: bold">
+              {{key}}, {{load.values.length}}, {{(load.weight).toLocaleString()}}
+            </div>
+            <div style="padding-left: 24pt">
+              <table>
+                <tr v-for="(l, idx) in load.values">
+                  <td>
+                    {{idx + 1}}.{{l.organisation.value}} ({{l.shipper}})
+                  </td>
+                  <td>
+                    {{l.driver.person.value}}
+                  </td>
+                  <td v-if="l.weight.netto">
+                    {{(l.weight.netto).toLocaleString()}}
+                  </td>
+                  <td v-else>
+                    0
+                  </td>
+                </tr>
+              </table>
+            </div>
+
           </td>
         </tr>
       </template>

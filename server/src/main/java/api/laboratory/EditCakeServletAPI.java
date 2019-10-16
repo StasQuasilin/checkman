@@ -12,6 +12,7 @@ import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,9 +26,10 @@ import java.sql.Timestamp;
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_CAKE)
 public class EditCakeServletAPI extends ServletAPI {
-    
-    private final Logger log = Logger.getLogger(EditCakeServletAPI.class);
 
+    private static final long serialVersionUID = 4409989775925601777L;
+    private final Logger log = Logger.getLogger(EditCakeServletAPI.class);
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -88,6 +90,7 @@ public class EditCakeServletAPI extends ServletAPI {
 
                 dao.save(mealAnalyses);
                 dao.saveTransportation(transportation);
+                updateUtil.onSave(transportation);
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

@@ -95,8 +95,7 @@
                     <fmt:message key="no.data"/>
                 </span>
             </span>
-
-                <div style="display: block; font-size: 10pt">
+                <div style="display: inline-block; font-size: 10pt">
                     <div v-if="value.item.analyses.sun.id">
                         <fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},
                         <fmt:message key="sun.humidity.2"/>:{{value.item.analyses.sun.humidity2}},

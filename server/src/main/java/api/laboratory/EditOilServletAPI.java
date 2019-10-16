@@ -95,13 +95,6 @@ public class EditOilServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float wax = Float.parseFloat(String.valueOf(a.get(Constants.Oil.WAX)));
-            log.info("\t\tWax: " + wax);
-            if (oilAnalyses.getWax() != wax) {
-                oilAnalyses.setWax(wax);
-                save = true;
-            }
-
             float degreaseImpurity = Float.parseFloat(String.valueOf(a.get("degreaseImpurity")));
             log.info("\t\tDegreaseImpurity: " + degreaseImpurity);
             if (oilAnalyses.getDegreaseImpurity() != degreaseImpurity) {

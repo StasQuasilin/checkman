@@ -73,7 +73,7 @@
                         </span>
                     </td>
                 </tr>
-                <tr>
+                <tr v-if="vehicle.trailer">
                     <td>
                         <span style="font-size: 10pt">
                             {{vehicle.trailer}}

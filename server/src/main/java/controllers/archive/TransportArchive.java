@@ -37,9 +37,9 @@ public class TransportArchive extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         ArchiveType type = ArchiveType.valueOf(req.getParameter("type"));
-        req.setAttribute("title", Titles.ARCHIVE + "." + type.toString());
+        req.setAttribute(TITLE, Titles.ARCHIVE + "." + type.toString());
 
-        req.setAttribute("types", DealType.values());
+        req.setAttribute(TYPES, DealType.values());
         req.setAttribute("haveMenu", false);
         switch (type){
             case summary:
@@ -47,7 +47,7 @@ public class TransportArchive extends IUIServlet {
                 req.setAttribute(SUBSCRIBE, summaryArchiveSubscriber);
                 break;
             case transportation:
-                req.setAttribute(CONTENT, "/pages/transport/warehousingList.jsp");
+                req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
                 req.setAttribute(SUBSCRIBE, transportArchiveSubscriber);
                 break;
             case weight:{
@@ -57,12 +57,12 @@ public class TransportArchive extends IUIServlet {
                 break;
             }
             default:
-                req.setAttribute("content", "/pages/archive/archiveTypeErr.jsp");
+                req.setAttribute(CONTENT, "/pages/archive/archiveTypeErr.jsp");
                 req.setAttribute("type", type);
                 break;
         }
 
-        req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
+        req.setAttribute(FILTER, "/pages/filters/archiveFilter.jsp");
         req.setAttribute("products", dao.getProductList());
         req.setAttribute("find", Branches.API.ARCHIVE_FIND);
 

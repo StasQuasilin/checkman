@@ -32,7 +32,6 @@
         phosphorus:${plan.oilAnalyses.phosphorus},
         humidity:${plan.oilAnalyses.humidity},
         soap:${plan.oilAnalyses.soap},
-        wax:${plan.oilAnalyses.wax},
         degreaseImpurity:${plan.oilAnalyses.degreaseImpurity},
         transparency:${plan.oilAnalyses.transparency},
         benzopyrene:${plan.oilAnalyses.benzopyrene}
@@ -48,7 +47,6 @@
         phosphorus:0,
         humidity:0,
         soap:false,
-        wax:0,
         degreaseImpurity:0,
         transparency:0,
         benzopyrene:0
@@ -67,7 +65,6 @@
         </td>
         <td>
             {{organisation}}
-
         </td>
     </tr>
     <tr>
@@ -125,15 +122,14 @@
             :
         </td>
         <td style="width: 9em">
-            <input id="organoleptic" type="checkbox" v-model="analyses.organoleptic" style="width: auto">
-            <label for="organoleptic">
-                <span v-if="analyses.organoleptic">
+            <b v-on:click="analyses.organoleptic = !analyses.organoleptic">
+                <a v-if="analyses.organoleptic">
                     <fmt:message key="oil.organoleptic.match"/>
-                </span>
-                <span v-else>
+                </a>
+                <a v-else>
                     <fmt:message key="oil.organoleptic.doesn't.match"/>
-                </span>
-            </label>
+                </a>
+            </b>
         </td>
     </tr>
     <tr>
@@ -209,30 +205,16 @@
             :
         </td>
         <td>
-            <input id="soap" type="checkbox" v-model="analyses.soap" onclick="this.select()">
-            <label for="soap">
-                <span v-if="analyses.soap">
+            <b v-on:click="analyses.soap = !analyses.soap">
+                <a v-if="analyses.soap">
                     <fmt:message key="notification.kpo.soap.yes"/>
-                </span>
-                <span v-else>
+                </a>
+                <a v-else>
                     <fmt:message key="notification.kpo.soap.no"/>
-                </span>
-            </label>
+                </a>
+            </b>
         </td>
 
-    </tr>
-    <tr>
-        <td>
-            <label for="wax">
-                <fmt:message key="oil.wax"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="wax" type="number" step="0.01" v-model="analyses.wax" onclick="this.select()">
-        </td>
     </tr>
     <tr>
         <td>

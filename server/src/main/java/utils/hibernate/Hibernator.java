@@ -6,6 +6,8 @@ import utils.hibernate.DateContainers.*;
 
 import javax.persistence.criteria.*;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -14,7 +16,7 @@ import java.util.*;
 public class Hibernator {
     private static final Hibernator instance = new Hibernator();
 
-    static Hibernator getInstance() {
+    static synchronized Hibernator getInstance() {
         return instance;
     }
 

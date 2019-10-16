@@ -2,11 +2,14 @@ package api.reports;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+import utils.TurnDateTime;
+import utils.hibernate.DateContainers.BETWEEN;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
 
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,13 +42,19 @@ public class ReportBuilder extends ServletAPI {
 
             Date date = Date.valueOf(String.valueOf(body.get(DATE)));
             report.put("date", date.toString());
-            params.put("date", date);
 
             int turnNumber = Integer.parseInt(String.valueOf(body.get(TURN)));
             if (turnNumber != -1) {
                 TurnSettings turn = TurnBox.getTurnByNumber(turnNumber);
+                TurnDateTime turnDate = TurnBox.getTurnDate(LocalDateTime.of(date.toLocalDate(), turn.getBegin().toLocalTime()));
+                params.put("timeIn/time", new BETWEEN(turnDate.getDate(), turnDate.getEnd()));
+                report.put("turn", turn.getNumber());
 
+            } else {
+                params.put("date", date);
             }
+
+
 
             int productId = Integer.parseInt(String.valueOf(body.get(PRODUCT)));
             if (productId != -1){
@@ -62,9 +72,13 @@ public class ReportBuilder extends ServletAPI {
                     loads.put(product, j);
                 }
                 JSONObject o = (JSONObject) loads.get(product);
-                float weight = Float.parseFloat(String.valueOf(o.get("weight")));
-                weight += transportation.getWeight().getNetto();
-                o.put("weight", weight);
+
+                if (transportation.getWeight() != null){
+                    float weight = Float.parseFloat(String.valueOf(o.get("weight")));
+                    weight += transportation.getWeight().getNetto();
+                    o.put("weight", weight);
+                }
+
                 JSONArray a = (JSONArray) o.get("values");
                 a.add(parser.toJson(transportation));
             }
@@ -76,3 +90,4 @@ public class ReportBuilder extends ServletAPI {
         }
     }
 }
+

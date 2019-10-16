@@ -224,6 +224,8 @@ public class TelegramBot extends IBot {
             sendMessage.setReplyMarkup(keyboard);
         }
         execute(sendMessage);
+//        Unable to execute sendmessage method
+//        Error sending message
     }
 
     public BotSettings getBotSettings() {

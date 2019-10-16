@@ -65,6 +65,8 @@ public class Notificator {
     private static final String ORGANOLEPTIC = "oil.organoleptic";
     private static final String MATCH = "oil.organoleptic.match";
     private static final String NO_MATCH = "oil.organoleptic.match";
+    private static final String HAVE = "notification.kpo.soap.yes";
+    private static final String NO_HAVE = "notification.kpo.soap.no";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -225,8 +227,7 @@ public class Notificator {
                             String.format(lb.get(PEROXIDE), analyses.getPeroxideValue()) + NEW_LINE +
                             String.format(lb.get(PHOSPHORUS), analyses.getPhosphorus()) + NEW_LINE +
                             String.format(lb.get(HUMIDITY_1), analyses.getHumidity()) + NEW_LINE +
-                            String.format(lb.get(SOAP), (analyses.isSoap() ? lb.get(MATCH) : lb.get(NO_MATCH))) + NEW_LINE +
-                            String.format(lb.get(WAX), analyses.getWax())
+                            String.format(lb.get(SOAP), (analyses.isSoap() ? lb.get(HAVE) : lb.get(NO_HAVE))) + NEW_LINE
                         );
                     }
 
@@ -321,7 +322,8 @@ public class Notificator {
         try {
             telegramBot.sendMsg(telegramId, message, keyboard);
         } catch (TelegramApiException e) {
-            System.out.println(e.getMessage() + ":" + e);
+            System.out.println(telegramId);
+            System.out.println(e.getMessage() + ":" + Arrays.toString(e.getSuppressed()));
             e.printStackTrace();
         }
     }
