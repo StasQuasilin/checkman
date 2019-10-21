@@ -46,10 +46,6 @@
             {{(types[value.item.type]).toLowerCase(),}}
             {{value.item.product.name}}
           </b>
-          <fmt:message key="deal.from"/>
-          <b>
-            {{value.item.shipper}}
-          </b>
         </span>
       </div>
       <div class="middle-row">

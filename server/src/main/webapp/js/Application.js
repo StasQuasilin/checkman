@@ -36,31 +36,38 @@ function loadContent(url){
     if (url && currentPage != url) {
         currentPage = url;
         coverlet.style.display='block';
-        //content.style.display='none';
+        content.style.display='none';
         //filter.style.display='none';
         console.log('[ Application ] Load page ' + url);
         localStorage.setItem(lastPage + ';' + Settings.worker, url);
         PostReq(url, null, function (e) {
+
             if (typeof stopContent === 'function'){
                 stopContent();
             }
-            if (content) {
-                $(content).empty();
-                $(staticContent).empty();
-                $(filter).empty();
-                $(content).html(e);
-                $(header).html(GetChildElemById(content, 'header-content'));
-                $(header).append(GetChildElemById(content, 'container-header'));
-                $(filter).html(GetChildElemById(content, 'filter-content'));
-                $(staticContent).html(GetChildElemById(content, 'static-content'));
-                content.style.display='block';
+            $(content).empty();
+            $(staticContent).empty();
+            $(filter).empty();
+            $(content).html(e);
+            $(header).html(GetChildElemById(content, 'header-content'));
+            $(header).append(GetChildElemById(content, 'container-header'));
+            let filterContent = GetChildElemById(content, 'filter-content');
+            if (filterContent){
+                console.log('Set filter content');
+                $(filter).html(filterContent);
+            } else {
+                console.log('No filter content');
             }
+
+            $(staticContent).html(GetChildElemById(content, 'static-content'));
+
+            content.style.display='block';
             coverlet.style.display='none';
             filter.style.display='block';
         }, function (e) {
             console.error('[ Application ] Load content error ' + e);
             coverlet.style.display='none';
-            //content.style.display='block';
+            content.style.display='block';
             filter.style.display='block';
         }, true);
     }

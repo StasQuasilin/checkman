@@ -10,5 +10,5 @@ var Settings = {
     getAddress:function(){
         return this.protocol + '://' + this.address + this.context + this.api;
     },
-    switchWidth:1380
+    switchWidth:13800
 };

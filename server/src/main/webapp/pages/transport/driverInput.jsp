@@ -25,7 +25,7 @@
             :
         </td>
         <td>
-            <input id="surname" v-model="person.surname" autocomplete="off" <c:if test="${transportations gt 1}">readonly</c:if>>
+            <input id="surname" v-model="person.surname" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -38,7 +38,7 @@
             :
         </td>
         <td>
-            <input id="forename" v-model="person.forename" autocomplete="off"  <c:if test="${transportations gt 1}">readonly</c:if>>
+            <input id="forename" v-model="person.forename" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -51,7 +51,7 @@
             :
         </td>
         <td>
-            <input id="patronymic" v-model="person.patronymic" autocomplete="off" <c:if test="${transportations gt 1}">readonly</c:if>>
+            <input id="patronymic" v-model="person.patronymic" autocomplete="off">
         </td>
     </tr>
     <tr>

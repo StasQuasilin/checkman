@@ -381,6 +381,7 @@ public class Notificator {
                     message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
                     message += "\n" + String.format(lb.get(language, "extraction.turn.protein.protein"), turnProtein.getProtein());
                     message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnProtein.getHumidity());
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.nmr"), turnProtein.getNuclearGrease());
                     messages.put(language, message);
                 }
 
@@ -418,7 +419,7 @@ public class Notificator {
                 if (!messages.containsKey(language)) {
                     String message = String.format(lb.get(language, "extraction.storage.grease.title"),
                             storage, time);
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.grease"), storageGrease.getGrease());
+                    message += "\n" + String.format(lb.get(language, "extraction.turn.grease.grease"), storageGrease.getGrease());
                     message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageGrease.getHumidity());
                     messages.put(language, message);
                 }

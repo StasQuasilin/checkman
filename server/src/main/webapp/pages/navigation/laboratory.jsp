@@ -5,11 +5,11 @@
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <ul>
-  <li class="menu-item" onclick="loadContent('${probeList}')">
-    <span class="main">
-      <fmt:message key="analyses.probe"/>
-    </span>
-  </li>
+  <%--<li class="menu-item" onclick="loadContent('${probeList}')">--%>
+    <%--<span class="main">--%>
+      <%--<fmt:message key="analyses.probe"/>--%>
+    <%--</span>--%>
+  <%--</li>--%>
   <c:forEach items="${subdivisions}" var="s">
     <li class="menu-item" onclick="loadContent('${subdivisionList}?sub=${s.key}')">
       <span class="main">

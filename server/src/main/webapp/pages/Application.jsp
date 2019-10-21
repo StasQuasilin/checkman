@@ -125,7 +125,7 @@
             <tr>
                 <td rowspan="2" valign="top" style="height: 100%; width: 1px; padding: 0; border-right: solid 2pt; background-color: #d3dbe2;">
                     <jsp:include page="NavigationMenu.jsp"/>
-                    <div id="filter" class="filter" ></div>
+                    <div id="filter" class="filter"></div>
                 </td>
                 <td colspan="2">
                     <div class="header-wrapper">
@@ -155,7 +155,7 @@
             </tr>
             <tr>
                 <td colspan="3" style="font-size: 8pt" align="center">
-                    Цілодобова моральна підтримка: +38(050)-965-79-89
+                    Цілодобова морально-психологічна підтримка: +38(050)965-79-89
                 </td>
             </tr>
         </table>

@@ -191,11 +191,6 @@
             </td>
           </tr>
           <tr>
-            <td colspan="3" align="center">
-              <button><fmt:message key="button.edit"/> </button>
-            </td>
-          </tr>
-          <tr>
             <td colspan="3" height="100%" valign="top">
               <div style="height: 100%; width: 100%; overflow-y: scroll; padding: 2pt">
                 <p v-for="msg in messages()">
@@ -361,7 +356,6 @@
                                     <input v-on:keyup="findVehicle(value.vehicleInput)" id="input"
                                            v-on:keyup.enter="parseVehicle(value.vehicleInput, key)"
                                            v-on:keyup.escape="closeVehicleInput(key)"
-                                           v-on:blur="parseVehicle(value.vehicleInput, key)"
                                            v-model="value.vehicleInput" autofocus
                                            placeholder="${vehicleHolder}" style="border: none">
                                     <div class="custom-data-list">
@@ -413,7 +407,6 @@
                                   <input v-on:keyup="findDriver(value.driverInput)" id="input"
                                          v-on:keyup.escape="closeDriverInput(key)"
                                          v-on:keyup.enter="parseDriver(value.driverInput, key)"
-                                         v-on:blur="parseDriver(value.driverInput, key)"
                                          v-model="value.driverInput" autofocus
                                          placeholder="${driverHolder}" style="border:none;">
                                   <div class="custom-data-list">

@@ -76,6 +76,7 @@ function GetChildElemById(parent, childId){
             return elems[i];
         }
     }
+    console.log('Element \'' + childId + '\' not found');
 }
 function valid(input, min){
     if (min && input.value.length < min || input.value == 0){
