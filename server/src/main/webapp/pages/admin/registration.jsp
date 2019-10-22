@@ -19,26 +19,33 @@
                 forename:'',
                 patronymic:'',
                 role:''-1,
-                email:''
+                email:'',
+                password:''
             },
             err:{
                 surname:false,
                 forename:false,
                 patronymic:false,
                 role:false,
-                email:false
+                email:false,
+                password:false
             },
+            repeat:'',
             already:false
         },
         methods:{
             registration:function(){
                 if (!this.already) {
-                    var e1 = this.err.surname = this.user.surname === '';
-                    var e2 = this.err.forename = this.user.forename == '';
-                    var e3 = this.err.patronymic = this.user.patronymic == '';
-                    var e4 = this.err.role = this.user.role == -1;
-                    var e5 = this.err.email = this.user.email === '';
-                    if (!e1 && !e2 && !e3 && !e4 && !e5) {
+                    let e1 = this.err.surname = this.user.surname === '';
+                    let e2 = this.err.forename = this.user.forename === '';
+                    let e3 = this.err.patronymic = this.user.patronymic === '';
+                    let e4 = this.err.role = this.user.role == -1;
+                    let e5 = this.err.email = this.user.email === '';
+                    let e6 = this.user.password || this.repeat;
+                    if (e6){
+                        e6 = this.err.password = this.user.password !== this.repeat;
+                    }
+                    if (!e1 && !e2 && !e3 && !e4 && !e5 && e6) {
                         this.already = true;
                         var users = [];
                         users.push(this.user);
@@ -49,6 +56,7 @@
                             alert(a.status);
                             self.already = false;
                             self.clear();
+
                         }, function (e) {
                             console.log(e);
                             self.already = false;
@@ -125,18 +133,13 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3">
+        <td>
             <label for="role">
                 <fmt:message key="user.group"/>
             </label>
         </td>
-    </tr>
-    <tr>
         <td>
-            &nbsp;
-        </td>
-        <td>
-            &nbsp;
+            :
         </td>
         <td>
             <select id="role" v-model="user.role" style="width: 100%" v-on:click="err.role = false" :class="{error : err.role}">
@@ -160,7 +163,45 @@
         </td>
     </tr>
     <tr>
+        <td>
+            <label for="password">
+                <fmt:message key="user.password"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="password" type="password" autocomplete="off" :class="{error : err.password}"
+                   v-model="user.password" v-on:click="err.password = false" onclick="this.select()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="repeat">
+                <fmt:message key="password.change.repeat"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="repeat" type="password" autocomplete="off" v-model="repeat" onclick="this.select()"
+                   v-on:click="err.password = false" :class="{error : err.password}">
+        </td>
+    </tr>
+    <tr>
         <td colspan="3" align="center">
+            <template v-if="already">
+                <button>
+                    <fmt:message key="button.cancel"/>
+                </button>
+            </template>
+            <template v-else>
+                <button onclick="closeModal()">
+                    <fmt:message key="button.cancel"/>
+                </button>
+            </template>
             <button v-on:click="registration">
                 <span v-if="already">
                     <fmt:message key="button.registration.process"/>...

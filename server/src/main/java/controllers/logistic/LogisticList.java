@@ -36,6 +36,8 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
         req.setAttribute("dealTypes", DealType.values());
         req.setAttribute("changeDate", Branches.API.CHANGE_DATE);
+        req.setAttribute("add", Branches.UI.WEIGHT_ADD);
+        req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
         req.setAttribute(CONTENT, "/pages/logistic/logisticList.jsp");
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(SUBSCRIBE, subscribers);

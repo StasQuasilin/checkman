@@ -222,9 +222,17 @@ var plan = new Vue({
         parseVehicle:function(value, key){
             if (value) {
                 const self = this;
+                console.log('Parse ' + value);
                 PostApi(this.api.parseVehicle, {key: value}, function (a) {
                     console.log(a);
-                    self.setVehicle(a, key);
+                    if (a.status === 'success'){
+                        if (a.vehicle) {
+                            self.setVehicle(a.vehicle, key);
+                        } else {
+                            console.log('Alarm!!! Vehicle not set');
+                        }
+                    }
+
                 })
             }
         },
@@ -267,7 +275,14 @@ var plan = new Vue({
                 const self = this;
                 PostApi(this.api.parseDriver, {key: value}, function (a) {
                     console.log(a);
-                    self.setDriver(a, key);
+                    if (a.status === 'success'){
+                        if (a.driver){
+                            self.setDriver(a.driver, key);
+                        } else {
+                            console.log('Alarm!!! Driver not set!!!')
+                        }
+                    }
+
                 })
             }
         },

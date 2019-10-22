@@ -112,7 +112,7 @@ var list = new Vue({
         },
         sort:function(){
             this.items.sort(function(a, b){
-                return new Date(b.item.date) - new Date(a.item.date);
+                return new Date(a.item.date) - new Date(b.item.date);
             })
         },
         contextMenu:function(item){

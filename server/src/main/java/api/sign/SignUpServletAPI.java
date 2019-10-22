@@ -51,7 +51,15 @@ public class SignUpServletAPI extends ServletAPI {
                 user.setUid(getToken());
                 user.setRole(role);
 
-                user.setPassword(PasswordGenerator.getPassword());
+                boolean autoPassword = true;
+                if (json.containsKey("password")){
+                    autoPassword = false;
+                    String password = String.valueOf(json.get("password"));
+                    user.setPassword(password);
+                } else {
+                    user.setPassword(PasswordGenerator.getPassword());
+                }
+
                 user.setEmail(email);
                 user.setRegistrator(getWorker(req));
 
@@ -80,16 +88,21 @@ public class SignUpServletAPI extends ServletAPI {
                 dao.saveWorker(worker, user);
                 updateUtil.onSave(worker);
 
-                try {
-                    RegistratorEmail.sendEmail(email, getAddress(req), new String(Base64.getDecoder().decode(user.getPassword())));
+                if (autoPassword){
+                    try {
+                        RegistratorEmail.sendEmail(email, getAddress(req), new String(Base64.getDecoder().decode(user.getPassword())));
+                        write(resp, SUCCESS_ANSWER);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                        IAnswer answer = new ErrorAnswer("msg", e.getMessage());
+                        JSONObject jsonAnswer = parser.toJson(answer);
+                        write(resp, jsonAnswer.toJSONString());
+                        pool.put(jsonAnswer);
+                    }
+                }else {
                     write(resp, SUCCESS_ANSWER);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                    IAnswer answer = new ErrorAnswer("msg", e.getMessage());
-                    JSONObject jsonAnswer = parser.toJson(answer);
-                    write(resp, jsonAnswer.toJSONString());
-                    pool.put(jsonAnswer);
                 }
+
             }
         } else {
             write(resp, emptyBody);

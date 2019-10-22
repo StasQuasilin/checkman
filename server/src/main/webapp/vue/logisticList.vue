@@ -237,11 +237,10 @@ var logistic = new Vue({
                 console.log(a)
             })
         },
-        contextMenu:function(title, id, field){
+        contextMenu:function(id, field){
             this.menu.x = event.pageX;
             this.menu.y = event.pageY;
             this.menu.show = true;
-            this.menu.title = title;
             this.menu.id = id;
             this.menu.field = field;
             event.preventDefault();

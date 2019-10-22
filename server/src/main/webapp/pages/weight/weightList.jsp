@@ -63,6 +63,12 @@
                     </b>
                 </span>
                 <span>
+                    <fmt:message key="deal.price"/>
+                    <b>
+                        {{(value.item.price).toLocaleString()}}
+                    </b>
+                </span>
+                <span>
                     <fmt:message key="deal.quantity"/>:
                     <b>
                         {{(value.item.plan).toLocaleString()}}

@@ -9,10 +9,16 @@
     <table>
         <tr>
             <td align="center">
-                <jsp:include page="registration.jsp"/>
-                <button onclick="loadModal('${userList}', {})">
-                    <fmt:message key="admin.user.list"/>
-                </button>
+                <div style="padding: 4pt">
+                    <button onclick="loadModal('${userRegistration}')">
+                        <fmt:message key="user.registration"/>
+                    </button>
+                </div>
+                <div style="padding: 4pt">
+                    <button onclick="loadModal('${userList}', {})">
+                        <fmt:message key="admin.user.list"/>
+                    </button>
+                </div>
             </td>
             <td valign="top">
                 <jsp:include page="botSettings.jsp"/>

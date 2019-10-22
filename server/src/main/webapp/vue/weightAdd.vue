@@ -28,9 +28,24 @@ var editor = new Vue({
             }
         },
         managers:[],
-        role:''
+        role:'',
+        note:{
+            edit:false,
+            id:-1,
+            input:''
+        }
     },
     methods:{
+        editNote:function(note){
+            this.note.edit = true;
+            if (note) {
+                this.note.id = note.id;
+                this.note.input = note.note;
+            }
+        },
+        saveNote:function(){
+
+        },
         productList:function(){
             if (this.plan.deal == -1){
                 return this.products;

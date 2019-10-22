@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import utils.Parser;
 import utils.UpdateUtil;
 import utils.VehicleParser;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,7 +34,10 @@ public class ParsePersonServletAPI extends ServletAPI {
             Driver driver = VehicleParser.parseDriver(key);
             dao.save(driver.getPerson());
             dao.save(driver);
-            write(resp, SUCCESS_ANSWER);
+            JSONObject object = parser.toJson(new SuccessAnswer("driver", parser.toJson(driver)));
+            String s = object.toJSONString();
+            write(resp, s);
+            pool.put(object);
             if (body.containsKey(Constants.TRANSPORTATION)){
                 LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
                 plan.getTransportation().setDriver(driver);

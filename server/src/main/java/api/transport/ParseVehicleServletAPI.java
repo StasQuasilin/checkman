@@ -6,10 +6,8 @@ import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
-import utils.Parser;
-import utils.U;
-import utils.UpdateUtil;
-import utils.VehicleParser;
+import utils.*;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +32,10 @@ public class ParseVehicleServletAPI extends ServletAPI {
 
             Vehicle vehicle = VehicleParser.parse(key);
             dao.save(vehicle);
-            write(resp, SUCCESS_ANSWER);
+            JSONObject object = parser.toJson(new SuccessAnswer("vehicle", parser.toJson(vehicle)));
+            String s = object.toJSONString();
+            write(resp, s);
+            pool.put(object);
             if (body.containsKey(Constants.TRANSPORTATION)){
                 LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
                 plan.getTransportation().setVehicle(vehicle);

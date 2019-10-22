@@ -44,13 +44,18 @@
       </c:forEach>
     }
   </script>
+<div id="container-header" class="container-header">
+  <c:if test="${not empty add}">
+    <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
+  </c:if>
+</div>
 <c:set var="dateLeft"><fmt:message key="date.left"/></c:set>
 <c:set var="dateRight"><fmt:message key="date.right"/></c:set>
   <div id="logistic">
     <transition-group name="flip-list" tag="div" class="container">
       <div v-for="(value, key) in getItems()" class="container-item"
            :class="'container-item-' + new Date(value.item.date).getDay()"
-           :key="value.item.id" :id="value.item.id">
+           :key="value.item.id" :id="value.item.id" v-on:click.right="contextMenu(value.item.id)">
         <div class="upper-row">
         <span class="date-container">
           <span title="${dateLeft}" class="arrow" v-on:click="changeDate(key, -1)">&#9664;</span>
@@ -239,6 +244,13 @@
         </div>
       </div>
     </transition-group>
-
+    <c:if test="${(haveMenu eq null) || (haveMenu)}">
+      <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
+        <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+          <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
+          <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
+        </div>
+      </div>
+    </c:if>
   </div>
 </html>

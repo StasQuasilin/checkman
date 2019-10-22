@@ -13,12 +13,14 @@ import java.io.IOException;
  */
 public class IModal extends IServlet {
 
+    private static final String PAGE = "/pages/modalView.jsp";
+    private static final String ERROR = "Field \'modalContent\' or \'content\' required";
     protected final dbDAO dao = dbDAOService.getDAO();
 
     public void show(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getAttribute("modalContent") == null){
-            throw new ServletException("field \'modalContent\' required");
+        if (request.getAttribute(MODAL_CONTENT) == null && request.getAttribute(CONTENT) == null){
+            throw new ServletException(ERROR);
         }
-        request.getRequestDispatcher("/pages/modalView.jsp").forward(request, response);
+        request.getRequestDispatcher(PAGE).forward(request, response);
     }
 }

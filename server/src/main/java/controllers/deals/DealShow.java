@@ -37,8 +37,8 @@ public class DealShow extends IModal{
         if (dealId != -1) {
             req.setAttribute("deal", dao.getDealById(dealId));
             req.setAttribute("plans", dao.getLoadPlanByDeal(dealId, null, null));
-            req.setAttribute("title", Titles.DEAL_SHOW);
-            req.setAttribute("save", Branches.API.PLAN_LIST_SAVE);
+            req.setAttribute(TITLE, Titles.DEAL_SHOW);
+            req.setAttribute(SAVE, Branches.API.PLAN_LIST_SAVE);
             req.setAttribute("remove", Branches.API.REMOVE_PLAN);
             req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
             req.setAttribute("parseVehicle", Branches.API.PARSE_VEHICLE);
@@ -46,7 +46,7 @@ public class DealShow extends IModal{
             req.setAttribute("parseDriver", Branches.API.PARSE_PERSON);
             req.setAttribute("editVehicle", Branches.UI.EDIT_VEHICLE);
             req.setAttribute("editDriver", Branches.UI.EDIT_DRIVER);
-            req.setAttribute("modalContent", "/pages/deals/dealShow.jsp");
+            req.setAttribute(MODAL_CONTENT, "/pages/deals/dealShow.jsp");
             req.setAttribute("customers", TransportCustomer.values());
             show(req, resp);
         }

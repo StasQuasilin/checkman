@@ -96,10 +96,20 @@
         <c:otherwise>
         driver:{
             id:-1
-        }
+        },
+        notes:[]
         </c:otherwise>
         </c:choose>
     };
+
+    <c:forEach items="${plan.transportation.notes}" var="note">
+    editor.plan.notes.push({
+            id:${note.id},
+            note:'${note.note}',
+            creator:'${note.creator.person.value}'
+        }
+    );
+    </c:forEach>
     editor.input.organisation = '${plan.deal.organisation.value}';
 
     editor.deals.push({
@@ -135,7 +145,8 @@
         driver:{
             id:-1
         },
-        manager:-1
+        manager:-1,
+        notes:[]
     };
     </c:otherwise>
     </c:choose>
@@ -378,6 +389,7 @@
                 <input id="driver" v-model="input.driver"
                        v-on:keyup="findDriver()"
                        v-on:keyup.enter="parseDriver()"
+                       autocomplete="off"
                        :title="input.driver">
                 <div class="custom-data-list">
                     <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="putDriver(driver)">
@@ -387,6 +399,34 @@
             </div>
         </td>
     </tr>
+        <tr>
+            <td colspan="3">
+                <div>
+                    <span>
+                        <label for="note">
+                            <fmt:message key="notes"/>
+                        </label>
+                    </span>
+                    <span class="mini-close" style="font-size: 10pt" v-on:click="editNote()">
+                        <fmt:message key="note.add"/>
+                    </span>
+                </div>
+                <div>
+                    <div style="font-size: 10pt" v-for="note in plan.notes" v-on:click="editNote(note)">
+                        <span class="mini-close">&times;</span>
+                        <span>
+                            {{note.creator}}:
+                        </span>
+                        <span>
+                            {{note.note}}
+                        </span>
+                    </div>
+                </div>
+                <div v-if="note.edit">
+                    <input id="note" style="border: none; width: 100%" v-model="note.note" v-on:keyup.enter="saveNote()">
+                </div>
+            </td>
+        </tr>
     <tr v-if="role === 'weigher'">
         <td>
             <label for="manager">

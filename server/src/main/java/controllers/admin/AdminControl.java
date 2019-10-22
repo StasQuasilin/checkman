@@ -16,16 +16,18 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.ADMIN)
 public class AdminControl extends IUIServlet {
+
+    private static final long serialVersionUID = 426725708745358802L;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        req.setAttribute("title", Titles.ADMIN);
-        req.setAttribute("content", "/pages/admin/admin.jsp");
-        req.setAttribute("roles", Role.values());
-        req.setAttribute("find", Branches.API.References.FIND_WORKER);
-        req.setAttribute("registration", Branches.API.SIGN_UP);
+        req.setAttribute(TITLE, Titles.ADMIN);
+        req.setAttribute(CONTENT, "/pages/admin/admin.jsp");
+
         req.setAttribute("botSettings", Branches.API.BOT_SETTINGS);
         req.setAttribute("botStatus", Branches.API.BOT_STATUS);
+        req.setAttribute("userRegistration", Branches.UI.USER_REGISTRATION);
         req.setAttribute("userList", Branches.UI.USER_LIST);
         show(req, resp);
 

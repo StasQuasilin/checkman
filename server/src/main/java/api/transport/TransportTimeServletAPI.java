@@ -21,7 +21,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 /**
  * Created by szpt_user045 on 19.03.2019.
@@ -57,6 +59,10 @@ public class TransportTimeServletAPI extends ServletAPI {
                 switch (direction) {
                     case in:
                         transportation.setTimeIn(time);
+                        Date date = Date.valueOf(LocalDate.now());
+                        if (!transportation.getDate().equals(date)){
+                            transportation.setDate(date);
+                        }
                         break;
                     case out:
                         transportation.setTimeOut(time);

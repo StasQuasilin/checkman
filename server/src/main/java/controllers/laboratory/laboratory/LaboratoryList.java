@@ -19,11 +19,11 @@ public class LaboratoryList extends IUIServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DealType type = DealType.valueOf(req.getParameter("type"));
-        req.setAttribute("title", Titles.LABORATORY + "." + type.toString());
-        req.setAttribute("type", type.toString());
-        req.setAttribute("content", "/pages/laboratory/laboratoryList.jsp");
+        req.setAttribute(TITLE, Titles.LABORATORY + "." + type.toString());
+        req.setAttribute(TYPE, type.toString());
+        req.setAttribute(CONTENT, "/pages/laboratory/laboratoryList.jsp");
         req.setAttribute("update", Branches.API.LABORATORY_LIST + "?type=" + type.toString());
-        req.setAttribute("edit", Branches.UI.LABORATORY_EDIT);
+        req.setAttribute(EDIT, Branches.UI.LABORATORY_EDIT);
         req.setAttribute("print", Branches.UI.LABORATORY_PRINT);
         req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
         req.setAttribute("subscribe", "LABORATORY_" + type.toString().toUpperCase());

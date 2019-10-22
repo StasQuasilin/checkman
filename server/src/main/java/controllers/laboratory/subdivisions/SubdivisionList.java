@@ -29,8 +29,8 @@ public class SubdivisionList extends IUIServlet {
 
         switch (key){
             case ex:
-                req.setAttribute("title", Titles.SUBDIVISION_LIST_EXTRACTION);
-                req.setAttribute("content", "/pages/laboratory/subdivisions/extractionList.jsp");
+                req.setAttribute(TITLE, Titles.SUBDIVISION_LIST_EXTRACTION);
+                req.setAttribute(CONTENT, "/pages/laboratory/subdivisions/extractionList.jsp");
                 req.setAttribute("crudeEdit", Branches.UI.Extraction.CRUDE_EDIT);
                 req.setAttribute("turnProtein", Branches.UI.Extraction.TURN_PROTEIN);
                 req.setAttribute("storageProtein", Branches.UI.Extraction.STORAGE_PROTEIN);
@@ -39,11 +39,11 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("oilEdit", Branches.UI.Extraction.OIL_EDIT);
                 req.setAttribute("dailyPrint", Branches.UI.Extraction.DAILY_REPORT_PRINT);
                 req.setAttribute("update", Branches.API.EXTRACTION_LIST);
-                req.setAttribute("subscribe", extractionSubscribes);
+                req.setAttribute(SUBSCRIBE, extractionSubscribes);
                 break;
             case vro:
-                req.setAttribute("title", Titles.SUBDIVISION_LIST_VRO);
-                req.setAttribute("content", "/pages/laboratory/subdivisions/vro/vroList.jsp");
+                req.setAttribute(TITLE, Titles.SUBDIVISION_LIST_VRO);
+                req.setAttribute(CONTENT, "/pages/laboratory/subdivisions/vro/vroList.jsp");
                 req.setAttribute("crudeEdit", Branches.UI.VRO.CRUDE_EDIT);
                 req.setAttribute("oilEdit", Branches.UI.VRO.OIL_EDIT);
                 req.setAttribute("dailyEdit", Branches.UI.VRO.DAILY_EDIT);
@@ -52,16 +52,16 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("update", Branches.API.VRO_LIST);
                 req.setAttribute("dailyPrint", Branches.UI.VRO.DAILY_REPORT_PRINT);
                 req.setAttribute("forpress", dao.getForpressList());
-                req.setAttribute("subscribe", vroSubscribes);
+                req.setAttribute(SUBSCRIBE, vroSubscribes);
                 break;
             case kpo:
-                req.setAttribute("title", Titles.SUBDIVISION_LIST_KPO);
-                req.setAttribute("content", "/pages/laboratory/subdivisions/kpoList.jsp");
-                req.setAttribute("edit", Branches.UI.KPO.PART_EDIT);
-                req.setAttribute("subscribe", kpoSubscribes);
+                req.setAttribute(TITLE, Titles.SUBDIVISION_LIST_KPO);
+                req.setAttribute(CONTENT, "/pages/laboratory/subdivisions/kpoList.jsp");
+                req.setAttribute(EDIT, Branches.UI.KPO.PART_EDIT);
+                req.setAttribute(SUBSCRIBE, kpoSubscribes);
                 break;
         }
-        req.setAttribute("filter", "/pages/laboratory/subdivisions/subdivisionFilter.jsp");
+//        req.setAttribute("filter", "/pages/laboratory/subdivisions/subdivisionFilter.jsp");
         show(req, resp);
     }
 }

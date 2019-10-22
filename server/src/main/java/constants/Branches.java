@@ -85,6 +85,7 @@ public class Branches {
         public static final String WAREHOUSING_EDIT = "/warehousing/edit.j";
         public static final String STORAGE_EDIT = "/storage/edit.j";
         public static final String REPORTS = "/reports.j";
+        public static final String USER_REGISTRATION = "/admin/registration.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";

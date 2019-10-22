@@ -31,7 +31,7 @@
            ondblclick=""
            v-on:click.right="contextMenu(value.item)">
         <div style="display: table-cell; border-right: solid gray 1.2pt; padding: 2pt 4pt; vertical-align: middle" >
-          <span>
+          <span v-if="value.item.date">
             {{new Date(value.item.date).toLocaleDateString()}}
             <template v-if="value.item.date !== value.item.date_to">
               <br>{{new Date(value.item.date_to).toLocaleDateString()}}
