@@ -35,14 +35,14 @@ public class WeightAdd extends IModal {
             }
         }
         if (id != -1) {
-            req.setAttribute("plan", dao.getLoadPlanById(id));
+            req.setAttribute(PLAN, dao.getLoadPlanById(id));
             req.setAttribute(TITLE, "title.weight.edit");
         } else if (copy != -1) {
             LoadPlan plan = dao.getLoadPlanById(copy);
             plan.setId(-1);
             plan.getTransportation().setVehicle(null);
             plan.getTransportation().setDriver(null);
-            req.setAttribute("plan", plan);
+            req.setAttribute(PLAN, plan);
             req.setAttribute(TITLE, "title.weight.copy");
         } else {
             req.setAttribute(TITLE, "title.weight.add");
@@ -63,8 +63,8 @@ public class WeightAdd extends IModal {
         req.setAttribute("parseDriver", Branches.API.PARSE_PERSON);
         req.setAttribute("editDriver", Branches.UI.EDIT_DRIVER);
 
-        req.setAttribute("save", Branches.API.PLAN_LIST_ADD);
-        req.setAttribute("products", dao.getProductList());
+        req.setAttribute(SAVE, Branches.API.PLAN_LIST_ADD);
+        req.setAttribute(PRODUCTS, dao.getProductList());
         req.setAttribute("units", dao.getUnitsList());
         req.setAttribute("documentOrganisations", dao.getShipperList());
         req.setAttribute("types", DealType.values());

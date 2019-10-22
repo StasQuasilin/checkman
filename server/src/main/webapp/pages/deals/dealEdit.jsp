@@ -112,7 +112,7 @@
                 :
             </td>
             <td>
-                <div v-if="deal.counterparty == -1">
+                <div v-if="deal.counterparty == -1" v-on:blur="newCounterparty()">
                     <span  style="display: inline-block">
                         <input id="counterparty" autocomplete="off" style="width: 100%"
                                :class="{error : errors.organisation}"

@@ -9,6 +9,7 @@
 <script src="${context}/vue/loadPlan.vue"></script>
 <script>
   <c:forEach items="${plans}" var="plan">
+
   plan.add({
     id:${plan.id},
     date: new Date('${plan.date}').toISOString().substring(0, 10),
@@ -56,7 +57,7 @@
             }
           },
           note:'${note.note}'
-        }
+        },
         </c:forEach>
       ],
       weight:{}
@@ -89,16 +90,7 @@
     id:${worker.id},
     value:'${worker.value}'
   }
-  <%--subscribe('${subscribe}', function(a){--%>
-    <%--plan.handler(a);--%>
-  <%--});--%>
-  <%--stopContent = function(){--%>
-    <%--unSubscribe('${subscribe}');--%>
-  <%--}--%>
-  addOnCloseEvent(function(){
-    plan.stop();
-  })
-//  plan.loadPlan()
+
 </script>
 <c:set var="vehicleHolder"><fmt:message key="transportation.automobile"/>... </c:set>
 <c:set var="driverHolder"><fmt:message key="transportation.driver"/>... </c:set>

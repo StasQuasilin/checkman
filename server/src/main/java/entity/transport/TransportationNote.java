@@ -17,6 +17,14 @@ public class TransportationNote {
     private String note;
     private Worker creator;
 
+    public TransportationNote(Transportation transportation, Worker creator) {
+        this.transportation = transportation;
+        this.creator = creator;
+        time = new Timestamp(System.currentTimeMillis());
+    }
+
+    public TransportationNote() {}
+
     @Id
     @GeneratedValue
     public int getId() {

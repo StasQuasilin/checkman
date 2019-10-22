@@ -16,6 +16,10 @@
     <c:forEach items="${types}" var="t">
     list.types['${t}'] = '<fmt:message key="_${t}"/> ';
     </c:forEach>
+    list.customers=[];
+    <c:forEach items="${customers}" var="customer">
+    list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
+    </c:forEach>
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
         list.handler(a);
@@ -68,17 +72,17 @@
                         {{(value.item.price).toLocaleString()}}
                     </b>
                 </span>
-                <span>
-                    <fmt:message key="deal.quantity"/>:
+                    <span>
+                    <fmt:message key="deal.from"/>
                     <b>
-                        {{(value.item.plan).toLocaleString()}}
-                        {{value.item.unit}}
+                        {{value.item.shipper}},
                     </b>
                 </span>
                 <span>
-                    <fmt:message key="deal.from"/>:
+                    <fmt:message key="load.plan"/>:
                     <b>
-                        {{value.item.shipper}}
+                        {{(value.item.plan).toLocaleString()}}
+                        {{value.item.unit}}
                     </b>
                 </span>
                 </div>
@@ -129,6 +133,14 @@
                             <template v-else>
                                 <fmt:message key="no.data"/>
                             </template>
+                        </div>
+                    </div>
+                    <div style="display: inline-block; font-size: 10pt">
+                        <div>
+                            <fmt:message key="transport.customer"/>:
+                        </div>
+                        <div style="font-size: 14pt; font-weight: bold; width: 100%; text-align: center">
+                            {{customers[value.item.customer]}}
                         </div>
                     </div>
                     <div style="display: inline-block; font-size: 10pt">

@@ -25,7 +25,7 @@ public class ForpressCakeDailyDry {
     }
 
     @ManyToOne
-    @JoinColumn(name = "crude")
+    @JoinColumn(name = "wet")
     public OilMassFractionDry getMassFraction() {
         return massFraction;
     }

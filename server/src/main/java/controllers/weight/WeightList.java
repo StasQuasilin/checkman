@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
+import entity.transport.TransportCustomer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,6 +35,7 @@ public class WeightList extends IUIServlet{
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(TYPES, DealType.values());
+        req.setAttribute(CUSTOMERS, TransportCustomer.values());
         show(req, resp);
     }
 }

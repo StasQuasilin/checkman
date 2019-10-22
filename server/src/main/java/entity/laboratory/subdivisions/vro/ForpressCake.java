@@ -26,7 +26,7 @@ public class ForpressCake {
     }
 
     @ManyToOne
-    @JoinColumn(name = "crude")
+    @JoinColumn(name = "wet")
     public VROCrude getCrude() {
         return crude;
     }

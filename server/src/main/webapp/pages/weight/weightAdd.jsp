@@ -18,6 +18,7 @@
     editor.api.editDriver = '${editDriver}';
     editor.api.save = '${save}';
     editor.api.editCounterparty = '${editOrganisation}';
+    editor.worker = '${worker.person.value}';
     <c:forEach items="${managers}" var="manager">
     editor.managers.push({
         id:${manager.id},
@@ -62,6 +63,7 @@
         deal:${plan.deal.id},
         organisation:${plan.deal.organisation.id},
         product:${plan.deal.product.id},
+        quantity:${plan.deal.quantity},
         plan:${plan.plan},
         from:'${plan.deal.shipper.value}',
         price:${plan.deal.price},
@@ -84,6 +86,7 @@
         </c:otherwise>
         </c:choose>
 //        DRIVER
+        notes:[],
         <c:choose>
         <c:when test="${not empty plan.transportation.driver.id}">
         driver:{
@@ -97,7 +100,7 @@
         driver:{
             id:-1
         },
-        notes:[]
+
         </c:otherwise>
         </c:choose>
     };
@@ -132,6 +135,7 @@
         type:'sell',
         date:new Date().toISOString().substring(0, 10),
         deal:-1,
+        quantity:0,
         organisation:-1,
         product:-1,
         plan:20,
@@ -243,9 +247,9 @@
             :
         </td>
         <td>
-            <select id="deal" style="width: 100%" v-model="plan.deal">
+            <select id="deal" style="width: 100%" v-model="plan.deal"  v-on:change="setQuantity()">
                 <option value="-1"><fmt:message key="deal.new"/></option>
-                <optgroup  v-for="deal in deals" :label="new Date(deal.date).toLocaleDateString().substring(0, 5) + '-' + new Date(deal.date_to).toLocaleDateString().substring(0, 5)">
+                <optgroup v-for="deal in deals" :label="new Date(deal.date).toLocaleDateString().substring(0, 5) + '-' + new Date(deal.date_to).toLocaleDateString().substring(0, 5)">
                     <option :value="deal.id">
                         {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}
                     </option>
@@ -271,39 +275,21 @@
             </select>
         </td>
     </tr>
-    <%--QUANTITY--%>
     <tr>
         <td>
             <label for="quantity">
-                <fmt:message key="load.plan"/>
+                <fmt:message key="deal.quantity"/>
             </label>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="quantity" type="number" v-model.number="plan.plan" onclick="this.select()" autocomplete="off">
-            <c:set var="units"><fmt:message key="units"/></c:set>
-            <select title="${units}" v-model="plan.unit">
-                <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
-            </select>
+            <input id="quantity" type="number" v-model="plan.quantity" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
-    <tr>
-        <td align="right">
-            <label for="from">
-                <fmt:message key="deal.from"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="from" v-model="plan.from">
-                <option v-for="visible in visibleList()" :value="visible">{{visible}}</option>
-            </select>
-        </td>
-    </tr>
+    <%--QUANTITY--%>
+
     <tr>
         <td>
             <label for="price">
@@ -315,6 +301,29 @@
         </td>
         <td>
             <input id="price" type="number" v-model="plan.price" onclick="this.select()" autocomplete="off">
+            <label for="from">
+                <fmt:message key="deal.from"/>
+            </label>
+            <select id="from" v-model="plan.from">
+                <option v-for="visible in visibleList()" :value="visible">{{visible}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="load">
+                <fmt:message key="load.plan"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="load" type="number" v-model.number="plan.plan" onfocus="this.select()" autocomplete="off">
+            <c:set var="units"><fmt:message key="units"/></c:set>
+            <select title="${units}" v-model="plan.unit">
+                <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
+            </select>
         </td>
     </tr>
     <tr>
@@ -376,7 +385,7 @@
             :
         </td>
         <td>
-            <span v-if="plan.driver.id> -1">
+            <span v-if="plan.driver.id > -1">
                 {{plan.driver.person.value}}
                 <span v-on:click="editDriver()" class="mini-close flipY" style="padding: 0">
                   &#9998;
@@ -399,34 +408,33 @@
             </div>
         </td>
     </tr>
-        <tr>
-            <td colspan="3">
-                <div>
-                    <span>
-                        <label for="note">
-                            <fmt:message key="notes"/>
-                        </label>
+    <tr>
+        <td colspan="3">
+            <div>
+                <span v-if="plan.notes.length > 0">
+                    <label for="note">
+                        <fmt:message key="notes"/>
+                    </label>
+                </span>
+                <span class="mini-close" style="font-size: 10pt" v-on:click="editNote()">
+                    <fmt:message key="note.add"/>
+                </span>
+            </div>
+            <div>
+                <div style="font-size: 10pt" v-for="(note, noteIdx) in plan.notes">
+                    <span class="mini-close" v-on:click="removeNote(noteIdx)">&times;</span>
+                    <span v-on:click="editNote(note, noteIdx)">
+                        {{note.creator}}:
+                        {{note.note}}
                     </span>
-                    <span class="mini-close" style="font-size: 10pt" v-on:click="editNote()">
-                        <fmt:message key="note.add"/>
-                    </span>
                 </div>
-                <div>
-                    <div style="font-size: 10pt" v-for="note in plan.notes" v-on:click="editNote(note)">
-                        <span class="mini-close">&times;</span>
-                        <span>
-                            {{note.creator}}:
-                        </span>
-                        <span>
-                            {{note.note}}
-                        </span>
-                    </div>
-                </div>
-                <div v-if="note.edit">
-                    <input id="note" style="border: none; width: 100%" v-model="note.note" v-on:keyup.enter="saveNote()">
-                </div>
-            </td>
-        </tr>
+            </div>
+            <div v-if="note.edit">
+                <input id="note" ref="comment" style="border: none; width: 100%" v-model="note.input"
+                       v-on:keyup.enter="saveNote()" v-on:blur="saveNote()">
+            </div>
+        </td>
+    </tr>
     <tr v-if="role === 'weigher'">
         <td>
             <label for="manager">

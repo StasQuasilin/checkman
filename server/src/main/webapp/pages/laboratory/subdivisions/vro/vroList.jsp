@@ -49,6 +49,36 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script src="${context}/vue/dataList.vue"></script>
 <script>
+    list.middle = function(item){
+        if (!item.middle){
+            console.log('Calculate middle');
+            let middle = {
+                humidityBefore:0,
+                sorenessBefore:0,
+                humidityAfter:0,
+                sorenessAfter:0
+            };
+            for (var j in item.crudes){
+                if (item.crudes.hasOwnProperty(j)){
+                    let crude = item.crudes[j];
+                    middle.humidityBefore += crude.humidityBefore;
+                    middle.sorenessBefore += crude.sorenessBefore;
+                    middle.humidityAfter += crude.humidityAfter;
+                    middle.sorenessAfter += crude.sorenessAfter;
+                }
+            }
+            let count = item.crudes.length;
+            if (count > 0) {
+                middle.humidityBefore /= count;
+                middle.sorenessBefore /= count;
+                middle.humidityAfter /= count;
+                middle.sorenessAfter /= count;
+            }
+            item.middle = middle;
+
+        }
+        return item.middle;
+    };
     list.limit = 14;
     list.forpress = [];
     <c:forEach items="${forpress}" var="fp">
@@ -235,27 +265,27 @@
                 <tr>
                     <td>
                         <fmt:message key="vro.huskiness"/>:
-                        {{(daily.huskiness).toLocaleString()}}
+
                     </td>
                     <td>
                         <fmt:message key="vro.kernel.offset"/>:
-                        {{(daily.kernelOffset).toLocaleString()}}
+
                     </td>
                     <td>
                         <fmt:message key="sun.humidity"/>:
-                        {{(daily.humidityBefore).toLocaleString()}}
+                        {{(middle(value.item).humidityBefore).toLocaleString()}}
                     </td>
                     <td>
                         <fmt:message key="sun.soreness"/>:
-                        {{(daily.sorenessBefore).toLocaleString()}}
+                        {{(middle(value.item).sorenessBefore).toLocaleString()}}
                     </td>
                     <td>
                         <fmt:message key="sun.humidity"/>:
-                        {{(daily.humidityAfter).toLocaleString()}}
+                        {{(middle(value.item).humidityAfter).toLocaleString()}}
                     </td>
                     <td>
                         <fmt:message key="sun.soreness"/>:
-                        {{(daily.sorenessAfter).toLocaleString()}}
+                        {{(middle(value.item).sorenessAfter).toLocaleString()}}
                     </td>
                 </tr>
                 <tr>

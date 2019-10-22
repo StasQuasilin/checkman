@@ -76,8 +76,6 @@
         <c:when test="${role eq 'manager'}">
           <jsp:include page="navigation/deals.jsp"/>
           <jsp:include page="navigation/weight.jsp"/>
-          <jsp:include page="navigation/transport.jsp"/>
-          <jsp:include page="navigation/laboratoryTransport.jsp"/>
         </c:when>
         <c:when test="${role eq 'logistic'}">
           <jsp:include page="navigation/logistic.jsp"/>

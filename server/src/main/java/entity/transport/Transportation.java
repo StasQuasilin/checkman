@@ -13,6 +13,7 @@ import entity.weight.Weight;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class Transportation {
     private Set<Seal> seals;
     private Worker creator;
     private Worker manager;
-    private Set<TransportationNote> notes;
+    private Set<TransportationNote> notes = new HashSet<>();
     private Set<TransportStorageUsed> usedStorages;
     private boolean archive;
     private boolean done;

@@ -30,21 +30,62 @@ var editor = new Vue({
         managers:[],
         role:'',
         note:{
+            key:-1,
             edit:false,
             id:-1,
             input:''
         }
     },
     methods:{
-        editNote:function(note){
+        editNote:function(note, key){
             this.note.edit = true;
+            if (key){
+                this.note.key = key;
+            }
             if (note) {
                 this.note.id = note.id;
                 this.note.input = note.note;
             }
+            const self = this;
+            setTimeout(function(){
+                self.$refs.comment.select();
+            }, 10)
         },
         saveNote:function(){
-
+            if (this.note.input) {
+                if (this.note.key != -1) {
+                    let note = this.plan.notes[key];
+                    note.note = this.note.input;
+                } else {
+                    this.plan.notes.push({
+                        creator: this.worker,
+                        note: this.note.input
+                    });
+                }
+                this.clearNote();
+            }
+        },
+        removeNote:function(key){
+            this.plan.notes.splice(key, 1);
+        },
+        setQuantity:function(){
+            let quantity = 0;
+            for (let i in this.deals){
+                if (this.deals.hasOwnProperty(i)){
+                    if (this.deals[i].id == this.plan.deal){
+                        quantity = this.deals[i].quantity;
+                    }
+                }
+            }
+            this.plan.quantity = quantity;
+        },
+        clearNote:function(){
+            this.note = {
+                key:-1,
+                edit:false,
+                id:-1,
+                input:''
+            }
         },
         productList:function(){
             if (this.plan.deal == -1){
@@ -189,8 +230,15 @@ var editor = new Vue({
             if (this.input.vehicle){
                 const self = this;
                 PostApi(this.api.parseVehicle, {key:this.input.vehicle}, function(v){
-                    self.plan.vehicle = v;
-                    self.input.vehicle = '';
+                    if (v.status === 'success'){
+                        if (v.vehicle){
+                            self.plan.vehicle = v.vehicle;
+                            self.input.vehicle = '';
+                        } else {
+                            console.log('Ahtung!!! Vehicle not set!!!')
+                        }
+                    }
+
                 })
             }
         },
@@ -226,8 +274,15 @@ var editor = new Vue({
             if (this.input.driver){
                 const self = this;
                 PostApi(this.api.parseDriver, {key:this.input.driver}, function(d){
-                    self.plan.driver = d;
-                    self.input.driver = '';
+                    console.log(d);
+                    if (d.status === 'success'){
+                        if (d.driver){
+                            self.plan.driver = d.driver;
+                            self.input.driver = '';
+                        } else {
+                            console.log('Ahtung!!! Driver not set')
+                        }
+                    }
                 })
             }
         },
@@ -249,6 +304,9 @@ var editor = new Vue({
             }
         },
         save:function(){
+            if (this.note.edit){
+                this.saveNote();
+            }
             var e = this.errors;
             e.organisation = this.plan.organisation == -1;
             e.product = this.plan.product == -1;

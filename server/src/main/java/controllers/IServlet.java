@@ -44,6 +44,8 @@ public class IServlet extends HttpServlet {
     public static final String SHIPPERS = "shippers";
 
     public static final LanguageBase lb = LanguageBase.getBase();
+    protected static final String CUSTOMERS = "customers";
+
     public Worker getWorker(HttpServletRequest req){
         return (Worker)req.getSession().getAttribute(Constants.WORKER);
     }
