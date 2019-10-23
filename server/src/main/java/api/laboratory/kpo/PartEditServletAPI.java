@@ -73,7 +73,7 @@ public class PartEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            int color = Integer.parseInt(String.valueOf(body.get("color")));
+            float color = Float.parseFloat(String.valueOf(body.get("color")));
             if (part.getColor() != color) {
                 part.setColor(color);
                 save = true;

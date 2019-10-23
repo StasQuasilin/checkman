@@ -211,7 +211,7 @@
                                v-on:keyup="findOrganisation()"
                                :class="{error : errors.organisation}"
                                v-on:click="errors.organisation = false"
-                               onclick="this.select()">
+                               onfocus="this.select()">
                     </div>
                     <span class="mini-close" v-on:click="newCounterparty()">+</span>
                     <div class="custom-data-list">
@@ -364,6 +364,8 @@
                 <input id="vehicle" v-model="input.vehicle" autocomplete="off"
                        v-on:keyup="findVehicle()"
                        v-on:keyup.enter="parseVehicle()"
+                       :class="{error : errors.vehicle}"
+                       v-on:click="errors.vehicle = false"
                        :title="input.vehicle">
                 <div class="custom-data-list">
                     <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="putVehicle(vehicle)">

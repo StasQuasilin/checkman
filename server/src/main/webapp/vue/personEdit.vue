@@ -11,9 +11,45 @@ var editor = new Vue({
             patronymic:'',
             phones:[]
         },
-        transportationId:''
+        license:'',
+        transportationId:'',
+        transporter:-1,
+        input:{
+            transporter:''
+        },
+        arr:{
+            organisations:[]
+        },
+        fnd:-1
 
     },methods:{
+        findOrganisation:function(){
+            if (this.api.find){
+                clearTimeout(this.fnd);
+                this.arr.organisations=[];
+                if (this.input.transporter) {
+                    const self = this;
+                    this.fnd = setTimeout(function () {
+                        PostApi(self.api.find, {key: self.input.transporter}, function (a) {
+                            self.arr.organisations = a;
+                        })
+                    }, 300)
+                }
+            }
+        },
+        parseOrganisation:function(){
+            if (this.api.parse){
+                const self = this;
+                PostApi(this.api.parse, {name : this.input.transporter}, function(a){
+                   self.setOrganisation(a);
+                })
+            }
+        },
+        setOrganisation:function(organisation){
+            this.transporter = organisation.id;
+            this.input.transporter = organisation.value;
+            this.arr.organisations =[];
+        },
         addPhone:function(phone){
             this.person.phones.push(phone)
         },
@@ -31,9 +67,12 @@ var editor = new Vue({
             result.forename = this.person.forename;
             result.surname = this.person.surname;
             result.patronymic = this.person.patronymic;
-            if (this.transporterId) {
-                result.transportation_id = this.transportationId;
+            result.license = this.license;
+
+            if (this.transporter != -1){
+                result.transporter = this.transporter;
             }
+
             PostApi(this.api.saveDriverAPI, result, function(a){
                 console.log(a);
                 saveModal(a);

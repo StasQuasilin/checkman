@@ -63,6 +63,7 @@ public class JsonParser {
     private static final String OFFICE = "office";
     private static final String STORGES = Constants.STORAGE;
     private static final String AMOUNT = Constants.AMOUNT;
+    private static final String LICENSE = "license";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -376,6 +377,10 @@ public class JsonParser {
             json.put(ID, driver.getId());
             json.put(PERSON, toJson(driver.getPerson()));
             json.put(ORGANISATION, toJson(driver.getOrganisation()));
+            if (U.exist(driver.getLicense())){
+                json.put(LICENSE, driver.getLicense());
+            }
+
         }
         return json;
     }
@@ -921,7 +926,7 @@ public class JsonParser {
 
     private JSONObject toJson(VRODaily daily) {
         JSONObject json = pool.getObject();
-        json.put("id", daily.getId());
+        json.put(ID, daily.getId());
         json.put("kernelHumidity", daily.getKernelHumidity());
         json.put("huskHumidity", daily.getHuskHumidity());
         json.put("huskSoreness", daily.getHuskSoreness());

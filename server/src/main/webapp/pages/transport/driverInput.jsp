@@ -7,10 +7,19 @@
 <script src="${context}/vue/personEdit.vue"></script>
 <script>
     editor.api.saveDriverAPI = '${saveDriverAPI}';
+    editor.api.find = '${find}';
+    editor.api.parse = '${parse}';
     editor.person.id = '${driver.id}';
     editor.person.forename = '${driver.person.forename}';
     editor.person.surname = '${driver.person.surname}';
     editor.person.patronymic = '${driver.person.patronymic}';
+    editor.license = '${driver.license}';
+    editor.transporter = -1;
+    <c:if test="${driver.organisation ne null}">
+    editor.transporter = ${driver.organisation.id};
+    editor.input.transporter = '${driver.organisation.value}';
+    </c:if>
+
     editor.transportationId = '${transportation}'
 </script>
 
@@ -55,8 +64,49 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3" style="font-size: 8pt; color: darkgray">
-            <fmt:message key="transportation.quantity"/>:&nbsp;${transportations}
+        <td>
+            <label for="license">
+                <fmt:message key="driver.license"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="license" autocomplete="off" v-model="license">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="transporter">
+                <fmt:message key="transportation.transporter"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <span v-if="transporter != -1">
+                <span>
+                    {{input.transporter}}
+                </span>
+                <span class="mini-close">
+                    E
+                </span>
+                <span class="mini-close">
+                    &times;
+                </span>
+            </span>
+            <div v-else v-on:blur="parseOrganisation()">
+                <input id="transporter" v-model="input.transporter" autocomplete="off"
+                    v-on:keyup="findOrganisation()" v-on:keyup.enter="parseOrganisation()">
+                <div class="custom-data-list">
+                    <div class="custom-data-list-item" v-for="organisation in arr.organisations"
+                         v-on:click="setOrganisation(organisation)">
+                        {{organisation.value}}
+                    </div>
+                </div>
+            </div>
         </td>
     </tr>
     <tr>
@@ -67,6 +117,11 @@
             <button v-on:click="save">
                 <fmt:message key="button.save"/>
             </button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="font-size: 8pt; color: darkgray">
+            <fmt:message key="transportation.quantity"/>:&nbsp;${transportations}
         </td>
     </tr>
 </table>

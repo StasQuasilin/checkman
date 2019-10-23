@@ -10,6 +10,7 @@ import entity.transport.Driver;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.U;
 import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
@@ -39,7 +40,7 @@ public class SaveDriverServletAPI extends ServletAPI {
 
             if (body.containsKey(Constants.ID)) {
                 driver = dao.getDriverByID(body.get(Constants.ID));
-                log.info("Edit vehicle " + driver.getId() + "...");
+                log.info("Edit driver " + driver.getId() + "...");
             } else {
                 driver = new Driver();
                 driver.setPerson(new Person());
@@ -55,10 +56,17 @@ public class SaveDriverServletAPI extends ServletAPI {
             driver.getPerson().setPatronymic(String.valueOf(body.get(Constants.Person.PATRONYMIC)));
             log.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
 
-            if ((body.containsKey(Constants.Vehicle.TRANSPORTER_ID))) {
-                Organisation organisation = dao.getOrganisationById(body.get(Constants.Vehicle.TRANSPORTER_ID));
-                driver.setOrganisation(organisation);
-                log.info("\t...Organisation: \'" + driver.getOrganisation().getValue() + "\'");
+            String license = String.valueOf(body.get("license"));
+            if (U.exist(license)){
+                driver.setLicense(license);
+                log.info("\t...License: " + license);
+            }
+
+            int transporterId = Integer.parseInt(String.valueOf(body.get("transporter")));
+            if (transporterId != -1){
+                Organisation transporter = dao.getOrganisationById(transporterId);
+                driver.setOrganisation(transporter);
+                log.info("\t...Transporter: " + transporter.getValue());
             }
 
             dao.save(driver.getPerson());

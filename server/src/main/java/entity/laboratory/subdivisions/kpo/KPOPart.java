@@ -16,7 +16,7 @@ public class KPOPart {
     private Timestamp date;
     private int number;
     private boolean organoleptic;
-    private int color;
+    private float color;
     private float acid;
     private float peroxide;
     private boolean soap;
@@ -61,10 +61,10 @@ public class KPOPart {
 
     @Basic
     @Column(name = "color")
-    public int getColor() {
+    public float getColor() {
         return color;
     }
-    public void setColor(int color) {
+    public void setColor(float color) {
         this.color = color;
     }
 
@@ -119,7 +119,6 @@ public class KPOPart {
         hash = 31 * date.hashCode() + hash;
         hash = 31 * number + hash;
         hash = 31 * Boolean.hashCode(organoleptic) + hash;
-        hash = 31 * color + hash;
         hash = 31 * Float.hashCode(acid) + hash;
         hash = 31 * Float.hashCode(peroxide) + hash;
         hash = 31 * Boolean.hashCode(soap) + hash;

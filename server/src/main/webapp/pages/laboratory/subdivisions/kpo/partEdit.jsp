@@ -72,21 +72,6 @@
     </td>
   </tr>
   <tr>
-    <td>
-      <label for="turn">
-        <fmt:message key="turn"/>
-      </label>
-    </td>
-    <td>
-      :
-    </td>
-    <td>
-      <select id="turn">
-
-      </select>
-    </td>
-  </tr>
-  <tr>
     <td align="right">
       <label for="number">
         <fmt:message key="vro.part"/>
@@ -128,7 +113,7 @@
       :
     </td>
     <td>
-      <input id="color" type="number" v-model="part.color">
+      <input id="color" type="number" v-model="part.color" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -141,7 +126,7 @@
       :
     </td>
     <td>
-      <input id="acid" type="number" step="0.01" v-model="part.acid">
+      <input id="acid" type="number" step="0.01" v-model="part.acid" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -154,7 +139,7 @@
       :
     </td>
     <td>
-      <input id="peroxide" type="number" step="0.01" v-model="part.peroxide">
+      <input id="peroxide" type="number" step="0.01" v-model="part.peroxide" onfocus="this.select()">
     </td>
   </tr>
   <tr>

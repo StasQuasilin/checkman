@@ -5,24 +5,19 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <div id="container-header" style="display: inline">
-    <link rel="stylesheet" href="${context}/css/drop-menu.css">
-    <div class="drop-menu">
-        <a class="drop-btn">
-            <fmt:message key="analyses"/> &#9660;
-        </a>
-        <div class="drop-menu-content">
-            <div class="drop-menu-item">
-                <span onclick="loadModal('${edit}')">
-                    <fmt:message key="vro.part"/>
-                </span>
-            </div>
-        </div>
-    </div>
+    <button onclick="loadModal('${edit}')" style="background-color: white">
+        + <fmt:message key="vro.part"/>
+    </button>
 </div>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit = 14;
+    list.sort = function(){
+        list.items.sort(function(a, b){
+            return new Date(b.item.date) - new Date(a.item.date);
+        })
+    };
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
         list.handler(a);
@@ -40,29 +35,44 @@
     <div v-for="(value, key) in items" class="container-item"
          :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt"
          :id="value.item.id" onclick="editableModal('${edit}')">
-        {{new Date(value.item.date).toLocaleDateString()}}
-        {{new Date(value.item.date).toLocaleTimeString().substring(0, 5)}}
-        <fmt:message key="vro.part"/>&nbsp;<span>#</span>{{value.item.number}}
-        <fmt:message key="oil.organoleptic"/>:
-        <span v-if="value.item.organoleptic">
-            +
-        </span>
-        <span v-else>
-            -
-        </span>,
-        <fmt:message key="oil.color.value"/>:
-        {{value.item.color}},
-        <fmt:message key="sun.acid.value"/>:
-        {{value.item.acid}},
-        <fmt:message key="oil.peroxide"/>:
-        {{value.item.peroxide}},
-        <fmt:message key="oil.soap"/>:
-        <span v-if="value.item.soap">
-           -
-        </span>
-        <span v-else>
-            +
-        </span>
+        <div class="upper-row">
+            {{new Date(value.item.date).toLocaleDateString()}}
+            {{new Date(value.item.date).toLocaleTimeString().substring(0, 5)}}
+            <fmt:message key="vro.part"/>&nbsp;<span>#</span>{{value.item.number}}
+        </div>
+        <div class="middle-row">
+            <fmt:message key="oil.organoleptic"/>
+            <b v-if="value.item.organoleptic">
+                Відповідає НД
+            </b>
+            <b v-else>
+                Не відповідає НД
+            </b>,
+            <fmt:message key="oil.color.value"/>:
+            <b>
+                {{(value.item.color).toLocaleString()}}
+            </b>
+            ,
+            <fmt:message key="sun.acid.value"/>:
+            <b>
+                {{value.item.acid}}
+            </b>
+            ,
+            <fmt:message key="oil.peroxide"/>:
+            <b>
+                {{value.item.peroxide}}
+            </b>
+            ,
+            <fmt:message key="oil.soap"/>:
+            <b v-if="value.item.soap">
+                <fmt:message key="notification.kpo.soap.yes"/>
+            </b>
+            <b v-else>
+                <fmt:message key="notification.kpo.soap.no"/>
+            </b>
+        </div>
+
+
     </div>
 </div>
 </html>

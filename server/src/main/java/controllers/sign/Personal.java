@@ -22,9 +22,6 @@ public class Personal extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.PERSONAL);
         req.setAttribute(CONTENT, "/pages/personal/personal.jsp");
-
-
-
         req.setAttribute("languages", LanguageBase.LANGUAGES);
         req.setAttribute("changeLanguage", Branches.API.CHANGE_LANGUAGE);
         req.setAttribute("changePassword", Branches.UI.CHANGE_PASSWORD);

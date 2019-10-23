@@ -95,7 +95,7 @@ public class Notificator {
                 if (show && transportation.getTimeIn() != null && !transportation.isArchive()) {
                     String language = setting.getLanguage();
                     message = prepareMessage(transportation);
-                    message += "\n" + lb.get(language, TRANSPORT_IN);
+                    message += NEW_LINE + lb.get(language, TRANSPORT_IN);
                     sendMessage(setting.getTelegramId(), message, null);
                 }
             }
@@ -238,8 +238,8 @@ public class Notificator {
                     message += NEW_LINE + String.format(lb.get(language, "extraction.miscellas"), crude.getMiscellas());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.humidity"), crude.getHumidity());
                     //todo organoleptic
-                    message += "\n" + String.format(lb.get(language, "extraction.oiliness"), crude.getGrease());
-                    message += "\n" + String.format(lb.get(language, "extraction.explosion.t"), crude.getExplosionTemperature());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oiliness"), crude.getGrease());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.explosion.t"), crude.getExplosionTemperature());
                     messages.put(language, message);
                 }
 
@@ -262,21 +262,21 @@ public class Notificator {
                 if (!messages.containsKey(language)) {
                     String message = lb.get(language, "notification.vro.title");
 
-                    message += "\n" + String.format(lb.get(language, "extraction.turn"), turn, date, time);
-                    message += "\n" + lb.get(language, "notification.vro.before");
-                    message += "\n" + String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityBefore());
-                    message += "\n" + String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessBefore());
-                    message += "\n" + lb.get(language, "notification.vro.after");
-                    message += "\n" + String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityAfter());
-                    message += "\n" + String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessAfter());
-                    message += "\n" + String.format(lb.get(language, "notification.vro.kernel.offset.2"), crude.getKernelOffset());
-                    message += "\n" + String.format(lb.get(language, "notification.vro.huskiness.2"), crude.getHuskiness());
-                    message += "\n" + String.format(lb.get(language, "notification.vro.pulp.1"), crude.getPulpHumidity1());
-                    message += "\n" + String.format(lb.get(language, "notification.vro.pulp.2"), crude.getPulpHumidity2());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn"), turn, date, time);
+                    message += NEW_LINE + lb.get(language, "notification.vro.before");
+                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityBefore());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessBefore());
+                    message += NEW_LINE + lb.get(language, "notification.vro.after");
+                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityAfter());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessAfter());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.kernel.offset.2"), crude.getKernelOffset());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.huskiness.2"), crude.getHuskiness());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.pulp.1"), crude.getPulpHumidity1());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.pulp.2"), crude.getPulpHumidity2());
 
-                    message += "\n";
+                    message += NEW_LINE;
                     if (cakes.size() > 0) {
-                        message += "\n" + lb.get(language, "notification.forpress.cake.title");
+                        message += NEW_LINE + lb.get(language, "notification.forpress.cake.title");
                         for (ForpressCake cake : cakes) {
                             message += "\n*" + cake.getForpress().getName() + "*";
                             message += "\n\t        " + String.format(lb.get(language, "bot.notificator.humidity"), cake.getHumidity());
@@ -318,8 +318,8 @@ public class Notificator {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
                     String message = String.format(lb.get(language, "extraction.storage.protein.title"), storage, time);
-                    message += "\n" + String.format(lb.get(language, "extraction.storage.protein"), storageProtein.getProtein());
-                    message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageProtein.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.storage.protein"), storageProtein.getProtein());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.storage.humidity"), storageProtein.getHumidity());
                     messages.put(language, message);
                 }
 
@@ -360,10 +360,10 @@ public class Notificator {
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
                     String message = lb.get(language, "extraction.turn.protein.title");
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.protein"), turnProtein.getProtein());
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnProtein.getHumidity());
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.nmr"), turnProtein.getNuclearGrease());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.protein"), turnProtein.getProtein());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnProtein.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.nmr"), turnProtein.getNuclearGrease());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.dry"), turnProtein.DryRecalculation());
                     messages.put(language, message);
                 }
@@ -382,9 +382,9 @@ public class Notificator {
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
                     String message = lb.get(language, "extraction.turn.grease.title");
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.grease.grease"), turnGrease.getGrease());
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnGrease.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.grease.grease"), turnGrease.getGrease());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnGrease.getHumidity());
                     messages.put(language, message);
                 }
 
@@ -402,8 +402,8 @@ public class Notificator {
                 if (!messages.containsKey(language)) {
                     String message = String.format(lb.get(language, "extraction.storage.grease.title"),
                             storage, time);
-                    message += "\n" + String.format(lb.get(language, "extraction.turn.grease.grease"), storageGrease.getGrease());
-                    message += "\n" + String.format(lb.get(language, "extraction.storage.humidity"), storageGrease.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.grease.grease"), storageGrease.getGrease());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.storage.humidity"), storageGrease.getHumidity());
                     messages.put(language, message);
                 }
 
@@ -418,14 +418,15 @@ public class Notificator {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
                     String message = String.format(lb.get(language, "notification.kpo.title"), part.getNumber());
-                    message += "\n" + String.format(lb.get(language, "notification.kpo.organoleptic"),
+                    message += NEW_LINE + String.format(lb.get(language, "notification.kpo.organoleptic"),
                             (part.isOrganoleptic() ?
                                     lb.get(language, "notification.kpo.organoleptic.yes") :
                                     lb.get(language, "notification.kpo.organoleptic.no")
                             ));
-                    message += "\n" + String.format(lb.get(language, "notification.kpo.acid"), part.getAcid());
-                    message += "\n" + String.format(lb.get(language, "notification.kpo.peroxide"), part.getPeroxide());
-                    message += "\n" + String.format(lb.get(language, "notification.kpo.soap"),
+                    message += NEW_LINE + String.format(lb.get(language, "bot.notificator.color"), part.getColor());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.kpo.acid"), part.getAcid());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.kpo.peroxide"), part.getPeroxide());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.kpo.soap"),
                             (part.isSoap() ?
                                     lb.get(language, "notification.kpo.soap.yes") :
                                     lb.get(language, "notification.kpo.soap.no")
@@ -454,11 +455,11 @@ public class Notificator {
                 if (setting.getWorker().getId() == admin.getWorker().getId() && setting.getTelegramId() > 0){
                     String language = setting.getLanguage();
                     String message = lb.get(language, "bot.user.registration.title");
-                    message += "\n" + String.format(lb.get(language, "bot.user.registration.registrator"), user.getRegistrator().getValue());
-                    message += "\n" + lb.get(language, "bot.user.registration.text");
-                    message += "\n" + String.format(lb.get(language, "bot.user.registration.user"), user.getWorker().getValue());
-                    message += "\n" + String.format(lb.get(language, "bot.user.registration.role"), lb.get(language, user.getRole().toString()));
-                    message += "\n" + String.format(lb.get(language, "bot.user.registration.email"), user.getEmail());
+                    message += NEW_LINE + String.format(lb.get(language, "bot.user.registration.registrator"), user.getRegistrator().getValue());
+                    message += NEW_LINE + lb.get(language, "bot.user.registration.text");
+                    message += NEW_LINE + String.format(lb.get(language, "bot.user.registration.user"), user.getWorker().getValue());
+                    message += NEW_LINE + String.format(lb.get(language, "bot.user.registration.role"), lb.get(language, user.getRole().toString()));
+                    message += NEW_LINE + String.format(lb.get(language, "bot.user.registration.email"), user.getEmail());
 
                     buttons.add(new InlineKeyboardButton().setText("Yes").setCallbackData(String.valueOf(user.getId())));
                     buttons.add(new InlineKeyboardButton().setText("No").setCallbackData(String.valueOf(user.getId())));

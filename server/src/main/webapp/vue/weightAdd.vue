@@ -23,6 +23,8 @@ var editor = new Vue({
             organisation:false,
             product:false,
             manager:false,
+            vehicle:false,
+            driver:false,
             any:function(){
                 return organisation || product || manager;
             }
@@ -308,10 +310,18 @@ var editor = new Vue({
             }
         },
         save:function(){
+            var e = this.errors;
+            if (this.plan.vehicle.id == -1 && this.input.vehicle){
+                if ( this.foundVehicles){
+                    e.vehicle = true;
+                } else {
+                    this.parseVehicle();
+                }
+            }
             if (this.note.edit){
                 this.saveNote();
             }
-            var e = this.errors;
+
             e.organisation = this.plan.organisation == -1;
             e.product = this.plan.product == -1;
             e.manager = this.plan.manager == -1;

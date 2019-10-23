@@ -61,14 +61,14 @@
             </li>
             <c:if test="${role eq 'admin'}">
               <li class="menu-item" onclick="loadContent('${admin}')">
-              <span class="main">
-                <fmt:message key="menu.admin"/>
-              </span>
+                <span class="main">
+                  <fmt:message key="menu.admin"/>
+                </span>
               </li>
               <li class="menu-item" onclick="loadContent('${referencesList}')">
-              <span class="main">
-                <fmt:message key="menu.references"/>
-              </span>
+                <span class="main">
+                  <fmt:message key="menu.references"/>
+                </span>
               </li>
             </c:if>
           </ul>

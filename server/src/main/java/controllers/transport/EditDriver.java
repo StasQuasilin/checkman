@@ -6,6 +6,7 @@ import constants.Titles;
 import controllers.IModal;
 import entity.Person;
 import entity.transport.Driver;
+import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.Parser;
@@ -16,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,7 +27,6 @@ import java.util.List;
 public class EditDriver extends IModal {
 
     static final Logger log = Logger.getLogger(EditDriver.class);
-
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,8 +58,10 @@ public class EditDriver extends IModal {
         req.setAttribute("transportations", size);
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("saveDriverAPI", Branches.API.References.SAVE_DRIVER);
-        req.setAttribute("modalContent", "/pages/transport/driverInput.jsp");
-        req.setAttribute("title", Titles.DRIVER_INPUT);
+        req.setAttribute(MODAL_CONTENT, "/pages/transport/driverInput.jsp");
+        req.setAttribute("find", Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute("parse", Branches.API.References.PARSE_ORGANISATION);
+        req.setAttribute(TITLE, Titles.DRIVER_INPUT);
         show(req, resp);
     }
 }

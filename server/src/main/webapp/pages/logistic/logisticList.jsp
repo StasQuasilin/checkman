@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
@@ -54,8 +55,10 @@
     <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
   </c:if>
 </div>
+
 <c:set var="dateLeft"><fmt:message key="date.left"/></c:set>
 <c:set var="dateRight"><fmt:message key="date.right"/></c:set>
+<c:set var="plan"><fmt:message key="load.plan"/></c:set>
   <div id="logistic">
     <transition-group name="flip-list" tag="div" class="container">
       <div v-for="(value, key) in getItems()" class="container-item"
@@ -83,7 +86,7 @@
           </b>
         </span>
         <span>
-          <fmt:message key="deal.quantity"/>:
+          ${fn:substring(plan, 0, 4)}:
           <b>
             {{(value.item.plan).toLocaleString()}}
             {{value.item.unit}},
