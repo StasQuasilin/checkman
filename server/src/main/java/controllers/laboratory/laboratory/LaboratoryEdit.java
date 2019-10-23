@@ -31,25 +31,24 @@ public class LaboratoryEdit extends IModal {
         req.setAttribute("plan", transportation);
         req.setAttribute("print", Branches.UI.LABORATORY_PRINT_OPTIONS);
         AnalysesType analysesType = transportation.getProduct().getAnalysesType();
-        req.setAttribute("type", analysesType.toString());
+        req.setAttribute(TYPE, analysesType.toString());
         switch (analysesType){
             case sun:
-                req.setAttribute("modalContent", "/pages/laboratory/sunEdit.jsp");
-                req.setAttribute("title", Titles.SUN_EDIT);
-                req.setAttribute("save", Branches.API.LABORATORY_SAVE_SUN);
+                req.setAttribute(MODAL_CONTENT, "/pages/laboratory/sunEdit.jsp");
+                req.setAttribute(TITLE, Titles.SUN_EDIT);
+                req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_SUN);
 
                 break;
             case oil:
-                req.setAttribute("modalContent", "/pages/laboratory/oilEdit.jsp");
-                req.setAttribute("title", Titles.OIL_EDIT);
-                req.setAttribute("save", Branches.API.LABORATORY_SAVE_OIL);
+                req.setAttribute(MODAL_CONTENT, "/pages/laboratory/oilEdit.jsp");
+                req.setAttribute(TITLE, Titles.OIL_EDIT);
+                req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_OIL);
 
                 break;
             case meal:
-                req.setAttribute("modalContent", "/pages/laboratory/cakeEdit.jsp");
-                req.setAttribute("title", Titles.CAKE_EDIT);
-                req.setAttribute("save", Branches.API.LABORATORY_SAVE_CAKE);
-
+                req.setAttribute(MODAL_CONTENT, "/pages/laboratory/cakeEdit.jsp");
+                req.setAttribute(TITLE, Titles.CAKE_EDIT);
+                req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_CAKE);
                 break;
         }
         show(req, resp);

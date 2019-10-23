@@ -69,7 +69,7 @@
             </span>
           </div>
         </div>
-        <div style="display: inline-block; font-size: 10pt">
+        <div style="display: inline-block; font-size: 10pt; width: 28em">
           <div>
             <span style="width: 5em">
               <fmt:message key="transportation.automobile"/>:
@@ -99,6 +99,32 @@
             <template v-else>
               <fmt:message key="no.data"/>
             </template>
+          </div>
+        </div>
+        <div style="display: inline-block; font-size: 10pt;">
+          <div v-if="value.item.weight.id">
+            <span>
+                Б:
+            </span>
+            <b>
+              {{(value.item.weight.brutto).toLocaleString()}},
+            </b>
+              <span>
+                  Т:
+              </span>
+            <b>
+              {{(value.item.weight.tara).toLocaleString()}},
+            </b>
+            <div>
+              <span>
+                Н:
+              </span>
+              <b>
+                {{value.item.weight.brutto > 0 && value.item.weight.tara > 0 ?
+                (value.item.weight.brutto - value.item.weight.tara).toLocaleString() : 0}}
+              </b>
+            </div>
+
           </div>
         </div>
       </div>

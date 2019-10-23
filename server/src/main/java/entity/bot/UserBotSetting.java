@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class UserBotSetting {
     private int id;
     private long telegramId;
+
     private String title;
     private Worker worker;
     private String language;

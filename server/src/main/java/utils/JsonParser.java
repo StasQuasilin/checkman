@@ -927,12 +927,6 @@ public class JsonParser {
         json.put("huskSoreness", daily.getHuskSoreness());
         json.put("kernelPercent", daily.getKernelPercent());
         json.put("huskPercent", daily.getHuskPercent());
-        json.put("huskiness", daily.getHuskiness());
-        json.put("kernelOffset", daily.getKernelOffset());
-        json.put("humidityBefore", daily.getHumidityBefore());
-        json.put("sorenessBefore", daily.getSorenessBefore());
-        json.put("humidityAfter", daily.getHumidityAfter());
-        json.put("sorenessAfter", daily.getSorenessAfter());
         return json;
     }
 

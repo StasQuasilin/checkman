@@ -1,5 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
@@ -34,6 +35,7 @@
             <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
         </c:if>
     </div>
+<c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">
         <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
             <fmt:message key="empty.list"/>
@@ -65,7 +67,7 @@
                     </span>
                     <span>
                         <span style="font-size: 10pt">
-                            <fmt:message key="deal.quantity"/>:
+                            ${fn:substring(plan, 0, 4)}:
                         </span>
                         <b>
                             {{(value.item.plan).toLocaleString()}}
@@ -81,7 +83,7 @@
                     </span>
                 </div>
                 <div class="middle-row">
-                    <div style="display: inline-block; font-size: 10pt; width: 12em">
+                    <div style="display: inline-block; font-size: 10pt; width: 10em">
                         <div>
                             <fmt:message key="transportation.time.in"/>:
                         <span v-if="value.item.timeIn.time">
@@ -101,7 +103,7 @@
                         </span>
                         </div>
                     </div>
-                    <div style="display: inline-block; font-size: 9pt; width: 28em">
+                    <div style="display: inline-block; font-size: 9pt; min-width: 28em">
                         <div>
                             <fmt:message key="transportation.automobile"/>:
                         <span>
@@ -143,34 +145,16 @@
                             <b>
                                 {{(value.item.weight.tara).toLocaleString()}},
                             </b>
-                            <span>
+                            <div>
+                                <span>
                                 Н:
                             </span>
-                            <b>
-                                {{value.item.weight.brutto > 0 && value.item.weight.tara > 0 ?
-                                (value.item.weight.brutto - value.item.weight.tara).toLocaleString() : 0}}
-                            </b>
+                                <b>
+                                    {{value.item.weight.brutto > 0 && value.item.weight.tara > 0 ?
+                                    (value.item.weight.brutto - value.item.weight.tara).toLocaleString() : 0}}
+                                </b>
+                            </div>
 
-                            <span v-if="value.item.weight.correction">
-                                ({{(value.item.weight.netto).toLocaleString()}},
-                                -{{(value.item.weight.correction).toLocaleString()}}%)
-                            </span>
-                        </div>
-                        <div v-if="value.item.analyses.sun.id">
-                            <fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},
-                            <fmt:message key="sun.humidity.2"/>:{{value.item.analyses.sun.humidity2}},
-                            <fmt:message key="sun.soreness"/>:{{value.item.analyses.sun.soreness}},
-                            <fmt:message key="sun.oiliness"/>:{{value.item.analyses.sun.oiliness}}
-                        </div>
-                        <div v-if="value.item.analyses.oil.id">
-                            <fmt:message key="sun.acid.value"/>:{{value.item.analyses.oil.acid}},
-                            <fmt:message key="oil.peroxide"/>:{{value.item.analyses.oil.peroxide}},
-                            <fmt:message key="oil.phosphorus"/>:{{value.item.analyses.oil.phosphorus}}
-                        </div>
-                        <div v-if="value.item.analyses.cake.id">
-                            <fmt:message key="sun.humidity"/>:{{value.item.analyses.cake.humidity}},
-                            <fmt:message key="cake.protein"/>:{{value.item.analyses.cake.protein}},
-                            <fmt:message key="sun.oiliness"/>:{{value.item.analyses.cake.oiliness}}
                         </div>
                     </div>
                 </div>

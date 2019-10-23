@@ -25,8 +25,11 @@ public class AdminControl extends IUIServlet {
         req.setAttribute(TITLE, Titles.ADMIN);
         req.setAttribute(CONTENT, "/pages/admin/admin.jsp");
 
-        req.setAttribute("botSettings", Branches.API.BOT_SETTINGS);
-        req.setAttribute("botStatus", Branches.API.BOT_STATUS);
+        req.setAttribute("uidGenerator", Branches.API.BOT_UID);
+        req.setAttribute("botStatus", Branches.API.USER_BOT_SETTINGS);
+        req.setAttribute("botDelete", Branches.API.USER_BOT_DELETE);
+        req.setAttribute("botSettings", dao.getBotSettingsByWorker(getWorker(req)));
+
         req.setAttribute("userRegistration", Branches.UI.USER_REGISTRATION);
         req.setAttribute("userList", Branches.UI.USER_LIST);
         show(req, resp);

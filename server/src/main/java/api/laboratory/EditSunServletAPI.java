@@ -121,7 +121,7 @@ public class EditSunServletAPI extends ServletAPI {
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
-                    notificator.sunAnalysesShow(transportation, sunAnalyses);
+                    notificator.sunAnalysesShow(transportation, sunAnalyses, transportation.getWeight().getCorrection());
                 }
             }
             write(resp, SUCCESS_ANSWER);

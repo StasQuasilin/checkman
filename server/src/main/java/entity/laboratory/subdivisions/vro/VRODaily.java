@@ -18,12 +18,6 @@ public class VRODaily {
     private float huskSoreness;
     private float kernelPercent;
     private float huskPercent;
-    private float huskiness;
-    private float kernelOffset;
-    private float humidityBefore;
-    private float sorenessBefore;
-    private float humidityAfter;
-    private float sorenessAfter;
     private ActionTime createTime;
     private Worker creator;
 
@@ -88,60 +82,6 @@ public class VRODaily {
     }
     public void setHuskPercent(float huskPercent) {
         this.huskPercent = huskPercent;
-    }
-
-    @Basic
-    @Column(name = "huskiness")
-    public float getHuskiness() {
-        return huskiness;
-    }
-    public void setHuskiness(float huskiness) {
-        this.huskiness = huskiness;
-    }
-
-    @Basic
-    @Column(name = "kernel_offset")
-    public float getKernelOffset() {
-        return kernelOffset;
-    }
-    public void setKernelOffset(float kernelOffset) {
-        this.kernelOffset = kernelOffset;
-    }
-
-    @Basic
-    @Column(name = "humidity_before")
-    public float getHumidityBefore() {
-        return humidityBefore;
-    }
-    public void setHumidityBefore(float humidityBefore) {
-        this.humidityBefore = humidityBefore;
-    }
-
-    @Basic
-    @Column(name = "soreness_before")
-    public float getSorenessBefore() {
-        return sorenessBefore;
-    }
-    public void setSorenessBefore(float sorenessBefore) {
-        this.sorenessBefore = sorenessBefore;
-    }
-
-    @Basic
-    @Column(name = "humidity_after")
-    public float getHumidityAfter() {
-        return humidityAfter;
-    }
-    public void setHumidityAfter(float humidityAfter) {
-        this.humidityAfter = humidityAfter;
-    }
-
-    @Basic
-    @Column(name = "soreness_after")
-    public float getSorenessAfter() {
-        return sorenessAfter;
-    }
-    public void setSorenessAfter(float sorenessAfter) {
-        this.sorenessAfter = sorenessAfter;
     }
 
     @OneToOne

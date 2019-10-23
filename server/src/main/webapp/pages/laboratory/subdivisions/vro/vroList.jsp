@@ -56,7 +56,9 @@
                 humidityBefore:0,
                 sorenessBefore:0,
                 humidityAfter:0,
-                sorenessAfter:0
+                sorenessAfter:0,
+                kernelOffset:0,
+                huskiness:0
             };
             for (var j in item.crudes){
                 if (item.crudes.hasOwnProperty(j)){
@@ -65,6 +67,8 @@
                     middle.sorenessBefore += crude.sorenessBefore;
                     middle.humidityAfter += crude.humidityAfter;
                     middle.sorenessAfter += crude.sorenessAfter;
+                    middle.kernelOffset += crude.kernelOffset;
+                    middle.huskiness += crude.huskiness;
                 }
             }
             let count = item.crudes.length;
@@ -73,6 +77,8 @@
                 middle.sorenessBefore /= count;
                 middle.humidityAfter /= count;
                 middle.sorenessAfter /= count;
+                middle.kernelOffset /= count;
+                middle.huskiness /= count;
             }
             item.middle = middle;
 
@@ -85,6 +91,11 @@
     list.forpress.push({
         value:'${fp.name}'
     });
+    list.sort = function(){
+        list.items.sort(function(a, b){
+            return new Date(b.item.date) - new Date(a.item.date);
+        })
+    };
     </c:forEach>
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
@@ -245,9 +256,9 @@
             <fmt:message key="oil.color.value"/>:
             {{oil.color}}
         </div>
-        <div style="padding-left: 8pt; font-size: 10pt" v-for="daily in value.item.dailies"
-             class="selectable" :id="daily.id" v-on:click="edit('${dailyEdit}')">
 
+        <div style="padding-left: 8pt; font-size: 10pt"
+             >
             <table style="font-size: 10pt">
                 <tr>
                     <td colspan="2">
@@ -265,11 +276,11 @@
                 <tr>
                     <td>
                         <fmt:message key="vro.huskiness"/>:
-
+                        {{(middle(value.item).huskiness).toLocaleString()}}
                     </td>
                     <td>
                         <fmt:message key="vro.kernel.offset"/>:
-
+                        {{(middle(value.item).kernelOffset).toLocaleString()}}
                     </td>
                     <td>
                         <fmt:message key="sun.humidity"/>:
@@ -288,7 +299,7 @@
                         {{(middle(value.item).sorenessAfter).toLocaleString()}}
                     </td>
                 </tr>
-                <tr>
+                <tr v-for="daily in value.item.dailies" class="selectable" :id="daily.id" v-on:click="edit('${dailyEdit}')">
                     <td>
                         <fmt:message key="kernel.humidity"/>:
                         {{(daily.kernelHumidity).toLocaleString()}}

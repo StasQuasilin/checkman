@@ -95,42 +95,6 @@ public class VRODailyEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float huskiness = Float.parseFloat(String.valueOf(body.get("huskiness")));
-            if (daily.getHuskiness() != huskiness) {
-                daily.setHuskiness(huskiness);
-                save = true;
-            }
-
-            float kernelOffset = Float.parseFloat(String.valueOf(body.get("kernelOffset")));
-            if (daily.getKernelOffset() != kernelOffset) {
-                daily.setKernelOffset(kernelOffset);
-                save = true;
-            }
-
-            float humidityBefore = Float.parseFloat(String.valueOf(body.get("humidityBefore")));
-            if (daily.getHumidityBefore() != humidityBefore) {
-                daily.setHumidityBefore(humidityBefore);
-                save = true;
-            }
-
-            float sorenessBefore = Float.parseFloat(String.valueOf(body.get("sorenessBefore")));
-            if (daily.getSorenessBefore() != sorenessBefore) {
-                daily.setSorenessBefore(sorenessBefore);
-                save = true;
-            }
-
-            float humidityAfter = Float.parseFloat(String.valueOf(body.get("humidityAfter")));
-            if (daily.getHumidityAfter() != humidityAfter) {
-                daily.setHumidityAfter(humidityAfter);
-                save = true;
-            }
-
-            float sorenessAfter = Float.parseFloat(String.valueOf(body.get("sorenessAfter")));
-            if (daily.getSorenessAfter() != sorenessAfter) {
-                daily.setSorenessAfter(sorenessAfter);
-                save = true;
-            }
-
             if (save) {
                 ActionTime createTime = daily.getCreateTime();
                 if (createTime == null) {

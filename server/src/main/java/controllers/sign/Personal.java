@@ -20,18 +20,16 @@ public class Personal extends IUIServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Titles.PERSONAL);
-        req.setAttribute("content", "/pages/personal/personal.jsp");
-        req.setAttribute("uidGenerator", Branches.API.BOT_UID);
-        req.setAttribute("botStatus", Branches.API.USER_BOT_SETTINGS);
-        req.setAttribute("botDelete", Branches.API.USER_BOT_DELETE);
-        req.setAttribute("botSettings", dao.getBotSettingsByWorker(getWorker(req)));
+        req.setAttribute(TITLE, Titles.PERSONAL);
+        req.setAttribute(CONTENT, "/pages/personal/personal.jsp");
+
+
+
         req.setAttribute("languages", LanguageBase.LANGUAGES);
         req.setAttribute("changeLanguage", Branches.API.CHANGE_LANGUAGE);
         req.setAttribute("changePassword", Branches.UI.CHANGE_PASSWORD);
         req.setAttribute("changeOffice", Branches.API.CHANGE_OFFICE);
-        req.setAttribute("roles", Role.values());
-        req.setAttribute("registration", Branches.API.FRIENDLY_REGISTRATION);
+
         show(req, resp);
     }
 }

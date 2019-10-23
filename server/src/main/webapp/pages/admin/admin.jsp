@@ -21,7 +21,7 @@
                 </div>
             </td>
             <td valign="top">
-                <jsp:include page="botSettings.jsp"/>
+                <jsp:include page="telegramBotSettings.jsp"/>
             </td>
         </tr>
     </table>

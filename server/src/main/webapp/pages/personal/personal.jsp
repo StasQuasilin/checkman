@@ -59,7 +59,7 @@
                 <jsp:include page="personalData.jsp"/>
             </td>
             <td valign="top" rowspan="4">
-                <jsp:include page="telegramBotSettings.jsp"/>
+
             </td>
             <td valign="top">
 

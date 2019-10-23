@@ -53,17 +53,20 @@ public class SignUpServletAPI extends ServletAPI {
 
                 boolean autoPassword = true;
                 if (json.containsKey("password")){
-                    autoPassword = false;
                     String password = String.valueOf(json.get("password"));
-                    user.setPassword(password);
-                } else {
+                    if (!password.isEmpty()){
+                        autoPassword = false;
+                        user.setPassword(new String(Base64.getEncoder().encode(password.getBytes())));
+                    }
+                }
+
+                if(autoPassword) {
                     user.setPassword(PasswordGenerator.getPassword());
                 }
 
                 user.setEmail(email);
                 user.setRegistrator(getWorker(req));
 
-                user.setWorker(new Worker());
                 long personId = -1;
                 if (json.containsKey("personId")) {
                     personId = (long) json.get("personId");

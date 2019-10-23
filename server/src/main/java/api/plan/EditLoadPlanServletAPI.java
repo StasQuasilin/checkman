@@ -99,9 +99,11 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             LoadPlan loadPlan;
             Transportation transportation;
 
+
             if (id != -1) {
                 loadPlan = dao.getLoadPlanById(id);
                 transportation = loadPlan.getTransportation();
+
             } else {
                 loadPlan = new LoadPlan();
                 loadPlan.setDeal(deal);

@@ -44,6 +44,11 @@
       </c:forEach>
     }
   </script>
+<style>
+  .copypable *{
+    user-select: text;
+  }
+</style>
 <div id="container-header" class="container-header">
   <c:if test="${not empty add}">
     <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
@@ -169,7 +174,11 @@
               </span>
               <div style="display: inline-block; width: 80%">
                 <span v-if="value.item.driver.id">
-                  <b>{{value.item.driver.person.value}}</b>
+                  <b>
+                    {{value.item.driver.person.surname}}
+                    {{value.item.driver.person.forename}}
+                    {{value.item.driver.person.patronymic}}
+                  </b>
                   <span class="edit-menu-header">
                     &#9660;
                     <div class="edit-menu">
@@ -199,6 +208,21 @@
                 <a v-else v-on:click="openDriverInput(value.item.id)">
                   <fmt:message key="transportation.driver.insert.info"/>
                 </a>
+              </div>
+            </div>
+          </div>
+          <div style="display: inline-block">
+            <div v-if="value.item.weight.id" class="copypable">
+              <span>
+                Б: {{value.item.weight.brutto}},
+              </span>
+              <span>
+                Т: {{value.item.weight.tara}},
+              </span>
+              <div>
+                Н: {{value.item.weight.brutto > 0 &&
+                value.item.weight.tara > 0 ?
+                (value.item.weight.brutto - value.item.weight.tara).toLocaleString() : 0}}
               </div>
             </div>
           </div>

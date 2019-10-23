@@ -11,5 +11,7 @@ public enum Role {
     security,
     weigher,
     analyser,
-    guest
+    warehousing,
+    guest,
+    mihalych
 }

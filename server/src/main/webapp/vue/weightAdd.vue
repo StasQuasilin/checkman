@@ -87,6 +87,10 @@ var editor = new Vue({
                 input:''
             }
         },
+        cancelOrganisation:function(){
+            this.plan.organisation = -1;
+            this.input.organisation = '';
+        },
         productList:function(){
             if (this.plan.deal == -1){
                 return this.products;

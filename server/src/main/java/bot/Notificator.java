@@ -4,6 +4,7 @@ import entity.Admin;
 import entity.DealType;
 import entity.User;
 import entity.Worker;
+import entity.bot.NotifyStatus;
 import entity.bot.UserBotSetting;
 import entity.documents.LoadPlan;
 import entity.laboratory.MealAnalyses;
@@ -67,6 +68,7 @@ public class Notificator {
     private static final String NO_MATCH = "oil.organoleptic.match";
     private static final String HAVE = "notification.kpo.soap.yes";
     private static final String NO_HAVE = "notification.kpo.soap.no";
+    private static final String CORRECTION = "notification.weight.correction";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -121,8 +123,9 @@ public class Notificator {
         }
         String organisation = transportation.getCounterparty().getValue();
         String message = String.format(messageFormat, action, productName, driver, organisation);
-
-        getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> sendMessage(setting.getTelegramId(), message, null));
+        getSettings().stream().filter(setting -> setting.isShow() && setting.getTransport() != NotifyStatus.off).forEach(setting -> {
+            sendMessage(setting.getTelegramId(), message, null);
+        });
     }
 
     public void weightShow(Transportation transportation) {
@@ -136,33 +139,29 @@ public class Notificator {
         String organisation = transportation.getCounterparty().getValue();
         String product = transportation.getProduct().getName();
         String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product, transportation.getWeight().getNetto());
-
-        getSettings().stream().filter(UserBotSetting::isShow).forEach(setting -> sendMessage(setting.getTelegramId(), message, null));
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.getWeight() == NotifyStatus.all){
+                sendMessage(setting.getTelegramId(), message, null);
+            }
+        }
     }
-    public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses) {
+    public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses, float correction) {
         HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
-                Worker worker = setting.getWorker();
-                boolean show = false;
-                switch (setting.getTransport()) {
-                    case my:
-                        show = transportation.getManager().getId() == worker.getId();
-                        break;
-                    case all:
-                        show = true;
-                        break;
-                }
+                boolean show = setting.getAnalyses() == NotifyStatus.all;
                 if (show) {
 
                     String language = setting.getLanguage();
                     if (!messages.containsKey(language)){
+                        String corr = correction > 0 ? String.format(lb.get(CORRECTION), correction) + NEW_LINE : "";
                         messages.put(language, prepareMessage(transportation) + NEW_LINE +
                             String.format(lb.get(HUMIDITY_1), analyses.getHumidity1()) + NEW_LINE +
                             String.format(lb.get(HUMIDITY_2), analyses.getHumidity2()) + NEW_LINE +
                             String.format(lb.get(SORENESS), analyses.getSoreness()) + NEW_LINE +
                             String.format(lb.get(OILINESS), analyses.getOiliness()) + NEW_LINE +
                             String.format(lb.get(OIL_IMPURITY), analyses.getOilImpurity()) + NEW_LINE +
+                                         corr +
                             String.format(lb.get(ACID), analyses.getAcidValue())
                         );
                     }
@@ -175,16 +174,7 @@ public class Notificator {
         HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()){
             if(setting.isShow()) {
-                Worker worker = setting.getWorker();
-                boolean show = false;
-                switch (setting.getTransport()) {
-                    case my:
-                        show = transportation.getManager().getId() == worker.getId();
-                        break;
-                    case all:
-                        show = true;
-                        break;
-                }
+                boolean show = setting.getAnalyses() == NotifyStatus.all;
                 if (show) {
                     String language = setting.getLanguage();
                     if (!messages.containsKey(language)){
@@ -208,15 +198,7 @@ public class Notificator {
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
                 Worker worker = setting.getWorker();
-                boolean show = false;
-                switch (setting.getTransport()) {
-                    case my:
-                        show = transportation.getManager().getId() == worker.getId();
-                        break;
-                    case all:
-                        show = true;
-                        break;
-                }
+                boolean show = setting.getAnalyses() == NotifyStatus.all;
                 if (show) {
                     String language = setting.getLanguage();
                     if (!messages.containsKey(language)){
@@ -249,15 +231,15 @@ public class Notificator {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
                     String message = lb.get(language, "extraction.title");
-                    message += "\n" + String.format(lb.get(language, "extraction.turn"), turnNumber, turnDate, turnTime);
-                    message += "\n" + String.format(lb.get(language, "extraction.humidity.income"), crude.getHumidityIncome());
-                    message += "\n" + String.format(lb.get(language, "extraction.fraction"), crude.getFraction());
-                    message += "\n" + String.format(lb.get(language, "extraction.dissolvent"), crude.getDissolvent());
-                    message += "\n" + String.format(lb.get(language, "extraction.miscellas"), crude.getMiscellas());
-                    message += "\n" + String.format(lb.get(language, "extraction.humidity"), crude.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn"), turnNumber, turnDate, turnTime);
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.humidity.income"), crude.getHumidityIncome());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.fraction"), crude.getFraction());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.dissolvent"), crude.getDissolvent());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.miscellas"), crude.getMiscellas());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.humidity"), crude.getHumidity());
                     //todo organoleptic
                     message += "\n" + String.format(lb.get(language, "extraction.oiliness"), crude.getGrease());
-                    //message += "\n" + String.format(lb.get(language, "extraction.explosion.t"), crude.get)
+                    message += "\n" + String.format(lb.get(language, "extraction.explosion.t"), crude.getExplosionTemperature());
                     messages.put(language, message);
                 }
 
@@ -354,12 +336,12 @@ public class Notificator {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
                     String message = lb.get(language, "extraction.oil.title");
-                    message += "\n" + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
-                    message += "\n" + String.format(lb.get(language, "bot.extraction.oil.humidity"), oil.getHumidity());
-                    message += "\n" + String.format(lb.get(language, "extraction.oil.acid.value"), oil.getAcid());
-                    message += "\n" + String.format(lb.get(language, "extraction.oil.peroxide.value"), oil.getPeroxide());
-                    message += "\n" + String.format(lb.get(language, "extraction.oil.phosphorus.value"), oil.getPhosphorus());
-                    message += "\n" + String.format(lb.get(language, "extraction.oil.explosion.t"), oil.getExplosionT());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "bot.extraction.oil.humidity"), oil.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.acid.value"), oil.getAcid());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.peroxide.value"), oil.getPeroxide());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.phosphorus.value"), oil.getPhosphorus());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.explosion.t"), oil.getExplosionT());
                     messages.put(language, message);
                 }
 
@@ -382,6 +364,7 @@ public class Notificator {
                     message += "\n" + String.format(lb.get(language, "extraction.turn.protein.protein"), turnProtein.getProtein());
                     message += "\n" + String.format(lb.get(language, "extraction.turn.protein.humidity"), turnProtein.getHumidity());
                     message += "\n" + String.format(lb.get(language, "extraction.turn.protein.nmr"), turnProtein.getNuclearGrease());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.dry"), turnProtein.DryRecalculation());
                     messages.put(language, message);
                 }
 

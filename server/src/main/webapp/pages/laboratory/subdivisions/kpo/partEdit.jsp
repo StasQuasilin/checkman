@@ -168,10 +168,10 @@
       <input id="soap" type="checkbox" v-model="part.soap">
       <label for="soap">
         <span v-if="part.soap">
-          <fmt:message key="oil.soap.yes"/>
+          <fmt:message key="oil.soap.no"/>
         </span>
         <span v-else>
-          <fmt:message key="oil.soap.no"/>
+          <fmt:message key="oil.soap.yes"/>
         </span>
       </label>
     </td>

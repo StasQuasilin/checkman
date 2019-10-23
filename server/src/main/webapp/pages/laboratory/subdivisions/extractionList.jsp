@@ -84,6 +84,11 @@
     list.edit = function(api, id){
         loadModal(api + '?id=' + id, {id :id});
     };
+    list.sort = function(){
+        list.items.sort(function(a, b){
+            return new Date(b.item.date) - new Date(a.item.date);
+        })
+    };
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
         list.handler(a);

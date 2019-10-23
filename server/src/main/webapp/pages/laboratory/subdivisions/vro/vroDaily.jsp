@@ -30,12 +30,6 @@
         huskSoreness:${daily.huskSoreness},
         kernelPercent:${daily.kernelPercent},
         huskPercent:${daily.huskPercent},
-        huskiness:${daily.huskiness},
-        kernelOffset:${daily.kernelOffset},
-        humidityBefore:${daily.humidityBefore},
-        sorenessBefore:${daily.sorenessBefore},
-        humidityAfter:${daily.humidityAfter},
-        sorenessAfter:${daily.sorenessAfter}
     };
     </c:when>
     <c:otherwise>
@@ -46,13 +40,7 @@
         huskHumidity:0,
         huskSoreness:0,
         kernelPercent:0,
-        huskPercent:0,
-        huskiness:0,
-        kernelOffset:0,
-        humidityBefore:0,
-        sorenessBefore:0,
-        humidityAfter:0,
-        sorenessAfter:0
+        huskPercent:0
     };
     </c:otherwise>
     </c:choose>
@@ -154,98 +142,6 @@
         </td>
         <td>
             <input id="huskPercentage" type="number" step="0.01" v-model="daily.huskPercent" onclick="this.select()">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="huskiness">
-                <fmt:message key="vro.huskiness"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="huskiness" type="number" step="0.01" autocomplete="off" v-model="daily.huskiness" onclick="this.select()">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="kernelOffset">
-                <fmt:message key="vro.kernel.offset"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="kernelOffset" type="number" step="0.01" autocomplete="off" v-model="daily.kernelOffset" onclick="this.select()">
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            <b>
-                <fmt:message key="vro.sun.before"/>
-            </b>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="humidityBefore">
-                <fmt:message key="sun.humidity"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="humidityBefore" type="number" step="0.01" autocomplete="off" v-model="daily.humidityBefore" onclick="this.select()">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="sorenessBefore">
-                <fmt:message key="sun.soreness"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="sorenessBefore" type="number" step="0.01" autocomplete="off" v-model="daily.sorenessBefore" onclick="this.select()">
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3">
-            <b>
-                <fmt:message key="vro.sun.after"/>
-            </b>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="humidityAfter">
-                <fmt:message key="sun.humidity"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="humidityAfter" type="number" step="0.01" autocomplete="off" v-model="daily.humidityAfter" onclick="this.select()">
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="sorenessAfter">
-                <fmt:message key="sun.soreness"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="sorenessAfter" type="number" step="0.01" autocomplete="off" v-model="daily.sorenessAfter" onclick="this.select()">
         </td>
     </tr>
     <tr>

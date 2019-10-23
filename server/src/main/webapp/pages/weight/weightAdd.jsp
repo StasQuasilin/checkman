@@ -230,7 +230,7 @@
                           v-on:click="editOrganisation()"
                           style="padding: 0">
                         &#9998;</span>
-                    <span class="mini-close" style="padding: 0">
+                    <span class="mini-close" v-on:click="cancelOrganisation()" style="padding: 0">
                         &times;</span>
                 </div>
             </div>

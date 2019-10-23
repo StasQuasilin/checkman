@@ -5,6 +5,8 @@ import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
+import entity.Role;
+import utils.U;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,16 +21,24 @@ public class SummaryList extends IUIServlet {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("title", Titles.SUMMARY_LIST);
-		req.setAttribute("edit", Branches.UI.SUMMARY_SHOW);
-		req.setAttribute("add", Branches.UI.WEIGHT_ADD);
-		req.setAttribute("notes", Branches.UI.NOTES_LIST);
-		req.setAttribute("archive", Branches.API.ARCHIVE_LOAD_PLAN);
-		req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
-		req.setAttribute("types", DealType.values());
-		req.setAttribute("content", "/pages/summary/summaryList.jsp");
-		req.setAttribute("filter", "/pages/filters/transportFilter.jsp");
-		req.setAttribute("subscribe", subscribers);
+		String r = String.valueOf(req.getSession().getAttribute("role"));
+		Role role;
+		if (U.exist(r)){
+			role = Role.valueOf(r);
+			if (role == Role.manager) {
+				req.setAttribute(EDIT, Branches.UI.SUMMARY_SHOW);
+				req.setAttribute("add", Branches.UI.WEIGHT_ADD);
+				req.setAttribute("notes", Branches.UI.NOTES_LIST);
+				req.setAttribute("archive", Branches.API.ARCHIVE_LOAD_PLAN);
+				req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
+			}
+		}
+
+		req.setAttribute(TITLE, Titles.SUMMARY_LIST);
+		req.setAttribute(TYPES, DealType.values());
+		req.setAttribute(CONTENT, "/pages/summary/summaryList.jsp");
+		req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
+		req.setAttribute(SUBSCRIBE, subscribers);
 		show(req, resp);
 	}
 }

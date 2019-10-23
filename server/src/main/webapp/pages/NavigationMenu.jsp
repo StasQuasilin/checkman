@@ -73,6 +73,9 @@
             </c:if>
           </ul>
         </c:when>
+        <c:when test="${role eq 'mihalych'}">
+          <jsp:include page="navigation/mihalych.jsp"/>
+        </c:when>
         <c:when test="${role eq 'manager'}">
           <jsp:include page="navigation/deals.jsp"/>
           <jsp:include page="navigation/weight.jsp"/>
@@ -85,6 +88,9 @@
         </c:when>
         <c:when test="${role eq 'weigher'}">
           <jsp:include page="navigation/weight.jsp"/>
+        </c:when>
+        <c:when test="${role eq 'warehousing'}">
+          <jsp:include page="navigation/warehousing.jsp"/>
         </c:when>
         <c:when test="${role eq 'analyser'}">
           <jsp:include page="navigation/laboratory.jsp"/>

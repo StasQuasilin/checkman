@@ -45,7 +45,7 @@
                     if (e6){
                         e6 = this.err.password = this.user.password !== this.repeat;
                     }
-                    if (!e1 && !e2 && !e3 && !e4 && !e5 && e6) {
+                    if (!e1 && !e2 && !e3 && !e4 && !e5 && !e6) {
                         this.already = true;
                         var users = [];
                         users.push(this.user);

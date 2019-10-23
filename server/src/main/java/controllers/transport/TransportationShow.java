@@ -30,7 +30,9 @@ public class TransportationShow extends IModal {
         if (weight != null) {
             b = weight.getBrutto();
             t = weight.getTara();
-            n = weight.getNetto();
+            if (b > 0 && t > 0){
+                n = b - t;
+            }
         }
 
         req.setAttribute("brutto", b);
