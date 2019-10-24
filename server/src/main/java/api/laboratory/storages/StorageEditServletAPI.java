@@ -95,7 +95,7 @@ public class StorageEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            int color = Integer.parseInt(String.valueOf(body.get("color")));
+            float color = Float.parseFloat(String.valueOf(body.get("color")));
             if (oilAnalyses.getColor() != color){
                 oilAnalyses.setColor(color);
                 save = true;
@@ -120,7 +120,7 @@ public class StorageEditServletAPI extends ServletAPI {
                 updateUtil.onSave(dao.getStorageTurnByTurn(turn));
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
-                    notificator.storagesShow(oilAnalyses);
+                    notificator.storagesShow(analyses);
                 }
                 write(resp, SUCCESS_ANSWER);
             }

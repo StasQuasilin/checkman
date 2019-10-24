@@ -86,6 +86,8 @@ public class Branches {
         public static final String STORAGE_EDIT = "/storage/edit.j";
         public static final String REPORTS = "/reports.j";
         public static final String USER_REGISTRATION = "/admin/registration.j";
+        public static final String ORGANISATION_COLLAPSE = "/collapse/organisations.j";
+        public static final String FORMATTING_TEST = "/test/formatting.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -223,6 +225,8 @@ public class Branches {
         public static final String STORAGE_EDIT = API + "/storage/edit";
         public static final String WAREHOUSING_EDIT = API + "/warehousing/edit";
         public static final String REPORT_BUILDER = API + "/report/builder";
+        public static final String ORGANISATION_COLLAPSE = API + "/organisation/collapse";
+        public static final String FORMATTING_TEST = API + "/formatting/test";
 
 
         public class References {

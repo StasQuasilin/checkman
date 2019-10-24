@@ -85,7 +85,7 @@ public class TurnProtein {
     @Transient
     public float DryRecalculation(){
         if (protein > 0 && humidity > 0){
-            return protein * 100 / 100 - humidity;
+            return protein * 100 / (100 - humidity);
         }
         return 0;
     }

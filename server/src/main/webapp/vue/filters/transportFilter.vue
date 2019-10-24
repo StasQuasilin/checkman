@@ -13,10 +13,20 @@ var filter_control = new Vue({
         vehicle:-1,
         driver:-1
     },
-    computed:{
-
+    mounted:function(){
+        let product = localStorage.getItem('product');
+        if (product){
+            this.product = product;
+        }
+        let date = new Date().toISOString().substring(0, 10);
+        if (this.dates()[date]){
+            this.date = date;
+        }
     },
     methods:{
+        putProduct:function(){
+            localStorage.setItem('product', this.product);
+        },
         organisations:function(){
             var organisations = {};
             var items = this.items;

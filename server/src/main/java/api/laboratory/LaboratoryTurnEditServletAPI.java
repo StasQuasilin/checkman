@@ -5,6 +5,7 @@ import constants.Branches;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.turn.LaboratoryTurnWorker;
 import entity.production.Turn;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
@@ -35,7 +36,8 @@ public class LaboratoryTurnEditServletAPI extends ServletAPI {
         if (body != null) {
             System.out.println(body);
             final LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            final LocalTime time = TurnBox.getTurn((Long) body.get("turn")).getBegin().toLocalTime();
+            final LocalTime time = TurnBox.getTurnByNumber(Integer.parseInt(String.valueOf(body.get("turn"))))
+                    .getBegin().toLocalTime();
             final LocalDateTime dateTime = LocalDateTime.of(date, time);
 
             final Turn turn = TurnService.getTurn(TurnBox.getTurnDate(dateTime));
@@ -51,12 +53,22 @@ public class LaboratoryTurnEditServletAPI extends ServletAPI {
                 currentWorkers.put(w.getId(), w);
             }
 
-//            for (Object o : (JSONArray)body.get("personal")){
-//                JSONObject j = (JSONObject) o;
-//                long id = (long) j.get("id");
-//
-//            }
+            for (Object o : (JSONArray)body.get("personal")){
+                JSONObject j = (JSONObject) o;
+                long id = (long) j.get("id");
+                if (currentWorkers.containsKey(id)){
 
+                } else {
+                    LaboratoryTurnWorker worker = new LaboratoryTurnWorker();
+                    worker.setTurn(laboratoryTurn);
+                    worker.setWorker(dao.getWorkerById(id));
+                    workers.add(worker);
+                }
+            }
+            dao.save(laboratoryTurn);
+            for (LaboratoryTurnWorker worker : workers){
+                dao.save(worker);
+            }
             write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, emptyBody);

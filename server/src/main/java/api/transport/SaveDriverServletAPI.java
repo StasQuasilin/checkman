@@ -62,11 +62,13 @@ public class SaveDriverServletAPI extends ServletAPI {
                 log.info("\t...License: " + license);
             }
 
-            int transporterId = Integer.parseInt(String.valueOf(body.get("transporter")));
-            if (transporterId != -1){
-                Organisation transporter = dao.getOrganisationById(transporterId);
-                driver.setOrganisation(transporter);
-                log.info("\t...Transporter: " + transporter.getValue());
+            if (body.containsKey("transporter")) {
+                int transporterId = Integer.parseInt(String.valueOf(body.get("transporter")));
+                if (transporterId != -1) {
+                    Organisation transporter = dao.getOrganisationById(transporterId);
+                    driver.setOrganisation(transporter);
+                    log.info("\t...Transporter: " + transporter.getValue());
+                }
             }
 
             dao.save(driver.getPerson());

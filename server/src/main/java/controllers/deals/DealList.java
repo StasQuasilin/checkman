@@ -20,12 +20,12 @@ public class DealList extends IUIServlet{
         String type = req.getParameter("type");
         req.setAttribute(TITLE, Titles.DEAL_LIST + '-' + type);
         req.setAttribute(CONTENT, "/pages/deals/dealList.jsp");
-//        req.setAttribute("filter", "/pages/filters/dealFilter.jsp");
-        req.setAttribute("type", type);
+        req.setAttribute(FILTER, "/pages/filters/dealFilter.jsp");
+        req.setAttribute(TYPE, type);
         req.setAttribute("show", Branches.UI.DEAL_SHOW);
-        req.setAttribute("edit", Branches.UI.DEAL_EDIT + "?type=" + type );
+        req.setAttribute(EDIT, Branches.UI.DEAL_EDIT + "?type=" + type );
         req.setAttribute("delete", Branches.UI.DEAL_DELETE);
-        req.setAttribute("subscribe", "DEAL_" + type.toUpperCase());
+        req.setAttribute(SUBSCRIBE, "DEAL_" + type.toUpperCase());
         req.setAttribute("limit", -1);
         show(req, resp);
     }

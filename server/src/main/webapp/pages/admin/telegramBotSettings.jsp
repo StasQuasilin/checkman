@@ -245,5 +245,7 @@
         </template>
 
     </template>
+
 </table>
+    <a onclick="loadModal('${formattingTest}')">Formatting test</a>
 </html>

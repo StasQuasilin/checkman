@@ -10,6 +10,7 @@ import entity.documents.LoadPlan;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
+import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.ForpressCake;
@@ -31,6 +32,7 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -69,6 +71,7 @@ public class Notificator {
     private static final String HAVE = "notification.kpo.soap.yes";
     private static final String NO_HAVE = "notification.kpo.soap.no";
     private static final String CORRECTION = "notification.weight.correction";
+    private static final String DRY_PROTEIN = "extraction.turn.protein.dry";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -182,7 +185,10 @@ public class Notificator {
                                 String.format(lb.get(HUMIDITY_1), analyses.getHumidity()) + NEW_LINE +
                                 String.format(lb.get(PROTEIN), analyses.getProtein()) + NEW_LINE +
                                 String.format(lb.get(CELLULOSE), analyses.getCellulose()) + NEW_LINE +
-                                String.format(lb.get(OILINESS), analyses.getOiliness()));
+                                String.format(lb.get(OILINESS), analyses.getOiliness()) + NEW_LINE +
+                                String.format(lb.get(DRY_PROTEIN), analyses.DryRecalculation())
+
+                        );
                     }
                     sendMessage(setting.getTelegramId(), messages.get(language), null);
                 }
@@ -197,7 +203,6 @@ public class Notificator {
 
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow()) {
-                Worker worker = setting.getWorker();
                 boolean show = setting.getAnalyses() == NotifyStatus.all;
                 if (show) {
                     String language = setting.getLanguage();
@@ -320,6 +325,7 @@ public class Notificator {
                     String message = String.format(lb.get(language, "extraction.storage.protein.title"), storage, time);
                     message += NEW_LINE + String.format(lb.get(language, "extraction.storage.protein"), storageProtein.getProtein());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.storage.humidity"), storageProtein.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, DRY_PROTEIN), storageProtein.DryRecalculation());
                     messages.put(language, message);
                 }
 
@@ -438,7 +444,27 @@ public class Notificator {
         }
     }
 
-    public void storagesShow(OilAnalyses oilAnalyses) {
+    public void storagesShow(StorageAnalyses analyses) {
+        HashMap<String, String> messages = new HashMap<>();
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.getAnalyses() == NotifyStatus.all){
+                String language = setting.getLanguage();
+                if (!messages.containsKey(language)){
+                    LocalDateTime dateTime = analyses.getDate().toLocalDateTime();
+                    messages.put(language,
+                            analyses.getStorage().getName() + NEW_LINE +
+                                String.format("%1$s, Час %2$s", DateUtil.prettyDate(Date.valueOf(dateTime.toLocalDate())),
+                                        dateTime.toLocalTime().toString().substring(0, 5)) + NEW_LINE +
+                                    String.format(lb.get(language, "bot.notificator.phosphorus"), analyses.getOilAnalyses().getPhosphorus()) + NEW_LINE +
+                                    String.format(lb.get(language, "bot.notificator.oil.acid"), analyses.getOilAnalyses().getAcidValue()) + NEW_LINE +
+                                    String.format(lb.get(language, "notification.kpo.peroxide"), analyses.getOilAnalyses().getPeroxideValue()) + NEW_LINE +
+                                    String.format(lb.get(language, "bot.notificator.color"), analyses.getOilAnalyses().getColor())
+                            );
+                }
+
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
 
     }
     final InlineKeyboardMarkup registrationKeyboard = new InlineKeyboardMarkup();
@@ -525,5 +551,9 @@ public class Notificator {
                 sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
+    }
+
+    public void send(long telegramId, String text) {
+        sendMessage(telegramId, text, null);
     }
 }

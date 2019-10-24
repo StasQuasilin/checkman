@@ -23,8 +23,6 @@ public class FindVehicleServletAPI extends ServletAPI {
 
     final Logger log = Logger.getLogger(FindVehicleServletAPI.class);
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JSONArray array = new JSONArray();

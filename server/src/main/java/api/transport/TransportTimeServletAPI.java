@@ -77,7 +77,8 @@ public class TransportTimeServletAPI extends ServletAPI {
             updateUtil.onSave(transportation);
             Notificator notificator = BotFactory.getNotificator();
             if (notificator != null) {
-                if (direction == TransportDirection.in) {
+
+                if (direction == TransportDirection.in && transportation.getTimeOut() == null) {
                     notificator.transportInto(transportation);
                 }
             }

@@ -47,6 +47,12 @@
             {{value.item.product.name}}
           </b>
         </span>
+          <span>
+          <fmt:message key="deal.from"/>
+          <b>
+            {{value.item.shipper}},
+          </b>
+      </span>
       </div>
       <div class="middle-row">
         <div style="display: inline-block; font-size: 10pt; width: 14em">

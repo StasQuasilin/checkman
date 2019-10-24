@@ -111,6 +111,12 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 loadPlan.setTransportation(transportation);
             }
 
+            if (loadPlan.getDeal() == null || loadPlan.getDeal().getId() != dealId){
+                loadPlan.setDeal(deal);
+                transportation.setShipper(deal.getShipper());
+                transportation.setProduct(deal.getProduct());
+            }
+
             loadPlan.setDate(date);
             transportation.setDate(date);
             loadPlan.setShipper(shipper);

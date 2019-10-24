@@ -19,6 +19,11 @@
                         <fmt:message key="admin.user.list"/>
                     </button>
                 </div>
+                <div style="padding: 4pt">
+                    <button onclick="loadModal('${organisationCollapse}', {})">
+                        <fmt:message key="admin.collapse.organisations"/>
+                    </button>
+                </div>
             </td>
             <td valign="top">
                 <jsp:include page="telegramBotSettings.jsp"/>

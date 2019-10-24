@@ -105,6 +105,14 @@ public class StorageProtein {
         this.creator = creator;
     }
 
+    @Transient
+    public float DryRecalculation(){
+        if (protein > 0 && humidity > 0){
+            return protein * 100 / (100 - humidity);
+        }
+        return 0;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;

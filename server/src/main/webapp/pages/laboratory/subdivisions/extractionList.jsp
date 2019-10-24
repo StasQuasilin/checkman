@@ -89,6 +89,51 @@
             return new Date(b.item.date) - new Date(a.item.date);
         })
     };
+    list.middle = function(item){
+        if (!item.middle){
+            console.log('Calculate middle');
+            let middle = {
+                humidityIncome:0,
+                oilinessIncome:0,
+                fraction:0,
+                miscellas:0,
+                humidity:0,
+                explosionTemperature:0,
+                dissolvent:0,
+                grease:0,
+                oilHumidity:0
+            };
+            for (var j in item.crude){
+                if (item.crude.hasOwnProperty(j)){
+                    let crude = item.crude[j];
+                    middle.humidityIncome += crude.humidityIncome;
+                    middle.oilinessIncome += crude.oilinessIncome;
+                    middle.fraction += crude.fraction;
+                    middle.miscellas += crude.miscellas;
+                    middle.humidity += crude.humidity;
+                    middle.explosionTemperature += crude.explosionTemperature;
+                    middle.dissolvent += crude.dissolvent * 100;
+                    middle.grease += crude.grease;
+                    middle.oilHumidity += crude.oilHumidity;
+                }
+            }
+            let count = item.crude.length;
+            if (count > 0) {
+                middle.humidityIncome /= count;
+                middle.oilinessIncome /= count;
+                middle.fraction /= count;
+                middle.miscellas /= count;
+                middle.humidity /= count;
+                middle.explosionTemperature /= count;
+                middle.dissolvent /= count;
+                middle.grease /= count;
+                middle.oilHumidity /= count;
+            }
+            item.middle = middle;
+
+        }
+        return item.middle;
+    };
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
         list.handler(a);
@@ -263,6 +308,38 @@
                             --
                         </span>
                     </td>
+                </tr>
+                <tr>
+                    <th>
+                        <fmt:message key="middle"/>
+                    </th>
+                    <th>
+                        {{(middle(value.item).humidityIncome).toLocaleString()}}
+                    </th>
+                    <th>
+                        {{(middle(value.item).oilinessIncome).toLocaleString()}}
+                    </th>
+                    <th>
+                        {{(middle(value.item).fraction).toLocaleString()}}
+                    </th>
+                    <th>
+                        {{(middle(value.item).miscellas).toLocaleString()}}
+                    </th>
+                    <th>
+                        {{(middle(value.item).humidity).toLocaleString()}}
+                    </th>
+                    <th>
+                        {{(middle(value.item).explosionTemperature).toLocaleString()}}
+                    </th>
+                    <th>
+                        {{(middle(value.item).dissolvent / 100).toLocaleString()}}
+                    </th>
+                    <th>
+                        {{(middle(value.item).grease).toLocaleString()}}
+                    </th>
+                    <th>
+                        {{(middle(value.item).oilHumidity).toLocaleString()}}
+                    </th>
                 </tr>
             </table>
         </div>

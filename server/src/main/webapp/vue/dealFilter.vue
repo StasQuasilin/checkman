@@ -10,7 +10,7 @@ var filter_control = new Vue({
         }
     },
     mounted:function(){
-        console.log('filter mounted')
+        console.log('Deal filter mounted')
     },
     methods:{
         organisations:function(){

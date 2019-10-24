@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class OilAnalyses{
     private int id;
     private boolean organoleptic;
-    private int color;
+    private float color;
     private float acidValue;
     private float peroxideValue;
     private float phosphorus;
@@ -46,10 +46,10 @@ public class OilAnalyses{
 
     @Basic
     @Column(name = "color")
-    public int getColor() {
+    public float getColor() {
         return color;
     }
-    public void setColor(int color) {
+    public void setColor(float color) {
         this.color = color;
     }
 

@@ -53,7 +53,7 @@ public class EditOilServletAPI extends ServletAPI {
                 save = true;
             }
 
-            int color = Integer.parseInt(String.valueOf(a.get(Constants.Oil.COLOR)));
+            float color = Float.parseFloat(String.valueOf(a.get(Constants.Oil.COLOR)));
             log.info("\t\tColor: " + color);
             if (oilAnalyses.getColor() != color) {
                 oilAnalyses.setColor(color);

@@ -107,7 +107,7 @@
                 forpress:${fp.forpress.id},
                 humidity:${fp.humidity},
                 oiliness:${fp.oiliness}
-            }
+            },
         </c:forEach>
         ],
         creator:${crude.creator.id}

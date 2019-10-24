@@ -1,10 +1,8 @@
 package entity.laboratory;
 
-import entity.Worker;
 import entity.transport.ActionTime;
 
 import javax.persistence.*;
-import java.io.PrintWriter;
 
 /**
  * Created by szpt_user045 on 27.03.2019.
@@ -81,6 +79,14 @@ public class MealAnalyses {
     }
     public void setAct(int act) {
         this.act = act;
+    }
+
+    @Transient
+    public float DryRecalculation(){
+        if (protein > 0 && humidity > 0){
+            return protein * 100 / (100 - humidity);
+        }
+        return 0;
     }
 
     @Override

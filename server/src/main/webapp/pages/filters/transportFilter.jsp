@@ -65,7 +65,7 @@
                     </label>
                 </div>
                 <div v-for="p in products()" >
-                    <input type="radio" name="product_radio" :id="'product_'+p.id" :value="p.id"  v-model="product">
+                    <input type="radio" v-on:change="putProduct()" name="product_radio" :id="'product_'+p.id" :value="p.id" v-model="product">
                     <label :for="'product_' + p.id">
                         {{p.name}}
                     </label>

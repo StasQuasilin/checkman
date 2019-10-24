@@ -624,11 +624,24 @@ public class HibernateDAO implements dbDAO {
         final Set<Integer> ids = new HashSet<>();
         final List<Vehicle> vehicles = new LinkedList<>();
 
+        StringBuilder builder;
+        HashMap<String, Object> params;
         for (String s : String.valueOf(key).split(SPACE)){
             String k = s.trim();
-            findVehicle("model", k, ids, vehicles);
-            findVehicle("number", k, ids, vehicles);
-            findVehicle("trailer", k, ids, vehicles);
+            builder = new StringBuilder();
+            for(Character c : k.toUpperCase().toCharArray()){
+                if (Character.isLetter(c) || Character.isDigit(c)){
+                    builder.append(c);
+                }
+            }
+            params = new HashMap<>();
+            params.put("hash", builder.toString().hashCode());
+            List<Vehicle> veh = getObjectsByParams(Vehicle.class, params);
+            if (veh.size() > 0){
+                vehicles.addAll(veh);
+            } else {
+                findVehicle("number", k, ids, vehicles);
+            }
         }
 
         ids.clear();
