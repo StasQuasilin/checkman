@@ -42,7 +42,9 @@
         </div>
         <transition-group name="flip-list" tag="div" class="container" >
             <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
-                 class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()"
+                 class="container-item"
+                 :class="'container-item-' + new Date(value.item.date).getDay() +
+                 ( value.item.weight.brutto && value.item.weight.tara ? '-done' : '') "
                  v-on:click="edit(value.item.id)"
                  v-on:click.right="contextMenu(value.item)">
                 <div class="upper-row">

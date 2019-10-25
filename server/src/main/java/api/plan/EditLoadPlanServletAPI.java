@@ -31,7 +31,6 @@ import java.util.HashMap;
 @WebServlet(Branches.API.PLAN_LIST_ADD)
 public class EditLoadPlanServletAPI extends ServletAPI {
 
-
     private final Logger log = Logger.getLogger(EditLoadPlanServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
 

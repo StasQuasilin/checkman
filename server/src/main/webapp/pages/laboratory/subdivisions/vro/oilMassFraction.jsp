@@ -100,15 +100,15 @@
         </td>
         <td>
             <input title="${wetIndicator}" type="number" step="0.01"
-                   autocomplete="off" v-model="daily.seedWet"  onclick="this.select()">
+                   autocomplete="off" v-model="daily.seedWet"  onfocus="this.select()">
         </td>
         <td>
             <input title="${humidity}" type="number" step="0.01"
-                   autocomplete="off" v-model="daily.seedHumidity" onclick="this.select()">
+                   autocomplete="off" v-model="daily.seedHumidity" onfocus="this.select()">
         </td>
         <td>
             <input title="${dryIndicator}" type="number" step="0.01"
-                   autocomplete="off" v-model="daily.seedDry" onclick="this.select()">
+                   autocomplete="off" v-model="daily.seedDry" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -117,15 +117,15 @@
         </td>
         <td>
             <input title="${wetIndicator}" type="number" step="0.01"
-                   autocomplete="off" v-model="daily.huskWet" onclick="this.select()">
+                   autocomplete="off" v-model="daily.huskWet" onfocus="this.select()">
         </td>
         <td>
             <input title="${humidity}" type="number" step="0.01"
-                   autocomplete="off"  v-model="daily.huskHumidity" onclick="this.select()">
+                   autocomplete="off"  v-model="daily.huskHumidity" onfocus="this.select()">
         </td>
         <td>
             <input title="${dryIndicator}" type="number" step="0.01"
-                   autocomplete="off" v-model="daily.huskDry" onclick="this.select()">
+                   autocomplete="off" v-model="daily.huskDry" onfocus="this.select()">
         </td>
     </tr>
   <tr>
@@ -148,15 +148,15 @@
             </td>
             <td>
                 <input title="${wetIndicator}" type="number" step="0.01"
-                       autocomplete="off" v-model="value.wet" onclick="this.select()">
+                       autocomplete="off" v-model="value.wet" onfocus="this.select()">
             </td>
             <td>
                 <input title="${humidity}" type="number" step="0.01"
-                       autocomplete="off" v-model="value.humidity" onclick="this.select()">
+                       autocomplete="off" v-model="value.humidity" onfocus="this.select()">
             </td>
             <td>
                 <input title="${dryIndicator}" type="number" step="0.01"
-                       autocomplete="off" v-model="value.dry" onclick="this.select()">
+                       autocomplete="off" v-model="value.dry" onfocus="this.select()">
             </td>
         </tr>
     </template>

@@ -101,7 +101,7 @@
         </td>
         <td>
             <input id="surname" v-model="user.surname" v-on:click="err.surname = false"
-                   onclick="this.select()" autocomplete="off" :class="{error : err.surname}">
+                   onfocus="this.select()" autocomplete="off" :class="{error : err.surname}">
         </td>
     </tr>
     <tr>
@@ -115,7 +115,7 @@
         </td>
         <td>
             <input id="forename" v-model="user.forename" v-on:click="err.forename = false"
-                   onclick="this.select()" autocomplete="off" :class="{error : err.forename}">
+                   onfocus="this.select()" autocomplete="off" :class="{error : err.forename}">
         </td>
     </tr>
     <tr>
@@ -129,7 +129,7 @@
         </td>
         <td>
             <input id="patronymic" v-model="user.patronymic" v-on:click="err.patronymic = false"
-                   onclick="this.select()" autocomplete="off" :class="{error : err.patronymic}">
+                   onfocus="this.select()" autocomplete="off" :class="{error : err.patronymic}">
         </td>
     </tr>
     <tr>
@@ -159,7 +159,7 @@
         </td>
         <td>
             <input id="email" v-model="user.email" autocomplete="off" v-on:click="err.email = false"
-                onclick="this.select()" :class="{error : err.email}">
+                onfocus="this.select()" :class="{error : err.email}">
         </td>
     </tr>
     <tr>
@@ -173,7 +173,7 @@
         </td>
         <td>
             <input id="password" type="password" autocomplete="off" :class="{error : err.password}"
-                   v-model="user.password" v-on:click="err.password = false" onclick="this.select()">
+                   v-model="user.password" v-on:click="err.password = false" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -186,7 +186,7 @@
             :
         </td>
         <td>
-            <input id="repeat" type="password" autocomplete="off" v-model="repeat" onclick="this.select()"
+            <input id="repeat" type="password" autocomplete="off" v-model="repeat" onfocus="this.select()"
                    v-on:click="err.password = false" :class="{error : err.password}">
         </td>
     </tr>

@@ -46,7 +46,9 @@
         </div>
         <transition-group name="flip-list" tag="div" class="container" >
             <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
-                 class="container-item" :class="'container-item-' + new Date(value.item.date).getDay()"
+                 class="container-item"
+                 :class="'container-item-' + new Date(value.item.date).getDay() +
+                 ( value.item.weight.brutto && value.item.weight.tara ? '-done' : '') "
                  v-on:click="edit(value.item.id)"
                  v-on:click.right="contextMenu(value.item)">
                 <div class="upper-row" style="font-size: 11pt">
@@ -129,11 +131,12 @@
                         </div>
                         <div>
                             <fmt:message key="transportation.driver"/>:
-                            <template v-if="value.item.driver.id">
+                            <span style="font-weight: bold; font-size: 12pt" v-if="value.item.driver.id">
                                 {{value.item.driver.person.surname}}
                                 {{value.item.driver.person.forename}}
                                 {{value.item.driver.person.patronymic}}
-                            </template>
+                                {{value.item.driver.license}}
+                            </span>
                             <template v-else>
                                 <fmt:message key="no.data"/>
                             </template>

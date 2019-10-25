@@ -30,7 +30,7 @@
             :
         </td>
         <td>
-            <input id="model" v-model="vehicleModel" v-on:keyup.enter="save" autocomplete="off" onclick="this.select()" autofocus>
+            <input id="model" v-model="vehicleModel" v-on:keyup.enter="save" autocomplete="off" onfocus="this.select()" autofocus>
         </td>
     </tr>
     <tr>
@@ -43,7 +43,7 @@
             :
         </td>
         <td>
-            <input id="number" v-model="vehicleNumber" v-on:keyup.enter="save" autocomplete="off" onclick="this.select()">
+            <input id="number" v-model="vehicleNumber" v-on:keyup.enter="save" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -56,7 +56,7 @@
             :
         </td>
         <td>
-            <input id="trailer" v-model="vehicleTrailer" v-on:keyup.enter="save" autocomplete="off" onclick="this.select()">
+            <input id="trailer" v-model="vehicleTrailer" v-on:keyup.enter="save" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <%--<tr>--%>

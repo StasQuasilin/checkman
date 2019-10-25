@@ -23,6 +23,7 @@ public class OilAnalyses{
     private float degreaseImpurity;
     private float transparency;
     private float benzopyrene;
+    private float explosion;
     private ActionTime createTime;
     private int act;
 
@@ -132,6 +133,15 @@ public class OilAnalyses{
     }
     public void setBenzopyrene(float benzopyrene) {
         this.benzopyrene = benzopyrene;
+    }
+
+    @Basic
+    @Column(name = "explosion")
+    public float getExplosion() {
+        return explosion;
+    }
+    public void setExplosion(float explosion) {
+        this.explosion = explosion;
     }
 
     @OneToOne

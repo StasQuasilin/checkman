@@ -11,7 +11,7 @@
     editor.api.print = '${print}';
     editor.type = '${type}';
     editor.plan = ${plan.id};
-    editor.organisation = '';
+    editor.organisation = '${plan.counterparty.value}';
     <c:if test="${not empty plan.vehicle}">
     editor.vehicle.model = '${plan.vehicle.model}';
     editor.vehicle.number = '\'${plan.vehicle.number}\'';
@@ -22,7 +22,8 @@
     </c:if>
     <c:choose>
     <c:when test="${not empty plan.oilAnalyses.id}">
-    editor.analyses = {
+    editor.analyses =
+    {
         id:${plan.oilAnalyses.id},
         organoleptic:${plan.oilAnalyses.organoleptic},
         color:${plan.oilAnalyses.color},
@@ -30,39 +31,29 @@
         peroxideValue:${plan.oilAnalyses.peroxideValue},
         phosphorus:${plan.oilAnalyses.phosphorus},
         humidity:${plan.oilAnalyses.humidity},
+        soap:${plan.oilAnalyses.soap},
         degreaseImpurity:${plan.oilAnalyses.degreaseImpurity},
         transparency:${plan.oilAnalyses.transparency},
-        benzopyrene:${plan.oilAnalyses.benzopyrene},
-        explosion:${plan.oilAnalyses.explosion}
+        benzopyrene:${plan.oilAnalyses.benzopyrene}
     };
     </c:when>
     <c:otherwise>
-    editor.analyses = {
+    editor.analyses =
+    {
         organoleptic:false,
         color:0,
         acidValue:0,
         peroxideValue:0,
         phosphorus:0,
         humidity:0,
+        soap:false,
         degreaseImpurity:0,
         transparency:0,
-        benzopyrene:0,
-        explosion:0
+        benzopyrene:0
     };
     </c:otherwise>
     </c:choose>
-    Vue.set(editor.helpers, 'types', [
-        {
-            id:1,
-            value:'<fmt:message key="press.oil"/>'
-        },
-        {
-            id:2,
-            value:'<fmt:message key="mix.oil"/>'
-        }
-    ]);
-    var t = editor.analyses.explosion > 0 ? 2 : 1;
-    Vue.set(editor.helpers, 'oilType', t);
+
 </script>
 <table id="editor" class="editor">
     <tr>
@@ -73,7 +64,7 @@
             :
         </td>
         <td>
-            ${plan.counterparty.value}
+            {{organisation}}
         </td>
     </tr>
     <tr>
@@ -208,6 +199,25 @@
     </tr>
     <tr>
         <td>
+            <fmt:message key="oil.soap"/>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <b v-on:click="analyses.soap = !analyses.soap">
+                <a v-if="analyses.soap">
+                    <fmt:message key="notification.kpo.soap.yes"/>
+                </a>
+                <a v-else>
+                    <fmt:message key="notification.kpo.soap.no"/>
+                </a>
+            </b>
+        </td>
+
+    </tr>
+    <tr>
+        <td>
             <label for="degreaseImpurity">
                 <fmt:message key="oil.degrease.impurity"/>
             </label>
@@ -248,29 +258,7 @@
                 autocomplete="off" v-model="analyses.benzopyrene">
         </td>
     </tr>
-    <tr>
-        <td colspan="3">
-            <select v-model="helpers.oilType" style="width: 100%">
-                <option v-for="t in helpers.types" :value="t.id">
-                    {{t.value}}
-                </option>
-            </select>
-        </td>
-    </tr>
-    <tr v-if="helpers.oilType == 2">
-        <td>
-            <label for="explosion">
-                <fmt:message key="extraction.oil.explosion"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="explosion" type="number" step="0.1"  onfocus="this.select()"
-                   autocomplete="off" v-model="analyses.explosion">
-        </td>
-    </tr>
+
     <tr>
         <td colspan="3" align="right">
             <button onclick="closeModal()">

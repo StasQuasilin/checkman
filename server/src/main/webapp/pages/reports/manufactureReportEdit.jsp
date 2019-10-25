@@ -234,7 +234,7 @@
           <%--FIELD VALUE--%>
           <%------%>
           <td>
-            <input type="number" v-model="field.value" onclick="this.select()">
+            <input type="number" v-model="field.value" onfocus="this.select()">
             <select v-model="field.unit">
               <option disabled value="-1"></option>
               <option v-for="unit in units" :value="unit.id">

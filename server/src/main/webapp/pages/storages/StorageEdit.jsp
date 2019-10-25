@@ -78,7 +78,7 @@
     </tr>
     <tr>
       <td colspan="2">
-        <input id="name" v-model="storage.name" autocomplete="off" onclick="this.select()" style="width: 100%">
+        <input id="name" v-model="storage.name" autocomplete="off" onfocus="this.select()" style="width: 100%">
       </td>
     </tr>
     <tr>

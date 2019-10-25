@@ -35,7 +35,7 @@
                     <td>
                         <div>
                             <input id="worker" autocomplete="off" v-model="worker" :class="{error : errors.user}"
-                                   v-on:keyup.enter="check()" v-on:keyup="findUser()" onclick="this.select()"
+                                   v-on:keyup.enter="check()" v-on:keyup="findUser()" onfocus="this.select()"
                                 ref="worker">
                             <div class="custom-data-list" v-show="foundUsers.length > 0">
                                 <div class="custom-data-list-item" v-for="user in foundUsers" v-on:click="setUser(user)">

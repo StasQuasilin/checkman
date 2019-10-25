@@ -48,6 +48,7 @@ public class Titles {
     public static final String OIL_MASS_FRACTION_DRY = "title.oil.mass.fraction.dry";
     public static final String PART_EDIT = "title.vro.part.edit";
     public static final String EXTRACTION_CRUDE_REMOVE = "title.extraction.crude.remove";
+    public static final String RAF_EDIT = "title.raf.edit";
 
     public class Archive {
         public static final String DEAL = "title.archive";

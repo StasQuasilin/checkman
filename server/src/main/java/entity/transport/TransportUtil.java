@@ -67,28 +67,39 @@ public class TransportUtil{
     }
     public static final int HUMIDITY_BASIS = 7;
     public static final int SORENESS_BASIS = 3;
-    public static void calculateWeight(Transportation transportation) {
-        if (transportation.getWeight() != null) {
-            SunAnalyses sunAnalyse = transportation.getSunAnalyses();
-            if (sunAnalyse != null) {
-                float humidity = (sunAnalyse.getHumidity1() + sunAnalyse.getHumidity2()) /
-                        ((sunAnalyse.getHumidity1() > 0 ? 1 : 0) + (sunAnalyse.getHumidity2() > 0 ? 1 : 0));
-                float soreness = sunAnalyse.getSoreness();
+    public static float calculateWeight(Transportation transportation) {
+        float percentage = 0;
 
-                float percentage = 0;
-                if (humidity > HUMIDITY_BASIS && soreness > SORENESS_BASIS) {
-                    percentage = 100 - ((100 - humidity) * (100 - soreness) * 100) / ((100 - HUMIDITY_BASIS) * (100 - SORENESS_BASIS));
-                } else if (humidity > HUMIDITY_BASIS) {
-                    percentage = ((humidity - HUMIDITY_BASIS) * 100) / (100 - HUMIDITY_BASIS);
-                } else if (soreness > SORENESS_BASIS) {
-                    percentage = ((soreness - SORENESS_BASIS) * 100 / (100 - SORENESS_BASIS));
-                }
+        SunAnalyses sunAnalyse = transportation.getSunAnalyses();
+        if (sunAnalyse != null) {
+            float humidity = (sunAnalyse.getHumidity1() + sunAnalyse.getHumidity2()) /
+                    ((sunAnalyse.getHumidity1() > 0 ? 1 : 0) + (sunAnalyse.getHumidity2() > 0 ? 1 : 0));
+            float soreness = sunAnalyse.getSoreness();
 
-                Weight weight = transportation.getWeight();
-                weight.setCorrection(percentage);
-                dao.saveWeight(weight);
+            if (humidity > HUMIDITY_BASIS && soreness > SORENESS_BASIS) {
+                percentage = 100 - ((100 - humidity) * (100 - soreness) * 100) / ((100 - HUMIDITY_BASIS) * (100 - SORENESS_BASIS));
+            } else if (humidity > HUMIDITY_BASIS) {
+                percentage = ((humidity - HUMIDITY_BASIS) * 100) / (100 - HUMIDITY_BASIS);
+            } else if (soreness > SORENESS_BASIS) {
+                percentage = ((soreness - SORENESS_BASIS) * 100 / (100 - SORENESS_BASIS));
             }
         }
+        Weight weight = transportation.getWeight();
+        boolean newWeight = false;
+        if (weight == null) {
+            newWeight = true;
+            weight = new Weight();
+            weight.setUid(DocumentUIDGenerator.generateUID());
+            transportation.setWeight(weight);
+        }
+
+        weight.setCorrection(percentage);
+
+        dao.saveWeight(weight);
+        if (newWeight){
+            dao.saveTransportation(transportation);
+        }
+        return percentage;
     }
 
     public static void archive(LoadPlan loadPlan) throws IOException {

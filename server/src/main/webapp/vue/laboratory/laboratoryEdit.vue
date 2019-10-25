@@ -12,8 +12,8 @@ var editor = new Vue({
         },
         driver: '',
         analyses: {},
-        laborants:[]
-
+        laborants:[],
+        helpers:{}
     },
     methods:{
         saveLogic:function(onSave){

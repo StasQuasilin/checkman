@@ -129,7 +129,7 @@
       <td>
         <div>
           <input id="manager" v-model="probe.manager.value" v-on:keyup="findManager()"
-                 onclick="this.select()" autocomplete="off">
+                 onfocus="this.select()" autocomplete="off">
           <div class="custom-data-list" v-if="foundManagers.length > 0">
             <div class="custom-data-list-item" v-for="manager in foundManagers" v-on:click="setManager(manager)">
               {{manager.person.value}}
@@ -150,7 +150,7 @@
       <td>
         <div>
           <input id="organisation" v-model="probe.organisation.value" v-on:keyup="findOrganisation()"
-                 onclick="this.select()" autocomplete="off">
+                 onfocus="this.select()" autocomplete="off">
           <div class="custom-data-list" v-if="foundOrganisations.length > 0">
             <div class="custom-data-list-item" v-for="organisation in foundOrganisations" v-on:click="setOrganisation(organisation)">
               {{organisation.value}}

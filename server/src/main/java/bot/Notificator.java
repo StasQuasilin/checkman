@@ -21,6 +21,7 @@ import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -141,7 +142,9 @@ public class Notificator {
         }
         String organisation = transportation.getCounterparty().getValue();
         String product = transportation.getProduct().getName();
-        String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product, transportation.getWeight().getNetto());
+        String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product,
+                transportation.getWeight().getBrutto() - transportation.getWeight().getTara()
+        );
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow() && setting.getWeight() == NotifyStatus.all){
                 sendMessage(setting.getTelegramId(), message, null);
@@ -159,13 +162,14 @@ public class Notificator {
                     if (!messages.containsKey(language)){
                         String corr = correction > 0 ? String.format(lb.get(CORRECTION), correction) + NEW_LINE : "";
                         messages.put(language, prepareMessage(transportation) + NEW_LINE +
+                            (analyses.isContamination() ? "❗ Заражено шкідниками ❗" : "") +
                             String.format(lb.get(HUMIDITY_1), analyses.getHumidity1()) + NEW_LINE +
                             String.format(lb.get(HUMIDITY_2), analyses.getHumidity2()) + NEW_LINE +
                             String.format(lb.get(SORENESS), analyses.getSoreness()) + NEW_LINE +
                             String.format(lb.get(OILINESS), analyses.getOiliness()) + NEW_LINE +
+                            String.format(lb.get(ACID), analyses.getAcidValue()) + NEW_LINE +
                             String.format(lb.get(OIL_IMPURITY), analyses.getOilImpurity()) + NEW_LINE +
-                                         corr +
-                            String.format(lb.get(ACID), analyses.getAcidValue())
+                            corr + NEW_LINE
                         );
                     }
                     sendMessage(setting.getTelegramId(), messages.get(language), null);
@@ -209,7 +213,7 @@ public class Notificator {
                     if (!messages.containsKey(language)){
                         messages.put(language, prepareMessage(transportation) + NEW_LINE +
                             lb.get(ORGANOLEPTIC) + (analyses.isOrganoleptic() ? lb.get(MATCH) : lb.get(NO_MATCH)) + NEW_LINE +
-                            String.format(lb.get(COLOR), Math.round(analyses.getColor())) + NEW_LINE +
+                            String.format(lb.get(COLOR), analyses.getColor()) + NEW_LINE +
                             String.format(lb.get(ACID), analyses.getAcidValue()) + NEW_LINE +
                             String.format(lb.get(PEROXIDE), analyses.getPeroxideValue()) + NEW_LINE +
                             String.format(lb.get(PHOSPHORUS), analyses.getPhosphorus()) + NEW_LINE +
@@ -238,6 +242,7 @@ public class Notificator {
                     String message = lb.get(language, "extraction.title");
                     message += NEW_LINE + String.format(lb.get(language, "extraction.turn"), turnNumber, turnDate, turnTime);
                     message += NEW_LINE + String.format(lb.get(language, "extraction.humidity.income"), crude.getHumidityIncome());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oiliness.income"), crude.getOilinessIncome());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.fraction"), crude.getFraction());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.dissolvent"), crude.getDissolvent());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.miscellas"), crude.getMiscellas());
@@ -555,5 +560,29 @@ public class Notificator {
 
     public void send(long telegramId, String text) {
         sendMessage(telegramId, text, null);
+    }
+
+    public void showLoadTime(Transportation transportation) {
+        HashMap<String, String> messages = new HashMap<>();
+        DealType type = transportation.getType();
+        String action = lb.get("_" + type.toString()).toLowerCase();
+
+        Product product = transportation.getProduct();
+        ProductProperty productProperty = dao.getProductProperty(product, type.toString());
+        String productName = (productProperty != null ? productProperty.getValue() : product.getName()).toLowerCase();
+        String driver = transportation.getDriver() != null ? transportation.getDriver().getPerson().getValue() : "--";
+
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.getWeight() == NotifyStatus.all){
+                String language = setting.getLanguage();
+                if (!messages.containsKey(language)){
+                    messages.put(language, String.format("На %1s *%2s*", action, productName) + NEW_LINE +
+                            String.format("став водій *%s*", driver) + NEW_LINE +
+                                    String.format("Контрагент: *%s*", transportation.getCounterparty().getValue())
+                    );
+                }
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
     }
 }

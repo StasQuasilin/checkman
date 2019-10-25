@@ -152,12 +152,21 @@
             :
         </td>
         <td style="width: 180px">
-            <button v-if="timeIn">
-                {{(timeIn).toLocaleString()}}
-            </button>
-            <button v-else v-on:click="setTimeIn">
-                <fmt:message key="transportation.in"/>
-            </button>
+            <div v-if="timeIn">
+                <button>
+                    {{(timeIn).toLocaleString()}}
+                </button>
+            </div>
+            <div v-else v-on:click="setTimeIn">
+                <button >
+                    <fmt:message key="transportation.in"/>
+                </button>
+            </div>
+            <c:if test="${role eq 'admin'}">
+                <span>
+                    :)
+                </span>
+            </c:if>
         </td>
     </tr>
     <tr>

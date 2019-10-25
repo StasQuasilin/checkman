@@ -5,7 +5,6 @@ import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.AnalysesType;
-import entity.Role;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 
@@ -44,6 +43,11 @@ public class LaboratoryEdit extends IModal {
                 req.setAttribute(TITLE, Titles.OIL_EDIT);
                 req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_OIL);
 
+                break;
+            case raf:
+                req.setAttribute(MODAL_CONTENT, "/pages/laboratory/rafEdit.jsp");
+                req.setAttribute(TITLE, Titles.OIL_EDIT);
+                req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_OIL);
                 break;
             case meal:
                 req.setAttribute(MODAL_CONTENT, "/pages/laboratory/cakeEdit.jsp");

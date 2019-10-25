@@ -116,6 +116,12 @@ public class EditOilServletAPI extends ServletAPI {
                 save = true;
             }
 
+            float explosion = Float.parseFloat(String.valueOf(a.get("explosion")));
+            if (oilAnalyses.getExplosion() != explosion){
+                oilAnalyses.setExplosion(explosion);
+                save = true;
+            }
+
             if (save) {
                 ActionTime createTime = oilAnalyses.getCreateTime();
                 if (createTime == null) {

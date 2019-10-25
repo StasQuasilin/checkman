@@ -105,7 +105,7 @@
       </label>
     </td>
     <td>
-      <input id="phosphorus" type="number" step="0.01" v-model="analyses.phosphorus" onclick="this.select()">
+      <input id="phosphorus" type="number" step="0.01" v-model="analyses.phosphorus" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -115,7 +115,7 @@
       </label>
     </td>
     <td>
-      <input id="acid" type="number" step="0.01" v-model="analyses.acid" onclick="this.select()">
+      <input id="acid" type="number" step="0.01" v-model="analyses.acid" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -125,7 +125,7 @@
       </label>
     </td>
     <td>
-      <input id="peroxide" type="number" step="0.01" v-model="analyses.peroxide" onclick="this.select()">
+      <input id="peroxide" type="number" step="0.01" v-model="analyses.peroxide" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -135,7 +135,7 @@
       </label>
     </td>
     <td>
-      <input id="color" type="number" step="1" v-model="analyses.color" onclick="this.select()">
+      <input id="color" type="number" step="1" v-model="analyses.color" onfocus="this.select()">
     </td>
   </tr>
   <tr>

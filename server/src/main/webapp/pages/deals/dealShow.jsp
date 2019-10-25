@@ -253,7 +253,7 @@
                                v-on:click="dateTimePicker(key)">
                         <%--PLAN INPUT--%>
                           <span style="position: relative">
-                            <input v-model="value.item.plan" onclick="this.select()" type="number" v-on:change="initSaveTimer(value.key)"
+                            <input v-model="value.item.plan" onfocus="this.select()" type="number" v-on:change="initSaveTimer(value.key)"
                                    title="${planTitle}" style="width: 6em; text-align: right;" min="1">
                             <span style="position: absolute; top: 0; right: 12px">
                               {{unit}}

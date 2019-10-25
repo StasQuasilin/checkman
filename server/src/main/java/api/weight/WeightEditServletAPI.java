@@ -76,10 +76,14 @@ public class WeightEditServletAPI extends ServletAPI {
                 transportationComparator.fix(transportation);
                 TransportUtil.checkTransport(transportation);
                 transportationComparator.compare(transportation, getWorker(req));
-                if (weight.getNetto() > 0) {
-                    Notificator notificator = BotFactory.getNotificator();
-                    if (notificator != null) {
+
+
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    if (weight.getNetto() > 0) {
                         notificator.weightShow(transportation);
+                    } else if (transportation.getTimeIn() == null && weight.getBrutto() == 0 && weight.getTara() > 0){
+                        notificator.showLoadTime(transportation);
                     }
                 }
             }
@@ -103,9 +107,6 @@ public class WeightEditServletAPI extends ServletAPI {
             saveIt = true;
         } else if (weight.getBrutto() != 0){
             weight.setBrutto(0);
-            if (weight.getBruttoTime() != null) {
-                dao.remove(weight.getBruttoTime());
-            }
             weight.setBruttoTime(null);
             saveIt = true;
         }
@@ -122,9 +123,6 @@ public class WeightEditServletAPI extends ServletAPI {
             saveIt = true;
         } else if (weight.getTara() != 0){
             weight.setTara(0);
-            if (weight.getTaraTime() != null) {
-                dao.remove(weight.getTaraTime());
-            }
             weight.setTaraTime(null);
             saveIt = true;
         }
@@ -137,6 +135,18 @@ public class WeightEditServletAPI extends ServletAPI {
                 dao.save(weight.getTaraTime());
             }
             dao.saveWeight(weight);
+        }
+
+        if (weight.getTara() == 0){
+            if (weight.getTaraTime() != null) {
+                dao.remove(weight.getTaraTime());
+            }
+        }
+
+        if(weight.getBrutto() == 0){
+            if (weight.getBruttoTime() != null){
+                dao.remove(weight.getBruttoTime());
+            }
         }
 
         return saveIt;

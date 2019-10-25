@@ -150,7 +150,7 @@
                   <div style="display: inline-block; width: 90%">
                     <input v-model="value.vehicleInput" style="width: 100%; border: solid paleturquoise 1pt"
                            v-on:keyup="findVehicle(value)"
-                           v-on:keyup.enter="parseVehicle(value)" onclick="this.select()" >
+                           v-on:keyup.enter="parseVehicle(value)" onfocus="this.select()" >
                     <div class="custom-data-list">
                       <div class="custom-data-list-item" v-for="vehicle in foundVehicles"
                            v-on:click="setVehicle(value.item.id, vehicle.id, value)">

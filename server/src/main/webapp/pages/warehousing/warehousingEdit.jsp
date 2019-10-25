@@ -143,7 +143,7 @@
               {{shipper.name}}
             </option>
           </select>
-          <input type="number" step="0.01" v-model.number="relation.amount" onclick="this.select()">
+          <input type="number" step="0.01" v-model.number="relation.amount" onfocus="this.select()">
         </td>
       </tr>
       <tr>

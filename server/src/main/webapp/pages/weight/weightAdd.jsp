@@ -300,7 +300,7 @@
             :
         </td>
         <td>
-            <input id="price" type="number" v-model="plan.price" onclick="this.select()" autocomplete="off">
+            <input id="price" type="number" v-model="plan.price" onfocus="this.select()" autocomplete="off">
             <label for="from">
                 <fmt:message key="deal.from"/>
             </label>

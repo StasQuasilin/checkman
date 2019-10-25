@@ -89,7 +89,7 @@
             :
         </td>
         <td>
-            <input id="humidityCore" type="number" step="0.1" v-model="daily.kernelHumidity" onclick="this.select()">
+            <input id="humidityCore" type="number" step="0.1" v-model="daily.kernelHumidity" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -102,7 +102,7 @@
             :
         </td>
         <td>
-            <input id="humidityHusk" type="number" step="0.1" v-model="daily.huskHumidity" onclick="this.select()">
+            <input id="humidityHusk" type="number" step="0.1" v-model="daily.huskHumidity" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -115,7 +115,7 @@
             :
         </td>
         <td>
-            <input id="huskSoreness" type="number" step="0.1" v-model="daily.huskSoreness" onclick="this.select()">
+            <input id="huskSoreness" type="number" step="0.1" v-model="daily.huskSoreness" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -128,7 +128,7 @@
             :
         </td>
         <td>
-            <input id="kernelPercentage" type="number" step="0.01" v-model="daily.kernelPercent" onclick="this.select()">
+            <input id="kernelPercentage" type="number" step="0.01" v-model="daily.kernelPercent" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -141,7 +141,7 @@
             :
         </td>
         <td>
-            <input id="huskPercentage" type="number" step="0.01" v-model="daily.huskPercent" onclick="this.select()">
+            <input id="huskPercentage" type="number" step="0.01" v-model="daily.huskPercent" onfocus="this.select()">
         </td>
     </tr>
     <tr>

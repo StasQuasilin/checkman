@@ -54,7 +54,7 @@
     </td>
     <td>
       <input id="name" v-model="organisation.name" v-on:click="err.name = false"
-          onclick="this.select()" :class="{error : err.name}" autocomplete="off">
+          onfocus="this.select()" :class="{error : err.name}" autocomplete="off">
     </td>
   </tr>
   <tr>

@@ -105,7 +105,7 @@
             :
         </td>
         <td>
-            <input id="humidity" type="number" step="0.01" v-model="analyses.humidity" onclick="this.select()">
+            <input id="humidity" type="number" step="0.01" v-model="analyses.humidity" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -118,7 +118,7 @@
             :
         </td>
         <td>
-            <input id="protein" type="number" step="0.01" v-model="analyses.protein" onclick="this.select()">
+            <input id="protein" type="number" step="0.01" v-model="analyses.protein" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -131,7 +131,7 @@
             :
         </td>
         <td>
-            <input id="cellulose" type="number" step="0.01" v-model="analyses.cellulose" onclick="this.select()">
+            <input id="cellulose" type="number" step="0.01" v-model="analyses.cellulose" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -144,7 +144,7 @@
             :
         </td>
         <td>
-            <input id="oiliness" type="number" step="0.01" v-model="analyses.oiliness" onclick="this.select()">
+            <input id="oiliness" type="number" step="0.01" v-model="analyses.oiliness" onfocus="this.select()">
         </td>
     </tr>
     <tr>

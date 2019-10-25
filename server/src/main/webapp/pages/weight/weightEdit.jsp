@@ -177,7 +177,7 @@
                     </td>
                     <td>
                         <input id="brutto" v-model="weight.brutto" v-on:change="checkBrutto"
-                               onclick="this.select()" type="number" step="0.01" autocomplete="off">
+                               onfocus="this.select()" type="number" step="0.01" autocomplete="off">
                     </td>
                 </tr>
                 <tr>
@@ -191,7 +191,7 @@
                     </td>
                     <td>
                         <input id="tara" v-model="weight.tara" v-on:change="checkTara"
-                               onclick="this.select()" type="number" step="0.01" autocomplete="off">
+                               onfocus="this.select()" type="number" step="0.01" autocomplete="off">
                     </td>
                 </tr>
                 <tr>

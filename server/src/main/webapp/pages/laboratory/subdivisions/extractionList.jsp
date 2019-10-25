@@ -112,7 +112,7 @@
                     middle.miscellas += crude.miscellas;
                     middle.humidity += crude.humidity;
                     middle.explosionTemperature += crude.explosionTemperature;
-                    middle.dissolvent += crude.dissolvent * 100;
+                    middle.dissolvent += crude.dissolvent;
                     middle.grease += crude.grease;
                     middle.oilHumidity += crude.oilHumidity;
                 }
@@ -125,7 +125,9 @@
                 middle.miscellas /= count;
                 middle.humidity /= count;
                 middle.explosionTemperature /= count;
+                middle.explosionTemperature = Math.round(middle.explosionTemperature);
                 middle.dissolvent /= count;
+                middle.dissolvent = Math.round(middle.dissolvent * 10000) / 10000;
                 middle.grease /= count;
                 middle.oilHumidity /= count;
             }
@@ -264,7 +266,7 @@
                         {{(crude.explosionTemperature).toLocaleString()}}
                     </td>
                     <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.dissolvent).toLocaleString()}}
+                        {{crude.dissolvent}}
                     </td>
                     <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.grease).toLocaleString()}}
@@ -332,7 +334,7 @@
                         {{(middle(value.item).explosionTemperature).toLocaleString()}}
                     </th>
                     <th>
-                        {{(middle(value.item).dissolvent / 100).toLocaleString()}}
+                        {{middle(value.item).dissolvent}}
                     </th>
                     <th>
                         {{(middle(value.item).grease).toLocaleString()}}

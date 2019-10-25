@@ -90,7 +90,7 @@ editor.oil = {
       :
     </td>
     <td>
-      <input id="protein" type="number" step="0.01" autocomplete="off" v-model="oil.protein" onclick="this.select()">
+      <input id="protein" type="number" step="0.01" autocomplete="off" v-model="oil.protein" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -103,7 +103,7 @@ editor.oil = {
       :
     </td>
     <td>
-      <input id="humidity" type="number" step="0.01" autocomplete="off" v-model="oil.humidity" onclick="this.select()">
+      <input id="humidity" type="number" step="0.01" autocomplete="off" v-model="oil.humidity" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -116,7 +116,7 @@ editor.oil = {
       :
     </td>
     <td>
-      <input id="nuclear" type="number" step="0.01" autocomplete="off" v-model="oil.nuclear" onclick="this.select()">
+      <input id="nuclear" type="number" step="0.01" autocomplete="off" v-model="oil.nuclear" onfocus="this.select()">
     </td>
   </tr>
   <tr>
