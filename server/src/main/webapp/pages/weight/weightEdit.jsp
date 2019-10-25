@@ -222,9 +222,9 @@
         </td>
         <td valign="top" align="center">
             <div style="overflow-y: scroll">
-                <c:if test="${fn:length(plan.transportation.seals) > 0}">
+                <c:if test="${fn:length(seals) > 0}">
                     <fmt:message key="seals"/>
-                    <c:forEach items="${plan.transportation.seals}" var="seal">
+                    <c:forEach items="${seals}" var="seal">
                         <div>
                             ${seal.number}
                         </div>

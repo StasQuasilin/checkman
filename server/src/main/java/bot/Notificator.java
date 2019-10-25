@@ -164,7 +164,7 @@ public class Notificator {
                         messages.put(language, prepareMessage(transportation) + NEW_LINE +
                             (analyses.isContamination() ? "❗ Заражено шкідниками ❗" : "") +
                             String.format(lb.get(HUMIDITY_1), analyses.getHumidity1()) + NEW_LINE +
-                            String.format(lb.get(HUMIDITY_2), analyses.getHumidity2()) + NEW_LINE +
+                                (analyses.getHumidity2() > 0 ? String.format(lb.get(HUMIDITY_2), analyses.getHumidity2()) : "") + NEW_LINE +
                             String.format(lb.get(SORENESS), analyses.getSoreness()) + NEW_LINE +
                             String.format(lb.get(OILINESS), analyses.getOiliness()) + NEW_LINE +
                             String.format(lb.get(ACID), analyses.getAcidValue()) + NEW_LINE +

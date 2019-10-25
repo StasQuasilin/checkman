@@ -1075,4 +1075,9 @@ public class HibernateDAO implements dbDAO {
     public <T> List<T> getObjectsByParams(Class<T> tClass, HashMap<String, Object> params) {
         return hb.query(tClass, params);
     }
+
+    @Override
+    public List<Seal> getSealsByTransportation(Transportation transportation) {
+        return hb.query(Seal.class, "cargo", transportation);
+    }
 }

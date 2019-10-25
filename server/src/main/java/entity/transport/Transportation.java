@@ -38,7 +38,6 @@ public class Transportation {
     private SunAnalyses sunAnalyses;
     private OilAnalyses oilAnalyses;
     private MealAnalyses mealAnalyses;
-    private Set<Seal> seals;
     private Worker creator;
     private Worker manager;
     private Set<TransportationNote> notes = new HashSet<>();
@@ -182,14 +181,6 @@ public class Transportation {
         this.mealAnalyses = mealAnalyses;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cargo", cascade = CascadeType.ALL)
-    public Set<Seal> getSeals() {
-        return seals;
-    }
-    public void setSeals(Set<Seal> seals) {
-        this.seals = seals;
-    }
-
     @OneToOne
     @JoinColumn(name = "creator")
     public Worker getCreator() {
@@ -255,50 +246,8 @@ public class Transportation {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        if (vehicle != null) {
-            hash = 31 * vehicle.hashCode() + hash;
-        }
-        if (driver != null) {
-            hash = 31 * driver.hashCode() + hash;
-        }
-        hash = 31 * shipper.hashCode() + hash;
-        if (timeIn != null) {
-            hash = 31 * timeIn.hashCode() + hash;
-        }
-        if (timeOut != null){
-            hash = 31 * timeOut.hashCode() + hash;
-        }
 
-        if (weight != null) {
-            hash = 31 * weight.hashCode() + hash;
-        }
-
-        if (sunAnalyses != null) {
-            hash = 31 * sunAnalyses.hashCode() + hash;
-        }
-
-        if (oilAnalyses != null) {
-            hash = 31 * oilAnalyses.hashCode() + hash;
-        }
-
-        if (mealAnalyses != null) {
-            hash = 31 * mealAnalyses.hashCode() + hash;
-        }
-        if (seals != null) {
-            for (Seal seal : seals) {
-                hash = 31 * seal.getNumber().hashCode() + hash;
-            }
-        }
-        if (notes != null) {
-            for (TransportationNote note : notes) {
-                hash = 31 * note.getNote().hashCode() + hash;
-            }
-        }
-
-        hash = 31 * Boolean.hashCode(archive) + hash;
-
-        return hash;
+        return id;
     }
 
     @Basic

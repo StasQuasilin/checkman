@@ -20,7 +20,7 @@
     show.timeIn = new Date('${transportation.timeIn.time}');</c:if>
     <c:if test="${not empty transportation.timeOut}">
     show.timeOut = new Date('${transportation.timeOut.time}');</c:if>
-    <c:forEach items="${transportation.seals}" var="seal">
+    <c:forEach items="${seals}" var="seal">
     show.seals.push({
         id:${seal.id},
         number:'${seal.number}'

@@ -16,7 +16,16 @@ var filter_control = new Vue({
     mounted:function(){
         let product = localStorage.getItem('product');
         if (product){
-            this.product = product;
+            let products = this.products();
+            for (let i in products){
+                if (products.hasOwnProperty(i)){
+                    if (products[i].id = product){
+                        this.product = product;
+                        break;
+                    }
+                }
+
+            }
         }
         let date = new Date().toISOString().substring(0, 10);
         if (this.dates()[date]){

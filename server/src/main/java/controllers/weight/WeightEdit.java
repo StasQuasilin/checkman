@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
+import entity.documents.LoadPlan;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,12 +26,13 @@ public class WeightEdit extends IModal {
             id = Integer.parseInt(parameterId);
         }
         if (id != -1) {
-            req.setAttribute("plan", dao.getLoadPlanById(id));
+            LoadPlan plan = dao.getLoadPlanById(id);
+            req.setAttribute(PLAN, plan);
+            req.setAttribute("seals", dao.getSealsByTransportation(plan.getTransportation()));
         }
-        req.setAttribute("title", "title.weight.insert");
         req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
-        req.setAttribute("title", Titles.WEIGHT_EDIT);
-        req.setAttribute("modalContent", "/pages/weight/weightEdit.jsp");
+        req.setAttribute(TITLE, Titles.WEIGHT_EDIT);
+        req.setAttribute(MODAL_CONTENT, "/pages/weight/weightEdit.jsp");
         req.setAttribute("print", Branches.UI.PRINT_DOCUMENT);
         show(req, resp);
     }

@@ -14,7 +14,8 @@ var editor = new Vue({
             vehicle:'',
             driver:'',
             editDriver:false,
-            editVehicle:false
+            editVehicle:false,
+            fnd:-1
         },
         foundOrganisations:[],
         foundVehicles:[],
@@ -36,7 +37,8 @@ var editor = new Vue({
             edit:false,
             id:-1,
             input:''
-        }
+        },
+        already:false
     },
     methods:{
         editNote:function(note, key){
@@ -221,19 +223,40 @@ var editor = new Vue({
             }
         },
         findVehicle:function(){
+            clearTimeout(this.input.fnd);
             if (this.input.vehicle) {
                 const self = this;
-                PostApi(this.api.findVehicle, {key: this.input.vehicle}, function(a){
-                    self.foundVehicles = a;
-                })
+                this.input.fnd = setTimeout(function(){
+                    PostApi(self.api.findVehicle, {key: self.input.vehicle}, function(a){
+                        self.foundVehicles = a;
+                    })
+                }, 500);
             } else {
                 this.foundVehicles =[];
-                this.plan.vehicle = {};
+                this.plan.vehicle = {
+                    id: -1
+                }
             }
-
         },
-        parseVehicle:function(){
+        findDriver:function(){
+            clearTimeout(this.input.fnd);
+            if (this.input.driver){
+                const self = this;
+                this.input.fnd = setTimeout(function(){
+                    PostApi(self.api.findDriver, {key:self.input.driver}, function(a){
+                        self.foundDrivers = a;
+                    })
+                }, 500)
+            } else {
+                this.foundDrivers = [];
+                this.plan.driver = {
+                    id:-1
+                };
+            }
+        },
+        parseVehicle:function(onParse){
             if (this.input.vehicle){
+                console.log('Parse vehicle');
                 const self = this;
                 PostApi(this.api.parseVehicle, {key:this.input.vehicle}, function(v){
                     if (v.status === 'success'){
@@ -243,8 +266,31 @@ var editor = new Vue({
                         } else {
                             console.log('Ahtung!!! Vehicle not set!!!')
                         }
+                        if (onParse){
+                            onParse();
+                        }
                     }
 
+                })
+            }
+        },
+        parseDriver:function(onParse){
+            console.log('Parse driver');
+            if (this.input.driver){
+                const self = this;
+                PostApi(this.api.parseDriver, {key:this.input.driver}, function(d){
+                    console.log(d);
+                    if (d.status === 'success'){
+                        if (d.driver){
+                            self.plan.driver = d.driver;
+                            self.input.driver = '';
+                        } else {
+                            console.log('Ahtung!!! Driver not set')
+                        }
+                    }
+                    if (onParse){
+                        onParse();
+                    }
                 })
             }
         },
@@ -265,33 +311,7 @@ var editor = new Vue({
                 id:-1
             }
         },
-        findDriver:function(){
-            if (this.input.driver){
-                const self = this;
-                PostApi(this.api.findDriver, {key:this.input.driver}, function(a){
-                    self.foundDrivers = a;
-                })
-            } else {
-                this.foundDrivers = [];
-                this.plan.driver = {};
-            }
-        },
-        parseDriver:function(){
-            if (this.input.driver){
-                const self = this;
-                PostApi(this.api.parseDriver, {key:this.input.driver}, function(d){
-                    console.log(d);
-                    if (d.status === 'success'){
-                        if (d.driver){
-                            self.plan.driver = d.driver;
-                            self.input.driver = '';
-                        } else {
-                            console.log('Ahtung!!! Driver not set')
-                        }
-                    }
-                })
-            }
-        },
+
         editDriver:function(){
             const self = this;
             loadModal(this.api.editDriver, this.plan.driver, function(a){
@@ -310,29 +330,42 @@ var editor = new Vue({
             }
         },
         save:function(){
-            var e = this.errors;
-            if (this.plan.vehicle.id == -1 && this.input.vehicle){
-                if ( this.foundVehicles){
-                    e.vehicle = true;
-                } else {
-                    this.parseVehicle();
-                }
-            }
-            if (this.note.edit){
-                this.saveNote();
-            }
-
-            e.organisation = this.plan.organisation == -1;
-            e.product = this.plan.product == -1;
-            e.manager = this.plan.manager == -1;
-            console.log(this.plan);
-            console.log(e);
-            if (!e.organisation && !e.product) {
-                PostApi(this.api.save, this.plan, function (a) {
-                    if (a.status === 'success') {
-                        closeModal();
+            if (!this.already) {
+                var e = this.errors;
+                if (this.plan.vehicle.id == -1 && this.input.vehicle) {
+                    if (this.foundVehicles.length > 0) {
+                        e.vehicle = true;
+                    } else {
+                        this.parseVehicle(this.save);
                     }
-                })
+                } else if (this.plan.driver.id == -1 && this.input.driver) {
+                    if (this.foundDrivers.length > 0) {
+                        e.driver = true;
+                    } else {
+                        this.parseDriver(this.save);
+                    }
+                } else {
+
+                    if (this.note.edit) {
+                        this.saveNote();
+                    }
+
+                    e.organisation = this.plan.organisation == -1;
+                    e.product = this.plan.product == -1;
+                    e.manager = this.plan.manager == -1;
+                    console.log(this.plan);
+                    console.log(e);
+                    if (!e.organisation && !e.product) {
+                        PostApi(this.api.save, this.plan, function (a) {
+                            if (a.status === 'success') {
+                                closeModal();
+                            }
+                        }, function(e){
+                            console.log(e);
+                            self.already = false
+                        })
+                    }
+                }
             }
         },
         editOrganisation:function(){

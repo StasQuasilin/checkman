@@ -61,40 +61,42 @@
                 </b>
             </span>
             </div>
+            <div class="middle-row">
+                <span  style="font-size: 10pt;">
+                    <fmt:message key="transportation.time.in"/>
+                    <span v-if="value.item.timeIn.id" style="font-weight: bold">
+                        {{new Date(value.item.timeIn.time).toLocaleDateString().substring(0, 5)}}
+                        {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+                    </span>
+                    <span v-else="">
+                        --.-- --:--
+                    </span>
+                </span>
+                <span>
+                    <fmt:message key="transportation.automobile"/>:
+                    <b v-if="value.item.vehicle.id">
+                        {{value.item.vehicle.model}}
+                        '{{value.item.vehicle.number}}'
+                        <template v-if="value.item.vehicle.trailer">
+                            '{{value.item.vehicle.trailer}}'
+                        </template>
+                    </b>
+                    <span v-else>
+                        <fmt:message key="no.data"/>
+                    </span>
+                </span>
+                <span>
+                    <fmt:message key="transportation.driver"/>:
+                    <b v-if="value.item.driver.id">
+                        {{value.item.driver.person.value}}
+                    </b>
+                    <span v-else>
+                        <fmt:message key="no.data"/>
+                    </span>
+                </span>
+            </div>
             <div class="lower-row">
-            <span  style="font-size: 10pt;">
-                <fmt:message key="transportation.time.in"/>
-                <span v-if="value.item.timeIn.id" style="font-weight: bold">
-                    {{new Date(value.item.timeIn.time).toLocaleDateString().substring(0, 5)}}
-                    {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
-                </span>
-                <span v-else="">
-                    --.-- --:--
-                </span>
 
-            </span>
-            <span>
-                <fmt:message key="transportation.automobile"/>:
-                <b v-if="value.item.vehicle.id">
-                    {{value.item.vehicle.model}}
-                    '{{value.item.vehicle.number}}'
-                    <template v-if="value.item.vehicle.trailer">
-                        '{{value.item.vehicle.trailer}}'
-                    </template>
-                </b>
-                <span v-else>
-                    <fmt:message key="no.data"/>
-                </span>
-            </span>
-            <span>
-                <fmt:message key="transportation.driver"/>:
-                <b v-if="value.item.driver.id">
-                    {{value.item.driver.person.value}}
-                </b>
-                <span v-else>
-                    <fmt:message key="no.data"/>
-                </span>
-            </span>
                 <div style="display: inline-block; font-size: 10pt">
                     <div v-if="value.item.analyses.sun.id">
                         <fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},

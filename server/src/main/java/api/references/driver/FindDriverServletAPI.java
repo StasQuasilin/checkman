@@ -29,7 +29,7 @@ public class FindDriverServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             final JSONArray array = new JSONArray();
-            String key = (String) body.get(Constants.KEY);
+            String key = String.valueOf(body.get(Constants.KEY));
             key = key.trim().replaceAll("  ", " ");
 
             array.addAll(dao.findDriver(key).stream().map(parser::toJson).collect(Collectors.toCollection(JSONArray::new)));
