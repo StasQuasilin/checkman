@@ -23,7 +23,6 @@ public class VRODailyEdit extends IModal{
 
     private final Logger log = Logger.getLogger(VRODailyEdit.class);
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject json = PostUtil.parseBodyJson(req);
@@ -37,9 +36,9 @@ public class VRODailyEdit extends IModal{
                 req.setAttribute("daily", dao.getVRODailyById(id));
             }
         }
-        req.setAttribute("title", Titles.DAILY_ANALYSES);
-        req.setAttribute("modalContent", "/pages/laboratory/subdivisions/vro/vroDaily.jsp");
-        req.setAttribute("save", Branches.API.VRO_DAILY_EDIT);
+        req.setAttribute(TITLE, Titles.DAILY_ANALYSES);
+        req.setAttribute(MODAL_CONTENT, "/pages/laboratory/subdivisions/vro/vroDaily.jsp");
+        req.setAttribute(SAVE, Branches.API.VRO_DAILY_EDIT);
         req.setAttribute("turns", TurnBox.getTurns());
         show(req, resp);
     }

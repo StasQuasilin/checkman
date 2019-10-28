@@ -34,7 +34,8 @@
         soap:${plan.oilAnalyses.soap},
         degreaseImpurity:${plan.oilAnalyses.degreaseImpurity},
         transparency:${plan.oilAnalyses.transparency},
-        benzopyrene:${plan.oilAnalyses.benzopyrene}
+        benzopyrene:${plan.oilAnalyses.benzopyrene},
+        wax:${plan.oilAnalyses.waxB}
     };
     </c:when>
     <c:otherwise>
@@ -49,7 +50,8 @@
         soap:false,
         degreaseImpurity:0,
         transparency:0,
-        benzopyrene:0
+        benzopyrene:0,
+        wax:false
     };
     </c:otherwise>
     </c:choose>
@@ -197,25 +199,7 @@
             <input id="humidity" type="number" step="0.01" v-model="analyses.humidity" onfocus="this.select()">
         </td>
     </tr>
-    <tr>
-        <td>
-            <fmt:message key="oil.soap"/>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <b v-on:click="analyses.soap = !analyses.soap">
-                <a v-if="analyses.soap">
-                    <fmt:message key="notification.kpo.soap.yes"/>
-                </a>
-                <a v-else>
-                    <fmt:message key="notification.kpo.soap.no"/>
-                </a>
-            </b>
-        </td>
 
-    </tr>
     <tr>
         <td>
             <label for="degreaseImpurity">
@@ -258,7 +242,42 @@
                 autocomplete="off" v-model="analyses.benzopyrene">
         </td>
     </tr>
-
+    <tr>
+        <td>
+            <fmt:message key="oil.wax"/>
+        </td>
+        <td>
+            :
+        </td>
+        <td style="width: 9em">
+            <b v-on:click="analyses.wax = !analyses.wax">
+                <a v-if="analyses.wax">
+                    <fmt:message key="notification.kpo.wax.yes"/>
+                </a>
+                <a v-else>
+                    <fmt:message key="notification.kpo.wax.no"/>
+                </a>
+            </b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <fmt:message key="oil.soap"/>
+        </td>
+        <td>
+            :
+        </td>
+        <td style="width: 9em">
+            <b v-on:click="analyses.soap = !analyses.soap">
+                <a v-if="analyses.soap">
+                    <fmt:message key="notification.kpo.soap.yes"/>
+                </a>
+                <a v-else>
+                    <fmt:message key="notification.kpo.soap.no"/>
+                </a>
+            </b>
+        </td>
+    </tr>
     <tr>
         <td colspan="3" align="right">
             <button onclick="closeModal()">

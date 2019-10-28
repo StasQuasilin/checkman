@@ -13,6 +13,7 @@
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit = 14;
+    list.api.edit = '${edit}';
     list.sort = function(){
         list.items.sort(function(a, b){
             return new Date(b.item.date) - new Date(a.item.date);
@@ -34,7 +35,7 @@
 <div id="container">
     <div v-for="(value, key) in items" class="container-item"
          :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt"
-         :id="value.item.id" onclick="editableModal('${edit}')">
+         :id="value.item.id" v-on:click="edit(value.item.id)">
         <div class="upper-row">
             {{new Date(value.item.date).toLocaleDateString()}}
             {{new Date(value.item.date).toLocaleTimeString().substring(0, 5)}}

@@ -17,7 +17,7 @@ public class VROOil {
     private float acid;
     private float peroxide;
     private float phosphorus;
-    private int color;
+    private float color;
     private ActionTime createTime;
     private Worker creator;
 
@@ -68,10 +68,10 @@ public class VROOil {
 
     @Basic
     @Column(name = "color")
-    public int getColor() {
+    public float getColor() {
         return color;
     }
-    public void setColor(int color) {
+    public void setColor(float color) {
         this.color = color;
     }
 
@@ -95,20 +95,6 @@ public class VROOil {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-//        private float acid;
-        hash = 31 * Float.hashCode(acid) + hash;
-//        private float peroxide;
-        hash = 31 * Float.hashCode(peroxide) + hash;
-//        private float phosphorus;
-        hash = 31 * Float.hashCode(phosphorus) + hash;
-//        private int color;
-        hash = 31 * color + hash;
-//        private ActionTime createTime;
-        hash = 31 * createTime.hashCode() + hash;
-//        private Worker creator;
-        hash = 31 * creator.hashCode() + hash;
-
-        return hash;
+        return id;
     }
 }

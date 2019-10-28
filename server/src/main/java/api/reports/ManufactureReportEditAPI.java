@@ -90,8 +90,12 @@ public class ManufactureReportEditAPI extends ServletAPI {
                     reportField.setTitle(title);
                     save = true;
                 }
+                String valueString = String.valueOf(field.get("value"));
+                float value = 0;
+                if (U.exist(valueString)){
+                    value = Float.parseFloat(valueString);
+                }
 
-                float value = Float.parseFloat(String.valueOf(field.get("value")));
                 if (reportField.getValue() != value){
                     reportField.setValue(value);
                     save = true;

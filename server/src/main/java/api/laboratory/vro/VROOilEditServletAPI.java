@@ -1,6 +1,8 @@
 package api.laboratory.vro;
 
 import api.ServletAPI;
+import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -84,7 +86,7 @@ public class VROOilEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            int color = Integer.parseInt(String.valueOf(body.get("color")));
+            float color = Float.parseFloat(String.valueOf(body.get("color")));
             if (oil.getColor() != color) {
                 oil.setColor(color);
                 save = true;
@@ -110,6 +112,10 @@ public class VROOilEditServletAPI extends ServletAPI {
                 updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
                     updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
+                }
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null){
+                    notificator.show(oil);
                 }
             }
 

@@ -41,7 +41,8 @@
     color:${part.color},
     acid:${part.acid},
     peroxide:${part.peroxide},
-    soap:${part.soap}
+    soap:${part.soap},
+    wax:${part.wax}
   };
   </c:when>
   <c:otherwise>
@@ -52,7 +53,8 @@
     color:0,
     acid:0,
     peroxide:0,
-    soap:false
+    soap:false,
+    wax:false
   };
   </c:otherwise>
   </c:choose>
@@ -91,16 +93,15 @@
     <td>
       :
     </td>
-    <td>
-      <input id="organoleptic" type="checkbox" v-model="part.organoleptic">
-      <label for="organoleptic">
-        <span v-if="part.organoleptic">
+    <td style="width: 9em">
+      <b v-on:click="part.organoleptic = !part.organoleptic">
+        <a v-if="part.organoleptic">
           <fmt:message key="oil.organoleptic.match"/>
-        </span>
-        <span v-else>
+        </a>
+        <a v-else>
           <fmt:message key="oil.organoleptic.doesn't.match"/>
-        </span>
-      </label>
+        </a>
+      </b>
     </td>
   </tr>
   <tr>
@@ -144,21 +145,38 @@
   </tr>
   <tr>
     <td>
+      <fmt:message key="oil.wax"/>
+    </td>
+    <td>
+      :
+    </td>
+    <td style="width: 9em">
+      <b v-on:click="part.wax = !part.wax">
+        <a v-if="part.wax">
+          <fmt:message key="notification.kpo.wax.yes"/>
+        </a>
+        <a v-else>
+          <fmt:message key="notification.kpo.wax.no"/>
+        </a>
+      </b>
+    </td>
+  </tr>
+  <tr>
+    <td>
       <fmt:message key="oil.soap"/>
     </td>
     <td>
       :
     </td>
-    <td>
-      <input id="soap" type="checkbox" v-model="part.soap">
-      <label for="soap">
-        <span v-if="part.soap">
-          <fmt:message key="oil.soap.no"/>
-        </span>
-        <span v-else>
-          <fmt:message key="oil.soap.yes"/>
-        </span>
-      </label>
+    <td style="width: 9em">
+      <b v-on:click="part.soap = !part.soap">
+        <a v-if="part.soap">
+          <fmt:message key="notification.kpo.soap.yes"/>
+        </a>
+        <a v-else>
+          <fmt:message key="notification.kpo.soap.no"/>
+        </a>
+      </b>
     </td>
   </tr>
   <tr>

@@ -582,7 +582,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<ExtractionTurn> getLimitExtractionTurns() {
-        return hb.limitQuery(ExtractionTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
+        return hb.limitQuery(ExtractionTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 7);
     }
 
     @Override

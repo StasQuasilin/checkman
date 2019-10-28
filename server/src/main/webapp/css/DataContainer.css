@@ -82,66 +82,69 @@
     padding: 4pt;
 }
 .container-item-0{
-    background-color: rgb(252, 198, 198);
+    background-color: white;
 }
 .container-item-0-done{
-    background-color: rgb(253, 209, 201);
+    background-color: white;
 }
 .container-item-0-done * {
-    color: #828282;
+    color: #464646;
 }
 .container-item-1{
     background-color: rgb(252, 233, 198);
 }
 .container-item-1-done{
-    background-color: rgb(248, 230, 204);
+    background-color: white;
 }
 .container-item-1-done * {
-    color: #828282;
+    color: #464646;
 }
 .container-item-2{
     background-color: rgb(252, 252, 198);
 }
 .container-item-2-done{
-    background-color: rgb(248, 243, 204);
+    background-color: white;
 
 }
 .container-item-2-done * {
-    color: #828282;
+    color: #464646;
 }
 .container-item-3{
     background-color: rgb(198, 225, 198);
 }
 .container-item-3-done{
-    background-color: rgb(210, 224, 204);
+    background-color: white;
 }
 .container-item-3-done * {
-    color: #828282;
+    color: #464646;
 }
 .container-item-4{
-    background-color: rgb(219, 230, 248);
+    background-color: white;
 }
 .container-item-4-done{
-    background-color: rgb(230, 231, 235);
+    background-color: white;
 }
 .container-item-4-done * {
-    color: #828282;
+    color: #464646;
 }
 .container-item-5{
     background-color: rgb(198, 198, 252);
 }
 .container-item-5-done{
-    background-color: rgba(198, 198, 252, 0.7);
+    background-color: white;
 }
 .container-item-5-done * {
-    color: #828282;
+    color: #464646;
 }
 .container-item-6{
     background-color: rgb(252, 198, 252);
 }
 .container-item-6-done{
-    background-color: rgba(252, 198, 252, 0.7);
+    background-color: white;
 }
 .container-item-6-done * {
-    color: #828282;
+    color: #464646;
+}
+.loading{
+    background-color: #ff02eb;
 }

@@ -91,6 +91,12 @@ public class PartEditServletAPI extends ServletAPI {
                 save = true;
             }
 
+            boolean wax = Boolean.parseBoolean(String.valueOf(body.get("wax")));
+            if (part.isWax() != wax){
+                part.setWax(wax);
+                save = true;
+            }
+
             boolean soap = Boolean.parseBoolean(String.valueOf(body.get("soap")));
             if (part.isSoap() != soap) {
                 part.setSoap(soap);

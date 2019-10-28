@@ -19,6 +19,7 @@ public class KPOPart {
     private float color;
     private float acid;
     private float peroxide;
+    private boolean wax;
     private boolean soap;
     private ActionTime createTime;
     private Worker creator;
@@ -84,6 +85,16 @@ public class KPOPart {
     }
     public void setPeroxide(float peroxide) {
         this.peroxide = peroxide;
+    }
+
+    @Basic
+    @Column(name = "wax")
+    public boolean isWax() {
+        return wax;
+    }
+
+    public void setWax(boolean wax) {
+        this.wax = wax;
     }
 
     @Basic

@@ -1,12 +1,8 @@
 package bot;
 
-import entity.Admin;
-import entity.DealType;
-import entity.User;
-import entity.Worker;
+import entity.*;
 import entity.bot.NotifyStatus;
 import entity.bot.UserBotSetting;
-import entity.documents.LoadPlan;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
@@ -15,13 +11,13 @@ import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
+import entity.laboratory.subdivisions.vro.VROOil;
 import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -69,10 +65,13 @@ public class Notificator {
     private static final String ORGANOLEPTIC = "oil.organoleptic";
     private static final String MATCH = "oil.organoleptic.match";
     private static final String NO_MATCH = "oil.organoleptic.match";
-    private static final String HAVE = "notification.kpo.soap.yes";
-    private static final String NO_HAVE = "notification.kpo.soap.no";
+    private static final String SOAP_HAVE = "notification.kpo.soap.yes";
+    private static final String SOAP_NO = "notification.kpo.soap.no";
     private static final String CORRECTION = "notification.weight.correction";
     private static final String DRY_PROTEIN = "extraction.turn.protein.dry";
+    private static final String WAX_HAVE = "notification.kpo.wax.yes";
+    private static final String WAX_NO = "notification.kpo.wax.no";
+    private static final String HUMIDITY = "bot.extraction.oil.humidity";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -211,15 +210,27 @@ public class Notificator {
                 if (show) {
                     String language = setting.getLanguage();
                     if (!messages.containsKey(language)){
-                        messages.put(language, prepareMessage(transportation) + NEW_LINE +
-                            lb.get(ORGANOLEPTIC) + (analyses.isOrganoleptic() ? lb.get(MATCH) : lb.get(NO_MATCH)) + NEW_LINE +
-                            String.format(lb.get(COLOR), analyses.getColor()) + NEW_LINE +
-                            String.format(lb.get(ACID), analyses.getAcidValue()) + NEW_LINE +
-                            String.format(lb.get(PEROXIDE), analyses.getPeroxideValue()) + NEW_LINE +
-                            String.format(lb.get(PHOSPHORUS), analyses.getPhosphorus()) + NEW_LINE +
-                            String.format(lb.get(HUMIDITY_1), analyses.getHumidity()) + NEW_LINE +
-                            String.format(lb.get(SOAP), (analyses.isSoap() ? lb.get(HAVE) : lb.get(NO_HAVE))) + NEW_LINE
-                        );
+                        StringBuilder builder = new StringBuilder();
+                        builder.append(prepareMessage(transportation)).append(NEW_LINE);
+                        builder.append(lb.get(ORGANOLEPTIC)).append(analyses.isOrganoleptic() ? lb.get(MATCH) : lb.get(NO_MATCH)).append(NEW_LINE);
+                        builder.append(String.format(lb.get(COLOR), analyses.getColor())).append(NEW_LINE);
+                        builder.append(String.format(lb.get(ACID), analyses.getAcidValue())).append(NEW_LINE);
+                        builder.append(String.format(lb.get(PEROXIDE), analyses.getPeroxideValue())).append(NEW_LINE);
+                        builder.append(String.format(lb.get(PHOSPHORUS), analyses.getPhosphorus())).append(NEW_LINE);
+                        builder.append(String.format(lb.get(HUMIDITY), analyses.getHumidity())).append(NEW_LINE);
+                        AnalysesType type = transportation.getProduct().getAnalysesType();
+
+                        if (type == AnalysesType.raf) {
+                            //todo wax
+                            builder.append(String.format(lb.get(WAX), 
+                                    analyses.isWaxB() ? lb.get(WAX_HAVE) : lb.get(WAX_NO))).append(NEW_LINE);
+                            builder.append(String.format(lb.get(SOAP), 
+                                    (analyses.isSoap() ? lb.get(SOAP_HAVE) : lb.get(SOAP_NO)))).append(NEW_LINE);
+                        }
+                        if (type == AnalysesType.oil && analyses.getExplosion() > 0){
+                            builder.append(String.format(lb.get(language, "bot.notificator.explosion"), analyses.getExplosion()));
+                        }
+                        messages.put(language, builder.toString());
                     }
 
                     sendMessage(setting.getTelegramId(), messages.get(language), null);
@@ -247,7 +258,6 @@ public class Notificator {
                     message += NEW_LINE + String.format(lb.get(language, "extraction.dissolvent"), crude.getDissolvent());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.miscellas"), crude.getMiscellas());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.humidity"), crude.getHumidity());
-                    //todo organoleptic
                     message += NEW_LINE + String.format(lb.get(language, "extraction.oiliness"), crude.getGrease());
                     message += NEW_LINE + String.format(lb.get(language, "extraction.oil.explosion.t"), crude.getExplosionTemperature());
                     messages.put(language, message);
@@ -271,7 +281,6 @@ public class Notificator {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
                     String message = lb.get(language, "notification.vro.title");
-
                     message += NEW_LINE + String.format(lb.get(language, "extraction.turn"), turn, date, time);
                     message += NEW_LINE + lb.get(language, "notification.vro.before");
                     message += NEW_LINE + String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityBefore());
@@ -437,10 +446,11 @@ public class Notificator {
                     message += NEW_LINE + String.format(lb.get(language, "bot.notificator.color"), part.getColor());
                     message += NEW_LINE + String.format(lb.get(language, "notification.kpo.acid"), part.getAcid());
                     message += NEW_LINE + String.format(lb.get(language, "notification.kpo.peroxide"), part.getPeroxide());
-                    message += NEW_LINE + String.format(lb.get(language, "notification.kpo.soap"),
+                    message += NEW_LINE + String.format(lb.get(WAX), part.isWax() ? lb.get(WAX_HAVE) : lb.get(WAX_NO));
+                    message += NEW_LINE + String.format(lb.get(language, SOAP),
                             (part.isSoap() ?
-                                    lb.get(language, "notification.kpo.soap.yes") :
-                                    lb.get(language, "notification.kpo.soap.no")
+                                    lb.get(language, SOAP_HAVE) :
+                                    lb.get(language, SOAP_NO)
                             ));
                     messages.put(language, message);
                 }
@@ -584,5 +594,29 @@ public class Notificator {
                 sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }
+    }
+
+    public void show(VROOil oil) {
+        final int turn = oil.getTurn().getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(oil.getTurn().getTurn().getDate());
+        HashMap<String, String> messages = new HashMap<>();
+
+        for (UserBotSetting settings : getSettings()){
+            if (settings.isShow() && settings.getAnalyses() == NotifyStatus.all){
+                String language = settings.getLanguage();
+                if (!messages.containsKey(language)){
+                    String message = lb.get(language, "vro.oil.title");
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
+                    message += NEW_LINE + String.format(lb.get(language,  "bot.notificator.oil.acid"), oil.getAcid());
+                    message += NEW_LINE + String.format(lb.get(language, "notification.kpo.peroxide"), oil.getPeroxide());
+                    message += NEW_LINE + String.format(lb.get(language, "notificator.kpo.phosphorus"), oil.getPhosphorus());
+                    message += NEW_LINE + String.format(lb.get(language, "bot.notificator.color"), oil.getColor());
+
+                    messages.put(language, message);
+                }
+                sendMessage(settings.getTelegramId(), messages.get(language), null);
+            }
+        }
+        messages.clear();
     }
 }

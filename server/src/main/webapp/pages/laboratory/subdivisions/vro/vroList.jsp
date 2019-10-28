@@ -86,6 +86,7 @@
         return item.middle;
     };
     list.limit = 14;
+    list.api.editDaily = '${dailyEdit}';
     list.forpress = [];
     <c:forEach items="${forpress}" var="fp">
     list.forpress.push({
@@ -95,6 +96,9 @@
         list.items.sort(function(a, b){
             return new Date(b.item.date) - new Date(a.item.date);
         })
+    };
+    list.editDaily = function(id){
+        loadModal(this.api.editDaily, {id: id});
     };
     </c:forEach>
     <c:forEach items="${subscribe}" var="s">
@@ -299,7 +303,8 @@
                         {{(middle(value.item).sorenessAfter).toLocaleString()}}
                     </td>
                 </tr>
-                <tr v-for="daily in value.item.dailies" class="selectable" :id="daily.id" v-on:click="edit('${dailyEdit}')">
+                <tr v-for="daily in value.item.dailies" class="selectable"
+                    :id="daily.id" v-on:click="editDaily(daily.id)">
                     <td>
                         <fmt:message key="kernel.humidity"/>:
                         {{(daily.kernelHumidity).toLocaleString()}}

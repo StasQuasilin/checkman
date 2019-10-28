@@ -21,6 +21,33 @@
     <c:forEach items="${customers}" var="customer">
     list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
     </c:forEach>
+    list.styler = function(item){
+        console.log('1');
+        return item.weight.tara > 0
+    }
+    list.sort = function(){
+        list.items.sort(function(a, b){
+            if (a.item.date === b.item.date){
+                let aN = 0;
+                if (a.item.weight.brutto > 0 && a.item.weight.tara > 0){
+                    aN = a.item.weight.brutto - a.item.weight.tara;
+                }
+
+                let bN = 0;
+                if (b.item.weight.brutto > 0 && b.item.weight.tara > 0){
+                    bN = b.item.weight.brutto - b.item.weight.tara;
+                }
+                if (aN > 0 && bN == 0){
+                    return 1;
+                }
+                if (aN == 0 && bN > 0){
+                    return -1;
+                }
+            }
+
+            return new Date(a.item.date) - new Date(b.item.date);
+        })
+    }
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
         list.handler(a);
@@ -47,8 +74,10 @@
         <transition-group name="flip-list" tag="div" class="container" >
             <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
                  class="container-item"
-                 :class="'container-item-' + new Date(value.item.date).getDay() +
-                 ( value.item.weight.brutto && value.item.weight.tara ? '-done' : '') "
+                 :class="['container-item-' + new Date(value.item.date).getDay() +
+                 ( value.item.weight.brutto > 0 && value.item.weight.tara > 0 ? '-done' : ''),
+                 { loading: value.item.weight.tara > 0 && value.item.weight.brutto == 0}]"
+
                  v-on:click="edit(value.item.id)"
                  v-on:click.right="contextMenu(value.item)">
                 <div class="upper-row" style="font-size: 11pt">

@@ -20,6 +20,7 @@ public class OilAnalyses{
     private float humidity;
     private boolean soap;
     private float wax;
+    private boolean waxB;
     private float degreaseImpurity;
     private float transparency;
     private float benzopyrene;
@@ -142,6 +143,15 @@ public class OilAnalyses{
     }
     public void setExplosion(float explosion) {
         this.explosion = explosion;
+    }
+
+    @Basic
+    @Column(name = "wax_b")
+    public boolean isWaxB() {
+        return waxB;
+    }
+    public void setWaxB(boolean waxB) {
+        this.waxB = waxB;
     }
 
     @OneToOne

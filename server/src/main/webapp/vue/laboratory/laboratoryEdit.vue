@@ -17,6 +17,7 @@ var editor = new Vue({
     },
     methods:{
         saveLogic:function(onSave){
+            console.log(this.analyses);
             PostApi(this.api.save, {plan:this.plan, analyses:this.analyses}, function(a){
                 if (onSave){
                     onSave(a);

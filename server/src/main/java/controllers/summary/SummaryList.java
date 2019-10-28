@@ -25,7 +25,7 @@ public class SummaryList extends IUIServlet {
 		Role role;
 		if (U.exist(r)){
 			role = Role.valueOf(r);
-			if (role == Role.manager) {
+			if (role == Role.manager || role == Role.admin) {
 				req.setAttribute(EDIT, Branches.UI.SUMMARY_SHOW);
 				req.setAttribute("add", Branches.UI.WEIGHT_ADD);
 				req.setAttribute("notes", Branches.UI.NOTES_LIST);

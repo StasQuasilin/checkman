@@ -95,6 +95,13 @@ public class EditOilServletAPI extends ServletAPI {
                 save = true;
             }
 
+            boolean wax = Boolean.parseBoolean(String.valueOf(a.get(Constants.Oil.WAX)));
+            log.info("\t\tWax: " + wax);
+            if (oilAnalyses.isWaxB() != wax){
+                oilAnalyses.setWaxB(wax);
+                save = true;
+            }
+
             float degreaseImpurity = Float.parseFloat(String.valueOf(a.get("degreaseImpurity")));
             log.info("\t\tDegreaseImpurity: " + degreaseImpurity);
             if (oilAnalyses.getDegreaseImpurity() != degreaseImpurity) {
@@ -116,10 +123,12 @@ public class EditOilServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float explosion = Float.parseFloat(String.valueOf(a.get("explosion")));
-            if (oilAnalyses.getExplosion() != explosion){
-                oilAnalyses.setExplosion(explosion);
-                save = true;
+            if (a.containsKey("explosion")) {
+                float explosion = Float.parseFloat(String.valueOf(a.get("explosion")));
+                if (oilAnalyses.getExplosion() != explosion) {
+                    oilAnalyses.setExplosion(explosion);
+                    save = true;
+                }
             }
 
             if (save) {
