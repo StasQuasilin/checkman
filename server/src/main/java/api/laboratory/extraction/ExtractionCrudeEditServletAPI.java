@@ -149,7 +149,7 @@ public class ExtractionCrudeEditServletAPI extends ServletAPI {
                 }
             }
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

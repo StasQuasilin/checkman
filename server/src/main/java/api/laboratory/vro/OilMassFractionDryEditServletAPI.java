@@ -26,7 +26,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 20.05.2019.
@@ -152,7 +151,7 @@ public class OilMassFractionDryEditServletAPI extends ServletAPI {
             }
             write(resp, SUCCESS_ANSWER);
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
 
     }

@@ -6,7 +6,11 @@ var editor = new Vue({
         },
         oil:{},
         turns:[],
-        laborants:[]
+        laborants:[],
+        already:false,
+        err:{
+            turn:false
+        }
     },
     methods:{
         datePicker:function(){
@@ -20,16 +24,23 @@ var editor = new Vue({
             date.setDate(date.getDate() + day);
             return date.toLocaleDateString()
         },
-        valid:function(){
-            return true;
-        },
         save:function(){
-            if (this.valid()) {
-                PostApi(this.api.save, this.oil, function (a) {
-                    if (a.status == 'success') {
-                        closeModal();
-                    }
-                })
+            if (!this.already) {
+
+                this.err.turn = this.oil.turn == -1;
+
+                if (!this.err.turn) {
+                    this.already = true;
+                    const self = this;
+                    PostApi(this.api.save, this.oil, function (a) {
+                        if (a.status == 'success') {
+                            closeModal();
+                        }
+                        self.already = false;
+                    }, function(e){
+                        self.already = false;
+                    })
+                }
             }
         }
     }

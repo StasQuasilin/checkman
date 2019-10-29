@@ -6,7 +6,6 @@ import entity.User;
 import entity.answers.ErrorAnswer;
 import entity.answers.IAnswer;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.LanguageBase;
 import utils.answers.SuccessAnswer;
 
@@ -40,7 +39,7 @@ public class ChangePasswordServletAPI extends ServletAPI {
 
             write(resp, parser.toJson(answer).toJSONString());
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

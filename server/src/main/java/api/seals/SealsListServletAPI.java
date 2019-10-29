@@ -5,7 +5,6 @@ import constants.Branches;
 import entity.seals.SealBatch;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.JsonPool;
 
 import javax.servlet.ServletException;
@@ -50,7 +49,7 @@ public class SealsListServletAPI extends ServletAPI {
                 remove.add(Integer.parseInt(String.valueOf(o)));
             }
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
 
         write(resp, array.toJSONString());

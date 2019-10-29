@@ -63,6 +63,7 @@
         <mapping class="entity.laboratory.subdivisions.vro.ForpressCake"/>
         <mapping class="entity.laboratory.subdivisions.vro.VROOil"/>
         <mapping class="entity.laboratory.subdivisions.vro.VRODaily"/>
+        <mapping class="entity.laboratory.subdivisions.vro.GranulesAnalyses"/>
         <mapping class="entity.seals.Seal"/>
         <mapping class="entity.seals.SealBatch"/>
         <mapping class="entity.bot.UserBotSetting"/>

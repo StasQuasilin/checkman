@@ -828,16 +828,34 @@ public class JsonParser {
 
     public JSONObject toJson(VROTurn turn) {
         JSONObject json = new JSONObject();
-        json.put("id", turn.getId());
-        json.put("date", turn.getTurn().getDate().toString());
-        json.put("number", turn.getTurn().getNumber());
+        json.put(ID, turn.getId());
+        json.put(DATE, turn.getTurn().getDate().toString());
+        json.put(NUMBER, turn.getTurn().getNumber());
         json.put("crudes", toCrudeJson(turn.getCrudes()));
         json.put("oil", toVroOilJson(turn.getOils()));
         json.put("dailies", toDailyJson(turn.getDailies()));
         json.put("oilMass", toOilMass(turn.getOilMassFractions()));
         json.put("oilMassDry", toOilMassDry(turn.getOilMassFractionDries()));
-        json.put("hash", turn.hashCode());
+        json.put("granules", toGranules(turn.getGranulesAnalyses()));
 
+        return json;
+    }
+
+    private JSONArray toGranules(Set<GranulesAnalyses> granulesAnalyses) {
+        JSONArray array = pool.getArray();
+        for (GranulesAnalyses analyses : granulesAnalyses){
+            array.add(toJson(analyses));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(GranulesAnalyses analyses) {
+        JSONObject json = pool.getObject();
+        json.put(ID, analyses.getId());
+        json.put("density", analyses.getDensity());
+        json.put(HUMIDITY, analyses.getHumidity());
+        json.put("dust", analyses.getDust());
+        json.put("match", analyses.isMatch());
         return json;
     }
 
@@ -851,7 +869,7 @@ public class JsonParser {
 
     private JSONObject toJson(OilMassFractionDry omf) {
         JSONObject json = new JSONObject();
-        json.put("id", omf.getId());
+        json.put(ID, omf.getId());
         json.put("seed", omf.getSeed());
         json.put("husk", omf.getHusk());
         json.put("forpress", toForpressDryJson(omf.getForpressCakes()));

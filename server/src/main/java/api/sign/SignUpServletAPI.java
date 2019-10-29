@@ -108,7 +108,7 @@ public class SignUpServletAPI extends ServletAPI {
 
             }
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 

@@ -8,20 +8,20 @@
 <script src="${context}/vue/laboratory/extractionOil.vue"></script>
 <script>
   editor.api.save = '${save}';
-<c:forEach items="${turns}" var="turn">
-  editor.turns.push({
-    id:${turn.id},
-    value:'<fmt:message key="turn"/> #${turn.number}',
-    <c:choose>
-      <c:when test="${turn.begin lt turn.end}">
-        day:0
-      </c:when>
-      <c:otherwise>
-        day:-1
-      </c:otherwise>
-    </c:choose>
-  });
-</c:forEach>
+  <c:forEach items="${turns}" var="turn">
+    editor.turns.push({
+      id:${turn.id},
+      value:'<fmt:message key="turn"/> #${turn.number}',
+      <c:choose>
+        <c:when test="${turn.begin lt turn.end}">
+          day:0
+        </c:when>
+        <c:otherwise>
+          day:-1
+        </c:otherwise>
+      </c:choose>
+    });
+  </c:forEach>
 <c:choose>
 <c:when test="${not empty protein}">
 editor.oil = {
@@ -72,7 +72,10 @@ editor.oil = {
       :
     </td>
     <td>
-      <select id="time" v-model="oil.turn">
+      <select id="time" v-model="oil.turn" :class="{error : err.turn}">
+        <option disabled value="-1">
+          <fmt:message key="need.select"/>
+        </option>
         <option v-for="turn in turns" :value="turn.id">
           {{turnDate(turn.day)}}
           {{turn.value}}

@@ -8,7 +8,8 @@ var editor = new Vue({
         laborants:[],
         times: [],
         crude:{},
-        storages:[]
+        storages:[],
+        already:false
     },
     methods:{
         currentTime:function(target){
@@ -32,12 +33,18 @@ var editor = new Vue({
             return current;
         },
         save:function(){
-            PostApi(this.api.save, this.crude, function(a){
-                if (a.status == 'success'){
-                    closeModal();
-                }
-            })
-
+            if (!this.already) {
+                this.already = true;
+                const self = this;
+                PostApi(this.api.save, this.crude, function (a) {
+                    if (a.status == 'success') {
+                        closeModal();
+                    }
+                    self.already = false;
+                }, function(e){
+                    self.already = false;
+                })
+            }
         },
         datePicker:function(){
             const self = this;

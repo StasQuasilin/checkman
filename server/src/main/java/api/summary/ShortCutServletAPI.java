@@ -69,7 +69,7 @@ public class ShortCutServletAPI extends ServletAPI {
 //            cUpdate.clear();
 //            cRemove.clear();
 //        } else {
-//            write(resp, emptyBody);
+//            write(resp, EMPTY_BODY);
 //        }
         write(resp, "[]");
     }

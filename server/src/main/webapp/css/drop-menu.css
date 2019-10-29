@@ -18,11 +18,11 @@
 .drop-menu-item{
     display: inline-block;
     margin: 0 4pt;
-    width: 100%;
+    width: 10em;
     padding: 4pt 0;
 }
 .drop-menu-item:hover{
-    background-color: aliceblue;
+    background-color: #dce4eb;
 }
 .drop-menu-item-header{
     text-align: center;

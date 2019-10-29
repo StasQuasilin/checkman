@@ -27,7 +27,7 @@ var filter_control = new Vue({
         },
         organisations:function(){
             var organisations = {};
-            var items = this.items;
+            var items = this.filteredItems();
             for (var i in items){
                 if (items.hasOwnProperty(i)){
                     var organisation = items[i].item.organisation;
@@ -83,7 +83,7 @@ var filter_control = new Vue({
         },
         drivers:function(){
             let drivers = {};
-            let items = this.items;
+            let items = this.filteredItems();
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     var driver = items[i].item.driver;

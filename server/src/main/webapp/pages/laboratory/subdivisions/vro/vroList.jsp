@@ -9,7 +9,7 @@
     <div class="drop-menu">
         <a class="drop-btn"><fmt:message key="analyses"/> &#9660;</a>
         <div class="drop-menu-content">
-            <div class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
+            <div class="drop-menu-item" style="width: 10em" onclick="loadModal('${crudeEdit}')">
                 <span style="padding: 0 2pt">
                     <fmt:message key="vro.crude"/>
                 </span>
@@ -27,6 +27,11 @@
             <div class="drop-menu-item" onclick="loadModal('${oilMassFraction}')">
                 <span>
                     <fmt:message key="oil.mass.fraction"/>
+                </span>
+            </div>
+            <div class="drop-menu-item" onclick="loadModal('${granules}')">
+                <span>
+                    <fmt:message key="granules"/>
                 </span>
             </div>
         </div>
@@ -87,6 +92,10 @@
     };
     list.limit = 14;
     list.api.editDaily = '${dailyEdit}';
+    list.api.editGranules = '${granules}';
+    list.editGranules = function(id){
+        loadModal(this.api.editGranules, {id: id});
+    };
     list.forpress = [];
     <c:forEach items="${forpress}" var="fp">
     list.forpress.push({
@@ -260,9 +269,25 @@
             <fmt:message key="oil.color.value"/>:
             {{oil.color}}
         </div>
-
-        <div style="padding-left: 8pt; font-size: 10pt"
-             >
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="g in value.item.granules"
+             class="selectable" :id="g.id" v-on:click="editGranules(g.id)">
+            <b>
+                <fmt:message key="granules"/>
+            </b>
+            <fmt:message key="vro.volume.density"/>:
+            {{(g.density).toLocaleString()}},
+            <fmt:message key="sun.humidity"/>:
+            {{(g.humidity).toLocaleString()}},
+            <fmt:message key="dust"/>:
+            {{(g.dust).toLocaleString()}},
+            <span v-if="g.match">
+                <fmt:message key="match.dstu"/>
+            </span>
+            <span v-else>
+                <fmt:message key="dsnt.match.dstu"/>
+            </span>
+        </div>
+        <div style="padding-left: 8pt; font-size: 10pt">
             <table style="font-size: 10pt">
                 <tr>
                     <td colspan="2">

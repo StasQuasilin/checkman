@@ -4,7 +4,6 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.documents.Deal;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +25,7 @@ public class FindDealsServletAPI extends ServletAPI {
             List<Deal> deals = dao.getDealsByOrganisation(body.get("organisation"));
             write(resp, parser.toDealJson(deals).toJSONString());
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
 
     }

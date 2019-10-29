@@ -28,7 +28,8 @@
   <transition-group name="flip-list" tag="div" class="container" id="container">
     <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
          class="container-item" style="position: relative"
-         :class="'container-item-' + new Date(value.item.date).getDay()"
+         :class="['container-item-' + new Date(value.item.date).getDay(),
+         { loading: value.item.timeIn.id && !value.item.timeOut.id}]"
          v-on:click="edit(value.item.id)" v-on:dblclick="">
       <div class="upper-row">
         <span>

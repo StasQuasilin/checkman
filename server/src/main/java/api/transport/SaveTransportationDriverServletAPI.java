@@ -64,6 +64,6 @@ public class SaveTransportationDriverServletAPI extends ServletAPI {
             comparator.compare(transportation, getWorker(req));
             write(resp, SUCCESS_ANSWER);
             body.clear();
-        } else {write(resp, emptyBody);}
+        } else {write(resp, EMPTY_BODY);}
     }
 }

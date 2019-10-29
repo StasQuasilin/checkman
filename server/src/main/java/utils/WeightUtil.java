@@ -22,20 +22,31 @@ public class WeightUtil {
                 complete += plan.getTransportation().getWeight().getNetto();
             }
         }
+        boolean save = false;
+        if (deal.getQuantity() < complete){
+            deal.setQuantity(Math.round(complete));
+            save = true;
+        }
+
         if (deal.getComplete() != complete) {
             deal.setComplete(complete);
-            try {
-                updateUtil.onSave(deal);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            save = true;
             if (complete >= deal.getQuantity()){
                 deal.setDone(true);
                 Archivator.add(deal);
             } else {
                 deal.setDone(false);
             }
+
+        }
+        if (save){
             dao.saveDeal(deal);
+
+            try {
+                updateUtil.onSave(deal);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

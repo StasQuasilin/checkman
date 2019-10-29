@@ -1,5 +1,6 @@
 package utils.hibernate;
 
+import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.organisations.Organisation;
 import entity.products.Product;
@@ -11,6 +12,7 @@ import entity.transport.Vehicle;
 import entity.weight.Weight;
 import utils.Parser;
 import utils.U;
+import utils.WeightUtil;
 import utils.calculator.ProductLoadCalculator;
 
 import java.util.HashMap;
@@ -41,17 +43,21 @@ public class CustomHandler {
 //            System.out.println(p.getName()+ ": " + calculator.readValue());
 //        }
 
-        for (Vehicle vehicle : instance.query(Vehicle.class, null)){
-            String number = vehicle.getNumber();
-            if (U.exist(number)){
-                vehicle.setNumber(Parser.prettyNumber(pretty(number)));
-            }
-            String trailer = vehicle.getTrailer();
-            if (U.exist(trailer)){
-                vehicle.setTrailer(Parser.prettyNumber(pretty(trailer)));
-            }
-            dao.save(vehicle);
+        for (Deal deal : instance.query(Deal.class, null)){
+            WeightUtil.calculateDealDone(deal);
         }
+
+//        for (Vehicle vehicle : instance.query(Vehicle.class, null)){
+//            String number = vehicle.getNumber();
+//            if (U.exist(number)){
+//                vehicle.setNumber(Parser.prettyNumber(pretty(number)));
+//            }
+//            String trailer = vehicle.getTrailer();
+//            if (U.exist(trailer)){
+//                vehicle.setTrailer(Parser.prettyNumber(pretty(trailer)));
+//            }
+//            dao.save(vehicle);
+//        }
 
 //        String value = "DAF вм1755";
 //        System.out.println("Find " + value);

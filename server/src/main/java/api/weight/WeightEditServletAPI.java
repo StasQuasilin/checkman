@@ -82,7 +82,7 @@ public class WeightEditServletAPI extends ServletAPI {
                 if (notificator != null) {
                     if (weight.getNetto() > 0) {
                         notificator.weightShow(transportation);
-                    } else if (transportation.getTimeIn() == null && weight.getBrutto() == 0 && weight.getTara() > 0){
+                    } else if (weight.getBrutto() == 0 && weight.getTara() > 0){
                         notificator.showLoadTime(transportation);
                     }
                 }
@@ -91,7 +91,7 @@ public class WeightEditServletAPI extends ServletAPI {
             write(resp, SUCCESS_ANSWER);
             body.clear();
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
     synchronized boolean changeWeight(Weight weight, float brutto, float tara, Worker worker, boolean saveIt){

@@ -6,9 +6,7 @@ import entity.Worker;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import entity.transport.ActionTime;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.hibernate.dbDAO;
 
 import javax.servlet.ServletException;
@@ -34,7 +32,7 @@ public class ParseOrganisationServletAPI extends ServletAPI {
             Organisation organisation = parseOrganisation(String.valueOf(body.get("name")), dao, getWorker(req));
             write(resp, parser.toJson(organisation).toJSONString());
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 

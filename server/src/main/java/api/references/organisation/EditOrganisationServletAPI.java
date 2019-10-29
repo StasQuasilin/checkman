@@ -83,7 +83,7 @@ public class EditOrganisationServletAPI extends ServletAPI {
             }
 
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

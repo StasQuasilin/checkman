@@ -214,7 +214,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             pool.put(ans);
             body.clear();
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

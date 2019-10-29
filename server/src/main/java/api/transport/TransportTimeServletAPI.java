@@ -75,23 +75,21 @@ public class TransportTimeServletAPI extends ServletAPI {
             dao.save(time);
             dao.saveTransportation(transportation);
             updateUtil.onSave(transportation);
-            Notificator notificator = BotFactory.getNotificator();
-            if (notificator != null) {
-
-                if (direction == TransportDirection.in && transportation.getTimeOut() == null) {
-                    notificator.transportInto(transportation);
-                }
-            }
+//            Notificator notificator = BotFactory.getNotificator();
+//            if (notificator != null) {
+//                if (direction == TransportDirection.in && transportation.getTimeOut() == null) {
+//                    notificator.transportInto(transportation);
+//                }
+//            }
             TransportUtil.checkTransport(transportation);
             comparator.compare(transportation, worker);
-//            WeightUtil.calculateDealDone(plan.getDeal());
 
             body.clear();
             IAnswer answer = new SuccessAnswer();
             answer.add("time", time.getTime().toString());
             write(resp, parser.toJson(answer).toJSONString());
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 

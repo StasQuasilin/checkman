@@ -70,7 +70,10 @@
       :
     </td>
     <td>
-      <select id="time" v-model="oil.turn">
+      <select id="time" v-model="oil.turn" class="{error : err.turn}">
+        <option disabled value="-1">
+          <fmt:message key="need.select"/>
+        </option>
         <option v-for="turn in turns" :value="turn.number">
           {{turnDate(turn.day)}}
           {{turn.value}}
@@ -109,7 +112,10 @@
       <button onclick="closeModal()">
         <fmt:message key="button.close"/>
       </button>
-      <button v-on:click="save">
+      <button v-if="already">
+        ...
+      </button>
+      <button v-on:click="save" v-else>
         <fmt:message key="button.save"/>
       </button>
     </td>

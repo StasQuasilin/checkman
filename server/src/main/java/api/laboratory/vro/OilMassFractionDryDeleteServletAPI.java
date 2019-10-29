@@ -32,7 +32,7 @@ public class OilMassFractionDryDeleteServletAPI extends ServletAPI {
                 dao.remove(OilMassFraction.class, id);
             }
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

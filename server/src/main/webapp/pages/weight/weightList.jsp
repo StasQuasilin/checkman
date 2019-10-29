@@ -76,7 +76,8 @@
                  class="container-item"
                  :class="['container-item-' + new Date(value.item.date).getDay() +
                  ( value.item.weight.brutto > 0 && value.item.weight.tara > 0 ? '-done' : ''),
-                 { loading: value.item.weight.tara > 0 && value.item.weight.brutto == 0}]"
+                 { loading: value.item.weight.tara > 0 && value.item.weight.brutto == 0 ||
+                 value.item.weight.brutto > 0 && value.item.weight.tara == 0}]"
 
                  v-on:click="edit(value.item.id)"
                  v-on:click.right="contextMenu(value.item)">

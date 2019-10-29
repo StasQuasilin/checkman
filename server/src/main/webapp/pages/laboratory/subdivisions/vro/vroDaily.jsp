@@ -29,7 +29,7 @@
         huskHumidity:${daily.huskHumidity},
         huskSoreness:${daily.huskSoreness},
         kernelPercent:${daily.kernelPercent},
-        huskPercent:${daily.huskPercent},
+        huskPercent:${daily.huskPercent}
     };
     </c:when>
     <c:otherwise>

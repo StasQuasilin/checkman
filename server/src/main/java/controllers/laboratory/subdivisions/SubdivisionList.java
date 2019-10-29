@@ -49,6 +49,7 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("dailyEdit", Branches.UI.VRO.DAILY_EDIT);
                 req.setAttribute("oilMassFraction", Branches.UI.VRO.OIL_MASS_FRACTION);
                 req.setAttribute("oilMassFractionDry", Branches.UI.VRO.OIL_MASS_FRACTION_DRY);
+                req.setAttribute("granules", Branches.UI.VRO.GRANULES);
                 req.setAttribute("update", Branches.API.VRO_LIST);
                 req.setAttribute("dailyPrint", Branches.UI.VRO.DAILY_REPORT_PRINT);
                 req.setAttribute("forpress", dao.getForpressList());

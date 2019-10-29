@@ -6,7 +6,6 @@ import constants.Constants;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,7 +38,7 @@ public class FindDriverServletAPI extends ServletAPI {
             body.clear();
             array.clear();
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

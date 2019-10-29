@@ -36,7 +36,7 @@ public class DealArchiveServletAPI extends ServletAPI {
             array.clear();
 
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

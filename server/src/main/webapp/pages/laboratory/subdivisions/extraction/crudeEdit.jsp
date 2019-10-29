@@ -262,7 +262,10 @@
             <button onclick="closeModal()">
                 <fmt:message key="button.cancel"/>
             </button>
-            <button v-on:click="save">
+            <button v-if="already">
+                ...
+            </button>
+            <button v-on:click="save" v-else>
                 <fmt:message key="button.save"/>
             </button>
         </td>

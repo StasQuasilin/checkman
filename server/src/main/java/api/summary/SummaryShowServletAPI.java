@@ -8,7 +8,6 @@ import entity.log.Change;
 import entity.log.ChangeLog;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.LanguageBase;
 
 import javax.servlet.ServletException;
@@ -71,10 +70,10 @@ public class SummaryShowServletAPI extends ServletAPI {
 						logs
 				).toJSONString());
 			} else {
-				write(resp, emptyBody);
+				write(resp, EMPTY_BODY);
 			}
 		} else {
-			write(resp, emptyBody);
+			write(resp, EMPTY_BODY);
 		}
 	}
 }

@@ -1,18 +1,20 @@
 package api.laboratory.vro;
 
 import api.ServletAPI;
+import bot.BotFactory;
+import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.subdivisions.vro.VRODaily;
+import entity.laboratory.subdivisions.vro.GranulesAnalyses;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.TurnDateTime;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
-import utils.TurnDateTime;
 import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
@@ -26,78 +28,70 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Created by szpt_user045 on 11.04.2019.
+ * Created by szpt_user045 on 29.10.2019.
  */
-@WebServlet(Branches.API.VRO_DAILY_EDIT)
-public class VRODailyEditServletAPI extends ServletAPI {
+@WebServlet(Branches.API.VRO_GRANULAS_EDIT)
+public class GranulesEditAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(VRODailyEditServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
-
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
             log.info(body);
-            LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            int turnNumber = Integer.parseInt(String.valueOf(body.get("turn")));
+            LocalDate date = LocalDate.parse(String.valueOf(body.get(DATE)));
+            int turnNumber = Integer.parseInt(String.valueOf(body.get(TURN)));
             TurnSettings turn = TurnBox.getTurnByNumber(turnNumber);
             LocalTime time = turn.getBegin().toLocalTime();
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
             boolean save = false;
-
-            VRODaily daily;
-            if (body.containsKey(Constants.ID)) {
-                daily = dao.getVroDailyById(body.get(Constants.ID));
+            GranulesAnalyses analyses;
+            if (body.containsKey(ID)){
+                analyses = dao.getObjectById(GranulesAnalyses.class, body.get(ID));
             } else {
-                daily = new VRODaily();
+                analyses = new GranulesAnalyses();
             }
 
             VROTurn targetTurn = TurnService.getVROTurn(turnDate);
-            VROTurn currentTurn = daily.getTurn();
+            VROTurn currentTurn = analyses.getTurn();
             if (currentTurn == null || currentTurn.getId() != targetTurn.getId()){
-                daily.setTurn(targetTurn);
+                analyses.setTurn(targetTurn);
                 save = true;
             }
 
-
-            float kernelHumidity = Float.parseFloat(String.valueOf(body.get("kernelHumidity")));
-            if (daily.getKernelHumidity() != kernelHumidity) {
-                daily.setKernelHumidity(kernelHumidity);
+            float density = Float.parseFloat(String.valueOf(body.get("density")));
+            if (analyses.getDensity() != density) {
+                analyses.setDensity(density);
                 save = true;
             }
 
-            float huskHumidity = Float.parseFloat(String.valueOf(body.get("huskHumidity")));
-            if (daily.getHuskHumidity() != huskHumidity) {
-                daily.setHuskHumidity(huskHumidity);
+            float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
+            if (analyses.getHumidity() != humidity) {
+                analyses.setHumidity(humidity);
                 save = true;
             }
 
-            float huskSoreness = Float.parseFloat(String.valueOf(body.get("huskSoreness")));
-            if (daily.getHuskSoreness() != huskSoreness) {
-                daily.setHuskSoreness(huskSoreness);
+            float dust = Float.parseFloat(String.valueOf(body.get("dust")));
+            if (analyses.getDust() != dust) {
+                analyses.setDust(dust);
                 save = true;
             }
 
-            float kernelPercent = Float.parseFloat(String.valueOf(body.get("kernelPercent")));
-            if (daily.getKernelPercent() != kernelPercent) {
-                daily.setKernelPercent(kernelPercent);
-                save = true;
-            }
-
-            float huskPercent = Float.parseFloat(String.valueOf(body.get("huskPercent")));
-            if (daily.getHuskPercent() != huskPercent) {
-                daily.setHuskPercent(huskPercent);
+            boolean match = Boolean.parseBoolean(String.valueOf(body.get("match")));
+            if (analyses.isMatch() != match) {
+                analyses.setMatch(match);
                 save = true;
             }
 
             if (save) {
-                ActionTime createTime = daily.getCreateTime();
+                ActionTime createTime = analyses.getCreateTime();
                 if (createTime == null) {
                     createTime = new ActionTime();
-                    daily.setCreateTime(createTime);
+                    analyses.setCreateTime(createTime);
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
@@ -107,14 +101,16 @@ public class VRODailyEditServletAPI extends ServletAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                daily.setCreator(worker);
-                dao.save(createTime, daily);
+                dao.save(createTime, analyses);
                 updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()) {
                     updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
                 }
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.show(analyses);
+                }
             }
-
             write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, EMPTY_BODY);

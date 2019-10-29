@@ -45,11 +45,11 @@ public class ChangeLoadPlanDateServletAPI extends ServletAPI {
                 comparator.compare(plan, getWorker(req));
                 write(resp, SUCCESS_ANSWER);
             } else {
-                write(resp, emptyBody);
+                write(resp, EMPTY_BODY);
             }
 
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

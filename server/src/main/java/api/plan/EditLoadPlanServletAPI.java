@@ -112,6 +112,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
 
             if (loadPlan.getDeal() == null || loadPlan.getDeal().getId() != dealId){
                 loadPlan.setDeal(deal);
+                transportation.setType(deal.getType());
                 transportation.setShipper(deal.getShipper());
                 transportation.setCounterparty(deal.getOrganisation());
                 transportation.setProduct(deal.getProduct());
@@ -220,7 +221,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             write(resp, SUCCESS_ANSWER);
 
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

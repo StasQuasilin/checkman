@@ -3,13 +3,9 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.log.comparators.TransportationComparator;
-import entity.organisations.Organisation;
-import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.Parser;
 import utils.UpdateUtil;
 
@@ -58,7 +54,7 @@ public class SaveVehicleServletAPI extends ServletAPI {
             pool.put(jsonObject);
             body.clear();
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

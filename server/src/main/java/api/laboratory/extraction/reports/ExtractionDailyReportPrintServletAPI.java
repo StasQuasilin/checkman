@@ -51,7 +51,7 @@ public class ExtractionDailyReportPrintServletAPI extends ServletAPI {
             req.setAttribute("turns", turns);
             req.getRequestDispatcher("/pages/laboratory/subdivisions/extraction/reports/print/dailyReport.jsp").forward(req, resp);
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

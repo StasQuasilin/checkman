@@ -94,7 +94,7 @@ public class SaveDriverServletAPI extends ServletAPI {
             write(resp, parser.toJson(driver).toJSONString());
             body.clear();
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
 
     }

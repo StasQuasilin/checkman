@@ -5,7 +5,6 @@ import constants.Branches;
 import constants.Constants;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +33,7 @@ public class FindOrganisationServletAPI extends ServletAPI {
             array.clear();
             body.clear();
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

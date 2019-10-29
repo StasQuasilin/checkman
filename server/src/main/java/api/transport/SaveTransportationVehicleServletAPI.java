@@ -63,7 +63,7 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
 
             body.clear();
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
 
     }

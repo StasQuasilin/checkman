@@ -109,6 +109,7 @@ public class Branches {
             public static final String OIL_MASS_FRACTION = "/laboratory/vro/oil/mass/fraction.j";
             public static final String OIL_MASS_FRACTION_DRY = "/laboratory/vro/oil/mass/fraction/dry.j";
             public static final String DAILY_REPORT_PRINT = "/laboratory/vro/daily/report/print.j";
+            public static final String GRANULES = "/laboratory/vro/daily/granules/edit.j";
         }
 
         public class KPO {
@@ -228,6 +229,7 @@ public class Branches {
         public static final String REPORT_BUILDER = API + "/report/builder";
         public static final String ORGANISATION_COLLAPSE = API + "/organisation/collapse";
         public static final String FORMATTING_TEST = API + "/formatting/test";
+        public static final String VRO_GRANULAS_EDIT = API + "/granuas/edit";
 
 
         public class References {

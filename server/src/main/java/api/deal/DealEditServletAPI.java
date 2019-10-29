@@ -142,7 +142,7 @@ public class DealEditServletAPI extends IChangeServletAPI {
 
             body.clear();
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
 
     }

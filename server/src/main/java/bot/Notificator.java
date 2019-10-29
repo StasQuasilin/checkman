@@ -10,6 +10,7 @@ import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.ForpressCake;
+import entity.laboratory.subdivisions.vro.GranulesAnalyses;
 import entity.laboratory.subdivisions.vro.VROCrude;
 import entity.laboratory.subdivisions.vro.VROOil;
 import entity.products.Product;
@@ -620,5 +621,28 @@ public class Notificator {
             }
         }
         messages.clear();
+    }
+
+    public void show(GranulesAnalyses analyses) {
+        final int turn = analyses.getTurn().getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(analyses.getTurn().getTurn().getDate());
+        HashMap<String, String> messages = new HashMap<>();
+
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.getAnalyses() == NotifyStatus.all){
+                String language = setting.getLanguage();
+                if (!messages.containsKey(language)) {
+                    String message = lb.get(language, "vro.granules.title");
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.density"), analyses.getDensity());
+                    message += NEW_LINE + String.format(lb.get(language, HUMIDITY), analyses.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "notificator.granules.dust"), analyses.getDust());
+                    message += NEW_LINE + (analyses.isMatch() ? lb.get(language, "match.dstu") : lb.get(language, "dsnt.match.dstu"));
+
+                    messages.put(language, message);
+                }
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
     }
 }

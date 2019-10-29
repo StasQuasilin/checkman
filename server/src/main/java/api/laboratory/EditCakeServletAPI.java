@@ -6,7 +6,6 @@ import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.documents.LoadPlan;
 import entity.laboratory.MealAnalyses;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
@@ -100,7 +99,7 @@ public class EditCakeServletAPI extends ServletAPI {
 
             write(resp, SUCCESS_ANSWER);
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }

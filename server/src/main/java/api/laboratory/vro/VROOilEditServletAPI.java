@@ -121,7 +121,7 @@ public class VROOilEditServletAPI extends ServletAPI {
 
             write(resp, SUCCESS_ANSWER);
         } else {
-            write(resp, emptyBody);
+            write(resp, EMPTY_BODY);
         }
     }
 }
