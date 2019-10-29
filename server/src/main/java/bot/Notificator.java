@@ -163,7 +163,7 @@ public class Notificator {
                         messages.put(language, prepareMessage(transportation) + NEW_LINE +
                             (analyses.isContamination() ? "❗ Заражено шкідниками ❗" : "") +
                             String.format(lb.get(HUMIDITY_1), analyses.getHumidity1()) + NEW_LINE +
-                                (analyses.getHumidity2() > 0 ? String.format(lb.get(HUMIDITY_2), analyses.getHumidity2()) : "") + NEW_LINE +
+                                (analyses.getHumidity2() > 0 ? String.format(lb.get(HUMIDITY_2), analyses.getHumidity2()) + NEW_LINE : "") +
                             String.format(lb.get(SORENESS), analyses.getSoreness()) + NEW_LINE +
                             String.format(lb.get(OILINESS), analyses.getOiliness()) + NEW_LINE +
                             String.format(lb.get(ACID), analyses.getAcidValue()) + NEW_LINE +
@@ -216,7 +216,9 @@ public class Notificator {
                         builder.append(String.format(lb.get(COLOR), analyses.getColor())).append(NEW_LINE);
                         builder.append(String.format(lb.get(ACID), analyses.getAcidValue())).append(NEW_LINE);
                         builder.append(String.format(lb.get(PEROXIDE), analyses.getPeroxideValue())).append(NEW_LINE);
-                        builder.append(String.format(lb.get(PHOSPHORUS), analyses.getPhosphorus())).append(NEW_LINE);
+                        if (analyses.getPhosphorus() > 0) {
+                            builder.append(String.format(lb.get(PHOSPHORUS), analyses.getPhosphorus())).append(NEW_LINE);
+                        }
                         builder.append(String.format(lb.get(HUMIDITY), analyses.getHumidity())).append(NEW_LINE);
                         AnalysesType type = transportation.getProduct().getAnalysesType();
 

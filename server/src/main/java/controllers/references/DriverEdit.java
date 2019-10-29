@@ -19,17 +19,15 @@ import java.io.IOException;
 @WebServlet(Branches.UI.References.DRIVER_EDIT)
 public class DriverEdit extends IModal {
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        String id = req.getParameter(ID);
         if (U.exist(id)){
             req.setAttribute("driver", dao.getDriverByID(Integer.parseInt(id)));
         }
-        req.setAttribute("title", "driver.edit");
-        req.setAttribute("modalContent", "/pages/references/driverEdit.jsp");
-        req.setAttribute("save", Branches.API.References.DRIVER_EDIT);
+        req.setAttribute(TITLE, "driver.edit");
+        req.setAttribute(MODAL_CONTENT, "/pages/references/driverEdit.jsp");
+        req.setAttribute(SAVE, Branches.API.References.DRIVER_EDIT);
         show(req, resp);
     }
 }

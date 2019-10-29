@@ -1,5 +1,5 @@
 var filter_control = new Vue({
-    el:'#filter',
+    el:'#filter_view',
     data:{
         items:[],
         filter:{

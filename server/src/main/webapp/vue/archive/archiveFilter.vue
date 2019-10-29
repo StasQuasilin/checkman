@@ -1,5 +1,5 @@
 var filter_control = new Vue({
-    el: '#filter',
+    el: '#filter_view',
     data:{
         api:{},
         filter:{
@@ -39,7 +39,7 @@ var filter_control = new Vue({
         pickDate:function(){
             const self = this;
             datepicker.show(function(date){
-                self.filter.date = self.input.date = date
+                self.filter.date = self.input.date = date;
                 self.find();
             }, self.input.date)
         },

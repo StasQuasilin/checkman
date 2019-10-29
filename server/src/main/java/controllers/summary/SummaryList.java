@@ -17,6 +17,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SUMMARY_LIST)
 public class SummaryList extends IUIServlet {
 
+
 	final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
 
 	@Override
@@ -27,10 +28,11 @@ public class SummaryList extends IUIServlet {
 			role = Role.valueOf(r);
 			if (role == Role.manager || role == Role.admin) {
 				req.setAttribute(EDIT, Branches.UI.SUMMARY_SHOW);
-				req.setAttribute("add", Branches.UI.WEIGHT_ADD);
+				req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
 				req.setAttribute("notes", Branches.UI.NOTES_LIST);
 				req.setAttribute("archive", Branches.API.ARCHIVE_LOAD_PLAN);
-				req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
+				req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
+				req.setAttribute(PRINT, Branches.UI.SUMMARY_PLAN_PRINT);
 			}
 		}
 

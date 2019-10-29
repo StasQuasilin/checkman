@@ -6,8 +6,8 @@
 <html>
 <script src="${context}/vue/dealFilter.vue"></script>
 <link rel="stylesheet" href="${context}/css/filter.css">
-<div id="filter-content">
-    <div id="filter" class="filter">
+<div id="filter_view">
+    <div class="filter">
         <table width="100%">
             <tr>
                 <td align="center" colspan="2">

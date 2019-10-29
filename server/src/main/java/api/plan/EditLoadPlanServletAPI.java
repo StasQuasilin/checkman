@@ -113,6 +113,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             if (loadPlan.getDeal() == null || loadPlan.getDeal().getId() != dealId){
                 loadPlan.setDeal(deal);
                 transportation.setShipper(deal.getShipper());
+                transportation.setCounterparty(deal.getOrganisation());
                 transportation.setProduct(deal.getProduct());
             }
 

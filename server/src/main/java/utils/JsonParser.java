@@ -189,7 +189,6 @@ public class JsonParser {
     }
 
     public JSONObject toJson(Transportation transportation) {
-
         JSONObject json = pool.getObject();
         if (transportation != null){
             json.put(ID, transportation.getId());

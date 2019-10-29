@@ -30,6 +30,9 @@
     logistic.api.changeDate = '${changeDate}'
     logistic.api.update = '${update}';
     logistic.api.save = '${save}';
+    logistic.customers=[];
+    logistic.customers['szpt'] = 'СЗПТ';
+    logistic.customers['contragent'] = 'Контрагент';
     logistic.worker={
       id:${worker.id},
       value:'${worker.person.value}'
@@ -88,8 +91,7 @@
         <span>
           ${fn:substring(plan, 0, 4)}:
           <b>
-            {{(value.item.plan).toLocaleString()}}
-            {{value.item.unit}},
+            {{(value.item.plan)}},
           </b>
         </span>
         <span>
@@ -214,18 +216,30 @@
               </div>
             </div>
           </div>
+          <div style="display: inline-block; font-size: 10pt">
+            <div>
+              <fmt:message key="transport.customer"/>:
+            </div>
+            <div style="font-size: 12pt; font-weight: bold; width: 100%; text-align: center">
+              {{customers[value.item.customer]}}
+            </div>
+          </div>
           <div style="display: inline-block">
             <div v-if="value.item.weight.id" class="copypable">
-              <span>
-                Б: {{value.item.weight.brutto}},
-              </span>
-              <span>
-                Т: {{value.item.weight.tara}},
-              </span>
               <div>
-                Н: {{value.item.weight.brutto > 0 &&
-                value.item.weight.tara > 0 ?
-                (value.item.weight.brutto - value.item.weight.tara).toLocaleString() : 0}}
+                <b>
+                  Б: {{value.item.weight.brutto}},
+                </b>
+                <b>
+                  Т: {{value.item.weight.tara}},
+                </b>
+              </div>
+              <div>
+                <b>
+                  Н: {{value.item.weight.brutto > 0 &&
+                  value.item.weight.tara > 0 ?
+                  (value.item.weight.brutto - value.item.weight.tara).toLocaleString() : 0}}
+                </b>
               </div>
             </div>
           </div>

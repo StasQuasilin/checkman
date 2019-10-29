@@ -19,7 +19,7 @@ import java.io.IOException;
 public class LogisticList extends IUIServlet{
 
     private static final long serialVersionUID = 8487428665694665680L;
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOGISTIC};
+    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
         req.setAttribute("dealTypes", DealType.values());
         req.setAttribute("changeDate", Branches.API.CHANGE_DATE);
-        req.setAttribute("add", Branches.UI.WEIGHT_ADD);
+        req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
         req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
         req.setAttribute(CONTENT, "/pages/logistic/logisticList.jsp");
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");

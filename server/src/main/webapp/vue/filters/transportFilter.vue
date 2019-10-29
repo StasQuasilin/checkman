@@ -49,9 +49,13 @@ var filter_control = new Vue({
                     }
                 }
             }
-            return Object.values(organisations);
+            let res = Object.values(organisations);
+            res.sort(function(a, b){
+                return a.value.localeCompare(b.value);
+            });
+            return res;
         },
-        products:function() {
+products:function() {
             var products = {};
             var items = this.items;
             for (var i in items){
@@ -91,17 +95,21 @@ var filter_control = new Vue({
             return vehicles;
         },
         drivers:function(){
-            var drivers = {};
-            var items = this.items;
-            for (var i in items){
+            let drivers = {};
+            let items = this.items;
+            for (let i in items){
                 if (items.hasOwnProperty(i)){
                     var driver = items[i].item.driver;
-                    if (driver.id != undefined && drivers[driver.id] == undefined){
+                    if (driver.id && !drivers[driver.id]){
                         drivers[driver.id] = driver;
                     }
                 }
             }
-            return drivers;
+            let result = Object.values(drivers);
+            result.sort(function(a, b){
+                return a.person.value.localeCompare(b.person.value);
+            });
+            return result;
         },
         filteredItems:function(){
             const self = this;

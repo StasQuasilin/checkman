@@ -32,6 +32,12 @@ public class TransportArchive extends IUIServlet {
     final Subscriber[] weightArchiveSubscribe = new Subscriber[]{
             Subscriber.LOAD_PLAN_ARCHIVE
     };
+    final Subscriber[] laboratoryBuyArchiveSubscriber = new Subscriber[]{
+            Subscriber.TRANSPORT_BUY_ARCHIVE,
+    };
+    final Subscriber[] laboratorySellArchiveSubscribe = new Subscriber[]{
+            Subscriber.TRANSPORT_SELL_ARCHIVE
+    };
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,6 +62,14 @@ public class TransportArchive extends IUIServlet {
                 req.setAttribute(EDIT, Branches.UI.ARCHIVE_WEIGHT_SHOW);
                 break;
             }
+            case laboratory_buy:
+                req.setAttribute(CONTENT, "/pages/laboratory/laboratoryList.jsp");
+                req.setAttribute(SUBSCRIBE, laboratoryBuyArchiveSubscriber);
+                break;
+            case laboratory_sell:
+                req.setAttribute(CONTENT, "/pages/laboratory/laboratoryList.jsp");
+                req.setAttribute(SUBSCRIBE, laboratorySellArchiveSubscribe);
+                break;
             default:
                 req.setAttribute(CONTENT, "/pages/archive/archiveTypeErr.jsp");
                 req.setAttribute("type", type);

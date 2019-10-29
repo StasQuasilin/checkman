@@ -15,16 +15,20 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.DEAL_LIST)
 public class DealList extends IUIServlet{
+
+    private static final String _CONTENT = "/pages/deals/dealList.jsp";
+    private static final String _FILTER = "/pages/filters/dealFilter.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String type = req.getParameter("type");
+        String type = req.getParameter(TYPE);
         req.setAttribute(TITLE, Titles.DEAL_LIST + '-' + type);
-        req.setAttribute(CONTENT, "/pages/deals/dealList.jsp");
-        req.setAttribute(FILTER, "/pages/filters/dealFilter.jsp");
+        req.setAttribute(CONTENT, _CONTENT);
+        req.setAttribute(FILTER, _FILTER);
         req.setAttribute(TYPE, type);
-        req.setAttribute("show", Branches.UI.DEAL_SHOW);
+        req.setAttribute(SHOW, Branches.UI.DEAL_SHOW);
         req.setAttribute(EDIT, Branches.UI.DEAL_EDIT + "?type=" + type );
-        req.setAttribute("delete", Branches.UI.DEAL_DELETE);
+        req.setAttribute(DELETE, Branches.UI.DEAL_DELETE);
         req.setAttribute(SUBSCRIBE, "DEAL_" + type.toUpperCase());
         req.setAttribute("limit", -1);
         show(req, resp);

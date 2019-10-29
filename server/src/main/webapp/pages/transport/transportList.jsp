@@ -133,6 +133,9 @@
 
           </div>
         </div>
+        <div style="display: inline-block; float: right">
+          {{value.item.manager.person.value}}
+        </div>
       </div>
       <div class="lower-row" v-if="value.item.notes.length > 0">
         <div style="display: inline-block; padding-left: 4pt" v-for="note in value.item.notes">

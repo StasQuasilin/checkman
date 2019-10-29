@@ -11,16 +11,23 @@ var editor = new Vue({
             sun:[],
             oil:[],
             cake:[]
-        }
+        },
+        already:false
     },
     methods:{
         save:function(){
-            PostApi(this.api.saveWeightAPI, {id: this.id, weight: this.weight}, function(a){
-                console.log(a)
-                if (a.status == 'success'){
-                    closeModal();
-                }
-            })
+            if (!this.already) {
+                this.already = true;
+                PostApi(this.api.saveWeightAPI, {id: this.id, weight: this.weight}, function (a) {
+                    console.log(a)
+                    if (a.status == 'success') {
+                        closeModal();
+                    }
+                    this.already = false;
+                }, function(e){
+                    this.already = false;
+                })
+            }
         },
         netto:function(brutto, tara){
             return brutto == 0 || tara == 0 ? 0 : (this.checkTonnas(brutto) - this.checkTonnas(tara));

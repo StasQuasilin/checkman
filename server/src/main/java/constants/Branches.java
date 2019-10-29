@@ -88,6 +88,7 @@ public class Branches {
         public static final String USER_REGISTRATION = "/admin/registration.j";
         public static final String ORGANISATION_COLLAPSE = "/collapse/organisations.j";
         public static final String FORMATTING_TEST = "/test/formatting.j";
+        public static final String SUMMARY_PLAN_PRINT = "/summary/print.j";
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";

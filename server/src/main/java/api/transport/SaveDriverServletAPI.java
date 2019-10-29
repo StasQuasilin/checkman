@@ -60,6 +60,8 @@ public class SaveDriverServletAPI extends ServletAPI {
             if (U.exist(license)){
                 driver.setLicense(license);
                 log.info("\t...License: " + license);
+            } else if (U.exist(driver.getLicense())){
+                driver.setLicense(null);
             }
 
             if (body.containsKey("transporter")) {

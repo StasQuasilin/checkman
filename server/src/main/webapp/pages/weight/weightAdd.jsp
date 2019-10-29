@@ -365,7 +365,7 @@
                 <input id="vehicle" v-model="input.vehicle" autocomplete="off"
                        v-on:keyup="findVehicle()" v-on:keyup.enter="parseVehicle()"
                        :class="{error : errors.vehicle}" v-on:click="errors.vehicle = false"
-                       :title="input.vehicle">
+                       :title="input.vehicle" style=" width: 90%;">
                 </span>
                 <span v-if="input.vehicle" style="font-size: 10pt; color: coral;
                 position: absolute; padding: 1pt 4pt; background-color: aliceblue">

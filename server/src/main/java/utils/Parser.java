@@ -14,12 +14,13 @@ public class Parser {
 
     static final String NUMBER_REGEX = "[A-ZА-Я]{0,3}\\s*\\d{2,3}\\W?\\d{2,3}\\s*[A-ZА-Я]{2,3}";
 
+
     public synchronized static List<String> parseVehicle(String value){
         value = value.toUpperCase().trim();
         StringBuilder builder = new StringBuilder();
 
         for (char c : value.toCharArray()){
-           if (Character.isLetter(c) || Character.isDigit(c) || c == ' '){
+           if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)){
                builder.append(c);
            }
         }
@@ -41,34 +42,18 @@ public class Parser {
     public static String prettyNumber(String number){
         if (U.exist(number)) {
             number = number.toUpperCase().replaceAll(" ", "");
+
             StringBuilder builder = new StringBuilder();
-
-            Pattern pattern = Pattern.compile("^[A-ZА-Я]{0,3}");
-            Matcher matcher = pattern.matcher(number);
-            if (matcher.find()) {
-                String group = matcher.group();
-                if (!group.isEmpty())
-                    builder.append(group).append(' ');
-                number = number.replaceAll(group, "");
-            }
-
-            pattern = Pattern.compile("\\d*\\-?\\d*");
-            matcher = pattern.matcher(number);
-            if (matcher.find()) {
-                String group = matcher.group();
-                number = number.replaceAll(group, "");
-                group = group.replaceAll("\\D", "");
-                int d = Math.round(1f * group.length() / 2);
-
-                builder.append(group.substring(0, d)).append('-').append(group.substring(d));
-
-            }
-
-            pattern = Pattern.compile("^[A-ZА-Я]{0,3}");
-            matcher = pattern.matcher(number);
-            if (matcher.find()) {
-                String group = matcher.group();
-                builder.append(' ').append(group);
+            char[] chars = number.toCharArray();
+            for (int i = 0 ; i < number.length(); i++){
+                char a = chars[i];
+                builder.append(a);
+                if (i < number.length()- 1) {
+                    char b = chars[i + 1];
+                    if (Character.isLetter(a) && Character.isDigit(b) || Character.isDigit(a) && Character.isLetter(b)){
+                        builder.append(' ');
+                    }
+                }
             }
 
             return builder.toString();
@@ -76,25 +61,9 @@ public class Parser {
             return number;
         }
     }
-    static class Some{
-        String s;
 
-        public Some(String s) {
-            this.s = s;
-        }
-
-        @Override
-        public String toString() {
-            return s;
-        }
-
-        @Override
-        public int hashCode() {
-            return s.hashCode();
-        }
-    }
     public static void main(String[] args) throws IOException, DocumentException {
-        System.out.println(parsePerson("Лопа В.в."));
+        System.out.println(parseVehicle("daf вм 17-56 вм вм5241аа"));
     }
 
 

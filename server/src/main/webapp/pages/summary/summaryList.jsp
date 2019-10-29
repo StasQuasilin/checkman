@@ -34,6 +34,9 @@
         <c:if test="${not empty add}">
             <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
         </c:if>
+        <button onclick="loadModal('${print}')">
+            <fmt:message key="document.print"/>
+        </button>
     </div>
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">

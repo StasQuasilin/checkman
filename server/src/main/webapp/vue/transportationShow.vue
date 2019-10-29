@@ -16,26 +16,53 @@ var show = new Vue({
         seals:[],
         sealInput:'',
         foundSeals:[],
-        fnd:-1
+        fnd:-1,
+        already:false
     },
     methods: {
         setTimeIn: function () {
-            const self = this;
-            var parameters = {};
-            parameters.id = this.id;
-            PostApi(this.api.timeInApi, parameters, function (a) {
-                console.log(a);
-                self.timeIn = new Date(a.time).toLocaleTimeString().substring(0, 5);
-            })
+            if (!this.already) {
+                this.already = true;
+                const self = this;
+                var parameters = {};
+                parameters.id = this.id;
+                PostApi(this.api.timeInApi, parameters, function (a) {
+                    console.log(a);
+                    self.timeIn = new Date(a.time).toLocaleTimeString().substring(0, 5);
+                    self.already = false;
+                }, function(e){
+                    self.already = false;
+                })
+            }
         },
         setTimeOut: function () {
-            const self = this;
-            var parameters = {};
-            parameters.id = this.id;
-            PostApi(this.api.timeOutApi, parameters, function (a) {
-                console.log(a);
-                self.timeOut = new Date(a.time).toLocaleTimeString().substring(0, 5);
-            })
+            if (!this.already) {
+                this.already = true;
+                const self = this;
+                var parameters = {};
+                parameters.id = this.id;
+                PostApi(this.api.timeOutApi, parameters, function (a) {
+                    console.log(a);
+                    self.timeOut = new Date(a.time).toLocaleTimeString().substring(0, 5);
+                    self.already = false;
+                }, function(e){
+                    self.already = false;
+                })
+            }
+        },
+        registration:function(){
+            if (!this.already) {
+                this.already = true;
+                var self = this;
+                PostApi(this.api.registration, {transportation: this.id}, function (a) {
+                    if (a.status === 'success') {
+                        self.registrationTime = new Date();
+                    }
+                    self.already = false;
+                }, function(e){
+                    self.already = false;
+                })
+            }
         },
         findSeals:function(){
             clearTimeout(this.fnd);
@@ -75,14 +102,6 @@ var show = new Vue({
                 }
             })
 
-        },
-        registration:function(){
-            var self = this;
-            PostApi(this.api.registration, {transportation: this.id}, function (a) {
-                if (a.status === 'success') {
-                    self.registrationTime = new Date();
-                }
-            })
         }
     }
 });

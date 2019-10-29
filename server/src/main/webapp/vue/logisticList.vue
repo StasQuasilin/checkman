@@ -45,7 +45,6 @@ var logistic = new Vue({
             })
         },
         handler:function(e){
-            console.log(e);
             const self = this;
             if (e.add){
                 for(var a in e.add){

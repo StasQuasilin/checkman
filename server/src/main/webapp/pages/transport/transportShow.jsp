@@ -139,8 +139,16 @@
             <button v-if="registrationTime">
                 {{(registrationTime).toLocaleString()}}
             </button>
-            <button v-else v-on:click="registration()">
-                <fmt:message key="transportation.registrate"/>
+            <div v-else-if="!timeIn" v-on:click="registration()">
+                <button v-if="already">
+                    ...
+                </button>
+                <button v-else>
+                    <fmt:message key="transportation.registrate"/>
+                </button>
+            </div>
+            <button v-else>
+                -
             </button>
         </td>
     </tr>
@@ -158,15 +166,13 @@
                 </button>
             </div>
             <div v-else v-on:click="setTimeIn">
-                <button >
+                <button v-if="already">
+                    ...
+                </button>
+                <button v-else>
                     <fmt:message key="transportation.in"/>
                 </button>
             </div>
-            <c:if test="${role eq 'admin'}">
-                <span>
-                    :)
-                </span>
-            </c:if>
         </td>
     </tr>
     <tr>
@@ -177,12 +183,19 @@
             :
         </td>
         <td>
-            <button v-if="timeOut">
-                {{(timeOut).toLocaleString()}}
-            </button>
-            <button v-else v-on:click="setTimeOut">
-                <fmt:message key="transportation.out"/>
-            </button>
+            <div v-if="timeOut">
+                <button>
+                    {{(timeOut).toLocaleString()}}
+                </button>
+            </div>
+            <div v-else v-on:click="setTimeOut">
+                <button v-if="already">
+                    ...
+                </button>
+                <button v-else>
+                    <fmt:message key="transportation.out"/>
+                </button>
+            </div>
         </td>
     </tr>
     <tr>
