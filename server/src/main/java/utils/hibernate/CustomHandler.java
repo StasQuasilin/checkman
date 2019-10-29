@@ -26,7 +26,7 @@ public class CustomHandler {
     static dbDAO dao = dbDAOService.getDAO();
 
     public static void main(String[] args) {
-//        Hibernator instance = Hibernator.getInstance();
+        Hibernator instance = Hibernator.getInstance();
 
 //        for (Transportation transportation : instance.query(Transportation.class, null)){
 //            System.out.println(transportation.getDate() + ", " + (transportation.getWeight() != null ? transportation.getWeight().getNetto() : 0));
@@ -41,27 +41,24 @@ public class CustomHandler {
 //            System.out.println(p.getName()+ ": " + calculator.readValue());
 //        }
 
-//        for (Vehicle vehicle : instance.query(Vehicle.class, null)){
-//            String number = vehicle.getNumber();
-//            if (U.exist(number)){
-//                vehicle.setNumber(Parser.prettyNumber(pretty(number)));
-//            }
-//            String trailer = vehicle.getTrailer();
-//            if (U.exist(trailer)){
-//                vehicle.setTrailer(Parser.prettyNumber(pretty(trailer)));
-//            }
-//            dao.save(vehicle);
-//        }
-
-        String value = "ВМ 17-55 АХ";
-        StringBuilder builder = new StringBuilder();
-        for (char c : value.toCharArray()){
-            if (Character.isDigit(c) || Character.isLetter(c) || Character.isSpaceChar(c)){
-                builder.append(c);
+        for (Vehicle vehicle : instance.query(Vehicle.class, null)){
+            String number = vehicle.getNumber();
+            if (U.exist(number)){
+                vehicle.setNumber(Parser.prettyNumber(pretty(number)));
             }
+            String trailer = vehicle.getTrailer();
+            if (U.exist(trailer)){
+                vehicle.setTrailer(Parser.prettyNumber(pretty(trailer)));
+            }
+            dao.save(vehicle);
         }
-        value = builder.toString();
-        dao.findVehicle(value);
+
+//        String value = "DAF вм1755";
+//        System.out.println("Find " + value);
+//        List<Vehicle> vehicle = dao.findVehicle(value);
+//        for (Vehicle v : vehicle){
+//            System.out.println(v);
+//        }
         HibernateSessionFactory.shutdown();
     }
 

@@ -12,8 +12,7 @@ import java.util.regex.Pattern;
  */
 public class Parser {
 
-    static final String NUMBER_REGEX = "[A-ZА-Я]{0,3}\\s*\\d{2,3}\\W?\\d{2,3}\\s*[A-ZА-Я]{2,3}";
-
+    public static final String NUMBER_REGEX = "[A-ZА-Я]{0,3}\\s*\\d{2,3}\\W?\\d{2,3}\\s*[A-ZА-Я]{2,3}";
 
     public synchronized static List<String> parseVehicle(String value){
         value = value.toUpperCase().trim();
@@ -48,7 +47,7 @@ public class Parser {
             for (int i = 0 ; i < number.length(); i++){
                 char a = chars[i];
                 builder.append(a);
-                if (i < number.length()- 1) {
+                if (i < number.length() - 1) {
                     char b = chars[i + 1];
                     if (Character.isLetter(a) && Character.isDigit(b) || Character.isDigit(a) && Character.isLetter(b)){
                         builder.append(' ');

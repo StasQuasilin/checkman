@@ -42,7 +42,9 @@ import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
 import utils.ArchiveType;
+import utils.Parser;
 import utils.TurnDateTime;
+import utils.U;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.GE;
 import utils.hibernate.DateContainers.LE;
@@ -51,13 +53,15 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 24.06.2019.
  */
 public class HibernateDAO implements dbDAO {
-    
+
     private static final String ID = "id";
     private static final String DEAL = "deal";
     private static final String SPACE = Constants.SPACE;
@@ -619,41 +623,78 @@ public class HibernateDAO implements dbDAO {
         return hb.get(OilMassFraction.class, ID, id);
     }
 
+    private static final String REG_EXP = Parser.NUMBER_REGEX;
+
     @Override
     public List<Vehicle> findVehicle(Object key) {
-        final Set<Integer> ids = new HashSet<>();
-        final List<Vehicle> vehicles = new LinkedList<>();
+        final HashMap<Integer, Integer> ids = new HashMap<>();
+        final HashMap<Integer, Vehicle> vehicles = new HashMap<>();
 
-        StringBuilder builder;
-        HashMap<String, Object> params;
-        for (String s : String.valueOf(key).split(SPACE)){
-            String k = s.trim();
-            builder = new StringBuilder();
-            for(Character c : k.toUpperCase().toCharArray()){
-                if (Character.isLetter(c) || Character.isDigit(c)){
-                    builder.append(c);
-                }
-            }
-            params = new HashMap<>();
-            params.put("hash", builder.toString().hashCode());
-            List<Vehicle> veh = getObjectsByParams(Vehicle.class, params);
-            if (veh.size() > 0){
-                vehicles.addAll(veh);
-            } else {
-                findVehicle("number", k, ids, vehicles);
+        StringBuilder builder = new StringBuilder();
+
+        String trim = key.toString().trim().toUpperCase().replaceAll("  ", " ");
+        for (char c : trim.toCharArray()){
+            if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)){
+                builder.append(c);
             }
         }
 
+        trim = builder.toString();
+
+        Pattern compile = Pattern.compile(REG_EXP);
+        Matcher matcher = compile.matcher(trim);
+        if (matcher.find()){
+            String group = matcher.group();
+            findVehicle("number", group, ids, vehicles);
+            if (vehicles.size() > 0){
+                trim = trim.replace(group, "").trim();
+            }
+        }
+
+        String model = trim.split(SPACE)[0];
+
+        findVehicle("model", model, ids, vehicles);
+
+        trim = trim.replace(model, "").trim();
+        if (U.exist(trim)) {
+
+            int size = vehicles.size();
+            trim = Parser.prettyNumber(trim);
+            findVehicle("number", trim, ids, vehicles);
+            if (vehicles.size() == size) {
+                findVehicle("trailer", trim, ids, vehicles);
+            }
+        }
+        int min = 0;
+        ArrayList<Vehicle> result = new ArrayList<>();
+
+        while (vehicles.size() > 0){
+            for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
+                if (entry.getValue() == min){
+                    result.add(0, vehicles.remove(entry.getKey()));
+                }
+            }
+            if (min == 0 && vehicles.size() > 0){
+                result.clear();
+            }
+            min++;
+        }
+
         ids.clear();
-        return vehicles;
+        vehicles.clear();
+        return result;
     }
 
-    private void findVehicle(String key, String value, Set<Integer> ids, List<Vehicle> vehicles){
-        find(Vehicle.class, key, value).stream()
-                .filter(vehicle -> !ids.contains(vehicle.getId())).forEach(vehicle -> {
-            ids.add(vehicle.getId());
-            vehicles.add(vehicle);
-        });
+    private void findVehicle(String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, Vehicle> vehicles){
+        for (Vehicle v : find(Vehicle.class, key, value)){
+            int id = v.getId();
+            if (ids.containsKey(id)){
+                ids.put(id, ids.get(id) + 1);
+            } else {
+                ids.put(id, 0);
+                vehicles.put(id, v);
+            }
+        }
     }
 
     @Override

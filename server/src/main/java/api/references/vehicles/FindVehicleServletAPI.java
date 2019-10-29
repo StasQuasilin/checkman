@@ -29,7 +29,6 @@ public class FindVehicleServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             Object key = body.get(Constants.KEY);
-            System.out.println("Find vehicle " + key);
             array.addAll(dao.findVehicle(key).stream().map(parser::toJson).collect(Collectors.toCollection(JSONArray::new)));
         }
         write(resp, array.toJSONString());

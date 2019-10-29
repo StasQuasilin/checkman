@@ -5,6 +5,7 @@ var filter_control = new Vue({
             types:[]
         },
         items:[],
+        fItems:[],
         type:-1,
         organisation:-1,
         product:-1,
@@ -15,22 +16,10 @@ var filter_control = new Vue({
     },
     mounted:function(){
         let product = localStorage.getItem('product');
-        if (product){
-            let products = this.products();
-            for (let i in products){
-                if (products.hasOwnProperty(i)){
-                    if (products[i].id = product){
-                        this.product = product;
-                        break;
-                    }
-                }
-
-            }
+        if (product) {
+            this.product = product;
         }
-        let date = new Date().toISOString().substring(0, 10);
-        if (this.dates()[date]){
-            this.date = date;
-        }
+        this.date = new Date().toISOString().substring(0, 10);
     },
     methods:{
         putProduct:function(){
@@ -44,8 +33,6 @@ var filter_control = new Vue({
                     var organisation = items[i].item.organisation;
                     if (organisation[organisation.id] == undefined) {
                         organisations[organisation.id] = organisation;
-                    } else{
-                        console.log('+');
                     }
                 }
             }
@@ -55,7 +42,7 @@ var filter_control = new Vue({
             });
             return res;
         },
-products:function() {
+        products:function() {
             var products = {};
             var items = this.items;
             for (var i in items){

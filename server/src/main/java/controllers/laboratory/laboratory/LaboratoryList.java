@@ -26,7 +26,7 @@ public class LaboratoryList extends IUIServlet{
         req.setAttribute(EDIT, Branches.UI.LABORATORY_EDIT);
         req.setAttribute("print", Branches.UI.LABORATORY_PRINT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
-        req.setAttribute("subscribe", "LABORATORY_" + type.toString().toUpperCase());
+        req.setAttribute(SUBSCRIBE, "LABORATORY_" + type.toString().toUpperCase());
         show(req, resp);
     }
 }
