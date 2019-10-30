@@ -26,6 +26,7 @@ public class VROTurn {
     private Set<OilMassFraction> oilMassFractions;
     private Set<OilMassFractionDry> oilMassFractionDries;
     private Set<GranulesAnalyses> granulesAnalyses;
+    private Set<SunProtein> proteins;
 
     @Id
     @GeneratedValue
@@ -91,5 +92,13 @@ public class VROTurn {
     }
     public void setGranulesAnalyses(Set<GranulesAnalyses> granulesAnalyses) {
         this.granulesAnalyses = granulesAnalyses;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
+    public Set<SunProtein> getProteins() {
+        return proteins;
+    }
+    public void setProteins(Set<SunProtein> proteins) {
+        this.proteins = proteins;
     }
 }

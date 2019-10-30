@@ -9,10 +9,7 @@ import entity.laboratory.SunAnalyses;
 import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
-import entity.laboratory.subdivisions.vro.ForpressCake;
-import entity.laboratory.subdivisions.vro.GranulesAnalyses;
-import entity.laboratory.subdivisions.vro.VROCrude;
-import entity.laboratory.subdivisions.vro.VROOil;
+import entity.laboratory.subdivisions.vro.*;
 import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.reports.ManufactureReport;
@@ -624,8 +621,7 @@ public class Notificator {
     }
 
     public void show(GranulesAnalyses analyses) {
-        final int turn = analyses.getTurn().getTurn().getNumber();
-        final String turnDate = DateUtil.prettyDate(analyses.getTurn().getTurn().getDate());
+        final String turnDate = DateUtil.prettyDate(Date.valueOf(analyses.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
         HashMap<String, String> messages = new HashMap<>();
 
         for (UserBotSetting setting : getSettings()){
@@ -633,7 +629,7 @@ public class Notificator {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
                     String message = lb.get(language, "vro.granules.title");
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.oil.turn"), turn, turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "vra.granules"), turnDate);
                     message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.density"), analyses.getDensity());
                     message += NEW_LINE + String.format(lb.get(language, HUMIDITY), analyses.getHumidity());
                     message += NEW_LINE + String.format(lb.get(language, "notificator.granules.dust"), analyses.getDust());
@@ -641,6 +637,51 @@ public class Notificator {
 
                     messages.put(language, message);
                 }
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
+    }
+
+    public void show(SunProtein sunProtein) {
+        final int turn = sunProtein.getTurn().getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(sunProtein.getTurn().getTurn().getDate());
+        final HashMap<String, String> messages = new HashMap<>();
+
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.isVro()){
+                final String language = setting.getLanguage();
+                if (!messages.containsKey(language)){
+                    String message = lb.get(language, "vro.sun.protein.title");
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.protein"), sunProtein.getProtein());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.humidity"), sunProtein.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.dry"), sunProtein.DryRecalculation());
+                    messages.put(language, message);
+                }
+
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
+
+    }
+
+    public void show(TurnCellulose turnCellulose) {
+        final int turn = turnCellulose.getTurn().getTurn().getNumber();
+        final String turnDate = DateUtil.prettyDate(turnCellulose.getTurn().getTurn().getDate());
+        final HashMap<String, String> messages = new HashMap<>();
+
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.isVro()){
+                final String language = setting.getLanguage();
+                if (!messages.containsKey(language)){
+                    String message = lb.get(language, "vro.sun.protein.title");
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "bot.notificator.raw.cellulose"), turnCellulose.getCellulose());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.humidity"), turnCellulose.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.cellulose.dry"), turnCellulose.DryRecalculation());
+                    messages.put(language, message);
+                }
+
                 sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
         }

@@ -389,7 +389,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getTransportationsByDriver(Driver driver) {
-        return hb.query(Transportation.class, "driver", driver);
+        return hb.query(Transportation.class, "driver/person", driver.getPerson());
     }
 
     @Override
@@ -881,11 +881,6 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Transportation> getTransportationByDriver(Driver driver) {
-        return hb.query(Transportation.class, "driver", driver);
-    }
-
-    @Override
     public List<Transportation> getTransportationByOrganisation(Object organisation) {
         return hb.query(Transportation.class, "counterparty", organisation);
     }
@@ -926,6 +921,7 @@ public class HibernateDAO implements dbDAO {
         findDriver("person/surname", key, ids, drivers);
         findDriver("person/forename", key, ids, drivers);
         findDriver("person/patronymic", key, ids, drivers);
+
         ids.clear();
         return drivers;
     }
@@ -941,11 +937,16 @@ public class HibernateDAO implements dbDAO {
     }
 
     private void findDriver(String key, String value, Set<Integer> ids, List<Driver> drivers){
-        find(Driver.class, key, value).stream()
-                .filter(driver -> !ids.contains(driver.getId())).forEach(driver -> {
-            ids.add(driver.getId());
-            drivers.add(driver);
-        });
+        HashMap<String, String> param = new HashMap<>();
+        param.put(key, value);
+        param.put("archive", null);
+        for (Driver driver : hb.find(Driver.class, param)){
+            int id = driver.getId();
+            if (!ids.contains(id)){
+                ids.add(id);
+                drivers.add(driver);
+            }
+        }
     }
 
     private <T> List<T> find(Class<T> tClass, String key, String value){

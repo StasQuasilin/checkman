@@ -188,7 +188,8 @@
                         :
                     </td>
                     <td>
-                        <input id="humidity1" type="number" step="0.01" v-if="crude.before" v-model="crude.before.humidity">
+                        <input id="humidity1" type="number" step="0.01" v-if="crude.before"
+                               onfocus="this.select()" v-model="crude.before.humidity">
                     </td>
                 </tr>
                 <tr>
@@ -201,7 +202,8 @@
                         :
                     </td>
                     <td>
-                        <input id="soreness1" type="number" step="0.01" v-if="crude.before" v-model="crude.before.soreness">
+                        <input id="soreness1" type="number" step="0.01" v-if="crude.before" autocomplete="off"
+                               onfocus="this.select()" v-model="crude.before.soreness">
                     </td>
                 </tr>
                 <tr>
@@ -221,7 +223,8 @@
                         :
                     </td>
                     <td>
-                        <input id="humidity2" type="number" step="0.01" v-if="crude.after" v-model="crude.after.humidity">
+                        <input id="humidity2" type="number" step="0.01" v-if="crude.after"
+                               onfocus="this.select()" v-model="crude.after.humidity" autocomplete="off">
                     </td>
                 </tr>
                 <tr>
@@ -234,7 +237,8 @@
                         :
                     </td>
                     <td>
-                        <input id="soreness2" type="number" step="0.01" v-if="crude.after" v-model="crude.after.soreness">
+                        <input id="soreness2" type="number" step="0.01" v-if="crude.after"
+                               onfocus="this.select()" v-model="crude.after.soreness"  autocomplete="off">
                     </td>
                 </tr>
                 <tr>
@@ -247,7 +251,8 @@
                         :
                     </td>
                     <td>
-                        <input id="huskiness" type="number" step="0.01" v-model="crude.huskiness">
+                        <input id="huskiness" type="number" step="0.01"
+                               autocomplete="off" onfocus="this.select()" v-model="crude.huskiness">
                     </td>
                 </tr>
                 <tr>
@@ -260,7 +265,8 @@
                         :
                     </td>
                     <td>
-                        <input id="kernelOffset" type="number" step="0.01" v-model="crude.kernelOffset">
+                        <input id="kernelOffset" type="number" step="0.01" autocomplete="off"
+                               onfocus="this.select()" v-model="crude.kernelOffset">
                     </td>
                 </tr>
                 <tr>
@@ -273,7 +279,8 @@
                         :
                     </td>
                     <td>
-                        <input id="pulpHumidity1" type="number" step="0.01" v-model="crude.pulpHumidity1">
+                        <input id="pulpHumidity1" type="number" step="0.01" autocomplete="off"
+                               onfocus="this.select()" v-model="crude.pulpHumidity1">
                     </td>
                 </tr>
                 <tr>
@@ -286,7 +293,8 @@
                         :
                     </td>
                     <td>
-                        <input id="pulpHumidity2" type="number" step="0.01" v-model="crude.pulpHumidity2">
+                        <input id="pulpHumidity2" type="number" step="0.01" autocomplete="off"
+                               onfocus="this.select()" v-model="crude.pulpHumidity2">
                     </td>
                 </tr>
             </table>
@@ -332,7 +340,8 @@
                             :
                         </td>
                         <td>
-                            <input type="number" step="0.01" id="forpressHumidity" v-model="value.humidity">
+                            <input type="number" step="0.01" onfocus="this.select()"
+                                   id="forpressHumidity" v-model="value.humidity" autocomplete="off">
                         </td>
                     </tr>
                     <tr>
@@ -345,7 +354,8 @@
                             :
                         </td>
                         <td>
-                            <input id="forpressOiliness" step="0.01" type="number" v-model="value.oiliness">
+                            <input id="forpressOiliness" step="0.01" onfocus="this.select()"
+                                   type="number" v-model="value.oiliness" autocomplete="off">
                         </td>
                     </tr>
                 </template>

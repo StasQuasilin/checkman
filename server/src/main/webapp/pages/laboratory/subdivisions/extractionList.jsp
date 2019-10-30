@@ -15,27 +15,30 @@
             </div>
             <div class="drop-menu drop-menu-item">
                 <span>
-                    <fmt:message key="laboratory.protein"/>&nbsp;>
+                    <fmt:message key="storage.analyses"/>
                 </span>
                 <div class="drop-menu-content" style="top: 0; left: 100%; width: 10em">
                     <div class="drop-menu-item" onclick="loadModal('${storageProtein}')">
                         <fmt:message key="menu.extraction.storage.protein"/>
                     </div>
-                    <div class="drop-menu-item" onclick="loadModal('${turnProtein}')">
-                        <fmt:message key="menu.extraction.turn.protein"/>
+                    <div class="drop-menu-item" onclick="loadModal('${storageGrease}')">
+                        <fmt:message key="menu.extraction.storage.raw.grease"/>
                     </div>
                 </div>
             </div>
             <div class="drop-menu drop-menu-item">
-                <span>
-                    <fmt:message key="extraction.raw.grease"/>&nbsp;>
+                 <span>
+                    <fmt:message key="vro.turn.analyses"/>
                 </span>
                 <div class="drop-menu-content" style="top: 0; left: 100%; width: 10em">
-                    <div class="drop-menu-item" onclick="loadModal('${storageGrease}')">
-                        <fmt:message key="menu.extraction.storage.raw.grease"/>
+                    <div class="drop-menu-item" onclick="loadModal('${turnProtein}')">
+                        <fmt:message key="menu.extraction.turn.protein"/>
                     </div>
                     <div class="drop-menu-item" onclick="loadModal('${turnGrease}')">
                         <fmt:message key="menu.extraction.turn.raw.grease"/>
+                    </div>
+                    <div class="drop-menu-item" onclick="loadModal('${turnCellulose}')">
+                        <fmt:message key="menu.extraction.turn.cellulose"/>
                     </div>
                 </div>
             </div>
@@ -91,7 +94,6 @@
     };
     list.middle = function(item){
         if (!item.middle){
-            console.log('Calculate middle');
             let middle = {
                 humidityIncome:0,
                 oilinessIncome:0,

@@ -39,27 +39,20 @@ public class VehicleParser {
     public static synchronized Driver parseDriver(String key) {
         List<String> personData = Parser.parsePerson(key);
         System.out.println("Data: " + personData);
-        Driver driver = null;
-        Person personByName = dao.getPersonByName(personData.get(0));
-        System.out.println("Person " + personByName);
-        if (personByName != null){
-            driver = dao.getDriverByPerson(personByName);
-            System.out.println("Driver "+ driver);
-        }
-        if (driver == null) {
-            driver = new Driver();
-            Person person = new Person();
-            if(personData.size() > 0) {
-                person.setSurname(personData.get(0));
-                if (personData.size() > 1){
-                    person.setForename(personData.get(1));
-                    if(personData.size() > 2){
-                        person.setPatronymic(personData.get(2));
-                    }
+
+        Driver driver = new Driver();
+        Person person = new Person();
+        if(personData.size() > 0) {
+            person.setSurname(personData.get(0));
+            if (personData.size() > 1){
+                person.setForename(personData.get(1));
+                if(personData.size() > 2){
+                    person.setPatronymic(personData.get(2));
                 }
             }
-            driver.setPerson(person);
         }
+
+        driver.setPerson(person);
         return driver;
     }
 }

@@ -50,6 +50,10 @@ var editor = new Vue({
             this.input.transporter = organisation.value;
             this.arr.organisations =[];
         },
+        cancelOrganisation:function(){
+            this.transporter = -1;
+            this.input.transporter = '';
+        },
         addPhone:function(phone){
             this.person.phones.push(phone)
         },

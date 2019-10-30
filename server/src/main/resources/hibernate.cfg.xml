@@ -5,8 +5,8 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
-        <property name="connection.url">jdbc:postgresql://10.10.10.201:5432/chm_db</property>
-        <!--<property name="connection.url">jdbc:postgresql://localhost:5432/chm_db</property>-->
+        <!--<property name="connection.url">jdbc:postgresql://10.10.10.201:5432/chm_db</property>-->
+        <property name="connection.url">jdbc:postgresql://localhost:5432/chm_db</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
         <!--suppress HibernateConfigDomInspection -->
@@ -64,6 +64,7 @@
         <mapping class="entity.laboratory.subdivisions.vro.VROOil"/>
         <mapping class="entity.laboratory.subdivisions.vro.VRODaily"/>
         <mapping class="entity.laboratory.subdivisions.vro.GranulesAnalyses"/>
+        <mapping class="entity.laboratory.subdivisions.vro.SunProtein"/>
         <mapping class="entity.seals.Seal"/>
         <mapping class="entity.seals.SealBatch"/>
         <mapping class="entity.bot.UserBotSetting"/>
@@ -79,6 +80,7 @@
         <mapping class="entity.laboratory.subdivisions.vro.OilMassFractionDry"/>
         <mapping class="entity.laboratory.subdivisions.vro.ForpressCakeDaily"/>
         <mapping class="entity.laboratory.subdivisions.vro.ForpressCakeDailyDry"/>
+        <mapping class="entity.laboratory.subdivisions.extraction.TurnCellulose"/>
         <mapping class="entity.laboratory.subdivisions.kpo.KPOPart"/>
         <mapping class="entity.laboratory.turn.LaboratoryTurn"/>
         <mapping class="entity.laboratory.turn.LaboratoryTurnWorker"/>

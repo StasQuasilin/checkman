@@ -2,7 +2,7 @@ package controllers.laboratory.laboratory.vro;
 
 import constants.Branches;
 import controllers.IModal;
-import entity.laboratory.subdivisions.vro.GranulesAnalyses;
+import entity.laboratory.subdivisions.vro.SunProtein;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.turns.TurnBox;
@@ -14,27 +14,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by szpt_user045 on 29.10.2019.
+ * Created by szpt_user045 on 30.10.2019.
  */
-@WebServlet(Branches.UI.VRO.GRANULES)
-public class VROGranulesEdit extends IModal {
-    private static final String _TITLE = "vro.granules.edit";
-    private static final String _CONTENT = "/pages/laboratory/subdivisions/vro/granulesEdit.jsp";
-
+@WebServlet(Branches.UI.VRO.SUN_PROTEIN)
+public class VROSunProtein extends IModal {
+    private static final String _TITLE = "title.vro.sun.protein";
+    private static final String _CONTENT = "/pages/laboratory/subdivisions/vro/sunProteinEdit.jsp";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        JSONObject body = PostUtil.parseBodyJson(req);
-        if (body != null) {
-            if(body.containsKey(ID)){
-                req.setAttribute("granules", dao.getObjectById(GranulesAnalyses.class, body.get(ID)));
+        JSONObject json = PostUtil.parseBodyJson(req);
+        if (json != null) {
+            if (json.containsKey(ID)){
+                req.setAttribute("protein", dao.getObjectById(SunProtein.class, json.get(ID)));
             }
         }
 
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(MODAL_CONTENT, _CONTENT);
-        req.setAttribute(SAVE, Branches.API.VRO_GRANULES_EDIT);
+        req.setAttribute(TURNS, TurnBox.getTurns());
+        req.setAttribute(SAVE, Branches.API.VRO_SUN_PROTEIN);
         show(req, resp);
     }
 }

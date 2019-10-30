@@ -2,6 +2,9 @@ package controllers;
 
 import constants.Constants;
 import entity.Worker;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import utils.JsonParser;
 import utils.LanguageBase;
 import utils.PostUtil;
 import utils.hibernate.Hibernator;
@@ -48,12 +51,21 @@ public class IServlet extends HttpServlet {
     public static final String PLAN = "plan";
     public static final String STORAGES = "storages";
     public static final String SHIPPERS = "shippers";
+    public static final String PROTEIN = "protein";
 
     public static final LanguageBase lb = LanguageBase.getBase();
     protected static final String CUSTOMERS = "customers";
 
     public Worker getWorker(HttpServletRequest req){
         return (Worker)req.getSession().getAttribute(Constants.WORKER);
+    }
+
+    public static final JsonParser parser = new JsonParser();
+    public JSONObject parseBody(HttpServletRequest req){
+        try {
+            return (JSONObject) parser.parse(req.getReader());
+        } catch (IOException | ParseException ignore) { }
+        return null;
     }
 
 }

@@ -30,7 +30,7 @@ import java.time.LocalTime;
 /**
  * Created by szpt_user045 on 29.10.2019.
  */
-@WebServlet(Branches.API.VRO_GRANULAS_EDIT)
+@WebServlet(Branches.API.VRO_GRANULES_EDIT)
 public class GranulesEditAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(VRODailyEditServletAPI.class);
@@ -42,8 +42,9 @@ public class GranulesEditAPI extends ServletAPI {
         if (body != null) {
             log.info(body);
             LocalDate date = LocalDate.parse(String.valueOf(body.get(DATE)));
-            int turnNumber = Integer.parseInt(String.valueOf(body.get(TURN)));
-            TurnSettings turn = TurnBox.getTurnByNumber(turnNumber);
+//            int turnNumber = Integer.parseInt(String.valueOf(body.get(TURN)));
+
+            TurnSettings turn = TurnBox.getTurnByNumber(TurnBox.getTurns().get(0).getNumber());
             LocalTime time = turn.getBegin().toLocalTime();
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);

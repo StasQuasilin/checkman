@@ -139,7 +139,8 @@
             :
         </td>
         <td>
-            <input id="humidityIncome" type="number" v-model="crude.humidityIncome" step="0.1" autocomplete="off" onfocus="this.select()">
+            <input id="humidityIncome" type="number" v-model="crude.humidityIncome" step="0.1"
+                   autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <%--FORPRESS CAKE OILINESS--%>
@@ -153,7 +154,8 @@
             :
         </td>
         <td>
-            <input id="oilinessIncome" type="number" step="0.01" v-model="crude.oilinessIncome" autocomplete="off" onfocus="this.select()">
+            <input id="oilinessIncome" type="number" step="0.01" v-model="crude.oilinessIncome"
+                   autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <%--SMALL FRACTION--%>
@@ -167,7 +169,8 @@
             :
         </td>
         <td>
-            <input id="smallFraction" type="number" v-model="crude.fraction" step="0.01" autocomplete="off" onfocus="this.select()">
+            <input id="smallFraction" type="number" v-model="crude.fraction" step="0.01"
+                   autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <%--DISSOLVENT--%>
@@ -181,7 +184,8 @@
             :
         </td>
         <td>
-            <input id="dissolvent" type="number" v-model="crude.dissolvent" step="0.0001" autocomplete="off" onfocus="this.select()">
+            <input id="dissolvent" type="number" v-model="crude.dissolvent" step="0.0001"
+                   autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <%--MISCELLAS--%>
@@ -195,7 +199,8 @@
             :
         </td>
         <td>
-            <input id="miscellas" type="number" v-model="crude.miscellas" step="0.01" autocomplete="off" onfocus="this.select()">
+            <input id="miscellas" type="number" v-model="crude.miscellas" step="0.01"
+                   autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <%--EXPLOSION TEMPERATURE--%>
@@ -209,7 +214,8 @@
             :
         </td>
         <td>
-            <input id="explosionT" type="number" step="0.001" autocomplete="off" v-model="crude.explosionTemperature" onfocus="this.select()">
+            <input id="explosionT" type="number" step="0.001" autocomplete="off"
+                   v-model="crude.explosionTemperature" onfocus="this.select()">
         </td>
     </tr>
     <%--CAKE HUMIDITY--%>
@@ -223,7 +229,8 @@
             :
         </td>
         <td>
-            <input id="humidity" type="number" v-model="crude.humidity" step="0.01" autocomplete="off" onfocus="this.select()">
+            <input id="humidity" type="number" v-model="crude.humidity" step="0.01"
+                   autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <%--EXTRACTION OIL HUMIDITY--%>
@@ -237,7 +244,8 @@
             :
         </td>
         <td>
-            <input id="oilHumidity" type="number" step="0.01" autocomplete="off" v-model="crude.oilHumidity" onfocus="this.select()">
+            <input id="oilHumidity" type="number" step="0.01" autocomplete="off"
+                   v-model="crude.oilHumidity" onfocus="this.select()">
         </td>
     </tr>
     <%--CRUDE GREASE--%>
@@ -251,7 +259,8 @@
             :
         </td>
         <td>
-            <input id="grease" type="number" v-model="crude.grease" step="0.01" autocomplete="off" onfocus="this.select()">
+            <input id="grease" type="number" v-model="crude.grease" step="0.01"
+                   autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>

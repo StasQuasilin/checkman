@@ -64,6 +64,7 @@ public class JsonParser {
     private static final String STORGES = Constants.STORAGE;
     private static final String AMOUNT = Constants.AMOUNT;
     private static final String LICENSE = "license";
+    private static final String DRY = "dry";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -710,8 +711,25 @@ public class JsonParser {
         json.put(OIL, toOilJson(turn.getOils()));
         json.put(TURN_PROTEIN, toTurnJson(turn.getTurnProteins()));
         json.put(TURN_GREASE, toTurnGrease(turn.getTurnGreases()));
-        json.put(HASH, turn.hashCode());
+        json.put(CELLULOSE, toTurnCellulose(turn.getCellulose()));
 
+        return json;
+    }
+
+    private JSONArray toTurnCellulose(Set<TurnCellulose> cellulose) {
+        JSONArray array = pool.getArray();
+        for (TurnCellulose c : cellulose){
+            array.add(toJson(c));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(TurnCellulose c) {
+        JSONObject json = pool.getObject();
+        json.put(ID, c.getId());
+        json.put(CELLULOSE, c.getCellulose());
+        json.put(HUMIDITY, c.getHumidity());
+        json.put(DRY, c.DryRecalculation());
         return json;
     }
 
@@ -837,7 +855,25 @@ public class JsonParser {
         json.put("oilMass", toOilMass(turn.getOilMassFractions()));
         json.put("oilMassDry", toOilMassDry(turn.getOilMassFractionDries()));
         json.put("granules", toGranules(turn.getGranulesAnalyses()));
+        json.put("protein", toProteinJson(turn.getProteins()));
 
+        return json;
+    }
+
+    private JSONArray toProteinJson(Set<SunProtein> proteins) {
+        JSONArray array = pool.getArray();
+        for (SunProtein p : proteins){
+            array.add(toJson(p));
+        }
+        return array;
+    }
+
+    private JSONObject toJson(SunProtein p) {
+        JSONObject json = pool.getObject();
+        json.put(ID, p.getId());
+        json.put(PROTEIN, p.getProtein());
+        json.put(HUMIDITY, p.getHumidity());
+        json.put(DRY, p.DryRecalculation());
         return json;
     }
 
@@ -886,7 +922,7 @@ public class JsonParser {
 
     private JSONObject toJson(ForpressCakeDailyDry fcd) {
         JSONObject json = new JSONObject();
-        json.put("id", fcd.getId());
+        json.put(ID, fcd.getId());
         json.put("forpress", fcd.getForpress().getName());
         json.put("oilcake", fcd.getOilcake());
         return json;
@@ -902,7 +938,7 @@ public class JsonParser {
 
     private JSONObject toJson(OilMassFraction omf) {
         JSONObject json = new JSONObject();
-        json.put("id", omf.getId());
+        json.put(ID, omf.getId());
         json.put("seedWet", omf.getSeedWet());
         json.put("seedHumidity", omf.getSeedHumidity());
         json.put("seedDry", omf.getSeedDry());
@@ -923,7 +959,7 @@ public class JsonParser {
 
     private JSONObject toJson(ForpressCakeDaily fcd) {
         JSONObject json = new JSONObject();
-        json.put("id", fcd.getId());
+        json.put(ID, fcd.getId());
         json.put("forpress", fcd.getForpress().getName());
         json.put("wet", fcd.getWet());
         json.put("humidity", fcd.getHumidity());
@@ -963,7 +999,7 @@ public class JsonParser {
     private JSONObject toJson(VROOil oil) {
         JSONObject json = new JSONObject();
 //            private int id;
-        json.put("id", oil.getId());
+        json.put(ID, oil.getId());
 //            private float acid;
         json.put("acid", oil.getAcid());
 //            private float peroxide;
@@ -987,7 +1023,7 @@ public class JsonParser {
     private JSONObject toJson(ForpressCake cake) {
         JSONObject json = new JSONObject();
 
-        json.put("id", cake.getId());
+        json.put(ID, cake.getId());
         json.put("forpress", cake.getForpress().getName());
         json.put("humidity", cake.getHumidity());
         json.put("oiliness", cake.getOiliness());
@@ -1007,9 +1043,9 @@ public class JsonParser {
     private JSONObject toJson(VROCrude crude) {
         JSONObject json = new JSONObject();
 //            private int id;
-        json.put("id", crude.getId());
+        json.put(ID, crude.getId());
 //            private Timestamp Time;
-        json.put("time", crude.getTime().toString());
+        json.put(TIME, crude.getTime().toString());
 //            private float humidityBefore;
         json.put("humidityBefore", crude.getHumidityBefore());
 //            private float sorenessBefore;

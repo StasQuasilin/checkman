@@ -215,6 +215,12 @@
                 </a>
               </div>
             </div>
+            <div style="display: inline-block; font-size: 10pt" v-if="value.item.driver.license">
+              <fmt:message key="driver.license"/>:
+              <b>
+                {{value.item.driver.license}}
+              </b>
+            </div>
           </div>
           <div style="display: inline-block; font-size: 10pt">
             <div>

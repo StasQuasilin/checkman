@@ -82,8 +82,8 @@ public class WeightEditServletAPI extends ServletAPI {
                 if (notificator != null) {
                     if (weight.getNetto() > 0) {
                         notificator.weightShow(transportation);
-                    } else if (weight.getBrutto() == 0 && weight.getTara() > 0){
-                        notificator.showLoadTime(transportation);
+                    } else {
+                        notificator.transportInto(transportation);
                     }
                 }
             }

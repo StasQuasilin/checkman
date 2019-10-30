@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.Person;
 import entity.log.comparators.TransportationComparator;
 import entity.organisations.Organisation;
+import entity.transport.ActionTime;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
@@ -47,18 +48,36 @@ public class SaveDriverServletAPI extends ServletAPI {
                 log.info("Create new driver...");
             }
 
-            driver.getPerson().setSurname(String.valueOf(body.get(Constants.Person.SURNAME)));
+            Person person = driver.getPerson();
+            person.setSurname(String.valueOf(body.get(Constants.Person.SURNAME)));
             log.info("\t...Surname:" + driver.getPerson().getSurname());
 
-            driver.getPerson().setForename(String.valueOf(body.get(Constants.Person.FORENAME)));
+            person.setForename(String.valueOf(body.get(Constants.Person.FORENAME)));
             log.info("\t...Forename:" + driver.getPerson().getForename());
 
-            driver.getPerson().setPatronymic(String.valueOf(body.get(Constants.Person.PATRONYMIC)));
+            person.setPatronymic(String.valueOf(body.get(Constants.Person.PATRONYMIC)));
             log.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
 
             String license = String.valueOf(body.get("license"));
             if (U.exist(license)){
-                driver.setLicense(license);
+                license = license.trim().toUpperCase().replaceAll("  ", " ");
+                if (U.exist(driver.getLicense())){
+                    String l = driver.getLicense().trim().toUpperCase().replaceAll("  ", " ");
+                    if (!l.equals(license)){
+                        log.info("Change license");
+                        ActionTime archiveTime = new ActionTime(getWorker(req));
+                        driver.setArchive(archiveTime);
+                        dao.save(archiveTime);
+                        dao.save(driver);
+                        Organisation organisation = driver.getOrganisation();
+                        driver = new Driver();
+                        driver.setLicense(license);
+                        driver.setPerson(person);
+                        driver.setOrganisation(organisation);
+                    }
+                } else {
+                    driver.setLicense(license);
+                }
                 log.info("\t...License: " + license);
             } else if (U.exist(driver.getLicense())){
                 driver.setLicense(null);
@@ -73,7 +92,7 @@ public class SaveDriverServletAPI extends ServletAPI {
                 }
             }
 
-            dao.save(driver.getPerson());
+            dao.save(person);
             dao.save(driver);
             updateUtil.onSave(driver);
 

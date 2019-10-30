@@ -16,6 +16,7 @@ public class Driver {
     private Organisation organisation;
     private Vehicle vehicle;
     private String license;
+    private ActionTime archive;
 
     @Id
     @GeneratedValue
@@ -60,6 +61,15 @@ public class Driver {
     }
     public void setLicense(String license) {
         this.license = license;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "archive")
+    public ActionTime getArchive() {
+        return archive;
+    }
+    public void setArchive(ActionTime archive) {
+        this.archive = archive;
     }
 
     @Override

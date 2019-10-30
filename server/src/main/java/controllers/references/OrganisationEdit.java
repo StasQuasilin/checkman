@@ -27,11 +27,17 @@ public class OrganisationEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter(ID);
+        JSONObject body = parseBody(req);
+        if (!U.exist(id)){
+            if (body != null) {
+                if (body.containsKey(ID)){
+                    id = String.valueOf(body.get(ID));
+                }
+            }
+        }
         if(U.exist(id)){
             req.setAttribute(ORGANISATION, dao.getOrganisationById(Integer.parseInt(id)));
         } else {
-            JSONObject body = PostUtil.parseBodyJson(req);
-
             if (body != null) {
                 if (body.containsKey(Constants.KEY)){
                     String key = String.valueOf(body.get(Constants.KEY));

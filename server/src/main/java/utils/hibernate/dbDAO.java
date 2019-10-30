@@ -181,7 +181,6 @@ public interface dbDAO {
     List<LoadPlan> getLoadPlans();
     Vehicle getVehicleByNumber(String number);
     List<Transportation> getTransportationByVehicle(Vehicle vehicle);
-    List<Transportation> getTransportationByDriver(Driver driver);
     List<ArchiveData> getArchiveData();
     ProbeTurn getProbeTurnByTurn(Turn turn);
     List<LaboratoryTurn> getLimitLaboratoryTurn();

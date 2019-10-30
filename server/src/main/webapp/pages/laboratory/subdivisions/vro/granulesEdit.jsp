@@ -15,29 +15,12 @@
 <script src="${context}/vue/laboratory/extractionOil.vue"></script>
 <script>
   editor.api.save = '${save}';
-  <c:forEach items="${turns}" var="turn">
-  editor.turns.push({
-    id:${turn.id},
-    value:'<fmt:message key="turn"/> #${turn.number}',
-    <c:choose>
-    <c:when test="${turn.begin lt turn.end}">
-    day:0
-    </c:when>
-    <c:otherwise>
-    day:-1
-    </c:otherwise>
-    </c:choose>
-  });
-  </c:forEach>
-  editor.turns.sort(function(a, b){
-    return a - b;
-  });
+
   <c:choose>
   <c:when test="${not empty granules.id}">
   editor.oil = {
     id:${granules.id},
     date:new Date('${granules.turn.turn.date}').toISOString().substring(0, 10),
-    turn:${granules.turn.turn.number},
     density:${granules.density},
     humidity:${granules.humidity},
     dust:${granules.dust},
@@ -48,7 +31,6 @@
   <c:otherwise>
   editor.oil = {
     date:new Date().toISOString().substring(0, 10),
-    turn:-1,
     density:0,
     humidity:0,
     dust:0,
@@ -71,25 +53,6 @@
     <td>
       <input id="date" readonly v-on:click="pickDate()"
              v-model="new Date(oil.date).toLocaleDateString()" style="width: 7em">
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label for="turn">
-        <fmt:message key="turn"/>
-      </label>
-    </td>
-    <td>
-      :
-    </td>
-    <td>
-      <select id="turn" style="width: 100%" v-model="oil.turn" :class="{error : err.turn}" v-on:click="err.turn=false">
-        <option disabled value="-1"><fmt:message key="need.select"/></option>
-        <option v-for="turn in turns" :value="turn.number">
-          {{turnDate(turn.day)}}
-          {{turn.name}}
-        </option>
-      </select>
     </td>
   </tr>
   <tr>

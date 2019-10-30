@@ -132,7 +132,7 @@
     <c:otherwise>
     editor.plan = {
         id:-1,
-        type:'sell',
+        type:-1,
         date:new Date().toISOString().substring(0, 10),
         deal:-1,
         quantity:0,
@@ -171,7 +171,10 @@
             :
         </td>
         <td>
-            <select id="type" v-model="plan.type">
+            <select id="type" v-model="plan.type" :class="{error : errors.type}" v-on:click="errors.type = false">
+                <option disabled value="-1">
+                    <fmt:message key="need.select"/>
+                </option>
                 <option v-for="type in typeList()" :value="type.id">{{type.value}}</option>
             </select>
         </td>

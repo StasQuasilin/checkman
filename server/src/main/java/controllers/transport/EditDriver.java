@@ -27,6 +27,7 @@ import java.util.List;
 public class EditDriver extends IModal {
 
     static final Logger log = Logger.getLogger(EditDriver.class);
+    private static final String ORGANISATION_EDIT = "organisationEdit";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,6 +62,8 @@ public class EditDriver extends IModal {
         req.setAttribute(MODAL_CONTENT, "/pages/transport/driverInput.jsp");
         req.setAttribute("find", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parse", Branches.API.References.PARSE_ORGANISATION);
+        req.setAttribute(ORGANISATION_EDIT, Branches.UI.References.ORGANISATION_EDIT);
+
         req.setAttribute(TITLE, Titles.DRIVER_INPUT);
         show(req, resp);
     }

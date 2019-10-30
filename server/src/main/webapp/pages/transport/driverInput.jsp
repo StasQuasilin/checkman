@@ -9,6 +9,7 @@
     editor.api.saveDriverAPI = '${saveDriverAPI}';
     editor.api.find = '${find}';
     editor.api.parse = '${parse}';
+    editor.api.editOrganisation = '${organisationEdit}';
     editor.person.id = '${driver.id}';
     editor.person.forename = '${driver.person.forename}';
     editor.person.surname = '${driver.person.surname}';
@@ -19,8 +20,17 @@
     editor.transporter = ${driver.organisation.id};
     editor.input.transporter = '${driver.organisation.value}';
     </c:if>
-
     editor.transportationId = '${transportation}'
+    editor.editOrganisation = function(id){
+        const self = editor;
+        loadModal(editor.api.editOrganisation, {id:id}, function(a){
+            console.log(a);
+            console.log(editor.setOrganisation)
+            if (a.status === 'success'){
+                self.setOrganisation(a.organisation);
+            }
+        });
+    }
 </script>
 
 <table id="personEditor" width="100%">
@@ -90,10 +100,10 @@
                 <span>
                     {{input.transporter}}
                 </span>
-                <span class="mini-close">
+                <span class="mini-close" v-on:click="editOrganisation(transporter)">
                     E
                 </span>
-                <span class="mini-close">
+                <span class="mini-close" v-on:click="cancelOrganisation()">
                     &times;
                 </span>
             </span>

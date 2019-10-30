@@ -34,6 +34,9 @@
                     <fmt:message key="granules"/>
                 </span>
             </div>
+            <div class="drop-menu-item" onclick="loadModal('${sunProtein}')">
+                <fmt:message key="menu.vro.sun.protein"/>
+            </div>
         </div>
     </div>
     <div class="drop-menu">
@@ -56,7 +59,6 @@
 <script>
     list.middle = function(item){
         if (!item.middle){
-            console.log('Calculate middle');
             let middle = {
                 humidityBefore:0,
                 sorenessBefore:0,

@@ -21,13 +21,14 @@ var editor = new Vue({
         foundVehicles:[],
         foundDrivers:[],
         errors:{
+            type:false,
             organisation:false,
             product:false,
             manager:false,
             vehicle:false,
             driver:false,
             any:function(){
-                return organisation || product || manager;
+                return type || organisation || product || manager;
             }
         },
         managers:[],
@@ -345,17 +346,17 @@ var editor = new Vue({
                         this.parseDriver(this.save);
                     }
                 } else {
-
                     if (this.note.edit) {
                         this.saveNote();
                     }
 
+                    e.type = this.plan.type == -1;
                     e.organisation = this.plan.organisation == -1;
                     e.product = this.plan.product == -1;
                     e.manager = this.plan.manager == -1;
                     console.log(this.plan);
                     console.log(e);
-                    if (!e.organisation && !e.product) {
+                    if (!e.type && !e.organisation && !e.product) {
                         PostApi(this.api.save, this.plan, function (a) {
                             if (a.status === 'success') {
                                 closeModal();

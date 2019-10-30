@@ -31,6 +31,7 @@ public class SubdivisionList extends IUIServlet {
             case ex:
                 req.setAttribute(TITLE, Titles.SUBDIVISION_LIST_EXTRACTION);
                 req.setAttribute(CONTENT, "/pages/laboratory/subdivisions/extractionList.jsp");
+                req.setAttribute("turnCellulose", Branches.UI.Extraction.TURN_CELLULOSE);
                 req.setAttribute("crudeEdit", Branches.UI.Extraction.CRUDE_EDIT);
                 req.setAttribute("turnProtein", Branches.UI.Extraction.TURN_PROTEIN);
                 req.setAttribute("storageProtein", Branches.UI.Extraction.STORAGE_PROTEIN);
@@ -38,19 +39,18 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute("storageGrease", Branches.UI.Extraction.STORAGE_GREASE);
                 req.setAttribute("oilEdit", Branches.UI.Extraction.OIL_EDIT);
                 req.setAttribute("dailyPrint", Branches.UI.Extraction.DAILY_REPORT_PRINT);
-                req.setAttribute("update", Branches.API.EXTRACTION_LIST);
                 req.setAttribute(SUBSCRIBE, extractionSubscribes);
                 break;
             case vro:
                 req.setAttribute(TITLE, Titles.SUBDIVISION_LIST_VRO);
                 req.setAttribute(CONTENT, "/pages/laboratory/subdivisions/vro/vroList.jsp");
                 req.setAttribute("crudeEdit", Branches.UI.VRO.CRUDE_EDIT);
+                req.setAttribute("sunProtein", Branches.UI.VRO.SUN_PROTEIN);
                 req.setAttribute("oilEdit", Branches.UI.VRO.OIL_EDIT);
                 req.setAttribute("dailyEdit", Branches.UI.VRO.DAILY_EDIT);
                 req.setAttribute("oilMassFraction", Branches.UI.VRO.OIL_MASS_FRACTION);
                 req.setAttribute("oilMassFractionDry", Branches.UI.VRO.OIL_MASS_FRACTION_DRY);
                 req.setAttribute("granules", Branches.UI.VRO.GRANULES);
-                req.setAttribute("update", Branches.API.VRO_LIST);
                 req.setAttribute("dailyPrint", Branches.UI.VRO.DAILY_REPORT_PRINT);
                 req.setAttribute("forpress", dao.getForpressList());
                 req.setAttribute(SUBSCRIBE, vroSubscribes);

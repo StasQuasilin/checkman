@@ -27,7 +27,7 @@ public abstract class ServletAPI extends IServlet{
     public static final String ADD = "add";
     public static final String UPDATE = "update";
     public static final String REMOVE = "remove";
-    public static final JsonParser parser = new JsonParser();
+
     public static final JsonPool pool = JsonPool.getPool();
     private final Logger log = Logger.getLogger(ServletAPI.class);
 
@@ -36,17 +36,7 @@ public abstract class ServletAPI extends IServlet{
     public static final String SUCCESS_ANSWER = parser.toJson(new SuccessAnswer()).toJSONString();
     public static final String EMPTY_BODY = parser.toJson(new ErrorAnswer("msg", "Body parse error")).toJSONString();
 
-    public JSONObject parseBody(HttpServletRequest req){
 
-        try {
-            return (JSONObject) parser.parse(req.getReader());
-        } catch (IOException | ParseException e) {
-            log.error("Json parse error: " + e.getMessage());
-            log.trace(e.getStackTrace());
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 
     PrintWriter writer;

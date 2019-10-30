@@ -3,7 +3,6 @@ package entity.laboratory.subdivisions.extraction;
 import entity.production.Turn;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +20,7 @@ public class ExtractionTurn {
     private Set<ExtractionOIl> oils;
     private Set<TurnProtein> turnProteins;
     private Set<TurnGrease> turnGreases;
+    private Set<TurnCellulose> cellulose;
 
     @Id
     @GeneratedValue
@@ -88,35 +88,11 @@ public class ExtractionTurn {
         this.turnGreases = turnGreases;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * turn.hashCode() + hash;
-
-        for (ExtractionCrude crude : crudes) {
-            hash = 31 * crude.hashCode() + hash;
-        }
-
-        for (StorageProtein raw : protein) {
-            hash = 31 * raw.hashCode() + hash;
-        }
-
-        for (StorageGrease grease : greases){
-            hash = 31 * grease.hashCode() + hash;
-        }
-
-        for (ExtractionOIl oil : oils) {
-            hash = 31 * oil.hashCode() + hash;
-        }
-
-        for (TurnProtein protein : turnProteins) {
-            hash = 31 * protein.hashCode() + hash;
-        }
-
-        for (TurnGrease grease : turnGreases) {
-            hash = 31 * grease.hashCode() + hash;
-        }
-
-        return hash;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
+    public Set<TurnCellulose> getCellulose() {
+        return cellulose;
+    }
+    public void setCellulose(Set<TurnCellulose> cellulose) {
+        this.cellulose = cellulose;
     }
 }

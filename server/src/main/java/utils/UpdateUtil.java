@@ -123,7 +123,7 @@ public class UpdateUtil {
     }
 
     public void onSave(Driver driver) throws IOException {
-        for (Transportation transportation : dao.getTransportationByDriver(driver)){
+        for (Transportation transportation : dao.getTransportationsByDriver(driver)){
             if (!transportation.isArchive()) {
                 onSave(transportation);
             }

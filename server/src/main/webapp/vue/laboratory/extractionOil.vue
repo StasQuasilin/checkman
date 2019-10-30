@@ -10,7 +10,7 @@ var editor = new Vue({
         already:false,
         err:{
             turn:false
-        }
+        },
     },
     methods:{
         datePicker:function(){

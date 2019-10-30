@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.References.FIND_DRIVER)
 public class FindDriverServletAPI extends ServletAPI {
 
-
     final Logger log = Logger.getLogger(FindDriverServletAPI.class);
 
     @Override
