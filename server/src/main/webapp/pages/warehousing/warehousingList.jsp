@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
@@ -33,7 +34,8 @@
             <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
         </c:if>
     </div>
-    <jsp:include page="../storages/storageList.jsp"/>
+    <jsp:include page="warehousingStatic.jsp"/>
+<c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">
         <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
             <fmt:message key="empty.list"/>
@@ -69,7 +71,7 @@
                 </span>
                 <span>
                     <span style="font-size: 10pt;">
-                        <fmt:message key="deal.quantity"/>:
+                        ${fn:substring(plan, 0, 4)}:
                     </span>
                     <b>
                         {{(value.item.plan).toLocaleString()}}

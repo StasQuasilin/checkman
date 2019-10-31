@@ -183,10 +183,8 @@ a:hover{
     border-radius: 8pt;
     padding: 0 5px;
     position: relative;
-    color: #b9b9b9;
 }
 .mini-close:hover{
-    color: gray;
     text-shadow: 0 0 2px gray;
 }
 .flipY{

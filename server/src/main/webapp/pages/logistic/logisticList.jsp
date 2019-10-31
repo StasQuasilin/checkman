@@ -65,7 +65,8 @@
   <div id="logistic">
     <transition-group name="flip-list" tag="div" class="container">
       <div v-for="(value, key) in getItems()" class="container-item"
-           :class="'container-item-' + new Date(value.item.date).getDay()"
+           :class="['container-item-' + new Date(value.item.date).getDay(),
+           { 'logistic-loading': value.item.timeIn.id && !value.item.timeOut.id }]"
            :key="value.item.id" :id="value.item.id" v-on:click.right="contextMenu(value.item.id)">
         <div class="upper-row">
         <span class="date-container">

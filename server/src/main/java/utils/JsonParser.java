@@ -9,6 +9,7 @@ import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.documents.Shipper;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.OilAnalyses;
@@ -28,6 +29,7 @@ import entity.products.Product;
 import entity.reports.ManufactureReport;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
+import entity.storages.Storage;
 import entity.transport.*;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
@@ -184,6 +186,7 @@ public class JsonParser {
         JSONObject json = toJson(lp.getTransportation());
         json.put(ID, lp.getId());
         json.put(PLAN, lp.getPlan());
+        json.put(UNIT, lp.getDeal().getUnit().getName());
         json.put(PRICE, lp.getDeal().getPrice());
         json.put(CUSTOMER, lp.getCustomer().toString());
         return json;
@@ -1151,6 +1154,21 @@ public class JsonParser {
         json.put(ID, report.getId());
         json.put(DATE, report.getTurn().getDate().toString());
         json.put(TURN, toJson(report.getTurn()));
+        return json;
+    }
+
+    public JSONObject toJson(Storage storage, Product product, Shipper shipper, float value) {
+        JSONObject json = pool.getObject();
+        json.put(STORAGE, storage.getId());
+        json.put(PRODUCT, product.getId());
+        json.put(SHIPPER, shipper.getId());
+        json.put(VALUE, value);
+        return json;
+    }
+
+    public JSONObject toStockJson(HashMap<Storage, HashMap<Product, HashMap<Shipper, Float>>> stocks) {
+        JSONObject json = pool.getObject();
+        
         return json;
     }
 }

@@ -36,8 +36,7 @@ import entity.reports.ReportFieldCategory;
 import entity.reports.ReportFieldSettings;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
-import entity.storages.Storage;
-import entity.storages.StorageProduct;
+import entity.storages.*;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
@@ -45,9 +44,8 @@ import utils.ArchiveType;
 import utils.Parser;
 import utils.TurnDateTime;
 import utils.U;
-import utils.hibernate.DateContainers.BETWEEN;
-import utils.hibernate.DateContainers.GE;
-import utils.hibernate.DateContainers.LE;
+import utils.hibernate.DateContainers.*;
+import utils.storages.PointScale;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -1121,5 +1119,49 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<Seal> getSealsByTransportation(Transportation transportation) {
         return hb.query(Seal.class, "cargo", transportation);
+    }
+
+    @Override
+    public StorageEntry getStorageEntry(int documentId, StorageDocumentType documentType) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("document", documentId);
+        param.put("type", documentType);
+        return hb.get(StorageEntry.class, param);
+    }
+
+    @Override
+    public StoragePeriodPoint getStoragePoint(Date date, Storage storage, Product product, Shipper shipper, PointScale scale) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("date", date);
+        param.put("storage", storage);
+        param.put("product", product);
+        param.put("shipper", shipper);
+        param.put("scale", scale);
+        return hb.get(StoragePeriodPoint.class, param);
+    }
+
+    @Override
+    public List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("time", new BETWEEN(from, to));
+        param.put("storage", storage);
+        param.put("product", product);
+        param.put("shipper", shipper);
+        return hb.query(StorageEntry.class, param);
+    }
+
+    @Override
+    public List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale) {
+        HashMap<String, Object> param = new HashMap<>();
+        if (from == null){
+            param.put("date", new LT(to));
+        } else {
+            param.put("date", new BETWEEN(from, to));
+        }
+        param.put("storage", storage);
+        param.put("product", product);
+        param.put("shipper", shipper);
+        param.put("scale", scale);
+        return hb.query(StoragePeriodPoint.class, param);
     }
 }

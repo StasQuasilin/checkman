@@ -41,6 +41,6 @@ public class Shipper {
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return id;
     }
 }

@@ -52,6 +52,11 @@ public class Product {
     }
 
     @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
     public String toString() {
         return "Product{\n" +
                 "\tid=" + id + ",\n" +

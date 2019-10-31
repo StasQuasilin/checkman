@@ -1,9 +1,6 @@
 package entity.storages;
 
 import entity.products.Product;
-import entity.storages.Storage;
-import utils.storages.DocumentType;
-import utils.storages.PointScale;
 
 import java.sql.Date;
 
@@ -16,7 +13,4 @@ public class StoragePoint {
     private Storage storage;
     private Product product;
     private float amount;
-    private DocumentType documentType;
-    private int document;
-    private String comment;
 }

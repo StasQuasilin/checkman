@@ -77,7 +77,6 @@ public class WeightEditServletAPI extends ServletAPI {
                 TransportUtil.checkTransport(transportation);
                 transportationComparator.compare(transportation, getWorker(req));
 
-
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     if (weight.getNetto() > 0) {

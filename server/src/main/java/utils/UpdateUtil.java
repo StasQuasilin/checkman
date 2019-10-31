@@ -9,6 +9,7 @@ import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.documents.Shipper;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.ProbeTurn;
@@ -17,7 +18,9 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.organisations.Organisation;
+import entity.products.Product;
 import entity.reports.ManufactureReport;
+import entity.storages.Storage;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
@@ -203,6 +206,9 @@ public class UpdateUtil {
         doAction(Command.update, Subscriber.MANUFACTURE_REPORTS, parser.toJson(manufactureReport));
     }
 
+    public void onUpdateStocks(Storage storage, Product product, Shipper shipper, float value) throws IOException {
+        doAction(Command.update, Subscriber.STOCK, parser.toJson(storage, product, shipper, value));
+    }
 
     public enum Command {
         add,

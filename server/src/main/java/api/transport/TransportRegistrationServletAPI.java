@@ -7,6 +7,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
+import entity.weight.Weight;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 
@@ -43,10 +44,14 @@ public class TransportRegistrationServletAPI extends ServletAPI {
             updateUtil.onSave(transportation);
             write(resp, SUCCESS_ANSWER);
 
-            Notificator notificator = BotFactory.getNotificator();
-            if (notificator != null) {
-                notificator.transportRegistration(transportation);
+            Weight weight = transportation.getWeight();
+            if (weight.getBrutto() == 0 && weight.getTara() == 0) {
+                Notificator notificator = BotFactory.getNotificator();
+                if (notificator != null) {
+                    notificator.transportRegistration(transportation);
+                }
             }
+
         }
     }
 }

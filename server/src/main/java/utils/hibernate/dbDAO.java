@@ -35,13 +35,14 @@ import entity.reports.ReportFieldCategory;
 import entity.reports.ReportFieldSettings;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
-import entity.storages.Storage;
-import entity.storages.StorageProduct;
+import entity.storages.*;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.WeightUnit;
 import utils.ArchiveType;
 import utils.TurnDateTime;
+import utils.hibernate.DateContainers.IDateContainer;
+import utils.storages.PointScale;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -219,4 +220,8 @@ public interface dbDAO {
     <T> float sum(Class<T> tClass, HashMap<String, Object> param, String... columns);
     <T> List<T> getObjectsByParams(Class<T> tClass, HashMap<String, Object> params);
     List<Seal> getSealsByTransportation(Transportation transportation);
+    StorageEntry getStorageEntry(int documentId, StorageDocumentType documentType);
+    StoragePeriodPoint getStoragePoint(Date date, Storage storage, Product product, Shipper shipper, PointScale scale);
+    List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper);
+    List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale);
 }

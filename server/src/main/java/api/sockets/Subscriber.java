@@ -28,7 +28,8 @@ public enum Subscriber {
     LABORATORY_SELL_ARCHIVE,
     MESSAGES,
     MANUFACTURE_REPORTS,
-    USERS
+    USERS,
+    STOCK
 }
 
 //10592

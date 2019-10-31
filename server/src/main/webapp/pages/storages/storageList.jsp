@@ -35,7 +35,6 @@
     });
     </c:forEach>
   </script>
-  <div id="static-content" style="width: 150pt">
     <div id="storages">
         <div v-for="storage in storages" v-on:click="storage.open = !storage.open">
           <span v-if="storage.open">
@@ -49,5 +48,4 @@
           </span>
         </div>
     </div>
-  </div>
 </html>

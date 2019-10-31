@@ -1,16 +1,21 @@
 package entity.transport;
 
+import entity.DealType;
 import entity.documents.Shipper;
+import entity.products.Product;
 import entity.storages.Storage;
+import entity.storages.StorageDocument;
+import entity.storages.StorageDocumentType;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * Created by Kvasik on 14.10.2019.
  */
 @Entity
 @Table(name = "transport_storage")
-public class TransportStorageUsed {
+public class TransportStorageUsed extends StorageDocument {
     private int id;
     private Transportation transportation;
     private Shipper shipper;
@@ -50,8 +55,34 @@ public class TransportStorageUsed {
     public Storage getStorage() {
         return storage;
     }
+
+    @Transient
+    @Override
+    public Product getProduct() {
+        return transportation.getProduct();
+    }
     public void setStorage(Storage storage) {
         this.storage = storage;
+    }
+
+    @Transient
+    @Override
+    public StorageDocumentType getType() {
+        return StorageDocumentType.weight;
+    }
+
+    @Transient
+    @Override
+    public Timestamp getDate() {
+        Timestamp bruttoTime = transportation.getWeight().getBruttoTime().getTime();
+        Timestamp taraTime = transportation.getWeight().getTaraTime().getTime();
+        return bruttoTime.after(taraTime) ? bruttoTime : taraTime;
+    }
+
+    @Transient
+    @Override
+    public float getQuantity() {
+        return transportation.getType() == DealType.buy ? getAmount() : -getAmount();
     }
 
     @Basic

@@ -2,20 +2,21 @@ package entity.storages;
 
 import entity.documents.Shipper;
 import entity.products.Product;
-import utils.storages.PointScale;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
- * Created by szpt_user045 on 09.10.2019.
+ * Created by szpt_user045 on 31.10.2019.
  */
 @Entity
-@Table(name="storage_period_points")
-public class StoragePeriodPoint {
+@Table(name = "storage_entry")
+public class StorageEntry {
     private int id;
-    private Date date;
-    private PointScale scale;
+    private int document;
+    private StorageDocumentType type;
+    private Timestamp time;
     private Storage storage;
     private Product product;
     private Shipper shipper;
@@ -31,21 +32,30 @@ public class StoragePeriodPoint {
     }
 
     @Basic
-    @Column(name = "date")
-    public Date getDate() {
-        return date;
+    @Column(name = "document")
+    public int getDocument() {
+        return document;
     }
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDocument(int document) {
+        this.document = document;
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "scale")
-    public PointScale getScale() {
-        return scale;
+    @Column(name = "type")
+    public StorageDocumentType getType() {
+        return type;
     }
-    public void setScale(PointScale scale) {
-        this.scale = scale;
+    public void setType(StorageDocumentType type) {
+        this.type = type;
+    }
+
+    @Basic
+    @Column(name = "time")
+    public Timestamp getTime() {
+        return time;
+    }
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     @OneToOne
@@ -82,9 +92,5 @@ public class StoragePeriodPoint {
     }
     public void setAmount(float amount) {
         this.amount = amount;
-    }
-
-    public void plus(float amount) {
-        this.amount += amount;
     }
 }
