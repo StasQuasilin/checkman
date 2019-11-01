@@ -146,8 +146,12 @@
     color: #464646;
 }
 .loading{
-    background-color: #ff02eb;
+    background-color: #f79cff;
 }
 .logistic-loading{
     background-color: #428fba;
+}
+.transport-loading{
+    border: solid #ff4fa3 6pt;
+    background-color: #fad7f9;
 }

@@ -78,7 +78,6 @@
         </c:when>
         <c:when test="${role eq 'manager'}">
           <jsp:include page="navigation/deals.jsp"/>
-          <jsp:include page="navigation/weight.jsp"/>
         </c:when>
         <c:when test="${role eq 'logistic'}">
           <jsp:include page="navigation/logistic.jsp"/>

@@ -1166,9 +1166,41 @@ public class JsonParser {
         return json;
     }
 
-    public JSONObject toStockJson(HashMap<Storage, HashMap<Product, HashMap<Shipper, Float>>> stocks) {
+    public JSONArray toStockJson(HashMap<Storage, HashMap<Product, HashMap<Shipper, Float>>> stocks) {
+        JSONArray array = pool.getArray();
+        for (Map.Entry<Storage, HashMap<Product, HashMap<Shipper, Float>>> storageEntry : stocks.entrySet()){
+            Storage storage = storageEntry.getKey();
+            JSONObject storageJson = toJson(storage);
+            JSONArray storageValues = pool.getArray();
+            for (Map.Entry<Product, HashMap<Shipper, Float>> productEntry : storageEntry.getValue().entrySet()){
+                Product product = productEntry.getKey();
+                JSONObject productJson = toJson(product);
+                JSONArray productValues = pool.getArray();
+                for (Map.Entry<Shipper, Float> entry : productEntry.getValue().entrySet()){
+                    JSONObject jsop = toJson(entry.getKey());
+                    jsop.put(VALUE, entry.getValue());
+                    productValues.add(jsop);
+                }
+                productJson.put(VALUE, productValues);
+                storageValues.add(productJson);
+            }
+            storageJson.put(VALUE, storageValues);
+            array.add(storageJson);
+        }
+        return array;
+    }
+
+    private JSONObject toJson(Storage storage) {
         JSONObject json = pool.getObject();
-        
+        json.put(ID, storage.getId());
+        json.put(NAME, storage.getName());
         return json;
+    }
+
+    private JSONObject toJson(Shipper shipper) {
+        JSONObject jsop = pool.getObject();
+        jsop.put(ID, shipper.getId());
+        jsop.put(NAME, shipper.getValue());
+        return jsop;
     }
 }

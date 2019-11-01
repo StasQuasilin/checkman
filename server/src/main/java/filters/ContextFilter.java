@@ -12,6 +12,7 @@ import utils.boxes.DealBox;
 import utils.boxes.TransportBox;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.dbDAOService;
+import utils.storages.StorageStocks;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

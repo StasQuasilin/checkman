@@ -17,7 +17,7 @@
     list.types['${t}'] = '<fmt:message key="_${t}"/> ';
     </c:forEach>
     <c:forEach items="${subscribe}" var="s">
-    subscribe('${s}', function(a){
+    subscribe('${s}', function(a, sub){
         list.handler(a);
     });
     </c:forEach>

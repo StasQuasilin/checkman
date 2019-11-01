@@ -24,7 +24,13 @@ import java.util.List;
 public class StorageUtil {
     private static final Logger log = Logger.getLogger(StorageUtil.class);
     private final dbDAO dao = dbDAOService.getDAO();
-    private StorageStocks storageStocks = StorageStocks.instance;
+    private StorageStocks storageStocks = StorageStocks.getInstance();
+
+    public StorageUtil() {
+        if (!isInit) {
+            init();
+        }
+    }
 
     public void updateValue(StorageDocument document){
         int documentId = document.getId();
@@ -160,6 +166,28 @@ public class StorageUtil {
         }
     }
 
+    Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+    private static boolean isInit = false;
+    public void init(){
+        System.out.println("Init stocks");
+        isInit = true;
+        List<Shipper> shippers = dao.getShipperList();
+
+        for (Storage storage : dao.getStorages()) {
+            for (StorageProduct storageProduct : dao.getStorageProductByStorage(storage)) {
+                Product product = storageProduct.getProduct();
+                for (Shipper shipper : shippers){
+                    float v = calculateStock(now, storage, product, shipper);
+                    storageStocks.updateStock(now, storage, product, shipper, v);
+                }
+            }
+        }
+    }
+
+    public HashMap<Storage, HashMap<Product, HashMap<Shipper, Float>>> getStocks() {
+        return storageStocks.stocks;
+    }
+
     private void updateStock(Date date, Storage storage, Product product, Shipper shipper, PointScale scale, float amount){
         StoragePeriodPoint point = dao.getStoragePoint(date, storage, product, shipper, scale);
         if (point == null) {
@@ -245,12 +273,10 @@ public class StorageUtil {
         }
 
         Date date = Date.valueOf(localDate);
-        System.out.println(scale + ":" + date);
 
         float result = 0;
         List<StoragePeriodPoint> points = dao.getStoragePoints(prev, date, storage, product, shipper, scale);
         for (StoragePeriodPoint point : points){
-            System.out.println("\t" + point.getDate());
             result += point.getAmount();
         }
 

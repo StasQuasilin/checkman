@@ -66,8 +66,16 @@ public class WeightEditServletAPI extends ServletAPI {
             saveIt = changeWeight(weight, brutto, tara, worker, saveIt);
 
             if (saveIt){
+                if (weight.getBrutto() > 0 || weight.getTara() > 0){
+                    if (transportation.getTimeIn() == null){
+                        ActionTime actionTime = new ActionTime(worker);
+                        dao.save(actionTime);
+                        transportation.setTimeIn(actionTime);
+                    }
+                }
                 comparator.compare(weight, worker);
                 dao.saveTransportation(transportation);
+
                 updateUtil.onSave(transportation);
 
                 WeightUtil.calculateDealDone(plan.getDeal());
@@ -77,11 +85,13 @@ public class WeightEditServletAPI extends ServletAPI {
                 TransportUtil.checkTransport(transportation);
                 transportationComparator.compare(transportation, getWorker(req));
 
+
+
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     if (weight.getNetto() > 0) {
                         notificator.weightShow(transportation);
-                    } else {
+                    } else if (weight.getBrutto() > 0 || weight.getTara() > 0) {
                         notificator.transportInto(transportation);
                     }
                 }

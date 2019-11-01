@@ -5,6 +5,7 @@ import api.sockets.Subscriber;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.storages.StorageStocks;
+import utils.storages.StorageUtil;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -19,12 +20,13 @@ public class StockHandler extends OnSubscribeHandler {
         super(subscriber);
     }
 
-    StorageStocks storageStocks = StorageStocks.instance;
+    StorageUtil storageUtil = new StorageUtil();
+
 
     @Override
     public void handle(Session session) throws IOException {
         JSONObject json = pool.getObject();
-        json.put(ADD, parser.toStockJson(storageStocks.getStocks()));
+        json.put(ADD, parser.toStockJson(storageUtil.getStocks()));
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         pool.put(json);
     }

@@ -27,6 +27,8 @@ public class TransportList extends IUIServlet{
         req.setAttribute(EDIT, Branches.UI.TRANSPORT_SHOW);
         req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
+        req.setAttribute("printOnTerritory", Branches.UI.PRINT_ON_TERRITORY);
+        req.setAttribute("printIncome", Branches.UI.TRANSPORT_INCOME);
         req.setAttribute(SUBSCRIBE, subscribers);
         show(req, resp);
     }

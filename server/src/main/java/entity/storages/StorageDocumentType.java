@@ -7,5 +7,6 @@ public enum StorageDocumentType {
     weight,
     report,
     reportProduct,
-    correction
+    correction,
+    displacement
 }

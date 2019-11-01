@@ -22,7 +22,6 @@
     list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
     </c:forEach>
     list.styler = function(item){
-        console.log('1');
         return item.weight.tara > 0
     }
     list.sort = function(){

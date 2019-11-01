@@ -89,6 +89,9 @@ public class Branches {
         public static final String ORGANISATION_COLLAPSE = "/collapse/organisations.j";
         public static final String FORMATTING_TEST = "/test/formatting.j";
         public static final String SUMMARY_PLAN_PRINT = "/summary/print.j";
+        public static final String PRINT_ON_TERRITORY = "/transport/on/territory/print.j";
+        public static final String TRANSPORT_INCOME = "/transport/income/print.j";
+
 
         public class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
@@ -234,6 +237,8 @@ public class Branches {
         public static final String VRO_GRANULES_EDIT = API + "/granules/edit";
         public static final String VRO_SUN_PROTEIN = API + "/vro/sun/protein";
         public static final String EXTRACTION_TURN_CELLULOSE = API + "/cellulose/edit";
+        public static final String ON_TERRITORY_PRINT = API + "/transport/on/territory";
+        public static final String INCOME_TRANSPORT_PRINT = API + "/transport/income/print";
 
 
         public class References {

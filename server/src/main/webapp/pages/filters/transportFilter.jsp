@@ -125,6 +125,11 @@
                 </select>
             </td>
         </tr>
+        <tr>
+            <td colspan="2" style="font-size: 10pt">
+                <fmt:message key="items.count"/>: {{filteredItems().length}}
+            </td>
+        </tr>
     </table>
 </div>
 

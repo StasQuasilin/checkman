@@ -781,6 +781,7 @@ public class HibernateDAO implements dbDAO {
         final HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("transportation/archive", false);
         parameters.put("transportation/timeIn", State.notNull);
+        parameters.put("transportation/timeOut", null);
         return hb.query(LoadPlan.class, parameters);
     }
 

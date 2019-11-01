@@ -12,6 +12,29 @@
     list.api.edit = '${edit}';
     list.types['buy'] = '<fmt:message key="_buy"/>';
     list.types['sell'] = '<fmt:message key="_sell"/>';
+    list.sort = function(){
+      list.items.sort(function(a, b){
+        if (a.item.date === b.item.date){
+          let aN = 0;
+          if (a.item.weight.brutto > 0 && a.item.weight.tara > 0){
+            aN = a.item.weight.brutto - a.item.weight.tara;
+          }
+
+          let bN = 0;
+          if (b.item.weight.brutto > 0 && b.item.weight.tara > 0){
+            bN = b.item.weight.brutto - b.item.weight.tara;
+          }
+          if (aN > 0 && bN == 0){
+            return 1;
+          }
+          if (aN == 0 && bN > 0){
+            return -1;
+          }
+        }
+
+        return new Date(a.item.date) - new Date(b.item.date);
+      })
+    }
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
       list.handler(a);
@@ -25,11 +48,28 @@
     </c:forEach>
     }
   </script>
+  <div id="container-header" class="container-header">
+    <link rel="stylesheet" href="${context}/css/drop-menu.css">
+    <c:if test="${role eq 'admin'}">
+      <div class="drop-menu">
+        <a class="drop-btn"><fmt:message key="document.print"/>&nbsp;&#9660;</a>
+        <div class="drop-menu-content">
+          <div class="drop-menu-item" onclick="loadModal('${printOnTerritory}')">
+            <fmt:message key="transport.on.territory"/>
+          </div>
+          <div class="drop-menu-item" onclick="loadModal('${printIncome}')">
+            <fmt:message key="transport.income"/>
+          </div>
+        </div>
+      </div>
+    </c:if>
+  </div>
   <transition-group name="flip-list" tag="div" class="container" id="container">
     <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
          class="container-item" style="position: relative"
-         :class="['container-item-' + new Date(value.item.date).getDay(),
-         { loading: value.item.timeIn.id && !value.item.timeOut.id}]"
+         :class="['container-item-' + new Date(value.item.date).getDay()
+         + ( value.item.weight.brutto > 0 && value.item.weight.tara > 0 ? '-done' : ''),
+         { 'transport-loading': value.item.timeIn.id && !value.item.timeOut.id}]"
          v-on:click="edit(value.item.id)" v-on:dblclick="">
       <div class="upper-row">
         <span>

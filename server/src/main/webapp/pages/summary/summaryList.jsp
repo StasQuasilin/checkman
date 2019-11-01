@@ -186,5 +186,5 @@
             </div>
         </c:if>
     </div>
-    <jsp:include page="/pages/summary/calendar.jsp"/>
+<jsp:include page="staticCalendar.jsp"/>
 </html>

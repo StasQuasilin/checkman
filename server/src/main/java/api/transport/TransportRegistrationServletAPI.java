@@ -45,7 +45,8 @@ public class TransportRegistrationServletAPI extends ServletAPI {
             write(resp, SUCCESS_ANSWER);
 
             Weight weight = transportation.getWeight();
-            if (weight.getBrutto() == 0 && weight.getTara() == 0) {
+
+            if (weight == null || (weight.getBrutto() == 0 && weight.getTara() == 0)) {
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     notificator.transportRegistration(transportation);
