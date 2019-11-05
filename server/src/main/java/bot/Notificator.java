@@ -1,5 +1,6 @@
 package bot;
 
+import constants.Constants;
 import entity.*;
 import entity.bot.NotifyStatus;
 import entity.bot.UserBotSetting;
@@ -70,6 +71,7 @@ public class Notificator {
     private static final String WAX_HAVE = "notification.kpo.wax.yes";
     private static final String WAX_NO = "notification.kpo.wax.no";
     private static final String HUMIDITY = "bot.extraction.oil.humidity";
+    private static final String EMPTY = Constants.EMPTY;
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -174,6 +176,7 @@ public class Notificator {
             }
         }
     }
+    public static final String ATTENTION = "‼";
     public void cakeAnalysesShow(Transportation transportation, MealAnalyses analyses) {
         HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()){
@@ -183,11 +186,15 @@ public class Notificator {
                     String language = setting.getLanguage();
                     if (!messages.containsKey(language)){
                         messages.put(language, prepareMessage(transportation) + NEW_LINE +
-                                String.format(lb.get(HUMIDITY_1), analyses.getHumidity()) + NEW_LINE +
+                                String.format(lb.get(HUMIDITY), analyses.getHumidity())  +
+                                        (analyses.getHumidity() >= 11 ? ATTENTION : EMPTY) + NEW_LINE +
                                 String.format(lb.get(PROTEIN), analyses.getProtein()) + NEW_LINE +
-                                String.format(lb.get(CELLULOSE), analyses.getCellulose()) + NEW_LINE +
-                                String.format(lb.get(OILINESS), analyses.getOiliness()) + NEW_LINE +
-                                String.format(lb.get(DRY_PROTEIN), analyses.DryRecalculation())
+                                String.format(lb.get(CELLULOSE), analyses.getCellulose()) +
+                                        (analyses.getCellulose() > 23 ? ATTENTION : EMPTY)+ NEW_LINE +
+                                String.format(lb.get(OILINESS), analyses.getOiliness()) +
+                                        (analyses.getOiliness() > 1.5f ? ATTENTION : EMPTY) + NEW_LINE +
+                                String.format(lb.get(DRY_PROTEIN), analyses.DryRecalculation()) +
+                                        (analyses.DryRecalculation() < 39 ? ATTENTION : EMPTY)
 
                         );
                     }
@@ -651,11 +658,10 @@ public class Notificator {
             if (setting.isShow() && setting.isVro()){
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
-                    String message = lb.get(language, "vro.sun.protein.title");
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.protein"), sunProtein.getProtein());
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.humidity"), sunProtein.getHumidity());
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.dry"), sunProtein.DryRecalculation());
+                    String message = String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate)+
+                        NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.protein"), sunProtein.getProtein()) +
+                        NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.humidity"), sunProtein.getHumidity()) +
+                        NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.dry"), sunProtein.DryRecalculation());
                     messages.put(language, message);
                 }
 
@@ -674,11 +680,11 @@ public class Notificator {
             if (setting.isShow() && setting.isVro()){
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
-                    String message = lb.get(language, "vro.sun.protein.title");
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate);
-                    message += NEW_LINE + String.format(lb.get(language, "bot.notificator.raw.cellulose"), turnCellulose.getCellulose());
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.humidity"), turnCellulose.getHumidity());
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn.cellulose.dry"), turnCellulose.DryRecalculation());
+                    String message = lb.get(language, "vro.sun.cellulose.title") +
+                        NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate) +
+                        NEW_LINE + String.format(lb.get(language, "bot.notificator.raw.cellulose"), turnCellulose.getCellulose()) +
+                        NEW_LINE + String.format(lb.get(language, "extraction.humidity"), turnCellulose.getHumidity()) +
+                        NEW_LINE + String.format(lb.get(language, "extraction.turn.cellulose.dry"), turnCellulose.DryRecalculation());
                     messages.put(language, message);
                 }
 

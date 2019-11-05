@@ -84,7 +84,16 @@ public class StoragePeriodPoint {
         this.amount = amount;
     }
 
-    public void plus(float amount) {
-        this.amount += amount;
+
+    @Override
+    public String toString() {
+        return "StoragePeriodPoint {\n" +
+                "\tdate=" + date + "\n" +
+                "\tscale=" + scale + "\n" +
+                "\tstorage=" + storage + "\n" +
+                "\tproduct=" + product + "\n" +
+                "\tshipper=" + shipper + "\n" +
+                "\tamount=" + amount + "\n" +
+                '}';
     }
 }

@@ -108,7 +108,7 @@ public class UpdateUtil {
         log.info(command.toString().toUpperCase() + " for " + subscriber.toString());
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
-        for (Object o : obj){
+        for (Object o : obj) {
             array.add(o);
         }
         json.put(command.toString(), array);
@@ -206,8 +206,8 @@ public class UpdateUtil {
         doAction(Command.update, Subscriber.MANUFACTURE_REPORTS, parser.toJson(manufactureReport));
     }
 
-    public void onUpdateStocks(Storage storage, Product product, Shipper shipper, float value) throws IOException {
-        doAction(Command.update, Subscriber.STOCK, parser.toJson(storage, product, shipper, value));
+    public void updateStocks(JSONObject json) throws IOException {
+        doAction(Command.update, Subscriber.STOCK, json);
     }
 
     public enum Command {

@@ -9,7 +9,11 @@ import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.log.comparators.WeightComparator;
+import entity.products.Product;
+import entity.storages.Storage;
+import entity.storages.StorageProduct;
 import entity.transport.ActionTime;
+import entity.transport.TransportStorageUsed;
 import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
@@ -18,6 +22,7 @@ import utils.DocumentUIDGenerator;
 import entity.transport.TransportUtil;
 import utils.UpdateUtil;
 import utils.WeightUtil;
+import utils.storages.StorageUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 22.03.2019.
@@ -35,6 +41,7 @@ public class WeightEditServletAPI extends ServletAPI {
     private final WeightComparator comparator = new WeightComparator();
     private final TransportationComparator transportationComparator = new TransportationComparator();
     private final Logger log = Logger.getLogger(WeightEditServletAPI.class);
+    private final StorageUtil storageUtil = new StorageUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -73,6 +80,16 @@ public class WeightEditServletAPI extends ServletAPI {
                         transportation.setTimeIn(actionTime);
                     }
                 }
+                if (weight.getNetto() > 0){
+                    if (transportation.getUsedStorages().size() == 0){
+                        log.info("Create storage entry");
+                        TransportStorageUsed used = new TransportStorageUsed();
+                        used.setAmount(weight.getNetto());
+                        TransportUtil.updateUsedStorages(transportation, used, worker);
+                    } else {
+                        TransportUtil.updateUsedStorages(transportation, worker);
+                    }
+                }
                 comparator.compare(weight, worker);
                 dao.saveTransportation(transportation);
 
@@ -84,8 +101,6 @@ public class WeightEditServletAPI extends ServletAPI {
                 transportationComparator.fix(transportation);
                 TransportUtil.checkTransport(transportation);
                 transportationComparator.compare(transportation, getWorker(req));
-
-
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

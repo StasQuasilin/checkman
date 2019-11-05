@@ -339,22 +339,22 @@ public class JsonParser {
     }
 
     public static final String BRUTTO = "brutto";
-    public static final String BRUTTO_Time = "brutto_Time";
+    public static final String BRUTTO_TIME = "brutto_Time";
     public static final String TARA = "tara";
     public static final String NETTO = "netto";
     public static final String CORRECTION = "correction";
-    public static final String TARA_Time = "tara_Time";
+    public static final String TARA_TIME = "tara_Time";
 
     private JSONObject toJson(Weight weight) {
         JSONObject json = pool.getObject();
         if (weight != null) {
             json.put(ID, weight.getId());
             json.put(BRUTTO, weight.getBrutto());
-            json.put(BRUTTO_Time, toJson(weight.getBruttoTime()));
             json.put(TARA, weight.getTara());
             json.put(NETTO, weight.getNetto());
             json.put(CORRECTION, weight.getCorrection());
-            json.put(TARA_Time, toJson(weight.getTaraTime()));
+            json.put(BRUTTO_TIME, toJson(weight.getBruttoTime()));
+            json.put(TARA_TIME, toJson(weight.getTaraTime()));
         }
         return json;
     }

@@ -254,3 +254,7 @@ input.error {
 .bold{
     font-weight: bold;
 }
+.green{
+    font-weight: bold;
+    color: green;
+}

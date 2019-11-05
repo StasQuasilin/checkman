@@ -44,6 +44,9 @@ public class TransportStorageUsed extends StorageDocument {
     @OneToOne
     @JoinColumn(name = "shipper")
     public Shipper getShipper() {
+        if (shipper == null) {
+            return transportation.getShipper();
+        }
         return shipper;
     }
     public void setShipper(Shipper shipper) {

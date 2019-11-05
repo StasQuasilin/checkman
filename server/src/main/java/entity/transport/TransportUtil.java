@@ -6,6 +6,8 @@ import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.documents.Shipper;
 import entity.laboratory.SunAnalyses;
+import entity.products.Product;
+import entity.storages.Storage;
 import entity.storages.StorageProduct;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
@@ -14,9 +16,12 @@ import utils.DocumentUIDGenerator;
 import utils.UpdateUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.storages.StorageUtil;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by quasilin on 18.03.2019.
@@ -45,19 +50,6 @@ public class TransportUtil{
 
         if (isArchive){
             Archivator.add(transportation);
-            if (transportation.getUsedStorages().size() == 0){
-                List<StorageProduct> storageProducts = dao.getStorageProductByProduct(transportation.getProduct());
-                if (storageProducts.size() > 0){
-                    TransportStorageUsed used = new TransportStorageUsed();
-                    used.setTransportation(transportation);
-                    used.setStorage(storageProducts.get(0).getStorage());
-                    used.setShipper(transportation.getShipper());
-                    used.setAmount(1f * Math.round(transportation.getWeight().getNetto() * 100) / 100);
-                    used.setCreate(new ActionTime(transportation.getCreator()));
-                    dao.save(used.getCreate());
-                    dao.save(used);
-                }
-            }
             try {
                 updateUtil.onSave(transportation);
             } catch (IOException e) {
@@ -124,5 +116,49 @@ public class TransportUtil{
         return transportation;
     }
 
+    private static final StorageUtil storageUtil = new StorageUtil();
+    public synchronized static void updateUsedStorages(Transportation transportation, Worker worker){
+        HashMap<Integer, Float> values = new HashMap<>();
+        float total = 0;
+        for (TransportStorageUsed used : transportation.getUsedStorages()){
+            total += used.getAmount();
+            values.put(used.getId(), used.getAmount());
+        }
+        for (TransportStorageUsed used : transportation.getUsedStorages()){
+            used.setAmount(1f * Math.round(values.get(used.getId()) / total * transportation.getWeight().getNetto() * 100) / 100);
+            updateUsedStorages(transportation, used, worker);
+        }
+    }
+    public synchronized static void updateUsedStorages(Transportation transportation, TransportStorageUsed tsu, Worker worker) {
 
+        if (tsu.getStorage() == null) {
+            Product product = transportation.getProduct();
+            List<StorageProduct> storageProducts = dao.getStorageProductByProduct(product);
+            Storage storage;
+            if (storageProducts.size() > 0) {
+                storage = storageProducts.get(0).getStorage();
+            } else {
+                storage = new Storage();
+                storage.setName(product.getName());
+                dao.save(storage);
+                StorageProduct storageProduct = new StorageProduct();
+                storageProduct.setStorage(storage);
+                storageProduct.setProduct(product);
+                dao.save(storageProduct);
+            }
+            tsu.setStorage(storage);
+        }
+        if (tsu.getTransportation() == null) {
+            tsu.setTransportation(transportation);
+            ActionTime time = new ActionTime(worker);
+            tsu.setCreate(time);
+            dao.save(time);
+        }
+        if (tsu.getShipper() == null) {
+            tsu.setShipper(transportation.getShipper());
+        }
+
+        dao.save(tsu);
+        storageUtil.updateStorageEntry(tsu);
+    }
 }

@@ -92,14 +92,28 @@
     };
     </c:otherwise>
     </c:choose>
-
+    editor.afterMidnight = function(){
+        let target = new Date(editor.crude.date + ' ' + editor.crude.time);
+        return target.getHours() >= 0 && target.getHours() < 8;
+    };
+    editor.prevDate = function(){
+        let selected = new Date(editor.crude.date);
+        selected.setDate(selected.getDate() - 1);
+        return selected;
+    };
 </script>
 <table id="editor" class="editor">
     <%--DATE--%>
     <tr>
-        <td>
+        <td style="width: 238px">
             <label for="date">
-                <fmt:message key="date"/>
+                <span class="error" v-if="!crude.id && afterMidnight()">
+                <fmt:message key="date.will.be"/>
+                {{prevDate().toLocaleDateString()}}
+                </span>
+                <span v-else>
+                    <fmt:message key="date"/>
+                </span>
             </label>
         </td>
         <td>
@@ -264,7 +278,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3" align="right">
+        <td colspan="3" align="center">
             <a class="mini-close" v-if="crude.id" v-on:click="removeAnalyses">
                 <fmt:message key="button.delete"/>
             </a>

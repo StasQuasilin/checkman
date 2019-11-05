@@ -97,8 +97,10 @@ public class WarehousingEditAPI extends ServletAPI {
             remove.addAll(used.values().stream().collect(Collectors.toList()));
             used.clear();
 
-            remove.forEach(dao::remove);
-            remove.clear();
+            for (TransportStorageUsed r : remove){
+                dao.remove(r);
+                storageUtil.removeStorageEntry(r);
+            }
 
             for (TransportStorageUsed u : save){
                 if (u.getCreate() == null){
@@ -107,12 +109,14 @@ public class WarehousingEditAPI extends ServletAPI {
                     u.setCreate(time);
                 }
                 dao.save(u);
-                storageUtil.updateValue(u);
+                storageUtil.updateStorageEntry(u);
             }
             if (save.size() > 0){
                 updateUtil.onSave(transportation);
             }
+
             save.clear();
+            remove.clear();
 
             write(resp, SUCCESS_ANSWER);
 

@@ -42,9 +42,7 @@ public final class Archivator {
     static Timer timer;
     final static long HOUR = 60 * 60 * 1000;
     private static void next() {
-        timer = new Timer((int) HOUR, e -> {
-            check();
-        });
+        timer = new Timer((int) HOUR, e -> check());
         timer.start();
     }
 

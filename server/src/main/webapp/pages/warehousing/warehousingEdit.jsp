@@ -128,8 +128,11 @@
       </tr>
       <tr v-for="(relation, key) in relations">
         <td>
-          <span class="mini-close" style="font-size: 10pt" v-on:click="remove(key)">
+          <span class="mini-close" style="font-size: 10pt" v-on:click="remove(key)" v-if="relations.length > 1">
             -
+          </span>
+          <span v-else>
+            &nbsp;
           </span>
           <select v-model="relation.storage">
             <option v-for="storage in storages" :value="storage.id">

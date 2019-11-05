@@ -1,5 +1,6 @@
 package constants;
 
+import api.transport.TransportDirection;
 import controllers.archive.ArchiveType;
 
 /**
@@ -239,6 +240,7 @@ public class Branches {
         public static final String EXTRACTION_TURN_CELLULOSE = API + "/cellulose/edit";
         public static final String ON_TERRITORY_PRINT = API + "/transport/on/territory";
         public static final String INCOME_TRANSPORT_PRINT = API + "/transport/income/print";
+        public static final String REMOVE_TRANSPORT_TIME = API + "/transport/remove/time";
 
 
         public class References {

@@ -13,6 +13,7 @@ import utils.boxes.TransportBox;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.dbDAOService;
 import utils.storages.StorageStocks;
+import utils.transport.TransportReplaceUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -30,6 +31,8 @@ public class ContextFilter implements Filter {
 
     public static BotSettings settings;
     final Logger log = Logger.getLogger(ContextFilter.class);
+    TransportReplaceUtil tru;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         gcTimer = new Timer(20 * 1000, e -> System.gc());
@@ -37,6 +40,7 @@ public class ContextFilter implements Filter {
         HibernateSessionFactory.init();
         initBot();
         Archivator.init();
+        tru = new TransportReplaceUtil();
     }
 
     Timer gcTimer;
@@ -78,5 +82,6 @@ public class ContextFilter implements Filter {
         ActiveSubscriptions.getInstance().close();
         BotFactory.shutdown();
         HibernateSessionFactory.shutdown();
+        tru.shutdown();
     }
 }

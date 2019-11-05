@@ -277,13 +277,13 @@
                 &times;
               </span>
               <span style="padding: 0">
-                <fmt:message key="you"/>
+                <fmt:message key="you"/>:
               </span>
             </span>
-            <span v-else>
-            {{note.creator.person.value}}
+            <span v-else-if="note.creator.person">
+            {{note.creator.person.value}}:
             </span>
-            :
+
             <i>
               {{note.note}}
             </i>

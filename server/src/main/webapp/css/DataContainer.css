@@ -149,9 +149,10 @@
     background-color: #f79cff;
 }
 .logistic-loading{
-    background-color: #428fba;
+    background-color: #0cdc0a;
 }
 .transport-loading{
-    border: solid #ff4fa3 6pt;
-    background-color: #fad7f9;
+    border: solid #ff4141;
+    background-color: rgb(255, 175, 172);
+    overflow: hidden;
 }

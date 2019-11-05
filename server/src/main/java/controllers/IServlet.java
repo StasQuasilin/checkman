@@ -49,9 +49,15 @@ public class IServlet extends HttpServlet {
     public static final String CALCULATORS = "calculators";
     public static final String AMOUNT = "amount";
     public static final String PLAN = "plan";
+    public static final String DIRECTION = "dir";
     public static final String STORAGES = "storages";
     public static final String SHIPPERS = "shippers";
     public static final String PROTEIN = "protein";
+    public static final String IN = "in";
+    public static final String OUT = "out";
+    public static final String BRUTTO = "brutto";
+    public static final String TARA = "tara";
+    public static final String NETTO = "netto";
 
     public static final LanguageBase lb = LanguageBase.getBase();
     protected static final String CUSTOMERS = "customers";

@@ -24,7 +24,6 @@
           print.document.write(a);
           print.print();
           print.close();
-          closeModal();
         })
       }
     }

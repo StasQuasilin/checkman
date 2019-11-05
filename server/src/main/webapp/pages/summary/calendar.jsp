@@ -38,12 +38,21 @@
                             product = Vue.set(date.values, a.product.name, {
                                 key:productKey,
                                 open:this.getOpen(productKey),
+                                plan:0,
                                 count:0,
                                 values:{}
                             })
                         }
+                        let plan = a.plan;
+                        let amount = 0;
+                        let done = false;
+                        if (a.weight && a.weight.netto > 0){
+                            amount = a.weight.netto;
+                            done = true;
+                        }
 
-                        product.count += a.plan;
+                        product.count += amount;
+                        product.plan += plan;
 
                         var mn = a.manager.person ? a.manager.person.value : 'Unknown ' + a.id;
                         var manager = product.values[mn];
@@ -53,11 +62,13 @@
                                 key:managerKey,
                                 open:this.getOpen(managerKey),
                                 count:0,
+                                plan:0,
                                 values:{}
                             })
                         }
 
-                        manager.count += a.plan;
+                        manager.count += amount;
+                        manager.plan += plan;
 
                         var counterparty = manager.values[a.organisation.value];
                         var counterpartyKey = managerKey + '/' + a.organisation.value;
@@ -66,22 +77,21 @@
                                 key:counterpartyKey,
                                 open:this.getOpen(counterpartyKey),
                                 count:0,
+                                plan:0,
                                 values:{}
                             };
-//                            counterparty = Vue.set(manager.values, a.organisation.value, {
-//                                open:false,
-//                                count:0,
-//                                values:{}
-//                            })
                         }
-                        counterparty.count += a.plan;
+                        counterparty.count += amount;
+                        counterparty.plan += plan;
 
                         var driver = counterparty.values[a.id];
                         if (!driver){
                             var dn = a.driver.person ? a.driver.person.value : '--';
                             driver = Vue.set(counterparty.values, a.id, {
                                 driver:dn,
-                                count:a.plan
+                                plan:plan,
+                                count:amount,
+                                done:done
                             });
                         }
                     }
@@ -130,7 +140,7 @@
 </style>
 <html>
     <div id="calendar" class="calendar" style="width: 200pt">
-        <table width="100%">
+        <table width="100%" style="font-size: 10pt">
             <template v-for="(value, key) in getItems()">
                 <tr>
                     <td colspan="2">
@@ -148,12 +158,12 @@
                             <span v-else>
                                 &#9205;
                             </span>
-                            <span :class="{bold : product.open}">
+                            <span :class="{bold : product.open}" style="font-size: 10pt">
                                 {{productName}}
                             </span>
                         </td>
-                        <td>
-                            {{product.count}}
+                        <td style="font-size: 10pt">
+                            {{product.count.toLocaleString()}}/{{product.plan.toLocaleString()}}
                         </td>
                     </tr>
                     <template v-if="product.open" v-for="(manager, managerName) in product.values">
@@ -165,12 +175,12 @@
                                 <span v-else>
                                     &#9205;
                                 </span>
-                                <span :class="{bold : manager.open}">
+                                <span :class="{bold : manager.open}" style="font-size: 10pt">
                                     {{managerName}}
                                 </span>
                             </td>
-                            <td>
-                                {{manager.count}}
+                            <td style="font-size: 10pt">
+                                {{manager.count.toLocaleString()}}/{{manager.plan.toLocaleString()}}
                             </td>
                         </tr>
                         <template v-if="manager.open" v-for="counterparty, counterpartyName) in manager.values">
@@ -187,15 +197,15 @@
                                     </span>
                                 </td>
                                 <td>
-                                    {{counterparty.count}}
+                                    {{counterparty.count.toLocaleString()}}/{{counterparty.plan.toLocaleString()}}
                                 </td>
                             </tr>
                             <tr v-if="counterparty.open" v-for="driver in counterparty.values">
-                                <td style="padding-left: 28pt">
+                                <td style="padding-left: 28pt" :class="{green : driver.done}">
                                     {{driver.driver}}
                                 </td>
-                                <td>
-                                    {{driver.count}}
+                                <td :class="{green : driver.done}">
+                                    {{driver.count.toLocaleString()}}/{{driver.plan.toLocaleString()}}
                                 </td>
                             </tr>
                         </template>

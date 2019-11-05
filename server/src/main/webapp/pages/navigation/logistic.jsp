@@ -26,7 +26,7 @@
         <fmt:message key="menu.logistic"/>
       </span>
       <span>
-        <a onclick="loadContent(${context}${logistic_archive})"><fmt:message key="archive"/> </a>
+        <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
       </span>
     </li>
 </ul>

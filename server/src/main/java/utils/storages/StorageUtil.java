@@ -22,6 +22,7 @@ import java.util.List;
  * Created by szpt_user045 on 08.10.2019.
  */
 public class StorageUtil {
+
     private static final Logger log = Logger.getLogger(StorageUtil.class);
     private final dbDAO dao = dbDAOService.getDAO();
     private StorageStocks storageStocks = StorageStocks.getInstance();
@@ -32,7 +33,18 @@ public class StorageUtil {
         }
     }
 
-    public void updateValue(StorageDocument document){
+    public void removeStorageEntry(StorageDocument document){
+        int documentId = document.getId();
+        StorageDocumentType documentType = document.getType();
+        log.info("Remove storage entry for " + documentId + ", " + documentType.toString());
+        StorageEntry entry = dao.getStorageEntry(documentId, documentType);
+        if (entry != null) {
+            dao.remove(entry);
+            dayStock(entry);
+        }
+    }
+
+    public void updateStorageEntry(StorageDocument document){
         int documentId = document.getId();
         StorageDocumentType documentType = document.getType();
         StorageEntry entry = dao.getStorageEntry(documentId, documentType);
@@ -51,35 +63,35 @@ public class StorageUtil {
             save = true;
         }
 
-        Storage prevStorage = null;
+        int prevStorageId = -1;
         Storage storage = document.getStorage();
         if (entry.getStorage() == null){
             entry.setStorage(storage);
             save = true;
         } else if (entry.getStorage().getId() != storage.getId()){
-            prevStorage = entry.getStorage();
+            prevStorageId = entry.getStorage().getId();
             entry.setStorage(storage);
             save = true;
         }
 
-        Product prevProduct = null;
+        int prevProductId = -1;
         Product product = document.getProduct();
         if (entry.getProduct() == null){
             entry.setProduct(product);
             save = true;
         } else if (entry.getProduct().getId() != product.getId()){
-            prevProduct = entry.getProduct();
+            prevProductId = entry.getProduct().getId();
             entry.setProduct(product);
             save = true;
         }
 
-        Shipper prevShipper = null;
+        int prevShipperId = -1;
         Shipper shipper = document.getShipper();
         if (entry.getShipper() == null){
             entry.setShipper(shipper);
             save = true;
         } else if(entry.getShipper().getId() != shipper.getId()){
-            prevShipper = entry.getShipper();
+            prevShipperId = entry.getShipper().getId();
             entry.setShipper(shipper);
             save = true;
         }
@@ -93,18 +105,29 @@ public class StorageUtil {
         if (save){
             dao.save(entry);
             dayStock(entry);
-            //tada recalculating storage stock
-            if (prevStorage != null){
-                dayStock(entry.getTime(), prevStorage, entry.getProduct(), entry.getShipper());
+
+            Storage prevStorage;
+            if (prevStorageId != -1){
+                prevStorage = dao.getStorageById(prevStorageId);
+            } else {
+                prevStorage = entry.getStorage();
             }
 
-            if (prevProduct != null){
-                dayStock(entry.getTime(), entry.getStorage(), prevProduct, entry.getShipper());
+            Product prevProduct;
+            if (prevProductId != -1){
+                prevProduct = dao.getProductById(prevProductId);
+            } else {
+                prevProduct = entry.getProduct();
             }
 
-            if (prevShipper != null){
-                dayStock(entry.getTime(), entry.getStorage(), entry.getProduct(), prevShipper);
+            Shipper prevShipper;
+            if (prevShipperId != -1){
+                prevShipper = dao.getShipperById(prevShipperId);
+            } else {
+                prevShipper = entry.getShipper();
             }
+
+            dayStock(entry.getTime(), prevStorage, prevProduct, prevShipper);
         }
     }
 
@@ -114,7 +137,7 @@ public class StorageUtil {
     private void dayStock(Timestamp time, Storage storage, Product product, Shipper shipper){
         LocalDate date = time.toLocalDateTime().toLocalDate();
         Date _date = Date.valueOf(date);
-        int amount = 0;
+        float amount = 0;
 
         for (StorageEntry entry : dao.getStorageEntries(_date, Date.valueOf(date.plusDays(1)), storage, product, shipper)){
             amount += entry.getAmount();
@@ -155,7 +178,7 @@ public class StorageUtil {
         LocalDate date = time.toLocalDateTime().toLocalDate();
         Date beginDate = Date.valueOf(getBeginDate(date, scale));
         Date endDate = Date.valueOf(getEndDate(date, scale));
-        int amount = 0;
+        float amount = 0;
         for (StoragePeriodPoint point : dao.getStoragePoints(beginDate, endDate, storage, product, shipper, prevScale(scale))){
             amount += point.getAmount();
         }
@@ -169,7 +192,6 @@ public class StorageUtil {
     Timestamp now = Timestamp.valueOf(LocalDateTime.now());
     private static boolean isInit = false;
     public void init(){
-        System.out.println("Init stocks");
         isInit = true;
         List<Shipper> shippers = dao.getShipperList();
 
@@ -189,6 +211,7 @@ public class StorageUtil {
     }
 
     private void updateStock(Date date, Storage storage, Product product, Shipper shipper, PointScale scale, float amount){
+
         StoragePeriodPoint point = dao.getStoragePoint(date, storage, product, shipper, scale);
         if (point == null) {
             point = new StoragePeriodPoint();
@@ -198,8 +221,15 @@ public class StorageUtil {
             point.setProduct(product);
             point.setShipper(shipper);
         }
-        point.setAmount(amount);
-        dao.save(point);
+
+        if (point.getAmount() != amount){
+            point.setAmount(amount);
+            if (point.getAmount() == 0){
+                dao.remove(point);
+            } else {
+                dao.save(point);
+            }
+        }
     }
 
     public static synchronized LocalDate getBeginDate(LocalDate date, PointScale scale){

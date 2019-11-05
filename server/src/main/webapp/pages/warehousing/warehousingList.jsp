@@ -137,14 +137,10 @@
                         </div>
                         <div>
                             <span>
-                                <fmt:message key="weight.netto"/>:{{value.item.weight.brutto > 0 &&
-                                value.item.weight.tara > 0 ?
-                                (value.item.weight.brutto -
-                                value.item.weight.tara).toLocaleString() : 0}}
+                                <fmt:message key="weight.netto"/>:{{value.item.weight.netto.toLocaleString()}}
                             </span>
                             <span v-if="value.item.weight.correction">
-                                ({{(value.item.weight.netto).toLocaleString()}},
-                                -{{(value.item.weight.correction).toLocaleString()}}%)
+                                ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
                             </span>
                         </div>
                     </div>
@@ -156,7 +152,9 @@
                 </div>
                 <div class="lower-row" v-if="value.item.notes.length > 0">
                     <div v-for="note in value.item.notes" style="display: inline-block; padding-left: 4pt">
-                        {{note.creator.person.value}}:
+                        <span v-if="note.creator.person">
+                            {{note.creator.person.value}}:
+                        </span>
                         <b>
                             {{note.note}}
                         </b>

@@ -45,6 +45,7 @@ public class TransportTimeServletAPI extends ServletAPI {
             Transportation transportation = dao.getTransportationById(id);
             log.info("Set time" + direction.toString().toUpperCase() + " for transportation " + transportation.getId());
             comparator.fix(transportation);
+            Worker worker = getWorker(req);
             ActionTime time = null;
             switch (direction) {
                 case in:
@@ -55,7 +56,7 @@ public class TransportTimeServletAPI extends ServletAPI {
                     break;
             }
             if (time == null) {
-                time = new ActionTime();
+                time = new ActionTime(worker);
                 switch (direction) {
                     case in:
                         transportation.setTimeIn(time);
@@ -69,9 +70,6 @@ public class TransportTimeServletAPI extends ServletAPI {
                         break;
                 }
             }
-            Worker worker = getWorker(req);
-            time.setTime(new Timestamp(System.currentTimeMillis()));
-            time.setCreator(worker);
             dao.save(time);
             dao.saveTransportation(transportation);
             updateUtil.onSave(transportation);

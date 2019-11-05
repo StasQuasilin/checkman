@@ -15,6 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
 import utils.UpdateUtil;
+import utils.storages.StorageUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +34,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(EditLoadPlanServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
+    private final StorageUtil storageUtil = new StorageUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -116,6 +118,8 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 transportation.setShipper(deal.getShipper());
                 transportation.setCounterparty(deal.getOrganisation());
                 transportation.setProduct(deal.getProduct());
+
+                TransportUtil.updateUsedStorages(transportation, getWorker(req));
             }
 
             loadPlan.setDate(date);
@@ -208,6 +212,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             }
 
             dao.saveTransportation(transportation);
+            transportation.getUsedStorages().forEach(storageUtil::updateStorageEntry);
             dao.saveLoadPlan(loadPlan);
 
             transportation.getNotes().clear();

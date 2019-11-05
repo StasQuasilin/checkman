@@ -40,8 +40,6 @@ public class WeightAdd extends IModal {
         } else if (copy != -1) {
             LoadPlan plan = dao.getLoadPlanById(copy);
             plan.setId(-1);
-            plan.getTransportation().setVehicle(null);
-            plan.getTransportation().setDriver(null);
             req.setAttribute(PLAN, plan);
             req.setAttribute(TITLE, "title.weight.copy");
         } else {

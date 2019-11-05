@@ -8,11 +8,14 @@
 <script>
     show.api.timeInApi = '${timeInLink}';
     show.api.timeOutApi = '${timeOutLink}';
+    show.api.removeTime = '${removeTime}';
     show.api.registration = '${registration}';
     show.api.findSeals = '${findSeals}';
     show.api.saveSeal = '${saveSeal}';
     show.api.removeSeal = '${removeSeal}';
     show.id = ${transportation.id};
+    show.directionIn = '${in}';
+    show.directionOut = '${out}';
     <c:if test="${not empty transportation.timeRegistration}">
     show.registrationTime = new Date('${transportation.timeRegistration.time}');
     </c:if>
@@ -147,9 +150,6 @@
                     <fmt:message key="transportation.registrate"/>
                 </button>
             </div>
-            <button v-else>
-                -
-            </button>
         </td>
     </tr>
     <tr>
@@ -159,17 +159,20 @@
         <td>
             :
         </td>
-        <td style="width: 180px">
+        <td style="width: 200px">
             <div v-if="timeIn">
                 <button>
                     {{(timeIn).toLocaleString()}}
                 </button>
+                <span class="mini-close" v-on:click="removeTimeIn()">
+                    &times;
+                </span>
             </div>
-            <div v-else v-on:click="setTimeIn">
+            <div v-else>
                 <button v-if="already">
                     ...
                 </button>
-                <button v-else>
+                <button v-else v-on:click="setTimeIn">
                     <fmt:message key="transportation.in"/>
                 </button>
             </div>
@@ -187,12 +190,15 @@
                 <button>
                     {{(timeOut).toLocaleString()}}
                 </button>
+                <span class="mini-close" v-on:click="removeTimeOut()">
+                    &times;
+                </span>
             </div>
-            <div v-else v-on:click="setTimeOut">
+            <div v-else>
                 <button v-if="already">
                     ...
                 </button>
-                <button v-else>
+                <button v-else v-on:click="setTimeOut">
                     <fmt:message key="transportation.out"/>
                 </button>
             </div>

@@ -1,14 +1,7 @@
 package utils.hibernate;
 
-import entity.documents.Shipper;
-import entity.products.Product;
-import entity.storages.Storage;
-import entity.storages.StorageEntry;
 import entity.transport.TransportStorageUsed;
 import utils.storages.StorageUtil;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 /**
  * Created by szpt_user045 on 01.07.2019.
@@ -38,7 +31,7 @@ public class CustomHandler {
 //        }
         StorageUtil storageUtil = new StorageUtil();
         for (TransportStorageUsed used : instance.query(TransportStorageUsed.class, null)){
-            storageUtil.updateValue(used);
+            storageUtil.updateStorageEntry(used);
         }
 
 

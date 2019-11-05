@@ -135,15 +135,30 @@
     };
     </c:otherwise>
     </c:choose>
+    editor.afterMidnight = function(){
+        let target = new Date(editor.crude.date + ' ' + editor.crude.time);
+        return target.getHours() >= 0 && target.getHours() < 8;
+    };
+    editor.prevDate = function(){
+        let selected = new Date(editor.crude.date);
+        selected.setDate(selected.getDate() - 1);
+        return selected;
+    };
 </script>
 <table id="editor" class="editor" border="0">
     <tr>
         <td>
             <table>
                 <tr>
-                    <td>
+                    <td width="238px" align="right">
                         <label for="date">
-                            <fmt:message key="date"/>
+                            <span class="error" v-if="!crude.id && afterMidnight()">
+                                <fmt:message key="date.will.be"/>
+                                {{prevDate().toLocaleDateString()}}
+                            </span>
+                            <span v-else>
+                                <fmt:message key="date"/>
+                            </span>
                         </label>
                     </td>
                     <td>
@@ -155,7 +170,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align="right">
                         <label for="time">
                             <fmt:message key="time"/>
                         </label>
@@ -242,7 +257,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align="right">
                         <label for="huskiness">
                             <fmt:message key="vro.huskiness"/>
                         </label>
@@ -256,7 +271,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align="right">
                         <label for="kernelOffset">
                             <fmt:message key="vro.kernel.offset"/>
                         </label>
@@ -270,7 +285,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align="right">
                         <label for="pulpHumidity1">
                             <fmt:message key="vro.pulp.humidity.1"/>
                         </label>
@@ -284,7 +299,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td align="right">
                         <label for="pulpHumidity2">
                             <fmt:message key="vro.pulp.humidity.2"/>
                         </label>

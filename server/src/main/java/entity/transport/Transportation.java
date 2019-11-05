@@ -41,7 +41,7 @@ public class Transportation {
     private Worker creator;
     private Worker manager;
     private Set<TransportationNote> notes = new HashSet<>();
-    private Set<TransportStorageUsed> usedStorages;
+    private Set<TransportStorageUsed> usedStorages = new HashSet<>();
     private boolean archive;
     private boolean done;
     private String uid;
