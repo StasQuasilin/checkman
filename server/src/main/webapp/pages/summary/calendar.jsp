@@ -124,9 +124,6 @@
 
                     }
                 }
-            },
-            update:function(a){
-
             }
         }
     });
@@ -136,6 +133,9 @@
         display: inline-block;
         font-size: 8pt;
         width: 100%;
+    }
+    .calendar table{
+        border-collapse: collapse;
     }
 </style>
 <html>
@@ -151,7 +151,7 @@
                 </tr>
                 <template v-for="(product, productName) in value.values">
                     <tr v-on:click="open(product)">
-                        <td style="padding-left: 4pt">
+                        <td style="padding-left: 4pt" width="100%">
                             <span v-if="product.open">
                                 &#9207;
                             </span>
@@ -162,7 +162,7 @@
                                 {{productName}}
                             </span>
                         </td>
-                        <td style="font-size: 10pt">
+                        <td class="data-cell">
                             {{product.count.toLocaleString()}}/{{product.plan.toLocaleString()}}
                         </td>
                     </tr>
@@ -179,7 +179,7 @@
                                     {{managerName}}
                                 </span>
                             </td>
-                            <td style="font-size: 10pt">
+                            <td  class="data-cell">
                                 {{manager.count.toLocaleString()}}/{{manager.plan.toLocaleString()}}
                             </td>
                         </tr>
@@ -196,15 +196,15 @@
                                         {{counterpartyName}}
                                     </span>
                                 </td>
-                                <td>
+                                <td class="data-cell">
                                     {{counterparty.count.toLocaleString()}}/{{counterparty.plan.toLocaleString()}}
                                 </td>
                             </tr>
                             <tr v-if="counterparty.open" v-for="driver in counterparty.values">
-                                <td style="padding-left: 28pt" :class="{green : driver.done}">
+                                <td style="padding-left: 28pt">
                                     {{driver.driver}}
                                 </td>
-                                <td :class="{green : driver.done}">
+                                <td class="data-cell" :class="{green : driver.done}">
                                     {{driver.count.toLocaleString()}}/{{driver.plan.toLocaleString()}}
                                 </td>
                             </tr>

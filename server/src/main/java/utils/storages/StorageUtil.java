@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -137,52 +138,49 @@ public class StorageUtil {
     private void dayStock(Timestamp time, Storage storage, Product product, Shipper shipper){
         LocalDate date = time.toLocalDateTime().toLocalDate();
         Date _date = Date.valueOf(date);
-        float amount = 0;
+
+        float plusAmount = 0;
+        float minusAmount = 0;
 
         for (StorageEntry entry : dao.getStorageEntries(_date, Date.valueOf(date.plusDays(1)), storage, product, shipper)){
-            amount += entry.getAmount();
+            float amount = entry.getAmount();
+            if (amount > 0){
+                plusAmount += amount;
+            } else {
+                minusAmount += amount;
+            }
         }
-
-        updateStock(_date, storage, product, shipper, PointScale.day, amount);
+        log.info("Update day stock " + date);
+        if (plusAmount != 0) {
+            updateStock(_date, storage, product, shipper, PointScale.day, plusAmount);
+        }
+        if (minusAmount != 0){
+            updateStock(_date, storage, product, shipper, PointScale.day, minusAmount);
+        }
         updateStockByStock(time, storage, product, shipper, PointScale.week);
         calculateStock(Timestamp.valueOf(LocalDateTime.now()), storage, product, shipper);
-    }
-
-    private static PointScale prevScale(PointScale scale){
-        switch (scale){
-            case week:
-                return PointScale.day;
-            case month:
-                return PointScale.week;
-            case year:
-                return PointScale.month;
-            default:
-                return scale;
-        }
-    }
-
-    private static PointScale nextScale(PointScale scale){
-        switch (scale){
-            case day:
-                return PointScale.week;
-            case week:
-                return PointScale.month;
-            case month:
-                return PointScale.year;
-            default:
-                return scale;
-        }
     }
 
     private void updateStockByStock(Timestamp time, Storage storage, Product product, Shipper shipper, PointScale scale) {
         LocalDate date = time.toLocalDateTime().toLocalDate();
         Date beginDate = Date.valueOf(getBeginDate(date, scale));
         Date endDate = Date.valueOf(getEndDate(date, scale));
-        float amount = 0;
+        float plusAmount = 0;
+        float minusAmount = 0;
         for (StoragePeriodPoint point : dao.getStoragePoints(beginDate, endDate, storage, product, shipper, prevScale(scale))){
-            amount += point.getAmount();
+            float amount = point.getAmount();
+            if (amount > 0){
+                plusAmount += amount;
+            } else {
+                minusAmount += amount;
+            }
         }
-        updateStock(beginDate, storage, product, shipper, scale, amount);
+        if (plusAmount != 0) {
+            updateStock(beginDate, storage, product, shipper, scale, plusAmount);
+        }
+        if (minusAmount != 0){
+            updateStock(beginDate, storage, product, shipper, scale, minusAmount);
+        }
         PointScale nextScale = nextScale(scale);
         if (nextScale != scale){
             updateStockByStock(time, storage, product, shipper, nextScale);
@@ -211,9 +209,17 @@ public class StorageUtil {
     }
 
     private void updateStock(Date date, Storage storage, Product product, Shipper shipper, PointScale scale, float amount){
-
-        StoragePeriodPoint point = dao.getStoragePoint(date, storage, product, shipper, scale);
+        log.info(storage.getName() + ": " + product.getName() + ": " + shipper.getValue() + " by " + scale.toString() + "=" + amount);
+        StoragePeriodPoint point = null;
+        for (StoragePeriodPoint spp : dao.getStoragePoints(date, date, storage, product, shipper, scale)){
+            if (spp.getAmount() != 0 && Math.signum(spp.getAmount()) == Math.signum(amount)){
+                point = spp;
+            } else if (spp.getAmount() == 0){
+                dao.remove(spp);
+            }
+        }
         if (point == null) {
+            log.info("No such point");
             point = new StoragePeriodPoint();
             point.setDate(date);
             point.setScale(scale);
@@ -229,6 +235,32 @@ public class StorageUtil {
             } else {
                 dao.save(point);
             }
+        }
+    }
+
+    public float calculateStock(Timestamp time, Storage storage, Product product, Shipper shipper){
+        ArrayList<StoragePeriodPoint> points = new ArrayList<>();
+        LocalDate localDate = getBeginDate(time.toLocalDateTime().toLocalDate(), PointScale.year);
+        Date date = Date.valueOf(localDate);
+        getStocks(date, time, storage, product, shipper, PointScale.year, points);
+        float stocks = 0;
+        for (StoragePeriodPoint point : points){
+            stocks += point.getAmount();
+        }
+        storageStocks.updateStock(time, storage, product, shipper, stocks);
+        points.clear();
+        return stocks;
+    }
+
+    public synchronized void getStocks(Date prev, Timestamp time, Storage storage, Product product, Shipper shipper, PointScale scale, ArrayList<StoragePeriodPoint> points){
+        LocalDate localDate = getBeginDate(time.toLocalDateTime().toLocalDate(), scale);
+        Date date = Date.valueOf(localDate);
+
+        points.addAll(dao.getStoragePoints(prev, date, storage, product, shipper, scale));
+
+        PointScale s = prevScale(scale);
+        if (s != scale){
+            getStocks(date, time, storage, product, shipper, s, points);
         }
     }
 
@@ -289,38 +321,31 @@ public class StorageUtil {
         }
     }
 
-    public float calculateStock(Timestamp time, Storage storage, Product product, Shipper shipper){
-        float stocks = getStocks(null, time, storage, product, shipper, PointScale.year);
-        storageStocks.updateStock(time, storage, product, shipper, stocks);
-        return stocks;
+    public static PointScale prevScale(PointScale scale){
+        switch (scale){
+            case week:
+                return PointScale.day;
+            case month:
+                return PointScale.week;
+            case year:
+                return PointScale.month;
+            default:
+                return scale;
+        }
     }
 
-    private float getStocks(Date prev, Timestamp time, Storage storage, Product product, Shipper shipper, PointScale scale){
-        LocalDate localDate = getBeginDate(time.toLocalDateTime().toLocalDate(), scale);
-
-        if (scale != PointScale.day){
-            localDate = getBeginDate(localDate.minusDays(1), scale);
+    public static PointScale nextScale(PointScale scale){
+        switch (scale){
+            case day:
+                return PointScale.week;
+            case week:
+                return PointScale.month;
+            case month:
+                return PointScale.year;
+            default:
+                return scale;
         }
-
-        Date date = Date.valueOf(localDate);
-
-        float result = 0;
-        List<StoragePeriodPoint> points = dao.getStoragePoints(prev, date, storage, product, shipper, scale);
-        for (StoragePeriodPoint point : points){
-            result += point.getAmount();
-        }
-
-        PointScale s = prevScale(scale);
-        if (s != scale){
-            result += getStocks(date, time, storage, product, shipper, s);
-        }
-
-        return result;
-
     }
-
-
-
 
 
 }

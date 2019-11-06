@@ -8,6 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <div id="static-content" style="width: 150pt">
-  <jsp:include page="storageList.jsp"/>
+  <jsp:include page="storageStocks.jsp"/>
 </div>
 </html>

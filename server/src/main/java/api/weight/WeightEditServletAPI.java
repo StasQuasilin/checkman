@@ -84,7 +84,7 @@ public class WeightEditServletAPI extends ServletAPI {
                     if (transportation.getUsedStorages().size() == 0){
                         log.info("Create storage entry");
                         TransportStorageUsed used = new TransportStorageUsed();
-                        used.setAmount(weight.getNetto());
+                        used.setAmount(1f * Math.round(weight.getNetto() * 100) / 100);
                         TransportUtil.updateUsedStorages(transportation, used, worker);
                     } else {
                         TransportUtil.updateUsedStorages(transportation, worker);

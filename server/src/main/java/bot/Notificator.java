@@ -680,8 +680,7 @@ public class Notificator {
             if (setting.isShow() && setting.isVro()){
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
-                    String message = lb.get(language, "vro.sun.cellulose.title") +
-                        NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate) +
+                    String message = String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate) +
                         NEW_LINE + String.format(lb.get(language, "bot.notificator.raw.cellulose"), turnCellulose.getCellulose()) +
                         NEW_LINE + String.format(lb.get(language, "extraction.humidity"), turnCellulose.getHumidity()) +
                         NEW_LINE + String.format(lb.get(language, "extraction.turn.cellulose.dry"), turnCellulose.DryRecalculation());

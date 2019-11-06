@@ -1,17 +1,30 @@
 package utils.hibernate;
 
+import entity.documents.Shipper;
+import entity.products.Product;
+import entity.storages.Storage;
+import entity.storages.StoragePeriodPoint;
+import entity.storages.StorageProduct;
 import entity.transport.TransportStorageUsed;
+import utils.DateUtil;
+import utils.storages.PointScale;
 import utils.storages.StorageUtil;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 01.07.2019.
  */
 public class CustomHandler {
 
-    static dbDAO dao = dbDAOService.getDAO();
+//    static dbDAO dao = dbDAOService.getDAO();
+
 
     public static void main(String[] args) {
-        Hibernator instance = Hibernator.getInstance();
+//        Hibernator instance = Hibernator.getInstance();
 
 //        for (Transportation transportation : instance.query(Transportation.class, null)){
 //            System.out.println(transportation.getDate() + ", " + (transportation.getWeight() != null ? transportation.getWeight().getNetto() : 0));
@@ -29,12 +42,32 @@ public class CustomHandler {
 //        for (Deal deal : instance.query(Deal.class, null)){
 //            WeightUtil.calculateDealDone(deal);
 //        }
-        StorageUtil storageUtil = new StorageUtil();
-        for (TransportStorageUsed used : instance.query(TransportStorageUsed.class, null)){
-            storageUtil.updateStorageEntry(used);
+//        StorageUtil storageUtil = new StorageUtil();
+        PointScale scale = PointScale.day;
+        PointScale s = scale;
+        while ((s = StorageUtil.nextScale(s)) != scale){
+            scale = s;
+            System.out.println(s);
         }
-
-
+//        for (TransportStorageUsed used : instance.query(TransportStorageUsed.class, null)){
+//            storageUtil.updateStorageEntry(used);
+//        }
+//        Timestamp time = Timestamp.valueOf(LocalDateTime.now());
+//        ArrayList<StoragePeriodPoint> points = new ArrayList<>();
+//
+//        List<Shipper> shipperList = dao.getShipperList();
+//        for (StorageProduct storageProduct : dao.getObjects(StorageProduct.class)){
+//            for (Shipper shipper : shipperList){
+//                points.clear();
+//                Storage storage = storageProduct.getStorage();
+//                Product product = storageProduct.getProduct();
+//                storageUtil.getStocks(null, time, storage, product, shipper, PointScale.year, points);
+//                for (StoragePeriodPoint point : points){
+//                    System.out.println(point.getScale().toString() + ": " + DateUtil.prettyDate(point.getDate()));
+//                    System.out.println("\t" + point.getStorage().getName() + ": " + point.getProduct().getName() + ": " + point.getAmount());
+//                }
+//            }
+//        }
 
 //        for (StorageEntry entry : instance.query(StorageEntry.class, null)){
 //            storageUtil.dayStock(entry);
@@ -70,7 +103,7 @@ public class CustomHandler {
 //        for (Vehicle v : vehicle){
 //            System.out.println(v);
 //        }
-        HibernateSessionFactory.shutdown();
+//        HibernateSessionFactory.shutdown();
     }
 
     static String pretty(String number){

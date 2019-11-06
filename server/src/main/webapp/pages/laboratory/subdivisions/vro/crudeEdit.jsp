@@ -41,7 +41,7 @@
             hour:'05',
             minute:30
         }
-    ]
+    ];
     <c:forEach items="${laborants}" var="l">
     editor.laborants.push({
         id:${l.id},
@@ -152,7 +152,7 @@
                 <tr>
                     <td width="238px" align="right">
                         <label for="date">
-                            <span class="error" v-if="!crude.id && afterMidnight()">
+                            <span style="font-size: 10pt; font-weight: bold; color: red" v-if="!crude.id && afterMidnight()">
                                 <fmt:message key="date.will.be"/>
                                 {{prevDate().toLocaleDateString()}}
                             </span>

@@ -2,6 +2,7 @@ package utils;
 
 import bot.BotUID;
 import constants.Constants;
+import controllers.IServlet;
 import entity.*;
 import entity.answers.IAnswer;
 import entity.bot.UserBotSetting;
@@ -30,16 +31,22 @@ import entity.reports.ManufactureReport;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.storages.Storage;
+import entity.storages.StoragePeriodPoint;
 import entity.transport.*;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import utils.storages.PointScale;
+import utils.storages.StorageUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
+
 import java.util.*;
+import java.sql.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -67,6 +74,8 @@ public class JsonParser {
     private static final String AMOUNT = Constants.AMOUNT;
     private static final String LICENSE = "license";
     private static final String DRY = "dry";
+    private static final String SCALE = IServlet.SCALE;
+    private static final String PARENT = "parent";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -1202,5 +1211,26 @@ public class JsonParser {
         jsop.put(ID, shipper.getId());
         jsop.put(NAME, shipper.getValue());
         return jsop;
+    }
+
+    public JSONObject toJson(StoragePeriodPoint point) {
+        JSONObject json = pool.getObject();
+        json.put(ID, point.getId());
+        json.put(DATE, point.getDate().toString());
+        json.put(STORAGE, toJson(point.getStorage()));
+        json.put(PRODUCT, toJson(point.getProduct()));
+        json.put(SHIPPER, toJson(point.getShipper()));
+        json.put(AMOUNT, point.getAmount());
+        PointScale scale = point.getScale();
+        PointScale s = scale;
+        LocalDate date = point.getDate().toLocalDate();
+        json.put(SCALE, scale.toString());
+        while ((s = StorageUtil.nextScale(s)) != scale){
+            scale = s;
+            LocalDate beginDate = StorageUtil.getBeginDate(date, scale);
+            json.put(scale.toString(), java.sql.Date.valueOf(beginDate).toString());
+        }
+
+        return json;
     }
 }

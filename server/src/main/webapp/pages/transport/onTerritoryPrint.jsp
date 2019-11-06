@@ -22,27 +22,22 @@
         PostReq(this.api.print, {}, function(a){
           let print = window.open();
           print.document.write(a);
-          print.print();
-          print.close();
         })
       }
     }
   });
   printer.api.print = '${print}';
 </script>
-<table id="print" width="100%">
-  <tr>
-    <td colspan="3" align="center">
-      <button onclick="closeModal()">
-        <fmt:message key="button.close"/>
-      </button>
-      <button v-on:click="print()">
-        <fmt:message key="document.print"/>
-      </button>
-    </td>
-  </tr>
-</table>
-<script>
-  printer.print();
-</script>
+  <table id="print" width="100%">
+    <tr>
+      <td colspan="3" align="center">
+        <button onclick="closeModal()">
+          <fmt:message key="button.close"/>
+        </button>
+        <button v-on:click="print()">
+          <fmt:message key="document.print"/>
+        </button>
+      </td>
+    </tr>
+  </table>
 </html>

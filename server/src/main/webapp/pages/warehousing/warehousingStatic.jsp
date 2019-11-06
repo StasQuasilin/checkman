@@ -10,7 +10,7 @@
   <table id="static-content" style="width: 150pt">
     <tr>
       <td style="border-bottom: dashed black 1pt;">
-        <jsp:include page="../storages/storageList.jsp"/>
+        <jsp:include page="../storages/storageStocks.jsp"/>
       </td>
     </tr>
     <tr>

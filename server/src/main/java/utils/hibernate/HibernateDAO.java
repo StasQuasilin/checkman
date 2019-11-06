@@ -1155,7 +1155,7 @@ public class HibernateDAO implements dbDAO {
     public List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale) {
         HashMap<String, Object> param = new HashMap<>();
         if (from == null){
-            param.put("date", new LT(to));
+            param.put("date", new LE(to));
         } else {
             param.put("date", new BETWEEN(from, to));
         }

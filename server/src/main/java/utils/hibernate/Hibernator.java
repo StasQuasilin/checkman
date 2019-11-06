@@ -69,7 +69,7 @@ public class Hibernator {
                     predicates[i] = criteriaBuilder.notEqual(path, not.getObject());
                 } else if (entry.getValue() instanceof BETWEEN){
                     BETWEEN between = (BETWEEN) entry.getValue();
-                    predicates[i] = criteriaBuilder.between(path,between.getFrom(),between.getTo());
+                    predicates[i] = criteriaBuilder.between(path, between.getFrom(), between.getTo());
                 }else if (entry.getValue() instanceof GE) {
                     GE ge = (GE) entry.getValue();
                     predicates[i] = criteriaBuilder.greaterThanOrEqualTo(path, ge.getDate());

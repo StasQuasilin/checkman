@@ -9,6 +9,8 @@ import entity.storages.StorageDocumentType;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Created by Kvasik on 14.10.2019.
@@ -77,9 +79,10 @@ public class TransportStorageUsed extends StorageDocument {
     @Transient
     @Override
     public Timestamp getDate() {
-        Timestamp bruttoTime = transportation.getWeight().getBruttoTime().getTime();
-        Timestamp taraTime = transportation.getWeight().getTaraTime().getTime();
-        return bruttoTime.after(taraTime) ? bruttoTime : taraTime;
+//        Timestamp bruttoTime = transportation.getWeight().getBruttoTime().getTime();
+//        Timestamp taraTime = transportation.getWeight().getTaraTime().getTime();
+//        return bruttoTime.after(taraTime) ? bruttoTime : taraTime;
+        return Timestamp.valueOf(LocalDateTime.of(transportation.getDate().toLocalDate(), LocalTime.now()));
     }
 
     @Transient

@@ -92,6 +92,7 @@ public class Branches {
         public static final String SUMMARY_PLAN_PRINT = "/summary/print.j";
         public static final String PRINT_ON_TERRITORY = "/transport/on/territory/print.j";
         public static final String TRANSPORT_INCOME = "/transport/income/print.j";
+        public static final String STORAGE_PRODUCT_REPLACE = "/storage/stock/replace.j";
 
 
         public class Extraction {
@@ -241,6 +242,7 @@ public class Branches {
         public static final String ON_TERRITORY_PRINT = API + "/transport/on/territory";
         public static final String INCOME_TRANSPORT_PRINT = API + "/transport/income/print";
         public static final String REMOVE_TRANSPORT_TIME = API + "/transport/remove/time";
+        public static final String STORAGE_STOCKS = API + "/storage/stocks";
 
 
         public class References {
