@@ -93,6 +93,8 @@ public class Branches {
         public static final String PRINT_ON_TERRITORY = "/transport/on/territory/print.j";
         public static final String TRANSPORT_INCOME = "/transport/income/print.j";
         public static final String STORAGE_PRODUCT_REPLACE = "/storage/stock/replace.j";
+        public static final String MANUFACTURE_REPORT_PREVIEW = "/manufacture/report/view.j";
+        public static final String MANUFACTURE_REPORT_REMOVE = "/manufacture/report/remove.j";
 
 
         public class Extraction {
@@ -243,6 +245,8 @@ public class Branches {
         public static final String INCOME_TRANSPORT_PRINT = API + "/transport/income/print";
         public static final String REMOVE_TRANSPORT_TIME = API + "/transport/remove/time";
         public static final String STORAGE_STOCKS = API + "/storage/stocks";
+        public static final String STORAGE_PRODUCT_REPLACE = API + "/storage/product/replace";
+        public static final String MANUFACTURE_REPORT_SEND = API + "/manufacture/report/send";
 
 
         public class References {

@@ -24,6 +24,9 @@
         day:''
       },
       methods:{
+        handler:function(a){
+          console.log(a);
+        },
         addProduct:function(product, storage){
           if (!this.items[product.id]){
             Vue.set(this.items, product.id, {
@@ -151,6 +154,19 @@
     list.addProduct(product, storage);
     </c:forEach>
     </c:forEach>
+//    SUBSCRIBES
+    <c:forEach items="${subscribe}" var="s">
+    subscribe('${s}', function(a){
+      list.handler(a);
+    });
+    </c:forEach>
+    stopContent = function(){
+      <c:forEach items="${subscribe}" var="s">
+      subscribe('${s}', function(a){
+        unSubscribe('${s}');
+      });
+      </c:forEach>
+    }
   </script>
   <style>
     .row{
@@ -207,7 +223,8 @@
     }
   </style>
   <div id="container-header" class="container-header">
-    <button onclick="loadModal('${replace}')"><fmt:message key="button.replace"/> </button>
+    <button onclick="loadModal('${replace}')"><fmt:message key="button.replace"/></button>
+    <button onclick="loadModal('${replace}')"><fmt:message key="button.stock.correction"/></button>
   </div>
   <div id="list" style="padding-left: 8pt">
     <div v-for="item in items">

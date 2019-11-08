@@ -112,9 +112,12 @@ var editor = new Vue({
                         delete item['storage'];
                     }
                 });
+                const self = this;
                 PostApi(this.api.save, {report: this.report, fields: this.fields}, function(a){
+                    console.log(a);
                     if (a.status === 'success'){
                         closeModal();
+                        loadModal(self.api.preview, {id: a.id})
                     }
                 })
             }

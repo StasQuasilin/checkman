@@ -1,5 +1,6 @@
 package controllers.storages;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import controllers.IUIServlet;
 import entity.products.Product;
@@ -23,6 +24,7 @@ public class StorageList extends IUIServlet {
 
     private static final String _TITLE = "title.storages";
     private static final String _CONTENT = "/pages/storages/storageList.jsp";
+    private static final Subscriber[] SUBSCRIBES = new Subscriber[]{Subscriber.STOCK};
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<Product, ArrayList<Storage>> products = new HashMap<>();
@@ -39,6 +41,7 @@ public class StorageList extends IUIServlet {
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute("getStocks", Branches.API.STORAGE_STOCKS);
         req.setAttribute("replace", Branches.UI.STORAGE_PRODUCT_REPLACE);
+        req.setAttribute(SUBSCRIBE, SUBSCRIBES);
         show(req, resp);
     }
 }

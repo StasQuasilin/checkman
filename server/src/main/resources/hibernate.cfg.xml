@@ -95,11 +95,14 @@
         <mapping class="entity.chat.ChatMember"/>
         <mapping class="entity.chat.ChatMessage"/>
         <mapping class="entity.reports.ManufactureReport"/>
+        <mapping class="entity.manufactoring.ReportMessageLink"/>
         <mapping class="entity.reports.ReportField"/>
         <mapping class="entity.reports.ReportFieldSettings"/>
         <mapping class="entity.reports.ReportFieldCategory"/>
         <mapping class="entity.rails.Carriage"/>
         <mapping class="entity.rails.CarriageLoadPlan"/>
         <mapping class="entity.rails.CarriageAnalyses"/>
+        <mapping class="entity.storages.StorageProductReplace"/>
+        <mapping class="entity.storages.StorageProductReplaceEntry"/>
     </session-factory>
 </hibernate-configuration>

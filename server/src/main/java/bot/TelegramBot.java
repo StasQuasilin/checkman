@@ -6,7 +6,9 @@ import entity.bot.Command;
 import entity.bot.UserBotSetting;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -215,7 +217,7 @@ public class TelegramBot extends IBot {
         }
     }
 
-    public synchronized void sendMsg(long chatId, String s, ReplyKeyboard keyboard) throws TelegramApiException {
+    public synchronized Message sendMsg(long chatId, String s, ReplyKeyboard keyboard) throws TelegramApiException {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
@@ -223,9 +225,8 @@ public class TelegramBot extends IBot {
         if (keyboard != null) {
             sendMessage.setReplyMarkup(keyboard);
         }
-        execute(sendMessage);
-//        Unable to execute sendmessage method
-//        Error sending message
+
+        return execute(sendMessage);
     }
 
     public BotSettings getBotSettings() {
@@ -234,5 +235,12 @@ public class TelegramBot extends IBot {
 
     public Admin getAdmin() {
         return botSettings.getAdmin();
+    }
+
+    public void remove(long chatId, int messageId) throws TelegramApiException {
+        DeleteMessage deleteMessage = new DeleteMessage();
+        deleteMessage.setChatId(chatId);
+        deleteMessage.setMessageId(messageId);
+        execute(deleteMessage);
     }
 }

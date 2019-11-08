@@ -1,6 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -51,7 +50,7 @@
         {
           id:${note.id},
           creator:{
-            id:${note.creator.id},
+            id:'${note.creator.id}',
             person:{
               value:'${note.creator.person.value}'
             }

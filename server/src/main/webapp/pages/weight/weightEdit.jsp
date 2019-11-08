@@ -4,7 +4,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/weightEdit.vue"></script>

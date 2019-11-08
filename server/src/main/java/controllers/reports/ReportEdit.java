@@ -47,7 +47,8 @@ public class ReportEdit extends IModal {
         req.setAttribute(PRODUCTS, dao.getProductList());
         req.setAttribute(CALCULATORS, Calculator.calculatorList());
         req.setAttribute("categories", dao.getReportCategories());
-        req.setAttribute("save", Branches.API.SAVE_MANUFACTURE_REPORT);
+        req.setAttribute(SAVE, Branches.API.SAVE_MANUFACTURE_REPORT);
+        req.setAttribute(PREVIEW, Branches.UI.MANUFACTURE_REPORT_PREVIEW);
         show(req, resp);
     }
 }

@@ -29,7 +29,8 @@ public enum Subscriber {
     MESSAGES,
     MANUFACTURE_REPORTS,
     USERS,
-    STOCK
+    STOCK,
+    FINAL_STOCK
 }
 
 //10592

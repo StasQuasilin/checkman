@@ -42,6 +42,7 @@
   var category = null;
   //API
   editor.api.save = '${save}';
+  editor.api.preview = '${preview}';
   //REPORT
   <c:choose>
   <c:when test="${not empty report}">

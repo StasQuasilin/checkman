@@ -17,6 +17,7 @@ import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -176,7 +177,7 @@ public class Notificator {
             }
         }
     }
-    public static final String ATTENTION = "‼";
+    public static final String ATTENTION = "";//"‼";
     public void cakeAnalysesShow(Transportation transportation, MealAnalyses analyses) {
         HashMap<String, String> messages = new HashMap<>();
         for (UserBotSetting setting : getSettings()){
@@ -326,14 +327,11 @@ public class Notificator {
     private Collection<UserBotSetting> getSettings() {
         return telegramBot.getBotSettings().get();
     }
-    private void sendMessage(long telegramId, String message, ReplyKeyboard keyboard) {
+    private Message sendMessage(long telegramId, String message, ReplyKeyboard keyboard) {
         try {
-            telegramBot.sendMsg(telegramId, message, keyboard);
-        } catch (TelegramApiException e) {
-            System.out.println(telegramId);
-            System.out.println(e.getMessage() + ":" + Arrays.toString(e.getSuppressed()));
-            e.printStackTrace();
-        }
+            return telegramBot.sendMsg(telegramId, message, keyboard);
+        } catch (TelegramApiException ignore) {}
+        return null;
     }
     public void extractionShow(StorageProtein storageProtein) {
         String storage = storageProtein.getStorage().getName();
@@ -526,7 +524,7 @@ public class Notificator {
     public static final String FORMAT = "%1$,.3f";
     public static final String STAR = "*";
 
-    public void manufactureReportShow(ManufactureReport manufactureReport) {
+    public void manufactureReportShow(ManufactureReport manufactureReport, ArrayList<Message> list) {
 
         HashMap<String, String> messages = new HashMap<>();
 
@@ -570,7 +568,9 @@ public class Notificator {
 
                     messages.put(language, builder.toString());
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                list.add(
+                        sendMessage(setting.getTelegramId(), messages.get(language), null)
+                );
             }
         }
     }
@@ -689,6 +689,14 @@ public class Notificator {
 
                 sendMessage(setting.getTelegramId(), messages.get(language), null);
             }
+        }
+    }
+
+    public void removeMessage(long chatId, int messageId) {
+        try {
+            telegramBot.remove(chatId, messageId);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 }

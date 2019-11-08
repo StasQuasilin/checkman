@@ -4,6 +4,7 @@ import api.ServletAPI;
 import bot.BotFactory;
 import bot.Notificator;
 import constants.Branches;
+import entity.manufactoring.ReportMessageLink;
 import entity.production.Turn;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
@@ -12,9 +13,11 @@ import entity.reports.ReportFieldSettings;
 import entity.storages.Storage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import utils.TurnDateTime;
 import utils.U;
 import utils.UpdateUtil;
+import utils.answers.SuccessAnswer;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
 
@@ -28,6 +31,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 17.09.2019.
@@ -71,7 +75,6 @@ public class ManufactureReportEditAPI extends ServletAPI {
             ArrayList<ReportField> reportFields = new ArrayList<>();
 
             for(Object o : fields){
-                System.out.println(o);
                 JSONObject field = (JSONObject) o;
                 long fieldId = -1;
                 if (field.containsKey("id")){
@@ -155,13 +158,36 @@ public class ManufactureReportEditAPI extends ServletAPI {
                     manufactureReport.getFields().add(field);
                 }
                 updateUtil.onSave(manufactureReport);
-                Notificator notificator = BotFactory.getNotificator();
-                if (notificator != null){
-                    notificator.manufactureReportShow(manufactureReport);
-                }
-            }
+                write(resp, parser.toJson(new SuccessAnswer(ID, manufactureReport.getId())).toJSONString());
 
-            write(resp, SUCCESS_ANSWER);
+//                Notificator notificator = BotFactory.getNotificator();
+//                if (notificator != null){
+//                    HashMap<String, Object> param = new HashMap<>();
+//                    param.put("report", manufactureReport.getId());
+//
+//                    for (ReportMessageLink link : dao.getObjectsByParams(ReportMessageLink.class, param)){
+//                        notificator.removeMessage(link.getChatId(), link.getMessageId());
+//                        dao.remove(link);
+//                    }
+//
+//                    ArrayList<Message> messages = new ArrayList<>();
+//                    notificator.manufactureReportShow(manufactureReport, messages);
+//
+//                    for (Message message : messages){
+//                        if (message.getChat() != null) {
+//                            System.out.println(message.getChat().getId());
+//                            ReportMessageLink messageLink = new ReportMessageLink();
+//                            messageLink.setReport(manufactureReport);
+//
+//                            messageLink.setChatId(message.getChat().getId());
+//                            messageLink.setMessageId(message.getMessageId());
+//                            dao.save(messageLink);
+//                        }
+//                    }
+//                }
+            } else {
+                write(resp, SUCCESS_ANSWER);
+            }
         }
     }
 }
