@@ -1,9 +1,9 @@
 package entity.documents;
 
 import entity.DealType;
+import entity.organisations.Counterparty;
 import entity.products.Product;
 import entity.Worker;
-import entity.organisations.Organisation;
 import entity.weight.WeightUnit;
 
 import javax.persistence.*;
@@ -14,14 +14,13 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "deals")
-public class Deal extends IDocument{
-//    private int id;
-//    private Date date;
-
+public class Deal{
+    private int id;
+    private Date date;
     private Date dateTo;
     private DealType type;
     private Shipper shipper;
-    private Organisation organisation;
+    private Counterparty organisation;
     private Product product;
     private float quantity;
     private WeightUnit unit;
@@ -32,24 +31,20 @@ public class Deal extends IDocument{
     private boolean done;
     private boolean archive;
 
-    @Override
     @Id
     @GeneratedValue
     public int getId() {
         return id;
     }
-    @Override
     public void setId(int id) {
         this.id = id;
     }
 
-    @Override
     @Basic
     @Column(name = "date")
     public Date getDate() {
         return date;
     }
-    @Override
     public void setDate(Date date) {
         this.date = date;
     }
@@ -83,10 +78,10 @@ public class Deal extends IDocument{
 
     @OneToOne
     @JoinColumn(name = "organisation")
-    public Organisation getOrganisation() {
+    public Counterparty getOrganisation() {
         return organisation;
     }
-    public void setOrganisation(Organisation organisation) {
+    public void setOrganisation(Counterparty organisation) {
         this.organisation = organisation;
     }
 

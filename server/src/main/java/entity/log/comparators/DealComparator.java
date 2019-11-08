@@ -1,11 +1,9 @@
 package entity.log.comparators;
 
-import constants.Constants;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.log.Change;
 import entity.log.IChangeComparator;
-import entity.organisations.Organisation;
 import utils.ChangeLogUtil;
 
 import java.sql.Date;

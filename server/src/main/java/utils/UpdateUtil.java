@@ -9,7 +9,6 @@ import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
-import entity.documents.Shipper;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.ProbeTurn;
@@ -17,10 +16,8 @@ import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.VROTurn;
-import entity.organisations.Organisation;
-import entity.products.Product;
+import entity.organisations.Counterparty;
 import entity.reports.ManufactureReport;
-import entity.storages.Storage;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
@@ -193,7 +190,7 @@ public class UpdateUtil {
         doAction(Command.remove, Subscriber.MESSAGES, object);
     }
 
-    public void onSave(Organisation organisation) throws IOException {
+    public void onSave(Counterparty organisation) throws IOException {
         for (Deal deal : dao.getDealsByOrganisation(organisation)){
             onSave(deal);
         }

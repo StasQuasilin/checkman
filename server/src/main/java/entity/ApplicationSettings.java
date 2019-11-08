@@ -1,6 +1,6 @@
 package entity;
 
-import entity.organisations.Organisation;
+import entity.organisations.Counterparty;
 import entity.transport.TransportCustomer;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "app_settings")
 public class ApplicationSettings {
     private int id;
-    private Organisation organisation;
+    private Counterparty organisation;
     private TransportCustomer customer;
 
     @Id
@@ -26,10 +26,10 @@ public class ApplicationSettings {
 
     @OneToOne
     @JoinColumn(name = "organisation")
-    public Organisation getOrganisation() {
+    public Counterparty getOrganisation() {
         return organisation;
     }
-    public void setOrganisation(Organisation organisation) {
+    public void setOrganisation(Counterparty organisation) {
         this.organisation = organisation;
     }
 

@@ -64,7 +64,8 @@ public class TransportStorageUsed extends StorageDocument {
     @Transient
     @Override
     public Product getProduct() {
-        return transportation.getProduct();
+        return null;
+//        return transportation.getProduct();
     }
     public void setStorage(Storage storage) {
         this.storage = storage;

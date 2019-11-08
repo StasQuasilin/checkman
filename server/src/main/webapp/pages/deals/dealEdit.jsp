@@ -143,65 +143,66 @@
 
             </td>
         </tr>
-        <tr>
-            <td>
-                <label for="realisation">
-                    <fmt:message key="deal.realisation"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="realisation" v-model="deal.realisation">
-                    <option v-for="realisation in realisations" :value="realisation.id">{{realisation.value}}</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="product">
-                    <fmt:message key="deal.product"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="product" v-model="deal.product">
-                    <option v-for="product in products" :value="product.id">{{product.value}}</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="quantity">
-                    <fmt:message key="deal.quantity"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input type="number" min="0" id="quantity" v-model="deal.quantity" :class="{error : errors.quantity}" autocomplete="off">
-                <select v-model="deal.unit">
-                    <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="price">
-                    <fmt:message key="deal.price"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input type="number" min="0" id="price" v-model="deal.price" :class="{error : errors.price}" autocomplete="off">
-            </td>
-        </tr>
+
+        <%--<tr>--%>
+            <%--<td>--%>
+                <%--<label for="realisation">--%>
+                    <%--<fmt:message key="deal.realisation"/>--%>
+                <%--</label>--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--:--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--<select id="realisation" v-model="deal.realisation">--%>
+                    <%--<option v-for="realisation in realisations" :value="realisation.id">{{realisation.value}}</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
+        <%--</tr>--%>
+        <%--<tr>--%>
+            <%--<td>--%>
+                <%--<label for="product">--%>
+                    <%--<fmt:message key="deal.product"/>--%>
+                <%--</label>--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--:--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--<select id="product" v-model="deal.product">--%>
+                    <%--<option v-for="product in products" :value="product.id">{{product.value}}</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
+        <%--</tr>--%>
+        <%--<tr>--%>
+            <%--<td>--%>
+                <%--<label for="quantity">--%>
+                    <%--<fmt:message key="deal.quantity"/>--%>
+                <%--</label>--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--:--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--<input type="number" min="0" id="quantity" v-model="deal.quantity" :class="{error : errors.quantity}" autocomplete="off">--%>
+                <%--<select v-model="deal.unit">--%>
+                    <%--<option v-for="unit in units" :value="unit.id">{{unit.value}}</option>--%>
+                <%--</select>--%>
+            <%--</td>--%>
+        <%--</tr>--%>
+        <%--<tr>--%>
+            <%--<td>--%>
+                <%--<label for="price">--%>
+                    <%--<fmt:message key="deal.price"/>--%>
+                <%--</label>--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--:--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                <%--<input type="number" min="0" id="price" v-model="deal.price" :class="{error : errors.price}" autocomplete="off">--%>
+            <%--</td>--%>
+        <%--</tr>--%>
         <tr>
             <td>
                 <fmt:message key="deal.amount"/>

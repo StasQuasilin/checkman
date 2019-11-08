@@ -1,6 +1,6 @@
 package entity.transport;
 
-import entity.organisations.Organisation;
+import entity.organisations.Counterparty;
 import entity.Person;
 
 import javax.persistence.*;
@@ -9,17 +9,16 @@ import javax.persistence.*;
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
-@Table(name = "drivers")
+@Table(name = "_drivers")
 public class Driver {
     private int id;
     private Person person;
-    private Organisation organisation;
-    private Vehicle vehicle;
+    private Counterparty organisation;
+    private Truck truck;
     private String license;
-    private ActionTime archive;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public int getId() {
         return id;
     }
@@ -38,21 +37,22 @@ public class Driver {
 
     @OneToOne
     @JoinColumn(name = "organisation")
-    public Organisation getOrganisation() {
+    public Counterparty getOrganisation() {
         return organisation;
     }
-    public void setOrganisation(Organisation organisation) {
+    public void setOrganisation(Counterparty organisation) {
         this.organisation = organisation;
     }
 
     @OneToOne
-    @JoinColumn(name = "vehicle")
-    public Vehicle getVehicle() {
-        return vehicle;
+    @JoinColumn(name = "truck")
+    public Truck getTruck() {
+        return truck;
     }
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void setTruck(Truck truck) {
+        this.truck = truck;
     }
+
 
     @Basic
     @Column(name = "license")
@@ -61,15 +61,6 @@ public class Driver {
     }
     public void setLicense(String license) {
         this.license = license;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "archive")
-    public ActionTime getArchive() {
-        return archive;
-    }
-    public void setArchive(ActionTime archive) {
-        this.archive = archive;
     }
 
     @Override

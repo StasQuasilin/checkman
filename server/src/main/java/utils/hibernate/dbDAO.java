@@ -22,7 +22,7 @@ import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
-import entity.organisations.Organisation;
+import entity.organisations.Counterparty;
 import entity.organisations.OrganisationType;
 import entity.production.Forpress;
 import entity.production.Turn;
@@ -41,7 +41,6 @@ import entity.weight.Weight;
 import entity.weight.WeightUnit;
 import utils.ArchiveType;
 import utils.TurnDateTime;
-import utils.hibernate.DateContainers.IDateContainer;
 import utils.storages.PointScale;
 
 import java.sql.Date;
@@ -59,7 +58,7 @@ public interface dbDAO {
     List<LoadPlan> getPlanByDeal(Deal deal);
     List<VROTurn> getVroTurnsByDate(HashMap<String, Object> parameters);
     Deal getDealById(Object id);
-    Organisation getOrganisationById(Object organisationId);
+    Counterparty getOrganisationById(Object organisationId);
     Product getProductById(Object id);
     Shipper getShipperById(Object id);
     ActNumber getActNumber(ActType type);
@@ -117,7 +116,7 @@ public interface dbDAO {
     LaboratoryTurn getLaboratoryTurnByTurn(Turn turn);
     Forpress getForpressById(Object forpressId);
     ExtractionCrude getExtractionCrudeById(Object id);
-    Collection<Organisation> findOrganisation(String key);
+    Collection<Counterparty> findOrganisation(String key);
     List<LoadPlan> getActiveTransportations(Date date);
     List<Deal> getLimitArchiveDeals(DealType type);
     Shipper getShipperByValue(Object value);
@@ -134,7 +133,7 @@ public interface dbDAO {
     OilMassFraction getOilMassFractionById(long id);
     List<Vehicle> findVehicle(Object key);
     List<OrganisationType> getOrganisationTypeList();
-    Organisation findOrganisation(String type, String name);
+    Counterparty findOrganisation(String type, String name);
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
     List<UserBotSetting> getBotSettingsByWorker(Worker worker);
     User getUserByEmail(String email);
@@ -211,7 +210,7 @@ public interface dbDAO {
     BotSettings getBotSettingsByChatId(Object id);
     UserBotSetting getUserBotSettingsByChat(Object id);
     <T>List<T> query(Class<T> tClass, HashMap<String, Object> parameters);
-    List<Organisation> getOrganisations();
+    List<Counterparty> getOrganisations();
     Vehicle getVehicleByHash(int hash);
     <T>T getObjectById(Class<T> _class, Object o);
     <T> List<T> getObjects(Class<T> tClass);

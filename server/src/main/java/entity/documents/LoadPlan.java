@@ -11,10 +11,9 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "load_plans")
-public class LoadPlan extends IDocument{
-//    private int id;
-//    private Date date;
-
+public class LoadPlan{
+    private int id;
+    private Date date;
     private Deal deal;
     private float plan;
     private TransportCustomer customer;
@@ -23,24 +22,20 @@ public class LoadPlan extends IDocument{
     private boolean canceled;
     private String uid;
 
-    @Override
     @Id
     @GeneratedValue
     public int getId() {
         return id;
     }
-    @Override
     public void setId(int id) {
         this.id = id;
     }
 
-    @Override
     @Basic
     @Column(name = "date")
     public Date getDate() {
         return date;
     }
-    @Override
     public void setDate(Date date) {
         this.date = date;
     }

@@ -23,7 +23,7 @@ import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
-import entity.organisations.Organisation;
+import entity.organisations.Counterparty;
 import entity.organisations.OrganisationType;
 import entity.production.Forpress;
 import entity.production.Turn;
@@ -137,8 +137,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Organisation getOrganisationById(Object organisationId) {
-        return hb.get(Organisation.class, ID, organisationId);
+    public Counterparty getOrganisationById(Object organisationId) {
+        return hb.get(Counterparty.class, ID, organisationId);
     }
 
     @Override
@@ -481,9 +481,9 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Collection<Organisation> findOrganisation(String key) {
+    public Collection<Counterparty> findOrganisation(String key) {
         Set<Integer> ids = new HashSet<>();
-        List<Organisation> organisations = new LinkedList<>();
+        List<Counterparty> organisations = new LinkedList<>();
         for (String string : key.split(SPACE)){
             String s = string.trim();
             findOrganisation("type", s, ids, organisations);
@@ -494,8 +494,8 @@ public class HibernateDAO implements dbDAO {
         return organisations;
     }
 
-    private void findOrganisation(String key, String value, Set<Integer> ids, List<Organisation> organisations){
-        for (Organisation organisation : find(Organisation.class, key, value)){
+    private void findOrganisation(String key, String value, Set<Integer> ids, List<Counterparty> organisations){
+        for (Counterparty organisation : find(Counterparty.class, key, value)){
             if (!ids.contains(organisation.getId())){
                 ids.add(organisation.getId());
                 organisations.add(organisation);
@@ -701,11 +701,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Organisation findOrganisation(String type, String name) {
+    public Counterparty findOrganisation(String type, String name) {
         final HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("type", type);
         parameters.put("name", name);
-        return hb.get(Organisation.class, parameters);
+        return hb.get(Counterparty.class, parameters);
     }
 
     @Override
@@ -1083,8 +1083,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Organisation> getOrganisations() {
-        return hb.query(Organisation.class, null);
+    public List<Counterparty> getOrganisations() {
+        return hb.query(Counterparty.class, null);
     }
 
     @Override

@@ -6,7 +6,7 @@ import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
-import entity.transport.TransportUtil;
+import utils.TransportUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -1,8 +1,6 @@
 package api.transport;
 
 import api.ServletAPI;
-import bot.BotFactory;
-import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -12,7 +10,7 @@ import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import entity.transport.TransportUtil;
+import utils.TransportUtil;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
 
@@ -22,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
