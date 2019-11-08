@@ -1,6 +1,7 @@
 package entity.organisations;
 
 import constants.Constants;
+import entity.Worker;
 import entity.transport.ActionTime;
 import utils.U;
 
@@ -11,12 +12,13 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "organisations")
-public class Organisation {
+public class Counterparty {
 
     private int id;
     private String type;
     private String name;
     private ActionTime create;
+    private Worker manager;
 
     public static final String EMPTY = Constants.EMPTY;
     public static final String COMMA = Constants.COMMA + Constants.SPACE;
@@ -53,7 +55,6 @@ public class Organisation {
     public ActionTime getCreate() {
         return create;
     }
-
     public void setCreate(ActionTime create) {
         this.create = create;
     }
@@ -65,7 +66,7 @@ public class Organisation {
 
     @Override
     public String toString() {
-        return "Organisation{\n" +
+        return "Counterparty{\n" +
                 "\tid=" + id + ",\n" +
                 "\ttype=\'" + (type != null ? type : "") + "\',\n" +
                 "\tname='" + name + "\'\n" +

@@ -1,4 +1,4 @@
-package entity.transport;
+package controllers.transport;
 
 import constants.Branches;
 import controllers.IModal;
