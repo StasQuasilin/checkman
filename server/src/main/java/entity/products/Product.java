@@ -1,6 +1,9 @@
 package entity.products;
 
 import entity.AnalysesType;
+import entity.DealType;
+import entity.JsonAble;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,10 +12,11 @@ import javax.persistence.*;
  */
 @Entity
 @Table (name = "products")
-public class Product {
+public class Product extends JsonAble{
     private int id;
     private ProductGroup productGroup;
     private String name;
+    private DealType action;
     private AnalysesType analysesType;
 
     @Id
@@ -43,6 +47,15 @@ public class Product {
     }
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "action")
+    public DealType getAction() {
+        return action;
+    }
+    public void setAction(DealType action) {
+        this.action = action;
+    }
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "analyses")
     public AnalysesType getAnalysesType() {
         return analysesType;
@@ -64,5 +77,14 @@ public class Product {
                 "\tname='" + name + "'\n" +
                 "\tanalyses='" + analysesType + "'\n" +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(NAME, name);
+        json.put(ANALYSES, analysesType.toString());
+        return json;
     }
 }

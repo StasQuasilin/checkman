@@ -9,9 +9,6 @@ import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.log.comparators.WeightComparator;
-import entity.products.Product;
-import entity.storages.Storage;
-import entity.storages.StorageProduct;
 import entity.transport.ActionTime;
 import entity.transport.TransportStorageUsed;
 import entity.transport.Transportation;
@@ -19,7 +16,7 @@ import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
-import entity.transport.TransportUtil;
+import utils.TransportUtil;
 import utils.UpdateUtil;
 import utils.WeightUtil;
 import utils.storages.StorageUtil;
@@ -30,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 22.03.2019.

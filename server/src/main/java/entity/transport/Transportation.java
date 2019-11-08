@@ -6,15 +6,13 @@ import entity.documents.Shipper;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
-import entity.organisations.Counterparty;
+import entity.organisations.Organisation;
 import entity.products.Product;
-import entity.seals.Seal;
 import entity.weight.Weight;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,7 +23,7 @@ import java.util.Set;
 public class Transportation {
     private int id;
     private Date date;
-    private Counterparty counterparty;
+    private Organisation counterparty;
     private DealType type;
     private Vehicle vehicle;
     private Driver driver;
@@ -66,10 +64,10 @@ public class Transportation {
 
     @OneToOne
     @JoinColumn(name = "counterparty")
-    public Counterparty getCounterparty() {
+    public Organisation getCounterparty() {
         return counterparty;
     }
-    public void setCounterparty(Counterparty organisation) {
+    public void setCounterparty(Organisation organisation) {
         this.counterparty = organisation;
     }
 

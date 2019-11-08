@@ -66,7 +66,7 @@ public class SaveDriverServletAPI extends ServletAPI {
                     if (!l.equals(license)){
                         log.info("Change license");
                         ActionTime archiveTime = new ActionTime(getWorker(req));
-                        driver.setArchive(archiveTime);
+//                        driver.setArchive(archiveTime);
                         dao.save(archiveTime);
                         dao.save(driver);
                         Organisation organisation = driver.getOrganisation();

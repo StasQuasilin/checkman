@@ -1,6 +1,6 @@
 package entity.transport;
 
-import entity.organisations.Counterparty;
+import entity.organisations.Organisation;
 
 import javax.persistence.*;
 
@@ -14,8 +14,8 @@ public class Truck {
     private String model;
     private Number number;
     private Trailer trailer;
-    private Counterparty owner;
-    private Counterparty transporter;
+    private Organisation owner;
+    private Organisation transporter;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -55,20 +55,20 @@ public class Truck {
 
     @OneToOne
     @JoinColumn(name = "owner")
-    public Counterparty getOwner() {
+    public Organisation getOwner() {
         return owner;
     }
-    public void setOwner(Counterparty counterparty) {
+    public void setOwner(Organisation counterparty) {
         this.owner = counterparty;
     }
 
     @OneToOne
     @JoinColumn(name = "transporter")
-    public Counterparty getTransporter() {
+    public Organisation getTransporter() {
         return transporter;
     }
 
-    public void setTransporter(Counterparty transporter) {
+    public void setTransporter(Organisation transporter) {
         this.transporter = transporter;
     }
 }

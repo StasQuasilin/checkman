@@ -29,7 +29,7 @@
         <mapping class="entity.transport.Truck"/>
         <mapping class="entity.transport.Trailer"/>
         <mapping class="entity.transport.Number"/>
-        <mapping class="entity.organisations.Counterparty"/>
+        <mapping class="entity.organisations.Organisation"/>
         <mapping class="entity.organisations.OrganisationType"/>
         <mapping class="entity.transport.Transportation"/>
         <mapping class="entity.transport.TransportationProduct"/>

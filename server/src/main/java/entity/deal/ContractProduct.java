@@ -1,8 +1,11 @@
 package entity.deal;
 
 import entity.DealType;
+import entity.JsonAble;
 import entity.documents.Shipper;
 import entity.products.Product;
+import entity.weight.WeightUnit;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +16,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "_contract_products")
-public class ContractProduct {
+public class ContractProduct extends JsonAble {
     private int id;
     private Contract contract;
     private DealType type;
@@ -21,6 +24,7 @@ public class ContractProduct {
     private Shipper shipper;
     private float done;
     private float amount;
+    private float price;
     private Set<ContractProductNote> notes = new HashSet<>();
 
     @Id
@@ -86,11 +90,33 @@ public class ContractProduct {
         this.amount = amount;
     }
 
+    @Basic
+    @Column(name = "price")
+    public float getPrice() {
+        return price;
+    }
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
     public Set<ContractProductNote> getNotes() {
         return notes;
     }
     public void setNotes(Set<ContractProductNote> notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(TYPE, type.toString());
+        json.put(PRODUCT, product.toJson());
+        json.put(SHIPPER, shipper.toJson());
+        json.put(DONE, done);
+        json.put(AMOUNT, amount);
+        json.put(PRICE, price);
+        return json;
     }
 }

@@ -1,8 +1,10 @@
 package entity.organisations;
 
 import constants.Constants;
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 import utils.U;
 
 import javax.persistence.*;
@@ -12,7 +14,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "organisations")
-public class Counterparty {
+public class Organisation extends JsonAble{
 
     private int id;
     private String type;
@@ -66,7 +68,7 @@ public class Counterparty {
 
     @Override
     public String toString() {
-        return "Counterparty{\n" +
+        return "Organisation{\n" +
                 "\tid=" + id + ",\n" +
                 "\ttype=\'" + (type != null ? type : "") + "\',\n" +
                 "\tname='" + name + "\'\n" +
@@ -80,5 +82,15 @@ public class Counterparty {
         hash = 31 * name.hashCode() + hash;
 
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(NAME, name);
+        json.put(TYPE, type);
+        json.put(VALUE, getValue());
+        return json;
     }
 }

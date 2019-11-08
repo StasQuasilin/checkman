@@ -65,6 +65,14 @@ public class Constants {
     public static final String SHIPPER = "shipper";
     public static final String AMOUNT = "amount";
     public static final String TURN = "turn";
+    public static final String ARCHIVE = "archive";
+    public static final String FROM = "from";
+    public static final String TO = "to";
+    public static final String NUMBER = "number";
+    public static final String PRODUCTS = "products";
+    public static final String DONE = "done";
+    public static final String ANALYSES = "analyses";
+    public static final String VALUE = "value";
 
 
     public static class Languages {

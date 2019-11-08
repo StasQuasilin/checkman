@@ -1,29 +1,32 @@
 package entity.deal;
 
+import entity.JsonAble;
 import entity.Worker;
-import entity.documents.Shipper;
-import entity.organisations.Counterparty;
+import entity.organisations.Organisation;
 import entity.transport.ActionTime;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 08.11.2019.
  */
 @Entity
 @Table(name = "_contracts")
-public class Contract {
+public class Contract extends JsonAble {
     private int id;
     private Date from;
     private Date to;
-    private Counterparty counterparty;
-    private Shipper shipper;
+    private Organisation counterparty;
     private String number;
     private Set<ContractProduct> products = new HashSet<>();
     private Set<ContractNote> notes = new HashSet<>();
+    private boolean archive;
     private Worker manager;
     private ActionTime createTime;
 
@@ -56,20 +59,11 @@ public class Contract {
 
     @OneToOne
     @JoinColumn(name = "counterparty")
-    public Counterparty getCounterparty() {
+    public Organisation getCounterparty() {
         return counterparty;
     }
-    public void setCounterparty(Counterparty counterparty) {
+    public void setCounterparty(Organisation counterparty) {
         this.counterparty = counterparty;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "shipper")
-    public Shipper getShipper() {
-        return shipper;
-    }
-    public void setShipper(Shipper shipper) {
-        this.shipper = shipper;
     }
 
     @Basic
@@ -113,5 +107,29 @@ public class Contract {
     }
     public void setCreateTime(ActionTime createTime) {
         this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "archive")
+    public boolean isArchive() {
+        return archive;
+    }
+    public void setArchive(boolean archive) {
+        this.archive = archive;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(FROM, from.toString());
+        json.put(TO, to.toString());
+        json.put(COUNTERPARTY, counterparty.toJson());
+        json.put(NUMBER, number);
+        JSONArray array = pool.getArray();
+        array.addAll(products.stream().map(ContractProduct::toJson).collect(Collectors.toList()));
+        json.put(PRODUCTS, array);
+        json.put(ARCHIVE, archive);
+        return json;
     }
 }

@@ -1,7 +1,7 @@
 package entity.documents;
 
 import entity.DealType;
-import entity.organisations.Counterparty;
+import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.Worker;
 import entity.weight.WeightUnit;
@@ -20,7 +20,7 @@ public class Deal{
     private Date dateTo;
     private DealType type;
     private Shipper shipper;
-    private Counterparty organisation;
+    private Organisation organisation;
     private Product product;
     private float quantity;
     private WeightUnit unit;
@@ -78,10 +78,10 @@ public class Deal{
 
     @OneToOne
     @JoinColumn(name = "organisation")
-    public Counterparty getOrganisation() {
+    public Organisation getOrganisation() {
         return organisation;
     }
-    public void setOrganisation(Counterparty organisation) {
+    public void setOrganisation(Organisation organisation) {
         this.organisation = organisation;
     }
 

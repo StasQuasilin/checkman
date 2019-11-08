@@ -7,6 +7,7 @@ import entity.DealType;
 import entity.Worker;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
+import entity.deal.Contract;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
@@ -16,7 +17,7 @@ import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.VROTurn;
-import entity.organisations.Counterparty;
+import entity.organisations.Organisation;
 import entity.reports.ManufactureReport;
 import entity.transport.Driver;
 import entity.transport.Transportation;
@@ -190,7 +191,7 @@ public class UpdateUtil {
         doAction(Command.remove, Subscriber.MESSAGES, object);
     }
 
-    public void onSave(Counterparty organisation) throws IOException {
+    public void onSave(Organisation organisation) throws IOException {
         for (Deal deal : dao.getDealsByOrganisation(organisation)){
             onSave(deal);
         }
@@ -205,6 +206,10 @@ public class UpdateUtil {
 
     public void updateStocks(JSONObject json) throws IOException {
         doAction(Command.update, Subscriber.STOCK, json);
+    }
+
+    public void onSave(Contract contract) {
+
     }
 
     public enum Command {

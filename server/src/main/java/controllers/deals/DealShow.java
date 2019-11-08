@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
+import entity.deal.Contract;
 import entity.transport.TransportCustomer;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -22,21 +23,20 @@ public class DealShow extends IModal{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int dealId = -1;
+        int contractId = -1;
 
-        String parameterId = req.getParameter(Constants.ID);
+        String parameterId = req.getParameter(ID);
         if (parameterId != null) {
-            dealId = Integer.parseInt(parameterId);
+            contractId = Integer.parseInt(parameterId);
         } else {
-            JSONObject body = PostUtil.parseBodyJson(req);
-            if (body != null && body.containsKey(Constants.ID)){
-                dealId = Integer.parseInt(String.valueOf(body.remove(Constants.ID)));
+            JSONObject body = parseBody(req);
+            if (body != null && body.containsKey(ID)){
+                contractId = Integer.parseInt(String.valueOf(body.remove(Constants.ID)));
             }
         }
 
-        if (dealId != -1) {
-            req.setAttribute("deal", dao.getDealById(dealId));
-            req.setAttribute("plans", dao.getLoadPlanByDeal(dealId, null, null));
+        if (contractId != -1) {
+            req.setAttribute(CONTRACT, dao.getObjectById(Contract.class, contractId));
             req.setAttribute(TITLE, Titles.DEAL_SHOW);
             req.setAttribute(SAVE, Branches.API.PLAN_LIST_SAVE);
             req.setAttribute("remove", Branches.API.REMOVE_PLAN);
@@ -47,7 +47,7 @@ public class DealShow extends IModal{
             req.setAttribute("editVehicle", Branches.UI.EDIT_VEHICLE);
             req.setAttribute("editDriver", Branches.UI.EDIT_DRIVER);
             req.setAttribute(MODAL_CONTENT, "/pages/deals/dealShow.jsp");
-            req.setAttribute("customers", TransportCustomer.values());
+            req.setAttribute(CUSTOMERS, TransportCustomer.values());
             show(req, resp);
         }
 

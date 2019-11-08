@@ -17,7 +17,7 @@
             value:'${product.name}'
         });</c:forEach>
         <c:forEach items="${shippers}" var="shipper">
-        editor.realisations.push({
+        editor.shippers.push({
             id:${shipper.id},
             value:'${shipper.value}'
         });</c:forEach>
@@ -41,10 +41,7 @@
             date : '${deal.date}',
             dateTo : '${deal.dateTo}',
             counterparty : ${deal.organisation.id},
-            realisation : ${deal.shipper.id},
-            product : ${deal.product.id},
-            quantity : ${deal.quantity},
-            price: ${deal.price}
+            number:''
         };
 
         <c:if test="${not empty deal.unit}">
@@ -55,8 +52,8 @@
         </c:when>
         <c:otherwise>
         editor.deal.type = '${type}';
-        if (editor.realisations.length > 0){
-            editor.deal.realisation= editor.realisations[0].id;
+        if (editor.shippers.length > 0){
+            editor.deal.realisation= editor.shippers[0].id;
         }
         if (editor.products.length > 0){
             editor.deal.product = editor.products[0].id;
@@ -68,25 +65,19 @@
         </c:choose>
 
     </script>
+    <style>
+        .invisible{
+            background-color: transparent;
+            border: solid gray 1px;
+        }
+        .invisible:focus{
+            outline: none;
+        }
+    </style>
     <link rel="stylesheet" href="${context}/css/editor.css">
     <c:set var="findCunterparty"><fmt:message key="counterparty.find"/></c:set>
     <c:set var="addCunterparty"><fmt:message key="counterparty.add"/></c:set>
     <table id="editor" class="editor">
-        <tr>
-            <td>
-                <label for="type">
-                    <fmt:message key="deal.type"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="type" v-model="deal.type">
-                    <option v-for="type in types" :value="type.id">{{type.value}}</option>
-                </select>
-            </td>
-        </tr>
         <tr>
             <td>
                 <label for="date">
@@ -143,76 +134,73 @@
 
             </td>
         </tr>
-
-        <%--<tr>--%>
-            <%--<td>--%>
-                <%--<label for="realisation">--%>
-                    <%--<fmt:message key="deal.realisation"/>--%>
-                <%--</label>--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                <%--:--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                <%--<select id="realisation" v-model="deal.realisation">--%>
-                    <%--<option v-for="realisation in realisations" :value="realisation.id">{{realisation.value}}</option>--%>
-                <%--</select>--%>
-            <%--</td>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-            <%--<td>--%>
-                <%--<label for="product">--%>
-                    <%--<fmt:message key="deal.product"/>--%>
-                <%--</label>--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                <%--:--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                <%--<select id="product" v-model="deal.product">--%>
-                    <%--<option v-for="product in products" :value="product.id">{{product.value}}</option>--%>
-                <%--</select>--%>
-            <%--</td>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-            <%--<td>--%>
-                <%--<label for="quantity">--%>
-                    <%--<fmt:message key="deal.quantity"/>--%>
-                <%--</label>--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                <%--:--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                <%--<input type="number" min="0" id="quantity" v-model="deal.quantity" :class="{error : errors.quantity}" autocomplete="off">--%>
-                <%--<select v-model="deal.unit">--%>
-                    <%--<option v-for="unit in units" :value="unit.id">{{unit.value}}</option>--%>
-                <%--</select>--%>
-            <%--</td>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-            <%--<td>--%>
-                <%--<label for="price">--%>
-                    <%--<fmt:message key="deal.price"/>--%>
-                <%--</label>--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                <%--:--%>
-            <%--</td>--%>
-            <%--<td>--%>
-                <%--<input type="number" min="0" id="price" v-model="deal.price" :class="{error : errors.price}" autocomplete="off">--%>
-            <%--</td>--%>
-        <%--</tr>--%>
         <tr>
             <td>
-                <fmt:message key="deal.amount"/>
+                <label for="number">
+                    <fmt:message key="deal.number"/>
+                </label>
             </td>
             <td>
                 :
             </td>
             <td>
-                {{(deal.price * deal.quantity).toLocaleString()}}
+                <input id="number" autocomplete="off" v-model="deal.number">
             </td>
+        </tr>
+        <tr>
+           <td colspan="3">
+               <div style="border: solid gray 1pt; max-height: 140px; overflow-y: scroll; padding: 2pt">
+                   <div v-for="(dealProduct, idx) in deal.dealProducts" style="border-bottom: dashed gray 1pt; padding-bottom: 1pt">
+                       <div style="display: inline-block">
+                           <div>
+                               <span v-if="deal.dealProducts.length > 1" class="mini-close" v-on:click="removeDealProduct(idx)">
+                                   &times;
+                               </span>
+                               <span v-else>
+                                   &nbsp;
+                               </span>
+                               <select id="type" v-model="dealProduct.type" class="invisible">
+                                   <option v-for="type in types" :value="type.id">{{type.value}}</option>
+                               </select>
+                               <select id="product" v-model="dealProduct.product" class="invisible">
+                                   <option v-for="product in products" :value="product.id">
+                                       {{product.value}}
+                                   </option>
+                               </select>
+                               <input id="amount" type="number" v-model="dealProduct.amount"
+                                      autocomplete="off" onfocus="this.select()">
+                           </div>
+                           <div>
+                               <label for="price">
+                                   <fmt:message key="deal.price"/>
+                               </label>
+                               <input id="price" v-model="dealProduct.price" type="number"
+                                      autocomplete="off" onfocus="this.select()">
+                               <fmt:message key="deal.from"/>
+                               <select id="shipper" v-model="dealProduct.shipper" class="invisible">
+                                   <option v-for="shipper in shippers" :value="shipper.id">
+                                       {{shipper.value}}
+                                   </option>
+                               </select>
+                               <fmt:message key="amount.total"/>:
+                               <b>
+                                   {{dealProduct.total().toLocaleString()}}
+                               </b>
+                           </div>
+                       </div>
+
+                   </div>
+               </div>
+               <div>
+                   <span style="font-size: 10pt; color: gray">
+                    <fmt:message key="amount.total"/>: {{deal.dealProducts.length}}
+                    <fmt:message key="deal.amount"/>:{{total().toLocaleString()}}
+                   </span>
+                   <a v-on:click="newDealProduct" style="float: right">
+                       + <fmt:message key="button.add"/>
+                   </a>
+               </div>
+           </td>
         </tr>
         <tr>
             <td colspan="3" align="center">

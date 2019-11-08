@@ -5,13 +5,17 @@ import constants.Branches;
 import constants.Constants;
 import entity.DealType;
 import entity.answers.IAnswer;
+import entity.deal.Contract;
+import entity.deal.ContractProduct;
 import entity.documents.Shipper;
 import entity.products.Product;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.log.comparators.DealComparator;
 import entity.organisations.Organisation;
+import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.*;
 import utils.answers.SuccessAnswer;
@@ -22,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -29,6 +35,7 @@ import java.sql.Date;
 @WebServlet(Branches.API.DEAL_SAVE)
 public class DealEditServletAPI extends IChangeServletAPI {
 
+    private static final String DEAL_PRODUCTS = "dealProducts";
     private final DealComparator comparator = new DealComparator();
     private final Logger log = Logger.getLogger(DealEditServletAPI.class);
     private final UpdateUtil updateUtil = new UpdateUtil();
@@ -38,109 +45,103 @@ public class DealEditServletAPI extends IChangeServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             log.info(body);
-            Deal deal;
+            Contract contract;
             Worker worker = getWorker(req);
             boolean save = false;
 
             long id = -1;
 
-            if (body.containsKey(Constants.ID)) {
+            if (body.containsKey(ID)) {
                 id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
             }
             if (id != -1) {
-                deal = dao.getDealById(id);
+                contract = dao.getObjectById(Contract.class, id);
             } else {
-                deal = new Deal();
-                deal.setCreator(worker);
-                deal.setUid(DocumentUIDGenerator.generateUID());
+                contract = new Contract();
+                contract.setManager(worker);
+                contract.setCreateTime(new ActionTime(worker));
                 save = true;
             }
 
-            comparator.fix(deal);
-
-            Date date = Date.valueOf(String.valueOf(body.get(Constants.DATE)));
-            Date dateTo = Date.valueOf(String.valueOf(body.get(Constants.DATE_TO)));
-            if (date.after(dateTo)) {
-                Date temp = date;
-                date = dateTo;
-                dateTo = temp;
+            Date from = Date.valueOf(String.valueOf(body.get(Constants.DATE)));
+            Date to = Date.valueOf(String.valueOf(body.get(Constants.DATE_TO)));
+            if (from.after(to)) {
+                Date temp = from;
+                from = to;
+                to = temp;
             }
 
-            if (deal.getDate() == null || !deal.getDate().equals(date)) {
-                deal.setDate(date);
+            if (contract.getFrom() == null || !contract.getFrom().equals(from)) {
+                contract.setFrom(from);
                 save = true;
             }
 
-            if (deal.getDateTo() == null || !deal.getDateTo().equals(dateTo)) {
-                deal.setDateTo(dateTo);
+            if (contract.getTo() == null || !contract.getTo().equals(to)) {
+                contract.setTo(to);
                 save = true;
             }
 
-            DealType type = DealType.valueOf(String.valueOf(body.get(Constants.TYPE)));
-            if (deal.getType() == null || deal.getType() != type) {
-                deal.setType(type);
-                save = true;
-            }
-
-            Organisation organisation;
             long organisationId = (long) body.get(Constants.COUNTERPARTY);
-            if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisationId) {
-                organisation = dao.getOrganisationById(organisationId);
-                deal.setOrganisation(organisation);
+            if (contract.getCounterparty() == null || contract.getCounterparty().getId() != organisationId){
+                contract.setCounterparty(dao.getObjectById(Organisation.class, organisationId));
                 save = true;
             }
 
-            Product product = dao.getProductById(body.get(Constants.PRODUCT));
-            if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {
-                deal.setProduct(product);
-                save = true;
+            if(body.containsKey(NUMBER)){
+                String number = String.valueOf(body.get(NUMBER));
+                contract.setNumber(number);
             }
 
-            float quantity = Float.parseFloat(String.valueOf(body.get(Constants.QUANTITY)));
-            if (deal.getQuantity() != quantity) {
-                deal.setQuantity(quantity);
-                save = true;
+            HashMap<Integer, ContractProduct> products = new HashMap<>();
+            for (ContractProduct product : contract.getProducts()){
+                products.put(product.getId(), product);
             }
 
-            long unit = (long) body.get(Constants.UNIT);
-            if (deal.getUnit() == null || deal.getUnit().getId() != unit) {
-                deal.setUnit(UnitBox.getUnit(unit));
-                save = true;
-            }
-            float price = Float.parseFloat(String.valueOf(body.get(Constants.PRICE)));
-            if (deal.getPrice() != price) {
-                deal.setPrice(price);
-                save = true;
-            }
+            ArrayList<ContractProduct> newProducts = new ArrayList<>();
 
-            Shipper shipper = dao.getShipperById(body.get(Constants.REALISATION));
-            if (deal.getShipper() == null || deal.getShipper().getId() != shipper.getId()) {
-                deal.setShipper(shipper);
-                save = true;
+            for (Object o : (JSONArray)body.get(DEAL_PRODUCTS)){
+                JSONObject p = (JSONObject) o;
+                ContractProduct contractProduct = null;
+                if (p.containsKey(ID)){
+                    int contractProductId = Integer.parseInt(String.valueOf(p.get(ID)));
+                    contractProduct = products.remove(contractProductId);
+                }
+                if (contractProduct == null){
+                    contractProduct = new ContractProduct();
+                    contractProduct.setContract(contract);
+                }
+
+                newProducts.add(contractProduct);
+
+                DealType type = DealType.valueOf(String.valueOf(p.get(TYPE)));
+                contractProduct.setType(type);
+
+                Product product = dao.getObjectById(Product.class, p.get(PRODUCT));
+                contractProduct.setProduct(product);
+
+                Shipper shipper = dao.getObjectById(Shipper.class, p.get(SHIPPER));
+                contractProduct.setShipper(shipper);
+
+                contractProduct.setAmount(Float.parseFloat(String.valueOf(p.get(AMOUNT))));
+                contractProduct.setPrice(Float.parseFloat(String.valueOf(p.get(PRICE))));
+
             }
+            write(resp, SUCCESS_ANSWER);
 
             if (save) {
-                dao.saveDeal(deal);
-
-                IAnswer resultAnswer = new SuccessAnswer();
-                resultAnswer.add("id", deal.getId());
-                JSONObject answerJson = parser.toJson(resultAnswer);
-                write(resp, answerJson.toJSONString());
-                pool.put(answerJson);
-
-                updateUtil.onSave(deal);
-                try {
-                    comparator.compare(deal, worker);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                dao.save(contract.getCreateTime());
+                dao.save(contract);
+                updateUtil.onSave(contract);
+                products.values().forEach(dao::remove);
+                newProducts.forEach(dao::save);
 
             } else {
                 write(resp, SUCCESS_ANSWER);
             }
 
-
             body.clear();
+            products.clear();
+            newProducts.clear();
         } else {
             write(resp, EMPTY_BODY);
         }

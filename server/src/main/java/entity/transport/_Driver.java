@@ -1,7 +1,7 @@
 package entity.transport;
 
-import entity.organisations.Organisation;
 import entity.Person;
+import entity.organisations.Organisation;
 
 import javax.persistence.*;
 
@@ -9,12 +9,12 @@ import javax.persistence.*;
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
-@Table(name = "drivers")
-public class Driver {
+@Table(name = "_drivers")
+public class _Driver {
     private int id;
     private Person person;
     private Organisation organisation;
-    private Vehicle truck;
+    private Truck truck;
     private String license;
 
     @Id
@@ -45,11 +45,11 @@ public class Driver {
     }
 
     @OneToOne
-    @JoinColumn(name = "vehicle")
-    public Vehicle getTruck() {
+    @JoinColumn(name = "truck")
+    public Truck getTruck() {
         return truck;
     }
-    public void setTruck(Vehicle truck) {
+    public void setTruck(Truck truck) {
         this.truck = truck;
     }
 

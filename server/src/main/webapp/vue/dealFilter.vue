@@ -15,26 +15,26 @@ var filter_control = new Vue({
     methods:{
         organisations:function(){
             var organisations = {};
-            for (var i in this.items){
-                if (this.items.hasOwnProperty(i)){
-                    var organisation = this.items[i].item.organisation;
-                    if (organisations[organisation.id] == undefined) {
-                        organisations[organisation.id] = organisation;
-                    }
-                }
-            }
+            //for (var i in this.items){
+            //    if (this.items.hasOwnProperty(i)){
+            //        var organisation = this.items[i].item.organisation;
+            //        if (organisations[organisation.id] == undefined) {
+            //            organisations[organisation.id] = organisation;
+            //        }
+            //    }
+            //}
             return organisations;
         },
         products:function(){
             var products = {};
-            for (var i in this.items){
-                if (this.items.hasOwnProperty(i)){
-                    var product = this.items[i].item.product;
-                    if (products[product.id] == undefined) {
-                        products[product.id] = product;
-                    }
-                }
-            }
+            //for (var i in this.items){
+            //    if (this.items.hasOwnProperty(i)){
+            //        var product = this.items[i].item.product;
+            //        if (products[product.id] == undefined) {
+            //            products[product.id] = product;
+            //        }
+            //    }
+            //}
             return products;
         },
         dates:function(){
@@ -51,14 +51,14 @@ var filter_control = new Vue({
         },
         creators:function(){
             var creators = {};
-            for (var i in this.items){
-                if (this.items.hasOwnProperty(i)){
-                    var creator = this.items[i].item.creator;
-                    if (creators[creator.id] == undefined) {
-                        creators[creator.id] = creator;
-                    }
-                }
-            }
+            //for (var i in this.items){
+            //    if (this.items.hasOwnProperty(i)){
+            //        var creator = this.items[i].item.creator;
+            //        if (creators[creator.id] == undefined) {
+            //            creators[creator.id] = creator;
+            //        }
+            //    }
+            //}
             return creators;
         },
         clear:function(){

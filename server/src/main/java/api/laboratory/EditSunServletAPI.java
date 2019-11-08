@@ -11,7 +11,7 @@ import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import entity.transport.TransportUtil;
+import utils.TransportUtil;
 import utils.U;
 import utils.UpdateUtil;
 

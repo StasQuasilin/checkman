@@ -54,6 +54,7 @@ public class IServlet extends HttpServlet {
     public static final String MANAGER = "manager";
     public static final String CALCULATORS = "calculators";
     public static final String AMOUNT = "amount";
+    public static final String PRICE = "price";
     public static final String PLAN = "plan";
     public static final String DIRECTION = "dir";
     public static final String STORAGES = "storages";
@@ -67,6 +68,7 @@ public class IServlet extends HttpServlet {
     public static final String NETTO = "netto";
     public static final String UNIT = "unit";
     public static final String UNITS = "units";
+    public static final String CONTRACT = "contract";
 
     public static final LanguageBase lb = LanguageBase.getBase();
     protected static final String CUSTOMERS = "customers";

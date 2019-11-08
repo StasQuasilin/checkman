@@ -3,7 +3,7 @@ var editor = new Vue({
     data:{
         api:{},
         types:[],
-        realisations:[],
+        shippers:[],
         products:[],
         units:[],
         deal: {
@@ -12,11 +12,8 @@ var editor = new Vue({
             date: new Date().toISOString().substring(0, 10),
             dateTo: new Date().toISOString().substring(0, 10),
             counterparty: -1,
-            realisation: -1,
-            product: -1,
-            quantity: 0,
-            unit:-1,
-            price: 0
+            number:'',
+            dealProducts:[],
         },
         errors:{
             organisation:false,
@@ -31,6 +28,35 @@ var editor = new Vue({
         date:0
     },
     methods:{
+        total:function(){
+            let total = 0;
+            for (let i in this.deal.dealProducts){
+                if (this.deal.dealProducts.hasOwnProperty(i)){
+                    total += this.deal.dealProducts[i].total();
+                }
+            }
+            return total;
+        },
+        removeDealProduct:function(idx){
+            this.deal.dealProducts.splice(idx, 1);
+        },
+        newDealProduct:function(){
+            this.addDealProduct({
+                id:-1,
+                type:this.types[0].id,
+                product:this.products[0].id,
+                amount:0,
+                unit:this.units[0],
+                price:0,
+                shipper:this.shippers[0].id,
+            })
+        },
+        addDealProduct:function(product){
+            product.total = function(){
+                return product.amount * product.price;
+            };
+            this.deal.dealProducts.push(product);
+        },
         findOrganisation:function(){
             this.errors.organisation = false;
             if (!this.counterpartyInput){
@@ -72,10 +98,8 @@ var editor = new Vue({
         save:function(onSave){
             var e = this.errors;
             e.organisation = this.deal.counterparty == -1;
-            e.quantity = this.deal.quantity <= 0;
-            e.price = this.deal.price <= 0;
 
-            if (!e.organisation && !e.quantity && !e.price) {
+            if (!e.organisation) {
                 PostApi(this.api.save, this.deal, function (a) {
                     if (a.status == 'success') {
                         closeModal();

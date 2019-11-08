@@ -45,10 +45,6 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
                 Vehicle vehicle = dao.getVehicleById(vehicleId);
                 Driver driver = transportation.getDriver();
                 if (driver != null) {
-                    if (driver.getVehicle() == null){
-                        driver.setVehicle(vehicle);
-                        dao.save(driver);
-                    }
                 }
                 transportation.setVehicle(vehicle);
             } else {

@@ -1,5 +1,8 @@
 package entity.documents;
 
+import entity.JsonAble;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "document_organisations")
-public class Shipper {
+public class Shipper extends JsonAble{
     private int id;
     private String value;
     private boolean active;
@@ -42,5 +45,13 @@ public class Shipper {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(NAME, value);
+        return json;
     }
 }

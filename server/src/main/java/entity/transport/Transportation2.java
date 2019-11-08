@@ -3,7 +3,7 @@ package entity.transport;
 import entity.DealType;
 import entity.Worker;
 import entity.documents.Shipper;
-import entity.organisations.Counterparty;
+import entity.organisations.Organisation;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -25,7 +25,7 @@ public class Transportation2 {
     private String truckNumber;
     private Trailer trailer;
     private String trailerNumber;
-    private Counterparty transporter;
+    private Organisation transporter;
     private Shipper shipper;
     private TransportCustomer customer;
     private ActionTime registered;
@@ -122,10 +122,10 @@ public class Transportation2 {
 
     @OneToOne
     @JoinColumn(name = "transporter")
-    public Counterparty getTransporter() {
+    public Organisation getTransporter() {
         return transporter;
     }
-    public void setTransporter(Counterparty transporter) {
+    public void setTransporter(Organisation transporter) {
         this.transporter = transporter;
     }
 

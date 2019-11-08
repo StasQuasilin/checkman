@@ -8,6 +8,7 @@ import entity.bot.UserBotSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
+import entity.deal.Contract;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.turn.LaboratoryTurn;
@@ -23,7 +24,7 @@ import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
-import entity.organisations.Counterparty;
+import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import entity.production.Forpress;
 import entity.production.Turn;
@@ -60,9 +61,15 @@ import java.util.stream.Collectors;
  */
 public class HibernateDAO implements dbDAO {
 
-    private static final String ID = "id";
+    private static final String ID = Constants.ID;
     private static final String DEAL = "deal";
     private static final String SPACE = Constants.SPACE;
+    private static final String TYPE = Constants.TYPE;
+
+    private static final String ARCHIVE = Constants.ARCHIVE;
+    private static final String PRODUCT = Constants.PRODUCT;
+    private static final String SLASH = Constants.SLASH;
+    private static final String PRODUCT_TYPE = PRODUCT + SLASH + TYPE;
     private final Hibernator hb = Hibernator.getInstance();
 
     @Override
@@ -137,8 +144,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Counterparty getOrganisationById(Object organisationId) {
-        return hb.get(Counterparty.class, ID, organisationId);
+    public Organisation getOrganisationById(Object organisationId) {
+        return hb.get(Organisation.class, ID, organisationId);
     }
 
     @Override
@@ -481,9 +488,9 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Collection<Counterparty> findOrganisation(String key) {
+    public Collection<Organisation> findOrganisation(String key) {
         Set<Integer> ids = new HashSet<>();
-        List<Counterparty> organisations = new LinkedList<>();
+        List<Organisation> organisations = new LinkedList<>();
         for (String string : key.split(SPACE)){
             String s = string.trim();
             findOrganisation("type", s, ids, organisations);
@@ -494,8 +501,8 @@ public class HibernateDAO implements dbDAO {
         return organisations;
     }
 
-    private void findOrganisation(String key, String value, Set<Integer> ids, List<Counterparty> organisations){
-        for (Counterparty organisation : find(Counterparty.class, key, value)){
+    private void findOrganisation(String key, String value, Set<Integer> ids, List<Organisation> organisations){
+        for (Organisation organisation : find(Organisation.class, key, value)){
             if (!ids.contains(organisation.getId())){
                 ids.add(organisation.getId());
                 organisations.add(organisation);
@@ -523,11 +530,10 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Deal> getDealsByType(DealType type) {
+    public List<Contract> getActiveDeals() {
         final HashMap<String, Object> param = new HashMap<>();
-        param.put("type", type);
-        param.put("archive", false);
-        return hb.query(Deal.class, param);
+        param.put(ARCHIVE, false);
+        return hb.query(Contract.class, param);
     }
 
     @Override
@@ -701,11 +707,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Counterparty findOrganisation(String type, String name) {
+    public Organisation findOrganisation(String type, String name) {
         final HashMap<String, Object> parameters = new HashMap<>();
         parameters.put("type", type);
         parameters.put("name", name);
-        return hb.get(Counterparty.class, parameters);
+        return hb.get(Organisation.class, parameters);
     }
 
     @Override
@@ -1083,8 +1089,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Counterparty> getOrganisations() {
-        return hb.query(Counterparty.class, null);
+    public List<Organisation> getOrganisations() {
+        return hb.query(Organisation.class, null);
     }
 
     @Override
