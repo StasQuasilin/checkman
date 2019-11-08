@@ -1,19 +1,17 @@
-package entity.transport;
+package utils;
 
-import api.warehousing.WarehousingEditAPI;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
-import entity.documents.Shipper;
 import entity.laboratory.SunAnalyses;
 import entity.products.Product;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
+import entity.transport.ActionTime;
+import entity.transport.TransportStorageUsed;
+import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
-import utils.Archivator;
-import utils.DocumentUIDGenerator;
-import utils.UpdateUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 import utils.storages.StorageUtil;
@@ -21,7 +19,6 @@ import utils.storages.StorageUtil;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by quasilin on 18.03.2019.

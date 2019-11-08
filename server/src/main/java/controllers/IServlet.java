@@ -32,10 +32,12 @@ public class IServlet extends HttpServlet {
     public static final String PRINT = "print";
     public static final String SHOW = "show";
     public static final String EDIT = "edit";
+    public static final String DEAL = "deal";
     public static final String DELETE = "delete";
     public static final String EDIT_STORAGE = "editStorage";
     public static final String TYPES = "types";
     public static final String CONTENT = "content";
+    public static final String LIMIT = "limit";
     public static final String WEIGHT_SHOW = "";
     public static final String MODAL_CONTENT = "modalContent";
     public static final String STORAGE = Constants.STORAGE;
@@ -63,6 +65,8 @@ public class IServlet extends HttpServlet {
     public static final String BRUTTO = "brutto";
     public static final String TARA = "tara";
     public static final String NETTO = "netto";
+    public static final String UNIT = "unit";
+    public static final String UNITS = "units";
 
     public static final LanguageBase lb = LanguageBase.getBase();
     protected static final String CUSTOMERS = "customers";
