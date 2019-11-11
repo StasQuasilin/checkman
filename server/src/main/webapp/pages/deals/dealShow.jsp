@@ -163,12 +163,44 @@
             </td>
           </tr>
           <tr>
-            <td colspan="4">
+            <td colspan="4" class="editor">
               <%--TABLE--%>
               <transition-group name="flip-list" tag="div" class="plan-container">
-                <%--<div v-for="(value, key) in plans" :key="value.key" class="plan-item">--%>
+                <div v-for="(value, key) in currentTransportations" :key="value.key" class="plan-item" style="padding: 1pt">
+                  <div>
+                    <span class="mini-close">
+                      &times;
+                    </span>
+                    <input readonly v-model="new Date(value.date).toLocaleDateString()" style="width: 7em">
+                    <input type="number" step="0.01" v-model="value.plan" onfocus="this.select()" style="width: 6em; text-align: right">
+                    <select v-model="value.customer">
+                      <option v-for="customer in customers" :value="customer.id">
+                        {{customer.value}}
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <div style="display: inline-block">
+                      <a>
+                        Нове перевезення
+                      </a>
+                    </div>
+                    <div style="display: inline-block">
+                      <div>
+                        <a v-if="value.driver.id == -1">
+                          <fmt:message key="transportation.driver.insert.info"/>
+                        </a>
+                      </div>
+                      <div>
+                        <a v-if="value.vehicle.id == -1">
+                          <fmt:message key="transportation.automobile.insert.info"/>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <%--<div v-if="!value.removed">--%>
-                <%--&lt;%&ndash;UPPER ROW&ndash;%&gt;--%>
+                <%--UPPER ROW--%>
                 <%--<div class="upper">--%>
                 <%--&lt;%&ndash;REMOVE BUTTON&ndash;%&gt;--%>
                 <%--<div style="display: inline-block; width: 10pt">--%>

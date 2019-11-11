@@ -7,17 +7,16 @@ var plan = new Vue({
         dateTo:'',
         customers:[],
         contractProducts:[],
+        transportations:{},
         foundVehicles:[],
         foundDrivers:[],
         fnd:-1,
         upd:-1,
         picker:false,
-        worker:{}
+        worker:{},
+        currentTransportations:[]
     },
     methods:{
-        handler:function(a){
-
-        },
         messages:function(){
             var msgs = [];
             var total = this.totalPlan();
@@ -26,18 +25,40 @@ var plan = new Vue({
             }
             return msgs;
         },
-        newCarriage:function(){
-
-        },
         selectRow:function(id){
             console.log('select row ' + id);
+            this.checkTransportations(id);
             for (let i in this.contractProducts){
                 if (this.contractProducts.hasOwnProperty(i)){
                     this.contractProducts[i].selected = this.contractProducts[i].id === id;
                 }
             }
+            this.currentTransportations = this.transportations[id];
+        },
+        checkTransportations:function(id){
+            if (!this.transportations[id]){
+                Vue.set(this.transportations, id, []);
+            }
         },
         newVehicle:function(id){
+            this.checkTransportations(id);
+            let transportations = this.transportations[id];
+            transportations.push({
+               id:-randomNumber(),
+                key:randomUUID(),
+                date:new Date().toISOString().substring(0, 10),
+                plan:20,
+                customer:this.customers[0].id,
+                vehicle:{
+                    id:-1
+                },
+                driver:{
+                    id:-1
+                },
+                notes:[]
+            });
+
+
             //var date = new Date();
             //if (date < this.dateFrom){
             //    date = this.dateFrom;
