@@ -24,7 +24,7 @@ public class LaboratoryStoragesList extends IUIServlet {
         AnalysesType analysesType = AnalysesType.valueOf(req.getParameter("type"));
         req.setAttribute("type", analysesType.toString());
         req.setAttribute("title", "title.laboratory.storages");
-        req.setAttribute("content", "/pages/laboratory/storages/storageStocks.jsp");
+        req.setAttribute("content", "/pages/laboratory/storages/storageList.jsp");
         req.setAttribute("edit", Branches.UI.LABORATORY_STORAGE_EDIT);
         req.setAttribute("subscribe", subscribers);
 
