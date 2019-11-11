@@ -34,7 +34,8 @@
     shipper:'${product.shipper.value}',
     done:${product.done},
     amount:${product.amount},
-    price:${product.price}
+    price:${product.price},
+    selected:false
   })
   </c:forEach>
   plan.worker = {
@@ -43,6 +44,11 @@
   }
 
 </script>
+<style>
+  .selected{
+    background-color: lightgray;
+  }
+</style>
 <c:set var="vehicleHolder"><fmt:message key="transportation.automobile"/>... </c:set>
 <c:set var="driverHolder"><fmt:message key="transportation.driver"/>... </c:set>
 <c:set var="editVehicle"><fmt:message key="vehicle.edit"/></c:set>
@@ -101,7 +107,8 @@
           <tr>
             <td colspan="3" height="100%" valign="top" >
               <div style="border: solid gray 1pt; overflow-y: scroll; height: 100%">
-                <div  v-for="product in contractProducts" style="border-bottom: dotted gray 1pt; padding: 0 4pt;">
+                <div v-for="product in contractProducts" style="border-bottom: dotted gray 1pt; padding: 0 4pt;"
+                     v-on:click="selectRow(product.id)" :class="{selected : product.selected}">
                   <div style="display: inline-block">
                     <div>
                       {{product.product}}
@@ -114,7 +121,7 @@
                     </div>
                   </div>
                   <div style="display: inline-block; font-size: 10pt; float: right">
-                    <div>
+                    <div v-on:click="newVehicle(product.id)">
                       <a class="mini-close"><fmt:message key="button.add.vehicle"/></a>
                     </div>
                   </div>

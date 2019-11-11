@@ -28,31 +28,39 @@ var plan = new Vue({
         },
         newCarriage:function(){
 
-
         },
-        newVehicle:function(){
-            var date = new Date();
-            if (date < this.dateFrom){
-                date = this.dateFrom;
-            }else if (date > this.dateTo){
-                date = this.dateTo;
-            }
-            this.add({
-                id:-randomNumber(),
-                date: date.toISOString().substring(0, 10),
-                plan:0,
-                customer:this.customers[0].id,
-                transportation:{
-                    vehicle:{
-                        id:-1
-                    },
-                    driver:{
-                        id:-1
-                    },
-                    notes:[],
-                    weight:{}
+        selectRow:function(id){
+            console.log('select row ' + id);
+            for (let i in this.contractProducts){
+                if (this.contractProducts.hasOwnProperty(i)){
+                    this.contractProducts[i].selected = this.contractProducts[i].id === id;
                 }
-            })
+            }
+        },
+        newVehicle:function(id){
+            //var date = new Date();
+            //if (date < this.dateFrom){
+            //    date = this.dateFrom;
+            //}else if (date > this.dateTo){
+            //    date = this.dateTo;
+            //}
+            //this.add({
+            //    id:-randomNumber(),
+            //    date: date.toISOString().substring(0, 10),
+            //    plan:0,
+            //    customer:this.customers[0].id,
+            //    transportation:{
+            //        vehicle:{
+            //            id:-1
+            //        },
+            //        driver:{
+            //            id:-1
+            //        },
+            //        notes:[],
+            //        weight:{}
+            //    }
+            //})
+            console.log('new vehicle ' + id);
         },
         add:function(plan){
             this.plans.push({
