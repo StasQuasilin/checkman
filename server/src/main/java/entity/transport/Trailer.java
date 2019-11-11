@@ -1,5 +1,8 @@
 package entity.transport;
 
+import entity.JsonAble;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "trailers")
-public class Trailer {
+public class Trailer extends JsonAble{
     private int id;
     private Number number;
 
@@ -27,5 +30,13 @@ public class Trailer {
     }
     public void setNumber(Number number) {
         this.number = number;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(NUMBER, number.toJson());
+        return json;
     }
 }

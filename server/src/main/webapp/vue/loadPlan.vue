@@ -41,47 +41,41 @@ var plan = new Vue({
             }
         },
         newVehicle:function(id){
-            this.checkTransportations(id);
-            let transportations = this.transportations[id];
-            transportations.push({
-               id:-randomNumber(),
-                key:randomUUID(),
+            this.addTransportation(id, {
+                id:-randomNumber(),
+                product:id,
                 date:new Date().toISOString().substring(0, 10),
                 plan:20,
                 customer:this.customers[0].id,
-                vehicle:{
-                    id:-1
-                },
-                driver:{
-                    id:-1
+                transportation:{
+                    id:-1,
+                    vehicle:{
+                        id:-1
+                    },
+                    driver:{
+                        id:-1
+                    }
                 },
                 notes:[]
             });
 
-
-            //var date = new Date();
-            //if (date < this.dateFrom){
-            //    date = this.dateFrom;
-            //}else if (date > this.dateTo){
-            //    date = this.dateTo;
-            //}
-            //this.add({
-            //    id:-randomNumber(),
-            //    date: date.toISOString().substring(0, 10),
-            //    plan:0,
-            //    customer:this.customers[0].id,
-            //    transportation:{
-            //        vehicle:{
-            //            id:-1
-            //        },
-            //        driver:{
-            //            id:-1
-            //        },
-            //        notes:[],
-            //        weight:{}
-            //    }
-            //})
             console.log('new vehicle ' + id);
+        },
+        addTransportation:function(contractProduct, transportation){
+            this.checkTransportations(contractProduct);
+            let transportations = this.transportations[contractProduct];
+            transportations.push({
+                key:randomUUID(),
+                editVehicle:false,
+                editDriver:false,
+                editNote:false,
+                vehicleInput:'',
+                driverInput : '',
+                noteInput:'',
+                item : transportation,
+                removed:false,
+                saveTimer:-1
+            });
         },
         add:function(plan){
             this.plans.push({
@@ -99,21 +93,13 @@ var plan = new Vue({
             this.sort();
         },
         initSaveTimer:function(key){
-            console.log('Init save for ' + key);
-            for (var i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    var plan = this.plans[i];
-                    if(plan.key === key){
-                        const p = plan;
-                        const self = this;
-                        clearTimeout(plan.saveTimer);
-                        plan.saveTimer = setTimeout(function(){
-                            self.save(p.item, key);
-                        }, 1500);
-                        break;
-                    }
-                }
-            }
+            var plan = this.currentTransportations[key];
+            clearTimeout(plan.saveTimer);
+            const p = plan;
+            const self = this;
+            plan.saveTimer = setTimeout(function(){
+                self.save(p.item, key);
+            }, 1500);
         },
         update:function(plan){
             var found = false;
@@ -186,7 +172,7 @@ var plan = new Vue({
                 }else {
                     console.log('input not found')
                 }
-            }, 500)
+            }, 100)
         },
         closeVehicleInput:function(key){
             this.plans[key].editVehicle = false;
@@ -255,12 +241,12 @@ var plan = new Vue({
             }
         },
         openDriverInput:function(key){
-            for (var i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    var plan = this.plans[i];
-                    plan.editDriver = plan.key === key;
-                    plan.editVehicle = false;
-                    plan.driverInput = '';
+            for (let i in this.currentTransportations){
+                if (this.currentTransportations.hasOwnProperty(i)){
+                    let item = this.currentTransportations[i];
+                    item.editDriver = item.key === key;
+                    item.editVehicle = false;
+                    item.driverInput = '';
                 }
             }
             this.focusInput();
@@ -284,9 +270,9 @@ var plan = new Vue({
             }
         },
         setDriver:function(driver, key){
-            this.plans[key].item.transportation.driver = driver;
+            this.currentTransportations[key].item.transportation.driver = driver;
             this.closeDriverInput(key);
-            this.initSaveTimer(this.plans[key].key);
+            this.initSaveTimer(this.currentTransportations[key].key);
         },
         parseDriver:function(value, key){
             if(value) {

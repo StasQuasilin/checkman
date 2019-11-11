@@ -1,7 +1,9 @@
 package entity.transport;
 
+import entity.JsonAble;
 import entity.organisations.Organisation;
 import entity.Person;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,16 +11,16 @@ import javax.persistence.*;
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
-@Table(name = "drivers")
-public class Driver {
+@Table(name = "_drivers")
+public class Driver extends JsonAble {
     private int id;
     private Person person;
     private Organisation organisation;
-    private Vehicle truck;
+    private Truck truck;
     private String license;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -45,11 +47,11 @@ public class Driver {
     }
 
     @OneToOne
-    @JoinColumn(name = "vehicle")
-    public Vehicle getTruck() {
+    @JoinColumn(name = "truck")
+    public Truck getTruck() {
         return truck;
     }
-    public void setTruck(Vehicle truck) {
+    public void setTruck(Truck truck) {
         this.truck = truck;
     }
 
@@ -77,5 +79,17 @@ public class Driver {
     @Override
     public String toString() {
         return getPerson().getValue();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(VALUE, person.getValue());
+        json.put(LICENSE, license);
+        if (truck != null) {
+            json.put(TRUCK, truck.toJson());
+        }
+        return json;
     }
 }

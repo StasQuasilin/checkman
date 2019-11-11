@@ -48,6 +48,12 @@
   .selected{
     background-color: lightgray;
   }
+  .driverInput, .vehicleInput{
+    border: none;
+    width: 100%;
+    border-radius: 0;
+    margin: 1pt;
+  }
 </style>
 <c:set var="vehicleHolder"><fmt:message key="transportation.automobile"/>... </c:set>
 <c:set var="driverHolder"><fmt:message key="transportation.driver"/>... </c:set>
@@ -171,28 +177,43 @@
                     <span class="mini-close">
                       &times;
                     </span>
-                    <input readonly v-model="new Date(value.date).toLocaleDateString()" style="width: 7em">
-                    <input type="number" step="0.01" v-model="value.plan" onfocus="this.select()" style="width: 6em; text-align: right">
-                    <select v-model="value.customer">
+                    <input readonly v-model="new Date(value.item.date).toLocaleDateString()" style="width: 7em">
+                    <input type="number" step="0.01" v-model="value.item.plan" onfocus="this.select()" style="width: 6em; text-align: right">
+                    <select v-model="value.item.customer">
                       <option v-for="customer in customers" :value="customer.id">
                         {{customer.value}}
                       </option>
                     </select>
                   </div>
                   <div>
-                    <div style="display: inline-block">
-                      <a>
-                        Нове перевезення
-                      </a>
+                    <div style="display: inline-block;">
+                      <select v-model=value.item.transportation.id>
+                        <option value="-1">
+                          Нове перевезення
+                        </option>
+                      </select>
                     </div>
                     <div style="display: inline-block">
                       <div>
-                        <a v-if="value.driver.id == -1">
-                          <fmt:message key="transportation.driver.insert.info"/>
-                        </a>
+                        <template v-if="value.item.transportation.driver.id == -1">
+                          <template v-if="value.editDriver">
+                            <input id="input"  v-model="value.driverInput" v-on:keyup="findDriver(value.driverInput)"
+                                   class="driverInput" autocomplete="off">
+                            <div class="custom-data-list">
+                              <div class="custom-data-list-item" v-for="driver in foundDrivers" v-on:click="setDriver(driver, key)">
+                                <div>
+                                  {{driver.value}}
+                                </div>
+                              </div>
+                            </div>
+                          </template>
+                          <a v-else v-on:click="openDriverInput(value.key)">
+                            <fmt:message key="transportation.driver.insert.info"/>
+                          </a>
+                        </template>
                       </div>
                       <div>
-                        <a v-if="value.vehicle.id == -1">
+                        <a v-if="value.item.transportation.vehicle.id == -1">
                           <fmt:message key="transportation.automobile.insert.info"/>
                         </a>
                       </div>

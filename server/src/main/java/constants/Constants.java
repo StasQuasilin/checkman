@@ -73,6 +73,12 @@ public class Constants {
     public static final String DONE = "done";
     public static final String ANALYSES = "analyses";
     public static final String VALUE = "value";
+    public static final String LICENSE = "license";
+    public static final String TRUCK = "truck";
+    public static final String MODEL = "model";
+    public static final String TRAILER = "trailer";
+    public static final String OWNER = "owner";
+    public static final String TRANSPORTER = "transporter";
 
 
     public static class Languages {

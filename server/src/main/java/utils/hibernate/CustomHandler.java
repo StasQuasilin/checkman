@@ -5,6 +5,8 @@ import entity.products.Product;
 import entity.storages.Storage;
 import entity.storages.StoragePeriodPoint;
 import entity.storages.StorageProduct;
+import entity.transport.Driver;
+import entity.transport.OldDriver;
 import entity.transport.TransportStorageUsed;
 import utils.DateUtil;
 import utils.storages.PointScale;
@@ -24,7 +26,13 @@ public class CustomHandler {
 
 
     public static void main(String[] args) {
-//        Hibernator instance = Hibernator.getInstance();
+        Hibernator instance = Hibernator.getInstance();
+        for (OldDriver driver : instance.query(OldDriver.class, null)){
+            Driver newDriver = new Driver();
+            newDriver.setPerson(driver.getPerson());
+            newDriver.setLicense(driver.getLicense());
+            instance.save(newDriver);
+        }
 
 //        for (Transportation transportation : instance.query(Transportation.class, null)){
 //            System.out.println(transportation.getDate() + ", " + (transportation.getWeight() != null ? transportation.getWeight().getNetto() : 0));
@@ -43,12 +51,12 @@ public class CustomHandler {
 //            WeightUtil.calculateDealDone(deal);
 //        }
 //        StorageUtil storageUtil = new StorageUtil();
-        PointScale scale = PointScale.day;
-        PointScale s = scale;
-        while ((s = StorageUtil.nextScale(s)) != scale){
-            scale = s;
-            System.out.println(s);
-        }
+//        PointScale scale = PointScale.day;
+//        PointScale s = scale;
+//        while ((s = StorageUtil.nextScale(s)) != scale){
+//            scale = s;
+//            System.out.println(s);
+//        }
 //        for (TransportStorageUsed used : instance.query(TransportStorageUsed.class, null)){
 //            storageUtil.updateStorageEntry(used);
 //        }
@@ -103,7 +111,7 @@ public class CustomHandler {
 //        for (Vehicle v : vehicle){
 //            System.out.println(v);
 //        }
-//        HibernateSessionFactory.shutdown();
+        HibernateSessionFactory.shutdown();
     }
 
     static String pretty(String number){

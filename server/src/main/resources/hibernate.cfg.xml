@@ -25,6 +25,7 @@
         <mapping class="entity.products.Product"/>
         <mapping class="entity.products.ProductProperty"/>
         <mapping class="entity.transport.Driver"/>
+        <mapping class="entity.transport.OldDriver"/>
         <mapping class="entity.transport.Vehicle"/>
         <mapping class="entity.transport.Truck"/>
         <mapping class="entity.transport.Trailer"/>

@@ -28,6 +28,13 @@ public abstract class JsonAble {
     public static final String PRICE = Constants.PRICE;
     public static final String ANALYSES = Constants.ANALYSES;
     public static final String VALUE = Constants.VALUE;
+    public static final String LICENSE = Constants.LICENSE;
+    public static final String TRUCK = Constants.TRUCK;
+    public static final String MODEL = Constants.MODEL;
+    public static final String TRAILER = Constants.TRAILER;
+    public static final String OWNER = Constants.OWNER;
+    public static final String TRANSPORTER = Constants.TRANSPORTER;
+
 
     public static JsonPool pool = JsonPool.getPool();
     public abstract JSONObject toJson();

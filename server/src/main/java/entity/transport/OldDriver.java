@@ -9,12 +9,11 @@ import javax.persistence.*;
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
-@Table(name = "_drivers")
-public class _Driver {
+@Table(name = "drivers")
+public class OldDriver {
     private int id;
     private Person person;
     private Organisation organisation;
-    private Truck truck;
     private String license;
 
     @Id
@@ -43,16 +42,6 @@ public class _Driver {
     public void setOrganisation(Organisation organisation) {
         this.organisation = organisation;
     }
-
-    @OneToOne
-    @JoinColumn(name = "truck")
-    public Truck getTruck() {
-        return truck;
-    }
-    public void setTruck(Truck truck) {
-        this.truck = truck;
-    }
-
 
     @Basic
     @Column(name = "license")

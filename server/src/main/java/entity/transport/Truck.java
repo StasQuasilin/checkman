@@ -1,6 +1,9 @@
 package entity.transport;
 
+import entity.JsonAble;
 import entity.organisations.Organisation;
+import org.json.simple.JSONObject;
+import utils.U;
 
 import javax.persistence.*;
 
@@ -9,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "trucks")
-public class Truck {
+public class Truck extends JsonAble{
     private int id;
     private String model;
     private Number number;
@@ -67,8 +70,29 @@ public class Truck {
     public Organisation getTransporter() {
         return transporter;
     }
-
     public void setTransporter(Organisation transporter) {
         this.transporter = transporter;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(MODEL, model);
+        json.put(NUMBER, number.toJson());
+        json.put(TRAILER, trailer.toJson());
+        json.put(VALUE, getValue());
+        if (owner != null) {
+            json.put(OWNER, owner.toJson());
+        }
+        if (transporter != null){
+            json.put(TRANSPORTER, transporter.toJson());
+        }
+        return json;
+    }
+
+    @Transient
+    private String getValue() {
+        return model;
     }
 }

@@ -3,9 +3,11 @@ package api.references.driver;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.transport.Driver;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.U;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,16 +28,17 @@ public class FindDriverServletAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            final JSONArray array = new JSONArray();
+
             String key = String.valueOf(body.get(Constants.KEY));
             key = key.trim().replaceAll("  ", " ");
-
-            array.addAll(dao.findDriver(key).stream().map(parser::toJson).collect(Collectors.toCollection(JSONArray::new)));
-
-            write(resp, array.toJSONString());
+            if (U.exist(key)) {
+                final JSONArray array = new JSONArray();
+                array.addAll(dao.findDriver(key).stream().map(Driver::toJson).collect(Collectors.toList()));
+                write(resp, array.toJSONString());
+                pool.put(array);
+            }
 
             body.clear();
-            array.clear();
         } else {
             write(resp, EMPTY_BODY);
         }
