@@ -13,6 +13,7 @@ import entity.laboratory.subdivisions.vro.SunProtein;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
@@ -33,12 +34,14 @@ import java.time.LocalDateTime;
 @WebServlet(Branches.API.VRO_SUN_PROTEIN)
 public class VroSunProteinEditServletAPI extends ServletAPI {
 
+    private final Logger log = Logger.getLogger(VroSunProteinEditServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
+            log.info(body);
             SunProtein sunProtein;
             long id = -1;
             if (body.containsKey(Constants.ID)) {
@@ -69,12 +72,14 @@ public class VroSunProteinEditServletAPI extends ServletAPI {
 
             float protein = Float.parseFloat(String.valueOf(body.get("protein")));
             if (sunProtein.getProtein() != protein) {
+                log.info("Protein: " + protein);
                 sunProtein.setProtein(protein);
                 save = true;
             }
 
             float humidity = Float.parseFloat(String.valueOf(body.get("humidity")));
             if (sunProtein.getHumidity() != humidity) {
+                log.info("Humidity: " + humidity);
                 sunProtein.setHumidity(humidity);
                 save = true;
             }

@@ -641,7 +641,6 @@ public class Notificator {
                     message += NEW_LINE + String.format(lb.get(language, HUMIDITY), analyses.getHumidity());
                     message += NEW_LINE + String.format(lb.get(language, "notificator.granules.dust"), analyses.getDust());
                     message += NEW_LINE + (analyses.isMatch() ? lb.get(language, "match.dstu") : lb.get(language, "dsnt.match.dstu"));
-
                     messages.put(language, message);
                 }
                 sendMessage(setting.getTelegramId(), messages.get(language), null);
@@ -658,7 +657,8 @@ public class Notificator {
             if (setting.isShow() && setting.isVro()){
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
-                    String message = String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate)+
+                    String message = lb.get(language, "vro.sun.protein.title") +
+                        NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.turn"), turn, turnDate) +
                         NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.protein"), sunProtein.getProtein()) +
                         NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.humidity"), sunProtein.getHumidity()) +
                         NEW_LINE + String.format(lb.get(language, "extraction.turn.protein.dry"), sunProtein.DryRecalculation());

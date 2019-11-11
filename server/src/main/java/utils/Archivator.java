@@ -32,7 +32,7 @@ public final class Archivator {
     }
 
     private static void check() {
-        log.info("Check archive data");
+        log.info("CHECK ARCHIVE DATA");
         final LocalDateTime now = LocalDateTime.now();
         final ArrayList<ArchiveData> toClose = new ArrayList<>();
         data.stream().filter(d -> now.isAfter(d.getTime().toLocalDateTime())).forEach(toClose::add);
