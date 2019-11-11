@@ -1,6 +1,7 @@
 package filters;
 
 import constants.Branches;
+import org.apache.log4j.Logger;
 import utils.IpUtil;
 import utils.LoginBox;
 import utils.access.UserBox;
@@ -18,10 +19,10 @@ import java.io.IOException;
 public class SignInFilter implements Filter{
 
     final UserBox userBox = UserBox.getUserBox();
-//    final String apiAnswer = JsonParser.toJson(new ErrorAnswer("msg", "Restricted area. Authorized personnel only")).toJSONString();
+    final Logger log = Logger.getLogger(SignInFilter.class);
+
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+    public void init(FilterConfig filterConfig) throws ServletException {}
 
     public static final String TOKEN = "token";
 
@@ -40,7 +41,22 @@ public class SignInFilter implements Filter{
 
         String ip = IpUtil.getIp(request);
 
-        if (token != null && userBox.containsKey(token) && userBox.getUser(token).isValid(ip)) {
+        boolean isValid = true;
+
+        if (token == null){
+            log.info("Session: " + request.getSession().getId() + ": token not found");
+            isValid = false;
+        } else if (!userBox.containsKey(token)){
+            log.info("User box doesn't contain token " + token);
+            isValid = false;
+        } else if (!userBox.getUser(token).isValid(ip)){
+            log.info("Session: " +request.getSession().getId() + ": invalid IP: " + ip);
+            isValid = false;
+        }
+
+
+        if (isValid) {
+
             String updateToken = userBox.updateToken(token);
             if (inAttribute){
                 response.setHeader(TOKEN, updateToken);

@@ -21,10 +21,22 @@ var login = new Vue({
         }
     },
     mounted:function(){
-        const self = this;
-        setTimeout(function(){
-            self.$refs.worker.select();
-        },10);
+        let uid = localStorage.getItem('uid');
+        let worker = localStorage.getItem('worker');
+        if (uid && worker){
+            this.user.uid = uid;
+            this.worker = worker;
+            this.state = 1;
+            const self = this;
+            setTimeout(function(){
+                self.$refs.password.select();
+            },10);
+        } else {
+            const self = this;
+            setTimeout(function(){
+                self.$refs.worker.select();
+            },10);
+        }
     },
     methods:{
         check:function(){
@@ -48,6 +60,8 @@ var login = new Vue({
         setUser:function(user){
             this.user.uid = user.uid;
             this.worker = user.person.value;
+            localStorage.setItem('uid', user.uid);
+            localStorage.setItem('worker', user.person.value);
             this.foundUsers = [];
             this.state = 1;
             const self = this;
