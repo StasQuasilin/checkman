@@ -32,6 +32,7 @@ public final class Archivator {
     }
 
     private static void check() {
+        log.info("Check archive data");
         final LocalDateTime now = LocalDateTime.now();
         final ArrayList<ArchiveData> toClose = new ArrayList<>();
         data.stream().filter(d -> now.isAfter(d.getTime().toLocalDateTime())).forEach(toClose::add);
@@ -40,10 +41,14 @@ public final class Archivator {
 
     }
     static Timer timer;
-    final static long HOUR = 60 * 60 * 1000;
+    final static int HOUR = 60 * 60 * 1000;
     private static void next() {
-        timer = new Timer((int) HOUR, e -> check());
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+        timer = new Timer(HOUR, e -> check());
         timer.start();
+
     }
 
     private static void close(ArchiveData d) {

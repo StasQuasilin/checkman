@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import javax.swing.*;
@@ -56,7 +57,7 @@ public class TransportReplaceUtil {
     Timer timer;
     private final LanguageBase lb = LanguageBase.getBase();
     HashMap<String, Object> param = new HashMap<>();
-    void checkTransport(){
+    synchronized void checkTransport(){
         Date now = Date.valueOf(LocalDate.now());
         param.clear();
         param.put("date", new LT(now));
@@ -66,7 +67,7 @@ public class TransportReplaceUtil {
         for (LoadPlan plan : dao.getObjectsByParams(LoadPlan.class, param)){
             plan.setDate(now);
             Transportation transportation = plan.getTransportation();
-            Set<TransportationNote> notes = transportation.getNotes();
+            ArrayList<TransportationNote> notes = new ArrayList<>(transportation.getNotes());
             for (TransportationNote n : notes){
                 if(n.getCreator() == null) {
                     dao.remove(n);
