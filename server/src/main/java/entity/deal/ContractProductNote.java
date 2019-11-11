@@ -16,7 +16,7 @@ public class ContractProductNote {
     private ActionTime createTime;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

@@ -28,7 +28,7 @@ public class ContractProduct extends JsonAble {
     private Set<ContractProductNote> notes = new HashSet<>();
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

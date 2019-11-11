@@ -51,16 +51,7 @@
         editor.counterpartyInput = editor.counterpartyName = '${deal.organisation.value}';
         </c:when>
         <c:otherwise>
-        editor.deal.type = '${type}';
-        if (editor.shippers.length > 0){
-            editor.deal.realisation= editor.shippers[0].id;
-        }
-        if (editor.products.length > 0){
-            editor.deal.product = editor.products[0].id;
-        }
-        if (editor.units.length > 0){
-            editor.deal.unit = editor.units[0].id;
-        }
+        editor.newDealProduct();
         </c:otherwise>
         </c:choose>
 

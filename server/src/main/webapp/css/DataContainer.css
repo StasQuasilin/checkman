@@ -31,9 +31,8 @@
     height: 62px;
 }
 .container-item{
-    border: solid #474747 1.5pt;
-    margin: 2pt;
-    border-radius: 8pt;
+    border: solid #474747 .8pt;
+    margin: 1pt;
     position: relative;
 }
 .container-item table{

@@ -1,23 +1,12 @@
 var plan = new Vue({
     el: '#load_plan',
     data: {
-        api: {
-            save: '',
-            remove:'',
-            findVehicle: '',
-            parseVehicle:'',
-            findDriver: '',
-            parseDriver:'',
-            editVehicle: '',
-            editDriver: ''
-        },
-        deal:0,
+        api: {},
+        deal:-1,
         dateFrom:'',
         dateTo:'',
-        quantity:0,
-        unit:'',
         customers:[],
-        plans:[],
+        contractProducts:[],
         foundVehicles:[],
         foundDrivers:[],
         fnd:-1,

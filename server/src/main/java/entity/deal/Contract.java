@@ -31,7 +31,7 @@ public class Contract extends JsonAble {
     private ActionTime createTime;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

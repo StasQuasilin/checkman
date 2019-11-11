@@ -40,6 +40,9 @@
                     <div class="modal-body">
                         <div class="modal-header">
                             <fmt:message key="${title}"/>
+                            <span onclick="closeModal()" style="font-size: 25pt; position: absolute; transform: translate(12px, -12px);">
+                                &times;
+                            </span>
                         </div>
                         <div class="modal-content" id="modal-content">
                             <jsp:include page="${modalContent}"/>

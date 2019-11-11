@@ -5,6 +5,8 @@ import constants.Constants;
 import controllers.IModal;
 import entity.DealType;
 import entity.Worker;
+import entity.deal.Contract;
+import entity.deal.ContractProduct;
 import entity.documents.Deal;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -40,14 +42,17 @@ public class DealEdit extends IModal {
         }
 
         if (id != -1) {
-            req.setAttribute(DEAL, dao.getDealById(id));
+            req.setAttribute(CONTRACT, dao.getObjectById(Contract.class, id));
             req.setAttribute(TITLE, Constants.Languages.DEAL_EDIT);
             log.info("User \'" + worker.getValue() + "\' edit deal \'" + id + "\'");
         } else if (copy != -1){
-            Deal deal = dao.getDealById(copy);
-            deal.setId(-1);
-            deal.setComplete(0);
-            req.setAttribute(DEAL, deal);
+            Contract contract = dao.getObjectById(Contract.class, copy);
+            contract.setId(-1);
+            for (ContractProduct product : contract.getProducts()){
+                product.setId(-1);
+                product.setDone(0);
+            }
+            req.setAttribute(CONTRACT, contract);
             req.setAttribute(TITLE, Constants.Languages.DEAL_COPY);
             log.info("User \'" + worker.getValue() + "\' copy deal \'" + copy + "\'");
         } else {
