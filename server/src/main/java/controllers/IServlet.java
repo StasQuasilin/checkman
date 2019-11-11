@@ -41,6 +41,7 @@ public class IServlet extends HttpServlet {
     public static final String STORAGE = Constants.STORAGE;
     public static final String STORAGE_PRODUCTS = Constants.STORAGE_PRODUCTS;
     public static final String REPORT = "report";
+    public static final String FIELDS = "fields";
     public static final String SEND = "send";
     public static final String PRODUCT = "product";
     public static final String PRODUCTS = "products";

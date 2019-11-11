@@ -210,6 +210,10 @@ public class UpdateUtil {
         doAction(Command.update, Subscriber.STOCK, json);
     }
 
+    public void onRemove(ManufactureReport report) throws IOException {
+        doAction(Command.remove, Subscriber.MANUFACTURE_REPORTS, report.getId());
+    }
+
     public enum Command {
         add,
         update,

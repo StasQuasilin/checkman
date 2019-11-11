@@ -12,20 +12,79 @@
 <html>
 <table>
   <tr>
+    <td>
+      <fmt:message key="date"/>
+    </td>
+    <td>
+      <fmt:formatDate value="${report.turn.date}" pattern="dd.MM.yyyy"/>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="right">
+      <fmt:message key="turn"/> <span>#</span>${report.turn.number}
+    </td>
+  </tr>
+  <c:forEach items="${fields}" var="category">
+    <c:if test="${category.key ne null}">
+      <tr>
+        <td colspan="2">
+          <b>
+            ${category.key.title}
+          </b>
+        </td>
+      </tr>
+    </c:if>
+    <c:forEach items="${category.value}" var="field">
+      <tr>
+        <td style="padding-left: 16pt">
+          ${field.title}
+        </td>
+        <td>
+          <fmt:formatNumber value="${field.value}"/>
+        </td>
+      </tr>
+    </c:forEach>
+  </c:forEach>
+  <tr>
     <td colspan="2" align="center">
-      <button>
-        <fmt:message key=""
+      <button onclick="closeModal()">
+        <fmt:message key="button.close"/>
       </button>
-      <button>
+      <button onclick="Remove()">
         <fmt:message key="button.delete"/>
       </button>
-      <button>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <button onclick="Edit()">
         <fmt:message key="edit"/>
       </button>
-      <button>
+      <button onclick="Send()">
         <fmt:message key="chat.send"/>
       </button>
     </td>
   </tr>
 </table>
 </html>
+<script>
+  let id = '${report.id}';
+  let api = {
+    remove:'${delete}',
+    edit:'${edit}',
+    send:'${send}'
+  };
+
+  function Remove(){
+    closeModal();
+    PostApi(api.remove, {id:id})
+  }
+  function Edit(){
+    closeModal();
+    loadModal(api.edit, {id:id})
+  }
+  function Send(){
+    closeModal();
+    PostApi(api.send, {id:id});
+  }
+</script>

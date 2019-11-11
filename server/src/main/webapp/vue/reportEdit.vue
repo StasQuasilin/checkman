@@ -40,7 +40,7 @@ var editor = new Vue({
 
             field.editComment = false;
 
-            console.log(field);
+            //console.log(field);
 
             this.fields.push(field);
             this.sortFields();

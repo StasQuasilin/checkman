@@ -73,12 +73,6 @@
     category:category,
     </c:when>
     </c:choose>
-    //FIELD STORAGE
-    <c:choose>
-    <c:when test="${not empty field.storage.id}">
-    storage:${field.storage.id}
-    </c:when>
-    </c:choose>
   });
   </c:forEach>
   </c:when>
@@ -104,12 +98,6 @@
     <c:choose>
     <c:when test="${not empty field.category.id}">
     category:category,
-    </c:when>
-    </c:choose>
-    //FIELD STORAGE
-    <c:choose>
-    <c:when test="${not empty field.storage.id}">
-    storage:${field.storage.id}
     </c:when>
     </c:choose>
   });
@@ -221,10 +209,8 @@
           <span>
             {{key + 1}}. {{field.title}}
           </span>
-          <span v-if="field.storage">
-            {{storages[field.storage].title}}
-          </span>
-              <div v-if="!field.editComment && !field.comment" class="mini-close add-comment" style="font-size: 8pt" v-on:click="openComment(field)" >
+              <div v-if="!field.editComment && !field.comment" class="mini-close add-comment"
+                   style="font-size: 8pt" v-on:click="openComment(field)" >
             <span>
               <fmt:message key="comment.plus"/>
             </span>

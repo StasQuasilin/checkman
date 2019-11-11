@@ -135,7 +135,6 @@ public class ManufactureReportEditAPI extends ServletAPI {
 
                             settings.setTitle(String.valueOf(field.get("title")));
                             settings.setUnit(dao.getWeightUnitById(field.get("unit")));
-                            settings.setStorage(storage);
                             settings.setCategory(category);
                             dao.save(settings);
                         }
@@ -162,27 +161,11 @@ public class ManufactureReportEditAPI extends ServletAPI {
 
 //                Notificator notificator = BotFactory.getNotificator();
 //                if (notificator != null){
-//                    HashMap<String, Object> param = new HashMap<>();
-//                    param.put("report", manufactureReport.getId());
-//
-//                    for (ReportMessageLink link : dao.getObjectsByParams(ReportMessageLink.class, param)){
-//                        notificator.removeMessage(link.getChatId(), link.getMessageId());
-//                        dao.remove(link);
-//                    }
-//
+
 //                    ArrayList<Message> messages = new ArrayList<>();
 //                    notificator.manufactureReportShow(manufactureReport, messages);
 //
-//                    for (Message message : messages){
-//                        if (message.getChat() != null) {
-//                            System.out.println(message.getChat().getId());
-//                            ReportMessageLink messageLink = new ReportMessageLink();
-//                            messageLink.setReport(manufactureReport);
-//
-//                            messageLink.setChatId(message.getChat().getId());
-//                            messageLink.setMessageId(message.getMessageId());
-//                            dao.save(messageLink);
-//                        }
+
 //                    }
 //                }
             } else {

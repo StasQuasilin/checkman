@@ -35,6 +35,7 @@ public class ReportList extends IUIServlet {
         req.setAttribute(STORAGES, dao.getStorages());
         req.setAttribute(BUILDER, Branches.API.REPORT_BUILDER);
         req.setAttribute(EDIT, Branches.UI.MANUFACTURE_REPORT_EDIT);
+        req.setAttribute(SHOW, Branches.UI.MANUFACTURE_REPORT_PREVIEW);
         req.setAttribute(SUBSCRIBE, subscribe);
         show(req, resp);
     }

@@ -246,7 +246,6 @@ public class Transportation {
 
     @Override
     public int hashCode() {
-
         return id;
     }
 

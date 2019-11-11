@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
+import utils.U;
 import utils.UpdateUtil;
 import utils.storages.StorageUtil;
 
@@ -32,6 +33,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.PLAN_LIST_ADD)
 public class EditLoadPlanServletAPI extends ServletAPI {
 
+    private static final String FROM = "from";
     private final Logger log = Logger.getLogger(EditLoadPlanServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
     private final StorageUtil storageUtil = new StorageUtil();
@@ -45,7 +47,14 @@ public class EditLoadPlanServletAPI extends ServletAPI {
 
             float plan = Float.parseFloat(String.valueOf(body.get("plan")));
 
-            Shipper shipper = dao.getShipperByValue(body.get("from"));
+            Shipper shipper = dao.getShipperList().get(0);
+            if(body.containsKey(FROM)){
+                String from = String.valueOf(body.get(FROM));
+                if (U.exist(from)){
+                    shipper = dao.getShipperByValue(from);
+                }
+            }
+
             long dealId = Long.parseLong(String.valueOf(body.get("deal")));
             Deal deal;
             Worker creator = getWorker(req);

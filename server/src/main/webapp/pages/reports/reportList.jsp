@@ -80,9 +80,6 @@
           <input id="date" v-model="new Date(report.date).toLocaleString().substring(0, 10)"
                  style="width: 7em" readonly autocomplete="off" v-on:click="pickDate()">
         </span>
-        <%--<span v-if="!period" v-on:click="period = true">--%>
-          <%--+--%>
-        <%--</span>--%>
       </td>
     </tr>
     <tr v-if="period">

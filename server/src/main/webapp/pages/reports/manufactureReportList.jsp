@@ -22,7 +22,7 @@
   </button>
 </div>
 <script>
-  list.api.edit = '${edit}';
+  list.api.edit = '${show}';
   list.sort = function(){
     list.items.sort(function(a, b){
       return new Date(b.item.date) - new Date(a.item.date);
