@@ -541,6 +541,12 @@ public class Notificator {
 
                     U.sort(manufactureReport.getFields());
                     ReportFieldCategory category = null;
+                    manufactureReport.getFields().sort(new Comparator<ReportField>() {
+                        @Override
+                        public int compare(ReportField o1, ReportField o2) {
+                            return o1.getIndex() - o2.getIndex();
+                        }
+                    });
                     for (ReportField reportField : manufactureReport.getFields()){
 
                         if (!U.equals(reportField.getCategory(), category)){
@@ -552,9 +558,6 @@ public class Notificator {
                         }
                         if (U.exist(reportField.getTitle())){
                             builder.append(reportField.getTitle());
-                        }
-                        if (reportField.getStorage() != null){
-                            builder.append(reportField.getStorage().getName()).append(SPACE);
                         }
 
                         builder.append(HYPHEN).append(String.format(FORMAT, reportField.getValue()));

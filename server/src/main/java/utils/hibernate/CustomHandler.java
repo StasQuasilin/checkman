@@ -2,11 +2,14 @@ package utils.hibernate;
 
 import entity.documents.Shipper;
 import entity.products.Product;
+import entity.reports.ReportField;
+import entity.reports.ReportFieldSettings;
 import entity.storages.Storage;
 import entity.storages.StoragePeriodPoint;
 import entity.storages.StorageProduct;
 import entity.transport.TransportStorageUsed;
 import utils.DateUtil;
+import utils.U;
 import utils.storages.PointScale;
 import utils.storages.StorageUtil;
 
@@ -24,7 +27,24 @@ public class CustomHandler {
 
 
     public static void main(String[] args) {
-//        Hibernator instance = Hibernator.getInstance();
+        Hibernator instance = Hibernator.getInstance();
+        List<ReportFieldSettings> settingsList = instance.query(ReportFieldSettings.class, null);
+        String titleFrom = "пелета біг-бег";
+        String titleTo = "Пелета біг-бег";
+        for (ReportField field : instance.query(ReportField.class, "title", titleFrom)){
+            field.setTitle(titleTo);
+            for (ReportFieldSettings settings : settingsList){
+                boolean match = true;
+                if (settings.getCategory() != null && field.getCategory() != null){
+                    match = settings.getCategory().getId() == field.getCategory().getId();
+                }
+                if (match && field.getTitle().equals(settings.getTitle())){
+                    field.setIndex(settings.getIndex());
+                    instance.save(field);
+                    break;
+                }
+            }
+        }
 
 //        for (Transportation transportation : instance.query(Transportation.class, null)){
 //            System.out.println(transportation.getDate() + ", " + (transportation.getWeight() != null ? transportation.getWeight().getNetto() : 0));
@@ -43,12 +63,12 @@ public class CustomHandler {
 //            WeightUtil.calculateDealDone(deal);
 //        }
 //        StorageUtil storageUtil = new StorageUtil();
-        PointScale scale = PointScale.day;
-        PointScale s = scale;
-        while ((s = StorageUtil.nextScale(s)) != scale){
-            scale = s;
-            System.out.println(s);
-        }
+//        PointScale scale = PointScale.day;
+//        PointScale s = scale;
+//        while ((s = StorageUtil.nextScale(s)) != scale){
+//            scale = s;
+//            System.out.println(s);
+//        }
 //        for (TransportStorageUsed used : instance.query(TransportStorageUsed.class, null)){
 //            storageUtil.updateStorageEntry(used);
 //        }
@@ -103,7 +123,7 @@ public class CustomHandler {
 //        for (Vehicle v : vehicle){
 //            System.out.println(v);
 //        }
-//        HibernateSessionFactory.shutdown();
+        HibernateSessionFactory.shutdown();
     }
 
     static String pretty(String number){

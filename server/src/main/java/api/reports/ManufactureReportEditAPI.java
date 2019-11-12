@@ -11,6 +11,7 @@ import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.reports.ReportFieldSettings;
 import entity.storages.Storage;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -39,6 +40,7 @@ import java.util.HashMap;
 @WebServlet(Branches.API.SAVE_MANUFACTURE_REPORT)
 public class ManufactureReportEditAPI extends ServletAPI {
 
+    final Logger log = Logger.getLogger(ManufactureReportEditAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -76,6 +78,7 @@ public class ManufactureReportEditAPI extends ServletAPI {
 
             for(Object o : fields){
                 JSONObject field = (JSONObject) o;
+                log.info(field);
                 long fieldId = -1;
                 if (field.containsKey("id")){
                     fieldId = (long) field.get("id");
@@ -86,6 +89,10 @@ public class ManufactureReportEditAPI extends ServletAPI {
                 } else {
                     reportField = new ReportField();
                     reportField.setReport(manufactureReport);
+                    if (field.containsKey("index")){
+                        int index = Integer.parseInt(String.valueOf(field.get("index")));
+                        reportField.setIndex(index);
+                    }
                 }
 
                 String title = String.valueOf(field.get("title"));
@@ -104,16 +111,12 @@ public class ManufactureReportEditAPI extends ServletAPI {
                     save = true;
                 }
 
+
+
                 long unitId = (long) field.get("unit");
                 if (reportField.getUnit() == null || reportField.getUnit().getId() != unitId) {
                     reportField.setUnit(dao.getWeightUnitById(unitId));
                     save=true;
-                }
-
-                Storage storage = null;
-                if (field.containsKey("storage")){
-                    storage = dao.getStorageById(field.get("storage"));
-                    reportField.setStorage(storage);
                 }
 
                 if (field.containsKey("category")){
@@ -132,7 +135,6 @@ public class ManufactureReportEditAPI extends ServletAPI {
                     if (!field.containsKey("setting")) {
                         if (!Boolean.parseBoolean(String.valueOf(field.get("once")))){
                             ReportFieldSettings settings = new ReportFieldSettings();
-
                             settings.setTitle(String.valueOf(field.get("title")));
                             settings.setUnit(dao.getWeightUnitById(field.get("unit")));
                             settings.setCategory(category);

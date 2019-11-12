@@ -3,6 +3,8 @@ package controllers.reports;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
+import entity.reports.ReportFieldCategory;
+import entity.reports.ReportFieldSettings;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.calculator.Calculator;
@@ -13,6 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 16.09.2019.
@@ -38,10 +43,13 @@ public class ReportEdit extends IModal {
             req.setAttribute("report", dao.getManufactureReport(id));
         }
 
+        ArrayList<ReportFieldSettings> settings = new ArrayList<>(dao.getObjects(ReportFieldSettings.class));
+        settings.sort((o1, o2) -> o1.getIndex() - o2.getIndex());
+
         req.setAttribute(TITLE, "title.manufacture.reports.edit");
         req.setAttribute(MODAL_CONTENT, "/pages/reports/manufactureReportEdit.jsp");
-        req.setAttribute("turns", TurnBox.getTurns());
-        req.setAttribute("fields", dao.getReportFields());
+        req.setAttribute(TURNS, TurnBox.getTurns());
+        req.setAttribute(FIELDS, settings);
         req.setAttribute("units", dao.getWeightUnits());
         req.setAttribute("storages", dao.getStorages());
         req.setAttribute(PRODUCTS, dao.getProductList());

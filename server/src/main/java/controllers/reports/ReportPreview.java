@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -31,12 +32,25 @@ public class ReportPreview extends IModal {
             if (body.containsKey(ID)){
                 ManufactureReport report = dao.getObjectById(ManufactureReport.class, body.get(ID));
                 HashMap<ReportFieldCategory, ArrayList<ReportField>> fields = new HashMap<>();
+                report.getFields().sort((o1, o2) -> o1.getIndex() - o2.getIndex());
                 for (ReportField reportField : report.getFields()){
                     if (!fields.containsKey(reportField.getCategory())){
                         fields.put(reportField.getCategory(), new ArrayList<>());
                     }
                     fields.get(reportField.getCategory()).add(reportField);
                 }
+                ArrayList<ReportFieldCategory> categories = new ArrayList<>(fields.keySet());
+                categories.sort((o1, o2) -> {
+                    if (o1 == null){
+                        return -1;
+                    } else if (o2 == null){
+                        return 1;
+                    } else {
+                        return o1.getNumber() - o2.getNumber();
+                    }
+                });
+                req.setAttribute("categories", categories);
+                req.setAttribute("noCategory", fields.get(null));
                 req.setAttribute(FIELDS, fields);
                 req.setAttribute(REPORT, report);
             }

@@ -94,6 +94,7 @@
     setting:${field.id},
     title:'${field.title}',
     unit:${field.unit.id},
+    index:${field.index},
     //FIELD CATEGORY
     <c:choose>
     <c:when test="${not empty field.category.id}">
@@ -140,14 +141,6 @@
     id:${product.id},
     name:'${product.name}'
   });
-  </c:forEach>
-  //CALCULATORS
-  <c:forEach items="${calculators}" var="calculator">
-  editor.calculators['${calculator.key}'] = {
-    key:'${calculator.key}',
-    title:'<fmt:message key="${calculator.title}"/>',
-    description:'<fmt:message key="${calculator.description}"/>'
-  };
   </c:forEach>
   editor.initField();
   editor.initCategory();

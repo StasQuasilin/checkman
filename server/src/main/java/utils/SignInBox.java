@@ -43,10 +43,12 @@ public class SignInBox {
                 answer.add("uid", user.getUid());
                 answer.add("role", user.getRole().toString());
                 answer.add(TOKEN, token);
+                //
 
                 req.getSession().setAttribute(TOKEN, token);
                 req.getSession().setAttribute("lang", user.getWorker().getLanguage());
                 req.getSession().setAttribute("worker", user.getWorker());
+                req.getSession().setAttribute("user", user.getWorker().getPerson().getValue());
                 req.getSession().setAttribute("uid", user.getUid());
                 req.getSession().setAttribute("role", user.getRole());
             } else {

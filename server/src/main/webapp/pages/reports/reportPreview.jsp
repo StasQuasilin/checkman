@@ -24,17 +24,27 @@
       <fmt:message key="turn"/> <span>#</span>${report.turn.number}
     </td>
   </tr>
-  <c:forEach items="${fields}" var="category">
-    <c:if test="${category.key ne null}">
+  <c:forEach items="${noCategory}" var="no">
+    <tr>
+      <td style="padding-left: 16pt">
+          ${no.title}
+      </td>
+      <td>
+        <fmt:formatNumber value="${no.value}"/>
+      </td>
+    </tr>
+  </c:forEach>
+  <c:forEach items="${categories}" var="category">
+    <c:if test="${category ne null}">
       <tr>
         <td colspan="2">
           <b>
-            ${category.key.title}
+            ${category.title}
           </b>
         </td>
       </tr>
     </c:if>
-    <c:forEach items="${category.value}" var="field">
+    <c:forEach items="${fields[category]}" var="field">
       <tr>
         <td style="padding-left: 16pt">
           ${field.title}
@@ -68,8 +78,8 @@
 </table>
 </html>
 <script>
-  let id = '${report.id}';
-  let api = {
+  id = '${report.id}';
+  api = {
     remove:'${delete}',
     edit:'${edit}',
     send:'${send}'

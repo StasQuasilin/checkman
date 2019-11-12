@@ -15,10 +15,10 @@ public class ReportField implements Comparable<ReportField> {
     private ReportFieldCategory category;
     private ManufactureReport report;
     private String title;
-    private Storage storage;
     private float value;
     private WeightUnit unit;
     private String comment;
+    private int index;
 
     @Id
     @GeneratedValue
@@ -56,15 +56,6 @@ public class ReportField implements Comparable<ReportField> {
         this.title = title;
     }
 
-    @OneToOne
-    @JoinColumn(name = "storage")
-    public Storage getStorage() {
-        return storage;
-    }
-    public void setStorage(Storage storage) {
-        this.storage = storage;
-    }
-
     @Basic
     @Column(name = "value")
     public float getValue() {
@@ -90,6 +81,16 @@ public class ReportField implements Comparable<ReportField> {
     }
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Basic
+    @Column(name = "index")
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @Override
