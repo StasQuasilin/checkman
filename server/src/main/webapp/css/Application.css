@@ -180,8 +180,6 @@ a:hover{
     text-decoration: underline;
 }
 .mini-close{
-    border-radius: 8pt;
-    padding: 0 5px;
     position: relative;
 }
 .mini-close:hover{

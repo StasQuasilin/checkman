@@ -19,9 +19,7 @@ import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.organisations.Organisation;
 import entity.reports.ManufactureReport;
-import entity.transport.Driver;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -59,37 +57,38 @@ public class UpdateUtil {
         return type == DealType.buy ? Subscriber.DEAL_BUY : Subscriber.DEAL_SELL;
     }
 
-    static Subscriber getSubscriber(Transportation transportation){
-        return transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
+    static Subscriber getSubscriber(TransportationProduct transportation){
+        return transportation.getContractProduct().getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
+    }
+    public void onSave(Transportation2 transportation2) throws IOException {
+        for (TransportationProduct product : transportation2.getProducts()){
+            onSave(product);
+        }
+    }
+    public void onSave(TransportationProduct product) throws IOException {
+        JSONObject json = product.toJson();
+        doAction(Command.update, getSubscriber(product), json);
+        doAction(Command.update, Subscriber.TRANSPORT, json);
     }
 
-    public void onSave(Transportation transportation) throws IOException {
-        doAction(Command.update, getSubscriber(transportation), parser.toJson(transportation));
-        onSave(dao.getLoadPlanByTransportationId(transportation.getId()));
-    }
-
-    public void onRemove(Transportation transportation) throws IOException {
+    public void onRemove(TransportationProduct transportation) throws IOException {
         doAction(Command.remove, getSubscriber(transportation), transportation.getId());
     }
 
-    private void onArchive(Transportation transportation) throws IOException {
+    private void onArchive(TransportationProduct transportation) throws IOException {
         onRemove(transportation);
-        Subscriber subscriber = transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY_ARCHIVE : Subscriber.TRANSPORT_SELL_ARCHIVE;
-        doAction(Command.update, subscriber, transportation);
     }
 
     public void onSave(LoadPlan plan) throws IOException {
-        doAction(Command.update, Subscriber.LOAD_PLAN, parser.toJson(plan));
         doAction(Command.update, Subscriber.LOGISTIC, parser.toJson(plan));
     }
 
     public void onRemove(LoadPlan plan) throws IOException {
-        doAction(Command.remove, Subscriber.LOAD_PLAN, plan.getId());
+        doAction(Command.remove, Subscriber.TRANSPORT, plan.getId());
     }
 
     public void onArchive(LoadPlan loadPlan) throws IOException {
         onRemove(loadPlan);
-        onArchive(loadPlan.getTransportation());
     }
 
     public void onRemove(ExtractionCrude crude) throws IOException {
@@ -115,8 +114,8 @@ public class UpdateUtil {
         pool.put(json);
     }
 
-    public void onSave(Vehicle vehicle) throws IOException {
-        for (Transportation transportation : dao.getTransportationByVehicle(vehicle)){
+    public void onSave(Truck truck) throws IOException {
+        for (Transportation2 transportation : dao.getTransportationByVehicle(truck)){
             if (!transportation.isArchive()) {
                 onSave(transportation);
             }
@@ -124,7 +123,7 @@ public class UpdateUtil {
     }
 
     public void onSave(Driver driver) throws IOException {
-        for (Transportation transportation : dao.getTransportationsByDriver(driver)){
+        for (Transportation2 transportation : dao.getTransportationsByDriver(driver)){
             if (!transportation.isArchive()) {
                 onSave(transportation);
             }
@@ -195,7 +194,7 @@ public class UpdateUtil {
         for (Deal deal : dao.getDealsByOrganisation(organisation)){
             onSave(deal);
         }
-        for (Transportation transportation : dao.getTransportationByOrganisation(organisation)){
+        for (Transportation2 transportation : dao.getTransportationByOrganisation(organisation)){
             onSave(transportation);
         }
     }

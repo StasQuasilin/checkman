@@ -69,14 +69,14 @@ public class TransportTimeServletAPI extends ServletAPI {
             }
             dao.save(time);
             dao.saveTransportation(transportation);
-            updateUtil.onSave(transportation);
+//            updateUtil.onSave(transportation);
 //            Notificator notificator = BotFactory.getNotificator();
 //            if (notificator != null) {
 //                if (direction == TransportDirection.in && transportation.getTimeOut() == null) {
 //                    notificator.transportInto(transportation);
 //                }
 //            }
-            TransportUtil.checkTransport(transportation);
+//            TransportUtil.checkTransport(transportation);
             comparator.compare(transportation, worker);
 
             body.clear();

@@ -12,11 +12,11 @@
     editor.api.print = '${print}';
     editor.id=${plan.id}
     <c:choose>
-    <c:when test="${not empty plan.transportation.weight.id}">
+    <c:when test="${not empty plan.weight.id}">
     editor.weight={
-        id:${plan.transportation.weight.id},
-        brutto:${plan.transportation.weight.brutto},
-        tara:${plan.transportation.weight.tara}
+        id:${plan.weight.id},
+        brutto:${plan.weight.brutto},
+        tara:${plan.weight.tara}
     };
     </c:when>
     <c:otherwise>
@@ -92,7 +92,7 @@
                         :
                     </td>
                     <td>
-                        <fmt:formatDate value="${plan.date}" pattern="dd.MM.yyyy"/>
+                        <fmt:formatDate value="${plan.transportation.date}" pattern="dd.MM.yyyy"/>
                     </td>
                 </tr>
                 <tr>
@@ -103,7 +103,7 @@
                         :
                     </td>
                     <td>
-                        ${plan.deal.organisation.value}
+                        ${plan.contractProduct.contract.counterparty.value}
                     </td>
                 </tr>
                 <tr>
@@ -115,32 +115,34 @@
                         :
                     </td>
                     <td>
-                        ${plan.deal.product.name},
-                        <c:set var="type"><fmt:message key="_${plan.deal.type}"/> </c:set>
+                        ${plan.contractProduct.product.name},
+                        <c:set var="type"><fmt:message key="_${plan.contractProduct.type}"/> </c:set>
                         ${fn:toLowerCase(type)}
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <fmt:message key="deal.quantity"/>
+                        <fmt:message key="deal.price"/>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <fmt:formatNumber value="${plan.contractProduct.price}"/>
+                        <fmt:message key="deal.from"/>
+                        ${plan.transportation.shipper.value}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fmt:message key="deal.plan"/>
                     </td>
                     <td>
                         :
                     </td>
                     <td>
                         <fmt:formatNumber value="${plan.plan}"/>
-                        ${plan.deal.unit.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <fmt:message key="deal.from"/>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        ${plan.deal.shipper.value}
+                        <%--${plan.deal.unit.name}--%>
                     </td>
                 </tr>
                 <tr>
@@ -151,7 +153,18 @@
                         :
                     </td>
                     <td>
-                        ${plan.transportation.vehicle.value}
+                        <span>
+                            ${plan.transportation.truck.model}
+                        </span>
+                        <span>
+                            ${plan.transportation.truck.number}
+                        </span>
+
+                        <c:if test="${plan.transportation.trailer}">
+                        <span>
+                            ${plan.transportation.trailer.number}
+                        </span>
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
@@ -219,48 +232,48 @@
                 </tr>
             </table>
         </td>
-        <td valign="top" align="center">
-            <div style="overflow-y: scroll">
-                <c:if test="${fn:length(seals) > 0}">
-                    <fmt:message key="seals"/>
-                    <c:forEach items="${seals}" var="seal">
-                        <div>
-                            ${seal.number}
-                        </div>
-                    </c:forEach>
-                </c:if>
-                <c:if test="${plan.transportation.sunAnalyses ne null}">
-                    <fmt:message key="analyses"/>
-                    <div style="width:100%; text-align: left">
-                        <div>
-                            <fmt:message key="sun.humidity.1"/>:
-                            ${plan.transportation.sunAnalyses.humidity1}
-                        </div>
-                        <div>
-                            <fmt:message key="sun.humidity.2"/>:
-                            ${plan.transportation.sunAnalyses.humidity2}
-                        </div>
-                        <div>
-                            <fmt:message key="sun.soreness"/>:
-                            ${plan.transportation.sunAnalyses.soreness}
-                        </div>
-                        <div>
-                            <fmt:message key="sun.oil.impurity"/>:
-                            ${plan.transportation.sunAnalyses.oilImpurity}
-                        </div>
-                        <div>
-                            <fmt:message key="sun.oiliness"/>:
-                            ${plan.transportation.sunAnalyses.oiliness}
-                        </div>
-                        <c:if test="${plan.transportation.sunAnalyses.contamination}">
-                        <div>
-                            <fmt:message key="sun.contamination"/>
-                        </div>
-                        </c:if>
-                    </div>
-                </c:if>
-            </div>
-        </td>
+        <%--<td valign="top" align="center">--%>
+            <%--<div style="overflow-y: scroll">--%>
+                <%--<c:if test="${fn:length(seals) > 0}">--%>
+                    <%--<fmt:message key="seals"/>--%>
+                    <%--<c:forEach items="${seals}" var="seal">--%>
+                        <%--<div>--%>
+                            <%--${seal.number}--%>
+                        <%--</div>--%>
+                    <%--</c:forEach>--%>
+                <%--</c:if>--%>
+                <%--<c:if test="${plan.transportation.sunAnalyses ne null}">--%>
+                    <%--<fmt:message key="analyses"/>--%>
+                    <%--<div style="width:100%; text-align: left">--%>
+                        <%--<div>--%>
+                            <%--<fmt:message key="sun.humidity.1"/>:--%>
+                            <%--${plan.transportation.sunAnalyses.humidity1}--%>
+                        <%--</div>--%>
+                        <%--<div>--%>
+                            <%--<fmt:message key="sun.humidity.2"/>:--%>
+                            <%--${plan.transportation.sunAnalyses.humidity2}--%>
+                        <%--</div>--%>
+                        <%--<div>--%>
+                            <%--<fmt:message key="sun.soreness"/>:--%>
+                            <%--${plan.transportation.sunAnalyses.soreness}--%>
+                        <%--</div>--%>
+                        <%--<div>--%>
+                            <%--<fmt:message key="sun.oil.impurity"/>:--%>
+                            <%--${plan.transportation.sunAnalyses.oilImpurity}--%>
+                        <%--</div>--%>
+                        <%--<div>--%>
+                            <%--<fmt:message key="sun.oiliness"/>:--%>
+                            <%--${plan.transportation.sunAnalyses.oiliness}--%>
+                        <%--</div>--%>
+                        <%--<c:if test="${plan.transportation.sunAnalyses.contamination}">--%>
+                        <%--<div>--%>
+                            <%--<fmt:message key="sun.contamination"/>--%>
+                        <%--</div>--%>
+                        <%--</c:if>--%>
+                    <%--</div>--%>
+                <%--</c:if>--%>
+            <%--</div>--%>
+        <%--</td>--%>
     </tr>
     <tr>
         <td valign="top" align="center">

@@ -43,8 +43,8 @@
         value:'${unit.name}'
     });
     </c:forEach>
-    <c:forEach items="${documentOrganisations}" var="shipper">
-    editor.visibles.push(
+    <c:forEach items="${shippers}" var="shipper">
+    editor.shippers.push(
         '${shipper.value}'
     );
     </c:forEach>
@@ -58,37 +58,35 @@
     <c:when test="${not empty plan }">
     editor.plan = {
         id:${plan.id},
-        type:'${plan.deal.type}',
-        date:'${plan.date}',
-        deal:${plan.deal.id},
-        organisation:${plan.deal.organisation.id},
-        product:${plan.deal.product.id},
-        quantity:${plan.deal.quantity},
+        type:'${plan.contractProduct.type}',
+        date:'${plan.transportation.date}',
+        deal:${plan.contractProduct.id},
+        organisation:${plan.contractProduct.contract.counterparty.id},
+        product:${plan.contractProduct.product.id},
+        quantity:${plan.contractProduct.amount},
         plan:${plan.plan},
-        from:'${plan.deal.shipper.value}',
-        price:${plan.deal.price},
-        unit:${plan.deal.unit.id},
-        customer:'${plan.customer}',
-//        VEHICLE
+        from:'${plan.contractProduct.shipper.value}',
+        price:${plan.contractProduct.price},
+        unit:${plan.contractProduct.unit.id},
+        customer:'${plan.transportation.customer}',
+//        truck
         <c:choose>
-        <c:when test="${not empty plan.transportation.vehicle.id}">
-        vehicle:{
-            id:${plan.transportation.vehicle.id},
-            model:'${plan.transportation.vehicle.model}',
-            number:'${plan.transportation.vehicle.number}',
-            trailer:'${plan.transportation.vehicle.trailer}'
+        <c:when test="${not empty plan.transportation.truck}">
+        truck:{
+            id:${plan.transportation.truck.id},
+            model:'${plan.transportation.truck.model}',
+            number:'${plan.transportation.truck.number}'
         },
         </c:when>
         <c:otherwise>
-        vehicle:{
+        truck:{
             id:-1
         },
         </c:otherwise>
         </c:choose>
 //        DRIVER
-        notes:[],
         <c:choose>
-        <c:when test="${not empty plan.transportation.driver.id}">
+        <c:when test="${not empty plan.transportation.driver}">
         driver:{
             id:${plan.transportation.driver.id},
             person:{
@@ -100,7 +98,7 @@
         driver:{
             id:-1
         },
-
+        notes:[]
         </c:otherwise>
         </c:choose>
     };
@@ -113,21 +111,21 @@
         }
     );
     </c:forEach>
-    editor.input.organisation = '${plan.deal.organisation.value}';
+    editor.input.organisation = '${plan.contractProduct.contract.counterparty.value}';
 
-    editor.deals.push({
-        id:${plan.deal.id},
-        type:'${plan.deal.type}',
-        date:'${plan.deal.date}',
-        date_to:'${plan.deal.dateTo}',
-        product:{
-            id:${plan.deal.product.id},
-            name:'${plan.deal.product.name}'
-        },
-        visibility:'${plan.deal.shipper.value}',
-        unit:${plan.deal.unit.id},
-        price:${plan.deal.price}
-    });
+    <%--editor.deals.push({--%>
+        <%--id:${plan.contractProduct.id},--%>
+        <%--type:'${plan.contractProduct.type}',--%>
+        <%--date:'${plan.contractProduct.contract.from}',--%>
+        <%--date_to:'${plan.contractProduct.contract.to}',--%>
+        <%--product:{--%>
+            <%--id:${plan.contractProduct.product.id},--%>
+            <%--name:'${plan.contractProduct.product.name}'--%>
+        <%--},--%>
+        <%--shipper:'${plan.contractProduct.shipper.value}',--%>
+        <%--unit:${plan.contractProduct.unit.id},--%>
+        <%--price:${plan.contractProduct.price}--%>
+    <%--});--%>
     </c:when>
     <c:otherwise>
     editor.plan = {
@@ -142,8 +140,8 @@
         from:editor.visibles[0],
         price:0,
         unit:editor.units[0].id,
-        customer:'szpt',
-        vehicle:{
+        customer:editor.customers[0].id,
+        truck:{
             id:-1
         },
         driver:{
@@ -308,10 +306,13 @@
                 <fmt:message key="deal.from"/>
             </label>
             <select id="from" v-model="plan.from">
-                <option v-for="visible in visibleList()" :value="visible">{{visible}}</option>
+                <option v-for="shipper in shipperList()" :value="shipper">{{shipper}}</option>
             </select>
         </td>
     </tr>
+        <tr>
+            <td colspan="3" style="border-bottom: solid black 1pt"></td>
+        </tr>
     <tr>
         <td>
             <label for="load">
@@ -346,7 +347,7 @@
     </tr>
     <tr>
         <td>
-            <label for="vehicle">
+            <label for="truck">
                 <fmt:message key="transportation.automobile"/>
             </label>
         </td>
@@ -354,8 +355,8 @@
             :
         </td>
         <td>
-            <span v-if="plan.vehicle.id > -1">
-                {{(plan.vehicle.model + ' ' + plan.vehicle.number + ' ' + plan.vehicle.trailer).trim()}}
+            <span v-if="plan.truck.id > -1">
+                {{(plan.truck.model + ' ' + plan.truck.number + ' ' + plan.truck.trailer).trim()}}
                 <span v-on:click="editVehicle()" class="mini-close flipY" style="padding: 0">
                   &#9998;
                 </span>
@@ -365,16 +366,16 @@
             </span>
             <div v-else v-on:blur="parseVehicle()">
                 <span>
-                <input id="vehicle" v-model="input.vehicle" autocomplete="off"
+                <input id="truck" v-model="input.truck" autocomplete="off"
                        v-on:keyup="findVehicle()" v-on:keyup.enter="parseVehicle()"
-                       :class="{error : errors.vehicle}" v-on:click="errors.vehicle = false"
-                       :title="input.vehicle" style=" width: 90%;">
+                       :class="{error : errors.truck}" v-on:click="errors.truck = false"
+                       :title="input.truck" style=" width: 90%;">
                 </span>
-                <span v-if="input.vehicle" style="font-size: 10pt; color: coral;
+                <span v-if="input.truck" style="font-size: 10pt; color: coral;
                 position: absolute; padding: 1pt 4pt; background-color: aliceblue">
-                    <template v-if="foundVehicles.length > 0">
-                        Знайдено {{foundVehicles.length}}
-                        <template v-if="foundVehicles.length % 10 > 0 && foundVehicles.length % 10 < 5">
+                    <template v-if="foundTrucks.length > 0">
+                        Знайдено {{foundTrucks.length}}
+                        <template v-if="foundTrucks.length % 10 > 0 && foundTrucks.length % 10 < 5">
                             автомобіля
                         </template>
                         <template v-else>
@@ -386,10 +387,10 @@
                     </template>
                 </span>
                 <div class="custom-data-list">
-                    <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="putVehicle(vehicle)">
-                        {{vehicle.model}}
-                        '{{vehicle.number}}'
-                        {{vehicle.trailer}}
+                    <div v-for="truck in foundTrucks" class="custom-data-list-item" v-on:click="putVehicle(truck)">
+                        {{truck.model}}
+                        '{{truck.number}}'
+                        {{truck.trailer}}
                     </div>
                 </div>
             </div>

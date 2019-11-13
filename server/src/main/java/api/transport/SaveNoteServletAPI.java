@@ -3,6 +3,7 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation2;
 import entity.transport.TransportationNote;
 import org.json.simple.JSONObject;
 import utils.U;
@@ -33,14 +34,14 @@ public class SaveNoteServletAPI extends ServletAPI {
                 Object planId = body.get("plan");
                 noteText = noteText.replaceAll("  ", " ").trim().toLowerCase();
                 noteText = noteText.substring(0, 1).toUpperCase() + noteText.substring(1);
-                LoadPlan plan = dao.getLoadPlanById(planId);
+                Transportation2 transportation = dao.getObjectById(Transportation2.class, planId);
                 TransportationNote note = new TransportationNote();
                 note.setTime(new Timestamp(System.currentTimeMillis()));
                 note.setCreator(getWorker(req));
-                note.setTransportation(plan.getTransportation());
+                note.setTransportation(transportation);
                 note.setNote(noteText);
                 dao.save(note);
-                updateUtil.onSave(plan.getTransportation());
+                updateUtil.onSave(transportation);
                 write(resp, SUCCESS_ANSWER);
             }
         }

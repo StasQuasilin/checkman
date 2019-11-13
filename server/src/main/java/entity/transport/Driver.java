@@ -85,6 +85,7 @@ public class Driver extends JsonAble {
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+        json.put(PERSON, person.toJson());
         json.put(VALUE, person.getValue());
         json.put(LICENSE, license);
         if (truck != null) {

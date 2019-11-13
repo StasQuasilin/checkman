@@ -29,6 +29,8 @@ public class Contract extends JsonAble {
     private boolean archive;
     private Worker manager;
     private ActionTime createTime;
+    private String uid;
+    private Worker creator;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -116,6 +118,24 @@ public class Contract extends JsonAble {
     }
     public void setArchive(boolean archive) {
         this.archive = archive;
+    }
+
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "creator")
+    public Worker getCreator() {
+        return creator;
+    }
+    public void setCreator(Worker creator) {
+        this.creator = creator;
     }
 
     @Override

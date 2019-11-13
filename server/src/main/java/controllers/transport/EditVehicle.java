@@ -47,7 +47,7 @@ public class EditVehicle extends IModal {
                     log.info("\t...Model: " + vehicle.getModel());
                     if (strings.size() > 1) {
                         vehicle.setNumber((strings.get(1)));
-                        log.info("\t...Number: " + vehicle.getNumber());
+                        log.info("\t...VehicleNumber: " + vehicle.getNumber());
                         if (strings.size() > 2) {
                             vehicle.setTrailer((strings.get(2)));
                             log.info("\t...Trailer: " + vehicle.getTrailer());

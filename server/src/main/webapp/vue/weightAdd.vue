@@ -6,7 +6,7 @@ var editor = new Vue({
         products:[],
         units:[],
         deals:[],
-        visibles:[],
+        shippers:[],
         customers:{},
         plan:{},
         input:{
@@ -18,7 +18,7 @@ var editor = new Vue({
             fnd:-1
         },
         foundOrganisations:[],
-        foundVehicles:[],
+        foundTrucks:[],
         foundDrivers:[],
         errors:{
             type:false,
@@ -124,7 +124,7 @@ var editor = new Vue({
                 }
             })
         },
-        visibleList:function(){
+        shipperList:function(){
             if (this.plan.deal == -1){
                 return this.visibles;
             } else {

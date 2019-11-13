@@ -15,7 +15,7 @@
 }
 .plan-container{
     border: solid gray 1pt;
-    width: 100%;
+    width: 400px;
     height: 300pt;
     overflow-y: scroll;
 }

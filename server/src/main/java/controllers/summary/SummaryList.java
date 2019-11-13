@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SUMMARY_LIST)
 public class SummaryList extends IUIServlet {
 
-	final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+	final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT};
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

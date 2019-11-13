@@ -36,11 +36,11 @@ public class DeleteLoadPlanAPI extends ServletAPI{
                     loadPlanById.getTransportation().setArchive(true);
                     dao.save(loadPlanById);
                     dao.save(loadPlanById.getTransportation());
-                    updateUtil.onRemove(loadPlanById.getTransportation());
-                    updateUtil.onRemove(loadPlanById);
+//                    updateUtil.onRemove(loadPlanById.getTransportation());
+//                    updateUtil.onRemove(loadPlanById);
                 } else {
-                    updateUtil.onRemove(loadPlanById.getTransportation());
-                    updateUtil.onRemove(loadPlanById);
+//                    updateUtil.onRemove(loadPlanById.getTransportation());
+//                    updateUtil.onRemove(loadPlanById);
                     dao.remove(loadPlanById, loadPlanById.getTransportation());
                 }
             }

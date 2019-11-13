@@ -52,7 +52,7 @@ public class SaveTransportationDriverServletAPI extends ServletAPI {
             }
 
             dao.save(transportation);
-            updateUtil.onSave(transportation);
+//            updateUtil.onSave(transportation);
             comparator.compare(transportation, getWorker(req));
             write(resp, SUCCESS_ANSWER);
             body.clear();

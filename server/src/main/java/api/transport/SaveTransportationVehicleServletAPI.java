@@ -5,10 +5,9 @@ import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
-import entity.transport.Driver;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import org.json.simple.JSONObject;
+import utils.TransportUtil;
 import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
@@ -32,28 +31,24 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
 
         if (body != null) {
             System.out.println(body);
-            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
-            Transportation transportation = plan.getTransportation();
-            comparator.fix(transportation);
-            long vehicleId = -1;
+            Transportation2 transportation = dao.getObjectById(Transportation2.class, body.get(Constants.TRANSPORTATION));
+//            comparator.fix(transportation);
+            long truckId = -1;
 
             if (body.containsKey(Constants.VEHICLE)){
-                vehicleId = (long) body.get(Constants.VEHICLE);
+                truckId = (long) body.get(Constants.VEHICLE);
             }
 
-            if (vehicleId != -1){
-                Vehicle vehicle = dao.getVehicleById(vehicleId);
-                Driver driver = transportation.getDriver();
-                if (driver != null) {
-                }
-                transportation.setVehicle(vehicle);
+            if (truckId != -1){
+                Truck truck = dao.getObjectById(Truck.class, truckId);
+                TransportUtil.setTruck(transportation, truck);
             } else {
-                transportation.setVehicle(null);
+                TransportUtil.setTruck(transportation, null);
             }
 
-            dao.saveTransportation(transportation);
-            updateUtil.onSave(transportation);
-            comparator.compare(transportation, getWorker(req));
+            dao.save(transportation);
+//            updateUtil.onSave(transportation);
+//            comparator.compare(transportation, getWorker(req));
 
             write(resp, SUCCESS_ANSWER);
 

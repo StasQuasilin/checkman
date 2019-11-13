@@ -129,7 +129,7 @@ var list = new Vue({
                     if (menuBottom > screenBottom){
                         self.menu.y += self.menu.y - menuBottom;
                     }
-                }, 0);
+                }, 10);
             } else {
                 console.log('Context menu not connected... For fix it add attribute \'ref="contextMenu"\'')
             }

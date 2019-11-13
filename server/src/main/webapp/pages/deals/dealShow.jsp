@@ -173,34 +173,33 @@
               <%--TABLE--%>
               <transition-group name="flip-list" tag="div" class="plan-container">
                 <div v-for="(value, key) in currentTransportations" :key="value.key" class="plan-item" style="padding: 1pt">
+                  <div style="font-size: 6pt; color: gray">
+                    {{value.item.id}}
+                  </div>
                   <div>
                     <span class="mini-close">
                       &times;
                     </span>
-                    <input readonly v-model="new Date(value.item.date).toLocaleDateString()" style="width: 7em">
-                    <input type="number" step="0.01" v-model="value.item.plan" onfocus="this.select()" style="width: 6em; text-align: right">
-                    <select v-model="value.item.customer">
+                    <input readonly v-model="new Date(value.item.date).toLocaleDateString()"
+                           v-on:click="dateTimePicker(value)" style="width: 7em">
+                    <input type="number" step="0.01" v-model="value.item.plan" v-on:change="initSaveTimer(value)"
+                           onfocus="this.select()" style="width: 6em; text-align: right">
+                    <select v-model="value.item.customer" v-on:change="initSaveTimer(value)">
                       <option v-for="customer in customers" :value="customer.id">
                         {{customer.value}}
                       </option>
                     </select>
                   </div>
                   <div>
-                    <div style="display: inline-block;">
-                      <select v-model=value.item.transportation.id>
-                        <option value="-1">
-                          Нове перевезення
-                        </option>
-                      </select>
-                    </div>
                     <div style="display: inline-block">
                       <div>
-                        <template v-if="value.item.transportation.driver.id == -1">
+                        <template v-if="value.item.driver.id == -1 || value.editDriver">
                           <template v-if="value.editDriver">
-                            <input id="input"  v-model="value.driverInput" v-on:keyup="findDriver(value.driverInput)"
+                            <input id="input" v-model="value.driverInput" v-on:keyup="findDriver(value.driverInput)"
                                    class="driverInput" autocomplete="off">
                             <div class="custom-data-list">
-                              <div class="custom-data-list-item" v-for="driver in foundDrivers" v-on:click="setDriver(driver, key)">
+                              <div class="custom-data-list-item" v-for="driver in foundDrivers"
+                                   v-on:click="setDriver(driver, value)">
                                 <div>
                                   {{driver.value}}
                                 </div>
@@ -211,11 +210,63 @@
                             <fmt:message key="transportation.driver.insert.info"/>
                           </a>
                         </template>
+                        <span v-else>
+                          <span style="font-size: 12pt">
+                            {{value.item.driver.value}}
+                          </span>
+                          <span v-if="value.item.driver.license">
+                            {{value.item.driver.license}}
+                          </span>
+                          <a class="mini-close" style="font-size: 8pt">
+                            <fmt:message key="edit"/>
+                          </a>
+                          <span class="mini-close" v-on:click="cancelDriver(value.key)">
+                            &times;
+                          </span>
+                        </span>
                       </div>
                       <div>
-                        <a v-if="value.item.transportation.vehicle.id == -1">
-                          <fmt:message key="transportation.automobile.insert.info"/>
-                        </a>
+                        <template v-if="value.item.truck.id == -1">
+                          <template v-if="value.editVehicle">
+                            <input id="input" v-model="value.vehicleInput" v-on:keyup="findVehicle(value.vehicleInput)"
+                                   class="vehicleInput" autocomplete="off">
+                            <div class="custom-data-list">
+                              <div class="custom-data-list-item" v-for="vehicle in foundVehicles"
+                                   v-on:click="setVehicle(vehicle, value)">
+                                {{vehicle.value}}
+                              </div>
+                            </div>
+                          </template>
+                          <a v-else v-on:click="openVehicleInput(value.key)">
+                            <fmt:message key="transportation.automobile.insert.info"/>
+                          </a>
+                        </template>
+                        <template v-else>
+                          <span style="font-size: 12pt">
+                            {{value.item.truck.model}} {{value.item.truck.number}}
+                          </span>
+
+                          <span class="mini-close">
+                              &times;
+                          </span>
+                          <template v-if="value.item.trailer.id == -1">
+
+                          </template>
+                          <template v-else>
+                            <span style="font-size: 12pt">
+                              {{value.item.trailer.number}}
+                            </span>
+                            <span class="mini-close">
+                              &times;
+                            </span>
+                          </template>
+                          <a class="mini-close" style="font-size: 8pt">
+                            <fmt:message key="edit"/>
+                          </a>
+                          <span class="mini-close">
+                              &times;
+                          </span>
+                        </template>
                       </div>
                     </div>
                   </div>

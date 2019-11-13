@@ -3,6 +3,7 @@ package utils;
 import entity.ArchiveData;
 import entity.documents.Deal;
 import entity.transport.Transportation;
+import entity.transport.Transportation2;
 import org.apache.log4j.Logger;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
@@ -42,7 +43,7 @@ public final class Archivator {
 
     }
     static Timer timer;
-    final static long HOUR = 60 * 1000;
+    final static long HOUR = 30 * 60 * 1000;
     private static void next() {
         if (timer != null && timer.isRunning()){
             timer.stop();
@@ -69,11 +70,11 @@ public final class Archivator {
                 Transportation transportation = dao.getTransportationById(d.getDocument());
                 transportation.setArchive(true);
                 dao.saveTransportation(transportation);
-                try {
-                    updateUtil.onRemove(transportation);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//todo                try {
+//                    updateUtil.onRemove(transportation);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 log.info("Archive transportation " + transportation.getId());
                 break;
         }
@@ -99,7 +100,7 @@ public final class Archivator {
         add(ArchiveType.deal, deal.getId());
     }
 
-    public static void add(Transportation transportation){
+    public static void add(Transportation2 transportation){
         log.info("Add transportation " + transportation.getId());
         add(ArchiveType.transportation, transportation.getId());
     }

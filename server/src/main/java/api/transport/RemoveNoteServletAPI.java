@@ -28,7 +28,7 @@ public class RemoveNoteServletAPI extends ServletAPI {
             Object id = body.get(Constants.ID);
             TransportationNote note = dao.getTransportationNotesById(id);
             dao.remove(note);
-            updateUtil.onSave(note.getTransportation());
+//todo            updateUtil.onSave(note.getTransportation());
         }
     }
 }

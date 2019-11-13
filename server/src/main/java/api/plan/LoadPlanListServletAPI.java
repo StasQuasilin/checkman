@@ -35,21 +35,22 @@ public class LoadPlanListServletAPI extends ServletAPI {
             parameters.put("deal", deal);
 
             JSONObject plans = (JSONObject) body.get("plans");
-            for (LoadPlan plan : dao.getLoadPlanByDeal(deal, null, null)) {
-                String id = String.valueOf(plan.getId());
-                if (plans.containsKey(id)) {
-                    long hash = (long) plans.remove(id);
-                    if (plan.hashCode() != hash) {
-                        update.add(parser.toJson(plan));
-                    }
-                } else {
-                    update.add(parser.toJson(plan));
-                }
-            }
+//            for (LoadPlan plan : dao.getLoadPlanByDeal(deal, null, null)) {
+//                String id = String.valueOf(plan.getId());
+//                if (plans.containsKey(id)) {
+//                    long hash = (long) plans.remove(id);
+//                    if (plan.hashCode() != hash) {
+//                        update.add(parser.toJson(plan));
+//                    }
+//                } else {
+//                    update.add(parser.toJson(plan));
+//                }
+//            }
+            body.clear();
         }
         write(resp, array.toJSONString());
 
-        body.clear();
+
         update.clear();
 
     }

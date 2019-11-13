@@ -37,7 +37,7 @@ public class ParseAndPutDriverServletAPI extends ServletAPI {
             transportationComparator.fix(transportation);
             transportation.setDriver(driver);
             dao.saveTransportation(transportation);
-            updateUtil.onSave(transportation);
+//            updateUtil.onSave(transportation);
             transportationComparator.compare(transportation, getWorker(req));
             write(resp, SUCCESS_ANSWER);
         }

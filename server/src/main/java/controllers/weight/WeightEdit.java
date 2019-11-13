@@ -5,6 +5,7 @@ import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.documents.LoadPlan;
+import entity.transport.TransportationProduct;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,9 +27,8 @@ public class WeightEdit extends IModal {
             id = Integer.parseInt(parameterId);
         }
         if (id != -1) {
-            LoadPlan plan = dao.getLoadPlanById(id);
-            req.setAttribute(PLAN, plan);
-            req.setAttribute("seals", dao.getSealsByTransportation(plan.getTransportation()));
+            TransportationProduct transportationProduct = dao.getObjectById(TransportationProduct.class, id);
+            req.setAttribute(PLAN, transportationProduct);
         }
         req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
         req.setAttribute(TITLE, Titles.WEIGHT_EDIT);

@@ -9,6 +9,7 @@ import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
 import entity.deal.Contract;
+import entity.deal.ContractProduct;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.turn.LaboratoryTurn;
@@ -129,8 +130,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<LoadPlan> getPlanByDeal(Deal deal) {
-        return hb.query(LoadPlan.class, DEAL, deal);
+    public List<TransportationProduct> getPlanByDeal(ContractProduct deal) {
+        return hb.query(TransportationProduct.class, "contractProduct", deal);
     }
 
     @Override
@@ -212,16 +213,16 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<LoadPlan> getLoadPlanByDeal(Object deal, Boolean done, Boolean archive) {
+    public List<TransportationProduct> getLoadPlanByDeal(Object contractProduct, Boolean done, Boolean archive) {
         final HashMap<String, Object> parameters = new HashMap<>();
-        parameters.put(DEAL, deal);
+        parameters.put("contractProduct", contractProduct);
         if (done != null) {
             parameters.put("transportation/done", done);
         }
         if (archive != null) {
             parameters.put("transportation/archive", archive);
         }
-        return hb.query(LoadPlan.class, parameters);
+        return hb.query(TransportationProduct.class, parameters);
     }
 
     @Override
@@ -393,8 +394,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Transportation> getTransportationsByDriver(Driver driver) {
-        return hb.query(Transportation.class, "driver/person", driver.getPerson());
+    public List<Transportation2> getTransportationsByDriver(Driver driver) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("driver", driver);
+        parameters.put("archive", false);
+        return hb.query(Transportation2.class, parameters);
     }
 
     @Override
@@ -630,9 +634,9 @@ public class HibernateDAO implements dbDAO {
     private static final String REG_EXP = Parser.NUMBER_REGEX;
 
     @Override
-    public List<Vehicle> findVehicle(Object key) {
+    public List<Truck> findVehicle(Object key) {
         final HashMap<Integer, Integer> ids = new HashMap<>();
-        final HashMap<Integer, Vehicle> vehicles = new HashMap<>();
+        final HashMap<Integer, Truck> vehicles = new HashMap<>();
 
         StringBuilder builder = new StringBuilder();
 
@@ -670,7 +674,7 @@ public class HibernateDAO implements dbDAO {
             }
         }
         int min = 0;
-        ArrayList<Vehicle> result = new ArrayList<>();
+        ArrayList<Truck> result = new ArrayList<>();
 
         while (vehicles.size() > 0){
             for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
@@ -689,8 +693,8 @@ public class HibernateDAO implements dbDAO {
         return result;
     }
 
-    private void findVehicle(String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, Vehicle> vehicles){
-        for (Vehicle v : find(Vehicle.class, key, value)){
+    private void findVehicle(String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, Truck> vehicles){
+        for (Truck v : find(Truck.class, key, value)){
             int id = v.getId();
             if (ids.containsKey(id)){
                 ids.put(id, ids.get(id) + 1);
@@ -838,11 +842,13 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Transportation> getTransportationsByType(DealType type) {
+    public List<TransportationProduct> getTransportationsByType(DealType type) {
         final HashMap<String,Object> parameters = new HashMap<>();
-        parameters.put("type", type);
-        parameters.put("archive", false);
-        return hb.query(Transportation.class, parameters);
+        if (type != null){
+            parameters.put("contractProduct/type", type);
+        }
+        parameters.put("transportation/archive", false);
+        return hb.query(TransportationProduct.class, parameters);
     }
 
     @Override
@@ -886,8 +892,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Transportation> getTransportationByOrganisation(Object organisation) {
-        return hb.query(Transportation.class, "counterparty", organisation);
+    public List<Transportation2> getTransportationByOrganisation(Object organisation) {
+        return hb.query(Transportation2.class, "counterparty", organisation);
     }
 
     @Override
@@ -904,8 +910,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Transportation> getTransportationByVehicle(Vehicle vehicle) {
-        return hb.query(Transportation.class, "vehicle", vehicle);
+    public List<Transportation2> getTransportationByVehicle(Truck truck) {
+        HashMap<String, Object> parameters = new HashMap<>();
+        parameters.put("truck", truck);
+        parameters.put("archive", false);
+        return hb.query(Transportation2.class, parameters);
     }
 
     @Override
@@ -1169,5 +1178,13 @@ public class HibernateDAO implements dbDAO {
         param.put("shipper", shipper);
         param.put("scale", scale);
         return hb.query(StoragePeriodPoint.class, param);
+    }
+
+    @Override
+    public TransportationProduct getTransportationProduct(ContractProduct contractProduct, Transportation2 transportation) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("contractProduct", contractProduct);
+        param.put("transportation", transportation);
+        return hb.get(TransportationProduct.class, param);
     }
 }

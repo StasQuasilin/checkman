@@ -19,7 +19,7 @@ import java.io.IOException;
 public class LogisticList extends IUIServlet{
 
     private static final long serialVersionUID = 8487428665694665680L;
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+    final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

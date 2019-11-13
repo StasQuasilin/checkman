@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.Person;
 import entity.documents.LoadPlan;
 import entity.transport.Driver;
+import entity.transport.Transportation2;
 import org.json.simple.JSONObject;
 import utils.Parser;
 import utils.UpdateUtil;
@@ -39,10 +40,10 @@ public class ParsePersonServletAPI extends ServletAPI {
             write(resp, s);
             pool.put(object);
             if (body.containsKey(Constants.TRANSPORTATION)){
-                LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
-                plan.getTransportation().setDriver(driver);
-                dao.save(plan.getTransportation());
-                updateUtil.onSave(plan.getTransportation());
+                Transportation2 transportation2 = dao.getObjectById(Transportation2.class, body.get(Constants.TRANSPORTATION));
+                transportation2.setDriver(driver);
+                dao.save(transportation2);
+                updateUtil.onSave(transportation2);
             }
         }
     }

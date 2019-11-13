@@ -89,7 +89,7 @@ public class EditCakeServletAPI extends ServletAPI {
 
                 dao.save(mealAnalyses);
                 dao.saveTransportation(transportation);
-                updateUtil.onSave(transportation);
+//                updateUtil.onSave(transportation);
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

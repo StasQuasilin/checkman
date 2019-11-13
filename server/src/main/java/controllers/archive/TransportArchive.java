@@ -23,14 +23,14 @@ public class TransportArchive extends IUIServlet {
     static final String EDIT = "edit";
 
     final Subscriber[] summaryArchiveSubscriber = new Subscriber[]{
-            Subscriber.LOAD_PLAN_ARCHIVE
+            Subscriber.TRANSPORT_ARCHIVE
     };
     final Subscriber[] transportArchiveSubscriber = new Subscriber[]{
             Subscriber.TRANSPORT_BUY_ARCHIVE,
             Subscriber.TRANSPORT_SELL_ARCHIVE
     };
     final Subscriber[] weightArchiveSubscribe = new Subscriber[]{
-            Subscriber.LOAD_PLAN_ARCHIVE
+            Subscriber.TRANSPORT_ARCHIVE
     };
     final Subscriber[] laboratoryBuyArchiveSubscriber = new Subscriber[]{
             Subscriber.TRANSPORT_BUY_ARCHIVE,

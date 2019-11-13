@@ -5,6 +5,5 @@ package entity.transport;
  */
 public enum TransportCustomer {
     szpt,
-    cont,
-    contragent
+    cont
 }

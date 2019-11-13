@@ -41,9 +41,7 @@ public class ActiveSubscriptions {
         handlers.put(Subscriber.DEAL_BUY_ARCHIVE, new DealArchiveHandler(DealType.buy, Subscriber.DEAL_BUY_ARCHIVE));
         handlers.put(Subscriber.DEAL_SELL, new DealHandler(DealType.sell, Subscriber.DEAL_SELL));
         handlers.put(Subscriber.DEAL_SELL_ARCHIVE, new DealArchiveHandler(DealType.sell, Subscriber.DEAL_SELL_ARCHIVE));
-        handlers.put(Subscriber.LOAD_PLAN, new LoadPlanHandler(Subscriber.LOAD_PLAN));
-        handlers.put(Subscriber.LOAD_PLAN_ARCHIVE, new LoadPlanArchiveHandler(Subscriber.LOAD_PLAN_ARCHIVE));
-        handlers.put(Subscriber.LOGISTIC, new LogisticHandler(Subscriber.LOGISTIC));
+        handlers.put(Subscriber.TRANSPORT, new TransportHandler(Subscriber.TRANSPORT, null));
         handlers.put(Subscriber.TRANSPORT_BUY, new TransportHandler(Subscriber.TRANSPORT_BUY, DealType.buy));
         handlers.put(Subscriber.TRANSPORT_SELL, new TransportHandler(Subscriber.TRANSPORT_SELL, DealType.sell));
         handlers.put(Subscriber.TRANSPORT_BUY_ARCHIVE, new TransportArchiveHandler(DealType.buy, Subscriber.TRANSPORT_BUY_ARCHIVE));

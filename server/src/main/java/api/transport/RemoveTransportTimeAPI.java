@@ -42,7 +42,7 @@ public class RemoveTransportTimeAPI extends ServletAPI {
                 if (time != null) {
                     dao.save(transportation);
                     dao.remove(time);
-                    updateUtil.onSave(transportation);
+//                    updateUtil.onSave(transportation);
                     write(resp, SUCCESS_ANSWER);
                 }
 

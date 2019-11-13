@@ -4,11 +4,14 @@ import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
 import entity.DealType;
 import entity.transport.Transportation;
+import entity.transport.Transportation2;
+import entity.transport.TransportationProduct;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,13 +32,10 @@ public class TransportHandler extends OnSubscribeHandler {
     public void handle(Session session) throws IOException {
         JSONObject json = ActiveSubscriptions.pool.getObject();
         JSONArray add = ActiveSubscriptions.pool.getArray();
-        add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
+
+        add.addAll(dao.getTransportationsByType(type).stream().map(TransportationProduct::toJson).collect(Collectors.toList()));
         json.put(ADD, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         ActiveSubscriptions.pool.put(json);
-    }
-
-    List<Transportation> getTransport(){
-        return dao.getTransportationsByType(type);
     }
 }

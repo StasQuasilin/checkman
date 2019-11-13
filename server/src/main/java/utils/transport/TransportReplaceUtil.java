@@ -2,6 +2,7 @@ package utils.transport;
 
 import entity.documents.LoadPlan;
 import entity.transport.Transportation;
+import entity.transport.Transportation2;
 import entity.transport.TransportationNote;
 import org.apache.log4j.Logger;
 import utils.DateUtil;
@@ -60,12 +61,11 @@ public class TransportReplaceUtil {
         Date now = Date.valueOf(LocalDate.now());
         param.clear();
         param.put("date", new LT(now));
-        param.put("transportation/archive", false);
-        param.put("transportation/done", false);
+        param.put("archive", false);
+        param.put("done", false);
 
-        for (LoadPlan plan : dao.getObjectsByParams(LoadPlan.class, param)){
-            plan.setDate(now);
-            Transportation transportation = plan.getTransportation();
+        for (Transportation2 transportation : dao.getObjectsByParams(Transportation2.class, param)){
+            transportation.setDate(now);
             Set<TransportationNote> notes = transportation.getNotes();
             for (TransportationNote n : notes){
                 if(n.getCreator() == null) {
@@ -80,11 +80,10 @@ public class TransportReplaceUtil {
             dao.save(note);
             transportation.getNotes().add(note);
             transportation.setDate(now);
-            dao.save(plan);
             dao.save(transportation);
             log.info("Transportation " + transportation.getId() + " replaced at " + now );
             try {
-                updateUtil.onSave(plan.getTransportation());
+                updateUtil.onSave(transportation);
             } catch (IOException e) {
                 e.printStackTrace();
             }

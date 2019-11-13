@@ -6,7 +6,8 @@ import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.transport.ActionTime;
-import entity.transport.Transportation;
+import entity.transport.Transportation2;
+import entity.transport.TransportationProduct;
 import entity.weight.Weight;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
@@ -16,7 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
 
 /**
  * Created by Kvasik on 29.08.2019.
@@ -31,25 +31,28 @@ public class TransportRegistrationServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             Object transportationId = body.get(Constants.TRANSPORTATION);
-            Transportation transportation = dao.getTransportationById(transportationId);
-            ActionTime timeRegistration = transportation.getTimeRegistration();
+            Transportation2 transportation = dao.getObjectById(Transportation2.class, transportationId);
+            ActionTime timeRegistration = transportation.getRegistered();
             if (timeRegistration == null) {
-                timeRegistration = new ActionTime();
-                transportation.setTimeRegistration(timeRegistration);
+                timeRegistration = new ActionTime(getWorker(req));
+                transportation.setRegistered(timeRegistration);
             }
-            timeRegistration.setCreator(getWorker(req));
-            timeRegistration.setTime(new Timestamp(System.currentTimeMillis()));
             dao.save(timeRegistration);
             dao.save(transportation);
             updateUtil.onSave(transportation);
             write(resp, SUCCESS_ANSWER);
 
-            Weight weight = transportation.getWeight();
-
-            if (weight == null || (weight.getBrutto() == 0 && weight.getTara() == 0)) {
+            boolean notify = true;
+            for (TransportationProduct product : transportation.getProducts()){
+                Weight weight = product.getWeight();
+                if (weight != null && (weight.getBrutto() > 0 || weight.getTara() > 0)){
+                    notify = false;
+                }
+            }
+            if (notify) {
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
-                    notificator.transportRegistration(transportation);
+                    notificator.transportAction(transportation);
                 }
             }
 

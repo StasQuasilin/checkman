@@ -31,25 +31,25 @@ public class DeleteDealServletAPI extends ServletAPI{
             final Deal deal = dao.getDealById(id);
 
 
-            final List<LoadPlan> toRemove = dao.getLoadPlanByDeal(deal, false, null);
+//todo            final List<LoadPlan> toRemove = dao.getLoadPlanByDeal(deal, false, null);
 
-            for (LoadPlan plan : toRemove){
-                dao.remove(plan);
-                updateUtil.onRemove(plan);
-                dao.remove(plan.getTransportation());
-                updateUtil.onRemove(plan.getTransportation());
-            }
+//            for (LoadPlan plan : toRemove){
+//                dao.remove(plan);
+//                updateUtil.onRemove(plan);
+//                dao.remove(plan.getTransportation());
+//                updateUtil.onRemove(plan.getTransportation());
+//            }
 
-            final List<LoadPlan> allPlans = dao.getLoadPlanByDeal(deal, null, null);
+//            final List<LoadPlan> allPlans = dao.getLoadPlanByDeal(deal, null, null);
 
-            if (deal.getComplete() > 0 || allPlans.size() > 0){
-                deal.setArchive(true);
-                dao.save(deal);
-                updateUtil.onArchive(deal);
-            } else {
-                dao.remove(deal);
-                updateUtil.onRemove(deal);
-            }
+//            if (deal.getComplete() > 0 || allPlans.size() > 0){
+//                deal.setArchive(true);
+//                dao.save(deal);
+//                updateUtil.onArchive(deal);
+//            } else {
+//                dao.remove(deal);
+//                updateUtil.onRemove(deal);
+//            }
 
             write(resp, SUCCESS_ANSWER);
         }

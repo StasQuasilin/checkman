@@ -20,7 +20,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_LIST)
 public class WeightList extends IUIServlet{
 
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+    final Subscriber[] subscribers = new Subscriber[]{ Subscriber.TRANSPORT };
     public static final String _CONTENT = "/pages/weight/weightList.jsp";
 
     @Override

@@ -79,6 +79,21 @@ public class Constants {
     public static final String TRAILER = "trailer";
     public static final String OWNER = "owner";
     public static final String TRANSPORTER = "transporter";
+    public static final String STATUS = "status";
+    public static final String NETTO = "netto";
+    public static final String ANALYSES_TYPE = "analysesType";
+    public static final String REGISTERED = "registered";
+    public static final String TIME_IN = "timeIn";
+    public static final String TIME_OUT = "timeOut";
+    public static final String MANAGER = "manager";
+    public static final String PERSON = "person";
+    public static final String NOTE = "note";
+    public static final String NOTES = "notes";
+    public static final String SURNAME = "surname";
+    public static final String FORENAME = "forename";
+    public static final String PATRONYMIC = "patronymic";
+    public static final String PHONES = "phones";
+    public static final String EMPTY_JSON = "{}";
 
 
     public static class Languages {

@@ -12,10 +12,10 @@ import javax.persistence.*;
 @Table(name = "trailers")
 public class Trailer extends JsonAble{
     private int id;
-    private Number number;
+    private String number;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -23,12 +23,12 @@ public class Trailer extends JsonAble{
         this.id = id;
     }
 
-    @OneToOne
-    @JoinColumn(name = "_number")
-    public Number getNumber() {
+    @Basic
+    @Column(name = "_numper")
+    public String getNumber() {
         return number;
     }
-    public void setNumber(Number number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -36,7 +36,7 @@ public class Trailer extends JsonAble{
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
-        json.put(NUMBER, number.toJson());
+        json.put(NUMBER, number);
         return json;
     }
 }

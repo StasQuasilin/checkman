@@ -8,6 +8,7 @@ import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
 import entity.deal.Contract;
+import entity.deal.ContractProduct;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.turn.LaboratoryTurn;
@@ -56,7 +57,7 @@ import java.util.List;
  */
 public interface dbDAO {
     void saveDeal(Deal deal);
-    List<LoadPlan> getPlanByDeal(Deal deal);
+    List<TransportationProduct> getPlanByDeal(ContractProduct deal);
     List<VROTurn> getVroTurnsByDate(HashMap<String, Object> parameters);
     Deal getDealById(Object id);
     Organisation getOrganisationById(Object organisationId);
@@ -71,7 +72,7 @@ public interface dbDAO {
     List<Admin> getAdminList();
     void saveTransportation(Transportation transportation);
     void saveWeight(Weight weight);
-    List<LoadPlan> getLoadPlanByDeal(Object deal, Boolean done, Boolean archive);
+    List<TransportationProduct> getLoadPlanByDeal(Object deal, Boolean done, Boolean archive);
     ApplicationSettings getApplicationSettings();
     List<LoadPlan> getTransportArchive();
     LoadPlan getLoadPlanById(Object id);
@@ -98,7 +99,7 @@ public interface dbDAO {
     List<Seal> findSeal(String key);
     Turn getTurnByDate(TurnDateTime turnDate);
     Driver getDriverByID(Object id);
-    List<Transportation> getTransportationsByDriver(Driver driver);
+    List<Transportation2> getTransportationsByDriver(Driver driver);
     OrganisationType getOrganisationTypeByName(String type);
     Seal getSealById(Object sealId);
     VROOil getVROOilById(Object id);
@@ -132,7 +133,7 @@ public interface dbDAO {
     List<Worker> findWorker(Object key);
     TurnProtein getTurnProteinById(Object id);
     OilMassFraction getOilMassFractionById(long id);
-    List<Vehicle> findVehicle(Object key);
+    List<Truck> findVehicle(Object key);
     List<OrganisationType> getOrganisationTypeList();
     Organisation findOrganisation(String type, String name);
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
@@ -178,10 +179,10 @@ public interface dbDAO {
     List<Contract> getActiveDeals();
     Person getPersonByName(String s);
     Driver getDriverByPerson(Person person);
-    List<Transportation> getTransportationsByType(DealType type);
+    List<TransportationProduct> getTransportationsByType(DealType type);
     List<LoadPlan> getLoadPlans();
     Vehicle getVehicleByNumber(String number);
-    List<Transportation> getTransportationByVehicle(Vehicle vehicle);
+    List<Transportation2> getTransportationByVehicle(Truck truck);
     List<ArchiveData> getArchiveData();
     ProbeTurn getProbeTurnByTurn(Turn turn);
     List<LaboratoryTurn> getLimitLaboratoryTurn();
@@ -197,7 +198,7 @@ public interface dbDAO {
     List<ChatMessage> getLimitMessagesByChat(Object chat, int limit);
     ProductProperty getProductProperty(Product product, String key);
     List<Transportation> getLimitArchiveTransportations(DealType type);
-    List<Transportation> getTransportationByOrganisation(Object organisation);
+    List<Transportation2> getTransportationByOrganisation(Object organisation);
     List<Transportation> getTransportationByAnalyses(DealType type);
     List<Worker> getWorkers();
     List<ReportFieldSettings> getReportFields();
@@ -224,4 +225,5 @@ public interface dbDAO {
     StoragePeriodPoint getStoragePoint(Date date, Storage storage, Product product, Shipper shipper, PointScale scale);
     List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper);
     List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale);
+    TransportationProduct getTransportationProduct(ContractProduct contractProduct, Transportation2 transportation);
 }

@@ -9,9 +9,7 @@ import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.log.comparators.WeightComparator;
-import entity.transport.ActionTime;
-import entity.transport.TransportStorageUsed;
-import entity.transport.Transportation;
+import entity.transport.*;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -47,15 +45,14 @@ public class WeightEditServletAPI extends ServletAPI {
             log.info(body);
             boolean saveIt = false;
 
-            long planId = (long) body.get(Constants.ID);
-            LoadPlan plan = dao.getLoadPlanById(planId);
-            Transportation transportation = plan.getTransportation();
-            Weight weight = transportation.getWeight();
+            TransportationProduct transportationProduct = dao.getObjectById(TransportationProduct.class, body.get(Constants.ID));
+            Transportation2 transportation = transportationProduct.getTransportation();
+            Weight weight = transportationProduct.getWeight();
 
             if (weight == null) {
                 weight = new Weight();
                 weight.setUid(DocumentUIDGenerator.generateUID());
-                transportation.setWeight(weight);
+                transportationProduct.setWeight(weight);
                 saveIt = true;
             }
 
@@ -76,43 +73,45 @@ public class WeightEditServletAPI extends ServletAPI {
                         transportation.setTimeIn(actionTime);
                     }
                 }
-                if (weight.getNetto() > 0){
-                    if (transportation.getUsedStorages().size() == 0){
-                        log.info("Create storage entry");
-                        TransportStorageUsed used = new TransportStorageUsed();
-                        used.setAmount(1f * Math.round(weight.getNetto() * 100) / 100);
-                        TransportUtil.updateUsedStorages(transportation, used, worker);
-                    } else {
-                        TransportUtil.updateUsedStorages(transportation, worker);
-                    }
-                }
+//                if (weight.getNetto() > 0){
+//                    if (transportation.getUsedStorages().size() == 0){
+//                        log.info("Create storage entry");
+//                        TransportStorageUsed used = new TransportStorageUsed();
+//                        used.setAmount(1f * Math.round(weight.getNetto() * 100) / 100);
+//                        TransportUtil.updateUsedStorages(transportation, used, worker);
+//                    } else {
+//                        TransportUtil.updateUsedStorages(transportation, worker);
+//                    }
+//                }
                 comparator.compare(weight, worker);
-                dao.saveTransportation(transportation);
+                dao.save(transportation);
 
-                updateUtil.onSave(transportation);
+                updateUtil.onSave(transportationProduct);
 
-                WeightUtil.calculateDealDone(plan.getDeal());
-                TransportUtil.calculateWeight(transportation);
+                WeightUtil.calculateDealDone(transportationProduct.getContractProduct());
+                TransportUtil.calculateWeight(transportationProduct);
 
-                transportationComparator.fix(transportation);
+//                transportationComparator.fix(transportation);
                 TransportUtil.checkTransport(transportation);
-                transportationComparator.compare(transportation, getWorker(req));
-
+//                transportationComparator.compare(transportation, getWorker(req));
+                write(resp, SUCCESS_ANSWER);
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {
                     if (weight.getNetto() > 0) {
-                        notificator.weightShow(transportation);
+                        notificator.weightShow(transportationProduct);
                     } else if (weight.getBrutto() > 0 || weight.getTara() > 0) {
                         notificator.transportInto(transportation);
                     }
                 }
             }
 
-            write(resp, SUCCESS_ANSWER);
+
             body.clear();
+
         } else {
             write(resp, EMPTY_BODY);
         }
+
     }
     synchronized boolean changeWeight(Weight weight, float brutto, float tara, Worker worker, boolean saveIt){
         if (brutto != 0){

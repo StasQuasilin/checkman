@@ -29,7 +29,6 @@
         <mapping class="entity.transport.Vehicle"/>
         <mapping class="entity.transport.Truck"/>
         <mapping class="entity.transport.Trailer"/>
-        <mapping class="entity.transport.Number"/>
         <mapping class="entity.organisations.Organisation"/>
         <mapping class="entity.organisations.OrganisationType"/>
         <mapping class="entity.transport.Transportation"/>
@@ -113,5 +112,6 @@
         <mapping class="entity.rails.CarriageAnalyses"/>
         <mapping class="entity.storages.StorageProductReplace"/>
         <mapping class="entity.storages.StorageProductReplaceEntry"/>
+        <mapping class="entity.transport.Transportation2"/>
     </session-factory>
 </hibernate-configuration>

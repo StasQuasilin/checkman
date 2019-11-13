@@ -42,13 +42,13 @@ public class SaveVehicleServletAPI extends ServletAPI {
             logger.info("\t...Model: " + vehicle.getModel());
 
             vehicle.setNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.NUMBER))));
-            logger.info("\t...Number: " + vehicle.getNumber());
+            logger.info("\t...VehicleNumber: " + vehicle.getNumber());
 
             vehicle.setTrailer(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.TRAILER))));
             logger.info("\t...Trailer: " + vehicle.getTrailer());
 
             dao.save(vehicle);
-            updateUtil.onSave(vehicle);
+//            updateUtil.onSave(vehicle);
             JSONObject jsonObject = parser.toJson(vehicle);
             write(resp, jsonObject.toJSONString());
             pool.put(jsonObject);

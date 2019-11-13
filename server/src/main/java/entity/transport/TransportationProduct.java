@@ -1,7 +1,9 @@
 package entity.transport;
 
+import entity.JsonAble;
 import entity.deal.ContractProduct;
 import entity.weight.Weight;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -10,15 +12,15 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "_transportation_products")
-public class TransportationProduct {
+public class TransportationProduct extends JsonAble{
     private int id;
-    private Transportation transportation;
+    private Transportation2 transportation;
     private ContractProduct contractProduct;
     private float plan;
     private Weight weight;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -28,10 +30,10 @@ public class TransportationProduct {
 
     @ManyToOne
     @JoinColumn(name = "transportation")
-    public Transportation getTransportation() {
+    public Transportation2 getTransportation() {
         return transportation;
     }
-    public void setTransportation(Transportation transportation) {
+    public void setTransportation(Transportation2 transportation) {
         this.transportation = transportation;
     }
 
@@ -60,5 +62,23 @@ public class TransportationProduct {
     }
     public void setWeight(Weight weight) {
         this.weight = weight;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = transportation.toJson();
+        json.put(ID, id);
+        json.put(TYPE, contractProduct.getType().toString());
+        json.put(PLAN, plan);
+        json.put(COUNTERPARTY, contractProduct.getContract().getCounterparty().toJson());
+        if (weight != null) {
+            json.put(WEIGHT, weight.toJson());
+        } else {
+            json.put(WEIGHT, EMPTY_JSON);
+        }
+        json.put(ANALYSES_TYPE, contractProduct.getProduct().getAnalysesType().toString());
+        json.put(PRODUCT, contractProduct.getProduct().toJson());
+        json.put(PRICE, contractProduct.getPrice());
+        return json;
     }
 }

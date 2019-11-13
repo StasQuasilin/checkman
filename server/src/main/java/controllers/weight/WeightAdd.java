@@ -7,6 +7,7 @@ import entity.DealType;
 import entity.Role;
 import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
+import entity.transport.TransportationProduct;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -24,7 +25,7 @@ public class WeightAdd extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         long id = -1;
         long copy = -1;
         if (body != null) {
@@ -35,12 +36,12 @@ public class WeightAdd extends IModal {
             }
         }
         if (id != -1) {
-            req.setAttribute(PLAN, dao.getLoadPlanById(id));
+            req.setAttribute(PLAN, dao.getObjectById(TransportationProduct.class, id));
             req.setAttribute(TITLE, "title.weight.edit");
         } else if (copy != -1) {
-            LoadPlan plan = dao.getLoadPlanById(copy);
-            plan.setId(-1);
-            req.setAttribute(PLAN, plan);
+            TransportationProduct transportationProduct = dao.getObjectById(TransportationProduct.class, copy);
+            transportationProduct.setId(-1);
+            req.setAttribute(PLAN, transportationProduct);
             req.setAttribute(TITLE, "title.weight.copy");
         } else {
             req.setAttribute(TITLE, "title.weight.add");
@@ -63,10 +64,10 @@ public class WeightAdd extends IModal {
 
         req.setAttribute(SAVE, Branches.API.PLAN_LIST_ADD);
         req.setAttribute(PRODUCTS, dao.getProductList());
-        req.setAttribute("units", dao.getUnitsList());
-        req.setAttribute("documentOrganisations", dao.getShipperList());
-        req.setAttribute("types", DealType.values());
-        req.setAttribute("customers", TransportCustomer.values());
+        req.setAttribute(UNITS, dao.getUnitsList());
+        req.setAttribute(SHIPPERS, dao.getShipperList());
+        req.setAttribute(TYPES, DealType.values());
+        req.setAttribute(CUSTOMERS, TransportCustomer.values());
         show(req, resp);
     }
 }

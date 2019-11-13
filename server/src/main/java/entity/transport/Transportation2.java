@@ -1,23 +1,25 @@
 package entity.transport;
 
-import entity.DealType;
+import entity.JsonAble;
 import entity.Worker;
 import entity.documents.Shipper;
 import entity.organisations.Organisation;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
 @Table(name = "_transportations")
-public class Transportation2 {
+public class Transportation2 extends JsonAble {
     private int id;
-    private DealType type;
     private Date date;
     private Driver driver;
     private String driverLicense;
@@ -40,7 +42,7 @@ public class Transportation2 {
     private String uid;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -55,15 +57,6 @@ public class Transportation2 {
     }
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    public DealType getType() {
-        return type;
-    }
-    public void setType(DealType type) {
-        this.type = type;
     }
 
     @OneToOne
@@ -235,7 +228,6 @@ public class Transportation2 {
 
     @Override
     public int hashCode() {
-
         return id;
     }
 
@@ -246,5 +238,41 @@ public class Transportation2 {
     }
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(DATE, date.toString());
+        if (driver != null){
+            json.put(DRIVER, driver.toJson());
+            json.put(LICENSE, driverLicense);
+        }
+        if (truck != null){
+            json.put(TRUCK, truck.toJson());
+        }
+        if (trailer != null){
+            json.put(TRAILER, trailer.toJson());
+        }
+        if (transporter != null){
+            json.put(TRANSPORTER, transporter.toJson());
+        }
+        json.put(SHIPPER, shipper.getValue());
+        json.put(CUSTOMER, customer.toString());
+        if (registered != null){
+            json.put(REGISTERED, registered.getTime().toString());
+        }
+        if (timeIn != null){
+            json.put(TIME_IN, timeIn.getTime().toString());
+        }
+        if (timeOut != null){
+            json.put(TIME_OUT, timeOut.getTime().toString());
+        }
+        json.put(MANAGER, manager.toJson());
+        JSONArray array = pool.getArray();
+        array.addAll(notes.stream().map(TransportationNote::toJson).collect(Collectors.toList()));
+        json.put(NOTES, array);
+        return json;
     }
 }

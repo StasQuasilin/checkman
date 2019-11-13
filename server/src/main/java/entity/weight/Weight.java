@@ -1,7 +1,9 @@
 package entity.weight;
 
+import entity.JsonAble;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "weights")
-public class Weight {
+public class Weight extends JsonAble{
     private int id;
     private float brutto;
     private float tara;
@@ -109,5 +111,15 @@ public class Weight {
         }
 
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(BRUTTO , brutto);
+        json.put(TARA, tara);
+        json.put(NETTO, getNetto());
+        return json;
     }
 }

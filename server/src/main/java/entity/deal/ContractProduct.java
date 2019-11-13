@@ -24,6 +24,7 @@ public class ContractProduct extends JsonAble {
     private Shipper shipper;
     private float done;
     private float amount;
+    private WeightUnit unit;
     private float price;
     private Set<ContractProductNote> notes = new HashSet<>();
 
@@ -88,6 +89,15 @@ public class ContractProduct extends JsonAble {
     }
     public void setAmount(float amount) {
         this.amount = amount;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "unit")
+    public WeightUnit getUnit() {
+        return unit;
+    }
+    public void setUnit(WeightUnit unit) {
+        this.unit = unit;
     }
 
     @Basic

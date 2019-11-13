@@ -1,21 +1,6 @@
 package utils.hibernate;
 
-import entity.documents.Shipper;
-import entity.products.Product;
-import entity.storages.Storage;
-import entity.storages.StoragePeriodPoint;
-import entity.storages.StorageProduct;
-import entity.transport.Driver;
-import entity.transport.OldDriver;
-import entity.transport.TransportStorageUsed;
-import utils.DateUtil;
-import utils.storages.PointScale;
-import utils.storages.StorageUtil;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import entity.transport.*;
 
 /**
  * Created by szpt_user045 on 01.07.2019.
@@ -27,11 +12,22 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        for (OldDriver driver : instance.query(OldDriver.class, null)){
-            Driver newDriver = new Driver();
-            newDriver.setPerson(driver.getPerson());
-            newDriver.setLicense(driver.getLicense());
-            instance.save(newDriver);
+//        for (VehicleNumber number : instance.query(VehicleNumber.class, null)){
+//            System.out.println(number);
+//        }
+        for (Vehicle vehicle : instance.query(Vehicle.class, null)){
+            Truck truck = new Truck();
+            truck.setModel(vehicle.getModel());
+            truck.setNumber(vehicle.getNumber());
+
+            if (vehicle.getTrailer() != null){
+                Trailer trailer = new Trailer();
+                trailer.setNumber(vehicle.getTrailer());
+                instance.save(trailer);
+                truck.setTrailer(trailer);
+            }
+
+            instance.save(truck);
         }
 
 //        for (Transportation transportation : instance.query(Transportation.class, null)){

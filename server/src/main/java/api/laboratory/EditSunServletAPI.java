@@ -120,8 +120,9 @@ public class EditSunServletAPI extends ServletAPI {
                 createTime.setCreator(creator);
 
                 dao.save(createTime, sunAnalyses, transportation);
-                float v = TransportUtil.calculateWeight(transportation);
-                updateUtil.onSave(transportation);
+                float v = 0;
+//                float v = TransportUtil.calculateWeight(transportation);
+//                updateUtil.onSave(transportation);
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

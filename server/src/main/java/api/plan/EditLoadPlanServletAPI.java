@@ -6,9 +6,13 @@ import constants.Constants;
 import entity.DealType;
 import entity.Person;
 import entity.Worker;
+import entity.deal.Contract;
+import entity.deal.ContractProduct;
 import entity.documents.Deal;
 import entity.documents.Shipper;
 import entity.documents.LoadPlan;
+import entity.organisations.Organisation;
+import entity.products.Product;
 import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -42,55 +46,59 @@ public class EditLoadPlanServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             log.info(body );
+
             Date date = Date.valueOf(String.valueOf(body.get("date")));
-
             float plan = Float.parseFloat(String.valueOf(body.get("plan")));
-
             Shipper shipper = dao.getShipperByValue(body.get("from"));
-            long dealId = Long.parseLong(String.valueOf(body.get("deal")));
-            Deal deal;
+            long contractId = Long.parseLong(String.valueOf(body.get("deal")));
+
+            ContractProduct contractProduct;
             Worker creator = getWorker(req);
             Worker manager = dao.getWorkerById(body.get(MANAGER));
             if (manager == null){
                 manager = creator;
             }
 
-            if (dealId == -1){
+            if (contractId == -1){
+                Contract contract = new Contract();
+                contract.setFrom(date);
+                contract.setTo(date);
+                contract.setUid(DocumentUIDGenerator.generateUID());
+                contract.setCounterparty(dao.getObjectById(Organisation.class, body.get("organisation")));
+                contract.setCreator(creator);
+                contract.setManager(manager);
+                dao.save(contract);
 
-                deal = new Deal();
-                deal.setUid(DocumentUIDGenerator.generateUID());
-                deal.setType(DealType.valueOf(String.valueOf(body.get("type"))));
-                deal.setDate(date);
-                deal.setDateTo(date);
-                deal.setOrganisation(dao.getOrganisationById(body.get("organisation")));
-                deal.setShipper(shipper);
-                deal.setProduct(dao.getProductById(body.get("product")));
-                deal.setUnit(dao.getWeightUnitById(body.get("unit")));
+                contractProduct = new ContractProduct();
+                contractProduct.setContract(contract);
+                contractProduct.setType(DealType.valueOf(String.valueOf(body.get("type"))));
+                contractProduct.setShipper(shipper);
+                contractProduct.setProduct(dao.getObjectById(Product.class, body.get("product")));
+                contractProduct.setUnit(dao.getWeightUnitById(body.get("unit")));
+                contractProduct.setAmount(plan);
+                dao.save(contractProduct);
 
-                deal.setCreator(creator);
-                dao.saveDeal(deal);
-                updateUtil.onSave(deal);
+                updateUtil.onSave(contract);
             } else {
-                deal = dao.getDealById(dealId);
+                contractProduct = dao.getObjectById(ContractProduct.class, contractId);
             }
 
             boolean saveDeal = false;
             float quantity = Float.parseFloat(String.valueOf(body.get("quantity")));
-            if (deal.getQuantity() != quantity){
-                deal.setQuantity(quantity);
+            if (contractProduct.getAmount() != quantity){
+                contractProduct.setAmount(quantity);
                 saveDeal = true;
-
             }
 
             float price = Float.parseFloat(String.valueOf(body.get("price")));
-            if (deal.getPrice() != price){
-                deal.setPrice(price);
+            if (contractProduct.getPrice() != price){
+                contractProduct.setPrice(price);
                 saveDeal = true;
             }
 
             if (saveDeal){
-                dao.saveDeal(deal);
-                updateUtil.onSave(deal);
+                dao.save(contractProduct);
+                updateUtil.onSave(contractProduct.getContract());
             }
 
             long id = -1;
@@ -98,37 +106,28 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 id = (long) body.get(Constants.ID);
             }
 
-            LoadPlan loadPlan;
-            Transportation transportation;
-
+            Transportation2 transportation;
+            TransportationProduct transportationProduct = null;
 
             if (id != -1) {
-                loadPlan = dao.getLoadPlanById(id);
-                transportation = loadPlan.getTransportation();
-
+                transportationProduct = dao.getObjectById(TransportationProduct.class, id);
+            }
+            if (transportationProduct == null) {
+                transportation = new Transportation2();
+                transportationProduct = new TransportationProduct();
+                transportationProduct.setPlan(plan);
+                transportationProduct.setTransportation(transportation);
             } else {
-                loadPlan = new LoadPlan();
-                loadPlan.setDeal(deal);
-                transportation = TransportUtil.createTransportation(deal, manager, creator);
-                loadPlan.setTransportation(transportation);
+                transportation = transportationProduct.getTransportation();
             }
 
-            if (loadPlan.getDeal() == null || loadPlan.getDeal().getId() != dealId){
-                loadPlan.setDeal(deal);
-                transportation.setType(deal.getType());
-                transportation.setShipper(deal.getShipper());
-                transportation.setCounterparty(deal.getOrganisation());
-                transportation.setProduct(deal.getProduct());
-
-                TransportUtil.updateUsedStorages(transportation, getWorker(req));
+            if (transportationProduct.getContractProduct() == null || transportationProduct.getContractProduct().getId() != contractId){
+                transportationProduct.setContractProduct(contractProduct);
+                TransportUtil.updateUsedStorages(transportationProduct, getWorker(req));
             }
 
-            loadPlan.setDate(date);
             transportation.setDate(date);
-            loadPlan.setShipper(shipper);
             transportation.setShipper(shipper);
-            loadPlan.setPlan(plan);
-            loadPlan.setCustomer(TransportCustomer.valueOf(String.valueOf(body.get("customer"))));
 
             HashMap<Integer, TransportationNote> alreadyNote = new HashMap<>();
             if (transportation.getNotes() != null) {
@@ -136,6 +135,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                     alreadyNote.put(note.getId(), note);
                 }
             }
+
             ArrayList<TransportationNote> liveNotes = new ArrayList<>();
 
             for (Object o :(JSONArray) body.get("notes")){
@@ -160,61 +160,32 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             }
 
             if (!transportation.isArchive()) {
-                transportation.setShipper(shipper);
-                JSONObject vehicleJson = (JSONObject) body.get("vehicle");
-                if (vehicleJson != null){
-                    Vehicle vehicle = null;
-                    if (vehicleJson.containsKey(Constants.ID)) {
-                        long vehicleId = (long) vehicleJson.get("id");
-                        if (vehicleId > 0) {
-                            vehicle = dao.getVehicleById(vehicleId);
-                        } else if (vehicleId == 0){
-                            vehicle = new Vehicle();
-                            vehicle.setModel(String.valueOf(vehicleJson.get("model")));
-                            vehicle.setNumber(String.valueOf(vehicleJson.get("number")));
-                            vehicle.setTrailer(String.valueOf(vehicleJson.get("trailer")));
-                            dao.save(vehicle);
+                JSONObject truckJson = (JSONObject) body.get("truck");
+                if (truckJson != null){
+                    Truck truck;
+                    if (truckJson.containsKey(ID)) {
+                        truck = dao.getObjectById(Truck.class, truckJson.get(ID));
+                        if (truck != null){
+                            TransportUtil.setTruck(transportation, truck);
+                        }else {
+                            TransportUtil.setTruck(transportation, null);
                         }
                     }
-                    if (vehicle != null) {
-                        transportation.setVehicle(vehicle);
-                    } else if (transportation.getVehicle() != null) {
-                        transportation.setVehicle(null);
-                    }
-
                 }
 
                 JSONObject driverJson = (JSONObject) body.get("driver");
                 if (driverJson != null){
-                    Driver driver = null;
-                    if (driverJson.containsKey(Constants.ID)){
-                        long driverId = (long) driverJson.get(Constants.ID);
-                        if (driverId > 0){
-                            driver = dao.getDriverByID(driverId);
-                        } else if(driverId == 0){
-                            driver = new Driver();
-                            Person person = new Person();
-                            JSONObject personJson = (JSONObject) driverJson.get("person");
-                            person.setForename(String.valueOf(personJson.get("forename")));
-                            person.setSurname(String.valueOf(personJson.get("surname")));
-                            person.setPatronymic(String.valueOf(personJson.get("patronymic")));
-
-                            driver.setPerson(person);
-                            dao.save(person, driver);
+                    Driver driver;
+                    if (driverJson.containsKey(ID)){
+                        driver = dao.getObjectById(Driver.class, driverJson.get(ID));
+                        if (driver != null){
+                            TransportUtil.setDriver(transportation, driver);
                         }
                     }
-                    if (driver != null) {
-                        transportation.setDriver(driver);
-                    } else if (transportation.getDriver() != null) {
-                        transportation.setDriver(null);
-                    }
                 }
-                transportation.setCreator(creator);
             }
 
-            dao.saveTransportation(transportation);
-            transportation.getUsedStorages().forEach(storageUtil::updateStorageEntry);
-            dao.saveLoadPlan(loadPlan);
+            dao.save(transportationProduct);
 
             transportation.getNotes().clear();
             for(TransportationNote note : liveNotes){

@@ -3,6 +3,7 @@ package api.references.vehicles;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.transport.Truck;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,7 +30,7 @@ public class FindVehicleServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             Object key = body.get(Constants.KEY);
-            array.addAll(dao.findVehicle(key).stream().map(parser::toJson).collect(Collectors.toCollection(JSONArray::new)));
+            array.addAll(dao.findVehicle(key).stream().map(Truck::toJson).collect(Collectors.toCollection(JSONArray::new)));
         }
         write(resp, array.toJSONString());
         array.clear();

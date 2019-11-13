@@ -148,7 +148,7 @@ public class EditOilServletAPI extends ServletAPI {
                 }
 
                 dao.save(oilAnalyses.getCreateTime(), oilAnalyses, transportation);
-                updateUtil.onSave(transportation);
+//todo                updateUtil.onSave(transportation);
 
                 Notificator notificator = BotFactory.getNotificator();
                 if (notificator != null) {

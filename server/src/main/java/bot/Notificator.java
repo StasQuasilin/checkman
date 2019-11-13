@@ -17,6 +17,9 @@ import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
+import entity.transport.Transportation2;
+import entity.transport.TransportationProduct;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -73,6 +76,7 @@ public class Notificator {
     private static final String WAX_NO = "notification.kpo.wax.no";
     private static final String HUMIDITY = "bot.extraction.oil.humidity";
     private static final String EMPTY = Constants.EMPTY;
+    private static final String TRANSPORT_TARGET = "bot.transport.target";
 
     private final LanguageBase lb = LanguageBase.getBase();
     private final TelegramBot telegramBot;
@@ -106,42 +110,52 @@ public class Notificator {
         }
     }
 
-    public void transportRegistration(Transportation transportation){
-        transportRegistration(transportation, lb.get(TRANSPORT_REGISTRATION));
+    public void transportAction(Transportation2 transportation){
+        transportAction(transportation, lb.get(TRANSPORT_REGISTRATION));
     }
 
-    public void transportInto(Transportation transportation){
-        transportRegistration(transportation, lb.get(TRANSPORT_INTO));
+    public void transportInto(Transportation2 transportation){
+        transportAction(transportation, lb.get(TRANSPORT_INTO));
     }
 
-    public void transportRegistration(Transportation transportation, String messageFormat) {
-        DealType type = transportation.getType();
-        String action = lb.get("_" + type.toString()).toLowerCase();
+    public void transportAction(Transportation2 transportation, String messageFormat) {
 
-        Product product = transportation.getProduct();
-        ProductProperty productProperty = dao.getProductProperty(product, type.toString());
-        String productName = (productProperty != null ? productProperty.getValue() : product.getName()).toLowerCase();
+        String[] targets = new String[transportation.getProducts().size()];
+        String counterparty = EMPTY;
+        int i = 0;
+        for (TransportationProduct transportationProduct : transportation.getProducts()){
+            if (i == 0){
+                counterparty = transportationProduct.getContractProduct().getContract().getCounterparty().getValue();
+            }
+            DealType type = transportationProduct.getContractProduct().getType();
+            String action = lb.get("_" + type.toString()).toLowerCase();
+            Product product = transportationProduct.getContractProduct().getProduct();
+            ProductProperty productProperty = dao.getProductProperty(product, type.toString());
+            String productName = (productProperty != null ? productProperty.getValue() : product.getName()).toLowerCase();
+            targets[i++] = String.format(lb.get(TRANSPORT_TARGET), action, productName);
+        }
+
+
         String driver = "--";
         if (transportation.getDriver() != null) {
             driver = transportation.getDriver().getPerson().getValue();
         }
-        String organisation = transportation.getCounterparty().getValue();
-        String message = String.format(messageFormat, action, productName, driver, organisation);
+        String message = String.format(messageFormat, String.join(", ", targets), driver, counterparty);
         getSettings().stream().filter(setting -> setting.isShow() && setting.getTransport() != NotifyStatus.off).forEach(setting -> {
             sendMessage(setting.getTelegramId(), message, null);
         });
     }
 
-    public void weightShow(Transportation transportation) {
+    public void weightShow(TransportationProduct transportation) {
 
-        DealType type = transportation.getType();
+        DealType type = transportation.getContractProduct().getType();
         String action = lb.get("_" + type + ".do");
         String driver = "--";
-        if (transportation.getDriver() !=null){
-            driver = transportation.getDriver().getPerson().getValue();
+        if (transportation.getTransportation().getDriver() !=null){
+            driver = transportation.getTransportation().getDriver().getPerson().getValue();
         }
-        String organisation = transportation.getCounterparty().getValue();
-        String product = transportation.getProduct().getName();
+        String organisation = transportation.getContractProduct().getContract().getCounterparty().getValue();
+        String product = transportation.getContractProduct().getProduct().getName();
         String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product,
                 transportation.getWeight().getBrutto() - transportation.getWeight().getTara()
         );

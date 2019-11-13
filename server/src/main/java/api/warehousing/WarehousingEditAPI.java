@@ -112,7 +112,7 @@ public class WarehousingEditAPI extends ServletAPI {
                 storageUtil.updateStorageEntry(u);
             }
             if (save.size() > 0){
-                updateUtil.onSave(transportation);
+//                updateUtil.onSave(transportation);
             }
 
             save.clear();

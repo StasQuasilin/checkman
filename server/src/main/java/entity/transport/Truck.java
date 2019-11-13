@@ -1,9 +1,9 @@
 package entity.transport;
 
+import constants.Constants;
 import entity.JsonAble;
 import entity.organisations.Organisation;
 import org.json.simple.JSONObject;
-import utils.U;
 
 import javax.persistence.*;
 
@@ -13,15 +13,17 @@ import javax.persistence.*;
 @Entity
 @Table(name = "trucks")
 public class Truck extends JsonAble{
+    private static final String SPACE = Constants.SPACE;
+    private static final String EMPTY = Constants.EMPTY;
     private int id;
     private String model;
-    private Number number;
+    private String number;
     private Trailer trailer;
     private Organisation owner;
     private Organisation transporter;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -38,12 +40,12 @@ public class Truck extends JsonAble{
         this.model = model;
     }
 
-    @OneToOne
-    @JoinColumn(name = "_number")
-    public Number getNumber() {
+    @Basic
+    @Column(name = "_number")
+    public String getNumber() {
         return number;
     }
-    public void setNumber(Number number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -79,8 +81,10 @@ public class Truck extends JsonAble{
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(MODEL, model);
-        json.put(NUMBER, number.toJson());
-        json.put(TRAILER, trailer.toJson());
+        json.put(NUMBER, number);
+        if (trailer != null) {
+            json.put(TRAILER, trailer.toJson());
+        }
         json.put(VALUE, getValue());
         if (owner != null) {
             json.put(OWNER, owner.toJson());
@@ -93,6 +97,6 @@ public class Truck extends JsonAble{
 
     @Transient
     private String getValue() {
-        return model;
+        return model + SPACE + number;
     }
 }

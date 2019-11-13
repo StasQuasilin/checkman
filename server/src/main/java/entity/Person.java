@@ -1,17 +1,20 @@
 package entity;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import utils.U;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
 @Table(name = "persons")
-public class Person {
+public class Person extends JsonAble{
     private int id;
     private String forename;
     private String surname;
@@ -90,5 +93,18 @@ public class Person {
     @Transient
     public String getAccost() {
         return forename + " " + patronymic;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(SURNAME, surname);
+        json.put(FORENAME, forename);
+        json.put(PATRONYMIC, patronymic);
+        JSONArray array = pool.getArray();
+        array.addAll(phones.stream().map(PhoneNumber::getNumber).collect(Collectors.toList()));
+        json.put(PHONES, array);
+        return json;
     }
 }
