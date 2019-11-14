@@ -392,6 +392,9 @@ public class JsonParser {
             if (U.exist(driver.getLicense())){
                 json.put(LICENSE, driver.getLicense());
             }
+            if (driver.getVehicle() != null){
+                json.put(VEHICLE, toJson(driver.getVehicle()));
+            }
 
         }
         return json;

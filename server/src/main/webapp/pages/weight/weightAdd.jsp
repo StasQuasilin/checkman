@@ -438,7 +438,12 @@
                 </span>
                 <div class="custom-data-list">
                     <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="putDriver(driver)">
-                        {{driver.person.value}}
+                        <div>
+                            {{driver.person.value}}
+                        </div>
+                        <div v-if="driver.vehicle">
+                            {{driver.vehicle.value}}
+                        </div>
                     </div>
                 </div>
             </div>

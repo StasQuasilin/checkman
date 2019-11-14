@@ -266,9 +266,13 @@ var plan = new Vue({
             }
         },
         setDriver:function(driver, key){
-            this.plans[key].item.transportation.driver = driver;
+            let plan = this.plans[key];
+            plan.item.transportation.driver = driver;
             this.closeDriverInput(key);
-            this.initSaveTimer(this.plans[key].key);
+            this.initSaveTimer(plan.key);
+            if(driver.vehicle && plan.item.transportation.vehicle.id == -1){
+                this.setVehicle(driver.vehicle, key);
+            }
         },
         parseDriver:function(value, key){
             if(value) {

@@ -28,7 +28,11 @@ public class Transportation {
     private Organisation counterparty;
     private DealType type;
     private Vehicle vehicle;
+    private String truckNumber;
+    private String trailerNumber;
+    private Organisation transporter;
     private Driver driver;
+    private String driverLicense;
     private Shipper shipper;
     private ActionTime timeRegistration;
     private ActionTime timeIn;

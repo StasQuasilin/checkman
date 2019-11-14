@@ -7,7 +7,10 @@ import entity.reports.ReportFieldSettings;
 import entity.storages.Storage;
 import entity.storages.StoragePeriodPoint;
 import entity.storages.StorageProduct;
+import entity.transport.Driver;
 import entity.transport.TransportStorageUsed;
+import entity.transport.Transportation;
+import entity.transport.Vehicle;
 import utils.DateUtil;
 import utils.U;
 import utils.storages.PointScale;
@@ -16,7 +19,9 @@ import utils.storages.StorageUtil;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by szpt_user045 on 01.07.2019.
@@ -28,21 +33,29 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        List<ReportFieldSettings> settingsList = instance.query(ReportFieldSettings.class, null);
-        String titleFrom = "пелета біг-бег";
-        String titleTo = "Пелета біг-бег";
-        for (ReportField field : instance.query(ReportField.class, "title", titleFrom)){
-            field.setTitle(titleTo);
-            for (ReportFieldSettings settings : settingsList){
-                boolean match = true;
-                if (settings.getCategory() != null && field.getCategory() != null){
-                    match = settings.getCategory().getId() == field.getCategory().getId();
+        for (Driver driver : instance.query(Driver.class, null)){
+            if (driver.getVehicle() == null){
+                HashMap<Vehicle, Integer> vehicles = new HashMap<>();
+                for (Transportation transportation : instance.query(Transportation.class, "driver", driver)){
+                    Vehicle vehicle = transportation.getVehicle();
+                    if (vehicle != null){
+                        if (vehicles.containsKey(vehicle)){
+                            vehicles.put(vehicle, vehicles.get(vehicle) + 1);
+                        } else {
+                            vehicles.put(vehicle, 0);
+                        }
+                    }
                 }
-                if (match && field.getTitle().equals(settings.getTitle())){
-                    field.setIndex(settings.getIndex());
-                    instance.save(field);
-                    break;
+                int max = -1;
+                Vehicle vehicle = null;
+                for (Map.Entry<Vehicle, Integer> entry : vehicles.entrySet()){
+                    if (entry.getValue() > max){
+                        max = entry.getValue();
+                        vehicle = entry.getKey();
+                    }
                 }
+                driver.setVehicle(vehicle);
+                instance.save(driver);
             }
         }
 

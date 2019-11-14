@@ -482,23 +482,38 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Collection<Organisation> findOrganisation(String key) {
-        Set<Integer> ids = new HashSet<>();
-        List<Organisation> organisations = new LinkedList<>();
+        HashMap<Integer, Integer> ids = new HashMap<>();
+        HashMap<Integer, Organisation> organisations = new HashMap<>();
         for (String string : key.split(SPACE)){
             String s = string.trim();
             findOrganisation("type", s, ids, organisations);
             findOrganisation("name", s, ids, organisations);
         }
 
+
+        ArrayList<Organisation> result = new ArrayList<>();
+        int min = 0;
+        while (organisations.size() > 0){
+            result.clear();
+            for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
+                if (entry.getValue() == min){
+                    result.add(organisations.remove(entry.getKey()));
+                }
+            }
+            min++;
+        }
         ids.clear();
-        return organisations;
+        return result;
     }
 
-    private void findOrganisation(String key, String value, Set<Integer> ids, List<Organisation> organisations){
+    private void findOrganisation(String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, Organisation> organisations){
         for (Organisation organisation : find(Organisation.class, key, value)){
-            if (!ids.contains(organisation.getId())){
-                ids.add(organisation.getId());
-                organisations.add(organisation);
+            int id = organisation.getId();
+            if (!ids.containsKey(id)){
+                ids.put(id, 0);
+                organisations.put(id, organisation);
+            } else {
+                ids.put(id, ids.get(id) + 1);
             }
         }
     }

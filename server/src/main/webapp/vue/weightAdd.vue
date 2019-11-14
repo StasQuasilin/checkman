@@ -328,9 +328,14 @@ var editor = new Vue({
             });
         },
         putDriver:function(driver){
+            console.log(driver);
             this.plan.driver = driver;
             this.input.driver = '';
             this.foundDrivers = [];
+            if (driver.vehicle && this.plan.vehicle.id == -1){
+
+                this.putVehicle(driver.vehicle);
+            }
         },
         cancelDriver:function(){
             this.plan.driver = {
