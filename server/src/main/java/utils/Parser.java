@@ -1,6 +1,7 @@
 package utils;
 
 import com.itextpdf.text.DocumentException;
+import constants.Constants;
 import utils.storages.PointScale;
 import utils.storages.StorageUtil;
 
@@ -15,16 +16,24 @@ import java.util.regex.Pattern;
  */
 public class Parser {
 
-    public static final String NUMBER_REGEX = "[A-ZА-Я]{0,3}\\s*\\d{2,3}\\W?\\d{2,3}\\s*[A-ZА-Я]{2,3}";
+    public static final String NUMBER_REGEX = "[A-ZА-Я]{0,3}\\s?\\d{2,3}\\W?\\d{2,3}\\s?[A-ZА-Я]{2,3}";
+    private static final String SPACE = Constants.SPACE;
 
     public synchronized static List<String> parseVehicle(String value){
         value = value.toUpperCase().trim();
         StringBuilder builder = new StringBuilder();
-
-        for (char c : value.toCharArray()){
-           if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)){
-               builder.append(c);
-           }
+        char[] chars = value.toCharArray();
+        int idx = 0;
+        for (char c : chars){
+            if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)){
+                builder.append(c);
+            }
+            if (idx < chars.length - 1){
+                char next = chars[++idx];
+                if (Character.isLetter(c) && Character.isDigit(next) || Character.isDigit(c) && Character.isLetter(next)){
+                    builder.append(SPACE);
+                }
+            }
         }
 
         value = builder.toString();

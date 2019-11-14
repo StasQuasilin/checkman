@@ -99,26 +99,14 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             }
             JSONObject transportationJSON = (JSONObject) json.get("transportation");
 
-            boolean newVehicle = false;
             Vehicle vehicle = null;
             if (transportationJSON.containsKey("vehicle")) {
                 JSONObject vehicleJson = (JSONObject) transportationJSON.get("vehicle");
                 long vehicleId = -1;
                 if (vehicleJson.containsKey("id")) {
-                    vehicleId = (long) vehicleJson.get("id");
-                }
-                if (vehicleId != -1) {
-                    vehicle = dao.getVehicleById(vehicleId);
-                    if (vehicle == null) {
-                        newVehicle= true;
-                        vehicle = new Vehicle();
-                        vehicle.setModel(String.valueOf(vehicleJson.get("model")));
-                        vehicle.setNumber(String.valueOf(vehicleJson.get("number")));
-                        vehicle.setTrailer(String.valueOf(vehicleJson.get("trailer")));
-                    }
+                    vehicle = dao.getObjectById(Vehicle.class, vehicleJson.get(ID));
                 }
             }
-            boolean newDriver = false;
             Driver driver = null;
             if (transportationJSON.containsKey("driver")) {
                 JSONObject driverJson = (JSONObject) transportationJSON.get("driver");
@@ -127,36 +115,17 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                     driverId = (long) driverJson.get("id");
                 }
                 if (driverId != -1) {
-                    driver = dao.getDriverByID(driverId);
-                    if (driver == null) {
-                        newDriver = true;
-                        driver = new Driver();
-                        Person person = new Person();
-                        JSONObject personJson = (JSONObject) driverJson.get("person");
-                        person.setSurname(String.valueOf(personJson.get("surname")));
-                        person.setForename(String.valueOf(personJson.get("forename")));
-                        person.setPatronymic(String.valueOf(personJson.get("patronymic")));
-                        driver.setPerson(person);
-                    }
+                    driver = dao.getObjectById(Driver.class, driverId);
                 }
             }
 
-            if (newVehicle) {
-                dao.save(vehicle);
-
-            }
-
             if (vehicle != null){
-                transportation.setVehicle(vehicle);
+                TransportUtil.setVehicle(transportation, vehicle);
                 save = true;
             }
 
-            if(newDriver) {
-                dao.save(driver.getPerson(), driver);
-            }
-
             if (driver != null) {
-                transportation.setDriver(driver);
+                TransportUtil.setDriver(transportation, driver);
                 save = true;
             }
 

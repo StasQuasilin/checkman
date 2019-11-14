@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
+import entity.transport.TransportUtil;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
 import utils.*;
@@ -38,7 +39,7 @@ public class ParseVehicleServletAPI extends ServletAPI {
             pool.put(object);
             if (body.containsKey(Constants.TRANSPORTATION)){
                 LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
-                plan.getTransportation().setVehicle(vehicle);
+                TransportUtil.setVehicle(plan.getTransportation(), vehicle);
                 dao.save(plan.getTransportation());
                 updateUtil.onSave(plan.getTransportation());
             }

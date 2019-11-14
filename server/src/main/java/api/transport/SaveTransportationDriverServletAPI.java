@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.Driver;
+import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
@@ -36,28 +37,12 @@ public class SaveTransportationDriverServletAPI extends ServletAPI {
             Transportation transportation = loadPlan.getTransportation();
 
             comparator.fix(transportation);
-            long driverId = -1;
+            Driver driver = null;
             if (body.containsKey(Constants.DRIVER_ID)){
-                driverId = (long) body.get(Constants.DRIVER_ID);
+                driver = dao.getObjectById(Driver.class, body.get(Constants.DRIVER_ID));
             }
-            if (driverId != -1) {
-                Driver driver = dao.getDriverByID(driverId);
-                if (driver.getVehicle() == null) {
-                    Vehicle vehicle = transportation.getVehicle();
-                    if(vehicle != null) {
-                        driver.setVehicle(vehicle);
-                        dao.save(driver);
-                    }
-                }
-                transportation.setDriver(driver);
-                if (transportation.getVehicle() == null) {
-                    if (driver.getVehicle() != null) {
-                        transportation.setVehicle(driver.getVehicle());
-                    }
-                }
-            } else {
-                transportation.setDriver(null);
-            }
+
+            TransportUtil.setDriver(transportation, driver);
 
             dao.save(transportation);
             updateUtil.onSave(transportation);

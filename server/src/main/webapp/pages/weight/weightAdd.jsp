@@ -43,7 +43,7 @@
         value:'${unit.name}'
     });
     </c:forEach>
-    <c:forEach items="${documentOrganisations}" var="shipper">
+    <c:forEach items="${shippers}" var="shipper">
     editor.visibles.push(
         '${shipper.value}'
     );
@@ -250,18 +250,16 @@
             :
         </td>
         <td>
-            <select id="deal" style="width: 100%" v-model="plan.deal"  v-on:change="setQuantity()">
+            <select id="deal" style="width: 300px" v-model="plan.deal"  v-on:change="setQuantity()">
                 <option value="-1"><fmt:message key="deal.new"/></option>
-                <optgroup v-for="deal in deals" :label="new Date(deal.date).toLocaleDateString().substring(0, 5) + '-' + new Date(deal.date_to).toLocaleDateString().substring(0, 5)">
-                    <option :value="deal.id">
-                        {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}
-                    </option>
-                </optgroup>
+                <option :value="deal.id" v-for="deal in deals">
+                    {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}
+                </option>
             </select>
         </td>
     </tr>
     <%--PRODUCT--%>
-    <tr>
+    <tr v-if="plan.deal == -1">
         <td>
             <label for="product">
                 <fmt:message key="deal.product"/>

@@ -8,6 +8,7 @@ import entity.log.comparators.TransportationComparator;
 import entity.organisations.Organisation;
 import entity.transport.ActionTime;
 import entity.transport.Driver;
+import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -104,7 +105,7 @@ public class SaveDriverServletAPI extends ServletAPI {
             if (transportationId != -1) {
                 Transportation transportation = dao.getTransportationById(transportationId);
                 comparator.fix(transportation);
-                transportation.setDriver(driver);
+                TransportUtil.setDriver(transportation, driver);
                 dao.saveTransportation(transportation);
                 comparator.compare(transportation, getWorker(req));
                 log.info("Put in transportation " + transportation.getId());

@@ -1,10 +1,8 @@
 package entity.transport;
 
-import api.warehousing.WarehousingEditAPI;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
-import entity.documents.Shipper;
 import entity.laboratory.SunAnalyses;
 import entity.products.Product;
 import entity.storages.Storage;
@@ -21,7 +19,6 @@ import utils.storages.StorageUtil;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by quasilin on 18.03.2019.
@@ -160,5 +157,27 @@ public class TransportUtil{
 
         dao.save(tsu);
         storageUtil.updateStorageEntry(tsu);
+    }
+
+    public static void setVehicle(Transportation transportation, Vehicle vehicle) {
+        transportation.setVehicle(vehicle);
+        Driver driver = transportation.getDriver();
+        if (driver != null){
+            if (driver.getVehicle() == null){
+                driver.setVehicle(vehicle);
+                dao.save(driver);
+            }
+        }
+    }
+
+    public static void setDriver(Transportation transportation, Driver driver) {
+        if(driver != null) {
+            transportation.setDriver(driver);
+            if (driver.getVehicle() != null && transportation.getVehicle() == null) {
+                setVehicle(transportation, driver.getVehicle());
+            }
+        } else {
+            transportation.setDriver(null);
+        }
     }
 }

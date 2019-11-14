@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
+import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
@@ -35,7 +36,7 @@ public class ParseAndPutVehicleServletAPI extends ServletAPI {
             LoadPlan loadPlanById = dao.getLoadPlanById(body.get("transportation"));
             Transportation transportation = loadPlanById.getTransportation();
             transportationComparator.fix(transportation);
-            transportation.setVehicle(vehicle);
+            TransportUtil.setVehicle(transportation, vehicle);
             dao.saveTransportation(transportation);
             updateUtil.onSave(transportation);
             transportationComparator.compare(transportation, getWorker(req));

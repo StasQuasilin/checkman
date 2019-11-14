@@ -58,6 +58,7 @@ public class IServlet extends HttpServlet {
     public static final String STORAGES = "storages";
     public static final String SHIPPER = "shipper";
     public static final String SHIPPERS = "shippers";
+    public static final String UNITS = "units";
     public static final String PROTEIN = "protein";
     public static final String IN = "in";
     public static final String OUT = "out";

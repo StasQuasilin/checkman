@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.Driver;
+import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
@@ -35,7 +36,7 @@ public class ParseAndPutDriverServletAPI extends ServletAPI {
             LoadPlan loadPlanById = dao.getLoadPlanById(body.get("transportation"));
             Transportation transportation = loadPlanById.getTransportation();
             transportationComparator.fix(transportation);
-            transportation.setDriver(driver);
+            TransportUtil.setDriver(transportation, driver);
             dao.saveTransportation(transportation);
             updateUtil.onSave(transportation);
             transportationComparator.compare(transportation, getWorker(req));

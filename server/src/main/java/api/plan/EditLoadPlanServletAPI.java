@@ -173,23 +173,14 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                 if (vehicleJson != null){
                     Vehicle vehicle = null;
                     if (vehicleJson.containsKey(Constants.ID)) {
-                        long vehicleId = (long) vehicleJson.get("id");
-                        if (vehicleId > 0) {
-                            vehicle = dao.getVehicleById(vehicleId);
-                        } else if (vehicleId == 0){
-                            vehicle = new Vehicle();
-                            vehicle.setModel(String.valueOf(vehicleJson.get("model")));
-                            vehicle.setNumber(String.valueOf(vehicleJson.get("number")));
-                            vehicle.setTrailer(String.valueOf(vehicleJson.get("trailer")));
-                            dao.save(vehicle);
-                        }
-                    }
-                    if (vehicle != null) {
-                        transportation.setVehicle(vehicle);
-                    } else if (transportation.getVehicle() != null) {
-                        transportation.setVehicle(null);
-                    }
+                        long vehicleId = (long) vehicleJson.get(ID);
 
+                        if (vehicleId > 0) {
+                            vehicle = dao.getObjectById(Vehicle.class, vehicleId);
+                        }
+
+                    }
+                    TransportUtil.setVehicle(transportation, vehicle);
                 }
 
                 JSONObject driverJson = (JSONObject) body.get("driver");
@@ -211,11 +202,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                             dao.save(person, driver);
                         }
                     }
-                    if (driver != null) {
-                        transportation.setDriver(driver);
-                    } else if (transportation.getDriver() != null) {
-                        transportation.setDriver(null);
-                    }
+                    TransportUtil.setDriver(transportation, driver);
                 }
                 transportation.setCreator(creator);
             }

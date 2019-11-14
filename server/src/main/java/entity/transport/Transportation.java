@@ -87,7 +87,7 @@ public class Transportation {
     public Vehicle getVehicle() {
         return vehicle;
     }
-    public void setVehicle(Vehicle vehicle) {
+    void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
 
@@ -96,7 +96,7 @@ public class Transportation {
     public Driver getDriver() {
         return driver;
     }
-    public void setDriver(Driver driver) {
+    void setDriver(Driver driver) {
         this.driver = driver;
     }
 

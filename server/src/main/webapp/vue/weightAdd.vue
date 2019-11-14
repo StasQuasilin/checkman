@@ -95,6 +95,10 @@ var editor = new Vue({
         cancelOrganisation:function(){
             this.plan.organisation = -1;
             this.input.organisation = '';
+            this.plan.type = -1;
+            this.plan.deal = -1;
+            this.plan.product = -1;
+            this.deals = [];
         },
         productList:function(){
             if (this.plan.deal == -1){
@@ -200,14 +204,17 @@ var editor = new Vue({
             const self = this;
             PostApi(this.api.findDeals, {organisation:id}, function(a){
                 self.deals = a;
-                var now = new Date(self.plan.date);
-                for (var i in a){
-                    if (a.hasOwnProperty(i)){
-                        var deal = a[i];
-                        var from = new Date(deal.date);
-                        var to = new Date(deal.date_to);
-                        if (now >= from && now <= to){
-                            self.plan.deal = deal.id;
+                if(a.length > 0) {
+                    self.plan.deal = a[0].id;
+                    var now = new Date(self.plan.date);
+                    for (var i in a) {
+                        if (a.hasOwnProperty(i)) {
+                            var deal = a[i];
+                            var from = new Date(deal.date);
+                            var to = new Date(deal.date_to);
+                            if (now >= from && now <= to) {
+                                self.plan.deal = deal.id;
+                            }
                         }
                     }
                 }

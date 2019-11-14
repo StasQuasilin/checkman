@@ -63,10 +63,10 @@ public class WeightAdd extends IModal {
 
         req.setAttribute(SAVE, Branches.API.PLAN_LIST_ADD);
         req.setAttribute(PRODUCTS, dao.getProductList());
-        req.setAttribute("units", dao.getUnitsList());
-        req.setAttribute("documentOrganisations", dao.getShipperList());
-        req.setAttribute("types", DealType.values());
-        req.setAttribute("customers", TransportCustomer.values());
+        req.setAttribute(UNITS, dao.getUnitsList());
+        req.setAttribute(SHIPPERS, dao.getShipperList());
+        req.setAttribute(TYPES, DealType.values());
+        req.setAttribute(CUSTOMERS, TransportCustomer.values());
         show(req, resp);
     }
 }
