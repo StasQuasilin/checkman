@@ -15,55 +15,66 @@
     };
     referenceList.api.update='${update}';
     referenceList.api.edit='${edit}';
+    referenceList.api.collapse = '${collapse}';
     referenceList.update();
 </script>
 <style>
-    .selectable:hover{
-        background-color: coral;
+    .block{
+        display: inline-flex;
+        margin: 2pt 4pt;
+        border: solid darkslategray 1pt;
+        padding: 0 2pt;
+        background-color: lightgray;
+    }
+    .selected{
+        background-color: lightsalmon;
     }
 </style>
-<div id="referencesList" style="width: 100%">
+<div id="referencesList" style="width: 100%; position: relative">
+    <div style="position: fixed; background-color: white; padding: 2pt 4pt">
+        <template v-if="selected.length > 1">
+            <a v-if="api.collapse" v-on:click="collapse">
+                <fmt:message key="collapse"/> ( {{selected.length}} )
+            </a>
+
+        </template>
+    </div>
     <table width="100%">
-        <tr>
-            <th width="20%">
-                <fmt:message key="person.surname"/>
-            </th>
-            <th width="20%">
-                <fmt:message key="person.forename"/>
-            </th>
-            <th width="20%">
-                <fmt:message key="person.patronymic"/>
-            </th>
-            <th width="40%">
-                <fmt:message key="transportation.automobile"/>
-            </th>
-            <th>
-                <fmt:message key="transportation.transporter"/>
-            </th>
-        </tr>
-        <tr v-for="driver in items" class="selectable" v-on:click="edit(driver.id)">
-            <td>
-                {{driver.person.surname}}
-            </td>
-            <td>
-                {{driver.person.forename}}
-            </td>
-            <td>
-                {{driver.person.patronymic}}
-            </td>
-            <td>
-                <span v-if="driver.vehicle.id">
-                    {{driver.vehicle.model}}
-                    '{{driver.vehicle.number}}'
-                    {{driver.vehicle.trailer}}
-                </span>
-            </td>
-            <td>
-                <span v-if="driver.vehicle.id">
-                    {{driver.vehicle.transporter}}
-                </span>
-            </td>
-        </tr>
+        <template v-for="key in getKeys()">
+            <tr>
+                <td>
+                    <span style="font-size: 18pt; font-weight: bold">
+                        {{key}}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div v-for="driver in items[key]" class="block" :class="{selected : driver.selected}">
+                        <div v-on:click="onClick(driver)">
+                            <div>
+                                <b>
+                                    {{driver.person.surname}}
+                                    {{driver.person.forename}}
+                                    {{driver.person.patronymic}}
+                                </b>
+                            </div>
+                            <div style="font-size: 10pt" v-if="driver.license">
+                                <fmt:message key="driver.license"/>:
+                                <b>
+                                    {{driver.license}}
+                                </b>
+                            </div>
+                            <div v-if="driver.vehicle">
+                                {{driver.vehicle.model}}
+                                {{driver.vehicle.number}}
+                                {{driver.vehicle.trailer}}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </template>
     </table>
 </div>
 </html>

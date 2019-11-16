@@ -12,7 +12,7 @@
     editor.vehicleId = ${vehicle.id}
     editor.vehicleModel = '${vehicle.model}';
     editor.vehicleNumber = '${vehicle.number}';
-    editor.vehicleTrailer = '${vehicle.trailer}';
+    editor.vehicleTrailer = '${vehicle.trailerNumber}';
     <c:if test="${not empty vehicle.transporter}">
         editor.transporterId = ${vehicle.transporter.id};
         editor.transporterInput = ${vehicle.transporter.value}

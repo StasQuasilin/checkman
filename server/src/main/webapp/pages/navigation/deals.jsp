@@ -22,11 +22,16 @@
       </span>
     </li>
     <li class="menu-item">
-  <span class="main" onclick="loadContent('${summaryList}')">
-    <fmt:message key="consolidated.table"/>
-  </span>
-  <span>
-    <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
-  </span>
+      <span class="main" onclick="loadContent('${summaryList}')">
+        <fmt:message key="consolidated.table"/>
+      </span>
+      <span>
+        <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
+      </span>
+    </li>
+    <li class="menu-item" onclick="loadContent('${referencesList}')">
+        <span class="main">
+          <fmt:message key="menu.references"/>
+        </span>
     </li>
 </ul>

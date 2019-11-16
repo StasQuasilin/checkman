@@ -218,25 +218,25 @@ VALUES (
 
 
 
-INSERT INTO public.vehicles (id, model, number, trailer, transporter) VALUES (
+INSERT INTO public.vehicles (id, model, number, trailer_number, transporter) VALUES (
   50, 'ДАФ',	'АМ 58-96 АА',	'АВ 55-98 АА', NULL
 );
-INSERT INTO public.vehicles (id, model, number, trailer, transporter) VALUES (
+INSERT INTO public.vehicles (id, model, number, trailer_number, transporter) VALUES (
   82,	'ДАФ',	'ВМ 14-58 ОО',	'АА 45-85', 	NULL
 );
-INSERT INTO public.vehicles (id, model, number, trailer, transporter) VALUES (
+INSERT INTO public.vehicles (id, model, number, trailer_number, transporter) VALUES (
   83,	NULL,	'ВМ 47-55 АП', NULL, NULL
 );
-INSERT INTO public.vehicles (id, model, number, trailer, transporter) VALUES (
+INSERT INTO public.vehicles (id, model, number, trailer_number, transporter) VALUES (
   110, NULL,	'АХ 76-54 ВК', NULL, NULL
 );
-INSERT INTO public.vehicles (id, model, number, trailer, transporter) VALUES (
+INSERT INTO public.vehicles (id, model, number, trailer_number, transporter) VALUES (
   111,	NULL,	'АХ 76-54 ВК', NULL, NULL
 );
-INSERT INTO public.vehicles (id, model, number, trailer, transporter) VALUES (
+INSERT INTO public.vehicles (id, model, number, trailer_number, transporter) VALUES (
   122,	NULL,	'АХ 56-89 УВ', NULL, NULL
 );
-INSERT INTO public.vehicles (id, model, number, trailer, transporter) VALUES (
+INSERT INTO public.vehicles (id, model, number, trailer_number, transporter) VALUES (
   146,	NULL,	'DV 458-56 JK',	'GH 45-86 JH', NULL
 );
 

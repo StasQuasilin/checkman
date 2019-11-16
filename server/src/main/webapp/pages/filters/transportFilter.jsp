@@ -95,22 +95,6 @@
         </tr>
         <tr>
             <td colspan="2">
-                <label for="vehicle">
-                    <fmt:message key="transportation.automobile"/>
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <select id="vehicle" v-model="vehicle" style="width: 100%">
-                    <option value="-1"><fmt:message key="all"/></option>
-                    <option value="0"><fmt:message key="no.data"/> </option>
-                    <option v-for="vehicle in vehicles()" :value="vehicle.id">{{vehicle.model}} '{{vehicle.number}}'</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
                 <label for="driver">
                     <fmt:message key="transportation.driver"/>
                 </label>

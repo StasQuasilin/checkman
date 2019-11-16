@@ -43,6 +43,7 @@ public abstract class JsonAble {
     public static final String ANALYSES = Constants.ANALYSES;
     public static final String VALUE = Constants.VALUE;
     public static final String LICENSE = Constants.LICENSE;
+    public static final String VEHICLE = Constants.VEHICLE;
     public static final String DRIVER = Constants.DRIVER;
     public static final String TRUCK = Constants.TRUCK;
     public static final String MODEL = Constants.MODEL;

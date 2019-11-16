@@ -1,7 +1,8 @@
 package entity.transport;
 
+import entity.JsonAble;
 import entity.organisations.Organisation;
-import utils.U;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -10,11 +11,12 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "vehicles")
-public class Vehicle {
+public class Vehicle extends JsonAble {
     private int id;
     private String model;
     private String number;
-    private String trailer;
+    private Trailer trailer;
+    private String trailerNumber;
     private Organisation transporter;
 
     @Id
@@ -44,13 +46,22 @@ public class Vehicle {
         this.number = number;
     }
 
-    @Basic
-    @Column(name = "trailer")
-    public String getTrailer() {
+    @OneToOne
+    @JoinColumn(name = "trailer")
+    public Trailer getTrailer() {
         return trailer;
     }
-    public void setTrailer(String trailer) {
+    public void setTrailer(Trailer trailer) {
         this.trailer = trailer;
+    }
+
+    @Basic
+    @Column(name = "trailer_number")
+    public String getTrailerNumber() {
+        return trailerNumber;
+    }
+    public void setTrailerNumber(String trailer) {
+        this.trailerNumber = trailer;
     }
 
     @OneToOne
@@ -71,8 +82,8 @@ public class Vehicle {
         if (number != null) {
             hash = 31 * number.hashCode() + hash;
         }
-        if (trailer != null){
-            hash = 31 * trailer.hashCode() + hash;
+        if (trailerNumber != null){
+            hash = 31 * trailerNumber.hashCode() + hash;
         }
         return hash;
     }
@@ -82,11 +93,21 @@ public class Vehicle {
         return
             (model != null ? model : "") +
             (number != null ? " \'" + number + "\'" : "") +
-            (trailer != null ? "\'" + trailer + "\'" : "");
+            (trailerNumber != null ? "\'" + trailerNumber + "\'" : "");
     }
 
     @Override
     public String toString() {
         return getValue();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(MODEL, model);
+        json.put(NUMBER, number);
+        json.put(TRAILER, trailerNumber);
+        return json;
     }
 }

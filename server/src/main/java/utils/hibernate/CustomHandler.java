@@ -1,5 +1,6 @@
 package utils.hibernate;
 
+import entity.Person;
 import entity.documents.Shipper;
 import entity.products.Product;
 import entity.reports.ReportField;
@@ -15,6 +16,7 @@ import utils.DateUtil;
 import utils.U;
 import utils.storages.PointScale;
 import utils.storages.StorageUtil;
+import utils.transport.CollapseUtil;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -33,29 +35,45 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        for (Driver driver : instance.query(Driver.class, null)){
-            if (driver.getVehicle() == null){
-                HashMap<Vehicle, Integer> vehicles = new HashMap<>();
-                for (Transportation transportation : instance.query(Transportation.class, "driver", driver)){
-                    Vehicle vehicle = transportation.getVehicle();
-                    if (vehicle != null){
-                        if (vehicles.containsKey(vehicle)){
-                            vehicles.put(vehicle, vehicles.get(vehicle) + 1);
-                        } else {
-                            vehicles.put(vehicle, 0);
-                        }
+        List<Driver> drivers = instance.query(Driver.class, null);
+//        for (Driver driver : drivers){
+//            Vehicle vehicle = driver.getVehicle();
+//            if (vehicle != null){
+//                instance.save(driver);
+//            }
+//        }
+        ArrayList<Driver> comparable = new ArrayList<>();
+        for (int i = 0; i < drivers.size(); i++){
+
+            Driver driver = drivers.get(i);
+            Person person = driver.getPerson();
+            comparable.clear();
+            comparable.add(driver);
+            for (int j = 0; j < drivers.size(); j++){
+                Driver d = drivers.get(j);
+                Person p = d.getPerson();
+
+                if (driver.getId() != d.getId()){
+                    boolean compare = true;
+
+                    if(!person.getSurname().equals(p.getSurname())){
+                        compare = false;
+                    }
+                    if (U.exist(person.getForename()) && U.exist(p.getForename()) && person.getForename().substring(0, 1).equals(p.getForename().substring(0, 1))){
+                        compare = false;
+                    }
+                    if (U.exist(person.getPatronymic()) && U.exist(p.getPatronymic()) && person.getPatronymic().substring(0, 1).equals(p.getPatronymic().substring(0, 1))){
+                        compare = false;
+                    }
+
+                    if (compare){
+                        comparable.add(d);
+                        drivers.remove(j);
                     }
                 }
-                int max = -1;
-                Vehicle vehicle = null;
-                for (Map.Entry<Vehicle, Integer> entry : vehicles.entrySet()){
-                    if (entry.getValue() > max){
-                        max = entry.getValue();
-                        vehicle = entry.getKey();
-                    }
-                }
-                driver.setVehicle(vehicle);
-                instance.save(driver);
+            }
+            if (comparable.size() > 1) {
+                CollapseUtil.collapse(comparable);
             }
         }
 

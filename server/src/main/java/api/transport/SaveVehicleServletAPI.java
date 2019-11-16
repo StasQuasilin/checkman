@@ -44,8 +44,8 @@ public class SaveVehicleServletAPI extends ServletAPI {
             vehicle.setNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.NUMBER))));
             logger.info("\t...Number: " + vehicle.getNumber());
 
-            vehicle.setTrailer(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.TRAILER))));
-            logger.info("\t...Trailer: " + vehicle.getTrailer());
+            vehicle.setTrailerNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.TRAILER))));
+            logger.info("\t...Trailer: " + vehicle.getTrailerNumber());
 
             dao.save(vehicle);
             updateUtil.onSave(vehicle);

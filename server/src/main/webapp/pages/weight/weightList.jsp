@@ -274,5 +274,12 @@
                 </div>
             </div>
         </c:if>
+        <c:if test="${not empty copy}">
+            <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
+                <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+                    <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
+                </div>
+            </div>
+        </c:if>
     </div>
 </html>

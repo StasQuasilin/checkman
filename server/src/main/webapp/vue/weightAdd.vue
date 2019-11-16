@@ -203,9 +203,11 @@ var editor = new Vue({
         findDeals:function(id){
             const self = this;
             PostApi(this.api.findDeals, {organisation:id}, function(a){
+                console.log(a);
                 self.deals = a;
                 if(a.length > 0) {
                     self.plan.deal = a[0].id;
+                    self.plan.product = a[0].product.id;
                     var now = new Date(self.plan.date);
                     for (var i in a) {
                         if (a.hasOwnProperty(i)) {
@@ -328,12 +330,10 @@ var editor = new Vue({
             });
         },
         putDriver:function(driver){
-            console.log(driver);
             this.plan.driver = driver;
             this.input.driver = '';
             this.foundDrivers = [];
             if (driver.vehicle && this.plan.vehicle.id == -1){
-
                 this.putVehicle(driver.vehicle);
             }
         },

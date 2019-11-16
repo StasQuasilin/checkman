@@ -29,4 +29,9 @@
         <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
       </span>
     </li>
+    <li class="menu-item" onclick="loadContent('${referencesList}')">
+        <span class="main">
+          <fmt:message key="menu.references"/>
+        </span>
+    </li>
 </ul>

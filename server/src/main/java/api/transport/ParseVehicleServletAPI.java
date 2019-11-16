@@ -32,8 +32,12 @@ public class ParseVehicleServletAPI extends ServletAPI {
             String key = String.valueOf(body.get(Constants.KEY));
 
             Vehicle vehicle = VehicleParser.parse(key);
+            if (vehicle.getTrailer() != null){
+                dao.save(vehicle.getTrailer());
+            }
             dao.save(vehicle);
-            JSONObject object = parser.toJson(new SuccessAnswer("vehicle", parser.toJson(vehicle)));
+
+            JSONObject object = parser.toJson(new SuccessAnswer("vehicle", vehicle.toJson()));
             String s = object.toJSONString();
             write(resp, s);
             pool.put(object);

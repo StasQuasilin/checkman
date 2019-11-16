@@ -46,7 +46,9 @@ public class TransportArchive extends IUIServlet {
         req.setAttribute(TITLE, Titles.ARCHIVE + "." + type.toString());
 
         req.setAttribute(TYPES, DealType.values());
+        req.setAttribute("copy", Branches.UI.WEIGHT_ADD);
         req.setAttribute("haveMenu", false);
+
         switch (type){
             case summary:
                 req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");
@@ -75,7 +77,8 @@ public class TransportArchive extends IUIServlet {
                 req.setAttribute("type", type);
                 break;
         }
-
+        req.setAttribute("findOrganisations", Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute("findDrivers", Branches.API.References.FIND_DRIVER);
         req.setAttribute(FILTER, "/pages/filters/archiveFilter.jsp");
         req.setAttribute("products", dao.getProductList());
         req.setAttribute("find", Branches.API.ARCHIVE_FIND);

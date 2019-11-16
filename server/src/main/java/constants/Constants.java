@@ -11,7 +11,6 @@ public class Constants {
     public static final String KEY = "key";
     public static final String DATE = "date";
     public static final String DATE_TO = "dateTo";
-    public static final String ORGANISATION_ID = "organisation_id";
     public static final String DEAL_ID = "dealId";
     public static final String PRODUCT_ID = "product_id";
     public static final String QUANTITY = "quantity";
@@ -21,7 +20,6 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String ORGANISATION = "organisation";
     public static final String TYPE = "type";
-    public static final String VISIBILITY = "visibility";
     public static final String PLAN = "plan";
     public static final String CUSTOMER = "customer";
     public static final String TRANSPORTATION_ID = "transportation_id";
@@ -32,7 +30,6 @@ public class Constants {
     public static final String HASH = "hash";
     public static final String CREATOR = "creator";
     public static final String UNIT = "unit";
-    public static final String CONTRAGENT = "contragent";
     public static final String PRODUCT = "product";
     public static final String REALISATION = "realisation";
     public static final Object ADD = "add";
@@ -65,6 +62,35 @@ public class Constants {
     public static final String SHIPPER = "shipper";
     public static final String AMOUNT = "amount";
     public static final String TURN = "turn";
+    public static final String ARCHIVE = "archive";
+    public static final String FROM = "from";
+    public static final String TO = "to";
+    public static final String NUMBER = "number";
+    public static final String PRODUCTS = "products";
+    public static final String DONE = "done";
+    public static final String ANALYSES = "analyses";
+    public static final String VALUE = "value";
+    public static final String LICENSE = "license";
+    public static final String TRUCK = "truck";
+    public static final String MODEL = "model";
+    public static final String TRAILER = "trailer";
+    public static final String OWNER = "owner";
+    public static final String TRANSPORTER = "transporter";
+    public static final String STATUS = "status";
+    public static final String NETTO = "netto";
+    public static final String ANALYSES_TYPE = "analysesType";
+    public static final String REGISTERED = "registered";
+    public static final String TIME_IN = "timeIn";
+    public static final String TIME_OUT = "timeOut";
+    public static final String MANAGER = "manager";
+    public static final String PERSON = "person";
+    public static final String NOTE = "note";
+    public static final String NOTES = "notes";
+    public static final String SURNAME = "surname";
+    public static final String FORENAME = "forename";
+    public static final String PATRONYMIC = "patronymic";
+    public static final String PHONES = "phones";
+    public static final String EMPTY_JSON = "{}";
 
 
     public static class Languages {

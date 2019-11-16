@@ -7,7 +7,6 @@ var filter_control = new Vue({
             product:-1,
             organisation:-1,
             driver:-1,
-            vehicle:-1,
             any:function(){
                 return date || product > 0;
             }
@@ -15,12 +14,15 @@ var filter_control = new Vue({
         input:{
             date:new Date().toISOString().substring(0, 10),
             organisation:'',
-            driver:'',
-            vehicle:''
+            driver:''
         },
         productList:[],
         items:[],
-        result:null
+        foundOrganisations:[],
+        foundDrivers:[],
+        result:[],
+        fnd:-1
+
     },
     computed:{
         filterDate:function(){
@@ -33,40 +35,53 @@ var filter_control = new Vue({
             this.filter.product = -1;
             this.closeOrganisation();
             this.filter.driver = -1;
-            this.filter.vehicle = -1;
-            this.result = null;
         },
         pickDate:function(){
             const self = this;
             datepicker.show(function(date){
                 self.filter.date = self.input.date = date;
-                self.find();
             }, self.input.date)
         },
         findOrganisation:function(){
+            clearTimeout(this.fnd);
+            const self = this;
+            if (this.input.organisation) {
+                this.fnd = setTimeout(function () {
+                    PostApi(self.api.findOrganisations, {key: self.input.organisation}, function (a) {
+                        self.foundOrganisations = a;
+                    })
+                }, 300);
+            } else{
+                this.foundOrganisations = [];
+            }
 
         },
         putOrganisation:function(organisation){
             this.filter.organisation = organisation.id;
             this.input.organisation = organisation.value;
+            this.foundOrganisations = [];
         },
         closeOrganisation:function(){
             this.filter.organisation = -1;
             this.input.organisation = '';
         },
         findDriver:function(){
-
+            clearTimeout(this.fnd);
+            const self = this;
+            if (this.input.driver) {
+                this.fnd = setTimeout(function () {
+                    PostApi(self.api.findDrivers, {key: self.input.driver}, function (a) {
+                        self.foundDrivers = a;
+                    })
+                }, 300);
+            } else{
+                this.foundDrivers = [];
+            }
         },
         putDriver:function(driver){
             this.filter.driver = driver.id;
             this.input.driver = driver.person.value;
-        },
-        findVehicle:function(){
-
-        },
-        putVehicle:function(vehicle){
-            this.filter.vehicle = vehicle.id;
-            this.input.vehicle = vehicle.model + ' \'' + vehicle.number + '\''
+            this.foundDrivers = [];
         },
         find:function(){
             console.log(this.filter);
@@ -82,11 +97,7 @@ var filter_control = new Vue({
             });
         },
         filteredItems:function(){
-            if (this.result){
-                return this.result;
-            } else{
-                return this.items;
-            }
+            return this.result;
         }
     }
 });

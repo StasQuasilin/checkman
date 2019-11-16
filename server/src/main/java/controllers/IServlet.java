@@ -32,6 +32,7 @@ public class IServlet extends HttpServlet {
     public static final String PRINT = "print";
     public static final String SHOW = "show";
     public static final String EDIT = "edit";
+    public static final String COLLAPSE = "collapse";
     public static final String DELETE = "delete";
     public static final String EDIT_STORAGE = "editStorage";
     public static final String TYPES = "types";

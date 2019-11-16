@@ -76,7 +76,7 @@
             id:${plan.transportation.vehicle.id},
             model:'${plan.transportation.vehicle.model}',
             number:'${plan.transportation.vehicle.number}',
-            trailer:'${plan.transportation.vehicle.trailer}'
+            trailer:'${plan.transportation.vehicle.trailerNumber}'
         },
         </c:when>
         <c:otherwise>
@@ -342,6 +342,62 @@
             </select>
         </td>
     </tr>
+        <tr>
+            <td>
+                <label for="driver">
+                    <fmt:message key="transportation.driver"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+            <span v-if="plan.driver.id > -1">
+                {{plan.driver.person.value}}
+                <span v-on:click="editDriver()" class="mini-close flipY" style="padding: 0">
+                  &#9998;
+                </span>
+                <span v-on:click="cancelDriver()" class="mini-close flipY" style="padding: 0">
+                  &times;
+                </span>
+            </span>
+                <div v-else v-on:blur="parseDriver()">
+                <span>
+                    <input id="driver" v-model="input.driver"
+                           v-on:keyup="findDriver()"
+                           v-on:keyup.enter="parseDriver()"
+                           autocomplete="off"
+                           :class="{error : errors.driver}" v-on:click="errors.driver = false"
+                           :title="input.driver">
+                </span>
+                <span v-if="input.driver" style="font-size: 10pt; color: coral;
+                position: absolute; padding: 1pt 4pt; background-color: aliceblue">
+                    <template v-if="foundDrivers.length > 0">
+                        Знайдено {{foundDrivers.length}}
+                        <template v-if="foundDrivers.length % 10 > 0 && foundDrivers.length % 10 < 5">
+                            водія
+                        </template>
+                        <template v-else>
+                            водіїв
+                        </template>
+                    </template>
+                    <template v-else>
+                        Буде додано нового водія!
+                    </template>
+                </span>
+                    <div class="custom-data-list">
+                        <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="putDriver(driver)">
+                            <div>
+                                {{driver.person.value}}
+                            </div>
+                            <div v-if="driver.vehicle">
+                                {{driver.vehicle.value}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
     <tr>
         <td>
             <label for="vehicle">
@@ -393,62 +449,7 @@
             </div>
         </td>
     </tr>
-    <tr>
-        <td>
-            <label for="driver">
-                <fmt:message key="transportation.driver"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <span v-if="plan.driver.id > -1">
-                {{plan.driver.person.value}}
-                <span v-on:click="editDriver()" class="mini-close flipY" style="padding: 0">
-                  &#9998;
-                </span>
-                <span v-on:click="cancelDriver()" class="mini-close flipY" style="padding: 0">
-                  &times;
-                </span>
-            </span>
-            <div v-else v-on:blur="parseDriver()">
-                <span>
-                    <input id="driver" v-model="input.driver"
-                           v-on:keyup="findDriver()"
-                           v-on:keyup.enter="parseDriver()"
-                           autocomplete="off"
-                           :class="{error : errors.driver}" v-on:click="errors.driver = false"
-                           :title="input.driver">
-                </span>
-                <span v-if="input.driver" style="font-size: 10pt; color: coral;
-                position: absolute; padding: 1pt 4pt; background-color: aliceblue">
-                    <template v-if="foundDrivers.length > 0">
-                        Знайдено {{foundDrivers.length}}
-                        <template v-if="foundDrivers.length % 10 > 0 && foundDrivers.length % 10 < 5">
-                            водія
-                        </template>
-                        <template v-else>
-                            водіїв
-                        </template>
-                    </template>
-                    <template v-else>
-                        Буде додано нового водія!
-                    </template>
-                </span>
-                <div class="custom-data-list">
-                    <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="putDriver(driver)">
-                        <div>
-                            {{driver.person.value}}
-                        </div>
-                        <div v-if="driver.vehicle">
-                            {{driver.vehicle.value}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </td>
-    </tr>
+
     <tr>
         <td colspan="3">
             <div>

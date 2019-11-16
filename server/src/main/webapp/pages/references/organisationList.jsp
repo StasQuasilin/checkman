@@ -13,7 +13,7 @@
 <style>
     .block{
         display: inline-flex;
-        margin: 0 4pt;
+        margin: 2pt 4pt;
         border: solid darkslategray 1pt;
         padding: 0 2pt;
         background-color: lightgray;

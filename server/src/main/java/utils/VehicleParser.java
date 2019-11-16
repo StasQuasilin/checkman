@@ -2,6 +2,7 @@ package utils;
 
 import entity.Person;
 import entity.transport.Driver;
+import entity.transport.Trailer;
 import entity.transport.Vehicle;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
@@ -23,7 +24,10 @@ public class VehicleParser {
             if (vehicleData.size() > 1) {
                 vehicle.setNumber(vehicleData.get(1));
                 if (vehicleData.size() > 2){
-                    vehicle.setTrailer(vehicleData.get(2));
+                    Trailer trailer = new Trailer();
+                    trailer.setNumber(vehicleData.get(2));
+                    vehicle.setTrailer(trailer);
+                    vehicle.setTrailerNumber(vehicleData.get(2));
                 }
             }
         }
@@ -40,19 +44,40 @@ public class VehicleParser {
         List<String> personData = Parser.parsePerson(key);
         System.out.println("Data: " + personData);
 
-        Driver driver = new Driver();
-        Person person = new Person();
+
+        Driver driver;
+        Person person;
+        String surname = null;
+        String forename = null;
+        String patronymic = null;
         if(personData.size() > 0) {
-            person.setSurname(personData.get(0));
+            surname = personData.get(0);
             if (personData.size() > 1){
-                person.setForename(personData.get(1));
+                forename = personData.get(1);
                 if(personData.size() > 2){
-                    person.setPatronymic(personData.get(2));
+                    patronymic = personData.get(2);
                 }
             }
         }
 
-        driver.setPerson(person);
+        person = dao.getPersonByName(surname, forename, patronymic);
+        if (person == null){
+            driver = new Driver();
+            person = new Person();
+            person.setSurname(surname);
+            person.setForename(forename);
+            person.setPatronymic(patronymic);
+            driver.setPerson(person);
+            dao.save(person, driver);
+        } else {
+            driver = dao.getDriverByPerson(person);
+            if (driver == null){
+                driver = new Driver();
+                driver.setPerson(person);
+                dao.save(driver);
+            }
+        }
+
         return driver;
     }
 }

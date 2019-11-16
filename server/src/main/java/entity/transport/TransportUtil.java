@@ -160,24 +160,45 @@ public class TransportUtil{
     }
 
     public static void setVehicle(Transportation transportation, Vehicle vehicle) {
-        transportation.setVehicle(vehicle);
-        Driver driver = transportation.getDriver();
-        if (driver != null){
-            if (driver.getVehicle() == null){
-                driver.setVehicle(vehicle);
-                dao.save(driver);
+        if (vehicle != null) {
+            transportation.setVehicle(vehicle);
+            transportation.setTruckNumber(vehicle.getNumber());
+            if (vehicle.getTrailer() != null && transportation.getTrailer() == null) {
+                setTrailer(transportation, vehicle.getTrailer());
             }
+            Driver driver = transportation.getDriver();
+            if (driver != null) {
+                if (driver.getVehicle() == null) {
+                    driver.setVehicle(vehicle);
+                    dao.save(driver);
+                }
+            }
+        } else{
+            transportation.setVehicle(null);
+            transportation.setTruckNumber(null);
+        }
+    }
+
+    public static void setTrailer(Transportation transportation, Trailer trailer) {
+        if (trailer != null){
+            transportation.setTrailer(trailer);
+            transportation.setTrailerNumber(trailer.getNumber());
+        } else {
+            transportation.setTrailer(null);
+            transportation.setTrailerNumber(null);
         }
     }
 
     public static void setDriver(Transportation transportation, Driver driver) {
         if(driver != null) {
             transportation.setDriver(driver);
+            transportation.setDriverLicense(driver.getLicense());
             if (driver.getVehicle() != null && transportation.getVehicle() == null) {
                 setVehicle(transportation, driver.getVehicle());
             }
         } else {
             transportation.setDriver(null);
+            transportation.setDriverLicense(null);
         }
     }
 }

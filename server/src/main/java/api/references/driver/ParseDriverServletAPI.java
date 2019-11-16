@@ -24,8 +24,8 @@ import java.util.List;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.PARSE_PERSON)
-public class ParsePersonServletAPI extends ServletAPI {
-    private static final long serialVersionUID = 8909201810599179679L;
+public class ParseDriverServletAPI extends ServletAPI {
+
     private final UpdateUtil updateUtil = new UpdateUtil();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,11 +33,9 @@ public class ParsePersonServletAPI extends ServletAPI {
         if(body != null) {
             String key = String.valueOf(body.get(Constants.KEY));
             Driver driver = VehicleParser.parseDriver(key);
-            dao.save(driver.getPerson());
-            dao.save(driver);
+
             JSONObject object = parser.toJson(new SuccessAnswer("driver", parser.toJson(driver)));
-            String s = object.toJSONString();
-            write(resp, s);
+            write(resp, object.toJSONString());
             pool.put(object);
             if (body.containsKey(Constants.TRANSPORTATION)){
                 LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));

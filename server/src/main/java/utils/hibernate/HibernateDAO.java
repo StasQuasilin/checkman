@@ -256,8 +256,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<LoadPlan> getDriverList() {
-        return new LinkedList<>();
+    public List<Driver> getDriverList() {
+        return hb.query(Driver.class, "archive", null);
     }
 
     @Override
@@ -387,7 +387,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getTransportationsByDriver(Driver driver) {
-        return hb.query(Transportation.class, "driver/person", driver.getPerson());
+        return hb.query(Transportation.class, "driver", driver);
     }
 
     @Override
@@ -646,9 +646,17 @@ public class HibernateDAO implements dbDAO {
         StringBuilder builder = new StringBuilder();
 
         String trim = key.toString().trim().toUpperCase().replaceAll("  ", " ");
-        for (char c : trim.toCharArray()){
+        char[] chars = trim.toCharArray();
+        int idx = 0;
+        for (char c : chars){
             if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)){
                 builder.append(c);
+            }
+            if (idx < chars.length - 1){
+                char next = chars[++idx];
+                if (Character.isLetter(c) && Character.isDigit(next) || Character.isDigit(c) && Character.isLetter(next)){
+                    builder.append(SPACE);
+                }
             }
         }
 
@@ -664,31 +672,32 @@ public class HibernateDAO implements dbDAO {
             }
         }
 
+        int min = 0;
         String model = trim.split(SPACE)[0];
-
         findVehicle("model", model, ids, vehicles);
 
         trim = trim.replace(model, "").trim();
-        if (U.exist(trim)) {
 
+        if (U.exist(trim)) {
             int size = vehicles.size();
+
             trim = Parser.prettyNumber(trim);
             findVehicle("number", trim, ids, vehicles);
             if (vehicles.size() == size) {
-                findVehicle("trailer", trim, ids, vehicles);
+                findVehicle("trailerNumber", trim, ids, vehicles);
             }
         }
-        int min = 0;
+
         ArrayList<Vehicle> result = new ArrayList<>();
 
         while (vehicles.size() > 0){
+            result.clear();
             for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
                 if (entry.getValue() == min){
                     result.add(0, vehicles.remove(entry.getKey()));
+                } else if (entry.getValue() < min){
+                    vehicles.remove(entry.getKey());
                 }
-            }
-            if (min == 0 && vehicles.size() > 0){
-                result.clear();
             }
             min++;
         }
@@ -929,20 +938,55 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Driver> findDriver(String key) {
-        final Set<Integer> ids = new HashSet<>();
-        final List<Driver> drivers = new LinkedList<>();
+        final HashMap<Integer, Integer> ids = new HashMap<>();
+        final HashMap<Integer, Driver> drivers = new HashMap<>();
 
-        findDriver("person/surname", key, ids, drivers);
-        findDriver("person/forename", key, ids, drivers);
-        findDriver("person/patronymic", key, ids, drivers);
+        String[] split = key.split(SPACE);
+        if (split.length > 0){
+            findDriver("person/surname", split[0], ids, drivers);
+        }
+        int size = drivers.size();
+        if (split.length > 1){
+            findDriver("person/forename", split[1], ids, drivers);
+            if (size == drivers.size()){
+                findDriver("person/forename", split[1].substring(0, 1), ids, drivers);
+            }
+        }
+        if (split.length > 2){
+            size = drivers.size();
+            findDriver("person/patronymic", split[2], ids, drivers);
+            if (size == drivers.size()){
+                findDriver("person/patronymic", split[2].substring(0, 1), ids, drivers);
+            }
+        }
+
+        int min = 0;
+        ArrayList<Driver> result = new ArrayList<>();
+        while (drivers.size() > 0){
+            result.clear();
+            for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
+                if (entry.getValue() == min){
+                    result.add(drivers.remove(entry.getKey()));
+                }
+            }
+            min++;
+        }
 
         ids.clear();
-        return drivers;
+        return result;
     }
 
     @Override
-    public Person getPersonByName(String s) {
-        return hb.get(Person.class, "surname", s);
+    public Person getPersonByName(String surname, String forename, String patronymic) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("surname", surname);
+        if (forename != null){
+            param.put("forename", forename);
+        }
+        if (patronymic != null){
+            param.put("patronymic", patronymic);
+        }
+        return hb.get(Person.class, param);
     }
 
     @Override
@@ -950,15 +994,17 @@ public class HibernateDAO implements dbDAO {
         return hb.get(Driver.class, "person", person);
     }
 
-    private void findDriver(String key, String value, Set<Integer> ids, List<Driver> drivers){
+    private void findDriver(String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, Driver> drivers){
         HashMap<String, String> param = new HashMap<>();
         param.put(key, value);
         param.put("archive", null);
         for (Driver driver : hb.find(Driver.class, param)){
             int id = driver.getId();
-            if (!ids.contains(id)){
-                ids.add(id);
-                drivers.add(driver);
+            if (!ids.containsKey(id)){
+                ids.put(id, 0);
+                drivers.put(id, driver);
+            } else {
+                ids.put(id, ids.get(id) + 1);
             }
         }
     }

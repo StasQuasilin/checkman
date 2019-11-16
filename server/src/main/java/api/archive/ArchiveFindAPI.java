@@ -28,7 +28,7 @@ public class ArchiveFindAPI extends ServletAPI {
     public static final String TRANSPORTATION = Constants.TRANSPORTATION;
     public static final String DATE = TRANSPORTATION + Constants.SLASH + Constants.DATE;
     public static final String DRIVER = TRANSPORTATION + Constants.SLASH + Constants.DRIVER;
-    public static final String ORGANISATION = TRANSPORTATION + Constants.SLASH + Constants.ORGANISATION;
+    public static final String ORGANISATION = TRANSPORTATION + Constants.SLASH + Constants.COUNTERPARTY;
     public static final String PRODUCT = TRANSPORTATION + Constants.SLASH + Constants.PRODUCT;
     public static final String VEHICLE = TRANSPORTATION + Constants.SLASH + Constants.VEHICLE;
     
@@ -56,11 +56,6 @@ public class ArchiveFindAPI extends ServletAPI {
             int productId = Integer.parseInt(String.valueOf(body.get(Constants.PRODUCT)));
             if (productId > 0){
                 parameters.put(PRODUCT, productId);
-            }
-
-            int vehicleId = Integer.parseInt(String.valueOf(body.get(Constants.VEHICLE)));
-            if (vehicleId > 0){
-                parameters.put(VEHICLE, vehicleId);
             }
 
             if (parameters.size() > 0) {

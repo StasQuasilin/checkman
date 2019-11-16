@@ -1,16 +1,19 @@
 package entity.transport;
 
+import entity.JsonAble;
 import entity.organisations.Organisation;
 import entity.Person;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
 @Table(name = "drivers")
-public class Driver {
+public class Driver extends JsonAble{
     private int id;
     private Person person;
     private Organisation organisation;
@@ -86,5 +89,17 @@ public class Driver {
     @Override
     public String toString() {
         return getPerson().getValue();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(PERSON, person.toJson());
+        json.put(LICENSE, license);
+        if (vehicle != null){
+            json.put(VEHICLE, vehicle.toJson());
+        }
+        return json;
     }
 }

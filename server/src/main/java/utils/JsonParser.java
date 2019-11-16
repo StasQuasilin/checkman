@@ -46,7 +46,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import java.util.*;
-import java.sql.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -410,8 +409,8 @@ public class JsonParser {
             json.put(ID, vehicle.getId());
             json.put(MODEL, vehicle.getModel());
             json.put(NUMBER, vehicle.getNumber());
-            if (vehicle.getTrailer() != null){
-                json.put(TRAILER, vehicle.getTrailer());
+            if (vehicle.getTrailerNumber() != null){
+                json.put(TRAILER, vehicle.getTrailerNumber());
             }
         }
         return json;

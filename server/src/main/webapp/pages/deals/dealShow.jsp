@@ -21,7 +21,7 @@
         id:${plan.transportation.vehicle.id},
         model:'${plan.transportation.vehicle.model}',
         number:'${plan.transportation.vehicle.number}',
-        trailer:'${plan.transportation.vehicle.trailer}'
+        trailer:'${plan.transportation.vehicle.trailerNumber}'
       },
       </c:when>
       <c:otherwise>

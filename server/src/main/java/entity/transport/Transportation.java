@@ -28,9 +28,10 @@ public class Transportation {
     private Organisation counterparty;
     private DealType type;
     private Vehicle vehicle;
+    private Trailer trailer;
     private String truckNumber;
     private String trailerNumber;
-    private Organisation transporter;
+    private String transporter;
     private Driver driver;
     private String driverLicense;
     private Shipper shipper;
@@ -96,12 +97,57 @@ public class Transportation {
     }
 
     @OneToOne
+    @JoinColumn(name = "trailer")
+    public Trailer getTrailer() {
+        return trailer;
+    }
+    void setTrailer(Trailer trailer) {
+        this.trailer = trailer;
+    }
+
+    @Basic
+    @Column(name = "truck_number")
+    public String getTruckNumber() {
+        return truckNumber;
+    }
+    void setTruckNumber(String truckNumber) {
+        this.truckNumber = truckNumber;
+    }
+
+    @Basic
+    @Column(name = "trailer_number")
+    public String getTrailerNumber() {
+        return trailerNumber;
+    }
+    void setTrailerNumber(String trailerNumber) {
+        this.trailerNumber = trailerNumber;
+    }
+
+    @Basic
+    @Column(name = "transporter")
+    public String getTransporter() {
+        return transporter;
+    }
+    void setTransporter(String transporter) {
+        this.transporter = transporter;
+    }
+
+    @OneToOne
     @JoinColumn(name = "driver")
     public Driver getDriver() {
         return driver;
     }
     void setDriver(Driver driver) {
         this.driver = driver;
+    }
+
+    @Basic
+    @Column(name = "driver_license")
+    public String getDriverLicense() {
+        return driverLicense;
+    }
+    void setDriverLicense(String driverLicense) {
+        this.driverLicense = driverLicense;
     }
 
     @OneToOne

@@ -11,7 +11,6 @@ var filter_control = new Vue({
         product:-1,
         on:false,
         date:-1,
-        vehicle:-1,
         driver:-1
     },
     mounted:function(){
@@ -26,17 +25,29 @@ var filter_control = new Vue({
             localStorage.setItem('product', this.product);
         },
         organisations:function(){
-            var organisations = {};
-            var items = this.filteredItems();
-            for (var i in items){
+            let organisations = {};
+            let items = this.filtered(this.product, null, this.date, this.driver);
+            for (let i in items){
                 if (items.hasOwnProperty(i)){
-                    var organisation = items[i].item.organisation;
-                    if (organisation[organisation.id] == undefined) {
-                        organisations[organisation.id] = organisation;
+                    let counterparty = items[i].item.organisation;
+                    if (!counterparty[counterparty.id]) {
+                        organisations[counterparty.id] = counterparty;
                     }
                 }
             }
             let res = Object.values(organisations);
+            let found = false;
+            for (let i in res){
+                if (res.hasOwnProperty(i)){
+                    if (res[i].id === this.organisation){
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found){
+                this.organisation = -1;
+            }
             res.sort(function(a, b){
                 return a.value.localeCompare(b.value);
             });
@@ -44,11 +55,11 @@ var filter_control = new Vue({
         },
         products:function() {
             var products = {};
-            var items = this.items;
+            var items = this.filtered(null, this.organisation, this.date, this.driver);
             for (var i in items){
                 if (items.hasOwnProperty(i)){
                     var product = items[i].item.product;
-                    if (products[product.id] == undefined) {
+                    if (!products[product.id]) {
                         products[product.id] = product;
                     }
                 }
@@ -57,7 +68,7 @@ var filter_control = new Vue({
         },
         dates:function(){
             var dates = {};
-            var items = this.items;
+            var items = this.filtered(this.product, this.organisation, null, this.driver);
             for (var i in items){
                 if (items.hasOwnProperty(i)){
                     var date = items[i].item.date;
@@ -68,22 +79,9 @@ var filter_control = new Vue({
             }
             return dates;
         },
-        vehicles:function(){
-            var vehicles = {};
-            var items = this.items;
-            for (var i in items){
-                if (items.hasOwnProperty(i)){
-                    var vehicle = items[i].item.vehicle;
-                    if (vehicle.id != undefined && vehicles[vehicle.id] == undefined){
-                        vehicles[vehicle.id] = vehicle;
-                    }
-                }
-            }
-            return vehicles;
-        },
         drivers:function(){
             let drivers = {};
-            let items = this.filteredItems();
+            let items = this.filtered(this.product, this.organisation, this.date, null);
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     var driver = items[i].item.driver;
@@ -98,24 +96,30 @@ var filter_control = new Vue({
             });
             return result;
         },
-        filteredItems:function(){
+        filtered:function(product, counterparty, date, driver){
             const self = this;
-            return this.items.filter(function(item){
-                var byVehicle = self.vehicle == -1 ||
-                    (self.vehicle == 0 && item.item.vehicle.id == undefined) ||
-                    (item.item.vehicle.id == self.vehicle);
-                var byDriver = self.driver == -1 ||
-                    (self.driver == 0 && item.item.driver.id == undefined) ||
-                    (item.item.driver.id == self.driver);
-                var on = true;
-                if (self.on){
-                    on = item.item.timeIn.time && !item.item.timeOut.time;
+            return this.items.filter(function (item){
+                let byProduct = true;
+                if (product && product != -1){
+                    byProduct = item.item.product.id === product;
                 }
-                return (self.type == -1 || item.item.type == self.type) & on &
-                    (self.organisation == -1 || item.item.organisation.id == self.organisation) &
-                    (self.product == -1 || item.item.product.id == self.product) &
-                    (self.date == -1 || item.item.date === self.date) & byVehicle & byDriver;
-            })
+                let byCounterparty = true;
+                if (counterparty && counterparty != -1){
+                    byCounterparty = item.item.counterparty.id === counterparty;
+                }
+                let byDate = true;
+                if (date && date != -1){
+                    byDate = item.item.date === date;
+                }
+                let byDriver = true;
+                if (driver && driver != -1 && item.item.driver.id){
+                    byDriver = item.item.driver.id === driver;
+                }
+                return byProduct & byCounterparty & byDate & byDriver;
+            });
+        },
+        filteredItems:function(){
+            return this.filtered(this.product, this.organisation, this.date, this.driver);
         },
         clear:function(){
             this.type = -1;
@@ -123,7 +127,6 @@ var filter_control = new Vue({
             this.organisation = -1;
             this.on = false;
             this.date = -1;
-            this.vehicle = -1;
             this.driver = -1;
         }
     }

@@ -4,8 +4,6 @@ import constants.Branches;
 import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
-import entity.documents.LoadPlan;
-import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -49,8 +47,8 @@ public class EditVehicle extends IModal {
                         vehicle.setNumber((strings.get(1)));
                         log.info("\t...Number: " + vehicle.getNumber());
                         if (strings.size() > 2) {
-                            vehicle.setTrailer((strings.get(2)));
-                            log.info("\t...Trailer: " + vehicle.getTrailer());
+                            vehicle.setTrailerNumber((strings.get(2)));
+                            log.info("\t...Trailer: " + vehicle.getTrailerNumber());
                         }
                     }
                 }
@@ -64,7 +62,7 @@ public class EditVehicle extends IModal {
                     vehicle.setNumber(String.valueOf(body.get("number")));
                 }
                 if (body.containsKey("trailer")){
-                    vehicle.setTrailer(String.valueOf(body.get("trailer")));
+                    vehicle.setTrailerNumber(String.valueOf(body.get("trailer")));
                 }
             }
         } else {

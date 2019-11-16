@@ -1,5 +1,6 @@
 package entity;
 
+import org.json.simple.JSONObject;
 import utils.U;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "persons")
-public class Person {
+public class Person extends JsonAble{
     private int id;
     private String forename;
     private String surname;
@@ -90,5 +91,16 @@ public class Person {
     @Transient
     public String getAccost() {
         return forename + " " + patronymic;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(SURNAME, surname);
+        json.put(FORENAME, forename);
+        json.put(PATRONYMIC, patronymic);
+
+        return json;
     }
 }

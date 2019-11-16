@@ -162,7 +162,7 @@ public class Notificator {
                     if (!messages.containsKey(language)){
                         String corr = correction > 0 ? String.format(lb.get(CORRECTION), correction) + NEW_LINE : "";
                         messages.put(language, prepareMessage(transportation) + NEW_LINE +
-                            (analyses.isContamination() ? "❗ Заражено шкідниками ❗" : "") +
+                            (analyses.isContamination() ? "❗ Заражено шкідниками ❗" + NEW_LINE : "") +
                             String.format(lb.get(HUMIDITY_1), analyses.getHumidity1()) + NEW_LINE +
                                 (analyses.getHumidity2() > 0 ? String.format(lb.get(HUMIDITY_2), analyses.getHumidity2()) + NEW_LINE : "") +
                             String.format(lb.get(SORENESS), analyses.getSoreness()) + NEW_LINE +

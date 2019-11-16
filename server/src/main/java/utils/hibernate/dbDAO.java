@@ -77,7 +77,7 @@ public interface dbDAO {
     LoadPlan getLoadPlanById(Object id);
     void saveLoadPlan(LoadPlan plan);
     List<ChangeLog> getLogs(String uid);
-    List<LoadPlan> getDriverList();
+    List<Driver> getDriverList();
     void savePerson(Person person);
     Person getPersonById(Object personId);
     void saveWorker(Worker worker, User user);
@@ -176,7 +176,7 @@ public interface dbDAO {
     TransportationNote getTransportationNotesById(Object id);
     List<Turn> getTurnsBetween(LocalDate from, LocalDate to);
     List<Deal> getDealsByType(DealType type);
-    Person getPersonByName(String s);
+    Person getPersonByName(String surname, String forename, String patronymic);
     Driver getDriverByPerson(Person person);
     List<Transportation> getTransportationsByType(DealType type);
     List<LoadPlan> getLoadPlans();

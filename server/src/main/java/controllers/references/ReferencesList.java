@@ -34,12 +34,13 @@ public class ReferencesList extends IUIServlet {
                 case drivers:
                     req.setAttribute("referenceContent", "driverList.jsp");
                     req.setAttribute("update", Branches.API.References.DRIVER_LIST);
-                    req.setAttribute("edit", Branches.UI.References.DRIVER_EDIT);
+                    req.setAttribute(EDIT, Branches.UI.References.DRIVER_EDIT);
+                    req.setAttribute(COLLAPSE, Branches.UI.DRIVER_COLLAPSE);
                     break;
                 case organisations:
                     req.setAttribute("referenceContent", "organisationList.jsp");
                     req.setAttribute("update", Branches.API.References.ORGANISATION_LIST);
-                    req.setAttribute("edit", Branches.UI.References.ORGANISATION_EDIT);
+                    req.setAttribute(EDIT, Branches.UI.References.ORGANISATION_EDIT);
                     break;
                 case products:
                     req.setAttribute("referenceContent", "productList.jsp");
