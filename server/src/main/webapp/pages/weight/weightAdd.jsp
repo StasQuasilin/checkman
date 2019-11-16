@@ -365,7 +365,7 @@
                 <span>
                     <input id="driver" v-model="input.driver"
                            v-on:keyup="findDriver()"
-                           v-on:keyup.enter="parseDriver()"
+
                            autocomplete="off"
                            :class="{error : errors.driver}" v-on:click="errors.driver = false"
                            :title="input.driver">
@@ -381,18 +381,24 @@
                             водіїв
                         </template>
                     </template>
-                    <template v-else>
-                        Буде додано нового водія!
-                    </template>
                 </span>
-                    <div class="custom-data-list">
+                    <div class="custom-data-list" v-if="foundDrivers.length > 0 || input.driver">
                         <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="putDriver(driver)">
                             <div>
-                                {{driver.person.value}}
+                                {{driver.person.surname}}
+                                {{driver.person.forename}}
+                                {{driver.person.patronymic}}
                             </div>
                             <div v-if="driver.vehicle">
-                                {{driver.vehicle.value}}
+                                {{driver.vehicle.model}}
+                                {{driver.vehicle.number}}
+                                {{driver.vehicle.trailer}}
                             </div>
+                        </div>
+                        <div v-on:click="parseDriver()" class="custom-data-list-item" >
+                            <b>
+                                + <fmt:message key="button.add"/>
+                            </b>
                         </div>
                     </div>
                 </div>
@@ -425,7 +431,7 @@
                        :title="input.vehicle" style=" width: 90%;">
                 </span>
                 <span v-if="input.vehicle" style="font-size: 10pt; color: coral;
-                position: absolute; padding: 1pt 4pt; background-color: aliceblue">
+                    position: absolute; padding: 1pt 4pt; background-color: aliceblue">
                     <template v-if="foundVehicles.length > 0">
                         Знайдено {{foundVehicles.length}}
                         <template v-if="foundVehicles.length % 10 > 0 && foundVehicles.length % 10 < 5">

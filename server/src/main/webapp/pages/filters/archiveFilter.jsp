@@ -101,7 +101,13 @@
                     </a>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <span style="font-size: 10pt">
+                        <fmt:message key="items.count"/>: {{result.length}}
+                    </span>
+                </td>
+            </tr>
         </table>
     </div>
-
 </html>

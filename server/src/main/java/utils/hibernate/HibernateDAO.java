@@ -54,6 +54,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by szpt_user045 on 24.06.2019.
@@ -944,20 +945,27 @@ public class HibernateDAO implements dbDAO {
         String[] split = key.split(SPACE);
         if (split.length > 0){
             findDriver("person/surname", split[0], ids, drivers);
+            if (drivers.size() == 0){
+                char[] chars = split[0].toCharArray();
+                for (int i = 1; i < chars.length; i++){
+                    StringBuilder builder = new StringBuilder();
+                    for (int j = 0 ; j < i; j++){
+                        builder.append(chars[j]);
+                    }
+                    findDriver("person/surname", builder.toString(), ids, drivers);
+                }
+            }
+            for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
+                ids.put(entry.getKey(), ids.get(entry.getKey()) + 2);
+            }
         }
-        int size = drivers.size();
-        if (split.length > 1){
+        if (split.length > 1) {
             findDriver("person/forename", split[1], ids, drivers);
-            if (size == drivers.size()){
-                findDriver("person/forename", split[1].substring(0, 1), ids, drivers);
-            }
+            findDriver("person/forename", split[1].substring(0, 1), ids, drivers);
         }
-        if (split.length > 2){
-            size = drivers.size();
+        if (split.length > 2) {
             findDriver("person/patronymic", split[2], ids, drivers);
-            if (size == drivers.size()){
-                findDriver("person/patronymic", split[2].substring(0, 1), ids, drivers);
-            }
+            findDriver("person/patronymic", split[2].substring(0, 1), ids, drivers);
         }
 
         int min = 0;
@@ -967,6 +975,7 @@ public class HibernateDAO implements dbDAO {
             for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
                 if (entry.getValue() == min){
                     result.add(drivers.remove(entry.getKey()));
+
                 }
             }
             min++;

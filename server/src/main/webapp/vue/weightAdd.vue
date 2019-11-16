@@ -294,6 +294,7 @@ var editor = new Vue({
                         if (d.driver){
                             self.plan.driver = d.driver;
                             self.input.driver = '';
+                            self.foundDrivers = [];
                         } else {
                             console.log('Ahtung!!! Driver not set')
                         }
