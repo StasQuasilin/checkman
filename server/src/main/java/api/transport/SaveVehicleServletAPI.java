@@ -3,6 +3,7 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.transport.Trailer;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -46,6 +47,14 @@ public class SaveVehicleServletAPI extends ServletAPI {
 
             vehicle.setTrailerNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.TRAILER))));
             logger.info("\t...Trailer: " + vehicle.getTrailerNumber());
+
+            Trailer trailer = vehicle.getTrailer();
+            if (trailer == null){
+                trailer = new Trailer();
+            }
+            trailer.setNumber(vehicle.getTrailerNumber());
+            dao.save(trailer);
+            vehicle.setTrailer(trailer);
 
             dao.save(vehicle);
             updateUtil.onSave(vehicle);

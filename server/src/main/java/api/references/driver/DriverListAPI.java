@@ -25,7 +25,7 @@ public class DriverListAPI extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, ArrayList<Driver>> drivers = new HashMap<>();
-        for (Driver driver : dao.getDriverList()){
+        for (Driver driver : dao.getObjects(Driver.class)){
             String sub = U.exist(driver.getPerson().getSurname()) ? driver.getPerson().getSurname().substring(0, 1) : CHAR;
             if (!drivers.containsKey(sub)){
                 drivers.put(sub, new ArrayList<>());

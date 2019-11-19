@@ -4,7 +4,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
@@ -12,34 +11,34 @@
   <script src="${context}/vue/logisticList.vue"></script>
   <script>
     <c:forEach items="${dealTypes}" var="type">
-    logistic.types['${type}'] = '<fmt:message key="_${type}"/>';
+    list.types['${type}'] = '<fmt:message key="_${type}"/>';
     </c:forEach>
-    logistic.api.saveVehicle = '${saveVehicle}';
-    logistic.api.saveDriver = '${saveDriver}';
-    logistic.api.parseVehicle = '${parseVehicle}';
-    logistic.api.parseDriver = '${parseDriver}';
-    logistic.api.findVehicle = '${findVehicle}';
-    logistic.api.findDriver = '${findDriver}';
-    logistic.api.editVehicle = '${editVehicle}';
-    logistic.api.editDriver = '${editDriver}';
-    logistic.api.vehicleInput = '${vehicleInput}';
-    logistic.api.driverInput = '${driverInput}';
-    logistic.api.saveNote = '${saveNote}';
-    logistic.api.removeNote = '${removeNote}';
-    logistic.api.vehicleDriverInput = '${vehicleDriverInput}';
-    logistic.api.changeDate = '${changeDate}'
-    logistic.api.update = '${update}';
-    logistic.api.save = '${save}';
-    logistic.customers=[];
-    logistic.customers['szpt'] = 'СЗПТ';
-    logistic.customers['contragent'] = 'Контрагент';
-    logistic.worker={
+    list.api.saveVehicle = '${saveVehicle}';
+    list.api.saveDriver = '${saveDriver}';
+    list.api.parseVehicle = '${parseVehicle}';
+    list.api.parseDriver = '${parseDriver}';
+    list.api.findVehicle = '${findVehicle}';
+    list.api.findDriver = '${findDriver}';
+    list.api.editVehicle = '${editVehicle}';
+    list.api.editDriver = '${editDriver}';
+    list.api.vehicleInput = '${vehicleInput}';
+    list.api.driverInput = '${driverInput}';
+    list.api.saveNote = '${saveNote}';
+    list.api.removeNote = '${removeNote}';
+    list.api.vehicleDriverInput = '${vehicleDriverInput}';
+    list.api.changeDate = '${changeDate}'
+    list.api.update = '${update}';
+    list.api.save = '${save}';
+    list.customers=[];
+    list.customers['szpt'] = 'СЗПТ';
+    list.customers['contragent'] = 'Контрагент';
+    list.worker={
       id:${worker.id},
       value:'${worker.person.value}'
     }
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
-      logistic.handler(a);
+      list.handler(a);
     });
     </c:forEach>
     stopContent = function(){
@@ -67,8 +66,8 @@
       <div v-for="(value, key) in getItems()" class="container-item"
            :class="['container-item-' + new Date(value.item.date).getDay(),
            { 'logistic-loading': value.item.timeIn.id && !value.item.timeOut.id }]"
-           :key="value.item.id" :id="value.item.id" v-on:click.right="contextMenu(value.item.id)">
-        <div class="upper-row">
+           :key="value.item.id" :id="value.item.id" v-on:click.right="contextMenu(value.item)">
+        <div class="upper-row" style="font-size: 11pt">
         <span class="date-container">
           <span title="${dateLeft}" class="arrow" v-on:click="changeDate(key, -1)">&#9664;</span>
           <span>
@@ -85,7 +84,6 @@
         <span>
           <fmt:message key="deal.product"/>:
           <b>
-            {{(types[value.item.type]).toLowerCase()}}
             {{value.item.product.name}},
           </b>
         </span>
@@ -123,7 +121,7 @@
             </span>
             </div>
           </div>
-          <div style="display: inline-block; width: 340pt">
+          <div style="display: inline-block; width: 280pt">
             <div>
             <span class="transport-label">
               <fmt:message key="transportation.automobile"/>:
@@ -237,6 +235,8 @@
                 <b>
                   Б: {{value.item.weight.brutto}},
                 </b>
+              </div>
+              <div>
                 <b>
                   Т: {{value.item.weight.tara}},
                 </b>
@@ -281,13 +281,11 @@
               </span>
             </span>
             <span v-else-if="note.creator.person">
-            {{note.creator.person.value}}:
+              {{note.creator.person.value}}:
             </span>
-
             <i>
               {{note.note}}
             </i>
-
           </div>
         </div>
       </div>
@@ -297,9 +295,19 @@
         <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
           <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
           <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
-          <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
+
+          <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${cancel}')">
+            <span v-if="menu.any">
+              <fmt:message key="menu.archive"/>
+            </span>
+            <span v-else>
+              <fmt:message key="menu.delete"/>
+            </span>
+          </div>
         </div>
       </div>
     </c:if>
   </div>
+
 </html>
+<jsp:include page="../summary/staticCalendar.jsp"/>

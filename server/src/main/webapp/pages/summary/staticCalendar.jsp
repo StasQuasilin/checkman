@@ -9,5 +9,6 @@
 <html>
 <div id="static-content">
   <jsp:include page="calendar.jsp"/>
+  <jsp:include page="driversVoyages.jsp"/>
 </div>
 </html>

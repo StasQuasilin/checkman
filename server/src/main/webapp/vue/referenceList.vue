@@ -29,10 +29,13 @@ var referenceList = new Vue({
                 return a.localeCompare(b);
             })
         },
-        edit:function(id){
-            loadModal(this.api.edit + '?id=' + id);
+        edit:function(item, key, idx){
+            const self = this;
+            loadModal(this.api.edit + '?id=' + item.id, {id:item.id}, function(a){
+                self.items[key].splice(idx, 1, a);
+            });
         },
-        onClick:function(item){
+        onClick:function(item, key, idx){
             if (event.ctrlKey){
                 Vue.set(item, 'selected', true);
                 this.selected.push(item);
@@ -43,10 +46,13 @@ var referenceList = new Vue({
                     }
                 }
                 this.selected = [];
+                this.edit(item, key, idx);
             }
         },
         collapse:function(){
-            loadModal(this.api.collapse, {selected : this.selected});
+            loadModal(this.api.collapse, {selected : this.selected}, function(a){
+                console.log(a);
+            });
         }
     }
 });

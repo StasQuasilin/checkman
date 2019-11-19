@@ -1,4 +1,4 @@
-var logistic = new Vue({
+var list = new Vue({
     el:'#logistic',
     data:{
         api:{
@@ -23,6 +23,7 @@ var logistic = new Vue({
             title:'',
             id:-1,
             filed:'',
+            any:false,
             x:0,
             y:0
         },
@@ -67,6 +68,7 @@ var logistic = new Vue({
                     }
                 }
             }
+            filter_control.checkFilter();
         },
         changeDate:function(key, days){
             var item = this.getItems()[key].item;
@@ -236,11 +238,12 @@ var logistic = new Vue({
                 console.log(a)
             })
         },
-        contextMenu:function(id, field){
+        contextMenu:function(item, field){
             this.menu.x = event.pageX;
             this.menu.y = event.pageY;
             this.menu.show = true;
-            this.menu.id = id;
+            this.menu.id = item.id;
+            this.menu.any = item.any;
             this.menu.field = field;
             event.preventDefault();
         },

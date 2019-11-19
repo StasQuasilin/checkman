@@ -6,13 +6,6 @@
 <html>
 <table>
     <tr>
-        <td colspan="3">
-            <p>
-                <fmt:message key="weight.cancel.info"/>
-            </p>
-        </td>
-    </tr>
-    <tr>
         <td>
             <fmt:message key="date"/>
         </td>
@@ -98,7 +91,12 @@
                 <fmt:message key="button.cancel"/>
             </button>
             <button onclick="cancelIt()" class="save-button">
-                <fmt:message key="button.delete"/>
+                <c:if test="${plan.transportation.any}">
+                    <fmt:message key="menu.archive"/>
+                </c:if>
+                <c:if test="${plan.transportation.any ne true}">
+                    <fmt:message key="button.delete"/>
+                </c:if>
             </button>
         </td>
     </tr>

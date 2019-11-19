@@ -25,7 +25,7 @@ public class DriverEdit extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter(ID);
         if (U.exist(id)){
-            req.setAttribute("driver", dao.getDriverByID(Integer.parseInt(id)));
+            req.setAttribute("driver", dao.getObjectById(Driver.class, Integer.parseInt(id)));
         }
         req.setAttribute(TITLE, "driver.edit");
         req.setAttribute(MODAL_CONTENT, "/pages/references/driverEdit.jsp");

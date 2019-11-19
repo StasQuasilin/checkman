@@ -48,7 +48,6 @@ var list = new Vue({
                     this.clean();
                 }
             }
-
         },
         clean:function(){
             if (this.items.length > this.limit){
@@ -109,6 +108,7 @@ var list = new Vue({
                     }
                 }
             }
+            filter_control.checkFilter();
         },
         sort:function(){
             this.items.sort(function(a, b){

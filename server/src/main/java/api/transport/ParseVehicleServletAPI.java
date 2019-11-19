@@ -22,7 +22,6 @@ import java.util.List;
  */
 @WebServlet(Branches.API.PARSE_VEHICLE)
 public class ParseVehicleServletAPI extends ServletAPI {
-    private static final long serialVersionUID = 3416365884586446160L;
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override

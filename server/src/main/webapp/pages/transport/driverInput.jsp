@@ -4,9 +4,26 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+<script src="${context}/vue/templates/vehicleInput.vue"></script>
 <script src="${context}/vue/personEdit.vue"></script>
 <script>
-    editor.api.saveDriverAPI = '${saveDriverAPI}';
+
+    editor.trailerProps = {
+        find : '${findTrailer}',
+        add : '<fmt:message key="button.add"/>',
+        header : '<fmt:message key="button.add.trailer"/>',
+        put : editor.putTrailer,
+        open:false
+    };
+    editor.vehicleProps = {
+        find : '${findVehicle}',
+        edit:'${vehicleEdit}',
+        add : '<fmt:message key="button.add"/>',
+        header : '<fmt:message key="button.add.vehicle"/>',
+        put : editor.putVehicle,
+        trailerProps:editor.trailerProps
+    };
+    editor.api.save = '${save}';
     editor.api.find = '${find}';
     editor.api.parse = '${parse}';
     editor.api.editOrganisation = '${organisationEdit}';
@@ -20,6 +37,20 @@
     editor.transporter = ${driver.organisation.id};
     editor.input.transporter = '${driver.organisation.value}';
     </c:if>
+    <c:if test="${driver.vehicle ne null}">
+    editor.vehicle = {
+        id:${driver.vehicle.id},
+        model:'${driver.vehicle.model}',
+        number:'${driver.vehicle.number}'
+
+    }
+    <c:if test="${driver.vehicle.trailer ne null}">
+    editor.trailer = {
+        id:${driver.vehicle.trailer.id},
+        number:'${driver.vehicle.trailer.number}'
+    }
+    </c:if>
+    </c:if>
     editor.transportationId = '${transportation}'
     editor.editOrganisation = function(id){
         const self = editor;
@@ -32,7 +63,16 @@
         });
     }
 </script>
-
+<style>
+    .vehicle-block{
+        background-color: lightgray;
+        border: solid 1pt;
+        padding: 0 4pt;
+        border-radius: 4pt;
+        font-size: 10pt;
+        margin: 0 2pt;
+    }
+</style>
 <table id="personEditor" width="100%">
     <tr>
         <td>
@@ -87,36 +127,40 @@
         </td>
     </tr>
     <tr>
-        <td>
+        <td colspan="3">
             <label for="transporter">
                 <fmt:message key="transportation.transporter"/>
             </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <span v-if="transporter != -1">
-                <span>
+            <span v-if="transporter != -1" class="vehicle-block">
+                <a v-on:click="editOrganisation(transporter)">
                     {{input.transporter}}
-                </span>
-                <span class="mini-close" v-on:click="editOrganisation(transporter)">
-                    E
-                </span>
+                </a>
                 <span class="mini-close" v-on:click="cancelOrganisation()">
                     &times;
                 </span>
             </span>
-            <div v-else v-on:blur="parseOrganisation()">
+            <span v-else>
                 <input id="transporter" v-model="input.transporter" autocomplete="off"
-                    v-on:keyup="findOrganisation()" v-on:keyup.enter="parseOrganisation()">
-                <div class="custom-data-list">
+                    v-on:keyup="findOrganisation()">
+                <div class="custom-data-list" v-if="arr.organisations.length > 0 || input.transporter">
                     <div class="custom-data-list-item" v-for="organisation in arr.organisations"
                          v-on:click="setOrganisation(organisation)">
                         {{organisation.value}}
                     </div>
+                    <div class="custom-data-list-item" v-on:click="parseOrganisation()">
+                        <b>
+                            +<fmt:message key="button.add"/> {{input.transporter}}
+                        </b>
+                    </div>
                 </div>
-            </div>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <fmt:message key="transportation.automobile"/>/<fmt:message key="transportation.automobile.trailer"/>:
+            <vehicle-input v-if="m" :props="vehicleProps" :vehicle="vehicle"></vehicle-input>
+            <vehicle-input v-if="m" :props="trailerProps" :vehicle="trailer"></vehicle-input>
         </td>
     </tr>
     <tr>
@@ -127,11 +171,6 @@
             <button v-on:click="save">
                 <fmt:message key="button.save"/>
             </button>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3" style="font-size: 8pt; color: darkgray">
-            <fmt:message key="transportation.quantity"/>:&nbsp;${transportations}
         </td>
     </tr>
 </table>

@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.hibernate.dbDAO;
@@ -25,16 +26,26 @@ public class WeightCancel extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
-            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.ID));
-            if (!plan.getTransportation().isArchive()){
-                req.setAttribute(MODAL_CONTENT, "/pages/weight/weightCancel.jsp");
-                req.setAttribute("plan", plan);
-                req.setAttribute("cancel", Branches.API.REMOVE_PLAN);
+
+            Transportation transportation;
+            Object id = body.get(ID);
+            LoadPlan plan = dao.getObjectById(LoadPlan.class, id);
+            if (plan != null) {
+                transportation = plan.getTransportation();
             } else {
-                req.setAttribute(MODAL_CONTENT, "/pages/weight/weightCancelImpossible.jsp");
+                transportation = dao.getObjectById(Transportation.class, id);
             }
-            req.setAttribute(TITLE, "title.weight.cancel");
-            show(req, resp);
+            if (transportation != null) {
+                if (!transportation.isArchive()) {
+                    req.setAttribute(MODAL_CONTENT, "/pages/weight/weightCancel.jsp");
+                    req.setAttribute("plan", plan);
+                    req.setAttribute("cancel", Branches.API.REMOVE_PLAN);
+                } else {
+                    req.setAttribute(MODAL_CONTENT, "/pages/weight/weightCancelImpossible.jsp");
+                }
+                req.setAttribute(TITLE, "title.weight.cancel");
+                show(req, resp);
+            }
         }
     }
 }

@@ -1,8 +1,11 @@
 var editor = new Vue({
     el: '#personEditor',
+    components:{
+        'vehicle-input': vehicleInput
+    },
     data:{
         api:{
-            saveDriverAPI:''
+            save:''
         },
         person:{
             id:-1,
@@ -14,15 +17,51 @@ var editor = new Vue({
         license:'',
         transportationId:'',
         transporter:-1,
+        vehicle:{},
+        trailer:{},
         input:{
-            transporter:''
+            transporter:'',
+            vehicle:''
         },
         arr:{
             organisations:[]
         },
-        fnd:-1
+        errors:{
+            vehicle:false
+        },
+        fnd:-1,
+        vehicleInput:false,
+        foundVehicles:[],
+        trailerInput:false,
+        m:false
+    },
+    mounted:function(){
+        this.m=true;
+    },
+    methods:{
+        closeVehicle:function(){
+            this.vehicle = {}
+        },
+        closeTrailer:function(){
+            this.trailer = {};
+        },
+        openVehicleInput:function(){
+            this.vehicleInput = true;
+            this.trailerInput = false;
+        },
+        openTrailerInput:function(){
+            this.vehicleInput = false;
+            this.trailerInput = true;
+        },
+        putVehicle:function(vehicle){
+            this.vehicle = vehicle;
+        },
+        putTrailer:function(trailer){
+            this.trailer = trailer;
+        },
+        findTrailer:function(){
 
-    },methods:{
+        },
         findOrganisation:function(){
             if (this.api.find){
                 clearTimeout(this.fnd);
@@ -76,9 +115,14 @@ var editor = new Vue({
             if (this.transporter != -1){
                 result.transporter = this.transporter;
             }
+            if (this.vehicle.id){
+                result.vehicle = this.vehicle.id;
+            }
+            if (this.trailer.id){
+                result.trailer = this.trailer.id;
+            }
 
-            PostApi(this.api.saveDriverAPI, result, function(a){
-                console.log(a);
+            PostApi(this.api.save, result, function(a){
                 saveModal(a);
                 closeModal();
             })

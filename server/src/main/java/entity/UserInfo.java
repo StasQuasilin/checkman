@@ -9,7 +9,7 @@ public class UserInfo {
     private final String sessionId;
     private long activity;
 
-    public static final long SESSION_LIFE_TIME = 30 * 60 * 1000;
+    public static final long SESSION_LIFE_TIME = 4 * 60 * 60 * 1000;
 
     public UserInfo(User user, String ip, String sessionId) {
         this.user = user;

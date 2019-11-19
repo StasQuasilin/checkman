@@ -31,7 +31,7 @@ public class DeleteLoadPlanAPI extends ServletAPI{
             log.info("Delete load plan " + id);
             LoadPlan loadPlanById = dao.getLoadPlanById(id);
             if (loadPlanById != null) {
-                if (loadPlanById.getTransportation().anyAction()) {
+                if (loadPlanById.getTransportation().any()) {
                     loadPlanById.setCanceled(true);
                     loadPlanById.getTransportation().setArchive(true);
                     dao.save(loadPlanById);

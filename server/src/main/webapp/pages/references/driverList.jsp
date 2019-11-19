@@ -50,8 +50,8 @@
             </tr>
             <tr>
                 <td>
-                    <div v-for="driver in items[key]" class="block" :class="{selected : driver.selected}">
-                        <div v-on:click="onClick(driver)">
+                    <div v-for="(driver, idx) in items[key]" class="block" :class="{selected : driver.selected}">
+                        <div v-on:click="onClick(driver, key, idx)">
                             <div>
                                 <b>
                                     {{driver.person.surname}}
@@ -66,9 +66,13 @@
                                 </b>
                             </div>
                             <div v-if="driver.vehicle">
-                                {{driver.vehicle.model}}
-                                {{driver.vehicle.number}}
-                                {{driver.vehicle.trailer}}
+                                <span>
+                                    {{driver.vehicle.model}}
+                                    '{{driver.vehicle.number}}'
+                                </span>
+                                <span v-if="driver.vehicle.trailer">
+                                    '{{driver.vehicle.trailer.number}}'
+                                </span>
                             </div>
                         </div>
                     </div>

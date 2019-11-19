@@ -6,10 +6,7 @@ import constants.Constants;
 import entity.Person;
 import entity.log.comparators.TransportationComparator;
 import entity.organisations.Organisation;
-import entity.transport.ActionTime;
-import entity.transport.Driver;
-import entity.transport.TransportUtil;
-import entity.transport.Transportation;
+import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.U;
@@ -62,21 +59,7 @@ public class SaveDriverServletAPI extends ServletAPI {
             String license = String.valueOf(body.get("license"));
             if (U.exist(license)){
                 license = license.trim().toUpperCase().replaceAll("  ", " ");
-                if (U.exist(driver.getLicense())){
-                    String l = driver.getLicense().trim().toUpperCase().replaceAll("  ", " ");
-                    if (!l.equals(license)){
-                        log.info("Change license");
-                        ActionTime archiveTime = new ActionTime(getWorker(req));
-                        driver.setArchive(archiveTime);
-                        dao.save(archiveTime);
-                        dao.save(driver);
-                        Organisation organisation = driver.getOrganisation();
-                        driver = new Driver();
-                        driver.setLicense(license);
-                        driver.setPerson(person);
-                        driver.setOrganisation(organisation);
-                    }
-                } else {
+                if (driver.getLicense() == null || !driver.getLicense().equals(license)){
                     driver.setLicense(license);
                 }
                 log.info("\t...License: " + license);
@@ -93,6 +76,27 @@ public class SaveDriverServletAPI extends ServletAPI {
                 }
             }
 
+            if (body.containsKey(VEHICLE)){
+                Vehicle vehicle = dao.getObjectById(Vehicle.class, body.get(VEHICLE));
+                if (vehicle != null) {
+                    if (body.containsKey(TRAILER)) {
+                        Trailer trailer = dao.getObjectById(Trailer.class, body.get(TRAILER));
+                        if (vehicle.getTrailer() == null || vehicle.getTrailer().getId() != trailer.getId()) {
+                            vehicle.setTrailer(trailer);
+                            dao.save(vehicle);
+                        }
+                    } else {
+                        vehicle.setTrailer(null);
+                        dao.save(vehicle);
+                    }
+                    if (driver.getVehicle() == null || driver.getVehicle().getId() != vehicle.getId()) {
+                        driver.setVehicle(vehicle);
+                    }
+                }
+            } else {
+                driver.setVehicle(null);
+            }
+
             dao.save(person);
             dao.save(driver);
             updateUtil.onSave(driver);
@@ -103,7 +107,7 @@ public class SaveDriverServletAPI extends ServletAPI {
                 transportationId = Long.parseLong(String.valueOf(body.get(Constants.TRANSPORTATION_ID)));
             }
             if (transportationId != -1) {
-                Transportation transportation = dao.getTransportationById(transportationId);
+                Transportation transportation = dao.getObjectById(Transportation.class, transportationId);
                 comparator.fix(transportation);
                 TransportUtil.setDriver(transportation, driver);
                 dao.saveTransportation(transportation);
@@ -111,7 +115,9 @@ public class SaveDriverServletAPI extends ServletAPI {
                 log.info("Put in transportation " + transportation.getId());
             }
 
-            write(resp, parser.toJson(driver).toJSONString());
+            JSONObject json = driver.toJson();
+            write(resp, json.toJSONString());
+            pool.put(json);
             body.clear();
         } else {
             write(resp, EMPTY_BODY);

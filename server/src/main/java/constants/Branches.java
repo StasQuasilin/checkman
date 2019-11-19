@@ -267,6 +267,7 @@ public class Branches {
             public static final String ORGANISATION_LIST =  API + "/organisation/list";
             public static final String DRIVER_EDIT =        API + "/driver/edit";
             public static final String ORGANISATION_EDIT = API + "/organisation/edit";
+            public static final String FIND_TRAILER = API + "/trailer/find";
         }
 
         public class Deal {

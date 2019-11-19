@@ -107,7 +107,9 @@ public class Vehicle extends JsonAble {
         json.put(ID, id);
         json.put(MODEL, model);
         json.put(NUMBER, number);
-        json.put(TRAILER, trailerNumber);
+        if (trailer != null) {
+            json.put(TRAILER, trailer.toJson());
+        }
         return json;
     }
 }

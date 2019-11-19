@@ -284,7 +284,7 @@ public class Transportation {
     }
 
     @Transient
-    public boolean anyAction(){
+    public boolean any(){
         return
             timeIn != null ||
             timeOut != null ||

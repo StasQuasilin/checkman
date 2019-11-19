@@ -21,6 +21,15 @@ var filter_control = new Vue({
         this.date = new Date().toISOString().substring(0, 10);
     },
     methods:{
+        checkFilter:function(){
+            console.log('Check Filter');
+            if (this.items.length > 0 && this.filteredItems().length == 0){
+                this.product = -1;
+            }
+            if (this.items.length > 0 && this.filteredItems().length == 0){
+                this.date = -1;
+            }
+        },
         putProduct:function(){
             localStorage.setItem('product', this.product);
         },
@@ -68,11 +77,11 @@ var filter_control = new Vue({
         },
         dates:function(){
             var dates = {};
-            var items = this.filtered(this.product, this.organisation, null, this.driver);
+            var items = this.items;
             for (var i in items){
                 if (items.hasOwnProperty(i)){
                     var date = items[i].item.date;
-                    if (dates[date] == undefined) {
+                    if (!dates[date]) {
                         dates[date] = date;
                     }
                 }
@@ -101,11 +110,11 @@ var filter_control = new Vue({
             return this.items.filter(function (item){
                 let byProduct = true;
                 if (product && product != -1){
-                    byProduct = item.item.product.id === product;
+                    byProduct = item.item.product.id == product;
                 }
                 let byCounterparty = true;
                 if (counterparty && counterparty != -1){
-                    byCounterparty = item.item.counterparty.id === counterparty;
+                    byCounterparty = item.item.organisation.id == counterparty;
                 }
                 let byDate = true;
                 if (date && date != -1){
@@ -115,7 +124,12 @@ var filter_control = new Vue({
                 if (driver && driver != -1 && item.item.driver.id){
                     byDriver = item.item.driver.id === driver;
                 }
-                return byProduct & byCounterparty & byDate & byDriver;
+                let byOn = true;
+                if (self.on){
+                    byOn = item.item.timeIn.time && !item.item.timeOut.time;
+                }
+
+                return byProduct & byCounterparty & byDate & byDriver & byOn;
             });
         },
         filteredItems:function(){

@@ -425,7 +425,7 @@
             </span>
             <div v-else v-on:blur="parseVehicle()">
                 <span>
-                <input id="vehicle" v-model="input.vehicle" autocomplete="off"
+                    <input id="vehicle" v-model="input.vehicle" autocomplete="off"
                        v-on:keyup="findVehicle()" v-on:keyup.enter="parseVehicle()"
                        :class="{error : errors.vehicle}" v-on:click="errors.vehicle = false"
                        :title="input.vehicle" style=" width: 90%;">

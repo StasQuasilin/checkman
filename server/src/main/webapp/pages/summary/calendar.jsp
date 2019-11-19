@@ -34,7 +34,6 @@
                         var product = date.values[a.product.name];
                         var productKey = a.date + '/' + a.product.name;
                         if (!product){
-
                             product = Vue.set(date.values, a.product.name, {
                                 key:productKey,
                                 open:this.getOpen(productKey),
@@ -133,13 +132,14 @@
         display: inline-block;
         font-size: 8pt;
         width: 100%;
+        border-bottom: dashed gray 1pt;
     }
     .calendar table{
         border-collapse: collapse;
     }
 </style>
 <html>
-    <div id="calendar" class="calendar" style="width: 200pt">
+    <div id="calendar" class="calendar" style="width: 200pt; border-bottom: dotted gray 1pt">
         <table width="100%" style="font-size: 10pt">
             <template v-for="(value, key) in getItems()">
                 <tr>
@@ -153,10 +153,10 @@
                     <tr v-on:click="open(product)">
                         <td style="padding-left: 4pt" width="100%">
                             <span v-if="product.open">
-                                &#9207;
+                                -
                             </span>
                             <span v-else>
-                                &#9205;
+                                +
                             </span>
                             <span :class="{bold : product.open}" style="font-size: 10pt">
                                 {{productName}}
@@ -170,10 +170,10 @@
                         <tr v-on:click="open(manager)">
                             <td style="padding-left: 12pt">
                                 <span v-if="manager.open">
-                                    &#9207;
+                                    -
                                 </span>
                                 <span v-else>
-                                    &#9205;
+                                    +
                                 </span>
                                 <span :class="{bold : manager.open}" style="font-size: 10pt">
                                     {{managerName}}
@@ -187,10 +187,10 @@
                             <tr v-on:click="open(counterparty)">
                                 <td style="padding-left: 20pt; overflow: hidden">
                                     <span v-if="counterparty.open">
-                                        &#9207;
+                                        -
                                     </span>
                                     <span v-else>
-                                        &#9205;
+                                        +
                                     </span>
                                     <span :class="{bold : counterparty.open}">
                                         {{counterpartyName}}

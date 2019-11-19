@@ -218,7 +218,7 @@ public class JsonParser {
             json.put(WEIGHT, toJson(transportation.getWeight()));
             json.put(ANALYSES, toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getMealAnalyses()));
             json.put(NOTES, toNotesJson(transportation.getNotes()));
-            json.put(ANY, transportation.anyAction());
+            json.put(ANY, transportation.any());
             json.put(ARCHIVE, transportation.isArchive());
             json.put(DONE, transportation.isDone());
             json.put(MANAGER, toJson(transportation.getManager()));

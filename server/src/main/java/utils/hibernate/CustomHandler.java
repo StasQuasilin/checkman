@@ -8,10 +8,7 @@ import entity.reports.ReportFieldSettings;
 import entity.storages.Storage;
 import entity.storages.StoragePeriodPoint;
 import entity.storages.StorageProduct;
-import entity.transport.Driver;
-import entity.transport.TransportStorageUsed;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import utils.DateUtil;
 import utils.U;
 import utils.storages.PointScale;
@@ -35,47 +32,74 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        List<Driver> drivers = instance.query(Driver.class, null);
+        for (Vehicle v : instance.query(Vehicle.class, null)){
+            String trailerNumber = v.getTrailerNumber();
+            if (U.exist(trailerNumber)){
+                Trailer trailer = v.getTrailer();
+                if (trailer == null){
+                    trailer = instance.get(Trailer.class, "number", trailerNumber);
+                    if (trailer == null){
+                        trailer = new Trailer();
+                        trailer.setNumber(trailerNumber);
+                        instance.save(trailer);
+                    }
+                    v.setTrailer(trailer);
+                    instance.save(v);
+                }
+            }
+        }
+//        for (Transportation t : instance.query(Transportation.class, null)){
+//            Driver driver = t.getDriver();
+//            if (driver != null){
+//                if (driver.getLicense() != null){
+//                    if (t.getDriverLicense() == null){
+//                        TransportUtil.setDriver(t, driver);
+//                        instance.save(t);
+//                    }
+//                }
+//            }
+//        }
+//        List<Driver> drivers = instance.query(Driver.class, null);
 //        for (Driver driver : drivers){
 //            Vehicle vehicle = driver.getVehicle();
 //            if (vehicle != null){
 //                instance.save(driver);
 //            }
 //        }
-        ArrayList<Driver> comparable = new ArrayList<>();
-        for (int i = 0; i < drivers.size(); i++){
-
-            Driver driver = drivers.get(i);
-            Person person = driver.getPerson();
-            comparable.clear();
-            comparable.add(driver);
-            for (int j = 0; j < drivers.size(); j++){
-                Driver d = drivers.get(j);
-                Person p = d.getPerson();
-
-                if (driver.getId() != d.getId()){
-                    boolean compare = true;
-
-                    if(!person.getSurname().equals(p.getSurname())){
-                        compare = false;
-                    }
-                    if (U.exist(person.getForename()) && U.exist(p.getForename()) && person.getForename().substring(0, 1).equals(p.getForename().substring(0, 1))){
-                        compare = false;
-                    }
-                    if (U.exist(person.getPatronymic()) && U.exist(p.getPatronymic()) && person.getPatronymic().substring(0, 1).equals(p.getPatronymic().substring(0, 1))){
-                        compare = false;
-                    }
-
-                    if (compare){
-                        comparable.add(d);
-                        drivers.remove(j);
-                    }
-                }
-            }
-            if (comparable.size() > 1) {
-                CollapseUtil.collapse(comparable);
-            }
-        }
+//        ArrayList<Driver> comparable = new ArrayList<>();
+//        for (int i = 0; i < drivers.size(); i++){
+//
+//            Driver driver = drivers.get(i);
+//            Person person = driver.getPerson();
+//            comparable.clear();
+//            comparable.add(driver);
+//            for (int j = 0; j < drivers.size(); j++){
+//                Driver d = drivers.get(j);
+//                Person p = d.getPerson();
+//
+//                if (driver.getId() != d.getId()){
+//                    boolean compare = true;
+//
+//                    if(!person.getSurname().equals(p.getSurname())){
+//                        compare = false;
+//                    }
+//                    if (U.exist(person.getForename()) && U.exist(p.getForename()) && person.getForename().substring(0, 1).equals(p.getForename().substring(0, 1))){
+//                        compare = false;
+//                    }
+//                    if (U.exist(person.getPatronymic()) && U.exist(p.getPatronymic()) && person.getPatronymic().substring(0, 1).equals(p.getPatronymic().substring(0, 1))){
+//                        compare = false;
+//                    }
+//
+//                    if (compare){
+//                        comparable.add(d);
+//                        drivers.remove(j);
+//                    }
+//                }
+//            }
+//            if (comparable.size() > 1) {
+//                CollapseUtil.collapse(comparable);
+//            }
+//        }
 
 //        for (Transportation transportation : instance.query(Transportation.class, null)){
 //            System.out.println(transportation.getDate() + ", " + (transportation.getWeight() != null ? transportation.getWeight().getNetto() : 0));

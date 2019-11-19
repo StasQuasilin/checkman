@@ -28,14 +28,14 @@ public class EditVehicle extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         log.info(body);
         Vehicle vehicle = null;
 
         if (body != null) {
 
             if (body.containsKey(Constants.ID)) {
-                vehicle = dao.getVehicleById(body.get(Constants.ID));
+                vehicle = dao.getObjectById(Vehicle.class, body.get(ID));
             } else if (body.containsKey(Constants.KEY)){
                 vehicle = new Vehicle();
                 List<String> strings = Parser.parseVehicle(String.valueOf(body.get(Constants.KEY)));

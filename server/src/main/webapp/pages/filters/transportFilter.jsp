@@ -59,7 +59,7 @@
         <tr>
             <td colspan="2">
                 <div>
-                    <input type="radio" name="product_radio" id="product_" value="-1" v-model="product">
+                    <input type="radio" v-on:change="putProduct()" name="product_radio" id="product_" value="-1" v-model="product">
                     <label for="product_">
                         <fmt:message key="all"/>
                     </label>

@@ -34,7 +34,7 @@ public class ReferencesList extends IUIServlet {
                 case drivers:
                     req.setAttribute("referenceContent", "driverList.jsp");
                     req.setAttribute("update", Branches.API.References.DRIVER_LIST);
-                    req.setAttribute(EDIT, Branches.UI.References.DRIVER_EDIT);
+                    req.setAttribute(EDIT, Branches.UI.EDIT_DRIVER);
                     req.setAttribute(COLLAPSE, Branches.UI.DRIVER_COLLAPSE);
                     break;
                 case organisations:

@@ -33,11 +33,9 @@ public class EditDriver extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         Driver driver = null;
-        int size = 0;
         if (body != null) {
             if (body.containsKey(Constants.ID)) {
-                driver = dao.getDriverByID(body.get(Constants.ID));
-                size = dao.getTransportationsByDriver(driver).size();
+                driver = dao.getObjectById(Driver.class, body.get(Constants.ID));
                 log.info("Driver: " + driver.getId());
             } else if (body.containsKey(Constants.KEY)){
                 driver = new Driver();
@@ -56,11 +54,13 @@ public class EditDriver extends IModal {
         }
 
         req.setAttribute("driver", driver);
-        req.setAttribute("transportations", size);
-        req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
-        req.setAttribute("saveDriverAPI", Branches.API.References.SAVE_DRIVER);
+        req.setAttribute("transportations", 0);
+        req.setAttribute(SAVE, Branches.API.References.SAVE_DRIVER);
         req.setAttribute(MODAL_CONTENT, "/pages/transport/driverInput.jsp");
         req.setAttribute("find", Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
+        req.setAttribute("vehicleEdit", Branches.UI.EDIT_VEHICLE);
+        req.setAttribute("findTrailer", Branches.API.References.FIND_TRAILER);
         req.setAttribute("parse", Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute(ORGANISATION_EDIT, Branches.UI.References.ORGANISATION_EDIT);
 

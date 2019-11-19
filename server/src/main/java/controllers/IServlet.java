@@ -66,6 +66,9 @@ public class IServlet extends HttpServlet {
     public static final String BRUTTO = "brutto";
     public static final String TARA = "tara";
     public static final String NETTO = "netto";
+    public static final String VEHICLE = "vehicle";
+    public static final String TRAILER = "trailer";
+
 
     public static final LanguageBase lb = LanguageBase.getBase();
     protected static final String CUSTOMERS = "customers";
