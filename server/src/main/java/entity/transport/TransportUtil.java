@@ -195,6 +195,12 @@ public class TransportUtil{
             transportation.setDriverLicense(driver.getLicense());
             if (driver.getVehicle() != null && transportation.getVehicle() == null) {
                 setVehicle(transportation, driver.getVehicle());
+            } else if (transportation.getVehicle() != null){
+                driver.setVehicle(transportation.getVehicle());
+                dao.save(driver);
+            }
+            if (driver.getOrganisation() != null && transportation.getTransporter() == null){
+                transportation.setTransporter(driver.getOrganisation().getValue());
             }
         } else {
             transportation.setDriver(null);

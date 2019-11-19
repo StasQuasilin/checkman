@@ -86,7 +86,7 @@
     <table style="font-size: 10pt">
       <template v-for="(value, key) in getItems()">
         <tr>
-          <td>
+          <td colspan="2">
             <span style="font-size: 10pt">
               {{new Date(key).toLocaleDateString().substring(0, 5)}}
             </span>
@@ -102,18 +102,21 @@
                   +
               </span>
               <span>
-                {{driver.driver.person.value}} - {{driver.values.length}}
+                {{driver.driver.person.value}}
               </span>
+            </td>
+            <td>
+              {{driver.values.length}}
             </td>
           </tr>
           <template v-for="organisation in driver.values" v-if="driver.open">
             <tr>
-              <td style="padding-left: 16pt" width="100%">
+              <td colspan="2" style="padding-left: 16pt" width="100%">
                 {{organisation.organisation}}
               </td>
             </tr>
             <tr>
-              <td style="padding-left: 24pt">
+              <td colspan="2" style="padding-left: 24pt">
                 {{organisation.product}}
               </td>
             </tr>

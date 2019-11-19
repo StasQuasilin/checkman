@@ -91,10 +91,10 @@
                 <fmt:message key="button.cancel"/>
             </button>
             <button onclick="cancelIt()" class="save-button">
-                <c:if test="${plan.transportation.any}">
+                <c:if test="${plan.transportation.any()}">
                     <fmt:message key="menu.archive"/>
                 </c:if>
-                <c:if test="${plan.transportation.any ne true}">
+                <c:if test="${plan.transportation.any() ne true}">
                     <fmt:message key="button.delete"/>
                 </c:if>
             </button>

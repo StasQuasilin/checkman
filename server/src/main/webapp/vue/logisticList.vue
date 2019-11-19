@@ -42,7 +42,17 @@ var list = new Vue({
     methods:{
         sort:function(){
             this.items.sort(function(a, b){
-                return new Date(b.item.date) - new Date(a.item.date);
+                let ai = a.item.timeIn.time && !a.item.timeOut.time;
+                let bi = b.item.timeIn.time && !b.item.timeOut.time;
+                if (ai && !bi){
+                    return -1;
+                }
+
+                if (!ai && bi){
+                    return 1;
+                }
+
+                return new Date(a.item.date) - new Date(b.item.date);
             })
         },
         handler:function(e){

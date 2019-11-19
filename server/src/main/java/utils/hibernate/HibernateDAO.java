@@ -1004,10 +1004,7 @@ public class HibernateDAO implements dbDAO {
     }
 
     private void findDriver(String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, Driver> drivers){
-        HashMap<String, String> param = new HashMap<>();
-        param.put(key, value);
-        param.put("archive", null);
-        for (Driver driver : hb.find(Driver.class, param)){
+        for (Driver driver : hb.find(Driver.class, key, value)){
             int id = driver.getId();
             if (!ids.containsKey(id)){
                 ids.put(id, 0);

@@ -117,7 +117,7 @@ button:focus, input:focus{
 }
 
 ::-webkit-scrollbar {
-    width: 0;
+    width: 4px;
 }
 ::-webkit-scrollbar-track {
     background: transparent;

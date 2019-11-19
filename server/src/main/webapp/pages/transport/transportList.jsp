@@ -14,27 +14,21 @@
     list.types['sell'] = '<fmt:message key="_sell"/>';
     list.sort = function(){
       list.items.sort(function(a, b){
-        if (a.item.date === b.item.date){
-          let aN = 0;
-          if (a.item.weight.brutto > 0 && a.item.weight.tara > 0){
-            aN = a.item.weight.brutto - a.item.weight.tara;
+        if (a.item.date === b.item.date) {
+          let ai = a.item.timeIn.time && !a.item.timeOut.time;
+          let bi = b.item.timeIn.time && !b.item.timeOut.time;
+          if (ai && !bi || !a.item.done && b.item.done){
+            return -1
           }
-
-          let bN = 0;
-          if (b.item.weight.brutto > 0 && b.item.weight.tara > 0){
-            bN = b.item.weight.brutto - b.item.weight.tara;
-          }
-          if (aN > 0 && bN == 0){
+          if (!ai && bi || a.item.done && !b.item.done){
             return 1;
           }
-          if (aN == 0 && bN > 0){
-            return -1;
-          }
+
         }
 
         return new Date(a.item.date) - new Date(b.item.date);
       })
-    }
+    };
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
       list.handler(a);

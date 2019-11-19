@@ -22,6 +22,23 @@
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.api.edit = '${edit}';
+    list.sort = function(){
+        list.items.sort(function(a, b){
+            if (a.item.date === b.item.date) {
+                let ai = a.item.timeIn.time && !a.item.timeOut.time;
+                let bi = b.item.timeIn.time && !b.item.timeOut.time;
+                if (ai && !bi || !a.item.done && b.item.done){
+                    return -1
+                }
+                if (!ai && bi || a.item.done && !b.item.done){
+                    return 1;
+                }
+
+            }
+
+            return new Date(a.item.date) - new Date(b.item.date);
+        })
+    };
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
         list.handler(a);

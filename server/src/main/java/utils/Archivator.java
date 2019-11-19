@@ -89,7 +89,7 @@ public final class Archivator {
             d.setDocument(document);
         }
 
-        d.setTime(Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
+        d.setTime(Timestamp.valueOf(LocalDateTime.now().plusHours(2)));
         dao.save(d);
         data.add(d);
     }

@@ -22,7 +22,6 @@ var filter_control = new Vue({
     },
     methods:{
         checkFilter:function(){
-            console.log('Check Filter');
             if (this.items.length > 0 && this.filteredItems().length == 0){
                 this.product = -1;
             }
@@ -121,8 +120,12 @@ var filter_control = new Vue({
                     byDate = item.item.date === date;
                 }
                 let byDriver = true;
-                if (driver && driver != -1 && item.item.driver.id){
-                    byDriver = item.item.driver.id === driver;
+                if (driver && driver != -1){
+                    if (item.item.driver.id){
+                        byDriver = item.item.driver.id == driver;
+                    } else {
+                        byDriver = false;
+                    }
                 }
                 let byOn = true;
                 if (self.on){

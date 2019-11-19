@@ -21,7 +21,11 @@
         year:'',
         month:'',
         week:'',
-        day:''
+        mon:'',
+        tue:'',
+        wed:'',
+        thu:'',
+        fri:''
       },
       methods:{
         handler:function(a){
@@ -36,6 +40,12 @@
             });
           }
           Vue.set(this.items[product.id].values, storage.id, storage);
+        },
+        weekDay:function(day){
+          switch (day){
+            case 1:
+                  return ''
+          }
         },
         getItem:function(items, date, scale){
 
@@ -52,7 +62,7 @@
             header = this.week;
             key = date.toLocaleDateString().substring(0, 5);
           } else if (scale == 'day'){
-            header = this.day;
+            header = this.weekDay(date.getDay());
             key = date.toLocaleDateString().substring(0, 5);
           }
           const self = this;
