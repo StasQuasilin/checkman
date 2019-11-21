@@ -75,6 +75,7 @@
     </td>
     <td>
       ${weight.transportation.weight.brutto} ${unit}
+        <fmt:formatDate value="${weight.transportation.weight.bruttoTime.time}" pattern="dd.MM.yy HH:mm"/>
     </td>
   </tr>
   <tr>
@@ -86,6 +87,7 @@
     </td>
     <td>
       ${weight.transportation.weight.tara} ${unit}
+      <fmt:formatDate value="${weight.transportation.weight.taraTime.time}" pattern="dd.MM.yy HH:mm"/>
     </td>
   </tr>
   <tr>
@@ -97,6 +99,31 @@
     </td>
     <td>
       ${weight.transportation.weight.netto} ${unit}
+
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <fmt:message key="transportation.time.in"/>
+    </td>
+    <td>
+      :
+    </td>
+    <td>
+      <fmt:formatDate value="${weight.transportation.timeIn.time}"  pattern="dd.MM.yy HH:mm"/>
+      ${weight.transportation.timeIn.creator.person.value}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <fmt:message key="transportation.time.out"/>
+    </td>
+    <td>
+      :
+    </td>
+    <td>
+      <fmt:formatDate value="${weight.transportation.timeOut.time}"  pattern="dd.MM.yy HH:mm"/>
+      ${weight.transportation.timeOut.creator.person.value}
     </td>
   </tr>
   <tr>

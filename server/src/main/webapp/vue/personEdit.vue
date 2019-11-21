@@ -1,7 +1,7 @@
 var editor = new Vue({
     el: '#personEditor',
     components:{
-        'vehicle-input': vehicleInput
+        'vehicle-input': objectInput
     },
     data:{
         api:{
@@ -85,9 +85,7 @@ var editor = new Vue({
             }
         },
         setOrganisation:function(organisation){
-            this.transporter = organisation.id;
-            this.input.transporter = organisation.value;
-            this.arr.organisations =[];
+            this.transporter = organisation;
         },
         cancelOrganisation:function(){
             this.transporter = -1;
@@ -112,8 +110,8 @@ var editor = new Vue({
             result.patronymic = this.person.patronymic;
             result.license = this.license;
 
-            if (this.transporter != -1){
-                result.transporter = this.transporter;
+            if (this.transporter.id){
+                result.transporter = this.transporter.id;
             }
             if (this.vehicle.id){
                 result.vehicle = this.vehicle.id;

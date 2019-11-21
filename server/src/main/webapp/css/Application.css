@@ -128,6 +128,14 @@ button:focus, input:focus{
 ::-webkit-scrollbar-thumb:hover {
     background: #f4b400;
 }
+.object-block{
+    background-color: lightgray;
+    border: solid 1pt;
+    padding: 0 4pt;
+    border-radius: 4pt;
+    font-size: 10pt;
+    margin: 0 2pt;
+}
 .context-menu{
     font-size: 10pt;
     height: fit-content;

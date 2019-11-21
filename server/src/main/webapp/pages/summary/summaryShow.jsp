@@ -284,7 +284,7 @@
               :
             </td>
             <td>
-              ${plan.transportation.vehicle.trailer}
+              ${plan.transportation.vehicle.trailer.number}
             </td>
           </tr>
           <tr>

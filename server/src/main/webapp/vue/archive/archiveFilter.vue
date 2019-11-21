@@ -83,11 +83,17 @@ var filter_control = new Vue({
             this.input.driver = driver.person.value;
             this.foundDrivers = [];
         },
+        checkFilter:function(){
+            console.log('all right');
+        },
         find:function(){
             console.log(this.filter);
             const self = this;
             PostApi(this.api.find, this.filter, function(a){
                 console.log(a);
+                a.sort(function(a, b){
+                    return new Date(b.date) - new Date(a.date);
+                });
                 self.result = [];
                 for (var i in a){
                     if (a.hasOwnProperty(i)){

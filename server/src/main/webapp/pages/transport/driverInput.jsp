@@ -12,16 +12,29 @@
         find : '${findTrailer}',
         add : '<fmt:message key="button.add"/>',
         header : '<fmt:message key="button.add.trailer"/>',
+        show:['number'],
         put : editor.putTrailer,
-        open:false
     };
     editor.vehicleProps = {
         find : '${findVehicle}',
         edit:'${vehicleEdit}',
         add : '<fmt:message key="button.add"/>',
         header : '<fmt:message key="button.add.vehicle"/>',
-        put : editor.putVehicle,
-        trailerProps:editor.trailerProps
+        show:['model', 'number'],
+        put : function(vehicle){
+            editor.putVehicle(vehicle);
+            if (vehicle.trailer){
+                editor.putTrailer(vehicle.trailer);
+            }
+        }
+    };
+    editor.transporterProps = {
+        find:'${find}',
+        edit:'${organisationEdit}',
+        add:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="button.add.transporter"/>',
+        show:['value'],
+        put:editor.setOrganisation
     };
     editor.api.save = '${save}';
     editor.api.find = '${find}';
@@ -32,22 +45,26 @@
     editor.person.surname = '${driver.person.surname}';
     editor.person.patronymic = '${driver.person.patronymic}';
     editor.license = '${driver.license}';
-    editor.transporter = -1;
+    editor.transporter = {};
     <c:if test="${driver.organisation ne null}">
-    editor.transporter = ${driver.organisation.id};
-    editor.input.transporter = '${driver.organisation.value}';
+    editor.transporter = {
+        id:${driver.organisation.id},
+        value:'${driver.organisation.value}'
+    };
     </c:if>
     <c:if test="${driver.vehicle ne null}">
     editor.vehicle = {
         id:${driver.vehicle.id},
         model:'${driver.vehicle.model}',
-        number:'${driver.vehicle.number}'
-
+        number:'${driver.vehicle.number}',
+        value:'${driver.vehicle.model} ${driver.vehicle.number}'
     }
     <c:if test="${driver.vehicle.trailer ne null}">
     editor.trailer = {
         id:${driver.vehicle.trailer.id},
-        number:'${driver.vehicle.trailer.number}'
+        number:'${driver.vehicle.trailer.number}',
+        value:'${driver.vehicle.trailer.number}'
+
     }
     </c:if>
     </c:if>
@@ -63,16 +80,7 @@
         });
     }
 </script>
-<style>
-    .vehicle-block{
-        background-color: lightgray;
-        border: solid 1pt;
-        padding: 0 4pt;
-        border-radius: 4pt;
-        font-size: 10pt;
-        margin: 0 2pt;
-    }
-</style>
+
 <table id="personEditor" width="100%">
     <tr>
         <td>
@@ -128,39 +136,15 @@
     </tr>
     <tr>
         <td colspan="3">
-            <label for="transporter">
-                <fmt:message key="transportation.transporter"/>
-            </label>
-            <span v-if="transporter != -1" class="vehicle-block">
-                <a v-on:click="editOrganisation(transporter)">
-                    {{input.transporter}}
-                </a>
-                <span class="mini-close" v-on:click="cancelOrganisation()">
-                    &times;
-                </span>
-            </span>
-            <span v-else>
-                <input id="transporter" v-model="input.transporter" autocomplete="off"
-                    v-on:keyup="findOrganisation()">
-                <div class="custom-data-list" v-if="arr.organisations.length > 0 || input.transporter">
-                    <div class="custom-data-list-item" v-for="organisation in arr.organisations"
-                         v-on:click="setOrganisation(organisation)">
-                        {{organisation.value}}
-                    </div>
-                    <div class="custom-data-list-item" v-on:click="parseOrganisation()">
-                        <b>
-                            +<fmt:message key="button.add"/> {{input.transporter}}
-                        </b>
-                    </div>
-                </div>
-            </span>
+            <fmt:message key="transportation.transporter"/>:
+            <vehicle-input v-if="m" :props="transporterProps" :object="transporter"></vehicle-input>
         </td>
     </tr>
     <tr>
         <td colspan="3">
             <fmt:message key="transportation.automobile"/>/<fmt:message key="transportation.automobile.trailer"/>:
-            <vehicle-input v-if="m" :props="vehicleProps" :vehicle="vehicle"></vehicle-input>
-            <vehicle-input v-if="m" :props="trailerProps" :vehicle="trailer"></vehicle-input>
+            <vehicle-input v-if="m" :props="vehicleProps" :object="vehicle"></vehicle-input>
+            <vehicle-input v-if="m" :props="trailerProps" :object="trailer"></vehicle-input>
         </td>
     </tr>
     <tr>

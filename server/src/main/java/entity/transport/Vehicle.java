@@ -1,5 +1,6 @@
 package entity.transport;
 
+import constants.Constants;
 import entity.JsonAble;
 import entity.organisations.Organisation;
 import org.json.simple.JSONObject;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "vehicles")
 public class Vehicle extends JsonAble {
+    private static final String SPACE = Constants.SPACE;
     private int id;
     private String model;
     private String number;
@@ -105,11 +107,15 @@ public class Vehicle extends JsonAble {
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+
         json.put(MODEL, model);
         json.put(NUMBER, number);
+        String value = model + SPACE + number;
         if (trailer != null) {
             json.put(TRAILER, trailer.toJson());
+            value += SPACE + trailer.getNumber();
         }
+        json.put(VALUE, value);
         return json;
     }
 }

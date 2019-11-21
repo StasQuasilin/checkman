@@ -14,8 +14,6 @@
     list.api.edit = '${show}';
     list.types['buy'] = '<fmt:message key="_buy"/>';
     list.types['sell'] = '<fmt:message key="_sell"/>'
-    list.doRequest();
-
 </script>
 <transition-group
         name="flip-list" tag="div"
