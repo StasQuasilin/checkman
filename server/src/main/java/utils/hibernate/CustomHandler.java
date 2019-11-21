@@ -32,33 +32,28 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        for (Vehicle v : instance.query(Vehicle.class, null)){
-            String trailerNumber = v.getTrailerNumber();
-            if (U.exist(trailerNumber)){
-                Trailer trailer = v.getTrailer();
-                if (trailer == null){
-                    trailer = instance.get(Trailer.class, "number", trailerNumber);
-                    if (trailer == null){
-                        trailer = new Trailer();
-                        trailer.setNumber(trailerNumber);
-                        instance.save(trailer);
-                    }
-                    v.setTrailer(trailer);
-                    instance.save(v);
-                }
-            }
-        }
-//        for (Transportation t : instance.query(Transportation.class, null)){
-//            Driver driver = t.getDriver();
-//            if (driver != null){
-//                if (driver.getLicense() != null){
-//                    if (t.getDriverLicense() == null){
-//                        TransportUtil.setDriver(t, driver);
-//                        instance.save(t);
+//        for (Vehicle v : instance.query(Vehicle.class, null)){
+//            String trailerNumber = v.getTrailerNumber();
+//            if (U.exist(trailerNumber)){
+//                Trailer trailer = v.getTrailer();
+//                if (trailer == null){
+//                    trailer = instance.get(Trailer.class, "number", trailerNumber);
+//                    if (trailer == null){
+//                        trailer = new Trailer();
+//                        trailer.setNumber(trailerNumber);
+//                        instance.save(trailer);
 //                    }
+//                    v.setTrailer(trailer);
+//                    instance.save(v);
 //                }
 //            }
 //        }
+        for (Transportation t : instance.query(Transportation.class, null)){
+            if (t.getTrailer() == null && t.getVehicle() != null && t.getVehicle().getTrailer() != null){
+                TransportUtil.setVehicle(t, t.getVehicle());
+                instance.save(t);
+            }
+        }
 //        List<Driver> drivers = instance.query(Driver.class, null);
 //        for (Driver driver : drivers){
 //            Vehicle vehicle = driver.getVehicle();

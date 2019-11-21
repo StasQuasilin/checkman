@@ -210,7 +210,12 @@ public class JsonParser {
             json.put(ORGANISATION, toJson(transportation.getCounterparty()));
             json.put(SHIPPER, transportation.getShipper().getValue());
             json.put(VEHICLE, toJson(transportation.getVehicle()));
-            json.put(DRIVER, toJson(transportation.getDriver()));
+            if (transportation.getTrailer() != null) {
+                json.put(TRAILER, transportation.getTrailer().toJson());
+            }
+            if (transportation.getDriver() != null) {
+                json.put(DRIVER, transportation.getDriver().toJson());
+            }
             json.put(REGISTRATION, toJson(transportation.getTimeRegistration()));
             json.put(TIME_IN, toJson(transportation.getTimeIn()));
             json.put(TIME_OUT, toJson(transportation.getTimeOut()));

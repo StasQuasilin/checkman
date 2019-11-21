@@ -18,7 +18,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.LOGISTIC_LIST)
 public class LogisticList extends IUIServlet{
 
-    private static final long serialVersionUID = 8487428665694665680L;
     final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
 
     @Override

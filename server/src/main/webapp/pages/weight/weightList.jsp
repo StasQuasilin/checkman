@@ -69,6 +69,7 @@
 </div>
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">
+
         <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
             <fmt:message key="empty.list"/>
         </div>
@@ -82,16 +83,17 @@
 
                  v-on:click="edit(value.item.id)"
                  v-on:click.right="contextMenu(value.item)">
-                <div class="upper-row" style="font-size: 11pt">
-                <span>
-                    {{new Date(value.item.date).toLocaleDateString()}}
-                </span>
-                <span style="width: 20em">
-                    <fmt:message key="deal.organisation"/>:
-                    <b>
-                        {{value.item.organisation.value}}
-                    </b>
-                </span>
+                <div style="display: inline-block; width: 800px">
+                    <div class="upper-row" style="font-size: 11pt">
+                    <span>
+                        {{new Date(value.item.date).toLocaleDateString()}}
+                    </span>
+                    <span style="width: 20em">
+                        <fmt:message key="deal.organisation"/>:
+                        <b>
+                            {{value.item.organisation.value}}
+                        </b>
+                    </span>
                 <span>
                     <fmt:message key="deal.product"/>:
                     <b v-if="types[value.item.type]">
@@ -101,53 +103,34 @@
                         {{value.item.product.name}}
                     </b>
                 </span>
-                <span>
-                    <fmt:message key="deal.price"/>
-                    <b>
-                        {{(value.item.price).toLocaleString()}}
-                    </b>
-                </span>
-                    <span>
-                    <fmt:message key="deal.from"/>
-                    <b>
-                        {{value.item.shipper}},
-                    </b>
-                </span>
-                <span>
-                    ${fn:substring(plan, 0, 4)}:
-                    <b>
-                        {{(value.item.plan).toLocaleString()}}
-                        {{value.item.unit}}
-                    </b>
-                </span>
                 </div>
-                <div class="middle-row">
-                    <div style="display: inline-block; font-size: 10pt; width: 10em">
-                        <div>
-                            <fmt:message key="transportation.time.in"/>:
-                        <span v-if="value.item.timeIn.time">
-                            {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
-                        </span>
-                        <span v-else>
-                            --:--
-                        </span>
+                    <div class="middle-row">
+                        <div style="display: inline-block; font-size: 10pt; width: 10em">
+                            <div>
+                                <fmt:message key="transportation.time.in"/>:
+                                <span v-if="value.item.timeIn.time">
+                                    {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+                                </span>
+                                <span v-else>
+                                    --:--
+                                </span>
+                            </div>
+                            <div>
+                                <fmt:message key="transportation.time.out"/>:
+                                  <span v-if="value.item.timeOut.time">
+                                    {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
+                                  </span>
+                                    <span v-else>
+                                        --:--
+                                    </span>
+                            </div>
                         </div>
-                        <div>
-                            <fmt:message key="transportation.time.out"/>:
-                      <span v-if="value.item.timeOut.time">
-                        {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
-                      </span>
-                        <span v-else>
-                            --:--
-                        </span>
-                        </div>
-                    </div>
-                    <div style="display: inline-block; font-size: 10pt; width: 28em">
-                        <div>
-                            <fmt:message key="transportation.automobile"/>:
+                        <div style="display: inline-block; font-size: 10pt; width: 28em">
+                            <div>
+                                <fmt:message key="transportation.automobile"/>:
                         <span>
                             <template v-if="value.item.vehicle.id">
-                                {{value.item.vehicle.model}}
+                            {{value.item.vehicle.model}}
                             <span class="vehicle-number">
                             {{value.item.vehicle.number}}
                             </span>
@@ -159,34 +142,52 @@
                                 <fmt:message key="no.data"/>
                             </span>
                         </span>
-                        </div>
-                        <div>
-                            <fmt:message key="transportation.driver"/>:
+                            </div>
+                            <div>
+                                <fmt:message key="transportation.driver"/>:
                             <span style="font-weight: bold; font-size: 12pt" v-if="value.item.driver.id">
                                 {{value.item.driver.person.surname}}
                                 {{value.item.driver.person.forename}}
                                 {{value.item.driver.person.patronymic}}
+                                <span v-if="value.item.driver.license">
+                                    <b>
+                                        {{value.item.driver.license}}
+                                    </b>
                             </span>
-                            <template v-else>
-                                <fmt:message key="no.data"/>
-                            </template>
+                            </span>
+                                <template v-else>
+                                    <fmt:message key="no.data"/>
+                                </template>
+                            </div>
+
                         </div>
-                        <div v-if="value.item.driver.license">
-                            <fmt:message key="driver.license"/>:
+                        <div style="display: inline-block; font-size: 10pt">
+                            <div>
+                                <fmt:message key="transport.customer"/>:
+                                <span style="font-size: 14pt; font-weight: bold; width: 100%; text-align: center">
+                                    {{customers[value.item.customer]}}
+                                </span>
+                            </div>
+                            <div>
+                                <fmt:message key="transportation.transporter"/>:
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="lower-row" v-if="value.item.notes.length > 0">
+                        <div v-for="note in value.item.notes" style="display: inline-block; padding-left: 4pt">
+                        <span v-if="note.creator.person">
+                            {{note.creator.person.value}}:
+                        </span>
                             <b>
-                                {{value.item.driver.license}}
+                                {{note.note}}
                             </b>
                         </div>
                     </div>
-                    <div style="display: inline-block; font-size: 10pt">
-                        <div>
-                            <fmt:message key="transport.customer"/>:
-                        </div>
-                        <div style="font-size: 14pt; font-weight: bold; width: 100%; text-align: center">
-                            {{customers[value.item.customer]}}
-                        </div>
-                    </div>
-                    <div style="display: inline-block; font-size: 10pt; width: 140px">
+                </div>
+                <div style="display: inline-block">
+                    <div style="display: inline-block; font-size: 10pt;">
                         <div v-if="value.item.weight.id">
                             <div>
                                 Б: {{value.item.weight.brutto}},
@@ -196,11 +197,14 @@
                             </div>
                             <div>
                                 Н: {{(value.item.weight.netto).toLocaleString()}}
+                            </div>
+                            <div>
                                 <span v-if="value.item.weight.correction">
                                     ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
                                 </span>
                             </div>
                         </div>
+
                     </div>
                     <div style="display: inline-block; font-size: 10pt">
                         <div v-if="value.item.analyses.sun.id">
@@ -212,9 +216,7 @@
                             </div>
                             <div>
                                 <fmt:message key="sun.soreness"/>:{{value.item.analyses.sun.soreness}}
-                                <span v-if="value.item.weight.correction">
-                                    (-{{(value.item.weight.correction).toLocaleString()}} %)
-                                </span>
+
                             </div>
                             <div>
                                 <fmt:message key="sun.oil.impurity"/>:
@@ -223,6 +225,11 @@
                             <div>
                                 <fmt:message key="sun.oiliness"/>:
                                 {{value.item.analyses.sun.oiliness}}
+                            </div>
+                            <div>
+                                <span v-if="value.item.weight.correction">
+                                    (-{{(value.item.weight.correction).toLocaleString()}} %)
+                                </span>
                             </div>
                         </div>
                         <div v-if="value.item.analyses.oil.id">
@@ -252,16 +259,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="lower-row" v-if="value.item.notes.length > 0">
-                    <div v-for="note in value.item.notes" style="display: inline-block; padding-left: 4pt">
-                        <span v-if="note.creator.person">
-                            {{note.creator.person.value}}:
-                        </span>
-                        <b>
-                            {{note.note}}
-                        </b>
-                    </div>
-                </div>
+
             </div>
         </transition-group>
 

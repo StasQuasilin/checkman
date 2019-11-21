@@ -1,5 +1,8 @@
 var list = new Vue({
     el:'#logistic',
+    components:{
+        'vehicle-input':objectInput
+    },
     data:{
         api:{
             findVehicle:'',

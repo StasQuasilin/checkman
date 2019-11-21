@@ -8,11 +8,43 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <link rel="stylesheet" href="${context}/css/LogisticList.css">
+  <script src="${context}/vue/templates/vehicleInput.vue"></script>
   <script src="${context}/vue/logisticList.vue"></script>
+
   <script>
     <c:forEach items="${dealTypes}" var="type">
     list.types['${type}'] = '<fmt:message key="_${type}"/>';
     </c:forEach>
+
+    list.trailerProps = {
+      find : '${findTrailer}',
+      add : '<fmt:message key="button.add"/>',
+      header : '<fmt:message key="button.add.trailer"/>',
+      show:['number'],
+      put : function(vehicle){
+
+      }
+    };
+    list.vehicleProps = {
+      find : '${findVehicle}',
+      edit:'${vehicleEdit}',
+      add : '<fmt:message key="button.add"/>',
+      header : '<fmt:message key="transportation.automobile.insert.info"/>',
+      show:['model', 'number'],
+      put : function(vehicle){
+
+      }
+    }
+    list.driverProps = {
+      find : '${findDriver}',
+      edit:'${editDriver}',
+      add : '<fmt:message key="button.add"/>',
+      header : '<fmt:message key="transportation.driver.insert.info"/>',
+      show:['value'],
+      put : function(vehicle){
+
+      }
+    }
     list.api.saveVehicle = '${saveVehicle}';
     list.api.saveDriver = '${saveDriver}';
     list.api.parseVehicle = '${parseVehicle}';
@@ -123,96 +155,18 @@
           </div>
           <div style="display: inline-block; width: 280pt">
             <div>
-            <span class="transport-label">
-              <fmt:message key="transportation.automobile"/>:
-            </span>
-              <div class="content-item" style="width: 80%">
-              <span v-if="value.item.vehicle.id">
-                <b>{{value.item.vehicle.model}}</b>
-                <span class="vehicle-number">
-                {{value.item.vehicle.number}}
-                </span>
-                <span v-if="value.item.vehicle.trailer" class="vehicle-number">
-                {{value.item.vehicle.trailer}}
-                </span>
-                <span class="edit-menu-header">
-                  &#9660;
-                  <div class="edit-menu">
-                    <span v-on:click="editVehicle(value)">
-                      <fmt:message key="edit"/>
-                    </span>
-                    <span v-on:click="deleteVehicle(value.item.id)">
-                      <fmt:message key="button.cancel"/>
-                    </span>
-                  </div>
-                </span>
+              <span class="transport-label">
+                <fmt:message key="transportation.automobile"/>:
               </span>
-                <template v-else-if="value.editVehicle">
-                  <div style="display: inline-block; width: 90%">
-                    <input v-model="value.vehicleInput" style="width: 100%; border: solid paleturquoise 1pt"
-                           v-on:keyup="findVehicle(value)"
-                           v-on:keyup.enter="parseVehicle(value)" onfocus="this.select()" >
-                    <div class="custom-data-list">
-                      <div class="custom-data-list-item" v-for="vehicle in foundVehicles"
-                           v-on:click="setVehicle(value.item.id, vehicle.id, value)">
-                        {{vehicle.model}}
-                      <span>
-                        {{vehicle.number}}
-                      </span>
-                      <span v-if="vehicle.trailer">
-                        {{vehicle.trailer}}
-                      </span>
-                      </div>
-                    </div>
-                  </div>
-                  <span class="mini-close" v-on:click="closeVehicleInput(key)" style="left: -24px">&times;</span>
-                </template>
-                <a v-else v-on:click="openVehicleInput(value.item.id)">
-                  <fmt:message key="transport.insert.infortation"/>
-                </a>
-              </div>
+              <vehicle-input :props="vehicleProps" :object="value.item.vehicle"></vehicle-input>
+              <vehicle-input :props="trailerProps" :object="value.item.trailer"></vehicle-input>
+
             </div>
             <div style="padding: 2pt 0; width: 100%" >
               <span class="transport-label">
                 <fmt:message key="transportation.driver"/>:
               </span>
-              <div style="display: inline-block; width: 80%">
-                <span v-if="value.item.driver.id">
-                  <b>
-                    {{value.item.driver.person.surname}}
-                    {{value.item.driver.person.forename}}
-                    {{value.item.driver.person.patronymic}}
-                  </b>
-                  <span class="edit-menu-header">
-                    &#9660;
-                    <div class="edit-menu">
-                      <span v-on:click="editDriver(value)">
-                        <fmt:message key="edit"/>
-                      </span>
-                      <span v-on:click="deleteDriver(value.item.id)">
-                        <fmt:message key="button.cancel"/>
-                      </span>
-                    </div>
-                  </span>
-                </span>
-                <template v-else-if="value.editDriver">
-                  <div style="display: inline-block; width: 90%">
-                    <input v-model="value.driverInput" style="width: 100%; border: solid paleturquoise 1pt"
-                           v-on:keyup="findDriver(value)"
-                           v-on:keyup.enter="parseDriver(value)">
-                    <div class="custom-data-list" v-show="foundDrivers">
-                      <div class="custom-data-list-item" v-for="driver in foundDrivers"
-                           v-on:click="setDriver(value.item.id, driver.id, value)">
-                        {{driver.person.value}}
-                      </div>
-                    </div>
-                  </div>
-                  <span class="mini-close" v-on:click="closeDriverInput(key)" style="left: -24px;">&times;</span>
-                </template>
-                <a v-else v-on:click="openDriverInput(value.item.id)">
-                  <fmt:message key="transportation.driver.insert.info"/>
-                </a>
-              </div>
+              <vehicle-input :props="driverProps" :object="value.item.driver"></vehicle-input>
             </div>
             <div style="display: inline-block; font-size: 10pt" v-if="value.item.driver.license">
               <fmt:message key="driver.license"/>:
@@ -223,10 +177,10 @@
           </div>
           <div style="display: inline-block; font-size: 10pt">
             <div>
-              <fmt:message key="transport.customer"/>:
+              <fmt:message key="transport.customer"/>:{{customers[value.item.customer]}}
             </div>
-            <div style="font-size: 12pt; font-weight: bold; width: 100%; text-align: center">
-              {{customers[value.item.customer]}}
+            <div>
+              <fmt:message key="transportation.transporter"/>:
             </div>
           </div>
           <div style="display: inline-block">
@@ -295,7 +249,6 @@
         <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
           <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
           <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
-
           <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${cancel}')">
             <span v-if="menu.any">
               <fmt:message key="menu.archive"/>
@@ -310,4 +263,4 @@
   </div>
 
 </html>
-<jsp:include page="../summary/staticCalendar.jsp"/>
+<%--<jsp:include page="../summary/staticCalendar.jsp"/>--%>

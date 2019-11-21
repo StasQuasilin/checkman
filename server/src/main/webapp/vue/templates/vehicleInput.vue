@@ -69,7 +69,7 @@ var objectInput = {
         }
     },
     template:
-        '<span v-if="object.id" class="object-block">' +
+        '<span v-if="object && object.id" class="object-block">' +
             '<a v-on:click="edit">{{show(object)}}</a>' +
             '<span class="mini-close" v-on:click="closeObject()">' +
                 '&times;' +

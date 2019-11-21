@@ -90,6 +90,7 @@ public class Driver extends JsonAble{
         if (vehicle != null){
             json.put(VEHICLE, vehicle.toJson());
         }
+        json.put(VALUE, person.getValue());
         return json;
     }
 }

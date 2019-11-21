@@ -8,13 +8,11 @@ import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.organisations.Organisation;
 import entity.products.Product;
-import entity.seals.Seal;
 import entity.weight.Weight;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,7 +29,8 @@ public class Transportation {
     private Trailer trailer;
     private String truckNumber;
     private String trailerNumber;
-    private String transporter;
+    private Organisation transporter;
+    private String transporterValue;
     private Driver driver;
     private String driverLicense;
     private Shipper shipper;
@@ -123,13 +122,22 @@ public class Transportation {
         this.trailerNumber = trailerNumber;
     }
 
-    @Basic
-    @Column(name = "transporter")
-    public String getTransporter() {
+    @OneToOne
+    @JoinColumn(name = "organisation_transporter")
+    public Organisation getTransporter() {
         return transporter;
     }
-    void setTransporter(String transporter) {
+    void setTransporter(Organisation transporter) {
         this.transporter = transporter;
+    }
+
+    @Basic
+    @Column(name = "transporter")
+    public String getTransporterValue() {
+        return transporterValue;
+    }
+    void setTransporterValue(String transporterValue) {
+        this.transporterValue = transporterValue;
     }
 
     @OneToOne
