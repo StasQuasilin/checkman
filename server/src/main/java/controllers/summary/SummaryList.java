@@ -21,7 +21,7 @@ public class SummaryList extends IUIServlet {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String r = String.valueOf(req.getSession().getAttribute("role"));
+		String r = String.valueOf(req.getSession().getAttribute(ROLE));
 		Role role;
 		if (U.exist(r)){
 			role = Role.valueOf(r);

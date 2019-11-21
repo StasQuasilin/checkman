@@ -5,13 +5,16 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-<div id="container-header" style="display: inline">
-    <c:forEach items="${analysesTypes}" var="a">
-        <button ondblclick="" onclick="loadModal('${edit}?type=${a}')">
-            <fmt:message key="${a}"/>
-        </button>
-    </c:forEach>
-</div>
+<c:if test="${edit ne null}">
+    <div id="container-header" style="display: inline">
+        <c:forEach items="${analysesTypes}" var="a">
+            <button ondblclick="" onclick="loadModal('${edit}?type=${a}')">
+                <fmt:message key="${a}"/>
+            </button>
+        </c:forEach>
+    </div>
+</c:if>
+
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit = 14;

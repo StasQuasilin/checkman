@@ -1,12 +1,15 @@
 package controllers;
 
+import constants.Branches;
 import constants.Constants;
+import entity.Role;
 import entity.Worker;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import utils.JsonParser;
 import utils.LanguageBase;
 import utils.PostUtil;
+import utils.U;
 import utils.hibernate.Hibernator;
 
 import javax.servlet.http.HttpServlet;
@@ -32,6 +35,7 @@ public class IServlet extends HttpServlet {
     public static final String PRINT = "print";
     public static final String SHOW = "show";
     public static final String EDIT = "edit";
+    public static final String ROLE = "role";
     public static final String COLLAPSE = "collapse";
     public static final String DELETE = "delete";
     public static final String EDIT_STORAGE = "editStorage";
@@ -75,6 +79,10 @@ public class IServlet extends HttpServlet {
 
     public Worker getWorker(HttpServletRequest req){
         return (Worker)req.getSession().getAttribute(Constants.WORKER);
+    }
+    public Role getRole(HttpServletRequest req){
+        String r = String.valueOf(req.getSession().getAttribute(ROLE));
+        return Role.valueOf(r);
     }
 
     public static final JsonParser parser = new JsonParser();
