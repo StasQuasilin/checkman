@@ -5,7 +5,6 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
-
     <title>
         <fmt:message key="application.title"/>.${lang}
     </title>
@@ -19,7 +18,9 @@
     <script src="${context}/js/Core.js"></script>
     <script src="${context}/js/Application.js"></script>
     <script src="${context}/js/Settings.js"></script>
+    <script src="${context}/vue/templates/transportationDataView.vue"></script>
     <script>
+
     context = '${context}';
     logoutAPI = '${logoutAPI}';
     welcome = '${welcome}';

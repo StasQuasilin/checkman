@@ -104,7 +104,6 @@
             <td colspan="2">
                 <select id="driver" v-model="driver" style="width: 100%">
                     <option value="-1"><fmt:message key="all"/></option>
-                    <option value="0"><fmt:message key="no.data"/> </option>
                     <option v-for="driver in drivers()" :value="driver.id">{{driver.person.value}}</option>
                 </select>
             </td>

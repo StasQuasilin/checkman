@@ -100,6 +100,7 @@ public class Person extends JsonAble{
         json.put(SURNAME, surname);
         json.put(FORENAME, forename);
         json.put(PATRONYMIC, patronymic);
+        json.put(VALUE, getValue());
 
         return json;
     }

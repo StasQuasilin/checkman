@@ -85,7 +85,7 @@
 
                         var driver = counterparty.values[a.id];
                         if (!driver){
-                            var dn = a.driver.person ? a.driver.person.value : '--';
+                            var dn = a.driver ? a.driver.person.value : '--';
                             driver = Vue.set(counterparty.values, a.id, {
                                 driver:dn,
                                 plan:plan,

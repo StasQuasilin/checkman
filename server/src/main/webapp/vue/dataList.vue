@@ -1,5 +1,9 @@
 var list = new Vue({
     el: '#container',
+    components:{
+        'transport-view':transportView,
+        'laboratory-view':laboratoryView
+    },
     data:{
         api:{
             edit:'',
@@ -17,7 +21,6 @@ var list = new Vue({
             x:0,
             y:0
         },
-        timer :1000,
         limit:-1
     },
     mounted:function(){
@@ -112,7 +115,6 @@ var list = new Vue({
         },
         sort:function(){
             this.items.sort(function(a, b){
-
                 return new Date(a.item.date) - new Date(b.item.date);
             })
         },

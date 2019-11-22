@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
+import entity.transport.TransportCustomer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,7 @@ import java.io.IOException;
 public class LogisticList extends IUIServlet{
 
     final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+    public static final String _CONTENT = "/pages/logistic/logisticList.jsp";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,12 +36,12 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("saveNote", Branches.API.SAVE_NOTE);
         req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
         req.setAttribute("dealTypes", DealType.values());
-        req.setAttribute("changeDate", Branches.API.CHANGE_DATE);
         req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
         req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
-        req.setAttribute(CONTENT, "/pages/logistic/logisticList.jsp");
+        req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(SUBSCRIBE, subscribers);
+        req.setAttribute(CUSTOMERS, TransportCustomer.values());
         show(req, resp);
     }
 }

@@ -20,16 +20,18 @@ public class TransportList extends IUIServlet{
     private static final long serialVersionUID = -3161276220497815575L;
 
     Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+    public static final String _CONTENT = "/pages/transport/transportList.jsp";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.TRANSPORT_LIST);
         req.setAttribute(EDIT, Branches.UI.TRANSPORT_SHOW);
-        req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
+        req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute("printOnTerritory", Branches.UI.PRINT_ON_TERRITORY);
         req.setAttribute("printIncome", Branches.UI.TRANSPORT_INCOME);
         req.setAttribute(SUBSCRIBE, subscribers);
+        req.setAttribute(HAVE_MENU, false);
         show(req, resp);
     }
 }
