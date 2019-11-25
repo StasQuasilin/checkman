@@ -81,9 +81,9 @@
         </table>
       </div>
     </td>
-    <td valign="top" rowspan="2">
+    <td valign="top" rowspan="2" style="width: 150pt">
       <div style="position: relative; top: -3px; overflow-y: scroll">
-        <table border="0" style="border: 0">
+        <table border="0" style="border: 0" width="100%">
           <tr>
             <td>
               <%--!--%>
@@ -132,6 +132,75 @@
                     </td>
                   </tr>
                 </table>
+              </div>
+              <div class="page-container">
+                <c:choose>
+                  <c:when test="${plan.transportation.sunAnalyses ne null}">
+                    <table width="100&"  style="font-size: 10pt">
+                      <tr>
+                        <td>
+                          <fmt:message key="sun.humidity.1.short"/>
+                        </td>
+                        <td>
+                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.humidity1}"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <fmt:message key="sun.humidity.2.short"/>
+                        </td>
+                        <td>
+                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.humidity2}"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <fmt:message key="sun.soreness"/>
+                        </td>
+                        <td>
+                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.soreness}"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <fmt:message key="sun.oil.impurity"/>
+                        </td>
+                        <td>
+                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.oilImpurity}"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <fmt:message key="sun.oiliness"/>
+                        </td>
+                        <td>
+                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.oiliness}"/>
+                        </td>
+                      </tr>
+                      <c:if test="plan.transportation.sunAnalyses.contamination">
+                        <tr>
+                          <td colspan="2" style="color: orangered">
+                            <fmt:message key="sun.contamination"/>
+                          </td>
+                        </tr>
+                      </c:if>
+                      <tr>
+                        <td>
+                          <fmt:message key="create.date"/>
+                        </td>
+                        <td>
+                          <fmt:formatDate value="${plan.transportation.sunAnalyses.createTime.time}" pattern="dd.MM.yy HH:mm"/>
+                        </td>
+                      </tr>
+                    </table>
+                  </c:when>
+                  <c:when test="${plan.transportation.oilAnalyses ne null}">
+                    OIL
+                  </c:when>
+                  <c:when test="${plan.transportation.mealAnalyses ne null}">
+                    MEAL
+                  </c:when>
+                </c:choose>
               </div>
             </td>
           </tr>

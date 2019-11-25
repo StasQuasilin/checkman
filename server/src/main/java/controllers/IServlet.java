@@ -33,6 +33,7 @@ public class IServlet extends HttpServlet {
     public static final String CANCEL = "cancel";
     public static final String ADD = "add";
     public static final String PRINT = "print";
+    public static final String TRANSPORT_CARRIAGES = "transportCarriages";
     public static final String SHOW = "show";
     public static final String EDIT = "edit";
     public static final String ROLE = "role";
@@ -43,6 +44,8 @@ public class IServlet extends HttpServlet {
     public static final String CONTENT = "content";
     public static final String WEIGHT_SHOW = "";
     public static final String MODAL_CONTENT = "modalContent";
+    public static final String FIND_ORGANISATION = Constants.FIND_ORGANISATION;
+    public static final String FIND_DRIVER = Constants.FIND_DRIVER;
     public static final String STORAGE = Constants.STORAGE;
     public static final String STORAGE_PRODUCTS = Constants.STORAGE_PRODUCTS;
     public static final String REPORT = "report";

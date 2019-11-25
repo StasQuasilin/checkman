@@ -118,8 +118,8 @@
 
                 <div style="display: inline-block; font-size: 10pt">
                     <div v-if="value.item.analyses.sun.id">
-                        <fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},
-                        <fmt:message key="sun.humidity.2"/>:{{value.item.analyses.sun.humidity2}},
+                        <fmt:message key="sun.humidity.1.short"/>:{{value.item.analyses.sun.humidity1}},
+                        <fmt:message key="sun.humidity.2.short"/>:{{value.item.analyses.sun.humidity2}},
                         <fmt:message key="sun.soreness"/>:{{value.item.analyses.sun.soreness}},
                         <fmt:message key="sun.oiliness"/>:{{value.item.analyses.sun.oiliness}}
                     </div>

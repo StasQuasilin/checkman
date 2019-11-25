@@ -39,6 +39,7 @@ public class Constants {
     public static final String PROBE = "probe";
     public static final String FIND_MANGER = "findManager";
     public static final String FIND_ORGANISATION = "findOrganisation";
+    public static final String FIND_DRIVER = "findDriver";
     public static final String COUNTERPARTY = "counterparty";
     public static final String SUCCESS = "success";
     public static final String ERROR = "error";
@@ -91,6 +92,7 @@ public class Constants {
     public static final String PATRONYMIC = "patronymic";
     public static final String PHONES = "phones";
     public static final String EMPTY_JSON = "{}";
+    public static final String TRANSPORTATIONS = TRANSPORTATION + "s";
 
 
     public static class Languages {

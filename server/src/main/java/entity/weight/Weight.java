@@ -87,13 +87,13 @@ public class Weight {
         if (brutto == 0 || tara == 0){
             return 0;
         } else {
-            return (brutto - tara);
+            return 1f * Math.round((brutto - tara) * 100) / 100;
         }
     }
 
     @Transient
     public float getCorrectedNetto(){
-        return getNetto() * (1 - correction / 100);
+        return 1f * Math.round(getNetto() * (1 - correction / 100) * 100) / 100;
     }
 
     @Override

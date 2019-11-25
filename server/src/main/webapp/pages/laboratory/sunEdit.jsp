@@ -138,7 +138,7 @@
     <tr>
         <td>
             <label for="humidity1">
-                <fmt:message key="sun.humidity.1"/>
+                <fmt:message key="sun.humidity.1.short"/>
             </label>
         </td>
         <td>
@@ -163,7 +163,7 @@
     <tr>
         <td>
             <label for="humidity2">
-                <fmt:message key="sun.humidity.2"/>
+                <fmt:message key="sun.humidity.2.short"/>
             </label>
         </td>
         <td>

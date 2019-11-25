@@ -205,10 +205,10 @@
                     <div style="display: inline-block; font-size: 10pt">
                         <div v-if="value.item.analyses.sun.id">
                             <div>
-                                <fmt:message key="sun.humidity.1"/>:{{value.item.analyses.sun.humidity1}},
+                                <fmt:message key="sun.humidity.1.short"/>:{{value.item.analyses.sun.humidity1}},
                             </div>
                             <div v-if="value.item.analyses.sun.humidity2 > 0">
-                                <fmt:message key="sun.humidity.2"/>:{{value.item.analyses.sun.humidity2}},
+                                <fmt:message key="sun.humidity.2.short"/>:{{value.item.analyses.sun.humidity2}},
                             </div>
                             <div>
                                 <fmt:message key="sun.soreness"/>:{{value.item.analyses.sun.soreness}}

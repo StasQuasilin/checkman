@@ -31,12 +31,21 @@
     }
 </script>
     <div id="container-header" class="container-header">
+        <link rel="stylesheet" href="${context}/css/drop-menu.css">
         <c:if test="${not empty add}">
             <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
         </c:if>
         <button onclick="loadModal('${print}')">
             <fmt:message key="document.print"/>
         </button>
+        <div class="drop-menu">
+            <a class="drop-btn"><fmt:message key="menu.reports"/></a>
+            <div class="drop-menu-content">
+                <div class="drop-menu-item" onclick="loadModal('${transportCarriages}')">
+                    <fmt:message key="transport.carriages"/>
+                </div>
+            </div>
+        </div>
     </div>
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">

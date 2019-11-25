@@ -233,11 +233,11 @@
                     <fmt:message key="analyses"/>
                     <div style="width:100%; text-align: left">
                         <div>
-                            <fmt:message key="sun.humidity.1"/>:
+                            <fmt:message key="sun.humidity.1.short"/>:
                             ${plan.transportation.sunAnalyses.humidity1}
                         </div>
                         <div>
-                            <fmt:message key="sun.humidity.2"/>:
+                            <fmt:message key="sun.humidity.2.short"/>:
                             ${plan.transportation.sunAnalyses.humidity2}
                         </div>
                         <div>
@@ -273,7 +273,7 @@
                 <%--<template v-for="sun in analyses.sun">--%>
                     <%--<tr>--%>
                         <%--<td>--%>
-                            <%--<fmt:message key="sun.humidity.1"/>--%>
+                            <%--<fmt:message key="sun.humidity.1.short"/>--%>
                         <%--</td>--%>
                         <%--<td>--%>
                             <%--:--%>
@@ -284,7 +284,7 @@
                     <%--</tr>--%>
                     <%--<tr>--%>
                         <%--<td>--%>
-                            <%--<fmt:message key="sun.humidity.2"/>--%>
+                            <%--<fmt:message key="sun.humidity.2.short"/>--%>
                         <%--</td>--%>
                         <%--<td>--%>
                             <%--:--%>
