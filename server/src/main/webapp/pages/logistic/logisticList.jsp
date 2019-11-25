@@ -16,42 +16,48 @@
   <script src="${context}/vue/templates/transportationDataEdit.vue"></script>
   <script src="${context}/vue/dataList.vue"></script>
   <script>
+    var save = '${save}';
     list.fields = {
+      trailer:'<fmt:message key="transportation.automobile.trailer"/>',
       driverProps:{
-        find:'--',
-        add:'<fmt:message key="button.add"/>',
+        find:'${findDriver}',
+        add:'${parseDriver}',
+        addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="transportation.driver.insert.info"/>',
-        put:function(driver){
-          console.log(driver);
+        put:function(driver, item){
+          PostApi(save, {id:item.id, driver:driver.id});
         },
-        show:['value']
+        show:['person/value']
       },
       vehicleProps:{
-        find:'',
-        add:'<fmt:message key="button.add"/>',
-        header:'<fmt:message key="transportation.automobile.insert.info"/>',
-        put:function(vehicle){
-          console.log(vehicle);
+        find:'${findVehicle}',
+        add:'${parseVehicle}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="button.add.vehicle"/>',
+        put:function(vehicle, item){
+          PostApi(save, {id:item.id, vehicle:vehicle.id});
         },
         show:['model', 'number']
       },
       trailerProps:{
-        find:'',
-        add:'<fmt:message key="button.add"/>',
+        find:'${findTrailer}',
+
+        addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="button.add.trailer"/>',
-        put:function(trailer){
-          console.log(trailer);
+        put:function(trailer, item){
+          PostApi(save, {id:item.id, trailer:trailer.id});
         },
         show:['number']
       },
-      customerProps:{
-        find:'',
-        add:'<fmt:message key="button.add"/>',
-        header:'<fmt:message key="button.add.customer"/>',
-        put:function(trailer){
-          console.log(trailer);
+      transporterProps:{
+        find:'${findOrganisation}',
+        add:'${parseOrganisation}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="button.add.transporter"/>',
+        put:function(transporter, item){
+          PostApi(save, {id:item.id, transporter:transporter.id});
         },
-        show:['number']
+        show:['value']
       }
     };
   </script>

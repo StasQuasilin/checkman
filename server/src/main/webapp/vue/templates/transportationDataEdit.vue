@@ -15,16 +15,17 @@ var transportView = {
     template:
     '<div style="display: inline-block;">'+
         '<div style="display: inline-block; font-size: 10pt;">' +
-            '<div>' +
+            '<div style="padding: 2pt 0">' +
                 '{{fields.driver}}: '+
-                '<object-input :props="fields.driverProps" :object="item.driver"></object-input>' +
-                '<span style="font-size: 12pt" v-if="item.driver && item.driver.license">' +
+                '<object-input :props="fields.driverProps" :object="item.driver" :item="item"></object-input>' +
+                '<span v-if="item.driver && item.driver.license">' +
                     '{{item.driver.license}}'+
                 '</span>'+
             '</div>' +
             '<div>'+
-                '{{fields.vehicle}}: '+
-                '<object-input :props=fields.vehicleProps :object=item.vehicle></object-input>'+
+                '{{fields.vehicle}}/{{fields.trailer}}: '+
+                '<object-input :props=fields.vehicleProps :object=item.vehicle :item="item"></object-input> '+
+                '<object-input :props=fields.trailerProps :object=item.trailer :item="item"></object-input>'+
             '</div>'+
         '</div>'+
         '<div style="display: inline-block; font-size: 10pt; padding-left: 4pt">'+
@@ -36,7 +37,7 @@ var transportView = {
             '</div>'+
             '<div>'+
                 '{{fields.transporter}}: ' +
-                '<object-input :props=fields.transporterProps :object=item.transporter></object-input>'+
+                '<object-input :props=fields.transporterProps :object=item.transporter :item="item"></object-input>'+
             '</div>'+
         '</div>'+
     '</div>'

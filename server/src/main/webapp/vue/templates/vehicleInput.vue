@@ -1,5 +1,9 @@
 var objectInput = {
-    props:{props:Object, object:Object},
+    props:{
+        props:Object,
+        object:Object,
+        item:Object
+    },
     data:function(){
         return{
             input:'',
@@ -11,8 +15,8 @@ var objectInput = {
     },
     mounted:function(){
         let props = this.props;
-        if (!props.add){
-            console.warn('Title \'add\' required');
+        if (!props.addHeader){
+            console.warn('Title \'addHeader\' required');
         }
         if (!props.header){
             console.warn('Title \'header\' required');
@@ -41,12 +45,21 @@ var objectInput = {
             }
         },
         putObject:function(object){
-            this.props.put(object);
+            this.props.put(object, this.item);
             this.foundObjects = [];
-
         },
         openObjectInput:function(){
             this.open = true;
+            const self = this;
+            setTimeout(function(){
+                self.$refs.input.select();
+            }, 0);
+
+        },
+        closeInput:function(){
+            this.input = '';
+            this.open = false;
+            this.foundObjects = [];
         },
         closeObject:function(){
             console.log('Cancel');
@@ -63,33 +76,47 @@ var objectInput = {
         show:function(item){
             let values = [];
             this.props.show.forEach(function(a){
-                values.push(item[a])
+                let field = item;
+                a.split('/').forEach(function(split){
+                    field = field[split];
+                });
+                values.push(field)
             });
             return values.join(' ');
+        },
+        addItem:function(){
+            const self = this;
+            PostApi(this.props.add, {key:this.input}, function(a){
+                if (a.status === 'success'){
+                    self.putObject(a.result);
+                }
+            });
+            this.closeInput();
         }
     },
     template:
         '<span v-if="object && object.id" class="object-block">' +
-            '<a v-on:click="edit">{{show(object)}}</a>' +
+            '<a v-on:click="edit" style="font-weight: bold">{{show(object)}}</a>' +
             '<span class="mini-close" v-on:click="closeObject()">' +
                 '&times;' +
             '</span>' +
         '</span>' +
         '<div v-else style="display: inline-block">'+
-            '<div v-if="open" style="display: inline-block">' +
-                '<input v-model="input" autocomplete="off" ' +
-                    'v-on:keyup="findObject()" ' +
+            '<div v-if="open" style="display: inline-block" v-on:blur="closeInput()">' +
+                '<input v-model="input" autocomplete="off" ref="input"' +
+                    'v-on:keyup="findObject()" v-on:keyup.escape="closeInput()"' +
                     ':class="{error : error}" v-on:click="error = false"' +
-                    'style=" width: 100%; border: none">' +
+                    'style=" width: 90%; border: none">' +
+                '<span class="mini-close" v-on:click="closeInput()">&times;</span>' +
                 '<div class="custom-data-list" v-if="foundObjects.length > 0 || input">' +
                     '<div v-for="o in foundObjects"' +
                         'class="custom-data-list-item" ' +
                             'v-on:click="putObject(o)">' +
                                 '{{show(o)}} ' +
                     '</div>' +
-                    '<div class="custom-data-list-item">' +
+                    '<div v-if="props.add" class="custom-data-list-item" v-on:click="addItem()">' +
                         '<b>' +
-                            '+ {{props.add}}' +
+                            '+ {{props.addHeader}}' +
                         '</b>' +
                     '</div>' +
                 '</div>' +

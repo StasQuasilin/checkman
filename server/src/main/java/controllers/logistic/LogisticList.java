@@ -26,11 +26,13 @@ public class LogisticList extends IUIServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.LOGISTIC_LIST);
         req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
+        req.setAttribute("findTrailer", Branches.API.References.FIND_TRAILER);
         req.setAttribute("findDriver", Branches.API.References.FIND_DRIVER);
+        req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parseVehicle", Branches.API.PARSE_VEHICLE);
         req.setAttribute("parseDriver", Branches.API.PARSE_PERSON);
-        req.setAttribute("saveVehicle", Branches.API.SAVE_TRANSPORTATION_VEHICLE);
-        req.setAttribute("saveDriver", Branches.API.SAVE_TRANSPORTATION_DRIVER);
+        req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
+        req.setAttribute("save", Branches.API.SAVE_TRANSPORTATION_VEHICLE);
         req.setAttribute("editVehicle", Branches.UI.EDIT_VEHICLE);
         req.setAttribute("editDriver", Branches.UI.EDIT_DRIVER);
         req.setAttribute("saveNote", Branches.API.SAVE_NOTE);

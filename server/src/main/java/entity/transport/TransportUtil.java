@@ -212,5 +212,12 @@ public class TransportUtil{
     public static void setTransporter(Transportation transportation, Organisation transporter){
         transportation.setTransporter(transporter);
         transportation.setTransporterValue(transporter.getValue());
+        Driver driver = transportation.getDriver();
+        if (driver != null){
+            if (driver.getOrganisation() == null){
+                driver.setOrganisation(transporter);
+                dao.save(driver);
+            }
+        }
     }
 }
