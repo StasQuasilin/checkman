@@ -30,11 +30,13 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("findDriver", Branches.API.References.FIND_DRIVER);
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("parseVehicle", Branches.API.PARSE_VEHICLE);
+        req.setAttribute("parseTrailer", Branches.API.PARSE_TRAILER);
         req.setAttribute("parseDriver", Branches.API.PARSE_PERSON);
         req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute("save", Branches.API.SAVE_TRANSPORTATION_VEHICLE);
         req.setAttribute("editVehicle", Branches.UI.EDIT_VEHICLE);
         req.setAttribute("editDriver", Branches.UI.EDIT_DRIVER);
+        req.setAttribute("editOrganisation", Branches.UI.References.ORGANISATION_EDIT);
         req.setAttribute("saveNote", Branches.API.SAVE_NOTE);
         req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
         req.setAttribute("dealTypes", DealType.values());

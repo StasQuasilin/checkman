@@ -18,7 +18,7 @@ var transportView = {
             '<div style="padding: 2pt 0">' +
                 '{{fields.driver}}: '+
                 '<object-input :props="fields.driverProps" :object="item.driver" :item="item"></object-input>' +
-                '<span v-if="item.driver && item.driver.license">' +
+                '<span v-if="item.driver && item.driver.license" style="padding-left: 4pt">' +
                     '{{item.driver.license}}'+
                 '</span>'+
             '</div>' +

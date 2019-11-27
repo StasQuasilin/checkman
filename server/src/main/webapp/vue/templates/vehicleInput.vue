@@ -45,6 +45,7 @@ var objectInput = {
             }
         },
         putObject:function(object){
+            this.input = '';
             this.props.put(object, this.item);
             this.foundObjects = [];
         },
@@ -63,7 +64,7 @@ var objectInput = {
         },
         closeObject:function(){
             console.log('Cancel');
-            this.props.put({});
+            this.props.put({id:-1}, this.item);
         },
         edit:function(){
             if (this.props.edit){
@@ -85,12 +86,16 @@ var objectInput = {
             return values.join(' ');
         },
         addItem:function(){
-            const self = this;
-            PostApi(this.props.add, {key:this.input}, function(a){
-                if (a.status === 'success'){
-                    self.putObject(a.result);
-                }
-            });
+
+            if (this.props.add) {
+                const self = this;
+                PostApi(this.props.add, {key: this.input}, function (a) {
+                    console.log(a);
+                    if (a.status === 'success') {
+                        self.putObject(a.result);
+                    }
+                });
+            }
             this.closeInput();
         }
     },

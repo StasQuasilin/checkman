@@ -121,6 +121,7 @@ var editor = new Vue({
             }
 
             PostApi(this.api.save, result, function(a){
+                console.log(a);
                 saveModal(a);
                 closeModal();
             })

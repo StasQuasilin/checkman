@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/transportationDataView.vue"></script>
+<script src="${context}/vue/dataList.vue"></script>
+
 <jsp:include page="../transportListTemplate.jsp"/>
 </html>

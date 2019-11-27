@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <div class="right-field">
-                    <div v-if="value.item.weight.id" class="right-field-content" style="width: 70pt">
+                    <div v-if="value.item.weight.id" class="right-field-content" style="width: 84pt">
                         <div>
                             Б: {{value.item.weight.brutto}}
                         </div>
@@ -170,10 +170,8 @@
                         <div>
                             Н: {{(value.item.weight.netto).toLocaleString()}}
                         </div>
-                        <div>
-                            <span v-if="value.item.weight.correction">
-                                ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
-                            </span>
+                        <div v-if="value.item.weight.correction > 0">
+                            ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
                         </div>
                     </div>
                     <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>

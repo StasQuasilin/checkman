@@ -35,10 +35,12 @@ public class ParseVehicleServletAPI extends ServletAPI {
                 dao.save(vehicle.getTrailer());
             }
             dao.save(vehicle);
+            JSONObject json = vehicle.toJson();
+            SuccessAnswer answer = new SuccessAnswer(VEHICLE, json);
+            answer.add(RESULT, json);
 
-            JSONObject object = parser.toJson(new SuccessAnswer("vehicle", vehicle.toJson()));
-            String s = object.toJSONString();
-            write(resp, s);
+            JSONObject object = answer.toJson();
+            write(resp, object.toJSONString());
             pool.put(object);
             if (body.containsKey(Constants.TRANSPORTATION)){
                 LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));

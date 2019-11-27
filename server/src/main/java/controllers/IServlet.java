@@ -71,6 +71,7 @@ public class IServlet extends HttpServlet {
     public static final String TRANSPORTER = "transporter";
     public static final String HAVE_MENU = "menu";
     public static final String RESULT = "result";
+    public static final String DRIVER = Constants.DRIVER;
     public static final String KEY = "key";
 
 
