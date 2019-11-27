@@ -27,6 +27,7 @@ public class Titles {
     public static final String EXTRACTION_RAW = "title.extraction.raw.edit";
     public static final String EXTRACTION_OIL = "title.extraction.oil.edit";
     public static final String DEAL_DELETE = "title.deal.delete";
+    public static final String DEAL_ARCHIVE = "title.deal.archive";
     public static final String SUMMARY_LIST = "title.summary.list";
     public static final String SUMMARY_SHOW = "title.summary.show";
     public static final String PROBE_SUN_EDIT = "title.probe.sun";

@@ -72,19 +72,25 @@
                         </b>
                     </span>
                     <span>
-                        <span style="font-size: 10pt">
-                            <fmt:message key="deal.product"/>:
-                        </span>
                         <b>
                             {{value.item.product.name}}
                         </b>
                     </span>
+
                     <span>
                         <span style="font-size: 10pt">
                             ${fn:substring(plan, 0, 4)}:
                         </span>
                         <b>
                             {{(value.item.plan).toLocaleString()}}
+                        </b>
+                    </span>
+                    <span v-if="value.item.price > 0">
+                        <span style="font-size: 10pt">
+                            <fmt:message key="deal.price"/>:
+                        </span>
+                        <b>
+                            {{value.item.price.toLocaleString()}}
                         </b>
                     </span>
                     <span>

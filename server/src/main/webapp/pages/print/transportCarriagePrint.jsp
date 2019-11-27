@@ -26,7 +26,6 @@
   }
 </style>
   <div>
-
     <div class="head">
       <fmt:message key="transport.carriage.head"/>
     </div>
@@ -50,142 +49,157 @@
         <fmt:message key="transportation.driver"/> ${driver.person.value}
       </c:if>
     </div>
-    <c:set value="0" var="correction"/>
-    <c:set value="0" var="total"/>
-    <table>
-      <tr>
-        <th rowspan="2">
-          <fmt:message key="date"/>
-        </th>
-        <th>
-          <fmt:message key="transportation.time.in"/>
-        </th>
-        <c:if test="${empty organisation}">
-          <th rowspan="2">
-            <fmt:message key="deal.organisation"/>
-          </th>
-        </c:if>
-        <c:if test="${empty driver}">
-          <th>
-            <fmt:message key="transportation.driver"/>
-          </th>
-        </c:if>
-        <th rowspan="2">
-          <fmt:message key="weight"/>
-        </th>
-        <th rowspan="2">
-          <fmt:message key="analyses"/>
-        </th>
-      </tr>
-      <tr>
-        <th>
-          <fmt:message key="transportation.time.out"/>
-        </th>
-        <c:if test="${empty driver}">
-          <th>
-            <fmt:message key="transportation.automobile"/>
-          </th>
-        </c:if>
-      </tr>
-      <c:forEach items="${transportations}" var="transport">
+    <c:forEach items="${transportations}" var="t">
+
+      <c:if test="${transportations.size() > 1}">
+        <div style="font-size: 14pt; padding-bottom: 8pt">
+            ${t.key.name}
+        </div>
+      </c:if>
+      <c:set value="0" var="correction"/>
+      <c:set value="0" var="total"/>
+
+      <table>
         <tr>
-          <td rowspan="2" align="center">
-            <fmt:formatDate value="${transport.date}" pattern="dd.MM.yy"/>
-          </td>
-          <td>
-            <fmt:formatDate value="${transport.timeIn.time}" pattern="dd.MM HH:mm"/>
-          </td>
+          <th rowspan="2">
+            <fmt:message key="date"/>
+          </th>
+          <th>
+            <fmt:message key="transportation.time.in"/>
+          </th>
           <c:if test="${empty organisation}">
-            <td rowspan="2">
-                ${transport.counterparty.value}
-            </td>
+            <th rowspan="2">
+              <fmt:message key="deal.organisation"/>
+            </th>
           </c:if>
           <c:if test="${empty driver}">
-            <td>
-                ${transport.driver.person.surname}
-                ${transport.driver.person.forename}
-                ${transport.driver.person.patronymic}
-            </td>
+            <th>
+              <fmt:message key="transportation.driver"/>
+            </th>
           </c:if>
-          <td rowspan="2">
-            <div>
-              <fmt:message key="weight.brutto"/>:
-              <fmt:formatNumber value="${transport.weight.brutto}"/>
-            </div>
-            <div>
-              <fmt:message key="weight.tara"/>:
-              <fmt:formatNumber value="${transport.weight.tara}"/>
-            </div>
-            <div>
-              <fmt:message key="weight.netto"/>:
-              <fmt:formatNumber value="${transport.weight.netto}"/>
-              <c:set var="correction" value="${correction + transport.weight.correctedNetto}"/>
-              <c:set var="total" value="${total + transport.weight.netto}"/>
-            </div>
-            <c:if test="${transport.weight.correction ne 0}">
-              <div>
-                <fmt:message key="weight.creadit.netto"/>:
-                <fmt:formatNumber value="${transport.weight.correctedNetto}"/>
-              </div>
+          <th rowspan="2">
+            <fmt:message key="weight"/>
+          </th>
+          <c:choose>
+            <c:when test="${t.key.analysesType eq 'sun'}">
+              <th colspan="2">
+                <fmt:message key="sun.humidity"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="sun.soreness"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="sun.oiliness"/>
+              </th>
+            </c:when>
+          </c:choose>
+        </tr>
+        <tr>
+          <th>
+            <fmt:message key="transportation.time.out"/>
+          </th>
+          <c:if test="${empty driver}">
+            <th>
+              <fmt:message key="transportation.automobile"/>
+            </th>
+          </c:if>
+          <c:choose>
+            <c:when test="${t.key.analysesType eq 'sun'}">
+              <th>
+                <fmt:message key="transportation.automobile"/>
+              </th>
+              <th>
+                <fmt:message key="transportation.automobile.trailer"/>
+              </th>
+            </c:when>
+          </c:choose>
+        </tr>
+        <c:forEach items="${t.value}" var="transport">
+          <tr>
+            <td rowspan="2" align="center">
+              <fmt:formatDate value="${transport.date}" pattern="dd.MM.yy"/>
+            </td>
+            <td>
+              <fmt:formatDate value="${transport.timeIn.time}" pattern="dd.MM HH:mm"/>
+            </td>
+            <c:if test="${empty organisation}">
+              <td rowspan="2">
+                  ${transport.counterparty.value}
+              </td>
             </c:if>
-          </td>
-          <td rowspan="2">
+            <c:if test="${empty driver}">
+              <td>
+                  ${transport.driver.person.surname}
+                  ${transport.driver.person.forename}
+                  ${transport.driver.person.patronymic}
+              </td>
+            </c:if>
+            <td rowspan="2">
+              <div>
+                <fmt:message key="weight.brutto"/>:
+                <fmt:formatNumber value="${transport.weight.brutto}"/>
+              </div>
+              <div>
+                <fmt:message key="weight.tara"/>:
+                <fmt:formatNumber value="${transport.weight.tara}"/>
+              </div>
+              <div>
+                <fmt:message key="weight.netto"/>:
+                <fmt:formatNumber value="${transport.weight.netto}"/>
+                <c:set var="correction" value="${correction + transport.weight.correctedNetto}"/>
+                <c:set var="total" value="${total + transport.weight.netto}"/>
+              </div>
+              <c:if test="${transport.weight.correction ne 0}">
+                <div>
+                  <fmt:message key="weight.creadit.netto"/>:
+                  <fmt:formatNumber value="${transport.weight.correctedNetto}"/>
+                </div>
+              </c:if>
+            </td>
             <c:choose>
               <c:when test="${transport.sunAnalyses ne null}">
-                <div>
-                  <fmt:message key="sun.humidity.1"/>:
+                <td rowspan="2" align="center">
                   <fmt:formatNumber value="${transport.sunAnalyses.humidity1}"/>
-                </div>
-                <c:if test="${transport.sunAnalyses.humidity2 > 0}">
-                  <div>
-                    <fmt:message key="sun.humidity.2"/>:
-                    <fmt:formatNumber value="${transport.sunAnalyses.humidity2}"/>
-                  </div>
-                </c:if>
-                <div>
-                  <fmt:message key="sun.soreness"/>:
+                </td>
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.sunAnalyses.humidity2}"/>
+                </td>
+                <td rowspan="2" align="center">
                   <fmt:formatNumber value="${transport.sunAnalyses.soreness}"/>
-                </div>
-                <div>
-                  <fmt:message key="sun.oil.impurity"/>:
-                  <fmt:formatNumber value="${transport.sunAnalyses.oilImpurity}"/>
-                </div>
-                <div>
-                  <fmt:message key="sun.oiliness"/>:
+                </td>
+                <td rowspan="2" align="center">
                   <fmt:formatNumber value="${transport.sunAnalyses.oiliness}"/>
-                </div>
-                <c:if test="${transport.sunAnalyses.contamination}">
-                  <div style="color: orangered">
-                    !! <fmt:message key="sun.contamination"/>
-                  </div>
-                </c:if>
-                <c:if test="${transport.weight.correction ne 0}">
-                  <fmt:message key="recalculation"/>:
-                  <fmt:formatNumber value="${transport.weight.correction}"/>%
-                </c:if>
+                </td>
               </c:when>
             </c:choose>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <fmt:formatDate value="${transport.timeOut.time}" pattern="dd.MM HH:mm"/>
-          </td>
-          <c:if test="${empty driver}">
+          </tr>
+          <tr>
             <td>
-                ${transport.vehicle.value}
+              <fmt:formatDate value="${transport.timeOut.time}" pattern="dd.MM HH:mm"/>
             </td>
-          </c:if>
-        </tr>
-      </c:forEach>
-    </table>
-    <div style="padding-top: 24pt">
-      <fmt:message key="amount.total.carriage"/>: <fmt:formatNumber value="${total}"/>
-    </div>
-    <c:if test="${total ne correction}">
-      <div>
-        <fmt:message key="valid.weight"/>: <fmt:formatNumber value="${correction}"/>
+            <c:if test="${empty driver}">
+              <td>
+                  ${transport.vehicle.value}
+              </td>
+            </c:if>
+            <c:choose>
+              <c:when test="${transport.sunAnalyses ne null}">
+              </c:when>
+            </c:choose>
+          </tr>
+        </c:forEach>
+      </table>
+      <div style="padding-top: 12pt">
+        <fmt:message key="amount.total.carriage"/>: <fmt:formatNumber value="${total}"/>
       </div>
-    </c:if>
+      <c:if test="${total ne correction}">
+        <div>
+          <fmt:message key="valid.weight"/>: <fmt:formatNumber value="${correction}"/>
+        </div>
+      </c:if>
+      <div style="padding-bottom: 12pt">
+        &nbsp;
+      </div>
+    </c:forEach>
   </div>
 </html>

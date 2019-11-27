@@ -112,6 +112,11 @@ public class SunAnalyses{
         this.act = act;
     }
 
+    @Transient
+    public float middleHumidity(){
+        return humidity1 > 0 && humidity2 > 0 ? (humidity1 + humidity2) / 2 : humidity1 > 0 ? humidity1 : humidity2 > 0 ? humidity2 : 0;
+    }
+
     @Override
     public int hashCode() {
         return id;

@@ -5,6 +5,7 @@ import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.documents.Deal;
+import entity.documents.LoadPlan;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 29.03.2019.
@@ -20,18 +22,24 @@ import java.io.IOException;
 @WebServlet(Branches.UI.DEAL_DELETE)
 public class DealDelete extends IModal {
 
+    private static final String _CONTENT = "/pages/deals/dealDelete.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
             Deal deal = dao.getDealById(body.get(Constants.ID));
             req.setAttribute("deal", deal);
-            req.setAttribute("done", dao.getLoadPlanByDeal(deal, true, null));
+            List<LoadPlan> done = dao.getLoadPlanByDeal(deal, true, null);
+            req.setAttribute("done", done);
             req.setAttribute("loads", dao.getLoadPlanByDeal(deal, false, null));
-
-            req.setAttribute("title", Titles.DEAL_DELETE);
-            req.setAttribute("delete", Branches.API.DEAL_DELETE);
-            req.setAttribute("modalContent", "/pages/deals/dealDelete.jsp");
+            if (deal.getComplete() > 0) {
+                req.setAttribute(TITLE, Titles.DEAL_DELETE);
+            } else {
+                req.setAttribute(TITLE, Titles.DEAL_ARCHIVE);
+            }
+            req.setAttribute(DELETE, Branches.API.DEAL_DELETE);
+            req.setAttribute(MODAL_CONTENT, _CONTENT);
             show(req, resp);
         }
     }

@@ -6,11 +6,13 @@
 <fmt:setBundle basename="messages"/>
 <html>
     <table>
-        <tr>
-            <th colspan="3">
-                <fmt:message key="deal.delete.?sure"/>
-            </th>
-        </tr>
+        <c:if test="${deal.complete == 0}">
+            <tr>
+                <th colspan="3">
+                    <fmt:message key="deal.delete.?sure"/>
+                </th>
+            </tr>
+        </c:if>
         <tr>
             <td>
                 <fmt:message key="period"/>

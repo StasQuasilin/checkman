@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.organisations.Organisation;
+import entity.products.Product;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -62,15 +64,28 @@ public class TransportationCarriagePrintServletAPI extends ServletAPI{
                 req.setAttribute(DRIVER, driver);
                 params.put("driver", driver);
             }
-            List<Transportation> transportations = dao.getObjectsByParams(Transportation.class, params);
-            transportations.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
             if (from != null){
                 req.setAttribute(FROM, from);
             }
             if (to != null){
                 req.setAttribute(TO, to);
             }
-            req.setAttribute(TRANSPORTATIONS, transportations);
+
+            HashMap<Product, ArrayList<Transportation>> hashMap = new HashMap<>();
+            for (Transportation t : dao.getObjectsByParams(Transportation.class, params)){
+                if (t.getWeight() == null || t.getWeight().getNetto() > 0) {
+                    Product product = t.getProduct();
+                    if (!hashMap.containsKey(product)) {
+                        hashMap.put(product, new ArrayList<>());
+                    }
+                    hashMap.get(product).add(t);
+                }
+            }
+            for (ArrayList<Transportation> a : hashMap.values()){
+                a.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+            }
+
+            req.setAttribute(TRANSPORTATIONS, hashMap);
             req.getRequestDispatcher("/pages/print/transportCarriagePrint.jsp").forward(req, resp);
         }
     }
