@@ -129,12 +129,10 @@ button:focus, input:focus{
     background: #f4b400;
 }
 .object-block{
-    background-color: lightgray;
-    border: solid 1pt;
-    padding: 0 4pt;
-    border-radius: 4pt;
     font-size: 10pt;
-    margin: 0 2pt;
+    background-color: white;
+    padding: 0 4pt;
+    border-radius: 8pt;
 }
 .context-menu{
     font-size: 10pt;
@@ -189,7 +187,7 @@ a:hover{
 }
 .mini-close{
     border-radius: 8pt;
-    padding: 0 5px;
+    padding: 0 2px;
     position: relative;
 }
 .mini-close:hover{

@@ -10,7 +10,7 @@
 
     editor.trailerProps = {
         find : '${findTrailer}',
-        add : '<fmt:message key="button.add"/>',
+        addHeade : '<fmt:message key="button.add"/>',
         header : '<fmt:message key="button.add.trailer"/>',
         show:['number'],
         put : editor.putTrailer,
@@ -18,7 +18,7 @@
     editor.vehicleProps = {
         find : '${findVehicle}',
         edit:'${vehicleEdit}',
-        add : '<fmt:message key="button.add"/>',
+        addHeader : '<fmt:message key="button.add"/>',
         header : '<fmt:message key="button.add.vehicle"/>',
         show:['model', 'number'],
         put : function(vehicle){
@@ -31,7 +31,7 @@
     editor.transporterProps = {
         find:'${find}',
         edit:'${organisationEdit}',
-        add:'<fmt:message key="button.add"/>',
+        addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="button.add.transporter"/>',
         show:['value'],
         put:editor.setOrganisation

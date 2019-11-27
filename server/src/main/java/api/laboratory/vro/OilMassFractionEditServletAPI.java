@@ -59,7 +59,7 @@ public class OilMassFractionEditServletAPI extends ServletAPI {
             }
             
             if (id != -1) {
-                oilMassFraction = dao.getOilMassFractionById(id);
+                oilMassFraction = dao.getObjectById(OilMassFraction.class, id);
             } else {
                 oilMassFraction = new OilMassFraction();
             }

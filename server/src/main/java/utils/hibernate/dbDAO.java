@@ -131,8 +131,7 @@ public interface dbDAO {
     List<ProbeTurn> getLimitProbeTurns();
     List<Worker> findWorker(Object key);
     TurnProtein getTurnProteinById(Object id);
-    OilMassFraction getOilMassFractionById(long id);
-    List<Vehicle> findVehicle(Object key);
+    <T> List<T> findVehicle (Class<T> tClass, Object key);
     List<OrganisationType> getOrganisationTypeList();
     Organisation findOrganisation(String type, String name);
     List<Storage> getStoragesByAnalysesType(AnalysesType type);

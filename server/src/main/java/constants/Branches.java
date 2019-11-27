@@ -251,7 +251,7 @@ public class Branches {
         public static final String MANUFACTURE_REPORT_REMOVE = "/manufacture/report/remove.j";
         public static final String DRIVERS_COLLAPSE = API + "/drivers/collapse";
         public static final String TRANSPORT_CARRIAGE = API + "/transport/carriage";
-
+        public static final String PARSE_TRAILER = API + "/trailer/parse";
 
         public class References {
             public static final String API = Branches.API.API + "/references";
@@ -270,6 +270,7 @@ public class Branches {
             public static final String DRIVER_EDIT =        API + "/driver/edit";
             public static final String ORGANISATION_EDIT = API + "/organisation/edit";
             public static final String FIND_TRAILER = API + "/trailer/find";
+            public static final String PARSE_TRAILER = API;
         }
 
         public class Deal {

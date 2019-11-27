@@ -93,14 +93,17 @@ var filter_control = new Vue({
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     var driver = items[i].item.driver;
-                    if (driver.id && !drivers[driver.id]){
+                    if (driver && driver.id && !drivers[driver.id]){
                         drivers[driver.id] = driver;
                     }
                 }
             }
             let result = Object.values(drivers);
             result.sort(function(a, b){
-                return a.person.value.localeCompare(b.person.value);
+                if (a.person.value && b.person.value) {
+                    return a.person.value.localeCompare(b.person.value);
+                }
+                return 0;
             });
             return result;
         },
@@ -121,7 +124,7 @@ var filter_control = new Vue({
                 }
                 let byDriver = true;
                 if (driver && driver != -1){
-                    if (item.item.driver.id){
+                    if (item.item.driver && item.item.driver.id){
                         byDriver = item.item.driver.id == driver;
                     } else {
                         byDriver = false;

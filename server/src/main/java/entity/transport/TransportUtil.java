@@ -201,7 +201,7 @@ public class TransportUtil{
                 dao.save(driver);
             }
             if (driver.getOrganisation() != null && transportation.getTransporter() == null){
-                transportation.setTransporter(driver.getOrganisation().getValue());
+                setTransporter(transportation, driver.getOrganisation());
             }
         } else {
             transportation.setDriver(null);
@@ -210,11 +210,12 @@ public class TransportUtil{
     }
 
     public static void setTransporter(Transportation transportation, Organisation transporter){
-        if (transporter != null){
-            transportation.setTransporter(transporter.getValue());
+        transportation.setTransporter(transporter);
+        if (transporter != null) {
+            transportation.setTransporterValue(transporter.getValue());
             Driver driver = transportation.getDriver();
-            if (driver != null){
-                if (driver.getOrganisation() == null){
+            if (driver != null) {
+                if (driver.getOrganisation() == null) {
                     driver.setOrganisation(transporter);
                     dao.save(driver);
                 }
@@ -222,6 +223,5 @@ public class TransportUtil{
         } else {
             transportation.setTransporter(null);
         }
-
     }
 }

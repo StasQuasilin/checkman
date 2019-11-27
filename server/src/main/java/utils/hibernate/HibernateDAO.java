@@ -54,7 +54,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by szpt_user045 on 24.06.2019.
@@ -632,7 +631,6 @@ public class HibernateDAO implements dbDAO {
         return hb.get(TurnProtein.class, ID, id);
     }
 
-    @Override
     public OilMassFraction getOilMassFractionById(long id) {
         return hb.get(OilMassFraction.class, ID, id);
     }
@@ -640,12 +638,11 @@ public class HibernateDAO implements dbDAO {
     private static final String REG_EXP = Parser.NUMBER_REGEX;
 
     @Override
-    public List<Vehicle> findVehicle(Object key) {
+    public <T> List<T> findVehicle(Class<T> tClass, Object key) {
         final HashMap<Integer, Integer> ids = new HashMap<>();
-        final HashMap<Integer, Vehicle> vehicles = new HashMap<>();
+        final HashMap<Integer, T> vehicles = new HashMap<>();
 
         StringBuilder builder = new StringBuilder();
-
         String trim = key.toString().trim().toUpperCase().replaceAll("  ", " ");
         char[] chars = trim.toCharArray();
         int idx = 0;
@@ -667,7 +664,7 @@ public class HibernateDAO implements dbDAO {
         Matcher matcher = compile.matcher(trim);
         if (matcher.find()){
             String group = matcher.group();
-            findVehicle("number", group, ids, vehicles);
+            findVehicle(tClass, "number", group, ids, vehicles);
             if (vehicles.size() > 0){
                 trim = trim.replace(group, "").trim();
             }
@@ -675,7 +672,9 @@ public class HibernateDAO implements dbDAO {
 
         int min = 0;
         String model = trim.split(SPACE)[0];
-        findVehicle("model", model, ids, vehicles);
+        if (tClass == Vehicle.class) {
+            findVehicle(tClass, "model", model, ids, vehicles);
+        }
 
         trim = trim.replace(model, "").trim();
 
@@ -683,13 +682,13 @@ public class HibernateDAO implements dbDAO {
             int size = vehicles.size();
 
             trim = Parser.prettyNumber(trim);
-            findVehicle("number", trim, ids, vehicles);
+            findVehicle(tClass, "number", trim, ids, vehicles);
             if (vehicles.size() == size) {
-                findVehicle("trailerNumber", trim, ids, vehicles);
+                findVehicle(tClass, "trailerNumber", trim, ids, vehicles);
             }
         }
 
-        ArrayList<Vehicle> result = new ArrayList<>();
+        ArrayList<T> result = new ArrayList<>();
 
         while (vehicles.size() > 0){
             result.clear();
@@ -708,9 +707,9 @@ public class HibernateDAO implements dbDAO {
         return result;
     }
 
-    private void findVehicle(String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, Vehicle> vehicles){
-        for (Vehicle v : find(Vehicle.class, key, value)){
-            int id = v.getId();
+    private <T> void findVehicle(Class<T> tClass, String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, T> vehicles){
+        for (T v : find(tClass, key, value)){
+            int id = v.hashCode();
             if (ids.containsKey(id)){
                 ids.put(id, ids.get(id) + 1);
             } else {

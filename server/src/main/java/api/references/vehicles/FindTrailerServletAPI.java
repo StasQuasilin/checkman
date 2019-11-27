@@ -2,8 +2,8 @@ package api.references.vehicles;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.transport.Vehicle;
-import org.apache.log4j.Logger;
+import entity.transport.Trailer;
+import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -15,20 +15,18 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 /**
- * Created by szpt_user045 on 12.03.2019.
+ * Created by szpt_user045 on 25.11.2019.
  */
-@WebServlet(Branches.API.References.FIND_VEHICLE)
-public class FindVehicleServletAPI extends ServletAPI {
-
-    final Logger log = Logger.getLogger(FindVehicleServletAPI.class);
-
+@WebServlet(Branches.API.References.FIND_TRAILER)
+public class FindTrailerServletAPI extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final JSONArray array = new JSONArray();
         JSONObject body = parseBody(req);
-        if (body != null) {
-            Object key = body.get(KEY);
-            array.addAll(dao.findVehicle(Vehicle.class, key).stream().map(Vehicle::toJson).collect(Collectors.toCollection(JSONArray::new)));
+        final JSONArray array = new JSONArray();
+        if (body != null){
+            Object o = body.get(KEY);
+            array.addAll(dao.findVehicle(Trailer.class, o).stream().map(Trailer::toJson).collect(Collectors.toCollection(JSONArray::new)));
+
         }
         write(resp, array.toJSONString());
         array.clear();

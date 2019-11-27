@@ -5,10 +5,8 @@ import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
-import entity.transport.Driver;
-import entity.transport.TransportUtil;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.organisations.Organisation;
+import entity.transport.*;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 
@@ -33,21 +31,35 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
 
         if (body != null) {
             System.out.println(body);
-            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
+            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.ID));
             Transportation transportation = plan.getTransportation();
             comparator.fix(transportation);
-            long vehicleId = -1;
-
+            boolean save = false;
             if (body.containsKey(Constants.VEHICLE)){
-                vehicleId = (long) body.get(Constants.VEHICLE);
+                Vehicle vehicle = dao.getObjectById(Vehicle.class, body.get(VEHICLE));
+                TransportUtil.setVehicle(transportation, vehicle);
+                save = true;
             }
-
-            Vehicle vehicle = dao.getObjectById(Vehicle.class, vehicleId);
-            TransportUtil.setVehicle(transportation, vehicle);
-
-            dao.saveTransportation(transportation);
-            updateUtil.onSave(transportation);
+            if (body.containsKey(Constants.DRIVER)){
+                Driver driver = dao.getObjectById(Driver.class, body.get(Constants.DRIVER));
+                TransportUtil.setDriver(transportation, driver);
+                save = true;
+            }
+            if (body.containsKey(TRAILER)){
+                Trailer trailer = dao.getObjectById(Trailer.class, body.get(TRAILER));
+                TransportUtil.setTrailer(transportation, trailer);
+                save = true;
+            }
+            if (body.containsKey(TRANSPORTER)){
+                Organisation transporter = dao.getObjectById(Organisation.class, body.get(TRANSPORTER));
+                TransportUtil.setTransporter(transportation, transporter);
+                save = true;
+            }
             comparator.compare(transportation, getWorker(req));
+            if (save) {
+                dao.saveTransportation(transportation);
+                updateUtil.onSave(transportation);
+            }
 
             write(resp, SUCCESS_ANSWER);
 

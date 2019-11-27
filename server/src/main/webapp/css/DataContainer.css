@@ -35,6 +35,18 @@
     margin: 2pt;
     border-radius: 8pt;
     position: relative;
+    display: flex;
+}
+.right-field{
+    font-size: 10pt;
+    display: inline-flex;
+    background: linear-gradient(0.25turn, rgba(0, 221, 28, 0.16), transparent);
+    min-width: 58pt;
+    /*max-width: 58pt;*/
+}
+.right-field-content{
+    border-left: solid 1pt;
+    padding-left: 4pt;
 }
 .container-item table{
     border-collapse: collapse;
@@ -84,75 +96,36 @@
 .container-item-0{
     background-color: rgb(252, 198, 198);
 }
-.container-item-0-done{
-    background-color: white;
-}
-.container-item-0-done * {
-    color: #464646;
-}
 .container-item-1{
     background-color: rgb(252, 233, 198);
-}
-.container-item-1-done{
-    background-color: white;
-}
-.container-item-1-done * {
-    color: #464646;
 }
 .container-item-2{
     background-color: rgb(252, 252, 198);
 }
-.container-item-2-done{
-    background-color: white;
-
-}
-.container-item-2-done * {
-    color: #464646;
-}
 .container-item-3{
     background-color: rgb(198, 225, 198);
-}
-.container-item-3-done{
-    background-color: white;
-}
-.container-item-3-done * {
-    color: #464646;
 }
 .container-item-4{
     background-color: rgb(219, 230, 248);
 }
-.container-item-4-done{
-    background-color: white;
-}
-.container-item-4-done * {
-    color: #464646;
-}
 .container-item-5{
-    background-color: rgb(198, 198, 252);
-}
-.container-item-5-done{
-    background-color: white;
-}
-.container-item-5-done * {
-    color: #464646;
+    background-color: rgb(197, 197, 251);
 }
 .container-item-6{
     background-color: rgb(252, 198, 252);
 }
-.container-item-6-done{
+.done{
     background-color: white;
 }
-.container-item-6-done * {
-    color: #464646;
-}
 .loading{
-    background-color: #f79cff;
+    background-color: rgb(152, 229, 136);
+    border: solid #0db200;
 }
 .logistic-loading{
     background-color: #0cdc0a;
 }
 .transport-loading{
-    border: solid #ff4141;
-    background-color: rgb(255, 175, 172);
+
+
     overflow: hidden;
 }

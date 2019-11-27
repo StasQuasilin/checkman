@@ -210,7 +210,12 @@ public class JsonParser {
             json.put(ORGANISATION, toJson(transportation.getCounterparty()));
             json.put(SHIPPER, transportation.getShipper().getValue());
             json.put(VEHICLE, toJson(transportation.getVehicle()));
-            json.put(DRIVER, toJson(transportation.getDriver()));
+            if (transportation.getTrailer() != null) {
+                json.put(TRAILER, transportation.getTrailer().toJson());
+            }
+            if (transportation.getDriver() != null) {
+                json.put(DRIVER, transportation.getDriver().toJson());
+            }
             json.put(REGISTRATION, toJson(transportation.getTimeRegistration()));
             json.put(TIME_IN, toJson(transportation.getTimeIn()));
             json.put(TIME_OUT, toJson(transportation.getTimeOut()));
@@ -222,6 +227,9 @@ public class JsonParser {
             json.put(ARCHIVE, transportation.isArchive());
             json.put(DONE, transportation.isDone());
             json.put(MANAGER, toJson(transportation.getManager()));
+            if (transportation.getTransporter() != null) {
+                json.put(TRANSPORTER, transportation.getTransporter().toJson());
+            }
 
         }
         return json;
@@ -445,6 +453,7 @@ public class JsonParser {
 
     public static final String MANAGER = "manager";
     public static final String TURN = "turn";
+    public static final String TRANSPORTER = Constants.TRANSPORTER;
     public JSONObject toJson(SunProbe sun) {
         JSONObject json = new JSONObject();
         json.put(ID, sun.getId());

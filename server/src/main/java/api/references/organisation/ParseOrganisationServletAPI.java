@@ -6,7 +6,9 @@ import entity.Worker;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
 
 import javax.servlet.ServletException;
@@ -24,13 +26,19 @@ import java.util.regex.Pattern;
 @WebServlet(Branches.API.References.PARSE_ORGANISATION)
 public class ParseOrganisationServletAPI extends ServletAPI {
 
+
+    private final Logger log = Logger.getLogger(ParseOrganisationServletAPI.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
 
         if (body != null) {
-            Organisation organisation = parseOrganisation(String.valueOf(body.get("name")), dao, getWorker(req));
-            write(resp, parser.toJson(organisation).toJSONString());
+            log.info(body);
+            Organisation organisation = parseOrganisation(String.valueOf(body.get(KEY)), dao, getWorker(req));
+            JSONObject json = new SuccessAnswer(RESULT, organisation.toJson()).toJson();
+            write(resp, json.toJSONString());
+            pool.put(json);
         } else {
             write(resp, EMPTY_BODY);
         }

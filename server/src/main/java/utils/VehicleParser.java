@@ -80,4 +80,11 @@ public class VehicleParser {
 
         return driver;
     }
+
+    public static void parseTrailer(String key) {
+        List<String> strings = Parser.parseVehicle(key);
+        if (strings.size() > 0){
+
+        }
+    }
 }

@@ -36,13 +36,11 @@ public class LaboratoryEdit extends IModal {
                 req.setAttribute(MODAL_CONTENT, "/pages/laboratory/sunEdit.jsp");
                 req.setAttribute(TITLE, Titles.SUN_EDIT);
                 req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_SUN);
-
                 break;
             case oil:
                 req.setAttribute(MODAL_CONTENT, "/pages/laboratory/oilEdit.jsp");
                 req.setAttribute(TITLE, Titles.OIL_EDIT);
                 req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_OIL);
-
                 break;
             case raf:
                 req.setAttribute(MODAL_CONTENT, "/pages/laboratory/rafEdit.jsp");
@@ -55,6 +53,8 @@ public class LaboratoryEdit extends IModal {
                 req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_CAKE);
                 break;
         }
-        show(req, resp);
+        if (analysesType != AnalysesType.other) {
+            show(req, resp);
+        }
     }
 }
