@@ -200,6 +200,7 @@ public class UpdateUtil {
         for (Transportation transportation : dao.getTransportationByOrganisation(organisation)){
             onSave(transportation);
         }
+
     }
 
     public void onSave(ManufactureReport manufactureReport) throws IOException {

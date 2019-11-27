@@ -4,6 +4,7 @@ import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.laboratory.SunAnalyses;
+import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
@@ -206,5 +207,21 @@ public class TransportUtil{
             transportation.setDriver(null);
             transportation.setDriverLicense(null);
         }
+    }
+
+    public static void setTransporter(Transportation transportation, Organisation transporter){
+        if (transporter != null){
+            transportation.setTransporter(transporter.getValue());
+            Driver driver = transportation.getDriver();
+            if (driver != null){
+                if (driver.getOrganisation() == null){
+                    driver.setOrganisation(transporter);
+                    dao.save(driver);
+                }
+            }
+        } else {
+            transportation.setTransporter(null);
+        }
+
     }
 }
