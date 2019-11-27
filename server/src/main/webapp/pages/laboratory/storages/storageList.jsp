@@ -9,6 +9,8 @@
     <fmt:message key="analyses"/>
   </button>
 </div>
+<script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
+<script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit= 14;
@@ -28,7 +30,7 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <div id="container">
   <div v-for="(value, key) in items" class="container-item"
-       :class="'container-item-' + new Date(value.item.turn.date).getDay()" style="padding: 4pt">
+       :class="'container-item-' + new Date(value.item.turn.date).getDay()" style="padding: 4pt; display: inline-block">
     <div class="turn-date" :class="'t-' + value.item.turn.number">
             <span>
                 {{new Date(value.item.turn.date).toLocaleDateString()}}

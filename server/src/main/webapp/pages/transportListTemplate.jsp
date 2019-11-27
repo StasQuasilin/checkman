@@ -6,7 +6,6 @@
 <fmt:setBundle basename="messages"/>
 <html>
 
-
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">
 <script>
@@ -20,21 +19,37 @@
     list.fields.customer = '<fmt:message key="transport.customer"/>';
     list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
     list.fields.noData='<fmt:message key="no.data"/>';
+    list.priceFields = {
+        title:'<fmt:message key="deal.price"/>'
+    };
     list.analysesFields = {
         sun:{
-            humidityA:'<fmt:message key="sun.humidity.1"/>',
-            humidityB:'<fmt:message key="sun.humidity.2"/>',
+            humidityA:'<fmt:message key="sun.humidity.1.short"/>',
+            humidityB:'<fmt:message key="sun.humidity.2.short"/>',
             soreness:'<fmt:message key="sun.soreness"/>',
             impurity:'<fmt:message key="sun.oil.impurity"/>',
+            oiliness:'<fmt:message key="sun.oiliness"/>'
+        },
+        oil:{
+            acid:'<fmt:message key="sun.acid.value"/>',
+            peroxide:'<fmt:message key="oil.peroxide"/>',
+            phosphorus:'<fmt:message key="oil.phosphorus.mass.fraction"/>'
+        },
+        meal:{
+            humidity:'<fmt:message key="sun.humidity"/>',
+            protein:'<fmt:message key="cake.protein"/>',
+            cellulose:'<fmt:message key="cake.cellulose"/>',
             oiliness:'<fmt:message key="sun.oiliness"/>'
         }
     };
     <c:if test="${not empty limit}">
     list.limit = ${limit};
     </c:if>
-    <c:forEach items="${types}" var="t">
-    list.types['${t}'] = '<fmt:message key="_${t}"/> ';
-    </c:forEach>
+    <%--<c:forEach items="${types}" var="t">--%>
+    <%--list.types['${t}'] = '<fmt:message key="_${t}"/> ';--%>
+    <%--</c:forEach>--%>
+    list.types['buy']='Розв.';
+    list.types['sell']='Зав.';
     list.customers=[];
     <c:forEach items="${customers}" var="customer">
     list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
@@ -80,11 +95,7 @@
         </c:forEach>
     }
 </script>
-<div id="container-header" class="container-header">
-    <c:if test="${not empty add}">
-        <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
-    </c:if>
-</div>
+
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">
 
@@ -112,17 +123,20 @@
                                 {{value.item.organisation.value}}
                             </b>
                         </span>
+
                         <span style="float: right;">
-                            <b v-if="types[value.item.type]">
+                            <span v-if="types[value.item.type]">
                                 {{(types[value.item.type]).toLowerCase()}}
-                            </b>
+                            </span>
                             <b>
                                 {{value.item.product.name}}
                                 <span v-if="value.item.plan">
                                     {{value.item.plan}} {{value.item.unit}}
                                 </span>
-
                             </b>
+                            <price-view :props="priceFields" :item="value.item"></price-view>
+                            <fmt:message key="deal.from"/>
+                            {{value.item.shipper}}
                         </span>
                     </div>
                     <div class="middle-row">
@@ -162,13 +176,13 @@
                 <div class="right-field">
                     <div v-if="value.item.weight.id" class="right-field-content" style="width: 84pt">
                         <div>
-                            Б: {{value.item.weight.brutto}}
+                            Б: <b>{{value.item.weight.brutto}}</b>
                         </div>
                         <div>
-                            Т: {{value.item.weight.tara}}
+                            Т: <b>{{value.item.weight.tara}}</b>
                         </div>
                         <div>
-                            Н: {{(value.item.weight.netto).toLocaleString()}}
+                            Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
                         </div>
                         <div v-if="value.item.weight.correction > 0">
                             ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
@@ -179,21 +193,24 @@
             </div>
         </transition-group>
 
-        <c:if test="${(menu eq null) || (menu)}">
+        <c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">
             <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
                 <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-                    <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
-                    <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
-                    <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
-                    <div class="custom-data-list-item" v-if="menu.item.done && !menu.item.archive"
-                         v-on:click="archive(menu.item.id)"><fmt:message key="menu.archive"/></div>
-                </div>
-            </div>
-        </c:if>
-        <c:if test="${not empty copy}">
-            <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
-                <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-                    <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
+                    <c:if test="${not empty add}">
+                        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
+                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
+                    </c:if>
+                    <c:if test="${not empty copy}">
+                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
+                    </c:if>
+                    <c:if test="${not empty cancel}">
+
+                        <div class="custom-data-list-item" v-if="menu.item.any"
+                             v-on:click="archive(menu.item.id)"><fmt:message key="menu.archive"/></div>
+                        <div class="custom-data-list-item" v-else :id="menu.id"
+                             onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
+                    </c:if>
+
                 </div>
             </div>
         </c:if>

@@ -5,8 +5,47 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
+<script src="${context}/vue/templates/vehicleInput.vue"></script>
 <script src="${context}/vue/weightAdd.vue"></script>
 <script>
+    editor.organisationProps = {
+        find:'${findOrganisations}',
+        edit:'${editOrganisation}',
+        add:'${parseOrganisation}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="counterparty.add"/>',
+        put:editor.putOrganisation,
+        show:['value']
+    };
+    editor.driverProps = {
+        find:'${findDriver}',
+        edit:'${editDriver}',
+        add:'${parseDriver}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="driver.add"/>',
+        put:editor.putDriver,
+        show:['person/surname', 'person/forename', 'person/patronymic']
+    };
+    editor.vehicleProps = {
+        find:'${findVehicle}',
+        edit:'${editVehicle}',
+        add:'${parseVehicle}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="button.add.vehicle"/>',
+        put:function(vehicle){
+            editor.putVehicle(vehicle);
+            if (vehicle.trailer && vehicle.trailer.id > 0){
+                editor.putTrailer(vehicle.trailer);
+            }
+        },
+        show:['model', 'number']
+    };
+    editor.trailerProps = {
+        find:'${findTrailer}',
+        header:'<fmt:message key="button.add.trailer"/>',
+        put:editor.putTrailer,
+        show:['number']
+    };
     editor.api.findOrganisation = '${findOrganisations}';
     editor.api.parseOrganisation = '${parseOrganisation}';
     editor.api.findDeals = '${findDeals}';
@@ -61,7 +100,10 @@
         type:'${plan.deal.type}',
         date:'${plan.date}',
         deal:${plan.deal.id},
-        organisation:${plan.deal.organisation.id},
+        organisation:{
+            id:${plan.deal.organisation.id},
+            value:'${plan.deal.organisation.value}'
+        },
         product:${plan.deal.product.id},
         quantity:${plan.deal.quantity},
         plan:${plan.plan},
@@ -69,52 +111,17 @@
         price:${plan.deal.price},
         unit:${plan.deal.unit.id},
         customer:'${plan.customer}',
-//        VEHICLE
-        <c:choose>
-        <c:when test="${not empty plan.transportation.vehicle.id}">
-        vehicle:{
-            id:${plan.transportation.vehicle.id},
-            model:'${plan.transportation.vehicle.model}',
-            number:'${plan.transportation.vehicle.number}',
-            trailer:'${plan.transportation.vehicle.trailerNumber}'
-        },
-        </c:when>
-        <c:otherwise>
-        vehicle:{
-            id:-1
-        },
-        </c:otherwise>
-        </c:choose>
-//        DRIVER
-        notes:[],
-        <c:choose>
-        <c:when test="${not empty plan.transportation.driver.id}">
-        driver:{
-            id:${plan.transportation.driver.id},
-            person:{
-                value:'${plan.transportation.driver.person.value}'
-            }
-        }
-        </c:when>
-        <c:otherwise>
         driver:{
             id:-1
         },
-
-        </c:otherwise>
-        </c:choose>
+        vehicle:{
+            id:-1
+        },
+        trailer:{
+            id:-1
+        },
+        notes:[]
     };
-
-    <c:forEach items="${plan.transportation.notes}" var="note">
-    editor.plan.notes.push({
-            id:${note.id},
-            note:'${note.note}',
-            creator:'${note.creator.person.value}'
-        }
-    );
-    </c:forEach>
-    editor.input.organisation = '${plan.deal.organisation.value}';
-
     editor.deals.push({
         id:${plan.deal.id},
         type:'${plan.deal.type}',
@@ -128,6 +135,39 @@
         unit:${plan.deal.unit.id},
         price:${plan.deal.price}
     });
+
+    <c:if test="${not empty plan.transportation.vehicle.id}">
+    editor.plan.vehicle = {
+        id:${plan.transportation.vehicle.id},
+        model:'${plan.transportation.vehicle.model}',
+        number:'${plan.transportation.vehicle.number}'
+    };
+    <c:if test="${plan.transportation.vehicle.trailer ne null}">
+    editor.plan.trailer = {
+        id:${plan.transportation.vehicle.trailer.id},
+        number:'${plan.transportation.vehicle.trailer.number}'
+    };
+    </c:if>
+    </c:if>
+    <c:if test="${not empty plan.transportation.driver.id}">
+    editor.plan.driver = {
+        id:${plan.transportation.driver.id},
+        person:{
+            surname:'${plan.transportation.driver.person.surname}',
+            forename:'${plan.transportation.driver.person.forename}',
+            patronymic:'${plan.transportation.driver.person.patronymic}'
+        }
+    };
+    </c:if>
+
+    <c:forEach items="${plan.transportation.notes}" var="note">
+    editor.plan.notes.push({
+            id:${note.id},
+            note:'${note.note}',
+            creator:'${note.creator.person.value}'
+        }
+    );
+    </c:forEach>
     </c:when>
     <c:otherwise>
     editor.plan = {
@@ -136,7 +176,9 @@
         date:new Date().toISOString().substring(0, 10),
         deal:-1,
         quantity:0,
-        organisation:-1,
+        organisation:{
+            id:-1
+        },
         product:-1,
         plan:20,
         from:editor.visibles[0],
@@ -144,6 +186,9 @@
         unit:editor.units[0].id,
         customer:'szpt',
         vehicle:{
+            id:-1
+        },
+        trailer:{
             id:-1
         },
         driver:{
@@ -196,9 +241,7 @@
     <%--ORGANISATION--%>
     <tr>
         <td>
-            <label for="organisation">
-                <fmt:message key="deal.organisation"/>
-            </label>
+            <fmt:message key="deal.organisation"/>
         </td>
         <td>
             :
@@ -207,36 +250,8 @@
             <%--!--%>
             <%--!--%>
             <%--ORGANISATION--%>
-            <div>
-                <div v-if="plan.organisation == -1">
-                    <div style="display: inline-block">
-                        <input id="organisation" v-model="input.organisation" autocomplete="off"
-                               v-on:keyup="findOrganisation()"
-                               :class="{error : errors.organisation}"
-                               v-on:click="errors.organisation = false"
-                               onfocus="this.select()">
-                    </div>
-                    <span class="mini-close" v-on:click="newCounterparty()">+</span>
-                    <div class="custom-data-list">
-                        <div v-for="organisation in foundOrganisations"
-                             class="custom-data-list-item"
-                             v-on:click="putOrganisation(organisation)">
-                            {{organisation.value}}
-                        </div>
-                    </div>
-                </div>
-                <div  v-else>
-                    <span>
-                        {{input.organisation}}
-                    </span>
-                    <span class="mini-close flipY"
-                          v-on:click="editOrganisation()"
-                          style="padding: 0">
-                        &#9998;</span>
-                    <span class="mini-close" v-on:click="cancelOrganisation()" style="padding: 0">
-                        &times;</span>
-                </div>
-            </div>
+                <object-input :props="organisationProps" :object="plan.organisation"></object-input>
+
         </td>
     </tr>
     <%--DEAL--%>
@@ -344,115 +359,25 @@
     </tr>
         <tr>
             <td>
-                <label for="driver">
-                    <fmt:message key="transportation.driver"/>
-                </label>
+                <fmt:message key="transportation.driver"/>
             </td>
             <td>
                 :
             </td>
             <td>
-            <span v-if="plan.driver.id > -1">
-                {{plan.driver.person.value}}
-                <span v-on:click="editDriver()" class="mini-close flipY" style="padding: 0">
-                  &#9998;
-                </span>
-                <span v-on:click="cancelDriver()" class="mini-close flipY" style="padding: 0">
-                  &times;
-                </span>
-            </span>
-                <div v-else v-on:blur="parseDriver()">
-                <span>
-                    <input id="driver" v-model="input.driver"
-                           v-on:keyup="findDriver()"
-
-                           autocomplete="off"
-                           :class="{error : errors.driver}" v-on:click="errors.driver = false"
-                           :title="input.driver">
-                </span>
-                <span v-if="input.driver" style="font-size: 10pt; color: coral;
-                position: absolute; padding: 1pt 4pt; background-color: aliceblue">
-                    <template v-if="foundDrivers.length > 0">
-                        Знайдено {{foundDrivers.length}}
-                        <template v-if="foundDrivers.length % 10 > 0 && foundDrivers.length % 10 < 5">
-                            водія
-                        </template>
-                        <template v-else>
-                            водіїв
-                        </template>
-                    </template>
-                </span>
-                    <div class="custom-data-list" v-if="foundDrivers.length > 0 || input.driver">
-                        <div v-for="driver in foundDrivers" class="custom-data-list-item" v-on:click="putDriver(driver)">
-                            <div>
-                                {{driver.person.surname}}
-                                {{driver.person.forename}}
-                                {{driver.person.patronymic}}
-                            </div>
-                            <div v-if="driver.vehicle">
-                                {{driver.vehicle.model}}
-                                {{driver.vehicle.number}}
-                                {{driver.vehicle.trailer}}
-                            </div>
-                        </div>
-                        <div v-on:click="parseDriver()" class="custom-data-list-item" >
-                            <b>
-                                + <fmt:message key="button.add"/>
-                            </b>
-                        </div>
-                    </div>
-                </div>
+                <object-input :props="driverProps" :object="plan.driver"></object-input>
             </td>
         </tr>
     <tr>
         <td>
-            <label for="vehicle">
-                <fmt:message key="transportation.automobile"/>
-            </label>
+            <fmt:message key="transportation.automobile"/>/<fmt:message key="transportation.automobile.trailer"/>
         </td>
         <td>
             :
         </td>
         <td>
-            <span v-if="plan.vehicle.id > -1">
-                {{(plan.vehicle.model + ' ' + plan.vehicle.number + ' ' + plan.vehicle.trailer).trim()}}
-                <span v-on:click="editVehicle()" class="mini-close flipY" style="padding: 0">
-                  &#9998;
-                </span>
-                <span v-on:click="cancelVehicle()" class="mini-close flipY" style="padding: 0">
-                    &times;
-                </span>
-            </span>
-            <div v-else v-on:blur="parseVehicle()">
-                <span>
-                    <input id="vehicle" v-model="input.vehicle" autocomplete="off"
-                       v-on:keyup="findVehicle()" v-on:keyup.enter="parseVehicle()"
-                       :class="{error : errors.vehicle}" v-on:click="errors.vehicle = false"
-                       :title="input.vehicle" style=" width: 90%;">
-                </span>
-                <span v-if="input.vehicle" style="font-size: 10pt; color: coral;
-                    position: absolute; padding: 1pt 4pt; background-color: aliceblue">
-                    <template v-if="foundVehicles.length > 0">
-                        Знайдено {{foundVehicles.length}}
-                        <template v-if="foundVehicles.length % 10 > 0 && foundVehicles.length % 10 < 5">
-                            автомобіля
-                        </template>
-                        <template v-else>
-                            автомобілів
-                        </template>
-                    </template>
-                    <template v-else>
-                        Буде додано новий автомобіль!
-                    </template>
-                </span>
-                <div class="custom-data-list">
-                    <div v-for="vehicle in foundVehicles" class="custom-data-list-item" v-on:click="putVehicle(vehicle)">
-                        {{vehicle.model}}
-                        '{{vehicle.number}}'
-                        {{vehicle.trailer}}
-                    </div>
-                </div>
-            </div>
+            <object-input :props="vehicleProps" :object="plan.vehicle"></object-input>
+            <object-input :props="trailerProps" :object="plan.trailer"></object-input>
         </td>
     </tr>
 

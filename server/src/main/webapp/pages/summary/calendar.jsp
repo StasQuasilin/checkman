@@ -139,7 +139,7 @@
     }
 </style>
 <html>
-    <div id="calendar" class="calendar" style="width: 200pt; border-bottom: dotted gray 1pt">
+    <div id="calendar" class="calendar" style="width: 172pt; border-bottom: dotted gray 1pt">
         <table width="100%" style="font-size: 10pt">
             <template v-for="(value, key) in getItems()">
                 <tr>

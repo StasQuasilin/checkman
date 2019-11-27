@@ -15,7 +15,7 @@
     <c:if test="${not empty plan.vehicle}">
         editor.vehicle.model = '${plan.vehicle.model}';
         editor.vehicle.number = '\'${plan.vehicle.number}\''
-        editor.vehicle.trailer = ' \'${plan.vehicle.trailer}\''
+        editor.vehicle.trailer = ' \'${plan.vehicle.trailer.number}\''
     </c:if>
     <c:if test="${not empty plan.driver}">
         editor.driver = '${plan.driver.person.value}';

@@ -43,7 +43,12 @@ public class WeightCancel extends IModal {
                 } else {
                     req.setAttribute(MODAL_CONTENT, "/pages/weight/weightCancelImpossible.jsp");
                 }
-                req.setAttribute(TITLE, "title.weight.cancel");
+                if (transportation.any()){
+                    req.setAttribute(TITLE, "title.weight.archive");
+                } else {
+                    req.setAttribute(TITLE, "title.weight.cancel");
+                }
+
                 show(req, resp);
             }
         }

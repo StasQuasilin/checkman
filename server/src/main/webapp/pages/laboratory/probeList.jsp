@@ -14,7 +14,8 @@
         </c:forEach>
     </div>
 </c:if>
-
+<script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
+<script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit = 14;
@@ -32,7 +33,8 @@
     }
 </script>
 <div id="container" class="container">
-    <div v-for="item in items" class="container-item" :class="'container-item-' + new Date(item.item.date).getDay()">
+    <div v-for="item in items" class="container-item" style="display: inline-block"
+         :class="'container-item-' + new Date(item.item.date).getDay()">
         <div class="upper-row">
             {{new Date(item.item.date).toLocaleDateString()}}
             {{new Date(item.item.date).toLocaleTimeString().substring(0, 5)}}

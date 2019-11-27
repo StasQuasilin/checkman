@@ -62,11 +62,6 @@ public class EditOrganisationServletAPI extends ServletAPI {
                     dao.save(organisation.getCreate());
                 }
                 dao.save(organisation);
-
-                IAnswer answer = new SuccessAnswer("organisation", parser.toJson(organisation));
-                JSONObject json = parser.toJson(answer);
-                write(resp, json.toJSONString());
-                pool.put(json);
                 updateUtil.onSave(organisation);
 
                 OrganisationType organisationType = dao.getOrganisationTypeByName(type);
@@ -75,13 +70,12 @@ public class EditOrganisationServletAPI extends ServletAPI {
                     organisationType.setName(type);
                     dao.save(organisationType);
                 }
-            } else {
-                IAnswer answer = new SuccessAnswer("organisation", parser.toJson(organisation));
-                JSONObject json = parser.toJson(answer);
-                write(resp, json.toJSONString());
-                pool.put(json);
             }
 
+            IAnswer answer = new SuccessAnswer(RESULT, organisation.toJson());
+            JSONObject json = answer.toJson();
+            write(resp, json.toJSONString());
+            pool.put(json);
         } else {
             write(resp, EMPTY_BODY);
         }

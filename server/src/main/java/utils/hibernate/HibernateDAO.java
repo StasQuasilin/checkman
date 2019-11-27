@@ -905,7 +905,18 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getTransportationByOrganisation(Object organisation) {
-        return hb.query(Transportation.class, "counterparty", organisation);
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("counterparty", organisation);
+        params.put("archive", false);
+        return hb.query(Transportation.class, params);
+    }
+
+    @Override
+    public List<Transportation> getTransportationsByTransporter(Organisation transporter) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("transporter", transporter);
+        params.put("archive", false);
+        return hb.query(Transportation.class, params);
     }
 
     @Override

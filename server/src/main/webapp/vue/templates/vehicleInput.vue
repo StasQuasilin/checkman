@@ -68,7 +68,10 @@ var objectInput = {
             if (this.props.edit){
                 const self = this;
                 loadModal(this.props.edit, {id:this.object.id}, function(a){
-                    self.props.put(a);
+                    if (a.status === 'success'){
+                        self.props.put(a.result);
+                    }
+
                 })
             }
         },

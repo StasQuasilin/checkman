@@ -1,5 +1,8 @@
 var editor = new Vue({
     el: '#editor',
+    components:{
+        'object-input':objectInput
+    },
     data:{
         api:{},
         types:{},
@@ -93,8 +96,6 @@ var editor = new Vue({
             }
         },
         cancelOrganisation:function(){
-            this.plan.organisation = -1;
-            this.input.organisation = '';
             this.plan.type = -1;
             this.plan.deal = -1;
             this.plan.product = -1;
@@ -194,12 +195,14 @@ var editor = new Vue({
             }
         },
         putOrganisation:function(organisation){
-            console.log(organisation);
-            this.plan.organisation = organisation.id;
-            this.input.organisation = organisation.value;
-            this.findDeals(organisation.id);
-            this.foundOrganisations = []
+            this.plan.organisation = organisation;
+            if (organisation.id > 0) {
+                this.findDeals(organisation.id);
+            } else {
+                this.cancelOrganisation();
+            }
         },
+
         findDeals:function(id){
             const self = this;
             PostApi(this.api.findDeals, {organisation:id}, function(a){
@@ -316,6 +319,9 @@ var editor = new Vue({
             this.plan.vehicle = vehicle;
             this.input.vehicle = '';
             this.foundVehicles = [];
+        },
+        putTrailer:function(trailer){
+            this.plan.trailer = trailer;
         },
         cancelVehicle:function(){
             this.plan.vehicle = {

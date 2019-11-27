@@ -2,7 +2,8 @@ var list = new Vue({
     el: '#container',
     components:{
         'transport-view':transportView,
-        'laboratory-view':laboratoryView
+        'laboratory-view':laboratoryView,
+        'price-view':priceView
     },
     data:{
         api:{

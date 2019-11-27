@@ -14,6 +14,7 @@
   </script>
   <script src="${context}/vue/templates/vehicleInput.vue"></script>
   <script src="${context}/vue/templates/transportationDataEdit.vue"></script>
+  <script src="${context}/vue/templates/priceView.vue"></script>
   <script src="${context}/vue/dataList.vue"></script>
   <script>
     var save = '${save}';

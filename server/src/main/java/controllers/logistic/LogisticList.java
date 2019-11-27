@@ -42,6 +42,7 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("dealTypes", DealType.values());
         req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
         req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
+        req.setAttribute("archive", Branches.API.ARCHIVE_LOAD_PLAN);
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(SUBSCRIBE, subscribers);

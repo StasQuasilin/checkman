@@ -10,6 +10,8 @@
     </button>
 </div>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
+<script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
+<script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit = 14;
@@ -34,7 +36,7 @@
 </script>
 <div id="container">
     <div v-for="(value, key) in items" class="container-item"
-         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt"
+         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: inline-block"
          :id="value.item.id" v-on:click="edit(value.item.id)">
         <div class="upper-row">
             {{new Date(value.item.date).toLocaleDateString()}}

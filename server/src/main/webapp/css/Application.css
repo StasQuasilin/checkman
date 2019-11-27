@@ -133,6 +133,7 @@ button:focus, input:focus{
     background-color: white;
     padding: 0 4pt;
     border-radius: 8pt;
+    border: solid 1pt;
 }
 .context-menu{
     font-size: 10pt;

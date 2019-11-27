@@ -223,4 +223,5 @@ public interface dbDAO {
     StoragePeriodPoint getStoragePoint(Date date, Storage storage, Product product, Shipper shipper, PointScale scale);
     List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper);
     List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale);
+    List<Transportation> getTransportationsByTransporter(Organisation transporter);
 }
