@@ -111,7 +111,9 @@ var list = new Vue({
                     }
                 }
             }
-            filter_control.checkFilter();
+            if (filter_control.checkFilter){
+                filter_control.checkFilter();
+            }
         },
         sort:function(){
             this.items.sort(function(a, b){
