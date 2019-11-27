@@ -23,10 +23,10 @@
                 <fmt:message key="organisations"/>
             </b>
             <a v-else onclick="loadContent('${organisations}')"><fmt:message key="organisations"/></a>
-            <%--<b v-if="tab === 'products'">--%>
-                <%--<fmt:message key="products"/>--%>
-            <%--</b>--%>
-            <%--<a v-else onclick="loadContent('${products}')"><fmt:message key="products"/></a>--%>
+            <b v-if="tab === 'products'">
+                <fmt:message key="products"/>
+            </b>
+            <a v-else onclick="loadContent('${products}')"><fmt:message key="products"/></a>
         </div>
         <jsp:include page="${referenceContent}"/>
     </div>
