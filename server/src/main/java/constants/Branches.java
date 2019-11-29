@@ -96,6 +96,8 @@ public class Branches {
         public static final String MANUFACTURE_REPORT_PREVIEW = "/manufacture/report/view.j";
         public static final String DRIVER_COLLAPSE = "/drivers/collapse.j";
         public static final String TRANSPORT_CARRIAGES = "/transport/carriages.j";
+        public static final String RETAIL_LIST = "/retail/deals.j";
+        public static final String RETAIL_EDIT = "/retail/edit.j";
 
 
         public class Extraction {
@@ -252,6 +254,7 @@ public class Branches {
         public static final String DRIVERS_COLLAPSE = API + "/drivers/collapse";
         public static final String TRANSPORT_CARRIAGE = API + "/transport/carriage";
         public static final String PARSE_TRAILER = API + "/trailer/parse";
+        public static final String RETAIL_EDIT = API + "/retail/edit";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

@@ -20,6 +20,7 @@
     var save = '${save}';
     list.fields = {
       trailer:'<fmt:message key="transportation.automobile.trailer"/>',
+      license:'<fmt:message key="driver.license"/>',
       driverProps:{
         find:'${findDriver}',
         add:'${parseDriver}',
@@ -73,5 +74,6 @@
       }
     };
   </script>
+  <jsp:include page="../summary/summaryHeader.jsp"/>
   <jsp:include page="../transportListTemplate.jsp"/>
 </html>

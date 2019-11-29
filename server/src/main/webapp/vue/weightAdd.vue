@@ -328,7 +328,9 @@ var editor = new Vue({
                 id:-1
             }
         },
-
+        putTransporter:function(transporter){
+            this.plan.transporter = transporter;
+        },
         editDriver:function(){
             const self = this;
             loadModal(this.api.editDriver, this.plan.driver, function(a){

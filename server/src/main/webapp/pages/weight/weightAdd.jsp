@@ -46,6 +46,16 @@
         put:editor.putTrailer,
         show:['number']
     };
+
+    editor.transporterProps = {
+        find:'${findOrganisations}',
+        edit:'${editOrganisation}',
+        add:'${parseOrganisation}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="button.add.transporter"/>',
+        put:editor.putTransporter,
+        show:['value']
+    };
     editor.api.findOrganisation = '${findOrganisations}';
     editor.api.parseOrganisation = '${parseOrganisation}';
     editor.api.findDeals = '${findDeals}';
@@ -120,6 +130,9 @@
         trailer:{
             id:-1
         },
+        transporter:{
+            id:-1
+        },
         notes:[]
     };
     editor.deals.push({
@@ -159,6 +172,12 @@
         }
     };
     </c:if>
+    <c:if test="${not empty plan.transportation.transporter.id}">
+    editor.plan.transporter = {
+        id:${not empty plan.transportation.transporter.id},
+        value:'${not empty plan.transportation.transporter.value}'
+    };
+    </c:if>
 
     <c:forEach items="${plan.transportation.notes}" var="note">
     editor.plan.notes.push({
@@ -192,6 +211,9 @@
             id:-1
         },
         driver:{
+            id:-1
+        },
+        transporter:{
             id:-1
         },
         manager:-1,
@@ -250,8 +272,7 @@
             <%--!--%>
             <%--!--%>
             <%--ORGANISATION--%>
-                <object-input :props="organisationProps" :object="plan.organisation"></object-input>
-
+            <object-input :props="organisationProps" :object="plan.organisation"></object-input>
         </td>
     </tr>
     <%--DEAL--%>
@@ -380,7 +401,17 @@
             <object-input :props="trailerProps" :object="plan.trailer"></object-input>
         </td>
     </tr>
-
+    <tr>
+        <td>
+            <fmt:message key="transportation.transporter"/>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <object-input :props="transporterProps" :object="plan.transporter"></object-input>
+        </td>
+    </tr>
     <tr>
         <td colspan="3">
             <div>

@@ -29,6 +29,14 @@
         <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
       </span>
     </li>
+    <li class="menu-item">
+      <span class="main" onclick="loadContent('${retailList}')">
+        <fmt:message key="retail.deals"/>
+      </span>
+      <span>
+        <a onclick="loadContent('${retailArchive}')"><fmt:message key="archive"/> </a>
+      </span>
+    </li>
     <li class="menu-item" onclick="loadContent('${probeList}')">
         <span class="main">
           <fmt:message key="analyses.probe"/>
