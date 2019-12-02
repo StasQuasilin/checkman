@@ -16,8 +16,7 @@ public class TransportationProduct extends JsonAble{
     private int id;
     private TransportationDocument document;
     private ContractProduct contractProduct;
-    private float plan;
-    private Weight weight;
+    private float amount;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,35 +46,22 @@ public class TransportationProduct extends JsonAble{
     }
 
     @Basic
-    @Column(name = "plan")
-    public float getPlan() {
-        return plan;
+    @Column(name = "amount")
+    public float getAmount() {
+        return amount;
     }
-    public void setPlan(float plan) {
-        this.plan = plan;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "weight")
-    public Weight getWeight() {
-        return weight;
-    }
-    public void setWeight(Weight weight) {
-        this.weight = weight;
+    public void setAmount(float amount) {
+        this.amount = amount;
     }
 
     @Override
     public JSONObject toJson() {
-        JSONObject json = transportation.toJson();
+        JSONObject json = document.toJson();
         json.put(ID, id);
         json.put(TYPE, contractProduct.getType().toString());
-        json.put(PLAN, plan);
+        json.put(AMOUNT, amount);
         json.put(COUNTERPARTY, contractProduct.getContract().getCounterparty().toJson());
-        if (weight != null) {
-            json.put(WEIGHT, weight.toJson());
-        } else {
-            json.put(WEIGHT, EMPTY_JSON);
-        }
+
         json.put(ANALYSES_TYPE, contractProduct.getProduct().getAnalysesType().toString());
         json.put(PRODUCT, contractProduct.getProduct().toJson());
         json.put(PRICE, contractProduct.getPrice());

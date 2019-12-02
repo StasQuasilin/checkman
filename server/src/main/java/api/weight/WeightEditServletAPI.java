@@ -9,9 +9,6 @@ import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.log.comparators.WeightComparator;
-import entity.products.Product;
-import entity.storages.Storage;
-import entity.storages.StorageProduct;
 import entity.transport.ActionTime;
 import entity.transport.TransportStorageUsed;
 import entity.transport.Transportation;
@@ -30,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 22.03.2019.
@@ -66,8 +62,8 @@ public class WeightEditServletAPI extends ServletAPI {
             comparator.fix(weight);
 
             JSONObject w = (JSONObject) body.get("weight");
-            float brutto = Float.parseFloat(String.valueOf(w.get(Constants.Weight.BRUTTO)));
-            float tara = Float.parseFloat(String.valueOf(w.get(Constants.Weight.TARA)));
+            float brutto = Float.parseFloat(String.valueOf(w.get(BRUTTO)));
+            float tara = Float.parseFloat(String.valueOf(w.get(TARA)));
 
             Worker worker = getWorker(req);
             saveIt = changeWeight(weight, brutto, tara, worker, saveIt);

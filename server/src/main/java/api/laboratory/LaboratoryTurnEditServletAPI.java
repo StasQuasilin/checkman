@@ -61,7 +61,7 @@ public class LaboratoryTurnEditServletAPI extends ServletAPI {
                 } else {
                     LaboratoryTurnWorker worker = new LaboratoryTurnWorker();
                     worker.setTurn(laboratoryTurn);
-                    worker.setWorker(dao.getWorkerById(id));
+                    worker.setWorker(dao.getObjectById(id));
                     workers.add(worker);
                 }
             }

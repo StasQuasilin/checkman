@@ -6,9 +6,6 @@ import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.laboratory.probes.SunProbe;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
-import entity.laboratory.subdivisions.extraction.TurnProtein;
 import entity.laboratory.subdivisions.vro.SunProtein;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.TurnSettings;
@@ -94,7 +91,7 @@ public class VroSunProteinEditServletAPI extends ServletAPI {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(dao.getWorkerById(creatorId));
+                    createTime.setCreator(dao.getObjectById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }

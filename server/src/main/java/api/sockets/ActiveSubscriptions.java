@@ -1,11 +1,8 @@
 package api.sockets;
 
 import api.sockets.handlers.*;
-import constants.Branches;
 import entity.DealType;
 import entity.Worker;
-import entity.documents.Deal;
-import entity.reports.ManufactureReport;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.JsonPool;
@@ -29,6 +26,7 @@ public class ActiveSubscriptions {
     final HashMap<Subscriber, ArrayList<Session>> bySubscribe = new HashMap<>();
     final HashMap<Integer, ArrayList<Session>> byWorker = new HashMap<>();
     final MessageHandler messageHandler = new MessageHandler();
+    final SessionTimer sessionTimer = SessionTimer.getInstance();
     public static final JsonPool pool = JsonPool.getPool();
     public static final String TYPE = "type";
     private static final String DATA = "data";
@@ -66,18 +64,20 @@ public class ActiveSubscriptions {
     }
 
     public void subscribe(Subscriber sub, Session session, long workerId) throws IOException {
-        if (sub != Subscriber.MESSAGES) {
-            bySubscribe.get(sub).add(session);
-            if (handlers.containsKey(sub)) {
-                handlers.get(sub).handle(session);
-            }
-        } else {
-            Worker worker = dao.getWorkerById(workerId);
-            if (!byWorker.containsKey(worker.getId())){
+        Worker worker = dao.getObjectById(Worker.class, workerId);
+        if (sub == Subscriber.MESSAGES) {
+            if (!byWorker.containsKey(worker.getId())) {
                 byWorker.put(worker.getId(), new ArrayList<>());
             }
             byWorker.get(worker.getId()).add(session);
             messageHandler.handle(worker, session);
+        } else if (sub == Subscriber.SESSION_TIMER){
+            sessionTimer.register(worker, session);
+        } else {
+            bySubscribe.get(sub).add(session);
+            if (handlers.containsKey(sub)) {
+                handlers.get(sub).handle(session);
+            }
         }
 
 

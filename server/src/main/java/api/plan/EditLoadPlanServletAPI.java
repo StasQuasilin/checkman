@@ -58,7 +58,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             long dealId = Long.parseLong(String.valueOf(body.get("deal")));
             Deal deal;
             Worker creator = getWorker(req);
-            Worker manager = dao.getWorkerById(body.get(MANAGER));
+            Worker manager = dao.getObjectById(body.get(MANAGER));
             if (manager == null){
                 manager = creator;
             }

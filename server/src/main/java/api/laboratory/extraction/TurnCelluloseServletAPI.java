@@ -8,8 +8,6 @@ import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.extraction.TurnCellulose;
-import entity.laboratory.subdivisions.vro.SunProtein;
-import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
@@ -88,7 +86,7 @@ public class TurnCelluloseServletAPI extends ServletAPI {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(dao.getWorkerById(creatorId));
+                    createTime.setCreator(dao.getObjectById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }

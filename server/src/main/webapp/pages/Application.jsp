@@ -31,16 +31,28 @@
     </script>
     <script src="${context}/js/Subscriber.js"></script>
     <script>
-    <c:forEach items="${subscribe}" var="sub">
-    subscribe('${sub}', function(a){
-        chat.handle(a);
-    });
-    </c:forEach>
+        subscribe('MESSAGES', function(a){
+            chat.handle(a);
+        });
+        subscribe('SESSION_TIMER', function(a){
+            lockSession();
+        })
     </script>
 
 </head>
 <%--oncontextmenu="return false;"--%>
     <body style="margin: 0;">
+    <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">
+        <table style="width: 100%; height: 100%;">
+            <tr>
+                <td align="center">
+                    <button onclick="location.reload()">
+                        OK
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
     <div class="coverlet" id="coverlet">
         <table style="width: 100%; height: 100%;">
             <tr>

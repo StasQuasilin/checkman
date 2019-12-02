@@ -98,6 +98,8 @@ public class Branches {
         public static final String TRANSPORT_CARRIAGES = "/transport/carriages.j";
         public static final String RETAIL_LIST = "/retail/deals.j";
         public static final String RETAIL_EDIT = "/retail/edit.j";
+        public static final String ADDRESS_EDIT = "/address/edit.j";
+        public static final String EDIT_PRODUCT = "/edit/product.j";
 
 
         public class Extraction {
@@ -255,6 +257,9 @@ public class Branches {
         public static final String TRANSPORT_CARRIAGE = API + "/transport/carriage";
         public static final String PARSE_TRAILER = API + "/trailer/parse";
         public static final String RETAIL_EDIT = API + "/retail/edit";
+        public static final String FIND_PRODUCT = API + "/references/product/find";
+        public static final String PARSE_PRODUCT = API + "/references/parse/product";
+        public static final String PRODUCT_EDIT = API + "/references/product/edit";
 
         public class References {
             public static final String API = Branches.API.API + "/references";
@@ -274,6 +279,7 @@ public class Branches {
             public static final String ORGANISATION_EDIT = API + "/organisation/edit";
             public static final String FIND_TRAILER = API + "/trailer/find";
             public static final String PARSE_TRAILER = API;
+            public static final String ADDRESS_EDIT = API + "/address/edit";
         }
 
         public class Deal {

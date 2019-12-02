@@ -30,7 +30,8 @@ public enum Subscriber {
     MANUFACTURE_REPORTS,
     USERS,
     STOCK,
-    FINAL_STOCK
+    FINAL_STOCK,
+    SESSION_TIMER
 }
 
 //10592

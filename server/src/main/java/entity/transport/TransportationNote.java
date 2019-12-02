@@ -1,6 +1,8 @@
 package entity.transport;
 
+import entity.JsonAble;
 import entity.Worker;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,7 +12,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "transportation_notes")
-public class TransportationNote {
+public class TransportationNote extends JsonAble{
     private int id;
     private Transportation transportation;
     private Timestamp time;
@@ -68,5 +70,10 @@ public class TransportationNote {
     }
     public void setCreator(Worker creator) {
         this.creator = creator;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        return null;
     }
 }

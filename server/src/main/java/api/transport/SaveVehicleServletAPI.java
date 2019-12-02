@@ -39,13 +39,13 @@ public class SaveVehicleServletAPI extends ServletAPI {
                 vehicle = new Vehicle();
                 logger.info("Create new vehicle...");
             }
-            vehicle.setModel(String.valueOf(body.get(Constants.Vehicle.MODEL)).toUpperCase());
+            vehicle.setModel(String.valueOf(body.get(MODEL)).toUpperCase());
             logger.info("\t...Model: " + vehicle.getModel());
 
-            vehicle.setNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.NUMBER))));
+            vehicle.setNumber(Parser.prettyNumber(String.valueOf(body.get(NUMBER))));
             logger.info("\t...Number: " + vehicle.getNumber());
 
-            vehicle.setTrailerNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.Vehicle.TRAILER))));
+            vehicle.setTrailerNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.TRAILER))));
             logger.info("\t...Trailer: " + vehicle.getTrailerNumber());
 
             Trailer trailer = vehicle.getTrailer();

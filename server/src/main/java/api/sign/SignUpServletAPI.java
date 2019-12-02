@@ -44,8 +44,8 @@ public class SignUpServletAPI extends ServletAPI {
             for (Object o : (JSONArray) body.get("users")) {
                 JSONObject json = (JSONObject) o;
 
-                String email = (String) json.get(Constants.Person.EMAIL);
-                Role role = Role.valueOf((String) json.get(Constants.Person.ROLE));
+                String email = (String) json.get(Constants.EMAIL);
+                Role role = Role.valueOf((String) json.get(Constants.ROLE));
 
                 User user = new User();
                 user.setUid(getToken());
@@ -79,9 +79,9 @@ public class SignUpServletAPI extends ServletAPI {
                 Person person;
                 if (personId == -1) {
                     person = new Person();
-                    person.setSurname((String) json.get(Constants.Person.SURNAME));
-                    person.setForename((String) json.get(Constants.Person.FORENAME));
-                    person.setPatronymic((String) json.get(Constants.Person.PATRONYMIC));
+                    person.setSurname((String) json.get(Constants.SURNAME));
+                    person.setForename((String) json.get(Constants.FORENAME));
+                    person.setPatronymic((String) json.get(Constants.PATRONYMIC));
                     dao.savePerson(person);
                 } else {
                     person = dao.getPersonById(personId);

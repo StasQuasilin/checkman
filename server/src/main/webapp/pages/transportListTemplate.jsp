@@ -124,7 +124,7 @@
                             </b>
                         </span>
 
-                        <span style="float: right;">
+                        <span class="product-line" style="float: right;">
                             <span v-if="types[value.item.type]">
                                 {{(types[value.item.type]).toLowerCase()}}
                             </span>
@@ -161,6 +161,14 @@
                             </div>
                         </div>
                         <transport-view :item="value.item" :fields="fields" :customers="customers"></transport-view>
+                        <div style="display: inline-block; float: right; font-size: 10pt">
+                            <div style="width: 100%; text-align: center">
+                                <fmt:message key="deal.manager"/>
+                            </div>
+                            <div>
+                                {{value.item.manager.person.value}}
+                            </div>
+                        </div>
                     </div>
                     <div class="lower-row" v-if="value.item.notes.length > 0">
                         <div v-for="note in value.item.notes" style="display: inline-block; padding-left: 4pt">

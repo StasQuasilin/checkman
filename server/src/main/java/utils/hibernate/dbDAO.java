@@ -82,7 +82,7 @@ public interface dbDAO {
     Person getPersonById(Object personId);
     void saveWorker(Worker worker, User user);
     List<User> getUsersByToken(String token);
-    Worker getWorkerById(Object id);
+    Worker getObjectById(Object id);
     void saveCakeAnalyses(MealAnalyses mealAnalyses);
     void remove(Object ... o);
     void save(Object ... o);
@@ -224,4 +224,6 @@ public interface dbDAO {
     List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper);
     List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale);
     List<Transportation> getTransportationsByTransporter(Organisation transporter);
+    List<Product> findProduct(String key);
+    Product getProductByName(String name);
 }

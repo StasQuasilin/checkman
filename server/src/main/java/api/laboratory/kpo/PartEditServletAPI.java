@@ -119,7 +119,7 @@ public class PartEditServletAPI extends ServletAPI {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     Object creatorId = body.get(Constants.CREATOR);
-                    createTime.setCreator(dao.getWorkerById(creatorId));
+                    createTime.setCreator(dao.getObjectById(creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }

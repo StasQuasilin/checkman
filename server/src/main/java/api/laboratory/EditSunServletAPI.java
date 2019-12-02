@@ -110,7 +110,7 @@ public class EditSunServletAPI extends ServletAPI {
                 if (a.containsKey(Constants.CREATOR)) {
                     long creatorId = (long) a.get(Constants.CREATOR);
                     log.info("\t\tHave creator");
-                    creator = dao.getWorkerById(creatorId);
+                    creator = dao.getObjectById(creatorId);
                 } else {
                     log.info("\t\tDoesn't have creator");
                     creator = worker;

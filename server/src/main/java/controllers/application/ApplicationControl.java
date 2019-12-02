@@ -22,7 +22,7 @@ public class ApplicationControl extends IServlet{
 
 
     final dbDAO dao = dbDAOService.getDAO();
-    final Subscriber[] applicationSubscribes = new Subscriber[]{Subscriber.MESSAGES};
+    final Subscriber[] applicationSubscribes = new Subscriber[]{Subscriber.MESSAGES, Subscriber.SESSION_TIMER};
     public static final String SUBSCRIBER = "SUBSCRIBER";
     public static final String WELCOME = "welcome";
     public static final String BUI_LIST = "buyList";

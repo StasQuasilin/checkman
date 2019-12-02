@@ -1,6 +1,9 @@
 package entity.products;
 
 import entity.AnalysesType;
+import entity.JsonAble;
+import entity.weight.WeightUnit;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,11 +12,12 @@ import javax.persistence.*;
  */
 @Entity
 @Table (name = "products")
-public class Product {
+public class Product extends JsonAble {
     private int id;
     private ProductGroup productGroup;
     private String name;
     private AnalysesType analysesType;
+    private WeightUnit unit;
 
     @Id
     @GeneratedValue
@@ -64,5 +68,13 @@ public class Product {
                 "\tname='" + name + "'\n" +
                 "\tanalyses='" + analysesType + "'\n" +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(NAME, name);
+        return json;
     }
 }

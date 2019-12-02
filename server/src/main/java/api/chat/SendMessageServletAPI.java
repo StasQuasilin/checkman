@@ -46,7 +46,7 @@ public class SendMessageServletAPI extends ServletAPI {
             }
             Worker worker = getWorker(req);
             if (worker == null) {
-                worker = dao.getWorkerById(body.get("sender"));
+                worker = dao.getObjectById(body.get("sender"));
             }
             if (worker != null) {
                 Chat chat;
@@ -61,7 +61,7 @@ public class SendMessageServletAPI extends ServletAPI {
                     for (Object membersObject : (JSONArray) body.get("members")) {
                         JSONObject memberJson = (JSONObject) (membersObject);
                         ChatMember member = new ChatMember();
-                        Worker workerById = dao.getWorkerById(memberJson.get("id"));
+                        Worker workerById = dao.getObjectById(memberJson.get("id"));
                         if (workerById.getId() == worker.getId()){
                             alreadyContainMe = true;
                         }

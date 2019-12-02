@@ -1,6 +1,8 @@
 package filters;
 
+import api.sockets.handlers.SessionTimer;
 import constants.Branches;
+import entity.Worker;
 import org.apache.log4j.Logger;
 import utils.IpUtil;
 import utils.LoginBox;
@@ -18,8 +20,10 @@ import java.io.IOException;
 @WebFilter(value = {Branches.UI.APPLICATION, "*.j", Branches.API.API + "/*"})
 public class SignInFilter implements Filter{
 
+    private static final String WORKER = "worker";
     final UserBox userBox = UserBox.getUserBox();
     final Logger log = Logger.getLogger(SignInFilter.class);
+    final SessionTimer sessionTimer = SessionTimer.getInstance();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
@@ -56,7 +60,8 @@ public class SignInFilter implements Filter{
 
 
         if (isValid) {
-
+            Worker worker = (Worker) request.getSession().getAttribute(WORKER);
+            sessionTimer.update(worker);
             String updateToken = userBox.updateToken(token);
             if (inAttribute){
                 response.setHeader(TOKEN, updateToken);

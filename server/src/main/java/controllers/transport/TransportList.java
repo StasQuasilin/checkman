@@ -17,9 +17,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_LIST)
 public class TransportList extends IUIServlet{
 
-    private static final long serialVersionUID = -3161276220497815575L;
-
-    Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+    Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
     public static final String _CONTENT = "/pages/transport/transportList.jsp";
 
     @Override

@@ -3,7 +3,7 @@ package constants;
 /**
  * Created by quasilin on 11.03.2019.
  */
-public class Constants {
+public interface Constants {
     public static final String ENCODING = "UTF-8";
     public static final String ID = "id";
 
@@ -39,9 +39,18 @@ public class Constants {
     public static final String PROBE = "probe";
     public static final String FIND_MANGER = "findManager";
     public static final String FIND_ORGANISATION = "findOrganisation";
-    public static final String FIND_DRIVER = "findDriver";
-    public static final String COUNTERPARTY = "counterparty";
-    public static final String SUCCESS = "success";
+    String IS_NEW = "isNew";
+    String EDIT_ADDRESS = "editAddress";
+    String FIND_PRODUCT = "findProduct";
+    String EDIT_PRODUCT = "editProduct";
+    String PARSE_PRODUCT = "parseProduct";
+    String FIND_DRIVER = "findDriver";
+    String COUNTERPARTY = "counterparty";
+    String ADDRESS = "address";
+    String CITY = "city";
+    String STREET = "street";
+    String BUILD = "build";
+    String SUCCESS = "success";
     public static final String ERROR = "error";
     public static final String CONTEXT = "context";
     public static final String TRANSPORTATION = "transportation";
@@ -94,7 +103,6 @@ public class Constants {
     public static final String EMPTY_JSON = "{}";
     public static final String TRANSPORTATIONS = TRANSPORTATION + "s";
 
-
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
         public static final String EDIT_DOCUMENT = "document.edit";
@@ -111,25 +119,8 @@ public class Constants {
         public static final String DEAL_COPY = "deal.copy";
     }
 
-    public class Vehicle {
-        public static final String MODEL = "model";
-        public static final String NUMBER = "number";
-        public static final String TRAILER = "trailer";
-        public static final String TRANSPORTER_ID = "transporter_id";
-    }
-
-    public class Person {
-        public static final String SURNAME = "surname";
-        public static final String FORENAME = "forename";
-        public static final String PATRONYMIC = "patronymic";
-        public static final String EMAIL = "email";
-        public static final String ROLE = "role";
-    }
-
-    public class Weight {
-        public static final String BRUTTO = "brutto";
-        public static final String TARA = "tara";
-    }
+    public static final String EMAIL = "email";
+    public static final String ROLE = "role";
 
     public class Sun {
         public static final String OILINESS = "oiliness";

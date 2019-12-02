@@ -47,13 +47,13 @@ public class SaveDriverServletAPI extends ServletAPI {
             }
 
             Person person = driver.getPerson();
-            person.setSurname(String.valueOf(body.get(Constants.Person.SURNAME)));
+            person.setSurname(String.valueOf(body.get(Constants.SURNAME)));
             log.info("\t...Surname:" + driver.getPerson().getSurname());
 
-            person.setForename(String.valueOf(body.get(Constants.Person.FORENAME)));
+            person.setForename(String.valueOf(body.get(Constants.FORENAME)));
             log.info("\t...Forename:" + driver.getPerson().getForename());
 
-            person.setPatronymic(String.valueOf(body.get(Constants.Person.PATRONYMIC)));
+            person.setPatronymic(String.valueOf(body.get(Constants.PATRONYMIC)));
             log.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
 
             String license = String.valueOf(body.get("license"));

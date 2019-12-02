@@ -372,13 +372,16 @@ var editor = new Vue({
                     }
 
                     e.type = this.plan.type == -1;
-                    e.organisation = this.plan.organisation == -1;
+                    e.organisation = this.plan.organisation.id == -1;
                     e.product = this.plan.product == -1;
                     e.manager = this.plan.manager == -1;
                     console.log(this.plan);
                     console.log(e);
+                    var plan = this.plan;
+                    plan.organisation = plan.organisation.id;
+
                     if (!e.type && !e.organisation && !e.product) {
-                        PostApi(this.api.save, this.plan, function (a) {
+                        PostApi(this.api.save, plan, function (a) {
                             if (a.status === 'success') {
                                 closeModal();
                             }

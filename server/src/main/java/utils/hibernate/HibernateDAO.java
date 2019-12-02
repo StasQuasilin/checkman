@@ -281,7 +281,7 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Worker getWorkerById(Object id) {
+    public Worker getObjectById(Object id) {
         return hb.get(Worker.class, ID, id);
     }
 
@@ -853,6 +853,16 @@ public class HibernateDAO implements dbDAO {
         parameters.put("transportation/archive", false);
         parameters.put("deal/type", dealType);
         return hb.query(LoadPlan.class, parameters);
+    }
+
+    @Override
+    public List<Product> findProduct(String key) {
+        return hb.find(Product.class, "name", key);
+    }
+
+    @Override
+    public Product getProductByName(String name) {
+        return hb.get(Product.class, "name", name);
     }
 
     @Override

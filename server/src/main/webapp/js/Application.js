@@ -9,6 +9,7 @@ const lastPage = 'last-page';
 var welcome = '';
 var logoutAPI = '';
 var currentPage = '';
+var sessionLocker;
 
 $(document).ready(function(){
     document.body.style.maxWidth = Settings.switchWidth + 'px';
@@ -18,6 +19,7 @@ $(document).ready(function(){
     filter = document.getElementById('filter');
     content = document.getElementById('content');
     staticContent = document.getElementById('static');
+    sessionLocker = document.getElementById('sessionLocker');
 
     var last = localStorage.getItem(lastPage + ';' + Settings.worker);
 
@@ -31,6 +33,11 @@ $(document).ready(function(){
         loadContent(welcome)
     }
 });
+
+function lockSession(cause){
+    console.log('clock');
+    //sessionLocker.style.display='block';
+}
 
 function loadContent(url){
     if (url && currentPage != url) {

@@ -5,7 +5,6 @@ import api.laboratory.ActNumberService;
 import constants.Branches;
 import entity.AnalysesType;
 import entity.Worker;
-import entity.documents.LoadPlan;
 import entity.laboratory.transportation.ActType;
 import entity.products.Product;
 import entity.products.ProductProperty;
@@ -40,7 +39,7 @@ public class LaboratoryMealPrintServletAPI extends ServletAPI {
                 Date date = dateObj != null ? Date.valueOf(String.valueOf(dateObj)) : Date.valueOf(LocalDate.now());
                 Object manufactureObj = body.get("manufacture");
                 Date manufacture = manufactureObj != null ? Date.valueOf(String.valueOf(manufactureObj)) : Date.valueOf(LocalDate.now());
-                Worker responsible = dao.getWorkerById(body.get("worker"));
+                Worker responsible = dao.getObjectById(body.get("worker"));
                 AnalysesType type = AnalysesType.valueOf(String.valueOf(body.get("type")));
 
                 Transportation transportation = dao.getTransportationById(id);
