@@ -31,7 +31,11 @@ public enum Subscriber {
     USERS,
     STOCK,
     FINAL_STOCK,
-    SESSION_TIMER
+    SESSION_TIMER,
+    CONTRACTS_BUY,
+    CONTRACTS_SELL,
+    TRANSPORT,
+    TRANSPORT_ARCHIVE
 }
 
 //10592

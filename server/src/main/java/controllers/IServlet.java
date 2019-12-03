@@ -23,59 +23,7 @@ import java.io.IOException;
  */
 public class IServlet extends HttpServlet implements Constants {
 
-    public static final String ID = Constants.ID;
-    public static final String TITLE = Constants.TITLE;
-    public static final String DATE = Constants.DATE;
-    public static final String SCALE = "scale";
-    public static final String TURN = Constants.TURN;
-    public static final String TURNS = "turns";
-    public static final String SUBSCRIBE = "subscribe";
-    public static final String FILTER = "filter";
-    public static final String CANCEL = "cancel";
-    public static final String ADD = "add";
-    public static final String PRINT = "print";
-    public static final String TRANSPORT_CARRIAGES = "transportCarriages";
-    public static final String SHOW = "show";
-    public static final String EDIT = "edit";
-    public static final String ROLE = "role";
-    public static final String COLLAPSE = "collapse";
-    public static final String DELETE = "delete";
-    public static final String EDIT_STORAGE = "editStorage";
-    public static final String TYPES = "types";
-    public static final String CONTENT = "content";
-    public static final String WEIGHT_SHOW = "";
-    public static final String MODAL_CONTENT = "modalContent";
-    public static final String FIND_ORGANISATION = Constants.FIND_ORGANISATION;
 
-    public static final String REPORT = "report";
-    public static final String FIELDS = "fields";
-    public static final String SEND = "send";
-    public static final String PRODUCTS = "products";
-    public static final String PREVIEW = "preview";
-    public static final String NUMBER = "number";
-    public static final String TYPE = "type";
-    public static final String MANAGER = "manager";
-    public static final String CALCULATORS = "calculators";
-    public static final String AMOUNT = "amount";
-    public static final String PLAN = "plan";
-    public static final String DIRECTION = "dir";
-    public static final String STORAGES = "storages";
-    public static final String SHIPPER = "shipper";
-    public static final String SHIPPERS = "shippers";
-    public static final String UNITS = "units";
-    public static final String PROTEIN = "protein";
-    public static final String IN = "in";
-    public static final String OUT = "out";
-    public static final String BRUTTO = "brutto";
-    public static final String TARA = "tara";
-    public static final String NETTO = "netto";
-    public static final String VEHICLE = "vehicle";
-    public static final String TRAILER = "trailer";
-    public static final String TRANSPORTER = "transporter";
-    public static final String HAVE_MENU = "menu";
-    public static final String RESULT = "result";
-
-    public static final String KEY = "key";
 
 
 

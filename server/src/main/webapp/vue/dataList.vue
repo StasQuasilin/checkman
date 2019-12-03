@@ -112,7 +112,7 @@ var list = new Vue({
                     }
                 }
             }
-            if (filter_control.checkFilter){
+            if (typeof filter_control !== 'undefined' && filter_control.checkFilter){
                 filter_control.checkFilter();
             }
         },

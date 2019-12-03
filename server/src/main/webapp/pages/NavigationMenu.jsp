@@ -17,6 +17,24 @@
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/deals.jsp"/>
+                <ul>
+                  <li class="menu-item">
+                    <span class="main" onclick="loadContent('${contractsBuy}')">
+                      <fmt:message key="contracts.buy"/>
+                    </span>
+                    <span>
+                      <a onclick="loadContent('${retailArchive}')"><fmt:message key="archive"/> </a>
+                    </span>
+                  </li>
+                  <li class="menu-item">
+                    <span class="main" onclick="loadContent('${contractsSell}')">
+                      <fmt:message key="contracts.sell"/>
+                    </span>
+                    <span>
+                      <a onclick="loadContent('${retailArchive}')"><fmt:message key="archive"/> </a>
+                    </span>
+                  </li>
+                </ul>
               </div>
             </li>
             <li class="nav-menu-item nav-drop-menu-item">

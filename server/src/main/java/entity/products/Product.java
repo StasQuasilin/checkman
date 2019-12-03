@@ -84,6 +84,12 @@ public class Product extends JsonAble {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(NAME, name);
+        if (productGroup != null){
+            json.put(GROUP, productGroup.toJson());
+        }
+        if (unit != null) {
+            json.put(UNIT, unit.toJson());
+        }
         return json;
     }
 }

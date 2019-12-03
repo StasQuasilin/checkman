@@ -377,8 +377,8 @@ var editor = new Vue({
                     e.manager = this.plan.manager == -1;
                     console.log(this.plan);
                     console.log(e);
-                    var plan = this.plan;
-                    plan.organisation = plan.organisation.id;
+                    var plan = Object.assign({}, this.plan);
+                    plan.organisation = this.plan.organisation.id;
 
                     if (!e.type && !e.organisation && !e.product) {
                         PostApi(this.api.save, plan, function (a) {

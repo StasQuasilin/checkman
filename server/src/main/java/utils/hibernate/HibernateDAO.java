@@ -8,6 +8,8 @@ import entity.bot.UserBotSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
+import entity.deal.Contract;
+import entity.deal.ContractProduct;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.turn.LaboratoryTurn;
@@ -30,7 +32,6 @@ import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
-import entity.products.ProductGroup;
 import entity.products.ProductProperty;
 import entity.products.ProductSettings;
 import entity.reports.ManufactureReport;
@@ -546,6 +547,24 @@ public class HibernateDAO implements dbDAO {
         param.put("type", type);
         param.put("archive", false);
         return hb.query(Deal.class, param);
+    }
+
+    @Override
+    public List<Contract> getContractsByType(DealType type) {
+        final HashMap<String, Object> param = new HashMap<>();
+        param.put("type", type);
+        param.put("contract/archive", false);
+        HashMap<Integer, Contract> contracts = new HashMap<>();
+        for(ContractProduct product : hb.query(ContractProduct.class, param)){
+            Contract contract = product.getContract();
+            if(!contracts.containsKey(contract.getId())){
+                contracts.put(contract.getId(), contract);
+            }
+        }
+        List<Contract> result = new ArrayList<>();
+        result.addAll(contracts.values());
+
+        return result;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package utils.hibernate;
 
+import entity.DealType;
 import entity.Person;
+import entity.deal.Contract;
 import entity.documents.Shipper;
 import entity.products.Product;
 import entity.reports.ReportField;
@@ -27,12 +29,14 @@ import java.util.Map;
  */
 public class CustomHandler {
 
-//    static dbDAO dao = dbDAOService.getDAO();
+    static dbDAO dao = dbDAOService.getDAO();
 
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        instance.query(Transportation2.class, null);
+        for (Contract contract : dao.getContractsByType(DealType.sell)){
+            System.out.println(contract.toJson());
+        }
 //        for (Vehicle v : instance.query(Vehicle.class, null)){
 //            String trailerNumber = v.getTrailerNumber();
 //            if (U.exist(trailerNumber)){

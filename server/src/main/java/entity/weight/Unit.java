@@ -1,6 +1,8 @@
 package entity.weight;
 
+import entity.JsonAble;
 import org.glassfish.jersey.server.BackgroundScheduler;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "weight_units")
-public class Unit {
+public class Unit extends JsonAble{
     private int id;
     private String name;
 
@@ -29,5 +31,13 @@ public class Unit {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NAME, name);
+        return object;
     }
 }

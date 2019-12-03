@@ -7,6 +7,7 @@ public enum Role {
     admin,
     top,
     manager,
+    retail,
     logistic,
     security,
     weigher,

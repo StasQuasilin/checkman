@@ -52,6 +52,7 @@
         id:-1
       },
       shippers:[],
+      units:[],
       deals:[],
       driverProps:{
         header:'<fmt:message key="driver.add" />'
@@ -79,6 +80,11 @@
         header:'<fmt:message key="button.select.product"/>',
         put:function(product, deal){
           deal.product = product;
+          if (product.unit.id) {
+            deal.unit = product.unit.id;
+          } else {
+            deal.unit = -1;
+          }
           editor.getPrice(deal, product);
         },
         show:['name']
@@ -121,6 +127,7 @@
           product:{
             id:-1
           },
+          unit:-1,
           amount:0,
           price:0,
           shipper:this.shippers[0].id
@@ -183,6 +190,7 @@
                 let p = d.products[j];
                 deal.products.push({
                   amount: p.amount,
+                  unit: p.unit,
                   type:this.type,
                   price: p.price,
                   product: p.product.id,
@@ -194,7 +202,9 @@
           }
         }
         PostApi(this.api.save, data, function(a){
-
+          if(a.status === 'success'){
+            closeModal();
+          }
         });
       }
     }
@@ -205,11 +215,17 @@
     name:'${shipper.value}'
   });
   </c:forEach>
+  <c:forEach items="${units}" var="unit">
+  editor.units.push({
+    id:${unit.id},
+    name:'${unit.name}'
+  });
+  </c:forEach>
   editor.api.save = '${save}';
   editor.api.editAddress = '${editAddress}';
   editor.api.findAddress = '${findLoadAddress}';
 </script>
-<table id="editor" width="580px" class="editor">
+<table id="editor" width="680px" class="editor">
   <tr>
     <td>
       <fmt:message key="date"/>
@@ -278,13 +294,13 @@
           </div>
           <table style="font-size: 10pt; border-collapse: collapse">
             <tr>
-              <th style="width: 220px">
+              <th style="width: 280pt">
                 <fmt:message key="deal.product"/>
               </th>
-              <th style="width: 90px">
+              <th style="width: 150pt">
                 <fmt:message key="seal.quantity"/>
               </th>
-              <th style="width: 170px">
+              <th style="width: 200pt">
                 <fmt:message key="deal.price"/>/<fmt:message key="deal.realisation"/>
               </th>
               <th style="width: 70px">
@@ -300,6 +316,14 @@
               </td>
               <td>
                 <input id="amount" type="number" v-model="product.amount" autocomplete="off" onfocus="this.select()">
+                <select v-model="product.unit">
+                  <option value="-1" disabled>
+                    !!
+                  </option>
+                  <option v-for="unit in units" :value="unit.id">
+                    {{unit.name}}
+                  </option>
+                </select>
               </td>
               <td>
                 <input id="price" type="number" v-model="product.price" autocomplete="off" onfocus="this.select()">

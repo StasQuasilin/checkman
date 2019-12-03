@@ -6,6 +6,7 @@ import entity.deal.Contract;
 import entity.deal.ContractProduct;
 import entity.documents.Shipper;
 import entity.products.Product;
+import entity.weight.Unit;
 
 import java.sql.Date;
 
@@ -72,6 +73,14 @@ public class ContractUtil {
     public static boolean setType(ContractProduct contractProduct, DealType type) {
         if (contractProduct.getType() != type){
             contractProduct.setType(type);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean setUnit(ContractProduct contractProduct, Unit unit) {
+        if (contractProduct.getUnit() == null || contractProduct.getUnit().getId() != unit.getId()){
+            contractProduct.setUnit(unit);
             return true;
         }
         return false;

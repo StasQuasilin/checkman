@@ -49,6 +49,9 @@ public class Shipper extends JsonAble{
 
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NAME, value);
+        return object;
     }
 }

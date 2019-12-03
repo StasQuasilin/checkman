@@ -35,6 +35,8 @@ public class ActiveSubscriptions {
         for(Subscriber s : Subscriber.values()){
             bySubscribe.put(s, new ArrayList<>());
         }
+        handlers.put(Subscriber.CONTRACTS_BUY, new ContractHandler(DealType.buy, Subscriber.CONTRACTS_BUY));
+        handlers.put(Subscriber.CONTRACTS_SELL, new ContractHandler(DealType.sell, Subscriber.CONTRACTS_SELL));
         handlers.put(Subscriber.DEAL_BUY, new DealHandler(DealType.buy, Subscriber.DEAL_BUY));
         handlers.put(Subscriber.DEAL_BUY_ARCHIVE, new DealArchiveHandler(DealType.buy, Subscriber.DEAL_BUY_ARCHIVE));
         handlers.put(Subscriber.DEAL_SELL, new DealHandler(DealType.sell, Subscriber.DEAL_SELL));

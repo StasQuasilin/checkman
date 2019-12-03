@@ -96,7 +96,7 @@ public class Branches {
         public static final String MANUFACTURE_REPORT_PREVIEW = "/manufacture/report/view.j";
         public static final String DRIVER_COLLAPSE = "/drivers/collapse.j";
         public static final String TRANSPORT_CARRIAGES = "/transport/carriages.j";
-        public static final String RETAIL_LIST = "/retail/deals.j";
+        public static final String CONTRACT_LIST = "/contracts.j";
         public static final String RETAIL_EDIT = "/retail/edit.j";
         public static final String ADDRESS_EDIT = "/address/edit.j";
         public static final String EDIT_PRODUCT = "/edit/product.j";

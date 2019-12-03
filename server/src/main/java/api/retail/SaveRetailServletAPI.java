@@ -11,6 +11,7 @@ import entity.documents.Shipper;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.transport.ActionTime;
+import entity.weight.Unit;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
@@ -109,6 +110,12 @@ public class SaveRetailServletAPI extends ServletAPI {
                     if (ContractUtil.setAmount(contractProduct, amount)){
                         saveThisProduct = true;
                     }
+
+                    Unit unit = dao.getObjectById(Unit.class, p1.get(UNIT));
+                    if (ContractUtil.setUnit(contractProduct, unit)){
+                        saveThisProduct = true;
+                    }
+
                     Float price = Float.parseFloat(String.valueOf(p1.get(PRICE)));
                     if (ContractUtil.setPrice(contractProduct, price)){
                         saveThisProduct = true;

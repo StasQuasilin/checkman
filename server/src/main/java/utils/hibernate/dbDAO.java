@@ -7,6 +7,7 @@ import entity.bot.UserBotSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
+import entity.deal.Contract;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.turn.LaboratoryTurn;
@@ -231,4 +232,5 @@ public interface dbDAO {
     List<LoadAddress> getLoadAddress(Organisation organisation);
     ProductSettings getProductSettings(Product product);
     <T>List<T> find(Class<T> tClass, String key, String value);
+    List<Contract> getContractsByType(DealType type);
 }

@@ -5,6 +5,7 @@ import constants.Branches;
 import controllers.IServlet;
 import controllers.archive.ArchiveType;
 import entity.AnalysesType;
+import entity.DealType;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -39,7 +40,8 @@ public class ApplicationControl extends IServlet{
         req.setAttribute(BUY_ARCHIVE, Branches.UI.BUY_ARCHIVE);
         req.setAttribute("sellList", Branches.UI.DEAL_SELL);
         req.setAttribute("sellArchive", Branches.UI.SELL_ARCHIVE);
-        req.setAttribute("retailList", Branches.UI.RETAIL_LIST);
+        req.setAttribute("contractsBuy", Branches.UI.CONTRACT_LIST + PARAMETERS_TYPE + DealType.buy.toString());
+        req.setAttribute("contractsSell", Branches.UI.CONTRACT_LIST + PARAMETERS_TYPE + DealType.sell.toString());
         req.setAttribute("railList", Branches.UI.RAIL_LIST);
         req.setAttribute("railArchive", Branches.UI.RAIL_ARCHIVE);
         req.setAttribute("summaryList", Branches.UI.SUMMARY_LIST);

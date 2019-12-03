@@ -33,7 +33,6 @@ public class Contract extends JsonAble {
     private Worker manager;
     private ActionTime createTime;
     private String uid;
-    private Worker creator;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -143,15 +142,6 @@ public class Contract extends JsonAble {
         this.uid = uid;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
-    }
-
     @Override
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
@@ -159,6 +149,9 @@ public class Contract extends JsonAble {
         json.put(FROM, from.toString());
         json.put(TO, to.toString());
         json.put(COUNTERPARTY, counterparty.toJson());
+        if (address != null){
+            json.put(ADDRESS, address.toJson());
+        }
         json.put(NUMBER, number);
         JSONArray array = pool.getArray();
         array.addAll(products.stream().map(ContractProduct::toJson).collect(Collectors.toList()));

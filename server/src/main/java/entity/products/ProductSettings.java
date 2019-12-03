@@ -63,9 +63,13 @@ public class ProductSettings extends JsonAble{
 
     }
 
+    final static String[] EMPTY_SPLIT = new String[0];
     @Transient
     public String[] getSplitPath(){
-        return path.split(SLASH);
+        if(path != null){
+            return path.split(SLASH);
+        }
+        return EMPTY_SPLIT;
     }
 
     @Override

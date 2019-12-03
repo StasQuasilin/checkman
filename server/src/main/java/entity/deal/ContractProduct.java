@@ -115,6 +115,9 @@ public class ContractProduct extends JsonAble {
         json.put(SHIPPER, shipper.toJson());
         json.put(DONE, done);
         json.put(AMOUNT, amount);
+        if (unit != null){
+            json.put(UNIT, unit.toJson());
+        }
         json.put(PRICE, price);
         return json;
     }
