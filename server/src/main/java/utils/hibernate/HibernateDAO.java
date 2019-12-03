@@ -23,6 +23,7 @@ import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
+import entity.organisations.LoadAddress;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import entity.production.Forpress;
@@ -863,6 +864,11 @@ public class HibernateDAO implements dbDAO {
     @Override
     public Product getProductByName(String name) {
         return hb.get(Product.class, "name", name);
+    }
+
+    @Override
+    public List<LoadAddress> getLoadAddress(Organisation organisation) {
+        return hb.query(LoadAddress.class, "organisation", organisation);
     }
 
     @Override

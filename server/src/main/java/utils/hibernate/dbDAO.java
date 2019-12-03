@@ -22,6 +22,7 @@ import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
+import entity.organisations.LoadAddress;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import entity.production.Forpress;
@@ -226,4 +227,5 @@ public interface dbDAO {
     List<Transportation> getTransportationsByTransporter(Organisation transporter);
     List<Product> findProduct(String key);
     Product getProductByName(String name);
+    List<LoadAddress> getLoadAddress(Organisation organisation);
 }

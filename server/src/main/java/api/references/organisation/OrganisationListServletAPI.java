@@ -36,7 +36,7 @@ public class OrganisationListServletAPI extends ServletAPI {
         HashMap<String, List<Organisation>> organisations = new HashMap<>();
         for (Organisation organisation : dao.getOrganisations()){
 
-            String substring = U.exist(organisation.getName()) ? organisation.getName().substring(0, 1) : CHAR;
+            String substring = U.exist(organisation.getName()) ? getChar(organisation.getName()) : CHAR;
             if (!organisations.containsKey(substring)){
                 organisations.put(substring, new ArrayList<>());
             }
@@ -53,5 +53,13 @@ public class OrganisationListServletAPI extends ServletAPI {
         }
         write(resp, json.toJSONString());
         pool.put(json);
+    }
+    synchronized String getChar(String s){
+        for (char c : s.toCharArray()){
+            if (Character.isLetter(c)){
+                return String.valueOf(c);
+            }
+        }
+        return CHAR;
     }
 }

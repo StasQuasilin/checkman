@@ -7,6 +7,7 @@ import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import entity.transport.TransportUtil;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,7 @@ import java.io.IOException;
  */
 @WebServlet(Branches.API.ARCHIVE_LOAD_PLAN)
 public class ArchiveLoadPlan extends ServletAPI {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -26,7 +28,7 @@ public class ArchiveLoadPlan extends ServletAPI {
             Object id = body.get(Constants.ID);
             LoadPlan plan = dao.getLoadPlanById(id);
             Transportation transportation = plan.getTransportation();
-            if (transportation.isDone() && !transportation.isArchive()){
+            if (!transportation.isArchive()){
                 TransportUtil.archive(plan);
             }
         }

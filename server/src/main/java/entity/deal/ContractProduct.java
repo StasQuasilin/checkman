@@ -26,7 +26,6 @@ public class ContractProduct extends JsonAble {
     private float amount;
     private WeightUnit unit;
     private float price;
-    private Set<ContractProductNote> notes = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -107,14 +106,6 @@ public class ContractProduct extends JsonAble {
     }
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
-    public Set<ContractProductNote> getNotes() {
-        return notes;
-    }
-    public void setNotes(Set<ContractProductNote> notes) {
-        this.notes = notes;
     }
 
     @Override

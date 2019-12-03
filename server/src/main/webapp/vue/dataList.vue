@@ -158,6 +158,7 @@ var list = new Vue({
             }
         },
         archive:function(id){
+            console.log('archive ' + id);
             if (this.api.archive) {
                 PostApi(this.api.archive, {id: id});
             }

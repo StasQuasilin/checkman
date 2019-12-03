@@ -33,8 +33,7 @@ public class Transportation2 extends JsonAble {
     private ActionTime registered;
     private ActionTime timeIn;
     private ActionTime timeOut;
-    private Set<TransportationProduct> products = new HashSet<>();
-    private Set<TransportationNote> notes = new HashSet<>();
+    private Set<TransportationDocument> documents = new HashSet<>();
     private boolean done;
     private boolean archive;
     private ActionTime createTime;
@@ -186,19 +185,11 @@ public class Transportation2 extends JsonAble {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<TransportationNote> getNotes() {
-        return notes;
+    public Set<TransportationDocument> getDocuments() {
+        return documents;
     }
-    public void setNotes(Set<TransportationNote> notes) {
-        this.notes = notes;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<TransportationProduct> getProducts() {
-        return products;
-    }
-    public void setProducts(Set<TransportationProduct> products) {
-        this.products = products;
+    public void setDocuments(Set<TransportationDocument> products) {
+        this.documents = products;
     }
 
     @Basic
@@ -271,7 +262,7 @@ public class Transportation2 extends JsonAble {
         }
         json.put(MANAGER, manager.toJson());
         JSONArray array = pool.getArray();
-        array.addAll(notes.stream().map(TransportationNote::toJson).collect(Collectors.toList()));
+//        array.addAll(notes.stream().map(TransportationNote::toJson).collect(Collectors.toList()));
         json.put(NOTES, array);
         return json;
     }

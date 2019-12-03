@@ -22,11 +22,11 @@ public class SessionTimer {
 
     private HashMap<Worker, Session> workerSessionHashMap = new HashMap<>();
     private HashMap<Worker, Timer> timerHashMap = new HashMap<>();
-    public static final int SESSION_DELAY = 60 * 1000;//4 * 60 * 60 * 1000;
+    public static final int SESSION_DELAY = 60 * 60 * 1000;
 
     public void register(Worker worker, Session session) {
         Timer timer = new Timer(SESSION_DELAY, e -> {
-            System.out.println(worker.getPerson().getValue());
+            System.out.println("Close session for: " + worker.getPerson().getValue());
             String closed = ActiveSubscriptions.prepareMessage(Subscriber.SESSION_TIMER, "CLOSED");
             try {
                 session.getBasicRemote().sendText(closed);
@@ -39,7 +39,6 @@ public class SessionTimer {
         timerHashMap.put(worker, timer);
     }
     public void update(Worker worker){
-        System.out.println("SESSION CONTINUE");
         Timer timer = timerHashMap.get(worker);
         if (timer != null && timer.isRunning()){
             timer.setDelay(SESSION_DELAY);

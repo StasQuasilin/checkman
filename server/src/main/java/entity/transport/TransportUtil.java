@@ -159,7 +159,9 @@ public class TransportUtil{
         dao.save(tsu);
         storageUtil.updateStorageEntry(tsu);
     }
-
+    public static void setVehicle(Transportation2 transportation, Vehicle vehicle){
+        transportation.setTruck(vehicle);
+    }
     public static void setVehicle(Transportation transportation, Vehicle vehicle) {
         if (vehicle != null) {
             transportation.setVehicle(vehicle);
@@ -188,6 +190,10 @@ public class TransportUtil{
             transportation.setTrailer(null);
             transportation.setTrailerNumber(null);
         }
+    }
+
+    public static void setDriver(Transportation2 transportation, Driver driver){
+        transportation.setDriver(driver);
     }
 
     public static void setDriver(Transportation transportation, Driver driver) {

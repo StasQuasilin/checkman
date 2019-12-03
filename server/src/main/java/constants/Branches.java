@@ -280,6 +280,7 @@ public class Branches {
             public static final String FIND_TRAILER = API + "/trailer/find";
             public static final String PARSE_TRAILER = API;
             public static final String ADDRESS_EDIT = API + "/address/edit";
+            public static final String FIND_LOAD_ADDRESS = API + "/references/find/load/address";
         }
 
         public class Deal {

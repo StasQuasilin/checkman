@@ -20,7 +20,7 @@
 
   }
   .product-row:nth-child(even){
-    background-color: lightgray;
+    background-color: #e8e8e8;
   }
   .product-row select{
     border: none;
@@ -40,6 +40,7 @@
     },
     data:{
       api:{},
+      date:new Date().toISOString().substring(0, 10),
       driver:{
         id:-1
       },
@@ -65,6 +66,7 @@
         header:'<fmt:message key="counterparty.select"/>',
         put:function(a, b){
           b.counterparty = a;
+          editor.getAddress(a, b);
         },
         show:['value']
       },
@@ -76,6 +78,7 @@
         header:'<fmt:message key="button.select.product"/>',
         put:function(product, deal){
           deal.product = product;
+          editor.getPrice(deal, product);
         },
         show:['name']
       }
@@ -93,6 +96,18 @@
         };
         this.deals.push(deal);
         this.addField(deal);
+      },
+      getAddress:function(counterparty, deal){
+        if (counterparty.name) {
+          console.log('Get Address for ' + counterparty.name);
+          PostApi(this.api.findAddress, {counterparty: counterparty.id}, function (a) {
+            deal.addressList = a;
+            console.log(a);
+          })
+        } else {
+          console.log('Clear address list');
+          deal.addressList = [];
+        }
       },
       addCounterparty:function(counterpart, deal){
         console.log(deal);
@@ -135,6 +150,50 @@
           deal.addressList.push(a.address);
           deal.address = a.address.id;
         });
+      },
+      getPrice:function(deal, product){
+
+      },
+      waybill:function(){
+
+      },
+      print:function(deal){
+
+      },
+      save:function(){
+        let data = {
+          date:this.date,
+          driver:this.driver.id,
+          vehicle:this.vehicle.id,
+          trailer:this.trailer.id,
+          deals:[]
+        };
+        for (let i in this.deals){
+          if (this.deals.hasOwnProperty(i)){
+            let d = this.deals[i];
+            let deal = {
+              id: d.id,
+              counterparty: d.counterparty.id,
+              address: d.address,
+              products: []
+            };
+            for (let j in d.products){
+              if (d.products.hasOwnProperty(j)){
+                let p = d.products[j];
+                deal.products.push({
+                  amount: p.amount,
+                  price: p.price,
+                  product: p.product.id,
+                  shipper: p.shipper
+                });
+              }
+            }
+            data.deals.push(deal)
+          }
+        }
+        PostApi(this.api.save, data, function(a){
+
+        });
       }
     }
   });
@@ -144,7 +203,9 @@
     name:'${shipper.value}'
   });
   </c:forEach>
-  editor.api.editAddress = '${editAddress}'
+  editor.api.save = '${save}';
+  editor.api.editAddress = '${editAddress}';
+  editor.api.findAddress = '${findLoadAddress}';
 </script>
 <table id="editor" width="580px" class="editor">
   <tr>
@@ -179,28 +240,36 @@
   </tr>
   <tr>
     <td colspan="2">
-      <div style="height: 200pt; width: 100%; font-size: 10pt; overflow-y: scroll">
+      <div style="height: 290pt; width: 100%; font-size: 10pt; overflow-y: scroll">
         <div v-for="(deal, idx) in deals" style="border: solid 1pt; margin: 1pt; padding: 2pt">
-          <div>
+          <div style="height: 20px">
+            <span class="mini-close">
+              &times;
+            </span>
             <span>
               {{idx+1}}.
             </span>
             <object-input :props="counterpartyProps" :object="deal.counterparty" :item="deal"></object-input>
-            <select v-if="deal.addressList.length > 0" v-model="deal.address" v-on:change="checkAddress(deal)">
-              <option value="-1" disabled>
-                <fmt:message key="need.select"/>
-              </option>
-              <option v-for="address in deal.addressList" :value="address.id">
-                {{address.city}} {{address.street}}, {{address.build}}
-              </option>
-              <option value="-2">
-                <fmt:message key="add.address"/>
-              </option>
-            </select>
-            <a v-else v-on:click="addAddress(deal)">
-              +<fmt:message key="add.address"/>
-            </a>
+            <span v-if="deal.counterparty.id > 0">
+              <select v-if="deal.addressList.length > 0" v-model="deal.address" v-on:change="checkAddress(deal)">
+                <option value="-1" disabled>
+                  <fmt:message key="need.select"/>
+                </option>
+                <option v-for="address in deal.addressList" :value="address.id">
+                  {{address.city}} {{address.street}}, {{address.build}}
+                </option>
+                <option value="-2">
+                  <fmt:message key="add.address"/>
+                </option>
+              </select>
+              <a v-else v-on:click="addAddress(deal)">
+                +<fmt:message key="add.address"/>
+              </a>
+            </span>
             <span style="float: right">
+              <span class="mini-close">
+                <fmt:message key="document.print"/>
+              </span>
               <fmt:message key="amount.total"/>:
               {{total(deal.products).toLocaleString()}}
             </span>
@@ -251,6 +320,9 @@
         <a v-on:click="addDeal">
           + <fmt:message key="deal.add"/>
         </a>
+        <span class="mini-close">
+          <fmt:message key="print.waybill"/>
+        </span>
       </div>
     </td>
   </tr>
@@ -259,11 +331,10 @@
       <button onclick="closeModal()">
         <fmt:message key="button.cancel"/>
       </button>
-      <button>
+      <button v-on:click="save">
         <fmt:message key="button.save"/>
       </button>
     </td>
-
   </tr>
 </table>
 </html>

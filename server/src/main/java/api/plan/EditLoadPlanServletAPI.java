@@ -141,7 +141,9 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             HashMap<Integer, TransportationNote> alreadyNote = new HashMap<>();
             if (transportation.getNotes() != null) {
                 for (TransportationNote note : transportation.getNotes()) {
-                    alreadyNote.put(note.getId(), note);
+                    if (note.getCreator() != null) {
+                        alreadyNote.put(note.getId(), note);
+                    }
                 }
             }
             ArrayList<TransportationNote> liveNotes = new ArrayList<>();

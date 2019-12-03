@@ -65,29 +65,32 @@ public class TransportReplaceUtil {
         param.put("transportation/done", false);
 
         for (LoadPlan plan : dao.getObjectsByParams(LoadPlan.class, param)){
-            plan.setDate(now);
             Transportation transportation = plan.getTransportation();
-            ArrayList<TransportationNote> notes = new ArrayList<>(transportation.getNotes());
-            for (TransportationNote n : notes){
-                if(n.getCreator() == null) {
-                    dao.remove(n);
-                    transportation.getNotes().remove(n);
+            if (transportation.getWeight() == null || transportation.getWeight().getNetto() == 0) {
+                plan.setDate(now);
+
+                ArrayList<TransportationNote> notes = new ArrayList<>(transportation.getNotes());
+                for (TransportationNote n : notes) {
+                    if (n.getCreator() == null) {
+                        dao.remove(n);
+                        transportation.getNotes().remove(n);
+                    }
                 }
-            }
-            TransportationNote note = new TransportationNote();
-            note.setTime(Timestamp.valueOf(LocalDateTime.now()));
-            note.setTransportation(transportation);
-            note.setNote(String.format(lb.get(NOTE_AUTO_REPLACE), DateUtil.prettyDate(transportation.getDate())));
-            dao.save(note);
-            transportation.getNotes().add(note);
-            transportation.setDate(now);
-            dao.save(plan);
-            dao.save(transportation);
-            log.info("Transportation " + transportation.getId() + " replaced at " + now );
-            try {
-                updateUtil.onSave(plan.getTransportation());
-            } catch (IOException e) {
-                e.printStackTrace();
+                TransportationNote note = new TransportationNote();
+                note.setTime(Timestamp.valueOf(LocalDateTime.now()));
+                note.setTransportation(transportation);
+                note.setNote(String.format(lb.get(NOTE_AUTO_REPLACE), DateUtil.prettyDate(transportation.getDate())));
+                dao.save(note);
+                transportation.getNotes().add(note);
+                transportation.setDate(now);
+                dao.save(plan);
+                dao.save(transportation);
+                log.info("Transportation " + transportation.getId() + " replaced at " + now);
+                try {
+                    updateUtil.onSave(plan.getTransportation());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         initTimer();

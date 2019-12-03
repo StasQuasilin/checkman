@@ -12,6 +12,8 @@ public interface Constants {
     public static final String DATE = "date";
     public static final String DATE_TO = "dateTo";
     public static final String DEAL_ID = "dealId";
+    String DEAL = "deal";
+    String DEALS = "deals";
     public static final String PRODUCT_ID = "product_id";
     public static final String QUANTITY = "quantity";
     public static final String PRICE = "price";
@@ -42,6 +44,7 @@ public interface Constants {
     String IS_NEW = "isNew";
     String EDIT_ADDRESS = "editAddress";
     String FIND_PRODUCT = "findProduct";
+    String FIND_LOAD_ADDRESS = "findLoadAddress";
     String EDIT_PRODUCT = "editProduct";
     String PARSE_PRODUCT = "parseProduct";
     String FIND_DRIVER = "findDriver";

@@ -32,6 +32,7 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
+        instance.query(Transportation2.class, null);
 //        for (Vehicle v : instance.query(Vehicle.class, null)){
 //            String trailerNumber = v.getTrailerNumber();
 //            if (U.exist(trailerNumber)){
@@ -48,12 +49,12 @@ public class CustomHandler {
 //                }
 //            }
 //        }
-        for (Transportation t : instance.query(Transportation.class, null)){
-            if (t.getTrailer() == null && t.getVehicle() != null && t.getVehicle().getTrailer() != null){
-                TransportUtil.setVehicle(t, t.getVehicle());
-                instance.save(t);
-            }
-        }
+//        for (Transportation t : instance.query(Transportation.class, null)){
+//            if (t.getTrailer() == null && t.getVehicle() != null && t.getVehicle().getTrailer() != null){
+//                TransportUtil.setVehicle(t, t.getVehicle());
+//                instance.save(t);
+//            }
+//        }
 //        List<Driver> drivers = instance.query(Driver.class, null);
 //        for (Driver driver : drivers){
 //            Vehicle vehicle = driver.getVehicle();

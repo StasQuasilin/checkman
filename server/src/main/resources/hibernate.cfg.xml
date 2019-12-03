@@ -107,5 +107,11 @@
         <mapping class="entity.storages.StorageProductReplaceEntry"/>
         <mapping class="entity.Address"/>
         <mapping class="entity.organisations.LoadAddress"/>
+        <mapping class="entity.transport.Transportation2"/>
+        <mapping class="entity.transport.TransportationDocument"/>
+        <mapping class="entity.transport.TransportationProduct"/>
+        <mapping class="entity.deal.Contract"/>
+        <mapping class="entity.deal.ContractProduct"/>
+        <mapping class="entity.deal.ContractNote"/>
     </session-factory>
 </hibernate-configuration>

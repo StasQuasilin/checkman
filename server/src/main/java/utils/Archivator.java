@@ -41,7 +41,7 @@ public final class Archivator {
 
     }
     static Timer timer;
-    final static int HOUR = 60 * 60 * 1000;
+    final static int HOUR = 8 * 60 * 60 * 1000;
     private static void next() {
         if (timer != null && timer.isRunning()) {
             timer.stop();

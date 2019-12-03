@@ -81,4 +81,9 @@ public class Address extends JsonAble{
         json.put(BUILD, build);
         return json;
     }
+
+    @Transient
+    public String getValue() {
+        return city + SPACE + street + SPACE + build;
+    }
 }
