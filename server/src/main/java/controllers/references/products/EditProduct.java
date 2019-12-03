@@ -25,10 +25,15 @@ public class EditProduct extends IModal {
         if (body != null){
             Product product = dao.getObjectById(Product.class, body.get(ID));
             req.setAttribute(PRODUCT, product);
+            req.setAttribute(SETTINGS, dao.getProductSettings(product));
         }
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute(SAVE, Branches.API.PRODUCT_EDIT);
+        req.setAttribute(FIND_GROUP, Branches.API.References.FIND_PRODUCT_GROUP);
+        req.setAttribute(EDIT_GROUP, Branches.UI.References.GROUP_PRODUCT_EDIT);
+        req.setAttribute(PARSE_GROUP, Branches.API.References.PARSE_PRODUCT_GROUP);
+        req.setAttribute(UNITS, dao.getWeightUnits());
         show(req, resp);
     }
 }

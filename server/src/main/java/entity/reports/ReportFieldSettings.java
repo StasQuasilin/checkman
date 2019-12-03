@@ -1,7 +1,6 @@
 package entity.reports;
 
-import entity.storages.Storage;
-import entity.weight.WeightUnit;
+import entity.weight.Unit;
 
 import javax.persistence.*;
 
@@ -13,7 +12,7 @@ import javax.persistence.*;
 public class ReportFieldSettings {
     private int id;
     private String title;
-    private WeightUnit unit;
+    private Unit unit;
     private ReportFieldCategory category;
     private int index;
 
@@ -37,10 +36,10 @@ public class ReportFieldSettings {
 
     @OneToOne
     @JoinColumn(name = "unit")
-    public WeightUnit getUnit() {
+    public Unit getUnit() {
         return unit;
     }
-    public void setUnit(WeightUnit unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 

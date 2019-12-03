@@ -4,7 +4,7 @@ import entity.DealType;
 import entity.products.Product;
 import entity.Worker;
 import entity.organisations.Organisation;
-import entity.weight.WeightUnit;
+import entity.weight.Unit;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -24,7 +24,7 @@ public class Deal extends IDocument{
     private Organisation organisation;
     private Product product;
     private float quantity;
-    private WeightUnit unit;
+    private Unit unit;
     private float price;
     private float complete;
     private Worker creator;
@@ -110,10 +110,10 @@ public class Deal extends IDocument{
 
     @OneToOne
     @JoinColumn(name = "unit")
-    public WeightUnit getUnit() {
+    public Unit getUnit() {
         return unit;
     }
-    public void setUnit(WeightUnit unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 

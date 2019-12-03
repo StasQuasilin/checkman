@@ -47,16 +47,10 @@ public class IServlet extends HttpServlet implements Constants {
     public static final String MODAL_CONTENT = "modalContent";
     public static final String FIND_ORGANISATION = Constants.FIND_ORGANISATION;
 
-    public static final String FIND_DRIVER = Constants.FIND_DRIVER;
-    public static final String STORAGE = Constants.STORAGE;
-    public static final String STORAGE_PRODUCTS = Constants.STORAGE_PRODUCTS;
     public static final String REPORT = "report";
     public static final String FIELDS = "fields";
     public static final String SEND = "send";
-    public static final String PRODUCT = "product";
     public static final String PRODUCTS = "products";
-    public static final String WEIGHT = Constants.WEIGHT;
-    public static final String SAVE = Constants.SAVE;
     public static final String PREVIEW = "preview";
     public static final String NUMBER = "number";
     public static final String TYPE = "type";
@@ -81,7 +75,6 @@ public class IServlet extends HttpServlet implements Constants {
     public static final String HAVE_MENU = "menu";
     public static final String RESULT = "result";
 
-    public static final String DRIVER = Constants.DRIVER;
     public static final String KEY = "key";
 
 

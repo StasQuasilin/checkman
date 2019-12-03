@@ -1,6 +1,8 @@
 package entity.products;
 
+import entity.JsonAble;
 import org.glassfish.jersey.server.BackgroundScheduler;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "product_group")
-public class ProductGroup {
+public class ProductGroup extends JsonAble{
     private int id;
     private String name;
 
@@ -37,5 +39,13 @@ public class ProductGroup {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NAME, name);
+        return object;
     }
 }

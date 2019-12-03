@@ -30,7 +30,9 @@ import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
+import entity.products.ProductGroup;
 import entity.products.ProductProperty;
+import entity.products.ProductSettings;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
@@ -40,7 +42,7 @@ import entity.seals.SealBatch;
 import entity.storages.*;
 import entity.transport.*;
 import entity.weight.Weight;
-import entity.weight.WeightUnit;
+import entity.weight.Unit;
 import utils.ArchiveType;
 import utils.Parser;
 import utils.TurnDateTime;
@@ -362,8 +364,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<WeightUnit> getUnitsList() {
-        return hb.query(WeightUnit.class, null);
+    public List<Unit> getUnitsList() {
+        return hb.query(Unit.class, null);
     }
 
     @Override
@@ -561,8 +563,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public WeightUnit getWeightUnitById(Object id) {
-        return hb.get(WeightUnit.class, ID, id);
+    public Unit getWeightUnitById(Object id) {
+        return hb.get(Unit.class, ID, id);
     }
 
     @Override
@@ -797,8 +799,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<WeightUnit> getWeightUnits() {
-        return hb.query(WeightUnit.class, null);
+    public List<Unit> getWeightUnits() {
+        return hb.query(Unit.class, null);
     }
 
     @Override
@@ -857,11 +859,6 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<Product> findProduct(String key) {
-        return hb.find(Product.class, "name", key);
-    }
-
-    @Override
     public Product getProductByName(String name) {
         return hb.get(Product.class, "name", name);
     }
@@ -869,6 +866,16 @@ public class HibernateDAO implements dbDAO {
     @Override
     public List<LoadAddress> getLoadAddress(Organisation organisation) {
         return hb.query(LoadAddress.class, "organisation", organisation);
+    }
+
+    @Override
+    public ProductSettings getProductSettings(Product product) {
+        ProductSettings settings = hb.get(ProductSettings.class, "product", product);
+        if (settings == null){
+            settings = new ProductSettings();
+            settings.setProduct(product);
+        }
+        return settings;
     }
 
     @Override
@@ -1040,8 +1047,8 @@ public class HibernateDAO implements dbDAO {
             }
         }
     }
-
-    private <T> List<T> find(Class<T> tClass, String key, String value){
+    @Override
+    public <T> List<T> find(Class<T> tClass, String key, String value){
         return hb.find(tClass, key, value);
     }
 

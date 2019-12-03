@@ -2,6 +2,7 @@ package controllers.retail;
 
 import constants.Branches;
 import controllers.IModal;
+import entity.DealType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +31,8 @@ public class RetailEdit extends IModal {
         req.setAttribute(FIND_PRODUCT, Branches.API.FIND_PRODUCT);
         req.setAttribute(SAVE, Branches.API.RETAIL_EDIT);
         req.setAttribute(SHIPPERS, dao.getShipperList());
+        req.setAttribute(TYPE, DealType.sell);
+        req.setAttribute(UNITS, dao.getWeightUnits());
         show(req, resp);
     }
 }

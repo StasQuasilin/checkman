@@ -29,7 +29,9 @@ import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
+import entity.products.ProductGroup;
 import entity.products.ProductProperty;
+import entity.products.ProductSettings;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
@@ -39,12 +41,12 @@ import entity.seals.SealBatch;
 import entity.storages.*;
 import entity.transport.*;
 import entity.weight.Weight;
-import entity.weight.WeightUnit;
+import entity.weight.Unit;
 import utils.ArchiveType;
 import utils.TurnDateTime;
-import utils.hibernate.DateContainers.IDateContainer;
 import utils.storages.PointScale;
 
+import javax.persistence.Table;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -94,7 +96,7 @@ public interface dbDAO {
     LoadPlan getLoadPlanByTransportationId(Object id);
     <T> void remove (Class<T> tClass, Object id);
     List<Product> getProductList();
-    List<WeightUnit> getUnitsList();
+    List<Unit> getUnitsList();
     List<Shipper> getShipperList();
     List<Seal> findSeal(String key);
     Turn getTurnByDate(TurnDateTime turnDate);
@@ -122,7 +124,7 @@ public interface dbDAO {
     List<LoadPlan> getActiveTransportations(Date date);
     List<Deal> getLimitArchiveDeals(DealType type);
     Shipper getShipperByValue(Object value);
-    WeightUnit getWeightUnitById(Object unit);
+    Unit getWeightUnitById(Object unit);
     BotUID getBotUidByWorker(Worker worker);
     BotUID getBotUidByUid(String uid);
     List<StorageTurn> getLimitStorageTurns();
@@ -146,7 +148,7 @@ public interface dbDAO {
     VRODaily getVroDailyById(Object id);
     ExtractionOIl getExtractionOilById(Object id);
     List<LoadPlan> getLoadPlansBetweenDates(LocalDate from, LocalDate to);
-    List<WeightUnit> getWeightUnits();
+    List<Unit> getWeightUnits();
     List<LoadPlan> getTransportationsOnTerritory();
     List<LoadPlan> getTransportationsOnCruise();
     List<Turn> getLimitTurns();
@@ -225,7 +227,8 @@ public interface dbDAO {
     List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper);
     List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale);
     List<Transportation> getTransportationsByTransporter(Organisation transporter);
-    List<Product> findProduct(String key);
     Product getProductByName(String name);
     List<LoadAddress> getLoadAddress(Organisation organisation);
+    ProductSettings getProductSettings(Product product);
+    <T>List<T> find(Class<T> tClass, String key, String value);
 }

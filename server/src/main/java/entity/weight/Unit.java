@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "weight_units")
-public class WeightUnit {
+public class Unit {
     private int id;
     private String name;
 

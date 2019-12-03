@@ -13,7 +13,6 @@ var referenceList = new Vue({
             const self = this;
             PostApi(this.api.update, null, function(a){
                 self.items = a;
-
             })
         },
         getKeys:function(){

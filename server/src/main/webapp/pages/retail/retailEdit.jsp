@@ -39,6 +39,7 @@
       'object-input':objectInput
     },
     data:{
+      type:'${type}',
       api:{},
       date:new Date().toISOString().substring(0, 10),
       driver:{
@@ -102,7 +103,9 @@
           console.log('Get Address for ' + counterparty.name);
           PostApi(this.api.findAddress, {counterparty: counterparty.id}, function (a) {
             deal.addressList = a;
-            console.log(a);
+            if (a.length == 1){
+              deal.address = a[0].id
+            }
           })
         } else {
           console.log('Clear address list');
@@ -145,8 +148,6 @@
       },
       addAddress:function(deal){
         loadModal(this.api.editAddress, {counterparty:deal.counterparty.id}, function(a){
-          console.log(deal);
-          console.log(a.address);
           deal.addressList.push(a.address);
           deal.address = a.address.id;
         });
@@ -182,6 +183,7 @@
                 let p = d.products[j];
                 deal.products.push({
                   amount: p.amount,
+                  type:this.type,
                   price: p.price,
                   product: p.product.id,
                   shipper: p.shipper

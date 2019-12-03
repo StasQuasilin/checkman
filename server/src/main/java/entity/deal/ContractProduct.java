@@ -4,12 +4,10 @@ import entity.DealType;
 import entity.JsonAble;
 import entity.documents.Shipper;
 import entity.products.Product;
-import entity.weight.WeightUnit;
+import entity.weight.Unit;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by szpt_user045 on 08.11.2019.
@@ -24,7 +22,7 @@ public class ContractProduct extends JsonAble {
     private Shipper shipper;
     private float done;
     private float amount;
-    private WeightUnit unit;
+    private Unit unit;
     private float price;
 
     @Id
@@ -92,10 +90,10 @@ public class ContractProduct extends JsonAble {
 
     @OneToOne
     @JoinColumn(name = "unit")
-    public WeightUnit getUnit() {
+    public Unit getUnit() {
         return unit;
     }
-    public void setUnit(WeightUnit unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 

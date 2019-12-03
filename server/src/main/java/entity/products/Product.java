@@ -2,7 +2,7 @@ package entity.products;
 
 import entity.AnalysesType;
 import entity.JsonAble;
-import entity.weight.WeightUnit;
+import entity.weight.Unit;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ public class Product extends JsonAble {
     private ProductGroup productGroup;
     private String name;
     private AnalysesType analysesType;
-    private WeightUnit unit;
+    private Unit unit;
 
     @Id
     @GeneratedValue
@@ -53,6 +53,15 @@ public class Product extends JsonAble {
     }
     public void setAnalysesType(AnalysesType analysesType) {
         this.analysesType = analysesType;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "unit")
+    public Unit getUnit() {
+        return unit;
+    }
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     @Override

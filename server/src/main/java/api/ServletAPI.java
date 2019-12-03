@@ -29,15 +29,10 @@ public abstract class ServletAPI extends IServlet{
     public static final String REMOVE = "remove";
 
     public static final JsonPool pool = JsonPool.getPool();
-    private final Logger log = Logger.getLogger(ServletAPI.class);
-
 
     protected final dbDAO dao = dbDAOService.getDAO();
     public static final String SUCCESS_ANSWER = parser.toJson(new SuccessAnswer()).toJSONString();
     public static final String EMPTY_BODY = parser.toJson(new ErrorAnswer("msg", "Body parse error")).toJSONString();
-
-
-
 
     PrintWriter writer;
     public void write(HttpServletResponse resp, String text) throws IOException {

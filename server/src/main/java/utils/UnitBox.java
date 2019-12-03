@@ -1,7 +1,6 @@
 package utils;
 
-import entity.weight.WeightUnit;
-import utils.hibernate.Hibernator;
+import entity.weight.Unit;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -12,14 +11,14 @@ import java.util.HashMap;
  */
 public class UnitBox {
 
-    private static final HashMap<Long, WeightUnit> units = new HashMap<>();
+    private static final HashMap<Long, Unit> units = new HashMap<>();
     static dbDAO dao = dbDAOService.getDAO();
 
-    public static WeightUnit getUnit(long id){
+    public static Unit getUnit(long id){
         if (units.containsKey(id)){
             return units.get(id);
         } else {
-            WeightUnit unit = dao.getWeightUnitById(id);
+            Unit unit = dao.getWeightUnitById(id);
             units.put(id, unit);
             return unit;
         }

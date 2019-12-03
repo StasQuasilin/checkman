@@ -1,0 +1,150 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: szpt_user045
+  Date: 30.11.2019
+  Time: 0:22
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="${lang}"/>
+<fmt:setBundle basename="messages"/>
+<html>
+<script src="${context}/vue/templates/vehicleInput.vue"></script>
+<script>
+  var productEdit = new Vue({
+    el:'#productEdit',
+    components:{
+      'object-input':objectInput
+    },
+    data:{
+      api:{},
+      product:{
+        id:-1,
+        name:'',
+        unit:-1,
+        group:{
+          id:-1,
+          name:''
+        },
+        path:[]
+      },
+      groupProps:{
+        find:'${findGroup}',
+        edit:'${editGroup}',
+        add:'${parseGroup}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="product.group.add"/>',
+        put:function(group){
+          productEdit.product.group = group;
+        },
+        show:['name']
+      },
+      units:[],
+      pathInput:''
+    },
+    methods:{
+      addPath:function(){
+        this.product.path.push(this.pathInput);
+        this.pathInput = '';
+      },
+      removePath:function(id){
+        this.product.path.splice(id, 1);
+      },
+      save:function(){
+        let product = Object.assign({}, this.product);
+        product.group = this.product.group.id;
+        PostApi(this.api.save, product, function(a){
+          if (a.status === 'success'){
+            closeModal();
+          }
+        })
+      }
+
+    }
+  });
+  productEdit.api.save ='${save}';
+  productEdit.product.id=${product.id};
+  productEdit.product.name='${product.name}';
+  <c:if test="${not empty product.productGroup}">
+  productEdit.product.group={
+    id:${product.productGroup.id},
+    name:'${product.productGroup.name}'
+  };
+  </c:if>
+  <c:if test="${not empty product.unit}">
+  productEdit.product.unit = ${product.unit.id};
+  </c:if>
+  <c:forEach items="${settings.getSplitPath()}" var="s">
+  productEdit.product.path.push('${s}');
+  </c:forEach>
+  <c:forEach items="${units}" var="unit">
+  productEdit.units.push({
+    id:${unit.id},
+    name:'${unit.name}'
+  });
+  </c:forEach>
+</script>
+<table id="productEdit">
+  <tr>
+    <td>
+      <label for="name">
+        <fmt:message key="product.name"/>
+      </label>
+    </td>
+    <td>
+      <input id="name" v-model="product.name" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="unit">
+        <fmt:message key="unit"/>
+      </label>
+    </td>
+    <td>
+      <select id="unit" v-model="product.unit">
+        <option value="-1" disabled>
+          !!
+        </option>
+        <option v-for="unit in units" :value="unit.id">
+          {{unit.name}}
+        </option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <fmt:message key="product.group"/>
+    </td>
+    <td>
+      <object-input :props="groupProps" :object="product.group"></object-input>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="font-size: 10pt">
+      <label for="path">
+        <fmt:message key="product.path"/>:
+      </label>
+      <span v-if="product.group.id > 0">
+        {{product.group.name}} /
+      </span>
+      <span><a v-for="(p, pId) in product.path" v-on:click="removePath(pId)">
+          {{p}} /</a>
+      </span>
+      <input id="path" v-model="pathInput" style="width: 8em" v-on:keyup.enter="addPath" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <button onclick="closeModal()">
+        <fmt:message key="button.cancel"/>
+      </button>
+      <button v-on:click="save">
+        <fmt:message key="button.save"/>
+      </button>
+    </td>
+  </tr>
+</table>
+</html>

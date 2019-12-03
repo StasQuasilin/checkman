@@ -1,5 +1,7 @@
 package entity.deal;
 
+import entity.Address;
+import entity.DealType;
 import entity.JsonAble;
 import entity.Worker;
 import entity.organisations.Organisation;
@@ -23,6 +25,7 @@ public class Contract extends JsonAble {
     private Date from;
     private Date to;
     private Organisation counterparty;
+    private Address address;
     private String number;
     private Set<ContractProduct> products = new HashSet<>();
     private Set<ContractNote> notes = new HashSet<>();
@@ -40,6 +43,8 @@ public class Contract extends JsonAble {
     public void setId(int id) {
         this.id = id;
     }
+
+
 
     @Basic
     @Column(name = "_from")
@@ -66,6 +71,15 @@ public class Contract extends JsonAble {
     }
     public void setCounterparty(Organisation counterparty) {
         this.counterparty = counterparty;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "address")
+    public Address getAddress() {
+        return address;
+    }
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Basic

@@ -44,6 +44,8 @@ public class ReferencesList extends IUIServlet {
                     break;
                 case products:
                     req.setAttribute("referenceContent", "productList.jsp");
+                    req.setAttribute("update", Branches.API.References.PRODUCT_LIST);
+                    req.setAttribute(EDIT, Branches.UI.EDIT_PRODUCT);
                     break;
             }
             req.setAttribute("tab", tab);

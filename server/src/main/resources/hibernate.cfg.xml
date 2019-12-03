@@ -23,6 +23,7 @@
         <mapping class="entity.PhoneNumber"/>
         <mapping class="entity.products.ProductGroup"/>
         <mapping class="entity.products.Product"/>
+        <mapping class="entity.products.ProductSettings"/>
         <mapping class="entity.products.ProductProperty"/>
         <mapping class="entity.transport.Driver"/>
         <mapping class="entity.transport.Vehicle"/>
@@ -41,7 +42,7 @@
         <mapping class="entity.documents.DocumentUID"/>
         <mapping class="entity.ApplicationSettings"/>
         <mapping class="entity.weight.Weight"/>
-        <mapping class="entity.weight.WeightUnit"/>
+        <mapping class="entity.weight.Unit"/>
         <mapping class="entity.laboratory.SunAnalyses"/>
         <mapping class="entity.laboratory.OilAnalyses"/>
         <mapping class="entity.laboratory.MealAnalyses"/>

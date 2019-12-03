@@ -1,7 +1,6 @@
 package entity.reports;
 
-import entity.storages.Storage;
-import entity.weight.WeightUnit;
+import entity.weight.Unit;
 
 import javax.persistence.*;
 
@@ -16,7 +15,7 @@ public class ReportField implements Comparable<ReportField> {
     private ManufactureReport report;
     private String title;
     private float value;
-    private WeightUnit unit;
+    private Unit unit;
     private String comment;
     private int index;
 
@@ -67,10 +66,10 @@ public class ReportField implements Comparable<ReportField> {
 
     @OneToOne
     @JoinColumn(name = "unit")
-    public WeightUnit getUnit() {
+    public Unit getUnit() {
         return unit;
     }
-    public void setUnit(WeightUnit unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 

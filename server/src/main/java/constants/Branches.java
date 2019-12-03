@@ -133,6 +133,8 @@ public class Branches {
         public class References {
             public static final String DRIVER_EDIT = "/driver/edit.j";
             public static final String ORGANISATION_EDIT = "/organisation/edit.j";
+            public static final String PRODUCT_EDIT = "/product/edit.j";
+            public static final String GROUP_PRODUCT_EDIT = "/product/group/edit";
         }
     }
     public class API{
@@ -281,6 +283,10 @@ public class Branches {
             public static final String PARSE_TRAILER = API;
             public static final String ADDRESS_EDIT = API + "/address/edit";
             public static final String FIND_LOAD_ADDRESS = API + "/references/find/load/address";
+            public static final String PRODUCT_LIST = API + "/references/product/list";
+            public static final String FIND_PRODUCT_GROUP = API + "/references/find/group/product";
+            public static final String PRODUCT_GROUP_EDIT = API + "/references/product/group/edit";
+            public static final String PARSE_PRODUCT_GROUP = API + "/references/parse/product/group";
         }
 
         public class Deal {
