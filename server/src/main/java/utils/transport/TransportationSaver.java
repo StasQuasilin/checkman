@@ -3,6 +3,7 @@ package utils.transport;
 import constants.Constants;
 import entity.Worker;
 import entity.transport.ActionTime;
+import entity.transport.TransportCustomer;
 import entity.transport.TransportUtil;
 import entity.transport.Transportation2;
 import org.json.simple.JSONObject;
@@ -26,11 +27,19 @@ public class TransportationSaver implements Constants{
             transportation = new Transportation2();
             transportation.setUid(DocumentUIDGenerator.generateUID());
             transportation.setCreateTime(new ActionTime(worker));
+            transportation.setManager(worker);
         }
         boolean save = false;
         Date date = DateUtil.parseFromEditor(String.valueOf(body.get(DATE)));
         if (TransportUtil.setDate(transportation, date)){
             save = true;
+        }
+        TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(body.get(CUSTOMER)));
+        if (TransportUtil.setCustomer(transportation, customer)){
+            save = true;
+        }
+        if (save){
+            dao.save(transportation.getCreateTime(), transportation);
         }
         return transportation;
     }

@@ -43,6 +43,7 @@
       type:'${type}',
       api:{},
       date:new Date().toISOString().substring(0, 10),
+      customer:-1,
       driver:{
         id:-1
       },
@@ -53,6 +54,7 @@
         id:-1
       },
       shippers:[],
+      customers:[],
       units:[],
       deals:[],
       counterpartyDeals:{},
@@ -199,6 +201,7 @@
           driver:this.driver.id,
           vehicle:this.vehicle.id,
           trailer:this.trailer.id,
+          customer:this.customer,
           deals:[]
         };
         for (let i in this.deals){
@@ -243,6 +246,12 @@
     name:'${shipper.value}'
   });
   </c:forEach>
+  <c:forEach items="${customers}" var="customer">
+  editor.customers.push({
+    id:'${customer}',
+    name:'<fmt:message key="${customer}"/>'
+  });
+  </c:forEach>
   <c:forEach items="${units}" var="unit">
   editor.units.push({
     id:${unit.id},
@@ -261,6 +270,20 @@
     </td>
     <td>
 
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="customer">
+        <fmt:message key="load.customer.title"/>
+      </label>
+    </td>
+    <td>
+      <select id="customer" v-model="customer">
+        <option v-for="customer in customers" :value="customer.id">
+          {{customer.name}}
+        </option>
+      </select>
     </td>
   </tr>
   <tr>

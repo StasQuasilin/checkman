@@ -109,7 +109,7 @@
         deal:${plan.deal.id},
         organisation:{
             id:'${plan.deal.organisation.id}',
-            value:'${plan.deal.organisation.value}'
+            value:"${plan.deal.organisation.value}"
         },
         product:${plan.deal.product.id},
         quantity:${plan.deal.quantity},

@@ -28,7 +28,6 @@ public class Transportation2 extends JsonAble {
     private Trailer trailer;
     private String trailerNumber;
     private Organisation transporter;
-    private Shipper shipper;
     private TransportCustomer customer;
     private ActionTime registered;
     private ActionTime timeIn;
@@ -119,15 +118,6 @@ public class Transportation2 extends JsonAble {
     }
     public void setTransporter(Organisation transporter) {
         this.transporter = transporter;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "shipper")
-    public Shipper getShipper() {
-        return shipper;
-    }
-    public void setShipper(Shipper shipper) {
-        this.shipper = shipper;
     }
 
     @Enumerated(EnumType.STRING)
@@ -249,7 +239,6 @@ public class Transportation2 extends JsonAble {
         if (transporter != null){
             json.put(TRANSPORTER, transporter.toJson());
         }
-        json.put(SHIPPER, shipper.getValue());
         json.put(CUSTOMER, customer.toString());
         if (registered != null){
             json.put(REGISTERED, registered.getTime().toString());

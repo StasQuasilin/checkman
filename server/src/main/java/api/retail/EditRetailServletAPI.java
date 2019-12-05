@@ -42,7 +42,6 @@ public class EditRetailServletAPI extends ServletAPI {
 
             Transportation2 transportation = transportationSaver.saveTransportation(body, worker);
 
-
             HashMap<Contract, TransportationDocument> documents = new HashMap<>();
             HashMap<ContractProduct, TransportationProduct> products = new HashMap<>();
 
@@ -58,11 +57,43 @@ public class EditRetailServletAPI extends ServletAPI {
                     }
                 }
             }
-            ArrayList<TransportationProduct> saveTransportationProducts = new ArrayList<>();
+            ArrayList<TransportationDocument> saveDocuments = new ArrayList<>();
+            ArrayList<TransportationProduct> saveProducts = new ArrayList<>();
             for (Object d : (JSONArray) body.get(DEALS)){
                 JSONObject object = (JSONObject) d;
                 Contract contract = contractSaver.saveContract(object, worker);
+                TransportationDocument document;
+                if (documents.containsKey(contract)){
+                    document = documents.remove(contract);
+                } else {
+                    document = new TransportationDocument();
+
+                }
+                if (document.getTransportation() == null){
+                    document.setTransportation(transportation);
+                }
+                if (contract.getAddress() != null) {
+                    document.setAddress(contract.getAddress());
+                }
+                saveDocuments.add(document);
+
+                for (ContractProduct contractProduct : contract.getProducts()){
+                    TransportationProduct product;
+                    if (products.containsKey(contractProduct)){
+                        product = products.remove(contractProduct);
+                    } else {
+                        product = new TransportationProduct();
+                        product.setDocument(document);
+                        product.setContractProduct(contractProduct);
+                        product.setAmount(contractProduct.getAmount());
+                    }
+                    saveProducts.add(product);
+                }
             }
+            documents.values().forEach(dao::remove);
+            products.values().forEach(dao::remove);
+            saveDocuments.forEach(dao::save);
+            saveProducts.forEach(dao::save);
 
             write(resp, SUCCESS_ANSWER);
         }

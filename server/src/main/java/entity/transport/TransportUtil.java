@@ -239,4 +239,12 @@ public class TransportUtil{
         }
         return false;
     }
+
+    public static boolean setCustomer(Transportation2 transportation, TransportCustomer customer) {
+        if (transportation.getCustomer() == null || transportation.getCustomer() != customer){
+            transportation.setCustomer(customer);
+            return true;
+        }
+        return false;
+    }
 }

@@ -1,7 +1,9 @@
 package controllers.retail;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import controllers.IUIServlet;
+import entity.DealType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +22,14 @@ public class RetailList extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(EDIT, Branches.UI.RETAIL_EDIT);
         req.setAttribute(CONTENT, _CONTENT);
+        String parameter = req.getParameter(TYPE);
+        if (parameter != null){
+            DealType type = DealType.valueOf(parameter);
+
+        } else {
+            req.setAttribute(SUBSCRIBE, Subscriber.TRANSPORT);
+        }
+
         show(req, resp);
     }
 }

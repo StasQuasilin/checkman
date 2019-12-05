@@ -23,7 +23,7 @@ public class TransportationDocument extends JsonAble{
     private Set<TransportationProduct> products;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public int getId() {
         return id;
     }
