@@ -55,6 +55,14 @@
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
+                <fmt:message key="menu.manufacture"/>&nbsp;>
+              </span>
+              <div class="nav-drop-menu-content">
+                <jsp:include page="navigation/manufactureChief.jsp"/>
+              </div>
+            </li>
+            <li class="nav-menu-item nav-drop-menu-item">
+              <span class="main">
                 <fmt:message key="menu.transport"/>&nbsp;>
               </span>
               <div class="nav-drop-menu-content">
@@ -98,6 +106,9 @@
               </li>
             </c:if>
           </ul>
+        </c:when>
+        <c:when test="${role eq 'manufacture_chief'}">
+          <jsp:include page="navigation/manufactureChief.jsp"/>
         </c:when>
         <c:when test="${role eq 'mihalych'}">
           <jsp:include page="navigation/mihalych.jsp"/>

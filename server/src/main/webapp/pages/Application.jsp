@@ -19,7 +19,7 @@
     <script src="${context}/js/Application.js"></script>
     <script src="${context}/js/Settings.js"></script>
     <script src="${context}/vue/templates/transportationDataView.vue"></script>
-    <script src="${context}/vue/templates/manyProductView.vue"></script>
+    <script src="${context}/vue/templates/retailProductView.vue"></script>
     <script>
         Vue.component('product-view', productView);
     context = '${context}';

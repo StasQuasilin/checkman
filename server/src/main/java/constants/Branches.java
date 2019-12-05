@@ -102,6 +102,7 @@ public class Branches {
         public static final String EDIT_PRODUCT = "/edit/product.j";
         public static final String CONTRACT_EDIT ="/contract.edit.j" ;
         public static final String RETAIL_LIST = "/retail/list.j";
+        public static final String MANUFACTURE_ANALYSES = "/manufacture/analyses.j";
 
 
         public class Extraction {

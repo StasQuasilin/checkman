@@ -15,6 +15,7 @@ public interface Constants {
     String DEALS = "deals";
     String CONTRACT = "contract";
     String CONTRACTS = "contracts";
+    String MANUFACTURE_ANALYSE = "manufactureAnalyses";
     public static final String SCALE = "scale";
     public static final String TURNS = "turns";
     public static final String SUBSCRIBE = "subscribe";

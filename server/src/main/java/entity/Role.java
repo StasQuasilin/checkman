@@ -14,5 +14,6 @@ public enum Role {
     analyser,
     warehousing,
     guest,
-    mihalych
+    mihalych,
+    manufacture_chief
 }

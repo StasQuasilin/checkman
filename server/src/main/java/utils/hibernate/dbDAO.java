@@ -234,4 +234,6 @@ public interface dbDAO {
     <T>List<T> find(Class<T> tClass, String key, String value);
     List<Contract> getContractsByType(DealType type);
     List<Contract> getContractsByOrganisation(Organisation organisation);
+    List<Transportation2> getTransportations(DealType type);
+
 }

@@ -5,57 +5,8 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-<div id="container-header" style="display: inline">
-    <link rel="stylesheet" href="${context}/css/drop-menu.css">
-    <div class="drop-menu">
-        <a class="drop-btn"><fmt:message key="analyses"/>&nbsp;+</a>
-        <div class="drop-menu-content">
-            <div class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
-                <fmt:message key="extraction.crude"/>
-            </div>
-            <div class="drop-menu drop-menu-item">
-                <span>
-                    <fmt:message key="storage.analyses"/>
-                </span>
-                <div class="drop-menu-content" style="top: 0; left: 100%; width: 10em">
-                    <div class="drop-menu-item" onclick="loadModal('${storageProtein}')">
-                        <fmt:message key="menu.extraction.storage.protein"/>
-                    </div>
-                    <div class="drop-menu-item" onclick="loadModal('${storageGrease}')">
-                        <fmt:message key="menu.extraction.storage.raw.grease"/>
-                    </div>
-                </div>
-            </div>
-            <div class="drop-menu drop-menu-item">
-                 <span>
-                    <fmt:message key="vro.turn.analyses"/>
-                </span>
-                <div class="drop-menu-content" style="top: 0; left: 100%; width: 10em">
-                    <div class="drop-menu-item" onclick="loadModal('${turnProtein}')">
-                        <fmt:message key="menu.extraction.turn.protein"/>
-                    </div>
-                    <div class="drop-menu-item" onclick="loadModal('${turnGrease}')">
-                        <fmt:message key="menu.extraction.turn.raw.grease"/>
-                    </div>
-                    <div class="drop-menu-item" onclick="loadModal('${turnCellulose}')">
-                        <fmt:message key="menu.extraction.turn.cellulose"/>
-                    </div>
-                </div>
-            </div>
-            <div class="drop-menu-item"  onclick="loadModal('${oilEdit}')">
-                <fmt:message key="extraction.oil"/>
-            </div>
-        </div>
-    </div>
-    <div class="drop-menu">
-        <a class="drop-btn"><fmt:message key="document.print"/>&nbsp;&#9660;</a>
-        <div class="drop-menu-content">
-            <div class="drop-menu-item" onclick="loadModal('${dailyPrint}')">
-                <fmt:message key="print.daily.report"/>
-            </div>
-        </div>
-    </div>
-</div>
+<jsp:include page="extractionHeader.jsp"/>
+
 <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>

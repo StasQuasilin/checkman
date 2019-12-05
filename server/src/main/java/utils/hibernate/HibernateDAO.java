@@ -485,6 +485,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<Transportation2> getTransportations(DealType type) {
+        return hb.query(Transportation2.class, "archive", false);
+    }
+
+    @Override
     public Collection<Organisation> findOrganisation(String key) {
         HashMap<Integer, Integer> ids = new HashMap<>();
         HashMap<Integer, Organisation> organisations = new HashMap<>();

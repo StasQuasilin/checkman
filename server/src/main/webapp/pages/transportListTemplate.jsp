@@ -98,7 +98,6 @@
 
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">
-
         <div v-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
             <fmt:message key="empty.list"/>
         </div>

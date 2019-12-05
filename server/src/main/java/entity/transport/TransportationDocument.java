@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ public class TransportationDocument extends JsonAble{
     private Transportation2 transportation;
     private int index;
     private Address address;
-    private Set<TransportationProduct> products;
+    private List<TransportationProduct> products;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -59,10 +60,10 @@ public class TransportationDocument extends JsonAble{
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "document", cascade = CascadeType.ALL)
-    public Set<TransportationProduct> getProducts() {
+    public List<TransportationProduct> getProducts() {
         return products;
     }
-    public void setProducts(Set<TransportationProduct> products) {
+    public void setProducts(List<TransportationProduct> products) {
         this.products = products;
     }
 
@@ -70,6 +71,7 @@ public class TransportationDocument extends JsonAble{
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+        json.put(COUNTERPARTY, products.get(0).getContractProduct().getContract().getCounterparty().toJson());
         json.put(ADDRESS, address.toJson());
         JSONArray array = pool.getArray();
         array.addAll(products.stream().map(TransportationProduct::toJson).collect(Collectors.toList()));

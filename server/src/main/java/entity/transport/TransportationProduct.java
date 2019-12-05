@@ -2,6 +2,7 @@ package entity.transport;
 
 import entity.JsonAble;
 import entity.deal.ContractProduct;
+import entity.products.Product;
 import entity.weight.Weight;
 import org.json.simple.JSONObject;
 
@@ -56,15 +57,18 @@ public class TransportationProduct extends JsonAble{
 
     @Override
     public JSONObject toJson() {
-        JSONObject json = document.toJson();
+        JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(TYPE, contractProduct.getType().toString());
         json.put(AMOUNT, amount);
-        json.put(COUNTERPARTY, contractProduct.getContract().getCounterparty().toJson());
-
-        json.put(ANALYSES_TYPE, contractProduct.getProduct().getAnalysesType().toString());
-        json.put(PRODUCT, contractProduct.getProduct().toJson());
+        json.put(UNIT, contractProduct.getUnit().toJson());
+        Product product = contractProduct.getProduct();
+        json.put(PRODUCT, product.toJson());
+        if (product.getAnalysesType() != null){
+            json.put(ANALYSES_TYPE, product.getAnalysesType().toString());
+        }
         json.put(PRICE, contractProduct.getPrice());
+        json.put(SHIPPER, contractProduct.getShipper().toJson());
         return json;
     }
 }

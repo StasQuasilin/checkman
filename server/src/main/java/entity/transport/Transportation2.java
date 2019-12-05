@@ -249,6 +249,11 @@ public class Transportation2 extends JsonAble {
         if (timeOut != null){
             json.put(TIME_OUT, timeOut.getTime().toString());
         }
+        JSONArray docs = pool.getArray();
+        for (TransportationDocument d : documents){
+            docs.add(d.toJson());
+        }
+        json.put(PRODUCTS, docs);
         json.put(MANAGER, manager.toJson());
         JSONArray array = pool.getArray();
 //        array.addAll(notes.stream().map(TransportationNote::toJson).collect(Collectors.toList()));

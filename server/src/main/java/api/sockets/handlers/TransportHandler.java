@@ -27,12 +27,12 @@ public class TransportHandler extends OnSubscribeHandler {
 
     @Override
     public void handle(Session session) throws IOException {
-        JSONObject json = ActiveSubscriptions.pool.getObject();
+        JSONObject json = pool.getObject();
         JSONArray add = ActiveSubscriptions.pool.getArray();
         add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
         json.put(ADD, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
-        ActiveSubscriptions.pool.put(json);
+        pool.put(json);
     }
 
     List<Transportation> getTransport(){
