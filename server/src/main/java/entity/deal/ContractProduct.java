@@ -121,4 +121,9 @@ public class ContractProduct extends JsonAble {
         json.put(PRICE, price);
         return json;
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

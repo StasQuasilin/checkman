@@ -100,6 +100,8 @@ public class Branches {
         public static final String RETAIL_EDIT = "/retail/edit.j";
         public static final String ADDRESS_EDIT = "/address/edit.j";
         public static final String EDIT_PRODUCT = "/edit/product.j";
+        public static final String CONTRACT_EDIT ="/contract.edit.j" ;
+        public static final String RETAIL_LIST = "/retail/list.j";
 
 
         public class Extraction {
@@ -135,6 +137,7 @@ public class Branches {
             public static final String ORGANISATION_EDIT = "/organisation/edit.j";
             public static final String PRODUCT_EDIT = "/product/edit.j";
             public static final String GROUP_PRODUCT_EDIT = "/product/group/edit";
+            public static final String FIND_CONTRACTS = "/find/contracts.j";
         }
     }
     public class API{
@@ -262,6 +265,7 @@ public class Branches {
         public static final String FIND_PRODUCT = API + "/references/product/find";
         public static final String PARSE_PRODUCT = API + "/references/parse/product";
         public static final String PRODUCT_EDIT = API + "/references/product/edit";
+        public static final String EDIT_CONTRACT = API + "/contracts/edit";
 
         public class References {
             public static final String API = Branches.API.API + "/references";
@@ -287,6 +291,7 @@ public class Branches {
             public static final String FIND_PRODUCT_GROUP = API + "/references/find/group/product";
             public static final String PRODUCT_GROUP_EDIT = API + "/references/product/group/edit";
             public static final String PARSE_PRODUCT_GROUP = API + "/references/parse/product/group";
+            public static final String FIND_CONTRACTS = API + "/references/find/contracts";
         }
 
         public class Deal {

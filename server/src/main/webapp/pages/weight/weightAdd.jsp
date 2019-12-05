@@ -32,16 +32,13 @@
         add:'${parseVehicle}',
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="button.add.vehicle"/>',
-        put:function(vehicle){
-            editor.putVehicle(vehicle);
-            if (vehicle.trailer && vehicle.trailer.id > 0){
-                editor.putTrailer(vehicle.trailer);
-            }
-        },
+        put:editor.putVehicle,
         show:['model', 'number']
     };
     editor.trailerProps = {
         find:'${findTrailer}',
+        add:'${parseTrailer}',
+        addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="button.add.trailer"/>',
         put:editor.putTrailer,
         show:['number']
@@ -111,7 +108,7 @@
         date:'${plan.date}',
         deal:${plan.deal.id},
         organisation:{
-            id:${plan.deal.organisation.id},
+            id:'${plan.deal.organisation.id}',
             value:'${plan.deal.organisation.value}'
         },
         product:${plan.deal.product.id},
@@ -155,10 +152,10 @@
         model:'${plan.transportation.vehicle.model}',
         number:'${plan.transportation.vehicle.number}'
     };
-    <c:if test="${plan.transportation.vehicle.trailer ne null}">
+    <c:if test="${plan.transportation.trailer ne null}">
     editor.plan.trailer = {
-        id:${plan.transportation.vehicle.trailer.id},
-        number:'${plan.transportation.vehicle.trailer.number}'
+        id:${plan.transportation.trailer.id},
+        number:'${plan.transportation.trailer.number}'
     };
     </c:if>
     </c:if>
@@ -174,8 +171,8 @@
     </c:if>
     <c:if test="${not empty plan.transportation.transporter.id}">
     editor.plan.transporter = {
-        id:${not empty plan.transportation.transporter.id},
-        value:'${not empty plan.transportation.transporter.value}'
+        id:${plan.transportation.transporter.id},
+        value:'${plan.transportation.transporter.value}'
     };
     </c:if>
 

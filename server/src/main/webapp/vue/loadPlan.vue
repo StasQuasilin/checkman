@@ -65,8 +65,15 @@ var plan = new Vue({
                 }
             })
         },
+        copy:function(idx){
+            let p = this.plans[idx].item;
+            p.id=-1;
+            let plan = this.add(p);
+
+            this.initSaveTimer(plan.key);
+        },
         add:function(plan){
-            this.plans.push({
+            let p = {
                 key : randomUUID(),
                 editVehicle:false,
                 editDriver:false,
@@ -77,8 +84,10 @@ var plan = new Vue({
                 item : plan,
                 removed:false,
                 saveTimer:-1
-            });
+            };
+            this.plans.push(p);
             this.sort();
+            return p;
         },
         initSaveTimer:function(key){
             console.log('Init save for ' + key);
@@ -387,6 +396,25 @@ var plan = new Vue({
             }
             this.focusInput();
         },
+        editNote:function(key, id){
+            console.log('editNote');
+            for (var i in this.plans){
+                if (this.plans.hasOwnProperty(i)){
+                    let plan = this.plans[i];
+
+                    if (plan.key === key){
+                        console.log(plan);
+                        plan.editNote = true;
+                        plan.noteInput = plan.item.transportation.notes[id].note
+                        this.focusInput();
+                        this.removeNote(i, id);
+                    } else {
+                        plan.editNote = false;
+                    }
+
+                }
+            }
+        },
         saveNote:function(key){
             var plan = this.plans[key];
             if (plan.noteInput) {
@@ -403,21 +431,12 @@ var plan = new Vue({
         closeNote:function(key){
             for (var i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
-                    this.plans[i].editNote = !(this.plans[i].key === key);
+                    this.plans[i].editNote = false;
                 }
             }
         },
         removeNote:function(key, id){
-            var p = this.plans[key].item;
-            for (var j in p.transportation.notes){
-                if (p.transportation.notes.hasOwnProperty(j)){
-                    var n = p.transportation.notes[j];
-                    if (n.id === id){
-                        p.transportation.notes.splice(j, 1);
-                        break;
-                    }
-                }
-            }
+            var p = this.plans[key].item.transportation.notes.splice(id, 1);
             this.initSaveTimer(this.plans[key].key);
         }
 

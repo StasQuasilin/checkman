@@ -38,8 +38,10 @@ var filter_control = new Vue({
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     let counterparty = items[i].item.organisation;
-                    if (!counterparty[counterparty.id]) {
-                        organisations[counterparty.id] = counterparty;
+                    if (counterparty.id) {
+                        if (!counterparty[counterparty.id]) {
+                            organisations[counterparty.id] = counterparty;
+                        }
                     }
                 }
             }

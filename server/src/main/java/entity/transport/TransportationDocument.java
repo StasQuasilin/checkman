@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class TransportationDocument extends JsonAble{
     private int id;
     private Transportation2 transportation;
+    private int index;
     private Address address;
     private Set<TransportationProduct> products;
 
@@ -37,6 +38,15 @@ public class TransportationDocument extends JsonAble{
     }
     public void setTransportation(Transportation2 transportation) {
         this.transportation = transportation;
+    }
+
+    @Basic
+    @Column(name = "idx")
+    public int getIndex() {
+        return index;
+    }
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @OneToOne

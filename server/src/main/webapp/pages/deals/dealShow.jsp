@@ -262,55 +262,10 @@
                         <select v-model="value.item.customer" title="${customerTitle}" v-on:change="initSaveTimer(value.key)">
                           <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
                         </select>
-                        <span class="fact-info">
-                          <span title="${factTitle}" style="padding: 2pt">
-                            <span v-if="value.item.transportation.weight.id">
-                              <b>
-                                {{value.item.transportation.weight.netto.toLocaleString()}}&nbsp;{{unit}}
-                              </b>
-                              <span>
-                                {{different(value.item.transportation.weight.netto, value.item.plan)}}
-                              </span>
-                            </span>
+                        <span style="float: right">
+                          <span class="mini-close" v-on:click="copy(key)">
+                            Copy
                           </span>
-                          <div class="fact-details" v-if="value.item.transportation.weight.id">
-                            <table>
-                              <tr>
-                                <td>
-                                  <fmt:message key="weight.brutto"/>
-                                </td>
-                                <td>
-                                  :
-                                </td>
-                                <td>
-                                  {{(value.item.transportation.weight.brutto).toLocaleString()}}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <fmt:message key="weight.tara"/>
-                                </td>
-                                <td>
-                                  :
-                                </td>
-                                <td>
-                                  {{(value.item.transportation.weight.tara).toLocaleString()}}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <fmt:message key="weight.netto"/>
-                                </td>
-                                <td>
-                                  :
-                                </td>
-
-                                <td>
-                                  {{(value.item.transportation.weight.netto).toLocaleString()}}
-                                </td>
-                              </tr>
-                            </table>
-                          </div>
                         </span>
                       </div>
                         <%--LOWER ROW--%>
@@ -428,12 +383,12 @@
                                  style="width: 100%; background: white; border: none">
                         </span>
                         <div style="flex-wrap: wrap">
-                          <div v-for="note in value.item.transportation.notes" style="display: inline-flex;">
-                            <span v-if="note.creator.id !== worker.id">{{note.creator.value}}</span>
+                          <div v-for="(note, nId) in value.item.transportation.notes" style="display: inline-flex;">
+                            <span v-if="note.creator.id != worker.id">{{note.creator.person.value}}</span>
                             <span v-else>
-                              <span v-on:click="removeNote(key, note.id)" class="mini-close">&times;</span>
+                              <a v-on:click="removeNote(key, nId)" class="mini-close">&times;</a>
                               <fmt:message key="you"/>
-                            </span>:{{note.note}}
+                            </span>:<a v-on:click="editNote(value.key, nId)">{{note.note}}</a>
                           </div>
                         </div>
                       </div>

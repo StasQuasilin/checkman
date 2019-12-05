@@ -1,4 +1,4 @@
-package controllers.retail;
+package controllers.contracts;
 
 import api.sockets.Subscriber;
 import constants.Branches;
@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.CONTRACT_LIST)
 public class ContractList extends IUIServlet {
-    private static final String _TITLE = "title.retail.list";
+    private static final String _TITLE = "title.deals.";
     private static final String _CONTENT = "/pages/contracts/contractList.jsp";
     public static final String SUBSCRIBE_PART = "CONTRACTS_";
     @Override
@@ -25,11 +25,11 @@ public class ContractList extends IUIServlet {
         if (parameter != null){
             DealType type = DealType.valueOf(parameter);
             req.setAttribute(SUBSCRIBE, SUBSCRIBE_PART + type.toString().toUpperCase());
+            req.setAttribute(TITLE, _TITLE + type.toString());
         }
-        req.setAttribute(TITLE, _TITLE);
-        req.setAttribute(CONTENT, _CONTENT);
-        req.setAttribute(EDIT, Branches.UI.RETAIL_EDIT);
 
+        req.setAttribute(CONTENT, _CONTENT);
+        req.setAttribute(EDIT, Branches.UI.CONTRACT_EDIT);
 
         show(req, resp);
     }

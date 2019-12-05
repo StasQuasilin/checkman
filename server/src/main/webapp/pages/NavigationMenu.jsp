@@ -34,6 +34,14 @@
                       <a onclick="loadContent('${retailArchive}')"><fmt:message key="archive"/> </a>
                     </span>
                   </li>
+                  <li class="menu-item">
+                    <span class="main" onclick="loadContent('${retailList}')">
+                      <fmt:message key="title.transport.list"/>
+                    </span>
+                    <span>
+                      <a onclick="loadContent('${retailArchive}')"><fmt:message key="archive"/> </a>
+                    </span>
+                  </li>
                 </ul>
               </div>
             </li>

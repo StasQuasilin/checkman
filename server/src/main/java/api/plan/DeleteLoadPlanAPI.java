@@ -38,13 +38,13 @@ public class DeleteLoadPlanAPI extends ServletAPI{
                     dao.save(loadPlanById.getTransportation());
                     updateUtil.onRemove(loadPlanById.getTransportation());
                     updateUtil.onRemove(loadPlanById);
+
                 } else {
                     updateUtil.onRemove(loadPlanById.getTransportation());
                     updateUtil.onRemove(loadPlanById);
                     dao.remove(loadPlanById, loadPlanById.getTransportation());
                 }
             }
-
             write(resp, SUCCESS_ANSWER);
         }
     }

@@ -61,6 +61,9 @@ public class WeightAdd extends IModal {
         req.setAttribute("parseDriver", Branches.API.PARSE_PERSON);
         req.setAttribute("editDriver", Branches.UI.EDIT_DRIVER);
 
+        req.setAttribute("findTrailer", Branches.API.References.FIND_TRAILER);
+        req.setAttribute("parseTrailer", Branches.API.PARSE_TRAILER);
+
         req.setAttribute(SAVE, Branches.API.PLAN_LIST_ADD);
         req.setAttribute(PRODUCTS, dao.getProductList());
         req.setAttribute(UNITS, dao.getUnitsList());

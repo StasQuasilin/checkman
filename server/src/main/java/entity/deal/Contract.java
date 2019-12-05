@@ -159,4 +159,9 @@ public class Contract extends JsonAble {
         json.put(ARCHIVE, archive);
         return json;
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

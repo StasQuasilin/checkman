@@ -3,6 +3,7 @@ package api.references.driver;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.transport.Driver;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -30,7 +31,7 @@ public class FindDriverServletAPI extends ServletAPI {
             String key = String.valueOf(body.get(Constants.KEY));
             key = key.trim().replaceAll("  ", " ");
 
-            array.addAll(dao.findDriver(key).stream().map(parser::toJson).collect(Collectors.toCollection(JSONArray::new)));
+            array.addAll(dao.findDriver(key).stream().map(Driver::toJson).collect(Collectors.toCollection(JSONArray::new)));
 
             write(resp, array.toJSONString());
 

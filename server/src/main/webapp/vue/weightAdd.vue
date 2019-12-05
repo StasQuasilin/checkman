@@ -42,7 +42,12 @@ var editor = new Vue({
             id:-1,
             input:''
         },
-        already:false
+        already:false,
+        organisationProps:{},
+        driverProps:{},
+        vehicleProps:{},
+        trailerProps:{},
+        transporterProps:{}
     },
     methods:{
         editNote:function(note, key){
@@ -315,10 +320,11 @@ var editor = new Vue({
             })
         },
         putVehicle:function(vehicle){
-            console.log(vehicle);
             this.plan.vehicle = vehicle;
-            this.input.vehicle = '';
-            this.foundVehicles = [];
+
+            if (vehicle.trailer && vehicle.trailer.id > 0){
+                this.putTrailer(vehicle.trailer);
+            }
         },
         putTrailer:function(trailer){
             this.plan.trailer = trailer;
@@ -344,6 +350,9 @@ var editor = new Vue({
             this.foundDrivers = [];
             if (driver.vehicle && this.plan.vehicle.id == -1){
                 this.putVehicle(driver.vehicle);
+            }
+            if (driver.organisation && this.plan.transporter.id == -1){
+                this.putTransporter(driver.organisation);
             }
         },
         cancelDriver:function(){
@@ -375,8 +384,6 @@ var editor = new Vue({
                     e.organisation = this.plan.organisation.id == -1;
                     e.product = this.plan.product == -1;
                     e.manager = this.plan.manager == -1;
-                    console.log(this.plan);
-                    console.log(e);
                     var plan = Object.assign({}, this.plan);
                     plan.organisation = this.plan.organisation.id;
 

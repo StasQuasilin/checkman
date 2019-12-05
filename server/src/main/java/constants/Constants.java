@@ -13,6 +13,8 @@ public interface Constants {
     public static final String DEAL_ID = "dealId";
     String DEAL = "deal";
     String DEALS = "deals";
+    String CONTRACT = "contract";
+    String CONTRACTS = "contracts";
     public static final String SCALE = "scale";
     public static final String TURNS = "turns";
     public static final String SUBSCRIBE = "subscribe";
@@ -82,6 +84,7 @@ public interface Constants {
     String EDIT_ADDRESS = "editAddress";
     String FIND_PRODUCT = "findProduct";
     String FIND_LOAD_ADDRESS = "findLoadAddress";
+    String FIND_CONTRACTS = "findContracts";
     String EDIT_PRODUCT = "editProduct";
     String PARSE_PRODUCT = "parseProduct";
     String FIND_DRIVER = "findDriver";

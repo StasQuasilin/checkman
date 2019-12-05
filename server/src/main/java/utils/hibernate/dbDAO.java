@@ -233,4 +233,5 @@ public interface dbDAO {
     ProductSettings getProductSettings(Product product);
     <T>List<T> find(Class<T> tClass, String key, String value);
     List<Contract> getContractsByType(DealType type);
+    List<Contract> getContractsByOrganisation(Organisation organisation);
 }

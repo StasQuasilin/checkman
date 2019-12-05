@@ -490,10 +490,11 @@ public class HibernateDAO implements dbDAO {
         HashMap<Integer, Organisation> organisations = new HashMap<>();
         for (String string : key.split(SPACE)){
             String s = string.trim();
-            findOrganisation("type", s, ids, organisations);
             findOrganisation("name", s, ids, organisations);
+            if (organisations.size() > 0){
+                findOrganisation("type", s, ids, organisations);
+            }
         }
-
 
         ArrayList<Organisation> result = new ArrayList<>();
         int min = 0;
@@ -565,6 +566,14 @@ public class HibernateDAO implements dbDAO {
         result.addAll(contracts.values());
 
         return result;
+    }
+
+    @Override
+    public List<Contract> getContractsByOrganisation(Organisation organisation) {
+        final HashMap<String, Object> param = new HashMap<>();
+        param.put("counterparty", organisation);
+        param.put("archive", false);
+        return hb.query(Contract.class, param);
     }
 
     @Override
@@ -705,8 +714,10 @@ public class HibernateDAO implements dbDAO {
 
             trim = Parser.prettyNumber(trim);
             findVehicle(tClass, "number", trim, ids, vehicles);
-            if (vehicles.size() == size) {
-                findVehicle(tClass, "trailerNumber", trim, ids, vehicles);
+            if (tClass == Vehicle.class) {
+                if (vehicles.size() == size) {
+                    findVehicle(tClass, "trailerNumber", trim, ids, vehicles);
+                }
             }
         }
 

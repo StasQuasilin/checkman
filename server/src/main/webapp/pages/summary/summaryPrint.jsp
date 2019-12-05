@@ -87,13 +87,13 @@
       print:function() {
         let items = this.getItems();
         let w = window.open();
-        w.document.write('<style>table{border-collapse: collapse;}');
+        w.document.write('<style>table{border-collapse: collapse; width: 100%; font-size: 10pt;}');
         w.document.write('td{ border: solid gray 1pt; padding: 2pt 4pt; }');
         w.document.write('</style>');
         w.document.write('<html><table border="1">');
         for (let i in items){
           if (items.hasOwnProperty(i)){
-            w.document.write('<tr><td colspan="5">');
+            w.document.write('<tr><td colspan="7">');
             w.document.write('<b>');
             w.document.write(new Date(i).toLocaleDateString().substring(0, 10));
             w.document.write('</b>');
@@ -102,7 +102,7 @@
             for(let j in arr){
               if (arr.hasOwnProperty(j)){
                 let item = arr[j];
-                w.document.write('<tr><td colspan="5" style="padding-left: 8pt; background-color: lightgray; color: white;">');
+                w.document.write('<tr><td colspan="7" style="padding-left: 8pt; background-color: #767676; color: white;">');
                 w.document.write('<b>');
                 w.document.write(j);
                 w.document.write('</b>');
@@ -118,6 +118,13 @@
                     w.document.write(row.plan);
                     w.document.write('</td><td>');
                     w.document.write(row.shipper);
+                    w.document.write('</td><td>');
+                    w.document.write(row.price);
+                    w.document.write('</td><td>');
+                    row.notes.forEach(function(note){
+                      w.document.write(note.note + ' ');
+                    });
+
                     w.document.write('</td></tr>')
                   }
                 }

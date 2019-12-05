@@ -18,6 +18,7 @@ import utils.hibernate.dbDAOService;
 import utils.storages.StorageUtil;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -229,5 +230,13 @@ public class TransportUtil{
         } else {
             transportation.setTransporter(null);
         }
+    }
+
+    public static boolean setDate(Transportation2 transportation, Date date) {
+        if (transportation.getDate() == null || !transportation.getDate().equals(date)){
+            transportation.setDate(date);
+            return true;
+        }
+        return false;
     }
 }

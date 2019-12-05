@@ -27,6 +27,7 @@
     background: transparent;
   }
   .product-row select:focus{
+    background-color: rgb(179, 212, 251);
     outline: none;
   }
 </style>
@@ -54,6 +55,7 @@
       shippers:[],
       units:[],
       deals:[],
+      counterpartyDeals:{},
       driverProps:{
         header:'<fmt:message key="driver.add" />'
       },
@@ -68,6 +70,7 @@
         header:'<fmt:message key="counterparty.select"/>',
         put:function(a, b){
           b.counterparty = a;
+          editor.getContracts(a, b);
           editor.getAddress(a, b);
         },
         show:['value']
@@ -81,9 +84,9 @@
         put:function(product, deal){
           deal.product = product;
           if (product.unit.id) {
-            deal.unit = product.unit.id;
+            deal.unit = product.unit;
           } else {
-            deal.unit = -1;
+            deal.unit = {id:-1};
           }
           editor.getPrice(deal, product);
         },
@@ -91,18 +94,36 @@
       }
     },
     methods:{
+      getCounterpartyDeals:function(counterparty){
+        if(this.counterpartyDeals[counterparty.id]){
+          return this.counterpartyDeals[counterparty.id];
+        }
+      },
       addDeal:function(){
         let deal = {
+          id:-1,
           key:randomUUID(),
           counterparty:{
             id:-1
           },
           addressList:[],
           products:[],
-          address:-1
+          address:{
+            id:-1
+          }
         };
         this.deals.push(deal);
         this.addField(deal);
+      },
+      getContracts:function(counterparty, deal){
+        if (counterparty.name){
+          console.log("Get contracts for " + counterparty.name);
+          loadModal(this.api.findContracts, {counterparty:counterparty.id}, function(a){
+            console.log(a);
+            Object.assign(deal, a);
+//            deal = a;
+          });
+        }
       },
       getAddress:function(counterparty, deal){
         if (counterparty.name) {
@@ -127,10 +148,14 @@
           product:{
             id:-1
           },
-          unit:-1,
+          unit:{
+            id:-1
+          },
           amount:0,
           price:0,
-          shipper:this.shippers[0].id
+          shipper:{
+            id:this.shippers[0].id
+          }
         })
       },
       removeProduct:function(deal, id){
@@ -181,20 +206,23 @@
             let d = this.deals[i];
             let deal = {
               id: d.id,
+              from:this.date,
+              to:this.date,
               counterparty: d.counterparty.id,
-              address: d.address,
-              products: []
+              address: d.address.id,
+              products: [],
+              index:i
             };
             for (let j in d.products){
               if (d.products.hasOwnProperty(j)){
                 let p = d.products[j];
                 deal.products.push({
                   amount: p.amount,
-                  unit: p.unit,
+                  unit: p.unit.id,
                   type:this.type,
                   price: p.price,
                   product: p.product.id,
-                  shipper: p.shipper
+                  shipper: p.shipper.id
                 });
               }
             }
@@ -224,6 +252,7 @@
   editor.api.save = '${save}';
   editor.api.editAddress = '${editAddress}';
   editor.api.findAddress = '${findLoadAddress}';
+  editor.api.findContracts = '${findContracts}';
 </script>
 <table id="editor" width="680px" class="editor">
   <tr>
@@ -269,12 +298,12 @@
             </span>
             <object-input :props="counterpartyProps" :object="deal.counterparty" :item="deal"></object-input>
             <span v-if="deal.counterparty.id > 0">
-              <select v-if="deal.addressList.length > 0" v-model="deal.address" v-on:change="checkAddress(deal)">
+              <select v-if="deal.addressList.length > 0" v-model="deal.address.id" v-on:change="checkAddress(deal)">
                 <option value="-1" disabled>
                   <fmt:message key="need.select"/>
                 </option>
                 <option v-for="address in deal.addressList" :value="address.id">
-                  {{address.city}} {{address.street}}, {{address.build}}
+                  {{address.city}}, {{address.street}}, {{address.build}}
                 </option>
                 <option value="-2">
                   <fmt:message key="add.address"/>
@@ -316,7 +345,7 @@
               </td>
               <td>
                 <input id="amount" type="number" v-model="product.amount" autocomplete="off" onfocus="this.select()">
-                <select v-model="product.unit">
+                <select v-model="product.unit.id">
                   <option value="-1" disabled>
                     !!
                   </option>
@@ -327,7 +356,7 @@
               </td>
               <td>
                 <input id="price" type="number" v-model="product.price" autocomplete="off" onfocus="this.select()">
-                <select v-model="product.shipper">
+                <select v-model="product.shipper.id">
                   <option v-for="shipper in shippers" :value="shipper.id">
                     {{shipper.name}}
                   </option>

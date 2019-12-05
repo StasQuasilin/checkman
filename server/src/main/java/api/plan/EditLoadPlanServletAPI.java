@@ -9,6 +9,7 @@ import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.Shipper;
 import entity.documents.LoadPlan;
+import entity.organisations.Organisation;
 import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -185,6 +186,16 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                     TransportUtil.setVehicle(transportation, vehicle);
                 }
 
+                if (body.containsKey(TRAILER)) {
+                    JSONObject t = (JSONObject) body.get(TRAILER);
+                    Trailer trailer = dao.getObjectById(Trailer.class, t.get(ID));
+                    TransportUtil.setTrailer(transportation, trailer);
+                }
+                if (body.containsKey(TRANSPORTER)){
+                    JSONObject t = (JSONObject) body.get(TRANSPORTER);
+                    Organisation transporter = dao.getObjectById(Organisation.class, t.get(ID));
+                    TransportUtil.setTransporter(transportation, transporter);
+                }
                 JSONObject driverJson = (JSONObject) body.get("driver");
                 if (driverJson != null){
                     Driver driver = null;
