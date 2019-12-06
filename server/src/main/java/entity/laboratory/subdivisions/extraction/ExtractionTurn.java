@@ -3,6 +3,7 @@ package entity.laboratory.subdivisions.extraction;
 import entity.production.Turn;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 public class ExtractionTurn {
     private int id;
     private Turn turn;
-    private List<ExtractionCrude> crudes;
+    private List<ExtractionCrude> crudes = new ArrayList<>();
     private Set<StorageProtein> protein;
     private Set<StorageGrease> greases;
     private Set<ExtractionOIl> oils;

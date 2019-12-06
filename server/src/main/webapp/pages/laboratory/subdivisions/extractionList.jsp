@@ -22,20 +22,29 @@
         this.edit(this.api.crudeEdit, id);
     };
     list.proteinStorageEdit = function(id){
-        this.edit(this.api.proteinStorageEdit, id);
+        if (this.api.proteinStorageEdit) {
+            this.edit(this.api.proteinStorageEdit, id);
+        }
     };
     list.greaseStorageEdit = function(id){
-        this.edit(this.api.greaseStorageEdit, id);
+        if (this.api.greaseStorageEdit) {
+            this.edit(this.api.greaseStorageEdit, id);
+        }
     };
     list.proteinTurnEdit = function(id){
-        console.log('Edit turn protein ' + id);
-        this.edit(this.api.proteinTurnEdit, id);
+        if (this.api.proteinTurnEdit) {
+            this.edit(this.api.proteinTurnEdit, id);
+        }
     };
     list.greaseTurnEdit = function(id){
-        this.edit(this.api.greaseTurnEdit, id);
+        if (this.api.greaseTurnEdit) {
+            this.edit(this.api.greaseTurnEdit, id);
+        }
     };
     list.oilEdit = function(id){
-        this.edit(this.api.oilEdit, id);
+        if (this.api.oilEdit) {
+            this.edit(this.api.oilEdit, id);
+        }
     };
     list.edit = function(api, id){
         loadModal(api + '?id=' + id, {id :id});

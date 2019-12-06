@@ -14,7 +14,10 @@ const datepicker = new Vue({
             this.y = event.pageY;
             this.x = event.pageX;
             if (type){
-                this.type = type;
+                if (this.type !== type){
+                    this.type = type;
+                    this.show(onSelect, date, type);
+                }
             } else {
                 this.type = 'date'
             }

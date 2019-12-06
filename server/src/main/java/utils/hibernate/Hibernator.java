@@ -2,6 +2,7 @@ package utils.hibernate;
 
 import constants.Constants;
 import org.hibernate.Session;
+import org.omg.CORBA.OBJECT_NOT_EXIST;
 import utils.hibernate.DateContainers.*;
 
 import javax.persistence.criteria.*;
@@ -158,23 +159,38 @@ public class Hibernator {
         List<T> resultList = session.createQuery(query).getResultList();
 
         HibernateSessionFactory.putSession(session);
-
+        putParams(params);
         return resultList;
     }
+
+    private void putParams(HashMap<String, Object> params) {
+        if (params != null) {
+            params.clear();
+            pool.add(params);
+        }
+    }
+
     public void  clear(){
         HibernateSessionFactory.getSession().clear();
     }
 
-    HashMap<String, Object> params = new HashMap<>();
-
     public <T> List<T> query(Class<T> tClass, String key, Object value) {
-        params.clear();
+        HashMap<String, Object> params = getParams();
         params.put(key, value);
         return query(tClass, params);
     }
 
+    final ArrayList<HashMap<String, Object>> pool = new ArrayList<>();
+    synchronized HashMap<String, Object> getParams(){
+        if (pool.size() > 0){
+            return pool.remove(0);
+        } else {
+            return new HashMap<>();
+        }
+    }
+
     public <T>T get(Class<T> tClass, String key, Object value){
-        params.clear();
+        HashMap<String, Object> params = getParams();
         params.put(key, value);
         return get(tClass, params);
     }

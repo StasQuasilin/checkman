@@ -7,8 +7,9 @@
 <link rel="stylesheet" href="${context}/css/filter.css">
 <script>
   var req_filter = new Vue({
-    el: '#filter',
+    el: '#filter_view',
     data:{
+      api:{},
       date:''
     },
     methods:{
@@ -20,17 +21,24 @@
       },
       clear:function(){
         this.date = '';
+      },
+      find:function(){
+        if (this.api.find){
+          PostApi(this.api.find, {date:this.date}, function(a){
+            console.log(a);
+          })
+        }
       }
     }
   })
 </script>
-<div id="filter" class="filter">
+<div id="filter_view" class="filter">
   <table width="100%">
     <tr>
       <td>
         <fmt:message key="date"/>
       </td>
-      <td width="100%">
+      <td width="100%" align="center">
         <div v-on:click="pickDate">
           <a v-if="date">
             {{new Date(date).toLocaleDateString()}}
@@ -39,6 +47,13 @@
             ...
           </a>
         </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <a v-on:click="find">
+          <fmt:message key="find"/>
+        </a>
       </td>
     </tr>
     <tr>

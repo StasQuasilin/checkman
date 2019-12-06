@@ -14,8 +14,16 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.MANUFACTURE_ANALYSES)
 public class ManufactureAnalyses extends IUIServlet {
+    private static final String _TITLE = "title.manufacture.analyse";
+    private static final String _CONTENT = "/pages/manufacture/manufactureAnalyses.jsp";
+    private static final String _FILTER = "/pages/manufacture/manufactureAnalysesFilter.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        req.setAttribute(TITLE, _TITLE);
+        req.setAttribute(CONTENT, _CONTENT);
+        req.setAttribute(UPDATE, Branches.API.MANUFACTURE_ANALYSE);
+        req.setAttribute(FILTER, _FILTER);
+        show(req, resp);
     }
 }

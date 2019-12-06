@@ -8,7 +8,8 @@ public interface Constants {
     public static final String ID = "id";
 
     public static final String NAME = "name";
-    public static final String DATE = "date";
+    String DATE = "date";
+    String MONTH = "month";
     public static final String DATE_TO = "dateTo";
     public static final String DEAL_ID = "dealId";
     String DEAL = "deal";
@@ -83,6 +84,7 @@ public interface Constants {
     String PATH = "path";
     String IS_NEW = "isNew";
     String EDIT_ADDRESS = "editAddress";
+    String FIND = "find";
     String FIND_PRODUCT = "findProduct";
     String FIND_LOAD_ADDRESS = "findLoadAddress";
     String FIND_CONTRACTS = "findContracts";
@@ -96,7 +98,8 @@ public interface Constants {
     String BUILD = "build";
     String SUCCESS = "success";
     public static final String ERROR = "error";
-    public static final String CONTEXT = "context";
+    String CONTEXT = "context";
+    String UPDATE = "update";
     public static final String TRANSPORTATION = "transportation";
     public static final String VEHICLE = "vehicle";
     public static final String DRIVER = "driver";
@@ -123,7 +126,8 @@ public interface Constants {
     public static final String PRODUCTS = "products";
     public static final String DONE = "done";
     public static final String ANALYSES = "analyses";
-    public static final String VALUE = "value";
+    String VALUE = "value";
+    String VALUES = "values";
     public static final String LICENSE = "license";
     public static final String TRUCK = "truck";
     public static final String MODEL = "model";

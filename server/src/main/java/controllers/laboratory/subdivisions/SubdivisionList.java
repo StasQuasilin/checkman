@@ -72,7 +72,8 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute(SUBSCRIBE, kpoSubscribes);
                 break;
         }
-        req.setAttribute("filter", "/pages/laboratory/subdivisions/subdivisionFilter.jsp");
+        req.setAttribute(FIND, Branches.API.FIND_LABORATORY);
+        req.setAttribute(FILTER, "/pages/laboratory/subdivisions/subdivisionFilter.jsp");
         show(req, resp);
     }
 }

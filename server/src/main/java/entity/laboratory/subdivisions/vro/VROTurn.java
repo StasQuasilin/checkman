@@ -9,6 +9,7 @@ import entity.seals.Seal;
 import javax.persistence.*;
 import javax.swing.plaf.basic.BasicScrollPaneUI;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ import java.util.Set;
 public class VROTurn {
     private int id;
     private Turn turn;
-    private List<VROCrude> crudes;
+    private List<VROCrude> crudes = new ArrayList<>();
     private Set<VROOil> oils;
     private Set<VRODaily> dailies;
     private Set<OilMassFraction> oilMassFractions;

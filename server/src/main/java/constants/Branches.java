@@ -267,6 +267,8 @@ public class Branches {
         public static final String PARSE_PRODUCT = API + "/references/parse/product";
         public static final String PRODUCT_EDIT = API + "/references/product/edit";
         public static final String EDIT_CONTRACT = API + "/contracts/edit";
+        public static final String MANUFACTURE_ANALYSE = API + "/manufacture/analyses";
+        public static final String FIND_LABORATORY = API + "/laboratory/find";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

@@ -4,11 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<div id="container-header" style="display: inline">
-    <button onclick="loadModal('${edit}')" style="background-color: white">
-        + <fmt:message key="vro.part"/>
-    </button>
-</div>
+<jsp:include page="kpoHeader.jsp"/>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>

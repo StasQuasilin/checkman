@@ -33,9 +33,10 @@ public final class TurnBox{
     public static TurnDateTime getTurnDate(LocalDateTime date){
         if (turns.size() == 0) {
             log.warn("No any turn setting!!!");
-        } else {
-            log.info("Look at turn for: " + date);
         }
+//        else {
+//            log.info("Look at turn for: " + date);
+//        }
 
         for (TurnSettings turn : turns) {
             LocalTime _b = turn.getBegin().toLocalTime();
@@ -52,9 +53,9 @@ public final class TurnBox{
             }
 
             if ((date.isAfter(begin) || date.equals(begin)) && date.isBefore(end)){
-                log.info("\tTurn# " + turn.getNumber() + ", ");
-                log.info("\t" + begin);
-                log.info("\t" + end);
+//                log.info("\tTurn# " + turn.getNumber() + ", ");
+//                log.info("\t" + begin);
+//                log.info("\t" + end);
                 return new TurnDateTime(turn.getNumber(), begin, end);
             }
         }

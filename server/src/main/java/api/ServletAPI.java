@@ -41,4 +41,5 @@ public abstract class ServletAPI extends IServlet{
         writer.write(text);
         writer.close();
     }
+
 }
