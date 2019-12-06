@@ -218,10 +218,10 @@
               {{prettyNumber(row.pulpHumidity)}}
             </td>
             <td align="center">
-              {{prettyNumber(row.mealOiliness)}}
+              {{prettyNumber(row.mealHumidity)}}
             </td>
             <td align="center">
-              {{prettyNumber(row.mealHumidity)}}
+              {{prettyNumber(row.mealOiliness)}}
             </td>
           </tr>
           <tr>
@@ -262,10 +262,10 @@
               {{middle(table, 'pulpHumidity')}}
             </th>
             <th>
-              {{middle(table, 'mealOiliness')}}
+              {{middle(table, 'mealHumidity')}}
             </th>
             <th>
-              {{middle(table, 'mealHumidity')}}
+              {{middle(table, 'mealOiliness')}}
             </th>
           </tr>
         </table>

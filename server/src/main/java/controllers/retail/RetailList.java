@@ -4,6 +4,7 @@ import api.sockets.Subscriber;
 import constants.Branches;
 import controllers.IUIServlet;
 import entity.DealType;
+import entity.transport.TransportCustomer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +24,7 @@ public class RetailList extends IUIServlet {
         req.setAttribute(EDIT, Branches.UI.RETAIL_EDIT);
         req.setAttribute(CONTENT, _CONTENT);
         String parameter = req.getParameter(TYPE);
+        req.setAttribute(CUSTOMERS, TransportCustomer.values());
 
         if (parameter != null){
             DealType type = DealType.valueOf(parameter);

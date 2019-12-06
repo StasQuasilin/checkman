@@ -35,6 +35,17 @@ public class EditProductAPI extends ServletAPI {
                 product.setName(name);
                 save = true;
             }
+            float weight = Float.parseFloat(String.valueOf(body.get(WEIGHT)));
+            if (product.getWeight() != weight){
+                product.setWeight(weight);
+                save = true;
+            }
+
+            int pallet = Integer.parseInt(String.valueOf(body.get(PALLET)));
+            if (product.getPallet() != pallet){
+                product.setPallet(pallet);
+                save = true;
+            }
             Unit unit = dao.getObjectById(Unit.class, body.get(UNIT));
             if (unit != null){
                 if (product.getUnit() == null || product.getUnit().getId() != unit.getId()){

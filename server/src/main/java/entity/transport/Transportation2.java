@@ -9,8 +9,7 @@ import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +31,7 @@ public class Transportation2 extends JsonAble {
     private ActionTime registered;
     private ActionTime timeIn;
     private ActionTime timeOut;
-    private Set<TransportationDocument> documents = new HashSet<>();
+    private List<TransportationDocument> documents = new ArrayList<>();
     private boolean done;
     private boolean archive;
     private ActionTime createTime;
@@ -175,12 +174,14 @@ public class Transportation2 extends JsonAble {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<TransportationDocument> getDocuments() {
+    public List<TransportationDocument> getDocuments() {
+        Collections.sort(documents);
         return documents;
     }
-    public void setDocuments(Set<TransportationDocument> products) {
+    public void setDocuments(List<TransportationDocument> products) {
         this.documents = products;
     }
+
 
     @Basic
     @JoinColumn(name = "done")
@@ -250,9 +251,7 @@ public class Transportation2 extends JsonAble {
             json.put(TIME_OUT, timeOut.getTime().toString());
         }
         JSONArray docs = pool.getArray();
-        for (TransportationDocument d : documents){
-            docs.add(d.toJson());
-        }
+        docs.addAll(getDocuments().stream().map(TransportationDocument::toJson).collect(Collectors.toList()));
         json.put(PRODUCTS, docs);
         json.put(MANAGER, manager.toJson());
         JSONArray array = pool.getArray();

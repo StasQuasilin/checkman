@@ -42,33 +42,35 @@ public class EditRetailServletAPI extends ServletAPI {
 
             Transportation2 transportation = transportationSaver.saveTransportation(body, worker);
 
-            HashMap<Contract, TransportationDocument> documents = new HashMap<>();
-            HashMap<ContractProduct, TransportationProduct> products = new HashMap<>();
+            HashMap<Integer, TransportationDocument> documents = new HashMap<>();
+            HashMap<Integer, TransportationProduct> products = new HashMap<>();
 
             for (TransportationDocument document : transportation.getDocuments()){
                 for (TransportationProduct product : document.getProducts()){
                     ContractProduct contractProduct = product.getContractProduct();
                     Contract contract = contractProduct.getContract();
-                    if (!documents.containsKey(contract)){
-                        documents.put(contract, document);
+                    if (!documents.containsKey(contract.getId())){
+                        documents.put(contract.getId(), document);
                     }
-                    if (!products.containsKey(contractProduct)){
-                        products.put(contractProduct, product);
+                    if (!products.containsKey(contractProduct.getId())){
+                        products.put(contractProduct.getId(), product);
                     }
                 }
             }
             ArrayList<TransportationDocument> saveDocuments = new ArrayList<>();
             ArrayList<TransportationProduct> saveProducts = new ArrayList<>();
+
             for (Object d : (JSONArray) body.get(DEALS)){
                 JSONObject object = (JSONObject) d;
                 Contract contract = contractSaver.saveContract(object, worker);
+                int idx = Integer.parseInt(String.valueOf(object.get(INDEX)));
                 TransportationDocument document;
-                if (documents.containsKey(contract)){
-                    document = documents.remove(contract);
+                if (documents.containsKey(contract.getId())){
+                    document = documents.remove(contract.getId());
                 } else {
                     document = new TransportationDocument();
-
                 }
+                document.setIndex(idx);
                 if (document.getTransportation() == null){
                     document.setTransportation(transportation);
                 }
@@ -79,8 +81,8 @@ public class EditRetailServletAPI extends ServletAPI {
 
                 for (ContractProduct contractProduct : contract.getProducts()){
                     TransportationProduct product;
-                    if (products.containsKey(contractProduct)){
-                        product = products.remove(contractProduct);
+                    if (products.containsKey(contractProduct.getId())){
+                        product = products.remove(contractProduct.getId());
                     } else {
                         product = new TransportationProduct();
                         product.setDocument(document);
@@ -90,10 +92,16 @@ public class EditRetailServletAPI extends ServletAPI {
                     saveProducts.add(product);
                 }
             }
-            documents.values().forEach(dao::remove);
-            products.values().forEach(dao::remove);
+
             saveDocuments.forEach(dao::save);
             saveProducts.forEach(dao::save);
+
+            if (products.size() > 0) {
+                products.values().forEach(dao::remove);
+            }
+            if (documents.size() > 0) {
+                documents.values().forEach(dao::remove);
+            }
 
             write(resp, SUCCESS_ANSWER);
         }

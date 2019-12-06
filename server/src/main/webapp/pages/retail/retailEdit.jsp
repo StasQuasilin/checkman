@@ -40,6 +40,7 @@
       'object-input':objectInput
     },
     data:{
+      id:-1,
       type:'${type}',
       api:{},
       date:new Date().toISOString().substring(0, 10),
@@ -85,7 +86,7 @@
         header:'<fmt:message key="button.select.product"/>',
         put:function(product, deal){
           deal.product = product;
-          if (product.unit.id) {
+          if (product.unit && product.unit.id) {
             deal.unit = product.unit;
           } else {
             deal.unit = {id:-1};
@@ -189,14 +190,18 @@
       getPrice:function(deal, product){
 
       },
-      waybill:function(){
-
+      waybillPrint:function(){
+        PostReq(this.api.waybill, {id:this.id}, function(a){
+          let print = window.open();
+          print.document.write(a);
+        });
       },
       print:function(deal){
 
       },
       save:function(){
         let data = {
+          id:this.id,
           date:this.date,
           driver:this.driver.id,
           vehicle:this.vehicle.id,
@@ -220,6 +225,7 @@
               if (d.products.hasOwnProperty(j)){
                 let p = d.products[j];
                 deal.products.push({
+                  id: p.id,
                   amount: p.amount,
                   unit: p.unit.id,
                   type:this.type,
@@ -262,6 +268,23 @@
   editor.api.editAddress = '${editAddress}';
   editor.api.findAddress = '${findLoadAddress}';
   editor.api.findContracts = '${findContracts}';
+  editor.api.waybill = '${waybillPrint}';
+  <c:choose>
+  <c:when test="${not empty transportation}">
+//  TRANSPORTATION INIT HERE
+  editor.id = '${transportation.id}';
+  editor.customer = '${transportation.customer}';
+  <c:forEach items="${transportation.documents}" var="document">
+  var deal = JSON.parse('${document.getContract().toJson()}');
+  <%--deal.id=${document.getContract().id};--%>
+  console.log(deal);
+  deal.addressList = [];
+  editor.getAddress(deal.counterparty, deal);
+//  console.log(deal);
+  editor.deals.push(deal);
+  </c:forEach>
+  </c:when>
+  </c:choose>
 </script>
 <table id="editor" width="680px" class="editor">
   <tr>
@@ -398,7 +421,7 @@
         <a v-on:click="addDeal">
           + <fmt:message key="deal.add"/>
         </a>
-        <span class="mini-close">
+        <span class="mini-close" v-on:click="waybillPrint">
           <fmt:message key="print.waybill"/>
         </span>
       </div>

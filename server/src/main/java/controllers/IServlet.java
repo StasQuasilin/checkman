@@ -23,12 +23,7 @@ import java.io.IOException;
  */
 public class IServlet extends HttpServlet implements Constants {
 
-
-
-
-
     public static final LanguageBase lb = LanguageBase.getBase();
-    protected static final String CUSTOMERS = "customers";
 
     public Worker getWorker(HttpServletRequest req){
         return (Worker)req.getSession().getAttribute(Constants.WORKER);

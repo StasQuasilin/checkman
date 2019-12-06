@@ -1,0 +1,26 @@
+.product-header{
+
+}
+.product-header:hover .product-list{
+    display: block;
+}
+.product-header .product-list{
+    display: none;
+}
+.product-list{
+    top: 0;
+    position: absolute;
+    max-height: 100%;
+    overflow-y: scroll;
+    background-color: white;
+    padding: 0 2pt;
+}
+.product-list .address-row{
+
+}
+.product-list .product-row{
+    font-size: 10pt;
+    padding-left: 4pt;
+    width: 98%;
+    border-bottom: solid gray 1pt;
+}

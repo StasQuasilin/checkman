@@ -28,6 +28,8 @@
           id:-1,
           name:''
         },
+        weight:1,
+        pallet:1,
         path:[]
       },
       groupProps:{
@@ -45,6 +47,19 @@
       pathInput:''
     },
     methods:{
+      getUnitName:function(){
+        if (this.product) {
+          const self = this;
+          for (let i in this.units){
+            if (this.units.hasOwnProperty(i)){
+              let unit = this.units[i];
+              if (unit.id == self.product.unit){
+                return unit.name;
+              }
+            }
+          }
+        }
+      },
       addPath:function(){
         this.product.path.push(this.pathInput);
         this.pathInput = '';
@@ -67,6 +82,8 @@
   productEdit.api.save ='${save}';
   productEdit.product.id=${product.id};
   productEdit.product.name='${product.name}';
+  productEdit.product.weight = '${product.weight}';
+  productEdit.product.pallet = '${product.pallet}';
   <c:if test="${not empty product.productGroup}">
   productEdit.product.group={
     id:${product.productGroup.id},
@@ -112,6 +129,34 @@
           {{unit.name}}
         </option>
       </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="weight">
+        <fmt:message key="once.weight"/>
+        <span v-if="product.unit > 0">
+          {{getUnitName()}}
+        </span>
+      </label>
+    </td>
+    <td>
+      <input id="weight" style="width: 6em" type="number"
+             step="0.01" v-model="product.weight" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="onPallet">
+        <fmt:message key="on.pallet.amount"/>
+        <span v-if="product.unit > 0">
+          {{getUnitName()}}
+        </span>
+      </label>
+    </td>
+    <td>
+      <input id="onPallet" style="width: 6em" type="number"
+             step="1" v-model="product.pallet" autocomplete="off">
     </td>
   </tr>
   <tr>

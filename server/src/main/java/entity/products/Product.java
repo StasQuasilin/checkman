@@ -18,6 +18,8 @@ public class Product extends JsonAble {
     private String name;
     private AnalysesType analysesType;
     private Unit unit;
+    private float weight;
+    private float pallet;
 
     @Id
     @GeneratedValue
@@ -62,6 +64,24 @@ public class Product extends JsonAble {
     }
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+
+    @Basic
+    @Column(name = "weight")
+    public float getWeight() {
+        return weight;
+    }
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    @Basic
+    @Column(name = "pallet")
+    public float getPallet() {
+        return pallet;
+    }
+    public void setPallet(float pallet) {
+        this.pallet = pallet;
     }
 
     @Override

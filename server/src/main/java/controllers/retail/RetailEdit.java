@@ -4,6 +4,9 @@ import constants.Branches;
 import controllers.IModal;
 import entity.DealType;
 import entity.transport.TransportCustomer;
+import entity.transport.Transportation;
+import entity.transport.Transportation2;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +24,11 @@ public class RetailEdit extends IModal {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        JSONObject body = parseBody(req);
+        if (body != null){
+            Transportation2 transportation = dao.getObjectById(Transportation2.class, body.get(ID));
+            req.setAttribute(TRANSPORTATION, transportation);
+        }
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute(FIND_DRIVER, Branches.API.References.FIND_DRIVER);
@@ -36,6 +44,7 @@ public class RetailEdit extends IModal {
         req.setAttribute(TYPE, DealType.sell);
         req.setAttribute(UNITS, dao.getWeightUnits());
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
+        req.setAttribute(WAYBILL_PRINT, Branches.API.RETAIL_WAYBILL_PRINT);
         show(req, resp);
     }
 }

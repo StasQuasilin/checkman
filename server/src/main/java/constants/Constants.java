@@ -14,9 +14,11 @@ public interface Constants {
     public static final String DEAL_ID = "dealId";
     String DEAL = "deal";
     String DEALS = "deals";
+    String INDEX = "index";
     String CONTRACT = "contract";
     String CONTRACTS = "contracts";
     String MANUFACTURE_ANALYSE = "manufactureAnalyses";
+    String WAYBILL_PRINT = "waybillPrint";
     public static final String SCALE = "scale";
     public static final String TURNS = "turns";
     public static final String SUBSCRIBE = "subscribe";
@@ -57,7 +59,8 @@ public interface Constants {
     public static final String ORGANISATION = "organisation";
     public static final String TYPE = "type";
     public static final String PLAN = "plan";
-    public static final String CUSTOMER = "customer";
+    String CUSTOMER = "customer";
+    String CUSTOMERS = "customers";
     public static final String TRANSPORTATION_ID = "transportation_id";
     public static final String DRIVER_ID = "driver_id";
     public static final String VEHICLE_ID = "vehicle_id";
@@ -103,7 +106,8 @@ public interface Constants {
     public static final String TRANSPORTATION = "transportation";
     public static final String VEHICLE = "vehicle";
     public static final String DRIVER = "driver";
-    public static final String WEIGHT = "weight";
+    String WEIGHT = "weight";
+    String PALLET = "pallet";
     public static final String SPACE = " ";
     public static final String EMPTY = "";
     public static final String COMMA = ",";

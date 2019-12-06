@@ -7,19 +7,65 @@
 <html>
     <link rel="stylesheet" href="${context}/css/DataContainer.css">
     <link rel="stylesheet" href="${context}/css/TransportList.css">
+    <link rel="stylesheet" href="${context}/css/RetailList.css">
     <script>
+        list.api.edit = '${edit}';
+        if (typeof list.fields === 'undefined'){
+            list.fields = {};
+        }
+        list.fields.vehicle = '<fmt:message key="transportation.automobile"/>';
+        list.fields.driver = '<fmt:message key="transportation.driver"/>';
+        list.fields.customer = '<fmt:message key="transport.customer"/>';
+        list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
+        list.fields.noData='<fmt:message key="no.data"/>';
+        list.customers=[];
+        <c:forEach items="${customers}" var="customer">
+        list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
+        </c:forEach>
         subscribe('${subscribe}', function(a){
             list.handler(a);
         })
     </script>
-    <div id="container">
-        <div v-for="(value, idx) in getItems()">
+    <div id="container" class="container">
+        <div v-for="(value, idx) in getItems()" class="container-item" v-on:click="edit(value.item.id)"
+             :class="'container-item-' + new Date(value.item.date).getDay()">
             <div style="display: inline-block; max-width: 98%; width: 94%">
                 <div class="upper-row" style="font-size: 11pt">
                     <span>
                         {{new Date(value.item.date).toLocaleDateString()}}
                     </span>
                     <product-view :products="value.item.products"></product-view>
+                </div>
+                <div class="middle-row">
+                    <div style="display: inline-block; font-size: 10pt; width: 8em">
+                        <div>
+                            <fmt:message key="transportation.time.in"/>:
+                                <span v-if="value.item.timeIn && value.item.timeIn.time">
+                                    {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+                                </span>
+                                <span v-else>
+                                    --:--
+                                </span>
+                        </div>
+                        <div>
+                            <fmt:message key="transportation.time.out"/>:
+                                  <span v-if="value.item.timeOut && value.item.timeOut.time">
+                                    {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
+                                  </span>
+                                    <span v-else>
+                                        --:--
+                                    </span>
+                        </div>
+                    </div>
+                    <transport-view :item="value.item" :fields="fields" :customers="customers"></transport-view>
+                    <div style="display: inline-block; float: right; font-size: 10pt">
+                        <div style="width: 100%; text-align: center">
+                            <fmt:message key="deal.manager"/>
+                        </div>
+                        <div>
+                            {{value.item.manager.person.value}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

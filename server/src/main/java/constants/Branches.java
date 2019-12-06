@@ -269,6 +269,7 @@ public class Branches {
         public static final String EDIT_CONTRACT = API + "/contracts/edit";
         public static final String MANUFACTURE_ANALYSE = API + "/manufacture/analyses";
         public static final String FIND_LABORATORY = API + "/laboratory/find";
+        public static final String RETAIL_WAYBILL_PRINT = API + "/retail/waybill/print";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

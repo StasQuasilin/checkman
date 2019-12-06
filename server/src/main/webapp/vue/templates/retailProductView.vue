@@ -19,7 +19,7 @@ var productView = {
             var address = [];
             this.products.forEach(function(item){
                 let a = item.address;
-                if (!address.includes(a)){
+                if (a && !address.includes(a)){
                     address.push(a);
                 }
             });
@@ -37,14 +37,14 @@ var productView = {
                             headers.unshift(product.group.name);
                         }
                     } else{
-                        if (headers.includes(product.name)){
+                        if (!headers.includes(product.name)){
                             headers.push(product.name);
                         }
                     }
                 })
             });
             let header = headers[0];
-            if (headers.length == 1){
+            if (headers.length > 1){
                 header += ' ( ' + total + ' )'
             }
             return header;
@@ -57,19 +57,19 @@ var productView = {
         '<div v-if="getCounterparty.length == 1">' +
             '{{getCounterparty[0]}}' +
         '</div>' +
-        '<div v-if="getAddress.length > 0 && getAddress.length == 1">' +
-            '{{getAddress[0].city}}' +
+        '<div v-if="getAddress && getAddress.length > 0 && getAddress.length == 1">' +
+            '{{getAddress[0].city}}, {{getAddress[0].street}}, {{getAddress[0].build}}' +
         '</div>' +
-        '<div>{{getProductHeader}}</div>' +
-        '<div>' +
-            '<div v-for="doc in products">' +
-                '<div v-if="getCounterparty.length > 1">' +
-                    '{{doc.counterparty.value}}' +
-                '</div>' +
+        '<div class="product-header">{{getProductHeader}}' +
+            '<div class="product-list">' +
+                '<div v-for="doc in products">' +
+                    '<div v-if="getCounterparty.length > 1">' +
+                        '{{doc.counterparty.value}}' +
+                    '</div>' +
                 '<div v-if="getAddress.length > 1">' +
-                    '{{doc.address.city}} {{doc.address.street}} {{doc.address.block}}' +
+                    '{{doc.address.city}}, {{doc.address.street}}, {{doc.address.build}}' +
                 '</div>' +
-                '<div v-for="product in doc.products">' +
+                '<div class="product-row" v-for="product in doc.products">' +
                     '{{product.product.name}}' +
                     ' {{product.amount}}' +
                     ' {{product.unit.name}} ' +
@@ -77,6 +77,6 @@ var productView = {
                 '</div>' +
             '</div>' +
         '</div>' +
-
+    '</div>' +
     '</div>'
 };
