@@ -78,7 +78,7 @@ public class ManufactureReportEditAPI extends ServletAPI {
 
             for(Object o : fields){
                 JSONObject field = (JSONObject) o;
-                log.info(field);
+                log.info(field.get(TITLE) + COLON + SPACE + field.get(VALUE));
                 long fieldId = -1;
                 if (field.containsKey("id")){
                     fieldId = (long) field.get("id");

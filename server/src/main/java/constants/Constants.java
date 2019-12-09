@@ -108,7 +108,8 @@ public interface Constants {
     public static final String DRIVER = "driver";
     String WEIGHT = "weight";
     String PALLET = "pallet";
-    public static final String SPACE = " ";
+    String SPACE = " ";
+    String COLON = ":";
     public static final String EMPTY = "";
     public static final String COMMA = ",";
     public static final String SLASH = "/";

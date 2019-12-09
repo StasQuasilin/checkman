@@ -54,10 +54,10 @@ var productView = {
 
     },
     template:'<div style="display: inline-flex">' +
-        '<div v-if="getCounterparty.length == 1">' +
+        '<div v-if="getCounterparty.length == 1" class="label">' +
             '{{getCounterparty[0]}}' +
         '</div>' +
-        '<div v-if="getAddress && getAddress.length > 0 && getAddress.length == 1">' +
+        '<div v-if="getAddress && getAddress.length > 0 && getAddress.length == 1" class="label">' +
             '{{getAddress[0].city}}, {{getAddress[0].street}}, {{getAddress[0].build}}' +
         '</div>' +
         '<div class="product-header">{{getProductHeader}}' +

@@ -54,16 +54,17 @@ public class EditSunServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float humidity1 = Float.parseFloat(String.valueOf(a.get(Constants.Sun.HUMIDITY_1)));
-            log.info("\t\tHumidity 1: " + humidity1);
-            if (sunAnalyses.getHumidity1() != humidity1) {
-                sunAnalyses.setHumidity1(humidity1);
-                save = true;
+            if (a.containsKey(Sun.HUMIDITY_1)) {
+                float humidity1 = Float.parseFloat(String.valueOf(a.get(Sun.HUMIDITY_1)));
+                log.info("\t\tHumidity 1: " + humidity1);
+                if (sunAnalyses.getHumidity1() != humidity1) {
+                    sunAnalyses.setHumidity1(humidity1);
+                    save = true;
+                }
             }
 
-            String hum2String = String.valueOf(a.get(Constants.Sun.HUMIDITY_2));
-            if (U.exist(hum2String)) {
-                float humidity2 = Float.parseFloat(hum2String);
+            if (a.containsKey(Sun.HUMIDITY_2)) {
+                float humidity2 = Float.parseFloat(String.valueOf(a.get(Sun.HUMIDITY_2)));
                 log.info("\t\tHumidity 2: " + humidity2);
                 if (sunAnalyses.getHumidity2() != humidity2) {
                     sunAnalyses.setHumidity2(humidity2);
@@ -71,25 +72,31 @@ public class EditSunServletAPI extends ServletAPI {
                 }
             }
 
-            float soreness = Float.parseFloat(String.valueOf(a.get(Constants.Sun.SORENESS)));
-            log.info("\t\tSoreness: " + soreness);
-            if (sunAnalyses.getSoreness() != soreness) {
-                sunAnalyses.setSoreness(soreness);
-                save = true;
+            if (a.containsKey(Sun.SORENESS)) {
+                float soreness = Float.parseFloat(String.valueOf(a.get(Sun.SORENESS)));
+                log.info("\t\tSoreness: " + soreness);
+                if (sunAnalyses.getSoreness() != soreness) {
+                    sunAnalyses.setSoreness(soreness);
+                    save = true;
+                }
             }
 
-            float oilImpurity = Float.parseFloat(String.valueOf(a.get(Constants.Sun.OIL_IMPURITY)));
-            log.info("\t\tOil impurity: " + oilImpurity);
-            if (sunAnalyses.getOilImpurity() != oilImpurity) {
-                sunAnalyses.setOilImpurity(oilImpurity);
-                save = true;
+            if (a.containsKey(Sun.OIL_IMPURITY)) {
+                float oilImpurity = Float.parseFloat(String.valueOf(a.get(Sun.OIL_IMPURITY)));
+                log.info("\t\tOil impurity: " + oilImpurity);
+                if (sunAnalyses.getOilImpurity() != oilImpurity) {
+                    sunAnalyses.setOilImpurity(oilImpurity);
+                    save = true;
+                }
             }
 
-            float acidValue = Float.parseFloat(String.valueOf(a.get(Constants.Sun.ACID_VALUE)));
-            log.info("\t\tAcidValue: " + acidValue);
-            if (sunAnalyses.getAcidValue() != acidValue) {
-                sunAnalyses.setAcidValue(acidValue);
-                save = true;
+            if (a.containsKey(Sun.ACID_VALUE)) {
+                float acidValue = Float.parseFloat(String.valueOf(a.get(Sun.ACID_VALUE)));
+                log.info("\t\tAcidValue: " + acidValue);
+                if (sunAnalyses.getAcidValue() != acidValue) {
+                    sunAnalyses.setAcidValue(acidValue);
+                    save = true;
+                }
             }
 
             boolean contamination = Boolean.parseBoolean(String.valueOf(a.get("contamination")));
