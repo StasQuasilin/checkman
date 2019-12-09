@@ -215,7 +215,7 @@ public interface dbDAO {
     UserBotSetting getUserBotSettingsByChat(Object id);
     <T>List<T> query(Class<T> tClass, HashMap<String, Object> parameters);
     List<Organisation> getOrganisations();
-    Vehicle getVehicleByHash(int hash);
+    List<Vehicle> getVehiclesByName(Object name);
     <T>T getObjectById(Class<T> _class, Object o);
     <T> List<T> getObjects(Class<T> tClass);
     List<StorageProduct> getStorageProductByProduct(Product product);

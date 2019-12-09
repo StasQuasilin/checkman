@@ -19,6 +19,7 @@ public class Deal extends IDocument{
 //    private Date date;
 
     private Date dateTo;
+    private String number;
     private DealType type;
     private Shipper shipper;
     private Organisation organisation;
@@ -52,6 +53,16 @@ public class Deal extends IDocument{
     @Override
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Basic
+    @Column(name = "_number")
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Basic

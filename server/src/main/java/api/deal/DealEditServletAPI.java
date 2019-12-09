@@ -66,6 +66,8 @@ public class DealEditServletAPI extends IChangeServletAPI {
                 dateTo = temp;
             }
 
+
+
             if (deal.getDate() == null || !deal.getDate().equals(date)) {
                 deal.setDate(date);
                 save = true;
@@ -79,6 +81,12 @@ public class DealEditServletAPI extends IChangeServletAPI {
             DealType type = DealType.valueOf(String.valueOf(body.get(Constants.TYPE)));
             if (deal.getType() == null || deal.getType() != type) {
                 deal.setType(type);
+                save = true;
+            }
+
+            String number = String.valueOf(body.get(NUMBER));
+            if (!U.exist(deal.getNumber()) || !deal.getNumber().equals(number)){
+                deal.setNumber(number);
                 save = true;
             }
 

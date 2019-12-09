@@ -7,6 +7,7 @@ var editor = new Vue({
         products:[],
         units:[],
         deal: {
+            number:'',
             id: -1,
             type:'',
             date: new Date().toISOString().substring(0, 10),

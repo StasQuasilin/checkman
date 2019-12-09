@@ -7,6 +7,7 @@ import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.transport.Driver;
 import entity.transport.Transportation;
+import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.hibernate.DateContainers.BETWEEN;
@@ -20,9 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by szpt_user045 on 25.11.2019.
@@ -64,6 +65,24 @@ public class TransportationCarriagePrintServletAPI extends ServletAPI{
                 req.setAttribute(DRIVER, driver);
                 params.put("driver", driver);
             }
+            ArrayList<Transportation> transportations = new ArrayList<>();
+            if (body.containsKey(PRODUCT)){
+                Product product = dao.getObjectById(Product.class, body.get(PRODUCT));
+                log.info("by Product " + product.getName());
+                params.put(PRODUCT, product.getId());
+            }
+            if (body.containsKey("vehicleContain")){
+                Object key = body.get("vehicleContain");
+                List<Vehicle> vehicleContain = dao.getVehiclesByName(key);
+                log.info("Vehicles, contain " + key.toString() + ": " + vehicleContain.size());
+                for (Vehicle v : vehicleContain){
+                    HashMap<String, Object> map = new HashMap<>(params);
+                    map.put(VEHICLE, v);
+                    transportations.addAll(dao.getObjectsByParams(Transportation.class, map));
+                }
+            } else {
+                transportations.addAll(dao.getObjectsByParams(Transportation.class, params));
+            }
             if (from != null){
                 req.setAttribute(FROM, from);
             }
@@ -71,21 +90,35 @@ public class TransportationCarriagePrintServletAPI extends ServletAPI{
                 req.setAttribute(TO, to);
             }
 
-            HashMap<Product, ArrayList<Transportation>> hashMap = new HashMap<>();
-            for (Transportation t : dao.getObjectsByParams(Transportation.class, params)){
-                if (t.getWeight() == null || t.getWeight().getNetto() > 0) {
-                    Product product = t.getProduct();
-                    if (!hashMap.containsKey(product)) {
-                        hashMap.put(product, new ArrayList<>());
-                    }
-                    hashMap.get(product).add(t);
+            HashMap<Integer, Product> productHashMap = new HashMap<>();
+            HashMap<Integer, ArrayList<Transportation>> hashMap = new HashMap<>();
+            for (Transportation t : transportations){
+                Product product = t.getProduct();
+                int id = product.getId();
+                if (!productHashMap.containsKey(id)){
+                    productHashMap.put(id, product);
                 }
+                if (!hashMap.containsKey(id)) {
+                    hashMap.put(id, new ArrayList<>());
+                }
+                hashMap.get(id).add(t);
             }
-            for (ArrayList<Transportation> a : hashMap.values()){
+
+            HashMap<Product, ArrayList<Transportation>> result = new HashMap<>();
+            for (Map.Entry<Integer, ArrayList<Transportation>> entry : hashMap.entrySet()){
+                Product product = productHashMap.get(entry.getKey());
+                if (!result.containsKey(product)){
+                    result.put(product, new ArrayList<>());
+                }
+                result.get(product).addAll(entry.getValue());
+            }
+            hashMap.clear();
+            productHashMap.clear();
+            for (ArrayList<Transportation> a : result.values()){
                 a.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
             }
 
-            req.setAttribute(TRANSPORTATIONS, hashMap);
+            req.setAttribute(TRANSPORTATIONS, result);
             req.getRequestDispatcher("/pages/print/transportCarriagePrint.jsp").forward(req, resp);
         }
     }

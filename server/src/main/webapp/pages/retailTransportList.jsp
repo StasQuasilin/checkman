@@ -13,12 +13,18 @@
         if (typeof list.fields === 'undefined'){
             list.fields = {};
         }
+        list.fields.counterparty = '<fmt:message key="deal.organisation"/>';
+        list.fields.address = '<fmt:message key="address"/>';
+        list.fields.product = '<fmt:message key="deal.product"/>';
+        list.fields.price = '<fmt:message key="deal.price"/>';
+        list.fields.from = '<fmt:message key="deal.from"/>';
         list.fields.vehicle = '<fmt:message key="transportation.automobile"/>';
         list.fields.driver = '<fmt:message key="transportation.driver"/>';
         list.fields.customer = '<fmt:message key="transport.customer"/>';
         list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
         list.fields.noData='<fmt:message key="no.data"/>';
         list.customers=[];
+        list.showPrice = true;
         <c:forEach items="${customers}" var="customer">
         list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
         </c:forEach>
@@ -34,7 +40,7 @@
                     <span>
                         {{new Date(value.item.date).toLocaleDateString()}}
                     </span>
-                    <product-view :products="value.item.products"></product-view>
+                    <product-view :fields="fields" :showPrice="showPrice" :products="value.item.products"></product-view>
                 </div>
                 <div class="middle-row">
                     <div style="display: inline-block; font-size: 10pt; width: 8em">

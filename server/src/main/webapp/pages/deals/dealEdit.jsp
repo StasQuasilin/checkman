@@ -36,6 +36,7 @@
         <c:choose>
         <c:when test="${not empty deal}">
         editor.deal={
+            number:'${deal.number}',
             id : ${deal.id},
             type : '${deal.type}',
             date : '${deal.date}',
@@ -72,6 +73,19 @@
     <c:set var="findCunterparty"><fmt:message key="counterparty.find"/></c:set>
     <c:set var="addCunterparty"><fmt:message key="counterparty.add"/></c:set>
     <table id="editor" class="editor">
+        <tr>
+            <td>
+                <label for="number">
+                    <fmt:message key="deal.number"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <input id="number" v-model="deal.number" autocomplete="off">
+            </td>
+        </tr>
         <tr>
             <td>
                 <label for="type">

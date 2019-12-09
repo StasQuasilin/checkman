@@ -60,10 +60,26 @@
       deals:[],
       counterpartyDeals:{},
       driverProps:{
-        header:'<fmt:message key="driver.add" />'
+        find:'${findDriver}',
+        edit:'${editDriver}',
+        add:'${parseDriver}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="driver.add" />',
+        show:["person/surname", "person/forename", "person/patronymic"],
+        put:function(driver){
+          editor.putDriver(driver);
+        }
       },
       vehicleProps:{
-        header:'<fmt:message key="button.add.vehicle"/>'
+        find:'${findVehicle}',
+        edit:'${editVehicle}',
+        add:'${parseVehicle}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="button.add.vehicle"/>',
+        show:['model', 'number'],
+        put:function(vehicle){
+          editor.putVehicle(vehicle);
+        }
       },
       trailerProps:{
         header:'<fmt:message key="button.add.trailer" />'
@@ -97,6 +113,21 @@
       }
     },
     methods:{
+      putDriver:function(driver){
+        this.driver = driver;
+        if (driver.vehicle && !this.vehicle.id){
+          this.putVehicle(driver.vehicle);
+        }
+      },
+      putVehicle:function(vehicle){
+        this.vehicle = vehicle;
+        if (vehicle.trailer && !this.trailer.id){
+          this.putTrailer(vehicle.trailer);
+        }
+      },
+      putTrailer:function(trailer){
+        this.trailer = trailer;
+      },
       getCounterpartyDeals:function(counterparty){
         if(this.counterpartyDeals[counterparty.id]){
           return this.counterpartyDeals[counterparty.id];
@@ -191,15 +222,36 @@
 
       },
       waybillPrint:function(){
-        PostReq(this.api.waybill, {id:this.id}, function(a){
-          let print = window.open();
-          print.document.write(a);
+        const self = this;
+        this.save(function(a){
+          if (a.status === 'success'){
+            PostReq(self.api.waybill, {id:self.id}, function(a){
+              let print = window.open();
+              print.document.write(a);
+            });
+          }
         });
+      },
+      moveItem: function (idx, val) {
+        this.deals.splice(idx + val, 0, this.deals.splice(idx, 1)[0]);
       },
       print:function(deal){
 
       },
-      save:function(){
+      saveAndClose:function(){
+        this.save(function(a){
+          if(a.status === 'success'){
+            closeModal();
+          }
+        })
+      },
+      selectDate:function(){
+        const self = this;
+        datepicker.show(function(date){
+          self.date = date;
+        }, this.date);
+      },
+      save:function(onSave){
         let data = {
           id:this.id,
           date:this.date,
@@ -239,9 +291,7 @@
           }
         }
         PostApi(this.api.save, data, function(a){
-          if(a.status === 'success'){
-            closeModal();
-          }
+          onSave(a);
         });
       }
     }
@@ -292,7 +342,7 @@
       <fmt:message key="date"/>
     </td>
     <td>
-
+      <a v-on:click="selectDate">{{new Date(date).toLocaleDateString()}}</a>
     </td>
   </tr>
   <tr>
@@ -335,14 +385,30 @@
     <td colspan="2">
       <div style="height: 290pt; width: 100%; font-size: 10pt; overflow-y: scroll">
         <div v-for="(deal, idx) in deals" style="border: solid 1pt; margin: 1pt; padding: 2pt">
-          <div style="height: 20px">
+          <div style="display: inline-block; width: 100%">
+            <div style="display: inline-block; position: absolute; font-size: 11pt; background-color: #d4d4d4;">
+              <div v-on:click="moveItem(idx, -1)" style="padding: 0 2pt; border-bottom: solid gray 1pt">
+                <span>
+                  +
+                </span>
+              </div>
+              <div v-on:click="moveItem(idx, 1)" style="padding: 0 2pt">
+                <span>
+                  -
+                </span>
+              </div>
+            </div>
+            <div style="height: 20px; position: relative; left: 14pt; width: 97%">
             <span class="mini-close">
               &times;
             </span>
             <span>
               {{idx+1}}.
             </span>
-            <object-input :props="counterpartyProps" :object="deal.counterparty" :item="deal"></object-input>
+              <%--<div style="display: inline-block; position: relative">--%>
+
+              <%--</div>--%>
+              <object-input :props="counterpartyProps" :object="deal.counterparty" :item="deal"></object-input>
             <span v-if="deal.counterparty.id > 0">
               <select v-if="deal.addressList.length > 0" v-model="deal.address.id" v-on:change="checkAddress(deal)">
                 <option value="-1" disabled>
@@ -366,7 +432,9 @@
               <fmt:message key="amount.total"/>:
               {{total(deal.products).toLocaleString()}}
             </span>
+            </div>
           </div>
+
           <table style="font-size: 10pt; border-collapse: collapse">
             <tr>
               <th style="width: 280pt">
@@ -432,7 +500,7 @@
       <button onclick="closeModal()">
         <fmt:message key="button.cancel"/>
       </button>
-      <button v-on:click="save">
+      <button v-on:click="saveAndClose">
         <fmt:message key="button.save"/>
       </button>
     </td>

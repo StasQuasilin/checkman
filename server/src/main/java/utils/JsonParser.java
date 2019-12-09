@@ -95,6 +95,9 @@ public class JsonParser {
     public JSONObject toJson(Deal deal) {
         JSONObject json = pool.getObject();
         json.put(ID, deal.getId());
+        if (U.exist(deal.getNumber())){
+            json.put(NUMBER, deal.getNumber());
+        }
         json.put(DATE, deal.getDate().toString());
         json.put(DATE_TO, deal.getDateTo().toString());
         json.put(ORGANISATION, toJson(deal.getOrganisation()));

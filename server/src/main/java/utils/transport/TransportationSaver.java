@@ -6,6 +6,7 @@ import entity.transport.ActionTime;
 import entity.transport.TransportCustomer;
 import entity.transport.TransportUtil;
 import entity.transport.Transportation2;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DateUtil;
 import utils.DocumentUIDGenerator;
@@ -20,14 +21,18 @@ import java.sql.Date;
 public class TransportationSaver implements Constants{
 
     private final dbDAO dao = dbDAOService.getDAO();
+    private final Logger log = Logger.getLogger(TransportationSaver.class);
 
     public synchronized Transportation2 saveTransportation(JSONObject body, Worker worker) {
         Transportation2 transportation = dao.getObjectById(Transportation2.class, body.get(ID));
         if (transportation == null){
+            log.info("New transportation");
             transportation = new Transportation2();
             transportation.setUid(DocumentUIDGenerator.generateUID());
             transportation.setCreateTime(new ActionTime(worker));
             transportation.setManager(worker);
+        } else {
+            log.info("Edit transportation: " + transportation.getId());
         }
         boolean save = false;
         Date date = DateUtil.parseFromEditor(String.valueOf(body.get(DATE)));

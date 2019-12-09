@@ -51,39 +51,51 @@ public class EditRetailServletAPI extends ServletAPI {
                     Contract contract = contractProduct.getContract();
                     if (!documents.containsKey(contract.getId())){
                         documents.put(contract.getId(), document);
+                        System.out.println("Contract: " + contract.getId() + ", Document: " + document.getId());
                     }
                     if (!products.containsKey(contractProduct.getId())){
+                        System.out.println("Contract Product: " + contractProduct.getId() + ", Product: " + product.getId());
                         products.put(contractProduct.getId(), product);
                     }
                 }
             }
+
             ArrayList<TransportationDocument> saveDocuments = new ArrayList<>();
             ArrayList<TransportationProduct> saveProducts = new ArrayList<>();
 
             for (Object d : (JSONArray) body.get(DEALS)){
                 JSONObject object = (JSONObject) d;
                 Contract contract = contractSaver.saveContract(object, worker);
+
                 int idx = Integer.parseInt(String.valueOf(object.get(INDEX)));
                 TransportationDocument document;
                 if (documents.containsKey(contract.getId())){
                     document = documents.remove(contract.getId());
+                    System.out.println("Edit document " + document.getId() + " for contract " + contract.getId());
                 } else {
                     document = new TransportationDocument();
+                    System.out.println("Edit new document for contract " + contract.getId());
+
                 }
                 document.setIndex(idx);
+
                 if (document.getTransportation() == null){
                     document.setTransportation(transportation);
                 }
                 if (contract.getAddress() != null) {
                     document.setAddress(contract.getAddress());
                 }
+
                 saveDocuments.add(document);
 
                 for (ContractProduct contractProduct : contract.getProducts()){
+                    System.out.println("Edit contract product " + contractProduct.getId());
                     TransportationProduct product;
                     if (products.containsKey(contractProduct.getId())){
                         product = products.remove(contractProduct.getId());
+                        System.out.println("Edit product " + product.getId() + " for contract product " + contractProduct.getId());
                     } else {
+                        System.out.println("Edit new product for contract product " + contractProduct.getId());
                         product = new TransportationProduct();
                         product.setDocument(document);
                         product.setContractProduct(contractProduct);
@@ -95,13 +107,13 @@ public class EditRetailServletAPI extends ServletAPI {
 
             saveDocuments.forEach(dao::save);
             saveProducts.forEach(dao::save);
-
-            if (products.size() > 0) {
+//
+//            if (products.size() > 0) {
                 products.values().forEach(dao::remove);
-            }
-            if (documents.size() > 0) {
+//            }
+//            if (documents.size() > 0) {
                 documents.values().forEach(dao::remove);
-            }
+//            }
 
             write(resp, SUCCESS_ANSWER);
         }

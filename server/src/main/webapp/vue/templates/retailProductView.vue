@@ -55,12 +55,12 @@ var productView = {
     },
     template:'<div style="display: inline-flex">' +
         '<div v-if="getCounterparty.length == 1" class="label">' +
-            '{{getCounterparty[0]}}' +
+            '{{fields.counterparty}}: <b>{{getCounterparty[0]}}</b>' +
         '</div>' +
         '<div v-if="getAddress && getAddress.length > 0 && getAddress.length == 1" class="label">' +
-            '{{getAddress[0].city}}, {{getAddress[0].street}}, {{getAddress[0].build}}' +
+            '{{fields.address}}: <b>{{getAddress[0].city}}, {{getAddress[0].street}}, {{getAddress[0].build}}</b>' +
         '</div>' +
-        '<div class="product-header">{{getProductHeader}}' +
+        '<div class="product-header">{{fields.product}}: <b>{{getProductHeader}}</b>' +
             '<div class="product-list">' +
                 '<div v-for="doc in products">' +
                     '<div v-if="getCounterparty.length > 1">' +
@@ -73,9 +73,14 @@ var productView = {
                     '{{product.product.name}}' +
                     ' {{product.amount}}' +
                     ' {{product.unit.name}} ' +
+                    '<span v-if="showPrice">' +
+                        'Price: {{product.price}}' +
+                    '</span>' +
                     ' {{product.shipper.name}}' +
                 '</div>' +
             '</div>' +
+        '</div>' +
+        '<div v-if="showPrice">' +
         '</div>' +
     '</div>' +
     '</div>'

@@ -25,6 +25,7 @@ public class TransportCarriages extends IModal {
         req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
         req.setAttribute(FIND_DRIVER, Branches.API.References.FIND_DRIVER);
         req.setAttribute(PRINT, Branches.API.TRANSPORT_CARRIAGE);
+        req.setAttribute(PRODUCTS, dao.getProductList());
         show(req, resp);
     }
 }

@@ -120,6 +120,7 @@ function addModal(modal, onSave){
     $(div).html(modal);
     $(modalLayer).append(div);
     modals.push(div);
+
     addOnSaveEvent(onSave);
     addOnCloseEvent(function () {
         var d = modals[modals.length - 1];

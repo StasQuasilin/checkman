@@ -9,7 +9,7 @@
 <script src="${context}/vue/weightAdd.vue"></script>
 <script>
     editor.organisationProps = {
-        find:'${findOrganisations}',
+        find:'${findOrganisation}',
         edit:'${editOrganisation}',
         add:'${parseOrganisation}',
         addHeader:'<fmt:message key="button.add"/>',
@@ -254,7 +254,8 @@
             :
         </td>
         <td>
-            <input id="date" readonly style="width: 7em" v-on:click="pickDate()" v-model="new Date(plan.date).toLocaleDateString()">
+            <input id="date" readonly style="width: 7em" v-on:click="pickDate()"
+                   v-model="new Date(plan.date).toLocaleDateString()">
         </td>
     </tr>
     <%--ORGANISATION--%>
@@ -286,6 +287,8 @@
             <select id="deal" style="width: 300px" v-model="plan.deal"  v-on:change="setQuantity()">
                 <option value="-1"><fmt:message key="deal.new"/></option>
                 <option :value="deal.id" v-for="deal in deals">
+                    <template v-if="deal.number">№ {{deal.number}}</template>
+                    <template v-else>{{deal.id}}</template>
                     {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}
                 </option>
             </select>

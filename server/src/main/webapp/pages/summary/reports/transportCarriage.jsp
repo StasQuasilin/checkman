@@ -26,6 +26,9 @@
       to:new Date().toISOString().substring(0, 10),
       organisation:{},
       driver:{},
+      vehicle:'',
+      product:-1,
+      products:[],
       err:{
         organisation:false,
         driver:false
@@ -76,6 +79,12 @@
         if (this.driver){
           params.driver = this.driver.id;
         }
+        if (this.vehicle){
+          params.vehicleContain = this.vehicle;
+        }
+        if (this.product != -1){
+          params.product = this.product;
+        }
         PostReq(this.api.print, params, function(a){
           var print = window.open();
           print.document.write(a);
@@ -84,7 +93,12 @@
       }
     }
   });
-
+  <c:forEach items="${products}" var="product">
+  print.products.push({
+    id:'${product.id}',
+    name:'${product.name}'
+  });
+  </c:forEach>
 </script>
 <table id="print" style="width: 280pt">
   <tr>
@@ -109,6 +123,23 @@
              v-model="new Date(to).toLocaleDateString().substring(0, 10)">
     </td>
   </tr>
+  <tr style="font-size: 10pt">
+    <td>
+      <label for="products">
+        <fmt:message key="deal.product"/>
+      </label>
+    </td>
+    <td>
+      <select id="products" v-model="product">
+        <option value="-1">
+          <fmt:message key="all"/>
+        </option>
+        <option v-for="product in products" :value="product.id">
+          {{product.name}}
+        </option>
+      </select>
+    </td>
+  </tr>
   <tr :class="{error : err.organisation}" style="font-size: 10pt">
     <td>
       <fmt:message key="deal.organisation"/>
@@ -123,6 +154,16 @@
     </td>
     <td>
       <object-input :props="driverProps" :object="driver"></object-input>
+    </td>
+  </tr>
+  <tr style="font-size: 10pt">
+    <td>
+      <label for="contain">
+        <fmt:message key="transportation.automobile"/> <fmt:message key="contain"/>
+      </label>
+    </td>
+    <td>
+      <input id="contain" v-model="vehicle" autocomplete="off">
     </td>
   </tr>
   <tr>

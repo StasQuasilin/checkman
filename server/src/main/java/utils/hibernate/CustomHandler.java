@@ -34,9 +34,23 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        for (Contract contract : dao.getContractsByType(DealType.sell)){
-            System.out.println(contract.toJson());
+        HashMap<Product, Product> productHashMap = new HashMap<>();
+
+        for (Product product : dao.getProductList()){
+            System.out.println(product.getName() + ": " + product.hashCode());
+            if (!productHashMap.containsKey(product)){
+                productHashMap.put(product, product);
+                System.out.println("Add " + product.getName());
+            }
         }
+        for (Product product : dao.getProductList()){
+            if (!productHashMap.containsKey(product)){
+                System.out.println("No have " + product.getName());
+            }
+        }
+//        for (Contract contract : dao.getContractsByType(DealType.sell)){
+//            System.out.println(contract.toJson());
+//        }
 //        for (Vehicle v : instance.query(Vehicle.class, null)){
 //            String trailerNumber = v.getTrailerNumber();
 //            if (U.exist(trailerNumber)){

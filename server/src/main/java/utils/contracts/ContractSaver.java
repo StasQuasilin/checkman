@@ -67,10 +67,12 @@ public class ContractSaver implements Constants{
         for (ContractProduct p : contract.getProducts()){
             products.put(p.getId(), p);
         }
+        ArrayList<ContractProduct> actualProducts = new ArrayList<>();
         ArrayList<ContractProduct> keepItProducts = new ArrayList<>();
 
         for (Object p : (JSONArray)deal.get(PRODUCTS)){
             JSONObject p1 = (JSONObject) p;
+            System.out.println(p1);
             int productId = -1;
             if (p1.containsKey(ID)){
                 productId = Integer.parseInt(String.valueOf(p1.get(ID)));
@@ -78,9 +80,11 @@ public class ContractSaver implements Constants{
             ContractProduct contractProduct;
             if (products.containsKey(productId)){
                 contractProduct = products.remove(productId);
+                log.info("\tEdit contract product " + contractProduct.getId());
             } else {
                 contractProduct = new ContractProduct();
                 contractProduct.setContract(contract);
+                log.info("\tEdit new contract product");
             }
 
             boolean saveThisProduct = false;
@@ -115,6 +119,7 @@ public class ContractSaver implements Constants{
             if (saveThisProduct) {
                 keepItProducts.add(contractProduct);
             }
+            actualProducts.add(contractProduct);
         }
         if (saveContract || keepItProducts.size() > 0){
             dao.save(contract.getCreateTime(), contract);
@@ -122,10 +127,11 @@ public class ContractSaver implements Constants{
         keepItProducts.forEach(dao::save);
         products.values().forEach(dao::remove);
         contract.getProducts().clear();
-        contract.getProducts().addAll(keepItProducts);
+        contract.getProducts().addAll(actualProducts);
 
         keepItProducts.clear();
         products.clear();
+        actualProducts.clear();
         return contract;
     }
 }

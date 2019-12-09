@@ -83,7 +83,9 @@ public interface Constants {
     public static final String MODAL_CONTENT = "modalContent";
     public static final String PROBE = "probe";
     public static final String FIND_MANGER = "findManager";
-    public static final String FIND_ORGANISATION = "findOrganisation";
+    String FIND_ORGANISATION = "findOrganisation";
+    String PARSE_ORGANISATION = "parseOrganisation";
+    String EDIT_ORGANISATION = "editOrganisaiton";
     String PATH = "path";
     String IS_NEW = "isNew";
     String EDIT_ADDRESS = "editAddress";
@@ -94,6 +96,13 @@ public interface Constants {
     String EDIT_PRODUCT = "editProduct";
     String PARSE_PRODUCT = "parseProduct";
     String FIND_DRIVER = "findDriver";
+    String PARSE_DRIVER = "parseDriver";
+    String EDIT_DRIVER = "editDriver";
+    String FIND_VEHICLE = "findVehicle";
+    String PARSE_VEHICLE = "parseVehicle";
+    String EDIT_VEHICLE = "editVehicle";
+    String FIND_TRAILER = "findTrailer";
+    String PARSE_TRAILER = "parseTrailer";
     String COUNTERPARTY = "counterparty";
     String ADDRESS = "address";
     String CITY = "city";

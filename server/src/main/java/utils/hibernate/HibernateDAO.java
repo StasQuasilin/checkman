@@ -949,8 +949,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public Vehicle getVehicleByHash(int hash) {
-        return hb.get(Vehicle.class, "hash", hash);
+    public List<Vehicle> getVehiclesByName(Object name) {
+        return hb.find(Vehicle.class, "model", name.toString());
     }
 
     @Override
