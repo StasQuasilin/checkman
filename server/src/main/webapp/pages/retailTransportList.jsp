@@ -37,10 +37,15 @@
              :class="'container-item-' + new Date(value.item.date).getDay()">
             <div style="display: inline-block; max-width: 98%; width: 94%">
                 <div class="upper-row" style="font-size: 11pt">
-                    <span>
-                        {{new Date(value.item.date).toLocaleDateString()}}
-                    </span>
-                    <product-view :fields="fields" :showPrice="showPrice" :products="value.item.products"></product-view>
+                    <div style="display: inline-block">
+                        <div style="width: 100%; text-align: center; font-size: 6pt; color: gray">
+                            ID:{{value.item.id}}
+                        </div>
+                        <div>
+                            {{new Date(value.item.date).toLocaleDateString()}}
+                        </div>
+                    </div>
+                    <product-view :fields="fields" :show="showPrice" :products="value.item.products"></product-view>
                 </div>
                 <div class="middle-row">
                     <div style="display: inline-block; font-size: 10pt; width: 8em">
@@ -70,6 +75,10 @@
                         </div>
                         <div>
                             {{value.item.manager.person.value}}
+                        </div>
+                        <div v-if="value.item.manager.person.id != value.item.creator.id"
+                            style="font-size: 6pt; color: gray">
+                            {{value.item.creator}}
                         </div>
                     </div>
                 </div>

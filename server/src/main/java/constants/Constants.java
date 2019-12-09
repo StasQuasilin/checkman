@@ -67,7 +67,8 @@ public interface Constants {
     public static final String WEIGHTS = "weights";
     public static final String COPY = "copy";
     public static final String HASH = "hash";
-    public static final String CREATOR = "creator";
+    String CREATOR = "creator";
+    String TIME = "time";
     public static final String UNIT = "unit";
     String PRODUCT = "product";
     String GROUP = "group";

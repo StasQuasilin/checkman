@@ -45,7 +45,7 @@
     };
 
     editor.transporterProps = {
-        find:'${findOrganisations}',
+        find:'${findOrganisation}',
         edit:'${editOrganisation}',
         add:'${parseOrganisation}',
         addHeader:'<fmt:message key="button.add"/>',

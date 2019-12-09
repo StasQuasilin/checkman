@@ -21,8 +21,8 @@ import java.io.IOException;
 public class WarehousingList extends IUIServlet {
 
     final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
-    public static final String _CONTENT = "/pages/warehousing/warehousingList.jsp";
-
+//    public static final String _CONTENT = "/pages/warehousing/warehousingList.jsp";
+    public static final String _CONTENT = "/pages/weight/weightList.jsp";
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.TRANSPORT_LIST);

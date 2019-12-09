@@ -2,10 +2,8 @@ package utils.transport;
 
 import constants.Constants;
 import entity.Worker;
-import entity.transport.ActionTime;
-import entity.transport.TransportCustomer;
-import entity.transport.TransportUtil;
-import entity.transport.Transportation2;
+import entity.organisations.Organisation;
+import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DateUtil;
@@ -39,6 +37,28 @@ public class TransportationSaver implements Constants{
         if (TransportUtil.setDate(transportation, date)){
             save = true;
         }
+
+        Trailer trailer  =dao.getObjectById(Trailer.class, body.get(TRAILER));
+        if (TransportUtil.setTrailer(transportation, trailer)){
+            save = true;
+        }
+
+        Vehicle vehicle = dao.getObjectById(Vehicle.class, body.get(VEHICLE));
+        if (TransportUtil.setVehicle(transportation, vehicle)){
+            save = true;
+        }
+
+        Driver driver = dao.getObjectById(Driver.class, body.get(DRIVER));
+        if (TransportUtil.setDriver(transportation, driver)){
+            save = true;
+        }
+
+        Organisation transporter = dao.getObjectById(Organisation.class, body.get(TRANSPORTER));
+        if (TransportUtil.setTransporter(transportation, transporter)){
+            save = true;
+        }
+
+
         TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(body.get(CUSTOMER)));
         if (TransportUtil.setCustomer(transportation, customer)){
             save = true;

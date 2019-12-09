@@ -160,8 +160,19 @@ public class TransportUtil{
         dao.save(tsu);
         storageUtil.updateStorageEntry(tsu);
     }
-    public static void setVehicle(Transportation2 transportation, Vehicle vehicle){
-        transportation.setTruck(vehicle);
+    public static boolean setVehicle(Transportation2 transportation, Vehicle vehicle){
+        if (vehicle != null){
+            if (transportation.getTruck() == null || transportation.getTrailer().getId() == vehicle.getId()){
+                transportation.setTruck(vehicle);
+                transportation.setTruckNumber(vehicle.getNumber());
+                return true;
+            }
+        } else {
+            transportation.setTruck(null);
+            transportation.setTruckNumber(null);
+            return true;
+        }
+        return false;
     }
     public static void setVehicle(Transportation transportation, Vehicle vehicle) {
         if (vehicle != null) {
@@ -182,7 +193,20 @@ public class TransportUtil{
             transportation.setTruckNumber(null);
         }
     }
-
+    public static boolean setTrailer(Transportation2 transportation, Trailer trailer) {
+        if (trailer != null){
+            if (transportation.getTrailer() == null || transportation.getTrailer().getId() != trailer.getId()) {
+                transportation.setTrailer(trailer);
+                transportation.setTrailerNumber(trailer.getNumber());
+                return true;
+            }
+        } else {
+            transportation.setTrailer(null);
+            transportation.setTrailerNumber(null);
+            return true;
+        }
+        return false;
+    }
     public static void setTrailer(Transportation transportation, Trailer trailer) {
         if (trailer != null){
             transportation.setTrailer(trailer);
@@ -193,8 +217,19 @@ public class TransportUtil{
         }
     }
 
-    public static void setDriver(Transportation2 transportation, Driver driver){
-        transportation.setDriver(driver);
+    public static boolean setDriver(Transportation2 transportation, Driver driver){
+        if (driver != null) {
+            if (transportation.getDriver() == null || transportation.getDriver().getId() != driver.getId()) {
+                transportation.setDriver(driver);
+                transportation.setDriverLicense(driver.getLicense());
+                return true;
+            }
+        } else {
+            transportation.setDriver(null);
+            transportation.setDriverLicense(null);
+            return true;
+        }
+        return false;
     }
 
     public static void setDriver(Transportation transportation, Driver driver) {
@@ -214,6 +249,24 @@ public class TransportUtil{
             transportation.setDriver(null);
             transportation.setDriverLicense(null);
         }
+    }
+
+    public static boolean setTransporter(Transportation2 transportation, Organisation transporter){
+        if (transporter != null){
+            if (transportation.getTransporter() == null || transportation.getTransporter().getId() != transporter.getId()){
+                transportation.setTransporter(transporter);
+                Driver driver = transportation.getDriver();
+                if (driver.getOrganisation() == null){
+                    driver.setOrganisation(transporter);
+                    dao.save(driver);
+                }
+                return true;
+            }
+        } else {
+            transportation.setTransporter(null);
+            return true;
+        }
+        return false;
     }
 
     public static void setTransporter(Transportation transportation, Organisation transporter){

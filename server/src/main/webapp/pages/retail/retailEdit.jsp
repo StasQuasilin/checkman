@@ -54,6 +54,9 @@
       trailer:{
         id:-1
       },
+      transporter:{
+        id:-1
+      },
       shippers:[],
       customers:[],
       units:[],
@@ -82,15 +85,30 @@
         }
       },
       trailerProps:{
-        header:'<fmt:message key="button.add.trailer" />'
+        header:'<fmt:message key="button.add.trailer" />',
+        show:['number']
       },
       counterpartyProps:{
         find:'${findOrganisation}',
+        edit:'${editOrganisation}',
+        add:'${parseOrganisation}',
+        addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="counterparty.select"/>',
         put:function(a, b){
           b.counterparty = a;
           editor.getContracts(a, b);
           editor.getAddress(a, b);
+        },
+        show:['value']
+      },
+      transporterProps:{
+        find:'${findOrganisation}',
+        edit:'${editOrganisation}',
+        add:'${parseOrganisation}',
+        addHeader:'<fmt:message key="button.add"/>',
+        header:'<fmt:message key="transporter.select"/>',
+        put:function(transporter){
+          editor.putTransporter(transporter);
         },
         show:['value']
       },
@@ -101,7 +119,9 @@
         addHeader:'<fmt:message key="product.new"/>',
         header:'<fmt:message key="button.select.product"/>',
         put:function(product, deal){
+          console.log(product);
           deal.product = product;
+
           if (product.unit && product.unit.id) {
             deal.unit = product.unit;
           } else {
@@ -115,13 +135,20 @@
     methods:{
       putDriver:function(driver){
         this.driver = driver;
-        if (driver.vehicle && !this.vehicle.id){
+        if (driver.vehicle && this.vehicle.id == -1){
           this.putVehicle(driver.vehicle);
         }
+        if (driver.organisation && this.transporter.id == -1){
+          this.putTransporter(driver.organisation);
+        }
+      },
+      putTransporter:function(transporter){
+        this.transporter = transporter
       },
       putVehicle:function(vehicle){
         this.vehicle = vehicle;
-        if (vehicle.trailer && !this.trailer.id){
+
+        if (vehicle.trailer && this.trailer.id == -1){
           this.putTrailer(vehicle.trailer);
         }
       },
@@ -154,8 +181,9 @@
           console.log("Get contracts for " + counterparty.name);
           loadModal(this.api.findContracts, {counterparty:counterparty.id}, function(a){
             console.log(a);
-            Object.assign(deal, a);
-//            deal = a;
+            if(a) {
+              Object.assign(deal, a);
+            }
           });
         }
       },
@@ -165,7 +193,7 @@
           PostApi(this.api.findAddress, {counterparty: counterparty.id}, function (a) {
             deal.addressList = a;
             if (a.length == 1){
-              deal.address = a[0].id
+              deal.address = a[0];
             }
           })
         } else {
@@ -258,6 +286,7 @@
           driver:this.driver.id,
           vehicle:this.vehicle.id,
           trailer:this.trailer.id,
+          transporter:this.transporter.id,
           customer:this.customer,
           deals:[]
         };
@@ -269,10 +298,12 @@
               from:this.date,
               to:this.date,
               counterparty: d.counterparty.id,
-              address: d.address.id,
               products: [],
               index:i
             };
+            if (d.address && d.address.id){
+              deal.address = d.address.id;
+            }
             for (let j in d.products){
               if (d.products.hasOwnProperty(j)){
                 let p = d.products[j];
@@ -308,6 +339,7 @@
     name:'<fmt:message key="${customer}"/>'
   });
   </c:forEach>
+  editor.customer = editor.customers[0].id;
   <c:forEach items="${units}" var="unit">
   editor.units.push({
     id:${unit.id},
@@ -324,6 +356,18 @@
 //  TRANSPORTATION INIT HERE
   editor.id = '${transportation.id}';
   editor.customer = '${transportation.customer}';
+  <c:if test="${not empty transportation.driver}">
+  editor.driver = JSON.parse('${transportation.driver.toJson()}');
+  </c:if>
+  <c:if test="${not empty transportation.truck}">
+  editor.vehicle = JSON.parse('${transportation.truck.toJson()}');
+  </c:if>
+  <c:if test="${not empty transportation.trailer}">
+  editor.trailer = JSON.parse('${transportation.trailer.toJson()}');
+  </c:if>
+  <c:if test="${not empty transportation.transporter}">
+  editor.transporter = JSON.parse('${transportation.transporter.toJson()}');
+  </c:if>
   <c:forEach items="${transportation.documents}" var="document">
   var deal = JSON.parse('${document.getContract().toJson()}');
   <%--deal.id=${document.getContract().id};--%>
@@ -341,7 +385,7 @@
     <td>
       <fmt:message key="date"/>
     </td>
-    <td>
+    <td width="80%">
       <a v-on:click="selectDate">{{new Date(date).toLocaleDateString()}}</a>
     </td>
   </tr>
@@ -374,6 +418,14 @@
     <td>
       <object-input :props="vehicleProps" :object="vehicle"></object-input>
       <object-input :props="trailerProps" :object="trailer"></object-input>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <fmt:message key="transportation.transporter"/>
+    </td>
+    <td>
+      <object-input :props="transporterProps" :object="transporter"></object-input>
     </td>
   </tr>
   <tr>

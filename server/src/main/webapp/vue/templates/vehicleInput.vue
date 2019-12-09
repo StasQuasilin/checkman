@@ -43,6 +43,12 @@ var objectInput = {
         },
         putObject:function(object){
             this.props.put(object, this.item);
+            if (object.isNew){
+                const self = this;
+                setTimeout(function(){
+                    self.edit();
+                }, 10);
+            }
             this.open = false;
             this.input = '';
             this.foundObjects = [];

@@ -28,10 +28,12 @@ public class SessionTimer {
         Timer timer = new Timer(SESSION_DELAY, e -> {
             System.out.println("Close session for: " + worker.getPerson().getValue());
             String closed = ActiveSubscriptions.prepareMessage(Subscriber.SESSION_TIMER, "CLOSED");
-            try {
-                session.getBasicRemote().sendText(closed);
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            if(session.isOpen()) {
+                try {
+                    session.getBasicRemote().sendText(closed);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         timer.setRepeats(false);

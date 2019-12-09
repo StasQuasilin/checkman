@@ -80,7 +80,8 @@
     }
   });
   productEdit.api.save ='${save}';
-  productEdit.product.id=${product.id};
+
+  productEdit.product.id='${product.id}';
   productEdit.product.name='${product.name}';
   productEdit.product.weight = '${product.weight}';
   productEdit.product.pallet = '${product.pallet}';

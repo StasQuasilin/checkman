@@ -232,7 +232,7 @@ public class Transportation2 extends JsonAble {
             json.put(LICENSE, driverLicense);
         }
         if (truck != null){
-            json.put(TRUCK, truck.toJson());
+            json.put(VEHICLE, truck.toJson());
         }
         if (trailer != null){
             json.put(TRAILER, trailer.toJson());
@@ -254,6 +254,7 @@ public class Transportation2 extends JsonAble {
         docs.addAll(getDocuments().stream().map(TransportationDocument::toJson).collect(Collectors.toList()));
         json.put(PRODUCTS, docs);
         json.put(MANAGER, manager.toJson());
+        json.put(CREATOR, createTime.getCreator().toJson());
         JSONArray array = pool.getArray();
 //        array.addAll(notes.stream().map(TransportationNote::toJson).collect(Collectors.toList()));
         json.put(NOTES, array);

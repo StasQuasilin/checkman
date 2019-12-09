@@ -125,7 +125,6 @@ function addModal(modal, onSave){
     addOnCloseEvent(function () {
         var d = modals[modals.length - 1];
         modals.splice(modals.length - 1, 1);
-        console.log('Close modal \'' + d.getElementsByClassName('modal-header')[0].innerText + '\'');
         $(d).remove();
         if(modals.length == 0){
             modalLayer.style.display='none';

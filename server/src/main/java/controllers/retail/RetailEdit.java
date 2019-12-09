@@ -40,6 +40,8 @@ public class RetailEdit extends IModal {
         req.setAttribute(FIND_TRAILER, Branches.API.References.FIND_TRAILER);
         req.setAttribute(PARSE_TRAILER, Branches.API.PARSE_TRAILER);
         req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);
+        req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute(FIND_LOAD_ADDRESS, Branches.API.References.FIND_LOAD_ADDRESS);
         req.setAttribute(FIND_CONTRACTS, Branches.UI.References.FIND_CONTRACTS);
         req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);

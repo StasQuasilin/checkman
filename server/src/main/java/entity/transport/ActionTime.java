@@ -1,6 +1,8 @@
 package entity.transport;
 
+import entity.JsonAble;
 import entity.Worker;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,7 +12,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "action_time")
-public class ActionTime {
+public class ActionTime extends JsonAble {
     private int id;
     private Timestamp time;
     private Worker creator;
@@ -59,5 +61,14 @@ public class ActionTime {
     @Override
     public String toString() {
         return time.toString();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(TIME, time.toString());
+        object.put(CREATOR, creator.toJson());
+        return object;
     }
 }

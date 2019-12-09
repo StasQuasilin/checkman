@@ -2,7 +2,7 @@ var productView = {
     props:{
         fields:Object,
         products:Array,
-        showPrice:Boolean
+        show:Boolean
     },
     computed:{
         getCounterparty:function(){
@@ -73,14 +73,14 @@ var productView = {
                     '{{product.product.name}}' +
                     ' {{product.amount}}' +
                     ' {{product.unit.name}} ' +
-                    '<span v-if="showPrice">' +
+                    '<span v-if="show">' +
                         'Price: {{product.price}}' +
                     '</span>' +
                     ' {{product.shipper.name}}' +
                 '</div>' +
             '</div>' +
         '</div>' +
-        '<div v-if="showPrice">' +
+        '<div v-if="show">' +
         '</div>' +
     '</div>' +
     '</div>'
