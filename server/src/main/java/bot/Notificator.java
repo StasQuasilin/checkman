@@ -17,6 +17,7 @@ import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
+import entity.warehousing.StopReport;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -520,6 +521,7 @@ public class Notificator {
     public static final String HYPHEN = " - ";
     public static final String SPACE = " ";
     public static final String SEMICOLON = "; ";
+    public static final String COLON = ": ";
     public static final String NEW_LINE = "\n";
     public static final String FORMAT = "%1$,.3f";
     public static final String STAR = "*";
@@ -701,5 +703,57 @@ public class Notificator {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    public void alarm(StopReport report) {
+        HashMap<String, String> messages = new HashMap<>();
+        for(UserBotSetting setting : getSettings()){
+            if(setting.isShow()){
+                String language = setting.getLanguage();
+                if(!messages.containsKey(language)){
+                    String message = String.format(lb.get(language, "subdivision.stop"), report.getSubdivision().getName()) + NEW_LINE+
+                            String.format(lb.get(language, "reason.stop"), report.getReason()) +NEW_LINE+
+                            lb.get(language, "stop.delay") + COLON +
+                            getDays(language, report.getDays()) + NEW_LINE +
+                            getHours(language, report.getHours()) + SPACE +
+                            String.format(lb.get(language, "notificator.minutes"), report.getMinutes());
+
+                    messages.put(language, message);
+                }
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
+        messages.clear();
+    }
+
+    String getDays(String language, int days){
+        if (days > 0){
+            if (days == 1){
+                return lb.get(language, "1.day");
+            } else if (days < 5){
+                return String.format(lb.get(language, "2.days"), days);
+            } else {
+                return String.format(lb.get(language, "5.days"), days);
+            }
+
+
+        } else {
+            return EMPTY;
+        }
+    }
+
+    String getHours(String language, int hours){
+        if (hours > 0) {
+            if (hours == 1) {
+                return lb.get(language, "1.hour");
+            } else if (hours < 5) {
+                return String.format(lb.get(language, "2.hours"), hours);
+            } else {
+                return String.format(lb.get(language, "5.hours"), hours);
+            }
+        } else {
+            return EMPTY;
+        }
+
     }
 }

@@ -103,6 +103,8 @@ public class Branches {
         public static final String CONTRACT_EDIT ="/contract.edit.j" ;
         public static final String RETAIL_LIST = "/retail/list.j";
         public static final String MANUFACTURE_ANALYSES = "/manufacture/analyses.j";
+        public static final String STOP_LIST = "/stop/list.j";
+        public static final String STOP_REPORT = "/stop/report.j";
 
 
         public class Extraction {
@@ -270,6 +272,7 @@ public class Branches {
         public static final String MANUFACTURE_ANALYSE = API + "/manufacture/analyses";
         public static final String FIND_LABORATORY = API + "/laboratory/find";
         public static final String RETAIL_WAYBILL_PRINT = API + "/retail/waybill/print";
+        public static final String EDIT_STOP_REPORT = API + "/stop/report/edit";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

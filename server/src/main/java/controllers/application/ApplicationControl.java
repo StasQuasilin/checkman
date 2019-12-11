@@ -24,13 +24,7 @@ public class ApplicationControl extends IServlet{
 
     final dbDAO dao = dbDAOService.getDAO();
     final Subscriber[] applicationSubscribes = new Subscriber[]{Subscriber.MESSAGES, Subscriber.SESSION_TIMER};
-    public static final String SUBSCRIBER = "SUBSCRIBER";
-    public static final String WELCOME = "welcome";
-    public static final String BUI_LIST = "buyList";
-    public static final String BUY_ARCHIVE = "buyArchive";
-    public static final String WAREHOUSING_LIST = "warehousing";
-    public static final String WAREHOUSING_ARCHIVE = "warehousingArchive";
-    public static final String REPORTS = "reports";
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,6 +51,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("weightArchive", Branches.UI.WEIGHT_ARCHIVE);
         req.setAttribute(WAREHOUSING_LIST, Branches.UI.WAREHOUSING_LIST);
         req.setAttribute(WAREHOUSING_ARCHIVE, Branches.UI.WAREHOUSING_ARCHIVE);
+        req.setAttribute(STOP_LIST, Branches.UI.STOP_LIST);
         req.setAttribute(REPORTS, Branches.UI.REPORTS);
         req.setAttribute("storages", Branches.UI.STORAGE_LIST);
         req.setAttribute("manufactureReport", Branches.UI.MANUFACTURE_REPORT);
