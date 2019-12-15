@@ -235,5 +235,5 @@ public interface dbDAO {
     List<Contract> getContractsByType(DealType type);
     List<Contract> getContractsByOrganisation(Organisation organisation);
     List<Transportation2> getTransportations(DealType type);
-
+    float findPrice(Object counterparty, Object product);
 }

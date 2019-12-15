@@ -73,6 +73,7 @@
         PostApi(this.api.save, product, function(a){
           if (a.status === 'success'){
             closeModal();
+            saveModal(a);
           }
         })
       }

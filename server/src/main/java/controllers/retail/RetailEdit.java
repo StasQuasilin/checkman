@@ -44,6 +44,7 @@ public class RetailEdit extends IModal {
         req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute(FIND_LOAD_ADDRESS, Branches.API.References.FIND_LOAD_ADDRESS);
         req.setAttribute(FIND_CONTRACTS, Branches.UI.References.FIND_CONTRACTS);
+        req.setAttribute(FIND_PRICE, Branches.API.FIND_PRICE);
         req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
         req.setAttribute(EDIT_PRODUCT, Branches.UI.EDIT_PRODUCT);
         req.setAttribute(PARSE_PRODUCT, Branches.API.PARSE_PRODUCT);
@@ -53,6 +54,7 @@ public class RetailEdit extends IModal {
         req.setAttribute(TYPE, DealType.sell);
         req.setAttribute(UNITS, dao.getWeightUnits());
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
+        req.setAttribute(PRINT, Branches.API.RETAIL_PRINT);
         req.setAttribute(WAYBILL_PRINT, Branches.API.RETAIL_WAYBILL_PRINT);
         show(req, resp);
     }

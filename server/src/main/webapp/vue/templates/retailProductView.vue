@@ -8,9 +8,11 @@ var productView = {
         getCounterparty:function(){
             var clients = [];
             this.products.forEach(function(item){
-                let counterparty = item.counterparty.value;
-                if (!clients.includes(counterparty)){
-                    clients.push(counterparty);
+                if (item.counterparty) {
+                    let counterparty = item.counterparty.value;
+                    if (!clients.includes(counterparty)) {
+                        clients.push(counterparty);
+                    }
                 }
             });
             return clients;
@@ -63,10 +65,10 @@ var productView = {
         '<div class="product-header">{{fields.product}}: <b>{{getProductHeader}}</b>' +
             '<div class="product-list">' +
                 '<div v-for="doc in products">' +
-                    '<div v-if="getCounterparty.length > 1">' +
+                    '<div v-if="getCounterparty.length > 1 && doc.counterparty">' +
                         '{{doc.counterparty.value}}' +
                     '</div>' +
-                '<div v-if="getAddress.length > 1">' +
+                '<div v-if="getAddress.length > 1 && doc.address">' +
                     '{{doc.address.city}}, {{doc.address.street}}, {{doc.address.build}}' +
                 '</div>' +
                 '<div class="product-row" v-for="product in doc.products">' +

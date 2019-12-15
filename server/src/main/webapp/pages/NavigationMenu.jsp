@@ -17,32 +17,14 @@
               </span>
               <div class="nav-drop-menu-content">
                 <jsp:include page="navigation/deals.jsp"/>
-                <ul>
-                  <li class="menu-item">
-                    <span class="main" onclick="loadContent('${contractsBuy}')">
-                      <fmt:message key="contracts.buy"/>
-                    </span>
-                    <span>
-                      <a onclick="loadContent('${retailArchive}')"><fmt:message key="archive"/> </a>
-                    </span>
-                  </li>
-                  <li class="menu-item">
-                    <span class="main" onclick="loadContent('${contractsSell}')">
-                      <fmt:message key="contracts.sell"/>
-                    </span>
-                    <span>
-                      <a onclick="loadContent('${retailArchive}')"><fmt:message key="archive"/> </a>
-                    </span>
-                  </li>
-                  <li class="menu-item">
-                    <span class="main" onclick="loadContent('${retailList}')">
-                      <fmt:message key="title.transport.list"/>
-                    </span>
-                    <span>
-                      <a onclick="loadContent('${retailArchive}')"><fmt:message key="archive"/> </a>
-                    </span>
-                  </li>
-                </ul>
+              </div>
+            </li>
+            <li class="nav-menu-item nav-drop-menu-item">
+              <span class="main">
+                <fmt:message key="menu.retail"/>&nbsp;>
+              </span>
+              <div class="nav-drop-menu-content">
+                <jsp:include page="navigation/retail.jsp"/>
               </div>
             </li>
             <li class="nav-menu-item nav-drop-menu-item">
@@ -115,6 +97,9 @@
         </c:when>
         <c:when test="${role eq 'manager'}">
           <jsp:include page="navigation/deals.jsp"/>
+        </c:when>
+        <c:when test="${role eq 'retail'}">
+          <jsp:include page="navigation/retail.jsp"/>
         </c:when>
         <c:when test="${role eq 'logistic'}">
           <jsp:include page="navigation/logistic.jsp"/>

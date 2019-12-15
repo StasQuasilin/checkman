@@ -2,12 +2,12 @@ var objectInput = {
     props:{
         props:Object,
         object:Object,
-        item:Object
+        item:Object,
+        error:Boolean
     },
     data:function(){
         return{
             input:'',
-            error:false,
             foundObjects:[],
             timer:-1,
             open:false
@@ -74,8 +74,9 @@ var objectInput = {
             if (this.props.edit){
                 const self = this;
                 loadModal(this.props.edit, {id:this.object.id}, function(a){
+                    console.log(a);
                     if (a.status === 'success'){
-                        self.props.put(a.result);
+                        self.props.put(a.result, self.item);
                     }
 
                 })
@@ -132,7 +133,7 @@ var objectInput = {
                     '</div>' +
                 '</div>' +
             '</div>' +
-            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()">' +
+            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" :class="{error : error}">' +
                 '{{props.header}}' +
             '</a>' +
         '</div>'

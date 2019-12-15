@@ -44,6 +44,7 @@ import entity.storages.*;
 import entity.transport.*;
 import entity.weight.Weight;
 import entity.weight.Unit;
+import org.apache.log4j.Logger;
 import utils.ArchiveType;
 import utils.Parser;
 import utils.TurnDateTime;
@@ -293,12 +294,25 @@ public class HibernateDAO implements dbDAO {
     public void saveCakeAnalyses(MealAnalyses mealAnalyses) {
         hb.save(mealAnalyses);
     }
-
+    private final Logger log = Logger.getLogger(HibernateDAO.class);
     @Override
     public void remove(Object ... objects) {
         for (Object o : objects){
             hb.remove(o);
         }
+    }
+
+    @Override
+    public float findPrice(Object counterparty, Object product) {
+        HashMap<String, Object> params = hb.getParams();
+        params.put("contract/counterparty", counterparty);
+        params.put("product", product);
+        params.put("contract/from", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
+        ContractProduct contractProduct = hb.get(ContractProduct.class, params);
+        if (contractProduct != null){
+            return contractProduct.getPrice();
+        }
+        return 0;
     }
 
     @Override
@@ -361,7 +375,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Product> getProductList() {
-        return hb.query(Product.class, null);
+        return hb.query(Product.class, "wholeSale", true);
     }
 
     @Override

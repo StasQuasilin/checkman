@@ -103,6 +103,7 @@ button:focus, input:focus{
     margin-left: 4pt;
     max-height: 200pt;
     overflow-y: scroll;
+
 }
 .custom-data-list::-webkit-scrollbar {
     width: 4px;
@@ -111,6 +112,9 @@ button:focus, input:focus{
 .custom-data-list-item{
     border-bottom: dotted gray 1pt;
     padding: 8pt 4pt;
+    overflow: visible !important;
+    -webkit-writing-mode: horizontal-tb !important;
+    -webkit-rtl-ordering: logical;
 }
 .custom-data-list-item:hover{
     background-color: #f2f2f2;
@@ -202,6 +206,9 @@ a:hover{
 
 .error{
     font-size: 10pt;
+    color: orangered;
+}
+.error * {
     color: orangered;
 }
 input.error {

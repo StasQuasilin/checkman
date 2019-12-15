@@ -46,17 +46,19 @@ public class EditRetailServletAPI extends ServletAPI {
             HashMap<Integer, TransportationProduct> products = new HashMap<>();
 
             for (TransportationDocument document : transportation.getDocuments()){
-                for (TransportationProduct product : document.getProducts()){
-                    ContractProduct contractProduct = product.getContractProduct();
-                    Contract contract = contractProduct.getContract();
-                    if (!documents.containsKey(contract.getId())){
-                        documents.put(contract.getId(), document);
-                        System.out.println("Contract: " + contract.getId() + ", Document: " + document.getId());
+                if (document.getProducts().size() > 0) {
+                    for (TransportationProduct product : document.getProducts()) {
+                        ContractProduct contractProduct = product.getContractProduct();
+                        Contract contract = contractProduct.getContract();
+                        if (!documents.containsKey(contract.getId())) {
+                            documents.put(contract.getId(), document);
+                        }
+                        if (!products.containsKey(contractProduct.getId())) {
+                            products.put(contractProduct.getId(), product);
+                        }
                     }
-                    if (!products.containsKey(contractProduct.getId())){
-                        System.out.println("Contract Product: " + contractProduct.getId() + ", Product: " + product.getId());
-                        products.put(contractProduct.getId(), product);
-                    }
+                } else {
+                    dao.remove(document);
                 }
             }
 
@@ -71,11 +73,8 @@ public class EditRetailServletAPI extends ServletAPI {
                 TransportationDocument document;
                 if (documents.containsKey(contract.getId())){
                     document = documents.remove(contract.getId());
-                    System.out.println("Edit document " + document.getId() + " for contract " + contract.getId());
                 } else {
                     document = new TransportationDocument();
-                    System.out.println("Edit new document for contract " + contract.getId());
-
                 }
                 document.setIndex(idx);
 
@@ -89,18 +88,15 @@ public class EditRetailServletAPI extends ServletAPI {
                 saveDocuments.add(document);
 
                 for (ContractProduct contractProduct : contract.getProducts()){
-                    System.out.println("Edit contract product " + contractProduct.getId());
                     TransportationProduct product;
                     if (products.containsKey(contractProduct.getId())){
                         product = products.remove(contractProduct.getId());
-                        System.out.println("Edit product " + product.getId() + " for contract product " + contractProduct.getId());
                     } else {
-                        System.out.println("Edit new product for contract product " + contractProduct.getId());
                         product = new TransportationProduct();
                         product.setDocument(document);
                         product.setContractProduct(contractProduct);
-                        product.setAmount(contractProduct.getAmount());
                     }
+                    product.setAmount(contractProduct.getAmount());
                     saveProducts.add(product);
                 }
             }
@@ -108,12 +104,14 @@ public class EditRetailServletAPI extends ServletAPI {
             saveDocuments.forEach(dao::save);
             saveProducts.forEach(dao::save);
 //
-//            if (products.size() > 0) {
-                products.values().forEach(dao::remove);
-//            }
-//            if (documents.size() > 0) {
-                documents.values().forEach(dao::remove);
-//            }
+            for (TransportationProduct product : products.values()){
+                log.info("Remove transportation product " + product.getId());
+                dao.remove(product);
+            }
+            for (TransportationDocument document : documents.values()){
+                log.info("Remove transportation document " + document.getId());
+                dao.remove(document);
+            }
 
             write(resp, SUCCESS_ANSWER);
         }

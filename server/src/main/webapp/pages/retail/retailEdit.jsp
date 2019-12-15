@@ -33,300 +33,76 @@
 </style>
 <script src="${context}/vue/templates/dateInput.vue"></script>
 <script src="${context}/vue/templates/vehicleInput.vue"></script>
+<script src="${context}/vue/retailEdit.vue"></script>
 <script>
-  var editor = new Vue({
-    el:'#editor',
-    components:{
-      'object-input':objectInput
-    },
-    data:{
-      id:-1,
-      type:'${type}',
-      api:{},
-      date:new Date().toISOString().substring(0, 10),
-      customer:-1,
-      driver:{
-        id:-1
-      },
-      vehicle:{
-        id:-1
-      },
-      trailer:{
-        id:-1
-      },
-      transporter:{
-        id:-1
-      },
-      shippers:[],
-      customers:[],
-      units:[],
-      deals:[],
-      counterpartyDeals:{},
-      driverProps:{
-        find:'${findDriver}',
+  editor.type='${type}';
+  editor.driverProps={
+    find:'${findDriver}',
         edit:'${editDriver}',
         add:'${parseDriver}',
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="driver.add" />',
         show:["person/surname", "person/forename", "person/patronymic"],
         put:function(driver){
-          editor.putDriver(driver);
-        }
-      },
-      vehicleProps:{
-        find:'${findVehicle}',
+      editor.putDriver(driver);
+    }
+  };
+  editor.vehicleProps={
+    find:'${findVehicle}',
         edit:'${editVehicle}',
         add:'${parseVehicle}',
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="button.add.vehicle"/>',
         show:['model', 'number'],
         put:function(vehicle){
-          editor.putVehicle(vehicle);
-        }
-      },
-      trailerProps:{
-        header:'<fmt:message key="button.add.trailer" />',
+      editor.putVehicle(vehicle);
+    }
+  };
+  editor.trailerProps={
+    header:'<fmt:message key="button.add.trailer" />',
         show:['number']
-      },
-      counterpartyProps:{
-        find:'${findOrganisation}',
+  };
+  editor.counterpartyProps={
+    find:'${findOrganisation}',
         edit:'${editOrganisation}',
         add:'${parseOrganisation}',
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="counterparty.select"/>',
         put:function(a, b){
-          b.counterparty = a;
-          editor.getContracts(a, b);
-          editor.getAddress(a, b);
-        },
-        show:['value']
-      },
-      transporterProps:{
-        find:'${findOrganisation}',
+      b.counterparty = a;
+      editor.getContracts(a, b);
+      editor.getAddress(a, b);
+    },
+    show:['value']
+  };
+  editor.transporterProps={
+    find:'${findOrganisation}',
         edit:'${editOrganisation}',
         add:'${parseOrganisation}',
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="transporter.select"/>',
         put:function(transporter){
-          editor.putTransporter(transporter);
-        },
-        show:['value']
-      },
-      productProps:{
-        find:'${findProduct}',
+      editor.putTransporter(transporter);
+    },
+    show:['value']
+  };
+  editor.productProps={
+    find:'${findProduct}',
         edit:'${editProduct}',
         add:'${parseProduct}',
         addHeader:'<fmt:message key="product.new"/>',
         header:'<fmt:message key="button.select.product"/>',
         put:function(product, deal){
-          console.log(product);
-          deal.product = product;
-
-          if (product.unit && product.unit.id) {
-            deal.unit = product.unit;
-          } else {
-            deal.unit = {id:-1};
-          }
-          editor.getPrice(deal, product);
-        },
-        show:['name']
+      deal.product = product;
+      if (product.unit && product.unit.id) {
+        deal.unit = product.unit;
+      } else {
+        deal.unit = {id:-1};
       }
+      editor.getPrice(deal, product);
     },
-    methods:{
-      putDriver:function(driver){
-        this.driver = driver;
-        if (driver.vehicle && this.vehicle.id == -1){
-          this.putVehicle(driver.vehicle);
-        }
-        if (driver.organisation && this.transporter.id == -1){
-          this.putTransporter(driver.organisation);
-        }
-      },
-      putTransporter:function(transporter){
-        this.transporter = transporter
-      },
-      putVehicle:function(vehicle){
-        this.vehicle = vehicle;
-
-        if (vehicle.trailer && this.trailer.id == -1){
-          this.putTrailer(vehicle.trailer);
-        }
-      },
-      putTrailer:function(trailer){
-        this.trailer = trailer;
-      },
-      getCounterpartyDeals:function(counterparty){
-        if(this.counterpartyDeals[counterparty.id]){
-          return this.counterpartyDeals[counterparty.id];
-        }
-      },
-      addDeal:function(){
-        let deal = {
-          id:-1,
-          key:randomUUID(),
-          counterparty:{
-            id:-1
-          },
-          addressList:[],
-          products:[],
-          address:{
-            id:-1
-          }
-        };
-        this.deals.push(deal);
-        this.addField(deal);
-      },
-      getContracts:function(counterparty, deal){
-        if (counterparty.name){
-          console.log("Get contracts for " + counterparty.name);
-          loadModal(this.api.findContracts, {counterparty:counterparty.id}, function(a){
-            console.log(a);
-            if(a) {
-              Object.assign(deal, a);
-            }
-          });
-        }
-      },
-      getAddress:function(counterparty, deal){
-        if (counterparty.name) {
-          console.log('Get Address for ' + counterparty.name);
-          PostApi(this.api.findAddress, {counterparty: counterparty.id}, function (a) {
-            deal.addressList = a;
-            if (a.length == 1){
-              deal.address = a[0];
-            }
-          })
-        } else {
-          console.log('Clear address list');
-          deal.addressList = [];
-        }
-      },
-      addCounterparty:function(counterpart, deal){
-        console.log(deal);
-        console.log(counterpart);
-      },
-      addField:function(deal){
-        deal.products.push({
-          product:{
-            id:-1
-          },
-          unit:{
-            id:-1
-          },
-          amount:0,
-          price:0,
-          shipper:{
-            id:this.shippers[0].id
-          }
-        })
-      },
-      removeProduct:function(deal, id){
-        if (deal.products.length > 1) {
-          deal.products.splice(id, 1);
-        }
-      },
-       total:function(products){
-         let total = 0;
-         if (products) {
-           products.forEach(function (a) {
-             total += a.amount * a.price;
-           });
-         }
-         return total;
-       },
-      checkAddress:function(deal){
-        if (deal.address == -2){
-          deal.address = -1;
-          this.addAddress(deal);
-        }
-      },
-      addAddress:function(deal){
-        loadModal(this.api.editAddress, {counterparty:deal.counterparty.id}, function(a){
-          deal.addressList.push(a.address);
-          deal.address = a.address.id;
-        });
-      },
-      getPrice:function(deal, product){
-
-      },
-      waybillPrint:function(){
-        const self = this;
-        this.save(function(a){
-          if (a.status === 'success'){
-            PostReq(self.api.waybill, {id:self.id}, function(a){
-              let print = window.open();
-              print.document.write(a);
-            });
-          }
-        });
-      },
-      moveItem: function (idx, val) {
-        this.deals.splice(idx + val, 0, this.deals.splice(idx, 1)[0]);
-      },
-      print:function(deal){
-
-      },
-      saveAndClose:function(){
-        this.save(function(a){
-          if(a.status === 'success'){
-            closeModal();
-          }
-        })
-      },
-      selectDate:function(){
-        const self = this;
-        datepicker.show(function(date){
-          self.date = date;
-        }, this.date);
-      },
-      save:function(onSave){
-        let data = {
-          id:this.id,
-          date:this.date,
-          driver:this.driver.id,
-          vehicle:this.vehicle.id,
-          trailer:this.trailer.id,
-          transporter:this.transporter.id,
-          customer:this.customer,
-          deals:[]
-        };
-        for (let i in this.deals){
-          if (this.deals.hasOwnProperty(i)){
-            let d = this.deals[i];
-            let deal = {
-              id: d.id,
-              from:this.date,
-              to:this.date,
-              counterparty: d.counterparty.id,
-              products: [],
-              index:i
-            };
-            if (d.address && d.address.id){
-              deal.address = d.address.id;
-            }
-            for (let j in d.products){
-              if (d.products.hasOwnProperty(j)){
-                let p = d.products[j];
-                deal.products.push({
-                  id: p.id,
-                  amount: p.amount,
-                  unit: p.unit.id,
-                  type:this.type,
-                  price: p.price,
-                  product: p.product.id,
-                  shipper: p.shipper.id
-                });
-              }
-            }
-            data.deals.push(deal)
-          }
-        }
-        PostApi(this.api.save, data, function(a){
-          onSave(a);
-        });
-      }
-    }
-  });
+    show:['name']
+  };
   <c:forEach items="${shippers}" var="shipper">
   editor.shippers.push({
     id:${shipper.id},
@@ -351,11 +127,15 @@
   editor.api.findAddress = '${findLoadAddress}';
   editor.api.findContracts = '${findContracts}';
   editor.api.waybill = '${waybillPrint}';
+  editor.api.print = '${print}';
+  editor.api.price = '${findPrice}';
   <c:choose>
   <c:when test="${not empty transportation}">
 //  TRANSPORTATION INIT HERE
   editor.id = '${transportation.id}';
   editor.customer = '${transportation.customer}';
+  editor.date = new Date('${transportation.date}').toISOString().substring(0, 10);
+
   <c:if test="${not empty transportation.driver}">
   editor.driver = JSON.parse('${transportation.driver.toJson()}');
   </c:if>
@@ -368,19 +148,30 @@
   <c:if test="${not empty transportation.transporter}">
   editor.transporter = JSON.parse('${transportation.transporter.toJson()}');
   </c:if>
+  var deal;
   <c:forEach items="${transportation.documents}" var="document">
-  var deal = JSON.parse('${document.getContract().toJson()}');
-  <%--deal.id=${document.getContract().id};--%>
-  console.log(deal);
+  deal = JSON.parse('${document.getContract().toJson()}');
+  if (!deal.address){
+    deal.address = {id:-1}
+  }
   deal.addressList = [];
   editor.getAddress(deal.counterparty, deal);
-//  console.log(deal);
+  deal.products.forEach(function(p){
+    p.pallet = p.amount / p.product.pallet;
+  });
   editor.deals.push(deal);
   </c:forEach>
+  editor.shipper = editor.computeShipper();
   </c:when>
+
+  <c:otherwise>
+  editor.shipper = editor.shippers[0].id;
+  editor.addDeal();
+  </c:otherwise>
   </c:choose>
 </script>
-<table id="editor" width="680px" class="editor">
+<link rel="stylesheet" href="${context}/css/editor.css"/>
+<table id="editor" width="960px" class="editor">
   <tr>
     <td>
       <fmt:message key="date"/>
@@ -430,14 +221,28 @@
   </tr>
   <tr>
     <td>
-      <fmt:message key="pallets"/>
+      <label for="masterRealisation">
+        <fmt:message key="deal.realisation"/>
+      </label>
+    </td>
+    <td>
+      <select id="masterRealisation" v-model="shipper">
+        <option v-for="shipper in shippers" :value="shipper.id">
+          {{shipper.name}}
+        </option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <fmt:message key="pallets"/>: {{palletsAmount()}}
     </td>
   </tr>
   <tr>
     <td colspan="2">
       <div style="height: 290pt; width: 100%; font-size: 10pt; overflow-y: scroll">
-        <div v-for="(deal, idx) in deals" style="border: solid 1pt; margin: 1pt; padding: 2pt">
-          <div style="display: inline-block; width: 100%">
+        <div v-for="(deal, idx) in deals" style="border: solid 1pt; margin: 1pt; padding: 2pt; position: relative">
+          <div style="display: inline-block; width: 100%; position: relative">
             <div style="display: inline-block; position: absolute; font-size: 11pt; background-color: #d4d4d4;">
               <div v-on:click="moveItem(idx, -1)" style="padding: 0 2pt; border-bottom: solid gray 1pt">
                 <span>
@@ -451,16 +256,15 @@
               </div>
             </div>
             <div style="height: 20px; position: relative; left: 14pt; width: 97%">
-            <span class="mini-close">
+            <span class="mini-close" v-on:click="removeDeal(idx)">
               &times;
             </span>
-            <span>
+            <span :class="{error : deal.error}">
               {{idx+1}}.
             </span>
-              <%--<div style="display: inline-block; position: relative">--%>
-
-              <%--</div>--%>
-              <object-input :props="counterpartyProps" :object="deal.counterparty" :item="deal"></object-input>
+              <div style="display: inline-block" :class="{error : deal.error}" v-on:click="deal.error = false">
+                <object-input :props="counterpartyProps" :object="deal.counterparty" :item="deal"></object-input>
+              </div>
             <span v-if="deal.counterparty.id > 0">
               <select v-if="deal.addressList.length > 0" v-model="deal.address.id" v-on:change="checkAddress(deal)">
                 <option value="-1" disabled>
@@ -478,7 +282,7 @@
               </a>
             </span>
             <span style="float: right">
-              <span class="mini-close">
+              <span class="mini-close" v-on:click="print(deal)">
                 <fmt:message key="document.print"/>
               </span>
               <fmt:message key="amount.total"/>:
@@ -487,15 +291,15 @@
             </div>
           </div>
 
-          <table style="font-size: 10pt; border-collapse: collapse">
+          <table style="font-size: 10pt; border-collapse: collapse" border="1">
             <tr>
-              <th style="width: 280pt">
+              <th style="width: 310pt">
                 <fmt:message key="deal.product"/>
               </th>
-              <th style="width: 150pt">
+              <th style="width: 360pt">
                 <fmt:message key="seal.quantity"/>
               </th>
-              <th style="width: 200pt">
+              <th style="width: 144pt">
                 <fmt:message key="deal.price"/>/<fmt:message key="deal.realisation"/>
               </th>
               <th style="width: 70px">
@@ -507,18 +311,26 @@
                 <a v-on:click="removeProduct(deal, pId)">
                   -
                 </a>
-                <object-input :props="productProps" :object="product.product" :item="product"></object-input>
+                <div style="display: inline-block;" :class="{error : product.productError}" v-on:click="product.productError = false">
+                  <object-input :props="productProps" :object="product.product" :item="product"></object-input>
+                </div>
               </td>
               <td>
-                <input id="amount" type="number" v-model="product.amount" autocomplete="off" onfocus="this.select()">
-                <select v-model="product.unit.id">
-                  <option value="-1" disabled>
-                    !!
-                  </option>
-                  <option v-for="unit in units" :value="unit.id">
-                    {{unit.name}}
-                  </option>
-                </select>
+                <div>
+                  <fmt:message key="pallets"/>:
+                  <input id="pallets" type="number" step="1" autocomplete="off" v-model="product.pallet"
+                         v-on:change="checkPallets(product)" onfocus="this.select()">
+                  &times; {{product.product.pallet}} =
+                  <input id="amount" type="number" v-model="product.amount" autocomplete="off" onfocus="this.select()" v-on:change="checkAmount(product)">
+                  <select v-model="product.unit.id" :class="{error : product.unitError}" v-on:click="product.unitError = false">
+                    <option value="-1" disabled>
+                      !!
+                    </option>
+                    <option v-for="unit in units" :value="unit.id">
+                      {{unit.name}}
+                    </option>
+                  </select>
+                </div>
               </td>
               <td>
                 <input id="price" type="number" v-model="product.price" autocomplete="off" onfocus="this.select()">
@@ -538,13 +350,14 @@
           </div>
         </div>
         <div style="width: 100%; border-bottom: solid 1pt"></div>
-        <a v-on:click="addDeal">
-          + <fmt:message key="deal.add"/>
-        </a>
+
+      </div>
+      <a v-on:click="addDeal">
+        + <fmt:message key="deal.add"/>
+      </a>
         <span class="mini-close" v-on:click="waybillPrint">
           <fmt:message key="print.waybill"/>
         </span>
-      </div>
     </td>
   </tr>
   <tr>

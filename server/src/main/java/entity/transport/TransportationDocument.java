@@ -71,7 +71,10 @@ public class TransportationDocument extends JsonAble implements Comparable<Trans
 
     @Transient
     public Contract getContract(){
-        return products.get(0).getContractProduct().getContract();
+        if (products.size() > 0) {
+            return products.get(0).getContractProduct().getContract();
+        }
+        return null;
     }
 
     @Transient

@@ -48,6 +48,7 @@ public class ParseOrganisationServletAPI extends ServletAPI {
         origin = origin.trim().toUpperCase();
         String name = " " + origin + " ";
 
+
         List<OrganisationType> typeList = dao.getOrganisationTypeList();
         String[] types = new String[typeList.size()];
         int i = 0;

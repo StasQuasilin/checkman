@@ -35,7 +35,12 @@
     <div id="container" class="container">
         <div v-for="(value, idx) in getItems()" class="container-item" v-on:click="edit(value.item.id)"
              :class="'container-item-' + new Date(value.item.date).getDay()">
-            <div style="display: inline-block; max-width: 98%; width: 94%">
+            <%--OLD VIEW--%>
+            <div v-if="value.item.old">
+                OLD
+            </div>
+            <%--NEW VIEW--%>
+            <div v-else style="display: inline-block; max-width: 98%; width: 94%">
                 <div class="upper-row" style="font-size: 11pt">
                     <div style="display: inline-block">
                         <div style="width: 100%; text-align: center; font-size: 6pt; color: gray">

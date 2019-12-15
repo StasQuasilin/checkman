@@ -20,6 +20,7 @@ public class Product extends JsonAble {
     private Unit unit;
     private float weight;
     private float pallet;
+    private boolean wholeSale;
 
     @Id
     @GeneratedValue
@@ -84,6 +85,15 @@ public class Product extends JsonAble {
         this.pallet = pallet;
     }
 
+    @Basic
+    @Column(name = "whole")
+    public boolean getWholeSale() {
+        return wholeSale;
+    }
+    public void setWholeSale(boolean wholeSave) {
+        this.wholeSale = wholeSave;
+    }
+
     @Override
     public int hashCode() {
         return id;
@@ -110,6 +120,7 @@ public class Product extends JsonAble {
         if (unit != null) {
             json.put(UNIT, unit.toJson());
         }
+        json.put(PALLET, pallet);
         return json;
     }
 }

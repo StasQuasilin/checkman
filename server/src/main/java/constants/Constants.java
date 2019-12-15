@@ -109,6 +109,7 @@ public interface Constants {
     String FIND_PRODUCT = "findProduct";
     String FIND_LOAD_ADDRESS = "findLoadAddress";
     String FIND_CONTRACTS = "findContracts";
+    String FIND_PRICE = "findPrice";
     String EDIT_PRODUCT = "editProduct";
     String PARSE_PRODUCT = "parseProduct";
     String FIND_DRIVER = "findDriver";

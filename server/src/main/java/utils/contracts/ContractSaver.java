@@ -70,13 +70,13 @@ public class ContractSaver implements Constants{
         ArrayList<ContractProduct> actualProducts = new ArrayList<>();
         ArrayList<ContractProduct> keepItProducts = new ArrayList<>();
 
-        for (Object p : (JSONArray)deal.get(PRODUCTS)){
-            JSONObject p1 = (JSONObject) p;
-            System.out.println(p1);
+        for (Object o : (JSONArray)deal.get(PRODUCTS)){
+            JSONObject p = (JSONObject) o;
             int productId = -1;
-            if (p1.containsKey(ID)){
-                productId = Integer.parseInt(String.valueOf(p1.get(ID)));
+            if (p.containsKey(ID)){
+                productId = Integer.parseInt(String.valueOf(p.get(ID)));
             }
+
             ContractProduct contractProduct;
             if (products.containsKey(productId)){
                 contractProduct = products.remove(productId);
@@ -89,30 +89,30 @@ public class ContractSaver implements Constants{
 
             boolean saveThisProduct = false;
 
-            DealType type = DealType.valueOf(String.valueOf(p1.get(TYPE)));
+            DealType type = DealType.valueOf(String.valueOf(p.get(TYPE)));
             if (ContractUtil.setType(contractProduct, type)){
                 saveThisProduct = true;
             }
 
-            Product product = dao.getObjectById(Product.class, p1.get(PRODUCT));
+            Product product = dao.getObjectById(Product.class, p.get(PRODUCT));
             if (ContractUtil.setProduct(contractProduct, product)){
                 saveThisProduct = true;
             }
-            Float amount = Float.parseFloat(String.valueOf(p1.get(AMOUNT)));
+            Float amount = Float.parseFloat(String.valueOf(p.get(AMOUNT)));
             if (ContractUtil.setAmount(contractProduct, amount)){
                 saveThisProduct = true;
             }
 
-            Unit unit = dao.getObjectById(Unit.class, p1.get(UNIT));
+            Unit unit = dao.getObjectById(Unit.class, p.get(UNIT));
             if (ContractUtil.setUnit(contractProduct, unit)){
                 saveThisProduct = true;
             }
 
-            Float price = Float.parseFloat(String.valueOf(p1.get(PRICE)));
+            Float price = Float.parseFloat(String.valueOf(p.get(PRICE)));
             if (ContractUtil.setPrice(contractProduct, price)){
                 saveThisProduct = true;
             }
-            Shipper shipper = dao.getObjectById(Shipper.class, p1.get(SHIPPER));
+            Shipper shipper = dao.getObjectById(Shipper.class, p.get(SHIPPER));
             if(ContractUtil.setShipper(contractProduct, shipper)){
                 saveThisProduct = true;
             }
@@ -122,10 +122,24 @@ public class ContractSaver implements Constants{
             actualProducts.add(contractProduct);
         }
         if (saveContract || keepItProducts.size() > 0){
+            log.info("Save contract " + contract.getId());
             dao.save(contract.getCreateTime(), contract);
         }
+
+        for (ContractProduct product : keepItProducts){
+            if (product.getId() > 0){
+                log.info("Save product " + product.getId());
+            } else {
+                log.info("Save new product");
+            }
+
+        }
         keepItProducts.forEach(dao::save);
-        products.values().forEach(dao::remove);
+        for (ContractProduct product : products.values()){
+            log.info("Remove product " + product.getId());
+            dao.remove(product);
+        }
+
         contract.getProducts().clear();
         contract.getProducts().addAll(actualProducts);
 

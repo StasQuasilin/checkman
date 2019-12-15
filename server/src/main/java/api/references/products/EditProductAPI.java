@@ -8,6 +8,7 @@ import entity.products.ProductSettings;
 import entity.weight.Unit;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -79,7 +80,10 @@ public class EditProductAPI extends ServletAPI {
             if (save){
                 dao.save(product);
             }
-            write(resp, SUCCESS_ANSWER);
+            JSONObject json = new SuccessAnswer(RESULT, product.toJson()).toJson();
+
+            write(resp, json.toJSONString());
+            pool.put(json);
         }
     }
 }

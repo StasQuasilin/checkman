@@ -22,6 +22,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.DEAL_EDIT)
 public class DealEdit extends IModal {
 
+    private static final String _CONTENT = "/pages/deals/dealEdit.jsp";
     private final Logger log = Logger.getLogger(DealEdit.class);
 
     @Override
@@ -54,17 +55,17 @@ public class DealEdit extends IModal {
             log.info("User \'" + worker.getValue() + "\' open create new deal");
         }
 
-        req.setAttribute("type", req.getParameter("type"));
-        req.setAttribute("types", DealType.values());
-        req.setAttribute("products", dao.getProductList());
-        req.setAttribute("shippers", dao.getShipperList());
-        req.setAttribute("units", dao.getWeightUnits());
-        req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
-        req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
-        req.setAttribute("editOrganisation", Branches.UI.References.ORGANISATION_EDIT);
-        req.setAttribute("save", Branches.API.DEAL_SAVE);
+        req.setAttribute(TYPE, req.getParameter("type"));
+        req.setAttribute(TYPES, DealType.values());
+        req.setAttribute(PRODUCTS, dao.getProductList());
+        req.setAttribute(SHIPPERS, dao.getShipperList());
+        req.setAttribute(UNITS, dao.getWeightUnits());
+        req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
+        req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);
+        req.setAttribute(SAVE, Branches.API.DEAL_SAVE);
         req.setAttribute("redirect", Branches.UI.DEAL_SHOW);
-        req.setAttribute("modalContent", "/pages/deals/dealEdit.jsp");
+        req.setAttribute(MODAL_CONTENT, _CONTENT);
         show(req, resp);
     }
 }

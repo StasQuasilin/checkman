@@ -75,6 +75,7 @@ public class JsonParser {
     private static final String DRY = "dry";
     private static final String SCALE = IServlet.SCALE;
     private static final String PARENT = "parent";
+    private static final String OLD = "old";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -233,6 +234,7 @@ public class JsonParser {
             if (transportation.getTransporter() != null) {
                 json.put(TRANSPORTER, transportation.getTransporter().toJson());
             }
+            json.put(OLD, true);
 
         }
         return json;

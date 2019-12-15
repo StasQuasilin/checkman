@@ -18,9 +18,11 @@ import java.io.IOException;
 @WebServlet(Branches.UI.RETAIL_LIST)
 public class RetailList extends IUIServlet {
     private static final String _CONTENT = "/pages/retail/retailList.jsp";
+    private static final String _TITLE = "title.retail.list";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute(TITLE, _TITLE);
         req.setAttribute(EDIT, Branches.UI.RETAIL_EDIT);
         req.setAttribute(CONTENT, _CONTENT);
         String parameter = req.getParameter(TYPE);
