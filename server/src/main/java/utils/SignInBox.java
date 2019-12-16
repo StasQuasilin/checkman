@@ -41,7 +41,7 @@ public class SignInBox {
                 answer.add("redirect", Branches.UI.HOME);
                 answer.add("user", parser.toJson(user.getWorker()));
                 answer.add("uid", user.getUid());
-                answer.add("role", user.getRole().toString());
+                answer.add("role", user.getWorker().getRole().toString());
                 answer.add(TOKEN, token);
                 //
 
@@ -50,7 +50,7 @@ public class SignInBox {
                 req.getSession().setAttribute("worker", user.getWorker());
                 req.getSession().setAttribute("user", user.getWorker().getPerson().getValue());
                 req.getSession().setAttribute("uid", user.getUid());
-                req.getSession().setAttribute("role", user.getRole());
+                req.getSession().setAttribute("role", user.getWorker().getRole());
             } else {
                 answer = new ErrorAnswer("msd", lb.get(Constants.Languages.WRONG_PASSWORD));
                 log.error("Wrong password");

@@ -14,6 +14,7 @@ public class Worker extends JsonAble {
     private Person person;
     private String language;
     private String office;
+    private Role role;
 
     @Id
     @GeneratedValue
@@ -51,6 +52,15 @@ public class Worker extends JsonAble {
         this.office = office;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    public Role getRole() {
+        return role;
+    }
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Transient
     public String getValue(){
         return person.getValue();
@@ -58,7 +68,12 @@ public class Worker extends JsonAble {
 
     @Override
     public int hashCode() {
-        return person.hashCode();
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
     }
 
     @Override

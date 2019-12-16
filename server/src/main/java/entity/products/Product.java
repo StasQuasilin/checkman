@@ -100,6 +100,11 @@ public class Product extends JsonAble {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "Product{\n" +
                 "\tid=" + id + ",\n" +

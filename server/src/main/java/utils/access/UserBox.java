@@ -1,9 +1,12 @@
 package utils.access;
 
+import api.sockets.handlers.SessionTimer;
 import entity.User;
 import entity.UserInfo;
+import entity.Worker;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -12,6 +15,7 @@ import java.util.UUID;
 public class UserBox {
 
     private static final UserBox USER_BOX = new UserBox();
+    static final SessionTimer sessionTimer = SessionTimer.getInstance();
 
     public static UserBox getUserBox() {
         return USER_BOX;
@@ -46,14 +50,31 @@ public class UserBox {
     public String addUser(User user, String ip, String sessionId) {
 
         final String token = getToken();
-        System.out.println("Add: " + token);
+        for (Map.Entry<String, UserInfo> entry : users.entrySet()){
+            UserInfo value = entry.getValue();
+            if (value.getUser().getId() == user.getId()){
+                users.remove(entry.getKey());
+            }
+        }
 
         users.put(token, new UserInfo(user, ip, sessionId));
         return token;
     }
 
+    public void remove(Worker worker){
+        for (Map.Entry<String, UserInfo> entry : users.entrySet()){
+            UserInfo value = entry.getValue();
+
+            if (value.getUser().getWorker().getId() == worker.getId()){
+                users.remove(entry.getKey());
+            }
+        }
+    }
+
     public void remove(String token) {
-        users.remove(token);
+        UserInfo remove = users.remove(token);
+
+        sessionTimer.remove(remove.getUser().getWorker());
     }
 
     public UserInfo getUser(String token) {

@@ -1143,7 +1143,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Worker> getWorkersByRole(Role role) {
-        return hb.query(User.class, "role", role).stream().map(User::getWorker).collect(Collectors.toList());
+        return hb.query(Worker.class, "role", role);
     }
 
     @Override

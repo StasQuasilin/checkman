@@ -107,7 +107,7 @@ var editor = new Vue({
             let result = 0;
             this.deals.forEach(function(d){
                 d.products.forEach(function(p){
-                    result += p.pallet;
+                    result += parseInt(p.pallet);
                 })
             });
             return result;

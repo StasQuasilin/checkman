@@ -35,8 +35,8 @@ $(document).ready(function(){
 });
 
 function lockSession(cause){
-    console.log('clock');
-    //sessionLocker.style.display='block';
+    console.log('clock ' + cause);
+    sessionLocker.style.display='block';
 }
 
 function loadContent(url){

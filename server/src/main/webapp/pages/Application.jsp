@@ -36,7 +36,7 @@
             chat.handle(a);
         });
         subscribe('SESSION_TIMER', function(a){
-            lockSession();
+            lockSession(a);
         })
     </script>
 
@@ -47,9 +47,17 @@
         <table style="width: 100%; height: 100%;">
             <tr>
                 <td align="center">
-                    <button onclick="location.reload()">
-                        OK
-                    </button>
+                    <div class="content">
+                        <div style="color: gainsboro; font-size: 24pt">
+                            <fmt:message key="session.close"/>
+                        </div>
+                        <div>
+                            <button onclick="location.reload()">
+                                OK
+                            </button>
+                        </div>
+                    </div>
+
                 </td>
             </tr>
         </table>

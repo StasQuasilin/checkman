@@ -2,6 +2,8 @@ package utils.hibernate;
 
 import entity.DealType;
 import entity.Person;
+import entity.User;
+import entity.Worker;
 import entity.deal.Contract;
 import entity.documents.Shipper;
 import entity.products.Product;
@@ -34,19 +36,11 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        HashMap<Product, Product> productHashMap = new HashMap<>();
 
-        for (Product product : dao.getProductList()){
-            System.out.println(product.getName() + ": " + product.hashCode());
-            if (!productHashMap.containsKey(product)){
-                productHashMap.put(product, product);
-                System.out.println("Add " + product.getName());
-            }
-        }
-        for (Product product : dao.getProductList()){
-            if (!productHashMap.containsKey(product)){
-                System.out.println("No have " + product.getName());
-            }
+        for (User user : dao.getObjects(User.class)){
+            Worker worker = user.getWorker();
+            worker.setRole(user.getRole());
+            dao.save(worker);
         }
 //        for (Contract contract : dao.getContractsByType(DealType.sell)){
 //            System.out.println(contract.toJson());
