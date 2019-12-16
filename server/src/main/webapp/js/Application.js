@@ -36,7 +36,9 @@ $(document).ready(function(){
 
 function lockSession(cause){
     console.log('clock ' + cause);
+    GetChildElemById(sessionLocker, 'reason').innerText = cause;
     sessionLocker.style.display='block';
+
 }
 
 function loadContent(url){

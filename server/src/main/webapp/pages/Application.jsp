@@ -48,8 +48,8 @@
             <tr>
                 <td align="center">
                     <div class="content">
-                        <div style="color: gainsboro; font-size: 24pt">
-                            <fmt:message key="session.close"/>
+                        <div style="padding: 8pt">
+                            <span id="reason" style="color: gainsboro; font-size: 16pt"></span>
                         </div>
                         <div>
                             <button onclick="location.reload()">
@@ -57,7 +57,6 @@
                             </button>
                         </div>
                     </div>
-
                 </td>
             </tr>
         </table>

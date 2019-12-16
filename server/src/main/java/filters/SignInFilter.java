@@ -52,9 +52,10 @@ public class SignInFilter implements Filter{
             isValid = false;
         } else if (!userBox.containsKey(token)){
             log.info("User box doesn't contain token " + token);
+            request.getSession().removeAttribute(TOKEN);
             isValid = false;
         } else if (!userBox.getUser(token).isValid(ip)){
-            log.info("Session: " +request.getSession().getId() + ": invalid IP: " + ip);
+            log.info("Session: " + request.getSession().getId() + ": invalid IP: " + ip);
             isValid = false;
         }
 

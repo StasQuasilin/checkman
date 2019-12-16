@@ -5,6 +5,11 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
+    <c:if test="${not empty token}">
+        <script>
+            location.href='${context}/app'
+        </script>
+    </c:if>
     <script src="${context}/ext/vue.js"></script>
     <title><fmt:message key="sign.in"/></title>
     <script src="${context}/js/Core.js"></script>

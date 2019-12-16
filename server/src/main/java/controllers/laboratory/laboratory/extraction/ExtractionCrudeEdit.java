@@ -25,7 +25,7 @@ public class ExtractionCrudeEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        JSONObject json = PostUtil.parseBodyJson(req);
+        JSONObject json = parseBody(req);
 
         if (json != null) {
             log.info(json);

@@ -33,12 +33,12 @@ public class TransportationSaver implements Constants{
             log.info("Edit transportation: " + transportation.getId());
         }
         boolean save = false;
-        Date date = DateUtil.parseFromEditor(String.valueOf(body.get(DATE)));
+        Date date = Date.valueOf(String.valueOf(body.get(DATE)));
         if (TransportUtil.setDate(transportation, date)){
             save = true;
         }
 
-        Trailer trailer  =dao.getObjectById(Trailer.class, body.get(TRAILER));
+        Trailer trailer = dao.getObjectById(Trailer.class, body.get(TRAILER));
         if (TransportUtil.setTrailer(transportation, trailer)){
             save = true;
         }

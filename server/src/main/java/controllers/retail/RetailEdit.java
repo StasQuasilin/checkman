@@ -26,6 +26,7 @@ public class RetailEdit extends IModal {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
+            System.out.println(body);
             Transportation2 transportation = dao.getObjectById(Transportation2.class, body.get(ID));
             req.setAttribute(TRANSPORTATION, transportation);
         }

@@ -33,7 +33,7 @@ public class SubdivisionList extends IUIServlet {
             case ex:
                 req.setAttribute(TITLE, Titles.SUBDIVISION_LIST_EXTRACTION);
                 req.setAttribute(CONTENT, "/pages/laboratory/subdivisions/extractionList.jsp");
-                if(role == Role.analyser) {
+                if(role == Role.analyser || role == Role.admin) {
                     req.setAttribute("turnCellulose", Branches.UI.Extraction.TURN_CELLULOSE);
                     req.setAttribute("crudeEdit", Branches.UI.Extraction.CRUDE_EDIT);
                     req.setAttribute("turnProtein", Branches.UI.Extraction.TURN_PROTEIN);

@@ -36,7 +36,6 @@ public class UserBox {
 
     public String updateToken(String oldToken) {
         UserInfo remove = users.remove(oldToken);
-        remove.updateActivity();
         final String token = getToken();
         users.put(token, remove);
 

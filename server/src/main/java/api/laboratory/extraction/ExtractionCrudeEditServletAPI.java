@@ -9,6 +9,7 @@ import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.TurnDateTime;
 import utils.UpdateUtil;
@@ -32,11 +33,13 @@ import java.time.LocalTime;
 public class ExtractionCrudeEditServletAPI extends ServletAPI {
 
     final UpdateUtil updateUtil = new UpdateUtil();
+    private final Logger log = Logger.getLogger(ExtractionCrudeEditServletAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
+            log.info(body);
             ExtractionCrude crude;
             boolean save = false;
             final LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));

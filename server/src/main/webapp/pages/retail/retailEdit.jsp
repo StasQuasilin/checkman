@@ -154,6 +154,7 @@
   if (!deal.address){
     deal.address = {id:-1}
   }
+  deal.key = randomUUID();
   deal.addressList = [];
   editor.getAddress(deal.counterparty, deal);
   deal.products.forEach(function(p){

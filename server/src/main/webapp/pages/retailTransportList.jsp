@@ -83,7 +83,7 @@
                         </div>
                         <div v-if="value.item.manager.person.id != value.item.creator.id"
                             style="font-size: 6pt; color: gray">
-                            {{value.item.creator}}
+                            {{value.item.creator.person.value}}
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,7 @@ import entity.transport.TransportationProduct;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.answers.SuccessAnswer;
 import utils.contracts.ContractSaver;
 import utils.transport.TransportationSaver;
 
@@ -38,9 +39,11 @@ public class EditRetailServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null){
             System.out.println(body);
+
             Worker worker = getWorker(req);
 
             Transportation2 transportation = transportationSaver.saveTransportation(body, worker);
+            SuccessAnswer successAnswer = new SuccessAnswer(TRANSPORTATION, transportation.getId());
 
             HashMap<Integer, TransportationDocument> documents = new HashMap<>();
             HashMap<Integer, TransportationProduct> products = new HashMap<>();
@@ -64,10 +67,13 @@ public class EditRetailServletAPI extends ServletAPI {
 
             ArrayList<TransportationDocument> saveDocuments = new ArrayList<>();
             ArrayList<TransportationProduct> saveProducts = new ArrayList<>();
+            JSONObject array = pool.getObject();
 
             for (Object d : (JSONArray) body.get(DEALS)){
                 JSONObject object = (JSONObject) d;
                 Contract contract = contractSaver.saveContract(object, worker);
+                String key = String.valueOf(object.get(KEY));
+                array.put(key, contract.getId());
 
                 int idx = Integer.parseInt(String.valueOf(object.get(INDEX)));
                 TransportationDocument document;
@@ -112,8 +118,10 @@ public class EditRetailServletAPI extends ServletAPI {
                 log.info("Remove transportation document " + document.getId());
                 dao.remove(document);
             }
-
-            write(resp, SUCCESS_ANSWER);
+            successAnswer.add(CONTRACTS, array);
+            JSONObject jsonObject = successAnswer.toJson();
+            write(resp, jsonObject.toJSONString());
+            pool.put(jsonObject);
         }
     }
 }

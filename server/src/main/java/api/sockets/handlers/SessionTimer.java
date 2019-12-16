@@ -5,6 +5,7 @@ import api.sockets.Subscriber;
 import entity.Role;
 import entity.Worker;
 import org.apache.log4j.Logger;
+import utils.LanguageBase;
 import utils.access.UserBox;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
@@ -25,7 +26,7 @@ import javax.swing.*;
 public class SessionTimer {
 
     private final Logger log = Logger.getLogger(SessionTimer.class);
-    dbDAO dao = dbDAOService.getDAO();
+    private final LanguageBase lb = LanguageBase.getBase();
     public static final LocalTime TARGET_1 = LocalTime.of(8, 0);
     public static final LocalTime TARGET_2 = LocalTime.of(20, 0);
 
@@ -37,6 +38,7 @@ public class SessionTimer {
 
     private HashMap<Worker, Session> sessionHashMap = new HashMap<>();
     private HashMap<Worker, Timer> timerHashMap = new HashMap<>();
+
     public static final int SESSION_DELAY = 4 * 60 * 60 * 1000;
 
 
@@ -76,7 +78,7 @@ public class SessionTimer {
     }
 
     private void close(Worker worker) {
-        close(worker, sessionHashMap.get(worker));
+        close(worker, sessionHashMap.get(worker), REASON_2);
     }
 
     private LocalDateTime getNextDateTime(){
@@ -95,20 +97,25 @@ public class SessionTimer {
         }
     }
 
+    public static final String REASON_1 = "session.timeout";
+    public static final String REASON_2 = "session.turnout";
+
     public void register(Worker worker, Session session) {
         Timer timer = new Timer(SESSION_DELAY, e -> {
             System.out.println("Close session for: " + worker.getPerson().getValue());
-            close(worker, session);
+            close(worker, session, REASON_1);
         });
         timer.setRepeats(false);
         timer.start();
         timerHashMap.put(worker, timer);
         sessionHashMap.put(worker, session);
+
     }
 
-    private void close(Worker worker, Session session) {
+    private void close(Worker worker, Session session, String reason) {
         if(session.isOpen()) {
-            String closed = ActiveSubscriptions.prepareMessage(Subscriber.SESSION_TIMER, "CLOSED");
+
+            String closed = ActiveSubscriptions.prepareMessage(Subscriber.SESSION_TIMER, lb.get(worker.getLanguage(), reason));
             try {
                 session.getBasicRemote().sendText(closed);
             } catch (IOException e1) {
@@ -120,16 +127,18 @@ public class SessionTimer {
     }
 
     public void update(Worker worker){
-        System.out.println("Update timer for " + worker.getValue());
+//        System.out.println("Update timer for " + worker.getValue());
         Timer timer = timerHashMap.get(worker);
-        System.out.println("Timer: " + timer);
+//        System.out.println("Timer: " + timer);
         if (timer != null && timer.isRunning()){
             timer.setDelay(SESSION_DELAY);
-            System.out.println("Timer delay: " + timer.getDelay());
+//            System.out.println("Timer delay: " + timer.getDelay());
         }
     }
 
     public void remove(Worker worker) {
+        System.out.println("Remove worker " + worker.getValue());
+        sessionHashMap.remove(worker);
         Timer remove = timerHashMap.remove(worker);
         if(remove != null && remove.isRunning()){
             remove.stop();

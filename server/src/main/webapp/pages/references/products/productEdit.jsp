@@ -84,8 +84,8 @@
 
   productEdit.product.id='${product.id}';
   productEdit.product.name='${product.name}';
-  productEdit.product.weight = '${product.weight}';
-  productEdit.product.pallet = '${product.pallet}';
+  productEdit.product.weight = ${product.weight};
+  productEdit.product.pallet = ${product.pallet};
   <c:if test="${not empty product.productGroup}">
   productEdit.product.group={
     id:${product.productGroup.id},
@@ -158,7 +158,7 @@
     </td>
     <td>
       <input id="onPallet" style="width: 6em" type="number"
-             step="1" v-model="product.pallet" autocomplete="off">
+             v-model="product.pallet" autocomplete="off">
     </td>
   </tr>
   <tr>

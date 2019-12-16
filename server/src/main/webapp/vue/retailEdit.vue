@@ -254,32 +254,6 @@ var editor = new Vue({
                 }
             })
         },
-        selectDate:function(){
-            const self = this;
-            datepicker.show(function(date){
-                self.date = date;
-            }, this.date);
-        },
-        checkErrors:function(){
-            let saveIt = true;
-            this.deals.forEach(function(deal){
-                Vue.set(deal, 'error', deal.counterparty.id == -1);
-                if (deal.error){
-                    saveIt = false;
-                }
-                deal.products.forEach(function(product){
-                    if (product.product.id == -1){
-                        Vue.set(product, 'productError', true);
-                        saveIt = false;
-                    }
-                    if (product.unit.id == -1){
-                        Vue.set(product, 'unitError', true);
-                        saveIt = false;
-                    }
-                });
-            });
-            return saveIt;
-        },
         save:function(onSave){
             if (this.checkErrors()) {
                 let data = {
@@ -297,6 +271,7 @@ var editor = new Vue({
                         let d = this.deals[i];
                         let deal = {
                             id: d.id,
+                            key:d.key,
                             from: this.date,
                             to: this.date,
                             counterparty: d.counterparty.id,
@@ -323,10 +298,51 @@ var editor = new Vue({
                         data.deals.push(deal)
                     }
                 }
+                const self = this;
                 PostApi(this.api.save, data, function (a) {
+                    self.id = a.transportation;
+                    let contracts = a.contracts;
+                    let keys = Object.keys(contracts);
+                    for (let i in keys){
+                        if (keys.hasOwnProperty(i)){
+                            let key = keys[i];
+                            let id = contracts[key];
+                            self.deals.forEach(function(deal){
+                                if (deal.key === key){
+                                    deal.id = id;
+                                }
+                            })
+                        }
+                    }
                     onSave(a);
                 });
             }
+        },
+        selectDate:function(){
+            const self = this;
+            datepicker.show(function(date){
+                self.date = date;
+            }, this.date);
+        },
+        checkErrors:function(){
+            let saveIt = true;
+            this.deals.forEach(function(deal){
+                Vue.set(deal, 'error', deal.counterparty.id == -1);
+                if (deal.error){
+                    saveIt = false;
+                }
+                deal.products.forEach(function(product){
+                    if (product.product.id == -1){
+                        Vue.set(product, 'productError', true);
+                        saveIt = false;
+                    }
+                    if (product.unit.id == -1){
+                        Vue.set(product, 'unitError', true);
+                        saveIt = false;
+                    }
+                });
+            });
+            return saveIt;
         }
     }
 });

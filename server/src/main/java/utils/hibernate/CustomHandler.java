@@ -15,11 +15,17 @@ import entity.storages.StorageProduct;
 import entity.transport.*;
 import utils.DateUtil;
 import utils.U;
+import utils.hibernate.DateContainers.BETWEEN;
+import utils.hibernate.DateContainers.GE;
+import utils.hibernate.DateContainers.GT;
+import utils.hibernate.DateContainers.LT;
 import utils.storages.PointScale;
 import utils.storages.StorageUtil;
 import utils.transport.CollapseUtil;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +43,8 @@ public class CustomHandler {
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
 
-        for (User user : dao.getObjects(User.class)){
-            Worker worker = user.getWorker();
-            worker.setRole(user.getRole());
-            dao.save(worker);
+        for (ActionTime actionTime : instance.query(ActionTime.class, "time", new GT(Date.valueOf(LocalDate.now().minusDays(1))))){
+            System.out.println(actionTime.getTime());
         }
 //        for (Contract contract : dao.getContractsByType(DealType.sell)){
 //            System.out.println(contract.toJson());

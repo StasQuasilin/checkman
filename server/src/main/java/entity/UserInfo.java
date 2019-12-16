@@ -7,15 +7,11 @@ public class UserInfo {
     private final User user;
     private final String ip;
     private final String sessionId;
-    private long activity;
-
-    public static final long SESSION_LIFE_TIME = 4 * 60 * 60 * 1000;
 
     public UserInfo(User user, String ip, String sessionId) {
         this.user = user;
         this.ip = ip;
         this.sessionId = sessionId;
-        updateActivity();
     }
 
     public User getUser() {
@@ -31,10 +27,6 @@ public class UserInfo {
     }
 
     public boolean isValid(String ip){
-        return System.currentTimeMillis() - activity < SESSION_LIFE_TIME && this.ip.equals(ip);
-    }
-
-    public void updateActivity() {
-        activity = System.currentTimeMillis();
+        return this.ip.equals(ip);
     }
 }

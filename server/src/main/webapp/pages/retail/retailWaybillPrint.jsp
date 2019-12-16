@@ -57,7 +57,7 @@
       <c:forEach items="${document.products}" var="product">
         <tr>
           <td align="center">
-            ${product.contractProduct.shipper.value}
+            Ф${product.contractProduct.shipper.id}
           </td>
           <td>
             ${product.contractProduct.product.name}

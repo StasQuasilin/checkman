@@ -49,7 +49,6 @@ public class SignUpServletAPI extends ServletAPI {
 
                 User user = new User();
                 user.setUid(getToken());
-                user.setRole(role);
 
                 boolean autoPassword = true;
                 if (json.containsKey("password")){
@@ -74,6 +73,7 @@ public class SignUpServletAPI extends ServletAPI {
 
                 Worker worker = new Worker();
                 user.setWorker(worker);
+                worker.setRole(role);
                 worker.setLanguage(LanguageBase.DEFAULT_LANGUAGE);
 
                 Person person;
