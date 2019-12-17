@@ -41,6 +41,8 @@ public class StorageList extends IUIServlet {
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute("getStocks", Branches.API.STORAGE_STOCKS);
         req.setAttribute("replace", Branches.UI.STORAGE_PRODUCT_REPLACE);
+        req.setAttribute("correction", Branches.UI.STORAGE_PRODUCT_CORRECTION);
+
         req.setAttribute(SUBSCRIBE, SUBSCRIBES);
         show(req, resp);
     }

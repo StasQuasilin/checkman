@@ -1,5 +1,8 @@
 package entity.storages;
 
+import entity.JsonAble;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "storages")
-public class Storage {
+public class Storage extends JsonAble{
     private int id;
     private String name;
 
@@ -32,5 +35,13 @@ public class Storage {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NAME, name);
+        return object;
     }
 }

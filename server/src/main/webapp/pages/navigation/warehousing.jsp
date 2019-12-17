@@ -11,5 +11,9 @@
           <a onclick="loadContent('${warehousingArchive}')"><fmt:message key="archive"/> </a>
         </span>
     </li>
-
+    <li class="menu-item">
+        <span class="main" onclick="loadContent('${storages}')">
+            <fmt:message key="menu.storages"/>
+        </span>
+    </li>
 </ul>

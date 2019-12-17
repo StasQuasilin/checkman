@@ -35,6 +35,7 @@ public class StorageStocks {
         products.get(product).put(shipper, value);
     }
 
-
-
+    public HashMap<Storage, HashMap<Product, HashMap<Shipper, Float>>> getStocks() {
+        return stocks;
+    }
 }

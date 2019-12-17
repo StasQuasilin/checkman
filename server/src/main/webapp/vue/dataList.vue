@@ -22,7 +22,8 @@ var list = new Vue({
             x:0,
             y:0
         },
-        limit:-1
+        limit:-1,
+        loading:false
     },
     mounted:function(){
         if (typeof filter_control !== 'undefined'){
@@ -61,6 +62,7 @@ var list = new Vue({
         }
         ,
         update:function(item){
+
             var found = false;
             for(var i in this.items){
                 if (this.items.hasOwnProperty(i)) {

@@ -106,6 +106,7 @@ public class Branches {
         public static final String STOP_LIST = "/stop/list.j";
         public static final String STOP_REPORT = "/stop/report.j";
         public static final String RETAIL_PRINT = "/retail/print.j";
+        public static final String STORAGE_PRODUCT_CORRECTION = "/storage/product/correction.j";
 
 
         public class Extraction {
@@ -276,6 +277,7 @@ public class Branches {
         public static final String EDIT_STOP_REPORT = API + "/stop/report/edit";
         public static final String RETAIL_PRINT = API + "/retail/print";
         public static final String FIND_PRICE = API + "/find/price";
+        public static final String PRODUCT_STOCK_CORRECTION = API + "/product/stock/correction";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

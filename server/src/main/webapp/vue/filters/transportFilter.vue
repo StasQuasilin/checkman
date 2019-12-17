@@ -113,7 +113,7 @@ var filter_control = new Vue({
             const self = this;
             return this.items.filter(function (item){
                 let byProduct = true;
-                if (product && product != -1){
+                if (item.item.product && product && product != -1){
                     byProduct = item.item.product.id == product;
                 }
                 let byCounterparty = true;

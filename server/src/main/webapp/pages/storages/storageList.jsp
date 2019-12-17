@@ -234,7 +234,7 @@
   </style>
   <div id="container-header" class="container-header">
     <button onclick="loadModal('${replace}')"><fmt:message key="button.replace"/></button>
-    <button onclick="loadModal('${replace}')"><fmt:message key="button.stock.correction"/></button>
+    <button onclick="loadModal('${correction}')"><fmt:message key="button.stock.correction"/></button>
   </div>
   <div id="list" style="padding-left: 8pt">
     <div v-for="item in items">

@@ -49,7 +49,8 @@ public interface Constants {
     public static final String PREVIEW = "preview";
     public static final String CALCULATORS = "calculators";
     public static final String DIRECTION = "dir";
-    public static final String STORAGES = "storages";
+    String STORAGES = "storages";
+    String STOCKS = "stocks";
     public static final String SHIPPERS = "shippers";
     public static final String UNITS = "units";
     public static final String PROTEIN = "protein";

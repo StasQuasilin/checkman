@@ -39,10 +39,144 @@
             lockSession(a);
         })
     </script>
+    <style>
+        @-webkit-keyframes snowflakes-fall{
+            0%{
+                top:-10%
+            }
+            100%{
+                top:100%
+            }
+        }
+        @-webkit-keyframes snowflakes-shake{
+            0%{
+                -webkit-transform:translateX(0px);
+                transform:translateX(0px)
+            }
+            50%{
+                -webkit-transform:translateX(80px);
+                transform:translateX(80px)
+            }
+            100%{
+                -webkit-transform:translateX(0px);
+                transform:translateX(0px)
+            }
+        }
+        @keyframes snowflakes-fall{
+            0%{
+                top:-10%
+            }
+            100%{
+                top:100%;
+            }
+        }
+        @keyframes snowflakes-shake{
+            0%{
+                transform:translateX(0px);
+            }
+            50%{
+                transform:translateX(80px) rotate(260deg);
+            }
+            100%{
+                transform:translateX(0px);
+            }
+
+        }
+        .snowflake{
+            color: #fffefe;
+            position:fixed;
+            top:-10%;
+            z-index:9999;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+            cursor:default;
+            -webkit-animation-name:snowflakes-fall,snowflakes-shake;
+            -webkit-animation-duration:10s,3s;
+            -webkit-animation-timing-function:linear,ease-in-out;
+            -webkit-animation-iteration-count:infinite,infinite;
+            -webkit-animation-play-state:running,running;
+            animation-name:snowflakes-fall,snowflakes-shake;
+            animation-duration:12s,3s;
+            animation-timing-function:linear,ease-in-out;
+            animation-iteration-count:infinite,infinite;
+            animation-play-state:running,running
+        }
+    </style>
 
 </head>
 <%--oncontextmenu="return false;"--%>
     <body style="margin: 0;">
+
+    <div id="snow" v-if="enable" style="background: none; z-index: 102; position: absolute">
+        <div class="snowflake" :style="style()"  v-for="s in amount">
+            {{getSnowflake(s)}}
+        </div>
+    </div>
+    <script>
+
+        var show = new Vue({
+            el:'#snow',
+            data:{
+                snows:[
+                    '❄',
+                    '❅',
+                    '❆',
+                    '❄',
+                    '❅',
+                    '❆',
+                    '❄',
+                    '❄',
+                    '❅',
+                    '❆',
+                    '❄',
+                    '❅',
+                    '❆',
+                    '❄',
+                    '❄',
+                    '❅',
+                    '❆',
+                    '❄',
+                    '❅',
+                    '❆',
+                    '❄',
+                    '*',
+                    '+',
+                    '!',
+                    '@',
+                    '#',
+                    '%',
+                    '<',
+                    '>',
+                    '?',
+                    ':)'
+                ],
+                amount:100,
+                enable:true
+            },
+            methods:{
+                style:function(){
+                    let r1 = 2 + Math.random() * 12;
+                    let r2 = 1 + Math.random();
+                    return {
+                        'left': Math.random() * 100 + '%',
+                        'animation-delay': r1 + 's, ' + r2 + 's'
+                    }
+                },
+                getSnowflake:function(idx){
+                    let d = Math.floor(idx / this.snows.length) * this.snows.length;
+                    return this.snows[idx - d];
+                }
+            }
+        });
+        function enableSnow(){
+            show.enable = !show.enable;
+        }
+        function text(){
+            return '!!'
+        }
+    </script>
     <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">
         <table style="width: 100%; height: 100%;">
             <tr>
@@ -142,6 +276,7 @@
         </c:otherwise>
         </c:choose>
     </script>
+
         <table border="1" class="body-table" style="width: 100%; height: 100%;">
             <tr>
                 <td rowspan="2" valign="top" style="height: 100%; width: 1px; padding: 0; border-right: solid 2pt; background-color: #d3dbe2;">
@@ -155,6 +290,7 @@
                         </div>
                         <div style="font-size: 10pt; text-align: right; float: right;">
                             <div style="padding: 6.5pt 4pt">
+                                <a onclick="enableSnow()">❄</a>
                                 <a onclick="loadContent('${personal}')">
                                     ${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}
                                 </a>

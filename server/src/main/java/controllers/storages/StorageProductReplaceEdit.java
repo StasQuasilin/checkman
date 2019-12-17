@@ -15,6 +15,7 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.STORAGE_PRODUCT_REPLACE)
 public class StorageProductReplaceEdit extends IModal {
+
     private static final String _TITLE = "title.storage.product.replace";
     private static final String _CONTENT = "/pages/storages/storageProductReplace.jsp";
 
