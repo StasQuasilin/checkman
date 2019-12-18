@@ -107,6 +107,8 @@ public class Branches {
         public static final String STOP_REPORT = "/stop/report.j";
         public static final String RETAIL_PRINT = "/retail/print.j";
         public static final String STORAGE_PRODUCT_CORRECTION = "/storage/product/correction.j";
+        public static final String STATE_STANDARDS = "/statestandards.j";
+        public static final String STATE_STANDARD_EDIT = "/statestandard/edit.j";
 
 
         public class Extraction {

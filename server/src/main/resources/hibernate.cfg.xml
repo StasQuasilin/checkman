@@ -115,5 +115,6 @@
         <mapping class="entity.deal.ContractProduct"/>
         <mapping class="entity.deal.ContractNote"/>
         <mapping class="entity.warehousing.StopReport"/>
+        <mapping class="entity.laboratory.StateStandard"/>
     </session-factory>
 </hibernate-configuration>

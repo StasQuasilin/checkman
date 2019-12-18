@@ -38,9 +38,6 @@ var transportView = {
                     '{{fields.transporter}}: ' +
                     '<object-input :props=fields.transporterProps :object=item.transporter :item="item"></object-input>'+
                 '</div>' +
-                '<div>' +
-                    '<a v-on:click="">{{fields.comment}}</a>' +
-                '</div>'+
             '</div>' +
         '</div>' +
         '<div v-if="item.driver">' +

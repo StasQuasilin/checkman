@@ -10,6 +10,7 @@
 <script src="${context}/vue/templates/laboratoryDataView.vue"></script>
 <script src="${context}/vue/templates/transportationDataView.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
+<script src="${context}/vue/templates/commentatorPlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 <jsp:include page="../transportListTemplate.jsp"/>
 </html>

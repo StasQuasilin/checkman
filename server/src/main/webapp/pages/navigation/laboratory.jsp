@@ -23,9 +23,14 @@
     </span>
   </li>
   <jsp:include page="laboratoryTransport.jsp"/>
+  <%--<li class="menu-item">--%>
+    <%--<span class="main" onclick="loadContent('${laboratoryTurns}')">--%>
+      <%--<fmt:message key="laboratory.turns"/>--%>
+    <%--</span>--%>
+  <%--</li>--%>
   <li class="menu-item">
-    <span class="main" onclick="loadContent('${laboratoryTurns}')">
-      <fmt:message key="laboratory.turns"/>
+    <span class="main" onclick="loadContent('${stateStandards}')">
+      <fmt:message key="laboratory.standards"/>
     </span>
   </li>
 </ul>

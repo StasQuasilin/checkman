@@ -19,6 +19,16 @@
     list.fields.customer = '<fmt:message key="transport.customer"/>';
     list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
     list.fields.noData='<fmt:message key="no.data"/>';
+    list.commentFields = {
+        header:'<fmt:message key="note.add"/>',
+        save:'${saveNote}'
+    };
+    list.editComment = function(comment){
+        console.log(commentator.editTarget);
+        if (typeof commentator.editTarget !== 'undefined'){
+            commentator.editTarget(comment);
+        }
+    };
     list.priceFields = {
         title:'<fmt:message key="deal.price"/>'
     };
@@ -175,15 +185,14 @@
                         </div>
                     </div>
                     <div class="lower-row" v-if="value.item.notes.length > 0">
-                        <div v-for="note in value.item.notes" style="display: inline-block; padding-left: 4pt">
+                        <a v-for="note in value.item.notes" v-on:click="editComment(note)" style="display: inline-block; padding-left: 4pt">
                         <span v-if="note.creator.person">
                             {{note.creator.person.value}}:
                         </span>
                             <b>
                                 {{note.note}}
                             </b>
-                        </div>
-                        <commentator></commentator>
+                        </a>
                     </div>
                 </div>
                 <div class="right-field">
