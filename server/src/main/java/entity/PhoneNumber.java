@@ -1,5 +1,7 @@
 package entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "phones")
-public class PhoneNumber {
+public class PhoneNumber extends JsonAble{
     private int id;
     private Person person;
     private String number;
@@ -41,6 +43,14 @@ public class PhoneNumber {
 
     @Override
     public int hashCode() {
-        return number.hashCode();
+        return id;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NUMBER, number);
+        return object;
     }
 }

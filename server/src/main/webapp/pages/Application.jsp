@@ -152,7 +152,7 @@
                     '?',
                     ':)'
                 ],
-                amount:100,
+                amount:32,
                 enable:true
             },
             methods:{
@@ -172,9 +172,6 @@
         });
         function enableSnow(){
             show.enable = !show.enable;
-        }
-        function text(){
-            return '!!'
         }
     </script>
     <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">

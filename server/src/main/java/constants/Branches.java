@@ -278,6 +278,8 @@ public class Branches {
         public static final String RETAIL_PRINT = API + "/retail/print";
         public static final String FIND_PRICE = API + "/find/price";
         public static final String PRODUCT_STOCK_CORRECTION = API + "/product/stock/correction";
+        public static final String PHONE_EDIT = API + "/references/phone/edit";
+        public static final String PHONE_REMOVE = API + "/references/phone/remove";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

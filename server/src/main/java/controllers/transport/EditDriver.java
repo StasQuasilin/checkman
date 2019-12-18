@@ -53,16 +53,18 @@ public class EditDriver extends IModal {
             }
         }
 
-        req.setAttribute("driver", driver);
+        req.setAttribute(DRIVER, driver);
         req.setAttribute("transportations", 0);
         req.setAttribute(SAVE, Branches.API.References.SAVE_DRIVER);
         req.setAttribute(MODAL_CONTENT, "/pages/transport/driverInput.jsp");
-        req.setAttribute("find", Branches.API.References.FIND_ORGANISATION);
-        req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
+        req.setAttribute(FIND, Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute(FIND_VEHICLE, Branches.API.References.FIND_VEHICLE);
         req.setAttribute("vehicleEdit", Branches.UI.EDIT_VEHICLE);
         req.setAttribute("findTrailer", Branches.API.References.FIND_TRAILER);
         req.setAttribute("parse", Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute(ORGANISATION_EDIT, Branches.UI.References.ORGANISATION_EDIT);
+        req.setAttribute(PHONE_EDIT, Branches.API.PHONE_EDIT);
+        req.setAttribute(PHONE_REMOVE, Branches.API.PHONE_REMOVE);
 
         req.setAttribute(TITLE, Titles.DRIVER_INPUT);
         show(req, resp);

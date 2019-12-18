@@ -33,7 +33,13 @@ var editor = new Vue({
         vehicleInput:false,
         foundVehicles:[],
         trailerInput:false,
-        m:false
+        m:false,
+        phoneEdit:false,
+        editablePhone:{
+            id:-1,
+            number:''
+        }
+
     },
     mounted:function(){
         this.m=true;
@@ -91,19 +97,55 @@ var editor = new Vue({
             this.transporter = -1;
             this.input.transporter = '';
         },
-        addPhone:function(phone){
-            this.person.phones.push(phone)
+        addPhone:function(){
+            this.phoneEdit = !this.phoneEdit;
+            if (!this.phoneEdit){
+                this.editablePhone = {
+                    id:-1,
+                    number:''
+                }
+            }
+        },
+        savePhone:function(){
+            const self = this;
+            this.editablePhone.person = this.person.id;
+            PostApi(this.api.editPhone, this.editablePhone, function(a){
+                let data = a.result;
+                let found = false;
+                for (let i in self.person.phones){
+                    if (self.person.phones.hasOwnProperty(i)){
+                        let phone = self.person.phones[i];
+                        if (phone.id == data.id){
+                            found = true;
+                            self.person.phones.splice(i, 1, data);
+
+                            break;
+                        }
+                    }
+                }
+                if (!found){
+                    self.person.phones.push(data);
+                }
+                self.addPhone();
+            });
         },
         removePhone:function(id){
-            this.person.phones.splice(id, 1);
+            let phone = this.person.phones[id];
+            let phones = this.person.phones;
+            PostApi(this.api.removePhone, phone, function(a){
+                if (a.status === 'success'){
+                    phones.splice(id, 1);
+                }
+            });
+
         },
         save:function(){
             var result = {};
             if (this.transportationId){
                 result.transportation_id = this.transportationId
             }
-            if (this.person.id > 0) {
-                result.id = this.person.id;
+            if (this.id > 0) {
+                result.id = this.id;
             }
             result.forename = this.person.forename;
             result.surname = this.person.surname;
@@ -129,6 +171,7 @@ var editor = new Vue({
         close:function(){
             closeModal();
         }
+
     }
 
 });

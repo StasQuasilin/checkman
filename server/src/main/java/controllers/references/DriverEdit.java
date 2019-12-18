@@ -19,7 +19,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.References.DRIVER_EDIT)
 public class DriverEdit extends IModal {
 
-    private static final String ORGANISATION_EDIT = "organisationEdit";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,6 +29,7 @@ public class DriverEdit extends IModal {
         req.setAttribute(TITLE, "driver.edit");
         req.setAttribute(MODAL_CONTENT, "/pages/references/driverEdit.jsp");
         req.setAttribute(ORGANISATION_EDIT, Branches.UI.References.ORGANISATION_EDIT);
+
         req.setAttribute(SAVE, Branches.API.References.DRIVER_EDIT);
         show(req, resp);
     }

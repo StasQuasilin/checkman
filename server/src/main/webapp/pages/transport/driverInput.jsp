@@ -40,10 +40,10 @@
     editor.api.find = '${find}';
     editor.api.parse = '${parse}';
     editor.api.editOrganisation = '${organisationEdit}';
-    editor.person.id = '${driver.id}';
-    editor.person.forename = '${driver.person.forename}';
-    editor.person.surname = '${driver.person.surname}';
-    editor.person.patronymic = '${driver.person.patronymic}';
+    editor.api.editPhone = '${phoneEdit}';
+    editor.api.removePhone = '${phoneRemove}';
+    editor.id = '${driver.id}';
+    editor.person = JSON.parse('${driver.person.toJson()}');
     editor.license = '${driver.license}';
     editor.transporter = {};
     <c:if test="${driver.organisation ne null}">
@@ -58,22 +58,22 @@
         model:'${driver.vehicle.model}',
         number:'${driver.vehicle.number}',
         value:'${driver.vehicle.model} ${driver.vehicle.number}'
-    }
+    };
     <c:if test="${driver.vehicle.trailer ne null}">
     editor.trailer = {
         id:${driver.vehicle.trailer.id},
         number:'${driver.vehicle.trailer.number}',
         value:'${driver.vehicle.trailer.number}'
 
-    }
+    };
     </c:if>
     </c:if>
-    editor.transportationId = '${transportation}'
+    editor.transportationId = '${transportation}';
     editor.editOrganisation = function(id){
         const self = editor;
         loadModal(editor.api.editOrganisation, {id:id}, function(a){
             console.log(a);
-            console.log(editor.setOrganisation)
+            console.log(editor.setOrganisation);
             if (a.status === 'success'){
                 self.setOrganisation(a.organisation);
             }
@@ -145,6 +145,38 @@
             <fmt:message key="transportation.automobile"/>/<fmt:message key="transportation.automobile.trailer"/>:
             <vehicle-input v-if="m" :props="vehicleProps" :object="vehicle"></vehicle-input>
             <vehicle-input v-if="m" :props="trailerProps" :object="trailer"></vehicle-input>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" colspan="2">
+            <span>
+                <label for="phoneInput">
+                    <fmt:message key="phones"/>:
+                </label>
+            </span>
+        </td>
+        <td>
+            <div v-for="(phone, phoneIdx) in person.phones" style="padding: 0 2pt">
+                <a>
+                    {{phone.number}}
+                </a>
+                <span class="mini-close" v-on:click="removePhone(phoneIdx)">
+                    &times;
+                </span>
+            </div>
+            <div v-if="phoneEdit" >
+                <input id="phoneInput" v-model="editablePhone.number" style="width: 68%; border: none"
+                       v-on:keyup.enter="savePhone()" v-on:keyup.escape="addPhone()"
+                       autocomplete="off">
+                <span class="mini-close" v-on:click="addPhone()">
+                    &times;
+                </span>
+            </div>
+            <div v-else >
+                <a v-on:click="addPhone()" style="font-size: 10pt">
+                    <fmt:message key="phone.add"/>
+                </a>
+            </div>
         </td>
     </tr>
     <tr>

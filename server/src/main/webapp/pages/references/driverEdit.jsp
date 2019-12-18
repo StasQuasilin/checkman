@@ -111,6 +111,16 @@
     </td>
   </tr>
   <tr>
+    <td colspan="2">
+      <div style="width: 100%; display: flex">
+        <span>
+          <fmt:message key="phones"/>:
+        </span>
+
+      </div>
+    </td>
+  </tr>
+  <tr>
     <td colspan="3" align="center">
       <button onclick="closeModal()">
         <fmt:message key="button.cancel"/>

@@ -40,7 +40,14 @@ var transportView = {
                 '<span v-else>'+
                     '{{fields.noData}}'+
                 '</span>'+
-            '</div>'+
+            '</div>' +
+            '<div>' +
+                '<span v-for="phone in item.driver.person.phones" style="padding: 0 2pt">' +
+                    '<span>' +
+                        '{{phone.number}}' +
+                    '</span>' +
+                '</span>' +
+            '</div>' +
         '</div>'+
         '<div style="display: inline-block; font-size: 10pt; padding-left: 4pt">'+
             '<div>'+

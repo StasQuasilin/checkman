@@ -97,6 +97,9 @@ public interface Constants {
     String EDIT_GROUP = "editGroup";
     String PARSE_GROUP = "parseGroup";
     String PARAMETERS_TYPE = "?type=";
+    String ORGANISATION_EDIT = "organisationEdit";
+    String PHONE_EDIT = "phoneEdit";
+    String PHONE_REMOVE = "phoneRemove";
     public static final String MODAL_CONTENT = "modalContent";
     public static final String PROBE = "probe";
     public static final String FIND_MANGER = "findManager";
