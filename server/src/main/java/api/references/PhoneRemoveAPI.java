@@ -3,7 +3,9 @@ package api.references;
 import api.ServletAPI;
 import constants.Branches;
 import entity.PhoneNumber;
+import entity.transport.Driver;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,15 +18,21 @@ import java.io.IOException;
  */
 @WebServlet(Branches.API.PHONE_REMOVE)
 public class PhoneRemoveAPI extends ServletAPI {
+
+    private final UpdateUtil updateUtil = new UpdateUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
-            System.out.println(body);
             PhoneNumber number = dao.getObjectById(PhoneNumber.class, body.get(ID));
             if (number != null){
                 dao.remove(number);
                 write(resp, SUCCESS_ANSWER);
+                Driver driver = dao.getDriverByPerson(number.getPerson());
+                if (driver != null){
+                    updateUtil.onSave(driver);
+                }
             }
         }
     }

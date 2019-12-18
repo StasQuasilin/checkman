@@ -41,7 +41,7 @@ var transportView = {
                     '{{fields.noData}}'+
                 '</span>'+
             '</div>' +
-            '<div>' +
+            '<div v-if="item.driver">' +
                 '<span v-for="phone in item.driver.person.phones" style="padding: 0 2pt">' +
                     '<span>' +
                         '{{phone.number}}' +

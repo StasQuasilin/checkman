@@ -15,12 +15,14 @@
   <script src="${context}/vue/templates/vehicleInput.vue"></script>
   <script src="${context}/vue/templates/transportationDataEdit.vue"></script>
   <script src="${context}/vue/templates/priceView.vue"></script>
+  <script src="${context}/vue/templates/commentator.vue"></script>
   <script src="${context}/vue/dataList.vue"></script>
   <script>
     var save = '${save}';
     list.fields = {
       trailer:'<fmt:message key="transportation.automobile.trailer"/>',
       license:'<fmt:message key="driver.license"/>',
+      comment:'<fmt:message key="comment.plus"/>',
       driverProps:{
         find:'${findDriver}',
         add:'${parseDriver}',

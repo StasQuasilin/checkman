@@ -4,7 +4,9 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.Person;
 import entity.PhoneNumber;
+import entity.transport.Driver;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -18,6 +20,9 @@ import java.io.IOException;
  */
 @WebServlet(Branches.API.PHONE_EDIT)
 public class PhoneEditAPI extends ServletAPI {
+
+    private final UpdateUtil updateUtil = new UpdateUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -43,8 +48,11 @@ public class PhoneEditAPI extends ServletAPI {
                 JSONObject json = new SuccessAnswer(RESULT, phoneNumber.toJson()).toJson();
                 write(resp, json.toJSONString());
                 pool.put(json);
+                Driver driver = dao.getDriverByPerson(person);
+                if (driver != null){
+                    updateUtil.onSave(driver);
+                }
             }
-
         }
     }
 }

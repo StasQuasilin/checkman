@@ -37,14 +37,22 @@ var transportView = {
                 '<div>'+
                     '{{fields.transporter}}: ' +
                     '<object-input :props=fields.transporterProps :object=item.transporter :item="item"></object-input>'+
+                '</div>' +
+                '<div>' +
+                    '<a v-on:click="">{{fields.comment}}</a>' +
                 '</div>'+
             '</div>' +
         '</div>' +
-        '<div>' +
-            '<span v-if="item.driver && item.driver.license">' +
+        '<div v-if="item.driver">' +
+            '<span v-if="item.driver.license">' +
                 '{{fields.license}}: ' +
                 '<b>{{item.driver.license}}</b>'+
             '</span>'+
+            '<span v-for="phone in item.driver.person.phones" style="padding: 0 2pt">' +
+                '<span>' +
+                    '{{phone.number}}' +
+                '</span>' +
+            '</span>' +
         '</div>'+
     '</div>'
 };

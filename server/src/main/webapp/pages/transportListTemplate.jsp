@@ -183,6 +183,7 @@
                                 {{note.note}}
                             </b>
                         </div>
+                        <commentator></commentator>
                     </div>
                 </div>
                 <div class="right-field">

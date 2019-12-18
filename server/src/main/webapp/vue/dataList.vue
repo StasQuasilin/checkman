@@ -3,7 +3,8 @@ var list = new Vue({
     components:{
         'transport-view':transportView,
         'laboratory-view':laboratoryView,
-        'price-view':priceView
+        'price-view':priceView,
+        'commentator':commentator
     },
     data:{
         api:{
