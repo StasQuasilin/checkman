@@ -7,7 +7,6 @@
 <script src="${context}/vue/templates/vehicleInput.vue"></script>
 <script src="${context}/vue/personEdit.vue"></script>
 <script>
-
     editor.trailerProps = {
         find : '${findTrailer}',
         addHeade : '<fmt:message key="button.add"/>',
@@ -148,23 +147,25 @@
         </td>
     </tr>
     <tr>
-        <td valign="top" colspan="2">
+        <td valign="top">
             <span>
                 <label for="phoneInput">
-                    <fmt:message key="phones"/>:
+                    <fmt:message key="phones"/>
                 </label>
             </span>
         </td>
         <td>
+        </td>
+        <td width="55%">
             <div v-for="(phone, phoneIdx) in person.phones" style="padding: 0 2pt">
-                <a>
+                <a v-on:click="editPhone(phone, phoneIdx)">
                     {{phone.number}}
                 </a>
                 <span class="mini-close" v-on:click="removePhone(phoneIdx)">
                     &times;
                 </span>
             </div>
-            <div v-if="phoneEdit" >
+            <div v-if="phoneEdit" v-on:blur="savePhone()">
                 <input id="phoneInput" v-model="editablePhone.number" style="width: 68%; border: none"
                        v-on:keyup.enter="savePhone()" v-on:keyup.escape="addPhone()"
                        autocomplete="off">

@@ -84,28 +84,41 @@
                 <fmt:message key="sun.humidity"/>
               </td>
             </tr>
+            <c:set var="count" value="0"/>
+            <c:set var="midHin" value="0"/>
+            <c:set var="midFrac" value="0"/>
+            <c:set var="midMisc" value="0"/>
+            <c:set var="midHum" value="0"/>
+            <c:set var="midDis" value="0"/>
+            <c:set var="midGre" value="0"/>
             <c:forEach items="${turn.crudes}" var="crude">
               <tr>
                 <td align="center">
                   <fmt:formatDate value="${crude.time}" pattern="HH:mm"/>
                 </td>
                 <td align="center">
-                    ${crude.humidityIncome}
+                  ${crude.humidityIncome}
+                  <c:set var="midHin" value="${midHin + crude.humidityIncome}"/>
                 </td>
                 <td align="center">
-                    ${crude.fraction}
+                  ${crude.fraction}
+                  <c:set var="midFrac" value="${midFrac + crude.fraction}"/>
                 </td>
                 <td align="center">
-                    ${crude.miscellas}
+                  ${crude.miscellas}
+                  <c:set var="midMisc" value="${midMisc + crude.miscellas}"/>
                 </td>
                 <td align="center">
-                    ${crude.humidity}
+                  ${crude.humidity}
+                  <c:set var="midHum" value="${midHum + crude.humidity}"/>
                 </td>
                 <td align="center">
-                    <fmt:formatNumber value="${crude.dissolvent}"/>
+                  <fmt:formatNumber value="${crude.dissolvent}"/>
+                  <c:set var="midDis" value="${midDis + crude.dissolvent}"/>
                 </td>
                 <td align="center">
-                    ${crude.grease}
+                  ${crude.grease}
+                  <c:set var="midGre" value="${midGre + crude.grease}"/>
                 </td>
                 <c:set var="foundProtein" value="false"/>
                 <c:forEach items="${turn.protein}" var="sp">
@@ -148,7 +161,31 @@
                   </td>
                 </c:if>
               </tr>
+              <c:set var="count" value="${count+1}"/>
             </c:forEach>
+            <tr>
+              <td>
+                <fmt:message key="middle"/>
+              </td>
+              <td align="center">
+                <fmt:formatNumber value="${midHin / count}"/>
+              </td>
+              <td align="center">
+                <fmt:formatNumber value="${midFrac / count}"/>
+              </td>
+              <td align="center">
+                <fmt:formatNumber value="${midMisc / count}"/>
+              </td>
+              <td align="center">
+                <fmt:formatNumber value="${midHum / count}"/>
+              </td>
+              <td align="center">
+                <fmt:formatNumber value="${midDis / count}"/>
+              </td>
+              <td align="center">
+                <fmt:formatNumber value="${midGre / count}"/>
+              </td>
+            </tr>
           </table>
           <div>
             <div style="display: inline-block">

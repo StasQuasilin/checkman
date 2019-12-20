@@ -6,6 +6,7 @@
 <html>
 <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
+<script src="${context}/vue/templates/commentator.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 
 <link rel="stylesheet" href="${context}/css/DataContainer.css">

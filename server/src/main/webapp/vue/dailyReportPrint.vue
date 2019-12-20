@@ -23,7 +23,7 @@ var report = new Vue({
                 print.document.write(a);
                 print.document.write('</html>');
                 print.print();
-                print.close();
+                //print.close();
             })
         }
     }

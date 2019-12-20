@@ -26,7 +26,6 @@ import java.sql.Timestamp;
 @WebServlet(Branches.API.LABORATORY_SAVE_CAKE)
 public class EditCakeServletAPI extends ServletAPI {
 
-    private static final long serialVersionUID = 4409989775925601777L;
     private final Logger log = Logger.getLogger(EditCakeServletAPI.class);
     private final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -90,11 +89,6 @@ public class EditCakeServletAPI extends ServletAPI {
                 dao.save(mealAnalyses);
                 dao.saveTransportation(transportation);
                 updateUtil.onSave(transportation);
-
-                Notificator notificator = BotFactory.getNotificator();
-                if (notificator != null) {
-                    notificator.cakeAnalysesShow(transportation, mealAnalyses);
-                }
             }
 
             write(resp, SUCCESS_ANSWER);

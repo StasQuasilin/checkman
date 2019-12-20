@@ -129,6 +129,11 @@ var editor = new Vue({
                 self.addPhone();
             });
         },
+        editPhone:function(phone, idx){
+            this.person.phones.splice(idx, 1);
+            this.editablePhone = phone;
+            this.phoneEdit = true;
+        },
         removePhone:function(id){
             let phone = this.person.phones[id];
             let phones = this.person.phones;
