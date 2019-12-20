@@ -107,8 +107,11 @@ public class Branches {
         public static final String STOP_REPORT = "/stop/report.j";
         public static final String RETAIL_PRINT = "/retail/print.j";
         public static final String STORAGE_PRODUCT_CORRECTION = "/storage/product/correction.j";
-        public static final String STATE_STANDARDS = "/statestandards.j";
-        public static final String STATE_STANDARD_EDIT = "/statestandard/edit.j";
+        public static final String PROTOCOL_LIST = "/statestandards.j";
+        public static final String PROTOCOL_EDIT = "/statestandard/edit.j";
+        public static final String LABORATORY_CARRIAGES = "/laboratory/carriages.j";
+        public static final String TRUCK_INFO = "/truck/info.j";
+        public static final String LABORATORY_SHOW = "/laboratory/hsow.j";
 
 
         public class Extraction {
@@ -282,6 +285,8 @@ public class Branches {
         public static final String PRODUCT_STOCK_CORRECTION = API + "/product/stock/correction";
         public static final String PHONE_EDIT = API + "/references/phone/edit";
         public static final String PHONE_REMOVE = API + "/references/phone/remove";
+        public static final String PROTOCOL_EDIT = API + "/standard/edit";
+        public static final String LABORATORY_CARRIAGE = API + "/laboratory/carriage";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

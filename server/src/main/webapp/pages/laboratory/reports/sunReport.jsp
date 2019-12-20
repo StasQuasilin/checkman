@@ -20,7 +20,6 @@
   <tr>
     <td align="center">
       <jsp:include page="header.jsp"/>
-
     </td>
   </tr>
   <tr>
@@ -34,7 +33,7 @@
         <span>
         від
         </span>
-          <fmt:formatDate value="${now}" pattern="dd.MM.yyyy"/>
+          <fmt:formatDate value="${date}" pattern="dd.MM.yyyy"/>
         </b>
       </div>
     </td>
@@ -72,12 +71,12 @@
   <tr>
     <td>
       <div style="padding-top: 12pt; text-indent: 25pt">
-        <fmt:formatDate value="${plan.transportation.timeIn.time}" pattern="dd.MM.yyyy"/>
+        <fmt:formatDate value="${plan.timeIn.time}" pattern="dd.MM.yyyy"/>
       <span>
         від постачальника сировини
       </span>
         <b>
-          ${plan.deal.organisation.value}
+          ${plan.counterparty.value}
         </b>
       <span>
         прийняте насіння соняшника з такими якісними показниками:
@@ -108,13 +107,13 @@
             Кислотне число олії, мг КОН/г
           </th>
         </tr>
-        <c:set value="${plan.transportation.sunAnalyses}" var="sun"/>
+        <c:set value="${plan.sunAnalyses}" var="sun"/>
         <tr>
           <td align="center">
             1
           </td>
           <td>
-            ${plan.transportation.driver.person.value}
+            ${plan.driver.person.value}
           </td>
           <td>
             <c:choose>
@@ -125,7 +124,7 @@
                       М.&nbsp;-&nbsp;${sun.humidity1}
                     </td>
                     <td rowspan="2">
-                      Сер.&nbsp;<fmt:formatNumber value="${(sun.humidity1 + sun.humidity2) / 2}"/>
+                      Сер.&nbsp;<fmt:formatNumber value="${sun.middleHumidity()}"/>
                     </td>
                   </tr>
                   <tr>
@@ -155,14 +154,14 @@
     </td>
   </tr>
   <c:choose>
-    <c:when test="${humidity gt humidityBasis and soreness gt sorenessBasis}">
+    <c:when test="${sun.middleHumidity() > humidityBasis and sun.soreness > sorenessBasis}">
       <tr>
         <td>
           <div style="padding-top: 12pt">
             Убуток маси насіння від зменшення сміттєвої домішки
             внаслідок очистки та зменшення вологи
             внаслідок сушіння становить
-            <fmt:formatNumber value="${percent}"/>%
+            <fmt:formatNumber value="${plan.weight.correction}"/>%
           </div>
         </td>
       </tr>
@@ -181,10 +180,10 @@
                   &nbsp;= 100 -
                 </td>
                 <td style="border-bottom: solid 1pt">
-                  (100 - <fmt:formatNumber value="${humidity}"/>) &times; (100 - ${soreness}) &times; 100
+                  (100 - <fmt:formatNumber value="${sun.middleHumidity()}"/>) &times; (100 - ${sun.soreness}) &times; 100
                 </td>
                 <td rowspan="2">
-                  &nbsp;= <fmt:formatNumber value="${percent}"/>%
+                  &nbsp;= <fmt:formatNumber value="${plan.weight.correction}"/>%
                 </td>
               </tr>
               <tr>
@@ -200,12 +199,12 @@
         </td>
       </tr>
     </c:when>
-    <c:when test="${humidity gt humidityBasis}">
+    <c:when test="${sun.middleHumidity() > humidityBasis}">
       <tr>
         <td>
           <div style="padding-top: 12pt">
             Убуток маси насіння від зменшення вологості внаслідок сушіння становить
-            <fmt:formatNumber value="${percent}"/>%
+            <fmt:formatNumber value="${plan.weight.correction}"/>%
           </div>
         </td>
       </tr>
@@ -215,10 +214,10 @@
             <table>
               <tr>
                 <td style="border-bottom: solid 1pt">
-                  ( ${humidity} - ${humidityBasis} ) &times; 100
+                  ( ${sun.middleHumidity()} - ${humidityBasis} ) &times; 100
                 </td>
                 <td rowspan="2">
-                  &nbsp;= <fmt:formatNumber value="${percent}"/>%
+                  &nbsp;= <fmt:formatNumber value="${plan.weight.correction}"/>%
                 </td>
               </tr>
               <tr>
@@ -231,17 +230,15 @@
         </td>
       </tr>
     </c:when>
-    <c:when test="${soreness gt sorenessBasis}">
+    <c:when test="${sun.soreness gt sorenessBasis}">
       <tr>
         <td>
           <div style="padding-top: 12pt">
             Убуток маси насіння від зменшення вологи
             внаслідок сушіння становить
-            <fmt:formatNumber value="${percent}"/>%
+            <fmt:formatNumber value="${plan.weight.correction}"/>%
           </div>
-
         </td>
-
       </tr>
       <tr>
         <td align="center">
@@ -249,10 +246,10 @@
             <table>
               <tr>
                 <td style="border-bottom: solid 1pt">
-                  ( ${soreness} - ${sorenessBasis} ) &times; 100
+                  ( ${sun.soreness} - ${sorenessBasis} ) &times; 100
                 </td>
                 <td rowspan="2">
-                  &nbsp;= <fmt:formatNumber value="${percent}"/>%
+                  &nbsp;= <fmt:formatNumber value="${plan.weight.correction}"/>%
                 </td>
               </tr>
               <tr>
@@ -266,7 +263,6 @@
       </tr>
     </c:when>
   </c:choose>
-
   <tr>
     <td>
       <div style="padding-top: 24pt">
@@ -286,7 +282,7 @@
               М.П.
             </td>
             <td align="right">
-              ${sun.createTime.creator.value}
+              ${responsible.value}
             </td>
           </tr>
         </table>

@@ -46,13 +46,6 @@
     };
     </c:otherwise>
     </c:choose>
-    <c:forEach items="${laborants}" var="l">
-    editor.laborants.push({
-        id:${l.id},
-        value:'${l.person.value}'
-    });
-    </c:forEach>
-    
     editor.recount=function(){
         const basis = {
             humidity:7,
@@ -162,75 +155,64 @@
     </tr>
     <tr>
         <td>
-            <label for="humidity2">
-                <fmt:message key="sun.humidity.2.short"/>
-            </label>
+            <fmt:message key="sun.humidity.2.short"/>
         </td>
         <td>
             :
         </td>
         <td>
-            <input id="humidity2" step="0.01" type="number" v-model.number="analyses.humidity2" onfocus="this.select()">
+            {{analyses.humidity2.toLocaleString()}}
         </td>
     </tr>
     <tr>
         <td>
-            <label for="soreness">
-                <fmt:message key="sun.soreness"/>
-            </label>
+            <fmt:message key="sun.soreness"/>
         </td>
         <td>
             :
         </td>
         <td colspan="2">
-            <input id="soreness" step="0.01" type="number" v-model="analyses.soreness">
+            {{analyses.soreness.toLocaleString()}}
         </td>
     </tr>
     <tr>
         <td>
-            <label for="oilImp">
-                <fmt:message key="sun.oil.impurity"/>
-            </label>
+            <fmt:message key="sun.oil.impurity"/>
         </td>
         <td>
             :
         </td>
         <td colspan="2">
-            <input id="oilImp" step="0.01" type="number" v-model="analyses.oilImpurity" onfocus="this.select()">
+            {{analyses.oilImpurity.toLocaleString()}}
         </td>
     </tr>
     <tr>
         <td>
-            <label for="oiliness">
-                <fmt:message key="sun.oiliness"/>
-            </label>
+            <fmt:message key="sun.oiliness"/>
         </td>
         <td>
             :
         </td>
         <td colspan="2">
-            <input id="oiliness" step="0.01" type="number" v-model="analyses.oiliness" onfocus="this.select()">
+            {{analyses.oiliness.toLocaleString()}}
         </td>
     </tr>
     <tr>
         <td>
-            <label for="acid">
-                <fmt:message key="sun.acid.value"/>
-            </label>
+            <fmt:message key="sun.acid.value"/>
         </td>
         <td>
             :
         </td>
         <td colspan="2">
-            <input id="acid" step="0.01" type="number" v-model="analyses.acidValue" onfocus="this.select()">
+            {{analyses.acidValue.toLocaleString()}}
         </td>
     </tr>
-    <tr>
+    <tr v-if="analyses.contamination">
         <td colspan="3" align="right">
-            <label for="contamination">
+            <span>
                 <fmt:message key="sun.contamination"/>
-            </label>
-            <input id="contamination" type="checkbox" v-model="analyses.contamination">
+            </span>
         </td>
     </tr>
     <template v-if="recount()">
@@ -247,31 +229,11 @@
                 </span>
             </td>
         </tr>
-        <tr>
-            <td>
-                <label for="creator">
-                    <fmt:message key="laboratory.creator"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td colspan="2">
-                <select id="creator" v-model="analyses.creator">
-                    <option v-for="lab in laborants" :value="lab.id">
-                        {{lab.value}}
-                    </option>
-                </select>
-            </td>
-        </tr>
     </template>
     <tr>
         <td colspan="3" align="right">
             <button onclick="closeModal()">
-                <fmt:message key="button.cancel"/>
-            </button>
-            <button v-on:click="save">
-                <fmt:message key="button.save"/>
+                <fmt:message key="button.close"/>
             </button>
         </td>
         <td align="right">

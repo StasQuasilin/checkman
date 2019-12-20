@@ -44,6 +44,9 @@ var transportView = {
             '<span v-if="item.driver.license">' +
                 '{{fields.license}}: ' +
                 '<b>{{item.driver.license}}</b>'+
+            '</span>' +
+            '<span v-if="item.driver.person.phones.length > 0">' +
+                '&#128222;' +
             '</span>'+
             '<span v-for="phone in item.driver.person.phones" style="padding: 0 2pt">' +
                 '<span>' +

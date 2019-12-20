@@ -74,9 +74,7 @@ public class Parser {
     }
 
     public static void main(String[] args) throws IOException, DocumentException {
-//        System.out.println(parseVehicle("daf вм 17-56 вм вм5241аа"));
-
-
+        System.out.println(parseVehicle("daf вм 17-56 вм вм5241аа"));
     }
 
 

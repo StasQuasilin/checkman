@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <div id="container-header" style="display: inline">
-    <c:if test="${role eq 'analyser'}">
+    <c:if test="${role eq 'analyser' || role eq 'admin'}">
         <button onclick="loadModal('${edit}')" style="background-color: white">
             <fmt:message key="button.add"/>
         </button>

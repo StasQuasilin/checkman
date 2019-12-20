@@ -29,6 +29,11 @@
         number:'${seal.number}'
     });
     </c:forEach>
+    function truckInfo(){
+        <c:if test="${not empty transportation.vehicle.id }">
+        loadModal('${truckInfo}', {id:${transportation.vehicle.id}})
+        </c:if>
+    }
 </script>
 <table id="show" border="0">
     <tr>
@@ -92,19 +97,26 @@
             <div>
                 <c:choose>
                     <c:when test="${not empty transportation.vehicle.id }">
-                        <span>
-                            ${transportation.vehicle.model}
-                        </span>
+                        <div>
+                            <span>
+                                    ${transportation.vehicle.model}
+                            </span>
 
-                        <div style="display: inline-block; font-size: 10pt">
-                            <div>
-                                '${transportation.vehicle.number}'
-                            </div>
-                            <c:if test="${not empty transportation.vehicle.trailer}">
+                            <div style="display: inline-block; font-size: 10pt">
                                 <div>
-                                    '${transportation.vehicle.trailer}'
+                                    '${transportation.vehicle.number}'
                                 </div>
-                            </c:if>
+                                <c:if test="${not empty transportation.vehicle.trailer}">
+                                    <div>
+                                        '${transportation.vehicle.trailer.number}'
+                                    </div>
+                                </c:if>
+                            </div>
+                        </div>
+                        <div>
+                            <button onclick="truckInfo()">
+                                <fmt:message key="vehicle.info"/>
+                            </button>
                         </div>
                     </c:when>
                     <c:otherwise>
@@ -114,6 +126,7 @@
             </div>
         </td>
     </tr>
+
     <tr>
         <td>
             <fmt:message key="transportation.driver"/>

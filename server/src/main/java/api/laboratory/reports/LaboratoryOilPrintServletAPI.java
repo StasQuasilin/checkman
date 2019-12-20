@@ -5,6 +5,7 @@ import api.laboratory.ActNumberService;
 import constants.Branches;
 import entity.AnalysesType;
 import entity.Worker;
+import entity.laboratory.Protocol;
 import entity.laboratory.transportation.ActType;
 import entity.products.Product;
 import entity.products.ProductProperty;
@@ -26,12 +27,11 @@ import java.util.HashMap;
 @WebServlet(Branches.API.LABORATORY_OIL_PRINT)
 public class LaboratoryOilPrintServletAPI extends ServletAPI {
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
+            System.out.println(body);
             long id = -1;
             if (body.containsKey("id")) {
                 id = Long.parseLong(String.valueOf(body.get("id")));
@@ -51,10 +51,23 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                 for (ProductProperty property : dao.getProductProperties(product)){
                     properties.put(property.getKey(), property.getValue());
                 }
+                req.setAttribute("number", number);
+                req.setAttribute("date", date);
+                req.setAttribute("manufacture", manufacture);
+                req.setAttribute("responsible", responsible);
+                req.setAttribute("plan", transportation);
+                req.setAttribute("properties", properties);
+                req.setAttribute("analyses", transportation.getOilAnalyses());
+                req.setAttribute("weight", transportation.getWeight());
+
+                Protocol protocol = dao.getProtocol(transportation.getProduct());
+                req.setAttribute(PROTOCOL, protocol);
 
                 switch (type){
                     case sun:
                         req.setAttribute("analyses", transportation.getSunAnalyses());
+                        req.setAttribute("humidityBasis", 7);
+                        req.setAttribute("sorenessBasis", 3);
                         req.getRequestDispatcher("/pages/laboratory/reports/sunReport.jsp").forward(req, resp);
                         if (transportation.getSunAnalyses().getAct() != number){
                             transportation.getSunAnalyses().setAct(number);
@@ -63,6 +76,7 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                         break;
                     case oil:
                         req.setAttribute("analyses", transportation.getOilAnalyses());
+
                         req.getRequestDispatcher("/pages/laboratory/reports/oilReport.jsp").forward(req, resp);
                         if (transportation.getOilAnalyses().getAct() != number){
                             transportation.getOilAnalyses().setAct(number);
@@ -78,15 +92,6 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                         }
                         break;
                 }
-
-                req.setAttribute("number", number);
-                req.setAttribute("date", date);
-                req.setAttribute("manufacture", manufacture);
-                req.setAttribute("responsible", responsible);
-                req.setAttribute("plan", transportation);
-                req.setAttribute("properties", properties);
-                req.setAttribute("analyses", transportation.getOilAnalyses());
-                req.setAttribute("weight", transportation.getWeight());
 
                 ActNumberService.updateNumber(ActType.valueOf(type.name() + "Act"), number);
             }

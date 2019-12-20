@@ -44,10 +44,15 @@
               <td valign="top" style="height: fit-content">
                 <jsp:include page="manufactoryLabel.jsp"/>
               </td>
-              <td rowspan="7" style="font-style: italic; border-left: solid 1pt">
+              <td rowspan="7" style="font-style: italic; border-left: solid 1pt; padding-left: 4pt">
                 <p>
-                  Рід - <b>соняшникова</b><br>
-                  Вид - <b>${properties['form']}</b><br>
+                  <c:if test="${analyses.explosion == 0}">
+                    Рід - <b>соняшникова</b><br>
+                    Вид - <b>${properties['form']}</b><br>
+                  </c:if>
+                  <c:if test="${analyses.explosion > 0}">
+                    <b>Олія соняшникова не рафінована (суміш пресової з екстракційною)</b><br>
+                  </c:if>
                   <c:if test="${not empty properties['brand']}">
                     Гатунок - <b>${properties['brand']}</b><br>
                   </c:if>
@@ -71,8 +76,8 @@
                 </p>
                 <p>
                   <b>
-                    Протокол випробовувань №469 від 02.04.2019<br>
-                    виданий ДП "Сумистандарт метрологія"<br>
+                    Протокол випробовувань №${protocol.number} від <fmt:formatDate value="${protocol.date}" pattern="dd.MM.yyyy"/><br>
+                    виданий ДП "Сумистандарт метрологія"<br><br>
                     <b>
                       Відповідає ДСТУ 4492:2017<br>
                     </b>
@@ -101,7 +106,7 @@
             </tr>
             <tr>
               <td>
-                № а/ц: ${plan.vehicle.trailer}
+                № а/ц: ${plan.vehicle.trailer.number}
               </td>
             </tr>
             <tr>

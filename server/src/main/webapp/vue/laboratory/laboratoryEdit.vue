@@ -17,12 +17,15 @@ var editor = new Vue({
     },
     methods:{
         saveLogic:function(onSave){
-            console.log(this.analyses);
-            PostApi(this.api.save, {plan:this.plan, analyses:this.analyses}, function(a){
-                if (onSave){
-                    onSave(a);
-                }
-            })
+            if (this.api.save) {
+                PostApi(this.api.save, {plan: this.plan, analyses: this.analyses}, function (a) {
+                    if (onSave) {
+                        onSave(a);
+                    }
+                })
+            } else {
+                onSave();
+            }
         },
         save:function(){
             this.saveLogic(function(a){
@@ -38,20 +41,6 @@ var editor = new Vue({
             const self = this;
             this.saveLogic(function(a){
                 loadModal(self.api.print + '?type=' + self.type, {id: self.plan});
-                //PostReq(self.api.print, {id: self.plan}, function (p) {
-                //    if (p) {
-                //        var print = window.open();
-                //        print.document.write(p);
-                //        print.document.close();
-                //        $(print.document).ready(function(){
-                //            setTimeout(function(){
-                //                print.print();
-                //                print.close();
-                //            }, 10);
-                //        });
-                //        //print.document.write('<div style="top: 0; left: 0; position: absolute; background-color: white; width: 100%; height: 100%"></div>')
-                //    }
-                //})
             })
         }
     }

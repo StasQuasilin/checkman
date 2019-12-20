@@ -165,7 +165,7 @@ public class Hibernator {
 
     private void putParams(HashMap<String, Object> params) {
         if (params != null) {
-            params.clear();
+            params = new HashMap<>();
             pool.add(params);
         }
     }

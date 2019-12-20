@@ -92,7 +92,9 @@
             return new Date(a.item.date) - new Date(b.item.date);
         })
     };
+    var s = 0;
     <c:forEach items="${subscribe}" var="s">
+    s++;
     subscribe('${s}', function(a){
         list.loading = false;
         list.handler(a);
@@ -105,16 +107,15 @@
         });
         </c:forEach>
     };
-    list.loading = true;
+    if (s > 0) {
+        list.loading = true;
+    }
 </script>
 
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">
         <div v-if="loading" style="color: darkgray; text-align: center; width: 100%">
             Loading...
-        </div>
-        <div v-else-if="items.length == 0" style="color: darkgray; text-align: center; width: 100%">
-            <fmt:message key="empty.list"/>
         </div>
         <transition-group name="flip-list" tag="div" class="container" >
             <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"

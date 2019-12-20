@@ -18,27 +18,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_ARCHIVE)
 public class TransportArchive extends IUIServlet {
 
-    static final String CONTENT = "content";
-    static final String SUBSCRIBE = "subscribe";
-    static final String EDIT = "edit";
-
-    final Subscriber[] summaryArchiveSubscriber = new Subscriber[]{
-            Subscriber.LOAD_PLAN_ARCHIVE
-    };
-    final Subscriber[] transportArchiveSubscriber = new Subscriber[]{
-            Subscriber.TRANSPORT_BUY_ARCHIVE,
-            Subscriber.TRANSPORT_SELL_ARCHIVE
-    };
-    final Subscriber[] weightArchiveSubscribe = new Subscriber[]{
-            Subscriber.LOAD_PLAN_ARCHIVE
-    };
-    final Subscriber[] laboratoryBuyArchiveSubscriber = new Subscriber[]{
-            Subscriber.TRANSPORT_BUY_ARCHIVE,
-    };
-    final Subscriber[] laboratorySellArchiveSubscribe = new Subscriber[]{
-            Subscriber.TRANSPORT_SELL_ARCHIVE
-    };
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -52,26 +31,23 @@ public class TransportArchive extends IUIServlet {
         switch (type){
             case summary:
                 req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");
-                req.setAttribute(SUBSCRIBE, summaryArchiveSubscriber);
                 req.setAttribute(EDIT, Branches.UI.SUMMARY_SHOW);
                 break;
             case transportation:
                 req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
-                req.setAttribute(SUBSCRIBE, transportArchiveSubscriber);
                 break;
             case weight:{
                 req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");
-                req.setAttribute(SUBSCRIBE, weightArchiveSubscribe);
                 req.setAttribute(EDIT, Branches.UI.ARCHIVE_WEIGHT_SHOW);
                 break;
             }
             case laboratory_buy:
                 req.setAttribute(CONTENT, "/pages/laboratory/laboratoryList.jsp");
-                req.setAttribute(SUBSCRIBE, laboratoryBuyArchiveSubscriber);
+                req.setAttribute(EDIT, Branches.UI.LABORATORY_SHOW);
                 break;
             case laboratory_sell:
                 req.setAttribute(CONTENT, "/pages/laboratory/laboratoryList.jsp");
-                req.setAttribute(SUBSCRIBE, laboratorySellArchiveSubscribe);
+                req.setAttribute(EDIT, Branches.UI.LABORATORY_SHOW);
                 break;
             default:
                 req.setAttribute(CONTENT, "/pages/archive/archiveTypeErr.jsp");

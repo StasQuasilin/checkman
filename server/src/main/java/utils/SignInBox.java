@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * Created by Kvasik on 24.06.2019.
  */
-public class SignInBox {
+public class SignInBox implements Constants{
 
     private static final String TOKEN = "token";
     private static Logger log = Logger.getLogger(SignInBox.class);
@@ -52,11 +52,11 @@ public class SignInBox {
                 req.getSession().setAttribute("uid", user.getUid());
                 req.getSession().setAttribute("role", user.getWorker().getRole());
             } else {
-                answer = new ErrorAnswer("msd", lb.get(Constants.Languages.WRONG_PASSWORD));
+                answer = new ErrorAnswer("msd", lb.get(Languages.WRONG_PASSWORD));
                 log.error("Wrong password");
             }
         } else {
-            answer = new ErrorAnswer("msd", lb.get(Constants.Languages.NO_USER));
+            answer = new ErrorAnswer("msd", lb.get(Languages.NO_USER));
             log.error("User not found");
         }
 

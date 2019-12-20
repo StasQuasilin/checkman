@@ -10,6 +10,7 @@ import entity.chat.ChatMessage;
 import entity.deal.Contract;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
+import entity.laboratory.Protocol;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
@@ -236,4 +237,7 @@ public interface dbDAO {
     List<Contract> getContractsByOrganisation(Organisation organisation);
     List<Transportation2> getTransportations(DealType type);
     float findPrice(Object counterparty, Object product);
+    List<Protocol> getProtocols();
+    Protocol getProtocol(Product product);
+    TruckInfo getTruckInfo(Vehicle vehicle);
 }

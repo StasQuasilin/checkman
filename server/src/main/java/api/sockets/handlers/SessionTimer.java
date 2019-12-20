@@ -6,9 +6,12 @@ import entity.Role;
 import entity.Worker;
 import org.apache.log4j.Logger;
 import utils.LanguageBase;
+import utils.TurnDateTime;
 import utils.access.UserBox;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.turns.TurnBox;
+import utils.turns.TurnService;
 
 import javax.websocket.Session;
 import java.awt.event.ActionEvent;
@@ -66,11 +69,8 @@ public class SessionTimer {
         for (Map.Entry<Worker, Timer> entry : timerHashMap.entrySet()){
             Worker worker = entry.getKey();
             Role role = worker.getRole();
-            if (localTime.getHour() == TARGET_1.getHour()){
-                if (role == Role.security ){
-                    close(worker);
-                }
-            } else if (role == Role.weigher || role == Role.analyser){
+
+            if (role == Role.weigher || role == Role.analyser || (role == Role.security && localTime.getHour() == TARGET_1.getHour())){
                 close(worker);
             }
         }
@@ -82,19 +82,8 @@ public class SessionTimer {
     }
 
     private LocalDateTime getNextDateTime(){
-        LocalTime nextTime = getNextTime();
-        LocalTime now = LocalTime.now();
-
-        return LocalDateTime.now().plusSeconds(nextTime.toSecondOfDay() - now.toSecondOfDay());
-    }
-
-    private LocalTime getNextTime() {
-        LocalTime now = LocalTime.now();
-        if (now.isAfter(TARGET_1)){
-            return TARGET_2;
-        } else {
-            return TARGET_1;
-        }
+        TurnDateTime turnDate = TurnBox.getTurnDate(LocalDateTime.now());
+        return turnDate.getEnd();
     }
 
     public static final String REASON_1 = "session.timeout";

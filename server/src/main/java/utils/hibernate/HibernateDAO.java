@@ -12,6 +12,7 @@ import entity.deal.Contract;
 import entity.deal.ContractProduct;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
+import entity.laboratory.Protocol;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
@@ -1313,5 +1314,30 @@ public class HibernateDAO implements dbDAO {
         param.put("shipper", shipper);
         param.put("scale", scale);
         return hb.query(StoragePeriodPoint.class, param);
+    }
+
+    @Override
+    public Protocol getProtocol(Product product) {
+        HashMap<String, Object> params = hb.getParams();
+        params.put("product", product);
+        params.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
+        return hb.get(Protocol.class, params);
+    }
+
+    @Override
+    public TruckInfo getTruckInfo(Vehicle vehicle) {
+        return hb.get(TruckInfo.class, "truck", vehicle);
+    }
+
+    @Override
+    public List<Protocol> getProtocols() {
+        List<Protocol> protocols = new ArrayList<>();
+        getProductList().forEach(product -> {
+            Protocol protocol = getProtocol(product);
+            if (protocol != null) {
+                protocols.add(protocol);
+            }
+        });
+        return protocols;
     }
 }

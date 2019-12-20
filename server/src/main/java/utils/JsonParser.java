@@ -728,6 +728,10 @@ public class JsonParser {
         return parser.parse(reader);
     }
 
+    public JSONObject parse(String string) throws ParseException {
+        return (JSONObject) parser.parse(string);
+    }
+
     public JSONObject toJson(ExtractionTurn turn) {
         JSONObject json = new JSONObject();
         json.put(ID, turn.getId());

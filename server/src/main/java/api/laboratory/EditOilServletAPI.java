@@ -46,56 +46,56 @@ public class EditOilServletAPI extends ServletAPI {
             }
             
             JSONObject a = (JSONObject) body.get("analyses");
-            boolean organoleptic = (boolean) a.get(Constants.Oil.ORGANOLEPTIC);
+            boolean organoleptic = (boolean) a.get(Oil.ORGANOLEPTIC);
             log.info("\t\tOrganoleptic: " + organoleptic);
             if (oilAnalyses.isOrganoleptic() != organoleptic) {
                 oilAnalyses.setOrganoleptic(organoleptic);
                 save = true;
             }
 
-            float color = Float.parseFloat(String.valueOf(a.get(Constants.Oil.COLOR)));
+            float color = Float.parseFloat(String.valueOf(a.get(Oil.COLOR)));
             log.info("\t\tColor: " + color);
             if (oilAnalyses.getColor() != color) {
                 oilAnalyses.setColor(color);
                 save = true;
             }
 
-            float acidValue = Float.parseFloat(String.valueOf(a.get(Constants.Oil.ACID_VALUE)));
+            float acidValue = Float.parseFloat(String.valueOf(a.get(Oil.ACID_VALUE)));
             log.info("\t\tAcid value: " + acidValue);
             if (oilAnalyses.getAcidValue() != acidValue) {
                 oilAnalyses.setAcidValue(acidValue);
                 save = true;
             }
 
-            float peroxideValue = Float.parseFloat(String.valueOf(a.get(Constants.Oil.PEROXIDE_VALUE)));
+            float peroxideValue = Float.parseFloat(String.valueOf(a.get(Oil.PEROXIDE_VALUE)));
             log.info("\t\tPeroxide value: " + peroxideValue);
             if (oilAnalyses.getPeroxideValue() != peroxideValue) {
                 oilAnalyses.setPeroxideValue(peroxideValue);
                 save = true;
             }
 
-            float phosphorus = Float.parseFloat(String.valueOf(a.get(Constants.Oil.PHOSPHORUS)));
+            float phosphorus = Float.parseFloat(String.valueOf(a.get(Oil.PHOSPHORUS)));
             log.info("\t\tPhosphorus: " + phosphorus);
             if (oilAnalyses.getPhosphorus() != phosphorus) {
                 oilAnalyses.setPhosphorus(phosphorus);
                 save = true;
             }
 
-            float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY )));
+            float humidity = Float.parseFloat(String.valueOf(a.get(Oil.HUMIDITY )));
             log.info("\t\tHumidity: " + humidity);
             if (oilAnalyses.getHumidity() != humidity) {
                 oilAnalyses.setHumidity(humidity);
                 save = true;
             }
 
-            boolean soap = Boolean.parseBoolean(String.valueOf(a.get(Constants.Oil.SOAP)));
+            boolean soap = Boolean.parseBoolean(String.valueOf(a.get(Oil.SOAP)));
             log.info("\t\tSoap: " + soap);
             if (oilAnalyses.isSoap() != soap) {
                 oilAnalyses.setSoap(soap);
                 save = true;
             }
 
-            boolean wax = Boolean.parseBoolean(String.valueOf(a.get(Constants.Oil.WAX)));
+            boolean wax = Boolean.parseBoolean(String.valueOf(a.get(Oil.WAX)));
             log.info("\t\tWax: " + wax);
             if (oilAnalyses.isWaxB() != wax){
                 oilAnalyses.setWaxB(wax);

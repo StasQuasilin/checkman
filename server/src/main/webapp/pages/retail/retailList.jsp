@@ -10,6 +10,7 @@
 <script src="${context}/vue/templates/retailProductView.vue"></script>
 <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
+<script src="${context}/vue/templates/commentatorPlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 
 <jsp:include page="../retailTransportList.jsp"/>

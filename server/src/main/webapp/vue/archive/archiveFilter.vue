@@ -89,7 +89,9 @@ var filter_control = new Vue({
         find:function(){
             console.log(this.filter);
             const self = this;
+            list.loading = true;
             PostApi(this.api.find, this.filter, function(a){
+                list.loading = false;
                 console.log(a);
                 a.sort(function(a, b){
                     return new Date(b.date) - new Date(a.date);

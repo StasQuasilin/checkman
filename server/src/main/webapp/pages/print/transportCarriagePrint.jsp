@@ -12,6 +12,9 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <style>
+  *{
+    user-select: text;
+  }
   table{
     border-collapse: collapse;
     font-size: 10pt;
@@ -92,6 +95,37 @@
                 <fmt:message key="sun.oiliness"/>
               </th>
             </c:when>
+            <c:when test="${t.key.analysesType eq 'oil'}">
+              <th rowspan="2">
+                <fmt:message key="oil.color.value"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="sun.acid.value"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="oil.peroxide"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="oil.phosphorus"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="sun.humidity"/>
+              </th>
+            </c:when>
+            <c:when test="${t.key.analysesType eq 'meal'}">
+              <th rowspan="2">
+                <fmt:message key="sun.humidity"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="cake.protein"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="cake.cellulose"/>
+              </th>
+              <th rowspan="2">
+                <fmt:message key="sun.oiliness"/>
+              </th>
+            </c:when>
           </c:choose>
         </tr>
         <tr>
@@ -159,16 +193,47 @@
             <c:choose>
               <c:when test="${transport.sunAnalyses ne null}">
                 <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.sunAnalyses.humidity1}"/>
+                  <fmt:formatNumber value="${transport.sunAnalyses.humidity1}"/> %
                 </td>
                 <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.sunAnalyses.humidity2}"/>
+                  <fmt:formatNumber value="${transport.sunAnalyses.humidity2}"/> %
                 </td>
                 <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.sunAnalyses.soreness}"/>
+                  <fmt:formatNumber value="${transport.sunAnalyses.soreness}"/> %
                 </td>
                 <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.sunAnalyses.oiliness}"/>
+                  <fmt:formatNumber value="${transport.sunAnalyses.oiliness}"/> %
+                </td>
+              </c:when>
+              <c:when test="${transport.oilAnalyses ne null}">
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.oilAnalyses.color}"/>
+                </td>
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.oilAnalyses.acidValue}"/>
+                </td>
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.oilAnalyses.peroxideValue}"/>
+                </td>
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.oilAnalyses.phosphorus}"/>
+                </td>
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.oilAnalyses.humidity}"/> %
+                </td>
+              </c:when>
+              <c:when test="${transport.mealAnalyses ne null}">
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.mealAnalyses.humidity}"/>
+                </td>
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.mealAnalyses.protein}"/>
+                </td>
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.mealAnalyses.cellulose}"/>
+                </td>
+                <td rowspan="2" align="center">
+                  <fmt:formatNumber value="${transport.mealAnalyses.oiliness}"/>
                 </td>
               </c:when>
             </c:choose>

@@ -110,7 +110,7 @@
     <body style="margin: 0;">
 
     <div id="snow" v-if="enable" style="background: none; z-index: 102; position: absolute">
-        <div class="snowflake" :style="style()"  v-for="s in amount">
+        <div class="snowflake" :style="style()"  v-for="s in snows.length">
             {{getSnowflake(s)}}
         </div>
     </div>
@@ -120,7 +120,6 @@
             el:'#snow',
             data:{
                 snows:[
-                    '',
                     '❄',
                     '❅',
                     '❆',
@@ -151,9 +150,12 @@
                     '<',
                     '>',
                     '?',
-                    ':)'
+                    ':)',
+                    'F',
+                    'U',
+                    'C',
+                    'K'
                 ],
-                amount:32,
                 enable:true
             },
             methods:{

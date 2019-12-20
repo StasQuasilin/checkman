@@ -21,7 +21,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_SHOW)
 public class TransportationShow extends IModal {
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(ID));
@@ -54,6 +53,7 @@ public class TransportationShow extends IModal {
         req.setAttribute("saveSeal", Branches.API.SEAL_PUT);
         req.setAttribute("removeSeal", Branches.API.SEAL_REMOVE);
         req.setAttribute("seals", dao.getSealsByTransportation(transportation));
+        req.setAttribute(TRUCK_INFO, Branches.UI.TRUCK_INFO);
         req.setAttribute(MODAL_CONTENT, "/pages/transport/transportShow.jsp");
         show(req, resp);
     }
