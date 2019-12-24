@@ -17,6 +17,7 @@ public class VehicleParser {
     final static dbDAO dao = dbDAOService.getDAO();
 
     public static synchronized Vehicle parse(String data){
+
         List<String> vehicleData = Parser.parseVehicle(data);
         Vehicle vehicle = new Vehicle();
         if (vehicleData.size() > 0) {

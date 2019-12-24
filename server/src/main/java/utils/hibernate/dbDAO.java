@@ -239,5 +239,5 @@ public interface dbDAO {
     float findPrice(Object counterparty, Object product);
     List<Protocol> getProtocols();
     Protocol getProtocol(Product product);
-    TruckInfo getTruckInfo(Vehicle vehicle);
+    TruckInfo getTruckInfo(String number);
 }

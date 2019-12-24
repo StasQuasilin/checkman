@@ -1,5 +1,8 @@
 package entity.transport;
 
+import entity.JsonAble;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -8,9 +11,10 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "truck_info")
-public class TruckInfo {
+public class TruckInfo extends JsonAble{
     private int id;
     private Vehicle truck;
+    private String number;
     private String brand;
     private String model;
     private String category;
@@ -43,6 +47,15 @@ public class TruckInfo {
     }
     public void setTruck(Vehicle truck) {
         this.truck = truck;
+    }
+
+    @Basic
+    @Column(name = "number")
+    public String getNumber() {
+        return number;
+    }
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Basic
@@ -201,5 +214,14 @@ public class TruckInfo {
                 ", body='" + body + '\'' +
                 ", vin='" + vin + '\'' +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(BRAND, brand);
+        json.put(VIN, vin);
+        return json;
     }
 }

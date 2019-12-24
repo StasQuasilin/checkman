@@ -12,7 +12,7 @@ public class ODBTest {
     public static void main(String[] args) {
 //        OpenDataBotAPI api = new OpenDataBotAPI();
 //        TruckInfo info = new TruckInfo();
-//        api.InfoRequest("СВ2207СА", info);
+//        api.infoRequest("СВ2207СА", info);
 //        System.out.println(info);
         System.out.println(TurnBox.getTurnDate(LocalDateTime.now()).getEnd());
     }

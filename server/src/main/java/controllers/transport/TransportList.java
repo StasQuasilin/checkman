@@ -30,6 +30,7 @@ public class TransportList extends IUIServlet{
         req.setAttribute("printIncome", Branches.UI.TRANSPORT_INCOME);
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(HAVE_MENU, false);
+        req.setAttribute(CHECK, Branches.UI.CHECK);
         show(req, resp);
     }
 }

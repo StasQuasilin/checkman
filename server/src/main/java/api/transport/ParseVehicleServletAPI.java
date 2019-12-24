@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.transport.TransportUtil;
+import entity.transport.TruckInfo;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
 import utils.*;
@@ -15,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 12.07.2019.
@@ -23,6 +23,7 @@ import java.util.List;
 @WebServlet(Branches.API.PARSE_VEHICLE)
 public class ParseVehicleServletAPI extends ServletAPI {
     private final UpdateUtil updateUtil = new UpdateUtil();
+    private final TruckInfoUtil infoUtil = new TruckInfoUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,6 +34,12 @@ public class ParseVehicleServletAPI extends ServletAPI {
             Vehicle vehicle = VehicleParser.parse(key);
             if (vehicle.getTrailer() != null){
                 dao.save(vehicle.getTrailer());
+            }
+            if (!U.exist(vehicle.getModel())){
+                TruckInfo info = infoUtil.getInfo(vehicle.getNumber());
+                if (U.exist(info.getBrand())){
+                    vehicle.setModel(info.getBrand());
+                }
             }
             dao.save(vehicle);
             JSONObject json = vehicle.toJson();

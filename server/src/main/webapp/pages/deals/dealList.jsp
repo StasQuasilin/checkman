@@ -14,14 +14,13 @@
     list.api.edit = '${edit}';
     list.api.show = '${show}';
     list.limit = ${limit};
-
     list.attributes['type'] = '${type}';
     subscribe('${subscribe}', function(a){
       list.handler(a);
     });
     stopContent = function(){
       unSubscribe('${subscribe}');
-    }
+    };
   </script>
   <div id="container-header" class="container-header">
     <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
@@ -62,14 +61,14 @@
               {{value.item.product.name}}
             </b>
           </span>
-          <span>
+          <span v-if="value.item.quantity > 0">
             <fmt:message key="deal.quantity"/>:
             <b>
               {{value.item.quantity}}
               {{value.item.unit}}
             </b>
           </span>
-          <span>
+          <span v-if="value.item.price > 0">
             <fmt:message key="deal.price"/>:
             <b>
               {{(value.item.price).toLocaleString()}}
@@ -90,8 +89,13 @@
               {{(value.item.complete).toLocaleString()}}
               {{value.item.unit}}
             </b>
-            ( {{(value.item.complete / value.item.quantity * 100).toLocaleString() + ' %'}} ),
-            {{(value.item.quantity-value.item.complete).toLocaleString()}} {{value.item.unit}} <fmt:message key="deal.leave"/>
+            <span v-if="value.item.quantity > 0">
+              ( {{(value.item.complete / value.item.quantity * 100).toLocaleString() + ' %'}} ),
+              <span v-if="value.item.quantity>value.item.complete">
+                {{(value.item.quantity-value.item.complete).toLocaleString()}} {{value.item.unit}} <fmt:message key="deal.leave"/>
+              </span>
+            </span>
+
           </span>
           <span style="float: right">
             <fmt:message key="deal.manager"/>:

@@ -6,6 +6,8 @@ package constants;
 public interface Constants {
     String ENCODING = "UTF-8";
     String ID = "id";
+    String BRAND = "brand";
+    String VIN = "vin";
     String INFO = "info";
     String NAME = "name";
     String DATE = "date";
@@ -60,6 +62,7 @@ public interface Constants {
     String OUT = "out";
     String TRUCK_INFO = "truckInfo";
     String HAVE_MENU = "menu";
+    String CHECK = "check";
     String LABORATORY_CARRIAGES = "laboratoryCarriages";
     String RESULT = "result";
     String KEY = "key";

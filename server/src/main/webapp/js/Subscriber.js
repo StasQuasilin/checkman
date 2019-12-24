@@ -11,10 +11,10 @@ function Connect(){
     //subscriber.onerror = function(){
     //    console.log('Error on socket connection');
     //};
-    subscriber.onclose = function(cause){
+    subscriber.onClose = function(cause){
         console.log('Close socket connection');
         console.log(cause);
-        if(cause.code == 1000) {
+        if(cause.code == 1000 || cause.code == 1006) {
             restart(3);
         }
     };

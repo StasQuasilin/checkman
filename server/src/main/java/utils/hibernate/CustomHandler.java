@@ -42,10 +42,23 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
+        StringBuilder builder;
+        for (TruckInfo info : dao.getObjects(TruckInfo.class)){
+            builder = new StringBuilder();
 
-        for (ActionTime actionTime : instance.query(ActionTime.class, "time", new GT(Date.valueOf(LocalDate.now().minusDays(1))))){
-            System.out.println(actionTime.getTime());
+            for (char c : info.getTruck().getNumber().toCharArray()){
+                if (Character.isLetter(c) || Character.isDigit(c)){
+                    builder.append(c);
+                }
+            }
+
+            info.setNumber(builder.toString());
+            dao.save(info);
         }
+
+//        for (ActionTime actionTime : instance.query(ActionTime.class, "time", new GT(Date.valueOf(LocalDate.now().minusDays(1))))){
+//            System.out.println(actionTime.getTime());
+//        }
 //        for (Contract contract : dao.getContractsByType(DealType.sell)){
 //            System.out.println(contract.toJson());
 //        }

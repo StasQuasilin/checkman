@@ -179,8 +179,8 @@
     <c:forEach items="${plan.transportation.notes}" var="note">
     editor.plan.notes.push({
             id:${note.id},
-            note:'${note.note}',
-            creator:'${note.creator.person.value}'
+            note:"${note.note}",
+            creator:"${note.creator.person.value}"
         }
     );
     </c:forEach>

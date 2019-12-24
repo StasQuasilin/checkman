@@ -70,7 +70,8 @@ public class SessionTimer {
             Worker worker = entry.getKey();
             Role role = worker.getRole();
 
-            if (role == Role.weigher || role == Role.analyser || (role == Role.security && localTime.getHour() == TARGET_1.getHour())){
+            if (role == Role.weigher || role == Role.analyser || (role == Role.admin && localTime.getHour() == TARGET_1.getHour()) ||
+                    (role == Role.security && localTime.getHour() == TARGET_1.getHour())){
                 close(worker);
             }
         }

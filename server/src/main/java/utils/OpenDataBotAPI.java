@@ -21,16 +21,17 @@ public class OpenDataBotAPI {
 
     private static final Logger log = Logger.getLogger(OpenDataBotAPI.class);
 
-    private String key = "9NfS7Rarm5yA";
-    private String API = "https://opendatabot.ua/api/v2/transport-passports";
+    private static final String key = "9NfS7Rarm5yA";
+    private static final String API = "https://opendatabot.ua/api/v2/transport-passports";
+
     private final OkHttpClient httpClient = new OkHttpClient();
     public static final String REQ_FORMAT = "%1s?apiKey=%2s&number=%3s";
     JsonParser parser = new JsonParser();
 
-    public void InfoRequest(String number, TruckInfo info){
-        log.info("Get info about " + number);
+    public void infoRequest(TruckInfo info){
+        log.info("Get info about " + info.getNumber());
         Request request = new Request.Builder()
-                .url(String.format(REQ_FORMAT, API, key, number))
+                .url(String.format(REQ_FORMAT, API, key, info.getNumber()))
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
