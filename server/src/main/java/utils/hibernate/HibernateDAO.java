@@ -262,6 +262,11 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public void flush() {
+        hb.flush();
+    }
+
+    @Override
     public List<Driver> getDriverList() {
         return hb.query(Driver.class, "archive", null);
     }
@@ -296,6 +301,7 @@ public class HibernateDAO implements dbDAO {
         hb.save(mealAnalyses);
     }
     private final Logger log = Logger.getLogger(HibernateDAO.class);
+
     @Override
     public void remove(Object ... objects) {
         for (Object o : objects){

@@ -93,6 +93,7 @@ public interface Constants {
     String ADD = "add";
     String TITLE = "title";
     String SAVE = "save";
+    String REMOVE = "remove";
     String STANDARD = "standard";
     String SUBDIVISIONS = "subdivisions";
     String SUBDIVISION = "subdivision";

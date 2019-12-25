@@ -24,6 +24,7 @@ public class RetailList extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(EDIT, Branches.UI.RETAIL_EDIT);
+        req.setAttribute(REMOVE, Branches.UI.RETAIL_REMOVE);
         req.setAttribute(CONTENT, _CONTENT);
         String parameter = req.getParameter(TYPE);
         req.setAttribute(CUSTOMERS, TransportCustomer.values());

@@ -91,21 +91,24 @@
                 </div>
             </div>
         </div>
-        <c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">
+        <c:if test="${(menu eq null) || (menu) || not empty edit || not empty copy || not empty remove}">
             <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
                 <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-                    <c:if test="${not empty add}">
-                        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
-                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
+                    <div style="width: 100%; text-align: center">
+                        Menu
+                    </div>
+                    <c:if test="${not empty edit}">
+                        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/> </div>
+                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
                     </c:if>
                     <c:if test="${not empty copy}">
                         <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
                     </c:if>
-                    <c:if test="${not empty cancel}">
+                    <c:if test="${not empty remove}">
                         <div class="custom-data-list-item" v-if="menu.item.any"
                              v-on:click="archive(menu.id)"><fmt:message key="menu.archive"/></div>
                         <div class="custom-data-list-item" v-else :id="menu.id"
-                             onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
+                             onclick="editableModal('${remove}')"><fmt:message key="menu.delete"/></div>
                     </c:if>
                 </div>
             </div>

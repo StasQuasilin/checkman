@@ -113,6 +113,7 @@ public class Branches {
         public static final String TRUCK_INFO = "/truck/info.j";
         public static final String LABORATORY_SHOW = "/laboratory/hsow.j";
         public static final String CHECK = "/check.j";
+        public static final String RETAIL_REMOVE = "/retail/remove.j";
 
 
         public class Extraction {
@@ -289,6 +290,8 @@ public class Branches {
         public static final String PROTOCOL_EDIT = API + "/standard/edit";
         public static final String LABORATORY_CARRIAGE = API + "/laboratory/carriage";
         public static final String CHECK = API + "/check";
+        public static final String RETAIL_REMOVE = API + "/retail/remove";
+        public static final String RETAIL_ARCHIVE = API + "/retail/archive";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

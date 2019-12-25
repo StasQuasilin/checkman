@@ -3,14 +3,12 @@ package entity.transport;
 import entity.Address;
 import entity.JsonAble;
 import entity.deal.Contract;
-import entity.organisations.LoadAddress;
 import entity.organisations.Organisation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +24,7 @@ public class TransportationDocument extends JsonAble implements Comparable<Trans
     private List<TransportationProduct> products;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }

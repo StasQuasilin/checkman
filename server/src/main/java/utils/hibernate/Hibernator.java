@@ -293,4 +293,9 @@ public class Hibernator {
         session.beginTransaction().commit();
         HibernateSessionFactory.putSession(session);
     }
+
+    public void flush() {
+        Session session = HibernateSessionFactory.getSession();
+        session.flush();
+    }
 }
