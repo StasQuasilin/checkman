@@ -2,6 +2,7 @@ package utils;
 
 import com.itextpdf.text.DocumentException;
 import constants.Constants;
+import org.apache.log4j.Logger;
 import utils.storages.PointScale;
 import utils.storages.StorageUtil;
 
@@ -16,11 +17,13 @@ import java.util.regex.Pattern;
  */
 public class Parser {
 
-    public static final String NUMBER_REGEX = "[A-ZА-Я]{0,3}\\s?\\d{2,3}\\W?\\d{2,3}\\s?[A-ZА-Я]{2,3}";
+    public static final String NUMBER_REGEX = "[A-ZА-ЯІ]{0,3}\\s?\\d{2,3}\\W?\\d{2,3}\\s?[A-ZА-ЯІ]{2,3}";
     private static final String SPACE = Constants.SPACE;
+    private static final Logger log = Logger.getLogger(Parser.class);
 
     public synchronized static List<String> parseVehicle(String value){
         value = value.toUpperCase().trim();
+        log.info("Parse " + value);
         StringBuilder builder = new StringBuilder();
         char[] chars = value.toCharArray();
         int idx = 0;
@@ -43,10 +46,16 @@ public class Parser {
 
         while (matcher.find()){
             String group = matcher.group();
+            log.info("Found \'" + group + "\'");
             value = value.replaceAll(group, "");
             result.add(prettyNumber(group.trim()));
         }
-        result.add(0, value.trim());
+        String model = value.trim();
+        if (U.exist(model)) {
+            log.info("Model: " + model);
+        }
+        result.add(0, model);
+
         return result;
     }
 
@@ -74,7 +83,7 @@ public class Parser {
     }
 
     public static void main(String[] args) throws IOException, DocumentException {
-        System.out.println(parseVehicle("daf вм 17-56 вм вм5241аа"));
+        System.out.println(parseVehicle("ДАФ ВМ 1869 ВІ"));
     }
 
 

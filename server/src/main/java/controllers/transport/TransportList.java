@@ -4,6 +4,7 @@ import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
+import entity.transport.TransportCustomer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +32,7 @@ public class TransportList extends IUIServlet{
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(HAVE_MENU, false);
         req.setAttribute(CHECK, Branches.UI.CHECK);
+        req.setAttribute(CUSTOMERS, TransportCustomer.values());
         show(req, resp);
     }
 }

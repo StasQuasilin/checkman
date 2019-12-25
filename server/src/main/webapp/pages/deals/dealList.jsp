@@ -58,11 +58,10 @@
           <span>
             <fmt:message key="deal.product"/>:
             <b>
-              {{value.item.product.name}}
+              {{value.item.product.name}},
             </b>
           </span>
           <span v-if="value.item.quantity > 0">
-            <fmt:message key="deal.quantity"/>:
             <b>
               {{value.item.quantity}}
               {{value.item.unit}}
@@ -86,11 +85,11 @@
           <span>
             <fmt:message key="deal.done"/>:
             <b>
-              {{(value.item.complete).toLocaleString()}}
+              {{(value.item.complete).toLocaleString()}} / {{(value.item.quantity).toLocaleString()}}
               {{value.item.unit}}
             </b>
             <span v-if="value.item.quantity > 0">
-              ( {{(value.item.complete / value.item.quantity * 100).toLocaleString() + ' %'}} ),
+              ( {{(value.item.complete / value.item.quantity * 100).toLocaleString() + ' %'}} )
               <span v-if="value.item.quantity>value.item.complete">
                 {{(value.item.quantity-value.item.complete).toLocaleString()}} {{value.item.unit}} <fmt:message key="deal.leave"/>
               </span>

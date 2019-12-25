@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.References.FIND_ORGANISATION)
 public class FindOrganisationServletAPI extends ServletAPI {
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);

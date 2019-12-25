@@ -232,7 +232,6 @@
                         <div class="custom-data-list-item" v-else :id="menu.id"
                              onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
                     </c:if>
-
                 </div>
             </div>
         </c:if>

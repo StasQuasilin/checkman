@@ -71,7 +71,7 @@ var productView = {
                 '<div v-if="getAddress.length > 1 && doc.address">' +
                     '{{doc.address.city}}, {{doc.address.street}}, {{doc.address.build}}' +
                 '</div>' +
-                '<div class="product-row" v-for="product in doc.products">' +
+                '<div ref="productList" class="product-row" v-for="product in doc.products">' +
                     '{{product.product.name}}' +
                     ' {{product.amount}}' +
                     ' {{product.unit.name}} ' +

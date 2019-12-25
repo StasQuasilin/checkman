@@ -11,7 +11,7 @@ function Connect(){
     //subscriber.onerror = function(){
     //    console.log('Error on socket connection');
     //};
-    subscriber.onClose = function(cause){
+    subscriber.onсlose = function(cause){
         console.log('Close socket connection');
         console.log(cause);
         if(cause.code == 1000 || cause.code == 1006) {

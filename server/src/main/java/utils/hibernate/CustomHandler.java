@@ -14,6 +14,7 @@ import entity.storages.StoragePeriodPoint;
 import entity.storages.StorageProduct;
 import entity.transport.*;
 import utils.DateUtil;
+import utils.TurnDateTime;
 import utils.U;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.GE;
@@ -22,11 +23,14 @@ import utils.hibernate.DateContainers.LT;
 import utils.storages.PointScale;
 import utils.storages.StorageUtil;
 import utils.transport.CollapseUtil;
+import utils.turns.TurnBox;
+import utils.turns.TurnService;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,19 +46,25 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        StringBuilder builder;
-        for (TruckInfo info : dao.getObjects(TruckInfo.class)){
-            builder = new StringBuilder();
 
-            for (char c : info.getTruck().getNumber().toCharArray()){
-                if (Character.isLetter(c) || Character.isDigit(c)){
-                    builder.append(c);
-                }
-            }
+        LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 56, 0, 3450000));
+        System.out.println("Date: " + dateTime.toString());
+        TurnDateTime turnDate = TurnBox.getTurnDate(dateTime);
+        System.out.println(turnDate.getEnd().toString());
 
-            info.setNumber(builder.toString());
-            dao.save(info);
-        }
+//        StringBuilder builder;
+//        for (TruckInfo info : dao.getObjects(TruckInfo.class)){
+//            builder = new StringBuilder();
+//
+//            for (char c : info.getTruck().getNumber().toCharArray()){
+//                if (Character.isLetter(c) || Character.isDigit(c)){
+//                    builder.append(c);
+//                }
+//            }
+//
+//            info.setNumber(builder.toString());
+//            dao.save(info);
+//        }
 
 //        for (ActionTime actionTime : instance.query(ActionTime.class, "time", new GT(Date.valueOf(LocalDate.now().minusDays(1))))){
 //            System.out.println(actionTime.getTime());
