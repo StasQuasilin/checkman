@@ -23,6 +23,7 @@ import entity.reports.ManufactureReport;
 import entity.storages.Storage;
 import entity.transport.Driver;
 import entity.transport.Transportation;
+import entity.transport.Transportation2;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -215,6 +216,10 @@ public class UpdateUtil {
 
     public void onRemove(ManufactureReport report) throws IOException {
         doAction(Command.remove, Subscriber.MANUFACTURE_REPORTS, report.getId());
+    }
+
+    public void onRemove(Transportation2 transportation) throws IOException {
+        doAction(Command.remove, Subscriber.TRANSPORT, transportation.getId());
     }
 
     public enum Command {

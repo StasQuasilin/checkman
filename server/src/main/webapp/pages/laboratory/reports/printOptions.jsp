@@ -37,7 +37,7 @@
             setTimeout(function(){
               print.print();
               print.close();
-            }, 20)
+            }, 500)
           })
         }
       },
@@ -67,6 +67,7 @@
   </c:forEach>
 </script>
 <div id="options">
+  <img src="${context}/images/logo1.png" width="0">
   <table>
     <tr>
       <td>

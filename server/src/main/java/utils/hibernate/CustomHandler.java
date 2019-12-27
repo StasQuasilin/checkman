@@ -47,10 +47,24 @@ public class CustomHandler {
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
 
-        LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 56, 0, 3450000));
-        System.out.println("Date: " + dateTime.toString());
-        TurnDateTime turnDate = TurnBox.getTurnDate(dateTime);
-        System.out.println(turnDate.getEnd().toString());
+        StringBuilder builder;
+        boolean saveIt;
+        for (TransportationNote note : instance.query(TransportationNote.class, null)){
+            builder = new StringBuilder();
+            saveIt = false;
+            for (char c : note.getNote().toCharArray()){
+                if (c == '"'){
+                    builder.append('\'');
+                    saveIt = true;
+                } else {
+                    builder.append(c);
+                }
+            }
+            if (saveIt){
+                note.setNote(builder.toString());
+                dao.save(note);
+            }
+        }
 
 //        StringBuilder builder;
 //        for (TruckInfo info : dao.getObjects(TruckInfo.class)){

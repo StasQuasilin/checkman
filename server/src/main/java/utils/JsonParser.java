@@ -198,6 +198,7 @@ public class JsonParser {
         JSONObject json = toJson(lp.getTransportation());
         json.put(ID, lp.getId());
         json.put(PLAN, lp.getPlan());
+        json.put(NUMBER, lp.getDeal().getNumber());
         json.put(UNIT, lp.getDeal().getUnit().getName());
         json.put(PRICE, lp.getDeal().getPrice());
         json.put(CUSTOMER, lp.getCustomer().toString());

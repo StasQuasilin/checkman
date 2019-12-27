@@ -1,3 +1,4 @@
+<%@ page import="utils.U" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -107,6 +108,7 @@
         type:'${plan.deal.type}',
         date:'${plan.date}',
         deal:${plan.deal.id},
+        number:'${plan.deal.number}',
         organisation:{
             id:'${plan.deal.organisation.id}',
             value:"${plan.deal.organisation.value}"
@@ -177,11 +179,12 @@
     </c:if>
 
     <c:forEach items="${plan.transportation.notes}" var="note">
-    editor.plan.notes.push({
-            id:${note.id},
-            note:"${note.note}",
-            creator:"${note.creator.person.value}"
-        }
+    editor.plan.notes.push(
+            {
+                id:${note.id},
+                note:'${U.getParsableString(note.note)}',
+                creator:'${note.creator.getValue()}'
+            }
     );
     </c:forEach>
     </c:when>
@@ -190,6 +193,7 @@
         id:-1,
         type:-1,
         date:new Date().toISOString().substring(0, 10),
+        number:'',
         deal:-1,
         quantity:0,
         organisation:{
@@ -256,6 +260,19 @@
         <td>
             <input id="date" readonly style="width: 7em" v-on:click="pickDate()"
                    v-model="new Date(plan.date).toLocaleDateString()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="number">
+                <fmt:message key="transportation.automobile.number"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="number" v-model="plan.number" autocomplete="off">
         </td>
     </tr>
     <%--ORGANISATION--%>
@@ -415,7 +432,7 @@
     <tr>
         <td colspan="3">
             <div>
-                <span v-if="plan.notes.length > 0">
+                <span v-if="plan.notes && plan.notes.length > 0">
                     <label for="note">
                         <fmt:message key="notes"/>
                     </label>

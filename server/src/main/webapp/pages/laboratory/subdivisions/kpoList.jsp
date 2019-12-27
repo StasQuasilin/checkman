@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
+<script src="${context}/vue/templates/commentatorPlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit = 14;

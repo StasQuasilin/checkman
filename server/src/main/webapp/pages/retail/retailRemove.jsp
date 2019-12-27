@@ -10,8 +10,8 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <script>
-  let id = ${transportation.id};
-  let api = {
+  var id = ${transportation.id};
+  var api = {
     remove:'${remove}',
     archive:'${archive}'
   };

@@ -17,9 +17,9 @@
       olivija@olivija.ua<br>
       +38 0542 700 488
     </span>
-    <img src="images/logo1.png" width="70%" height="70%">
+    <img src="${context}/images/logo1.png" width="70%" height="70%">
     <span style="display: table-cell" class="header-text">
-      <b>ПрАТ "Сумський завод<br>продтоварів"</b><br>
+      <b>ПАТ "Сумський завод<br>продтоварів"</b><br>
       http://olivija.ua
     </span>
 </div>

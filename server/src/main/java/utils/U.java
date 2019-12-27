@@ -11,6 +11,11 @@ import java.util.Set;
  * Created by szpt_user045 on 12.03.2019.
  */
 public class U {
+
+    public static String getParsableString(String s){
+        return s.replaceAll("\"", "\"");
+    }
+
     public static synchronized boolean exist(String value){
         return value != null && !value.isEmpty() && !value.equals("0");
     }

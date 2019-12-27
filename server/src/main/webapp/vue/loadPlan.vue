@@ -66,7 +66,7 @@ var plan = new Vue({
             })
         },
         copy:function(idx){
-            let p = this.plans[idx].item;
+            let p = Object.assign({}, this.plans[idx].item);
             p.id=-1;
             let plan = this.add(p);
 

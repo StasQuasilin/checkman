@@ -19,6 +19,7 @@ import java.io.IOException;
 public class RetailList extends IUIServlet {
     private static final String _CONTENT = "/pages/retail/retailList.jsp";
     private static final String _TITLE = "title.retail.list";
+    private static final String RETAIL_FILTER = "/pages/filters/retailFilter.jsp";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,11 +27,13 @@ public class RetailList extends IUIServlet {
         req.setAttribute(EDIT, Branches.UI.RETAIL_EDIT);
         req.setAttribute(REMOVE, Branches.UI.RETAIL_REMOVE);
         req.setAttribute(CONTENT, _CONTENT);
+        req.setAttribute(FILTER, RETAIL_FILTER);
         String parameter = req.getParameter(TYPE);
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
 
         if (parameter != null){
             DealType type = DealType.valueOf(parameter);
+            req.setAttribute(TYPE, type);
         } else {
             req.setAttribute(SUBSCRIBE, Subscriber.TRANSPORT);
         }

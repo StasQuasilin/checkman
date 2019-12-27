@@ -63,6 +63,11 @@ public class TransportationNote extends JsonAble{
         this.note = note;
     }
 
+    @Transient
+    public String getPrettyNote(){
+        return note.replaceAll("\"", "\"");
+    }
+
     @OneToOne
     @JoinColumn(name = "creator")
     public Worker getCreator() {
@@ -74,6 +79,10 @@ public class TransportationNote extends JsonAble{
 
     @Override
     public JSONObject toJson() {
-        return null;
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NOTE, note);
+        object.put(CREATOR, creator.getValue());
+        return object;
     }
 }

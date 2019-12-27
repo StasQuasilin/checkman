@@ -118,9 +118,7 @@
         <div class="snowflake" :style="style()"  v-for="s in snows.length">
             {{getSnowflake(s)}}
         </div>
-
     </div>
-
     <img class="tree" style="width: 70pt; left: 22pt" src="${context}/images/ny.gif"/>
     <c:choose>
         <c:when test="${worker.id == 1 || worker.id==48436 || worker.id==6012 || worker.id==4281 || worker.id==1965 ||
@@ -129,8 +127,6 @@
             <img class="tree" style="width: 92pt; left: 50pt;" src="${context}/images/sexy2.png">
         </c:when>
     </c:choose>
-
-
     <script>
 
         var show = new Vue({
@@ -297,8 +293,18 @@
         <table border="1" class="body-table" style="width: 100%; height: 100%;">
             <tr>
                 <td rowspan="2" valign="top" style="height: 100%; width: 1px; padding: 0; border-right: solid 2pt; background-color: #d3dbe2;">
-                    <jsp:include page="NavigationMenu.jsp"/>
-                    <div id="filter" class="filter"></div>
+                    <table style="height: 100%" border="0">
+                        <tr>
+                            <td>
+                                <jsp:include page="NavigationMenu.jsp"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height: 100%" valign="top">
+                                <div id="filter" class="filter"></div>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
                 <td colspan="2">
                     <div class="header-wrapper">

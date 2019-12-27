@@ -65,10 +65,10 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             }
 
             if (dealId == -1){
-
                 deal = new Deal();
                 deal.setUid(DocumentUIDGenerator.generateUID());
                 deal.setType(DealType.valueOf(String.valueOf(body.get("type"))));
+
                 deal.setDate(date);
                 deal.setDateTo(date);
                 deal.setOrganisation(dao.getOrganisationById(body.get("organisation")));
@@ -84,11 +84,18 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             }
 
             boolean saveDeal = false;
+
+            String number = String.valueOf(body.get(NUMBER));
+            if (!U.exist(deal.getNumber()) || !deal.getNumber().equals(number)){
+                deal.setNumber(number);
+                saveDeal = true;
+            }
+
+
             float quantity = Float.parseFloat(String.valueOf(body.get("quantity")));
             if (deal.getQuantity() != quantity){
                 deal.setQuantity(quantity);
                 saveDeal = true;
-
             }
 
             float price = Float.parseFloat(String.valueOf(body.get("price")));

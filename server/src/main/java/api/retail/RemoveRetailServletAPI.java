@@ -5,7 +5,9 @@ import constants.Branches;
 import entity.transport.Transportation2;
 import entity.transport.TransportationDocument;
 import entity.transport.TransportationProduct;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,17 +22,42 @@ import java.util.Collections;
  */
 @WebServlet(Branches.API.RETAIL_REMOVE)
 public class RemoveRetailServletAPI extends ServletAPI {
+
+    private final Logger log = Logger.getLogger(RemoveRetailServletAPI.class);
+    private final UpdateUtil updateUtil = new UpdateUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
-            Transportation2 transportation = dao.getObjectById(Transportation2.class, body.get(ID));
+            boolean done = false;
+            while (!done){
+                Transportation2 transportation = dao.getObjectById(Transportation2.class, body.get(ID));
+                if (transportation != null) {
+                    boolean remove = true;
+                    for (TransportationDocument document : transportation.getDocuments()) {
+                        if (remove && document.getProducts().size() > 0) {
+                            remove = false;
+                            dao.remove(document.getProducts().toArray());
+                            log.info("Remove transportation products from document " + document.getId() + "...");
+                        }
+                    }
+                    if (remove && transportation.getDocuments().size() > 0) {
+                        remove = false;
+                        dao.remove(transportation.getDocuments().toArray());
+                    }
+                    if (remove) {
+                        dao.remove(transportation);
+                        done = true;
+                        updateUtil.onRemove(transportation);
+                    }
+                } else {
+                    break;
+                }
 
-            for (TransportationDocument document : transportation.getDocuments()){
-                dao.remove(document.getProducts().toArray());
             }
-            dao.remove(transportation.getDocuments().toArray());
-            dao.remove(transportation);
+
+            log.info("\tSuccess...");
 
             write(resp, SUCCESS_ANSWER);
         }
