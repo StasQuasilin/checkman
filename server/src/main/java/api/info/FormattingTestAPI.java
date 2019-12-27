@@ -2,7 +2,7 @@ package api.info;
 
 import api.ServletAPI;
 import bot.BotFactory;
-import bot.Notificator;
+import bot.TelegramNotificator;
 import constants.Branches;
 import org.json.simple.JSONObject;
 
@@ -25,7 +25,7 @@ public class FormattingTestAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             String text = String.valueOf(body.get("text"));
-            Notificator notificator = BotFactory.getNotificator();
+            TelegramNotificator notificator = BotFactory.getTelegramNotificator();
             if (notificator != null) {
                 notificator.send(telegramId, text);
             }

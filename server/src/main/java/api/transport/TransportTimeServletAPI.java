@@ -1,8 +1,6 @@
 package api.transport;
 
 import api.ServletAPI;
-import bot.BotFactory;
-import bot.Notificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -22,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
@@ -73,7 +70,7 @@ public class TransportTimeServletAPI extends ServletAPI {
             dao.save(time);
             dao.saveTransportation(transportation);
             updateUtil.onSave(transportation);
-//            Notificator notificator = BotFactory.getNotificator();
+//            TelegramNotificator notificator = BotFactory.getTelegramNotificator();
 //            if (notificator != null) {
 //                if (direction == TransportDirection.in && transportation.getTimeOut() == null) {
 //                    notificator.transportInto(transportation);

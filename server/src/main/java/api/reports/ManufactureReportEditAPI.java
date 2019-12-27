@@ -1,20 +1,15 @@
 package api.reports;
 
 import api.ServletAPI;
-import bot.BotFactory;
-import bot.Notificator;
 import constants.Branches;
-import entity.manufactoring.ReportMessageLink;
 import entity.production.Turn;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.reports.ReportFieldSettings;
-import entity.storages.Storage;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import utils.TurnDateTime;
 import utils.U;
 import utils.UpdateUtil;
@@ -32,7 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 17.09.2019.
@@ -161,7 +155,7 @@ public class ManufactureReportEditAPI extends ServletAPI {
                 updateUtil.onSave(manufactureReport);
                 write(resp, parser.toJson(new SuccessAnswer(ID, manufactureReport.getId())).toJSONString());
 
-//                Notificator notificator = BotFactory.getNotificator();
+//                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
 //                if (notificator != null){
 
 //                    ArrayList<Message> messages = new ArrayList<>();

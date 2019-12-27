@@ -3,14 +3,13 @@ package bot;
 import entity.bot.*;
 import entity.bot.BotSettings;
 import org.apache.log4j.Logger;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import utils.PropertyReader;
 import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by szpt_user045 on 16.04.2019.
@@ -18,6 +17,7 @@ import java.io.IOException;
 public class BotFactory {
 
     private static final Logger log = Logger.getLogger(BotFactory.class);
+
 
     static {
         ApiContextInitializer.init();
@@ -29,7 +29,7 @@ public class BotFactory {
     private static String token;
     private static String name;
     private static BotStatus status = BotStatus.stopped;
-    private static Notificator notificator;
+    private static TelegramNotificator telegramNotificator;
     private static BotSettings currentSettings;
 
     public static IBot getBot() {
@@ -67,7 +67,7 @@ public class BotFactory {
                     try {
                         telegramBotsApi.registerBot(bot);
                         status = BotStatus.worked;
-                        notificator = new Notificator(bot);
+                        telegramNotificator = new TelegramNotificator(bot);
                     } catch (TelegramApiRequestException e) {
                         status = BotStatus.error;
                         log.trace(e);
@@ -85,6 +85,7 @@ public class BotFactory {
     }
 
     public static void shutdown() {
+
         if (botThread != null && botThread.isAlive()) {
             botThread.interrupt();
         }
@@ -105,7 +106,12 @@ public class BotFactory {
         start();
     }
 
-    public static Notificator getNotificator() {
-        return notificator;
+    public static TelegramNotificator getTelegramNotificator() {
+        return telegramNotificator;
+    }
+
+    ArrayList<IBot> bots = new ArrayList<>();
+    public static void init() {
+
     }
 }

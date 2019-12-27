@@ -4,6 +4,11 @@ package constants;
  * Created by quasilin on 11.03.2019.
  */
 public interface Constants {
+    String HYPHEN = " - ";
+    String SEMICOLON = "; ";
+    String NEW_LINE = "\n";
+    String FORMAT = "%1$,.3f";
+    String STAR = "*";
     String ENCODING = "UTF-8";
     String ID = "id";
     String BRAND = "brand";

@@ -2,7 +2,7 @@ package api.reports;
 
 import api.ServletAPI;
 import bot.BotFactory;
-import bot.Notificator;
+import bot.TelegramNotificator;
 import constants.Branches;
 import entity.reports.ManufactureReport;
 import org.json.simple.JSONObject;
@@ -29,7 +29,7 @@ public class RemoveReportAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null){
             ManufactureReport report = dao.getObjectById(ManufactureReport.class, body.get(ID));
-            Notificator notificator = BotFactory.getNotificator();
+            TelegramNotificator notificator = BotFactory.getTelegramNotificator();
             if (notificator != null) {
                 util.removeChatMessages(report, notificator);
             }

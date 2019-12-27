@@ -1,9 +1,8 @@
 package api.warehousing;
 
 import api.ServletAPI;
-import api.sockets.Subscriber;
 import bot.BotFactory;
-import bot.Notificator;
+import bot.TelegramNotificator;
 import constants.Branches;
 import entity.Subdivision;
 import entity.production.Turn;
@@ -20,7 +19,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -63,7 +61,7 @@ public class EditStopReportAPI extends ServletAPI {
             dao.save(report.getCreateTime());
             dao.save(report);
             write(resp, SUCCESS_ANSWER);
-            Notificator notificator = BotFactory.getNotificator();
+            TelegramNotificator notificator = BotFactory.getTelegramNotificator();
             if(notificator != null){
                 notificator.alarm(report);
             }

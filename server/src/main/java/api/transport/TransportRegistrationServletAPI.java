@@ -2,7 +2,7 @@ package api.transport;
 
 import api.ServletAPI;
 import bot.BotFactory;
-import bot.Notificator;
+import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
 import entity.transport.ActionTime;
@@ -47,7 +47,7 @@ public class TransportRegistrationServletAPI extends ServletAPI {
             Weight weight = transportation.getWeight();
 
             if (weight == null || (weight.getBrutto() == 0 && weight.getTara() == 0)) {
-                Notificator notificator = BotFactory.getNotificator();
+                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.transportRegistration(transportation);
                 }

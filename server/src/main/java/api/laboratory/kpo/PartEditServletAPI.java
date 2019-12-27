@@ -2,7 +2,7 @@ package api.laboratory.kpo;
 
 import api.ServletAPI;
 import bot.BotFactory;
-import bot.Notificator;
+import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -127,7 +127,7 @@ public class PartEditServletAPI extends ServletAPI {
                 dao.save(part.getCreateTime());
                 dao.save(part);
                 updateUtil.onSave(part);
-                Notificator notificator = BotFactory.getNotificator();
+                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.kpoShow(part);
                 }

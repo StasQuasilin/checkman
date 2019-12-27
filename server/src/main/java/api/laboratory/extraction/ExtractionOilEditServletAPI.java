@@ -2,7 +2,7 @@ package api.laboratory.extraction;
 
 import api.ServletAPI;
 import bot.BotFactory;
-import bot.Notificator;
+import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -119,7 +119,7 @@ public class ExtractionOilEditServletAPI extends ServletAPI {
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
                     updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
                 }
-                Notificator notificator = BotFactory.getNotificator();
+                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.extractionShow(oil);
                 }

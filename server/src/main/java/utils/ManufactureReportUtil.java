@@ -1,6 +1,6 @@
 package utils;
 
-import bot.Notificator;
+import bot.TelegramNotificator;
 import entity.manufactoring.ReportMessageLink;
 import entity.reports.ManufactureReport;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -17,7 +17,7 @@ public class ManufactureReportUtil {
 
     private final dbDAO dao = dbDAOService.getDAO();
 
-    public void removeChatMessages(ManufactureReport report, Notificator notificator) {
+    public void removeChatMessages(ManufactureReport report, TelegramNotificator notificator) {
         if (report != null) {
             HashMap<String, Object> param = new HashMap<>();
             param.put("report", report.getId());

@@ -38,6 +38,7 @@ public class ContextFilter implements Filter {
         gcTimer = new Timer(20 * 1000, e -> System.gc());
         gcTimer.start();
         HibernateSessionFactory.init();
+        BotFactory.init();
         initBot();
         Archivator.init();
         tru = new TransportReplaceUtil();

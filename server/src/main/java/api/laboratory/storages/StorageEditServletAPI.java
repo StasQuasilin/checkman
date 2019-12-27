@@ -2,7 +2,7 @@ package api.laboratory.storages;
 
 import api.ServletAPI;
 import bot.BotFactory;
-import bot.Notificator;
+import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -116,7 +116,7 @@ public class StorageEditServletAPI extends ServletAPI {
 
                 dao.save(createTime, oilAnalyses, analyses.getTurn(), analyses);
                 updateUtil.onSave(dao.getStorageTurnByTurn(turn));
-                Notificator notificator = BotFactory.getNotificator();
+                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.storagesShow(analyses);
                 }

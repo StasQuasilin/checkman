@@ -2,7 +2,7 @@ package api.laboratory;
 
 import api.ServletAPI;
 import bot.BotFactory;
-import bot.Notificator;
+import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -12,7 +12,6 @@ import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import entity.transport.TransportUtil;
-import utils.U;
 import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
@@ -130,7 +129,7 @@ public class EditSunServletAPI extends ServletAPI {
                 float v = TransportUtil.calculateWeight(transportation);
                 updateUtil.onSave(transportation);
 
-                Notificator notificator = BotFactory.getNotificator();
+                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.sunAnalysesShow(transportation, sunAnalyses, 1f * Math.round(v * 100) / 100);
                 }
