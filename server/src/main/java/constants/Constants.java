@@ -149,6 +149,7 @@ public interface Constants {
     String UPDATE = "update";
     String TRANSPORTATION = "transportation";
     String VEHICLE = "vehicle";
+    String VEHICLES = "vehicles";
     String DRIVER = "driver";
     String WEIGHT = "weight";
     String PALLET = "pallet";
@@ -181,6 +182,7 @@ public interface Constants {
     String TRUCK = "truck";
     String MODEL = "model";
     String TRAILER = "trailer";
+    String TRAILERS = "trailers";
     String OWNER = "owner";
     String TRANSPORTER = "transporter";
     String STATUS = "status";

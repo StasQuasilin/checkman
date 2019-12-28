@@ -5,6 +5,8 @@ import entity.transport.Vehicle;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
+import java.util.ArrayList;
+
 /**
  * Created by szpt_user045 on 23.12.2019.
  */
@@ -13,19 +15,16 @@ public class TruckInfoUtil {
     dbDAO dao = dbDAOService.getDAO();
     private OpenDataBotAPI openData = new OpenDataBotAPI();
 
-    public TruckInfo getInfo(String num){
+    public ArrayList<TruckInfo> getInfo(String num){
         String number = clearNumber(num);
-        TruckInfo truckInfo = dao.getTruckInfo(number);
-        if (truckInfo == null){
-            truckInfo = new TruckInfo();
-            truckInfo.setNumber(number);
-            openData.infoRequest(truckInfo);
-            if (truckInfo.getVin() != null || truckInfo.getModel() != null) {
-                dao.save(truckInfo);
-            }
+        ArrayList<TruckInfo> infos = new ArrayList<>();
+        infos.addAll(dao.getTruckInfo(number));
+        if (infos.size() == 0){
+            openData.infoRequest(infos, number);
+            infos.forEach(dao::save);
         }
 
-        return truckInfo;
+        return infos;
     }
 
     public static String clearNumber(String number){

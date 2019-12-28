@@ -28,7 +28,7 @@ public class LaboratoryEdit extends IModal {
         log.info("Edit analyses for transportation=" + id);
         Transportation transportation = dao.getTransportationById(id);
         req.setAttribute("plan", transportation);
-        req.setAttribute("print", Branches.UI.LABORATORY_PRINT_OPTIONS);
+        req.setAttribute(PRINT, Branches.UI.LABORATORY_PRINT_OPTIONS);
         AnalysesType analysesType = transportation.getProduct().getAnalysesType();
         req.setAttribute(TYPE, analysesType.toString());
         switch (analysesType){

@@ -1331,8 +1331,8 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public TruckInfo getTruckInfo(String number) {
-        return hb.get(TruckInfo.class, "number", number);
+    public List<TruckInfo> getTruckInfo(String number) {
+        return hb.query(TruckInfo.class, "number", number);
     }
 
     @Override

@@ -51,8 +51,8 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                 for (ProductProperty property : dao.getProductProperties(product)){
                     properties.put(property.getKey(), property.getValue());
                 }
-                req.setAttribute("number", number);
-                req.setAttribute("date", date);
+                req.setAttribute(NUMBER, number);
+                req.setAttribute(DATE, date);
                 req.setAttribute("manufacture", manufacture);
                 req.setAttribute("responsible", responsible);
                 req.setAttribute("plan", transportation);

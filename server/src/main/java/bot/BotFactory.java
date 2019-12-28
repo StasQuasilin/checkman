@@ -86,8 +86,10 @@ public class BotFactory {
 
     public static void shutdown() {
 
-        if (botThread != null && botThread.isAlive()) {
-            botThread.interrupt();
+        if (botThread != null) {
+            while (botThread.isAlive()) {
+                botThread.interrupt();
+            }
         }
         if (currentSettings != null) {
             currentSettings.setRun(false);

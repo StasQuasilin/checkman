@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by szpt_user045 on 19.12.2019.
@@ -28,10 +29,10 @@ public class OpenDataBotAPI {
     public static final String REQ_FORMAT = "%1s?apiKey=%2s&number=%3s";
     JsonParser parser = new JsonParser();
 
-    public void infoRequest(TruckInfo info){
-        log.info("Get info about " + info.getNumber());
+    public void infoRequest(ArrayList<TruckInfo> infos, String number){
+        log.info("Get info about " + number);
         Request request = new Request.Builder()
-                .url(String.format(REQ_FORMAT, API, key, info.getNumber()))
+                .url(String.format(REQ_FORMAT, API, key, number))
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
@@ -49,17 +50,25 @@ public class OpenDataBotAPI {
                         Integer count = Integer.parseInt(String.valueOf(data.get("count")));
                         JSONArray array = (JSONArray) data.get("items");
                         if (count > 0){
-                            JSONObject o = (JSONObject) array.get(0);
-                            info.setCategory(String.valueOf(o.get("rankCategory")));
-                            info.setColor(String.valueOf(o.get("color")));
-                            info.setWeight(Integer.parseInt(String.valueOf(o.get("totalWeight"))));
-                            info.setYear(String.valueOf(o.get("makeYear")));
-                            info.setDocument(String.valueOf(o.get("number")));
-                            info.setFuel(String.valueOf(o.get("fuel")));
-                            info.setKind(String.valueOf(o.get("kind")));
-                            info.setVin(String.valueOf(o.get("vin")));
-                            info.setBrand(String.valueOf(o.get("brand")));
-                            info.setModel(String.valueOf(o.get("model")));
+                            for (Object o1 : array){
+                                JSONObject o = (JSONObject) o1;
+                                TruckInfo info = new TruckInfo();
+                                infos.add(info);
+                                info.setNumber(number);
+                                info.setCategory(String.valueOf(o.get("rankCategory")));
+                                info.setColor(String.valueOf(o.get("color")));
+                                info.setWeight(Integer.parseInt(String.valueOf(o.get("totalWeight"))));
+                                info.setYear(String.valueOf(o.get("makeYear")));
+                                info.setDocument(String.valueOf(o.get("number")));
+                                if (o.containsKey("fuel")) {
+                                    info.setFuel(String.valueOf(o.get("fuel")));
+                                }
+                                info.setKind(String.valueOf(o.get("kind")));
+                                info.setVin(String.valueOf(o.get("vin")));
+                                info.setBrand(String.valueOf(o.get("brand")));
+                                info.setModel(String.valueOf(o.get("model")));
+                            }
+                            
                         }
                     }
 

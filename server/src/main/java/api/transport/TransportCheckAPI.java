@@ -3,6 +3,7 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import entity.transport.TruckInfo;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.OpenDataBotAPI;
 import utils.TruckInfoUtil;
@@ -13,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 24.12.2019.
@@ -27,8 +30,10 @@ public class TransportCheckAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null){
             String value = String.valueOf(body.get(VALUE));
-            TruckInfo info = util.getInfo(value);
-            JSONObject json = new SuccessAnswer(RESULT, info.toJson()).toJson();
+            ArrayList<TruckInfo> info = util.getInfo(value);
+            JSONArray array = pool.getArray();
+            array.addAll(info.stream().map(TruckInfo::toJson).collect(Collectors.toList()));
+            JSONObject json = new SuccessAnswer(RESULT, array).toJson();
             write(resp, json.toJSONString());
             pool.put(json);
         }

@@ -52,7 +52,7 @@ public class LaboratoryPrintOptions extends IModal {
 
                 req.setAttribute("workers", dao.getWorkersByRole(Role.analyser));
 
-                req.setAttribute("print", Branches.API.LABORATORY_OIL_PRINT);
+                req.setAttribute(PRINT, Branches.API.LABORATORY_OIL_PRINT);
                 show(req, resp);
             }
         }

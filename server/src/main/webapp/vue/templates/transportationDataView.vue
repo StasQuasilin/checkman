@@ -18,8 +18,8 @@ var transportView = {
                     '<b :title="driverName(item.driver)">'+
                         '{{item.driver.person.value}}'+
                     '</b>'+
-                    '<span v-if="item.driver.license">'+
-                        ' {{item.driver.license}}'+
+                    '<span v-if="item.driver.license" :title="fields.license">'+
+                        ' /{{item.driver.license}}/'+
                     '</span>'+
                 '</span>'+
                 '<span v-else>'+

@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by szpt_user045 on 12.07.2019.
@@ -36,9 +37,12 @@ public class ParseVehicleServletAPI extends ServletAPI {
                 dao.save(vehicle.getTrailer());
             }
             if (!U.exist(vehicle.getModel())){
-                TruckInfo info = infoUtil.getInfo(vehicle.getNumber());
-                if (U.exist(info.getBrand())){
-                    vehicle.setModel(info.getBrand());
+                ArrayList<TruckInfo> infos = infoUtil.getInfo(vehicle.getNumber());
+                if (infos.size() == 1){
+                    TruckInfo info = infos.get(0);
+                    if (U.exist(info.getBrand())){
+                        vehicle.setModel(info.getBrand());
+                    }
                 }
             }
             dao.save(vehicle);

@@ -16,6 +16,7 @@
     }
     list.fields.vehicle = '<fmt:message key="transportation.automobile"/>';
     list.fields.driver = '<fmt:message key="transportation.driver"/>';
+    list.fields.license = '<fmt:message key="driver.license"/>'
     list.fields.customer = '<fmt:message key="transport.customer"/>';
     list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
     list.fields.noData='<fmt:message key="no.data"/>';
@@ -129,8 +130,8 @@
                  v-on:click.right="contextMenu(value.item)">
                     <div style="display: inline-block; max-width: 98%; width: 94%">
                         <div class="upper-row" style="font-size: 11pt">
-                        <span>
-                            {{new Date(value.item.date).toLocaleDateString()}}
+                        <span :title="new Date(value.item.date).toLocaleDateString()">
+                            {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
                         </span>
                         <span style="width: 20em">
                             <fmt:message key="deal.organisation"/>:

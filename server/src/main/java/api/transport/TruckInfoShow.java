@@ -29,7 +29,10 @@ public class TruckInfoShow extends IModal {
         JSONObject body = parseBody(req);
         if (body != null){
             Vehicle vehicle = dao.getObjectById(Vehicle.class, body.get(ID));
-            req.setAttribute(INFO, info.getInfo(vehicle.getNumber()));
+            req.setAttribute(VEHICLES, info.getInfo(vehicle.getNumber()));
+            if (vehicle.getTrailer() != null) {
+                req.setAttribute(TRAILERS, info.getInfo(vehicle.getTrailer().getNumber()));
+            }
             req.setAttribute(TITLE, _TITLE);
             req.setAttribute(MODAL_CONTENT, _CONTENT);
             show(req, resp);

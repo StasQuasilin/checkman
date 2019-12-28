@@ -19,7 +19,7 @@ public class Notificator{
 
     private void sendMessage(String message){
         for (INotificator notificator : notificatorList){
-            notificator.sendMessage(message);
+//            notificator.sendMessage(message);
         }
     }
 }
