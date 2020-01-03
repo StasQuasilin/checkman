@@ -48,6 +48,16 @@ public class Shipper extends JsonAble{
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    @Override
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
         object.put(ID, id);

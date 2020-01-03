@@ -117,5 +117,8 @@
         <mapping class="entity.warehousing.StopReport"/>
         <mapping class="entity.laboratory.Protocol"/>
         <mapping class="entity.transport.TruckInfo"/>
+        <mapping class="entity.storages.StorageStockCorrectionDocument"/>
+        <mapping class="entity.storages.StorageStockCorrection"/>
+
     </session-factory>
 </hibernate-configuration>

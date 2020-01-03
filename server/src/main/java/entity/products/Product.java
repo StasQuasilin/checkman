@@ -106,12 +106,7 @@ public class Product extends JsonAble {
 
     @Override
     public String toString() {
-        return "Product{\n" +
-                "\tid=" + id + ",\n" +
-                "\tproductGroup=" + productGroup + ",\n" +
-                "\tname='" + name + "'\n" +
-                "\tanalyses='" + analysesType + "'\n" +
-                '}';
+        return name;
     }
 
     @Override

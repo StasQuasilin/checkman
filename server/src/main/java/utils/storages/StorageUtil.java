@@ -3,11 +3,7 @@ package utils.storages;
 import entity.documents.Shipper;
 import entity.products.Product;
 import entity.storages.*;
-import javafx.scene.effect.Light;
 import org.apache.log4j.Logger;
-import utils.hibernate.DateContainers.BETWEEN;
-import utils.hibernate.DateContainers.IDateContainer;
-import utils.hibernate.DateContainers.LT;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -197,8 +193,7 @@ public class StorageUtil {
             for (StorageProduct storageProduct : dao.getStorageProductByStorage(storage)) {
                 Product product = storageProduct.getProduct();
                 for (Shipper shipper : shippers){
-                    float v = calculateStock(now, storage, product, shipper);
-                    storageStocks.updateStock(now, storage, product, shipper, v);
+                    calculateStock(now, storage, product, shipper);
                 }
             }
         }
@@ -240,9 +235,9 @@ public class StorageUtil {
 
     public float calculateStock(Timestamp time, Storage storage, Product product, Shipper shipper){
         ArrayList<StoragePeriodPoint> points = new ArrayList<>();
-        LocalDate localDate = getBeginDate(time.toLocalDateTime().toLocalDate(), PointScale.year);
-        Date date = Date.valueOf(localDate);
-        getStocks(date, time, storage, product, shipper, PointScale.year, points);
+
+        pureStocks(null, time, storage, product, shipper, PointScale.year, points);
+
         float stocks = 0;
         for (StoragePeriodPoint point : points){
             stocks += point.getAmount();
@@ -250,6 +245,18 @@ public class StorageUtil {
         storageStocks.updateStock(time, storage, product, shipper, stocks);
         points.clear();
         return stocks;
+    }
+
+    public synchronized void pureStocks(Date prev, Timestamp time, Storage storage, Product product, Shipper shipper, PointScale scale, ArrayList<StoragePeriodPoint> points){
+        getStocks(prev, time, storage, product, shipper, scale, points);
+        ArrayList<StoragePeriodPoint> temp = new ArrayList<>(points);
+        for (StoragePeriodPoint point : temp){
+            PointScale pointScale = nextScale(point.getScale());
+            if (pointScale != point.getScale()) {
+                points.remove(point);
+            }
+        }
+        temp.clear();
     }
 
     public synchronized void getStocks(Date prev, Timestamp time, Storage storage, Product product, Shipper shipper, PointScale scale, ArrayList<StoragePeriodPoint> points){

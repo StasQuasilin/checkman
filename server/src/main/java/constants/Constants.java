@@ -92,6 +92,7 @@ public interface Constants {
     String TIME = "time";
     String UNIT = "unit";
     String PRODUCT = "product";
+    String CORRECTION = "correction";
     String GROUP = "group";
     String SETTINGS = "settings";
     String REALISATION = "realisation";
