@@ -292,6 +292,7 @@ public class Branches {
         public static final String CHECK = API + "/check";
         public static final String RETAIL_REMOVE = API + "/retail/remove";
         public static final String RETAIL_ARCHIVE = API + "/retail/archive";
+        public static final String STORAGE_STOCKS_DETAILS = API + "/stocks/details";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

@@ -1,18 +1,23 @@
 package entity.storages;
 
+import entity.JsonAble;
 import entity.documents.Shipper;
 import entity.products.Product;
+import org.json.simple.JSONObject;
+import utils.storages.PointScale;
+import utils.storages.StorageUtil;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 /**
  * Created by szpt_user045 on 31.10.2019.
  */
 @Entity
 @Table(name = "storage_entry")
-public class StorageEntry {
+public class StorageEntry extends JsonAble {
     private int id;
     private int document;
     private StorageDocumentType type;
@@ -92,5 +97,29 @@ public class StorageEntry {
     }
     public void setAmount(float amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(DOCUMENT, document);
+        object.put(DATE, time.toString());
+        object.put(TYPE, type.toString());
+        object.put(STORAGE, storage.toJson());
+        object.put(PRODUCT, product.toJson());
+        object.put(SHIPPER, shipper.toJson());
+        object.put(AMOUNT, amount);
+        object.put(SCALE, PointScale.detail.toString());
+        PointScale scale = PointScale.detail;
+        PointScale s = scale;
+        LocalDate localDate = time.toLocalDateTime().toLocalDate();
+        while ((s = StorageUtil.nextScale(s)) != scale){
+            scale = s;
+            LocalDate beginDate = StorageUtil.getBeginDate(localDate, scale);
+            object.put(scale.toString(), Date.valueOf(beginDate).toString());
+        }
+
+        return object;
     }
 }

@@ -51,7 +51,10 @@ public interface Constants {
     String WEIGHT_SHOW = "";
     String PROTOCOL = "protocol";
     String PROTOCOLS = "protocols";
-
+    String GET_STOCKS = "getStocks";
+    String STOCK_DETAILS = "stockDetails";
+    String REPLACE = "replace";
+    String CORRECTION = "correction";
     String REPORT = "report";
     String FIELDS = "fields";
     String SEND = "send";
@@ -92,7 +95,6 @@ public interface Constants {
     String TIME = "time";
     String UNIT = "unit";
     String PRODUCT = "product";
-    String CORRECTION = "correction";
     String GROUP = "group";
     String SETTINGS = "settings";
     String REALISATION = "realisation";

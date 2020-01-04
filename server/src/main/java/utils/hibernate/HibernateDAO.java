@@ -93,7 +93,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public ChatMember getChatMember(Chat chat, Worker worker) {
-        HashMap<String, Object> parameters = new HashMap<>();
+        HashMap<String, Object> parameters = hb.getParams();
         parameters.put("chat", chat);
         parameters.put("member", worker);
         return hb.get(ChatMember.class, parameters);
@@ -111,7 +111,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<ChatMessage> getLimitMessagesByChat(Object chat, int limit) {
-        final HashMap<String, Object> parameters  = new HashMap<>();
+        final HashMap<String, Object> parameters  = hb.getParams();
         parameters.put("timestamp", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
         parameters.put("chat", chat);
         return hb.limitQuery(ChatMessage.class, parameters, limit);
@@ -212,7 +212,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getLoadPlanByDeal(Object deal, Boolean done, Boolean archive) {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put(DEAL, deal);
         if (done != null) {
             parameters.put("transportation/done", done);
@@ -230,7 +230,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getTransportArchive() {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("transportation/archive", true);
         parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
         return hb.limitQuery(LoadPlan.class, parameters, 30);
@@ -238,7 +238,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getLimitArchiveTransportations(DealType type) {
-        final HashMap<String, Object>parameters = new HashMap<>();
+        final HashMap<String, Object>parameters = hb.getParams();
         parameters.put("archive", true);
         parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(10))));
         parameters.put("type", type);
@@ -344,7 +344,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getLimitLoadPlanArchive() {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("transportation/archive", true);
         parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(10))));
         return hb.limitQuery(LoadPlan.class, parameters, 14);
@@ -551,7 +551,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getActiveTransportations(Date date) {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("transportation/archive", false);
         if (date == null) {
             parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
@@ -570,7 +570,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Deal> getDealsByType(DealType type) {
-        final HashMap<String, Object> param = new HashMap<>();
+        final HashMap<String, Object> param = hb.getParams();
         param.put("type", type);
         param.put("archive", false);
         return hb.query(Deal.class, param);
@@ -578,7 +578,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Contract> getContractsByType(DealType type) {
-        final HashMap<String, Object> param = new HashMap<>();
+        final HashMap<String, Object> param = hb.getParams();
         param.put("type", type);
         param.put("contract/archive", false);
         HashMap<Integer, Contract> contracts = new HashMap<>();
@@ -596,7 +596,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Contract> getContractsByOrganisation(Organisation organisation) {
-        final HashMap<String, Object> param = new HashMap<>();
+        final HashMap<String, Object> param = hb.getParams();
         param.put("counterparty", organisation);
         param.put("archive", false);
         return hb.query(Contract.class, param);
@@ -604,7 +604,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Deal> getLimitArchiveDeals(DealType type) {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("archive", true);
         parameters.put("type", type);
         parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusDays(1))));
@@ -648,7 +648,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public ProductProperty getProductProperty(Product product, String key) {
-        final HashMap<String, Object> param= new HashMap<>();
+        final HashMap<String, Object> param= hb.getParams();
         param.put("product", product);
         param.put("key", key);
         return hb.get(ProductProperty.class, param);
@@ -785,7 +785,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Organisation findOrganisation(String type, String name) {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("type", type);
         parameters.put("name", name);
         return hb.get(Organisation.class, parameters);
@@ -861,7 +861,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getTransportationsOnTerritory() {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("transportation/archive", false);
         parameters.put("transportation/timeIn", State.notNull);
         parameters.put("transportation/timeOut", null);
@@ -870,7 +870,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getTransportationsOnCruise() {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("transportation/archive", false);
         parameters.put("transportation/timeOut", State.notNull);
         return hb.query(LoadPlan.class, parameters);
@@ -908,7 +908,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getLoadPlansByDealType(DealType dealType) {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("transportation/archive", false);
         parameters.put("deal/type", dealType);
         return hb.query(LoadPlan.class, parameters);
@@ -936,7 +936,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getTransportationsByType(DealType type) {
-        final HashMap<String,Object> parameters = new HashMap<>();
+        final HashMap<String,Object> parameters = hb.getParams();
         parameters.put("type", type);
         parameters.put("archive", false);
         return hb.query(Transportation.class, parameters);
@@ -944,7 +944,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getTransportationByAnalyses(DealType type) {
-        final HashMap<String,Object> parameters = new HashMap<>();
+        final HashMap<String,Object> parameters = hb.getParams();
         parameters.put("type", type);
         parameters.put("archive", false);
         parameters.put("product/analysesType", State.notNull);
@@ -958,7 +958,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<LoadPlan> getTransportationsByCustomer(TransportCustomer customer) {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("transportation/archive", false);
         parameters.put("customer", customer);
         return hb.query(LoadPlan.class, parameters);
@@ -976,7 +976,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Deal> getDealsByOrganisation(Object organisation) {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("archive", false);
         parameters.put("organisation", organisation);
         return hb.query(Deal.class, parameters);
@@ -984,7 +984,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getTransportationByOrganisation(Object organisation) {
-        HashMap<String, Object> params = new HashMap<>();
+        HashMap<String, Object> params = hb.getParams();
         params.put("counterparty", organisation);
         params.put("archive", false);
         return hb.query(Transportation.class, params);
@@ -992,7 +992,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<Transportation> getTransportationsByTransporter(Organisation transporter) {
-        HashMap<String, Object> params = new HashMap<>();
+        HashMap<String, Object> params = hb.getParams();
         params.put("transporter", transporter);
         params.put("archive", false);
         return hb.query(Transportation.class, params);
@@ -1005,7 +1005,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public ArchiveData getArchiveData(ArchiveType type, int document) {
-        final HashMap<String, Object> parameters = new HashMap<>();
+        final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("type", type);
         parameters.put("document", document);
         return hb.get(ArchiveData.class, parameters);
@@ -1076,7 +1076,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public Person getPersonByName(String surname, String forename, String patronymic) {
-        HashMap<String, Object> param = new HashMap<>();
+        HashMap<String, Object> param = hb.getParams();
         param.put("surname", surname);
         if (forename != null){
             param.put("forename", forename);
@@ -1280,7 +1280,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public StorageEntry getStorageEntry(int documentId, StorageDocumentType documentType) {
-        HashMap<String, Object> param = new HashMap<>();
+        HashMap<String, Object> param = hb.getParams();
         param.put("document", documentId);
         param.put("type", documentType);
         return hb.get(StorageEntry.class, param);
@@ -1288,7 +1288,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public StoragePeriodPoint getStoragePoint(Date date, Storage storage, Product product, Shipper shipper, PointScale scale) {
-        HashMap<String, Object> param = new HashMap<>();
+        HashMap<String, Object> param = hb.getParams();
         param.put("date", date);
         param.put("storage", storage);
         param.put("product", product);
@@ -1299,7 +1299,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper) {
-        HashMap<String, Object> param = new HashMap<>();
+        HashMap<String, Object> param = hb.getParams();
         param.put("time", new BETWEEN(from, to));
         param.put("storage", storage);
         param.put("product", product);
@@ -1309,7 +1309,7 @@ public class HibernateDAO implements dbDAO {
 
     @Override
     public List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale) {
-        HashMap<String, Object> param = new HashMap<>();
+        HashMap<String, Object> param = hb.getParams();
         if (from == null){
             param.put("date", new LE(to));
         } else {

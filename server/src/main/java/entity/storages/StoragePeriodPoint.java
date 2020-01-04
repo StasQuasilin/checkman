@@ -1,18 +1,22 @@
 package entity.storages;
 
+import entity.JsonAble;
 import entity.documents.Shipper;
 import entity.products.Product;
+import org.json.simple.JSONObject;
 import utils.storages.PointScale;
+import utils.storages.StorageUtil;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * Created by szpt_user045 on 09.10.2019.
  */
 @Entity
 @Table(name="storage_period_points")
-public class StoragePeriodPoint {
+public class StoragePeriodPoint extends JsonAble{
     private int id;
     private Date date;
     private PointScale scale;
@@ -95,5 +99,25 @@ public class StoragePeriodPoint {
                 "\tshipper=" + shipper + "\n" +
                 "\tamount=" + amount + "\n" +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(DATE, date.toString());
+        object.put(STORAGE, storage.toJson());
+        object.put(PRODUCT, product.toJson());
+        object.put(SHIPPER, shipper.toJson());
+        object.put(AMOUNT, amount);
+        object.put(SCALE, scale.toString());
+        PointScale s = scale;
+        LocalDate localDate = date.toLocalDate();
+        while ((s = StorageUtil.nextScale(s)) != scale){
+            scale = s;
+            LocalDate beginDate = StorageUtil.getBeginDate(localDate, scale);
+            object.put(scale.toString(), Date.valueOf(beginDate).toString());
+        }
+        return object;
     }
 }

@@ -7,5 +7,6 @@ public enum PointScale {
     year,
     month,
     week,
-    day
+    day,
+    detail
 }

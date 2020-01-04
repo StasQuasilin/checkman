@@ -343,6 +343,8 @@ public class StorageUtil {
 
     public static PointScale nextScale(PointScale scale){
         switch (scale){
+            case detail:
+                return PointScale.day;
             case day:
                 return PointScale.week;
             case week:

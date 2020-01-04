@@ -12,6 +12,7 @@ import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import entity.transport.TransportUtil;
+import utils.U;
 import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
@@ -63,11 +64,14 @@ public class EditSunServletAPI extends ServletAPI {
             }
 
             if (a.containsKey(Sun.HUMIDITY_2)) {
-                float humidity2 = Float.parseFloat(String.valueOf(a.get(Sun.HUMIDITY_2)));
-                log.info("\t\tHumidity 2: " + humidity2);
-                if (sunAnalyses.getHumidity2() != humidity2) {
-                    sunAnalyses.setHumidity2(humidity2);
-                    save = true;
+                String s = String.valueOf(a.get(Sun.HUMIDITY_2));
+                if (U.exist(s)) {
+                    float humidity2 = Float.parseFloat(s);
+                    log.info("\t\tHumidity 2: " + humidity2);
+                    if (sunAnalyses.getHumidity2() != humidity2) {
+                        sunAnalyses.setHumidity2(humidity2);
+                        save = true;
+                    }
                 }
             }
 
