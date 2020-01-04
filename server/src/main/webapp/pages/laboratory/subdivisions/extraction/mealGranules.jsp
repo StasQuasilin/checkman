@@ -1,9 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: szpt_user045
-  Date: 29.10.2019
-  Time: 15:44
-  To change this template use File | Settings | File Templates.
+  Date: 04.01.2020
+  Time: 10:41
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -15,29 +14,31 @@
 <script src="${context}/vue/laboratory/extractionOil.vue"></script>
 <script>
   editor.api.save = '${save}';
-
   <c:choose>
-  <c:when test="${not empty granules.id}">
+  <c:when test="${not empty analyses.id}">
   editor.oil = {
-    id:${granules.id},
-    date:new Date('${granules.turn.turn.date}').toISOString().substring(0, 10),
-    density:${granules.density},
-    humidity:${granules.humidity},
-    dust:${granules.dust},
-    match:${granules.match}
+    id:${analyses.id},
+    date:new Date('${analyses.turn.turn.date}').toISOString().substring(0, 10),
+    scree:${analyses.scree},
+    density:${analyses.density},
+    humidity:${analyses.humidity},
+    length:${analyses.length},
+    diameter:${analyses.diameter},
+    match:${analyses.match}
   };
   </c:when>
   <c:otherwise>
   editor.oil = {
     date:new Date().toISOString().substring(0, 10),
+    scree:0,
     density:0,
     humidity:0,
-    dust:0,
+    length:0,
+    diameter:0,
     match:false
   };
   </c:otherwise>
   </c:choose>
-
 </script>
 <table id="editor" class="editor">
   <tr>
@@ -56,15 +57,28 @@
   </tr>
   <tr>
     <td>
-      <label for="density">
-        <fmt:message key="vro.volume.density"/>
+      <label for="scree">
+        <fmt:message key="meal.scree"/>
       </label>
     </td>
     <td>
       :
     </td>
     <td>
-      <input id="density" type="number" v-model="oil.density" autocomplete="off">
+      <input type="number" id="scree" v-model="oil.scree" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="density">
+        <fmt:message key="meal.density"/>
+      </label>
+    </td>
+    <td>
+      :
+    </td>
+    <td>
+      <input type="number" id="density" v-model="oil.density" autocomplete="off">
     </td>
   </tr>
   <tr>
@@ -77,20 +91,33 @@
       :
     </td>
     <td>
-      <input id="humidity" type="number" v-model="oil.humidity" autocomplete="off">
+      <input type="number" id="humidity" v-model="oil.humidity" autocomplete="off">
     </td>
   </tr>
   <tr>
     <td>
-      <label for="dust">
-        <fmt:message key="dust"/>
+      <label for="length">
+        <fmt:message key="meal.length"/>
       </label>
     </td>
     <td>
       :
     </td>
     <td>
-      <input id="dust" type="number" v-model="oil.dust" autocomplete="off">
+      <input type="number" id="length" v-model="oil.length" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="diameter">
+        <fmt:message key="meal.diameter"/>
+      </label>
+    </td>
+    <td>
+      :
+    </td>
+    <td>
+      <input type="number" id="diameter" v-model="oil.diameter" autocomplete="off">
     </td>
   </tr>
   <tr>
@@ -106,7 +133,7 @@
     </td>
   </tr>
   <tr>
-    <td colspan="3" align="center">
+    <td colspan="2" align="center">
       <button onclick="closeModal()">
         <fmt:message key="button.cancel"/>
       </button>

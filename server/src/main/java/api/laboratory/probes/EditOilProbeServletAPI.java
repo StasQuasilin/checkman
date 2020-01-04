@@ -83,7 +83,7 @@ public class EditOilProbeServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float humidity = Float.parseFloat(String.valueOf(body.get(Constants.Oil.HUMIDITY)));
+            float humidity = Float.parseFloat(String.valueOf(body.get(HUMIDITY)));
             if (analyses.getHumidity() != humidity) {
                 analyses.setHumidity(humidity);
                 save = true;

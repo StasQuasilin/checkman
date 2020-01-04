@@ -204,6 +204,12 @@ public interface Constants {
     String PHONES = "phones";
     String EMPTY_JSON = "{}";
     String TRANSPORTATIONS = TRANSPORTATION + "s";
+    String HUMIDITY = "humidity";
+    String SCREE = "scree";
+    String DENSITY = "density";
+    String LENGTH = "length";
+    String DIAMETER = "diameter";
+    String MATCH = "match";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
@@ -236,7 +242,6 @@ public interface Constants {
 
     public class Oil {
         public static final String ORGANOLEPTIC = "organoleptic";
-        public static final String HUMIDITY = "humidity";
         public static final String COLOR = "color";
         public static final String ACID_VALUE = "acidValue";
         public static final String PEROXIDE_VALUE = "peroxideValue";

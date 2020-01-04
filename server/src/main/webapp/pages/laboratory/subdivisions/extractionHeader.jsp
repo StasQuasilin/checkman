@@ -6,7 +6,7 @@
 <html>
     <div id="container-header" style="display: inline">
         <link rel="stylesheet" href="${context}/css/drop-menu.css">
-        <c:if test="${role eq 'analyser'}">
+        <c:if test="${role eq 'analyser' or role eq 'admin'}">
         <div class="drop-menu">
             <a class="drop-btn"><fmt:message key="analyses"/>&nbsp;+</a>
             <div class="drop-menu-content">
@@ -44,6 +44,9 @@
                 </div>
                 <div class="drop-menu-item"  onclick="loadModal('${oilEdit}')">
                     <fmt:message key="extraction.oil"/>
+                </div>
+                <div class="drop-menu-item"  onclick="loadModal('${mealGranules}')">
+                    <fmt:message key="extraction.meal.granules"/>
                 </div>
             </div>
         </div>

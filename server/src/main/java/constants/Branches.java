@@ -114,6 +114,7 @@ public class Branches {
         public static final String LABORATORY_SHOW = "/laboratory/hsow.j";
         public static final String CHECK = "/check.j";
         public static final String RETAIL_REMOVE = "/retail/remove.j";
+        public static final String MEAL_GRANULES = "/extraction/meal/granules.j";
 
 
         public class Extraction {
@@ -293,6 +294,7 @@ public class Branches {
         public static final String RETAIL_REMOVE = API + "/retail/remove";
         public static final String RETAIL_ARCHIVE = API + "/retail/archive";
         public static final String STORAGE_STOCKS_DETAILS = API + "/stocks/details";
+        public static final String MEAL_GRANULES = API + "/extraction/meal/granules";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

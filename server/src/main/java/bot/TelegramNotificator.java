@@ -603,6 +603,29 @@ public class TelegramNotificator extends INotificator {
         }
     }
 
+    public void show(MealGranules analyses) {
+        final String turnDate = DateUtil.prettyDate(Date.valueOf(analyses.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
+        HashMap<String, String> messages = new HashMap<>();
+
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.getAnalyses() == NotifyStatus.all){
+                String language = setting.getLanguage();
+                if (!messages.containsKey(language)) {
+                    String message = lb.get(language, "extraction.granules.title");
+                    message += NEW_LINE + String.format(lb.get(language, "vra.granules"), turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "notificator.granules.scree"), analyses.getScree());
+                    message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.density"), analyses.getDensity());
+                    message += NEW_LINE + String.format(lb.get(language, HUMIDITY), analyses.getHumidity());
+                    message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.length"), analyses.getLength());
+                    message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.diameter"), analyses.getDiameter());
+                    message += NEW_LINE + (analyses.isMatch() ? lb.get(language, "match.dstu") : lb.get(language, "dsnt.match.dstu"));
+                    messages.put(language, message);
+                }
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
+    }
+
     public void show(SunProtein sunProtein) {
         final int turn = sunProtein.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(sunProtein.getTurn().getTurn().getDate());

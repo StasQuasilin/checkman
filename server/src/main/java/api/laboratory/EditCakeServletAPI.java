@@ -44,7 +44,7 @@ public class EditCakeServletAPI extends ServletAPI {
 
             JSONObject a = (JSONObject) body.get("analyses");
             boolean save = false;
-            float humidity = Float.parseFloat(String.valueOf(a.get(Constants.Oil.HUMIDITY)));
+            float humidity = Float.parseFloat(String.valueOf(a.get(HUMIDITY)));
             log.info("\t\tHumidity: " + humidity);
             if (mealAnalyses.getHumidity() != humidity) {
                 mealAnalyses.setHumidity(humidity);

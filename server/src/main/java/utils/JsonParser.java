@@ -76,6 +76,7 @@ public class JsonParser {
     private static final String SCALE = IServlet.SCALE;
     private static final String PARENT = "parent";
     private static final String OLD = "old";
+    private static final String GRANULAS = "granulas";
 
     public JSONObject toJson(Organisation organisation) {
         JSONObject json = pool.getObject();
@@ -745,8 +746,17 @@ public class JsonParser {
         json.put(TURN_PROTEIN, toTurnJson(turn.getTurnProteins()));
         json.put(TURN_GREASE, toTurnGrease(turn.getTurnGreases()));
         json.put(CELLULOSE, toTurnCellulose(turn.getCellulose()));
+        json.put(GRANULAS, toMealGranules(turn.getGranules()));
 
         return json;
+    }
+
+    private JSONArray toMealGranules(Set<MealGranules> granules) {
+        JSONArray array = pool.getArray();
+        for(MealGranules g : granules){
+            array.add(g.toJson());
+        }
+        return array;
     }
 
     private JSONArray toTurnCellulose(Set<TurnCellulose> cellulose) {

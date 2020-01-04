@@ -333,6 +333,23 @@
                 <fmt:message key="sun.humidity"/>:
                 {{grease.humidity}}
             </div>
+            <div v-for="granulas in value.item.granulas" class="selectable round"
+                    style="font-size: 10pt">
+                <b>
+                    <fmt:message key="title.extraction.turn.granulas"/>:
+                </b>
+                <fmt:message key="meal.scree"/>:{{granulas.scree}},
+                <fmt:message key="meal.density"/>:{{granulas.density}},
+                <fmt:message key="extraction.crude.humidity"/>:{{granulas.humidity}},
+                <fmt:message key="meal.length"/>:{{granulas.length}},
+                <fmt:message key="meal.diameter"/>:{{granulas.diameter}}
+                <span v-if="granulas.match" style="color: green">
+                    <fmt:message key="match.dstu"/>
+                </span>
+                <span v-else style="color: orangered">
+                    <fmt:message key="dsnt.match.dstu"/>
+                </span>
+            </div>
         </div>
         <div v-for="oil in value.item.oil" style="font-size: 10pt" class="selectable round"
             v-on:click="oilEdit(oil.id)">

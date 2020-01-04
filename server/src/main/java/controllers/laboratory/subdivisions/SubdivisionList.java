@@ -41,6 +41,7 @@ public class SubdivisionList extends IUIServlet {
                     req.setAttribute("turnGrease", Branches.UI.Extraction.TURN_GREASE);
                     req.setAttribute("storageGrease", Branches.UI.Extraction.STORAGE_GREASE);
                     req.setAttribute("oilEdit", Branches.UI.Extraction.OIL_EDIT);
+                    req.setAttribute("mealGranules", Branches.UI.MEAL_GRANULES);
                 }
 
                 req.setAttribute("dailyPrint", Branches.UI.Extraction.DAILY_REPORT_PRINT);

@@ -119,6 +119,6 @@
         <mapping class="entity.transport.TruckInfo"/>
         <mapping class="entity.storages.StorageStockCorrectionDocument"/>
         <mapping class="entity.storages.StorageStockCorrection"/>
-
+        <mapping class="entity.laboratory.subdivisions.extraction.MealGranules"/>
     </session-factory>
 </hibernate-configuration>

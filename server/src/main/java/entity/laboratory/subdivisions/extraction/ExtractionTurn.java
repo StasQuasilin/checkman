@@ -22,6 +22,7 @@ public class ExtractionTurn {
     private Set<TurnProtein> turnProteins;
     private Set<TurnGrease> turnGreases;
     private Set<TurnCellulose> cellulose;
+    private Set<MealGranules> granules;
 
     @Id
     @GeneratedValue
@@ -95,5 +96,13 @@ public class ExtractionTurn {
     }
     public void setCellulose(Set<TurnCellulose> cellulose) {
         this.cellulose = cellulose;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "turn", cascade = CascadeType.ALL)
+    public Set<MealGranules> getGranules() {
+        return granules;
+    }
+    public void setGranules(Set<MealGranules> granules) {
+        this.granules = granules;
     }
 }
