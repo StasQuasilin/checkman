@@ -1,3 +1,4 @@
 client/app/release/*
 client/.idea/*
 server/src/main/webapp/ext/*
+*.war

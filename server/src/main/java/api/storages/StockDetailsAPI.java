@@ -3,10 +3,17 @@ package api.storages;
 import api.ServletAPI;
 import constants.Branches;
 import entity.documents.Shipper;
+import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.storages.Storage;
+import entity.storages.StorageDocumentType;
 import entity.storages.StorageEntry;
 import entity.storages.StoragePeriodPoint;
+import entity.transport.Driver;
+import entity.transport.Trailer;
+import entity.transport.TransportStorageUsed;
+import entity.transport.Vehicle;
+import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.storages.PointScale;
@@ -44,6 +51,32 @@ public class StockDetailsAPI extends ServletAPI {
                 for (Shipper shipper : dao.getShipperList()){
                     for (StorageEntry entry : dao.getStorageEntries(from, to, storage, product, shipper)){
                         JSONObject json = entry.toJson();
+                        StorageDocumentType type = entry.getType();
+                        int document = entry.getDocument();
+                        switch (type){
+                            case weight:
+                                TransportStorageUsed storageUsed = dao.getObjectById(TransportStorageUsed.class, document);
+                                Organisation counterparty = storageUsed.getTransportation().getCounterparty();
+                                if (counterparty != null) {
+                                    json.put(COUNTERPARTY, counterparty.getValue());
+                                }
+                                Driver driver = storageUsed.getTransportation().getDriver();
+                                if (driver != null) {
+                                    json.put(DRIVER, driver.getPerson().getValue());
+                                }
+                                JSONObject v = pool.getObject();
+                                Vehicle vehicle = storageUsed.getTransportation().getVehicle();
+                                if (vehicle != null) {
+                                    v.put(MODEL, vehicle.getModel());
+                                    v.put(NUMBER, vehicle.getNumber());
+                                    Trailer trailer = storageUsed.getTransportation().getTrailer();
+                                    if (trailer != null) {
+                                        v.put(TRAILER, trailer.getNumber());
+                                    }
+                                    json.put(VEHICLE, v);
+                                }
+                                break;
+                        }
                         array.add(json);
                     }
                 }

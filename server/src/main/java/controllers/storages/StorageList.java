@@ -4,6 +4,7 @@ import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Constants;
 import controllers.IUIServlet;
+import entity.Role;
 import entity.products.Product;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
@@ -42,9 +43,11 @@ public class StorageList extends IUIServlet {
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(GET_STOCKS, Branches.API.STORAGE_STOCKS);
         req.setAttribute(STOCK_DETAILS, Branches.API.STORAGE_STOCKS_DETAILS);
-        req.setAttribute(REPLACE, Branches.UI.STORAGE_PRODUCT_REPLACE);
-        req.setAttribute(CORRECTION, Branches.UI.STORAGE_PRODUCT_CORRECTION);
-
+        Role role = getRole(req);
+        if (role == Role.admin || role == Role.warehousing) {
+            req.setAttribute(REPLACE, Branches.UI.STORAGE_PRODUCT_REPLACE);
+            req.setAttribute(CORRECTION, Branches.UI.STORAGE_PRODUCT_CORRECTION);
+        }
         req.setAttribute(SUBSCRIBE, SUBSCRIBES);
         show(req, resp);
     }

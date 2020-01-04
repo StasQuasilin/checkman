@@ -276,9 +276,14 @@
       color: orange;
     }
   </style>
+  <link rel="stylesheet" href="${context}/css/TransportList.css">
   <div id="container-header" class="container-header">
-    <button onclick="loadModal('${replace}')"><fmt:message key="button.replace"/></button>
-    <button onclick="loadModal('${correction}')"><fmt:message key="button.stock.correction"/></button>
+    <c:if test="${not empty replace}">
+      <button onclick="loadModal('${replace}')"><fmt:message key="button.replace"/></button>
+    </c:if>
+    <c:if test="${not empty correction}">
+      <button onclick="loadModal('${correction}')"><fmt:message key="button.stock.correction"/></button>
+    </c:if>
   </div>
   <div id="list" style="padding-left: 8pt">
     <div v-for="item in items">
@@ -400,8 +405,30 @@
                         <span class="date">
                           {{new Date(detail.date).toLocaleTimeString().substring(0, 5)}}
                         </span>
-                        <span>
+                        <div v-if="detail.type=='weight'" style="display: inline-block">
+                          <div>
+                            {{detail.counterparty}}
+                          </div>
+                          <div>
+                            <span>
+                              {{detail.driver}}
+                            </span>
+                            <span>
+                              {{detail.vehicle.model}}
+                            </span>
+                            <span class="vehicle-number">
+                              {{detail.vehicle.number}}
+                            </span>
+                            <span class="vehicle-number" v-if="detail.vehicle.trailer">
+                              {{detail.vehicle.trailer}}
+                            </span>
+                          </div>
+                        </div>
+                        <span v-else>
                           {{detail.type}}
+                        </span>
+                        <span>
+                          {{detail.shipper.name}}
                         </span>
                         <span>
                           {{detail.amount.toLocaleString()}}

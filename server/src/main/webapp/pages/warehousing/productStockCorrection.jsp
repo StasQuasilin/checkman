@@ -19,7 +19,8 @@
       date:new Date().toISOString().substring(0, 10),
       storages:[],
       open:false,
-      selectedStorage:-1
+      selectedStorage:-1,
+      alreadySave:false
     },
     methods:{
       getCorrected:function(val){
@@ -42,29 +43,40 @@
         });
         return sum;
       },
+      selectDate:function(){
+        const self = this;
+        datepicker.show(function(date){
+          self.date = date
+        }, this.date)
+      },
       save:function(){
-        var res = [];
-        this.getCorrected(true).forEach(function (item) {
-          Object.values(item.values).forEach(function(product){
-            product.values.forEach(function(shipper){
-              if (shipper.value != shipper.correction){
-                res.push({
-                  id:item.id,
-                  storage:item.id,
-                  product:product.id,
-                  shipper:shipper.shipper.id,
-                  correction:shipper.correction - shipper.value
-                })
-              }
-            });
+        if (!this.alreadySave) {
+          this.alreadySave = true;
+          var res = [];
+          this.getCorrected(true).forEach(function (item) {
+            Object.values(item.values).forEach(function (product) {
+              product.values.forEach(function (shipper) {
+                if (shipper.value != shipper.correction) {
+                  res.push({
+                    id: item.id,
+                    storage: item.id,
+                    product: product.id,
+                    shipper: shipper.shipper.id,
+                    correction: shipper.correction - shipper.value
+                  })
+                }
+              });
 
+            });
           });
-        });
-        PostApi(this.api.save, {id:this.id, date:this.date, values:res}, function(a){
-          if (a.status === 'success'){
-            closeModal();
-          }
-        })
+          const self = this;
+          PostApi(this.api.save, {id: this.id, date: this.date, values: res}, function (a) {
+            self.alreadySave = true;
+            if (a.status === 'success') {
+              closeModal();
+            }
+          })
+        }
       }
     }
   });
@@ -101,7 +113,7 @@
     <tr>
       <td colspan="3">
         <fmt:message key="date"/>
-        <span class="mini-close">
+        <span class="mini-close" v-on:click="selectDate">
           {{new Date(date).toLocaleDateString()}}
         </span>
       </td>

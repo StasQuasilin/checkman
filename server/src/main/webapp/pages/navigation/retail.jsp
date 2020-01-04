@@ -10,13 +10,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <jsp:include page="deals.jsp"/>
-<ul>
-  <li class="menu-item" onclick="loadContent('${retailList}')">
-      <span class="main">
-        <fmt:message key="menu.retail.list"/>
-      </span>
-  </li>
-</ul>
-
-
+    <ul>
+      <li class="menu-item" onclick="loadContent('${retailList}')">
+          <span class="main">
+            <fmt:message key="menu.retail.list"/>
+          </span>
+      </li>
+        <li class="menu-item">
+            <span class="main" onclick="loadContent('${storages}')">
+                <fmt:message key="menu.storages"/>
+            </span>
+        </li>
+    </ul>
 </html>
