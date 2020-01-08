@@ -24,11 +24,10 @@ import androidx.work.WorkerParameters;
 public class BackgroundWorker extends Worker {
 
     private Handler handler;
-    public static final String TAG = UUID.randomUUID().toString();
+    public static final String TAG = "BACKGROUND WORKER";
 
     public BackgroundWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-
     }
 
     @NonNull

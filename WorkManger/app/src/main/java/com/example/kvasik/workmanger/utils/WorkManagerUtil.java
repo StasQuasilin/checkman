@@ -1,12 +1,15 @@
 package com.example.kvasik.workmanger.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.kvasik.workmanger.BackgroundWorker;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.lifecycle.Observer;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.Operation;
 import androidx.work.WorkManager;
 
 /**
@@ -26,6 +29,7 @@ public class WorkManagerUtil {
     }
 
     public static void stopWorker(final Context context) {
+        Log.i("WorkManagerUtil", "Stop Worker" + BackgroundWorker.TAG);
         WorkManager.getInstance(context).cancelAllWorkByTag(BackgroundWorker.TAG);
     }
 }
