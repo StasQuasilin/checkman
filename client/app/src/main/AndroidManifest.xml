@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".activity.StartActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -26,22 +26,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <!--<activity android:name=".activity.MainActivity" />-->
         <activity android:name=".activity.messages.MessageActivity" />
         <receiver android:name=".receivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <service
-            android:name=".services.BackgroundService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="false">
-            <intent-filter>
-                <action android:name="android.telecom.ConnectionService" />
-            </intent-filter>
-        </service>
+        <!--<service-->
+            <!--android:name=".services.BackgroundService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true"-->
+            <!--android:permission="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.telecom.ConnectionService" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
         <activity android:name=".activity.EchoActivity" />
         <activity android:name=".activity.messages.ContactsActivity" />
