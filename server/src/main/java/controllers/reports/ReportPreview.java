@@ -49,7 +49,7 @@ public class ReportPreview extends IModal {
                         return o1.getNumber() - o2.getNumber();
                     }
                 });
-                req.setAttribute("categories", categories);
+                req.setAttribute(CATEGORIES, categories);
                 req.setAttribute("noCategory", fields.get(null));
                 req.setAttribute(FIELDS, fields);
                 req.setAttribute(REPORT, report);

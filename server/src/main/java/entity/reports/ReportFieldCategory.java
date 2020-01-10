@@ -14,6 +14,7 @@ public class ReportFieldCategory implements Comparable<ReportFieldCategory>{
     private int id;
     private String title;
     private int number;
+    private boolean summary;
 
     @Id
     @GeneratedValue
@@ -42,6 +43,15 @@ public class ReportFieldCategory implements Comparable<ReportFieldCategory>{
         this.number = number;
     }
 
+    @Basic
+    @Column(name = "summary")
+    public boolean isSummary() {
+        return summary;
+    }
+    public void setSummary(boolean summary) {
+        this.summary = summary;
+    }
+
     @Override
     public int compareTo(ReportFieldCategory o) {
         if (o != null){
@@ -52,7 +62,7 @@ public class ReportFieldCategory implements Comparable<ReportFieldCategory>{
 
     @Override
     public int hashCode() {
-        return title.hashCode();
+        return id;
     }
 
     @Override

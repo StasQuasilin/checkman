@@ -1,5 +1,6 @@
 package entity.reports;
 
+import constants.Constants;
 import entity.weight.Unit;
 
 import javax.persistence.*;
@@ -59,5 +60,15 @@ public class ReportFieldSettings {
     }
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    @Transient
+    public int getValue(){
+        return 0;
+    }
+
+    @Transient
+    public String getComment(){
+        return Constants.EMPTY;
     }
 }

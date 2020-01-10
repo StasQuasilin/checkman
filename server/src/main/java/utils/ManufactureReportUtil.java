@@ -31,7 +31,7 @@ public class ManufactureReportUtil {
 
     public void saveMessages(ManufactureReport report, ArrayList<Message> messages) {
         for (Message message : messages) {
-            if (message.getChat() != null) {
+            if (message != null && message.getChat() != null) {
                 System.out.println(message.getChat().getId());
                 ReportMessageLink messageLink = new ReportMessageLink();
                 messageLink.setReport(report);

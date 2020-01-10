@@ -6,10 +6,16 @@
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<c:set var="count" value="${fn:length(noCategory)}"/>
+<c:forEach items="${categories}" var="cat">
+  <c:set var="count" value="${count + fn:length(fields[cat])}"/>
+</c:forEach>
+<c:set var="idx" value="0"/>
 <table>
   <tr>
     <td>
@@ -25,9 +31,10 @@
     </td>
   </tr>
   <c:forEach items="${noCategory}" var="no">
+    <c:set var="idx" value="${idx+1}"/>
     <tr>
       <td style="padding-left: 16pt">
-          ${no.title}
+          ${idx}. ${no.title}
       </td>
       <td>
         <fmt:formatNumber value="${no.value}"/>
@@ -44,10 +51,11 @@
         </td>
       </tr>
     </c:if>
-    <c:forEach items="${fields[category]}" var="field">
+    <c:forEach items="${fields[category]}" var="field" varStatus="status">
+      <c:set var="idx" value="${idx+1}"/>
       <tr>
         <td style="padding-left: 16pt">
-          ${field.title}
+          ${idx}. ${field.title}
         </td>
         <td>
           <fmt:formatNumber value="${field.value}"/>

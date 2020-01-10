@@ -57,6 +57,7 @@ public interface Constants {
     String CORRECTION = "correction";
     String REPORT = "report";
     String FIELDS = "fields";
+    String CATEGORIES = "categories";
     String SEND = "send";
     String PREVIEW = "preview";
     String CALCULATORS = "calculators";

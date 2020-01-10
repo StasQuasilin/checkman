@@ -7,6 +7,7 @@ import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.reports.ReportFieldSettings;
+import entity.weight.Unit;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -105,8 +106,6 @@ public class ManufactureReportEditAPI extends ServletAPI {
                     save = true;
                 }
 
-
-
                 long unitId = (long) field.get("unit");
                 if (reportField.getUnit() == null || reportField.getUnit().getId() != unitId) {
                     reportField.setUnit(dao.getWeightUnitById(unitId));
@@ -126,16 +125,7 @@ public class ManufactureReportEditAPI extends ServletAPI {
                     }
 
                     reportField.setCategory(category);
-                    if (!field.containsKey("setting")) {
-                        if (!Boolean.parseBoolean(String.valueOf(field.get("once")))){
-                            ReportFieldSettings settings = new ReportFieldSettings();
-                            settings.setTitle(String.valueOf(field.get("title")));
-                            settings.setUnit(dao.getWeightUnitById(field.get("unit")));
-                            settings.setCategory(category);
-                            dao.save(settings);
-                        }
-                    }
-                }
+                                    }
                 String comment = String.valueOf(field.get("comment"));
                 if (!U.exist(reportField.getComment()) || !reportField.getComment().equals(comment) ){
                     reportField.setComment(comment);
@@ -153,17 +143,10 @@ public class ManufactureReportEditAPI extends ServletAPI {
                     manufactureReport.getFields().add(field);
                 }
                 updateUtil.onSave(manufactureReport);
-                write(resp, parser.toJson(new SuccessAnswer(ID, manufactureReport.getId())).toJSONString());
+                JSONObject json = new SuccessAnswer(ID, manufactureReport.getId()).toJson();
+                write(resp, json.toJSONString());
+                pool.put(json);
 
-//                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
-//                if (notificator != null){
-
-//                    ArrayList<Message> messages = new ArrayList<>();
-//                    notificator.manufactureReportShow(manufactureReport, messages);
-//
-
-//                    }
-//                }
             } else {
                 write(resp, SUCCESS_ANSWER);
             }

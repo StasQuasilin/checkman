@@ -18,6 +18,7 @@ import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
 import entity.warehousing.StopReport;
+import entity.weight.Unit;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -493,32 +494,34 @@ public class TelegramNotificator extends INotificator {
 
                     U.sort(manufactureReport.getFields());
                     ReportFieldCategory category = null;
-                    manufactureReport.getFields().sort(new Comparator<ReportField>() {
-                        @Override
-                        public int compare(ReportField o1, ReportField o2) {
-                            return o1.getIndex() - o2.getIndex();
-                        }
-                    });
+                    manufactureReport.getFields().sort((o1, o2) -> o1.getIndex() - o2.getIndex());
                     for (ReportField reportField : manufactureReport.getFields()){
-
-                        if (!U.equals(reportField.getCategory(), category)){
-                            category = reportField.getCategory();
-                            if (category != null) {
-                                builder.append(NEW_LINE);
-                                builder.append(STAR).append(category.getTitle()).append(STAR).append(NEW_LINE);
+                        if (reportField.getValue() > 0) {
+                            if (!U.equals(reportField.getCategory(), category)) {
+                                category = reportField.getCategory();
+                                if (category != null && U.exist(category.getTitle())) {
+                                    builder.append(NEW_LINE);
+                                    builder.append(STAR).append(category.getTitle()).append(STAR);
+                                    if (category.isSummary()){
+                                        ArrayList<ReportField> categoryFields = getCategoryFields(category.getId(), manufactureReport.getFields());
+                                        builder.append(COLON);
+                                        for (Unit unit : getUnits(categoryFields)){
+                                            builder.append(String.format(FORMAT, getSummary(unit, categoryFields)));
+                                            builder.append(SPACE).append(unit.getName()).append(SPACE);
+                                        }
+                                    }
+                                    builder.append(NEW_LINE);
+                                }
                             }
-                        }
-                        if (U.exist(reportField.getTitle())){
                             builder.append(reportField.getTitle());
-                        }
+                            builder.append(HYPHEN).append(String.format(FORMAT, reportField.getValue()));
+                            builder.append(SPACE).append(reportField.getUnit().getName());
 
-                        builder.append(HYPHEN).append(String.format(FORMAT, reportField.getValue()));
-                        builder.append(SPACE).append(reportField.getUnit().getName());
-
-                        if (U.exist(reportField.getComment())) {
-                            builder.append(SEMICOLON).append(SPACE).append(reportField.getComment());
+                            if (U.exist(reportField.getComment())) {
+                                builder.append(SEMICOLON).append(SPACE).append(reportField.getComment());
+                            }
+                            builder.append(NEW_LINE);
                         }
-                        builder.append(NEW_LINE);
                     }
 
                     messages.put(language, builder.toString());
@@ -528,6 +531,37 @@ public class TelegramNotificator extends INotificator {
                 );
             }
         }
+    }
+
+    private float getSummary(Unit unit, ArrayList<ReportField> categoryFields) {
+        float sum = 0;
+        for (ReportField rf : categoryFields){
+            if (rf.getUnit().equals(unit)){
+                sum += rf.getValue();
+            }
+        }
+        return sum;
+    }
+
+    private ArrayList<Unit> getUnits(ArrayList<ReportField> categoryFields) {
+        ArrayList<Unit> units = new ArrayList<>();
+        for (ReportField rf : categoryFields){
+            if (!units.contains(rf.getUnit())){
+                units.add(rf.getUnit());
+            }
+        }
+        return units;
+    }
+
+    private ArrayList<ReportField> getCategoryFields(int id, List<ReportField> fields) {
+        ArrayList<ReportField> categoryFields = new ArrayList<>();
+        for (ReportField rf : fields){
+            ReportFieldCategory category = rf.getCategory();
+            if (category != null && category.getId() == id){
+                categoryFields.add(rf);
+            }
+        }
+        return categoryFields;
     }
 
     public void send(long telegramId, String text) {

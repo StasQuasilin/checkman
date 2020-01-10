@@ -23,13 +23,51 @@ var editor = new Vue({
         category:{}
     },
     methods:{
+        addCategory:function(category){
+            this.categories.push(category);
+            this.categories.sort(function(a, b){
+                return a.number - b.number;
+            })
+        },
+        getUnits:function(fields){
+            var units = {};
+            for(var i in fields){
+                if (fields.hasOwnProperty(i)){
+                    var unit = fields[i].unit;
+                    if (!units[unit]){
+                        units[unit] = this.getUnit(unit);
+                    }
+                }
+            }
+
+            return Object.values(units);
+        },
+        getUnit:function(id){
+            for(var i in this.units){
+                if (this.units.hasOwnProperty(i)){
+                    if (this.units[i].id == id){
+                        return this.units[i];
+                    }
+                }
+            }
+        },
         selectDate:function(){
             const self = this;
             datepicker.show(function(a){
                 self.report.date = a;
             }, this.report.date)
         },
-        addField:function(field){
+        getCategory:function(categoryId){
+            for (var i in this.categories){
+                if(this.categories.hasOwnProperty(i)){
+                    var cat = this.categories[i];
+                    if (cat.id == categoryId){
+                        return cat;
+                    }
+                }
+            }
+        },
+        addField:function(field, categoryId, categoryName, categoryNumber){
 
             if (!field.value) {
                 field.value = 0;
@@ -39,22 +77,26 @@ var editor = new Vue({
             }
 
             field.editComment = false;
-
-            //console.log(field);
-
-            this.fields.push(field);
+            var category = this.getCategory(categoryId);
+            if (category == null){
+                category = {
+                    id:categoryId,
+                    title:categoryName,
+                    number:categoryNumber,
+                    summary:false,
+                    fields:[]
+                };
+                this.categories.push(category);
+            }
+            category.fields.push(field);
             this.sortFields();
         },
         sortFields:function(){
-            this.fields.sort(function(a, b){
-                if (a.category && b.category){
-                    return a.category.number - b.category.number;
-                } else if (a.category){
-                    return 1;
-                } else {
-                    return -1;
-                }
-            })
+            this.categories.forEach(function(category){
+               category.fields.sort(function(a, b){
+                   return a.number - b.number;
+               })
+            });
         },
         getFields:function(category){
             if (category){
@@ -101,19 +143,19 @@ var editor = new Vue({
             console.log(this.report);
             this.errors.turn = this.report.turn == -1;
             if (!this.errors.turn){
-                var fields = this.fields;
-                fields.forEach(function(item){
-                    delete item['editComment'];
-
-                    if (item.category == null){
-                        delete item['category'];
-                    }
-                    if (item.storage == null){
-                        delete item['storage'];
-                    }
+                var fields = [];
+                this.categories.forEach(function(category){
+                    category.fields.forEach(function(item){
+                        delete item['editComment'];
+                        var cat = Object.assign({}, category);
+                        delete cat.fields;
+                        item.category = cat;
+                        fields.push(item);
+                    });
                 });
+
                 const self = this;
-                PostApi(this.api.save, {report: this.report, fields: this.fields}, function(a){
+                PostApi(this.api.save, {report: this.report, fields: fields}, function(a){
                     console.log(a);
                     if (a.status === 'success'){
                         closeModal();
@@ -172,6 +214,17 @@ var editor = new Vue({
                 this.initCategory();
                 this.newCategory = false;
             }
+        },
+        summary:function(category, unit){
+            var sum = 0;
+            for (var i in category.fields){
+                if (category.fields.hasOwnProperty(i)) {
+                    if (category.fields[i].unit == unit.id) {
+                        sum += parseFloat(category.fields[i].value);
+                    }
+                }
+            }
+            return sum;
         }
     }
 });
