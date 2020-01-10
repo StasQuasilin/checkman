@@ -1,7 +1,7 @@
 package api.weight;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
@@ -98,7 +98,7 @@ public class WeightEditServletAPI extends ServletAPI {
                 TransportUtil.checkTransport(transportation);
                 transportationComparator.compare(transportation, getWorker(req));
 
-                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     if (weight.getNetto() > 0) {
                         notificator.weightShow(transportation);

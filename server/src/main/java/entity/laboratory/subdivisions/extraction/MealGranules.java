@@ -19,7 +19,6 @@ public class MealGranules extends JsonAble{
     private float humidity;
     private float length;
     private float diameter;
-    private boolean match;
     private ActionTime createTime;
 
     @Id
@@ -85,15 +84,6 @@ public class MealGranules extends JsonAble{
         this.diameter = diameter;
     }
 
-    @Basic
-    @Column(name = "match")
-    public boolean isMatch() {
-        return match;
-    }
-    public void setMatch(boolean match) {
-        this.match = match;
-    }
-
     @OneToOne
     @JoinColumn(name = "create_time")
     public ActionTime getCreateTime() {
@@ -112,7 +102,6 @@ public class MealGranules extends JsonAble{
         object.put(HUMIDITY, humidity);
         object.put(LENGTH, length);
         object.put(DIAMETER, diameter);
-        object.put(MATCH, match);
         return object;
     }
 }

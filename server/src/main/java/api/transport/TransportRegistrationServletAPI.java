@@ -1,7 +1,7 @@
 package api.transport;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
@@ -47,7 +47,7 @@ public class TransportRegistrationServletAPI extends ServletAPI {
             Weight weight = transportation.getWeight();
 
             if (weight == null || (weight.getBrutto() == 0 && weight.getTara() == 0)) {
-                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.transportRegistration(transportation);
                 }

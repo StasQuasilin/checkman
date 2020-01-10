@@ -2,6 +2,7 @@ package com.example.kvasik.workmanger.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.Toast;
 
 import com.example.kvasik.workmanger.R;
@@ -20,6 +21,18 @@ public abstract class ParentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("Parent", "Create");
+        WorkManagerUtil.stopWorker(getApplicationContext());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navigation, menu);
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         WorkManagerUtil.stopWorker(getApplicationContext());
     }
 

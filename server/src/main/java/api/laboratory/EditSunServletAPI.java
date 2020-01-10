@@ -1,7 +1,7 @@
 package api.laboratory;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
@@ -133,7 +133,7 @@ public class EditSunServletAPI extends ServletAPI {
                 float v = TransportUtil.calculateWeight(transportation);
                 updateUtil.onSave(transportation);
 
-                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.sunAnalysesShow(transportation, sunAnalyses, 1f * Math.round(v * 100) / 100);
                 }

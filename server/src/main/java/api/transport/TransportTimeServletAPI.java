@@ -70,7 +70,7 @@ public class TransportTimeServletAPI extends ServletAPI {
             dao.save(time);
             dao.saveTransportation(transportation);
             updateUtil.onSave(transportation);
-//            TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+//            TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
 //            if (notificator != null) {
 //                if (direction == TransportDirection.in && transportation.getTimeOut() == null) {
 //                    notificator.transportInto(transportation);

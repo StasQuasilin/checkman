@@ -1,7 +1,7 @@
 package api.sign;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import entity.Person;
@@ -47,7 +47,7 @@ public class FriendlyRegistrationServletAPI extends ServletAPI {
             person.setPatronymic(String.valueOf(body.get("patronymic")));
 
             dao.save(person, worker, user);
-            TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+            TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
             if (notificator != null) {
                 notificator.registrationShow(user);
             }

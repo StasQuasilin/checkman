@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.kvasik.workmanger.activity.MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"/>
+
+
     <!--<androidx.appcompat.widget.Toolbar-->
         <!--android:id="@+id/toolbar"-->
         <!--android:layout_width="match_parent"-->

@@ -1,7 +1,7 @@
 package api.warehousing;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import entity.Subdivision;
@@ -61,7 +61,7 @@ public class EditStopReportAPI extends ServletAPI {
             dao.save(report.getCreateTime());
             dao.save(report);
             write(resp, SUCCESS_ANSWER);
-            TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+            TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
             if(notificator != null){
                 notificator.alarm(report);
             }

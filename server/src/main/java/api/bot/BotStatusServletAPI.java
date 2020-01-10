@@ -1,7 +1,7 @@
 package api.bot;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import constants.Branches;
 import org.json.simple.JSONObject;
 
@@ -19,9 +19,9 @@ public class BotStatusServletAPI extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject json = pool.getObject();
-        json.put("token", BotFactory.getToken());
-        json.put("name", BotFactory.getName());
-        json.put("status", BotFactory.getStatus().toString());
+        json.put("token", TelegramBotFactory.getToken());
+        json.put("name", TelegramBotFactory.getName());
+        json.put("status", TelegramBotFactory.getStatus().toString());
         write(resp, json.toString());
     }
 }

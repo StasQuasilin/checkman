@@ -1,7 +1,7 @@
 package api.bot;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import constants.Branches;
 import entity.bot.BotSettings;
 import filters.ContextFilter;
@@ -41,7 +41,7 @@ public class BotSystemSettingsServletAPI extends ServletAPI {
 
         if (save){
             dao.save(settings);
-            BotFactory.setSettings(settings);
+            TelegramBotFactory.setSettings(settings);
         }
 
         write(resp, SUCCESS_ANSWER);

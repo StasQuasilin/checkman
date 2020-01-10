@@ -1,15 +1,13 @@
 package api.laboratory.extraction;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.extraction.MealGranules;
-import entity.laboratory.subdivisions.vro.GranulesAnalyses;
-import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.TurnSettings;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
@@ -91,12 +89,6 @@ public class ExtractionMealGranulesEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            boolean match = Boolean.parseBoolean(String.valueOf(body.get("match")));
-            if (analyses.isMatch() != match) {
-                analyses.setMatch(match);
-                save = true;
-            }
-
             if (save) {
                 ActionTime createTime = analyses.getCreateTime();
                 if (createTime == null) {
@@ -118,7 +110,7 @@ public class ExtractionMealGranulesEditServletAPI extends ServletAPI {
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()) {
                     updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
                 }
-                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.show(analyses);
                 }

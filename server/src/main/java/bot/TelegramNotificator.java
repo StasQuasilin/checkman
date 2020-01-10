@@ -652,7 +652,6 @@ public class TelegramNotificator extends INotificator {
                     message += NEW_LINE + String.format(lb.get(language, HUMIDITY), analyses.getHumidity());
                     message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.length"), analyses.getLength());
                     message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.diameter"), analyses.getDiameter());
-                    message += NEW_LINE + (analyses.isMatch() ? lb.get(language, "match.dstu") : lb.get(language, "dsnt.match.dstu"));
                     messages.put(language, message);
                 }
                 sendMessage(setting.getTelegramId(), messages.get(language), null);

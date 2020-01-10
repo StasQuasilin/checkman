@@ -1,8 +1,9 @@
-package com.example.kvasik.workmanger;
+package com.example.kvasik.workmanger.activity;
 
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.kvasik.workmanger.R;
 import com.example.kvasik.workmanger.activity.ParentActivity;
 
 import androidx.appcompat.app.AppCompatActivity;

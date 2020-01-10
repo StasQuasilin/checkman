@@ -1,7 +1,7 @@
 package api.laboratory.vro;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
@@ -176,7 +176,7 @@ public class VROCrudeEditServletAPI extends ServletAPI {
                     updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
                 }
 
-                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.vroShow(crude, cakes);
                 }

@@ -1,7 +1,7 @@
 package api.reports;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import entity.reports.ManufactureReport;
@@ -29,7 +29,7 @@ public class SendReportAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null){
             ManufactureReport report = dao.getObjectById(ManufactureReport.class, body.get(ID));
-            TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+            TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
             if (notificator != null) {
                 util.removeChatMessages(report, notificator);
 

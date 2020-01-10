@@ -1,23 +1,18 @@
 package filters;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.EchoSocket;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import constants.Branches;
 import constants.Constants;
 import entity.bot.BotSettings;
 import org.apache.log4j.Logger;
 import utils.Archivator;
-import utils.boxes.DealBox;
-import utils.boxes.TransportBox;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.dbDAOService;
-import utils.storages.StorageStocks;
 import utils.transport.TransportReplaceUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
@@ -38,7 +33,7 @@ public class ContextFilter implements Filter {
         gcTimer = new Timer(20 * 1000, e -> System.gc());
         gcTimer.start();
         HibernateSessionFactory.init();
-        BotFactory.init();
+        TelegramBotFactory.init();
         initBot();
         Archivator.init();
         tru = new TransportReplaceUtil();
@@ -52,7 +47,7 @@ public class ContextFilter implements Filter {
         if (settings != null) {
             log.info("\t...Bot settings read successfully");
             try {
-                BotFactory.setSettings(settings);
+                TelegramBotFactory.setSettings(settings);
                 settings.setRun(true);
                 dbDAOService.getDAO().save(settings);
             } catch (IOException e) {
@@ -81,7 +76,7 @@ public class ContextFilter implements Filter {
         gcTimer.stop();
         Archivator.stop();
         ActiveSubscriptions.getInstance().close();
-        BotFactory.shutdown();
+        TelegramBotFactory.shutdown();
         HibernateSessionFactory.shutdown();
         tru.shutdown();
     }

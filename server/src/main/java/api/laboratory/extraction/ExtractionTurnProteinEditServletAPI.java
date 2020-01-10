@@ -1,7 +1,7 @@
 package api.laboratory.extraction;
 
 import api.ServletAPI;
-import bot.BotFactory;
+import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
@@ -101,7 +101,7 @@ public class ExtractionTurnProteinEditServletAPI extends ServletAPI {
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
                     updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
                 }
-                TelegramNotificator notificator = BotFactory.getTelegramNotificator();
+                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.extractionShow(turnProtein);
                 }

@@ -343,12 +343,6 @@
                 <fmt:message key="extraction.crude.humidity"/>:{{granulas.humidity}},
                 <fmt:message key="meal.length"/>:{{granulas.length}},
                 <fmt:message key="meal.diameter"/>:{{granulas.diameter}}
-                <span v-if="granulas.match" style="color: green">
-                    <fmt:message key="match.dstu"/>
-                </span>
-                <span v-else style="color: orangered">
-                    <fmt:message key="dsnt.match.dstu"/>
-                </span>
             </div>
         </div>
         <div v-for="oil in value.item.oil" style="font-size: 10pt" class="selectable round"

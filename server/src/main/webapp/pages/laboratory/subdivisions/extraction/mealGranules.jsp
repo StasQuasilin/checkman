@@ -23,8 +23,7 @@
     density:${analyses.density},
     humidity:${analyses.humidity},
     length:${analyses.length},
-    diameter:${analyses.diameter},
-    match:${analyses.match}
+    diameter:${analyses.diameter}
   };
   </c:when>
   <c:otherwise>
@@ -34,8 +33,7 @@
     density:0,
     humidity:0,
     length:0,
-    diameter:0,
-    match:false
+    diameter:0
   };
   </c:otherwise>
   </c:choose>
@@ -118,18 +116,6 @@
     </td>
     <td>
       <input type="number" id="diameter" v-model="oil.diameter" autocomplete="off">
-    </td>
-  </tr>
-  <tr>
-    <td colspan="3" align="right">
-      <span v-on:click="oil.match = !oil.match" style="font-weight: bold">
-        <span v-if="oil.match">
-          <fmt:message key="match.dstu"/>
-        </span>
-        <span v-else style="color: orangered">
-          <fmt:message key="dsnt.match.dstu"/>
-        </span>
-      </span>
     </td>
   </tr>
   <tr>
