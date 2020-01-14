@@ -102,6 +102,7 @@ public class MealGranules extends JsonAble{
         object.put(HUMIDITY, humidity);
         object.put(LENGTH, length);
         object.put(DIAMETER, diameter);
+        object.put(TIME, createTime.getTime().toString());
         return object;
     }
 }

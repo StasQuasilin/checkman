@@ -1,7 +1,9 @@
 package entity.laboratory.subdivisions.extraction;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "extraction_oil")
-public class ExtractionOIl {
+public class ExtractionOIl extends JsonAble{
     private int id;
     private ExtractionTurn turn;
     private float humidity;
@@ -120,5 +122,17 @@ public class ExtractionOIl {
             hash = 31 * createTime.hashCode() + hash;
         }
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(HUMIDITY, humidity);
+        json.put(ACID, acid);
+        json.put(PEROXIDE, peroxide);
+        json.put(PHOSPHORUS, phosphorus);
+        json.put(EXPLOSION_TEMPERATURE, explosionT);
+        return json;
     }
 }

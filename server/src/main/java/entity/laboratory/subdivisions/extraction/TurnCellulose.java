@@ -1,6 +1,8 @@
 package entity.laboratory.subdivisions.extraction;
 
+import entity.JsonAble;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "turn_cellulose")
-public class TurnCellulose {
+public class TurnCellulose extends JsonAble{
     private int id;
     private ExtractionTurn turn;
     private float cellulose;
@@ -67,5 +69,15 @@ public class TurnCellulose {
             return cellulose * 100 / (100 - humidity);
         }
         return 0;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(CELLULOSE, cellulose);
+        json.put(HUMIDITY, humidity);
+        json.put(DRY, DryRecalculation());
+        return json;
     }
 }

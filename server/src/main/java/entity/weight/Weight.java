@@ -93,7 +93,7 @@ public class Weight {
 
     @Transient
     public float getCorrectedNetto(){
-        return 1f * Math.round(getNetto() * (1 - correction / 100) * 100) / 100;
+        return 1f * Math.round(getNetto() * (1 - correction / 100) * 1000) / 1000;
     }
 
     @Override

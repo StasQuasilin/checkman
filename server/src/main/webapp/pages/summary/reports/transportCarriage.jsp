@@ -22,6 +22,7 @@
       api:{
         print:'${print}'
       },
+      already:false,
       from:new Date().toISOString().substring(0, 10),
       to:new Date().toISOString().substring(0, 10),
       organisation:{},
@@ -64,32 +65,38 @@
         }, this.to)
       },
       print:function(){
-        this.err.organisation = this.organisation.id;
-        this.err.driver = this.driver.id;
-        let params = {};
-        if (this.from){
-          params.from = this.from;
+        if (!this.already) {
+          this.already = true;
+          this.err.organisation = this.organisation.id;
+          this.err.driver = this.driver.id;
+          let params = {};
+          if (this.from) {
+            params.from = this.from;
+          }
+          if (this.to) {
+            params.to = this.to;
+          }
+          if (this.organisation) {
+            params.organisation = this.organisation.id
+          }
+          if (this.driver) {
+            params.driver = this.driver.id;
+          }
+          if (this.vehicle) {
+            params.vehicleContain = this.vehicle;
+          }
+          if (this.product != -1) {
+            params.product = this.product;
+          }
+          const self = this;
+
+          PostReq(this.api.print, params, function (a) {
+            self.already = false;
+            var print = window.open();
+            print.document.write(a);
+            print.print();
+          })
         }
-        if (this.to){
-          params.to = this.to;
-        }
-        if (this.organisation){
-          params.organisation = this.organisation.id
-        }
-        if (this.driver){
-          params.driver = this.driver.id;
-        }
-        if (this.vehicle){
-          params.vehicleContain = this.vehicle;
-        }
-        if (this.product != -1){
-          params.product = this.product;
-        }
-        PostReq(this.api.print, params, function(a){
-          var print = window.open();
-          print.document.write(a);
-          print.print();
-        })
       }
     }
   });
@@ -171,7 +178,10 @@
       <button onclick="closeModal()">
         <fmt:message key="button.close"/>
       </button>
-      <button v-on:click="print()">
+      <button v-if="already" disabled>
+        <fmt:message key="document.print"/>...
+      </button>
+      <button v-on:click="print()" v-else>
         <fmt:message key="document.print"/>
       </button>
     </td>

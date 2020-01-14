@@ -171,22 +171,22 @@
             <td rowspan="2">
               <div>
                 <fmt:message key="weight.brutto"/>:
-                <fmt:formatNumber value="${transport.weight.brutto}"/>
+                <fmt:formatNumber value="${transport.weight.brutto}" maxFractionDigits="3"/>
               </div>
               <div>
                 <fmt:message key="weight.tara"/>:
-                <fmt:formatNumber value="${transport.weight.tara}"/>
+                <fmt:formatNumber value="${transport.weight.tara}" maxFractionDigits="3"/>
               </div>
               <div>
                 <fmt:message key="weight.netto"/>:
-                <fmt:formatNumber value="${transport.weight.netto}"/>
+                <fmt:formatNumber value="${transport.weight.netto}" maxFractionDigits="3"/>
                 <c:set var="correction" value="${correction + transport.weight.correctedNetto}"/>
                 <c:set var="total" value="${total + transport.weight.netto}"/>
               </div>
               <c:if test="${transport.weight.correction ne 0}">
                 <div>
                   <fmt:message key="weight.creadit.netto"/>:
-                  <fmt:formatNumber value="${transport.weight.correctedNetto}"/>
+                  <fmt:formatNumber value="${transport.weight.correctedNetto}" maxFractionDigits="3"/>
                 </div>
               </c:if>
             </td>
@@ -255,11 +255,11 @@
         </c:forEach>
       </table>
       <div style="padding-top: 12pt">
-        <fmt:message key="amount.total.carriage"/>: <fmt:formatNumber value="${total}"/>
+        <fmt:message key="amount.total.carriage"/>: <fmt:formatNumber value="${total}" maxFractionDigits="3"/>
       </div>
       <c:if test="${total ne correction}">
         <div>
-          <fmt:message key="valid.weight"/>: <fmt:formatNumber value="${correction}"/>
+          <fmt:message key="valid.weight"/>: <fmt:formatNumber value="${correction}" maxFractionDigits="3"/>
         </div>
       </c:if>
       <div style="padding-bottom: 12pt">

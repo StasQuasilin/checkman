@@ -333,16 +333,31 @@
                 <fmt:message key="sun.humidity"/>:
                 {{grease.humidity}}
             </div>
-            <div v-for="granulas in value.item.granulas" class="selectable round"
-                    style="font-size: 10pt">
+            <div v-if="value.item.granulas.length > 0" style="font-size: 10pt">
                 <b>
                     <fmt:message key="title.extraction.turn.granulas"/>:
+                </b>
+            </div>
+            <div v-for="granulas in value.item.granulas" class="selectable round"
+                 style="font-size: 10pt">
+                <b>
+                    {{new Date(granulas.time).toLocaleTimeString().substring(0, 5)}}
                 </b>
                 <fmt:message key="meal.scree"/>:{{granulas.scree}},
                 <fmt:message key="meal.density"/>:{{granulas.density}},
                 <fmt:message key="extraction.crude.humidity"/>:{{granulas.humidity}},
                 <fmt:message key="meal.length"/>:{{granulas.length}},
                 <fmt:message key="meal.diameter"/>:{{granulas.diameter}}
+            </div>
+
+            <div v-for="cellulose in value.item.cellulose"
+                 style="font-size: 10pt; display: inline-block" class="selectable round">
+                <b>
+                    <fmt:message key="menu.extraction.turn.cellulose"/>:
+                </b>
+                <fmt:message key="cake.cellulose"/>:{{cellulose.cellulose.toLocaleString()}},
+                <fmt:message key="extraction.crude.humidity"/>:{{cellulose.humidity.toLocaleString()}},
+                <fmt:message key="dry.indicator"/>:{{cellulose.dry.toLocaleString()}}
             </div>
         </div>
         <div v-for="oil in value.item.oil" style="font-size: 10pt" class="selectable round"

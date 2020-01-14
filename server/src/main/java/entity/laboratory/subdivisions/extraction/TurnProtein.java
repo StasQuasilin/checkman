@@ -1,7 +1,9 @@
 package entity.laboratory.subdivisions.extraction;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "extraction_turn_protein")
-public class TurnProtein {
+public class TurnProtein extends JsonAble{
     private int id;
     ExtractionTurn turn;
     private float protein;
@@ -96,5 +98,15 @@ public class TurnProtein {
         hash = 31 * Float.hashCode(protein) + hash;
         hash = 31 * Float.hashCode(humidity) + hash;
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(PROTEIN, protein);
+        json.put(HUMIDITY, humidity);
+        json.put(NUCLEAR, nuclearGrease);
+        return json;
     }
 }

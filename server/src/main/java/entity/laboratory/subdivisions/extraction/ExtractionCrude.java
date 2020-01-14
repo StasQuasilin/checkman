@@ -1,7 +1,9 @@
 package entity.laboratory.subdivisions.extraction;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,7 +13,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "extraction_crude")
-public class ExtractionCrude implements Comparable<ExtractionCrude>{
+public class ExtractionCrude extends JsonAble implements Comparable<ExtractionCrude>{
     private int id;
     private ExtractionTurn turn;
     private Timestamp time;
@@ -155,30 +157,28 @@ public class ExtractionCrude implements Comparable<ExtractionCrude>{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-//        private Timestamp time;
-        hash = 31 * time.hashCode() + hash;
-//        private float humidityIncome;
-        hash = 31 * Float.hashCode(humidityIncome) + hash;
-//        private float fraction;
-        hash = 31 * Float.hashCode(fraction) + hash;
-//        private float miscellas;
-        hash = 31 * Float.hashCode(miscellas) + hash;
-//        private float humidity;
-        hash = 31 * Float.hashCode(humidity) + hash;
-//        private float dissolvent;
-        hash = 31 * Float.hashCode(dissolvent) + hash;
-//        private float grease;
-        hash = 31 * Float.hashCode(grease) + hash;
-//        private ActionTime createTime;
-        hash = 31 * createTime.hashCode() + hash;
-//        private Worker creator;
-        hash = 31 * creator.hashCode() + hash;
-        return hash;
+        return id;
     }
 
     @Override
     public int compareTo(ExtractionCrude o) {
         return time.compareTo(o.getTime());
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(TIME, time.toString());
+        object.put(HUMIDITY_INCOME, humidityIncome);
+        object.put(OILINESS_INCOME, oilinessIncome);
+        object.put(FRACTION, fraction);
+        object.put(MISCELLAS, miscellas);
+        object.put(HUMIDITY, humidity);
+        object.put(DISSOLVENT, dissolvent);
+        object.put(GREASE, grease);
+        object.put(EXPLOSION_TEMPERATURE, explosionTemperature);
+        object.put(OIL_HUMIDITY, oilHumidity);
+        return object;
     }
 }

@@ -32,6 +32,7 @@ import utils.hibernate.dbDAOService;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -496,32 +497,30 @@ public class TelegramNotificator extends INotificator {
                     ReportFieldCategory category = null;
                     manufactureReport.getFields().sort((o1, o2) -> o1.getIndex() - o2.getIndex());
                     for (ReportField reportField : manufactureReport.getFields()){
-                        if (reportField.getValue() > 0) {
-                            if (!U.equals(reportField.getCategory(), category)) {
-                                category = reportField.getCategory();
-                                if (category != null && U.exist(category.getTitle())) {
-                                    builder.append(NEW_LINE);
-                                    builder.append(STAR).append(category.getTitle()).append(STAR);
-                                    if (category.isSummary()){
-                                        ArrayList<ReportField> categoryFields = getCategoryFields(category.getId(), manufactureReport.getFields());
-                                        builder.append(COLON);
-                                        for (Unit unit : getUnits(categoryFields)){
-                                            builder.append(String.format(FORMAT, getSummary(unit, categoryFields)));
-                                            builder.append(SPACE).append(unit.getName()).append(SPACE);
-                                        }
+                        if (!U.equals(reportField.getCategory(), category)) {
+                            category = reportField.getCategory();
+                            if (category != null && U.exist(category.getTitle())) {
+                                builder.append(NEW_LINE);
+                                builder.append(STAR).append(category.getTitle()).append(STAR);
+                                if (category.isSummary()){
+                                    ArrayList<ReportField> categoryFields = getCategoryFields(category.getId(), manufactureReport.getFields());
+                                    builder.append(COLON);
+                                    for (Unit unit : getUnits(categoryFields)){
+                                        builder.append(String.format(FORMAT, getSummary(unit, categoryFields)));
+                                        builder.append(SPACE).append(unit.getName()).append(SPACE);
                                     }
-                                    builder.append(NEW_LINE);
                                 }
+                                builder.append(NEW_LINE);
                             }
-                            builder.append(reportField.getTitle());
-                            builder.append(HYPHEN).append(String.format(FORMAT, reportField.getValue()));
-                            builder.append(SPACE).append(reportField.getUnit().getName());
-
-                            if (U.exist(reportField.getComment())) {
-                                builder.append(SEMICOLON).append(SPACE).append(reportField.getComment());
-                            }
-                            builder.append(NEW_LINE);
                         }
+                        builder.append(reportField.getTitle());
+                        builder.append(HYPHEN).append(String.format(FORMAT, reportField.getValue()));
+                        builder.append(SPACE).append(reportField.getUnit().getName());
+
+                        if (U.exist(reportField.getComment())) {
+                            builder.append(SEMICOLON).append(SPACE).append(reportField.getComment());
+                        }
+                        builder.append(NEW_LINE);
                     }
 
                     messages.put(language, builder.toString());
@@ -638,6 +637,8 @@ public class TelegramNotificator extends INotificator {
     }
 
     public void show(MealGranules analyses) {
+        int turnNumber = analyses.getTurn().getTurn().getNumber();
+        String turnTime = analyses.getCreateTime().getTime().toLocalDateTime().toLocalTime().toString().substring(0, 5);
         final String turnDate = DateUtil.prettyDate(Date.valueOf(analyses.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
         HashMap<String, String> messages = new HashMap<>();
 
@@ -646,7 +647,7 @@ public class TelegramNotificator extends INotificator {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
                     String message = lb.get(language, "extraction.granules.title");
-                    message += NEW_LINE + String.format(lb.get(language, "vra.granules"), turnDate);
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn"), turnNumber, turnDate, turnTime);
                     message += NEW_LINE + String.format(lb.get(language, "notificator.granules.scree"), analyses.getScree());
                     message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.density"), analyses.getDensity());
                     message += NEW_LINE + String.format(lb.get(language, HUMIDITY), analyses.getHumidity());

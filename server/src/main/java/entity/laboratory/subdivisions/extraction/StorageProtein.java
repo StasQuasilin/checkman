@@ -1,8 +1,10 @@
 package entity.laboratory.subdivisions.extraction;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.storages.Storage;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -12,7 +14,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "extraction_storage_protein")
-public class StorageProtein {
+public class StorageProtein extends JsonAble{
     private int id;
     private ExtractionTurn turn;
     private Timestamp time;
@@ -122,5 +124,15 @@ public class StorageProtein {
         hash = 31 * Float.hashCode(protein) + hash;
         hash = 31 * Float.hashCode(humidity) + hash;
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(PROTEIN, protein);
+        object.put(HUMIDITY, humidity);
+        object.put(NUCLEAR, nuclearGrease);
+        return object;
     }
 }
