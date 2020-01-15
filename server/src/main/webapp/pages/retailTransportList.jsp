@@ -58,12 +58,12 @@
                     <div style="display: inline-block; font-size: 10pt; width: 8em">
                         <div>
                             <fmt:message key="transportation.time.in"/>:
-                                    <span v-if="value.item.timeIn && value.item.timeIn.time">
-                                        {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
-                                    </span>
-                                    <span v-else>
-                                        --:--
-                                    </span>
+                                <span v-if="value.item.timeIn && value.item.timeIn.time">
+                                    {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+                                </span>
+                                <span v-else>
+                                    --:--
+                                </span>
                         </div>
                         <div>
                             <fmt:message key="transportation.time.out"/>:

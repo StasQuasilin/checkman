@@ -19,6 +19,7 @@ public class ContractList extends IUIServlet {
     private static final String _TITLE = "title.deals.";
     private static final String _CONTENT = "/pages/contracts/contractList.jsp";
     public static final String SUBSCRIBE_PART = "CONTRACTS_";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String parameter = req.getParameter(TYPE);

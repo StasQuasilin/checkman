@@ -46,9 +46,6 @@ public class CustomHandler {
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-
-        System.out.println(StorageUtil.toBegin(LocalDate.now(), PointScale.year));
-
         HibernateSessionFactory.shutdown();
     }
 

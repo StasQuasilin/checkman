@@ -588,10 +588,7 @@ public class HibernateDAO implements dbDAO {
                 contracts.put(contract.getId(), contract);
             }
         }
-        List<Contract> result = new ArrayList<>();
-        result.addAll(contracts.values());
-
-        return result;
+        return new ArrayList<>(contracts.values());
     }
 
     @Override

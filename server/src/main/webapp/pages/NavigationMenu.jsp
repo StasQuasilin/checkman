@@ -9,8 +9,18 @@
   <div class="navigation-menu" id="nav-menu">
     <ul>
       <c:choose>
-        <c:when test="${role eq 'admin' or role eq 'top'}">
+        <c:when test="${role eq 'admin'}">
           <ul class="nav-drop-menu">
+            <li class="menu-item">
+              <span class="main" onclick="loadContent('${contractsBuy}')">
+                <fmt:message key="deal.buy"/>
+              </span>
+            </li>
+            <li class="menu-item">
+              <span class="main" onclick="loadContent('${contractsSell}')">
+                <fmt:message key="deal.sell"/>
+              </span>
+            </li>
             <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
                 <fmt:message key="menu.deals"/>&nbsp;>
