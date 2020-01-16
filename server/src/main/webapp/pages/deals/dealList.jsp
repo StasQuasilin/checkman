@@ -33,7 +33,6 @@
            ondblclick=""
            v-on:click.right="contextMenu(value.item)">
         <div style="display: table-cell; border-right: solid gray 1.2pt; padding: 2pt 4pt; vertical-align: middle" >
-
           <span v-if="value.item.number">
             № {{value.item.number}}
           </span>

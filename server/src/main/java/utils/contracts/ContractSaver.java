@@ -17,12 +17,14 @@ import org.json.simple.JSONObject;
 import utils.ContractUtil;
 import utils.DateUtil;
 import utils.DocumentUIDGenerator;
+import utils.JsonPool;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by szpt_user045 on 04.12.2019.
@@ -31,10 +33,11 @@ public class ContractSaver implements Constants{
 
     private final dbDAO dao = dbDAOService.getDAO();
     private final Logger log = Logger.getLogger(ContractSaver.class);
+    JsonPool pool = JsonPool.getPool();
 
-    public synchronized Contract saveContract(JSONObject deal, Worker worker) {
+    public synchronized Contract saveContract(JSONObject json, Worker worker, JSONObject answer) {
         boolean saveContract = false;
-        Contract contract = dao.getObjectById(Contract.class, deal.get(ID));
+        Contract contract = dao.getObjectById(Contract.class, json.get(ID));
         if (contract == null){
             log.info("New contract");
             contract = new Contract();
@@ -45,21 +48,21 @@ public class ContractSaver implements Constants{
             log.info("Contract #" + contract.getId());
         }
 
-        Date from = DateUtil.parseFromEditor(String.valueOf(deal.get(FROM)));
+        Date from = DateUtil.parseFromEditor(String.valueOf(json.get(FROM)));
         if (ContractUtil.setFrom(contract, from)){
             saveContract = true;
         }
-        Date to = DateUtil.parseFromEditor(String.valueOf(deal.get(TO)));
+        Date to = DateUtil.parseFromEditor(String.valueOf(json.get(TO)));
         if (ContractUtil.setTo(contract, to)){
             saveContract = true;
         }
 
-        Address address = dao.getObjectById(Address.class, deal.get(ADDRESS));
+        Address address = dao.getObjectById(Address.class, json.get(ADDRESS));
         if (ContractUtil.setAddress(contract, address)){
             saveContract = true;
         }
 
-        Organisation organisation = dao.getObjectById(Organisation.class, deal.get(COUNTERPARTY));
+        Organisation organisation = dao.getObjectById(Organisation.class, json.get(COUNTERPARTY));
         log.info("Counterparty: " + organisation.getValue());
         contract.setCounterparty(organisation);
 
@@ -68,9 +71,9 @@ public class ContractSaver implements Constants{
             products.put(p.getId(), p);
         }
         ArrayList<ContractProduct> actualProducts = new ArrayList<>();
-        ArrayList<ContractProduct> keepItProducts = new ArrayList<>();
+        HashMap<String, ContractProduct> keepItProducts = new HashMap<>();
 
-        for (Object o : (JSONArray)deal.get(PRODUCTS)){
+        for (Object o : (JSONArray)json.get(PRODUCTS)){
             JSONObject p = (JSONObject) o;
             int productId = -1;
             if (p.containsKey(ID)){
@@ -117,7 +120,7 @@ public class ContractSaver implements Constants{
                 saveThisProduct = true;
             }
             if (saveThisProduct) {
-                keepItProducts.add(contractProduct);
+                keepItProducts.put(String.valueOf(p.get(KEY)), contractProduct);
             }
             actualProducts.add(contractProduct);
         }
@@ -126,20 +129,22 @@ public class ContractSaver implements Constants{
             dao.save(contract.getCreateTime(), contract);
         }
 
-        for (ContractProduct product : keepItProducts){
-            if (product.getId() > 0){
-                log.info("Save product " + product.getId());
-            } else {
-                log.info("Save new product");
-            }
-
+        JSONArray array = pool.getArray();
+        for (Map.Entry<String, ContractProduct> entry : keepItProducts.entrySet()){
+            ContractProduct product = entry.getValue();
+            dao.save(product);
+            JSONObject object = pool.getObject();
+            object.put(KEY, entry.getKey());
+            object.put(ID, product.getId());
+            array.add(object);
         }
-        keepItProducts.forEach(dao::save);
+
         for (ContractProduct product : products.values()){
             log.info("Remove product " + product.getId());
             dao.remove(product);
         }
-
+        answer.put(CONTRACT, contract.getId());
+        answer.put(PRODUCTS, array);
         contract.getProducts().clear();
         contract.getProducts().addAll(actualProducts);
 

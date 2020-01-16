@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by szpt_user045 on 03.12.2019.
@@ -71,7 +70,7 @@ public class EditRetailServletAPI extends ServletAPI {
 
             for (Object d : (JSONArray) body.get(DEALS)){
                 JSONObject object = (JSONObject) d;
-                Contract contract = contractSaver.saveContract(object, worker);
+                Contract contract = contractSaver.saveContract(object, worker, pool.getObject());
                 String key = String.valueOf(object.get(KEY));
                 array.put(key, contract.getId());
 

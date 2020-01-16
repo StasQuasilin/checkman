@@ -4,6 +4,7 @@ import constants.Branches;
 import controllers.IModal;
 import entity.DealType;
 import entity.deal.Contract;
+import entity.weight.Unit;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -38,7 +39,11 @@ public class ContractEdit extends IModal {
             req.setAttribute(TYPE, type);
             req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
             req.setAttribute(FIND_LOAD_ADDRESS, Branches.API.References.FIND_LOAD_ADDRESS);
+            req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
+            req.setAttribute(FIND_PRICE, Branches.API.FIND_PRICE);
             req.setAttribute(FIND_PRODUCT, Branches.API.FIND_PRODUCT);
+            req.setAttribute(SHIPPERS, dao.getShipperList());
+            req.setAttribute(UNITS, dao.getObjects(Unit.class));
             req.setAttribute(TITLE, _TITLE);
             req.setAttribute(MODAL_CONTENT, _CONTENT);
             req.setAttribute(SAVE, Branches.API.EDIT_CONTRACT);

@@ -7,6 +7,8 @@ import entity.DealType;
 import entity.Worker;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
+import entity.deal.Contract;
+import entity.deal.ContractProduct;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.documents.Shipper;
@@ -32,6 +34,8 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 11.07.2019.
@@ -48,8 +52,25 @@ public class UpdateUtil {
         doAction(Command.update, getSubscriber(deal.getType()), parser.toJson(deal));
     }
 
+    public void onSave(Contract contract) throws IOException {
+        ArrayList<DealType> types = new ArrayList<>();
+        for (ContractProduct product : contract.getProducts()){
+            DealType type = product.getType();
+            if (!types.contains(type)){
+                types.add(type);
+            }
+        }
+        for (DealType type : types){
+            doAction(Command.update, getSubscriber(type), contract.toJson());
+        }
+    }
+
     public void onRemove(Deal deal) throws IOException {
-        doAction(Command.remove, getSubscriber(deal.getType()), deal.getId());
+        doAction(Command.remove, getContractSubscriber(deal.getType()), deal.getId());
+    }
+
+    private Subscriber getContractSubscriber(DealType type) {
+        return type == DealType.buy ? Subscriber.CONTRACTS_BUY : Subscriber.CONTRACTS_SELL;
     }
 
     public void onArchive(Deal deal) throws IOException {

@@ -43,8 +43,6 @@ public class Contract extends JsonAble {
         this.id = id;
     }
 
-
-
     @Basic
     @Column(name = "_from")
     public Date getFrom() {
@@ -146,7 +144,7 @@ public class Contract extends JsonAble {
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
-        json.put(FROM, from.toString());
+        json.put(DATE, from.toString());
         json.put(TO, to.toString());
         json.put(COUNTERPARTY, counterparty.toJson());
         if (address != null){
@@ -163,5 +161,10 @@ public class Contract extends JsonAble {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getClass().equals(obj.getClass()) && hashCode() == obj.hashCode();
     }
 }
