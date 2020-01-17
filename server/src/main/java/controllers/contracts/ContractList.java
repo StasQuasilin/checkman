@@ -1,6 +1,5 @@
 package controllers.contracts;
 
-import api.sockets.Subscriber;
 import constants.Branches;
 import controllers.IUIServlet;
 import entity.DealType;
@@ -31,6 +30,7 @@ public class ContractList extends IUIServlet {
 
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(EDIT, Branches.UI.CONTRACT_EDIT);
+        req.setAttribute(SHOW, Branches.UI.CONTRACT_SHOW);
 
         show(req, resp);
     }

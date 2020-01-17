@@ -190,8 +190,8 @@ var editor = new Vue({
         saveContinue:function(){
             this.save(function(a){
                 if (a.status === 'success'){
-                    //todo load preview
                     closeModal();
+                    loadModal(this.api.show, {id:a.contract})
                 }
             })
         }

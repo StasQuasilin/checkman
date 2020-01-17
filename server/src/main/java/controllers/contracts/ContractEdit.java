@@ -46,6 +46,7 @@ public class ContractEdit extends IModal {
             req.setAttribute(UNITS, dao.getObjects(Unit.class));
             req.setAttribute(TITLE, _TITLE);
             req.setAttribute(MODAL_CONTENT, _CONTENT);
+            req.setAttribute(SHOW, Branches.UI.CONTRACT_SHOW);
             req.setAttribute(SAVE, Branches.API.EDIT_CONTRACT);
             show(req, resp);
         }

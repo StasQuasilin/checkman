@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="${context}/css/DataContainer.css">
   <script>
     list.api.edit = '${edit}';
+    list.api.show = '${show}';
   if (typeof list.fields === 'undefined'){
     list.fields = {};
   }
@@ -35,7 +36,10 @@
   list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
   list.fields.noData='<fmt:message key="no.data"/>';
   list.edit = function(id){
-    loadModal(this.api.edit, {id:id});
+    loadModal(list.api.edit, {id:id});
+  }
+  list.show = function(id){
+    loadModal(list.api.show, {id: id});
   }
 
   subscribe('${subscribe}', function(a){
@@ -49,7 +53,7 @@
   <div id="container">
     <div v-for="(value, idx) in getItems()" class="container-item"
     :class="'container-item-' + new Date(value.item.date).getDay()"
-            v-on:click="edit(value.item.id)">
+            v-on:click="show(value.item.id)" v-on:click.right="contextMenu(value.item)">
       <div style="display: inline-flex">
         <div>
           {{new Date(value.item.date).toLocaleString().substring(0, 10)}}

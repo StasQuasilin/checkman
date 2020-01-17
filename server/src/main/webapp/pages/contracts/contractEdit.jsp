@@ -42,6 +42,7 @@
     show:['name']
   }
   editor.api.save = '${save}';
+  editor.api.show = '${show}';
   editor.api.findAddress = '${findLoadAddress}';
   editor.api.findPrice = '${findPrice}';
   editor.types.push({
