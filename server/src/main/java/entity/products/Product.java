@@ -114,6 +114,7 @@ public class Product extends JsonAble {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(NAME, name);
+        json.put(WEIGHT, weight);
         if (productGroup != null){
             json.put(GROUP, productGroup.toJson());
         }
