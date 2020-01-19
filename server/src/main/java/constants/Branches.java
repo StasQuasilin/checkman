@@ -297,6 +297,8 @@ public class Branches {
         public static final String STORAGE_STOCKS_DETAILS = API + "/stocks/details";
         public static final String MEAL_GRANULES = API + "/extraction/meal/granules";
         public static final String SAVE_LOAD_PLAN = API + "/plan/save";
+        public static final String SAVE_TRANSPORTATION = API + "/transportation/2/save";
+        public static final String REMOVE_TRANSPORTATION = API + "/transportation/2/remove";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

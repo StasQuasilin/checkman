@@ -15,6 +15,7 @@
 <script src="${context}/vue/contractLoadPlan.vue"></script>
 <script>
   loadPlan.api.save = '${save}';
+  loadPlan.api.remove = '${remove}';
   loadPlan.contract = ${contract.id};
   loadPlan.types['buy'] = '<fmt:message key="buy"/>';
   loadPlan.types['sell'] = '<fmt:message key="sell"/>';
@@ -28,7 +29,7 @@
     put:function(driver, item){
       loadPlan.putDriver(driver, item);
     }
-  }
+  };
   loadPlan.vehicleProps = {
     find:'${findVehicle}',
     add:'${parseVehicle}',
@@ -39,7 +40,7 @@
       loadPlan.putVehicle(vehicle, item)
     },
     show:['model', 'number']
-  },
+  };
   loadPlan.trailerProps = {
     find:'${findTrailer}',
     add:'${parseTrailer}',
@@ -49,12 +50,12 @@
       loadPlan.putVehicle(trailer, item)
     },
     show:['number']
-  }
+  };
   <c:forEach items="${customers}" var="customer">
   loadPlan.customers.push({
     id:'${customer}',
     name:'<fmt:message key="${customer}"/>'
-  })
+  });
   </c:forEach>
   <c:forEach items="${contract.products}" var="product">
   loadPlan.addProduct(JSON.parse('${product.toJson()}'))
@@ -147,7 +148,6 @@
                         <span>
                           &times;{{product.price.toLocaleString()}}
                         </span>
-
                       </div>
                     </td>
                   </tr>
@@ -229,10 +229,10 @@
                     <span v-else>
                       &nbsp;
                     </span>
-                    <span style="width: 180px">
+                    <span style="width: 210px; display: inline-block">
                       {{product.product.name}}
                     </span>
-                      <input type="number" v-model="product.plan" autocomplete="off" onfocus="this.select()">
+                      <input type="number" v-model="product.plan" autocomplete="off" onfocus="this.select()" v-on:change="initSaveTimer(transport)">
                       {{product.unit.name}}
                     </div>
                   </div>

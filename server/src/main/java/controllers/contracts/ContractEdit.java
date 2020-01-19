@@ -29,26 +29,26 @@ public class ContractEdit extends IModal {
                 Contract contract = dao.getObjectById(Contract.class, body.get(ID));
                 req.setAttribute(CONTRACT, contract);
             }
-            String parameter = req.getParameter(TYPE);
-            DealType type;
-            if (parameter != null){
-                type = DealType.valueOf(parameter);
-            } else {
-                type = DealType.sell;
-            }
-            req.setAttribute(TYPE, type);
-            req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
-            req.setAttribute(FIND_LOAD_ADDRESS, Branches.API.References.FIND_LOAD_ADDRESS);
-            req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
-            req.setAttribute(FIND_PRICE, Branches.API.FIND_PRICE);
-            req.setAttribute(FIND_PRODUCT, Branches.API.FIND_PRODUCT);
-            req.setAttribute(SHIPPERS, dao.getShipperList());
-            req.setAttribute(UNITS, dao.getObjects(Unit.class));
-            req.setAttribute(TITLE, _TITLE);
-            req.setAttribute(MODAL_CONTENT, _CONTENT);
-            req.setAttribute(SHOW, Branches.UI.CONTRACT_SHOW);
-            req.setAttribute(SAVE, Branches.API.EDIT_CONTRACT);
-            show(req, resp);
         }
+        String parameter = req.getParameter(TYPE);
+        DealType type;
+        if (parameter != null){
+            type = DealType.valueOf(parameter);
+        } else {
+            type = DealType.sell;
+        }
+        req.setAttribute(TYPE, type);
+        req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute(FIND_LOAD_ADDRESS, Branches.API.References.FIND_LOAD_ADDRESS);
+        req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
+        req.setAttribute(FIND_PRICE, Branches.API.FIND_PRICE);
+        req.setAttribute(FIND_PRODUCT, Branches.API.FIND_PRODUCT);
+        req.setAttribute(SHIPPERS, dao.getShipperList());
+        req.setAttribute(UNITS, dao.getObjects(Unit.class));
+        req.setAttribute(TITLE, _TITLE);
+        req.setAttribute(MODAL_CONTENT, _CONTENT);
+        req.setAttribute(SHOW, Branches.UI.CONTRACT_SHOW);
+        req.setAttribute(SAVE, Branches.API.EDIT_CONTRACT);
+        show(req, resp);
     }
 }

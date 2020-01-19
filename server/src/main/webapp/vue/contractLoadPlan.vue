@@ -81,7 +81,7 @@ var loadPlan = new Vue({
                         plan += parseFloat(product.plan);
                     }
                 })
-            })
+            });
             contractProduct.plan = plan;
             return plan;
         },
@@ -90,7 +90,10 @@ var loadPlan = new Vue({
                 item.driver = driver;
                 if (driver.vehicle){
                     this.putVehicle(driver.vehicle, item)
+                } else{
+                    this.initSaveTimer(item);
                 }
+
             }
         },
         putVehicle:function(vehicle, item){
@@ -98,12 +101,15 @@ var loadPlan = new Vue({
                 item.vehicle = vehicle;
                 if (vehicle.trailer){
                     this.putTrailer(vehicle.trailer, item);
+                } else{
+                    this.initSaveTimer(item);
                 }
             }
         },
         putTrailer:function(trailer, item){
             if (item){
                 item.trailer = trailer;
+                this.initSaveTimer(item);
             }
         },
         removeTransportation:function(transportation){
@@ -158,10 +164,16 @@ var loadPlan = new Vue({
         },
         initSaveTimer:function(transport){
             clearTimeout(transport.save);
+            const self = this;
             transport.save = setTimeout(function(){
-                transport.save = -1;
-                transport.id=100500;
+                var data = {};
+                PostApi(self.api.save, data, function(a){
+                    transport.save = -1;
+                    if (a.status === 'success'){
+                        transport.id=100500;
+                    }
+                });
             }, 1500)
         }
     }
-})
+});
