@@ -88,7 +88,25 @@
                             {{value.item.creator.person.value}}
                         </div>
                     </div>
+
                 </div>
+
+            </div>
+            <div style="display: inline-flex; border-left: solid black 1pt; width: 140pt">
+                <div  v-if="anyWeight(value.item)" style="padding: 1pt 2pt; font-size: 10pt; margin: auto; display: inline-block; ">
+                    <div>
+                        Б:<b>{{summaryWeight(value.item, 'brutto').toLocaleString()}}</b>
+                    </div>
+                    <div>
+                        Т:<b>{{summaryWeight(value.item, 'tara').toLocaleString()}}</b>
+                    </div>
+                    <div>
+                        Н:<b>{{(summaryWeight(value.item, 'brutto') - summaryWeight(value.item, 'tara')).toLocaleString()}}</b>
+                    </div>
+                </div>
+                <%--<div style="display: inline-block; border-left: solid black 1pt">--%>
+                    <%--ANALYSES--%>
+                <%--</div>--%>
             </div>
         </div>
         <c:if test="${(menu eq null) || (menu) || not empty edit || not empty copy || not empty remove}">

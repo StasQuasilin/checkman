@@ -4,7 +4,6 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
-import entity.log.comparators.LoadPlanComparator;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 
@@ -21,8 +20,6 @@ import java.sql.Date;
 @WebServlet(Branches.API.CHANGE_DATE)
 public class ChangeLoadPlanDateServletAPI extends ServletAPI {
 
-    private static final long serialVersionUID = 3269927702855868553L;
-    private final LoadPlanComparator comparator = new LoadPlanComparator();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -35,14 +32,12 @@ public class ChangeLoadPlanDateServletAPI extends ServletAPI {
             }
             if (id != null) {
                 LoadPlan plan = dao.getLoadPlanById(id);
-                comparator.fix(plan);
                 Date date = Date.valueOf(String.valueOf(body.get(Constants.DATE)));
                 plan.setDate(date);
                 plan.getTransportation().setDate(date);
                 dao.saveLoadPlan(plan);
                 dao.save(plan.getTransportation());
                 updateUtil.onSave(plan.getTransportation());
-                comparator.compare(plan, getWorker(req));
                 write(resp, SUCCESS_ANSWER);
             } else {
                 write(resp, EMPTY_BODY);

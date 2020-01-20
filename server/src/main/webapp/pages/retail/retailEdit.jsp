@@ -316,12 +316,14 @@
                   <object-input :props="productProps" :object="product.product" :item="product"></object-input>
                 </div>
               </td>
-              <td>
+              <td align="right">
                 <div>
-                  <fmt:message key="pallets"/>:
-                  <input id="pallets" type="number" step="1" autocomplete="off" v-model="product.pallet"
-                         v-on:change="checkPallets(product)" onfocus="this.select()">
-                  &times; {{product.product.pallet}} =
+                  <div style="display: inline-block" v-if="product.product.pallet > 1">
+                    <fmt:message key="pallets"/>:
+                    <input id="pallets" type="number" step="1" autocomplete="off" v-model="product.pallet"
+                           v-on:change="checkPallets(product)" onfocus="this.select()">
+                    &times; {{product.product.pallet}} =
+                  </div>
                   <input id="amount" type="number" v-model="product.amount" autocomplete="off" onfocus="this.select()" v-on:change="checkAmount(product)">
                   <select v-model="product.unit.id" :class="{error : product.unitError}" v-on:click="product.unitError = false">
                     <option value="-1" disabled>

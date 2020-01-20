@@ -26,6 +26,7 @@ public class SaveTransportAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null){
             System.out.println(body);
+
             Transportation2 transportation = saver.saveTransportation(body, getWorker(req));
             JSONObject json = new SuccessAnswer(ID, transportation.getId()).toJson();
             write(resp, json.toJSONString());

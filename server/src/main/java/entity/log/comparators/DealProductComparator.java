@@ -4,6 +4,7 @@ import entity.Worker;
 import entity.documents.DealProduct;
 import entity.log.Change;
 import entity.log.IChangeComparator;
+import entity.weight.Weight2;
 import utils.ChangeLogUtil;
 
 /**

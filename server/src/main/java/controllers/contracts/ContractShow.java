@@ -42,6 +42,9 @@ public class ContractShow extends IModal {
                 req.setAttribute(EDIT_VEHICLE, Branches.UI.EDIT_VEHICLE);
                 req.setAttribute(FIND_TRAILER, Branches.API.References.FIND_TRAILER);
                 req.setAttribute(PARSE_TRAILER, Branches.API.PARSE_TRAILER);
+                req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
+                req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);
+                req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
                 req.setAttribute(EDIT, Branches.UI.CONTRACT_EDIT);
                 req.setAttribute(SAVE, Branches.API.SAVE_TRANSPORTATION);
                 req.setAttribute(REMOVE, Branches.API.REMOVE_TRANSPORTATION);

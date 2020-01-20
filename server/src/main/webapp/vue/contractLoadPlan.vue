@@ -47,6 +47,7 @@ var loadPlan = new Vue({
                 driver:{id:-1},
                 vehicle:{id:-1},
                 trailer:{id:-1},
+                transporter:{id:-1},
                 products:products
             };
             this.addTransportation(transport);
@@ -90,15 +91,23 @@ var loadPlan = new Vue({
             contractProduct.plan = plan;
             return plan;
         },
+        putTransporter:function(transporter, item){
+            if (item){
+                item.transporter = transporter;
+                this.initSaveTimer(item);
+            }
+        },
         putDriver:function(driver, item){
             if (item){
                 item.driver = driver;
-                if (driver.vehicle){
+                if (driver.vehicle) {
                     this.putVehicle(driver.vehicle, item)
                 } else{
                     this.initSaveTimer(item);
                 }
-
+                if (driver.organisation) {
+                    this.putTransporter(driver.organisation)
+                }
             }
         },
         putVehicle:function(vehicle, item){
@@ -184,9 +193,14 @@ var loadPlan = new Vue({
                 data.date = transport.date;
                 data.customer = transport.customer;
                 data.driver = transport.driver.id;
-                data.license = transport.driver.license;
+                if (transport.driver.license) {
+                    data.license = transport.driver.license;
+                }
                 data.vehicle = transport.vehicle.id;
                 data.trailer = transport.trailer.id;
+                if (transport.transporter) {
+                    data.transporter = transport.transporter.id;
+                }
                 data.products = [];
                 for (var i in transport.products){
                     if (transport.products.hasOwnProperty(i)){

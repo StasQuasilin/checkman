@@ -172,6 +172,29 @@ var list = new Vue({
         },
         openModal:function(url, attr){
             loadModal(url, attr)
+        },
+        anyWeight:function(item){
+            var res = false;
+            item.products.forEach(function(a){
+
+                a.products.forEach(function(b){
+                    if (b.weight){
+                        res = true;
+                    }
+                })
+            });
+            return res;
+        },
+        summaryWeight:function(item, field){
+            var weight = 0;
+            item.products.forEach(function(a){
+                a.products.forEach(function(b){
+                    if (b.weight){
+                        weight += b.weight[field];
+                    }
+                })
+            });
+            return weight;
         }
     }
 });

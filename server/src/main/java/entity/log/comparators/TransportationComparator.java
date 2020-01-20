@@ -5,6 +5,7 @@ import entity.log.IChangeComparator;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
+import entity.weight.Weight2;
 import utils.ChangeLogUtil;
 import utils.DateUtil;
 

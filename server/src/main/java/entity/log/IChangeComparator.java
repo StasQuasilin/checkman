@@ -2,6 +2,7 @@ package entity.log;
 
 import entity.IImportantObject;
 import entity.Worker;
+import entity.weight.Weight2;
 import utils.LanguageBase;
 import utils.hibernate.Hibernator;
 

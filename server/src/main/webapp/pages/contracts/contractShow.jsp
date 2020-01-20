@@ -19,6 +19,17 @@
   loadPlan.contract = ${contract.id};
   loadPlan.types['buy'] = '<fmt:message key="buy"/>';
   loadPlan.types['sell'] = '<fmt:message key="sell"/>';
+  loadPlan.organisationProps = {
+    find:'${findOrganisation}',
+    add:'${parseOrganisation}',
+    edit:'${editOrganisation}',
+    addHeader:'<fmt:message key="button.add"/>',
+    header:'<fmt:message key="button.add.transporter"/>',
+    put:function(transporter, item){
+      loadPlan.putTransporter(transporter, item);
+    },
+    show:['value']
+  };
   loadPlan.driverProps = {
     find:'${findDriver}',
     edit:'${editDriver}',
@@ -67,7 +78,6 @@
   }
   <c:forEach items="${transportations}" var="transport">
   var j = (JSON.parse('${transport.toJson()}'));
-  console.log(j);
   j.products = [];
   <c:forEach items="${transport.documents}" var="document">
   <c:forEach items="${document.products}" var="product">
@@ -79,6 +89,7 @@
 </script>
 <html>
 <c:set var="driverLicense"><fmt:message key="driver.license"/></c:set>
+<c:set var="noData"><fmt:message key="no.data"/></c:set>
   <table id="loadPlan" class="editor">
     <tr>
       <td valign="top">
@@ -248,15 +259,20 @@
                       {{product.unit.name}}
                     </div>
                   </div>
-                  <div style="font-size: 10pt; padding: 2pt">
-                    <object-input :props="driverProps" :object="transport.driver" :item="transport"></object-input>
-                    <input id="license" v-if="transport.driver.id != -1" v-model="transport.driver.license"
-                           autocomplete="off" style="width: 82pt; border: solid black 1pt"
-                           onfocus="this.select()" title="${driverLicense}" v-on:change="initSaveTimer(transport)">
-                  </div>
-                  <div style="font-size: 10pt; padding: 2pt">
-                    <object-input :props="vehicleProps" :object="transport.vehicle" :item="transport"></object-input>
-                    <object-input :props="trailerProps" :object="transport.trailer" :item="transport"></object-input>
+                  <div style="border-top: solid black 1pt">
+                    <div style="font-size: 10pt; padding: 2pt">
+                      <object-input :props="driverProps" :object="transport.driver" :item="transport"></object-input>
+                      <input :id="'license' + transport.driver.id" v-if="transport.driver.id != -1" v-model="transport.driver.license"
+                             autocomplete="off" style="width: 82pt; border: solid black 1pt" placeholder="${driverLicense}"
+                             onfocus="this.select()" title="${driverLicense}" v-on:change="initSaveTimer(transport)">
+                    </div>
+                    <div style="font-size: 10pt; padding: 2pt">
+                      <object-input :props="vehicleProps" :object="transport.vehicle" :item="transport"></object-input>
+                      <object-input :props="trailerProps" :object="transport.trailer" :item="transport"></object-input>
+                    </div>
+                    <div style="font-size: 10pt; padding: 2pt">
+                      <object-input :props="organisationProps" :object="transport.transporter" :item="transport"></object-input>
+                    </div>
                   </div>
                 </div>
               </div>

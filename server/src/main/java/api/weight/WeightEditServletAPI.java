@@ -3,20 +3,20 @@ package api.weight;
 import api.ServletAPI;
 import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
+import com.sun.org.apache.bcel.internal.generic.FLOAD;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.log.comparators.WeightComparator;
-import entity.transport.ActionTime;
-import entity.transport.TransportStorageUsed;
-import entity.transport.Transportation;
+import entity.transport.*;
 import entity.weight.Weight;
+import entity.weight.Weight2;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
-import entity.transport.TransportUtil;
 import utils.UpdateUtil;
 import utils.WeightUtil;
 import utils.storages.StorageUtil;
@@ -45,104 +45,69 @@ public class WeightEditServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if(body != null) {
             log.info(body);
-            boolean saveIt = false;
 
-            long planId = (long) body.get(Constants.ID);
-            LoadPlan plan = dao.getLoadPlanById(planId);
-            Transportation transportation = plan.getTransportation();
-            Weight weight = transportation.getWeight();
-
-            if (weight == null) {
-                weight = new Weight();
-                weight.setUid(DocumentUIDGenerator.generateUID());
-                transportation.setWeight(weight);
-                saveIt = true;
-            }
-
-            comparator.fix(weight);
-
-            JSONObject w = (JSONObject) body.get("weight");
-            float brutto = Float.parseFloat(String.valueOf(w.get(BRUTTO)));
-            float tara = Float.parseFloat(String.valueOf(w.get(TARA)));
-
-            Worker worker = getWorker(req);
-            saveIt = changeWeight(weight, brutto, tara, worker, saveIt);
-
-            if (saveIt){
-                if (weight.getBrutto() > 0 || weight.getTara() > 0){
-                    if (transportation.getTimeIn() == null){
-                        ActionTime actionTime = new ActionTime(worker);
-                        dao.save(actionTime);
-                        transportation.setTimeIn(actionTime);
-                    }
+            for (Object o : (JSONArray)body.get(WEIGHT)){
+                JSONObject json = (JSONObject) o;
+                Weight2 weight = dao.getObjectById(Weight2.class, json.get(ID));
+                TransportationProduct product = dao.getObjectById(TransportationProduct.class, json.get(PRODUCT));
+                if (weight == null){
+                    weight = new Weight2();
+                    weight.setUid(DocumentUIDGenerator.generateUID());
+                } else {
+                    comparator.fix(weight);
                 }
-                if (weight.getNetto() > 0){
-                    if (transportation.getUsedStorages().size() == 0){
-                        log.info("Create storage entry");
-                        TransportStorageUsed used = new TransportStorageUsed();
-                        used.setAmount(1f * Math.round(weight.getNetto() * 100) / 100);
-                        TransportUtil.updateUsedStorages(transportation, used, worker);
-                    } else {
-                        TransportUtil.updateUsedStorages(transportation, worker);
+                float brutto = Float.parseFloat(String.valueOf(json.get(BRUTTO)));
+                float tara = Float.parseFloat(String.valueOf(json.get(TARA)));
+                Worker worker = getWorker(req);
+                if (changeWeight(weight, brutto, tara, worker, false)){
+                    if (product.getWeight() == null){
+                        product.setWeight(weight);
+                        dao.save(product);
                     }
                 }
                 comparator.compare(weight, worker);
-                dao.saveTransportation(transportation);
-
-                updateUtil.onSave(transportation);
-
-                WeightUtil.calculateDealDone(plan.getDeal());
-                TransportUtil.calculateWeight(transportation);
-
-                transportationComparator.fix(transportation);
-                TransportUtil.checkTransport(transportation);
-                transportationComparator.compare(transportation, getWorker(req));
-
-                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
-                if (notificator != null) {
-                    if (weight.getNetto() > 0) {
-                        notificator.weightShow(transportation);
-                    } else if (weight.getBrutto() > 0 || weight.getTara() > 0) {
-                        notificator.transportInto(transportation);
-                    }
-                }
             }
-
             write(resp, SUCCESS_ANSWER);
-            body.clear();
         } else {
             write(resp, EMPTY_BODY);
         }
     }
-    synchronized boolean changeWeight(Weight weight, float brutto, float tara, Worker worker, boolean saveIt){
+    synchronized boolean changeWeight(Weight2 weight, float brutto, float tara, Worker worker, boolean saveIt){
+
         if (brutto != 0){
-            ActionTime bruttoTime = weight.getBruttoTime();
-            if (bruttoTime == null){
-                bruttoTime = new ActionTime();
-                weight.setBruttoTime(bruttoTime);
+            if (weight.getBrutto() != brutto) {
+                weight.setBrutto(brutto);
+                ActionTime bruttoTime = weight.getBruttoTime();
+                if (bruttoTime == null) {
+                    bruttoTime = new ActionTime();
+                    weight.setBruttoTime(bruttoTime);
+                }
+                bruttoTime.setTime(new Timestamp(System.currentTimeMillis()));
+                bruttoTime.setCreator(worker);
+                saveIt = true;
             }
-            weight.setBrutto(brutto);
-            bruttoTime.setTime(new Timestamp(System.currentTimeMillis()));
-            bruttoTime.setCreator(worker);
-            saveIt = true;
         } else if (weight.getBrutto() != 0){
             weight.setBrutto(0);
+            dao.remove(weight.getBruttoTime());
             weight.setBruttoTime(null);
             saveIt = true;
         }
 
         if (tara != 0){
-            ActionTime taraTime = weight.getTaraTime();
-            if (taraTime == null){
-                taraTime = new ActionTime();
-                weight.setTaraTime(taraTime);
+            if (weight.getTara() != tara) {
+                weight.setTara(tara);
+                ActionTime taraTime = weight.getTaraTime();
+                if (taraTime == null) {
+                    taraTime = new ActionTime();
+                    weight.setTaraTime(taraTime);
+                }
+                taraTime.setTime(new Timestamp(System.currentTimeMillis()));
+                taraTime.setCreator(worker);
+                saveIt = true;
             }
-            weight.setTara(tara);
-            taraTime.setTime(new Timestamp(System.currentTimeMillis()));
-            taraTime.setCreator(worker);
-            saveIt = true;
         } else if (weight.getTara() != 0){
             weight.setTara(0);
+            dao.remove(weight.getTaraTime());
             weight.setTaraTime(null);
             saveIt = true;
         }
@@ -154,19 +119,7 @@ public class WeightEditServletAPI extends ServletAPI {
             if (weight.getTaraTime() != null) {
                 dao.save(weight.getTaraTime());
             }
-            dao.saveWeight(weight);
-        }
-
-        if (weight.getTara() == 0){
-            if (weight.getTaraTime() != null) {
-                dao.remove(weight.getTaraTime());
-            }
-        }
-
-        if(weight.getBrutto() == 0){
-            if (weight.getBruttoTime() != null){
-                dao.remove(weight.getBruttoTime());
-            }
+            dao.save(weight);
         }
 
         return saveIt;

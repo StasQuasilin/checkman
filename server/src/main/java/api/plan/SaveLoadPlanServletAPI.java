@@ -3,18 +3,18 @@ package api.plan;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.Person;
 import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
-import entity.log.comparators.LoadPlanComparator;
 import entity.log.comparators.TransportationComparator;
 import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.*;
+import utils.DocumentUIDGenerator;
+import utils.U;
+import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -33,7 +33,6 @@ import java.util.HashSet;
 public class SaveLoadPlanServletAPI extends ServletAPI {
 
     final Logger log = Logger.getLogger(SaveLoadPlanServletAPI.class);
-    final LoadPlanComparator planComparator = new LoadPlanComparator();
     final TransportationComparator transportationComparator = new TransportationComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -68,11 +67,9 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 transportation = TransportUtil.createTransportation(deal, deal.getCreator(), getWorker(req));
 
                 loadPlan.setTransportation(transportation);
-                planComparator.fix(null);
                 transportationComparator.fix(null);
             } else {
                 transportation = loadPlan.getTransportation();
-                planComparator.fix(loadPlan);
                 transportationComparator.fix(transportation);
             }
 
@@ -169,7 +166,6 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 updateUtil.onSave(transportation);
             }
 
-            planComparator.compare(loadPlan, worker);
             transportationComparator.compare(transportation, worker);
 
             IAnswer resultAnswer = new SuccessAnswer();

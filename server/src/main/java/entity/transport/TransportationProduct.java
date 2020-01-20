@@ -4,6 +4,7 @@ import entity.JsonAble;
 import entity.deal.ContractProduct;
 import entity.products.Product;
 import entity.weight.Weight;
+import entity.weight.Weight2;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -14,10 +15,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "_transportation_products")
 public class TransportationProduct extends JsonAble{
+
     private int id;
     private TransportationDocument document;
     private ContractProduct contractProduct;
     private float amount;
+    private Weight2 weight;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +58,15 @@ public class TransportationProduct extends JsonAble{
         this.amount = amount;
     }
 
+    @OneToOne
+    @JoinColumn(name = "weight")
+    public Weight2 getWeight() {
+        return weight;
+    }
+    public void setWeight(Weight2 weight) {
+        this.weight = weight;
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
@@ -70,6 +82,9 @@ public class TransportationProduct extends JsonAble{
         }
         json.put(PRICE, contractProduct.getPrice());
         json.put(SHIPPER, contractProduct.getShipper().toJson());
+        if (weight != null){
+            json.put(WEIGHT, weight.toJson());
+        }
         return json;
     }
 }

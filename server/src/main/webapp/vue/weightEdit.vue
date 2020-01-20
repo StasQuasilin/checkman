@@ -1,36 +1,41 @@
 var editor = new Vue({
     el: '#editor',
     data:{
-        api:{
-            saveWeightAPI:'',
-            print:''
-        },
+        api:{},
         id:'',
-        weight:{},
-        analyses:{
-            sun:[],
-            oil:[],
-            cake:[]
-        },
+        products:[],
         already:false
     },
     methods:{
         save:function(){
+            const self = this;
             if (!this.already) {
                 this.already = true;
-                PostApi(this.api.saveWeightAPI, {id: this.id, weight: this.weight}, function (a) {
-                    console.log(a)
+                var data = {};
+                data.weight = [];
+                for (var i in this.products){
+                    if (this.products.hasOwnProperty(i)){
+                        var p = this.products[i];
+                        data.weight.push({
+                            id:p.weight.id,
+                            product:p.id,
+                            brutto:p.weight.brutto,
+                            tara:p.weight.tara
+                        })
+                    }
+                }
+                PostApi(this.api.save, data, function (a) {
                     if (a.status == 'success') {
                         closeModal();
                     }
-                    this.already = false;
+                    self.already = false;
                 }, function(e){
-                    this.already = false;
+                    self.already = false;
                 })
             }
         },
-        netto:function(brutto, tara){
-            return brutto == 0 || tara == 0 ? 0 : (this.checkTonnas(brutto) - this.checkTonnas(tara));
+        netto:function(weight){
+            return weight.brutto == 0 || weight.tara == 0 ? 0 : (this.checkTonnas(weight.brutto) - this.checkTonnas(weight.tara));
         },
         checkBrutto:function(){
             this.weight.brutto = this.check(this.weight.brutto)
@@ -43,10 +48,7 @@ var editor = new Vue({
         },
         total:function(){
             var t = 0;
-            for (var i in this.weights){
-                var w = this.weights[i];
-                t += this.netto(w.brutto, w.tara);
-            }
+
             return t;
         },
         checkTonnas:function(value){

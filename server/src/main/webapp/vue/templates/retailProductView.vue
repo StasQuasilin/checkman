@@ -63,7 +63,7 @@ var productView = {
             '{{fields.address}}: <b>{{getAddress[0].city}}, {{getAddress[0].street}}, {{getAddress[0].build}}</b>' +
         '</div>' +
         '<div class="product-header">{{fields.product}}: <b>{{getProductHeader}}</b>' +
-            '<div class="product-list">' +
+            '<div class="product-list" v-if="products.length > 1">' +
                 '<div v-for="doc in products">' +
                     '<div v-if="getCounterparty.length > 1 && doc.counterparty">' +
                         '{{doc.counterparty.value}}' +

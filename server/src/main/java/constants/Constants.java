@@ -178,7 +178,9 @@ public interface Constants {
     String STORAGE = "storage";
     String STORAGE_PRODUCTS = "storageProducts";
     String BRUTTO = "brutto";
+    String BRUTTO_TIME = "bruttoTime";
     String TARA = "tara";
+    String TARA_TIME = "taraTime";
     String WEIGHT_BRUTTO = WEIGHT + SLASH + BRUTTO;
     String WEIGHT_TARA = WEIGHT + SLASH + TARA;
     String DOCUMENT = "document";

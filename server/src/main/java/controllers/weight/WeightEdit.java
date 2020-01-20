@@ -5,6 +5,8 @@ import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation2;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,22 +20,20 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_EDIT)
 public class WeightEdit extends IModal {
 
+    private static final String _CONTENT = "/pages/weight/weightEdit.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String parameterId = req.getParameter(Constants.ID);
-        int id = -1;
-        if (parameterId != null) {
-            id = Integer.parseInt(parameterId);
+        JSONObject body = parseBody(req);
+        if (body != null){
+            Transportation2 transportation = dao.getObjectById(Transportation2.class, body.get(ID));
+            req.setAttribute(TRANSPORTATION, transportation);
+            req.setAttribute(SAVE, Branches.API.SAVE_WEIGHT);
+            req.setAttribute(TITLE, Titles.WEIGHT_EDIT);
+            req.setAttribute(MODAL_CONTENT, _CONTENT);
+            req.setAttribute(PRINT, Branches.UI.PRINT_DOCUMENT);
+            show(req, resp);
         }
-        if (id != -1) {
-            LoadPlan plan = dao.getLoadPlanById(id);
-            req.setAttribute(PLAN, plan);
-            req.setAttribute("seals", dao.getSealsByTransportation(plan.getTransportation()));
-        }
-        req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
-        req.setAttribute(TITLE, Titles.WEIGHT_EDIT);
-        req.setAttribute(MODAL_CONTENT, "/pages/weight/weightEdit.jsp");
-        req.setAttribute("print", Branches.UI.PRINT_DOCUMENT);
-        show(req, resp);
+
     }
 }
