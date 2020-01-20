@@ -317,4 +317,13 @@ public class TransportUtil{
         }
         return false;
     }
+
+    public static boolean setLicense(Driver driver, String license) {
+        if (driver.getLicense() == null || !driver.getLicense().equals(license)){
+            driver.setLicense(license);
+            dao.save(driver);
+            return true;
+        }
+        return false;
+    }
 }

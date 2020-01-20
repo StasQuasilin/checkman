@@ -85,4 +85,12 @@ public class ContractUtil {
         }
         return false;
     }
+
+    public static boolean setNumber(Contract contract, String number) {
+        if (contract.getNumber() == null || !contract.getNumber().equals(number)){
+            contract.setNumber(number);
+            return true;
+        }
+        return false;
+    }
 }

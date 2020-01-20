@@ -14,7 +14,9 @@ var editor = new Vue({
             counterparty:{
                 id:-1
             },
-            address:-1,
+            address:{
+                id:-1
+            },
             addressList:[],
             products:[]
         },
@@ -166,8 +168,7 @@ var editor = new Vue({
                                 if (a.products.hasOwnProperty(j)){
                                     var p2 = a.products[j];
                                     if (p1.key === p2.key){
-                                        p1.id == p2.id;
-                                        continue;
+                                        p1.id = p2.id;
                                     }
                                 }
                             }
@@ -188,12 +189,13 @@ var editor = new Vue({
             });
         },
         saveContinue:function(){
+            const self = this;
             this.save(function(a){
                 if (a.status === 'success'){
                     closeModal();
-                    loadModal(this.api.show, {id:a.contract})
+                    loadModal(self.api.show, {id:a.contract})
                 }
             })
         }
     }
-})
+});

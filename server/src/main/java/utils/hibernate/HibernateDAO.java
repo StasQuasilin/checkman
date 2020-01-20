@@ -857,6 +857,20 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
+    public List<Transportation2> getTransportationsByContract(Contract contract) {
+        List<Transportation2> arr = new ArrayList<>();
+        for (ContractProduct p : contract.getProducts()){
+            for (TransportationProduct product : hb.query(TransportationProduct.class, "contractProduct", p.getId())){
+                Transportation2 transportation = product.getDocument().getTransportation();
+                if (!arr.contains(transportation)){
+                    arr.add(transportation);
+                }
+            }
+        }
+        return arr;
+    }
+
+    @Override
     public List<LoadPlan> getTransportationsOnTerritory() {
         final HashMap<String, Object> parameters = hb.getParams();
         parameters.put("transportation/archive", false);

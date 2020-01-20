@@ -9,8 +9,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<script src="${context}/vue/templates/vehicleInput.vue"/>
-<script src="${context}/vue/contractEdit.vue"/>
+<script src="${context}/vue/templates/vehicleInput.vue"></script>
+<script src="${context}/vue/contractEdit.vue"></script>
 <script>
   editor.counterpartyProps = {
     find:'${findOrganisation}',
@@ -23,7 +23,7 @@
       editor.getAddress(a, b);
     },
     show:['value']
-  },
+  };
   editor.productProps = {
     find:'${findProduct}',
     edit:'${editProduct}',
@@ -40,7 +40,7 @@
       editor.getPrice(contract, product);
     },
     show:['name']
-  }
+  };
   editor.api.save = '${save}';
   editor.api.show = '${show}';
   editor.api.findAddress = '${findLoadAddress}';
@@ -57,16 +57,30 @@
   editor.shippers.push({
     id:'${shipper.id}',
     name:'${shipper.value}'
-  })
+  });
   </c:forEach>
   <c:forEach items="${units}" var="unit">
   editor.units.push({
     id:'${unit.id}',
     name:'${unit.name}'
-  })
+  });
   </c:forEach>
   editor.shipper = editor.shippers[0].id;
+  <c:choose>
+  <c:when test="${not empty contract}">
+  editor.contract.id = '${contract.id}';
+  editor.contract.number = '${contract.number}';
+  editor.contract.from = new Date('${contract.from}').toISOString().substring(0, 10);
+  editor.contract.to = new Date('${contract.to}').toISOString().substring(0, 10);
+  editor.contract.counterparty = JSON.parse('${contract.counterparty.toJson()}');
+  <c:forEach items="${contract.products}" var="product">
+  editor.contract.products.push(JSON.parse('${product.toJson()}'));
+  </c:forEach>
+  </c:when>
+  <c:otherwise>
   editor.addProductLine();
+  </c:otherwise>
+  </c:choose>
 </script>
 <html>
 <c:set var="saveAndCloseDescription">
@@ -89,10 +103,12 @@
     <table style="width: 100%" border="0">
       <tr>
         <td>
-          <fmt:message key="deal.type"/>
+          <label for="type">
+            <fmt:message key="deal.type"/>
+          </label>
         </td>
         <td>
-          <select v-model="contract.type">
+          <select id="type" v-model="contract.type">
             <option v-for="type in types" :value="type.id">
               {{type.name}}
             </option>
@@ -135,9 +151,13 @@
           </label>
         </td>
         <td>
-          <select v-model="contract.address.id" v-on:change="checkAddress(contract)">
+          <select id="address" v-model="contract.address.id" v-on:change="checkAddress(contract)">
+
             <option value="-1" disabled v-if="contract.addressList.length > 1">
               <fmt:message key="need.select"/>
+            </option>
+            <option v-else value="-1">
+              <fmt:message key="no.data"/>
             </option>
             <option v-for="address in contract.addressList" :value="address.id">
               {{address.city}}, {{address.street}}, {{address.build}}
@@ -155,7 +175,7 @@
           </label>
         </td>
         <td>
-          <select v-model="shipper">
+          <select id="realisation" v-model="shipper">
             <option v-for="shipper in shippers" :value="shipper.id">
               {{shipper.name}}
             </option>
@@ -171,7 +191,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2" style="max-height: 200pt; border: solid gray 1pt; overflow-y: scroll">
+        <td colspan="2" style="max-height: 200pt; width: 753px; border: solid gray 1pt; overflow-y: scroll">
           <table>
             <template v-for="(product, productIdx) in contract.products">
               <tr>

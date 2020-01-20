@@ -213,6 +213,11 @@ public class Transportation2 extends JsonAble {
         return id;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return getClass().equals(obj.getClass() ) && hashCode() == obj.hashCode();
+    }
+
     @Basic
     @Column(name = "uid")
     public String getUid() {
@@ -250,9 +255,8 @@ public class Transportation2 extends JsonAble {
         if (timeOut != null){
             json.put(TIME_OUT, timeOut.getTime().toString());
         }
-        JSONArray docs = pool.getArray();
-        docs.addAll(getDocuments().stream().map(TransportationDocument::toJson).collect(Collectors.toList()));
-        json.put(PRODUCTS, docs);
+
+        json.put(PRODUCTS, getDocuments().stream().map(TransportationDocument::toJson).collect(Collectors.toList()));
         json.put(MANAGER, manager.toJson());
         json.put(CREATOR, createTime.getCreator().toJson());
         JSONArray array = pool.getArray();

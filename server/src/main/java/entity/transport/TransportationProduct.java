@@ -62,6 +62,7 @@ public class TransportationProduct extends JsonAble{
         json.put(TYPE, contractProduct.getType().toString());
         json.put(AMOUNT, amount);
         json.put(UNIT, contractProduct.getUnit().toJson());
+        json.put(CONTRACT_PRODUCT, contractProduct.getId());
         Product product = contractProduct.getProduct();
         json.put(PRODUCT, product.toJson());
         if (product.getAnalysesType() != null){

@@ -241,4 +241,5 @@ public interface dbDAO {
     Protocol getProtocol(Product product);
     List<TruckInfo> getTruckInfo(String number);
     void flush();
+    List<Transportation2> getTransportationsByContract(Contract contract);
 }

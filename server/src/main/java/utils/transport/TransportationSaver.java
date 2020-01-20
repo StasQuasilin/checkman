@@ -58,6 +58,13 @@ public class TransportationSaver implements Constants{
             save = true;
         }
 
+        if (driver != null) {
+            String license = String.valueOf(body.get(LICENSE));
+            if (TransportUtil.setLicense(driver, license)) {
+                save = true;
+            }
+        }
+
         if (body.containsKey(TRANSPORTER)) {
             Organisation transporter = dao.getObjectById(Organisation.class, body.get(TRANSPORTER));
             if (TransportUtil.setTransporter(transportation, transporter)) {

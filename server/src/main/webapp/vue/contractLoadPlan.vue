@@ -17,7 +17,7 @@ var loadPlan = new Vue({
             json.select = true;
             loadPlan.products.push(json);
         },
-        addTransportation:function(){
+        newTransportation:function(){
             var date;
             if (this.filterDate == -1){
                 date = new Date().toISOString().substring(0, 10);
@@ -34,7 +34,7 @@ var loadPlan = new Vue({
                             key:randomUUID,
                             contractProduct: product.id,
                             product: product.product,
-                            plan: product.amount,
+                            amount: product.amount - product.plan,
                             unit: product.unit
                         })
                     }
@@ -44,20 +44,18 @@ var loadPlan = new Vue({
                 id:-1,
                 date:date,
                 customer:'szpt',
-                driver:{
-                    id:-1
-                },
-                vehicle:{
-                    id:-1
-                },
-                trailer:{
-                    id:-1
-                },
-                products:products,
-                save:-1
+                driver:{id:-1},
+                vehicle:{id:-1},
+                trailer:{id:-1},
+                products:products
             };
-            this.transportations.push(transport);
+            this.addTransportation(transport);
             this.initSaveTimer(transport);
+        },
+        addTransportation:function(transport){
+            transport.save = -1;
+            this.transportations.push(transport);
+            this.sortTransport();
         },
         selectProducts:function(val){
           for(var i in this.products){
@@ -85,7 +83,7 @@ var loadPlan = new Vue({
             this.transportations.forEach(function(transport){
                 transport.products.forEach(function(product){
                     if (product.contractProduct == contractProduct.id){
-                        plan += parseFloat(product.plan);
+                        plan += parseFloat(product.amount);
                     }
                 })
             });
@@ -148,9 +146,17 @@ var loadPlan = new Vue({
             return result;
         },
         pickDate:function(item){
+            const self = this;
             datepicker.show(function(date){
                 item.date = date;
+                self.sortTransport();
+                self.initSaveTimer(item);
             }, item.date);
+        },
+        sortTransport:function(){
+            this.transportations.sort(function(a, b){
+                return new Date(a.date) - new Date(b.date);
+            })
         },
         setFilterDate:function(date){
             if (this.filterDate === date){
@@ -178,6 +184,7 @@ var loadPlan = new Vue({
                 data.date = transport.date;
                 data.customer = transport.customer;
                 data.driver = transport.driver.id;
+                data.license = transport.driver.license;
                 data.vehicle = transport.vehicle.id;
                 data.trailer = transport.trailer.id;
                 data.products = [];
@@ -188,7 +195,7 @@ var loadPlan = new Vue({
                             id:t.id,
                             key:t.key,
                             contractProduct:t.contractProduct,
-                            plan:t.plan
+                            plan:t.amount
                         })
                     }
 

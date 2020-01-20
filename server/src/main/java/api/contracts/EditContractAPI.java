@@ -31,7 +31,6 @@ public class EditContractAPI extends ServletAPI {
         if (body != null){
             System.out.println(body);
             Worker worker = getWorker(req);
-
             JSONObject answer = pool.getObject();
             Contract contract = contractSaver.saveContract(body, worker, answer);
             updateUtil.onSave(contract);

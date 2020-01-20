@@ -37,10 +37,10 @@
   list.fields.noData='<fmt:message key="no.data"/>';
   list.edit = function(id){
     loadModal(list.api.edit, {id:id});
-  }
+  };
   list.show = function(id){
     loadModal(list.api.show, {id: id});
-  }
+  };
 
   subscribe('${subscribe}', function(a){
   list.handler(a);
@@ -54,12 +54,17 @@
     <div v-for="(value, idx) in getItems()" class="container-item"
     :class="'container-item-' + new Date(value.item.date).getDay()"
             v-on:click="show(value.item.id)" v-on:click.right="contextMenu(value.item)">
-      <div style="display: inline-flex">
-        <div>
-          {{new Date(value.item.date).toLocaleString().substring(0, 10)}}
-        </div>
-        <div v-if="value.item.date !== value.item.to">
-          {{new Date(value.item.to).toLocaleString().substring(0, 10)}}
+      <div style="display: inline-flex; border-right: solid black 1pt;">
+        <div style="margin: auto; padding: 0 2pt;">
+          <div v-if="value.item.number">
+            №{{value.item.number}}
+          </div>
+          <div>
+            {{new Date(value.item.date).toLocaleString().substring(0, 10)}}
+          </div>
+          <div v-if="value.item.date !== value.item.to">
+            {{new Date(value.item.to).toLocaleString().substring(0, 10)}}
+          </div>
         </div>
       </div>
       <div>

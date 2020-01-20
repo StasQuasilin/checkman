@@ -48,11 +48,16 @@ public class ContractSaver implements Constants{
             log.info("Contract #" + contract.getId());
         }
 
-        Date from = DateUtil.parseFromEditor(String.valueOf(json.get(FROM)));
+        String number = String.valueOf(json.get(NUMBER));
+        if (ContractUtil.setNumber(contract, number)){
+            saveContract = true;
+        }
+
+        Date from = Date.valueOf(String.valueOf(json.get(FROM)));
         if (ContractUtil.setFrom(contract, from)){
             saveContract = true;
         }
-        Date to = DateUtil.parseFromEditor(String.valueOf(json.get(TO)));
+        Date to = Date.valueOf(String.valueOf(json.get(TO)));
         if (ContractUtil.setTo(contract, to)){
             saveContract = true;
         }

@@ -58,15 +58,27 @@
   });
   </c:forEach>
   <c:forEach items="${contract.products}" var="product">
-  loadPlan.addProduct(JSON.parse('${product.toJson()}'))
+  loadPlan.addProduct(JSON.parse('${product.toJson()}'));
   </c:forEach>
 
   function edit(){
     loadModal('${edit}', {id:${contract.id}});
     closeModal();
   }
+  <c:forEach items="${transportations}" var="transport">
+  var j = (JSON.parse('${transport.toJson()}'));
+  console.log(j);
+  j.products = [];
+  <c:forEach items="${transport.documents}" var="document">
+  <c:forEach items="${document.products}" var="product">
+  j.products.push(JSON.parse('${product.toJson()}'));
+  </c:forEach>
+  </c:forEach>
+  loadPlan.addTransportation(j);
+  </c:forEach>
 </script>
 <html>
+<c:set var="driverLicense"><fmt:message key="driver.license"/></c:set>
   <table id="loadPlan" class="editor">
     <tr>
       <td valign="top">
@@ -169,10 +181,10 @@
         <div>
           <div v-for="(date, key) in getDates()" class="mini-close" v-on:click="setFilterDate(key)">
             <span v-if="key === filterDate">
-              &times;
+              -
             </span>
             <span v-else>
-              &nbsp
+              &nbsp;
             </span>
             {{new Date(key).toLocaleDateString().substring(0, 5)}}:{{date}}
           </div>
@@ -183,7 +195,7 @@
         <table>
           <tr>
             <td align="center">
-              <button v-on:click="addTransportation()">
+              <button v-on:click="newTransportation()">
                 <fmt:message key="button.add"/>
               </button>
             </td>
@@ -207,10 +219,10 @@
                   </div>
                 </div>
                 <div style="display: inline-block">
-                  <div>
-                  <span class="mini-close" v-on:click="pickDate(transport)">
-                    {{new Date(transport.date).toLocaleDateString().substring(0, 5)}}
-                  </span>
+                  <div style="padding-bottom: 2pt">
+                    <span class="mini-close" v-on:click="pickDate(transport)">
+                      {{new Date(transport.date).toLocaleDateString().substring(0, 5)}}
+                    </span>
                     <label for="customer">
                       <fmt:message key="load.customer.title"/>
                     </label>
@@ -232,12 +244,15 @@
                     <span style="width: 210px; display: inline-block">
                       {{product.product.name}}
                     </span>
-                      <input type="number" v-model="product.plan" autocomplete="off" onfocus="this.select()" v-on:change="initSaveTimer(transport)">
+                      <input type="number" v-model="product.amount" autocomplete="off" onfocus="this.select()" v-on:change="initSaveTimer(transport)">
                       {{product.unit.name}}
                     </div>
                   </div>
                   <div style="font-size: 10pt; padding: 2pt">
                     <object-input :props="driverProps" :object="transport.driver" :item="transport"></object-input>
+                    <input id="license" v-if="transport.driver.id != -1" v-model="transport.driver.license"
+                           autocomplete="off" style="width: 82pt; border: solid black 1pt"
+                           onfocus="this.select()" title="${driverLicense}" v-on:change="initSaveTimer(transport)">
                   </div>
                   <div style="font-size: 10pt; padding: 2pt">
                     <object-input :props="vehicleProps" :object="transport.vehicle" :item="transport"></object-input>
