@@ -190,6 +190,7 @@ public interface Constants {
     String TO = "to";
     String NUMBER = "number";
     String PRODUCTS = "products";
+    String CONTRACT_PRODUCT = "contractProduct";
     String DONE = "done";
     String ANALYSES = "analyses";
     String VALUE = "value";

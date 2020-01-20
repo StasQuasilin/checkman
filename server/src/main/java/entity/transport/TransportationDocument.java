@@ -24,7 +24,7 @@ public class TransportationDocument extends JsonAble implements Comparable<Trans
     private List<TransportationProduct> products;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public int getId() {
         return id;
     }

@@ -1,5 +1,6 @@
 package entity.transport;
 
+import entity.Address;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
@@ -296,6 +297,22 @@ public class TransportUtil{
     public static boolean setCustomer(Transportation2 transportation, TransportCustomer customer) {
         if (transportation.getCustomer() == null || transportation.getCustomer() != customer){
             transportation.setCustomer(customer);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean setAmount(float amount, TransportationProduct product) {
+        if (product.getAmount() != amount){
+            product.setAmount(amount);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean setAddress(Address address, TransportationDocument document) {
+        if (document.getAddress() == null || document.getAddress().getId() != address.getId()){
+            document.setAddress(address);
             return true;
         }
         return false;

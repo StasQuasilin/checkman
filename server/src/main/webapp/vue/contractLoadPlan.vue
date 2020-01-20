@@ -29,9 +29,9 @@ var loadPlan = new Vue({
                 if (this.products.hasOwnProperty(i)){
                     var product = this.products[i];
                     if (product.select) {
-
                         products.push({
                             id: -1,
+                            key:randomUUID,
                             contractProduct: product.id,
                             product: product.product,
                             plan: product.amount,
@@ -40,17 +40,24 @@ var loadPlan = new Vue({
                     }
                 }
             }
-            this.transportations.push({
+            var transport = {
                 id:-1,
-                key:randomUUID(),
                 date:date,
                 customer:'szpt',
-                driver:{},
-                vehicle:{},
-                trailer:{},
+                driver:{
+                    id:-1
+                },
+                vehicle:{
+                    id:-1
+                },
+                trailer:{
+                    id:-1
+                },
                 products:products,
                 save:-1
-            })
+            };
+            this.transportations.push(transport);
+            this.initSaveTimer(transport);
         },
         selectProducts:function(val){
           for(var i in this.products){
@@ -167,10 +174,31 @@ var loadPlan = new Vue({
             const self = this;
             transport.save = setTimeout(function(){
                 var data = {};
+                data.id = transport.id;
+                data.date = transport.date;
+                data.customer = transport.customer;
+                data.driver = transport.driver.id;
+                data.vehicle = transport.vehicle.id;
+                data.trailer = transport.trailer.id;
+                data.products = [];
+                for (var i in transport.products){
+                    if (transport.products.hasOwnProperty(i)){
+                        var t = transport.products[i];
+                        data.products.push({
+                            id:t.id,
+                            key:t.key,
+                            contractProduct:t.contractProduct,
+                            plan:t.plan
+                        })
+                    }
+
+                }
                 PostApi(self.api.save, data, function(a){
                     transport.save = -1;
                     if (a.status === 'success'){
-                        transport.id=100500;
+                        if (a.id){
+                            transport.id = a.id;
+                        }
                     }
                 });
             }, 1500)
