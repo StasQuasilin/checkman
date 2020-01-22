@@ -27,8 +27,10 @@
     width: 100%;
     text-align: center;
   }
+
+
 </style>
-  <div>
+  <div id="data">
     <div class="head">
       <fmt:message key="transport.carriage.head"/>
     </div>
@@ -168,24 +170,24 @@
               </td>
             </c:if>
             <td rowspan="2">
-              <fmt:formatNumber value="${transport.weight.brutto}" maxFractionDigits="3"/>
+              <fmt:formatNumber value="${transport.weight.brutto *100}" pattern="##,##" maxFractionDigits="3"/>
             </td>
             <td rowspan="2">
-              <fmt:formatNumber value="${transport.weight.tara}" maxFractionDigits="3"/>
+              <fmt:formatNumber value="${transport.weight.tara * 100}" pattern="##,##" maxFractionDigits="3"/>
             </td>
             <td rowspan="2">
-              <fmt:formatNumber value="${transport.weight.netto}" maxFractionDigits="3"/>
+              <fmt:formatNumber value="${transport.weight.netto * 100}" pattern="##,##" maxFractionDigits="3"/>
               <c:set var="correction" value="${correction + transport.weight.correctedNetto}"/>
               <c:set var="total" value="${total + transport.weight.netto}"/>
             </td>
             <td rowspan="2" style="border-right-color: white">
               <c:if test="${transport.weight.correction ne 0}">
-                <fmt:formatNumber value="${transport.weight.correctedNetto}" maxFractionDigits="3"/>
+                <fmt:formatNumber value="${transport.weight.correctedNetto * 1000}" pattern="##,###" maxFractionDigits="0"/>
               </c:if>
             </td>
             <td rowspan="2">
               <c:if test="${transport.weight.correction ne 0}">
-                <fmt:formatNumber value="${transport.weight.correctedNetto-transport.weight.netto}" maxFractionDigits="3"/>
+                <fmt:formatNumber value="${(transport.weight.correctedNetto-transport.weight.netto)}" maxFractionDigits="3"/>
               </c:if>
             </td>
             <c:choose>
