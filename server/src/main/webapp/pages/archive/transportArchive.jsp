@@ -13,7 +13,9 @@
     list.api.update = '${update}';
     list.api.edit = '${show}';
     list.types['buy'] = '<fmt:message key="_buy"/>';
-    list.types['sell'] = '<fmt:message key="_sell"/>'
+    list.types['sell'] = '<fmt:message key="_sell"/>';
+    list.customers['szpt'] = '<fmt:message key="szpt"/>';
+    list.customers['contragent'] = '<fmt:message key="contragent"/>';
 </script>
 <transition-group
         name="flip-list" tag="div"

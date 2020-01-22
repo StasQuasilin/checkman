@@ -101,6 +101,13 @@
                     </a>
                 </td>
             </tr>
+            <tr v-if="tooFewParam">
+                <td>
+                    <div style="color: orangered; font-weight: bold; width: 100%; text-align: center">
+                        <fmt:message key="too.few.params"/>
+                    </div>
+                </td>
+            </tr>
             <tr>
                 <td>
                     <span style="font-size: 10pt">

@@ -108,7 +108,7 @@
         });
         </c:forEach>
     };
-    if (s > 0) {
+    if (s > 2) {
         list.loading = true;
     }
 </script>

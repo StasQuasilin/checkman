@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
 import entity.DealType;
+import entity.transport.TransportCustomer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,6 +55,7 @@ public class TransportArchive extends IUIServlet {
                 req.setAttribute("type", type);
                 break;
         }
+        req.setAttribute(CUSTOMERS, TransportCustomer.values());
         req.setAttribute("findOrganisations", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("findDrivers", Branches.API.References.FIND_DRIVER);
         req.setAttribute(FILTER, "/pages/filters/archiveFilter.jsp");

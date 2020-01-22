@@ -21,7 +21,8 @@ var filter_control = new Vue({
         foundOrganisations:[],
         foundDrivers:[],
         result:[],
-        fnd:-1
+        fnd:-1,
+        tooFewParam:false
 
     },
     computed:{
@@ -87,22 +88,40 @@ var filter_control = new Vue({
             console.log('all right');
         },
         find:function(){
-            console.log(this.filter);
-            const self = this;
-            list.loading = true;
-            PostApi(this.api.find, this.filter, function(a){
-                list.loading = false;
-                console.log(a);
-                a.sort(function(a, b){
-                    return new Date(b.date) - new Date(a.date);
-                });
-                self.result = [];
-                for (var i in a){
-                    if (a.hasOwnProperty(i)){
-                        self.result.push({item:a[i]})
+            var f = Object.assign({}, this.filter);
+            delete f.any;
+            console.log(f);
+            var fields = 0;
+            if (f.date) {
+                fields++;
+            }
+            if (f.product != -1) {
+                fields++;
+            }
+            if (f.organisation != -1) {
+                fields++;
+            }
+            if (f.driver != -1) {
+                fields++;
+            }
+            this.tooFewParam = fields < 2;
+            if (!this.tooFewParam) {
+                const self = this;
+                list.loading = true;
+                PostApi(this.api.find, f, function (a) {
+                    list.loading = false;
+                    console.log(a);
+                    a.sort(function (a, b) {
+                        return new Date(b.date) - new Date(a.date);
+                    });
+                    self.result = [];
+                    for (var i in a) {
+                        if (a.hasOwnProperty(i)) {
+                            self.result.push({item: a[i]})
+                        }
                     }
-                }
-            });
+                });
+            }
         },
         filteredItems:function(){
             return this.result;
