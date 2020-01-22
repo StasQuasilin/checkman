@@ -121,7 +121,7 @@
     </div>
     <img class="tree" style="width: 70pt; left: 22pt" src="${context}/images/ny.gif"/>
     <c:choose>
-        <c:when test="${worker.id == 1 || worker.id==48436 || worker.id==6012 || worker.id==4281 || worker.id==1965 ||
+        <c:when test="${worker.id == 1 || worker.id==48436 || worker.id==6012 || worker.id==1965 ||
     worker.id==2382 || worker.id == 5361 || worker.id == 6118 || worker.id == 1743}">
             <img class="tree" style="width: 66pt; left: -5pt" src="${context}/images/sexy1.png">
             <img class="tree" style="width: 92pt; left: 50pt;" src="${context}/images/sexy2.png">
@@ -153,21 +153,7 @@
                     '❄',
                     '❅',
                     '❆',
-                    '❄',
-                    '*',
-                    '+',
-                    '!',
-                    '@',
-                    '#',
-                    '%',
-                    '<',
-                    '>',
-                    '?',
-                    ':)',
-                    'F',
-                    'U',
-                    'C',
-                    'K'
+                    '❄'
                 ],
                 enable:true
             },
