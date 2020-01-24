@@ -5,6 +5,7 @@ import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import entity.reports.ManufactureReport;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import utils.ManufactureReportUtil;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class SendReportAPI extends ServletAPI {
 
     final ManufactureReportUtil util = new ManufactureReportUtil();
+    final Logger log = Logger.getLogger(SendReportAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,6 +40,8 @@ public class SendReportAPI extends ServletAPI {
 
                 util.saveMessages(report, messages);
                 write(resp, SUCCESS_ANSWER);
+            } else {
+                log.warn("Can't send report to Telegram");
             }
         }
     }

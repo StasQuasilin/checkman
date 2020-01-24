@@ -11,10 +11,14 @@ public interface Constants {
     String STAR = "*";
     String ENCODING = "UTF-8";
     String ID = "id";
+    String TEXT = "text";
+    String WAIT_ANSWER = "waitAnswer";
+    String SENDER = "sender";
     String BRAND = "brand";
     String VIN = "vin";
     String INFO = "info";
     String NAME = "name";
+    String FULL_NAME = "fullName";
     String DATE = "date";
     String MONTH = "month";
     String DATE_TO = "dateTo";
@@ -48,6 +52,7 @@ public interface Constants {
     String EDIT_STORAGE = "editStorage";
     String TYPES = "types";
     String CONTENT = "content";
+    String STATIC_CONTENT = "static";
     String WEIGHT_SHOW = "";
     String PROTOCOL = "protocol";
     String PROTOCOLS = "protocols";

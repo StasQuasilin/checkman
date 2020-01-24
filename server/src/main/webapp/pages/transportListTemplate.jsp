@@ -114,6 +114,7 @@
 </script>
 
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
+<c:set var="organisationTitle"><fmt:message key="deal.organisation"/></c:set>
     <div id="container">
         <div v-if="loading" style="color: darkgray; text-align: center; width: 100%">
             Loading...
@@ -133,13 +134,11 @@
                         <span :title="new Date(value.item.date).toLocaleDateString()">
                             {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
                         </span>
-                        <span style="width: 20em">
-                            <fmt:message key="deal.organisation"/>:
+                        <span style="width: 20em" title="${organisationTitle}">
                             <b>
                                 {{value.item.organisation.value}}
                             </b>
                         </span>
-
                         <span class="product-line" style="float: right;">
                             <span v-if="types[value.item.type]">
                                 {{(types[value.item.type]).toLowerCase()}}
@@ -177,14 +176,6 @@
                             </div>
                         </div>
                         <transport-view :item="value.item" :fields="fields" :customers="customers"></transport-view>
-                        <div style="display: inline-block; float: right; font-size: 10pt">
-                            <div style="width: 100%; text-align: center">
-                                <fmt:message key="deal.manager"/>
-                            </div>
-                            <div>
-                                {{value.item.manager.person.value}}
-                            </div>
-                        </div>
                     </div>
                     <div class="lower-row" v-if="value.item.notes.length > 0">
                         <a v-for="note in value.item.notes" v-on:click="editComment(note)" style="display: inline-block; padding-left: 4pt">
@@ -198,20 +189,26 @@
                     </div>
                 </div>
                 <div class="right-field">
-                    <div v-if="value.item.weight.id" class="right-field-content" style="width: 84pt">
-                        <div>
-                            Б: <b>{{value.item.weight.brutto}}</b>
+                    <div class="right-field-content">
+                        <div v-if="value.item.weight.id"  style="width: 84pt">
+                            <div>
+                                Б: <b>{{value.item.weight.brutto}}</b>
+                            </div>
+                            <div>
+                                Т: <b>{{value.item.weight.tara}}</b>
+                            </div>
+                            <div>
+                                Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
+                            </div>
+                            <div v-if="value.item.weight.correction > 0">
+                                ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
+                            </div>
                         </div>
-                        <div>
-                            Т: <b>{{value.item.weight.tara}}</b>
-                        </div>
-                        <div>
-                            Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
-                        </div>
-                        <div v-if="value.item.weight.correction > 0">
-                            ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
+                        <div style="font-size: 10pt">
+                            {{value.item.manager.person.value}}
                         </div>
                     </div>
+
                     <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>
                 </div>
             </div>

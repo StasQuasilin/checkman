@@ -120,5 +120,6 @@
         <mapping class="entity.storages.StorageStockCorrectionDocument"/>
         <mapping class="entity.storages.StorageStockCorrection"/>
         <mapping class="entity.laboratory.subdivisions.extraction.MealGranules"/>
+        <mapping class="entity.notifications.Notification"/>
     </session-factory>
 </hibernate-configuration>

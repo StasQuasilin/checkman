@@ -98,16 +98,21 @@ public class ActiveSubscriptions {
             }
         }
     }
-    public synchronized void send(Worker worker, Object message) throws IOException {
-        if (byWorker.containsKey(worker.getId())) {
-            String prepareMessage = prepareMessage(Subscriber.MESSAGES, message);
-            for (Session session : byWorker.get(worker.getId())){
+    public synchronized void send(Subscriber sub, Worker worker, Object message) throws IOException {
+        send(sub, worker.getId(), message);
+    }
+
+    public synchronized void send(Subscriber sub, int worker, Object message) throws IOException {
+        if (byWorker.containsKey(worker)) {
+            String prepareMessage = prepareMessage(sub, message);
+            for (Session session : byWorker.get(worker)){
                 if(session.isOpen()) {
                     session.getBasicRemote().sendText(prepareMessage);
                 }
             }
         }
     }
+
     public static String prepareMessage(Subscriber type, Object msg){
         return prepareMessage(type.toString(), msg);
     }
@@ -145,5 +150,9 @@ public class ActiveSubscriptions {
         }
         byWorker.clear();
 
+    }
+
+    public ArrayList<Integer> getSubscribeWorkers() {
+        return new ArrayList<>(byWorker.keySet());
     }
 }

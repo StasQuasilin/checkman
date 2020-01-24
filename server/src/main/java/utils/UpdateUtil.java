@@ -99,10 +99,10 @@ public class UpdateUtil {
         doAction(Command.remove, Subscriber.EXTRACTION, crude.getId());
     }
 
-    void doAction(Command command, Worker worker, Object obj) throws IOException {
+    void doAction(Command command, Subscriber sub, Worker worker, Object obj) throws IOException {
         JSONObject json = pool.getObject();
         json.put(command.toString(), obj);
-        subscriptions.send(worker, json);
+        subscriptions.send(sub, worker, json);
         pool.put(json);
     }
     void doAction(Command command, Subscriber subscriber, Object ... obj) throws IOException {
@@ -165,7 +165,7 @@ public class UpdateUtil {
         JSONObject object = pool.getObject();
         object.put(MessageHandler.MESSAGES, array);
 
-        doAction(Command.update, member, object);
+        doAction(Command.update, Subscriber.MESSAGES, member, object);
     }
 
     public void onSave(Chat chat, String chatKey, Worker member) throws IOException {
@@ -179,7 +179,7 @@ public class UpdateUtil {
         JSONObject object = pool.getObject();
         object.put(MessageHandler.CHATS, array);
 
-        doAction(Command.update, member, object);
+        doAction(Command.update, Subscriber.MESSAGES, member, object);
     }
 
     public void onSave(Worker worker) throws IOException {

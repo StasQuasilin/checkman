@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import utils.Archivator;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.dbDAOService;
+import utils.notifications.Notificator;
 import utils.transport.TransportReplaceUtil;
 
 import javax.servlet.*;

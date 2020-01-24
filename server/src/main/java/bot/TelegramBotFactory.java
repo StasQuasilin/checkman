@@ -20,7 +20,6 @@ public class TelegramBotFactory {
 
     private static final Logger log = Logger.getLogger(TelegramBotFactory.class);
 
-
     static {
         ApiContextInitializer.init();
     }
@@ -66,10 +65,13 @@ public class TelegramBotFactory {
                         telegramNotificator = new TelegramNotificator(bot);
                     } catch (TelegramApiRequestException e) {
                         status = BotStatus.error;
+                        log.error(e.getMessage());
                         log.trace(e);
+                        e.printStackTrace();
                     }
                 });
                 botThread.start();
+                log.info("Bot \'" + name + "\' started successfully");
             } else if (token == null){
                 status = BotStatus.no_token;
                 log.info("Bot token is null! Please fix it");

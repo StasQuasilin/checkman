@@ -3,13 +3,17 @@ package api.references.organisation;
 import api.ServletAPI;
 import constants.Branches;
 import entity.Worker;
+import entity.notifications.Notification;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.LanguageBase;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
+import utils.notifications.Notificator;
+import utils.references.OrganisationNameChecker;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,9 +30,12 @@ import java.util.regex.Pattern;
 @WebServlet(Branches.API.References.PARSE_ORGANISATION)
 public class ParseOrganisationServletAPI extends ServletAPI {
 
-
     private final Logger log = Logger.getLogger(ParseOrganisationServletAPI.class);
-
+    private final Notificator notificator = new Notificator();
+    private final LanguageBase lb = LanguageBase.getBase();
+    private static final String SUCCESS_NOTIFICATION = "notification.organisation.create.success";
+    private static final String SUCCESS_BUT_LONG = "notification.organisation.create.long";
+    private OrganisationNameChecker checker = new OrganisationNameChecker();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -36,6 +43,19 @@ public class ParseOrganisationServletAPI extends ServletAPI {
         if (body != null) {
             log.info(body);
             Organisation organisation = parseOrganisation(String.valueOf(body.get(KEY)), dao, getWorker(req));
+            String notificationText;
+
+            Worker worker = getWorker(req);
+            String value = organisation.getValue();
+            if (checker.check(organisation)){
+                dao.save(organisation);
+                notificationText = String.format(lb.get(worker.getLanguage(), SUCCESS_BUT_LONG), value, organisation.getValue());
+            } else {
+                notificationText = String.format(lb.get(worker.getLanguage(), SUCCESS_NOTIFICATION), organisation.getValue());
+            }
+
+            notificator.sendNotification(worker, new Notification(notificationText).toJson());
+
             JSONObject json = new SuccessAnswer(RESULT, organisation.toJson()).toJson();
             write(resp, json.toJSONString());
             pool.put(json);

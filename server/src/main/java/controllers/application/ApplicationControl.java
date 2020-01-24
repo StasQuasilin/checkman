@@ -6,14 +6,21 @@ import controllers.IServlet;
 import controllers.archive.ArchiveType;
 import entity.AnalysesType;
 import entity.DealType;
+import entity.Worker;
+import entity.notifications.Notification;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.notifications.Notificator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -24,7 +31,7 @@ public class ApplicationControl extends IServlet{
 
     final dbDAO dao = dbDAOService.getDAO();
     final Subscriber[] applicationSubscribes = new Subscriber[]{Subscriber.MESSAGES, Subscriber.SESSION_TIMER};
-
+    static Notificator notificator = new Notificator();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -80,5 +87,6 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("logoutAPI", Branches.Sign.LOGOUT);
 
         req.getRequestDispatcher("/pages/Application.jsp").forward(req, resp);
+
     }
 }

@@ -5,12 +5,14 @@ import constants.Constants;
 import entity.User;
 import entity.answers.ErrorAnswer;
 import entity.answers.IAnswer;
+import entity.notifications.Notification;
 import org.apache.log4j.Logger;
 import utils.access.UserBox;
 import utils.access.UserData;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.notifications.Notificator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -51,6 +53,8 @@ public class SignInBox implements Constants{
                 req.getSession().setAttribute("user", user.getWorker().getPerson().getValue());
                 req.getSession().setAttribute("uid", user.getUid());
                 req.getSession().setAttribute("role", user.getWorker().getRole());
+
+
             } else {
                 answer = new ErrorAnswer("msd", lb.get(Languages.WRONG_PASSWORD));
                 log.error("Wrong password");

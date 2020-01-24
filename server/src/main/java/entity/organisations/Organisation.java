@@ -18,6 +18,7 @@ public class Organisation extends JsonAble{
     private int id;
     private String type;
     private String name;
+    private String fullName;
     private ActionTime create;
 
     public static final String EMPTY = Constants.EMPTY;
@@ -48,6 +49,15 @@ public class Organisation extends JsonAble{
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "full_name")
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @OneToOne
@@ -87,6 +97,7 @@ public class Organisation extends JsonAble{
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+        json.put(FULL_NAME, fullName);
         json.put(NAME, name);
         json.put(TYPE, type);
         json.put(VALUE, getValue());

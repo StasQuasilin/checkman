@@ -32,6 +32,9 @@
     </script>
     <script src="${context}/js/Subscriber.js"></script>
     <script>
+        subscribe('NOTIFICATIONS', function(a){
+            notificator.notify(a);
+        });
         subscribe('MESSAGES', function(a){
             chat.handle(a);
         });
@@ -39,143 +42,10 @@
             lockSession(a);
         })
     </script>
-    <style>
-        @-webkit-keyframes snowflakes-fall{
-            0%{
-                top:-10%
-            }
-            100%{
-                top:100%
-            }
-        }
-        @-webkit-keyframes snowflakes-shake{
-            0%{
-                -webkit-transform:translateX(0px);
-                transform:translateX(0px)
-            }
-            50%{
-                -webkit-transform:translateX(80px);
-                transform:translateX(80px)
-            }
-            100%{
-                -webkit-transform:translateX(0px);
-                transform:translateX(0px)
-            }
-        }
-        @keyframes snowflakes-fall{
-            0%{
-                top:-10%
-            }
-            100%{
-                top:100%;
-            }
-        }
-        @keyframes snowflakes-shake{
-            0%{
-                transform:translateX(0px);
-            }
-            50%{
-                transform:translateX(80px) rotate(260deg);
-            }
-            100%{
-                transform:translateX(0px);
-            }
-
-        }
-        .snowflake{
-            color: #fffefe;
-            position:fixed;
-            top:-10%;
-            z-index:9999;
-            -webkit-user-select:none;
-            -moz-user-select:none;
-            -ms-user-select:none;
-            user-select:none;
-            cursor:default;
-            -webkit-animation-name:snowflakes-fall,snowflakes-shake;
-            -webkit-animation-duration:10s,3s;
-            -webkit-animation-timing-function:linear,ease-in-out;
-            -webkit-animation-iteration-count:infinite,infinite;
-            -webkit-animation-play-state:running,running;
-            animation-name:snowflakes-fall,snowflakes-shake;
-            animation-duration:12s,3s;
-            animation-timing-function:linear,ease-in-out;
-            animation-iteration-count:infinite,infinite;
-            animation-play-state:running,running
-        }
-        .tree{
-            position: absolute;
-            z-index: 101;
-            bottom: 0;
-        }
-    </style>
 
 </head>
 <%--oncontextmenu="return false;"--%>
     <body style="margin: 0;">
-
-    <div id="snow" v-if="enable" style="background: none; z-index: 102; position: absolute">
-        <div class="snowflake" :style="style()"  v-for="s in snows.length">
-            {{getSnowflake(s)}}
-        </div>
-    </div>
-    <img class="tree" style="width: 70pt; left: 22pt" src="${context}/images/ny.gif"/>
-    <c:choose>
-        <c:when test="${worker.id == 1 || worker.id==48436 || worker.id==6012 || worker.id==1965 ||
-    worker.id==2382 || worker.id == 5361 || worker.id == 6118 || worker.id == 1743}">
-            <img class="tree" style="width: 66pt; left: -5pt" src="${context}/images/sexy1.png">
-            <img class="tree" style="width: 92pt; left: 50pt;" src="${context}/images/sexy2.png">
-        </c:when>
-    </c:choose>
-    <script>
-
-        var show = new Vue({
-            el:'#snow',
-            data:{
-                snows:[
-                    '❄',
-                    '❅',
-                    '❆',
-                    '❄',
-                    '❅',
-                    '❆',
-                    '❄',
-                    '❄',
-                    '❅',
-                    '❆',
-                    '❄',
-                    '❅',
-                    '❆',
-                    '❄',
-                    '❄',
-                    '❅',
-                    '❆',
-                    '❄',
-                    '❅',
-                    '❆',
-                    '❄'
-                ],
-                enable:true
-            },
-            methods:{
-                style:function(){
-                    let r1 = 2 + Math.random() * 12;
-                    let r2 = 1 + Math.random();
-                    return {
-                        'left': Math.random() * 100 + '%',
-                        'animation-delay': r1 + 's, ' + r2 + 's'
-                    }
-                },
-                getSnowflake:function(idx){
-                    let d = Math.floor(idx / this.snows.length) * this.snows.length;
-                    return this.snows[idx - d];
-                }
-            }
-        });
-        function enableSnow(){
-            show.enable = !show.enable;
-        }
-    </script>
     <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">
         <table style="width: 100%; height: 100%;">
             <tr>
@@ -203,6 +73,8 @@
             </tr>
         </table>
     </div>
+    <jsp:include page="notifications/notificator.jsp"/>
+
     <div class="modal-layer" style="display: none" id="modal"></div>
     <jsp:include page="chat/chatHolder.jsp"/>
     <script>
@@ -299,7 +171,6 @@
                         </div>
                         <div style="font-size: 10pt; text-align: right; float: right;">
                             <div style="padding: 6.5pt 4pt">
-                                <a onclick="enableSnow()">❄</a>
                                 <a onclick="loadContent('${personal}')">
                                     ${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}
                                 </a>
@@ -317,11 +188,6 @@
                 </td>
                 <td style="max-width: 200pt">
                     <div class="static-content" id="static"></div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" style="font-size: 8pt" align="center">
-                    Цілодобова морально-психологічна підтримка: +38(050)965-79-89
                 </td>
             </tr>
         </table>

@@ -30,8 +30,12 @@ var referenceList = new Vue({
         },
         edit:function(item, key, idx){
             const self = this;
-            loadModal(this.api.edit + '?id=' + item.id, {id:item.id}, function(a){
-                self.items[key].splice(idx, 1, a);
+            loadModal(this.api.edit, {id:item.id}, function(a){
+                var some = self.items[key];
+                if (some){
+                    some.splice(idx, 1, a);
+                }
+
             });
         },
         onClick:function(item, key, idx){

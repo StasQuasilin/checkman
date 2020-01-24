@@ -31,7 +31,7 @@
             </tr>
             <tr>
                 <td>
-                    <div v-for="organisation in items[key]" class="block" v-on:click="edit(organisation.id)">
+                    <div v-for="organisation in items[key]" class="block" v-on:click="edit(organisation)">
                         {{organisation.value}}
                     </div>
                 </td>

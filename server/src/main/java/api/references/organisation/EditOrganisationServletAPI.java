@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import utils.U;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
+import utils.references.OrganisationNameChecker;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ import java.io.IOException;
 public class EditOrganisationServletAPI extends ServletAPI {
 
     private final UpdateUtil updateUtil = new UpdateUtil();
+    private final OrganisationNameChecker checker = new OrganisationNameChecker();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,17 +38,24 @@ public class EditOrganisationServletAPI extends ServletAPI {
             boolean isNew = false;
             boolean save = false;
             if (id != null) {
-                organisation = dao.getOrganisationById(id);
+                organisation = dao.getObjectById(Organisation.class, id);
             } else {
                 organisation = new Organisation();
                 organisation.setCreate(new ActionTime(getWorker(req)));
                 isNew = true;
             }
 
-            String name = String.valueOf(body.get(Constants.NAME));
+            String name = String.valueOf(body.get(NAME));
             name = name.trim().toUpperCase();
+
             if (!U.exist(organisation.getName()) || !organisation.getName().equals(name)) {
                 organisation.setName(name);
+                save = true;
+            }
+
+            String fullName = String.valueOf(body.get(FULL_NAME));
+            if (!U.exist(organisation.getFullName()) || !organisation.getFullName().equals(fullName)){
+                organisation.setFullName(name);
                 save = true;
             }
 
@@ -70,6 +79,10 @@ public class EditOrganisationServletAPI extends ServletAPI {
                     organisationType.setName(type);
                     dao.save(organisationType);
                 }
+            }
+
+            if (checker.check(organisation)){
+                dao.save(organisation);
             }
 
             IAnswer answer = new SuccessAnswer(RESULT, organisation.toJson());

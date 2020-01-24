@@ -20,6 +20,7 @@ public class SummaryList extends IUIServlet {
 
 	final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
 	public static final String _CONTENT = "/pages/summary/summaryList.jsp";
+	private static final String _STATIC = "/pages/summary/staticCalendar.jsp";
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String r = String.valueOf(req.getSession().getAttribute(ROLE));
@@ -39,6 +40,7 @@ public class SummaryList extends IUIServlet {
 		req.setAttribute(TITLE, Titles.SUMMARY_LIST);
 		req.setAttribute(TYPES, DealType.values());
 		req.setAttribute(CONTENT, _CONTENT);
+		req.setAttribute(STATIC_CONTENT, _STATIC);
 		req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
 		req.setAttribute(SUBSCRIBE, subscribers);
 		req.setAttribute(CUSTOMERS, TransportCustomer.values());

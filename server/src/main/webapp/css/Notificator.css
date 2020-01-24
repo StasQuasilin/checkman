@@ -1,0 +1,59 @@
+.notification-line{
+    z-index: 102;
+    position: absolute;
+    left: 30pt;
+    bottom: 0;
+    padding: 0 2pt;
+}
+.notification-line:hover .notification-close-all{
+    display: block;
+    background-color: white;
+}
+.notification-close-all{
+    display: none;
+    width: 100%;
+    text-align: center;
+    font-size: 10pt;
+}
+.notification-line .mini-close{
+    float: right;
+}
+.notification-line-item{
+    border: solid gray 1pt;
+    background-color: coral;
+    width: 282px;
+    border-radius: 4pt;
+    margin: 2pt 0;
+    overflow: hidden;
+}
+.notification-line-item:hover{
+    box-shadow: black 0 0 2pt;
+}
+.notification-line-item:hover{
+    visibility: visible;
+    transition-delay: 0s;
+}
+.notification-title{
+    background-color: white;
+    padding: 0 2pt;
+}
+.notification-time{
+    font-size: 10pt;
+    font-weight: bold;
+    color: dimgray;
+}
+.notification-text{
+    padding: 2pt;
+}
+.notification-line .slide-fade-enter-active {
+    transition: all .3s ease;
+}
+.notification-line .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.notification-line .slide-fade-enter,
+.slide-fade-leave-to
+    /* .slide-fade-leave-active до версии 2.1.8 */ {
+    transform: translateX(-100%);
+    opacity: 0;
+}
