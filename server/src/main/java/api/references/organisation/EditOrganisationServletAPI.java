@@ -81,10 +81,6 @@ public class EditOrganisationServletAPI extends ServletAPI {
                 }
             }
 
-            if (checker.check(organisation)){
-                dao.save(organisation);
-            }
-
             IAnswer answer = new SuccessAnswer(RESULT, organisation.toJson());
             JSONObject json = answer.toJson();
             write(resp, json.toJSONString());

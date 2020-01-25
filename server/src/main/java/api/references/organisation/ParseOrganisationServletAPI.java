@@ -43,17 +43,9 @@ public class ParseOrganisationServletAPI extends ServletAPI {
         if (body != null) {
             log.info(body);
             Organisation organisation = parseOrganisation(String.valueOf(body.get(KEY)), dao, getWorker(req));
-            String notificationText;
 
             Worker worker = getWorker(req);
-            String value = organisation.getValue();
-            if (checker.check(organisation)){
-                dao.save(organisation);
-                notificationText = String.format(lb.get(worker.getLanguage(), SUCCESS_BUT_LONG), value, organisation.getValue());
-            } else {
-                notificationText = String.format(lb.get(worker.getLanguage(), SUCCESS_NOTIFICATION), organisation.getValue());
-            }
-
+            String notificationText = String.format(lb.get(worker.getLanguage(), SUCCESS_NOTIFICATION), organisation.getValue());
             notificator.sendNotification(worker, new Notification(notificationText).toJson());
 
             JSONObject json = new SuccessAnswer(RESULT, organisation.toJson()).toJson();

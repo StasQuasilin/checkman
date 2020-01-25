@@ -140,7 +140,7 @@ public interface Constants {
     String FIND_MANGER = "findManager";
     String FIND_ORGANISATION = "findOrganisation";
     String PARSE_ORGANISATION = "parseOrganisation";
-    String EDIT_ORGANISATION = "editOrganisaiton";
+    String EDIT_ORGANISATION = "editOrganisation";
     String PATH = "path";
     String IS_NEW = "isNew";
     String EDIT_ADDRESS = "editAddress";
