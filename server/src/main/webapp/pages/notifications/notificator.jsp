@@ -25,6 +25,6 @@
     </div>
     <script src="${context}/vue/notificator.vue"></script>
     <script>
-        notificator.test();
+        //notificator.test();
     </script>
 </html>

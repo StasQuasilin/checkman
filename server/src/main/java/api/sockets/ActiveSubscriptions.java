@@ -98,11 +98,11 @@ public class ActiveSubscriptions {
             }
         }
     }
-    public synchronized void send(Subscriber sub, Worker worker, Object message) throws IOException {
-        send(sub, worker.getId(), message);
+    public synchronized boolean send(Subscriber sub, Worker worker, Object message) throws IOException {
+        return send(sub, worker.getId(), message);
     }
 
-    public synchronized void send(Subscriber sub, int worker, Object message) throws IOException {
+    public synchronized boolean send(Subscriber sub, int worker, Object message) throws IOException {
         if (byWorker.containsKey(worker)) {
             String prepareMessage = prepareMessage(sub, message);
             for (Session session : byWorker.get(worker)){
@@ -110,7 +110,9 @@ public class ActiveSubscriptions {
                     session.getBasicRemote().sendText(prepareMessage);
                 }
             }
+            return true;
         }
+        return false;
     }
 
     public static String prepareMessage(Subscriber type, Object msg){

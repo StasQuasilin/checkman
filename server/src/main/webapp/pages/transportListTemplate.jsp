@@ -114,7 +114,6 @@
 </script>
 
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
-<c:set var="organisationTitle"><fmt:message key="deal.organisation"/></c:set>
     <div id="container">
         <div v-if="loading" style="color: darkgray; text-align: center; width: 100%">
             Loading...
@@ -134,7 +133,8 @@
                         <span :title="new Date(value.item.date).toLocaleDateString()">
                             {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
                         </span>
-                        <span style="width: 20em" title="${organisationTitle}">
+                        <span style="width: 20em">
+                            <fmt:message key="deal.organisation"/>:
                             <b>
                                 {{value.item.organisation.value}}
                             </b>
@@ -177,6 +177,13 @@
                         </div>
                         <transport-view :item="value.item" :fields="fields" :customers="customers"></transport-view>
                     </div>
+                    <div>
+                        &nbsp;
+                        <div style="font-size: 8pt; float: right">
+                            <fmt:message key="deal.manager"/>:
+                            {{value.item.manager.person.value}}
+                        </div>
+                    </div>
                     <div class="lower-row" v-if="value.item.notes.length > 0">
                         <a v-for="note in value.item.notes" v-on:click="editComment(note)" style="display: inline-block; padding-left: 4pt">
                         <span v-if="note.creator.person">
@@ -204,9 +211,7 @@
                                 ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
                             </div>
                         </div>
-                        <div style="font-size: 10pt">
-                            {{value.item.manager.person.value}}
-                        </div>
+
                     </div>
 
                     <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>

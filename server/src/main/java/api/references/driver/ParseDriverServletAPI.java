@@ -33,9 +33,11 @@ public class ParseDriverServletAPI extends ServletAPI {
         if(body != null) {
             String key = String.valueOf(body.get(Constants.KEY));
             Driver driver = VehicleParser.parseDriver(key);
+
             JSONObject json = driver.toJson();
             SuccessAnswer successAnswer = new SuccessAnswer(RESULT, json);
             successAnswer.add(DRIVER, json);
+            successAnswer.add(IS_NEW, true);
             JSONObject object = successAnswer.toJson();
             write(resp, object.toJSONString());
             pool.put(object);
