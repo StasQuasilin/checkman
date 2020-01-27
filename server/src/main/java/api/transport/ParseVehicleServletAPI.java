@@ -36,15 +36,7 @@ public class ParseVehicleServletAPI extends ServletAPI {
             if (vehicle.getTrailer() != null){
                 dao.save(vehicle.getTrailer());
             }
-            if (!U.exist(vehicle.getModel())){
-                ArrayList<TruckInfo> infos = infoUtil.getInfo(vehicle.getNumber());
-                if (infos.size() == 1){
-                    TruckInfo info = infos.get(0);
-                    if (U.exist(info.getBrand())){
-                        vehicle.setModel(info.getBrand());
-                    }
-                }
-            }
+
             dao.save(vehicle);
             JSONObject json = vehicle.toJson();
             SuccessAnswer answer = new SuccessAnswer(VEHICLE, json);
@@ -58,6 +50,18 @@ public class ParseVehicleServletAPI extends ServletAPI {
                 TransportUtil.setVehicle(plan.getTransportation(), vehicle);
                 dao.save(plan.getTransportation());
                 updateUtil.onSave(plan.getTransportation());
+            }
+
+            if (!U.exist(vehicle.getModel())){
+                ArrayList<TruckInfo> infos = infoUtil.getInfo(vehicle.getNumber());
+                if (infos.size() == 1){
+                    TruckInfo info = infos.get(0);
+                    if (U.exist(info.getBrand())){
+                        vehicle.setModel(info.getBrand());
+                        dao.save(vehicle);
+                        updateUtil.onSave(vehicle);
+                    }
+                }
             }
         }
     }

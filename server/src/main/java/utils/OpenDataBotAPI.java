@@ -57,18 +57,13 @@ public class OpenDataBotAPI {
                                 info.setNumber(number);
                                 info.setCategory(String.valueOf(o.get("rankCategory")));
                                 info.setColor(String.valueOf(o.get("color")));
-                                info.setWeight(Integer.parseInt(String.valueOf(o.get("totalWeight"))));
                                 info.setYear(String.valueOf(o.get("makeYear")));
                                 info.setDocument(String.valueOf(o.get("number")));
-                                if (o.containsKey("fuel")) {
-                                    info.setFuel(String.valueOf(o.get("fuel")));
-                                }
                                 info.setKind(String.valueOf(o.get("kind")));
                                 info.setVin(String.valueOf(o.get("vin")));
                                 info.setBrand(String.valueOf(o.get("brand")));
                                 info.setModel(String.valueOf(o.get("model")));
                             }
-                            
                         }
                     }
 

@@ -16,7 +16,9 @@
     data:{
       api:{},
       input:'',
-      answer:{}
+      answer:[],
+      isCheck:false,
+      noResult:''
     },
     methods:{
       keys:function(){
@@ -26,12 +28,14 @@
         const self = this;
         PostApi(this.api.check, {value:this.input}, function(a){
           console.log(a);
+          self.isCheck = true;
           self.answer = a.result;
         })
       }
     }
   });
   checker.api.check= '${check}';
+  checker.noResult = '<fmt:message key="checker.no.result"/>'
 </script>
 <table id="checker">
   <tr>
@@ -44,14 +48,53 @@
       <input id="input" v-model="input" autocomplete="off" onfocus="this.select()">
     </td>
   </tr>
-  <tr v-for="key in keys()">
-    <td>
-      {{key}}
-    </td>
-    <td>
-      {{answer[key]}}
-    </td>
-  </tr>
+  <template v-if="isCheck">
+    <template v-if="answer.length > 0" v-for="(a, key) in answer">
+      <tr>
+        <td colspan="2" style="background-color: #7fd0d0">
+          {{key + 1}}. {{a.brand}}&nbsp;{{a.model}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <fmt:message key="truck.color"/>
+        </td>
+        <td>
+          {{a.color}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <fmt:message key="year"/>
+        </td>
+        <td>
+          {{a.year}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <fmt:message key="truck.document"/>
+        </td>
+        <td>
+          {{a.document}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          VIN
+        </td>
+        <td>
+          {{a.vin}}
+        </td>
+      </tr>
+    </template>
+    <tr v-else>
+      <td colspan="2">
+        {{noResult}}
+      </td>
+    </tr>
+  </template>
+
   <tr>
     <td colspan="2" align="center">
       <button onclick="closeModal()">

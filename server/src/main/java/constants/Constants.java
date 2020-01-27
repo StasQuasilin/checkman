@@ -187,6 +187,9 @@ public interface Constants {
     String WEIGHT_BRUTTO = WEIGHT + SLASH + BRUTTO;
     String WEIGHT_TARA = WEIGHT + SLASH + TARA;
     String DOCUMENT = "document";
+    String YEAR = "year";
+    String KIND = "kind";
+    String COLOR = "color";
     String SHIPPER = "shipper";
     String AMOUNT = "amount";
     String TURN = "turn";
@@ -202,6 +205,7 @@ public interface Constants {
     String LICENSE = "license";
     String TRUCK = "truck";
     String MODEL = "model";
+    String CATEGORY = "category";
     String TRAILER = "trailer";
     String TRAILERS = "trailers";
     String OWNER = "owner";

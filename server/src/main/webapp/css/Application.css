@@ -1,5 +1,5 @@
 *{
-    font-family: SegouUI, monospace;
+    font-family: Andale Mono, monospace;
     color: #333333;
     user-select: none;
     -moz-user-select: -moz-none;
@@ -40,8 +40,15 @@ button:focus, input:focus{
 
 }
 .header {
-    padding: 2pt 8pt;
+    padding-left: 8pt;
+    padding-top: 1.5pt;
+    padding-bottom: 1.5pt;
     display: inline-block;
+}
+.head-data{
+    display: inline-flex;
+    vertical-align: top;
+    padding: 6pt 0;
 }
 .header-content{
     font-size: 18pt;

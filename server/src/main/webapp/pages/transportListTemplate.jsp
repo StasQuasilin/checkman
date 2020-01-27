@@ -112,7 +112,12 @@
         list.loading = true;
     }
 </script>
-
+<style>
+    .label{
+        font-size: 8pt;
+        color: grey;
+    }
+</style>
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
     <div id="container">
         <div v-if="loading" style="color: darkgray; text-align: center; width: 100%">
@@ -134,28 +139,33 @@
                             {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
                         </span>
                         <span style="width: 20em">
-                            <fmt:message key="deal.organisation"/>:
+                            <span class="label">
+                                <fmt:message key="deal.organisation"/>:
+                            </span>
+
                             <b>
                                 {{value.item.organisation.value}}
                             </b>
                         </span>
                         <span class="product-line" style="float: right;">
-                            <span v-if="types[value.item.type]">
+                            <span v-if="types[value.item.type]" class="label">
                                 {{(types[value.item.type]).toLowerCase()}}
                             </span>
                             <b>
                                 {{value.item.product.name}}
-                                <span v-if="value.item.plan">
+                                <span v-if="value.item.plan" >
                                     {{value.item.plan}} {{value.item.unit}}
                                 </span>
                             </b>
                             <price-view :props="priceFields" :item="value.item"></price-view>
-                            <fmt:message key="deal.from"/>
+                            <span class="label">
+                                <fmt:message key="deal.from"/>
+                            </span>
                             {{value.item.shipper}}
                         </span>
                     </div>
                     <div class="middle-row">
-                        <div style="display: inline-block; font-size: 10pt; width: 8em">
+                        <div style="display: inline-block; font-size: 10pt; width: 7em" class="data-block">
                             <div>
                                 <fmt:message key="transportation.time.in"/>:
                                 <span v-if="value.item.timeIn.time">

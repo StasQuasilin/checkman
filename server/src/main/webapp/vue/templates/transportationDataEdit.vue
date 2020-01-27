@@ -15,36 +15,42 @@ var transportView = {
     template:
     '<div style="display: inline-block; font-size: 10pt;">' +
         '<div>'+
-            '<div style="display: inline-block;">' +
+            '<div style="display: inline-block;" class="data-block">' +
                 '<div style="padding: 3pt 0">' +
-                    '{{fields.driver}}: '+
+                    '<span class="label">' +
+                        '{{fields.driver}}:' +
+                    '</span>'+
                     '<object-input :props="fields.driverProps" :object="item.driver" :item="item"></object-input>' +
-
+                    '<span v-if="item.driver && item.driver.license">' +
+                        '/ {{item.driver.license}} /'+
+                    '</span>' +
                 '</div>' +
-                '<div>'+
-                    '{{fields.vehicle}}/{{fields.trailer}}: '+
+                '<div>' +
+                    '<span class="label"/>'+
+                        '{{fields.vehicle}}/{{fields.trailer}}:' +
+                    '</span>'+
                     '<object-input :props=fields.vehicleProps :object=item.vehicle :item="item"></object-input> '+
                     '<object-input :props=fields.trailerProps :object=item.trailer :item="item"></object-input>'+
                 '</div>'+
             '</div>'+
-            '<div style="display: inline-block; font-size: 10pt; padding-left: 4pt">'+
-                '<div>'+
-                    '{{fields.customer}}: '+
-                    '<span style="font-size: 12pt; font-weight: bold; width: 100%; text-align: center">'+
+            '<div style="display: inline-block; margin-left: 2pt" class="data-block">'+
+                '<div>' +
+                    '<span class="label">'+
+                        '{{fields.customer}}:' +
+                    '</span>'+
+                    '<span style="font-weight: bold; width: 100%; text-align: center">'+
                         '{{customers[item.customer]}}'+
                     '</span>'+
                 '</div>'+
-                '<div>'+
-                    '{{fields.transporter}}: ' +
+                '<div>' +
+                    '<span class="label">'+
+                        '{{fields.transporter}}:' +
+                    '</span>' +
                     '<object-input :props=fields.transporterProps :object=item.transporter :item="item"></object-input>'+
                 '</div>' +
             '</div>' +
         '</div>' +
-        '<div v-if="item.driver">' +
-            '<span v-if="item.driver.license">' +
-                '{{fields.license}}: ' +
-                '<b>{{item.driver.license}}</b>'+
-            '</span>' +
+        '<div v-if="item.driver" style="position: absolute">' +
             '<span v-if="item.driver.person.phones.length > 0">' +
                 '&#128222;' +
             '</span>'+

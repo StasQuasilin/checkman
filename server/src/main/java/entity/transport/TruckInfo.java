@@ -13,23 +13,15 @@ import java.sql.Date;
 @Table(name = "truck_info")
 public class TruckInfo extends JsonAble{
     private int id;
-    private Vehicle truck;
-    private String number;
-    private String brand;
     private String model;
+    private String year;
+    private String color;
+    private String vin;
+    private String brand;
+    private String kind;
     private String category;
     private String document;
-    private String year;
-    private String fuel;
-    private String kind;
-    private Date date;
-    private String color;
-    private int engineVolume;
-    private int weight;
-    private String action;
-    private String type;
-    private String body;
-    private String vin;
+    private String number;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,15 +30,6 @@ public class TruckInfo extends JsonAble{
     }
     public void setId(int id) {
         this.id = id;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "truck")
-    public Vehicle getTruck() {
-        return truck;
-    }
-    public void setTruck(Vehicle truck) {
-        this.truck = truck;
     }
 
     @Basic
@@ -74,15 +57,6 @@ public class TruckInfo extends JsonAble{
     }
     public void setModel(String model) {
         this.model = model;
-    }
-
-    @Basic
-    @Column(name = "fuel")
-    public String getFuel() {
-        return fuel;
-    }
-    public void setFuel(String fuel) {
-        this.fuel = fuel;
     }
 
     @Basic
@@ -122,66 +96,12 @@ public class TruckInfo extends JsonAble{
     }
 
     @Basic
-    @Column(name = "_date")
-    public Date getDate() {
-        return date;
-    }
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    @Basic
     @Column(name = "color")
     public String getColor() {
         return color;
     }
     public void setColor(String color) {
         this.color = color;
-    }
-
-    @Basic
-    @Column(name = "engine_volume")
-    public int getEngineVolume() {
-        return engineVolume;
-    }
-    public void setEngineVolume(int engineVolume) {
-        this.engineVolume = engineVolume;
-    }
-
-    @Basic
-    @Column(name = "weight")
-    public int getWeight() {
-        return weight;
-    }
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    @Basic
-    @Column(name = "_action")
-    public String getAction() {
-        return action;
-    }
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    @Basic
-    @Column(name = "type")
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @Basic
-    @Column(name = "body")
-    public String getBody() {
-        return body;
-    }
-    public void setBody(String body) {
-        this.body = body;
     }
 
     @Basic
@@ -197,21 +117,13 @@ public class TruckInfo extends JsonAble{
     public String toString() {
         return "TruckInfo{" +
                 "id=" + id +
-                ", truck=" + truck +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", category='" + category + '\'' +
                 ", document='" + document + '\'' +
                 ", year='" + year + '\'' +
-                ", fuel='" + fuel + '\'' +
                 ", kind='" + kind + '\'' +
-                ", date=" + date +
                 ", color='" + color + '\'' +
-                ", engineVolume=" + engineVolume +
-                ", weight=" + weight +
-                ", action='" + action + '\'' +
-                ", type='" + type + '\'' +
-                ", body='" + body + '\'' +
                 ", vin='" + vin + '\'' +
                 '}';
     }
@@ -221,6 +133,12 @@ public class TruckInfo extends JsonAble{
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(BRAND, brand);
+        json.put(MODEL, model);
+        json.put(CATEGORY, category);
+        json.put(DOCUMENT, document);
+        json.put(YEAR, year);
+        json.put(KIND, kind);
+        json.put(COLOR, color);
         json.put(VIN, vin);
         return json;
     }

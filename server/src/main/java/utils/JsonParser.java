@@ -259,7 +259,7 @@ public class JsonParser {
         return json;
     }
 
-    private JSONArray toNotesJson(Set<TransportationNote> notes) {
+    private JSONArray toNotesJson(List<TransportationNote> notes) {
         final JSONArray array = pool.getArray();
         if (notes != null) {
             for (TransportationNote note : notes) {

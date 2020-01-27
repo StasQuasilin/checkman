@@ -12,7 +12,9 @@ import entity.weight.Weight;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,7 +46,7 @@ public class Transportation {
     private MealAnalyses mealAnalyses;
     private Worker creator;
     private Worker manager;
-    private Set<TransportationNote> notes = new HashSet<>();
+    private List<TransportationNote> notes = new ArrayList<>();
     private Set<TransportStorageUsed> usedStorages = new HashSet<>();
     private boolean archive;
     private boolean done;
@@ -258,10 +260,10 @@ public class Transportation {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<TransportationNote> getNotes() {
+    public List<TransportationNote> getNotes() {
         return notes;
     }
-    public void setNotes(Set<TransportationNote> notes) {
+    public void setNotes(List<TransportationNote> notes) {
         this.notes = notes;
     }
 

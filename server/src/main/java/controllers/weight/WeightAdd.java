@@ -7,6 +7,7 @@ import entity.DealType;
 import entity.Role;
 import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
+import entity.transport.TransportationNote;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -15,6 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 18.04.2019.
@@ -40,6 +43,14 @@ public class WeightAdd extends IModal {
         } else if (copy != -1) {
             LoadPlan plan = dao.getLoadPlanById(copy);
             plan.setId(-1);
+            List<TransportationNote> notes = plan.getTransportation().getNotes();
+            for (int i = 0; i < notes.size();){
+                if (notes.get(i).getCreator() == null){
+                    notes.remove(i);
+                } else {
+                    i++;
+                }
+            }
             req.setAttribute(PLAN, plan);
             req.setAttribute(TITLE, "title.weight.copy");
         } else {
