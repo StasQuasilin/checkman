@@ -166,8 +166,8 @@
                 </span>
             </div>
             <div v-if="phoneEdit" v-on:blur="savePhone()">
-                <input id="phoneInput" v-model="editablePhone.number" style="width: 68%; border: none"
-                       v-on:keyup.enter="savePhone()" v-on:keyup.escape="addPhone()"
+                <input id="phoneInput" ref="phoneInput" v-model="editablePhone.number" style="width: 68%; border: none"
+                       v-on:keyup.enter="savePhone()" v-on:blur="savePhone()" v-on:keyup.escape="addPhone()"
                        autocomplete="off">
                 <span class="mini-close" v-on:click="addPhone()">
                     &times;

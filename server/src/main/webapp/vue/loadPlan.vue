@@ -1,5 +1,8 @@
 var plan = new Vue({
     el: '#load_plan',
+    components:{
+        'object-input':objectInput
+    },
     data: {
         api: {
             save: '',
@@ -23,7 +26,8 @@ var plan = new Vue({
         fnd:-1,
         upd:-1,
         picker:false,
-        worker:{}
+        worker:{},
+        filterDate:-1
     },
     methods:{
         handler:function(a){
@@ -42,12 +46,8 @@ var plan = new Vue({
 
         },
         newVehicle:function(){
-            var date = new Date();
-            if (date < this.dateFrom){
-                date = this.dateFrom;
-            }else if (date > this.dateTo){
-                date = this.dateTo;
-            }
+            var date = this.filterDate == -1 ? new Date() : new Date(this.filterDate);
+
             this.add({
                 id:-randomNumber(),
                 date: date.toISOString().substring(0, 10),
@@ -64,6 +64,54 @@ var plan = new Vue({
                     weight:{}
                 }
             })
+        },
+        itemsByDate:function(date){
+            var result = {
+                count:0,
+                weight:0
+            };
+            var items = this.plans.filter(function(item){
+                return item.item.date == date;
+            });
+            for (var i in items){
+                if (items.hasOwnProperty(i)){
+                    result.count++;
+                    result.weight+=parseInt(items[i].item.plan);
+                }
+            }
+            return result;
+        },
+        dates:function(){
+            var dates = [];
+            for (var i in this.plans){
+                if (this.plans.hasOwnProperty(i)){
+                    var date = this.plans[i].item.date;
+                    if(!dates.includes(date)){
+                        dates.push(date);
+                    }
+                }
+            }
+            dates.sort(function(a, b){
+                return new Date(b) - new Date(a);
+            });
+            return dates;
+        },
+        getPlans:function(){
+            if (this.filterDate == -1){
+                return this.plans;
+            } else {
+                const self = this;
+                return this.plans.filter(function(item){
+                    return item.item.date === self.filterDate;
+                })
+            }
+        },
+        selectDate:function(date){
+            if (this.filterDate === date){
+                this.filterDate = -1;
+            } else{
+                this.filterDate = date;
+            }
         },
         copy:function(idx){
             let p = Object.assign({}, this.plans[idx].item);
@@ -89,22 +137,12 @@ var plan = new Vue({
             this.sort();
             return p;
         },
-        initSaveTimer:function(key){
-            console.log('Init save for ' + key);
-            for (var i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    var plan = this.plans[i];
-                    if(plan.key === key){
-                        const p = plan;
-                        const self = this;
-                        clearTimeout(plan.saveTimer);
-                        plan.saveTimer = setTimeout(function(){
-                            self.save(p.item, key);
-                        }, 1500);
-                        break;
-                    }
-                }
-            }
+        initSaveTimer:function(item){
+            const self = this;
+            clearTimeout(item.saveTimer);
+            item.saveTimer = setTimeout(function(){
+                self.save(item.item);
+            }, 1500);
         },
         update:function(plan){
             var found = false;
@@ -136,38 +174,25 @@ var plan = new Vue({
                 this.plans.splice(id, 1);
             }
         },
-        save:function(item, key){
-            console.log('-------------');
-            console.log('Save');
-            const plan = item;
-            console.log(plan);
-            const self = this;
-            PostApi(this.api.save, {dealId : this.deal, plan : item},function(a){
-                console.log(a);
+        save:function(item){
+            var plan = Object.assign({}, item);
+            delete plan.transportation;
+            plan.driver = item.transportation.driver.id;
+            plan.vehicle = item.transportation.vehicle.id;
+            var transporter = -1;
+            if(item.transportation.transporter){
+                transporter = item.transportation.transporter.id;
+            }
+            plan.transporter = transporter;
+            plan.notes = Object.assign([], item.transportation.notes);
+
+            PostApi(this.api.save, {deal : this.deal, plan : plan},function(a){
                 if (a.status === 'success'){
                     if(a.id) {
                         plan.id = a.id;
                     }
                 }
             });
-        },
-        openVehicleInput:function(key){
-            console.log('open vi ' + key);
-            var any = false;
-            for (var i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    var plan = this.plans[i];
-                    if (plan.key === key){
-                        any = true;
-                    }
-                    plan.editVehicle = plan.key === key;
-                    plan.editDriver = false;
-                    plan.vehicleInput = '';
-                }
-            }
-            if (any) {
-                this.focusInput();
-            }
         },
         focusInput:function(){
             setTimeout(function(){
@@ -179,131 +204,32 @@ var plan = new Vue({
                 }
             }, 500)
         },
-        closeVehicleInput:function(key){
-            this.plans[key].editVehicle = false;
-            this.plans[key].vehicleInput = '';
-            this.foundVehicles=[];
+        setDriver:function(driver, item){
+            item.item.transportation.driver = driver;
+            if(driver.vehicle && item.item.transportation.vehicle.id == -1){
+                this.setVehicle(driver.vehicle, item);
+            }else{
+                this.initSaveTimer(item);
+            }
+            if (driver.organisation && !item.item.transportation.transporter || item.item.transportation.transporter.id == -1){
+                this.setTransporter(driver.organisation);
+            }
         },
-        findVehicle:function(input){
-            clearTimeout(this.fnd);
-            if (input) {
-                const self = this;
-                this.fnd = setTimeout(function () {
-                    PostApi(self.api.findVehicle, {key: input}, function (a) {
-                        self.foundVehicles = a;
-                    })
-                }, 500)
+        setVehicle:function(vehicle, item){
+            item.item.transportation.vehicle = vehicle;
+            if (vehicle.trailer && item.item.transportation.trailer.id == -1){
+                this.setTrailer(vehicle.trailer, item);
             } else {
-                this.foundVehicles=[]
-            }
-
-        },
-        editVehicle:function(id){
-            const vehicle = this.plans[id].item.transportation.vehicle;
-            const _id = id;
-            const self = this;
-            if (vehicle.id){
-                loadModal(this.api.editVehicle, {id: vehicle.id}, function(a){
-                    self.plans[_id].item.transportation.vehicle = a;
-                })
+                this.initSaveTimer(item);
             }
         },
-        editDriver:function(id){
-            const driver = this.plans[id].item.transportation.driver;
-            const _id= id;
-            const self = this;
-            if (driver.id){
-                loadModal(this.api.editDriver, {id: driver.id},function(a){
-                    self.plans[_id].item.transportation.driver = a;
-                })
-            }
+        setTrailer:function(trailer, item){
+            item.item.transportation.trailer = trailer;
+            this.initSaveTimer(item);
         },
-        setVehicle:function(vehicle, id){
-            console.log('---------');
-            console.log('Set vehicle');
-            console.log(vehicle);
-            console.log('---------');
-            const _key = this.plans[id].key;
-            this.plans[id].item.transportation.vehicle = vehicle;
-            this.closeVehicleInput(id);
-            this.initSaveTimer(_key);
-        },
-        parseVehicle:function(value, key){
-            if (value) {
-                const self = this;
-                console.log('Parse ' + value);
-                PostApi(this.api.parseVehicle, {key: value}, function (a) {
-                    console.log(a);
-                    if (a.status === 'success'){
-                        if (a.vehicle) {
-                            self.setVehicle(a.vehicle, key);
-                        } else {
-                            console.log('Alarm!!! Vehicle not set');
-                        }
-                    }
-
-                })
-            }
-        },
-        openDriverInput:function(key){
-            for (var i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    var plan = this.plans[i];
-                    plan.editDriver = plan.key === key;
-                    plan.editVehicle = false;
-                    plan.driverInput = '';
-                }
-            }
-            this.focusInput();
-        },
-        closeDriverInput:function(key){
-            this.plans[key].editDriver = false;
-            this.plans[key].driverInput = '';
-            this.foundDrivers=[];
-        },
-        findDriver:function(input){
-            clearTimeout(this.fnd);
-            if (input) {
-                const self = this;
-                this.fnd = setTimeout(function () {
-                    PostApi(self.api.findDriver, {key : input}, function (a) {
-                        self.foundDrivers = a;
-                    })
-                }, 500)
-            } else {
-                this.foundDrivers=[];
-            }
-        },
-        setDriver:function(driver, key){
-            let plan = this.plans[key];
-            plan.item.transportation.driver = driver;
-            this.closeDriverInput(key);
-            this.initSaveTimer(plan.key);
-            if(driver.vehicle && plan.item.transportation.vehicle.id == -1){
-                this.setVehicle(driver.vehicle, key);
-            }
-        },
-        parseDriver:function(value, key){
-            if(value) {
-                const self = this;
-                PostApi(this.api.parseDriver, {key: value}, function (a) {
-                    console.log(a);
-                    if (a.status === 'success'){
-                        if (a.driver){
-                            self.setDriver(a.driver, key);
-                        } else {
-                            console.log('Alarm!!! Driver not set!!!')
-                        }
-                    }
-
-                })
-            }
-        },
-        cancelVehicle:function(id){
-            this.openVehicleInput(this.plans[id].key)
-        },
-        cancelDriver:function(id){
-            this.openDriverInput(this.plans[id].key);
+        setTransporter:function(transporter, item){
+            item.item.transportation.transporter = transporter;
+            this.initSaveTimer(item);
         },
         weight:function(item){
             if (item.weight == 'undefined') {
@@ -362,14 +288,13 @@ var plan = new Vue({
             console.log('Stop load plan');
             clearTimeout(this.upd);
         },
-        dateTimePicker:function(key){
+        dateTimePicker:function(item){
             const self = this;
-            const _key = this.plans[key].key;
             datepicker.show(function (date) {
-                self.plans[key].item.date = date;
+                item.item.date = date;
                 self.sort();
-                self.initSaveTimer(_key);
-            }, this.plans[key].item.date)
+                self.initSaveTimer(item);
+            }, item.item.date)
         },
         sort:function(){
             this.plans.sort(function(a, b){
@@ -415,17 +340,16 @@ var plan = new Vue({
                 }
             }
         },
-        saveNote:function(key){
-            var plan = this.plans[key];
-            if (plan.noteInput) {
-                plan.item.transportation.notes.push({
+        saveNote:function(item){
+            if (item.noteInput) {
+                item.item.transportation.notes.push({
                     id: -randomNumber(),
                     creator: this.worker,
-                    note: plan.noteInput
+                    note: item.noteInput
                 });
-                plan.noteInput = '';
-                plan.editNote = false;
-                this.initSaveTimer(plan.key);
+                item.noteInput = '';
+                item.editNote = false;
+                this.initSaveTimer(item);
             }
         },
         closeNote:function(key){
@@ -435,9 +359,9 @@ var plan = new Vue({
                 }
             }
         },
-        removeNote:function(key, id){
-            var p = this.plans[key].item.transportation.notes.splice(id, 1);
-            this.initSaveTimer(this.plans[key].key);
+        removeNote:function(item, id){
+            item.item.transportation.notes.splice(id, 1);
+            this.initSaveTimer(item);
         }
 
     }

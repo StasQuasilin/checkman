@@ -24,7 +24,7 @@ public class LoadPlanComparator extends IChangeComparator<LoadPlan> {
     public void fix(LoadPlan oldObject) {
         newPlan = oldObject == null;
         if (!newPlan){
-            date = DateUtil.prettyDate(oldObject.date);
+            date = DateUtil.prettyDate(oldObject.getDate());
             dealId = oldObject.getDeal().getId();
             plan = oldObject.getPlan();
             customer = oldObject.getCustomer();

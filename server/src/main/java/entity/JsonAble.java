@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 public abstract class JsonAble implements Constants{
 
     public static JsonPool pool = JsonPool.getPool();
-    public abstract JSONObject toJson();
-    public JSONArray toJson(Set<JsonAble> set){
-        JSONArray array = pool.getArray();
-        array.addAll(set.stream().map(JsonAble::toJson).collect(Collectors.toList()));
-        return array;
+    public static final JSONObject EMPTY_OBJECT = pool.getObject();
+    static {
+        EMPTY_OBJECT.put(ID, -1);
+
     }
+    public abstract JSONObject toJson();
 }

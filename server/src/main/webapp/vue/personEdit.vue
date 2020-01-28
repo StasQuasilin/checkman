@@ -104,30 +104,40 @@ var editor = new Vue({
                     id:-1,
                     number:''
                 }
+            } else {
+                const self = this;
+
+                setTimeout(function(){
+                    self.$refs['phoneInput'].select()
+                }, 20)
             }
         },
         savePhone:function(){
-            const self = this;
-            this.editablePhone.person = this.person.id;
-            PostApi(this.api.editPhone, this.editablePhone, function(a){
-                let data = a.result;
-                let found = false;
-                for (let i in self.person.phones){
-                    if (self.person.phones.hasOwnProperty(i)){
-                        let phone = self.person.phones[i];
-                        if (phone.id == data.id){
-                            found = true;
-                            self.person.phones.splice(i, 1, data);
+            if (this.editablePhone.number) {
+                const self = this;
+                this.editablePhone.person = this.person.id;
+                PostApi(this.api.editPhone, this.editablePhone, function (a) {
+                    let data = a.result;
+                    let found = false;
+                    for (let i in self.person.phones) {
+                        if (self.person.phones.hasOwnProperty(i)) {
+                            let phone = self.person.phones[i];
+                            if (phone.id == data.id) {
+                                found = true;
+                                self.person.phones.splice(i, 1, data);
 
-                            break;
+                                break;
+                            }
                         }
                     }
-                }
-                if (!found){
-                    self.person.phones.push(data);
-                }
-                self.addPhone();
-            });
+                    if (!found) {
+                        self.person.phones.push(data);
+                    }
+                    self.addPhone();
+                });
+            } else {
+                this.addPhone();
+            }
         },
         editPhone:function(phone, idx){
             this.person.phones.splice(idx, 1);

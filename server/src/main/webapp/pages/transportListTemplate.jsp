@@ -115,7 +115,6 @@
 <style>
     .label{
         font-size: 8pt;
-        color: grey;
     }
 </style>
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>

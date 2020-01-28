@@ -38,7 +38,7 @@ var transportView = {
                     '<span class="label">'+
                         '{{fields.customer}}:' +
                     '</span>'+
-                    '<span style="font-weight: bold; width: 100%; text-align: center">'+
+                    '<span style="font-weight: bold; font-size: 13pt; width: 100%; text-align: center">'+
                         '{{customers[item.customer]}}'+
                     '</span>'+
                 '</div>'+

@@ -10,6 +10,7 @@ import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.log.comparators.LoadPlanComparator;
 import entity.log.comparators.TransportationComparator;
+import entity.organisations.Organisation;
 import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -43,23 +44,19 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
 
         if(body != null) {
             log.info(body);
-            long dealId = (long) body.get(Constants.DEAL_ID);
-            Deal deal = dao.getDealById(dealId);
+            Deal deal = dao.getObjectById(Deal.class, body.get(DEAL));
             log.info("Save load plan for deal \'" + deal.getId() + "\'...");
             Worker worker = getWorker(req);
 
-            JSONObject json = (JSONObject) body.get("plan");
+            JSONObject json = (JSONObject) body.get(PLAN);
             long id = -1;
             if (json.containsKey(Constants.ID)) {
                 id = (long) json.get(Constants.ID);
             }
 
             boolean save = false;
-            LoadPlan loadPlan = null;
+            LoadPlan loadPlan = dao.getObjectById(LoadPlan.class, json.get(ID));
             Transportation transportation;
-            if (id != -1) {
-                loadPlan = dao.getLoadPlanById(id);
-            }
             if (loadPlan == null){
                 loadPlan = new LoadPlan();
                 loadPlan.setUid(DocumentUIDGenerator.generateUID());
@@ -97,35 +94,23 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 loadPlan.setCustomer(customer);
                 save = true;
             }
-            JSONObject transportationJSON = (JSONObject) json.get("transportation");
 
-            Vehicle vehicle = null;
-            if (transportationJSON.containsKey("vehicle")) {
-                JSONObject vehicleJson = (JSONObject) transportationJSON.get("vehicle");
-                long vehicleId = -1;
-                if (vehicleJson.containsKey("id")) {
-                    vehicle = dao.getObjectById(Vehicle.class, vehicleJson.get(ID));
-                }
-            }
-            Driver driver = null;
-            if (transportationJSON.containsKey("driver")) {
-                JSONObject driverJson = (JSONObject) transportationJSON.get("driver");
-                long driverId = -1;
-                if (driverJson.containsKey("id")) {
-                    driverId = (long) driverJson.get("id");
-                }
-                if (driverId != -1) {
-                    driver = dao.getObjectById(Driver.class, driverId);
-                }
-            }
+            Vehicle vehicle = dao.getObjectById(Vehicle.class, json.get(VEHICLE));
 
             if (vehicle != null){
                 TransportUtil.setVehicle(transportation, vehicle);
                 save = true;
             }
 
+            Driver driver = dao.getObjectById(Driver.class, json.get(DRIVER));
             if (driver != null) {
                 TransportUtil.setDriver(transportation, driver);
+                save = true;
+            }
+
+            Organisation transporter = dao.getObjectById(Organisation.class, json.get(TRANSPORTER));
+            if (transporter != null){
+                TransportUtil.setTransporter(transportation, transporter);
                 save = true;
             }
 
@@ -136,7 +121,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
 
             final HashSet<TransportationNote> notes = new HashSet<>();
             notes.addAll(dao.getTransportationNotesByTransportation(transportation));
-            for (Object n : (JSONArray)transportationJSON.get("notes")){
+            for (Object n : (JSONArray)json.get("notes")){
                 JSONObject nj = (JSONObject) n;
                 Object noteId = null;
                 if (nj.containsKey(Constants.ID)){

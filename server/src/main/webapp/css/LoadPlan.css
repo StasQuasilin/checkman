@@ -1,5 +1,4 @@
 .plan-wrapper{
-    padding-left: 24pt;
 
 }
 .plan-wrapper .upper{
@@ -15,14 +14,14 @@
 }
 .plan-container{
     border: solid gray 1pt;
-    width: 100%;
+    width: 500px;
     height: 300pt;
     overflow-y: scroll;
 }
 .plan-item{
     margin: 2pt;
     font-size: 10pt;
-    background-color: #a2e8b8;
+    border: solid black 1pt;
 }
 .minus-button{
     min-width: 0;

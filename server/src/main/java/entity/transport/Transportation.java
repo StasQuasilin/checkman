@@ -1,6 +1,7 @@
 package entity.transport;
 
 import entity.DealType;
+import entity.JsonAble;
 import entity.Worker;
 import entity.documents.Shipper;
 import entity.laboratory.MealAnalyses;
@@ -9,6 +10,8 @@ import entity.laboratory.SunAnalyses;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.weight.Weight;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -16,13 +19,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
 @Table(name = "transportations")
-public class Transportation {
+public class Transportation extends JsonAble {
     private int id;
     private Date date;
     private Organisation counterparty;
@@ -316,5 +320,33 @@ public class Transportation {
     }
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        if (driver != null) {
+            object.put(DRIVER, driver.toJson());
+        } else {
+            object.put(DRIVER, EMPTY_OBJECT);
+        }
+        if (vehicle != null) {
+            object.put(VEHICLE, vehicle.toJson());
+        }else {
+            object.put(VEHICLE, EMPTY_OBJECT);
+        }
+        if (trailer != null){
+            object.put(TRAILER, trailer.toJson());
+        } else {
+            object.put(TRAILER, EMPTY_OBJECT);
+        }
+        if (transporter != null) {
+            object.put(TRANSPORTER, transporter.toJson());
+        }else {
+            object.put(TRANSPORTER, EMPTY_OBJECT);
+        }
+        object.put(NOTES,notes.stream().map(TransportationNote::toJson).collect(Collectors.toList()));
+        return object;
     }
 }

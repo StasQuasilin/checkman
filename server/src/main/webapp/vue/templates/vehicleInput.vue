@@ -114,7 +114,7 @@ var objectInput = {
             '</span>' +
         '</span>' +
         '<div v-else style="display: inline-block">'+
-            '<div v-if="open" style="display: inline-block" v-on:blur="closeInput()">' +
+            '<div v-if="open" style="display: inline-block; position: relative;" v-on:blur="closeInput()">' +
                 '<input v-model="input" autocomplete="off" ref="input"' +
                     'v-on:keyup="findObject()" v-on:keyup.escape="closeInput()"' +
                     ':class="{error : error}" v-on:click="error = false"' +

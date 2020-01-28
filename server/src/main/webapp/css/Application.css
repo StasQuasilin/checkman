@@ -144,10 +144,12 @@ button:focus, input:focus{
 }
 .object-block{
     font-size: 10pt;
+    display: inline-block;
     background-color: white;
     padding: 0 4pt;
     border-radius: 8pt;
     border: solid 1pt;
+    margin-top: 1pt;
 }
 .context-menu{
     font-size: 10pt;

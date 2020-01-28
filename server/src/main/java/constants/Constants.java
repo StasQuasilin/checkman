@@ -101,6 +101,7 @@ public interface Constants {
     String ORGANISATION = "organisation";
     String TYPE = "type";
     String PLAN = "plan";
+    String PLANS = "plans";
     String CUSTOMER = "customer";
     String CUSTOMERS = "customers";
     String TRANSPORTATION_ID = "transportation_id";

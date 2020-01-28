@@ -82,7 +82,9 @@ public class TransportationNote extends JsonAble{
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put(NOTE, note);
-        object.put(CREATOR, creator.getValue());
+        if(creator != null){
+            object.put(CREATOR, creator.getValue());
+        }
         return object;
     }
 }
