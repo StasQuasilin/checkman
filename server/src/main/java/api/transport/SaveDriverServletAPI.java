@@ -51,11 +51,17 @@ public class SaveDriverServletAPI extends ServletAPI {
             person.setSurname(String.valueOf(body.get(Constants.SURNAME)));
             log.info("\t...Surname:" + driver.getPerson().getSurname());
 
-            person.setForename(String.valueOf(body.get(Constants.FORENAME)));
-            log.info("\t...Forename:" + driver.getPerson().getForename());
+            Object fore = body.get(Constants.FORENAME);
+            if (fore != null) {
+                person.setForename(String.valueOf(fore));
+                log.info("\t...Forename:" + driver.getPerson().getForename());
+            }
 
-            person.setPatronymic(String.valueOf(body.get(Constants.PATRONYMIC)));
-            log.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
+            Object patron = body.get(Constants.PATRONYMIC);
+            if (patron != null) {
+                person.setPatronymic(String.valueOf(patron));
+                log.info("\t...Patronymic:" + driver.getPerson().getPatronymic());
+            }
 
             String license = String.valueOf(body.get("license"));
             if (U.exist(license)){
@@ -82,8 +88,13 @@ public class SaveDriverServletAPI extends ServletAPI {
                 if (vehicle != null) {
                     if (body.containsKey(TRAILER)) {
                         Trailer trailer = dao.getObjectById(Trailer.class, body.get(TRAILER));
-                        if (vehicle.getTrailer() == null || vehicle.getTrailer().getId() != trailer.getId()) {
-                            vehicle.setTrailer(trailer);
+                        if (trailer != null) {
+                            if (vehicle.getTrailer() == null || (vehicle.getTrailer().getId() != trailer.getId())) {
+                                vehicle.setTrailer(trailer);
+                                dao.save(vehicle);
+                            }
+                        } else {
+                            vehicle.setTrailer(null);
                             dao.save(vehicle);
                         }
                     } else {

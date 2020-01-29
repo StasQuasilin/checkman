@@ -2,6 +2,7 @@ package utils;
 
 import entity.Person;
 import entity.PhoneNumber;
+import org.apache.log4j.Logger;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -10,14 +11,15 @@ import utils.hibernate.dbDAOService;
  */
 public class PhoneCreateUtil {
 
+    private final Logger log = Logger.getLogger(PhoneCreateUtil.class);
     private dbDAO dao = dbDAOService.getDAO();
-
     public void createPhone(String phone, Person person){
         createPhone(null, phone, person);
     }
 
-    public void  createPhone(PhoneNumber phoneNumber, String number, Person person){
+    public PhoneNumber createPhone(PhoneNumber phoneNumber, String number, Person person){
         if (phoneNumber == null){
+            log.info("Create new Phone number");
             phoneNumber = new PhoneNumber();
             phoneNumber.setPerson(person);
         }
@@ -31,5 +33,6 @@ public class PhoneCreateUtil {
         phoneNumber.setNumber(builder.toString());
 
         dao.save(phoneNumber);
+        return phoneNumber;
     }
 }

@@ -91,7 +91,7 @@
             :
         </td>
         <td>
-            <input id="surname" v-model="person.surname" autocomplete="off">
+            <input id="surname" v-model="person.surname" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -104,7 +104,7 @@
             :
         </td>
         <td>
-            <input id="forename" v-model="person.forename" autocomplete="off">
+            <input id="forename" v-model="person.forename" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -117,7 +117,7 @@
             :
         </td>
         <td>
-            <input id="patronymic" v-model="person.patronymic" autocomplete="off">
+            <input id="patronymic" v-model="person.patronymic" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -130,7 +130,7 @@
             :
         </td>
         <td>
-            <input id="license" autocomplete="off" v-model="license">
+            <input id="license" autocomplete="off" v-model="license" onfocus="this.select()">
         </td>
     </tr>
     <tr>

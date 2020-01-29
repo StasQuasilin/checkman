@@ -69,8 +69,12 @@ public class VehicleParser {
             driver = new Driver();
             person = new Person();
             person.setSurname(surname);
-            person.setForename(forename);
-            person.setPatronymic(patronymic);
+            if (forename != null) {
+                person.setForename(forename);
+            }
+            if (patronymic != null) {
+                person.setPatronymic(patronymic);
+            }
             driver.setPerson(person);
             dao.save(person, driver);
         } else {

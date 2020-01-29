@@ -52,6 +52,7 @@ var editor = new Vue({
     methods:{
         editNote:function(note, key){
             this.note.edit = true;
+            this.plan.notes.splice(key, 1);
             if (key){
                 this.note.key = key;
             }
@@ -66,15 +67,10 @@ var editor = new Vue({
         },
         saveNote:function(){
             if (this.note.input) {
-                if (this.note.key != -1) {
-                    let note = this.plan.notes[key];
-                    note.note = this.note.input;
-                } else {
-                    this.plan.notes.push({
-                        creator: this.worker,
-                        note: this.note.input
-                    });
-                }
+                this.plan.notes.push({
+                    creator: this.worker,
+                    note: this.note.input
+                });
                 this.clearNote();
             }
         },

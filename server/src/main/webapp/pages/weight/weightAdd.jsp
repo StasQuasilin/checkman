@@ -445,8 +445,13 @@
                 <div style="font-size: 10pt" v-for="(note, noteIdx) in plan.notes">
                     <span class="mini-close" v-on:click="removeNote(noteIdx)">&times;</span>
                     <span v-on:click="editNote(note, noteIdx)">
-                        {{note.creator}}:
-                        {{note.note}}
+                        <span v-if="note.creator" style="color: #8b8b8b">
+                            {{note.creator}}:
+                        </span>
+                        <span style="color: #d06845">
+                            {{note.note}}
+                        </span>
+
                     </span>
                 </div>
             </div>

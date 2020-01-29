@@ -22,7 +22,7 @@ var transportView = {
                     '</span>'+
                     '<object-input :props="fields.driverProps" :object="item.driver" :item="item"></object-input>' +
                     '<span v-if="item.driver && item.driver.license">' +
-                        '/ {{item.driver.license}} /'+
+                        ' <{{item.driver.license}}>'+
                     '</span>' +
                 '</div>' +
                 '<div>' +

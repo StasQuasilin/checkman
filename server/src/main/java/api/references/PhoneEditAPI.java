@@ -34,8 +34,8 @@ public class PhoneEditAPI extends ServletAPI {
                 Person person = dao.getObjectById(Person.class, body.get(PERSON));
                 String number = String.valueOf(body.get(NUMBER));
 
-                phoneCreateUtil.createPhone(phoneNumber, number, person);
-
+                phoneNumber = phoneCreateUtil.createPhone(phoneNumber, number, person);
+                System.out.println(phoneNumber);
                 JSONObject json = new SuccessAnswer(RESULT, phoneNumber.toJson()).toJson();
                 write(resp, json.toJSONString());
                 pool.put(json);

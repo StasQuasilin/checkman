@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.generics.BotSession;
 import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class TelegramBotFactory {
     private static BotStatus status = BotStatus.stopped;
     private static TelegramNotificator telegramNotificator;
     private static BotSettings currentSettings;
+    private static BotSession botSession;
 
     public static IBot getBot() {
         return bot;
@@ -60,7 +62,7 @@ public class TelegramBotFactory {
                     bot = new TelegramBot(token, name);
                     telegramBotsApi = new TelegramBotsApi();
                     try {
-                        telegramBotsApi.registerBot(bot);
+                        botSession = telegramBotsApi.registerBot(bot);
                         status = BotStatus.worked;
                         telegramNotificator = new TelegramNotificator(bot);
                     } catch (TelegramApiRequestException e) {
@@ -83,7 +85,9 @@ public class TelegramBotFactory {
     }
 
     public static void shutdown() {
-
+        if (botSession != null){
+            botSession.stop();
+        }
         if (botThread != null) {
             while (botThread.isAlive()) {
                 botThread.interrupt();

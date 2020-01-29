@@ -207,21 +207,23 @@
                 <div class="right-field">
                     <div class="right-field-content">
                         <div v-if="value.item.weight.id" style="width: 54pt; padding-left: 4pt">
-                            <div>
-                                Б: <b>{{value.item.weight.brutto}}</b>
-                            </div>
-                            <div>
-                                Т: <b>{{value.item.weight.tara}}</b>
-                            </div>
-                            <div>
-                                Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
+                            <div v-if="value.item.weight.netto > 0">
+                                <div>
+                                    Б: <b>{{value.item.weight.brutto}}</b>
+                                </div>
+                                <div>
+                                    Т: <b>{{value.item.weight.tara}}</b>
+                                </div>
+                                <div>
+                                    Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
+                                </div>
                             </div>
                             <template v-if="value.item.weight.correction > 0">
-                                <div>
+                                <div v-if="value.item.weight.netto > 0">
                                     ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
                                 </div>
                                 <div>
-                                    {{value.item.weight.correction.toLocaleString()}}
+                                    -{{value.item.weight.correction.toLocaleString()}}%
                                 </div>
                             </template>
 
