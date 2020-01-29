@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
+import utils.NoteUtil;
 import utils.U;
 import utils.UpdateUtil;
 import utils.storages.StorageUtil;
@@ -32,12 +33,13 @@ import java.util.HashMap;
  * Created by szpt_user045 on 19.04.2019.
  */
 @WebServlet(Branches.API.PLAN_LIST_ADD)
-public class EditLoadPlanServletAPI extends ServletAPI {
+public class WeightAddServletAPI extends ServletAPI {
 
     private static final String FROM = "from";
-    private final Logger log = Logger.getLogger(EditLoadPlanServletAPI.class);
+    private final Logger log = Logger.getLogger(WeightAddServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
     private final StorageUtil storageUtil = new StorageUtil();
+    private final NoteUtil noteUtil = new NoteUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -149,9 +151,7 @@ public class EditLoadPlanServletAPI extends ServletAPI {
             HashMap<Integer, TransportationNote> alreadyNote = new HashMap<>();
             if (transportation.getNotes() != null) {
                 for (TransportationNote note : transportation.getNotes()) {
-                    if (note.getCreator() != null) {
-                        alreadyNote.put(note.getId(), note);
-                    }
+                    alreadyNote.put(note.getId(), note);
                 }
             }
             ArrayList<TransportationNote> liveNotes = new ArrayList<>();
@@ -164,22 +164,22 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                     noteId = Integer.parseInt(String.valueOf(note.get(ID)));
                 }
 
-                if (noteId != -1 && alreadyNote.containsKey(noteId)){
+                if (alreadyNote.containsKey(noteId)){
                     transportationNote = alreadyNote.remove(noteId);
                 } else {
                     transportationNote = new TransportationNote(transportation, creator);
                 }
 
-                String value = String.valueOf(note.get("note"));
+                String value = String.valueOf(note.get(NOTE));
                 if (transportationNote.getNote() == null || !transportationNote.getNote().equals(value)){
-                    transportationNote.setNote(value);
+                    transportationNote.setNote(noteUtil.checkNote(transportation, value));
                     liveNotes.add(transportationNote);
                 }
             }
 
             if (!transportation.isArchive()) {
                 transportation.setShipper(shipper);
-                JSONObject vehicleJson = (JSONObject) body.get("vehicle");
+                JSONObject vehicleJson = (JSONObject) body.get(VEHICLE);
                 if (vehicleJson != null){
                     Vehicle vehicle = null;
                     if (vehicleJson.containsKey(Constants.ID)) {
@@ -203,23 +203,13 @@ public class EditLoadPlanServletAPI extends ServletAPI {
                     Organisation transporter = dao.getObjectById(Organisation.class, t.get(ID));
                     TransportUtil.setTransporter(transportation, transporter);
                 }
-                JSONObject driverJson = (JSONObject) body.get("driver");
+                JSONObject driverJson = (JSONObject) body.get(DRIVER);
                 if (driverJson != null){
                     Driver driver = null;
                     if (driverJson.containsKey(Constants.ID)){
                         long driverId = (long) driverJson.get(Constants.ID);
                         if (driverId > 0){
                             driver = dao.getDriverByID(driverId);
-                        } else if(driverId == 0){
-                            driver = new Driver();
-                            Person person = new Person();
-                            JSONObject personJson = (JSONObject) driverJson.get("person");
-                            person.setForename(String.valueOf(personJson.get("forename")));
-                            person.setSurname(String.valueOf(personJson.get("surname")));
-                            person.setPatronymic(String.valueOf(personJson.get("patronymic")));
-
-                            driver.setPerson(person);
-                            dao.save(person, driver);
                         }
                     }
                     TransportUtil.setDriver(transportation, driver);

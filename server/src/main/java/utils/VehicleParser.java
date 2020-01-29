@@ -25,10 +25,13 @@ public class VehicleParser {
             if (vehicleData.size() > 1) {
                 vehicle.setNumber(vehicleData.get(1));
                 if (vehicleData.size() > 2){
-                    Trailer trailer = new Trailer();
-                    trailer.setNumber(vehicleData.get(2));
-                    vehicle.setTrailer(trailer);
-                    vehicle.setTrailerNumber(vehicleData.get(2));
+                    String trailerNumber = vehicleData.get(2);
+                    if (U.exist(trailerNumber)) {
+                        Trailer trailer = new Trailer();
+                        trailer.setNumber(trailerNumber);
+                        vehicle.setTrailer(trailer);
+                        vehicle.setTrailerNumber(trailerNumber);
+                    }
                 }
             }
         }

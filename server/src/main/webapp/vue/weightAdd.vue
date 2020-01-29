@@ -346,8 +346,6 @@ var editor = new Vue({
         },
         putDriver:function(driver){
             this.plan.driver = driver;
-            this.input.driver = '';
-            this.foundDrivers = [];
             if (driver.vehicle && this.plan.vehicle.id == -1){
                 this.putVehicle(driver.vehicle);
             }

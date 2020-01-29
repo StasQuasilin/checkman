@@ -54,7 +54,6 @@ public class EditDriver extends IModal {
         }
 
         req.setAttribute(DRIVER, driver);
-        req.setAttribute("transportations", 0);
         req.setAttribute(SAVE, Branches.API.References.SAVE_DRIVER);
         req.setAttribute(MODAL_CONTENT, "/pages/transport/driverInput.jsp");
         req.setAttribute(FIND, Branches.API.References.FIND_ORGANISATION);

@@ -24,7 +24,6 @@ import java.util.List;
 public class EditVehicle extends IModal {
     
     static final Logger log = Logger.getLogger(EditVehicle.class);
-    private static final long serialVersionUID = -3408219322560525726L;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -68,7 +67,7 @@ public class EditVehicle extends IModal {
         } else {
             log.warn("Body parse error!");
         }
-        req.setAttribute("vehicle", vehicle);
+        req.setAttribute(VEHICLE, vehicle);
         req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("saveVehicleAPI", Branches.API.References.SAVE_VEHICLE);
         req.setAttribute(MODAL_CONTENT, "/pages/transport/vehicleInput.jsp");

@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.U;
 import utils.UpdateUtil;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -115,7 +116,7 @@ public class SaveDriverServletAPI extends ServletAPI {
                 log.info("Put in transportation " + transportation.getId());
             }
 
-            JSONObject json = driver.toJson();
+            JSONObject json = new SuccessAnswer(RESULT, driver.toJson()).toJson();
             write(resp, json.toJSONString());
             pool.put(json);
             body.clear();

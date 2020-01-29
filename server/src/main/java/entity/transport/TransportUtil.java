@@ -12,6 +12,7 @@ import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import utils.Archivator;
 import utils.DocumentUIDGenerator;
+import utils.U;
 import utils.UpdateUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
@@ -180,6 +181,9 @@ public class TransportUtil{
             transportation.setTruckNumber(vehicle.getNumber());
             if (vehicle.getTrailer() != null && transportation.getTrailer() == null) {
                 setTrailer(transportation, vehicle.getTrailer());
+            } else if (vehicle.getTrailer() == null && transportation.getTrailer() != null){
+                vehicle.setTrailer(transportation.getTrailer());
+                dao.save(vehicle);
             }
             Driver driver = transportation.getDriver();
             if (driver != null) {
@@ -211,6 +215,17 @@ public class TransportUtil{
         if (trailer != null){
             transportation.setTrailer(trailer);
             transportation.setTrailerNumber(trailer.getNumber());
+            Vehicle vehicle = transportation.getVehicle();
+            if (vehicle.getTrailer() != null && !U.exist(vehicle.getTrailer().getNumber())){
+                Trailer remove = vehicle.getTrailer();
+                vehicle.setTrailer(null);
+                dao.save(vehicle);
+                dao.remove(remove);
+            }
+            if (vehicle.getTrailer() == null || !U.exist(vehicle.getTrailer().getNumber())){
+                vehicle.setTrailer(trailer);
+                dao.save(vehicle);
+            }
         } else {
             transportation.setTrailer(null);
             transportation.setTrailerNumber(null);

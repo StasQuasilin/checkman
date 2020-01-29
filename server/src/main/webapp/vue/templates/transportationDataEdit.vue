@@ -15,8 +15,8 @@ var transportView = {
     template:
     '<div style="display: inline-block; font-size: 10pt;">' +
         '<div>'+
-            '<div style="display: inline-block;" class="data-block">' +
-                '<div style="padding: 3pt 0">' +
+            '<div style="display: inline-block;">' +
+                '<div>' +
                     '<span class="label">' +
                         '{{fields.driver}}:' +
                     '</span>'+
@@ -33,7 +33,7 @@ var transportView = {
                     '<object-input :props=fields.trailerProps :object=item.trailer :item="item"></object-input>'+
                 '</div>'+
             '</div>'+
-            '<div style="display: inline-block; margin-left: 2pt" class="data-block">'+
+            '<div style="display: inline-block; margin-left: 2pt">'+
                 '<div>' +
                     '<span class="label">'+
                         '{{fields.customer}}:' +

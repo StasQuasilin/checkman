@@ -6,6 +6,7 @@ import entity.Person;
 import entity.PhoneNumber;
 import entity.transport.Driver;
 import org.json.simple.JSONObject;
+import utils.PhoneCreateUtil;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
 
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class PhoneEditAPI extends ServletAPI {
 
     private final UpdateUtil updateUtil = new UpdateUtil();
+    PhoneCreateUtil phoneCreateUtil = new PhoneCreateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,22 +31,11 @@ public class PhoneEditAPI extends ServletAPI {
         if (body != null){
             if (body.containsKey(PERSON)){
                 PhoneNumber phoneNumber = dao.getObjectById(PhoneNumber.class, body.get(ID));
-                if (phoneNumber == null){
-                    phoneNumber = new PhoneNumber();
-                }
                 Person person = dao.getObjectById(Person.class, body.get(PERSON));
-                phoneNumber.setPerson(person);
-
                 String number = String.valueOf(body.get(NUMBER));
-                StringBuilder builder = new StringBuilder();
-                for (char c : number.toCharArray()){
-                    if (Character.isDigit(c) || c == '+'){
-                        builder.append(c);
-                    }
-                }
-                phoneNumber.setNumber(builder.toString());
 
-                dao.save(phoneNumber);
+                phoneCreateUtil.createPhone(phoneNumber, number, person);
+
                 JSONObject json = new SuccessAnswer(RESULT, phoneNumber.toJson()).toJson();
                 write(resp, json.toJSONString());
                 pool.put(json);

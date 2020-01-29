@@ -99,16 +99,15 @@
                     <c:when test="${not empty transportation.vehicle.id }">
                         <div>
                             <span>
-                                    ${transportation.vehicle.model}
+                                ${transportation.vehicle.model}
                             </span>
-
                             <div style="display: inline-block; font-size: 10pt">
                                 <div>
                                     '${transportation.vehicle.number}'
                                 </div>
-                                <c:if test="${not empty transportation.vehicle.trailer}">
+                                <c:if test="${not empty transportation.trailer}">
                                     <div>
-                                        '${transportation.vehicle.trailer.number}'
+                                        '${transportation.trailer.number}'
                                     </div>
                                 </c:if>
                             </div>

@@ -8,7 +8,9 @@ import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.Parser;
+import utils.U;
 import utils.UpdateUtil;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,23 +46,24 @@ public class SaveVehicleServletAPI extends ServletAPI {
 
             vehicle.setNumber(Parser.prettyNumber(String.valueOf(body.get(NUMBER))));
             logger.info("\t...Number: " + vehicle.getNumber());
-
-            vehicle.setTrailerNumber(Parser.prettyNumber(String.valueOf(body.get(Constants.TRAILER))));
-            logger.info("\t...Trailer: " + vehicle.getTrailerNumber());
-
-            Trailer trailer = vehicle.getTrailer();
-            if (trailer == null){
-                trailer = new Trailer();
+            String trailerNumber = String.valueOf(body.get(TRAILER));
+            if (U.exist(trailerNumber)) {
+                vehicle.setTrailerNumber(Parser.prettyNumber(trailerNumber));
+                logger.info("\t...Trailer: " + vehicle.getTrailerNumber());
+                Trailer trailer = vehicle.getTrailer();
+                if (trailer == null){
+                    trailer = new Trailer();
+                }
+                trailer.setNumber(vehicle.getTrailerNumber());
+                dao.save(trailer);
+                vehicle.setTrailer(trailer);
             }
-            trailer.setNumber(vehicle.getTrailerNumber());
-            dao.save(trailer);
-            vehicle.setTrailer(trailer);
 
             dao.save(vehicle);
             updateUtil.onSave(vehicle);
-            JSONObject jsonObject = parser.toJson(vehicle);
-            write(resp, jsonObject.toJSONString());
-            pool.put(jsonObject);
+            JSONObject json = new SuccessAnswer(RESULT, vehicle.toJson()).toJson();
+            write(resp, json.toJSONString());
+            pool.put(json);
             body.clear();
         } else {
             write(resp, EMPTY_BODY);

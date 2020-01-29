@@ -403,7 +403,7 @@
                 :
             </td>
             <td>
-                <object-input :props="driverProps" :object="plan.driver"></object-input>
+                <object-input :props="driverProps" :object="plan.driver" :item="plan"></object-input>
             </td>
         </tr>
     <tr>

@@ -5,6 +5,7 @@ import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.transport.TransportationNote;
 import org.json.simple.JSONObject;
+import utils.NoteUtil;
 import utils.U;
 import utils.UpdateUtil;
 
@@ -21,8 +22,8 @@ import java.sql.Timestamp;
 @WebServlet(Branches.API.SAVE_NOTE)
 public class SaveNoteServletAPI extends ServletAPI {
 
-    private static final long serialVersionUID = 2163860344702139213L;
     final UpdateUtil updateUtil = new UpdateUtil();
+    final NoteUtil noteUtil = new NoteUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,13 +33,13 @@ public class SaveNoteServletAPI extends ServletAPI {
             if (U.exist(noteText)) {
                 Object planId = body.get("plan");
                 noteText = noteText.replaceAll("  ", " ").trim().toLowerCase();
-                noteText = noteText.substring(0, 1).toUpperCase() + noteText.substring(1);
                 LoadPlan plan = dao.getLoadPlanById(planId);
+
                 TransportationNote note = new TransportationNote();
                 note.setTime(new Timestamp(System.currentTimeMillis()));
                 note.setCreator(getWorker(req));
                 note.setTransportation(plan.getTransportation());
-                note.setNote(noteText);
+                note.setNote(noteUtil.checkNote(plan.getTransportation(), noteText));
                 dao.save(note);
                 updateUtil.onSave(plan.getTransportation());
                 write(resp, SUCCESS_ANSWER);

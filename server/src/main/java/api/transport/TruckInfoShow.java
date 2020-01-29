@@ -7,6 +7,7 @@ import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
 import utils.OpenDataBotAPI;
 import utils.TruckInfoUtil;
+import utils.U;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,7 +31,7 @@ public class TruckInfoShow extends IModal {
         if (body != null){
             Vehicle vehicle = dao.getObjectById(Vehicle.class, body.get(ID));
             req.setAttribute(VEHICLES, info.getInfo(vehicle.getNumber()));
-            if (vehicle.getTrailer() != null) {
+            if (vehicle.getTrailer() != null && U.exist(vehicle.getTrailer().getNumber())) {
                 req.setAttribute(TRAILERS, info.getInfo(vehicle.getTrailer().getNumber()));
             }
             req.setAttribute(TITLE, _TITLE);

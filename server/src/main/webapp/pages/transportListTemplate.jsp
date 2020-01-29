@@ -164,7 +164,7 @@
                         </span>
                     </div>
                     <div class="middle-row">
-                        <div style="display: inline-block; font-size: 10pt; width: 7em" class="data-block">
+                        <div style="display: inline-block; font-size: 10pt; width: 7em">
                             <div>
                                 <fmt:message key="transportation.time.in"/>:
                                 <span v-if="value.item.timeIn.time">

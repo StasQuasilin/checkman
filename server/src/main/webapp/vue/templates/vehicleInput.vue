@@ -101,6 +101,7 @@ var objectInput = {
                     if (a.status === 'success') {
                         self.putObject(a.result);
                     }
+
                 });
             }
             this.closeInput();
