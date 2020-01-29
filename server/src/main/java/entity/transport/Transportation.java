@@ -10,10 +10,10 @@ import entity.laboratory.SunAnalyses;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.weight.Weight;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "transportations")
-public class Transportation extends JsonAble {
+public class Transportation extends JsonAble implements Serializable {
     private int id;
     private Date date;
     private Organisation counterparty;
@@ -50,7 +50,7 @@ public class Transportation extends JsonAble {
     private MealAnalyses mealAnalyses;
     private Worker creator;
     private Worker manager;
-    private List<TransportationNote> notes = new ArrayList<>();
+    private List<DocumentNote> notes = new ArrayList<>();
     private Set<TransportStorageUsed> usedStorages = new HashSet<>();
     private boolean archive;
     private boolean done;
@@ -264,10 +264,12 @@ public class Transportation extends JsonAble {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public List<TransportationNote> getNotes() {
+//    @ManyToMany
+//    @JoinTable(name="transportation_notes", joinColumns = @JoinColumn(name="document", referencedColumnName="uid"))
+    public List<DocumentNote> getNotes() {
         return notes;
     }
-    public void setNotes(List<TransportationNote> notes) {
+    public void setNotes(List<DocumentNote> notes) {
         this.notes = notes;
     }
 
@@ -346,7 +348,7 @@ public class Transportation extends JsonAble {
         }else {
             object.put(TRANSPORTER, EMPTY_OBJECT);
         }
-        object.put(NOTES,notes.stream().map(TransportationNote::toJson).collect(Collectors.toList()));
+        object.put(NOTES, notes.stream().map(DocumentNote::toJson).collect(Collectors.toList()));
         return object;
     }
 }

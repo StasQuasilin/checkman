@@ -31,7 +31,6 @@ import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
-import entity.products.ProductGroup;
 import entity.products.ProductProperty;
 import entity.products.ProductSettings;
 import entity.reports.ManufactureReport;
@@ -48,7 +47,6 @@ import utils.ArchiveType;
 import utils.TurnDateTime;
 import utils.storages.PointScale;
 
-import javax.persistence.Table;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -176,8 +174,8 @@ public interface dbDAO {
     List<Seal> getSeals();
     List<SealBatch> getActiveSealsBatches();
     List<Seal> getSealsByBatch(SealBatch batch);
-    List<TransportationNote> getTransportationNotesByTransportation(Transportation transportation);
-    TransportationNote getTransportationNotesById(Object id);
+    List<DocumentNote> getTransportationNotesByTransportation(Transportation transportation);
+    DocumentNote getTransportationNotesById(Object id);
     List<Turn> getTurnsBetween(LocalDate from, LocalDate to);
     List<Deal> getDealsByType(DealType type);
     Person getPersonByName(String surname, String forename, String patronymic);
@@ -241,4 +239,5 @@ public interface dbDAO {
     Protocol getProtocol(Product product);
     List<TruckInfo> getTruckInfo(String number);
     void flush();
+    List<Transportation> getTransportationsByDate(Date from, Date to);
 }

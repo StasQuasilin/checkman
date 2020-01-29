@@ -70,16 +70,6 @@
             </td>
           </tr>
         </c:if>
-        <c:if test="${vehicle.engineVolume > 0}">
-          <tr>
-            <td>
-              <fmt:message key="truck.engine.volume"/>
-            </td>
-            <td>
-                ${vehicle.engineVolume}
-            </td>
-          </tr>
-        </c:if>
         <c:if test="${not empty vehicle.document}">
           <tr>
             <td>
@@ -167,16 +157,6 @@
             </td>
             <td>
                 ${trailer.color}
-            </td>
-          </tr>
-        </c:if>
-        <c:if test="${trailer.engineVolume > 0}">
-          <tr>
-            <td>
-              <fmt:message key="truck.engine.volume"/>
-            </td>
-            <td>
-                ${trailer.engineVolume}
             </td>
           </tr>
         </c:if>

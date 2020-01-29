@@ -4,7 +4,6 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.DealType;
-import entity.Person;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.Shipper;
@@ -148,32 +147,33 @@ public class WeightAddServletAPI extends ServletAPI {
             loadPlan.setPlan(plan);
             loadPlan.setCustomer(TransportCustomer.valueOf(String.valueOf(body.get("customer"))));
 
-            HashMap<Integer, TransportationNote> alreadyNote = new HashMap<>();
+            HashMap<Integer, DocumentNote> alreadyNote = new HashMap<>();
             if (transportation.getNotes() != null) {
-                for (TransportationNote note : transportation.getNotes()) {
+                for (DocumentNote note : transportation.getNotes()) {
                     alreadyNote.put(note.getId(), note);
                 }
             }
-            ArrayList<TransportationNote> liveNotes = new ArrayList<>();
+            ArrayList<DocumentNote> liveNotes = new ArrayList<>();
 
             for (Object o :(JSONArray) body.get("notes")){
                 JSONObject note = (JSONObject) o;
-                TransportationNote transportationNote;
+                DocumentNote documentNote;
                 int noteId = -1;
                 if (note.containsKey(ID)){
                     noteId = Integer.parseInt(String.valueOf(note.get(ID)));
                 }
 
                 if (alreadyNote.containsKey(noteId)){
-                    transportationNote = alreadyNote.remove(noteId);
+                    documentNote = alreadyNote.remove(noteId);
                 } else {
-                    transportationNote = new TransportationNote(transportation, creator);
+                    documentNote = new DocumentNote(transportation, creator);
+                    documentNote.setDocument(transportation.getUid());
                 }
 
                 String value = String.valueOf(note.get(NOTE));
-                if (transportationNote.getNote() == null || !transportationNote.getNote().equals(value)){
-                    transportationNote.setNote(noteUtil.checkNote(transportation, value));
-                    liveNotes.add(transportationNote);
+                if (documentNote.getNote() == null || !documentNote.getNote().equals(value)){
+                    documentNote.setNote(noteUtil.checkNote(transportation, value));
+                    liveNotes.add(documentNote);
                 }
             }
 
@@ -222,7 +222,7 @@ public class WeightAddServletAPI extends ServletAPI {
             dao.saveLoadPlan(loadPlan);
 
             transportation.getNotes().clear();
-            for(TransportationNote note : liveNotes){
+            for(DocumentNote note : liveNotes){
                 dao.save(note);
                 transportation.getNotes().add(note);
             }

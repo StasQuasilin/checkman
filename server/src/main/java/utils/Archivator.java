@@ -27,7 +27,6 @@ public final class Archivator {
     public static void init(){
         log.info("Init archivator");
         data.addAll(dao.getArchiveData().stream().collect(Collectors.toList()));
-        check();
         next();
     }
 
@@ -47,6 +46,7 @@ public final class Archivator {
             timer.stop();
         }
         timer = new Timer(HOUR, e -> check());
+        timer.setRepeats(false);
         timer.start();
 
     }

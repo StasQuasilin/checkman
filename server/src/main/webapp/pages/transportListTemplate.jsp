@@ -70,7 +70,7 @@
     };
     list.sort = function(){
         list.items.sort(function(a, b){
-            if (a.item.date === b.item.date) {
+            if (a.item.date === b.item.date && a.item.weight) {
                 let aN = 0;
                 if (a.item.weight.brutto > 0 && a.item.weight.tara > 0) {
                     aN = a.item.weight.brutto - a.item.weight.tara;
@@ -206,7 +206,7 @@
                 </div>
                 <div class="right-field">
                     <div class="right-field-content">
-                        <div v-if="value.item.weight.id"  style="width: 84pt">
+                        <div v-if="value.item.weight.id" style="width: 54pt; padding-left: 4pt">
                             <div>
                                 Б: <b>{{value.item.weight.brutto}}</b>
                             </div>
@@ -216,9 +216,15 @@
                             <div>
                                 Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
                             </div>
-                            <div v-if="value.item.weight.correction > 0">
-                                ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
-                            </div>
+                            <template v-if="value.item.weight.correction > 0">
+                                <div>
+                                    ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
+                                </div>
+                                <div>
+                                    {{value.item.weight.correction.toLocaleString()}}
+                                </div>
+                            </template>
+
                         </div>
 
                     </div>

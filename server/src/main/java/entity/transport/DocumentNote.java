@@ -12,20 +12,21 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "transportation_notes")
-public class TransportationNote extends JsonAble{
+public class DocumentNote extends JsonAble{
     private int id;
+    private String document;
     private Transportation transportation;
     private Timestamp time;
     private String note;
     private Worker creator;
 
-    public TransportationNote(Transportation transportation, Worker creator) {
+    public DocumentNote(Transportation transportation, Worker creator) {
         this.transportation = transportation;
         this.creator = creator;
         time = new Timestamp(System.currentTimeMillis());
     }
 
-    public TransportationNote() {}
+    public DocumentNote() {}
 
     @Id
     @GeneratedValue
@@ -34,6 +35,15 @@ public class TransportationNote extends JsonAble{
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "document")
+    public String getDocument() {
+        return document;
+    }
+    public void setDocument(String document) {
+        this.document = document;
     }
 
     @ManyToOne

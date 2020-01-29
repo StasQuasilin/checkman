@@ -9,5 +9,11 @@
     <c:if test="${not empty check}">
         <button onclick="loadModal('${check}')"><fmt:message key="button.check"/></button>
     </c:if>
+    <button onclick="loadModal('${printIncome}')">
+        <fmt:message key="transport.income"/>
+    </button>
+    <button onclick="loadModal('${transportPerMonth}')">
+        <fmt:message key="title.transport.per.month"/>
+    </button>
 </div>
 </html>

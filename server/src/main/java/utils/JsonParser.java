@@ -259,10 +259,10 @@ public class JsonParser {
         return json;
     }
 
-    private JSONArray toNotesJson(List<TransportationNote> notes) {
+    private JSONArray toNotesJson(List<DocumentNote> notes) {
         final JSONArray array = pool.getArray();
         if (notes != null) {
-            for (TransportationNote note : notes) {
+            for (DocumentNote note : notes) {
                 array.add(toJson(note));
             }
         }
@@ -270,7 +270,7 @@ public class JsonParser {
     }
 
     final static String NOTE = "note";
-    public JSONObject toJson(TransportationNote note) {
+    public JSONObject toJson(DocumentNote note) {
         JSONObject json = pool.getObject();
         json.put(ID, note.getId());
         json.put(TIME, note.getTime().toString());

@@ -31,7 +31,7 @@
         <mapping class="entity.organisations.Organisation"/>
         <mapping class="entity.organisations.OrganisationType"/>
         <mapping class="entity.transport.Transportation"/>
-        <mapping class="entity.transport.TransportationNote"/>
+        <mapping class="entity.transport.DocumentNote"/>
         <mapping class="entity.transport.ActionTime"/>
         <mapping class="entity.transport.TransportStorageUsed"/>
         <mapping class="entity.documents.Deal"/>

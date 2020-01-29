@@ -3,7 +3,7 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.transport.TransportationNote;
+import entity.transport.DocumentNote;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 
@@ -26,7 +26,7 @@ public class RemoveNoteServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null){
             Object id = body.get(Constants.ID);
-            TransportationNote note = dao.getTransportationNotesById(id);
+            DocumentNote note = dao.getTransportationNotesById(id);
             dao.remove(note);
             updateUtil.onSave(note.getTransportation());
         }

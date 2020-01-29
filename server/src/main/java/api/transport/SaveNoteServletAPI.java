@@ -3,7 +3,7 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import entity.documents.LoadPlan;
-import entity.transport.TransportationNote;
+import entity.transport.DocumentNote;
 import org.json.simple.JSONObject;
 import utils.NoteUtil;
 import utils.U;
@@ -35,10 +35,11 @@ public class SaveNoteServletAPI extends ServletAPI {
                 noteText = noteText.replaceAll("  ", " ").trim().toLowerCase();
                 LoadPlan plan = dao.getLoadPlanById(planId);
 
-                TransportationNote note = new TransportationNote();
+                DocumentNote note = new DocumentNote();
                 note.setTime(new Timestamp(System.currentTimeMillis()));
                 note.setCreator(getWorker(req));
                 note.setTransportation(plan.getTransportation());
+                note.setDocument(plan.getTransportation().getUid());
                 note.setNote(noteUtil.checkNote(plan.getTransportation(), noteText));
                 dao.save(note);
                 updateUtil.onSave(plan.getTransportation());

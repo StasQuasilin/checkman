@@ -4,10 +4,9 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
-import entity.transport.TransportationNote;
+import entity.transport.DocumentNote;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.JsonPool;
 
 import javax.servlet.ServletException;
@@ -41,7 +40,7 @@ public class NoteListServletAPI extends ServletAPI {
             LoadPlan plan = dao.getLoadPlanById(planId);
             JSONObject notes = (JSONObject) body.get("notes");
             String id;
-            for (TransportationNote note : dao.getTransportationNotesByTransportation(plan.getTransportation())){
+            for (DocumentNote note : dao.getTransportationNotesByTransportation(plan.getTransportation())){
                 id = String.valueOf(note.getId());
                 if (notes.containsKey(id)){
                     String text = (String) notes.remove(id);

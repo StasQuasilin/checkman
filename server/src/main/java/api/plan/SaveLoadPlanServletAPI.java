@@ -3,7 +3,6 @@ package api.plan;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.Person;
 import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
@@ -37,6 +36,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
     final LoadPlanComparator planComparator = new LoadPlanComparator();
     final TransportationComparator transportationComparator = new TransportationComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
+    final NoteUtil noteUtil = new NoteUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -119,7 +119,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 updateUtil.onSave(transportation);
             }
 
-            final HashSet<TransportationNote> notes = new HashSet<>();
+            final HashSet<DocumentNote> notes = new HashSet<>();
             notes.addAll(dao.getTransportationNotesByTransportation(transportation));
             for (Object n : (JSONArray)json.get("notes")){
                 JSONObject nj = (JSONObject) n;
@@ -127,13 +127,14 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 if (nj.containsKey(Constants.ID)){
                     noteId = nj.get(Constants.ID);
                 }
-                TransportationNote note = null;
+                DocumentNote note = null;
                 if (noteId != null) {
                     note = dao.getTransportationNotesById(noteId);
                 }
                 if (note == null){
-                    note = new TransportationNote();
+                    note = new DocumentNote();
                     note.setTransportation(transportation);
+                    note.setDocument(transportation.getUid());
                     note.setTime(new Timestamp(System.currentTimeMillis()));
                     note.setCreator(worker);
                 }
@@ -142,14 +143,13 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 }
                 String noteText = (String) nj.get("note");
                 noteText = noteText.trim().toLowerCase();
-                noteText = noteText.substring(0, 1).toUpperCase() + noteText.substring(1);
                 if (U.exist(noteText) && note.getNote() == null || !note.getNote().equals(noteText)){
-                    note.setNote(noteText);
+                    note.setNote(noteUtil.checkNote(transportation, noteText));
                     dao.save(note);
                     updateUtil.onSave(transportation);
                 }
             }
-            for (TransportationNote note : notes){
+            for (DocumentNote note : notes){
                 dao.remove(note);
                 updateUtil.onSave(transportation);
             }

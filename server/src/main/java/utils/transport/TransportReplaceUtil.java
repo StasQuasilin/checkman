@@ -1,8 +1,8 @@
 package utils.transport;
 
 import entity.documents.LoadPlan;
+import entity.transport.DocumentNote;
 import entity.transport.Transportation;
-import entity.transport.TransportationNote;
 import org.apache.log4j.Logger;
 import utils.DateUtil;
 import utils.LanguageBase;
@@ -17,7 +17,6 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import javax.swing.*;
 
 /**
@@ -69,16 +68,17 @@ public class TransportReplaceUtil {
             if (transportation.getWeight() == null || transportation.getWeight().getNetto() == 0) {
                 plan.setDate(now);
 
-                ArrayList<TransportationNote> notes = new ArrayList<>(transportation.getNotes());
-                for (TransportationNote n : notes) {
+                ArrayList<DocumentNote> notes = new ArrayList<>(transportation.getNotes());
+                for (DocumentNote n : notes) {
                     if (n.getCreator() == null) {
                         dao.remove(n);
                         transportation.getNotes().remove(n);
                     }
                 }
-                TransportationNote note = new TransportationNote();
+                DocumentNote note = new DocumentNote();
                 note.setTime(Timestamp.valueOf(LocalDateTime.now()));
                 note.setTransportation(transportation);
+                note.setDocument(transportation.getUid());
                 note.setNote(String.format(lb.get(NOTE_AUTO_REPLACE), DateUtil.prettyDate(transportation.getDate())));
                 dao.save(note);
                 transportation.getNotes().add(note);

@@ -3,10 +3,11 @@ var laboratoryView = {
         item:Object,
         fields:Object
     },
-    template:'<div class="right-field-content" style="width: 132pt">' +
+    template:'<div class="right-field-content" style="width: 162pt">' +
         '<div v-if="item.analyses.sun.id">' +
             '<div>{{fields.sun.humidityA}}: {{item.analyses.sun.humidity1}}</div>' +
-            '<div>{{fields.sun.humidityB}}: {{item.analyses.sun.humidity2}}</div>' +
+            '<div v-if="item.analyses.sun.humidity2 > 0">' +
+                '{{fields.sun.humidityB}}: {{item.analyses.sun.humidity2}}</div>' +
             '<div>{{fields.sun.soreness}}: {{item.analyses.sun.soreness}}</div>' +
             '<div>{{fields.sun.impurity}}: {{item.analyses.sun.oilImpurity}}</div>' +
             '<div>{{fields.sun.oiliness}}: {{item.analyses.sun.oiliness}}</div>' +

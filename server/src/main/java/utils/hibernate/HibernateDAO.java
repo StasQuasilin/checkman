@@ -64,7 +64,7 @@ import java.util.stream.Collectors;
 /**
  * Created by szpt_user045 on 24.06.2019.
  */
-public class HibernateDAO implements dbDAO {
+public class HibernateDAO implements dbDAO, Constants {
 
     private static final String ID = "id";
     private static final String DEAL = "deal";
@@ -264,6 +264,14 @@ public class HibernateDAO implements dbDAO {
     @Override
     public void flush() {
         hb.flush();
+    }
+
+    @Override
+    public List<Transportation> getTransportationsByDate(Date from, Date to) {
+        HashMap<String, Object> params = hb.getParams();
+        params.put(DATE, new BETWEEN(from, to));
+
+        return hb.query(Transportation.class, params);
     }
 
     @Override
@@ -1169,13 +1177,13 @@ public class HibernateDAO implements dbDAO {
     }
 
     @Override
-    public List<TransportationNote> getTransportationNotesByTransportation(Transportation transportation) {
-        return hb.query(TransportationNote.class, "transportation", transportation);
+    public List<DocumentNote> getTransportationNotesByTransportation(Transportation transportation) {
+        return hb.query(DocumentNote.class, "transportation", transportation);
     }
 
     @Override
-    public TransportationNote getTransportationNotesById(Object id) {
-        return hb.get(TransportationNote.class, ID, id);
+    public DocumentNote getTransportationNotesById(Object id) {
+        return hb.get(DocumentNote.class, ID, id);
     }
 
     @Override

@@ -65,11 +65,12 @@ public class SessionTimer {
     }
 
     private void checkSessions(LocalTime localTime) {
+        System.out.println("Check session at " + localTime.toString());
 
         for (Map.Entry<Worker, Timer> entry : timerHashMap.entrySet()){
             Worker worker = entry.getKey();
             Role role = worker.getRole();
-
+            System.out.println(worker.toString());
             if (role == Role.weigher || role == Role.analyser || (role == Role.admin && localTime.getHour() == TARGET_1.getHour()) ||
                     (role == Role.security && localTime.getHour() == TARGET_1.getHour())){
                 close(worker);

@@ -256,7 +256,7 @@ public class Transportation2 extends JsonAble {
         json.put(MANAGER, manager.toJson());
         json.put(CREATOR, createTime.getCreator().toJson());
         JSONArray array = pool.getArray();
-//        array.addAll(notes.stream().map(TransportationNote::toJson).collect(Collectors.toList()));
+//        array.addAll(notes.stream().map(DocumentNote::toJson).collect(Collectors.toList()));
         json.put(NOTES, array);
         return json;
     }
