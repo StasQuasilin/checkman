@@ -11,6 +11,7 @@ import entity.deal.Contract;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.Protocol;
+import entity.laboratory.probes.IProbe;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
@@ -240,4 +241,5 @@ public interface dbDAO {
     List<TruckInfo> getTruckInfo(String number);
     void flush();
     List<Transportation> getTransportationsByDate(Date from, Date to);
+    <T>List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation);
 }

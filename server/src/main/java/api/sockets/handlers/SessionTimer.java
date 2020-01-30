@@ -118,21 +118,19 @@ public class SessionTimer {
     }
 
     public void update(Worker worker){
-//        System.out.println("Update timer for " + worker.getValue());
         Timer timer = timerHashMap.get(worker);
-//        System.out.println("Timer: " + timer);
         if (timer != null && timer.isRunning()){
             timer.setDelay(SESSION_DELAY);
-//            System.out.println("Timer delay: " + timer.getDelay());
         }
     }
 
     public void remove(Worker worker) {
-        System.out.println("Remove worker " + worker.getValue());
-        sessionHashMap.remove(worker);
-        Timer remove = timerHashMap.remove(worker);
-        if(remove != null && remove.isRunning()){
-            remove.stop();
+        if (sessionHashMap.containsKey(worker)) {
+            sessionHashMap.remove(worker);
+            Timer remove = timerHashMap.remove(worker);
+            if (remove != null && remove.isRunning()) {
+                remove.stop();
+            }
         }
     }
 }

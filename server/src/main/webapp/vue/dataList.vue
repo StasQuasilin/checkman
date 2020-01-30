@@ -30,11 +30,12 @@ var list = new Vue({
         if (typeof filter_control !== 'undefined'){
             filter_control.items = this.items;
             if (typeof filter_control.filteredItems === 'function') {
-                console.log('---');
                 this.getItems = function () {
                     return filter_control.filteredItems();
                 }
             }
+        } else {
+            console.log('Filter not found')
         }
     },
     methods:{

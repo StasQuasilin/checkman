@@ -226,11 +226,8 @@
                                     -{{value.item.weight.correction.toLocaleString()}}%
                                 </div>
                             </template>
-
                         </div>
-
                     </div>
-
                     <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>
                 </div>
             </div>

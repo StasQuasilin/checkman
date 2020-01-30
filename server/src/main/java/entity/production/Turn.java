@@ -1,5 +1,8 @@
 package entity.production;
 
+import entity.JsonAble;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -9,7 +12,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "turns")
-public class Turn {
+public class Turn extends JsonAble{
     private int id;
     private Timestamp date;
     private int number;
@@ -47,5 +50,14 @@ public class Turn {
         hash = 31 * date.hashCode() + hash;
         hash = 31 * number + hash;
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(DATE, date.toString());
+        object.put(NUMBER, number);
+        return object;
     }
 }

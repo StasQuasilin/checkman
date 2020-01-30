@@ -20,14 +20,17 @@ import java.io.IOException;
 @WebServlet(Branches.UI.PROBE_LIST)
 public class ProbeList extends IUIServlet {
 
+    private static final String _FILTER = "/pages/laboratory/probes/probeFilter.jsp";
     final Subscriber[] subscribe = new Subscriber[]{Subscriber.PROBES};
     final AnalysesType[] types = new AnalysesType[]{AnalysesType.sun, AnalysesType.oil, AnalysesType.cake};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.PROBE_LIST);
-        req.setAttribute(CONTENT, "/pages/laboratory/probeList.jsp");
-        req.setAttribute("show", Branches.UI.PROBE_SHOW);
+        req.setAttribute(CONTENT, "/pages/laboratory/probes/probeList.jsp");
+        req.setAttribute(SHOW, Branches.UI.PROBE_SHOW);
+        req.setAttribute(FILTER, _FILTER);
+        req.setAttribute(FIND, Branches.API.PROBE_FIND);
 
         Role role = getRole(req);
         if (role == Role.analyser || role == Role.admin){

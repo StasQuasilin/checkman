@@ -2,6 +2,7 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
+import entity.laboratory.probes.ProbeTurn;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
@@ -17,7 +18,7 @@ public class ProbesHandler extends OnSubscribeHandler {
     @Override
     public void handle(Session session) throws IOException {
         JSONArray array = ActiveSubscriptions.pool.getArray();
-        array.addAll(dao.getLimitProbeTurns().stream().map(parser::toJson).collect(Collectors.toList()));
+        array.addAll(dao.getLimitProbeTurns().stream().map(ProbeTurn::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
         json.put(ADD, array);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));

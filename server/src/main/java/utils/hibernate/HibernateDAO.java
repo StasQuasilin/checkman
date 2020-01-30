@@ -13,6 +13,7 @@ import entity.deal.ContractProduct;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.Protocol;
+import entity.laboratory.probes.IProbe;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
@@ -1353,5 +1354,20 @@ public class HibernateDAO implements dbDAO, Constants {
             }
         });
         return protocols;
+    }
+
+    @Override
+    public <T> List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation) {
+
+        HashMap<String, Object> params = hb.getParams();
+        if (from != null || to != null) {
+            params.put(DATE, new BETWEEN(from, to));
+        }
+
+        HashMap<String, String> findData = new HashMap<>();
+        if (U.exist(organisation)) {
+            findData.put(ORGANISATION, organisation);
+        }
+        return hb.find(tClass, findData, params);
     }
 }

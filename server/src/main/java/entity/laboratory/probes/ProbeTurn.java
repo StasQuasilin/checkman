@@ -1,17 +1,21 @@
 package entity.laboratory.probes;
 
+import entity.JsonAble;
 import entity.production.Turn;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 19.07.2019.
  */
 @Entity
 @Table(name = "turns_probes")
-public class ProbeTurn {
+public class ProbeTurn extends JsonAble{
     private int id;
     private Turn turn;
     private Set<SunProbe> sunProbes = new HashSet<>();
@@ -67,5 +71,35 @@ public class ProbeTurn {
     }
     public void setCakeProbes(Set<CakeProbe> cakeProbes) {
         this.cakeProbes = cakeProbes;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = turn.toJson();
+        object.put(SUN, sun());
+        object.put(OIL, oil());
+        return object;
+    }
+
+    private JSONArray oil() {
+        JSONArray array = pool.getArray();
+        array.addAll(oilProbes.stream().map(OilProbe::toJson).collect(Collectors.toList()));
+        return array;
+    }
+
+    private JSONArray sun() {
+        JSONArray array = pool.getArray();
+        array.addAll(sunProbes.stream().map(SunProbe::toJson).collect(Collectors.toList()));
+        return array;
     }
 }

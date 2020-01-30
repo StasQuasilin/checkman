@@ -1,7 +1,9 @@
 package entity.laboratory;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "analyses_sun")
-public class SunAnalyses{
+public class SunAnalyses extends JsonAble{
     private int id;
     private float oiliness;
     private float humidity1;
@@ -121,5 +123,20 @@ public class SunAnalyses{
     public int hashCode() {
         return id;
 
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(HUMIDITY1, humidity1);
+        json.put(HUMIDITY2, humidity2);
+        json.put(SORENESS, soreness);
+        json.put(OILINESS, oiliness);
+        json.put(OIL_IMPURITY, oilImpurity);
+        json.put(ACID_VALUE, acidValue);
+        json.put(CONTAMINATION, contamination);
+        json.put(CREATE, createTime.toJson());
+        return json;
     }
 }

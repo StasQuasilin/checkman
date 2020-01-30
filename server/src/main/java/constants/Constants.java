@@ -244,6 +244,17 @@ public interface Constants {
     String LENGTH = "length";
     String DIAMETER = "diameter";
     String MATCH = "match";
+    String OILINESS = "oiliness";
+    String HUMIDITY1 = "humidity1";
+    String HUMIDITY2 = "humidity2";
+    String SORENESS = "soreness";
+    String OIL_IMPURITY = "oilImpurity";
+    String ACID_VALUE = "acidValue";
+    String CONTAMINATION = "contamination";
+    String CREATE = "create";
+    String ORGANOLEPTIC = "organoleptic";
+    String SOAP = "soap";
+    String WAX = "wax";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";

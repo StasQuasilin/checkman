@@ -74,8 +74,9 @@ public class UserBox {
 
     public void remove(String token) {
         UserInfo remove = users.remove(token);
-
-        sessionTimer.remove(remove.getUser().getWorker());
+        if (sessionTimer != null) {
+            sessionTimer.remove(remove.getUser().getWorker());
+        }
     }
 
     public UserInfo getUser(String token) {

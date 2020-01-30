@@ -20,6 +20,7 @@
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit = 14;
+
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
         list.handler(a);
@@ -34,7 +35,7 @@
     }
 </script>
 <div id="container" class="container">
-    <div v-for="item in items" class="container-item" style="display: inline-block"
+    <div v-for="item in getItems()" class="container-item" style="display: inline-block"
          :class="'container-item-' + new Date(item.item.date).getDay()">
         <div class="upper-row">
             {{new Date(item.item.date).toLocaleDateString()}}
