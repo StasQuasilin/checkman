@@ -242,4 +242,5 @@ public interface dbDAO {
     void flush();
     List<Transportation> getTransportationsByDate(Date from, Date to);
     <T>List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation);
+    <T>List<T> getObjectsByTimestamp(Class<T> tClass, Timestamp date);
 }

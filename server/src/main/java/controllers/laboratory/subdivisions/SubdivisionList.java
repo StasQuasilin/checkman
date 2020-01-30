@@ -6,6 +6,7 @@ import constants.Titles;
 import controllers.IUIServlet;
 import entity.Role;
 import entity.SubdivisionKey;
+import utils.turns.TurnBox;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,6 +43,7 @@ public class SubdivisionList extends IUIServlet {
                     req.setAttribute("storageGrease", Branches.UI.Extraction.STORAGE_GREASE);
                     req.setAttribute("oilEdit", Branches.UI.Extraction.OIL_EDIT);
                     req.setAttribute("mealGranules", Branches.UI.MEAL_GRANULES);
+                    req.setAttribute(FIND, Branches.API.FIND_EXTRACTION);
                 }
 
                 req.setAttribute("dailyPrint", Branches.UI.Extraction.DAILY_REPORT_PRINT);
@@ -73,8 +75,8 @@ public class SubdivisionList extends IUIServlet {
                 req.setAttribute(SUBSCRIBE, kpoSubscribes);
                 break;
         }
-        req.setAttribute(FIND, Branches.API.FIND_LABORATORY);
         req.setAttribute(FILTER, "/pages/laboratory/subdivisions/subdivisionFilter.jsp");
+        req.setAttribute(TURNS, TurnBox.getTurns());
         show(req, resp);
     }
 }

@@ -112,10 +112,7 @@ public class ExtractionTurn extends JsonAble{
 
     @Override
     public JSONObject toJson() {
-        JSONObject object = pool.getObject();
-        object.put(ID, ID);
-        object.put(NUMBER, turn.getNumber());
-        object.put(DATE, turn.getDate().toString());
+        JSONObject object = turn.toJson();
         object.put(CRUDES, crudesJson());
         object.put(STORAGE_PROTEIN, storageProtein());
         object.put(STORAGE_GREASE, storageGrease());

@@ -179,6 +179,7 @@ public class ExtractionCrude extends JsonAble implements Comparable<ExtractionCr
         object.put(GREASE, grease);
         object.put(EXPLOSION_TEMPERATURE, explosionTemperature);
         object.put(OIL_HUMIDITY, oilHumidity);
+
         return object;
     }
 }

@@ -115,7 +115,7 @@
     }
 </script>
 <div id="container">
-    <div v-for="(value, key) in items" class="container-item"
+    <div v-for="(value, key) in getItems()" class="container-item"
          :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: inline-block">
         <div class="turn-date" :class="'t-' + value.item.number">
             <span>
@@ -234,7 +234,7 @@
                         {{crude.dissolvent}}
                     </td>
                     <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.grease).toLocaleString()}}
+                        {{(crude.grease)}}
                     </td>
                     <td align="center" v-on:click="crudeEdit(crude.id)">
                         {{(crude.oilHumidity).toLocaleString()}}
@@ -374,7 +374,7 @@
             <fmt:message key="oil.phosphorus"/>:
             {{(oil.phosphorus).toLocaleString()}},
             <fmt:message key="extraction.oil.explosion"/>:
-            {{(oil.explosionT).toLocaleString()}}
+            {{(oil.explosionTemperature).toLocaleString()}}
         </div>
 
     </div>

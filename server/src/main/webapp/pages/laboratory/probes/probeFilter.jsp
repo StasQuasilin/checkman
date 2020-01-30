@@ -94,10 +94,10 @@
                 </span>
                 <span v-else>
                     {{new Date(from).toLocaleDateString()}}
-                    <span v-on:click="from=-1" class="mini-close">
-                        &times;
-                    </span>
                 </span>
+            </span>
+            <span v-if="from != -1" v-on:click="from=-1" class="mini-close">
+                &times;
             </span>
         </td>
     </tr>

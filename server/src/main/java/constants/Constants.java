@@ -236,7 +236,7 @@ public interface Constants {
     String FRACTION = "fraction";
     String MISCELLAS = "miscellas";
     String DISSOLVENT = "dissolvent";
-    String GREASE = " grease";
+    String GREASE = "grease";
     String EXPLOSION_TEMPERATURE = "explosionTemperature";
     String OIL_HUMIDITY = "oilHumidity";
     String SCREE = "scree";

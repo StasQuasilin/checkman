@@ -1370,4 +1370,9 @@ public class HibernateDAO implements dbDAO, Constants {
         }
         return hb.find(tClass, findData, params);
     }
+
+    @Override
+    public <T> List<T> getObjectsByTimestamp(Class<T> tClass, Timestamp date) {
+        return hb.query(tClass, DATE, date);
+    }
 }
