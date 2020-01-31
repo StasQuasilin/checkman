@@ -299,6 +299,7 @@ public class Branches {
         public static final String TRANSPORT_PER_MONTH = API + "/transport/per/month";
         public static final String PROBE_FIND = API + "/laboratory/probe/find";
         public static final String FIND_EXTRACTION = API + "/laboratory/extraction/find";
+        public static final String FIND_VRO = API + "/laboratory/vro/find";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

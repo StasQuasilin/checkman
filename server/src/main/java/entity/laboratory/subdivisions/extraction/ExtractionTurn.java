@@ -113,7 +113,7 @@ public class ExtractionTurn extends JsonAble{
     @Override
     public JSONObject toJson() {
         JSONObject object = turn.toJson();
-        object.put(CRUDES, crudesJson());
+        object.put(CRUDE, crudesJson());
         object.put(STORAGE_PROTEIN, storageProtein());
         object.put(STORAGE_GREASE, storageGrease());
         object.put(OIL, oil());

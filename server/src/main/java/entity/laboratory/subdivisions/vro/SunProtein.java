@@ -1,6 +1,8 @@
 package entity.laboratory.subdivisions.vro;
 
+import entity.JsonAble;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "sun_protein")
-public class SunProtein {
+public class SunProtein extends JsonAble{
     private int id;
     private VROTurn turn;
     private float protein;
@@ -66,5 +68,15 @@ public class SunProtein {
             return protein * 100 / (100 - humidity);
         }
         return 0;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(PROTEIN, protein);
+        json.put(HUMIDITY, humidity);
+        json.put(DRY, DryRecalculation());
+        return json;
     }
 }

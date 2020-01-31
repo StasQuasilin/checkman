@@ -31,7 +31,7 @@
         this.result = [];
       },
       find:function(){
-        if (this.api.find){
+        if (this.api.find && this.date){
           this.notFound = false;
           const self = this;
           PostApi(this.api.find, {date:this.date,turn:this.turn}, function(a){
@@ -44,6 +44,8 @@
               self.notFound = true;
             }
           })
+        } else{
+          console.log('no api.find')
         }
       },
       leftDate:function(val){
@@ -93,7 +95,10 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2">
+      <td>
+        <fmt:message key="turn"/>
+      </td>
+      <td>
         <select v-model="turn" style="width: 100%" v-on:change="find()">
           <option value="-1">
             <fmt:message key="not.select"/>

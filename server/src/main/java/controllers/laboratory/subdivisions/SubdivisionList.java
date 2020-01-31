@@ -43,9 +43,9 @@ public class SubdivisionList extends IUIServlet {
                     req.setAttribute("storageGrease", Branches.UI.Extraction.STORAGE_GREASE);
                     req.setAttribute("oilEdit", Branches.UI.Extraction.OIL_EDIT);
                     req.setAttribute("mealGranules", Branches.UI.MEAL_GRANULES);
-                    req.setAttribute(FIND, Branches.API.FIND_EXTRACTION);
-                }
 
+                }
+                req.setAttribute(FIND, Branches.API.FIND_EXTRACTION);
                 req.setAttribute("dailyPrint", Branches.UI.Extraction.DAILY_REPORT_PRINT);
                 req.setAttribute(SUBSCRIBE, extractionSubscribes);
                 break;
@@ -62,6 +62,7 @@ public class SubdivisionList extends IUIServlet {
                     req.setAttribute("granules", Branches.UI.VRO.GRANULES);
                     req.setAttribute("forpress", dao.getForpressList());
                 }
+                req.setAttribute(FIND, Branches.API.FIND_VRO);
                 req.setAttribute("dailyEdit", Branches.UI.VRO.DAILY_EDIT);
                 req.setAttribute("dailyPrint", Branches.UI.VRO.DAILY_REPORT_PRINT);
                 req.setAttribute(SUBSCRIBE, vroSubscribes);

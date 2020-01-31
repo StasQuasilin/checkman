@@ -87,7 +87,7 @@
 </script>
 
 <div id="container">
-    <div v-for="(value, key) in items" class="container-item"
+    <div v-for="(value, key) in getItems()" class="container-item"
          :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: inline-block">
         <div class="turn-date" :class="'t-' + value.item.number">
             <span>
@@ -231,7 +231,7 @@
             <fmt:message key="oil.color.value"/>:
             {{oil.color}}
         </div>
-        <div style="padding-left: 8pt; font-size: 10pt" v-for="g in value.item.granules"
+        <div style="padding-left: 8pt; font-size: 10pt" v-for="g in value.item.granulas"
              class="selectable" :id="g.id" v-on:click="editGranules(g.id)">
             <b>
                 <fmt:message key="granules"/>

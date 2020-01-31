@@ -80,7 +80,8 @@ public interface Constants {
     String LABORATORY_CARRIAGES = "laboratoryCarriages";
     String RESULT = "result";
     String KEY = "key";
-    String CRUDES = "crude";
+    String CRUDE = "crude";
+    String CRUDES = "crudes";
     String STORAGE_PROTEIN = "storageProtein";
     String STORAGE_GREASE = "storageGrease";
     String TURN_PROTEIN = "turnProtein";
@@ -255,7 +256,34 @@ public interface Constants {
     String ORGANOLEPTIC = "organoleptic";
     String SOAP = "soap";
     String WAX = "wax";
-
+    String DAILIES = "dailies";
+    String OIL_MASS = "oilMass";
+    String OIL_MASS_DRY = "oilMassDry";
+    String HUMIDITY_BEFORE = "humidityBefore";
+    String SORENESS_BEFORE = "sorenessBefore";
+    String HUMIDITY_AFTER = "humidityAfter";
+    String SORENESS_AFTER = "sorenessAfter";
+    String HUSKINESS = "huskiness";
+    String KERNEL_OFFSET = "kernelOffset";
+    String PULP_HUMIDITY1 = "pulpHumidity1";
+    String PULP_HUMIDITY2 = "pulpHumidity2";
+    String CAKES = "cakes";
+    String FORPRESS = "forpress";
+    String KERNEL_HUMIDITY = "kernelHumidity";
+    String HUSK_HUMIDITY = "huskHumidity";
+    String HUSK_SORENESS = "huskSoreness";
+    String KERNEL_PERCENT = "kernelPercent";
+    String HUSK_PERCENT = "huskPercent";
+    String WET = "wet";
+    String HUSK_DRY = "huskDry";
+    String SEED_WET = "seedWet";
+    String SEED_HUMIDITY = "seedHumidity";
+    String SEED_DRY = "seedDry";
+    String HUSK_WET = "huskWet";
+    String OIL_CAKE = "oilCake";
+    String SEED = "seed";
+    String HUSK = "husk";
+    String DUST = "dust";
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
         public static final String EDIT_DOCUMENT = "document.edit";
