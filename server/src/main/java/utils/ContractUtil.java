@@ -1,6 +1,6 @@
 package utils;
 
-import entity.Address;
+import entity.organisations.Address;
 import entity.DealType;
 import entity.deal.Contract;
 import entity.deal.ContractProduct;

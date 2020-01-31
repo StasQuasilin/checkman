@@ -24,22 +24,28 @@
         header:'<fmt:message key="deal.organisation"/>',
         show:['value']
       },
+      addressTypes:[],
+      addressType:'',
+
       counterparty:{
         id:-1
       },
       address:{
-        city:'',
-        street:'',
-        house:'',
-        block:'',
-        flat:''
+        index:'-',
+        region:'-',
+        district:'-',
+        city:'-',
+        street:'-',
+        build:'-',
+        block:'-',
+        flat:'-'
       }
     },
     methods:{
       save:function(){
-        PostApi(this.api.save, {counterparty:this.counterparty.id, address:this.address}, function(a){
+        PostApi(this.api.save, {counterparty:this.counterparty.id, address:this.address, type:this.addressType}, function(a){
           if(a.status == 'success'){
-            saveModal(a.result)
+            saveModal(a.result);
             closeModal();
           }
         })
@@ -47,11 +53,21 @@
     }
   });
   addressEditor.api.save='${save}';
+  <c:forEach items="${addressTypes}" var="type">
+  addressEditor.addressTypes.push({
+    id:'${type}',
+    value:'<fmt:message key="${type}.address"/>'
+  });
+  </c:forEach>
+  addressEditor.addressType='${type}';
   <c:if test="${not empty counterparty }">
   addressEditor.counterparty = {
     id:${counterparty.id},
     value:'${counterparty.value}'
   };
+  </c:if>
+  <c:if test="${not empty address}">
+  addressEditor.address = JSON.parse('${address.toJson()}');
   </c:if>
 </script>
 <table id="addressEditor" class="editor">
@@ -61,6 +77,50 @@
     </td>
     <td>
       <object-input :props="counterpartyProps" :object="counterparty"></object-input>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="type">
+        <fmt:message key="address.type"/>
+      </label>
+    </td>
+    <td>
+      <select id="type" v-model="addressType">
+        <option v-for="type in addressTypes" :value="type.id">
+          {{type.value}}
+        </option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="index">
+        <fmt:message key="address.index"/>
+      </label>
+    </td>
+    <td>
+      <input id="index" v-model="address.index" onfocus="this.select()" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="region">
+        <fmt:message key="address.region"/>
+      </label>
+    </td>
+    <td>
+      <input id="region" v-model="address.region" onfocus="this.select()" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="district">
+        <fmt:message key="address.district"/>
+      </label>
+    </td>
+    <td>
+      <input id="district" v-model="address.district" onfocus="this.select()" autocomplete="off">
     </td>
   </tr>
   <tr>

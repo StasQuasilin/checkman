@@ -62,6 +62,7 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
 
                 Protocol protocol = dao.getProtocol(transportation.getProduct());
                 req.setAttribute(PROTOCOL, protocol);
+                req.setAttribute(CONTEXT, req.getContextPath());
 
                 switch (type){
                     case sun:

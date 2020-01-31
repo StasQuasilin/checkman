@@ -1,5 +1,6 @@
-package entity;
+package entity.organisations;
 
+import entity.JsonAble;
 import org.json.simple.JSONObject;
 import utils.LanguageBase;
 
@@ -10,8 +11,11 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "address")
-public class Address extends JsonAble{
+public class Address extends JsonAble {
     private int id;
+    private String index;
+    private String region;
+    private String district;
     private String city;
     private String street;
     private String build;
@@ -25,6 +29,33 @@ public class Address extends JsonAble{
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "index")
+    public String getIndex() {
+        return index;
+    }
+    public void setIndex(String index) {
+        this.index = index;
+    }
+
+    @Basic
+    @Column(name = "region")
+    public String getRegion() {
+        return region;
+    }
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    @Basic
+    @Column(name = "district")
+    public String getDistrict() {
+        return district;
+    }
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     @Basic
@@ -76,6 +107,9 @@ public class Address extends JsonAble{
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+        json.put(INDEX, index);
+        json.put(REGION, region);
+        json.put(DISTRICT, district);
         json.put(CITY, city);
         json.put(STREET, street);
         json.put(BUILD, build);

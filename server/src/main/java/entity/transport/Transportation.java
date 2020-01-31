@@ -327,12 +327,19 @@ public class Transportation extends JsonAble implements Serializable {
     @Override
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
+
         object.put(ID, id);
+
+        object.put(COUNTERPARTY, counterparty.toJson());
+
         if (driver != null) {
             object.put(DRIVER, driver.toJson());
         } else {
             object.put(DRIVER, EMPTY_OBJECT);
         }
+
+        object.put(LICENSE, driverLicense);
+
         if (vehicle != null) {
             object.put(VEHICLE, vehicle.toJson());
         }else {

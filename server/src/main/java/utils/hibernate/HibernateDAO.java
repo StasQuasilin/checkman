@@ -27,9 +27,7 @@ import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
-import entity.organisations.LoadAddress;
-import entity.organisations.Organisation;
-import entity.organisations.OrganisationType;
+import entity.organisations.*;
 import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;
@@ -934,6 +932,11 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
+    public LoadAddress getLoadAddress(Address address) {
+        return hb.get(LoadAddress.class, ADDRESS, address);
+    }
+
+    @Override
     public ProductSettings getProductSettings(Product product) {
         ProductSettings settings = hb.get(ProductSettings.class, "product", product);
         if (settings == null){
@@ -1374,5 +1377,15 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public <T> List<T> getObjectsByTimestamp(Class<T> tClass, Timestamp date) {
         return hb.query(tClass, DATE, date);
+    }
+
+    @Override
+    public LegalAddress getLegalAddress(Address address) {
+        return hb.get(LegalAddress.class, ADDRESS, address);
+    }
+
+    @Override
+    public LegalAddress getLegalAddress(Organisation organisation) {
+        return hb.get(LegalAddress.class, ORGANISATION, organisation);
     }
 }

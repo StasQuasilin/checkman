@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import utils.U;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -14,11 +15,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "organisations")
 public class Organisation extends JsonAble{
-
     private int id;
     private String type;
     private String name;
-    private String fullName;
     private ActionTime create;
 
     public static final String EMPTY = Constants.EMPTY;
@@ -51,21 +50,11 @@ public class Organisation extends JsonAble{
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "full_name")
-    public String getFullName() {
-        return fullName;
-    }
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
     @OneToOne
     @JoinColumn(name = "created")
     public ActionTime getCreate() {
         return create;
     }
-
     public void setCreate(ActionTime create) {
         this.create = create;
     }
@@ -86,18 +75,13 @@ public class Organisation extends JsonAble{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * type.hashCode() + hash;
-        hash = 31 * name.hashCode() + hash;
-
-        return hash;
+        return id;
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
-        json.put(FULL_NAME, fullName);
         json.put(NAME, name);
         json.put(TYPE, type);
         json.put(VALUE, getValue());

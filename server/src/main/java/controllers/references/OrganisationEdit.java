@@ -27,9 +27,13 @@ public class OrganisationEdit extends IModal {
 
         if (body != null) {
             if (body.containsKey(ID)){
-                req.setAttribute(ORGANISATION, dao.getObjectById(Organisation.class, body.get(ID)));
+                Organisation organisation = dao.getObjectById(Organisation.class, body.get(ID));
+                req.setAttribute(ORGANISATION, organisation);
+                req.setAttribute(LEGAL_ADDRESS, dao.getLegalAddress(organisation));
+                req.setAttribute(LOAD_ADDRESS, dao.getLoadAddress(organisation));
                 req.setAttribute(TITLE, "references.organisation.edit");
                 req.setAttribute(MODAL_CONTENT, "/pages/references/organisationEdit.jsp");
+                req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
                 req.setAttribute(SAVE, Branches.API.References.EDIT_ORGANISATION);
                 show(req, resp);
             }

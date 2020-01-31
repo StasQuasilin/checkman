@@ -53,12 +53,6 @@ public class EditOrganisationServletAPI extends ServletAPI {
                 save = true;
             }
 
-            String fullName = String.valueOf(body.get(FULL_NAME));
-            if (!U.exist(organisation.getFullName()) || !organisation.getFullName().equals(fullName)){
-                organisation.setFullName(name);
-                save = true;
-            }
-
             String type = String.valueOf(body.get("type"));
             type = type.trim().toUpperCase();
             if (!U.exist(organisation.getType()) || !organisation.getType().equals(type)){

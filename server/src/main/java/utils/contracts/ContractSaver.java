@@ -1,7 +1,7 @@
 package utils.contracts;
 
 import constants.Constants;
-import entity.Address;
+import entity.organisations.Address;
 import entity.DealType;
 import entity.Worker;
 import entity.deal.Contract;

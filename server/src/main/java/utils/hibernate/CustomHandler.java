@@ -6,6 +6,7 @@ import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import entity.transport.*;
 import utils.DocumentUIDGenerator;
+import utils.PrinterUtil;
 import utils.U;
 
 import java.sql.Date;
@@ -20,12 +21,16 @@ public class CustomHandler implements Constants{
 
 
     public static void main(String[] args) {
-        Hibernator instance = Hibernator.getInstance();
+//        Hibernator instance = Hibernator.getInstance();
 
-        for (SunProbe probe : dao.getObjects(SunProbe.class)){
-            probe.setDate(Date.valueOf(probe.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
-            dao.save(probe);
-        }
+        PrinterUtil printerUtil = new PrinterUtil();
+
+        printerUtil.print("http://localhost:3332/app/api/v1/laboratory/oil/print");
+
+//        for (SunProbe probe : dao.getObjects(SunProbe.class)){
+//            probe.setDate(Date.valueOf(probe.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
+//            dao.save(probe);
+//        }
 //        Date date = Date.valueOf(LocalDate.of(2019, 12, 21));
 //        SunProbe sun = new SunProbe();
 //
@@ -43,7 +48,7 @@ public class CustomHandler implements Constants{
 //            dao.save(note);
 //        }
 
-        HibernateSessionFactory.shutdown();
+//        HibernateSessionFactory.shutdown();
     }
 
     static String pretty(String number){

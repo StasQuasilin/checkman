@@ -26,6 +26,8 @@ public interface Constants {
     String DEAL = "deal";
     String DEALS = "deals";
     String INDEX = "index";
+    String REGION = "region";
+    String DISTRICT = "district";
     String CONTRACT = "contract";
     String CONTRACTS = "contracts";
     String MANUFACTURE_ANALYSE = "manufactureAnalyses";
@@ -100,6 +102,8 @@ public interface Constants {
     String UID = "uid";
     String PASSWORD = "password";
     String ORGANISATION = "organisation";
+    String LEGAL_ADDRESS = "legalAddress";
+    String LOAD_ADDRESS = "loadAddress";
     String TYPE = "type";
     String PLAN = "plan";
     String PLANS = "plans";
@@ -163,6 +167,7 @@ public interface Constants {
     String PARSE_TRAILER = "parseTrailer";
     String COUNTERPARTY = "counterparty";
     String ADDRESS = "address";
+    String ADDRESS_TYPES = "addressTypes";
     String CITY = "city";
     String STREET = "street";
     String BUILD = "build";

@@ -106,7 +106,7 @@
         <mapping class="entity.rails.CarriageAnalyses"/>
         <mapping class="entity.storages.StorageProductReplace"/>
         <mapping class="entity.storages.StorageProductReplaceEntry"/>
-        <mapping class="entity.Address"/>
+        <mapping class="entity.organisations.Address"/>
         <mapping class="entity.organisations.LoadAddress"/>
         <mapping class="entity.transport.Transportation2"/>
         <mapping class="entity.transport.TransportationDocument"/>
@@ -121,5 +121,6 @@
         <mapping class="entity.storages.StorageStockCorrection"/>
         <mapping class="entity.laboratory.subdivisions.extraction.MealGranules"/>
         <mapping class="entity.notifications.Notification"/>
+        <mapping class="entity.organisations.LegalAddress"/>
     </session-factory>
 </hibernate-configuration>

@@ -6,11 +6,11 @@ import org.json.simple.JSONObject;
 import javax.persistence.*;
 
 /**
- * Created by szpt_user045 on 29.11.2019.
+ * Created by szpt_user045 on 31.01.2020.
  */
 @Entity
-@Table(name = "load_address")
-public class LoadAddress extends JsonAble{
+@Table(name = "legal_address")
+public class LegalAddress extends JsonAble{
     private int id;
     private Organisation organisation;
     private Address address;
@@ -24,8 +24,8 @@ public class LoadAddress extends JsonAble{
         this.id = id;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "counterparty")
+    @OneToOne
+    @JoinColumn(name = "organisation")
     public Organisation getOrganisation() {
         return organisation;
     }

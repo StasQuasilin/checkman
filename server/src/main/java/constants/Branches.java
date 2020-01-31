@@ -59,7 +59,7 @@ public class Branches {
         public static final String ARCHIVE_SHOW_SUMMARY = ARCHIVE_SHOW + "/" + ArchiveType.summary.toString() + ".j";
         public static final String PERSONAL = "/personal.j";
         public static final String WELCOME = "/welcome.j";
-        public static final String PRINT_DOCUMENT = "/weight/print.j";
+        public static final String WAYBILL_PRINT = "/weight/print.j";
         public static final String WEIGHT_CANCEL = "/weight/cancel.j";
         public static final String RAIL_LIST = "/rail/list.j";
         public static final String RAIL_ARCHIVE = "/rail/archive.j";
@@ -300,6 +300,7 @@ public class Branches {
         public static final String PROBE_FIND = API + "/laboratory/probe/find";
         public static final String FIND_EXTRACTION = API + "/laboratory/extraction/find";
         public static final String FIND_VRO = API + "/laboratory/vro/find";
+        public static final String WAYBILL_PRINT = API + "/waybill/print";
 
         public class References {
             public static final String API = Branches.API.API + "/references";
