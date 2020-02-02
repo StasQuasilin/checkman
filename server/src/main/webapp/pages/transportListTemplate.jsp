@@ -134,6 +134,9 @@
                  v-on:click.right="contextMenu(value.item)">
                     <div style="display: inline-block; max-width: 98%; width: 94%">
                         <div class="upper-row" style="font-size: 11pt">
+                        <span style="font-size: 8pt; color: gray">
+                            {{value.item.id}}
+                        </span>
                         <span :title="new Date(value.item.date).toLocaleDateString()">
                             {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
                         </span>
@@ -207,7 +210,7 @@
                 <div class="right-field">
                     <div class="right-field-content">
                         <div v-if="value.item.weight.id" style="width: 54pt; padding-left: 4pt">
-                            <div v-if="value.item.weight.netto > 0">
+                            <div>
                                 <div>
                                     Б: <b>{{value.item.weight.brutto}}</b>
                                 </div>
@@ -226,11 +229,8 @@
                                     -{{value.item.weight.correction.toLocaleString()}}%
                                 </div>
                             </template>
-
                         </div>
-
                     </div>
-
                     <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>
                 </div>
             </div>

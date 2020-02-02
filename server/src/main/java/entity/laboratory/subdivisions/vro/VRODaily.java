@@ -1,7 +1,9 @@
 package entity.laboratory.subdivisions.vro;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -10,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "vro_dailies")
-public class VRODaily {
+public class VRODaily extends JsonAble {
     private int id;
     private VROTurn turn;
     private float kernelHumidity;
@@ -104,26 +106,18 @@ public class VRODaily {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-//        private float kernelHumidity;
-        hash = 31 * Float.hashCode(kernelHumidity) + hash;
-//        private float huskHumidity;
-        hash = 31 * Float.hashCode(huskHumidity) + hash;
-//        private float huskSoreness;
-        hash = 31 * Float.hashCode(huskSoreness) + hash;
-//        private float kernelPercent;
-        hash = 31 * Float.hashCode(kernelPercent) + hash;
-//        private float huskPercent;
-        hash = 31 * Float.hashCode(huskPercent) + hash;
-//        private ActionTime createTime;
-        if (createTime != null) {
-            hash = 31 * createTime.hashCode() + hash;
-        }
-//        private Worker creator;
-        if (creator != null) {
-            hash = 31 * creator.hashCode() + hash;
-        }
+        return id;
+    }
 
-        return hash;
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(KERNEL_HUMIDITY, kernelHumidity);
+        json.put(HUSK_HUMIDITY, huskHumidity);
+        json.put(HUSK_SORENESS, huskSoreness);
+        json.put(KERNEL_PERCENT, kernelPercent);
+        json.put(HUSK_PERCENT, huskPercent);
+        return json;
     }
 }

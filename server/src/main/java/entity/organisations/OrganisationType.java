@@ -7,9 +7,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "organisation_types")
-public class OrganisationType {
+public class OrganisationType{
     private int id;
     private String name;
+    private String fullName;
 
     @Id
     @GeneratedValue
@@ -25,8 +26,16 @@ public class OrganisationType {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "full_name")
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

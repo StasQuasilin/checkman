@@ -3,17 +3,20 @@ package entity.laboratory.probes;
 import entity.Worker;
 import entity.laboratory.SunAnalyses;
 import entity.production.Turn;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 /**
  * Created by quasilin on 01.04.2019.
  */
 @Entity
 @Table(name = "probe_sun")
-public class SunProbe {
+public class SunProbe extends IProbe {
     private int id;
     private ProbeTurn turn;
+    private Date date;
     private String manager;
     private String organisation;
     private SunAnalyses analyses;
@@ -27,6 +30,7 @@ public class SunProbe {
         this.id = id;
     }
 
+    @Override
     @ManyToOne
     @JoinColumn(name = "turn")
     public ProbeTurn getTurn() {
@@ -34,6 +38,15 @@ public class SunProbe {
     }
     public void setTurn(ProbeTurn turn) {
         this.turn = turn;
+    }
+
+    @Basic
+    @Column(name = "date")
+    public Date getDate() {
+        return date;
+    }
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Basic
@@ -65,16 +78,26 @@ public class SunProbe {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        if (manager != null) {
-            hash = 31 * manager.hashCode() + hash;
-        }
-        if (organisation != null) {
-            hash = 31 * organisation.hashCode() + hash;
-        }
+        return id;
+    }
 
-        hash = 31 * analyses.hashCode() + hash;
+    @Override
+    public String toString() {
+        return "SunProbe{\n" +
+                "\t\tturn=" + turn.getTurn().getDate().toString() + "\n" +
+                "\t\tmanager='" + manager + '\'' + "\n" +
+                "\t\torganisation='" + organisation + '\'' + "\n" +
+                "\t}";
+    }
 
-        return hash;
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(DATE, date.toString());
+        object.put(MANAGER, manager);
+        object.put(ORGANISATION, organisation);
+        object.put(ANALYSES, analyses.toJson());
+        return object;
     }
 }

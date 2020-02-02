@@ -1,7 +1,11 @@
 package entity.laboratory.subdivisions.vro;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -12,7 +16,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "vro_crude")
-public class VROCrude implements Comparable<VROCrude>{
+public class VROCrude extends JsonAble implements Comparable<VROCrude>{
     private int id;
     private VROTurn turn;
     private Timestamp time;
@@ -155,36 +159,37 @@ public class VROCrude implements Comparable<VROCrude>{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-//        private Timestamp time;
-        hash = 31 * time.hashCode() + hash;
-//        private float humidityBefore;
-        hash = 31 * Float.hashCode(humidityBefore) + hash;
-//        private float sorenessBefore;
-        hash = 31 * Float.hashCode(sorenessBefore) + hash;
-//        private float humidityAfter;
-        hash = 31 * Float.hashCode(humidityAfter) + hash;
-//        private float sorenessAfter;
-        hash = 31 * Float.hashCode(sorenessAfter) + hash;
-//        private float huskiness;
-        hash = 31 * Float.hashCode(huskiness) + hash;
-//        private float kernelOffset;
-        hash = 31 * Float.hashCode(kernelOffset) + hash;
-//        private float pulpHumidity;
-        hash = 31 * Float.hashCode(pulpHumidity1) + hash;
-        for (ForpressCake cake : forpressCakes) {
-            hash = 31 * cake.hashCode() + hash;
-        }
-//        private ActionTime createTime;
-        hash = 31 * createTime.hashCode() + hash;
-//        private Worker creator;
-        hash = 31 * creator.hashCode() + hash;
-
-        return hash;
+        return id;
     }
 
     @Override
-    public int compareTo(VROCrude o) {
+    public int compareTo(@NotNull VROCrude o) {
         return time.compareTo(o.time);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(TIME, time.toString());
+        json.put(HUMIDITY_BEFORE, humidityBefore);
+        json.put(SORENESS_BEFORE, sorenessBefore);
+        json.put(HUMIDITY_AFTER, humidityAfter);
+        json.put(SORENESS_AFTER, sorenessAfter);
+        json.put(HUSKINESS, huskiness);
+        json.put(KERNEL_OFFSET, kernelOffset);
+        json.put(PULP_HUMIDITY1, pulpHumidity1);
+        json.put(PULP_HUMIDITY2, pulpHumidity2);
+
+        json.put(CAKES, cakes());
+        return json;
+    }
+
+    private JSONObject cakes() {
+        JSONObject json = pool.getObject();
+        for (ForpressCake cake : forpressCakes){
+            json.put(cake.getForpress().getName(), cake.toJson());
+        }
+        return json;
     }
 }

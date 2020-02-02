@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/weightEdit.vue"></script>
 <script>
-    editor.api.saveWeightAPI = '${saveWeightAPI}';
+    editor.api.saveWeightAPI = '${save}';
     editor.api.print = '${print}';
     editor.id=${plan.id}
     <c:choose>

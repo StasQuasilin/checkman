@@ -16,9 +16,9 @@ import java.io.IOException;
 public class LaboratoryMonthlyReport extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", "title.monthly.print");
-        req.setAttribute("modalContent", "/pages/laboratory/reports/monthlyReport.jsp");
-        req.setAttribute("print", Branches.API.LABORATORY_MONTHLY_REPORT);
+        req.setAttribute(TITLE, "title.monthly.print");
+        req.setAttribute(MODAL_CONTENT, "/pages/laboratory/reports/monthlyReport.jsp");
+        req.setAttribute(PRINT, Branches.API.LABORATORY_MONTHLY_REPORT);
         show(req, resp);
     }
 }

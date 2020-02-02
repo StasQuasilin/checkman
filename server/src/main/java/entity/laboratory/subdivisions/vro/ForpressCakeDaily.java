@@ -1,6 +1,8 @@
 package entity.laboratory.subdivisions.vro;
 
+import entity.JsonAble;
 import entity.production.Forpress;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "forpress_cake")
-public class ForpressCakeDaily {
+public class ForpressCakeDaily extends JsonAble{
     private int id;
     private OilMassFraction oilMassFraction;
     private Forpress forpress;
@@ -78,5 +80,16 @@ public class ForpressCakeDaily {
         hash = 31 * Float.hashCode(humidity) + hash;
         hash = 31 * Float.hashCode(dry) + hash;
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(FORPRESS, forpress.getName());
+        json.put(WET, wet);
+        json.put(HUMIDITY, humidity);
+        json.put(DRY, dry);
+        return json;
     }
 }

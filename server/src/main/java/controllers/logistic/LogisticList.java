@@ -25,18 +25,18 @@ public class LogisticList extends IUIServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.LOGISTIC_LIST);
-        req.setAttribute("findVehicle", Branches.API.References.FIND_VEHICLE);
-        req.setAttribute("findTrailer", Branches.API.References.FIND_TRAILER);
-        req.setAttribute("findDriver", Branches.API.References.FIND_DRIVER);
-        req.setAttribute("findOrganisation", Branches.API.References.FIND_ORGANISATION);
-        req.setAttribute("parseVehicle", Branches.API.PARSE_VEHICLE);
-        req.setAttribute("parseTrailer", Branches.API.PARSE_TRAILER);
-        req.setAttribute("parseDriver", Branches.API.PARSE_PERSON);
-        req.setAttribute("parseOrganisation", Branches.API.References.PARSE_ORGANISATION);
-        req.setAttribute("save", Branches.API.SAVE_TRANSPORTATION_VEHICLE);
-        req.setAttribute("editVehicle", Branches.UI.EDIT_VEHICLE);
-        req.setAttribute("editDriver", Branches.UI.EDIT_DRIVER);
-        req.setAttribute("editOrganisation", Branches.UI.References.ORGANISATION_EDIT);
+        req.setAttribute(FIND_VEHICLE, Branches.API.References.FIND_VEHICLE);
+        req.setAttribute(FIND_TRAILER, Branches.API.References.FIND_TRAILER);
+        req.setAttribute(FIND_DRIVER, Branches.API.References.FIND_DRIVER);
+        req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute(PARSE_VEHICLE, Branches.API.PARSE_VEHICLE);
+        req.setAttribute(PARSE_TRAILER, Branches.API.PARSE_TRAILER);
+        req.setAttribute(PARSE_DRIVER, Branches.API.PARSE_PERSON);
+        req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
+        req.setAttribute(SAVE, Branches.API.SAVE_TRANSPORTATION_VEHICLE);
+        req.setAttribute(EDIT_VEHICLE, Branches.UI.EDIT_VEHICLE);
+        req.setAttribute(EDIT_DRIVER, Branches.UI.EDIT_DRIVER);
+        req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);
         req.setAttribute("saveNote", Branches.API.SAVE_NOTE);
         req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
         req.setAttribute("dealTypes", DealType.values());

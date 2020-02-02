@@ -1,7 +1,9 @@
 package entity.laboratory.subdivisions.vro;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,7 +13,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "vro_oil")
-public class VROOil {
+public class VROOil extends JsonAble{
     private int id;
     private VROTurn turn;
     private float acid;
@@ -96,5 +98,16 @@ public class VROOil {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(ACID, acid);
+        json.put(PEROXIDE, peroxide);
+        json.put(PHOSPHORUS, phosphorus);
+        json.put(COLOR, color);
+        return json;
     }
 }

@@ -37,7 +37,7 @@
             setTimeout(function(){
               print.print();
               print.close();
-            }, 500)
+            }, 1500)
           })
         }
       },

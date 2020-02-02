@@ -53,14 +53,7 @@ var editor = new Vue({
             return value < 1000 ? value : value / 1000;
         },
         print:function(){
-            PostReq(this.api.print, {id: this.id }, function(a){
-                var print = window.open()
-                print.document.write('<html>');
-                print.document.write(a)
-                print.document.write('</html>');
-                print.print();
-                print.close();
-            })
+            loadModal(this.api.print, {id: this.id })
         }
 
     }

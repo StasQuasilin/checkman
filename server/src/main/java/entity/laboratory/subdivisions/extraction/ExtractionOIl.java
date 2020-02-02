@@ -106,22 +106,7 @@ public class ExtractionOIl extends JsonAble{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-//        private float humidity;
-        hash = 31 * Float.hashCode(humidity) + hash;
-//        private float acid;
-        hash = 31 * Float.hashCode(acid) + hash;
-//        private float peroxide;
-        hash = 31 * Float.hashCode(peroxide) + hash;
-//        private float phosphorus;
-        hash = 31 * Float.hashCode(phosphorus) + hash;
-//        private float explosionT;
-        hash = 31 * Float.hashCode(explosionT) + hash;
-//        private ActionTime createTime;
-        if (createTime != null) {
-            hash = 31 * createTime.hashCode() + hash;
-        }
-        return hash;
+        return id;
     }
 
     @Override

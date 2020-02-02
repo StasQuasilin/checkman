@@ -21,7 +21,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -49,6 +51,7 @@ public class EditSunProbeServletAPI extends ServletAPI {
                 probe = new SunProbe();
                 probe.setAnalyses(new SunAnalyses());
                 probe.setTurn(targetTurn);
+                probe.setDate(Date.valueOf(LocalDate.now()));
             }
 
             SunAnalyses analyses = probe.getAnalyses();

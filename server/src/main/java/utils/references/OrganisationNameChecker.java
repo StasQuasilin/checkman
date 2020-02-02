@@ -21,7 +21,6 @@ public class OrganisationNameChecker implements Constants{
             } else {
                 builder.append(split[0].substring(0, 20));
             }
-            organisation.setFullName(name);
             organisation.setName(builder.toString());
             return true;
         }

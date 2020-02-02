@@ -1,7 +1,10 @@
 package entity.laboratory.subdivisions.vro;
 
+import entity.JsonAble;
 import entity.Worker;
 import entity.transport.ActionTime;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
@@ -12,7 +15,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "oil_mass_fractions_dry")
-public class OilMassFractionDry {
+public class OilMassFractionDry extends JsonAble{
     private int id;
     private VROTurn turn;
     private float seed;
@@ -94,5 +97,23 @@ public class OilMassFractionDry {
             }
         }
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(SEED, seed);
+        json.put(HUSK, husk);
+        json.put(FORPRESS, forpressCake());
+        return json;
+    }
+
+    private JSONArray forpressCake() {
+        JSONArray array = pool.getArray();
+        for (ForpressCakeDailyDry dry : forpressCakes){
+            array.add(dry.toJson());
+        }
+        return array;
     }
 }

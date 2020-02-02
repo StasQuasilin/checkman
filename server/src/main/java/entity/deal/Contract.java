@@ -1,7 +1,6 @@
 package entity.deal;
 
-import entity.Address;
-import entity.DealType;
+import entity.organisations.Address;
 import entity.JsonAble;
 import entity.Worker;
 import entity.organisations.Organisation;

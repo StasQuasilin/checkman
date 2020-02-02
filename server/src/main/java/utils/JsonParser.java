@@ -473,7 +473,6 @@ public class JsonParser {
             json.put(ORGANISATION, sun.getOrganisation());
         }
         json.put(ANALYSES, toJson(sun.getAnalyses()));
-        json.put(HASH, sun.hashCode());
         return json;
     }
 

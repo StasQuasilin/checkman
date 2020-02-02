@@ -56,6 +56,7 @@ public class SignInFilter implements Filter{
             isValid = false;
         } else if (!userBox.getUser(token).isValid(ip)){
             log.info("Session: " + request.getSession().getId() + ": invalid IP: " + ip);
+            userBox.remove(token);
             isValid = false;
         }
 

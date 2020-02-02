@@ -11,6 +11,7 @@ import entity.deal.Contract;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.Protocol;
+import entity.laboratory.probes.IProbe;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
@@ -24,9 +25,8 @@ import entity.laboratory.transportation.ActNumber;
 import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
-import entity.organisations.LoadAddress;
-import entity.organisations.Organisation;
-import entity.organisations.OrganisationType;
+import entity.organisations.*;
+import entity.organisations.Address;
 import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;
@@ -229,6 +229,7 @@ public interface dbDAO {
     List<Transportation> getTransportationsByTransporter(Organisation transporter);
     Product getProductByName(String name);
     List<LoadAddress> getLoadAddress(Organisation organisation);
+    LoadAddress getLoadAddress(Address address);
     ProductSettings getProductSettings(Product product);
     <T>List<T> find(Class<T> tClass, String key, String value);
     List<Contract> getContractsByType(DealType type);
@@ -240,4 +241,8 @@ public interface dbDAO {
     List<TruckInfo> getTruckInfo(String number);
     void flush();
     List<Transportation> getTransportationsByDate(Date from, Date to);
+    <T>List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation);
+    <T>List<T> getObjectsByTimestamp(Class<T> tClass, Timestamp date);
+    LegalAddress getLegalAddress(Address address);
+    LegalAddress getLegalAddress(Organisation organisation);
 }

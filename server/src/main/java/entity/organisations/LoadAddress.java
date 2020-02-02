@@ -1,6 +1,5 @@
 package entity.organisations;
 
-import entity.Address;
 import entity.JsonAble;
 import org.json.simple.JSONObject;
 
@@ -45,10 +44,6 @@ public class LoadAddress extends JsonAble{
 
     @Override
     public JSONObject toJson() {
-        JSONObject json = pool.getObject();
-        json.put(ID, id);
-        json.put(COUNTERPARTY, organisation.toJson());
-        json.put(ADDRESS, address.toJson());
-        return json;
+        return address.toJson();
     }
 }

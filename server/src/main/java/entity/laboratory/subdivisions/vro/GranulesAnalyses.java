@@ -1,6 +1,8 @@
 package entity.laboratory.subdivisions.vro;
 
+import entity.JsonAble;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="granules_analyses")
-public class GranulesAnalyses {
+public class GranulesAnalyses extends JsonAble{
     private int id;
     private VROTurn turn;
     private float density;
@@ -79,5 +81,16 @@ public class GranulesAnalyses {
     }
     public void setCreateTime(ActionTime createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        json.put(DENSITY, density);
+        json.put(HUMIDITY, humidity);
+        json.put(DUST, dust);
+        json.put(MATCH, match);
+        return json;
     }
 }

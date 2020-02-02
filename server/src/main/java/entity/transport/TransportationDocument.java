@@ -1,6 +1,6 @@
 package entity.transport;
 
-import entity.Address;
+import entity.organisations.Address;
 import entity.JsonAble;
 import entity.deal.Contract;
 import entity.organisations.Organisation;

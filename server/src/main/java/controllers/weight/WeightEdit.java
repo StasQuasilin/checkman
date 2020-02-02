@@ -30,10 +30,10 @@ public class WeightEdit extends IModal {
             req.setAttribute(PLAN, plan);
             req.setAttribute("seals", dao.getSealsByTransportation(plan.getTransportation()));
         }
-        req.setAttribute("saveWeightAPI", Branches.API.SAVE_WEIGHT);
+        req.setAttribute(SAVE, Branches.API.SAVE_WEIGHT);
         req.setAttribute(TITLE, Titles.WEIGHT_EDIT);
         req.setAttribute(MODAL_CONTENT, "/pages/weight/weightEdit.jsp");
-        req.setAttribute("print", Branches.UI.PRINT_DOCUMENT);
+        req.setAttribute(PRINT, Branches.UI.WAYBILL_PRINT);
         show(req, resp);
     }
 }

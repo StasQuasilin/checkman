@@ -48,15 +48,14 @@ public class Hibernator {
 
     public static final String SLASH = Constants.SLASH;
 
-    private <T, K> Root<K> buildQuery(CriteriaBuilder criteriaBuilder, CriteriaQuery<T> query, Class<K> tClass, HashMap<String, Object> param){
-        Root<K> from = query.from(tClass);
+    <K, T> Predicate[] buildPredicates(CriteriaBuilder criteriaBuilder, CriteriaQuery<T> query, Root<K> root, HashMap<String, Object> param){
         if (param != null){
             Predicate[] predicates = new Predicate[param.size()];
             int i = 0;
 
             for (Map.Entry<String, Object> entry : param.entrySet()){
 
-                Path<Date> path = parsePath(from, entry.getKey());
+                Path<Date> path = parsePath(root, entry.getKey());
 
                 if (entry.getValue() == null || entry.getValue().equals(State.isNull)){
                     predicates[i] = criteriaBuilder.isNull(path);
@@ -92,16 +91,26 @@ public class Hibernator {
                 }
                 i++;
             }
-            query.where(predicates);
+            return predicates;
         }
+        return new Predicate[0];
+    }
+
+    private <T, K> Root<K> buildQuery(CriteriaBuilder criteriaBuilder, CriteriaQuery<T> query, Class<K> tClass, HashMap<String, Object> param){
+        Root<K> from = query.from(tClass);
+        query.where(buildPredicates(criteriaBuilder, query, from, param));
         return from;
     }
 
     private <T> CriteriaQuery<T> getCriteriaQuery(Session session, Class<T> tClass, HashMap<String, Object> parameters) {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-        CriteriaQuery<T> query = criteriaBuilder.createQuery(tClass);
+        return getCriteriaQuery(criteriaBuilder, tClass, parameters);
+    }
 
-        buildQuery(criteriaBuilder, query, tClass, parameters);
+    private <T> CriteriaQuery<T> getCriteriaQuery(CriteriaBuilder builder, Class<T> tClass, HashMap<String, Object> parameters) {
+        CriteriaQuery<T> query = builder.createQuery(tClass);
+
+        buildQuery(builder, query, tClass, parameters);
 
         return query;
     }
@@ -150,7 +159,6 @@ public class Hibernator {
 
         return sum;
     }
-
 
     public synchronized <T>List<T> query(Class<T> tClass, HashMap<String, Object> params){
         Session session = HibernateSessionFactory.getSession();
@@ -205,7 +213,6 @@ public class Hibernator {
         }
     }
 
-
     public <T> void Clear(Class<T> tClass) {
         Session session = HibernateSessionFactory.getSession();
 
@@ -226,20 +233,21 @@ public class Hibernator {
         session.beginTransaction().commit();
         HibernateSessionFactory.putSession(session);
     }
-
     public <T> List<T> find (Class<T> tClass, HashMap<String, String> params){
+        return find(tClass, params, null);
+    }
+    public <T> List<T> find (Class<T> tClass, HashMap<String, String> findData, HashMap<String, Object> params){
 
         Session session = HibernateSessionFactory.getSession();
-
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<T> query = criteriaBuilder.createQuery(tClass);
         Root<T> from = query.from(tClass);
 
-        if (params != null) {
-            Predicate[] predicates = new Predicate[params.size()];
-            int i = 0;
+        ArrayList<Predicate> predicates = new ArrayList<>();
+        Collections.addAll(predicates, buildPredicates(criteriaBuilder, query, from, params));
+        if (findData != null) {
 
-            for (Map.Entry<String, String> entry : params.entrySet()){
+            for (Map.Entry<String, String> entry : findData.entrySet()){
                 String[] split = entry.getKey().split("/");
                 Path<String> objectPath = null;
 
@@ -250,17 +258,19 @@ public class Hibernator {
                         objectPath = objectPath.get(s);
                     }
                 }
+                Predicate predicate;
                 if (entry.getValue() != null) {
-                    predicates[i] = criteriaBuilder.like(criteriaBuilder.upper(objectPath), "%" + entry.getValue().toUpperCase() + "%");
+                    predicate = criteriaBuilder.like(criteriaBuilder.upper(objectPath), "%" + entry.getValue().toUpperCase() + "%");
                 } else {
-                    predicates[i] = criteriaBuilder.isNull(objectPath);
+                    predicate = criteriaBuilder.isNull(objectPath);
                 }
-                i++;
+                predicates.add(predicate);
             }
-            query.where(predicates);
         }
-        List<T> resultList = session.createQuery(query)
-                .getResultList();
+        Predicate[] p = new Predicate[predicates.size()];
+        predicates.toArray(p);
+        query.where(p);
+        List<T> resultList = session.createQuery(query).getResultList();
 
         HibernateSessionFactory.putSession(session);
 
@@ -272,9 +282,6 @@ public class Hibernator {
         par.put(number, key);
         return find(tClass, par);
     }
-
-
-
 
     public void save(Object ... objects) {
         Session session = HibernateSessionFactory.getSession();
