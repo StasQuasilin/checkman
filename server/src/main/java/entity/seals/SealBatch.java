@@ -1,6 +1,8 @@
 package entity.seals;
 
+import entity.JsonAble;
 import entity.transport.ActionTime;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "seals_batch")
-public class SealBatch {
+public class SealBatch extends JsonAble{
     private int id;
     private String title;
     private ActionTime created;
@@ -79,5 +81,16 @@ public class SealBatch {
         hash = 31 * Long.hashCode(total) + hash;
         hash = 31 * Boolean.hashCode(archive) + hash;
         return hash;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(TITLE, title);
+        object.put(TIME, created.toJson());
+        object.put(FREE, free);
+        object.put(TOTAL, total);
+        return object;
     }
 }

@@ -2,40 +2,31 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
-import entity.DealType;
-import entity.transport.Transportation;
+import entity.seals.Seal;
+import entity.seals.SealBatch;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by szpt_user045 on 11.07.2019.
+ * Created by szpt_user045 on 03.02.2020.
  */
-public class TransportHandler extends OnSubscribeHandler {
+public class SealHandler extends OnSubscribeHandler {
 
-    final DealType type;
-
-    public TransportHandler(Subscriber subscriber, DealType type) {
+    public SealHandler(Subscriber subscriber) {
         super(subscriber);
-        this.type = type;
     }
 
     @Override
     public void handle(Session session) throws IOException {
         JSONObject json = pool.getObject();
         JSONArray add = pool.getArray();
-        add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
+        add.addAll(dao.getActiveSealsBatches().stream().map(SealBatch::toJson).collect(Collectors.toList()));
         json.put(ADD, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         pool.put(json);
-    }
-
-    List<Transportation> getTransport(){
-        return dao.getTransportationsByType(type);
     }
 }

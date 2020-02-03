@@ -77,6 +77,14 @@ public interface Constants {
     String IN = "in";
     String OUT = "out";
     String TRUCK_INFO = "truckInfo";
+    String SEAL = "seal";
+    String SEALS = "seals";
+    String REMOVE_SEAL = "removeSeals";
+    String SAVE_SEAL = "saveSeal";
+    String FIND_SEALS = "findSeals";
+    String REGISTRATION = "registration";
+    String REMOVE_TIME = "removeTime";
+    String SAVE_TIME = "saveTime";
     String HAVE_MENU = "menu";
     String CHECK = "check";
     String LABORATORY_CARRIAGES = "laboratoryCarriages";
@@ -102,6 +110,7 @@ public interface Constants {
     String UID = "uid";
     String PASSWORD = "password";
     String ORGANISATION = "organisation";
+    String ORGANISATION_TYPE = "organisationType";
     String LEGAL_ADDRESS = "legalAddress";
     String LOAD_ADDRESS = "loadAddress";
     String TYPE = "type";
@@ -124,6 +133,8 @@ public interface Constants {
     String REALISATION = "realisation";
     String ADD = "add";
     String TITLE = "title";
+    String FREE = "free";
+    String TOTAL = "total";
     String SAVE = "save";
     String REMOVE = "remove";
     String STANDARD = "standard";
@@ -150,6 +161,7 @@ public interface Constants {
     String PATH = "path";
     String IS_NEW = "isNew";
     String EDIT_ADDRESS = "editAddress";
+    String FIND_ORGANISATION_TYPE = "findOrganisatonType";
     String FIND = "find";
     String FIND_PRODUCT = "findProduct";
     String FIND_LOAD_ADDRESS = "findLoadAddress";

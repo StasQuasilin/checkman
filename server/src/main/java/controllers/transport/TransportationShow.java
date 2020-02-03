@@ -21,6 +21,8 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_SHOW)
 public class TransportationShow extends IModal {
 
+    private static final String _CONTENT = "/pages/transport/transportShow.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(ID));
@@ -41,20 +43,17 @@ public class TransportationShow extends IModal {
         req.setAttribute(BRUTTO, b);
         req.setAttribute(TARA, t);
         req.setAttribute(NETTO, n);
-        req.setAttribute("transportation", transportation);
+        req.setAttribute(TRANSPORTATION, transportation);
         req.setAttribute(TITLE, Titles.TRANSPORT_SHOW);
-        req.setAttribute("timeInLink", Branches.API.TRANSPORT_TIME_IN);
-        req.setAttribute("timeOutLink", Branches.API.TRANSPORT_TIME_OUT);
-        req.setAttribute("removeTime", Branches.API.REMOVE_TRANSPORT_TIME);
-        req.setAttribute(IN, TransportDirection.in);
-        req.setAttribute(OUT, TransportDirection.out);
-        req.setAttribute("registration", Branches.API.TRANSPORT_REGISTRATION);
-        req.setAttribute("findSeals", Branches.API.SEALS_FIND);
-        req.setAttribute("saveSeal", Branches.API.SEAL_PUT);
-        req.setAttribute("removeSeal", Branches.API.SEAL_REMOVE);
-        req.setAttribute("seals", dao.getSealsByTransportation(transportation));
+        req.setAttribute(SAVE_TIME, Branches.API.TRANSPORT_TIME);
+        req.setAttribute(REMOVE_TIME, Branches.API.REMOVE_TRANSPORT_TIME);
+        req.setAttribute(REGISTRATION, Branches.API.TRANSPORT_REGISTRATION);
+        req.setAttribute(FIND_SEALS, Branches.API.SEALS_FIND);
+        req.setAttribute(SAVE_SEAL, Branches.API.SEAL_PUT);
+        req.setAttribute(REMOVE_SEAL, Branches.API.SEAL_REMOVE);
+        req.setAttribute(SEALS, dao.getSealsByTransportation(transportation));
         req.setAttribute(TRUCK_INFO, Branches.UI.TRUCK_INFO);
-        req.setAttribute(MODAL_CONTENT, "/pages/transport/transportShow.jsp");
+        req.setAttribute(MODAL_CONTENT, _CONTENT);
         show(req, resp);
     }
 }

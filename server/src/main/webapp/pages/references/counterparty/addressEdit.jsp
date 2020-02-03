@@ -31,14 +31,14 @@
         id:-1
       },
       address:{
-        index:'-',
-        region:'-',
-        district:'-',
-        city:'-',
-        street:'-',
-        build:'-',
-        block:'-',
-        flat:'-'
+        index:'',
+        region:'',
+        district:'',
+        city:'',
+        street:'',
+        build:'',
+        block:'',
+        flat:''
       }
     },
     methods:{

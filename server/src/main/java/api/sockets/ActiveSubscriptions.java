@@ -60,6 +60,7 @@ public class ActiveSubscriptions {
         handlers.put(Subscriber.MANUFACTURE_REPORTS, new ManufactureReportHandler(Subscriber.MANUFACTURE_REPORTS));
         handlers.put(Subscriber.STOCK, new StockHandler(Subscriber.STOCK));
         handlers.put(Subscriber.TRANSPORT, new RetailHandler(Subscriber.TRANSPORT));
+        handlers.put(Subscriber.SEALS, new SealHandler(Subscriber.SEALS));
     }
 
     public static ActiveSubscriptions getInstance() {

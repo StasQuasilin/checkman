@@ -10,6 +10,7 @@
     data:{
       api:{},
       organisation:{},
+      type:'',
       legalAddress:{},
       loadAddress:[],
       err:{
@@ -17,6 +18,19 @@
       }
     },
     methods:{
+      findType:function(){
+        if (!this.type.fullName && this.organisation.type){
+          const self = this;
+          PostApi(this.api.findType, {key:this.organisation.type}, function(a){
+            if (a.status && a.status === 'success'){
+              var full = a.result.fullName;
+              if (full) {
+                self.type.fullName = full;
+              }
+            }
+          })
+        }
+      },
       editLegalAddress:function(id){
         const self = this;
         this.editAddress('legal', id, function(a){
@@ -40,7 +54,11 @@
       save:function(){
         var err = this.err.name = this.organisation.name === '';
         if (!err) {
-          PostApi(this.api.save, this.organisation, function (a) {
+          var data = {
+            organisation:this.organisation,
+            type:this.type
+          };
+          PostApi(this.api.save, data, function (a) {
             saveModal(a);
             if (a.status == 'success') {
               closeModal();
@@ -52,11 +70,17 @@
   });
   editor.api.save='${save}';
   editor.api.editAddress = '${editAddress}';
+  editor.api.findType = '${findOrganisatonType}';
+
   <c:choose>
   <c:when test="${not empty organisation}">
   editor.organisation=${organisation.toJson()};
   </c:when>
   </c:choose>
+
+  <c:if test="${not empty organisationType}">
+  editor.type = ${organisationType.toJson()};
+  </c:if>
   <c:if test="${not empty legalAddress}">
   editor.legalAddress = ${legalAddress.toJson()};
   </c:if>
@@ -64,6 +88,8 @@
   editor.loadAddress.push(${address.toJson()});
   </c:forEach>
 </script>
+<c:set var="shortName"><fmt:message key="organisation.short.name"/></c:set>
+<c:set var="fullName"><fmt:message key="organisation.full.name"/> </c:set>
 <table id="edit" style="width: 300pt">
   <tr>
     <td colspan="3">
@@ -79,15 +105,14 @@
     </td>
   </tr>
   <tr>
-    <td colspan="2">
+    <td colspan="2" style="border: solid gray 1pt">
       <label for="form">
         <fmt:message key="organisation.form"/>
       </label>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <input id="form" v-model="organisation.type" autocomplete="off" style="width: 100%">
+      <input id="form" v-model="organisation.type" autocomplete="off" title="${shortName}"
+             style="width: 10em" onfocus="this.select()" v-on:blur="findType()">
+      <input style="width: 100%" v-model="type.fullName" title="${fullName}"
+             autocomplete="off" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -113,7 +138,7 @@
             {{legalAddress.district}}
             <fmt:message key="address.district.short"/>,
           </span>
-          <br>
+          <br v-if="legalAddress.index || legalAddress.region || legalAddress.district">
           {{legalAddress.city}},
           {{legalAddress.street}},
           {{legalAddress.build}}

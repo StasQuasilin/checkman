@@ -5,6 +5,7 @@ import entity.seals.SealBatch;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -13,12 +14,9 @@ import java.util.List;
 public class SealsUtil {
 
     private static dbDAO dao = dbDAOService.getDAO();
+    private UpdateUtil updateUtil = new UpdateUtil();
 
-    public static void checkBatch(List<SealBatch> batches){
-        batches.forEach(SealsUtil::checkBatch);
-    }
-
-    public static synchronized void checkBatch(SealBatch batch){
+    public synchronized void checkBatch(SealBatch batch){
         List<Seal> seals = dao.getSealsByBatch(batch);
         int free = 0;
         for (Seal seal : seals){
@@ -30,5 +28,10 @@ public class SealsUtil {
         batch.setTotal(seals.size());
         batch.setArchive(free == 0);
         dao.save(batch);
+        try {
+            updateUtil.onSave(batch);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

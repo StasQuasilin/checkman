@@ -1,5 +1,6 @@
 package controllers.seals;
 
+import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
@@ -16,12 +17,14 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SEAL_LIST)
 public class SealsList extends IUIServlet {
 
+    private static final Subscriber[] subs = new Subscriber[]{Subscriber.SEALS};
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("title", Titles.SEAL_LIST);
-        req.setAttribute("edit", Branches.UI.SEAL_CREATE);
-        req.setAttribute("update", Branches.API.SEAL_UPDATE);
-        req.setAttribute("content", "/pages/seals/sealsList.jsp");
+        req.setAttribute(TITLE, Titles.SEAL_LIST);
+        req.setAttribute(EDIT, Branches.UI.SEAL_CREATE);
+        req.setAttribute(SUBSCRIBE, subs);
+        req.setAttribute(CONTENT, "/pages/seals/sealsList.jsp");
         show(req, resp);
     }
 }

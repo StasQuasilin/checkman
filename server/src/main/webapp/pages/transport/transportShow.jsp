@@ -6,8 +6,7 @@
 <html>
 <script src="${context}/vue/transportationShow.vue"></script>
 <script>
-    show.api.timeInApi = '${timeInLink}';
-    show.api.timeOutApi = '${timeOutLink}';
+    show.api.timeApi = '${saveTime}';
     show.api.removeTime = '${removeTime}';
     show.api.registration = '${registration}';
     show.api.findSeals = '${findSeals}';

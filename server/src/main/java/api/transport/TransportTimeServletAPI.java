@@ -35,11 +35,12 @@ public class TransportTimeServletAPI extends ServletAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        TransportDirection direction = TransportDirection.valueOf(req.getParameter("dir"));
+
         JSONObject body = parseBody(req);
         if (body != null) {
-            Object id = body.get(Constants.ID);
-            Transportation transportation = dao.getTransportationById(id);
+            Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
+            TransportDirection direction = TransportDirection.valueOf(String.valueOf(body.get(DIRECTION)));
+
             log.info("Set time" + direction.toString().toUpperCase() + " for transportation " + transportation.getId());
             comparator.fix(transportation);
             Worker worker = getWorker(req);
@@ -80,9 +81,9 @@ public class TransportTimeServletAPI extends ServletAPI {
             comparator.compare(transportation, worker);
 
             body.clear();
-            IAnswer answer = new SuccessAnswer();
-            answer.add("time", time.getTime().toString());
-            write(resp, parser.toJson(answer).toJSONString());
+            JSONObject json = new SuccessAnswer(TIME, time.getTime().toString()).toJson();
+            write(resp, json.toJSONString());
+            pool.put(json);
         } else {
             write(resp, EMPTY_BODY);
         }

@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by szpt_user045 on 12.03.2019.
  */
 public class U {
-
+    private static final LanguageBase base = LanguageBase.getBase();
     public static String getParsableString(String s){
         return s.replaceAll("\"", "\"");
     }
@@ -62,5 +62,22 @@ public class U {
             return o1.hashCode() == o2.hashCode() ;
         }
         return false;
+    }
+
+    public synchronized static String getNumberByWords(float v) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1000000; i >= 1; i/=10){
+            double v2 = Math.floor(v / i);
+            if (v2 >= 1) {
+                System.out.println(v2 + ":" + v2 * i);
+                System.out.println(base.get(String.valueOf(v2)));
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        getNumberByWords(1285200.58f);
     }
 }

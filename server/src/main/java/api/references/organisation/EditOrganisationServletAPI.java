@@ -3,6 +3,7 @@ package api.references.organisation;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.Worker;
 import entity.answers.IAnswer;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
@@ -26,54 +27,16 @@ import java.io.IOException;
 public class EditOrganisationServletAPI extends ServletAPI {
 
     private final UpdateUtil updateUtil = new UpdateUtil();
-    private final OrganisationNameChecker checker = new OrganisationNameChecker();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            
-            Organisation organisation;
-            Object id = body.get(Constants.ID);
-            boolean isNew = false;
-            boolean save = false;
-            if (id != null) {
-                organisation = dao.getObjectById(Organisation.class, id);
-            } else {
-                organisation = new Organisation();
-                organisation.setCreate(new ActionTime(getWorker(req)));
-                isNew = true;
-            }
+            System.out.println(body);
 
-            String name = String.valueOf(body.get(NAME));
-            name = name.trim().toUpperCase();
-
-            if (!U.exist(organisation.getName()) || !organisation.getName().equals(name)) {
-                organisation.setName(name);
-                save = true;
-            }
-
-            String type = String.valueOf(body.get("type"));
-            type = type.trim().toUpperCase();
-            if (!U.exist(organisation.getType()) || !organisation.getType().equals(type)){
-                organisation.setType(type);
-                save = true;
-            }
-
-            if (save) {
-                if (isNew) {
-                    dao.save(organisation.getCreate());
-                }
-                dao.save(organisation);
-                updateUtil.onSave(organisation);
-
-                OrganisationType organisationType = dao.getOrganisationTypeByName(type);
-                if (organisationType == null) {
-                    organisationType = new OrganisationType();
-                    organisationType.setName(type);
-                    dao.save(organisationType);
-                }
-            }
+            Worker worker = getWorker(req);
+            Organisation organisation = saveOrganisation((JSONObject) body.get(ORGANISATION), worker);
+            saveOrganisationType((JSONObject) body.get(TYPE), organisation, worker);
 
             IAnswer answer = new SuccessAnswer(RESULT, organisation.toJson());
             JSONObject json = answer.toJson();
@@ -82,5 +45,54 @@ public class EditOrganisationServletAPI extends ServletAPI {
         } else {
             write(resp, EMPTY_BODY);
         }
+    }
+
+    private synchronized void saveOrganisationType(JSONObject json, Organisation organisation, Worker worker) {
+        OrganisationType organisationType = dao.getOrganisationTypeByName(organisation.getType());
+        if (organisationType == null){
+            organisationType = new OrganisationType();
+            organisationType.setName(organisation.getType());
+            dao.save(organisationType);
+        }
+        if (json.get(FULL_NAME) != null) {
+            String fullName = String.valueOf(json.get(FULL_NAME)).trim().toUpperCase();
+            if (U.exist(fullName)) {
+                if (!U.exist(organisationType.getFullName()) || !organisationType.getFullName().equals(fullName)) {
+                    organisationType.setFullName(fullName);
+                    dao.save(organisationType);
+                }
+            }
+        }
+    }
+
+    private synchronized Organisation saveOrganisation(JSONObject json, Worker worker){
+        Organisation organisation = dao.getObjectById(Organisation.class, json.get(ID));;
+        boolean save = false;
+        if (organisation == null) {
+            ActionTime actionTime = new ActionTime(worker);
+            dao.save(actionTime);
+
+            organisation = new Organisation();
+            organisation.setCreate(actionTime);
+        }
+
+        String name = String.valueOf(json.get(NAME));
+        name = name.trim().toUpperCase();
+
+        if (!U.exist(organisation.getName()) || !organisation.getName().equals(name)) {
+            organisation.setName(name);
+            save = true;
+        }
+
+        String type = String.valueOf(json.get(TYPE));
+        type = type.trim().toUpperCase();
+        if (!U.exist(organisation.getType()) || !organisation.getType().equals(type)){
+            organisation.setType(type);
+            save = true;
+        }
+        if (save){
+            dao.save(organisation);
+        }
+        return organisation;
     }
 }

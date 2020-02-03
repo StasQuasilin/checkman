@@ -19,17 +19,19 @@ import java.io.IOException;
 @WebServlet(Branches.API.SEAL_PUT)
 public class PutSealServletAPI extends ServletAPI {
 
+    private SealsUtil sealsUtil = new SealsUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
 
-            Seal seal = dao.getSealById(body.get("seal"));
-            Transportation transportation = dao.getTransportationById(body.get("transportation"));
+            Seal seal = dao.getSealById(body.get(SEAL));
+            Transportation transportation = dao.getTransportationById(body.get(TRANSPORTATION));
             if (seal != null) {
                 seal.setCargo(transportation);
                 dao.save(seal);
-                SealsUtil.checkBatch(seal.getBatch());
+                sealsUtil.checkBatch(seal.getBatch());
             }
 
             write(resp, SUCCESS_ANSWER);

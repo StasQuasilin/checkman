@@ -42,31 +42,27 @@ var show = new Vue({
             }
         },
         setTimeIn: function () {
+            this.setTime('in');
+        },
+        setTime:function(dir){
             if (!this.already) {
                 this.already = true;
                 const self = this;
-                PostApi(this.api.timeInApi, {id:this.id}, function (a) {
-                    console.log(a);
-                    self.timeIn = new Date(a.time).toLocaleTimeString().substring(0, 5);
+                PostApi(this.api.timeApi, {id:this.id, dir:dir}, function (a) {
+                     var date = new Date(a.time).toLocaleTimeString().substring(0, 5);
+                    if(dir === 'in'){
+                        self.timeIn = date
+                    } else{
+                        self.timeOut = date
+                    }
                     self.already = false;
                 }, function(e){
                     self.already = false;
                 })
             }
         },
-
         setTimeOut: function () {
-            if (!this.already) {
-                this.already = true;
-                const self = this;
-                PostApi(this.api.timeOutApi, {id:this.id}, function (a) {
-                    console.log(a);
-                    self.timeOut = new Date(a.time).toLocaleTimeString().substring(0, 5);
-                    self.already = false;
-                }, function(e){
-                    self.already = false;
-                })
-            }
+            this.setTime('out');
         },
         registration:function(){
             if (!this.already) {

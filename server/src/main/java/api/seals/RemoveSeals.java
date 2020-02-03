@@ -18,6 +18,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.SEAL_REMOVE)
 public class RemoveSeals extends ServletAPI {
 
+    private SealsUtil sealsUtil = new SealsUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +29,7 @@ public class RemoveSeals extends ServletAPI {
             Seal seal = dao.getSealById(sealId);
             seal.setCargo(null);
             dao.save(seal);
-            SealsUtil.checkBatch(seal.getBatch());
+            sealsUtil.checkBatch(seal.getBatch());
             write(resp, SUCCESS_ANSWER);
         }
 

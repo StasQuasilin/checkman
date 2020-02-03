@@ -27,6 +27,7 @@
             loadAddress:[],
             brutto:0,
             netto:0,
+            price:0,
             vehicleProps:{},
             trailerProps:{},
             transporterProps:{},
@@ -78,10 +79,10 @@
                     transportation:this.transportation.id,
                     address:this.address,
                     brutto:this.brutto,
-                    netto:this.netto
+                    netto:this.netto,
+                    price:this.price
                 };
                 PostReq(this.api.print, data, function(a){
-                    console.log(a);
                     var print = window.open();
                     print.document.write(a);
                     print.document.close();
@@ -102,7 +103,7 @@
     printer.brutto = ${transportation.weight.brutto};
     printer.netto = ${transportation.weight.netto};
     </c:if>
-
+    printer.price = ${price};
     printer.vehicleProps = {
         find:'${findVehicle}',
         add:'${parseVehicle}',
@@ -136,7 +137,7 @@
         header:'<fmt:message key="button.add.transporter"/>',
         put:function(transporter, item){
             if(item) {
-                PostApi(save, {id: item.id, transporter: transporter.id});
+                item.transporter = transporter;
             }
         },
         show:['value']
@@ -148,9 +149,7 @@
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="transportation.driver.insert.info"/>',
         put:function(driver, item){
-            if (item) {
-                PostApi(save, {id: item.id, driver: driver.id});
-            }
+            item.driver = driver;
         },
         show:['person/surname','person/forename','person/patronymic']
     };
@@ -160,9 +159,9 @@
         edit:'${editOrganisation}',
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="button.add.transporter"/>',
-        put:function(transporter, item){
+        put:function(counterparty, item){
             if(item) {
-                PostApi(save, {id: item.id, transporter: transporter.id});
+                item.counterparty = counterparty;
             }
         },
         show:['value']
@@ -235,12 +234,13 @@
     </tr>
     <tr>
         <td>
-            <label for="license">
-                <fmt:message key="driver.license"/>
-            </label>
+            <fmt:message key="driver.license"/>
         </td>
         <td>
-            <input id="license" v-model="transportation.license" autocomplete="off" onfocus="this.select()">
+            <span v-if="transportation.driver">
+                {{transportation.driver.license}}
+            </span>
+
         </td>
     </tr>
     <tr>
@@ -308,6 +308,16 @@
         </td>
         <td>
             <input id="netto" type="number" v-model="netto" autocomplete="off" onfocus="this.select()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="price">
+                <fmt:message key="deal.price"/>
+            </label>
+        </td>
+        <td>
+            <input id="price" type="number" v-model="price" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>

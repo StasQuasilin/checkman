@@ -20,6 +20,7 @@ import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.reports.ManufactureReport;
+import entity.seals.SealBatch;
 import entity.storages.Storage;
 import entity.transport.Driver;
 import entity.transport.Transportation;
@@ -220,6 +221,10 @@ public class UpdateUtil {
 
     public void onRemove(Transportation2 transportation) throws IOException {
         doAction(Command.remove, Subscriber.TRANSPORT, transportation.getId());
+    }
+
+    public void onSave(SealBatch batch) throws IOException{
+        doAction(Command.update, Subscriber.SEALS, batch.toJson());
     }
 
     public enum Command {

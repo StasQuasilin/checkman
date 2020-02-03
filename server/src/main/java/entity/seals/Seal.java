@@ -1,6 +1,8 @@
 package entity.seals;
 
+import entity.JsonAble;
 import entity.transport.Transportation;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "seals")
-public class Seal {
+public class Seal extends JsonAble{
     private int id;
     private SealBatch batch;
     private String number;
@@ -49,5 +51,13 @@ public class Seal {
     }
     public void setCargo(Transportation transportation) {
         this.cargo = transportation;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NUMBER, number);
+        return object;
     }
 }

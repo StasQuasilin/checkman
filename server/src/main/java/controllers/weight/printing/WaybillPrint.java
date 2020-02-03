@@ -34,6 +34,7 @@ public class WaybillPrint extends IModal {
             req.setAttribute(TITLE, _TITLE);
             req.setAttribute(MODAL_CONTENT, _CONTENT);
             LoadPlan plan = dao.getLoadPlanById(body.get(ID));
+            req.setAttribute(PRICE, plan.getDeal().getPrice());
             req.setAttribute(TRANSPORTATION, plan.getTransportation());
             Organisation counterparty = plan.getTransportation().getCounterparty();
             req.setAttribute(LEGAL_ADDRESS, dao.getLegalAddress(counterparty));

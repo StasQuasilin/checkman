@@ -1,5 +1,8 @@
 package entity.organisations;
 
+import entity.JsonAble;
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "organisation_types")
-public class OrganisationType{
+public class OrganisationType extends JsonAble{
     private int id;
     private String name;
     private String fullName;
@@ -37,5 +40,14 @@ public class OrganisationType{
     }
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NAME, name);
+        object.put(FULL_NAME, fullName);
+        return object;
     }
 }

@@ -301,6 +301,7 @@ public class Branches {
         public static final String FIND_EXTRACTION = API + "/laboratory/extraction/find";
         public static final String FIND_VRO = API + "/laboratory/vro/find";
         public static final String WAYBILL_PRINT = API + "/waybill/print";
+        public static final String FIND_ORGANISATION_TYPE = API + "/find/organsiation/type";
 
         public class References {
             public static final String API = Branches.API.API + "/references";
