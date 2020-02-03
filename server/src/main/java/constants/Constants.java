@@ -8,6 +8,7 @@ public interface Constants {
     String SEMICOLON = "; ";
     String NEW_LINE = "\n";
     String FORMAT = "%1$,.3f";
+    String DOT = ".";
     String STAR = "*";
     String ENCODING = "UTF-8";
     String ID = "id";

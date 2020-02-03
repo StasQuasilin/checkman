@@ -2,6 +2,7 @@ package api.transport;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.Gender;
 import entity.organisations.Address;
 import entity.organisations.LoadAddress;
 import entity.organisations.Organisation;
@@ -46,10 +47,10 @@ public class WaybillPrintAPI extends ServletAPI {
             }
             req.setAttribute(ADDRESS, address);
 
-            req.setAttribute(NETTO, U.getNumberByWords(transportation.getWeight().getNetto()));
-            req.setAttribute(BRUTTO, U.getNumberByWords(transportation.getWeight().getBrutto()));
+            req.setAttribute(NETTO, U.getNumberByWords(transportation.getWeight().getNetto(), Gender.female));
+            req.setAttribute(BRUTTO, U.getNumberByWords(transportation.getWeight().getBrutto(), Gender.female));
             float price = Float.parseFloat(String.valueOf(body.get(PRICE)));
-            req.setAttribute(PRICE, U.getNumberByWords(transportation.getWeight().getNetto() * price));
+            req.setAttribute(PRICE, U.getNumberByWords(transportation.getWeight().getNetto() * price, Gender.female));
             req.getRequestDispatcher(WAYBILL_PAGE).forward(req, resp);
         }
     }
