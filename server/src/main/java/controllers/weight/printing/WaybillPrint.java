@@ -1,12 +1,13 @@
 package controllers.weight.printing;
 
 import api.ServletAPI;
+import api.laboratory.ActNumberService;
 import constants.Branches;
 import controllers.IModal;
 import entity.documents.LoadPlan;
+import entity.laboratory.transportation.ActType;
 import entity.organisations.Organisation;
 import org.json.simple.JSONObject;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,9 @@ public class WaybillPrint extends IModal {
         JSONObject body = parseBody(req);
 
         if (body != null){
+
+            req.setAttribute(NUMBER, ActNumberService.getActNumber(ActType.waybill));
+
             req.setAttribute(TITLE, _TITLE);
             req.setAttribute(MODAL_CONTENT, _CONTENT);
             LoadPlan plan = dao.getLoadPlanById(body.get(ID));
@@ -49,6 +53,8 @@ public class WaybillPrint extends IModal {
 
             req.setAttribute(FIND_TRAILER, Branches.API.References.FIND_TRAILER);
             req.setAttribute(PARSE_TRAILER, Branches.API.PARSE_TRAILER);
+			
+            req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
             req.setAttribute(PRINT, Branches.API.WAYBILL_PRINT);
             show(req, resp);
         }

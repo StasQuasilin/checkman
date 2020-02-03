@@ -28,6 +28,7 @@ import entity.laboratory.transportation.ActType;
 import entity.log.Change;
 import entity.log.ChangeLog;
 import entity.organisations.*;
+import entity.organisations.Address;
 import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;

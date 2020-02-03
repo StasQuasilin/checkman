@@ -19,9 +19,14 @@
         },
         data:{
             api:{},
+            date:new Date().toISOString().substring(0, 10),
+            number:'',
             transportation:{},
             legalAddress:{},
+            address:-1,
             loadAddress:[],
+            brutto:0,
+            netto:0,
             vehicleProps:{},
             trailerProps:{},
             transporterProps:{},
@@ -29,13 +34,74 @@
             organisationProps:{}
         },
         methods:{
-            print:function(){
+            changeDate:function(){
+                const self = this;
+              datepicker.show(function(date){
+                  self.date = date;
+              }, this.date)
+            },
+            editAddress:function(type, id, onSave){
+                var data = {
+                    counterparty:this.transportation.counterparty.id,
+                    type:type,
+                    id:id
+                };
+                loadModal(this.api.addressEdit, data, function(a){
+                    onSave(a);
 
+                })
+            },
+            editLoadAddress:function(id){
+                const self = this;
+                this.editAddress('load', id, function(a){
+                    self.loadAddress.push(a);
+                });
+            },
+            editLegalAddress:function(){
+                var id = -1;
+                if (this.legalAddress.id){
+                    id = this.legalAddress.id;
+                }
+                const self = this;
+                this.editAddress('legal', id, function(a){
+                    if (a.result){
+                        self.legalAddress = a.result;
+                    } else{
+                        self.legalAddress = a;
+                    }
+                });
+            },
+            print:function(){
+                var data = {
+                    number:this.number,
+                    date:this.date,
+                    transportation:this.transportation.id,
+                    address:this.address,
+                    brutto:this.brutto,
+                    netto:this.netto
+                };
+                PostReq(this.api.print, data, function(a){
+                    console.log(a);
+                    var print = window.open();
+                    print.document.write(a);
+                    print.document.close();
+                    setTimeout(function(){
+                        print.print();
+//                        print.close();
+                    }, 500);
+                })
             }
         }
     });
 
+    printer.api.print = '${print}';
+    printer.api.addressEdit = '${editAddress}';
+    printer.number = ${number};
     printer.transportation = ${transportation.toJson()};
+    <c:if test="${not empty transportation.weight}">
+    printer.brutto = ${transportation.weight.brutto};
+    printer.netto = ${transportation.weight.netto};
+    </c:if>
 
     printer.vehicleProps = {
         find:'${findVehicle}',
@@ -101,21 +167,38 @@
         },
         show:['value']
     };
+    <c:if test="${not empty legalAddress}">
     printer.legalAddress = ${legalAddress.toJson()};
+    </c:if>
     <c:forEach items="${loadAddress}" var="address">
     printer.loadAddress.push(${address.toJson()});
     </c:forEach>
 
 </script>
+<style>
+    .selected{
+        background-color: #c2c2c2;
+    }
+</style>
 <table style="width: 100%" id="printer">
     <tr>
         <td>
-            <fmt:message key="transportation.automobile.number"/>
+            <label for="number">
+                <fmt:message key="transportation.automobile.number"/>
+            </label>
+        </td>
+        <td>
+            <input id="number" v-model="number" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
         <td>
             <fmt:message key="date"/>
+        </td>
+        <td>
+            <span class="mini-close" v-on:click="changeDate()">
+                {{new Date(date).toLocaleDateString()}}
+            </span>
         </td>
     </tr>
     <tr>
@@ -152,10 +235,12 @@
     </tr>
     <tr>
         <td>
-            <fmt:message key="driver.license"/>
+            <label for="license">
+                <fmt:message key="driver.license"/>
+            </label>
         </td>
         <td>
-            {{transportation.license}}
+            <input id="license" v-model="transportation.license" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -171,27 +256,58 @@
             <fmt:message key="legal.address"/>
         </td>
         <td>
-            <a>
-                {{legalAddress}}
+            <a v-on:click="editLegalAddress()">
+                <template v-if="!legalAddress.id">
+                    <fmt:message key="add.address"/>
+                </template>
+                <template v-else>
+                    {{legalAddress.city}}
+                    {{legalAddress.street}}
+                    {{legalAddress.build}}
+                </template>
             </a>
         </td>
     </tr>
     <tr>
         <td>
-            <fmt:message key="address"/>
+            <fmt:message key="load.address"/>
         </td>
         <td>
-
+            <a v-on:click="editLoadAddress(-1)">
+                <fmt:message key="add.address"/>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div style="width: 100%; height: 80pt; border: solid gray 1pt; overflow-y: scroll">
+                <div v-for="a in loadAddress" style="padding: 1pt" :class="{'selected' : address == a.id}"
+                     v-on:click="address = a.id" v-on:dblclick="editLoadAddress(a.id)">
+                    {{a.city}}
+                    {{a.street}}
+                    {{a.build}}
+                </div>
+            </div>
         </td>
     </tr>
     <tr>
         <td>
-            <fmt:message key="weight.brutto"/>
+            <label for="brutto">
+                <fmt:message key="weight.brutto"/>
+            </label>
+        </td>
+        <td>
+            <input id="brutto" type="number" v-model="brutto" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
         <td>
-            <fmt:message key="weight.netto"/>
+            <label for="netto">
+                <fmt:message key="weight.netto"/>
+            </label>
+        </td>
+        <td>
+            <input id="netto" type="number" v-model="netto" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
