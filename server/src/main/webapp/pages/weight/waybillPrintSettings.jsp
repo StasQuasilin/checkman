@@ -11,6 +11,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <script src="${context}/vue/templates/vehicleInput.vue"></script>
+<link rel="stylesheet" href="${context}/css/editor.css"/>
 <script>
     var printer = new Vue({
         el:'#printer',
@@ -28,6 +29,12 @@
             brutto:0,
             netto:0,
             price:0,
+            weighter:-1,
+            security:-1,
+            warehousing:-1,
+            weighters:[],
+            securitys:[],
+            warehousings:[],
             vehicleProps:{},
             trailerProps:{},
             transporterProps:{},
@@ -54,9 +61,20 @@
             },
             editLoadAddress:function(id){
                 const self = this;
+
                 this.editAddress('load', id, function(a){
-                    self.loadAddress.push(a);
+                    var found = false;
+                    for(var i = 0; i < self.loadAddress.length; i++){
+                        if (self.loadAddress[i].id == a.id){
+                            self.loadAddress.splice(i, 1, a);
+                            found = true;
+                        }
+                    }
+                    if (!found){
+                        self.loadAddress.push(a);
+                    }
                 });
+
             },
             editLegalAddress:function(){
                 var id = -1;
@@ -80,7 +98,10 @@
                     address:this.address,
                     brutto:this.brutto,
                     netto:this.netto,
-                    price:this.price
+                    price:this.price,
+                    booker:this.weighter,
+                    allowed:this.security,
+                    handedOver:this.warehousing
                 };
                 PostReq(this.api.print, data, function(a){
                     var print = window.open();
@@ -104,6 +125,15 @@
     printer.netto = ${transportation.weight.netto};
     </c:if>
     printer.price = ${price};
+    <c:forEach items="${weightres}" var="w">
+    printer.weighters.push(${w.toJson()});
+    </c:forEach>
+    <c:forEach items="${securitys}" var="s">
+    printer.securitys.push(${s.toJson()});
+    </c:forEach>
+    <c:forEach items="${warehousings}" var="wa">
+    printer.warehousings.push(${wa.toJson()});
+    </c:forEach>
     printer.vehicleProps = {
         find:'${findVehicle}',
         add:'${parseVehicle}',
@@ -179,7 +209,7 @@
         background-color: #c2c2c2;
     }
 </style>
-<table style="width: 100%" id="printer">
+<table style="width: 100%" id="printer" class="editor">
     <tr>
         <td>
             <label for="number">
@@ -297,7 +327,7 @@
             </label>
         </td>
         <td>
-            <input id="brutto" type="number" v-model="brutto" autocomplete="off" onfocus="this.select()">
+            <input id="brutto" type="number" step="0.01" v-model="brutto" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -307,7 +337,7 @@
             </label>
         </td>
         <td>
-            <input id="netto" type="number" v-model="netto" autocomplete="off" onfocus="this.select()">
+            <input id="netto" type="number" step="0.01" v-model="netto" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>
@@ -317,7 +347,49 @@
             </label>
         </td>
         <td>
-            <input id="price" type="number" v-model="price" autocomplete="off" onfocus="this.select()">
+            <input id="price" type="number" step="0.01" v-model="price" autocomplete="off" onfocus="this.select()">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="weighter">
+                <fmt:message key="booker"/>
+            </label>
+        </td>
+        <td>
+            <select id="weighter" v-model="weighter" style="width: 100%">
+                <option v-for="w in weighters" :value="w.id">
+                    {{w.person.value}}
+                </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="security">
+                <fmt:message key="allowed"/>
+            </label>
+        </td>
+        <td>
+            <select id="security" v-model="security" style="width: 100%">
+                <option v-for="s in securitys" :value="s.id">
+                    {{s.person.value}}
+                </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="warehousing">
+                <fmt:message key="handed.over"/>
+            </label>
+        </td>
+        <td>
+            <select id="warehousing" v-model="warehousing" style="width: 100%">
+                <option v-for="w in warehousings" :value="w.id">
+                    {{w.person.value}}
+                </option>
+            </select>
         </td>
     </tr>
     <tr>

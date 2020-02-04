@@ -92,9 +92,9 @@
       api:{
         save:''
       },
-      prefix:'l',
-      number:546542121,
-      suffix:'d',
+      prefix:'А',
+      number:0,
+      suffix:'',
       quantity:100
     },
     methods:{

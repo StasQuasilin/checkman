@@ -11,7 +11,7 @@
     show.api.registration = '${registration}';
     show.api.findSeals = '${findSeals}';
     show.api.saveSeal = '${saveSeal}';
-    show.api.removeSeal = '${removeSeal}';
+    show.api.removeSeal = '${removeSeals}';
     show.id = ${transportation.id};
     show.directionIn = '${in}';
     show.directionOut = '${out}';

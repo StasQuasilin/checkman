@@ -4,6 +4,7 @@ import api.ServletAPI;
 import api.laboratory.ActNumberService;
 import constants.Branches;
 import controllers.IModal;
+import entity.Role;
 import entity.documents.LoadPlan;
 import entity.laboratory.transportation.ActType;
 import entity.organisations.Organisation;
@@ -57,6 +58,9 @@ public class WaybillPrint extends IModal {
 			
             req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
             req.setAttribute(PRINT, Branches.API.WAYBILL_PRINT);
+            req.setAttribute(WEIGHTERS, dao.getWorkersByRole(Role.weigher));
+            req.setAttribute(SECURITYS, dao.getWorkersByRole(Role.security));
+            req.setAttribute(WAREHOUSINGS, dao.getWorkersByRole(Role.warehousing));
             show(req, resp);
         }
     }

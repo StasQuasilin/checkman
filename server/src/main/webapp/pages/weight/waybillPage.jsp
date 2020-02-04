@@ -43,9 +43,7 @@
             Додаток 7<br>
             до Правил перевезень вантажів<br>
             автомобільним транспортом в Україні
-          </div>
-          <div style="margin-top: 8pt">
-            Форма N 1-TH
+            пункт 11.1 глави 11
           </div>
         </div>
       </td>
@@ -58,9 +56,21 @@
       </td>
     </tr>
     <tr>
+      <td align="right">
+        <b>
+          Форма N 1-TH
+        </b>
+      </td>
+    </tr>
+    <tr>
       <td align="center" valign="top">
-        № ${number}
-        ${date}
+        №
+        <span class="cell" style="margin-right: 38pt">
+         P${number}
+        </span>
+        <span class="cell">
+          ${date}
+        </span>
       </td>
     </tr>
     <tr>
@@ -70,7 +80,8 @@
         </span>
         <div class="master-cell" style="width: 37%">
           <div class="cell">
-            ${transportation.vehicle.value}
+            ${transportation.vehicle.model}
+              ${transportation.vehicle.number}
           </div>
           <div class="sub-cell">
             (марка, модель, тип, реєстраційний номер)
@@ -87,10 +98,10 @@
             (марка, модель, тип, реєстраційний номер)
           </div>
         </div>
-        <div class="label" style="width: 10%">
+        <div class="label">
           Вид перевезень
         </div>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 13%">
           <div class="cell">
             авто
           </div>
@@ -168,7 +179,19 @@
         <div class="master-cell" style="width: 87%">
           <div class="cell">
             ${organisationType.fullName} "${transportation.counterparty.name}",
-              юр. адреса: ${legalAddress.address.value}
+              юр. адреса:
+            <c:if test="${not empty legalAddress.address.index}">
+              ${legalAddress.address.index},
+            </c:if>
+              <c:if test="${not empty legalAddress.address.region}">
+                ${legalAddress.address.region} область,
+              </c:if>
+              <c:if test="${not empty legalAddress.address.district}">
+                ${legalAddress.address.district} район,
+              </c:if>
+              ${legalAddress.address.city},
+              ${legalAddress.address.street},
+              ${legalAddress.address.build},
           </div>
           <div class="sub-cell">
             (повне найменування, місцезнаходження / П.І.Б., місце проживання)
@@ -195,9 +218,18 @@
         </span>
         <div class="master-cell" style="width: 43%">
           <div class="cell">
-            ${address.city}
-            ${address.street}
-            ${address.build}
+            <c:if test="${not empty address.index}">
+              ${address.index},
+            </c:if>
+            <c:if test="${not empty address.region}">
+              ${address.region} область,
+            </c:if>
+            <c:if test="${not empty address.district}">
+              ${address.district} район,
+            </c:if>
+            ${address.city},
+            ${address.street},
+            ${address.build},
           </div>
           <div class="sub-cell">
             (місцезнаходження)
@@ -228,7 +260,7 @@
         <span class="label">
           відпуск за довіреністю вантажоодержувача: серія
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 4%">
           <div class="cell">
 
           </div>
@@ -236,7 +268,7 @@
         <span class="label">
           №
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 6%">
           <div class="cell">
 
           </div>
@@ -244,7 +276,7 @@
         <span class="label">
           від
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 12%">
           <div class="cell">
 
           </div>
@@ -252,7 +284,7 @@
         <span class="label">
           виданою
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 40%">
           <div class="cell">
 
           </div>
@@ -297,9 +329,9 @@
         <span class="label">
           кількість місць
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 21%">
           <div class="cell">
-            &nbsp;
+            ${netto}
           </div>
           <div class="sub-cell">
             (словами)
@@ -308,9 +340,9 @@
         <span class="label">
           , масою брутто, т
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 21%">
           <div class="cell">
-            &nbsp;
+            ${brutto}
           </div>
           <div class="sub-cell">
             (словами)
@@ -319,7 +351,7 @@
         <span class="label">
           , отримав водій/експедитор
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 24%">
           <div class="cell">
             ${transportation.driver.person.value}, водій
           </div>
@@ -334,9 +366,9 @@
         <span class="label">
           Бухгалтер (відповідальна особа вантажовідправника)
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 28%">
           <div class="cell">
-            &nbsp;
+            ${booker.person.value}, вагар-обліковець
           </div>
           <div class="sub-cell">
             (П.І.Б., посада, підпис)
@@ -345,9 +377,9 @@
         <span class="label">
           Відпуск дозволив
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 35%">
           <div class="cell">
-            &nbsp;
+            ${allowed.person.value}, старший охоронник
           </div>
           <div class="sub-cell">
             (П.І.Б., посада, підпис)
@@ -360,9 +392,9 @@
         <span class="label">
           Усього відпущено на загальну суму
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 48%">
           <div class="cell">
-            &nbsp;
+            ${sumWords}
           </div>
           <div class="sub-cell">
             (словами, з урахуванням ПДВ)
@@ -371,9 +403,9 @@
         <span class="label">
           , у т.ч. ПДВ
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 26%">
           <div class="cell">
-            &nbsp;
+            ${tax}
           </div>
           <div class="sub-cell">
             &nbsp;
@@ -386,7 +418,7 @@
         <span class="label">
           Супровідні документи на вантаж
         </span>
-        <div class="master-cell">
+        <div class="master-cell" style="width: 82%">
           <div class="cell">
             Декларація виробника
           </div>
@@ -404,11 +436,11 @@
       <td>
         <table width="100%" border="1" style="font-size: 8pt">
           <tr>
-            <td align="center">
+            <td align="center" style="width: 2em">
               №<br>
               з/п
             </td>
-            <td align="center">
+            <td align="center" style="width: 36em">
               Найменування вантажу (номер контейнера), у разі перевезення
               небезпечних вантажів: клас небезпечних речовин, до якого віднесено вантаж
             </td>
@@ -456,8 +488,12 @@
             <td align="center">
               ${transportation.weight.netto}
             </td>
-            <td align="center"></td>
-            <td align="center"></td>
+            <td align="center">
+              ${price}
+            </td>
+            <td align="center">
+              ${sum}
+            </td>
             <td align="center"></td>
             <td align="center">
               Декларація виробника
@@ -471,28 +507,50 @@
     </tr>
     <tr>
       <td align="center" style="padding: 8pt 0">
-        <table width="80%" style="font-size: 10pt">
+        <table style="font-size: 9pt">
           <tr>
             <td align="center">
               Здав (відповідальна особа вантажовідправника)
+            </td>
+            <td align="center">
+              Прийняв водій/експедитор
+            </td>
+            <td align="center">
+              Здав водій/експедитор
             </td>
             <td align="center">
               Прийняв (відповідальна особа вантажоодержувача)
             </td>
           </tr>
           <tr>
-            <td align="center">
-              <div style="border-bottom: solid black 1pt; width: 80%">
-                &nbsp;
+            <td style="width: 25%">
+              <div style="border-bottom: solid black 1pt; width: 90%">
+                ${handedOver.person.value}, приймальник-здавальник
               </div>
             </td>
-            <td align="center">
-              <div style="border-bottom: solid black 1pt; width: 80%">
+            <td style="width: 25%">
+              <div style="border-bottom: solid black 1pt; width: 90%">
+                ${transportation.driver.person.value}, водій
+              </div>
+            </td>
+            <td style="width: 25%">
+              <div style="border-bottom: solid black 1pt; width: 90%">
+                ${transportation.driver.person.value}, водій
+              </div>
+            </td>
+            <td style="width: 25%">
+              <div style="border-bottom: solid black 1pt; width: 90%">
                 &nbsp;
               </div>
             </td>
           </tr>
           <tr>
+            <td align="center">
+              (П.І.Б., посада, підпис)
+            </td>
+            <td align="center">
+              (П.І.Б., посада, підпис)
+            </td>
             <td align="center">
               (П.І.Б., посада, підпис)
             </td>
@@ -528,13 +586,13 @@
             </td>
           </tr>
           <tr>
-            <td align="center">
+            <td align="center" style="width: 15em">
               прибуття
             </td>
-            <td align="center">
+            <td align="center" style="width: 15em">
               вибуття
             </td>
-            <td align="center">
+            <td align="center" style="width: 15em">
               простою
             </td>
           </tr>

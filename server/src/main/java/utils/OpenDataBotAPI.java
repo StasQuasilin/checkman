@@ -75,4 +75,13 @@ public class OpenDataBotAPI {
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args) {
+        OpenDataBotAPI api = new OpenDataBotAPI();
+        ArrayList<TruckInfo> infos = new ArrayList<>();
+        api.infoRequest(infos,"АЕ 6782 ІК");
+        for (TruckInfo info : infos){
+            System.out.println(info);
+        }
+    }
 }

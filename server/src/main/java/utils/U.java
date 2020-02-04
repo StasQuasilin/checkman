@@ -5,8 +5,12 @@ import entity.Gender;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by szpt_user045 on 12.03.2019.
@@ -65,50 +69,56 @@ public class U implements Constants {
         return false;
     }
 
-    public synchronized static String getNumberByWords(int v, Gender gender) {
+    public synchronized static String getNumberByWords(double v, Gender gender, String unit1, String unit2){
+        float tail = 1f * Math.round((v % 1) * 1000) / 1000;
+        long round = Math.round(v - tail);
+        return getNumberByWords(round, gender) + unit1 + SPACE + (int)(tail * 1000) + SPACE + unit2;
+    }
+
+    public synchronized static String getNumberByWords(double v, Gender gender) {
         StringBuilder builder = new StringBuilder();
         for (int i = 1000000; i >= 1; i/=1000){
             int v1 = (int) Math.floor(v / i);
             int v2 = v1 * i;
+
             if (v1 > 0) {
-                divide(builder, v1, i, gender);
+                divide(builder, v1, i, gender, 100);
             }
             if (v2 >= 1000 ){
                 builder.append(base.get(buildKey(i, v1))).append(SPACE);
             }
-            System.out.println(v);
             v -= v2;
         }
         return builder.toString();
     }
 
-    private static void divide(StringBuilder builder, int number, int step, Gender gender){
+    private static void divide(StringBuilder builder, int number, int step, Gender gender, int divider){
         if (number > 19) {
-            for (int i = 100; i >= 1; i /= 10) {
-                int v1 = (int) Math.floor(number / i);
-                int v2 = v1 * i;
-                if (v2 > 0) {
-                    getString(builder, v2, step, gender);
-                    number -= v2;
-                }
+            int v1 = (int) Math.floor(number / divider);
+            int v2 = v1 * divider;
+            if (v2 > 0) {
+                getString(builder, v2, step, gender);
             }
+            divide(builder, number - v2, step,gender, divider / 10);
         } else {
             getString(builder, number, step, gender);
         }
     }
 
     private static void getString(StringBuilder builder, int v, int step, Gender gender){
-        String s = String.valueOf(v);
-        if (v == 1 || v == 2) {
-            if (step == 1000 || (step == 1 && gender == Gender.female)) {
-                s += ".m";
+        if (v > 0) {
+            String s = String.valueOf(v);
+            if (v == 1 || v == 2) {
+                if (step == 1000 || (step == 1 && gender == Gender.female)) {
+                    s += ".m";
+                }
             }
+            builder.append(base.get(s)).append(SPACE);
         }
-        builder.append(base.get(s)).append(SPACE);
     }
 
     private static String buildKey(int value, int count){
-        int l = count > 19 ? count % 10 : count;
+        int l = count > 19 ? count % 100 : count;
         if (l == 1){
             return String.valueOf(value + DOT + 1);
         } else if (l > 1 && l < 5) {
@@ -119,6 +129,16 @@ public class U implements Constants {
     }
 
     public static void main(String[] args) {
-        System.out.println(getNumberByWords(801631, Gender.male));
+        Date date = Date.valueOf(LocalDate.now());
+        Locale locale = new Locale("UK", "uk");
+        DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, locale);
+        String formattedDate = df.format(date);
+        System.out.println(formattedDate);
+    }
+
+    public static String getNumberByWords(double v, String unit1, String unit2) {
+        float tail = 1f * Math.round((v % 1) * 1000) / 1000;
+        long round = Math.round(v - tail);
+        return round + SPACE + unit1 + SPACE + (int)(tail * 100) + SPACE + unit2;
     }
 }
