@@ -8,6 +8,7 @@ import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.U;
+import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,18 +21,19 @@ import java.sql.Timestamp;
  * Created by quasilin on 07.04.2019.
  */
 @WebServlet(Branches.API.SEAL_SAVE)
-public class SealsSaveServletAPI extends ServletAPI {
+public class SaveSealsAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(SealsSaveServletAPI.class);
+    private final Logger log = Logger.getLogger(SaveSealsAPI.class);
     public static final String DELIMITER = " ... ";
-
+    public static final String HYPHEN = "-";
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if(body != null) {
             String prefix = String.valueOf(body.get("prefix"));
-            long number = (long) body.get("number");
+            int number = Integer.parseInt(String.valueOf(body.get("number")));
             String suffix = String.valueOf(body.get("suffix"));
             long quantity = (long) body.get("quantity");
 
@@ -52,7 +54,8 @@ public class SealsSaveServletAPI extends ServletAPI {
 
                     Seal seal = new Seal();
                     seal.setBatch(batch);
-                    seal.setNumber(doSeal(prefix, number + i, suffix));
+                    seal.setNumber(number);
+                    seal.setValue(prefix + HYPHEN + number);
                     if (i == 0) {
                         builder.append(seal.getNumber()).append(DELIMITER);
                     } else if (i == quantity -1) {
@@ -65,8 +68,10 @@ public class SealsSaveServletAPI extends ServletAPI {
                 dao.save(batch);
 
                 body.clear();
+                updateUtil.onSave(batch);
             }
             write(resp, SUCCESS_ANSWER);
+
         } else {
             write(resp, EMPTY_BODY);
         }

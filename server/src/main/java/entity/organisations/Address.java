@@ -113,6 +113,8 @@ public class Address extends JsonAble {
         json.put(CITY, city);
         json.put(STREET, street);
         json.put(BUILD, build);
+        json.put(BLOCK, block);
+        json.put(FLAT, flat);
         return json;
     }
 

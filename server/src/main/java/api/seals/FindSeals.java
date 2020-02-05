@@ -3,6 +3,7 @@ package api.seals;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.seals.Seal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -23,13 +24,12 @@ public class FindSeals extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            String key = String.valueOf(body.get(Constants.KEY));
+
+            String key = String.valueOf(body.get(KEY));
             JSONArray array = dao.findSeal(key).stream()
-                    .filter(seal -> seal.getCargo() == null)
-                    .map(parser::toJson).collect(Collectors.toCollection(JSONArray::new));
+                    .map(Seal::toJson).collect(Collectors.toCollection(pool::getArray));
             write(resp, array.toJSONString());
-            body.clear();
-            array.clear();
+            pool.put(array);
         }
 
     }

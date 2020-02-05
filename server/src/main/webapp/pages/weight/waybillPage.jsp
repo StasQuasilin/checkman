@@ -81,7 +81,7 @@
         <div class="master-cell" style="width: 37%">
           <div class="cell">
             ${transportation.vehicle.model}
-              ${transportation.vehicle.number}
+            ${transportation.vehicle.number}
           </div>
           <div class="sub-cell">
             (марка, модель, тип, реєстраційний номер)
@@ -179,25 +179,26 @@
         <div class="master-cell" style="width: 87%">
           <div class="cell">
             ${organisationType.fullName} "${transportation.counterparty.name}",
-              юр. адреса:
-            <c:if test="${not empty legalAddress.address.index}">
-              ${legalAddress.address.index},
-            </c:if>
-              <c:if test="${not empty legalAddress.address.region}">
-                ${legalAddress.address.region} область,
+              <c:if test="${not empty legalAddress}">
+                юр. адреса:
+                <c:if test="${not empty legalAddress.address.index}">
+                  ${legalAddress.address.index},
+                </c:if>
+                <c:if test="${not empty legalAddress.address.region}">
+                  ${legalAddress.address.region} область,
+                </c:if>
+                <c:if test="${not empty legalAddress.address.district}">
+                  ${legalAddress.address.district} район,
+                </c:if>
+                ${legalAddress.address.city},
+                ${legalAddress.address.street},
+                ${legalAddress.address.build},
               </c:if>
-              <c:if test="${not empty legalAddress.address.district}">
-                ${legalAddress.address.district} район,
-              </c:if>
-              ${legalAddress.address.city},
-              ${legalAddress.address.street},
-              ${legalAddress.address.build},
           </div>
           <div class="sub-cell">
             (повне найменування, місцезнаходження / П.І.Б., місце проживання)
           </div>
         </div>
-
       </td>
     </tr>
     <tr>
@@ -235,7 +236,6 @@
             (місцезнаходження)
           </div>
         </div>
-
       </td>
     </tr>
     <tr>
@@ -311,7 +311,7 @@
           <div class="cell" style="font-size: 9pt">
             <c:forEach items="${seals}" var="seal" varStatus="status">
             <span>
-              ${seal.number}
+              ${seal.value}
               <c:if test="${!status.last}">
                 ,
               </c:if>
@@ -394,7 +394,10 @@
         </span>
         <div class="master-cell" style="width: 48%">
           <div class="cell">
-            ${sumWords}
+            <c:if test="${not empty price}">
+              ${sumWords}
+            </c:if>
+            &nbsp;
           </div>
           <div class="sub-cell">
             (словами, з урахуванням ПДВ)

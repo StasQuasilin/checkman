@@ -1,7 +1,9 @@
 package utils.hibernate;
 
 import constants.Constants;
+import entity.seals.Seal;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.omg.CORBA.OBJECT_NOT_EXIST;
 import utils.hibernate.DateContainers.*;
 
@@ -236,6 +238,7 @@ public class Hibernator {
     public <T> List<T> find (Class<T> tClass, HashMap<String, String> params){
         return find(tClass, params, null);
     }
+
     public <T> List<T> find (Class<T> tClass, HashMap<String, String> findData, HashMap<String, Object> params){
 
         Session session = HibernateSessionFactory.getSession();
@@ -304,5 +307,11 @@ public class Hibernator {
     public void flush() {
         Session session = HibernateSessionFactory.getSession();
         session.flush();
+    }
+
+    public <T> List<T> find(Class<T> tClass, HashMap<String, Object> params, String value, String key) {
+        HashMap<String, String> find = new HashMap<>();
+        find.put(value, key);
+        return find(tClass, find, params);
     }
 }

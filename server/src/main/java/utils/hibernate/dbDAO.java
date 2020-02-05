@@ -245,4 +245,5 @@ public interface dbDAO {
     <T>List<T> getObjectsByTimestamp(Class<T> tClass, Timestamp date);
     LegalAddress getLegalAddress(Address address);
     LegalAddress getLegalAddress(Organisation organisation);
+    Seal getSealByNumber(int number);
 }

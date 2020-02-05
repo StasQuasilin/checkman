@@ -23,10 +23,7 @@
     <c:if test="${not empty transportation.timeOut}">
     show.timeOut = new Date('${transportation.timeOut.time}');</c:if>
     <c:forEach items="${seals}" var="seal">
-    show.seals.push({
-        id:${seal.id},
-        number:'${seal.number}'
-    });
+    show.seals.push(${seal.toJson()});
     </c:forEach>
     function truckInfo(){
         <c:if test="${not empty transportation.vehicle.id }">
@@ -62,14 +59,32 @@
                 <div v-for="(value, key) in seals">
                     <span class="mini-close" style="left: 0" v-on:click="removeSeal(key)">&times;</span>
                     <span>
-                        {{value.number}}
+                        {{value.value}}
                     </span>
                 </div>
+                <div style="font-size: 10pt">
+                    <div v-if="offer.length > 0" style="font-weight: bold">
+                        <fmt:message key="seals.add.question"/>
+                        {{offer.length}}
+                    </div>
+                    <div v-for="seal in offer">
+                        {{seal.value}}
+                    </div>
+                    <div v-if="offer.length > 0" style="text-align: center">
+                        <span class="mini-close" v-on:click="addOffer()">
+                            <fmt:message key="button.yes"/>
+                        </span>
+                        <span class="mini-close" v-on:click="offer = []">
+                            <fmt:message key="button.no"/>
+                        </span>
+                    </div>
+                </div>
+
                 <div>
                     <input style="width: 100%" v-model="sealInput" v-on:keyup="findSeals()">
                     <div class="custom-data-list" v-if="foundSeals.length > 0">
-                        <div v-for="seal in foundSeals" v-on:click="addSeal(seal)" class="custom-data-list-item">
-                            {{seal.number}}
+                        <div v-for="seal in foundSeals" v-on:click="addSeal(seal, true)" class="custom-data-list-item">
+                            {{seal.value}}
                         </div>
                     </div>
                 </div>

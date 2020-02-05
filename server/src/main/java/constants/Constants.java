@@ -86,6 +86,7 @@ public interface Constants {
     String OUT = "out";
     String TRUCK_INFO = "truckInfo";
     String SEAL = "seal";
+    String OFFER = "offer";
     String SEALS = "seals";
     String REMOVE_SEAL = "removeSeals";
     String SAVE_SEAL = "saveSeal";
@@ -198,11 +199,14 @@ public interface Constants {
     String CITY = "city";
     String STREET = "street";
     String BUILD = "build";
+    String BLOCK = "block";
+    String FLAT = "flat";
     String SUCCESS = "success";
     String ERROR = "error";
     String CONTEXT = "context";
     String UPDATE = "update";
     String TRANSPORTATION = "transportation";
+    String DO_OFFER = "doOffer";
     String VEHICLE = "vehicle";
     String VEHICLES = "vehicles";
     String DRIVER = "driver";
@@ -231,10 +235,12 @@ public interface Constants {
     String FROM = "from";
     String TO = "to";
     String NUMBER = "number";
+    String NUMBER_STRING = "numberString";
     String PRODUCTS = "products";
     String DONE = "done";
     String ANALYSES = "analyses";
     String VALUE = "value";
+    String CARGO = "cargo";
     String VALUES = "values";
     String LICENSE = "license";
     String TRUCK = "truck";

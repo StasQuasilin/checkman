@@ -14,6 +14,7 @@ var show = new Vue({
         timeIn:'',
         timeOut:'',
         seals:[],
+        offer:[],
         sealInput:'',
         foundSeals:[],
         fnd:-1,
@@ -81,7 +82,6 @@ var show = new Vue({
         findSeals:function(){
             clearTimeout(this.fnd);
             if (this.sealInput) {
-
                 const self = this;
                 this.fnd = setTimeout(function () {
                     var param = {};
@@ -90,21 +90,39 @@ var show = new Vue({
                         self.foundSeals = a;
                     })
                 }, 200)
+            } else {
+                this.foundSeals = [];
             }
         },
-        addSeal:function(seal){
+        addSeal:function(seal, doOffer){
             var parameters = {};
             parameters.seal = seal.id;
             parameters.transportation = this.id;
+            if (doOffer) {
+                parameters.doOffer = doOffer;
+            }
             var self = this;
             PostApi(this.api.saveSeal, parameters, function(a){
                 if (a.status = 'success'){
                     self.seals.push(seal);
                     self.sealInput = '';
                     self.foundSeals = [];
+                    self.seals.sort(function(a, b){
+                        return a.number - b.number;
+                    })
+                }
+                if (a.offer){
+                    self.offer = a.offer;
                 }
             })
-
+        },
+        addOffer:function(){
+            for (var i in this.offer){
+                if (this.offer.hasOwnProperty(i)){
+                    this.addSeal(this.offer[i], false);
+                }
+            }
+            this.offer = [];
         },
         removeSeal:function(key){
             var seal = this.seals[key];
@@ -112,7 +130,6 @@ var show = new Vue({
             PostApi(this.api.removeSeal, {seal : seal.id}, function(a){
                 if (a.status = 'success'){
                     self.seals.splice(key, 1);
-                    console.log('remove seal \'' + key + '\'')
                 }
             })
 

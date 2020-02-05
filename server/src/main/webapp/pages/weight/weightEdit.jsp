@@ -225,7 +225,7 @@
                     <fmt:message key="seals"/>
                     <c:forEach items="${seals}" var="seal">
                         <div>
-                            ${seal.number}
+                            ${seal.value}
                         </div>
                     </c:forEach>
                 </c:if>

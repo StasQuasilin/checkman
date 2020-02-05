@@ -61,11 +61,13 @@ public class WaybillPrintAPI extends ServletAPI {
             req.setAttribute(NETTO, U.getNumberByWords(transportation.getWeight().getNetto(), Gender.female, T, KG));
             req.setAttribute(BRUTTO, U.getNumberByWords(transportation.getWeight().getBrutto(), Gender.female, T, KG));
             float price = Float.parseFloat(String.valueOf(body.get(PRICE)));
-            float sum = transportation.getWeight().getNetto() * price;
-            req.setAttribute(PRICE, U.getNumberByWords(price, HRN, KOP));
-            req.setAttribute(SUM, U.getNumberByWords(sum, HRN, KOP));
-            req.setAttribute(SUM_WORDS, U.getNumberByWords(sum, Gender.female, HRN, KOP));
-            req.setAttribute(TAX, U.getNumberByWords(sum * 0.07, HRN, KOP));
+            if (price > 0) {
+                float sum = transportation.getWeight().getNetto() * price;
+                req.setAttribute(PRICE, U.getNumberByWords(price, HRN, KOP));
+                req.setAttribute(SUM, U.getNumberByWords(sum, HRN, KOP));
+                req.setAttribute(SUM_WORDS, U.getNumberByWords(sum, Gender.female, HRN, KOP));
+                req.setAttribute(TAX, U.getNumberByWords(sum * 0.07, HRN, KOP));
+            }
             req.setAttribute(BOOKER, dao.getObjectById(Worker.class, body.get(BOOKER)));
             req.setAttribute(ALLOWED, dao.getObjectById(Worker.class, body.get(ALLOWED)));
             req.setAttribute(HANDED_OVER, dao.getObjectById(Worker.class, body.get(HANDED_OVER)));

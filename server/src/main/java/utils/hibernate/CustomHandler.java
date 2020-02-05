@@ -4,6 +4,7 @@ import constants.Constants;
 import entity.laboratory.probes.IProbe;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
+import entity.seals.Seal;
 import entity.transport.*;
 import utils.DocumentUIDGenerator;
 import utils.PrinterUtil;
@@ -11,6 +12,7 @@ import utils.U;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 01.07.2019.
@@ -21,11 +23,14 @@ public class CustomHandler implements Constants{
 
 
     public static void main(String[] args) {
-//        Hibernator instance = Hibernator.getInstance();
-
-        PrinterUtil printerUtil = new PrinterUtil();
-
-        printerUtil.print("http://localhost:3332/app/api/v1/laboratory/oil/print");
+        Hibernator instance = Hibernator.getInstance();
+//        String h = "-";
+//        for (Seal s : instance.query(Seal.class, null)){
+//            s.setValue(s.getPrefix() + h + s.getNumber());
+//            instance.save(s);
+//        }
+//        PrinterUtil printerUtil = new PrinterUtil();
+//        printerUtil.print("http://localhost:3332/app/api/v1/laboratory/oil/print");
 
 //        for (SunProbe probe : dao.getObjects(SunProbe.class)){
 //            probe.setDate(Date.valueOf(probe.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
@@ -48,7 +53,7 @@ public class CustomHandler implements Constants{
 //            dao.save(note);
 //        }
 
-//        HibernateSessionFactory.shutdown();
+        HibernateSessionFactory.shutdown();
     }
 
     static String pretty(String number){

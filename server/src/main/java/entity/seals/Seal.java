@@ -2,6 +2,7 @@ package entity.seals;
 
 import entity.JsonAble;
 import entity.transport.Transportation;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -11,14 +12,15 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "seals")
-public class Seal extends JsonAble{
+public class Seal extends JsonAble implements Comparable<Seal>{
     private int id;
     private SealBatch batch;
-    private String number;
+    private int number;
+    private String value;
     private Transportation cargo;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -37,11 +39,20 @@ public class Seal extends JsonAble{
 
     @Basic
     @Column(name = "number")
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
+    }
+
+    @Basic
+    @Column(name = "_value")
+    public String getValue() {
+        return value;
+    }
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @ManyToOne
@@ -58,6 +69,17 @@ public class Seal extends JsonAble{
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put(NUMBER, number);
+        object.put(VALUE, value);
         return object;
+    }
+
+    @Override
+    public int compareTo(@NotNull Seal o) {
+        return number - o.number;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

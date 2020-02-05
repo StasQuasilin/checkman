@@ -405,12 +405,14 @@ public class HibernateDAO implements dbDAO, Constants {
 
     @Override
     public List<Seal> findSeal(String key) {
-        return hb.find(Seal.class, "number", key);
+        HashMap<String, Object> params = hb.getParams();
+        params.put(CARGO, null);
+        return hb.find(Seal.class, params, VALUE, key);
     }
 
     @Override
     public Turn getTurnByDate(TurnDateTime turnDate) {
-        return hb.get(Turn.class, "date", Timestamp.valueOf(turnDate.getDate()));
+        return hb.get(Turn.class, DATE, Timestamp.valueOf(turnDate.getDate()));
     }
 
     @Override
@@ -420,12 +422,12 @@ public class HibernateDAO implements dbDAO, Constants {
 
     @Override
     public List<Transportation> getTransportationsByDriver(Driver driver) {
-        return hb.query(Transportation.class, "driver", driver);
+        return hb.query(Transportation.class, DRIVER, driver);
     }
 
     @Override
     public OrganisationType getOrganisationTypeByName(String name) {
-        return hb.get(OrganisationType.class, "name", name);
+        return hb.get(OrganisationType.class, NAME, name);
     }
 
     @Override
@@ -1388,5 +1390,10 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public LegalAddress getLegalAddress(Organisation organisation) {
         return hb.get(LegalAddress.class, ORGANISATION, organisation);
+    }
+
+    @Override
+    public Seal getSealByNumber(int number) {
+        return hb.get(Seal.class, NUMBER, number);
     }
 }

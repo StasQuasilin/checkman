@@ -55,6 +55,18 @@ public class AddressUtil implements Constants{
             address.setBuild(build);
             save = true;
         }
+
+        String block = String.valueOf(a.get(BLOCK));
+        if (!U.exist(address.getBlock()) || !address.getBlock().equals(block)){
+            address.setBlock(block);
+            save = true;
+        }
+
+        String flat = String.valueOf(a.get(FLAT));
+        if (!U.exist(address.getFlat()) || !address.getFlat().equals(flat)){
+            address.setFlat(flat);
+            save = true;
+        }
         if (save){
             dao.save(address);
         }
