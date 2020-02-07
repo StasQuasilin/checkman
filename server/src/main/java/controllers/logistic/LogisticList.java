@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.LOGISTIC_LIST)
 public class LogisticList extends IUIServlet{
 
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+    final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
     public static final String _CONTENT = "/pages/logistic/logisticList.jsp";
 
     @Override

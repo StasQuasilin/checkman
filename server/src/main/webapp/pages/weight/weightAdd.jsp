@@ -107,21 +107,21 @@
     <c:when test="${not empty plan }">
     editor.plan = {
         id:${plan.id},
-        type:'${plan.deal.type}',
+        type:'${deal.type}',
         date:'${plan.date}',
-        deal:${plan.deal.id},
-        number:'${plan.deal.number}',
+        deal:${plan.deal},
+        number:'${deal.number}',
         organisation:{
-            id:'${plan.deal.organisation.id}',
-            value:"${plan.deal.organisation.value}"
+            id:'${deal.organisation.id}',
+            value:"${deal.organisation.value}"
         },
         address:-1,
-        product:${plan.deal.product.id},
-        quantity:${plan.deal.quantity},
-        plan:${plan.plan},
-        from:'${plan.deal.shipper.value}',
-        price:${plan.deal.price},
-        unit:${plan.deal.unit.id},
+        product:${deal.product.id},
+        quantity:${deal.quantity},
+        plan:${plan.amount},
+        from:'${deal.shipper.value}',
+        price:${deal.price},
+        unit:${deal.unit.id},
         customer:'${plan.customer}',
         driver:{
             id:-1
@@ -137,57 +137,57 @@
         },
         notes:[]
     };
-    <c:if test="${not empty plan.transportation.address}">
-    editor.plan.address = ${plan.transportation.address.id}
+    <c:if test="${not empty transportation.address}">
+    editor.plan.address = ${transportation.address.id}
     </c:if>
     <c:forEach items="${address}" var="a">
     editor.addressList.push(${a.address.toJson()});
     </c:forEach>
     editor.deals.push({
-        id:${plan.deal.id},
-        type:'${plan.deal.type}',
-        date:'${plan.deal.date}',
-        date_to:'${plan.deal.dateTo}',
+        id:${deal.id},
+        type:'${deal.type}',
+        date:'${deal.date}',
+        date_to:'${deal.dateTo}',
         product:{
-            id:${plan.deal.product.id},
-            name:'${plan.deal.product.name}'
+            id:${deal.product.id},
+            name:'${deal.product.name}'
         },
-        visibility:'${plan.deal.shipper.value}',
-        unit:${plan.deal.unit.id},
-        price:${plan.deal.price}
+        visibility:'${deal.shipper.value}',
+        unit:${deal.unit.id},
+        price:${deal.price}
     });
 
-    <c:if test="${not empty plan.transportation.vehicle.id}">
+    <c:if test="${not empty transportation.vehicle.id}">
     editor.plan.vehicle = {
-        id:${plan.transportation.vehicle.id},
-        model:'${plan.transportation.vehicle.model}',
-        number:'${plan.transportation.vehicle.number}'
+        id:${transportation.vehicle.id},
+        model:'${transportation.vehicle.model}',
+        number:'${transportation.vehicle.number}'
     };
-    <c:if test="${plan.transportation.trailer ne null}">
+    <c:if test="${transportation.trailer ne null}">
     editor.plan.trailer = {
-        id:${plan.transportation.trailer.id},
-        number:'${plan.transportation.trailer.number}'
+        id:${transportation.trailer.id},
+        number:'${transportation.trailer.number}'
     };
     </c:if>
     </c:if>
-    <c:if test="${not empty plan.transportation.driver.id}">
+    <c:if test="${not empty transportation.driver.id}">
     editor.plan.driver = {
-        id:${plan.transportation.driver.id},
+        id:${transportation.driver.id},
         person:{
-            surname:'${plan.transportation.driver.person.surname}',
-            forename:'${plan.transportation.driver.person.forename}',
-            patronymic:'${plan.transportation.driver.person.patronymic}'
+            surname:'${transportation.driver.person.surname}',
+            forename:'${transportation.driver.person.forename}',
+            patronymic:'${transportation.driver.person.patronymic}'
         }
     };
     </c:if>
-    <c:if test="${not empty plan.transportation.transporter.id}">
+    <c:if test="${not empty transportation.transporter.id}">
     editor.plan.transporter = {
-        id:${plan.transportation.transporter.id},
-        value:'${plan.transportation.transporter.value}'
+        id:${transportation.transporter.id},
+        value:'${transportation.transporter.value}'
     };
     </c:if>
 
-    <c:forEach items="${plan.transportation.notes}" var="note">
+    <c:forEach items="${transportation.notes}" var="note">
     editor.plan.notes.push(${note.toJson()});
     </c:forEach>
     </c:when>

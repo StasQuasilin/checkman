@@ -281,7 +281,6 @@ public class JsonParser implements Constants{
 
     private JSONObject toJson(SunAnalyses sunAnalyses, OilAnalyses oilAnalyses, MealAnalyses mealAnalyses) {
         JSONObject json = pool.getObject();
-
         json.put(SUN, toJson(sunAnalyses));
         json.put(OIL, toJson(oilAnalyses));
         json.put(CAKE, toJson(mealAnalyses));

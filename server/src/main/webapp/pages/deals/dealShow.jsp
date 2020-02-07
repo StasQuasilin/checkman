@@ -8,10 +8,8 @@
 <script src="${context}/vue/templates/vehicleInput.vue"></script>
 <script src="${context}/vue/loadPlan.vue"></script>
 <script>
-  <c:forEach items="${plans}" var="plan">
-  plan.add(
-        JSON.parse('${plan.toJson()}')
-  );
+  <c:forEach items="${transportations}" var="transportation">
+  plan.add(${transportation.toJson()});
   </c:forEach>
   <c:forEach items="${customers}" var="customer">
   plan.customers.push({
@@ -248,8 +246,8 @@
                         <%--REMOVE BUTTON--%>
                         <div style="display: inline-block; width: 10pt">
                           <span title="${dropTitle}" class="mini-close" style="left: 0"
-                                v-show="!value.item.transportation.archive" v-on:click="remove(key)">&times;</span>
-                          <span v-show="value.item.transportation.archive" style="color: green">
+                                v-show="!value.item.archive" v-on:click="remove(key)">&times;</span>
+                          <span v-show="value.item.archive" style="color: green">
                             &#10003;
                           </span>
                         </div>
@@ -279,17 +277,17 @@
                       <div class="lower">
                         <div>
                           <fmt:message key="transportation.driver"/>:
-                          <object-input :props="driverProps" :object="value.item.transportation.driver" :item="value"></object-input>
-                          <span v-if="value.item.transportation.driver && value.item.transportation.driver.license">
-                            /{{value.item.transportation.driver.license}}/
+                          <object-input :props="driverProps" :object="value.item.driver" :item="value"></object-input>
+                          <span v-if="value.item.driver && value.item.driver.license">
+                            /{{value.item.driver.license}}/
                           </span>
                         </div>
                         <div>
                           <fmt:message key="transportation.automobile"/>
-                          <object-input :props="vehicleProps" :object="value.item.transportation.vehicle" :item="value"></object-input>
-                          <object-input :props="trailerProps" :object="value.item.transportation.trailer" :item="value"></object-input>
+                          <object-input :props="vehicleProps" :object="value.item.vehicle" :item="value"></object-input>
+                          <object-input :props="trailerProps" :object="value.item.trailer" :item="value"></object-input>
                           <object-input title="${transporter}" :props="transporterProps"
-                                        :object="value.item.transportation.transporter" :item="value"></object-input>
+                                        :object="value.item.transporter" :item="value"></object-input>
                         </div>
                       </div>
                       <div class="lower">
@@ -299,7 +297,7 @@
                                  style="width: 100%; background: white; border: none">
                         </span>
                         <div style="flex-wrap: wrap">
-                          <div v-for="(note, nId) in value.item.transportation.notes" :title="note.creator"
+                          <div v-for="(note, nId) in value.item.notes" :title="note.creator"
                                style="display: inline-flex; padding-left: 1pt">
                               <a v-on:click="removeNote(value, nId)" class="mini-close">&times;</a>
                               <a v-on:click="editNote(value.key, nId)">{{note.note}}</a>

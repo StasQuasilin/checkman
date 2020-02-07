@@ -51,36 +51,26 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             JSONObject json = (JSONObject) body.get(PLAN);
 
             boolean save = false;
-            LoadPlan loadPlan = dao.getObjectById(LoadPlan.class, json.get(ID));
-            Transportation transportation;
-            if (loadPlan == null){
-                loadPlan = new LoadPlan();
-                loadPlan.setUid(DocumentUIDGenerator.generateUID());
-                loadPlan.setDeal(deal);
-                loadPlan.setShipper(deal.getShipper());
+            Transportation transportation = dao.getObjectById(Transportation.class, json.get(ID));;
+            if (transportation == null){
                 transportation = TransportUtil.createTransportation(deal, deal.getCreator(), getWorker(req));
                 transportation.setDeal(deal.getId());
-                loadPlan.setTransportation(transportation);
-                planComparator.fix(null);
+                dao.save(transportation.getCreateTime());
                 transportationComparator.fix(null);
             } else {
-                transportation = loadPlan.getTransportation();
-                planComparator.fix(loadPlan);
                 transportationComparator.fix(transportation);
             }
 
             Date date = Date.valueOf(String.valueOf(json.get(Constants.DATE)));
             log.info("\t...Date: \'" + date.toString() + "\'");
-            if (loadPlan.getDate() == null || !loadPlan.getDate().equals(date)) {
-                loadPlan.setDate(date);
+            if (transportation.getDate() == null || !transportation.getDate().equals(date)) {
                 transportation.setDate(date);
                 save = true;
             }
 
             float plan = Float.parseFloat(String.valueOf(json.get(Constants.PLAN)));
             log.info("\t...Plan: \'" + plan + "\'");
-            if (loadPlan.getPlan() != plan) {
-                loadPlan.setPlan(plan);
+            if (transportation.getAmount() != plan) {
                 transportation.setAmount(plan);
                 save = true;
             }
@@ -90,16 +80,20 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 customer = TransportCustomer.cont;
             }
             log.info("\t...Customer: \'" + customer.toString() + "\'");
-            if (loadPlan.getCustomer() != customer) {
-                loadPlan.setCustomer(customer);
+            if (transportation.getCustomer() != customer) {
                 transportation.setCustomer(customer);
                 save = true;
             }
 
             Vehicle vehicle = dao.getObjectById(Vehicle.class, json.get(VEHICLE));
-
             if (vehicle != null){
                 TransportUtil.setVehicle(transportation, vehicle);
+                save = true;
+            }
+
+            Trailer trailer = dao.getObjectById(Trailer.class, json.get(TRAILER));
+            if (trailer != null){
+                TransportUtil.setTrailer(transportation, trailer);
                 save = true;
             }
 
@@ -116,7 +110,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             }
 
             if (save) {
-                dao.save(transportation.getCreateTime(), transportation, loadPlan);
+                dao.save(transportation);
                 updateUtil.onSave(transportation);
             }
 
@@ -155,13 +149,12 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 updateUtil.onSave(transportation);
             }
 
-            planComparator.compare(loadPlan, worker);
             transportationComparator.compare(transportation, worker);
 
             IAnswer resultAnswer = new SuccessAnswer();
 
             if (save){
-                resultAnswer.add(ID, loadPlan.getId());
+                resultAnswer.add(ID, transportation.getId());
             }
             JSONObject ans = resultAnswer.toJson();
             write(resp, ans.toJSONString());

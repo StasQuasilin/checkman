@@ -242,6 +242,7 @@ public interface Constants {
     String SHIPPER = "shipper";
     String AMOUNT = "amount";
     String TURN = "turn";
+    String ANY = "any";
     String ARCHIVE = "archive";
     String FROM = "from";
     String TO = "to";

@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
+import entity.documents.Deal;
 import entity.transport.TransportCustomer;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -35,8 +36,8 @@ public class DealShow extends IModal{
         }
 
         if (dealId != -1) {
-            req.setAttribute(DEAL, dao.getDealById(dealId));
-            req.setAttribute(PLANS, dao.getLoadPlanByDeal(dealId, null, null));
+            req.setAttribute(DEAL, dao.getObjectById(Deal.class, dealId));
+            req.setAttribute(TRANSPORTATIONS, dao.getTransportationsByDeal(dealId));
             req.setAttribute(TITLE, Titles.DEAL_SHOW);
             req.setAttribute(SAVE, Branches.API.PLAN_LIST_SAVE);
             req.setAttribute(REMOVE, Branches.API.REMOVE_PLAN);
@@ -55,7 +56,7 @@ public class DealShow extends IModal{
             req.setAttribute(FIND_TRAILER, Branches.API.References.FIND_TRAILER);
             req.setAttribute(PARSE_TRAILER, Branches.API.PARSE_TRAILER);
             req.setAttribute(MODAL_CONTENT, "/pages/deals/dealShow.jsp");
-            req.setAttribute(CUSTOMERS, TransportCustomer.values());
+            req.setAttribute(CUSTOMERS, new TransportCustomer[]{TransportCustomer.szpt, TransportCustomer.cont});
             show(req, resp);
         }
 

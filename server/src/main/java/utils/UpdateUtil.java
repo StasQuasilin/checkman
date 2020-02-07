@@ -69,7 +69,6 @@ public class UpdateUtil {
 
     public void onSave(Transportation transportation) throws IOException {
         doAction(Command.update, getSubscriber(transportation), parser.toJson(transportation));
-        onSave(dao.getLoadPlanByTransportationId(transportation.getId()));
     }
 
     public void onRemove(Transportation transportation) throws IOException {

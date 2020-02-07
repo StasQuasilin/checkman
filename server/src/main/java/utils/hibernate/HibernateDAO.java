@@ -143,6 +143,11 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
+    public List<Transportation> getTransportationsByDeal(int dealId) {
+        return hb.query(Transportation.class, DEAL, dealId);
+    }
+
+    @Override
     public Organisation getOrganisationById(Object organisationId) {
         return hb.get(Organisation.class, ID, organisationId);
     }

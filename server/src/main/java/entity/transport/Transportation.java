@@ -11,6 +11,7 @@ import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.weight.Weight;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -366,40 +367,70 @@ public class Transportation extends JsonAble implements Serializable {
 
     @Override
     public JSONObject toJson() {
-        JSONObject object = pool.getObject();
+        JSONObject json = pool.getObject();
 
-        object.put(ID, id);
-
-        object.put(COUNTERPARTY, counterparty.toJson());
-
+        json.put(ID, id);
+        json.put(TYPE, type.toString());
+        json.put(DATE, date.toString());
+        json.put(PRODUCT, product.toJson());
+        json.put(CUSTOMER, customer.toString());
+        json.put(PLAN, amount);
+        json.put(COUNTERPARTY, counterparty.toJson());
+        json.put(SHIPPER, shipper.getValue());
         if (address != null){
-            object.put(ADDRESS, address.toJson());
+            json.put(ADDRESS, address.toJson());
         }
-
         if (driver != null) {
-            object.put(DRIVER, driver.toJson());
+            json.put(DRIVER, driver.toJson());
         } else {
-            object.put(DRIVER, EMPTY_OBJECT);
+            json.put(DRIVER, EMPTY_OBJECT);
         }
-
-        object.put(LICENSE, driverLicense);
-
+        json.put(LICENSE, driverLicense);
         if (vehicle != null) {
-            object.put(VEHICLE, vehicle.toJson());
+            json.put(VEHICLE, vehicle.toJson());
         }else {
-            object.put(VEHICLE, EMPTY_OBJECT);
+            json.put(VEHICLE, EMPTY_OBJECT);
         }
         if (trailer != null){
-            object.put(TRAILER, trailer.toJson());
+            json.put(TRAILER, trailer.toJson());
         } else {
-            object.put(TRAILER, EMPTY_OBJECT);
+            json.put(TRAILER, EMPTY_OBJECT);
         }
         if (transporter != null) {
-            object.put(TRANSPORTER, transporter.toJson());
+            json.put(TRANSPORTER, transporter.toJson());
         }else {
-            object.put(TRANSPORTER, EMPTY_OBJECT);
+            json.put(TRANSPORTER, EMPTY_OBJECT);
         }
-        object.put(NOTES, notes.stream().map(DocumentNote::toJson).collect(Collectors.toList()));
-        return object;
+        if (timeRegistration != null) {
+            json.put(REGISTRATION, timeRegistration.toJson());
+        }
+        if (timeIn != null) {
+            json.put(TIME_IN, timeIn.toJson());
+        }
+        if (timeOut != null) {
+            json.put(TIME_OUT, timeOut.toJson());
+        }
+        if (weight != null) {
+            json.put(WEIGHT, weight.toJson());
+        }
+        json.put(ANALYSES, analyses());
+        json.put(NOTES, notes.stream().map(DocumentNote::toJson).collect(Collectors.toList()));
+        json.put(ANY, any());
+        json.put(ARCHIVE, archive);
+        json.put(DONE, done);
+        json.put(MANAGER, manager.toJson());
+        json.put(CREATE, createTime.toJson());
+        return json;
+    }
+
+    private JSONObject analyses() {
+        JSONObject json = pool.getObject();
+        if (sunAnalyses != null) {
+            json.put(SUN, sunAnalyses.toJson());
+        }
+        if (oilAnalyses != null) {
+            json.put(OIL, oilAnalyses.toJson());
+        }
+        return json;
     }
 }

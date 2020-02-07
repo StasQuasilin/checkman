@@ -34,17 +34,17 @@ public class JsonPool {
 
     }
 
-    public void put(JSONArray array) {
-        for (Object o : array){
+    public void put(JSONArray a) {
+        for (Object o : a){
             if (o instanceof JSONObject){
                 put((JSONObject) o);
             } else if (o instanceof JSONArray){
                 put((JSONArray) o);
             }
         }
-        array.clear();
-        if (array.contains(array)) {
-            arrays.add(array);
+        a.clear();
+        if (!arrays.contains(a)) {
+            arrays.add(a);
         }
     }
 

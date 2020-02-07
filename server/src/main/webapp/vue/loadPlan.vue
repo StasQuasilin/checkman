@@ -176,15 +176,21 @@ var plan = new Vue({
         },
         save:function(item){
             var plan = Object.assign({}, item);
-            delete plan.transportation;
-            plan.driver = item.transportation.driver.id;
-            plan.vehicle = item.transportation.vehicle.id;
+            if (item.driver) {
+                plan.driver = item.driver.id;
+            }
+            if (item.vehicle) {
+                plan.vehicle = item.vehicle.id;
+            }
+            if (item.trailer) {
+                plan.trailer = item.trailer.id;
+            }
             var transporter = -1;
-            if(item.transportation.transporter){
-                transporter = item.transportation.transporter.id;
+            if(item.transporter){
+                transporter = item.transporter.id;
             }
             plan.transporter = transporter;
-            plan.notes = Object.assign([], item.transportation.notes);
+            plan.notes = Object.assign([], item.notes);
 
             PostApi(this.api.save, {deal : this.deal, plan : plan},function(a){
                 if (a.status === 'success'){
@@ -205,30 +211,30 @@ var plan = new Vue({
             }, 500)
         },
         setDriver:function(driver, item){
-            item.item.transportation.driver = driver;
-            if(driver.vehicle && item.item.transportation.vehicle.id == -1){
+            item.item.driver = driver;
+            if(driver.vehicle && item.item.vehicle.id == -1){
                 this.setVehicle(driver.vehicle, item);
             }else{
                 this.initSaveTimer(item);
             }
-            if (driver.organisation && !item.item.transportation.transporter || item.item.transportation.transporter.id == -1){
+            if (driver.organisation && !item.item.transporter || item.item.transporter.id == -1){
                 this.setTransporter(driver.organisation);
             }
         },
         setVehicle:function(vehicle, item){
-            item.item.transportation.vehicle = vehicle;
-            if (vehicle.trailer && item.item.transportation.trailer.id == -1){
+            item.item.vehicle = vehicle;
+            if (vehicle.trailer && item.item.trailer.id == -1){
                 this.setTrailer(vehicle.trailer, item);
             } else {
                 this.initSaveTimer(item);
             }
         },
         setTrailer:function(trailer, item){
-            item.item.transportation.trailer = trailer;
+            item.item.trailer = trailer;
             this.initSaveTimer(item);
         },
         setTransporter:function(transporter, item){
-            item.item.transportation.transporter = transporter;
+            item.item.transporter = transporter;
             this.initSaveTimer(item);
         },
         weight:function(item){
@@ -245,13 +251,9 @@ var plan = new Vue({
                         }
                     }
                 };
-                for (var i in item.transportation.weights) {
-                    if (item.transportation.weights.hasOwnProperty(i)){
-                        var weight = item.transportation.weights[i];
-                        w.brutto += weight.brutto;
-                        w.tara += weight.tara;
-                    }
-                }
+                var weight = item.weight[i];
+                w.brutto += weight.brutto;
+                w.tara += weight.tara;
                 item.weight = w;
             }
 
@@ -274,11 +276,9 @@ var plan = new Vue({
             for (var p in this.plans){
                 if (this.plans.hasOwnProperty(p)){
                     var plan = this.plans[p];
-                    for(var w in plan.item.transportation.weights){
-                        if (plan.item.transportation.weights.hasOwnProperty(w)){
-                            var weight = plan.item.transportation.weights[w];
-                            total += weight.brutto == 0 || weight.tara == 0 ? 0 : weight.brutto - weight.tara;
-                        }
+                    var weight = plan.item.weight;
+                    if (weight) {
+                        total += weight.brutto == 0 || weight.tara == 0 ? 0 : weight.brutto - weight.tara;
                     }
                 }
             }
@@ -330,7 +330,7 @@ var plan = new Vue({
                     if (plan.key === key){
                         console.log(plan);
                         plan.editNote = true;
-                        plan.noteInput = plan.item.transportation.notes[id].note
+                        plan.noteInput = plan.item.notes[id].note
                         this.focusInput();
                         this.removeNote(i, id);
                     } else {
@@ -342,7 +342,7 @@ var plan = new Vue({
         },
         saveNote:function(item){
             if (item.noteInput) {
-                item.item.transportation.notes.push({
+                item.item.notes.push({
                     id: -randomNumber(),
                     creator: this.worker,
                     note: item.noteInput
@@ -360,7 +360,7 @@ var plan = new Vue({
             }
         },
         removeNote:function(item, id){
-            item.item.transportation.notes.splice(id, 1);
+            item.item.notes.splice(id, 1);
             this.initSaveTimer(item);
         }
 

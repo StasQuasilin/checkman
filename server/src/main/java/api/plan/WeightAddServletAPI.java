@@ -59,15 +59,14 @@ public class WeightAddServletAPI extends ServletAPI {
                 }
             }
 
-            long dealId = Long.parseLong(String.valueOf(body.get(DEAL)));
-            Deal deal;
             Worker creator = getWorker(req);
             Worker manager = dao.getObjectById(body.get(MANAGER));
             if (manager == null){
                 manager = creator;
             }
 
-            if (dealId == -1){
+            Deal deal = dao.getObjectById(Deal.class, body.get(DEAL));
+            if (deal == null){
                 deal = new Deal();
                 deal.setUid(DocumentUIDGenerator.generateUID());
                 deal.setType(DealType.valueOf(String.valueOf(body.get(TYPE))));
@@ -82,8 +81,6 @@ public class WeightAddServletAPI extends ServletAPI {
                 deal.setCreator(creator);
                 dao.saveDeal(deal);
                 updateUtil.onSave(deal);
-            } else {
-                deal = dao.getDealById(dealId);
             }
 
             boolean saveDeal = false;
@@ -111,51 +108,29 @@ public class WeightAddServletAPI extends ServletAPI {
                 updateUtil.onSave(deal);
             }
 
-            long id = -1;
-            if (body.containsKey(Constants.ID)) {
-                id = (long) body.get(Constants.ID);
-            }
-
-            LoadPlan loadPlan;
-            Transportation transportation;
-
-
-            if (id != -1) {
-                loadPlan = dao.getLoadPlanById(id);
-                transportation = loadPlan.getTransportation();
-
-            } else {
-                loadPlan = new LoadPlan();
-                loadPlan.setDeal(deal);
+            Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
+            if (transportation == null) {
                 transportation = TransportUtil.createTransportation(deal, manager, creator);
-                loadPlan.setTransportation(transportation);
                 dao.save(transportation.getCreateTime());
             }
 
-            if (loadPlan.getDeal() == null || loadPlan.getDeal().getId() != dealId){
-                loadPlan.setDeal(deal);
+            if (transportation.getDeal() != deal.getId()){
                 transportation.setDeal(deal.getId());
                 transportation.setType(deal.getType());
                 transportation.setShipper(deal.getShipper());
                 transportation.setCounterparty(deal.getOrganisation());
                 transportation.setProduct(deal.getProduct());
-                List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
-                TransportUtil.updateUsedStorages(transportation, u, getWorker(req));
             }
 
-            loadPlan.setDate(date);
             transportation.setDate(date);
-            loadPlan.setShipper(shipper);
             transportation.setShipper(shipper);
             Address address = dao.getObjectById(Address.class, body.get(ADDRESS));
             transportation.setAddress(address);
-            loadPlan.setPlan(plan);
             transportation.setAmount(plan);
             TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(body.get(CUSTOMER)));
             if (customer == TransportCustomer.contragent){
                 customer = TransportCustomer.cont;
             }
-            loadPlan.setCustomer(customer);
             transportation.setCustomer(customer);
 
             HashMap<Integer, DocumentNote> alreadyNote = new HashMap<>();
@@ -230,7 +205,6 @@ public class WeightAddServletAPI extends ServletAPI {
 
             dao.save(transportation);
             dao.getUsedStoragesByTransportation(transportation).forEach(storageUtil::updateStorageEntry);
-            dao.saveLoadPlan(loadPlan);
 
             transportation.getNotes().clear();
             for(DocumentNote note : liveNotes){
@@ -241,7 +215,8 @@ public class WeightAddServletAPI extends ServletAPI {
 
             updateUtil.onSave(transportation);
             write(resp, SUCCESS_ANSWER);
-
+            List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
+            TransportUtil.updateUsedStorages(transportation, u, getWorker(req));
         } else {
             write(resp, EMPTY_BODY);
         }

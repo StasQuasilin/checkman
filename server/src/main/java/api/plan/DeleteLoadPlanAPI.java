@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
@@ -27,22 +28,19 @@ public class DeleteLoadPlanAPI extends ServletAPI{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            long id = (long) body.get(Constants.ID);
-            log.info("Delete load plan " + id);
-            LoadPlan loadPlanById = dao.getLoadPlanById(id);
-            if (loadPlanById != null) {
-                if (loadPlanById.getTransportation().any()) {
-                    loadPlanById.setCanceled(true);
-                    loadPlanById.getTransportation().setArchive(true);
-                    dao.save(loadPlanById);
-                    dao.save(loadPlanById.getTransportation());
-                    updateUtil.onRemove(loadPlanById.getTransportation());
-                    updateUtil.onRemove(loadPlanById);
+            Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
+            if (transportation != null) {
 
+                if (transportation.any()) {
+                    log.info("Archive transportation " + transportation.getId());
+                    transportation.setArchive(true);
+                    dao.save(transportation);
+                    updateUtil.onRemove(transportation);
                 } else {
-                    updateUtil.onRemove(loadPlanById.getTransportation());
-                    updateUtil.onRemove(loadPlanById);
-                    dao.remove(loadPlanById, loadPlanById.getTransportation());
+                    log.info("Remove transportation " + transportation.getId());
+                    dao.remove(dao.getLoadPlanByTransportationId(transportation));
+                    dao.remove(transportation);
+                    updateUtil.onRemove(transportation);
                 }
             }
             write(resp, SUCCESS_ANSWER);

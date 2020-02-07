@@ -31,8 +31,8 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
 
         if (body != null) {
             System.out.println(body);
-            LoadPlan plan = dao.getLoadPlanById(body.get(Constants.ID));
-            Transportation transportation = plan.getTransportation();
+
+            Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
             comparator.fix(transportation);
             boolean save = false;
             if (body.containsKey(Constants.VEHICLE)){

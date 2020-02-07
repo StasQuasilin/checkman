@@ -5,9 +5,11 @@ import constants.Constants;
 import controllers.IModal;
 import entity.DealType;
 import entity.Role;
+import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.transport.DocumentNote;
 import entity.transport.TransportCustomer;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -41,16 +43,17 @@ public class WeightAdd extends IModal {
                 copy = Long.parseLong(String.valueOf(body.get(COPY)));
             }
         }
+        Transportation transportation = null;
         if (id != -1) {
-            LoadPlan plan = dao.getLoadPlanById(id);
-            req.setAttribute(PLAN, plan);
-            req.setAttribute(ADDRESS, dao.getLoadAddress(plan.getDeal().getOrganisation()));
+            transportation = dao.getObjectById(Transportation.class, id);
+            req.setAttribute(PLAN, transportation);
+            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
             req.setAttribute(TITLE, _TITLE_EDIT);
         } else if (copy != -1) {
-            LoadPlan plan = dao.getLoadPlanById(copy);
-            req.setAttribute(ADDRESS, dao.getLoadAddress(plan.getDeal().getOrganisation()));
-            plan.setId(-1);
-            List<DocumentNote> notes = plan.getTransportation().getNotes();
+            transportation = dao.getObjectById(Transportation.class, copy);
+            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
+            transportation.setId(-1);
+            List<DocumentNote> notes = transportation.getNotes();
             for (int i = 0; i < notes.size();){
                 if (notes.get(i).getCreator() == null){
                     notes.remove(i);
@@ -58,10 +61,13 @@ public class WeightAdd extends IModal {
                     i++;
                 }
             }
-            req.setAttribute(PLAN, plan);
+            req.setAttribute(PLAN, transportation);
             req.setAttribute(TITLE, _TITLE_COPY);
         } else {
             req.setAttribute(TITLE, _TITLE_ADD);
+        }
+        if (transportation != null){
+            req.setAttribute(DEAL, dao.getObjectById(Deal.class, transportation.getDeal()));
         }
         req.setAttribute("managers", dao.getWorkersByRole(Role.manager));
         req.setAttribute(MODAL_CONTENT, _CONTENT);
@@ -87,7 +93,7 @@ public class WeightAdd extends IModal {
         req.setAttribute(UNITS, dao.getUnitsList());
         req.setAttribute(SHIPPERS, dao.getShipperList());
         req.setAttribute(TYPES, DealType.values());
-        req.setAttribute(CUSTOMERS, TransportCustomer.values());
+        req.setAttribute(CUSTOMERS, new TransportCustomer[]{TransportCustomer.szpt, TransportCustomer.cont});
         req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
         req.setAttribute(FIND_LOAD_ADDRESS, Branches.API.References.FIND_LOAD_ADDRESS);
 
