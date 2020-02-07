@@ -27,6 +27,7 @@ public class WarehousingEdit extends IModal{
         int id = Integer.parseInt(req.getParameter(ID));
         LoadPlan plan = dao.getLoadPlanById(id);
         req.setAttribute(PLAN, plan);
+        req.setAttribute(USED_STORAGES, dao.getUsedStoragesByTransportation(plan.getTransportation()));
         req.setAttribute(STORAGES, dao.getStorageProductByProduct(plan.getTransportation().getProduct()));
         req.setAttribute(SHIPPERS, dao.getShipperList());
         req.setAttribute(SAVE, Branches.API.WAREHOUSING_EDIT);

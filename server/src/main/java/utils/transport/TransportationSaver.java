@@ -60,6 +60,9 @@ public class TransportationSaver implements Constants{
 
 
         TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(body.get(CUSTOMER)));
+        if (customer == TransportCustomer.contragent){
+            customer = TransportCustomer.cont;
+        }
         if (TransportUtil.setCustomer(transportation, customer)){
             save = true;
         }

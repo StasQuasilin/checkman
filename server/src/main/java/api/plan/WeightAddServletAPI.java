@@ -8,6 +8,7 @@ import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.Shipper;
 import entity.documents.LoadPlan;
+import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.transport.*;
 import org.apache.log4j.Logger;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 19.04.2019.
@@ -57,7 +59,7 @@ public class WeightAddServletAPI extends ServletAPI {
                 }
             }
 
-            long dealId = Long.parseLong(String.valueOf(body.get("deal")));
+            long dealId = Long.parseLong(String.valueOf(body.get(DEAL)));
             Deal deal;
             Worker creator = getWorker(req);
             Worker manager = dao.getObjectById(body.get(MANAGER));
@@ -68,14 +70,14 @@ public class WeightAddServletAPI extends ServletAPI {
             if (dealId == -1){
                 deal = new Deal();
                 deal.setUid(DocumentUIDGenerator.generateUID());
-                deal.setType(DealType.valueOf(String.valueOf(body.get("type"))));
+                deal.setType(DealType.valueOf(String.valueOf(body.get(TYPE))));
 
                 deal.setDate(date);
                 deal.setDateTo(date);
-                deal.setOrganisation(dao.getOrganisationById(body.get("organisation")));
+                deal.setOrganisation(dao.getOrganisationById(body.get(ORGANISATION)));
                 deal.setShipper(shipper);
-                deal.setProduct(dao.getProductById(body.get("product")));
-                deal.setUnit(dao.getWeightUnitById(body.get("unit")));
+                deal.setProduct(dao.getProductById(body.get(PRODUCT)));
+                deal.setUnit(dao.getWeightUnitById(body.get(UNIT)));
 
                 deal.setCreator(creator);
                 dao.saveDeal(deal);
@@ -92,14 +94,13 @@ public class WeightAddServletAPI extends ServletAPI {
                 saveDeal = true;
             }
 
-
-            float quantity = Float.parseFloat(String.valueOf(body.get("quantity")));
+            float quantity = Float.parseFloat(String.valueOf(body.get(QUANTITY)));
             if (deal.getQuantity() != quantity){
                 deal.setQuantity(quantity);
                 saveDeal = true;
             }
 
-            float price = Float.parseFloat(String.valueOf(body.get("price")));
+            float price = Float.parseFloat(String.valueOf(body.get(PRICE)));
             if (deal.getPrice() != price){
                 deal.setPrice(price);
                 saveDeal = true;
@@ -128,24 +129,34 @@ public class WeightAddServletAPI extends ServletAPI {
                 loadPlan.setDeal(deal);
                 transportation = TransportUtil.createTransportation(deal, manager, creator);
                 loadPlan.setTransportation(transportation);
+                dao.save(transportation.getCreateTime());
             }
 
             if (loadPlan.getDeal() == null || loadPlan.getDeal().getId() != dealId){
                 loadPlan.setDeal(deal);
+                transportation.setDeal(deal.getId());
                 transportation.setType(deal.getType());
                 transportation.setShipper(deal.getShipper());
                 transportation.setCounterparty(deal.getOrganisation());
                 transportation.setProduct(deal.getProduct());
-
-                TransportUtil.updateUsedStorages(transportation, getWorker(req));
+                List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
+                TransportUtil.updateUsedStorages(transportation, u, getWorker(req));
             }
 
             loadPlan.setDate(date);
             transportation.setDate(date);
             loadPlan.setShipper(shipper);
             transportation.setShipper(shipper);
+            Address address = dao.getObjectById(Address.class, body.get(ADDRESS));
+            transportation.setAddress(address);
             loadPlan.setPlan(plan);
-            loadPlan.setCustomer(TransportCustomer.valueOf(String.valueOf(body.get("customer"))));
+            transportation.setAmount(plan);
+            TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(body.get(CUSTOMER)));
+            if (customer == TransportCustomer.contragent){
+                customer = TransportCustomer.cont;
+            }
+            loadPlan.setCustomer(customer);
+            transportation.setCustomer(customer);
 
             HashMap<Integer, DocumentNote> alreadyNote = new HashMap<>();
             if (transportation.getNotes() != null) {
@@ -155,7 +166,7 @@ public class WeightAddServletAPI extends ServletAPI {
             }
             ArrayList<DocumentNote> liveNotes = new ArrayList<>();
 
-            for (Object o :(JSONArray) body.get("notes")){
+            for (Object o :(JSONArray) body.get(NOTES)){
                 JSONObject note = (JSONObject) o;
                 DocumentNote documentNote;
                 int noteId = -1;
@@ -214,11 +225,11 @@ public class WeightAddServletAPI extends ServletAPI {
                     }
                     TransportUtil.setDriver(transportation, driver);
                 }
-                transportation.setCreator(creator);
             }
 
-            dao.saveTransportation(transportation);
-            transportation.getUsedStorages().forEach(storageUtil::updateStorageEntry);
+
+            dao.save(transportation);
+            dao.getUsedStoragesByTransportation(transportation).forEach(storageUtil::updateStorageEntry);
             dao.saveLoadPlan(loadPlan);
 
             transportation.getNotes().clear();

@@ -109,24 +109,23 @@ public class TransportUtil{
         transportation.setType(deal.getType());
         transportation.setCounterparty(deal.getOrganisation());
         transportation.setManager(manager);
-
-        transportation.setCreator(creator);
+        transportation.setCreateTime(new ActionTime(creator));
         transportation.setShipper(deal.getShipper());
 
         return transportation;
     }
 
     private static final StorageUtil storageUtil = new StorageUtil();
-    public synchronized static void updateUsedStorages(Transportation transportation, Worker worker){
+    public synchronized static void updateUsedStorages(Transportation t, List<TransportStorageUsed> u, Worker worker){
         HashMap<Integer, Float> values = new HashMap<>();
         float total = 0;
-        for (TransportStorageUsed used : transportation.getUsedStorages()){
+        for (TransportStorageUsed used : u){
             total += used.getAmount();
             values.put(used.getId(), used.getAmount());
         }
-        for (TransportStorageUsed used : transportation.getUsedStorages()){
-            used.setAmount(1f * Math.round(values.get(used.getId()) / total * transportation.getWeight().getNetto() * 100) / 100);
-            updateUsedStorages(transportation, used, worker);
+        for (TransportStorageUsed used : u){
+            used.setAmount(1f * Math.round(values.get(used.getId()) / total * t.getWeight().getNetto() * 100) / 100);
+            updateUsedStorages(t, used, worker);
         }
     }
     public synchronized static void updateUsedStorages(Transportation transportation, TransportStorageUsed tsu, Worker worker) {
@@ -216,15 +215,17 @@ public class TransportUtil{
             transportation.setTrailer(trailer);
             transportation.setTrailerNumber(trailer.getNumber());
             Vehicle vehicle = transportation.getVehicle();
-            if (vehicle.getTrailer() != null && !U.exist(vehicle.getTrailer().getNumber())){
-                Trailer remove = vehicle.getTrailer();
-                vehicle.setTrailer(null);
-                dao.save(vehicle);
-                dao.remove(remove);
-            }
-            if (vehicle.getTrailer() == null || !U.exist(vehicle.getTrailer().getNumber())){
-                vehicle.setTrailer(trailer);
-                dao.save(vehicle);
+            if (vehicle != null) {
+                if (vehicle.getTrailer() != null && !U.exist(vehicle.getTrailer().getNumber())) {
+                    Trailer remove = vehicle.getTrailer();
+                    vehicle.setTrailer(null);
+                    dao.save(vehicle);
+                    dao.remove(remove);
+                }
+                if (vehicle.getTrailer() == null || !U.exist(vehicle.getTrailer().getNumber())) {
+                    vehicle.setTrailer(trailer);
+                    dao.save(vehicle);
+                }
             }
         } else {
             transportation.setTrailer(null);

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +43,9 @@ public class WarehousingEditAPI extends ServletAPI {
             System.out.println(body);
             Transportation transportation = dao.getTransportationById(body.get(DOCUMENT));
             HashMap<Integer, TransportStorageUsed> used = new HashMap<>();
-            for (TransportStorageUsed u : transportation.getUsedStorages()){
+
+            List<TransportStorageUsed> usedList = dao.getUsedStoragesByTransportation(transportation);
+            for (TransportStorageUsed u : usedList){
                 used.put(u.getId(), u);
             }
 

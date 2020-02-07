@@ -23,12 +23,10 @@ public class SubscribesAPI extends API{
     @OnOpen
     public void onOpen(Session session, EndpointConfig config){
         sessions.add(session);
-        log.info("Session #" + session.getId() + " open, total sessions: " + sessions.size());
     }
 
     @OnMessage
     public void onMessage(Session session, String msg) throws ParseException, IOException {
-        log.info("Session #" + session.getId() + ", message: \'" + msg + "\'");
         JSONObject json = (JSONObject) parseJson(msg);
         if(json.containsKey("action")){
             String action = String.valueOf(json.get("action"));

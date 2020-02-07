@@ -107,7 +107,6 @@ public class UpdateUtil {
         pool.put(json);
     }
     void doAction(Command command, Subscriber subscriber, Object ... obj) throws IOException {
-        log.info(command.toString().toUpperCase() + " for " + subscriber.toString());
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
         for (Object o : obj) {

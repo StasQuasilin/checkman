@@ -140,15 +140,22 @@
                         <span :title="new Date(value.item.date).toLocaleDateString()">
                             {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
                         </span>
-                        <span style="width: 20em">
-                            <span class="label">
+                        <div style="display: inline-block">
+                            <div>
+                                <span class="label">
                                 <fmt:message key="deal.organisation"/>:
                             </span>
-
-                            <b>
-                                {{value.item.organisation.value}}
-                            </b>
-                        </span>
+                                <b>
+                                    {{value.item.organisation.value}}
+                                </b>
+                            </div>
+                            <div v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >
+                                <fmt:message key="address"/>:
+                                {{value.item.address.city}},
+                                {{value.item.address.street}}
+                                {{value.item.address.build}}
+                            </div>
+                        </div>
                         <span class="product-line" style="float: right;">
                             <span v-if="types[value.item.type]" class="label">
                                 {{(types[value.item.type]).toLowerCase()}}
@@ -193,7 +200,12 @@
                         &nbsp;
                         <div style="font-size: 8pt; float: right">
                             <fmt:message key="deal.manager"/>:
-                            {{value.item.manager.person.value}}
+                            {{value.item.manager.person.value}},
+                            <fmt:message key="created"/>:
+                            <template v-if="value.item.manager.id != value.item.create.creator.id">
+                                {{value.item.create.creator.person.value}}
+                            </template>
+                            {{new Date(value.item.create.time).toLocaleString()}}
                         </div>
                     </div>
                     <div class="lower-row" v-if="value.item.notes.length > 0">

@@ -49,8 +49,6 @@ public class ContextFilter implements Filter {
             log.info("\t...Bot settings read successfully");
             try {
                 TelegramBotFactory.setSettings(settings);
-                settings.setRun(true);
-                dbDAOService.getDAO().save(settings);
             } catch (IOException e) {
                 e.printStackTrace();
             }

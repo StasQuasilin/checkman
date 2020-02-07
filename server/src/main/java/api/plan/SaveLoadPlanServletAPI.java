@@ -49,10 +49,6 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             Worker worker = getWorker(req);
 
             JSONObject json = (JSONObject) body.get(PLAN);
-            long id = -1;
-            if (json.containsKey(Constants.ID)) {
-                id = (long) json.get(Constants.ID);
-            }
 
             boolean save = false;
             LoadPlan loadPlan = dao.getObjectById(LoadPlan.class, json.get(ID));
@@ -63,7 +59,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 loadPlan.setDeal(deal);
                 loadPlan.setShipper(deal.getShipper());
                 transportation = TransportUtil.createTransportation(deal, deal.getCreator(), getWorker(req));
-
+                transportation.setDeal(deal.getId());
                 loadPlan.setTransportation(transportation);
                 planComparator.fix(null);
                 transportationComparator.fix(null);
@@ -85,13 +81,18 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             log.info("\t...Plan: \'" + plan + "\'");
             if (loadPlan.getPlan() != plan) {
                 loadPlan.setPlan(plan);
+                transportation.setAmount(plan);
                 save = true;
             }
 
             TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(json.get(Constants.CUSTOMER)));
+            if (customer == TransportCustomer.contragent){
+                customer = TransportCustomer.cont;
+            }
             log.info("\t...Customer: \'" + customer.toString() + "\'");
             if (loadPlan.getCustomer() != customer) {
                 loadPlan.setCustomer(customer);
+                transportation.setCustomer(customer);
                 save = true;
             }
 
@@ -115,7 +116,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             }
 
             if (save) {
-                dao.save(transportation, loadPlan);
+                dao.save(transportation.getCreateTime(), transportation, loadPlan);
                 updateUtil.onSave(transportation);
             }
 
@@ -160,10 +161,9 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             IAnswer resultAnswer = new SuccessAnswer();
 
             if (save){
-                resultAnswer.add("id", loadPlan.getId());
-
+                resultAnswer.add(ID, loadPlan.getId());
             }
-            JSONObject ans = parser.toJson(resultAnswer);
+            JSONObject ans = resultAnswer.toJson();
             write(resp, ans.toJSONString());
             pool.put(ans);
             body.clear();

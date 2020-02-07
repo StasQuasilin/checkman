@@ -65,6 +65,8 @@
     editor.api.editDriver = '${editDriver}';
     editor.api.save = '${save}';
     editor.api.editCounterparty = '${editOrganisation}';
+    editor.api.editAddress = '${editAddress}';
+    editor.api.findAddress = '${findLoadAddress}';
     editor.worker = '${worker.person.value}';
     <c:forEach items="${managers}" var="manager">
     editor.managers.push({
@@ -113,6 +115,7 @@
             id:'${plan.deal.organisation.id}',
             value:"${plan.deal.organisation.value}"
         },
+        address:-1,
         product:${plan.deal.product.id},
         quantity:${plan.deal.quantity},
         plan:${plan.plan},
@@ -134,6 +137,12 @@
         },
         notes:[]
     };
+    <c:if test="${not empty plan.transportation.address}">
+    editor.plan.address = ${plan.transportation.address.id}
+    </c:if>
+    <c:forEach items="${address}" var="a">
+    editor.addressList.push(${a.address.toJson()});
+    </c:forEach>
     editor.deals.push({
         id:${plan.deal.id},
         type:'${plan.deal.type}',
@@ -193,6 +202,7 @@
         organisation:{
             id:-1
         },
+        address:-1,
         product:-1,
         plan:20,
         from:editor.visibles[0],
@@ -221,7 +231,7 @@
     editor.plan.manager = ${worker.id}
     </c:if>
 </script>
-<table id="editor" class="editor" style="width: 400pt" border="0">
+<table id="editor" class="editor" style="width: 480pt" border="0">
     <%--DEAL TYPE--%>
     <tr>
         <td>
@@ -282,6 +292,30 @@
             <%--!--%>
             <%--ORGANISATION--%>
             <object-input :props="organisationProps" :object="plan.organisation"></object-input>
+        </td>
+    </tr>
+    <tr v-if="plan.organisation.id > 0">
+        <td>
+            <label for="address">
+                <fmt:message key="address"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <select id="address" style="width: 300px" v-on:dblclick="editAddress(plan.address)"
+                    v-if="addressList.length > 0" v-model="plan.address">
+                <option value="-1" disabled><fmt:message key="can.select"/></option>
+                <option v-for="address in addressList" :value="address.id">
+                    {{address.city}}
+                    {{address.street}}
+                    {{address.build}}
+                </option>
+            </select>
+            <span class="mini-close" style="font-size: 10pt" v-on:click="editAddress(-1)">
+                <fmt:message key="add.address"/>
+            </span>
         </td>
     </tr>
     <%--DEAL--%>

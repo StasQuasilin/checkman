@@ -83,6 +83,7 @@ public interface Constants {
     String PREVIEW = "preview";
     String CALCULATORS = "calculators";
     String DIRECTION = "dir";
+    String USED_STORAGES = "usedStorages";
     String STORAGES = "storages";
     String STOCKS = "stocks";
     String SHIPPERS = "shippers";
@@ -129,6 +130,9 @@ public interface Constants {
     String ALLOWED = "allowed";
     String HANDED_OVER = "handedOver";
     String WORKER = "worker";
+    String WORKERS = "workers";
+    String MEMBERS = "members";
+    String CHAT = "chat";
     String UID = "uid";
     String PASSWORD = "password";
     String ORGANISATION = "organisation";
@@ -200,6 +204,7 @@ public interface Constants {
     String FIND_TRAILER = "findTrailer";
     String PARSE_TRAILER = "parseTrailer";
     String COUNTERPARTY = "counterparty";
+    String MEAL = "meal";
     String ADDRESS = "address";
     String ADDRESS_TYPES = "addressTypes";
     String CITY = "city";

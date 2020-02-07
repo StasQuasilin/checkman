@@ -51,16 +51,8 @@ import java.util.stream.Collectors;
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
-public class JsonParser {
+public class JsonParser implements Constants{
 
-    final static String NAME = "name";
-    final static String VALUE = "value";
-    private static final String SHIPPER = "shipper";
-    private static final String MEAL = "meal";
-    private static final String WORKERS = "workers";
-    private static final String MEMBERS = "members";
-    private static final String CHAT = "chat";
-    private static final String SENDER = "sender";
     private static final String MESSAGE = "message";
     private static final String IS_GROUP = "isGroup";
     private static final String EPOCH = "epoch";
@@ -214,6 +206,10 @@ public class JsonParser {
             json.put(DATE, transportation.getDate().toString());
             json.put(PRODUCT, toJson(transportation.getProduct()));
             json.put(ORGANISATION, toJson(transportation.getCounterparty()));
+            if (transportation.getAddress() != null){
+                json.put(ADDRESS, transportation.getAddress().toJson());
+            }
+
             json.put(SHIPPER, transportation.getShipper().getValue());
             json.put(VEHICLE, toJson(transportation.getVehicle()));
             if (transportation.getTrailer() != null) {
@@ -225,7 +221,6 @@ public class JsonParser {
             json.put(REGISTRATION, toJson(transportation.getTimeRegistration()));
             json.put(TIME_IN, toJson(transportation.getTimeIn()));
             json.put(TIME_OUT, toJson(transportation.getTimeOut()));
-            json.put(STORGES, toStoragesJson(transportation.getUsedStorages()));
             json.put(WEIGHT, toJson(transportation.getWeight()));
             json.put(ANALYSES, toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getMealAnalyses()));
             json.put(NOTES, toNotesJson(transportation.getNotes()));
@@ -233,6 +228,7 @@ public class JsonParser {
             json.put(ARCHIVE, transportation.isArchive());
             json.put(DONE, transportation.isDone());
             json.put(MANAGER, toJson(transportation.getManager()));
+            json.put(CREATE, transportation.getCreateTime().toJson());
             if (transportation.getTransporter() != null) {
                 json.put(TRANSPORTER, transportation.getTransporter().toJson());
             }

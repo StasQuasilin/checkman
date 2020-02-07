@@ -1,6 +1,7 @@
 package utils.hibernate;
 
 import constants.Constants;
+import entity.documents.LoadPlan;
 import entity.laboratory.probes.IProbe;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
@@ -11,7 +12,10 @@ import utils.PrinterUtil;
 import utils.U;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -24,6 +28,23 @@ public class CustomHandler implements Constants{
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
+        for (LoadPlan plan : instance.query(LoadPlan.class, "transportation/createTime", null)){
+            Transportation transportation = plan.getTransportation();
+            transportation.setDeal(plan.getDeal().getId());
+            TransportCustomer customer = plan.getCustomer();
+            if (customer == TransportCustomer.contragent){
+                customer = TransportCustomer.cont;
+            }
+            transportation.setCustomer(customer);
+            transportation.setAmount(plan.getPlan());
+
+            ActionTime actionTime = new ActionTime();
+            actionTime.setTime(Timestamp.valueOf(LocalDateTime.of(plan.getDate().toLocalDate(), LocalTime.now())));
+            actionTime.setCreator(transportation.getCreator());
+            dao.save(actionTime);
+            transportation.setCreateTime(actionTime);
+            dao.save(transportation);
+        }
 //        String h = "-";
 //        for (Seal s : instance.query(Seal.class, null)){
 //            s.setValue(s.getPrefix() + h + s.getNumber());

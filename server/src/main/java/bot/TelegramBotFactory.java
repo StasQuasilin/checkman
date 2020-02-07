@@ -32,7 +32,6 @@ public class TelegramBotFactory {
     private static String name;
     private static BotStatus status = BotStatus.stopped;
     private static TelegramNotificator telegramNotificator;
-    private static BotSettings currentSettings;
     private static BotSession botSession;
 
     public static IBot getBot() {
@@ -93,10 +92,6 @@ public class TelegramBotFactory {
                 botThread.interrupt();
             }
         }
-        if (currentSettings != null) {
-            currentSettings.setRun(false);
-            dbDAOService.getDAO().save(currentSettings);
-        }
     }
 
     public static BotStatus getStatus() {
@@ -104,7 +99,6 @@ public class TelegramBotFactory {
     }
 
     public static void setSettings(BotSettings settings) throws IOException {
-        currentSettings = settings;
         token = settings.getToken();
         name = settings.getName();
         start();

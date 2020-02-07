@@ -246,4 +246,5 @@ public interface dbDAO {
     LegalAddress getLegalAddress(Address address);
     LegalAddress getLegalAddress(Organisation organisation);
     Seal getSealByNumber(int number);
+    List<TransportStorageUsed> getUsedStoragesByTransportation(Transportation transportation);
 }

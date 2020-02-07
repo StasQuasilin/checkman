@@ -177,7 +177,7 @@ public class HibernateDAO implements dbDAO, Constants {
 
     @Override
     public BotSettings getBotSettings() {
-        return hb.get(BotSettings.class, "run", false);
+        return hb.get(BotSettings.class, null);
     }
 
     @Override
@@ -1395,5 +1395,10 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public Seal getSealByNumber(int number) {
         return hb.get(Seal.class, NUMBER, number);
+    }
+
+    @Override
+    public List<TransportStorageUsed> getUsedStoragesByTransportation(Transportation transportation) {
+        return hb.query(TransportStorageUsed.class, TRANSPORTATION, transportation);
     }
 }

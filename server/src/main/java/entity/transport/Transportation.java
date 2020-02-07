@@ -7,6 +7,7 @@ import entity.documents.Shipper;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
+import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.weight.Weight;
@@ -30,6 +31,8 @@ public class Transportation extends JsonAble implements Serializable {
     private int id;
     private Date date;
     private Organisation counterparty;
+    private Address address;
+    private int deal;
     private DealType type;
     private Vehicle vehicle;
     private Trailer trailer;
@@ -51,10 +54,12 @@ public class Transportation extends JsonAble implements Serializable {
     private Worker creator;
     private Worker manager;
     private List<DocumentNote> notes = new ArrayList<>();
-    private Set<TransportStorageUsed> usedStorages = new HashSet<>();
     private boolean archive;
     private boolean done;
     private String uid;
+    private ActionTime createTime;
+    private TransportCustomer customer;
+    private float amount;
 
     @Id
     @GeneratedValue
@@ -81,6 +86,24 @@ public class Transportation extends JsonAble implements Serializable {
     }
     public void setCounterparty(Organisation organisation) {
         this.counterparty = organisation;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "address")
+    public Address getAddress() {
+        return address;
+    }
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Basic
+    @Column(name = "deal")
+    public int getDeal() {
+        return deal;
+    }
+    public void setDeal(int deal) {
+        this.deal = deal;
     }
 
     @Enumerated(EnumType.STRING)
@@ -264,21 +287,11 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-//    @ManyToMany
-//    @JoinTable(name="transportation_notes", joinColumns = @JoinColumn(name="document", referencedColumnName="uid"))
     public List<DocumentNote> getNotes() {
         return notes;
     }
     public void setNotes(List<DocumentNote> notes) {
         this.notes = notes;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<TransportStorageUsed> getUsedStorages() {
-        return usedStorages;
-    }
-    public void setUsedStorages(Set<TransportStorageUsed> usedStorages) {
-        this.usedStorages = usedStorages;
     }
 
     @Basic
@@ -324,6 +337,33 @@ public class Transportation extends JsonAble implements Serializable {
         this.uid = uid;
     }
 
+    @OneToOne
+    @JoinColumn(name = "create_time")
+    public ActionTime getCreateTime() {
+        return createTime;
+    }
+    public void setCreateTime(ActionTime createTime) {
+        this.createTime = createTime;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "customer")
+    public TransportCustomer getCustomer() {
+        return customer;
+    }
+    public void setCustomer(TransportCustomer customer) {
+        this.customer = customer;
+    }
+
+    @Basic
+    @Column(name = "amount")
+    public float getAmount() {
+        return amount;
+    }
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
@@ -331,6 +371,10 @@ public class Transportation extends JsonAble implements Serializable {
         object.put(ID, id);
 
         object.put(COUNTERPARTY, counterparty.toJson());
+
+        if (address != null){
+            object.put(ADDRESS, address.toJson());
+        }
 
         if (driver != null) {
             object.put(DRIVER, driver.toJson());

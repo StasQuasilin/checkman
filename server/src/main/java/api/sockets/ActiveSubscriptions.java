@@ -83,9 +83,6 @@ public class ActiveSubscriptions {
                 handlers.get(sub).handle(session);
             }
         }
-
-
-        log.info("Session #" + session.getId() + ", subscribe on " + sub.toString());
     }
     public void unSubscribe(Subscriber sub, Session session){
         bySubscribe.get(sub).remove(session);

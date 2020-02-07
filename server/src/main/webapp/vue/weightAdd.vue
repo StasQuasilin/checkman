@@ -12,17 +12,7 @@ var editor = new Vue({
         visibles:[],
         customers:{},
         plan:{},
-        input:{
-            organisation:'',
-            vehicle:'',
-            driver:'',
-            editDriver:false,
-            editVehicle:false,
-            fnd:-1
-        },
-        foundOrganisations:[],
-        foundVehicles:[],
-        foundDrivers:[],
+        addressList:[],
         errors:{
             type:false,
             organisation:false,
@@ -50,6 +40,32 @@ var editor = new Vue({
         transporterProps:{}
     },
     methods:{
+        editAddress:function(id){
+            var data = {
+                type:'load',
+                counterparty:this.plan.organisation.id,
+                id:id
+            };
+
+            const self = this;
+            loadModal(this.api.editAddress, data, function(a){
+                var found = false;
+                for (var i in self.addressList){
+                    if (self.addressList.hasOwnProperty(i)){
+                        if(self.addressList[i].id == a.id){
+                            self.addressList.splice(i, 1, a);
+                            found = true;
+                        }
+                    }
+                }
+                if (!found){
+                    self.addressList.push(a);
+                }
+                if (self.addressList.length == 1){
+                    self.plan.address = self.addressList[0].id
+                }
+            })
+        },
         editNote:function(note, key){
             this.note.edit = true;
             this.plan.notes.splice(key, 1);
@@ -101,6 +117,7 @@ var editor = new Vue({
             this.plan.deal = -1;
             this.plan.product = -1;
             this.deals = [];
+            this.addressList = [];
         },
         productList:function(){
             if (this.plan.deal == -1){
@@ -199,11 +216,25 @@ var editor = new Vue({
             this.plan.organisation = organisation;
             if (organisation.id > 0) {
                 this.findDeals(organisation.id);
+                this.findAddress(organisation.id);
             } else {
                 this.cancelOrganisation();
             }
         },
+        findAddress:function(id){
+            console.log('find address ' + id );
+            const self = this;
+            PostApi(this.api.findAddress, {counterparty:id}, function(a){
+                self.addressList = [];
+                a.forEach(function(item){
+                    self.addressList.push(item);
+                });
+                if (a.length == 1){
+                   self.plan.address = a[0].id ;
+                }
 
+            });
+        },
         findDeals:function(id){
             const self = this;
             PostApi(this.api.findDeals, {organisation:id}, function(a){
@@ -356,41 +387,27 @@ var editor = new Vue({
         },
         save:function(){
             if (!this.already) {
+
+                if (this.note.edit) {
+                    this.saveNote();
+                }
                 var e = this.errors;
-                if (this.plan.vehicle.id == -1 && this.input.vehicle) {
-                    if (this.foundVehicles.length > 0) {
-                        e.vehicle = true;
-                    } else {
-                        this.parseVehicle(this.save);
-                    }
-                } else if (this.plan.driver.id == -1 && this.input.driver) {
-                    if (this.foundDrivers.length > 0) {
-                        e.driver = true;
-                    } else {
-                        this.parseDriver(this.save);
-                    }
-                } else {
-                    if (this.note.edit) {
-                        this.saveNote();
-                    }
+                e.type = this.plan.type == -1;
+                e.organisation = this.plan.organisation.id == -1;
+                e.product = this.plan.product == -1;
+                e.manager = this.plan.manager == -1;
+                var plan = Object.assign({}, this.plan);
+                plan.organisation = this.plan.organisation.id;
 
-                    e.type = this.plan.type == -1;
-                    e.organisation = this.plan.organisation.id == -1;
-                    e.product = this.plan.product == -1;
-                    e.manager = this.plan.manager == -1;
-                    var plan = Object.assign({}, this.plan);
-                    plan.organisation = this.plan.organisation.id;
-
-                    if (!e.type && !e.organisation && !e.product) {
-                        PostApi(this.api.save, plan, function (a) {
-                            if (a.status === 'success') {
-                                closeModal();
-                            }
-                        }, function(e){
-                            console.log(e);
-                            self.already = false
-                        })
-                    }
+                if (!e.type && !e.organisation && !e.product) {
+                    PostApi(this.api.save, plan, function (a) {
+                        if (a.status === 'success') {
+                            closeModal();
+                        }
+                    }, function(e){
+                        console.log(e);
+                        self.already = false
+                    })
                 }
             }
         },

@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 22.03.2019.
@@ -77,13 +78,14 @@ public class WeightEditServletAPI extends ServletAPI {
                     }
                 }
                 if (weight.getNetto() > 0){
-                    if (transportation.getUsedStorages().size() == 0){
+                    List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
+                    if (u.size() == 0){
                         log.info("Create storage entry");
                         TransportStorageUsed used = new TransportStorageUsed();
                         used.setAmount(1f * Math.round(weight.getNetto() * 100) / 100);
                         TransportUtil.updateUsedStorages(transportation, used, worker);
                     } else {
-                        TransportUtil.updateUsedStorages(transportation, worker);
+                        TransportUtil.updateUsedStorages(transportation, u, worker);
                     }
                 }
                 comparator.compare(weight, worker);

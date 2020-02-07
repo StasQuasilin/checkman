@@ -71,9 +71,8 @@
   edit.netto = Math.round((${plan.transportation.weight.netto}) * 100) / 100;
   </c:if>
 
-
   var r = {};
-  <c:forEach items="${plan.transportation.usedStorages}" var="use">
+  <c:forEach items="${usedStorages}" var="use">
   if (!r[${use.id}]){
     r[${use.id}]=':)';
     edit.relations.push({

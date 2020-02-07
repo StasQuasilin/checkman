@@ -24,23 +24,31 @@ import java.util.List;
 @WebServlet(Branches.UI.WEIGHT_ADD)
 public class WeightAdd extends IModal {
 
+    private static final String _TITLE_EDIT = "title.weight.edit";
+    private static final String _TITLE_COPY = "title.weight.copy";
+    private static final String _TITLE_ADD = "title.weight.add";
+    private static final String _CONTENT = "/pages/weight/weightAdd.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         long id = -1;
         long copy = -1;
         if (body != null) {
-            if (body.containsKey(Constants.ID)) {
-                id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
-            } else if (body.containsKey(Constants.COPY)) {
-                copy = Long.parseLong(String.valueOf(body.get(Constants.COPY)));
+            if (body.containsKey(ID)) {
+                id = Long.parseLong(String.valueOf(body.get(ID)));
+            } else if (body.containsKey(COPY)) {
+                copy = Long.parseLong(String.valueOf(body.get(COPY)));
             }
         }
         if (id != -1) {
-            req.setAttribute(PLAN, dao.getLoadPlanById(id));
-            req.setAttribute(TITLE, "title.weight.edit");
+            LoadPlan plan = dao.getLoadPlanById(id);
+            req.setAttribute(PLAN, plan);
+            req.setAttribute(ADDRESS, dao.getLoadAddress(plan.getDeal().getOrganisation()));
+            req.setAttribute(TITLE, _TITLE_EDIT);
         } else if (copy != -1) {
             LoadPlan plan = dao.getLoadPlanById(copy);
+            req.setAttribute(ADDRESS, dao.getLoadAddress(plan.getDeal().getOrganisation()));
             plan.setId(-1);
             List<DocumentNote> notes = plan.getTransportation().getNotes();
             for (int i = 0; i < notes.size();){
@@ -51,12 +59,12 @@ public class WeightAdd extends IModal {
                 }
             }
             req.setAttribute(PLAN, plan);
-            req.setAttribute(TITLE, "title.weight.copy");
+            req.setAttribute(TITLE, _TITLE_COPY);
         } else {
-            req.setAttribute(TITLE, "title.weight.add");
+            req.setAttribute(TITLE, _TITLE_ADD);
         }
         req.setAttribute("managers", dao.getWorkersByRole(Role.manager));
-        req.setAttribute(MODAL_CONTENT, "/pages/weight/weightAdd.jsp");
+        req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute("findDeals", Branches.API.FIND_DEALS);
 
         req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
@@ -80,6 +88,9 @@ public class WeightAdd extends IModal {
         req.setAttribute(SHIPPERS, dao.getShipperList());
         req.setAttribute(TYPES, DealType.values());
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
+        req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
+        req.setAttribute(FIND_LOAD_ADDRESS, Branches.API.References.FIND_LOAD_ADDRESS);
+
         show(req, resp);
     }
 }
