@@ -5,11 +5,15 @@ import constants.Branches;
 import entity.Worker;
 import entity.notifications.Notification;
 import entity.organisations.Organisation;
+import entity.organisations.OrganisationInfo;
 import entity.organisations.OrganisationType;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.LanguageBase;
+import utils.OpenDataBotAPI;
+import utils.OrganisationInfoUtil;
+import utils.U;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
 import utils.notifications.Notificator;
@@ -20,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,8 +39,9 @@ public class ParseOrganisationServletAPI extends ServletAPI {
     private final Notificator notificator = new Notificator();
     private final LanguageBase lb = LanguageBase.getBase();
     private static final String SUCCESS_NOTIFICATION = "notification.organisation.create.success";
-    private static final String SUCCESS_BUT_LONG = "notification.organisation.create.long";
-    private OrganisationNameChecker checker = new OrganisationNameChecker();
+    private final OrganisationInfoUtil infoUtil = new OrganisationInfoUtil();
+
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -51,15 +57,17 @@ public class ParseOrganisationServletAPI extends ServletAPI {
             JSONObject json = new SuccessAnswer(RESULT, organisation.toJson()).toJson();
             write(resp, json.toJSONString());
             pool.put(json);
+
+            infoUtil.checkOrganisation(organisation, worker);
+
         } else {
             write(resp, EMPTY_BODY);
         }
     }
 
-    public static synchronized Organisation parseOrganisation(String origin, dbDAO dao, Worker worker){
-        origin = origin.trim().toUpperCase();
-        String name = " " + origin + " ";
-
+    public synchronized Organisation parseOrganisation(String origin, dbDAO dao, Worker worker){
+        origin = origin.replaceAll("\"", SPACE).trim().toUpperCase();
+        String name = SPACE + origin + SPACE;
 
         List<OrganisationType> typeList = dao.getOrganisationTypeList();
         String[] types = new String[typeList.size()];
@@ -72,7 +80,7 @@ public class ParseOrganisationServletAPI extends ServletAPI {
         String type = "";
         if (matcher.find()){
             type = matcher.group();
-            name = name.replaceFirst(type, "");
+            name = name.replaceFirst(type, EMPTY);
         }
 
         type = type.trim();

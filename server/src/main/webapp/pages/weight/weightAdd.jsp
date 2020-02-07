@@ -179,13 +179,7 @@
     </c:if>
 
     <c:forEach items="${plan.transportation.notes}" var="note">
-    editor.plan.notes.push(
-            {
-                id:${note.id},
-                note:'${U.getParsableString(note.note)}',
-                creator:'${note.creator.getValue()}'
-            }
-    );
+    editor.plan.notes.push(${note.toJson()});
     </c:forEach>
     </c:when>
     <c:otherwise>

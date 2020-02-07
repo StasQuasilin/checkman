@@ -51,6 +51,11 @@
       editAddress:function(type, id, onSave){
         loadModal(this.api.editAddress, {counterparty:this.organisation.id, type:type, id:id}, onSave);
       },
+      info:function(){
+        PostApi(this.api.info, {id:this.organisation.id}, function(a){
+          console.log(a);
+        })
+      },
       save:function(){
         var err = this.err.name = this.organisation.name === '';
         if (!err) {
@@ -71,12 +76,17 @@
   editor.api.save='${save}';
   editor.api.editAddress = '${editAddress}';
   editor.api.findType = '${findOrganisatonType}';
+  editor.api.info = '${info}';
 
   <c:choose>
   <c:when test="${not empty organisation}">
   editor.organisation=${organisation.toJson()};
   </c:when>
   </c:choose>
+  <c:if test="${not empty organisation.create}">
+  editor.organisation.create = ${organisation.create.toJson()}
+  </c:if>
+  editor.organisation.code = '${organisation.code}';
 
   <c:if test="${not empty organisationType}">
   editor.type = ${organisationType.toJson()};
@@ -91,6 +101,19 @@
 <c:set var="shortName"><fmt:message key="organisation.short.name"/></c:set>
 <c:set var="fullName"><fmt:message key="organisation.full.name"/> </c:set>
 <table id="edit" style="width: 300pt">
+  <tr>
+    <td>
+      <label for="code">
+        <fmt:message key="organisation.code"/>
+      </label>
+    </td>
+    <td>
+      <input id="code" v-model="organisation.code" autocomplete="off" onfocus="this.select()">
+      <span class="mini-close" v-on:click="info()" v-if="!organisation.code">
+        i
+      </span>
+    </td>
+  </tr>
   <tr>
     <td colspan="3">
       <label for="name">
@@ -111,8 +134,10 @@
       </label>
       <input id="form" v-model="organisation.type" autocomplete="off" title="${shortName}"
              style="width: 10em" onfocus="this.select()" v-on:blur="findType()">
+      <template v-if="organisation.type">
       <input style="width: 100%" v-model="type.fullName" title="${fullName}"
              autocomplete="off" onfocus="this.select()">
+      </template>
     </td>
   </tr>
   <tr>
@@ -163,6 +188,12 @@
           {{address.build}}
         </div>
       </div>
+    </td>
+  </tr>
+  <tr v-if="organisation.create">
+    <td colspan="2" style="font-size: 8pt; color: grey">
+      <fmt:message key="laboratory.response"/>: {{organisation.create.creator.person.value}}
+      {{new Date(organisation.create.time).toLocaleString()}}
     </td>
   </tr>
   <tr>

@@ -33,6 +33,7 @@ public class OrganisationEdit extends IModal {
                 req.setAttribute(EDIT_ADDRESS, Branches.UI.ADDRESS_EDIT);
                 req.setAttribute(FIND_ORGANISATION_TYPE, Branches.API.FIND_ORGANISATION_TYPE);
                 req.setAttribute(SAVE, Branches.API.References.EDIT_ORGANISATION);
+                req.setAttribute(INFO, Branches.API.ORGANISATION_INFO);
                 show(req, resp);
             }
         }

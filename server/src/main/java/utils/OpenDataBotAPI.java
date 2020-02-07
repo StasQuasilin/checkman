@@ -1,12 +1,14 @@
 package utils;
 
 
+import constants.Constants;
+import entity.organisations.Organisation;
+import entity.organisations.OrganisationInfo;
 import entity.transport.TruckInfo;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okio.BufferedSource;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,21 +20,63 @@ import java.util.ArrayList;
 /**
  * Created by szpt_user045 on 19.12.2019.
  */
-public class OpenDataBotAPI {
+public class OpenDataBotAPI implements Constants {
 
     private static final Logger log = Logger.getLogger(OpenDataBotAPI.class);
 
     private static final String key = "9NfS7Rarm5yA";
-    private static final String API = "https://opendatabot.ua/api/v2/transport-passports";
+    private static final String API = "https://opendatabot.ua/api/v2";
+    public static final String TRANSPORT_PASSPORT = "/transport-passports";
+    private static final String SEARCH_COMPANY = "/search/companies";
 
     private final OkHttpClient httpClient = new OkHttpClient();
-    public static final String REQ_FORMAT = "%1s?apiKey=%2s&number=%3s";
+    public static final String TRANSPORT_REQ_FORMAT = "%1s%2s?apiKey=%3s&number=%4s";
+    public static final String ORGANISATION_FIND_REQ_FORMAT = "%1s%2s?apiKey=%3s&q=%4s";
     JsonParser parser = new JsonParser();
+    //TODO OPTIMIZE IT
+
+    public void searchCompany(String name, ArrayList<OrganisationInfo> infoList) {
+        log.info("Find info about " + name);
+        Request request = new Request.Builder()
+                .url(String.format(ORGANISATION_FIND_REQ_FORMAT, API, SEARCH_COMPANY, key, name))
+                .build();
+
+        try (Response response = httpClient.newCall(request).execute()) {
+            ResponseBody body = response.body();
+            if (body != null){
+                try {
+                    JSONObject parse = parser.parse(body.string());
+                    JSONObject data = (JSONObject) parse.get("data");
+                    if (data != null) {
+//                        Integer count = Integer.parseInt(String.valueOf(data.get(COUNT)));
+                        JSONArray array = (JSONArray) data.get("items");
+                        for (Object o1 : array){
+                            JSONObject o = (JSONObject) o1;
+                            System.out.println(o);
+
+                            OrganisationInfo info = new OrganisationInfo();
+                            info.setCode(String.valueOf(o.get(CODE)));
+                            info.setLocation(String.valueOf(o.get(LOCATION)));
+                            info.setCeo(String.valueOf(o.get(CEO_NAME)));
+                            info.setActivities(String.valueOf(o.get(ACTIVITIES)));
+                            infoList.add(info);
+                        }
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void infoRequest(ArrayList<TruckInfo> infos, String number){
         log.info("Get info about " + number);
         Request request = new Request.Builder()
-                .url(String.format(REQ_FORMAT, API, key, number))
+                .url(String.format(TRANSPORT_REQ_FORMAT, API, TRANSPORT_PASSPORT, key, number))
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
@@ -78,9 +122,9 @@ public class OpenDataBotAPI {
 
     public static void main(String[] args) {
         OpenDataBotAPI api = new OpenDataBotAPI();
-        ArrayList<TruckInfo> infos = new ArrayList<>();
-        api.infoRequest(infos,"АЕ 6782 ІК");
-        for (TruckInfo info : infos){
+        ArrayList<OrganisationInfo> infos = new ArrayList<>();
+        api.searchCompany("українське зерно", infos);
+        for (OrganisationInfo info : infos){
             System.out.println(info);
         }
     }

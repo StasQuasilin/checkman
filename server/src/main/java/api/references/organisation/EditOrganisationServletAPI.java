@@ -71,11 +71,17 @@ public class EditOrganisationServletAPI extends ServletAPI {
         if (organisation == null) {
             ActionTime actionTime = new ActionTime(worker);
             dao.save(actionTime);
-
             organisation = new Organisation();
             organisation.setCreate(actionTime);
         }
 
+        String code = String.valueOf(json.get(CODE));
+        if (U.exist(code)){
+            if (!U.exist(organisation.getCode()) || !organisation.getCode().equals(code)){
+                organisation.setCode(code);
+                save = true;
+            }
+        }
         String name = String.valueOf(json.get(NAME));
         name = name.trim().toUpperCase();
 

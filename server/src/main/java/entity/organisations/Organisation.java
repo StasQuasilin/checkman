@@ -16,6 +16,7 @@ import java.util.List;
 @Table(name = "organisations")
 public class Organisation extends JsonAble{
     private int id;
+    private String code;
     private String type;
     private String name;
     private ActionTime create;
@@ -30,6 +31,15 @@ public class Organisation extends JsonAble{
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "code")
+    public String getCode() {
+        return code;
+    }
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Basic

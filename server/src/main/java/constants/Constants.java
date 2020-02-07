@@ -4,6 +4,7 @@ package constants;
  * Created by quasilin on 11.03.2019.
  */
 public interface Constants {
+    String COUNT = "count";
     String HYPHEN = " - ";
     String SEMICOLON = "; ";
     String NEW_LINE = "\n";
@@ -18,6 +19,11 @@ public interface Constants {
     String BRAND = "brand";
     String VIN = "vin";
     String INFO = "info";
+    String CODE= "code";
+    String LOCATION = "location";
+    String CEO = "ceo";
+    String CEO_NAME = "ceo_name";
+    String ACTIVITIES = "activities";
     String NAME = "name";
     String FULL_NAME = "fullName";
     String DATE = "date";
