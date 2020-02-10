@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.documents.LoadPlan;
 import entity.log.Change;
 import entity.log.ChangeLog;
+import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.LanguageBase;
@@ -32,17 +33,20 @@ public class SummaryShowServletAPI extends ServletAPI {
 				id = (long) body.get(Constants.ID);
 			}
 			if (id != -1) {
-				LoadPlan plan = dao.getLoadPlanById(id);
+				Transportation transportation = dao.getObjectById(Transportation.class, id);
 				ArrayList<ChangeLog> logs = new ArrayList<>();
-				if (plan.getUid() != null) {
-					logs.addAll(dao.getLogs(plan.getUid()));
-				}
-				if (plan.getTransportation() != null) {
-					if (plan.getTransportation().getUid() != null) {
-						logs.addAll(dao.getLogs(plan.getTransportation().getUid()));
+
+				if (transportation != null) {
+
+					if (transportation.getUid() != null) {
+						logs.addAll(dao.getLogs(transportation.getUid()));
 					}
-					if (plan.getTransportation().getWeight() != null) {
-						logs.addAll(dao.getLogs(plan.getTransportation().getWeight().getUid()));
+
+					if (transportation.getUid() != null) {
+						logs.addAll(dao.getLogs(transportation.getUid()));
+					}
+					if (transportation.getWeight() != null) {
+						logs.addAll(dao.getLogs(transportation.getWeight().getUid()));
 					}
 				}
 				//todo logs.addAll(analyses);
@@ -66,7 +70,7 @@ public class SummaryShowServletAPI extends ServletAPI {
 					}
 				}
 				write(resp, parser.toJson(
-						plan.getTransportation(),
+						transportation,
 						logs
 				).toJSONString());
 			} else {

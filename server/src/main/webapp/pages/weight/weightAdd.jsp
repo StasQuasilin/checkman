@@ -44,7 +44,6 @@
         put:editor.putTrailer,
         show:['number']
     };
-
     editor.transporterProps = {
         find:'${findOrganisation}',
         edit:'${editOrganisation}',
@@ -157,74 +156,39 @@
         price:${deal.price}
     });
 
-    <c:if test="${not empty transportation.vehicle.id}">
+    <c:if test="${not empty plan.vehicle.id}">
     editor.plan.vehicle = {
-        id:${transportation.vehicle.id},
-        model:'${transportation.vehicle.model}',
-        number:'${transportation.vehicle.number}'
+        id:${plan.vehicle.id},
+        model:'${plan.vehicle.model}',
+        number:'${plan.vehicle.number}'
     };
-    <c:if test="${transportation.trailer ne null}">
+    <c:if test="${plan.trailer ne null}">
     editor.plan.trailer = {
-        id:${transportation.trailer.id},
-        number:'${transportation.trailer.number}'
+        id:${plan.trailer.id},
+        number:'${plan.trailer.number}'
     };
     </c:if>
     </c:if>
-    <c:if test="${not empty transportation.driver.id}">
+    <c:if test="${not empty plan.driver.id}">
     editor.plan.driver = {
-        id:${transportation.driver.id},
+        id:${plan.driver.id},
         person:{
-            surname:'${transportation.driver.person.surname}',
-            forename:'${transportation.driver.person.forename}',
-            patronymic:'${transportation.driver.person.patronymic}'
+            surname:'${plan.driver.person.surname}',
+            forename:'${plan.driver.person.forename}',
+            patronymic:'${plan.driver.person.patronymic}'
         }
     };
     </c:if>
-    <c:if test="${not empty transportation.transporter.id}">
+    <c:if test="${not empty plan.transporter.id}">
     editor.plan.transporter = {
-        id:${transportation.transporter.id},
-        value:'${transportation.transporter.value}'
+        id:${plan.transporter.id},
+        value:'${plan.transporter.value}'
     };
     </c:if>
-
-    <c:forEach items="${transportation.notes}" var="note">
+    <c:forEach items="${plan.notes}" var="note">
     editor.plan.notes.push(${note.toJson()});
     </c:forEach>
     </c:when>
-    <c:otherwise>
-    editor.plan = {
-        id:-1,
-        type:-1,
-        date:new Date().toISOString().substring(0, 10),
-        number:'',
-        deal:-1,
-        quantity:0,
-        organisation:{
-            id:-1
-        },
-        address:-1,
-        product:-1,
-        plan:20,
-        from:editor.visibles[0],
-        price:0,
-        unit:editor.units[0].id,
-        customer:'szpt',
-        vehicle:{
-            id:-1
-        },
-        trailer:{
-            id:-1
-        },
-        driver:{
-            id:-1
-        },
-        transporter:{
-            id:-1
-        },
-        manager:-1,
-        notes:[]
-    };
-    </c:otherwise>
     </c:choose>
     editor.role = '${role}';
     <c:if test="${role ne 'weigher'}">
@@ -443,7 +407,10 @@
         </td>
         <td>
             <object-input :props="vehicleProps" :object="plan.vehicle"></object-input>
-            <object-input :props="trailerProps" :object="plan.trailer"></object-input>
+            <template v-if="plan.vehicle.id != -1">
+                <object-input :props="trailerProps" :object="plan.trailer"></object-input>
+            </template>
+
         </td>
     </tr>
     <tr>

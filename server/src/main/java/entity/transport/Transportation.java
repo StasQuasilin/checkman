@@ -382,8 +382,6 @@ public class Transportation extends JsonAble implements Serializable {
         }
         if (driver != null) {
             json.put(DRIVER, driver.toJson());
-        } else {
-            json.put(DRIVER, EMPTY_OBJECT);
         }
         json.put(LICENSE, driverLicense);
         if (vehicle != null) {

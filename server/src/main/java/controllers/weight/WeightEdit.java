@@ -5,6 +5,7 @@ import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,21 +19,23 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_EDIT)
 public class WeightEdit extends IModal {
 
+    private static final String _CONTENT = "/pages/weight/weightEdit.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String parameterId = req.getParameter(Constants.ID);
+        String parameterId = req.getParameter(ID);
         int id = -1;
         if (parameterId != null) {
             id = Integer.parseInt(parameterId);
         }
         if (id != -1) {
-            LoadPlan plan = dao.getLoadPlanById(id);
+            Transportation plan = dao.getObjectById(Transportation.class, id);
             req.setAttribute(PLAN, plan);
-            req.setAttribute("seals", dao.getSealsByTransportation(plan.getTransportation()));
+            req.setAttribute(SEALS, dao.getSealsByTransportation(plan));
         }
         req.setAttribute(SAVE, Branches.API.SAVE_WEIGHT);
         req.setAttribute(TITLE, Titles.WEIGHT_EDIT);
-        req.setAttribute(MODAL_CONTENT, "/pages/weight/weightEdit.jsp");
+        req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute(PRINT, Branches.UI.WAYBILL_PRINT);
         show(req, resp);
     }

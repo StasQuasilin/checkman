@@ -2,6 +2,7 @@ package utils;
 
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -15,11 +16,12 @@ public class WeightUtil {
     static dbDAO dao = dbDAOService.getDAO();
     private static final UpdateUtil updateUtil = new UpdateUtil();
 
-    public static void calculateDealDone(Deal deal){
+    public static void calculateDealDone(int dealId){
         float complete = 0;
-        for (LoadPlan plan : dao.getPlanByDeal(deal)){
-            if (plan.getTransportation().getWeight() != null) {
-                complete += plan.getTransportation().getWeight().getNetto();
+        Deal deal = dao.getObjectById(Deal.class, dealId);
+        for (Transportation plan : dao.getTransportationsByDeal(dealId)){
+            if (plan.getWeight() != null) {
+                complete += plan.getWeight().getNetto();
             }
         }
         boolean save = false;
@@ -40,7 +42,7 @@ public class WeightUtil {
 
         }
         if (save){
-            dao.saveDeal(deal);
+            dao.save(deal);
 
             try {
                 updateUtil.onSave(deal);

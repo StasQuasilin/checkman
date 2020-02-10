@@ -5,6 +5,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.documents.Deal;
 import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 
@@ -31,18 +32,14 @@ public class DeleteDealServletAPI extends ServletAPI{
             final Deal deal = dao.getDealById(id);
 
 
-            final List<LoadPlan> toRemove = dao.getLoadPlanByDeal(deal, false, null);
+            final List<Transportation> list = dao.getTransportationsByDeal(deal.getId());
 
-            for (LoadPlan plan : toRemove){
+            for (Transportation plan : list){
                 dao.remove(plan);
                 updateUtil.onRemove(plan);
-                dao.remove(plan.getTransportation());
-                updateUtil.onRemove(plan.getTransportation());
             }
 
-            final List<LoadPlan> allPlans = dao.getLoadPlanByDeal(deal, null, null);
-
-            if (deal.getComplete() > 0 || allPlans.size() > 0){
+            if (deal.getComplete() > 0 || list.size() > 0){
                 deal.setArchive(true);
                 dao.save(deal);
                 updateUtil.onArchive(deal);

@@ -31,7 +31,7 @@
               :
             </td>
             <td>
-              <fmt:message key="${plan.deal.type}"/>
+              <fmt:message key="${plan.type}"/>
             </td>
           </tr>
           <tr>
@@ -42,7 +42,7 @@
               :
             </td>
             <td>
-              ${plan.deal.organisation.value}
+              ${plan.counterparty.value}
             </td>
           </tr>
           <tr>
@@ -53,7 +53,7 @@
               :
             </td>
             <td>
-              ${plan.deal.product.name}
+              ${plan.product.name}
             </td>
           </tr>
           <tr>
@@ -64,7 +64,7 @@
               :
             </td>
             <td>
-              <fmt:formatNumber value="${plan.deal.quantity}"/>&nbsp;${plan.deal.unit.name}
+              <%--<fmt:formatNumber value="${plan.deal.quantity}"/>&nbsp;${plan.deal.unit.name}--%>
             </td>
           </tr>
           <tr>
@@ -75,7 +75,7 @@
               :
             </td>
             <td>
-              <fmt:formatNumber value="${plan.deal.price}"/>
+              <%--<fmt:formatNumber value="${plan.deal.price}"/>--%>
             </td>
           </tr>
         </table>
@@ -135,14 +135,14 @@
               </div>
               <div class="page-container">
                 <c:choose>
-                  <c:when test="${plan.transportation.sunAnalyses ne null}">
+                  <c:when test="${plan.sunAnalyses ne null}">
                     <table width="100&"  style="font-size: 10pt">
                       <tr>
                         <td>
                           <fmt:message key="sun.humidity.1.short"/>
                         </td>
                         <td>
-                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.humidity1}"/>
+                          <fmt:formatNumber value="${plan.sunAnalyses.humidity1}"/>
                         </td>
                       </tr>
                       <tr>
@@ -150,7 +150,7 @@
                           <fmt:message key="sun.humidity.2.short"/>
                         </td>
                         <td>
-                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.humidity2}"/>
+                          <fmt:formatNumber value="${plan.sunAnalyses.humidity2}"/>
                         </td>
                       </tr>
                       <tr>
@@ -158,7 +158,7 @@
                           <fmt:message key="sun.soreness"/>
                         </td>
                         <td>
-                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.soreness}"/>
+                          <fmt:formatNumber value="${plan.sunAnalyses.soreness}"/>
                         </td>
                       </tr>
                       <tr>
@@ -166,7 +166,7 @@
                           <fmt:message key="sun.oil.impurity"/>
                         </td>
                         <td>
-                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.oilImpurity}"/>
+                          <fmt:formatNumber value="${plan.sunAnalyses.oilImpurity}"/>
                         </td>
                       </tr>
                       <tr>
@@ -174,7 +174,7 @@
                           <fmt:message key="sun.oiliness"/>
                         </td>
                         <td>
-                          <fmt:formatNumber value="${plan.transportation.sunAnalyses.oiliness}"/>
+                          <fmt:formatNumber value="${plan.sunAnalyses.oiliness}"/>
                         </td>
                       </tr>
                       <c:if test="plan.transportation.sunAnalyses.contamination">
@@ -189,15 +189,15 @@
                           <fmt:message key="create.date"/>
                         </td>
                         <td>
-                          <fmt:formatDate value="${plan.transportation.sunAnalyses.createTime.time}" pattern="dd.MM.yy HH:mm"/>
+                          <fmt:formatDate value="${plan.sunAnalyses.createTime.time}" pattern="dd.MM.yy HH:mm"/>
                         </td>
                       </tr>
                     </table>
                   </c:when>
-                  <c:when test="${plan.transportation.oilAnalyses ne null}">
+                  <c:when test="${plan.oilAnalyses ne null}">
                     OIL
                   </c:when>
-                  <c:when test="${plan.transportation.mealAnalyses ne null}">
+                  <c:when test="${plan.mealAnalyses ne null}">
                     MEAL
                   </c:when>
                 </c:choose>
@@ -331,7 +331,7 @@
               :
             </td>
             <td>
-              ${plan.transportation.vehicle.model}
+              ${plan.vehicle.model}
             </td>
           </tr>
           <tr>
@@ -342,7 +342,7 @@
               :
             </td>
             <td>
-              ${plan.transportation.vehicle.number}
+              ${plan.vehicle.number}
             </td>
           </tr>
           <tr>
@@ -353,7 +353,7 @@
               :
             </td>
             <td>
-              ${plan.transportation.vehicle.trailer.number}
+              ${plan.vehicle.trailer.number}
             </td>
           </tr>
           <tr>
@@ -369,7 +369,7 @@
               :
             </td>
             <td>
-              ${plan.transportation.driver.person.surname}
+              ${plan.driver.person.surname}
             </td>
           </tr>
           <tr>
@@ -380,7 +380,7 @@
               :
             </td>
             <td>
-              ${plan.transportation.driver.person.forename}
+              ${plan.driver.person.forename}
             </td>
           </tr>
           <tr>
@@ -391,7 +391,7 @@
               :
             </td>
             <td>
-              ${plan.transportation.driver.person.patronymic}
+              ${plan.driver.person.patronymic}
             </td>
           </tr>
 
@@ -405,7 +405,8 @@
               :
             </td>
             <td>
-              <fmt:formatNumber value ="${plan.plan}"/>&nbsp;${plan.deal.unit.name}
+              <fmt:formatNumber value ="${plan.amount}"/>
+              <%--&nbsp;${plan.deal.unit.name}--%>
             </td>
           </tr>
           <tr>
@@ -417,7 +418,8 @@
             </td>
             <td>
               <span v-if="weight.id">
-                {{(weight.netto).toLocaleString()}}&nbsp;${plan.deal.unit.name}
+                {{(weight.netto).toLocaleString()}}
+                <%--&nbsp;${plan.deal.unit.name}--%>
               </span>
               <span v-else>
                 0

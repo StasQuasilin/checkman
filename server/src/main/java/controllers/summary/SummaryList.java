@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SUMMARY_LIST)
 public class SummaryList extends IUIServlet {
 
-	final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+	final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
 	public static final String _CONTENT = "/pages/summary/summaryList.jsp";
 	private static final String _STATIC = "/pages/summary/staticCalendar.jsp";
 	@Override

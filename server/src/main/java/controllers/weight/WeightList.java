@@ -20,7 +20,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_LIST)
 public class WeightList extends IUIServlet{
 
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+    final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
     public static final String _CONTENT = "/pages/weight/weightList.jsp";
 
     @Override
@@ -28,10 +28,10 @@ public class WeightList extends IUIServlet{
         req.setAttribute(TITLE, Titles.WEIGHT_LIST);
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(EDIT, Branches.UI.WEIGHT_EDIT);
-        req.setAttribute("add", Branches.UI.WEIGHT_ADD);
-        req.setAttribute("notes", Branches.UI.NOTES_LIST);
-        req.setAttribute("cancel", Branches.UI.WEIGHT_CANCEL);
-        req.setAttribute("archive", Branches.API.ARCHIVE_LOAD_PLAN);
+        req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
+        req.setAttribute(NOTES, Branches.UI.NOTES_LIST);
+        req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
+        req.setAttribute(ARCHIVE, Branches.API.ARCHIVE_LOAD_PLAN);
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(TYPES, DealType.values());

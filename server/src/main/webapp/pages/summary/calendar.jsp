@@ -69,10 +69,10 @@
                         manager.count += amount;
                         manager.plan += plan;
 
-                        var counterparty = manager.values[a.organisation.value];
-                        var counterpartyKey = managerKey + '/' + a.organisation.value;
+                        var counterparty = manager.values[a.counterparty.value];
+                        var counterpartyKey = managerKey + '/' + a.counterparty.value;
                         if (!counterparty){
-                            counterparty = manager.values[a.organisation.value] = {
+                            counterparty = manager.values[a.counterparty.value] = {
                                 key:counterpartyKey,
                                 open:this.getOpen(counterpartyKey),
                                 count:0,
@@ -85,7 +85,7 @@
 
                         var driver = counterparty.values[a.id];
                         if (!driver){
-                            var dn = a.driver ? a.driver.person.value : '--';
+                            var dn = a.driver? a.driver.person.value : '--';
                             driver = Vue.set(counterparty.values, a.id, {
                                 driver:dn,
                                 plan:plan,

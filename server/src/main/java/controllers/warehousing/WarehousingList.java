@@ -20,7 +20,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WAREHOUSING_LIST)
 public class WarehousingList extends IUIServlet {
 
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+    final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
 //    public static final String _CONTENT = "/pages/warehousing/warehousingList.jsp";
     public static final String _CONTENT = "/pages/weight/weightList.jsp";
     @Override

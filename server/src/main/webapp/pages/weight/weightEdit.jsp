@@ -12,11 +12,11 @@
     editor.api.print = '${print}';
     editor.id=${plan.id}
     <c:choose>
-    <c:when test="${not empty plan.transportation.weight.id}">
+    <c:when test="${not empty plan.weight.id}">
     editor.weight={
-        id:${plan.transportation.weight.id},
-        brutto:${plan.transportation.weight.brutto},
-        tara:${plan.transportation.weight.tara}
+        id:${plan.weight.id},
+        brutto:${plan.weight.brutto},
+        tara:${plan.weight.tara}
     };
     </c:when>
     <c:otherwise>
@@ -103,7 +103,7 @@
                         :
                     </td>
                     <td>
-                        ${plan.deal.organisation.value}
+                        ${plan.counterparty.value}
                     </td>
                 </tr>
                 <tr>
@@ -115,8 +115,8 @@
                         :
                     </td>
                     <td>
-                        ${plan.deal.product.name},
-                        <c:set var="type"><fmt:message key="_${plan.deal.type}"/> </c:set>
+                        ${plan.product.name},
+                        <c:set var="type"><fmt:message key="_${plan.type}"/> </c:set>
                         ${fn:toLowerCase(type)}
                     </td>
                 </tr>
@@ -128,8 +128,8 @@
                         :
                     </td>
                     <td>
-                        <fmt:formatNumber value="${plan.plan}"/>
-                        ${plan.deal.unit.name}
+                        <fmt:formatNumber value="${plan.amount}"/>
+                        <%--${plan.deal.unit.name}--%>
                     </td>
                 </tr>
                 <tr>
@@ -140,7 +140,7 @@
                         :
                     </td>
                     <td>
-                        ${plan.deal.shipper.value}
+                        ${plan.shipper.value}
                     </td>
                 </tr>
                 <tr>
@@ -151,7 +151,7 @@
                         :
                     </td>
                     <td>
-                        ${plan.transportation.vehicle.value}
+                        ${plan.vehicle.value}
                     </td>
                 </tr>
                 <tr>
@@ -162,7 +162,7 @@
                         :
                     </td>
                     <td>
-                        ${plan.transportation.driver.person.value}
+                        ${plan.driver.person.value}
                     </td>
                 </tr>
                 <tr>
@@ -229,30 +229,30 @@
                         </div>
                     </c:forEach>
                 </c:if>
-                <c:if test="${plan.transportation.sunAnalyses ne null}">
+                <c:if test="${plan.sunAnalyses ne null}">
                     <fmt:message key="analyses"/>
                     <div style="width:100%; text-align: left">
                         <div>
                             <fmt:message key="sun.humidity.1.short"/>:
-                            ${plan.transportation.sunAnalyses.humidity1}
+                            ${plan.sunAnalyses.humidity1}
                         </div>
                         <div>
                             <fmt:message key="sun.humidity.2.short"/>:
-                            ${plan.transportation.sunAnalyses.humidity2}
+                            ${plan.sunAnalyses.humidity2}
                         </div>
                         <div>
                             <fmt:message key="sun.soreness"/>:
-                            ${plan.transportation.sunAnalyses.soreness}
+                            ${plan.sunAnalyses.soreness}
                         </div>
                         <div>
                             <fmt:message key="sun.oil.impurity"/>:
-                            ${plan.transportation.sunAnalyses.oilImpurity}
+                            ${plan.sunAnalyses.oilImpurity}
                         </div>
                         <div>
                             <fmt:message key="sun.oiliness"/>:
-                            ${plan.transportation.sunAnalyses.oiliness}
+                            ${plan.sunAnalyses.oiliness}
                         </div>
-                        <c:if test="${plan.transportation.sunAnalyses.contamination}">
+                        <c:if test="${plan.sunAnalyses.contamination}">
                         <div>
                             <fmt:message key="sun.contamination"/>
                         </div>

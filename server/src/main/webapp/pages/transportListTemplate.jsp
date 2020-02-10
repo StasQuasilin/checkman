@@ -16,7 +16,7 @@
     }
     list.fields.vehicle = '<fmt:message key="transportation.automobile"/>';
     list.fields.driver = '<fmt:message key="transportation.driver"/>';
-    list.fields.license = '<fmt:message key="driver.license"/>'
+    list.fields.license = '<fmt:message key="driver.license"/>';
     list.fields.customer = '<fmt:message key="transport.customer"/>';
     list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
     list.fields.noData='<fmt:message key="no.data"/>';
@@ -68,31 +68,31 @@
     list.styler = function(item){
         return item.weight.tara > 0
     };
-    list.sort = function(){
-        list.items.sort(function(a, b){
-            if (a.item.date === b.item.date && a.item.weight) {
-                let aN = 0;
-                if (a.item.weight.brutto > 0 && a.item.weight.tara > 0) {
-                    aN = a.item.weight.brutto - a.item.weight.tara;
-                }
-
-                let bN = 0;
-                if (b.item.weight.brutto > 0 && b.item.weight.tara > 0) {
-                    bN = b.item.weight.brutto - b.item.weight.tara;
-                }
-                let ai = !aN && (a.item.weight.tara > 0 || a.item.weight.brutto > 0);
-                let bi = !bN && (b.item.weight.tara > 0 || b.item.weight.brutto > 0);
-                if (aN == 0 && bN > 0 || ai && !bi) { //(aN == 0 && bN > 0) ||
-                    return -1;
-                }
-                if (aN > 0 && bN == 0 || !ai && bi) { //
-                    return 1;
-                }
-            }
-
-            return new Date(a.item.date) - new Date(b.item.date);
-        })
-    };
+//    list.sort = function(){
+//        list.items.sort(function(a, b){
+//            if (a.item.date === b.item.date && a.item.weight) {
+//                let aN = 0;
+//                if (a.item.weight.brutto > 0 && a.item.weight.tara > 0) {
+//                    aN = a.item.weight.brutto - a.item.weight.tara;
+//                }
+//
+//                let bN = 0;
+//                if (b.item.weight.brutto > 0 && b.item.weight.tara > 0) {
+//                    bN = b.item.weight.brutto - b.item.weight.tara;
+//                }
+//                let ai = !aN && (a.item.weight.tara > 0 || a.item.weight.brutto > 0);
+//                let bi = !bN && (b.item.weight.tara > 0 || b.item.weight.brutto > 0);
+//                if (aN == 0 && bN > 0 || ai && !bi) { //(aN == 0 && bN > 0) ||
+//                    return -1;
+//                }
+//                if (aN > 0 && bN == 0 || !ai && bi) { //
+//                    return 1;
+//                }
+//            }
+//
+//            return new Date(a.item.date) - new Date(b.item.date);
+//        })
+//    };
     var s = 0;
     <c:forEach items="${subscribe}" var="s">
     s++;
@@ -123,61 +123,77 @@
             Loading...
         </div>
         <transition-group name="flip-list" tag="div" class="container" >
-            <div v-for="(value, key) in getItems()" :key="value.item.id" :id="value.item.id"
+            <div v-for="(value, key) in getItems()"
+                 :key="value.item.id" :id="value.item.id"
                  class="container-item"
                  :class="['container-item-' + new Date(value.item.date).getDay(),
-                 { done : value.item.weight.brutto > 0 && value.item.weight.tara > 0 },
-                 { loading: value.item.weight.tara > 0 && value.item.weight.brutto == 0 ||
-                 value.item.weight.brutto > 0 && value.item.weight.tara == 0}]"
-
+                 { done : value.item.weight && (value.item.weight.brutto > 0 && value.item.weight.tara > 0) },
+                 { loading: value.item.weight && (value.item.weight.tara > 0 && value.item.weight.brutto == 0 ||
+                 value.item.weight.brutto > 0 && value.item.weight.tara == 0)}]"
                  v-on:click="edit(value.item.id)"
-                 v-on:click.right="contextMenu(value.item)">
-                    <div style="display: inline-block; max-width: 98%; width: 94%">
-                        <div class="upper-row" style="font-size: 11pt">
-                        <span style="font-size: 8pt; color: gray">
-                            {{value.item.id}}
-                        </span>
-                        <span :title="new Date(value.item.date).toLocaleDateString()">
-                            {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
-                        </span>
-                        <div style="display: inline-block">
-                            <div>
-                                <span class="label">
-                                <fmt:message key="deal.organisation"/>:
-                            </span>
-                                <b>
-                                    {{value.item.organisation.value}}
-                                </b>
+                 v-on:click.right="contextMenu(value.item)"
+                    >
+                        <div style="display: inline-block; max-width: 98%; width: 94%">
+                            <div class="upper-row" style="font-size: 11pt">
+                                <div style="display: inline-block">
+                                    <div style="font-size: 6pt; color: gray" :title="'ID: ' + value.item.id">
+                                        {{value.item.id}}
+                                    </div>
+                                    <div :title="new Date(value.item.date).toLocaleDateString()">
+                                        {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
+                                    </div>
+                                </div>
+                                <div style="display: inline-block; width: 89%">
+                                    <div>
+                                        <span class="label">
+                                            <fmt:message key="deal.organisation"/>:
+                                        </span>
+                                        <b style="color: #484848">
+                                            {{value.item.counterparty.value}}
+                                        </b>
+                                        <span class="product-line" style="float: right;">
+                                            <span v-if="types[value.item.type]" class="label">
+                                                {{(types[value.item.type]).toLowerCase()}}
+                                            </span>
+                                            <b>
+                                                {{value.item.product.name}}
+                                                <span v-if="value.item.plan" >
+                                                    {{value.item.plan}} {{value.item.unit}}
+                                                </span>
+                                            </b>
+                                        <price-view :props="priceFields" :item="value.item"></price-view>
+                                        <span class="label">
+                                            <fmt:message key="deal.from"/>
+                                        </span>
+                                            {{value.item.shipper}}
+                                        </span>
+                                    </div>
+                                    <div v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >
+                                        <fmt:message key="address"/>:
+                                        <template v-if="value.item.address.index">
+                                            {{value.item.address.index}},
+                                        </template>
+                                        <template v-if="value.item.address.region">
+                                            {{value.item.address.region}}
+                                            <fmt:message key="address.region.short"/>,
+                                        </template>
+                                        <template v-if="value.item.address.district">
+                                            {{value.item.address.district}}
+                                            <fmt:message key="address.district.short"/>,
+                                        </template>
+                                        {{value.item.address.city}},
+                                        {{value.item.address.street}}
+                                        {{value.item.address.build}}
+                                    </div>
+                                </div>
                             </div>
-                            <div v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >
-                                <fmt:message key="address"/>:
-                                {{value.item.address.city}},
-                                {{value.item.address.street}}
-                                {{value.item.address.build}}
-                            </div>
-                        </div>
-                        <span class="product-line" style="float: right;">
-                            <span v-if="types[value.item.type]" class="label">
-                                {{(types[value.item.type]).toLowerCase()}}
-                            </span>
-                            <b>
-                                {{value.item.product.name}}
-                                <span v-if="value.item.plan" >
-                                    {{value.item.plan}} {{value.item.unit}}
-                                </span>
-                            </b>
-                            <price-view :props="priceFields" :item="value.item"></price-view>
-                            <span class="label">
-                                <fmt:message key="deal.from"/>
-                            </span>
-                            {{value.item.shipper}}
-                        </span>
-                    </div>
+
+                    <%--</div>--%>
                     <div class="middle-row">
                         <div style="display: inline-block; font-size: 10pt; width: 7em">
                             <div>
                                 <fmt:message key="transportation.time.in"/>:
-                                <span v-if="value.item.timeIn.time">
+                                <span v-if="value.item.timeIn">
                                     {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
                                 </span>
                                 <span v-else>
@@ -186,7 +202,7 @@
                             </div>
                             <div>
                                 <fmt:message key="transportation.time.out"/>:
-                                  <span v-if="value.item.timeOut.time">
+                                  <span v-if="value.item.timeOut">
                                     {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
                                   </span>
                                     <span v-else>
@@ -210,8 +226,8 @@
                     </div>
                     <div class="lower-row" v-if="value.item.notes.length > 0">
                         <a v-for="note in value.item.notes" v-on:click="editComment(note)" style="display: inline-block; padding-left: 4pt">
-                        <span v-if="note.creator.person">
-                            {{note.creator.person.value}}:
+                        <span v-if="note.creator">
+                            {{note.creator}}:
                         </span>
                             <b>
                                 {{note.note}}
@@ -221,7 +237,7 @@
                 </div>
                 <div class="right-field">
                     <div class="right-field-content">
-                        <div v-if="value.item.weight.id" style="width: 54pt; padding-left: 4pt">
+                        <div v-if="value.item.weight" style="width: 54pt; padding-left: 4pt">
                             <div>
                                 <div>
                                     Б: <b>{{value.item.weight.brutto}}</b>
@@ -248,24 +264,24 @@
             </div>
         </transition-group>
 
-        <c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">
-            <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
-                <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-                    <c:if test="${not empty add}">
-                        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
-                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
-                    </c:if>
-                    <c:if test="${not empty copy}">
-                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
-                    </c:if>
-                    <c:if test="${not empty cancel}">
-                        <div class="custom-data-list-item" v-if="menu.item.any"
-                             v-on:click="archive(menu.id)"><fmt:message key="menu.archive"/></div>
-                        <div class="custom-data-list-item" v-else :id="menu.id"
-                             onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
-                    </c:if>
-                </div>
-            </div>
-        </c:if>
+        <%--<c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">--%>
+            <%--<div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">--%>
+                <%--<div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">--%>
+                    <%--<c:if test="${not empty add}">--%>
+                        <%--<div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>--%>
+                        <%--<div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${not empty copy}">--%>
+                        <%--<div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>--%>
+                    <%--</c:if>--%>
+                    <%--<c:if test="${not empty cancel}">--%>
+                        <%--<div class="custom-data-list-item" v-if="menu.item.any"--%>
+                             <%--v-on:click="archive(menu.id)"><fmt:message key="menu.archive"/></div>--%>
+                        <%--<div class="custom-data-list-item" v-else :id="menu.id"--%>
+                             <%--onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>--%>
+                    <%--</c:if>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</c:if>--%>
     </div>
 </html>

@@ -23,6 +23,7 @@ function Connect(){
         var json = JSON.parse(env.data);
         var type = json['type'];
         var data = json['data'];
+        console.log(data);
         if (typeof subscribes[type] === 'function') {
             subscribes[type](data, type);
         } else{

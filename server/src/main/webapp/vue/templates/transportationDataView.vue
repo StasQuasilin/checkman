@@ -6,7 +6,10 @@ var transportView = {
     },
     methods:{
         driverName:function(driver){
-            return driver.person.surname + ' ' + driver.person.forename + ' ' + driver.person.patronymic;
+            return driver;
+            if (driver && driver.person) {
+                return driver.person.surname + ' ' + driver.person.forename + ' ' + driver.person.patronymic;
+            }
         }
     },
     template:

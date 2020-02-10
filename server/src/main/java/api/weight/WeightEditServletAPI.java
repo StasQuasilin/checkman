@@ -6,6 +6,7 @@ import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
+import entity.documents.Deal;
 import entity.documents.LoadPlan;
 import entity.log.comparators.TransportationComparator;
 import entity.log.comparators.WeightComparator;
@@ -48,9 +49,7 @@ public class WeightEditServletAPI extends ServletAPI {
             log.info(body);
             boolean saveIt = false;
 
-            long planId = (long) body.get(Constants.ID);
-            LoadPlan plan = dao.getLoadPlanById(planId);
-            Transportation transportation = plan.getTransportation();
+            Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
             Weight weight = transportation.getWeight();
 
             if (weight == null) {
@@ -93,7 +92,7 @@ public class WeightEditServletAPI extends ServletAPI {
 
                 updateUtil.onSave(transportation);
 
-                WeightUtil.calculateDealDone(plan.getDeal());
+                WeightUtil.calculateDealDone(transportation.getDeal());
                 TransportUtil.calculateWeight(transportation);
 
                 transportationComparator.fix(transportation);

@@ -8,8 +8,6 @@ public enum Subscriber {
     DEAL_BUY_ARCHIVE,
     DEAL_SELL,
     DEAL_SELL_ARCHIVE,
-    LOAD_PLAN,
-    LOAD_PLAN_ARCHIVE,
     LOGISTIC,
     LOGISTIC_ARCHIVE,
     TRANSPORT_BUY,

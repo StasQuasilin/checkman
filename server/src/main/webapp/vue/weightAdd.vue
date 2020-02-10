@@ -11,7 +11,38 @@ var editor = new Vue({
         deals:[],
         visibles:[],
         customers:{},
-        plan:{},
+        plan:{
+            id:-1,
+            type:-1,
+            date:new Date().toISOString().substring(0, 10),
+            number:'',
+            deal:-1,
+            quantity:0,
+            organisation:{
+                id:-1
+            },
+            address:-1,
+            product:-1,
+            plan:20,
+            from:editor.visibles[0],
+            price:0,
+            unit:editor.units[0].id,
+            customer:'szpt',
+            vehicle:{
+                id:-1
+            },
+            trailer:{
+                id:-1
+            },
+            driver:{
+                id:-1
+            },
+            transporter:{
+                id:-1
+            },
+            manager:-1,
+            notes:[]
+        },
         addressList:[],
         errors:{
             type:false,

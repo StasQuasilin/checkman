@@ -37,7 +37,7 @@ var filter_control = new Vue({
             let items = this.filtered(this.product, null, this.date, this.driver);
             for (let i in items){
                 if (items.hasOwnProperty(i)){
-                    let counterparty = items[i].item.organisation;
+                    let counterparty = items[i].item.counterparty;
                     if (counterparty.id) {
                         if (!counterparty[counterparty.id]) {
                             organisations[counterparty.id] = counterparty;

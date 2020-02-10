@@ -82,16 +82,10 @@ public class UpdateUtil {
     }
 
     public void onSave(LoadPlan plan) throws IOException {
-        doAction(Command.update, Subscriber.LOAD_PLAN, parser.toJson(plan));
         doAction(Command.update, Subscriber.LOGISTIC, parser.toJson(plan));
     }
 
-    public void onRemove(LoadPlan plan) throws IOException {
-        doAction(Command.remove, Subscriber.LOAD_PLAN, plan.getId());
-    }
-
     public void onArchive(LoadPlan loadPlan) throws IOException {
-        onRemove(loadPlan);
         onArchive(loadPlan.getTransportation());
     }
 

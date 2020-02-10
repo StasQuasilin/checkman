@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_LIST)
 public class TransportList extends IUIServlet{
 
-    Subscriber[] subscribers = new Subscriber[]{Subscriber.LOAD_PLAN};
+    Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
     public static final String _CONTENT = "/pages/transport/transportList.jsp";
 
     @Override
