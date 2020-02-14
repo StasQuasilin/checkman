@@ -33,7 +33,8 @@ public class DealDelete extends IModal {
             List<Transportation> done = dao.getTransportationByDeal(deal, true, null);
             req.setAttribute(DONE, done);
             req.setAttribute("loads", dao.getTransportationByDeal(deal, false, null));
-            if (deal.getComplete() > 0) {
+
+            if (deal.getComplete() > 0 || done.size() > 0) {
                 req.setAttribute(TITLE, Titles.DEAL_DELETE);
             } else {
                 req.setAttribute(TITLE, Titles.DEAL_ARCHIVE);
