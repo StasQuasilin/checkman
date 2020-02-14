@@ -27,12 +27,12 @@ public class OnTerritoryPrint extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<Product, ArrayList<Transportation>> transportations = new HashMap<>();
-        for (LoadPlan plan : dao.getTransportationsOnTerritory()){
-            Product product = plan.getDeal().getProduct();
+        for (Transportation transportation : dao.getTransportationsOnTerritory()){
+            Product product = transportation.getDeal().getProduct();
             if (!transportations.containsKey(product)){
                 transportations.put(product, new ArrayList<>());
             }
-            transportations.get(product).add(plan.getTransportation());
+            transportations.get(product).add(transportation);
         }
         req.setAttribute("transport", transportations);
         req.setAttribute("now", Timestamp.valueOf(LocalDateTime.now()));

@@ -7,6 +7,7 @@ import entity.Worker;
 import entity.documents.LoadPlan;
 import entity.notifications.Notification;
 import entity.transport.TransportUtil;
+import entity.transport.Transportation;
 import entity.transport.TruckInfo;
 import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
@@ -64,10 +65,10 @@ public class ParseVehicleServletAPI extends ServletAPI {
             pool.put(object);
 
             if (body.containsKey(Constants.TRANSPORTATION)){
-                LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
-                TransportUtil.setVehicle(plan.getTransportation(), vehicle);
-                dao.save(plan.getTransportation());
-                updateUtil.onSave(plan.getTransportation());
+                Transportation transportation = dao.getObjectById(Transportation.class, body.get(TRANSPORTATION));
+                TransportUtil.setVehicle(transportation, vehicle);
+                dao.save(transportation);
+                updateUtil.onSave(transportation);
             }
 
 

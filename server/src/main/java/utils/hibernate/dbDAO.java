@@ -149,7 +149,7 @@ public interface dbDAO {
     ExtractionOIl getExtractionOilById(Object id);
     List<LoadPlan> getLoadPlansBetweenDates(LocalDate from, LocalDate to);
     List<Unit> getWeightUnits();
-    List<LoadPlan> getTransportationsOnTerritory();
+    List<Transportation> getTransportationsOnTerritory();
     List<LoadPlan> getTransportationsOnCruise();
     List<Turn> getLimitTurns();
     ExtractionTurn getExtractionTurnByTurn(Turn turn);

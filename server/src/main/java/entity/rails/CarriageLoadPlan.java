@@ -12,7 +12,6 @@ import javax.persistence.*;
 public class CarriageLoadPlan {
     private int id;
     private Carriage carriage;
-    private LoadPlan loadPlan;
 
     @Id
     @GeneratedValue
@@ -32,12 +31,4 @@ public class CarriageLoadPlan {
         this.carriage = carriage;
     }
 
-    @OneToOne
-    @JoinColumn(name = "load_plan")
-    public LoadPlan getLoadPlan() {
-        return loadPlan;
-    }
-    public void setLoadPlan(LoadPlan loadPlan) {
-        this.loadPlan = loadPlan;
-    }
 }

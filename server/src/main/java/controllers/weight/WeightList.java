@@ -21,7 +21,8 @@ import java.io.IOException;
 public class WeightList extends IUIServlet{
 
     final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
-    public static final String _CONTENT = "/pages/weight/weightList.jsp";
+    private static final String _CONTENT = "/pages/weight/weightList.jsp";
+    private static final String _FILTER = "/pages/filters/transportFilter.jsp";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,11 +30,10 @@ public class WeightList extends IUIServlet{
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(EDIT, Branches.UI.WEIGHT_EDIT);
         req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
-        req.setAttribute(NOTES, Branches.UI.NOTES_LIST);
         req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
         req.setAttribute(ARCHIVE, Branches.API.ARCHIVE_LOAD_PLAN);
         req.setAttribute(CONTENT, _CONTENT);
-        req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
+        req.setAttribute(FILTER, _FILTER);
         req.setAttribute(TYPES, DealType.values());
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
         show(req, resp);

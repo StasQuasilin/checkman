@@ -36,7 +36,6 @@
         <mapping class="entity.transport.TransportStorageUsed"/>
         <mapping class="entity.documents.Deal"/>
         <mapping class="entity.documents.Shipper"/>
-        <mapping class="entity.documents.LoadPlan"/>
         <mapping class="entity.log.ChangeLog"/>
         <mapping class="entity.log.Change"/>
         <mapping class="entity.documents.DocumentUID"/>

@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.documents.LoadPlan;
 import entity.transport.DocumentNote;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.NoteUtil;
 import utils.U;
@@ -31,18 +32,19 @@ public class SaveNoteServletAPI extends ServletAPI {
         if (body != null) {
             String noteText = String.valueOf(body.get("note"));
             if (U.exist(noteText)) {
-                Object planId = body.get("plan");
+                Object planId = body.get(PLAN);
+                Transportation transportation = dao.getObjectById(Transportation.class, planId);
                 noteText = noteText.replaceAll("  ", " ").trim().toLowerCase();
-                LoadPlan plan = dao.getLoadPlanById(planId);
+
 
                 DocumentNote note = new DocumentNote();
                 note.setTime(new Timestamp(System.currentTimeMillis()));
                 note.setCreator(getWorker(req));
-                note.setTransportation(plan.getTransportation());
-                note.setDocument(plan.getTransportation().getUid());
-                note.setNote(noteUtil.checkNote(plan.getTransportation(), noteText));
+                note.setTransportation(transportation);
+                note.setDocument(transportation.getUid());
+                note.setNote(noteUtil.checkNote(transportation, noteText));
                 dao.save(note);
-                updateUtil.onSave(plan.getTransportation());
+                updateUtil.onSave(transportation);
                 write(resp, SUCCESS_ANSWER);
             }
         }

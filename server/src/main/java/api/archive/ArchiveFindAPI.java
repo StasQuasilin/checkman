@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.ARCHIVE_FIND)
 public class ArchiveFindAPI extends ServletAPI {
     
-    public static final String ORGANISATION = DEAL + SLASH + Constants.COUNTERPARTY;
+    public static final String ORGANISATION = DEAL + SLASH + Constants.ORGANISATION;
     public static final String PRODUCT = DEAL + SLASH + Constants.PRODUCT;
 
     @Override

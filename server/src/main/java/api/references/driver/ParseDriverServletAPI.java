@@ -9,6 +9,7 @@ import entity.documents.LoadPlan;
 import entity.notifications.Notification;
 import entity.transport.Driver;
 import entity.transport.TransportUtil;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.LanguageBase;
 import utils.Parser;
@@ -50,10 +51,10 @@ public class ParseDriverServletAPI extends ServletAPI {
             write(resp, object.toJSONString());
             pool.put(object);
             if (body.containsKey(Constants.TRANSPORTATION)){
-                LoadPlan plan = dao.getLoadPlanById(body.get(Constants.TRANSPORTATION));
-                TransportUtil.setDriver(plan.getTransportation(), driver);
-                dao.save(plan.getTransportation());
-                updateUtil.onSave(plan.getTransportation());
+                Transportation transportation = dao.getObjectById(Transportation.class, body.get(TRANSPORTATION));
+                TransportUtil.setDriver(transportation, driver);
+                dao.save(transportation);
+                updateUtil.onSave(transportation);
             }
 
             Worker worker = getWorker(req);

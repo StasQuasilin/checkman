@@ -191,12 +191,12 @@
     </c:when>
     <c:otherwise>
     editor.plan.from = editor.visibles[0];
-    editor.plan.uint = editor.units[0].id;
+    editor.plan.unit = editor.units[0].id;
     </c:otherwise>
     </c:choose>
     editor.role = '${role}';
     <c:if test="${role ne 'weigher'}">
-    editor.plan.manager = ${worker.id}
+    editor.plan.manager = ${worker.id};
     </c:if>
 </script>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>

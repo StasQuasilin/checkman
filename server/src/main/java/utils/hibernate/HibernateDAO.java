@@ -875,12 +875,12 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<LoadPlan> getTransportationsOnTerritory() {
+    public List<Transportation> getTransportationsOnTerritory() {
         final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("transportation/archive", false);
-        parameters.put("transportation/timeIn", State.notNull);
-        parameters.put("transportation/timeOut", null);
-        return hb.query(LoadPlan.class, parameters);
+        parameters.put("archive", false);
+        parameters.put("timeIn", State.notNull);
+        parameters.put("timeOut", null);
+        return hb.query(Transportation.class, parameters);
     }
 
     @Override

@@ -46,7 +46,7 @@
             :
         </td>
         <td>
-            <fmt:formatNumber value="${plan.plan}"/>&nbsp;${plan.deal.unit.name}
+            <fmt:formatNumber value="${plan.amount}"/>&nbsp;${plan.deal.unit.name}
         </td>
     </tr>
     <tr>
@@ -58,8 +58,8 @@
         </td>
         <td>
             <c:choose>
-                <c:when test="${not empty plan.transportation.vehicle}">
-                    ${plan.transportation.vehicle.value}
+                <c:when test="${not empty plan.vehicle}">
+                    ${plan.vehicle.value}
                 </c:when>
                 <c:otherwise>
                     <fmt:message key="no.data"/>
@@ -76,8 +76,8 @@
         </td>
         <td>
             <c:choose>
-                <c:when test="${not empty plan.transportation.driver}">
-                    ${plan.transportation.driver.person.value}
+                <c:when test="${not empty plan.driver}">
+                    ${plan.driver.person.value}
                 </c:when>
                 <c:otherwise>
                     <fmt:message key="no.data"/>
@@ -91,10 +91,10 @@
                 <fmt:message key="button.cancel"/>
             </button>
             <button onclick="cancelIt()" class="save-button">
-                <c:if test="${plan.transportation.any()}">
+                <c:if test="${plan.any()}">
                     <fmt:message key="menu.archive"/>
                 </c:if>
-                <c:if test="${plan.transportation.any() ne true}">
+                <c:if test="${plan.any() ne true}">
                     <fmt:message key="button.delete"/>
                 </c:if>
             </button>

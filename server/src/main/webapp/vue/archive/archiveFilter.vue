@@ -110,7 +110,6 @@ var filter_control = new Vue({
                 list.loading = true;
                 PostApi(this.api.find, f, function (a) {
                     list.loading = false;
-                    console.log(a);
                     a.sort(function (a, b) {
                         return new Date(b.date) - new Date(a.date);
                     });

@@ -30,8 +30,7 @@ public class SummaryList extends IUIServlet {
 			if (role == Role.manager || role == Role.admin) {
 				req.setAttribute(EDIT, Branches.UI.SUMMARY_SHOW);
 				req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
-				req.setAttribute("notes", Branches.UI.NOTES_LIST);
-				req.setAttribute("archive", Branches.API.ARCHIVE_LOAD_PLAN);
+				req.setAttribute(ARCHIVE, Branches.API.ARCHIVE_LOAD_PLAN);
 				req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
 			}
 		}
