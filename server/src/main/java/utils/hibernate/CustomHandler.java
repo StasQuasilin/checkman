@@ -1,6 +1,10 @@
 package utils.hibernate;
 
 import constants.Constants;
+import entity.transport.TransportCustomer;
+import entity.transport.Transportation;
+
+import java.util.HashMap;
 
 /**
  * Created by szpt_user045 on 01.07.2019.
@@ -13,6 +17,16 @@ public class CustomHandler implements Constants{
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
 
+        HashMap<String, Object> params = instance.getParams();
+        params.put(CUSTOMER, TransportCustomer.contragent);
+        for (Transportation transportation : instance.query(Transportation.class, params)){
+            TransportCustomer customer = transportation.getCustomer();
+            if (customer == TransportCustomer.contragent){
+                customer = TransportCustomer.cont;
+                transportation.setCustomer(customer);
+                dao.save(transportation);
+            }
+        }
 //        SealBatch batch = dao.getObjectById(SealBatch.class, 114990);
 //        for (int i = 0; i < 100; i++){
 //            Seal seal = new Seal();

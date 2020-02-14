@@ -5,7 +5,7 @@ import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import entity.Worker;
-import entity.log.comparators.TransportationComparator;
+import entity.log.comparators.TransportComparator;
 import entity.log.comparators.WeightComparator;
 import entity.transport.ActionTime;
 import entity.transport.TransportStorageUsed;
@@ -34,7 +34,7 @@ import java.util.List;
 public class WeightEditServletAPI extends ServletAPI {
 
     private final WeightComparator comparator = new WeightComparator();
-    private final TransportationComparator transportationComparator = new TransportationComparator();
+    private final TransportComparator transportComparator = new TransportComparator();
     private final Logger log = Logger.getLogger(WeightEditServletAPI.class);
     private final StorageUtil storageUtil = new StorageUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
@@ -92,9 +92,9 @@ public class WeightEditServletAPI extends ServletAPI {
                 WeightUtil.calculateDealDone(transportation.getDeal());
                 TransportUtil.calculateWeight(transportation);
 
-                transportationComparator.fix(transportation);
+                transportComparator.fix(transportation);
                 TransportUtil.checkTransport(transportation);
-                transportationComparator.compare(transportation, getWorker(req));
+                transportComparator.compare(transportation, getWorker(req));
 
                 TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {

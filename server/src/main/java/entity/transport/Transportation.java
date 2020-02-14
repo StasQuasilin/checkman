@@ -16,6 +16,7 @@ import entity.weight.Unit;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.U;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -363,6 +364,9 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         JSONObject json = pool.getObject();
 
         json.put(ID, id);
+        if (U.exist(deal.getNumber())){
+            json.put(CONTRACT_NUMBER, deal.getNumber());
+        }
         json.put(TYPE, deal.getType().toString());
         json.put(DATE, date.toString());
         json.put(PRODUCT, product.toJson());

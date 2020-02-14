@@ -9,10 +9,7 @@ import entity.storages.Storage;
 import entity.storages.StorageDocumentType;
 import entity.storages.StorageEntry;
 import entity.storages.StoragePeriodPoint;
-import entity.transport.Driver;
-import entity.transport.Trailer;
-import entity.transport.TransportStorageUsed;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -56,25 +53,29 @@ public class StockDetailsAPI extends ServletAPI {
                         switch (type){
                             case weight:
                                 TransportStorageUsed storageUsed = dao.getObjectById(TransportStorageUsed.class, document);
-                                Organisation counterparty = storageUsed.getTransportation().getDeal().getOrganisation();
-                                if (counterparty != null) {
-                                    json.put(COUNTERPARTY, counterparty.getValue());
-                                }
-                                Driver driver = storageUsed.getTransportation().getDriver();
-                                if (driver != null) {
-                                    json.put(DRIVER, driver.getPerson().getValue());
-                                }
+                                Transportation transportation = storageUsed.getTransportation();
                                 JSONObject v = pool.getObject();
-                                Vehicle vehicle = storageUsed.getTransportation().getVehicle();
-                                if (vehicle != null) {
-                                    v.put(MODEL, vehicle.getModel());
-                                    v.put(NUMBER, vehicle.getNumber());
-                                    Trailer trailer = storageUsed.getTransportation().getTrailer();
-                                    if (trailer != null) {
-                                        v.put(TRAILER, trailer.getNumber());
+                                if (transportation != null){
+                                    Organisation counterparty = transportation.getDeal().getOrganisation();
+                                    if (counterparty != null) {
+                                        json.put(COUNTERPARTY, counterparty.getValue());
                                     }
-                                    json.put(VEHICLE, v);
+                                    Driver driver = transportation.getDriver();
+                                    if (driver != null) {
+                                        json.put(DRIVER, driver.getPerson().getValue());
+                                    }
+                                    Vehicle vehicle = transportation.getVehicle();
+                                    if (vehicle != null) {
+                                        v.put(MODEL, vehicle.getModel());
+                                        v.put(NUMBER, vehicle.getNumber());
+                                        Trailer trailer = storageUsed.getTransportation().getTrailer();
+                                        if (trailer != null) {
+                                            v.put(TRAILER, trailer.getNumber());
+                                        }
+                                        json.put(VEHICLE, v);
+                                    }
                                 }
+
                                 break;
                         }
                         array.add(json);

@@ -148,7 +148,7 @@
                                         {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
                                     </div>
                                 </div>
-                                <div style="display: inline-block; width: 89%">
+                                <div style="display: inline-block; width: 92%">
                                     <div>
                                         <span class="label">
                                             <fmt:message key="deal.organisation"/>:
@@ -156,6 +156,14 @@
                                         <b>
                                             {{value.item.counterparty.value}}
                                         </b>
+                                        <span v-if="value.item.contractNumber">
+                                            <span class="label">
+                                                <fmt:message key="deal.num"/>:
+                                            </span>
+                                            <b>
+                                                {{value.item.contractNumber}}
+                                            </b>
+                                        </span>
                                         <span class="product-line" style="float: right;">
                                             <span v-if="types[value.item.type]" class="label">
                                                 {{(types[value.item.type]).toLowerCase()}}

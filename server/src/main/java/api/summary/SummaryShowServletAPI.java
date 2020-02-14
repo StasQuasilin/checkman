@@ -41,9 +41,6 @@ public class SummaryShowServletAPI extends ServletAPI {
 						logs.addAll(dao.getLogs(transportation.getUid()));
 					}
 
-					if (transportation.getUid() != null) {
-						logs.addAll(dao.getLogs(transportation.getUid()));
-					}
 					if (transportation.getWeight() != null) {
 						logs.addAll(dao.getLogs(transportation.getWeight().getUid()));
 					}

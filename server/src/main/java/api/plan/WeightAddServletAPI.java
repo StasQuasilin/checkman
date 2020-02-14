@@ -7,6 +7,8 @@ import entity.DealType;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.Shipper;
+import entity.log.comparators.DealComparator;
+import entity.log.comparators.TransportComparator;
 import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.transport.*;
@@ -40,6 +42,8 @@ public class WeightAddServletAPI extends ServletAPI {
     final UpdateUtil updateUtil = new UpdateUtil();
     private final StorageUtil storageUtil = new StorageUtil();
     private final NoteUtil noteUtil = new NoteUtil();
+    private final DealComparator dealComparator = new DealComparator();
+    private final TransportComparator transportComparator = new TransportComparator();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -67,6 +71,7 @@ public class WeightAddServletAPI extends ServletAPI {
             Deal deal = dao.getObjectById(Deal.class, body.get(DEAL));
             if (deal == null){
                 deal = new Deal();
+                dealComparator.fix(null);
                 deal.setUid(DocumentUIDGenerator.generateUID());
                 deal.setType(DealType.valueOf(String.valueOf(body.get(TYPE))));
 
@@ -80,6 +85,9 @@ public class WeightAddServletAPI extends ServletAPI {
                 deal.setCreator(creator);
                 dao.saveDeal(deal);
                 updateUtil.onSave(deal);
+
+            } else {
+                dealComparator.fix(deal);
             }
 
             boolean saveDeal = false;
@@ -105,12 +113,16 @@ public class WeightAddServletAPI extends ServletAPI {
             if (saveDeal){
                 dao.saveDeal(deal);
                 updateUtil.onSave(deal);
+                dealComparator.compare(deal, creator);
             }
 
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
             if (transportation == null) {
+                transportComparator.fix(null);
                 transportation = TransportUtil.createTransportation(deal, manager, creator);
                 dao.save(transportation.getCreateTime());
+            } else {
+                transportComparator.fix(transportation);
             }
 
             if (transportation.getDeal().getId() != deal.getId()){
@@ -211,6 +223,8 @@ public class WeightAddServletAPI extends ServletAPI {
             alreadyNote.values().forEach(dao::remove);
 
             updateUtil.onSave(transportation);
+            transportComparator.compare(transportation, creator);
+
             write(resp, SUCCESS_ANSWER);
             List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
             TransportUtil.updateUsedStorages(transportation, u, getWorker(req));

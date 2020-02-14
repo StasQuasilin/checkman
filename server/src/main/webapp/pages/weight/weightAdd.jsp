@@ -238,7 +238,7 @@
     <tr>
         <td>
             <label for="number">
-                <fmt:message key="transportation.automobile.number"/>
+                <fmt:message key="transportation.deal.number"/><br>
             </label>
         </td>
         <td>

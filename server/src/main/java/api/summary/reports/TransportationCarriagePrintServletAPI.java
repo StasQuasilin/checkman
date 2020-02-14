@@ -58,7 +58,7 @@ public class TransportationCarriagePrintServletAPI extends ServletAPI{
             if (body.containsKey(ORGANISATION)){
                 Organisation organisation = dao.getObjectById(Organisation.class, body.get(ORGANISATION));
                 req.setAttribute(ORGANISATION, organisation);
-                params.put("counterparty", organisation);
+                params.put("deal/organisation", organisation);
             }
             if (body.containsKey(DRIVER)){
                 Driver driver = dao.getObjectById(Driver.class, body.get(DRIVER));

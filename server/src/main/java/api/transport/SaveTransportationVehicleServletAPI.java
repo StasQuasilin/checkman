@@ -3,7 +3,7 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.log.comparators.TransportationComparator;
+import entity.log.comparators.TransportComparator;
 import entity.organisations.Organisation;
 import entity.transport.*;
 import org.json.simple.JSONObject;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.SAVE_TRANSPORTATION_VEHICLE)
 public class SaveTransportationVehicleServletAPI extends ServletAPI {
 
-    private final TransportationComparator comparator = new TransportationComparator();
+    private final TransportComparator comparator = new TransportComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override

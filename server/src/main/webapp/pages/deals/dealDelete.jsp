@@ -90,14 +90,14 @@
                     <%--<b><fmt:formatNumber value="${load.plan}"/>&nbsp;${deal.unit.name}</b>--%>
                 </td>
                 <td colspan="2">
-                    <c:if test="${empty load.transportation.vehicle or empty load.transportation.driver}">
+                    <c:if test="${empty load.vehicle or empty load.driver}">
                         <fmt:message key="no.data"/>
                     </c:if>
                     <div>
-                        ${load.transportation.vehicle.value}
+                        ${load.vehicle.value}
                     </div>
                     <div>
-                        ${load.transportation.driver.person.value}
+                        ${load.driver.person.value}
                     </div>
                 </td>
             </tr>

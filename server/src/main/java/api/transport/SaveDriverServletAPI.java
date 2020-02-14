@@ -4,7 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.Person;
-import entity.log.comparators.TransportationComparator;
+import entity.log.comparators.TransportComparator;
 import entity.organisations.Organisation;
 import entity.transport.*;
 import org.apache.log4j.Logger;
@@ -26,7 +26,7 @@ import java.io.IOException;
 public class SaveDriverServletAPI extends ServletAPI {
 
     final Logger log = Logger.getLogger(SaveDriverServletAPI.class);
-    final TransportationComparator comparator = new TransportationComparator();
+    final TransportComparator comparator = new TransportComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
 
 

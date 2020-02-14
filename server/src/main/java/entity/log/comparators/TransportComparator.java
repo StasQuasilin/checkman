@@ -13,7 +13,7 @@ import java.util.HashMap;
 /**
  * Created by szpt_user045 on 26.04.2019.
  */
-public class TransportationComparator extends IChangeComparator<Transportation> {
+public class TransportComparator extends IChangeComparator<Transportation> {
 
     private Integer vehicleId;
     private Vehicle vehicle;

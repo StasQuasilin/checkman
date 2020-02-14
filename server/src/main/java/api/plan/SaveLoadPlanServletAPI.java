@@ -6,7 +6,7 @@ import constants.Constants;
 import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
-import entity.log.comparators.TransportationComparator;
+import entity.log.comparators.TransportComparator;
 import entity.organisations.Organisation;
 import entity.transport.*;
 import org.apache.log4j.Logger;
@@ -31,7 +31,7 @@ import java.util.HashSet;
 public class SaveLoadPlanServletAPI extends ServletAPI {
 
     final Logger log = Logger.getLogger(SaveLoadPlanServletAPI.class);
-    final TransportationComparator transportationComparator = new TransportationComparator();
+    final TransportComparator transportComparator = new TransportComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
     final NoteUtil noteUtil = new NoteUtil();
 
@@ -53,9 +53,9 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 transportation = TransportUtil.createTransportation(deal, deal.getCreator(), getWorker(req));
                 transportation.setDeal(deal);
                 dao.save(transportation.getCreateTime());
-                transportationComparator.fix(null);
+                transportComparator.fix(null);
             } else {
-                transportationComparator.fix(transportation);
+                transportComparator.fix(transportation);
             }
 
             Date date = Date.valueOf(String.valueOf(json.get(Constants.DATE)));
@@ -146,7 +146,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 updateUtil.onSave(transportation);
             }
 
-            transportationComparator.compare(transportation, worker);
+            transportComparator.compare(transportation, worker);
 
             IAnswer resultAnswer = new SuccessAnswer();
 

@@ -36,6 +36,7 @@ public interface Constants {
     String REGION = "region";
     String DISTRICT = "district";
     String CONTRACT = "contract";
+    String CONTRACT_NUMBER = "contractNumber";
     String CONTRACTS = "contracts";
     String MANUFACTURE_ANALYSE = "manufactureAnalyses";
     String WAYBILL_PRINT = "waybillPrint";

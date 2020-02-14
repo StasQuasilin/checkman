@@ -2,10 +2,8 @@ package api.transport;
 
 import api.ServletAPI;
 import constants.Branches;
-import constants.Constants;
 import entity.Worker;
-import entity.answers.IAnswer;
-import entity.log.comparators.TransportationComparator;
+import entity.log.comparators.TransportComparator;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
@@ -29,7 +27,7 @@ import java.time.LocalDate;
 @WebServlet(Branches.API.TRANSPORT_TIME)
 public class TransportTimeServletAPI extends ServletAPI {
 
-    private final TransportationComparator comparator = new TransportationComparator();
+    private final TransportComparator comparator = new TransportComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
     private final Logger log = Logger.getLogger(TransportTimeServletAPI.class);
 
