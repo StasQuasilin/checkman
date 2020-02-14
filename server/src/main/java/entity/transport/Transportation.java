@@ -1,8 +1,10 @@
 package entity.transport;
 
+import constants.Constants;
 import entity.DealType;
 import entity.JsonAble;
 import entity.Worker;
+import entity.documents.Deal;
 import entity.documents.Shipper;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
@@ -10,6 +12,7 @@ import entity.laboratory.SunAnalyses;
 import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.products.Product;
+import entity.weight.Unit;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,14 +30,12 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 11.03.2019.
  */
 @Entity
-@Table(name = "transportations")
-public class Transportation extends JsonAble implements Serializable {
+@Table(name = Constants.TRANSPORTATIONS)
+public class Transportation extends JsonAble implements Serializable, Constants {
     private int id;
     private Date date;
-    private Organisation counterparty;
     private Address address;
-    private int deal;
-    private DealType type;
+    private Deal deal;
     private Vehicle vehicle;
     private Trailer trailer;
     private String truckNumber;
@@ -72,7 +73,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @Basic
-    @Column(name = "date")
+    @Column(name = DATE)
     public Date getDate() {
         return date;
     }
@@ -81,16 +82,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(name = "counterparty")
-    public Organisation getCounterparty() {
-        return counterparty;
-    }
-    public void setCounterparty(Organisation organisation) {
-        this.counterparty = organisation;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "address")
+    @JoinColumn(name = ADDRESS)
     public Address getAddress() {
         return address;
     }
@@ -98,26 +90,17 @@ public class Transportation extends JsonAble implements Serializable {
         this.address = address;
     }
 
-    @Basic
-    @Column(name = "deal")
-    public int getDeal() {
+    @OneToOne
+    @JoinColumn(name = DEAL)
+    public Deal getDeal() {
         return deal;
     }
-    public void setDeal(int deal) {
+    public void setDeal(Deal deal) {
         this.deal = deal;
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    public DealType getType() {
-        return type;
-    }
-    public void setType(DealType type) {
-        this.type = type;
-    }
-
     @OneToOne
-    @JoinColumn(name = "vehicle")
+    @JoinColumn(name = VEHICLE)
     public Vehicle getVehicle() {
         return vehicle;
     }
@@ -126,7 +109,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(name = "trailer")
+    @JoinColumn(name = TRAILER)
     public Trailer getTrailer() {
         return trailer;
     }
@@ -162,7 +145,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @Basic
-    @Column(name = "transporter")
+    @Column(name = TRANSPORTER)
     public String getTransporterValue() {
         return transporterValue;
     }
@@ -171,7 +154,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(name = "driver")
+    @JoinColumn(name = DRIVER)
     public Driver getDriver() {
         return driver;
     }
@@ -189,7 +172,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(name = "shipper")
+    @JoinColumn(name = SHIPPER)
     public Shipper getShipper() {
         return shipper;
     }
@@ -225,7 +208,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(name = "product")
+    @JoinColumn(name = PRODUCT)
     public Product getProduct() {
         return product;
     }
@@ -234,7 +217,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(name = "weight")
+    @JoinColumn(name = WEIGHT)
     public Weight getWeight() {
         return weight;
     }
@@ -270,7 +253,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(name = "creator")
+    @JoinColumn(name = CREATOR)
     public Worker getCreator() {
         return creator;
     }
@@ -279,7 +262,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(name = "manager")
+    @JoinColumn(name = MANAGER)
     public Worker getManager() {
         return manager;
     }
@@ -296,7 +279,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @Basic
-    @JoinColumn(name = "done")
+    @JoinColumn(name = DONE)
     public boolean isDone() {
         return done;
     }
@@ -305,12 +288,22 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @Basic
-    @Column(name = "archive")
+    @Column(name = ARCHIVE)
     public boolean isArchive() {
         return archive;
     }
     public void setArchive(boolean archive) {
         this.archive = archive;
+    }
+
+    @Transient
+    public Organisation getCounterparty(){
+        return deal.getOrganisation();
+    }
+
+    @Transient
+    public DealType getType(){
+        return deal.getType();
     }
 
     @Transient
@@ -330,7 +323,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @Basic
-    @Column(name = "uid")
+    @Column(name = UID)
     public String getUid() {
         return uid;
     }
@@ -348,7 +341,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "customer")
+    @Column(name = CUSTOMER)
     public TransportCustomer getCustomer() {
         return customer;
     }
@@ -357,7 +350,7 @@ public class Transportation extends JsonAble implements Serializable {
     }
 
     @Basic
-    @Column(name = "amount")
+    @Column(name = AMOUNT)
     public float getAmount() {
         return amount;
     }
@@ -370,12 +363,14 @@ public class Transportation extends JsonAble implements Serializable {
         JSONObject json = pool.getObject();
 
         json.put(ID, id);
-        json.put(TYPE, type.toString());
+        json.put(TYPE, deal.getType().toString());
         json.put(DATE, date.toString());
         json.put(PRODUCT, product.toJson());
         json.put(CUSTOMER, customer.toString());
         json.put(PLAN, amount);
-        json.put(COUNTERPARTY, counterparty.toJson());
+        json.put(UNIT, deal.getUnit().getName());
+        json.put(PRICE, deal.getPrice());
+        json.put(COUNTERPARTY, deal.getOrganisation().toJson());
         json.put(SHIPPER, shipper.getValue());
         if (address != null){
             json.put(ADDRESS, address.toJson());
@@ -386,18 +381,12 @@ public class Transportation extends JsonAble implements Serializable {
         json.put(LICENSE, driverLicense);
         if (vehicle != null) {
             json.put(VEHICLE, vehicle.toJson());
-        }else {
-            json.put(VEHICLE, EMPTY_OBJECT);
         }
         if (trailer != null){
             json.put(TRAILER, trailer.toJson());
-        } else {
-            json.put(TRAILER, EMPTY_OBJECT);
         }
         if (transporter != null) {
             json.put(TRANSPORTER, transporter.toJson());
-        }else {
-            json.put(TRANSPORTER, EMPTY_OBJECT);
         }
         if (timeRegistration != null) {
             json.put(REGISTRATION, timeRegistration.toJson());

@@ -25,13 +25,9 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.ARCHIVE_FIND)
 public class ArchiveFindAPI extends ServletAPI {
     
-    public static final String TRANSPORTATION = Constants.TRANSPORTATION;
-    public static final String DATE = TRANSPORTATION + Constants.SLASH + Constants.DATE;
-    public static final String DRIVER = TRANSPORTATION + Constants.SLASH + Constants.DRIVER;
-    public static final String ORGANISATION = TRANSPORTATION + Constants.SLASH + Constants.COUNTERPARTY;
-    public static final String PRODUCT = TRANSPORTATION + Constants.SLASH + Constants.PRODUCT;
-    public static final String VEHICLE = TRANSPORTATION + Constants.SLASH + Constants.VEHICLE;
-    
+    public static final String ORGANISATION = DEAL + SLASH + Constants.COUNTERPARTY;
+    public static final String PRODUCT = DEAL + SLASH + Constants.PRODUCT;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -60,7 +56,7 @@ public class ArchiveFindAPI extends ServletAPI {
 
             if (parameters.size() > 0) {
                 JSONArray array = pool.getArray();
-                array.addAll(dao.query(LoadPlan.class, parameters).stream().map(parser::toJson).collect(Collectors.toList()));
+                array.addAll(dao.query(Transportation.class, parameters).stream().map(Transportation::toJson).collect(Collectors.toList()));
                 write(resp, array.toJSONString());
                 pool.put(array);
             }

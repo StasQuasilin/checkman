@@ -957,7 +957,7 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public List<Transportation> getTransportationsByType(DealType type) {
         final HashMap<String,Object> parameters = hb.getParams();
-        parameters.put("type", type);
+        parameters.put("deal/type", type);
         parameters.put("archive", false);
         return hb.query(Transportation.class, parameters);
     }

@@ -6,7 +6,12 @@ var notificator = new Vue({
     },
     methods:{
         notify:function(notification){
-            notification.date = new Date();
+            if (notification.time){
+                notification.date = new Date(notification.time);
+            } else {
+                notification.date = new Date();
+            }
+
             notification.uid = randomUUID();
             this.createTimer(notification);
             this.notifications.unshift(notification);

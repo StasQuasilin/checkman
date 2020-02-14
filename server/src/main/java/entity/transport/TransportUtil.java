@@ -94,11 +94,10 @@ public class TransportUtil{
         return percentage;
     }
 
-    public static void archive(LoadPlan loadPlan) throws IOException {
-        Transportation transportation = loadPlan.getTransportation();
+    public static void archive(Transportation transportation) throws IOException {
         transportation.setArchive(true);
         dao.save(transportation);
-        updateUtil.onArchive(loadPlan);
+        updateUtil.onArchive(transportation);
     }
 
     public synchronized static Transportation createTransportation(Deal deal, Worker manager, Worker creator) {
@@ -106,11 +105,10 @@ public class TransportUtil{
 
         transportation.setUid(DocumentUIDGenerator.generateUID());
         transportation.setProduct(deal.getProduct());
-        transportation.setType(deal.getType());
-        transportation.setCounterparty(deal.getOrganisation());
         transportation.setManager(manager);
         transportation.setCreateTime(new ActionTime(creator));
         transportation.setShipper(deal.getShipper());
+        transportation.setDeal(deal);
 
         return transportation;
     }

@@ -16,10 +16,9 @@ public class WeightUtil {
     static dbDAO dao = dbDAOService.getDAO();
     private static final UpdateUtil updateUtil = new UpdateUtil();
 
-    public static void calculateDealDone(int dealId){
+    public static void calculateDealDone(Deal deal){
         float complete = 0;
-        Deal deal = dao.getObjectById(Deal.class, dealId);
-        for (Transportation plan : dao.getTransportationsByDeal(dealId)){
+        for (Transportation plan : dao.getTransportationsByDeal(deal.getId())){
             if (plan.getWeight() != null) {
                 complete += plan.getWeight().getNetto();
             }

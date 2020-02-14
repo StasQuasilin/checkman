@@ -1,10 +1,13 @@
 package entity.documents;
 
 import entity.DealType;
+import entity.JsonAble;
 import entity.products.Product;
 import entity.Worker;
 import entity.organisations.Organisation;
 import entity.weight.Unit;
+import org.json.simple.JSONObject;
+import utils.U;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -14,10 +17,9 @@ import java.sql.Date;
  */
 @Entity
 @Table(name = "deals")
-public class Deal extends IDocument{
-//    private int id;
-//    private Date date;
-
+public class Deal extends JsonAble{
+    private int id;
+    private Date date;
     private Date dateTo;
     private String number;
     private DealType type;
@@ -33,24 +35,20 @@ public class Deal extends IDocument{
     private boolean done;
     private boolean archive;
 
-    @Override
     @Id
     @GeneratedValue
     public int getId() {
         return id;
     }
-    @Override
     public void setId(int id) {
         this.id = id;
     }
 
-    @Override
     @Basic
     @Column(name = "date")
     public Date getDate() {
         return date;
     }
-    @Override
     public void setDate(Date date) {
         this.date = date;
     }
@@ -196,5 +194,28 @@ public class Deal extends IDocument{
                 "\tcreator=" + creator + ",\n" +
                 "\tuid='" + uid + '\'' + ",\n" +
                 '}';
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = pool.getObject();
+        json.put(ID, id);
+        if (U.exist(number)){
+            json.put(NUMBER, number);
+        }
+        json.put(DATE, date.toString());
+        json.put(DATE_TO, dateTo.toString());
+        json.put(ORGANISATION, organisation.toJson());
+        json.put(VISIBILITY, shipper.getValue());
+        json.put(PRODUCT, product.toJson());
+        json.put(QUANTITY, quantity);
+        json.put(COMPLETE, complete);
+        json.put(PRICE, price);
+        json.put(CREATOR, creator.toJson());
+        json.put(UNIT, unit.getName());
+        json.put(TYPE, type.toString());
+        json.put(DONE, isDone());
+        json.put(ARCHIVE, isArchive());
+        return json;
     }
 }

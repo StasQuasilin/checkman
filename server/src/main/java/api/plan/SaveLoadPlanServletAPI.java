@@ -54,7 +54,7 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
             Transportation transportation = dao.getObjectById(Transportation.class, json.get(ID));;
             if (transportation == null){
                 transportation = TransportUtil.createTransportation(deal, deal.getCreator(), getWorker(req));
-                transportation.setDeal(deal.getId());
+                transportation.setDeal(deal);
                 dao.save(transportation.getCreateTime());
                 transportationComparator.fix(null);
             } else {

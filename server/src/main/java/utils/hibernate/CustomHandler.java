@@ -6,6 +6,7 @@ import entity.laboratory.probes.IProbe;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.SunProbe;
 import entity.seals.Seal;
+import entity.seals.SealBatch;
 import entity.transport.*;
 import utils.DocumentUIDGenerator;
 import utils.PrinterUtil;
@@ -16,6 +17,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,23 +30,23 @@ public class CustomHandler implements Constants{
 
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
-        for (LoadPlan plan : instance.query(LoadPlan.class, "transportation/createTime", null)){
-            Transportation transportation = plan.getTransportation();
-            transportation.setDeal(plan.getDeal().getId());
-            TransportCustomer customer = plan.getCustomer();
-            if (customer == TransportCustomer.contragent){
-                customer = TransportCustomer.cont;
-            }
-            transportation.setCustomer(customer);
-            transportation.setAmount(plan.getPlan());
 
-            ActionTime actionTime = new ActionTime();
-            actionTime.setTime(Timestamp.valueOf(LocalDateTime.of(plan.getDate().toLocalDate(), LocalTime.now())));
-            actionTime.setCreator(transportation.getCreator());
-            dao.save(actionTime);
-            transportation.setCreateTime(actionTime);
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("transportation/amount", 0);
+        for (LoadPlan plan : instance.query(LoadPlan.class, param)){
+            Transportation transportation = plan.getTransportation();
+            transportation.setAmount(plan.getPlan());
             dao.save(transportation);
         }
+//        SealBatch batch = dao.getObjectById(SealBatch.class, 114990);
+//        for (int i = 0; i < 100; i++){
+//            Seal seal = new Seal();
+//            int num = 21213401 + i;
+//            seal.setNumber(num);
+//            seal.setBatch(batch);
+//            seal.setValue("A " + num);
+//            dao.save(seal);
+//        }
 //        String h = "-";
 //        for (Seal s : instance.query(Seal.class, null)){
 //            s.setValue(s.getPrefix() + h + s.getNumber());

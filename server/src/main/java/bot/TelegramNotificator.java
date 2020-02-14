@@ -606,6 +606,7 @@ public class TelegramNotificator extends INotificator {
                     message += NEW_LINE + String.format(lb.get(language, "notification.kpo.peroxide"), oil.getPeroxide());
                     message += NEW_LINE + String.format(lb.get(language, "notificator.kpo.phosphorus"), oil.getPhosphorus());
                     message += NEW_LINE + String.format(lb.get(language, "bot.notificator.color"), oil.getColor());
+                    message += NEW_LINE + String.format(lb.get(language, "bot.extraction.oil.humidity"), oil.getHumidity());
 
                     messages.put(language, message);
                 }

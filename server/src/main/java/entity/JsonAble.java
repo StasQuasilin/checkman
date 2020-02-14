@@ -19,5 +19,9 @@ public abstract class JsonAble implements Constants{
         EMPTY_OBJECT.put(ID, -1);
 
     }
+
+    public JSONObject toShortJson(){
+        return toJson();
+    }
     public abstract JSONObject toJson();
 }

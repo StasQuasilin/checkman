@@ -24,9 +24,9 @@ var editor = new Vue({
             address:-1,
             product:-1,
             plan:20,
-            from:editor.visibles[0],
+            from:-1,
             price:0,
-            unit:editor.units[0].id,
+            unit:-1,
             customer:'szpt',
             vehicle:{
                 id:-1

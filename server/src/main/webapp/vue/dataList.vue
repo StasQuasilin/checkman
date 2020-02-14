@@ -39,24 +39,6 @@ var list = new Vue({
         }
     },
     methods:{
-        add:function(item){
-            var doNot = false;
-            for (var a in this.items){
-                if (this.items.hasOwnProperty(a)){
-                    if (this.items[a].item.id == item.id){
-                        doNot = true;
-                        break;
-                    }
-                }
-            }
-            if (!doNot) {
-                this.items.push({item: item});
-                this.sort();
-                if (this.limit > 0){
-                    this.clean();
-                }
-            }
-        },
         clean:function(){
             if (this.items.length > this.limit){
                 this.items.splice(this.items.length - 1, 1);
@@ -65,7 +47,6 @@ var list = new Vue({
         }
         ,
         update:function(item){
-
             var found = false;
             for(var i in this.items){
                 if (this.items.hasOwnProperty(i)) {
@@ -77,10 +58,13 @@ var list = new Vue({
                 }
             }
             if (!found){
-                this.add(item);
-            } else {
-                this.sort();
+                this.items.push({item: item});
+                if (this.limit > 0){
+                    this.clean();
+                }
             }
+
+            this.sort();
 
         },
         drop:function(id){
@@ -99,7 +83,7 @@ var list = new Vue({
             if (e.add){
                 for(var a in e.add){
                     if (e.add.hasOwnProperty(a)) {
-                        self.add(e.add[a])
+                        self.update(e.add[a]);
                     }
                 }
             }

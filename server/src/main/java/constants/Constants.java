@@ -246,6 +246,8 @@ public interface Constants {
     String ARCHIVE = "archive";
     String FROM = "from";
     String TO = "to";
+    String PREFIX = "prefix";
+    String SUFFIX = "suffix";
     String NUMBER = "number";
     String NUMBER_STRING = "numberString";
     String PRODUCTS = "products";
@@ -299,6 +301,9 @@ public interface Constants {
     String HUMIDITY1 = "humidity1";
     String HUMIDITY2 = "humidity2";
     String SORENESS = "soreness";
+    String IMPURITY = "impurity";
+    String VISIBILITY = "visibility";
+    String COMPLETE = "complete";
     String OIL_IMPURITY = "oilImpurity";
     String ACID_VALUE = "acidValue";
     String CONTAMINATION = "contamination";

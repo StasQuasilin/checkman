@@ -7,7 +7,15 @@
                  v-for="(notification, notificationIdx) in notifications">
                 <div class="notification-title">
                     <span class="notification-time">
-                        {{notification.date.toLocaleTimeString().substring(0, 5)}}
+                        <template v-if="notification.date">
+                            {{notification.date.toLocaleTimeString().substring(0, 5)}}
+                        </template>
+                        <template v-else-if="notification.time">
+                            {{new Date(notification.time).toLocaleTimeString().substring(0, 5)}}
+                        </template>
+                        <template v-else>
+                            {{new Date().toLocaleTimeString().substring(0, 5)}}
+                        </template>
                     </span>
                     <span v-if="notification.author">
                         {{notification.author.value}}

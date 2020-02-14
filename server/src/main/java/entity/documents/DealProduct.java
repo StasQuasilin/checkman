@@ -1,7 +1,12 @@
 package entity.documents;
 
+import constants.Constants;
+import entity.DealType;
+import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.Worker;
+import entity.transport.ActionTime;
+import entity.weight.Unit;
 
 import javax.persistence.*;
 
@@ -10,18 +15,19 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "deal_products")
-public class DealProduct {
+public class DealProduct implements Constants{
     private int id;
-    private Deal deal;
+    private DealType type;
     private Product product;
-    private float quantity = 0;
-    private float done = 0;
-    private float price = 0;
-    private Worker creator;
+    private Unit unit;
+    private Shipper shipper;
+    private Organisation counterparty;
+    private float price;
     private String uid;
+    private ActionTime create;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -29,17 +35,17 @@ public class DealProduct {
         this.id = id;
     }
 
-    @OneToOne
-    @JoinColumn(name = "deal")
-    public Deal getDeal() {
-        return deal;
+    @Enumerated(EnumType.STRING)
+    @Column(name = TYPE)
+    public DealType getType() {
+        return type;
     }
-    public void setDeal(Deal deal) {
-        this.deal = deal;
+    public void setType(DealType type) {
+        this.type = type;
     }
 
     @OneToOne
-    @JoinColumn(name = "product")
+    @JoinColumn(name = PRODUCT)
     public Product getProduct() {
         return product;
     }
@@ -47,26 +53,35 @@ public class DealProduct {
         this.product = product;
     }
 
-    @Basic
-    @Column(name = "quantity")
-    public float getQuantity() {
-        return quantity;
+    @OneToOne
+    @JoinColumn(name = UNIT)
+    public Unit getUnit() {
+        return unit;
     }
-    public void setQuantity(float quantity) {
-        this.quantity = quantity;
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    @OneToOne
+    @JoinColumn(name = SHIPPER)
+    public Shipper getShipper() {
+        return shipper;
+    }
+    public void setShipper(Shipper shipper) {
+        this.shipper = shipper;
+    }
+
+    @OneToOne
+    @JoinColumn(name = COUNTERPARTY)
+    public Organisation getCounterparty() {
+        return counterparty;
+    }
+    public void setCounterparty(Organisation counterparty) {
+        this.counterparty = counterparty;
     }
 
     @Basic
-    @Column(name = "done")
-    public float getDone() {
-        return done;
-    }
-    public void setDone(float done) {
-        this.done = done;
-    }
-
-    @Basic
-    @Column(name = "price")
+    @Column(name = PRICE)
     public float getPrice() {
         return price;
     }
@@ -74,17 +89,8 @@ public class DealProduct {
         this.price = price;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
-    }
-
     @Basic
-    @Column(name = "uid")
+    @Column(name = UID)
     public String getUid() {
         return uid;
     }
@@ -92,12 +98,12 @@ public class DealProduct {
         this.uid = uid;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * product.getId() + hash;
-        hash = 31 * Float.hashCode(quantity) + hash;
-        hash = 31 * Float.hashCode(price) + hash;
-        return hash;
+    @OneToOne
+    @JoinColumn(name = CREATE)
+    public ActionTime getCreate() {
+        return create;
+    }
+    public void setCreate(ActionTime create) {
+        this.create = create;
     }
 }

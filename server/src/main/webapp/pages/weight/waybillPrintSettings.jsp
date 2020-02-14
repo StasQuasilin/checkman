@@ -202,6 +202,9 @@
     <c:forEach items="${loadAddress}" var="address">
     printer.loadAddress.push(${address.toJson()});
     </c:forEach>
+    <c:if test="${not empty transportation.address}">
+    printer.address = ${transportation.address.id}
+    </c:if>
 
 </script>
 <style>

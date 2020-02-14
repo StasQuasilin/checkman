@@ -108,7 +108,7 @@
         id:${plan.id},
         type:'${deal.type}',
         date:'${plan.date}',
-        deal:${plan.deal},
+        deal:${plan.deal.id},
         number:'${deal.number}',
         organisation:{
             id:'${deal.organisation.id}',
@@ -136,8 +136,8 @@
         },
         notes:[]
     };
-    <c:if test="${not empty transportation.address}">
-    editor.plan.address = ${transportation.address.id}
+    <c:if test="${not empty plan.address}">
+    editor.plan.address = ${plan.address.id}
     </c:if>
     <c:forEach items="${address}" var="a">
     editor.addressList.push(${a.address.toJson()});
@@ -189,12 +189,17 @@
     editor.plan.notes.push(${note.toJson()});
     </c:forEach>
     </c:when>
+    <c:otherwise>
+    editor.plan.from = editor.visibles[0];
+    editor.plan.uint = editor.units[0].id;
+    </c:otherwise>
     </c:choose>
     editor.role = '${role}';
     <c:if test="${role ne 'weigher'}">
     editor.plan.manager = ${worker.id}
     </c:if>
 </script>
+<c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
 <table id="editor" class="editor" style="width: 480pt" border="0">
     <%--DEAL TYPE--%>
     <tr>
@@ -268,7 +273,7 @@
             :
         </td>
         <td>
-            <select id="address" style="width: 300px" v-on:dblclick="editAddress(plan.address)"
+            <select id="address" style="width: 300px" title="${editAddressTitle}" v-on:dblclick="editAddress(plan.address)"
                     v-if="addressList.length > 0" v-model="plan.address">
                 <option value="-1" disabled><fmt:message key="can.select"/></option>
                 <option v-for="address in addressList" :value="address.id">
@@ -456,7 +461,7 @@
             </div>
         </td>
     </tr>
-    <tr v-if="role === 'weigher'">
+    <tr v-if="role === 'weigher' || role === 'logistic'">
         <td>
             <label for="manager">
                 <fmt:message key="deal.manager"/>

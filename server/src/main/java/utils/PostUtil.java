@@ -20,23 +20,6 @@ public class PostUtil {
     final static JSONParser parser = new JSONParser();
     final static Logger log = Logger.getLogger(PostUtil.class);
 
-    public static synchronized HashMap<String, String> parseBody(HttpServletRequest req) throws IOException {
-        HashMap<String,String> result = new HashMap<>();
-
-        String collect = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-        String[] split = collect.split("&");
-
-        for (String s : split){
-            String[] sub = s.split("=");
-            if (sub.length==2) {
-                result.put(sub[0], sub[1]);
-            } else {
-                result.put(sub[0], null);
-            }
-        }
-        return result;
-    }
-
     public static synchronized void write(HttpServletResponse resp, String txt) throws IOException {
         resp.setCharacterEncoding(Constants.ENCODING);
         resp.getWriter().write(txt);
@@ -44,9 +27,7 @@ public class PostUtil {
     public synchronized static JSONObject parseBodyJson(HttpServletRequest req) throws IOException {
         try {
             return (JSONObject) parser.parse(req.getReader());
-        } catch (ParseException e) {
-            log.error(e.getMessage());
-        }
+        } catch (ParseException ignored) {}
 
         return null;
     }

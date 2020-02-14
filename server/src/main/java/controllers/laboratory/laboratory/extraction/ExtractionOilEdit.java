@@ -28,13 +28,6 @@ public class ExtractionOilEdit extends IModal {
         String id = req.getParameter("id");
         if (U.exist(id)){
             oil = dao.getExtractionOilById(Integer.parseInt(id));
-        } else {
-            HashMap<String, String> body = PostUtil.parseBody(req);
-            if (body != null){
-                if (body.containsKey(Constants.ID)){
-                    oil = dao.getExtractionOilById(body.get(Constants.ID));
-                }
-            }
         }
 
         if (oil != null) {

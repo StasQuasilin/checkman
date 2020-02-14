@@ -118,7 +118,7 @@ var filter_control = new Vue({
                 }
                 let byCounterparty = true;
                 if (counterparty && counterparty != -1){
-                    byCounterparty = item.item.organisation.id == counterparty;
+                    byCounterparty = item.item.counterparty.id == counterparty;
                 }
                 let byDate = true;
                 if (date && date != -1){

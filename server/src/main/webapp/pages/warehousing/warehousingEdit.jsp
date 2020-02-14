@@ -65,10 +65,10 @@
     }
   });
   edit.api.save = '${save}';
-  edit.document = ${plan.transportation.id};
-  edit.shipper = ${plan.transportation.shipper.id};
-  <c:if test="${plan.transportation.weight.netto > 0}">
-  edit.netto = Math.round((${plan.transportation.weight.netto}) * 100) / 100;
+  edit.document = ${plan.id};
+  edit.shipper = ${plan.shipper.id};
+  <c:if test="${plan.weight.netto > 0}">
+  edit.netto = Math.round((${plan.weight.netto}) * 100) / 100;
   </c:if>
 
   var r = {};
@@ -114,7 +114,7 @@
           <fmt:message key="deal.organisation"/>
         </td>
         <td>
-          ${plan.deal.organisation.value}
+          ${plan.counterparty.value}
         </td>
       </tr>
       <tr>
@@ -122,7 +122,8 @@
           <fmt:message key="weight.netto"/>
         </td>
         <td>
-          {{(netto).toLocaleString()}}&nbsp;${plan.deal.unit.name}
+          {{(netto).toLocaleString()}}
+          <%--&nbsp;${plan.deal.unit.name}--%>
         </td>
       </tr>
       <tr v-for="(relation, key) in relations">

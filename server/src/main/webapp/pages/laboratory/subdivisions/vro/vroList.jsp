@@ -223,13 +223,30 @@
                 <fmt:message key="vro.press.oil"/>
             </b>
             <fmt:message key="sun.acid.value"/>:
-            {{(oil.acid).toLocaleString()}},
+            <b>
+                {{(oil.acid).toLocaleString()}},
+            </b>
             <fmt:message key="oil.peroxide"/>:
-            {{(oil.peroxide).toLocaleString()}},
+            <b>
+                {{(oil.peroxide).toLocaleString()}},
+            </b>
             <fmt:message key="oil.phosphorus"/>:
-            {{(oil.phosphorus).toLocaleString()}},
+            <b>
+                {{(oil.phosphorus).toLocaleString()}},
+            </b>
+            <fmt:message key="oil.degrease.impurity"/>:
+            <b>
+                {{(oil.impurity).toLocaleString()}},
+            </b>
+            <fmt:message key="oil.humidity"/>
+            <b>
+                {{(oil.humidity).toLocaleString()}},
+            </b>
             <fmt:message key="oil.color.value"/>:
-            {{oil.color}}
+            <b>
+                {{oil.color}}
+            </b>
+
         </div>
         <div style="padding-left: 8pt; font-size: 10pt" v-for="g in value.item.granulas"
              class="selectable" :id="g.id" v-on:click="editGranules(g.id)">
@@ -237,17 +254,23 @@
                 <fmt:message key="granules"/>
             </b>
             <fmt:message key="vro.volume.density"/>:
-            {{(g.density).toLocaleString()}},
+            <b>
+                {{(g.density).toLocaleString()}},
+            </b>
             <fmt:message key="sun.humidity"/>:
-            {{(g.humidity).toLocaleString()}},
+            <b>
+                {{(g.humidity).toLocaleString()}},
+            </b>
             <fmt:message key="dust"/>:
-            {{(g.dust).toLocaleString()}},
-            <span v-if="g.match">
+            <b>
+                {{(g.dust).toLocaleString()}},
+            </b>
+            <b v-if="g.match">
                 <fmt:message key="match.dstu"/>
-            </span>
-            <span v-else>
+            </b>
+            <b v-else>
                 <fmt:message key="dsnt.match.dstu"/>
-            </span>
+            </b>
         </div>
         <div style="padding-left: 8pt; font-size: 10pt">
             <table style="font-size: 10pt">

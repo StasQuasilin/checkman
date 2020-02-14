@@ -12,34 +12,38 @@
     editor.turns.push({
         id:${turn.id},
         value:'<fmt:message key="turn"/> #${turn.number}',
-        <c:choose>
-        <c:when test="${turn.begin lt turn.end}">
-        day:0
-        </c:when>
-        <c:otherwise>
-        day:-1
-        </c:otherwise>
-        </c:choose>
-    });
-    </c:forEach>
-    <c:forEach items="${laborants}" var="l">
-    editor.laborants.push({
-        id:${l.id},
-        value:'${l.person.value}'
+        day:-${turn.begin gt turn.end}
     });
     </c:forEach>
     <c:choose>
     <c:when test="${not empty oil}">
+    var date = new Date('${oil.turn.turn.date}');
+    var num = ${oil.turn.turn.number};
+    if (num == 2){
+        date.setDate(date.getDate()  + 1);
+    }
+    editor.oil = {
+        id:${oil.id},
+        date: date.toISOString().substring(0, 10),
+        turn: ${oil.turn.turn.number},
+        acid:${oil.acid},
+        peroxide:${oil.peroxide},
+        phosphorus:${oil.phosphorus},
+        color:${oil.color},
+        impurity:${oil.impurity},
+        humidity:${oil.humidity}
+    };
     </c:when>
     <c:otherwise>
     editor.oil = {
         date : new Date().toISOString().substring(0, 10),
-        turn : -1,
+        turn : 1,
         acid:0,
         peroxide:0,
         phosphorus:0,
         color:0,
-        creator:${worker.id}
+        impurity:0,
+        humidity:0
     };
     </c:otherwise>
     </c:choose>
@@ -87,7 +91,7 @@
             :
         </td>
         <td>
-            <input id="acid" type="number" step="0.01" v-model="oil.acid">
+            <input id="acid" type="number" step="0.01" v-model="oil.acid" onfocus="this.select()" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -100,7 +104,7 @@
             :
         </td>
         <td>
-            <input id="peroxide" type="number" step="0.01" v-model="oil.peroxide">
+            <input id="peroxide" type="number" step="0.01" v-model="oil.peroxide" onfocus="this.select()" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -113,7 +117,7 @@
             :
         </td>
         <td>
-            <input id="phosphorus" type="number" step="0.01" v-model="oil.phosphorus">
+            <input id="phosphorus" type="number" step="0.01" v-model="oil.phosphorus" onfocus="this.select()" autocomplete="off">
         </td>
     </tr>
     <tr>
@@ -126,10 +130,35 @@
             :
         </td>
         <td>
-            <input id="color" type="number" step="1" v-model="oil.color">
+            <input id="color" type="number" step="1" v-model="oil.color" onfocus="this.select()" autocomplete="off">
         </td>
     </tr>
-
+    <tr>
+        <td>
+            <label for="impurity">
+                <fmt:message key="oil.degrease.impurity"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="impurity" type="number" step="0.01" v-model="oil.impurity" onfocus="this.select()" autocomplete="off">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="humidity">
+                <fmt:message key="extraction.crude.humidity"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="humidity" type="number" step="0.01" v-model="oil.humidity" onfocus="this.select()" autocomplete="off">
+        </td>
+    </tr>
     <tr>
         <td colspan="3" align="center">
             <button onclick="closeModal()">

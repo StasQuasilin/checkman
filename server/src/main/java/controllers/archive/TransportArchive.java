@@ -52,7 +52,7 @@ public class TransportArchive extends IUIServlet {
                 break;
             default:
                 req.setAttribute(CONTENT, "/pages/archive/archiveTypeErr.jsp");
-                req.setAttribute("type", type);
+                req.setAttribute(TYPE, type);
                 break;
         }
         req.setAttribute(CUSTOMERS, TransportCustomer.values());

@@ -13,6 +13,11 @@
 <script src="${context}/vue/templates/commentatorPlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
+  list.sort = function(){
+    list.items.sort(function(a, b){
+      return new Date(b.item.time.time) - new Date(a.item.time.time);
+    })
+  };
   <c:forEach items="${subscribe}" var="s">
   subscribe('${s}', function(a){
     list.loading = false;

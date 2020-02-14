@@ -247,23 +247,6 @@
                 </span>
             </td>
         </tr>
-        <tr>
-            <td>
-                <label for="creator">
-                    <fmt:message key="laboratory.creator"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td colspan="2">
-                <select id="creator" v-model="analyses.creator">
-                    <option v-for="lab in laborants" :value="lab.id">
-                        {{lab.value}}
-                    </option>
-                </select>
-            </td>
-        </tr>
     </template>
     <tr>
         <td colspan="3" align="right">

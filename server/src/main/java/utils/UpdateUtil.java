@@ -64,29 +64,25 @@ public class UpdateUtil {
     }
 
     static Subscriber getSubscriber(Transportation transportation){
-        return transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
+        return transportation.getDeal().getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
     }
 
     public void onSave(Transportation transportation) throws IOException {
-        doAction(Command.update, getSubscriber(transportation), parser.toJson(transportation));
+        doAction(Command.update, getSubscriber(transportation), transportation.toJson());
     }
 
     public void onRemove(Transportation transportation) throws IOException {
         doAction(Command.remove, getSubscriber(transportation), transportation.getId());
     }
 
-    private void onArchive(Transportation transportation) throws IOException {
+    public void onArchive(Transportation transportation) throws IOException {
         onRemove(transportation);
-        Subscriber subscriber = transportation.getType() == DealType.buy ? Subscriber.TRANSPORT_BUY_ARCHIVE : Subscriber.TRANSPORT_SELL_ARCHIVE;
+        Subscriber subscriber = transportation.getDeal().getType() == DealType.buy ? Subscriber.TRANSPORT_BUY_ARCHIVE : Subscriber.TRANSPORT_SELL_ARCHIVE;
         doAction(Command.update, subscriber, transportation);
     }
 
     public void onSave(LoadPlan plan) throws IOException {
         doAction(Command.update, Subscriber.LOGISTIC, parser.toJson(plan));
-    }
-
-    public void onArchive(LoadPlan loadPlan) throws IOException {
-        onArchive(loadPlan.getTransportation());
     }
 
     public void onRemove(ExtractionCrude crude) throws IOException {
@@ -132,7 +128,7 @@ public class UpdateUtil {
     }
 
     public void onSave(VROTurn turn) throws IOException {
-        doAction(Command.update, Subscriber.VRO, parser.toJson(turn));
+        doAction(Command.update, Subscriber.VRO, turn.toJson());
     }
 
     public void onSave(ProbeTurn turn) throws IOException {

@@ -4,7 +4,7 @@ var laboratoryView = {
         fields:Object
     },
     template:'<div class="right-field-content" style="width: 162pt">' +
-        '<div v-if="item.analyses.sun.id">' +
+        '<div v-if="item.analyses.sun && item.analyses.sun.id">' +
             '<div>{{fields.sun.humidityA}}: {{item.analyses.sun.humidity1}}</div>' +
             '<div v-if="item.analyses.sun.humidity2 > 0">' +
                 '{{fields.sun.humidityB}}: {{item.analyses.sun.humidity2}}</div>' +

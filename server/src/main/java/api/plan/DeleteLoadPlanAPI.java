@@ -38,7 +38,6 @@ public class DeleteLoadPlanAPI extends ServletAPI{
                     updateUtil.onRemove(transportation);
                 } else {
                     log.info("Remove transportation " + transportation.getId());
-                    dao.remove(dao.getLoadPlanByTransportationId(transportation));
                     dao.remove(transportation);
                     updateUtil.onRemove(transportation);
                 }

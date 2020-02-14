@@ -26,7 +26,7 @@ public class TransportationShow extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(ID));
-        Transportation transportation = dao.getObjectById(LoadPlan.class, id).getTransportation();
+        Transportation transportation = dao.getObjectById(Transportation.class, id);
         Weight weight = transportation.getWeight();
         float b = 0;
         float t = 0;

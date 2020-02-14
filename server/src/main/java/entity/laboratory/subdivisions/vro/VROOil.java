@@ -20,8 +20,9 @@ public class VROOil extends JsonAble{
     private float peroxide;
     private float phosphorus;
     private float color;
+    private float impurity;
+    private float humidity;
     private ActionTime createTime;
-    private Worker creator;
 
     @Id
     @GeneratedValue
@@ -33,7 +34,7 @@ public class VROOil extends JsonAble{
     }
 
     @ManyToOne
-    @JoinColumn(name = "turn")
+    @JoinColumn(name = TURN)
     public VROTurn getTurn() {
         return turn;
     }
@@ -42,7 +43,7 @@ public class VROOil extends JsonAble{
     }
 
     @Basic
-    @Column(name = "acid")
+    @Column(name = ACID)
     public float getAcid() {
         return acid;
     }
@@ -51,7 +52,7 @@ public class VROOil extends JsonAble{
     }
 
     @Basic
-    @Column(name = "peroxide")
+    @Column(name = PEROXIDE)
     public float getPeroxide() {
         return peroxide;
     }
@@ -60,7 +61,7 @@ public class VROOil extends JsonAble{
     }
 
     @Basic
-    @Column(name = "phosphorus")
+    @Column(name = PHOSPHORUS)
     public float getPhosphorus() {
         return phosphorus;
     }
@@ -69,12 +70,30 @@ public class VROOil extends JsonAble{
     }
 
     @Basic
-    @Column(name = "color")
+    @Column(name = COLOR)
     public float getColor() {
         return color;
     }
     public void setColor(float color) {
         this.color = color;
+    }
+
+    @Basic
+    @Column(name = IMPURITY)
+    public float getImpurity() {
+        return impurity;
+    }
+    public void setImpurity(float impurity) {
+        this.impurity = impurity;
+    }
+
+    @Basic
+    @Column(name = HUMIDITY)
+    public float getHumidity() {
+        return humidity;
+    }
+    public void setHumidity(float humidity) {
+        this.humidity = humidity;
     }
 
     @OneToOne
@@ -84,15 +103,6 @@ public class VROOil extends JsonAble{
     }
     public void setCreateTime(ActionTime createTime) {
         this.createTime = createTime;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
     }
 
     @Override
@@ -108,6 +118,8 @@ public class VROOil extends JsonAble{
         json.put(PEROXIDE, peroxide);
         json.put(PHOSPHORUS, phosphorus);
         json.put(COLOR, color);
+        json.put(IMPURITY, impurity);
+        json.put(HUMIDITY, humidity);
         return json;
     }
 }

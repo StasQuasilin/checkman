@@ -68,31 +68,38 @@
     list.styler = function(item){
         return item.weight.tara > 0
     };
-//    list.sort = function(){
-//        list.items.sort(function(a, b){
-//            if (a.item.date === b.item.date && a.item.weight) {
-//                let aN = 0;
-//                if (a.item.weight.brutto > 0 && a.item.weight.tara > 0) {
-//                    aN = a.item.weight.brutto - a.item.weight.tara;
-//                }
-//
-//                let bN = 0;
-//                if (b.item.weight.brutto > 0 && b.item.weight.tara > 0) {
-//                    bN = b.item.weight.brutto - b.item.weight.tara;
-//                }
-//                let ai = !aN && (a.item.weight.tara > 0 || a.item.weight.brutto > 0);
-//                let bi = !bN && (b.item.weight.tara > 0 || b.item.weight.brutto > 0);
-//                if (aN == 0 && bN > 0 || ai && !bi) { //(aN == 0 && bN > 0) ||
-//                    return -1;
-//                }
-//                if (aN > 0 && bN == 0 || !ai && bi) { //
-//                    return 1;
-//                }
-//            }
-//
-//            return new Date(a.item.date) - new Date(b.item.date);
-//        })
-//    };
+    list.sort = function(){
+        list.items.sort(function(a, b){
+            if (a.item.date === b.item.date) {
+                let aN = 0;
+                let ai = false;
+                if (a.item.weight) {
+                    if (a.item.weight.brutto > 0 && a.item.weight.tara > 0) {
+                        aN = a.item.weight.brutto - a.item.weight.tara;
+                    }
+                    ai = !aN && (a.item.weight.tara > 0 || a.item.weight.brutto > 0);
+                }
+
+                let bN = 0;
+                let bi = false;
+                if (b.item.weight) {
+                    if (b.item.weight.brutto > 0 && b.item.weight.tara > 0) {
+                        bN = b.item.weight.brutto - b.item.weight.tara;
+                    }
+                    bi = !bN && (b.item.weight.tara > 0 || b.item.weight.brutto > 0);
+                }
+
+                if (aN == 0 && bN > 0 || ai && !bi) { //(aN == 0 && bN > 0) ||
+                    return -1;
+                }
+                if (aN > 0 && bN == 0 || !ai && bi) { //
+                    return 1;
+                }
+            }
+
+            return new Date(a.item.date) - new Date(b.item.date);
+        })
+    };
     var s = 0;
     <c:forEach items="${subscribe}" var="s">
     s++;
@@ -103,9 +110,7 @@
     </c:forEach>
     stopContent = function(){
         <c:forEach items="${subscribe}" var="s">
-        subscribe('${s}', function(a){
-            unSubscribe('${s}');
-        });
+        unSubscribe('${s}');
         </c:forEach>
     };
     if (s > 2) {
@@ -148,7 +153,7 @@
                                         <span class="label">
                                             <fmt:message key="deal.organisation"/>:
                                         </span>
-                                        <b style="color: #484848">
+                                        <b>
                                             {{value.item.counterparty.value}}
                                         </b>
                                         <span class="product-line" style="float: right;">
@@ -181,8 +186,13 @@
                                             {{value.item.address.district}}
                                             <fmt:message key="address.district.short"/>,
                                         </template>
-                                        {{value.item.address.city}},
-                                        {{value.item.address.street}}
+                                        <template v-if="value.item.address.city">
+                                            {{value.item.address.city}}
+                                        </template>
+                                        <template v-if="value.item.address.street">
+                                            , {{value.item.address.street}},
+                                        </template>
+
                                         {{value.item.address.build}}
                                     </div>
                                 </div>
@@ -263,25 +273,24 @@
                 </div>
             </div>
         </transition-group>
-
-        <%--<c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">--%>
-            <%--<div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">--%>
-                <%--<div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">--%>
-                    <%--<c:if test="${not empty add}">--%>
-                        <%--<div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>--%>
-                        <%--<div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>--%>
-                    <%--</c:if>--%>
-                    <%--<c:if test="${not empty copy}">--%>
-                        <%--<div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>--%>
-                    <%--</c:if>--%>
-                    <%--<c:if test="${not empty cancel}">--%>
-                        <%--<div class="custom-data-list-item" v-if="menu.item.any"--%>
-                             <%--v-on:click="archive(menu.id)"><fmt:message key="menu.archive"/></div>--%>
-                        <%--<div class="custom-data-list-item" v-else :id="menu.id"--%>
-                             <%--onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>--%>
-                    <%--</c:if>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</c:if>--%>
+        <c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">
+            <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
+                <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+                    <c:if test="${not empty add}">
+                        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
+                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
+                    </c:if>
+                    <c:if test="${not empty copy}">
+                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
+                    </c:if>
+                    <c:if test="${not empty cancel}">
+                        <div class="custom-data-list-item" v-if="menu.item.any"
+                             v-on:click="archive(menu.id)"><fmt:message key="menu.archive"/></div>
+                        <div class="custom-data-list-item" v-else :id="menu.id"
+                             onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
+                    </c:if>
+                </div>
+            </div>
+        </c:if>
     </div>
 </html>

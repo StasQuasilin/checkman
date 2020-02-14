@@ -26,6 +26,7 @@ public class Notification extends JsonAble{
     }
 
     public Notification(String text) {
+        this();
         this.text = text;
     }
 
@@ -73,7 +74,9 @@ public class Notification extends JsonAble{
     @Override
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
-        object.put(ID, id);
+        if (id > 0) {
+            object.put(ID, id);
+        }
         if (time != null) {
             object.put(TIME, time.toString());
         }

@@ -56,7 +56,7 @@ public class StockDetailsAPI extends ServletAPI {
                         switch (type){
                             case weight:
                                 TransportStorageUsed storageUsed = dao.getObjectById(TransportStorageUsed.class, document);
-                                Organisation counterparty = storageUsed.getTransportation().getCounterparty();
+                                Organisation counterparty = storageUsed.getTransportation().getDeal().getOrganisation();
                                 if (counterparty != null) {
                                     json.put(COUNTERPARTY, counterparty.getValue());
                                 }

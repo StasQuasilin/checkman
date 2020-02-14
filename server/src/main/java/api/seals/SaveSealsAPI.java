@@ -32,12 +32,12 @@ public class SaveSealsAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if(body != null) {
-            String prefix = String.valueOf(body.get("prefix"));
-            int number = Integer.parseInt(String.valueOf(body.get("number")));
-            String suffix = String.valueOf(body.get("suffix"));
-            long quantity = (long) body.get("quantity");
+            String prefix = String.valueOf(body.get(PREFIX));
+            int number = Integer.parseInt(String.valueOf(body.get(NUMBER)));
+            String suffix = String.valueOf(body.get(SUFFIX));
+            int quantity = Integer.parseInt(String.valueOf(body.get(QUANTITY)));
 
-            log.info(getWorker(req).getValue() + " put seals " + doSeal(prefix, number, suffix) + " ... " + doSeal(prefix, number + quantity, suffix));
+            log.info(getWorker(req).getValue() + " put seals " + doSealName(prefix, number, suffix) + " ... " + doSealName(prefix, number + quantity, suffix));
             if (quantity > 0) {
                 SealBatch batch = new SealBatch();
                 ActionTime time = new ActionTime();
@@ -55,13 +55,14 @@ public class SaveSealsAPI extends ServletAPI {
                     Seal seal = new Seal();
                     seal.setBatch(batch);
                     seal.setNumber(number);
-                    seal.setValue(prefix + HYPHEN + number);
+                    seal.setValue(doSealName(prefix, number, suffix));
                     if (i == 0) {
-                        builder.append(seal.getNumber()).append(DELIMITER);
+                        builder.append(seal.getValue()).append(DELIMITER);
                     } else if (i == quantity -1) {
-                        builder.append(seal.getNumber());
+                        builder.append(seal.getValue());
                     }
                     dao.save(seal);
+                    number++;
                 }
 
                 batch.setTitle(builder.toString());
@@ -77,8 +78,8 @@ public class SaveSealsAPI extends ServletAPI {
         }
 
     }
-    synchronized String doSeal(String prefix, long number, String suffix){
-        return (U.exist(prefix) ? prefix.toUpperCase() + "-" : "") + number +
-                (U.exist(suffix) ? "-" + suffix.toUpperCase() : "");
+    synchronized String doSealName(String prefix, long number, String suffix){
+        return (U.exist(prefix) ? prefix.toUpperCase() + HYPHEN : EMPTY) + number +
+                (U.exist(suffix) ? HYPHEN + suffix.toUpperCase() : EMPTY);
     }
 }

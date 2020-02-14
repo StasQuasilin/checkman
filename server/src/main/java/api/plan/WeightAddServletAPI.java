@@ -114,11 +114,9 @@ public class WeightAddServletAPI extends ServletAPI {
                 dao.save(transportation.getCreateTime());
             }
 
-            if (transportation.getDeal() != deal.getId()){
-                transportation.setDeal(deal.getId());
-                transportation.setType(deal.getType());
+            if (transportation.getDeal().getId() != deal.getId()){
+                transportation.setDeal(deal);
                 transportation.setShipper(deal.getShipper());
-                transportation.setCounterparty(deal.getOrganisation());
                 transportation.setProduct(deal.getProduct());
             }
 

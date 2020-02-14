@@ -34,7 +34,7 @@ public class TransportReplaceUtil {
     }
 
     public void init(){
-        checkTransport();
+        initTimer();
     }
     final LocalTime targetTime = LocalTime.of(1, 0);
     private void initTimer(){
@@ -60,13 +60,12 @@ public class TransportReplaceUtil {
         Date now = Date.valueOf(LocalDate.now());
         param.clear();
         param.put("date", new LT(now));
-        param.put("transportation/archive", false);
-        param.put("transportation/done", false);
+        param.put("archive", false);
+        param.put("done", false);
 
-        for (LoadPlan plan : dao.getObjectsByParams(LoadPlan.class, param)){
-            Transportation transportation = plan.getTransportation();
+        for (Transportation transportation : dao.getObjectsByParams(Transportation.class, param)) {
             if (transportation.getWeight() == null || transportation.getWeight().getNetto() == 0) {
-                plan.setDate(now);
+                transportation.setDate(now);
 
                 ArrayList<DocumentNote> notes = new ArrayList<>(transportation.getNotes());
                 for (DocumentNote n : notes) {
@@ -83,17 +82,17 @@ public class TransportReplaceUtil {
                 dao.save(note);
                 transportation.getNotes().add(note);
                 transportation.setDate(now);
-                dao.save(plan);
+                dao.save(transportation);
                 dao.save(transportation);
                 log.info("Transportation " + transportation.getId() + " replaced at " + now);
                 try {
-                    updateUtil.onSave(plan.getTransportation());
+                    updateUtil.onSave(transportation);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-        initTimer();
+
     }
 
     public void shutdown(){

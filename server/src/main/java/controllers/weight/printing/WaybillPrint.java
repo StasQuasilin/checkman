@@ -8,6 +8,7 @@ import entity.Role;
 import entity.documents.LoadPlan;
 import entity.laboratory.transportation.ActType;
 import entity.organisations.Organisation;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,10 +35,10 @@ public class WaybillPrint extends IModal {
 
             req.setAttribute(TITLE, _TITLE);
             req.setAttribute(MODAL_CONTENT, _CONTENT);
-            LoadPlan plan = dao.getLoadPlanById(body.get(ID));
+            Transportation plan = dao.getObjectById(Transportation.class, body.get(ID));
             req.setAttribute(PRICE, plan.getDeal().getPrice());
-            req.setAttribute(TRANSPORTATION, plan.getTransportation());
-            Organisation counterparty = plan.getTransportation().getCounterparty();
+            req.setAttribute(TRANSPORTATION, plan);
+            Organisation counterparty = plan.getDeal().getOrganisation();
             req.setAttribute(LEGAL_ADDRESS, dao.getLegalAddress(counterparty));
             req.setAttribute(LOAD_ADDRESS, dao.getLoadAddress(counterparty));
 

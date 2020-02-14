@@ -41,7 +41,6 @@ public class ParseOrganisationServletAPI extends ServletAPI {
     private static final String SUCCESS_NOTIFICATION = "notification.organisation.create.success";
     private final OrganisationInfoUtil infoUtil = new OrganisationInfoUtil();
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -52,11 +51,13 @@ public class ParseOrganisationServletAPI extends ServletAPI {
 
             Worker worker = getWorker(req);
             String notificationText = String.format(lb.get(worker.getLanguage(), SUCCESS_NOTIFICATION), organisation.getValue());
-            notificator.sendNotification(worker, new Notification(notificationText).toJson());
+            JSONObject notificationJson = new Notification(notificationText).toJson();
+            notificator.sendNotification(worker, notificationJson);
+            pool.put(notificationJson);
 
-            JSONObject json = new SuccessAnswer(RESULT, organisation.toJson()).toJson();
-            write(resp, json.toJSONString());
-            pool.put(json);
+            JSONObject answerJson = new SuccessAnswer(RESULT, organisation.toJson()).toJson();
+            write(resp, answerJson.toJSONString());
+            pool.put(answerJson);
 
             infoUtil.checkOrganisation(organisation, worker);
 

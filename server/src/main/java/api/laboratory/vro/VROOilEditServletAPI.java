@@ -42,16 +42,13 @@ public class VROOilEditServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             log.info(body);
-            VROOil oil;
-            if (body.containsKey(Constants.ID)) {
-                long id = (long) body.get(Constants.ID);
-                oil = dao.getVROOilById(id);
-            } else {
+            VROOil oil = dao.getObjectById(VROOil.class, body.get(ID));
+            if (oil == null){
                 oil = new VROOil();
             }
 
-            LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            long turnId = (long) body.get("turn");
+            LocalDate date = LocalDate.parse(String.valueOf(body.get(DATE)));
+            long turnId = (long) body.get(TURN);
             TurnSettings turn = TurnBox.getTurn(turnId);
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
@@ -68,27 +65,39 @@ public class VROOilEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            float acid = Float.parseFloat(String.valueOf(body.get("acid")));
+            float acid = Float.parseFloat(String.valueOf(body.get(ACID)));
             if (oil.getAcid() != acid) {
                 oil.setAcid(acid);
                 save = true;
             }
 
-            float peroxide = Float.parseFloat(String.valueOf(body.get("peroxide")));
+            float peroxide = Float.parseFloat(String.valueOf(body.get(PEROXIDE)));
             if (oil.getPeroxide() != peroxide) {
                 oil.setPeroxide(peroxide);
                 save = true;
             }
 
-            float phosphorus = Float.parseFloat(String.valueOf(body.get("phosphorus")));
+            float phosphorus = Float.parseFloat(String.valueOf(body.get(PHOSPHORUS)));
             if (oil.getPhosphorus() != phosphorus) {
                 oil.setPhosphorus(phosphorus);
                 save = true;
             }
 
-            float color = Float.parseFloat(String.valueOf(body.get("color")));
+            float color = Float.parseFloat(String.valueOf(body.get(COLOR)));
             if (oil.getColor() != color) {
                 oil.setColor(color);
+                save = true;
+            }
+
+            float impurity = Float.parseFloat(String.valueOf(body.get(IMPURITY)));
+            if (oil.getImpurity() != impurity){
+                oil.setImpurity(impurity);
+                save = true;
+            }
+
+            float humidity = Float.parseFloat(String.valueOf(body.get(HUMIDITY)));
+            if (oil.getHumidity() != humidity){
+                oil.setHumidity(humidity);
                 save = true;
             }
 
@@ -106,9 +115,11 @@ public class VROOilEditServletAPI extends ServletAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                oil.setCreator(worker);
                 dao.save(createTime);
                 dao.save(oil);
+
+                write(resp, SUCCESS_ANSWER);
+
                 updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
                     updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
@@ -118,8 +129,6 @@ public class VROOilEditServletAPI extends ServletAPI {
                     notificator.show(oil);
                 }
             }
-
-            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, EMPTY_BODY);
         }

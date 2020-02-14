@@ -24,11 +24,11 @@ var show = new Vue({
     },
     methods: {
         removeTimeIn:function(){
-            this.removeTime(this.directionIn);
+            this.removeTime('in');
             this.timeIn = '';
         },
         removeTimeOut:function(){
-            this.removeTime(this.directionOut);
+            this.removeTime('out');
             this.timeOut = '';
         },
         removeTime:function(dir){
