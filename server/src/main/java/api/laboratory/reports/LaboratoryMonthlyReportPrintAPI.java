@@ -2,17 +2,15 @@ package api.laboratory.reports;
 
 import constants.Branches;
 import controllers.IModal;
-import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
-import utils.hibernate.DateContainers.BETWEEN;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class LaboratoryMonthlyReportPrintAPI extends IModal {
         if (json != null) {
             JSONObject parameters = (JSONObject) json.get("parameters");
             final LocalDate date = LocalDate.parse(String.valueOf(parameters.get("date")));
-            List<LoadPlan> plans = dao.getLoadPlansBetweenDates(date, date.plusMonths(1));
+            List<Transportation> plans = dao.getTransportationsBetweenDates(date, date.plusMonths(1));
             req.setAttribute("plans", plans);
             req.getRequestDispatcher("/pages/laboratory/reports/print/monthlyReport.jsp").forward(req, resp);
         }

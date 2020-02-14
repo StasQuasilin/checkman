@@ -2,8 +2,6 @@ package api.plan;
 
 import api.ServletAPI;
 import constants.Branches;
-import constants.Constants;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;

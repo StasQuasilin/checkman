@@ -5,7 +5,7 @@ import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.documents.Deal;
-import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -29,10 +29,10 @@ public class DealDelete extends IModal {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
             Deal deal = dao.getDealById(body.get(Constants.ID));
-            req.setAttribute("deal", deal);
-            List<LoadPlan> done = dao.getLoadPlanByDeal(deal, true, null);
-            req.setAttribute("done", done);
-            req.setAttribute("loads", dao.getLoadPlanByDeal(deal, false, null));
+            req.setAttribute(DEAL, deal);
+            List<Transportation> done = dao.getTransportationByDeal(deal, true, null);
+            req.setAttribute(DONE, done);
+            req.setAttribute("loads", dao.getTransportationByDeal(deal, false, null));
             if (deal.getComplete() > 0) {
                 req.setAttribute(TITLE, Titles.DEAL_DELETE);
             } else {

@@ -1,12 +1,9 @@
 package controllers.weight;
 
 import constants.Branches;
-import constants.Constants;
 import controllers.IModal;
 import entity.DealType;
 import entity.Role;
-import entity.documents.Deal;
-import entity.documents.LoadPlan;
 import entity.transport.DocumentNote;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;

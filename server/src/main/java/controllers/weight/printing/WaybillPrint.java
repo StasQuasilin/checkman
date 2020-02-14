@@ -1,20 +1,19 @@
 package controllers.weight.printing;
 
-import api.ServletAPI;
 import api.laboratory.ActNumberService;
 import constants.Branches;
 import controllers.IModal;
 import entity.Role;
-import entity.documents.LoadPlan;
 import entity.laboratory.transportation.ActType;
 import entity.organisations.Organisation;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
 
 /**
  * Created by szpt_user045 on 24.04.2019.

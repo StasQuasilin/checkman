@@ -1,14 +1,9 @@
 package controllers.weight;
 
 import constants.Branches;
-import constants.Constants;
 import controllers.IModal;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
-import utils.PostUtil;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -3,7 +3,6 @@ package api.archive;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**

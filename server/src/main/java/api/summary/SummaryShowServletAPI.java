@@ -3,7 +3,6 @@ package api.summary;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.documents.LoadPlan;
 import entity.log.Change;
 import entity.log.ChangeLog;
 import entity.transport.Transportation;

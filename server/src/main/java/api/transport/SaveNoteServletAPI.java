@@ -2,7 +2,6 @@ package api.transport;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.documents.LoadPlan;
 import entity.transport.DocumentNote;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;

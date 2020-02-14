@@ -2,10 +2,8 @@ package api.transport;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.documents.LoadPlan;
 import entity.products.Product;
 import entity.transport.Transportation;
-import org.json.simple.JSONArray;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +14,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 01.11.2019.

@@ -8,20 +8,16 @@ import entity.Worker;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
-import entity.documents.LoadPlan;
-import entity.documents.Shipper;
-import entity.laboratory.subdivisions.extraction.ExtractionCrude;
-import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.ProbeTurn;
 import entity.laboratory.storages.StorageTurn;
+import entity.laboratory.subdivisions.extraction.ExtractionCrude;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.VROTurn;
+import entity.laboratory.turn.LaboratoryTurn;
 import entity.organisations.Organisation;
-import entity.products.Product;
 import entity.reports.ManufactureReport;
 import entity.seals.SealBatch;
-import entity.storages.Storage;
 import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Transportation2;
@@ -79,10 +75,6 @@ public class UpdateUtil {
         onRemove(transportation);
         Subscriber subscriber = transportation.getDeal().getType() == DealType.buy ? Subscriber.TRANSPORT_BUY_ARCHIVE : Subscriber.TRANSPORT_SELL_ARCHIVE;
         doAction(Command.update, subscriber, transportation);
-    }
-
-    public void onSave(LoadPlan plan) throws IOException {
-        doAction(Command.update, Subscriber.LOGISTIC, parser.toJson(plan));
     }
 
     public void onRemove(ExtractionCrude crude) throws IOException {

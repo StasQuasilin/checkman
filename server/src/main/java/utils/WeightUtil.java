@@ -1,7 +1,6 @@
 package utils;
 
 import entity.documents.Deal;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;

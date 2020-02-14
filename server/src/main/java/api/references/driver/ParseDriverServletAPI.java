@@ -3,16 +3,12 @@ package api.references.driver;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.Person;
 import entity.Worker;
-import entity.documents.LoadPlan;
 import entity.notifications.Notification;
 import entity.transport.Driver;
 import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
-import utils.LanguageBase;
-import utils.Parser;
 import utils.UpdateUtil;
 import utils.VehicleParser;
 import utils.answers.SuccessAnswer;
@@ -23,7 +19,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 12.03.2019.

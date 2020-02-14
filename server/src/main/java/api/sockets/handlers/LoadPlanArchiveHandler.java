@@ -2,7 +2,6 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
-import entity.documents.LoadPlan;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,7 +16,7 @@ public class LoadPlanArchiveHandler extends OnSubscribeHandler {
     @Override
     public void handle(Session session) throws IOException {
         JSONArray array = ActiveSubscriptions.pool.getArray();
-        array.addAll(dao.getLimitLoadPlanArchive().stream().map(parser::toJson).collect(Collectors.toList()));
+        array.addAll(dao.getLimitTransportationsArchive().stream().map(parser::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
         json.put(ADD, array);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber,json));

@@ -1,24 +1,6 @@
 package utils.hibernate;
 
 import constants.Constants;
-import entity.documents.LoadPlan;
-import entity.laboratory.probes.IProbe;
-import entity.laboratory.probes.OilProbe;
-import entity.laboratory.probes.SunProbe;
-import entity.seals.Seal;
-import entity.seals.SealBatch;
-import entity.transport.*;
-import utils.DocumentUIDGenerator;
-import utils.PrinterUtil;
-import utils.U;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 01.07.2019.
@@ -31,13 +13,6 @@ public class CustomHandler implements Constants{
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
 
-        HashMap<String, Object> param = new HashMap<>();
-        param.put("transportation/amount", 0);
-        for (LoadPlan plan : instance.query(LoadPlan.class, param)){
-            Transportation transportation = plan.getTransportation();
-            transportation.setAmount(plan.getPlan());
-            dao.save(transportation);
-        }
 //        SealBatch batch = dao.getObjectById(SealBatch.class, 114990);
 //        for (int i = 0; i < 100; i++){
 //            Seal seal = new Seal();

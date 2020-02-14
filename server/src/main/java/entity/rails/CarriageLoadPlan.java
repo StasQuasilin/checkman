@@ -1,7 +1,5 @@
 package entity.rails;
 
-import entity.documents.LoadPlan;
-
 import javax.persistence.*;
 
 /**

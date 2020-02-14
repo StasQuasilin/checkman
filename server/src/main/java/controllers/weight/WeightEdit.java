@@ -1,10 +1,8 @@
 package controllers.weight;
 
 import constants.Branches;
-import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 
 import javax.servlet.ServletException;

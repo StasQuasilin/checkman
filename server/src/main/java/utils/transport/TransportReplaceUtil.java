@@ -1,6 +1,5 @@
 package utils.transport;
 
-import entity.documents.LoadPlan;
 import entity.transport.DocumentNote;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
@@ -11,13 +10,16 @@ import utils.hibernate.DateContainers.LT;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.swing.*;
 
 /**
  * Created by szpt_user045 on 03.11.2019.

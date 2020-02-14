@@ -3,8 +3,8 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscriber;
 import entity.ApplicationSettings;
-import entity.documents.LoadPlan;
 import entity.transport.TransportCustomer;
+import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.ApplicationSettingsBox;
@@ -28,7 +28,7 @@ public class LogisticHandler extends OnSubscribeHandler {
     public void handle(Session session) throws IOException {
         if(applicationSettings != null ){
             JSONArray add = ActiveSubscriptions.pool.getArray();
-            add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
+            add.addAll(getTransport().stream().map(Transportation::toJson).collect(Collectors.toList()));
             JSONObject json = ActiveSubscriptions.pool.getObject();
             json.put(ADD, add);
             session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
@@ -36,7 +36,7 @@ public class LogisticHandler extends OnSubscribeHandler {
         }
     }
 
-    private List<LoadPlan> getTransport() {
+    private List<Transportation> getTransport() {
         TransportCustomer customer = applicationSettings.getCustomer();
         return dao.getTransportationsByCustomer(customer);
     }

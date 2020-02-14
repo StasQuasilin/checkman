@@ -7,7 +7,6 @@ import entity.DealType;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.Shipper;
-import entity.documents.LoadPlan;
 import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.transport.*;

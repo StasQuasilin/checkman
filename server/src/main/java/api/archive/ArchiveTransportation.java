@@ -2,15 +2,12 @@ package api.archive;
 
 import api.ServletAPI;
 import constants.Branches;
-import constants.Constants;
 import entity.Worker;
-import entity.documents.LoadPlan;
 import entity.notifications.Notification;
+import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
-import entity.transport.TransportUtil;
 import utils.LanguageBase;
-import utils.UpdateUtil;
 import utils.notifications.Notificator;
 
 import javax.servlet.ServletException;

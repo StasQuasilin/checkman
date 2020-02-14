@@ -1,9 +1,8 @@
 package controllers.weight;
 
 import constants.Branches;
-import constants.Constants;
 import controllers.IModal;
-import entity.documents.LoadPlan;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -22,8 +21,7 @@ public class NotesList extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = PostUtil.parseBodyJson(req);
         if (body != null) {
-            Object id = body.get(Constants.ID);
-            LoadPlan loadPlan = dao.getLoadPlanById(id);
+            Transportation loadPlan = dao.getObjectById(Transportation.class, body.get(ID));
             req.setAttribute("plan", loadPlan);
             req.setAttribute("title", "title.notes.edit");
             req.setAttribute("modalContent", "/pages/transport/notesList.jsp");

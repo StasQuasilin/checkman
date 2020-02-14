@@ -128,11 +128,6 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<LoadPlan> getPlanByDeal(Deal deal) {
-        return hb.query(LoadPlan.class, DEAL, deal);
-    }
-
-    @Override
     public List<VROTurn> getVroTurnsByDate(HashMap<String, Object> parameters) {
         return hb.limitQuery(VROTurn.class, parameters, 14);
     }
@@ -216,16 +211,16 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<LoadPlan> getLoadPlanByDeal(Object deal, Boolean done, Boolean archive) {
+    public List<Transportation> getTransportationByDeal(Object deal, Boolean done, Boolean archive) {
         final HashMap<String, Object> parameters = hb.getParams();
         parameters.put(DEAL, deal);
         if (done != null) {
-            parameters.put("transportation/done", done);
+            parameters.put(DONE, done);
         }
         if (archive != null) {
-            parameters.put("transportation/archive", archive);
+            parameters.put(ARCHIVE, archive);
         }
-        return hb.query(LoadPlan.class, parameters);
+        return hb.query(Transportation.class, parameters);
     }
 
     @Override
@@ -233,13 +228,7 @@ public class HibernateDAO implements dbDAO, Constants {
         return hb.get(ApplicationSettings.class, null);
     }
 
-    @Override
-    public List<LoadPlan> getTransportArchive() {
-        final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("transportation/archive", true);
-        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
-        return hb.limitQuery(LoadPlan.class, parameters, 30);
-    }
+
 
     @Override
     public List<Transportation> getLimitArchiveTransportations(DealType type) {
@@ -248,17 +237,6 @@ public class HibernateDAO implements dbDAO, Constants {
         parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(10))));
         parameters.put("type", type);
         return hb.query(Transportation.class, parameters);
-    }
-
-    @Override
-    public LoadPlan getLoadPlanById(Object id) {
-        return hb.get(LoadPlan.class, ID, id);
-    }
-
-    @Override
-    public void saveLoadPlan(LoadPlan plan) {
-
-        hb.save(plan);
     }
 
     @Override
@@ -351,16 +329,11 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<LoadPlan> getLoadPlans() {
-        return hb.query(LoadPlan.class, "transportation/archive", false);
-    }
-
-    @Override
-    public List<LoadPlan> getLimitLoadPlanArchive() {
+    public List<Transportation> getLimitTransportationsArchive() {
         final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("transportation/archive", true);
-        parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(10))));
-        return hb.limitQuery(LoadPlan.class, parameters, 14);
+        parameters.put(ARCHIVE, true);
+        parameters.put(DATE, new LE(Date.valueOf(LocalDate.now().plusYears(10))));
+        return hb.limitQuery(Transportation.class, parameters, 14);
     }
 
     @Override
@@ -381,11 +354,6 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public void saveChange(Change change) {
         hb.save(change);
-    }
-
-    @Override
-    public LoadPlan getLoadPlanByTransportationId(Object id) {
-        return hb.get(LoadPlan.class,"transportation", id);
     }
 
     @Override
@@ -486,11 +454,6 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<LoadPlan> getLastPlans() {
-        return hb.limitQuery(LoadPlan.class, "date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 200);
-    }
-
-    @Override
     public DocumentUID getDocumentUID(String uid) {
         return hb.get(DocumentUID.class, "uid", uid);
     }
@@ -561,19 +524,6 @@ public class HibernateDAO implements dbDAO, Constants {
             } else {
                 ids.put(id, ids.get(id) + 1);
             }
-        }
-    }
-
-    @Override
-    public List<LoadPlan> getActiveTransportations(Date date) {
-        final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("transportation/archive", false);
-        if (date == null) {
-            parameters.put("date", new LE(Date.valueOf(LocalDate.now().plusYears(1))));
-            return hb.limitQuery(LoadPlan.class, parameters, 30);
-        } else {
-            parameters.put("date", date);
-            return hb.query(LoadPlan.class, parameters);
         }
     }
 
@@ -865,8 +815,8 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<LoadPlan> getLoadPlansBetweenDates(LocalDate from, LocalDate to) {
-        return hb.query(LoadPlan.class, "date", new BETWEEN(Date.valueOf(from), Date.valueOf(to)));
+    public List<Transportation> getTransportationsBetweenDates(LocalDate from, LocalDate to) {
+        return hb.query(Transportation.class, DATE, new BETWEEN(Date.valueOf(from), Date.valueOf(to)));
     }
 
     @Override
@@ -881,14 +831,6 @@ public class HibernateDAO implements dbDAO, Constants {
         parameters.put("timeIn", State.notNull);
         parameters.put("timeOut", null);
         return hb.query(Transportation.class, parameters);
-    }
-
-    @Override
-    public List<LoadPlan> getTransportationsOnCruise() {
-        final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("transportation/archive", false);
-        parameters.put("transportation/timeOut", State.notNull);
-        return hb.query(LoadPlan.class, parameters);
     }
 
     @Override
@@ -919,14 +861,6 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public StorageGrease getStorageGreaseById(Object id) {
         return hb.get(StorageGrease.class, ID, id);
-    }
-
-    @Override
-    public List<LoadPlan> getLoadPlansByDealType(DealType dealType) {
-        final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("transportation/archive", false);
-        parameters.put("deal/type", dealType);
-        return hb.query(LoadPlan.class, parameters);
     }
 
     @Override
@@ -977,11 +911,11 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<LoadPlan> getTransportationsByCustomer(TransportCustomer customer) {
+    public List<Transportation> getTransportationsByCustomer(TransportCustomer customer) {
         final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("transportation/archive", false);
+        parameters.put("archive", false);
         parameters.put("customer", customer);
-        return hb.query(LoadPlan.class, parameters);
+        return hb.query(Transportation.class, parameters);
     }
 
     @Override

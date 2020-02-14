@@ -46,19 +46,19 @@
           ${plan.deal.organisation.value}
         </td>
         <td>
-          ${plan.transportation.driver.person.value}
+          ${plan.driver.person.value}
         </td>
         <td>
-          ${plan.transportation.vehicle.model}<br>
-          ${plan.transportation.vehicle.number}
-          ${plan.transportation.vehicle.trailer}
+          ${plan.vehicle.model}<br>
+          ${plan.vehicle.number}
+          ${plan.vehicle.trailer}
 
         </td>
         <td>
-          <fmt:formatNumber value="${plan.transportation.weight.netto}"/>
+          <fmt:formatNumber value="${plan.weight.netto}"/>
         </td>
         <td>
-          <fmt:formatNumber value="${plan.transportation.sunAnalyses.soreness}"/>
+          <fmt:formatNumber value="${plan.sunAnalyses.soreness}"/>
         </td>
       </tr>
     </c:forEach>

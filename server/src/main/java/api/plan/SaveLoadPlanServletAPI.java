@@ -6,8 +6,6 @@ import constants.Constants;
 import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
-import entity.documents.LoadPlan;
-import entity.log.comparators.LoadPlanComparator;
 import entity.log.comparators.TransportationComparator;
 import entity.organisations.Organisation;
 import entity.transport.*;
@@ -33,7 +31,6 @@ import java.util.HashSet;
 public class SaveLoadPlanServletAPI extends ServletAPI {
 
     final Logger log = Logger.getLogger(SaveLoadPlanServletAPI.class);
-    final LoadPlanComparator planComparator = new LoadPlanComparator();
     final TransportationComparator transportationComparator = new TransportationComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
     final NoteUtil noteUtil = new NoteUtil();

@@ -59,7 +59,6 @@ import java.util.List;
  */
 public interface dbDAO {
     void saveDeal(Deal deal);
-    List<LoadPlan> getPlanByDeal(Deal deal);
     List<VROTurn> getVroTurnsByDate(HashMap<String, Object> parameters);
     Deal getDealById(Object id);
     Organisation getOrganisationById(Object organisationId);
@@ -74,11 +73,8 @@ public interface dbDAO {
     List<Admin> getAdminList();
     void saveTransportation(Transportation transportation);
     void saveWeight(Weight weight);
-    List<LoadPlan> getLoadPlanByDeal(Object deal, Boolean done, Boolean archive);
+    List<Transportation> getTransportationByDeal(Object deal, Boolean done, Boolean archive);
     ApplicationSettings getApplicationSettings();
-    List<LoadPlan> getTransportArchive();
-    LoadPlan getLoadPlanById(Object id);
-    void saveLoadPlan(LoadPlan plan);
     List<ChangeLog> getLogs(String uid);
     List<Driver> getDriverList();
     void savePerson(Person person);
@@ -93,7 +89,6 @@ public interface dbDAO {
     List<OilProbe> getLimitOilProbes(Date date);
     void saveChangeLod(ChangeLog log);
     void saveChange(Change change);
-    LoadPlan getLoadPlanByTransportationId(Object id);
     <T> void remove (Class<T> tClass, Object id);
     List<Product> getProductList();
     List<Unit> getUnitsList();
@@ -113,7 +108,6 @@ public interface dbDAO {
     OilProbe getOilProbeById(Object id);
     Vehicle getVehicleById(Object id);
     VRODaily getVRODailyById(Object id);
-    List<LoadPlan> getLastPlans();
     DocumentUID getDocumentUID(String uid);
     User getUserByWorker(Worker worker);
     VROCrude getVroCrudeById(Object id);
@@ -121,7 +115,6 @@ public interface dbDAO {
     Forpress getForpressById(Object forpressId);
     ExtractionCrude getExtractionCrudeById(Object id);
     Collection<Organisation> findOrganisation(String key);
-    List<LoadPlan> getActiveTransportations(Date date);
     List<Deal> getLimitArchiveDeals(DealType type);
     Shipper getShipperByValue(Object value);
     Unit getWeightUnitById(Object unit);
@@ -147,17 +140,15 @@ public interface dbDAO {
     ExtractionRaw getExtractionRawById(Object id);
     VRODaily getVroDailyById(Object id);
     ExtractionOIl getExtractionOilById(Object id);
-    List<LoadPlan> getLoadPlansBetweenDates(LocalDate from, LocalDate to);
+    List<Transportation> getTransportationsBetweenDates(LocalDate from, LocalDate to);
     List<Unit> getWeightUnits();
     List<Transportation> getTransportationsOnTerritory();
-    List<LoadPlan> getTransportationsOnCruise();
     List<Turn> getLimitTurns();
     ExtractionTurn getExtractionTurnByTurn(Turn turn);
     List<KPOPart> getLimitKPOParts();
     StorageGrease getStorageGreaseById(Object id);
-    List<LoadPlan> getLoadPlansByDealType(DealType dealType);
     VROTurn getVROTurnByTurn(Turn turn);
-    List<LoadPlan> getTransportationsByCustomer(TransportCustomer customer);
+    List<Transportation> getTransportationsByCustomer(TransportCustomer customer);
     List<Deal> getDealsByOrganisation(Object organisation);
     StorageProtein getStorageProteinById(Object id);
     UserBotSetting getUseBorSettingsByWorker(Worker worker);
@@ -181,13 +172,12 @@ public interface dbDAO {
     Person getPersonByName(String surname, String forename, String patronymic);
     Driver getDriverByPerson(Person person);
     List<Transportation> getTransportationsByType(DealType type);
-    List<LoadPlan> getLoadPlans();
     Vehicle getVehicleByNumber(String number);
     List<Transportation> getTransportationByVehicle(Vehicle vehicle);
     List<ArchiveData> getArchiveData();
     ProbeTurn getProbeTurnByTurn(Turn turn);
     List<LaboratoryTurn> getLimitLaboratoryTurn();
-    List<LoadPlan> getLimitLoadPlanArchive();
+    List<Transportation> getLimitTransportationsArchive();
     List<Worker> getWorkersWithout(Worker worker);
     List<ChatMember> getChatMembersByWorker(Worker worker);
     Chat getChatById(Object id);

@@ -2,7 +2,6 @@ package entity.transport;
 
 import entity.Worker;
 import entity.documents.Deal;
-import entity.documents.LoadPlan;
 import entity.laboratory.SunAnalyses;
 import entity.organisations.Organisation;
 import entity.products.Product;

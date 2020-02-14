@@ -9,10 +9,8 @@ import entity.bot.UserBotSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
-import entity.documents.LoadPlan;
 import entity.documents.Shipper;
 import entity.laboratory.MealAnalyses;
-import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.laboratory.probes.*;
@@ -21,6 +19,7 @@ import entity.laboratory.storages.StorageTurn;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
+import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.turn.LaboratoryTurnWorker;
 import entity.log.Change;
 import entity.log.ChangeLog;
@@ -44,7 +43,6 @@ import utils.storages.StorageUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -186,17 +184,6 @@ public class JsonParser implements Constants{
     final static String NOTES = "notes";
     final static String ANY = "any";
     final static String ARCHIVE = "archive";
-
-    public JSONObject toJson(LoadPlan lp) {
-        JSONObject json = toJson(lp.getTransportation());
-        json.put(ID, lp.getId());
-        json.put(PLAN, lp.getPlan());
-        json.put(NUMBER, lp.getDeal().getNumber());
-        json.put(UNIT, lp.getDeal().getUnit().getName());
-        json.put(PRICE, lp.getDeal().getPrice());
-        json.put(CUSTOMER, lp.getCustomer().toString());
-        return json;
-    }
 
     public JSONObject toJson(Transportation transportation) {
         JSONObject json = pool.getObject();
@@ -436,22 +423,6 @@ public class JsonParser implements Constants{
     final static String REALISATION = "realisation";
     final static String TRANSPORTATION = "transportation";
     final static String HASH = "hash";
-
-    public JSONObject toLogisticJson(LoadPlan loadPlan) {
-        final JSONObject json = pool.getObject();
-        json.put(ID, loadPlan.getId());
-        json.put(DATE, loadPlan.getDate().toString());
-        json.put(TYPE, loadPlan.getDeal().getType().toString());
-        json.put(ORGANISATION, toJson(loadPlan.getDeal().getOrganisation()));
-        json.put(PRODUCT, toJson(loadPlan.getDeal().getProduct()));
-        json.put(QUANTITY, loadPlan.getPlan());
-        json.put(UNIT, loadPlan.getDeal().getUnit().getName());
-        json.put(REALISATION, loadPlan.getShipper().getValue());
-        json.put(TRANSPORTATION, toJson(loadPlan.getTransportation()));
-        json.put(HASH, loadPlan.hashCode());
-
-        return json;
-    }
 
     public static final String MANAGER = "manager";
     public static final String TURN = "turn";

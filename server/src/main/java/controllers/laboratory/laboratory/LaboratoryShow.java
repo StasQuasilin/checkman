@@ -5,7 +5,6 @@ import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.AnalysesType;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 
@@ -27,10 +26,7 @@ public class LaboratoryShow extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
 
-        Transportation transportation = dao.getTransportationById(id);
-        if (transportation == null){
-            transportation = dao.getObjectById(LoadPlan.class, id).getTransportation();
-        }
+        Transportation transportation = dao.getObjectById(Transportation.class, id);
 
         log.info("Show analyses for transportation=" + transportation.getId());
 

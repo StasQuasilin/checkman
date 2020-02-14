@@ -2,7 +2,6 @@ package controllers.warehousing;
 
 import constants.Branches;
 import controllers.IModal;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 
 import javax.servlet.ServletException;

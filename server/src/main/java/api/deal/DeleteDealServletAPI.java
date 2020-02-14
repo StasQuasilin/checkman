@@ -4,7 +4,6 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.documents.Deal;
-import entity.documents.LoadPlan;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
