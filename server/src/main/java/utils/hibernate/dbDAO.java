@@ -31,6 +31,7 @@ import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
+import entity.products.ProductAction;
 import entity.products.ProductProperty;
 import entity.products.ProductSettings;
 import entity.reports.ManufactureReport;
@@ -238,4 +239,6 @@ public interface dbDAO {
     Seal getSealByNumber(int number);
     List<TransportStorageUsed> getUsedStoragesByTransportation(Transportation transportation);
     List<Transportation> getTransportationsByDeal(int dealId);
+    ProductAction getProductAction(Product product, DealType type);
+    List<ProductAction> getProductActionsByProduct(Product product);
 }

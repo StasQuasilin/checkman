@@ -103,6 +103,11 @@
 <table id="edit" style="width: 300pt">
   <tr>
     <td>
+      ID ${organisation.id}
+    </td>
+  </tr>
+  <tr>
+    <td>
       <label for="code">
         <fmt:message key="organisation.code"/>
       </label>

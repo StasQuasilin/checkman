@@ -6,7 +6,6 @@ var subscriber;
 Connect();
 
 function Connect(){
-    console.log('Connect to ' + address);
     subscriber = new WebSocket(address);
     subscriber.onerror = function(){
         console.log('Error on socket connection');

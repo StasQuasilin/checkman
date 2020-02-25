@@ -1,8 +1,11 @@
 var editor = new Vue({
+    components:{
+      'object-input':objectInput
+    },
     el: '#editor',
     data:{
         api:{},
-        types:[],
+        types:{},
         realisations:[],
         products:[],
         units:[],
@@ -12,72 +15,62 @@ var editor = new Vue({
             type:'',
             date: new Date().toISOString().substring(0, 10),
             dateTo: new Date().toISOString().substring(0, 10),
-            counterparty: -1,
+            counterparty: {
+                id:-1
+            },
             realisation: -1,
             product: -1,
             quantity: 0,
             unit:-1,
             price: 0
         },
+        typeNames:{},
         errors:{
             organisation:false,
             quantity:false,
             price:false
         },
-        counterpartyInput:'',
-        counterpartyName:'',
-        foundOrganisations:[],
-        fnd:-1,
+        organisationProps:{},
         picker:false,
         date:0
     },
     methods:{
-        findOrganisation:function(){
-            this.errors.organisation = false;
-            if (!this.counterpartyInput){
-                this.deal.contragent = -1;
-            }
-            const self = this;
-            if (event.keyCode >= 65 && event.keyCode <= 90) {
-                if (this.counterpartyInput) {
-                    clearTimeout(this.fnd);
-                    this.fnd = setTimeout(function () {
-                        PostApi(self.api.findOrganisation, {key : self.counterpartyInput}, function (a) {
-                            self.foundOrganisations = a;
-                        })
-                    }, 400)
-                }
-            } else if (event.key == 'Escape'){
-                this.foundOrganisations = [];
-                if (this.counterpartyName){
-                    this.counterpartyInput = this.counterpartyName;
-                } else {
-                    this.counterpartyInput = '';
+        typesByProduct:function(){
+            var types = this.types[this.deal.product];
+            var fount = false;
+            for (var i in types){
+                if (types.hasOwnProperty(i)){
+                    var t = types[i];
+                    if (this.deal.type == t){
+                        fount = true;
+                        break;
+                    }
                 }
             }
+            if (!fount && types){
+                this.deal.type = types[0];
+            }
+            return types;
         },
-        parseOrganisation:function(){
-            if (this.foundOrganisations.length == 0 && this.counterpartyInput && this.counterpartyInput !== this.counterpartyName){
-                const self = this;
-                PostApi(this.api.parseOrganisation, { name : this.counterpartyInput }, function(a){
-                    self.setCounterparty(a);
-                });
+        addType:function(action){
+            if (!this.types[action.product.id]){
+                this.types[action.product.id] = [];
             }
+            this.types[action.product.id].push(action.type);
         },
         setCounterparty:function(counterparty){
-            this.deal.counterparty = counterparty.id;
-            this.counterpartyInput = this.counterpartyName = counterparty.value;
-            this.foundOrganisations = [];
-
+            this.deal.counterparty = counterparty;
         },
         save:function(onSave){
             var e = this.errors;
-            e.organisation = this.deal.counterparty == -1;
+            e.organisation = this.deal.counterparty.id == -1;
             e.quantity = this.deal.quantity <= 0;
             e.price = this.deal.price <= 0;
 
             if (!e.organisation && !e.quantity && !e.price) {
-                PostApi(this.api.save, this.deal, function (a) {
+                var data = Object.assign({}, this.deal);
+                data.counterparty = this.deal.counterparty.id;
+                PostApi(this.api.save, data, function (a) {
                     if (a.status == 'success') {
                         closeModal();
                         if (onSave) {

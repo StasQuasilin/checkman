@@ -8,15 +8,11 @@ import org.apache.log4j.Logger;
 import utils.LanguageBase;
 import utils.TurnDateTime;
 import utils.access.UserBox;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
 import utils.turns.TurnBox;
-import utils.turns.TurnService;
 
 import javax.websocket.Session;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -44,33 +40,29 @@ public class SessionTimer {
 
     public static final int SESSION_DELAY = 4 * 60 * 60 * 1000;
 
-
     private SessionTimer() {
         initTimer();
     }
-    Timer master;
+    Timer sessionTimer;
     private void initTimer() {
-        if (master != null && master.isRunning()){
-            master.stop();
-        }
+        stopSessionTimer();
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime target = getNextDateTime();
-        log.info("Next session check at " + target.toString());
+        if (!now.equals(target)) {
 
-        long delay = target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() -
-                now.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        master = new Timer((int) delay, e -> checkSessions(target.toLocalTime()));
-        master.setRepeats(false);
-        master.start();
+            long delay = target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() -
+                    now.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+            sessionTimer = new Timer((int) delay, e -> checkSessions(target.toLocalTime()));
+            sessionTimer.setRepeats(false);
+            sessionTimer.start();
+        }
     }
 
     private void checkSessions(LocalTime localTime) {
-        System.out.println("Check session at " + localTime.toString());
-
         for (Map.Entry<Worker, Timer> entry : timerHashMap.entrySet()){
             Worker worker = entry.getKey();
             Role role = worker.getRole();
-            System.out.println(worker.toString());
+
             if (role == Role.weigher || role == Role.analyser || (role == Role.admin && localTime.getHour() == TARGET_1.getHour()) ||
                     (role == Role.security && localTime.getHour() == TARGET_1.getHour())){
                 close(worker);
@@ -93,19 +85,17 @@ public class SessionTimer {
 
     public void register(Worker worker, Session session) {
         Timer timer = new Timer(SESSION_DELAY, e -> {
-            System.out.println("Close session for: " + worker.getPerson().getValue());
             close(worker, session, REASON_1);
         });
         timer.setRepeats(false);
         timer.start();
         timerHashMap.put(worker, timer);
         sessionHashMap.put(worker, session);
-
     }
 
     private void close(Worker worker, Session session, String reason) {
+        System.out.println("Close session for: " + worker.getPerson().getValue() + ", cause \'" + reason + "\'");
         if(session.isOpen()) {
-
             String closed = ActiveSubscriptions.prepareMessage(Subscriber.SESSION_TIMER, lb.get(worker.getLanguage(), reason));
             try {
                 session.getBasicRemote().sendText(closed);
@@ -132,5 +122,18 @@ public class SessionTimer {
                 remove.stop();
             }
         }
+    }
+
+    private void stopSessionTimer(){
+        if (sessionTimer != null && sessionTimer.isRunning()){
+            sessionTimer.stop();
+        }
+    }
+
+    public void stop(){
+        stopSessionTimer();
+        timerHashMap.values().forEach(Timer::stop);
+        timerHashMap.clear();
+        sessionHashMap.clear();
     }
 }

@@ -14,9 +14,7 @@
   var printer = new Vue({
     el:'#print',
     data:{
-      api:{
-
-      },
+      api:{},
       date1:new Date().toISOString().substr(0, 10),
       date2:new Date().toISOString().substr(0, 10),
       products:[],
@@ -110,8 +108,9 @@
                 for (let k in item){
                   if (item.hasOwnProperty(k)){
                     let row = item[k];
+
                     w.document.write('<tr><td style="padding-left: 16pt;">');
-                    w.document.write(row.organisation.value);
+                    w.document.write(row.counterparty.value);
                     w.document.write('</td><td>');
                     w.document.write(row.product.name);
                     w.document.write('</td><td>');
@@ -135,7 +134,7 @@
           }
         }
         w.document.write('</table></html>');
-//        w.print();
+        w.print();
 //        w.close();
       }
     }

@@ -45,11 +45,9 @@ public class TransportReplaceUtil {
         }
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime target = LocalDateTime.of(now.plusDays(1).toLocalDate(), targetTime);
-        log.info("Now: " + now);
-        log.info("Timer target: " + target);
+        log.info("Replace time target: " + target.toString());
         long step = target.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() -
                 now.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        log.info("Step: " + step);
         timer = new Timer((int) step, e -> checkTransport());
         timer.start();
 
@@ -84,7 +82,6 @@ public class TransportReplaceUtil {
                 dao.save(note);
                 transportation.getNotes().add(note);
                 transportation.setDate(now);
-                dao.save(transportation);
                 dao.save(transportation);
                 log.info("Transportation " + transportation.getId() + " replaced at " + now);
                 try {

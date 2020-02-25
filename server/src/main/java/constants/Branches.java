@@ -116,6 +116,9 @@ public class Branches {
         public static final String RETAIL_REMOVE = "/retail/remove.j";
         public static final String MEAL_GRANULES = "/extraction/meal/granules.j";
         public static final String TRANSPORT_PER_MONTH = "/transport/per/month.j";
+        public static final String SEAL_FIND = "/seal/find.j";
+        public static final String SEAL_OFF = "/seal/off.j";
+        public static final String SEAL_SHOW = "/seal/show.j";
 
 
         public class Extraction {
@@ -188,7 +191,7 @@ public class Branches {
         public static final String EXTRACTION_RAW_EDIT = API + "/extraction/raw/edit";
         public static final String EXTRACTION_OIL_EDIT = API + "/extraction/oil/edit";
         public static final String SEAL_SAVE = "/seal/save";
-        public static final String SEALS_FIND =     API + "/seals/find";
+        public static final String SEALS_FREE_FIND =     API + "/seals/free/find";
         public static final String SEAL_PUT =       API + "/transportation/seal/put";
         public static final String SEAL_REMOVE =    API + "/transportation/seal/remove";
         public static final String EXTRACTION_LIST = API + "/laboratory/extraction/list";
@@ -303,6 +306,7 @@ public class Branches {
         public static final String WAYBILL_PRINT = API + "/waybill/print";
         public static final String FIND_ORGANISATION_TYPE = API + "/find/organsiation/type";
         public static final String ORGANISATION_INFO = API + "/organisation/info";
+        public static final String FIND_SEALS = API + "/seal/find";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

@@ -46,7 +46,7 @@ public class UserBox {
         return users;
     }
 
-    public String addUser(User user, String ip, String sessionId) {
+    public synchronized String addUser(User user, String ip, String sessionId) {
 
         final String token = getToken();
         for (Map.Entry<String, UserInfo> entry : users.entrySet()){

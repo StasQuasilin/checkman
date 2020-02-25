@@ -9,10 +9,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.BotSession;
 import utils.hibernate.dbDAOService;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
+import javax.swing.*;
 
 /**
  * Created by szpt_user045 on 16.04.2019.
@@ -52,34 +55,46 @@ public class TelegramBotFactory {
         TelegramBotFactory.name = name;
     }
 
+    static Timer timer;
     public static void start() throws IOException {
 
-        if (bot == null){
-            log.info("Bot start...");
-            if (name != null && token != null) {
-                botThread = new Thread(() -> {
-                    bot = new TelegramBot(token, name);
-                    telegramBotsApi = new TelegramBotsApi();
-                    try {
-                        botSession = telegramBotsApi.registerBot(bot);
-                        status = BotStatus.worked;
-                        telegramNotificator = new TelegramNotificator(bot);
-                    } catch (TelegramApiRequestException e) {
-                        status = BotStatus.error;
-                        log.error(e.getMessage());
-                        log.trace(e);
-                        e.printStackTrace();
+        if (name != null && token != null) {
+            botThread = new Thread(() -> {
+                bot = new TelegramBot(token, name);
+                telegramBotsApi = new TelegramBotsApi();
+                try {
+                    log.info("Try start telegram bot...");
+                    botSession = telegramBotsApi.registerBot(bot);
+                    status = BotStatus.worked;
+                    telegramNotificator = new TelegramNotificator(bot);
+                    log.info("Bot \'" + name + "\' started successfully");
+                    if (timer != null){
+                        timer.stop();
                     }
-                });
-                botThread.start();
-                log.info("Bot \'" + name + "\' started successfully");
-            } else if (token == null){
-                status = BotStatus.no_token;
-                log.info("Bot token is null! Please fix it");
-            } else {
-                status = BotStatus.no_name;
-                log.info("Bot name is null! Please fix it");
-            }
+                } catch (TelegramApiRequestException e) {
+                    status = BotStatus.error;
+                    log.info("\t..." + e.getMessage());
+                    if (timer == null) {
+                        log.info("...Start timer");
+                        timer = new Timer(60 * 1000, a -> {
+                            try {
+                                start();
+                            } catch (IOException e2) {
+                                e2.printStackTrace();
+                            }
+                        });
+                        timer.start();
+                    }
+                }
+            });
+            botThread.start();
+
+        } else if (token == null){
+            status = BotStatus.no_token;
+            log.info("Bot token is null! Please fix it");
+        } else {
+            status = BotStatus.no_name;
+            log.info("Bot name is null! Please fix it");
         }
     }
 
@@ -91,6 +106,9 @@ public class TelegramBotFactory {
             while (botThread.isAlive()) {
                 botThread.interrupt();
             }
+        }
+        if (timer != null){
+            timer.stop();
         }
     }
 

@@ -5,6 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
+    <link rel="shortcut icon" type="image/x-icon" href="${context}/images/sunflower_small.png" />
     <title>
         <fmt:message key="application.title"/>.${lang}
     </title>
@@ -12,7 +13,7 @@
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
     <link rel="stylesheet" href="${context}/css/chat/chat-holder.css">
     <link rel="stylesheet" href="${context}/css/date-picker.css">
-    <script src="${context}/ext/vue.js"></script>
+    <script src="${context}/ext/vue.min.js"></script>
     <script src="${context}/ext/vuetify.js"></script>
     <script src="${context}/ext/jquery.min.js"></script>
     <script src="${context}/js/Core.js"></script>
@@ -35,9 +36,7 @@
         subscribe('NOTIFICATIONS', function(a){
             notificator.notify(a);
         });
-        subscribe('MESSAGES', function(a){
-            chat.handle(a);
-        });
+
         subscribe('SESSION_TIMER', function(a){
             lockSession(a);
         })
@@ -45,7 +44,7 @@
 
 </head>
 <%--oncontextmenu="return false;"--%>
-    <body style="margin: 0;">
+    <body style="margin: 0;" >
     <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">
         <table style="width: 100%; height: 100%;">
             <tr>
@@ -76,14 +75,14 @@
     <jsp:include page="notifications/notificator.jsp"/>
 
     <div class="modal-layer" style="display: none" id="modal"></div>
-    <jsp:include page="chat/chatHolder.jsp"/>
-    <script>
-        chat.api.send = '${sendMessage}';
-        chat.api.get = '${getMessages}';
-        chat.api.leave = '${leaveChat}';
-        chat.api.rename = '${renameChat}';
-        chat.api.remove = '${removeChat}';
-    </script>
+    <%--<jsp:include page="chat/chatHolder.jsp"/>--%>
+    <%--<script>--%>
+        <%--chat.api.send = '${sendMessage}';--%>
+        <%--chat.api.get = '${getMessages}';--%>
+        <%--chat.api.leave = '${leaveChat}';--%>
+        <%--chat.api.rename = '${renameChat}';--%>
+        <%--chat.api.remove = '${removeChat}';--%>
+    <%--</script>--%>
 
     <div class="datetime-picker" id="datePicker" v-show="onSelects.length" v-on:click="close">
         <div class="picker-content" ref="date" :style="{top:y + 'px', left:x + 'px'}">

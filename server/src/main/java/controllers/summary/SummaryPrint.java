@@ -18,7 +18,7 @@ public class SummaryPrint extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute(TITLE, "");
+        req.setAttribute(TITLE, "title.summary.print");
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         show(req, resp);
     }

@@ -50,9 +50,9 @@ public class WeightAddServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             log.info(body );
-            Date date = Date.valueOf(String.valueOf(body.get("date")));
+            Date date = Date.valueOf(String.valueOf(body.get(DATE)));
 
-            float plan = Float.parseFloat(String.valueOf(body.get("plan")));
+            float plan = Float.parseFloat(String.valueOf(body.get(PLAN)));
 
             Shipper shipper = dao.getShipperList().get(0);
             if(body.containsKey(FROM)){
@@ -148,8 +148,14 @@ public class WeightAddServletAPI extends ServletAPI {
                     alreadyNote.put(note.getId(), note);
                 }
             }
-            ArrayList<DocumentNote> liveNotes = new ArrayList<>();
 
+            List<DocumentNote> liveNotes = transportation.getNotes();
+            if (liveNotes == null){
+                liveNotes = new ArrayList<>();
+            }else {
+                liveNotes.clear();
+            }
+            boolean saveNote;
             for (Object o :(JSONArray) body.get(NOTES)){
                 JSONObject note = (JSONObject) o;
                 DocumentNote documentNote;
@@ -166,60 +172,32 @@ public class WeightAddServletAPI extends ServletAPI {
                 }
 
                 String value = String.valueOf(note.get(NOTE));
-                if (documentNote.getNote() == null || !documentNote.getNote().equals(value)){
-                    documentNote.setNote(noteUtil.checkNote(transportation, value));
+                saveNote = false;
+                String s = noteUtil.checkNote(transportation, value);
+                if (U.exist(s)){
+                    documentNote.setNote(s);
+                    saveNote = true;
+                } else {
+                    if (documentNote.getId() > 0){
+                        dao.remove(documentNote);
+                    }
+                }
+                if (saveNote) {
                     liveNotes.add(documentNote);
                 }
             }
 
             if (!transportation.isArchive()) {
                 transportation.setShipper(shipper);
-                JSONObject vehicleJson = (JSONObject) body.get(VEHICLE);
-                if (vehicleJson != null){
-                    Vehicle vehicle = null;
-                    if (vehicleJson.containsKey(Constants.ID)) {
-                        long vehicleId = (long) vehicleJson.get(ID);
-
-                        if (vehicleId > 0) {
-                            vehicle = dao.getObjectById(Vehicle.class, vehicleId);
-                        }
-
-                    }
-                    TransportUtil.setVehicle(transportation, vehicle);
-                }
-
-                if (body.containsKey(TRAILER)) {
-                    JSONObject t = (JSONObject) body.get(TRAILER);
-                    Trailer trailer = dao.getObjectById(Trailer.class, t.get(ID));
-                    TransportUtil.setTrailer(transportation, trailer);
-                }
-                if (body.containsKey(TRANSPORTER)){
-                    JSONObject t = (JSONObject) body.get(TRANSPORTER);
-                    Organisation transporter = dao.getObjectById(Organisation.class, t.get(ID));
-                    TransportUtil.setTransporter(transportation, transporter);
-                }
-                JSONObject driverJson = (JSONObject) body.get(DRIVER);
-                if (driverJson != null){
-                    Driver driver = null;
-                    if (driverJson.containsKey(Constants.ID)){
-                        long driverId = (long) driverJson.get(Constants.ID);
-                        if (driverId > 0){
-                            driver = dao.getDriverByID(driverId);
-                        }
-                    }
-                    TransportUtil.setDriver(transportation, driver);
-                }
+                TransportUtil.setVehicle(transportation, dao.getObjectById(Vehicle.class, body.get(VEHICLE)));
+                TransportUtil.setTrailer(transportation, dao.getObjectById(Trailer.class, body.get(TRAILER)));
+                TransportUtil.setTransporter(transportation, dao.getObjectById(Organisation.class, body.get(TRANSPORTER)));
+                TransportUtil.setDriver(transportation, dao.getObjectById(Driver.class, body.get(DRIVER)));
             }
-
 
             dao.save(transportation);
             dao.getUsedStoragesByTransportation(transportation).forEach(storageUtil::updateStorageEntry);
 
-            transportation.getNotes().clear();
-            for(DocumentNote note : liveNotes){
-                dao.save(note);
-                transportation.getNotes().add(note);
-            }
             alreadyNote.values().forEach(dao::remove);
 
             updateUtil.onSave(transportation);

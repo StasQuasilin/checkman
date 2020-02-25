@@ -1,6 +1,7 @@
 package filters;
 
 import api.sockets.ActiveSubscriptions;
+import api.sockets.handlers.SessionTimer;
 import bot.TelegramBotFactory;
 import constants.Branches;
 import constants.Constants;
@@ -78,5 +79,6 @@ public class ContextFilter implements Filter {
         TelegramBotFactory.shutdown();
         HibernateSessionFactory.shutdown();
         tru.shutdown();
+        SessionTimer.getInstance().stop();
     }
 }

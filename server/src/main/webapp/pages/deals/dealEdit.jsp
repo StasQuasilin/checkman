@@ -4,13 +4,10 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-    <script src="${context}/vue/dealEdit.vue"></script>
+    <script src="${context}/vue/templates/vehicleInput.vue"></script>
+    <%--<script src="${context}/vue/dealEdit.vue"></script>--%>
     <script>
-        <c:forEach items="${types}" var="t">
-        editor.types.push({
-            id:'${t}',
-            value:'<fmt:message key="${t}"/>'
-        });</c:forEach>
+        <jsp:include page="/vue/dealEdit.vue"/>
         <c:forEach items="${products}" var="product">
         editor.products.push({
             id:${product.id},
@@ -28,11 +25,22 @@
         });
         </c:forEach>
 
-        editor.api.findOrganisation = '${findOrganisation}';
-        editor.api.parseOrganisation = '${parseOrganisation}';
-        editor.api.editCounterparty = '${editOrganisation}';
         editor.api.save = '${save}';
         editor.api.redirect = '${redirect}';
+        <c:forEach items="${types}" var="type">
+        editor.typeNames['${type}'] = '<fmt:message key="${type}"/>';
+        </c:forEach>
+        editor.organisationProps = {
+            find:'${findOrganisation}',
+            add:'${parseOrganisation}',
+            edit:'${editOrganisation}',
+            addHeader:'<fmt:message key="button.add"/>',
+            header:'<fmt:message key="counterparty.select"/>',
+            put:function(transporter, item){
+                editor.setCounterparty(transporter);
+            },
+            show:['value']
+        };
         <c:choose>
         <c:when test="${not empty deal}">
         editor.deal={
@@ -41,7 +49,7 @@
             type : '${deal.type}',
             date : '${deal.date}',
             dateTo : '${deal.dateTo}',
-            counterparty : ${deal.organisation.id},
+            counterparty : ${deal.organisation.toJson()},
             realisation : ${deal.shipper.id},
             product : ${deal.product.id},
             quantity : ${deal.quantity},
@@ -52,7 +60,6 @@
         editor.deal.unit = ${deal.unit.id};
         </c:if>
         editor.deal.price = ${deal.price};
-        editor.counterpartyInput = editor.counterpartyName = '${deal.organisation.value}';
         </c:when>
         <c:otherwise>
         editor.deal.type = '${type}';
@@ -67,11 +74,14 @@
         }
         </c:otherwise>
         </c:choose>
-
+        <c:forEach items="${actions}" var="action">
+        editor.addType(${action.toJson()});
+        </c:forEach>
     </script>
     <link rel="stylesheet" href="${context}/css/editor.css">
     <c:set var="findCunterparty"><fmt:message key="counterparty.find"/></c:set>
     <c:set var="addCunterparty"><fmt:message key="counterparty.add"/></c:set>
+    <c:set var="type"><fmt:message key="deal.type"/></c:set>
     <table id="editor" class="editor">
         <tr>
             <td>
@@ -84,21 +94,6 @@
             </td>
             <td>
                 <input id="number" v-model="deal.number" autocomplete="off">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="type">
-                    <fmt:message key="deal.type"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="type" v-model="deal.type">
-                    <option v-for="type in types" :value="type.id">{{type.value}}</option>
-                </select>
             </td>
         </tr>
         <tr>
@@ -118,43 +113,13 @@
         </tr>
         <tr>
             <td>
-                <label for="counterparty">
-                    <fmt:message key="deal.organisation"/>
-                </label>
+                <fmt:message key="deal.organisation"/>
             </td>
             <td>
                 :
             </td>
             <td>
-                <div v-if="deal.counterparty == -1" v-on:blur="newCounterparty()">
-                    <span  style="display: inline-block">
-                        <input id="counterparty" autocomplete="off" style="width: 100%"
-                               :class="{error : errors.organisation}"
-                               onclick = "this.select()"
-                               placeholder="${findCounterparty}"
-                               v-on:keyup="findOrganisation()"
-                               v-model="counterpartyInput"/>
-                    </span>
-                    <span class="mini-close" v-on:click="newCounterparty()" title="${newCounterparty}">+</span>
-                    <div id="contragent-list" class="custom-data-list" v-if="foundOrganisations.length > 0">
-                        <div class="custom-data-list-item" v-for="organisation in foundOrganisations"
-                             v-on:click="setCounterparty(organisation)">{{organisation.value}}</div>
-                    </div>
-                </div>
-                <div v-else>
-                    <span>
-                        {{counterpartyInput}}
-                    </span>
-                    <span>
-                        <span class="mini-close flipY" style="padding: 0"
-                              v-on:click="editOrganisation()"
-                              style="-webkit-transform: scaleX(-1)">
-                            &#9998;</span>
-                        <span class="mini-close" style="padding: 0" v-on:click="cancelOrganisation()">
-                            &times;</span>
-                    </span>
-                </div>
-
+                <object-input :props="organisationProps" :object="deal.counterparty"></object-input>
             </td>
         </tr>
         <tr>
@@ -184,6 +149,9 @@
             <td>
                 <select id="product" v-model="deal.product">
                     <option v-for="product in products" :value="product.id">{{product.value}}</option>
+                </select>
+                <select id="type" v-model="deal.type">
+                    <option v-for="type in typesByProduct()" :value="type">{{typeNames[type]}}</option>
                 </select>
             </td>
         </tr>

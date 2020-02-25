@@ -6,6 +6,7 @@ import controllers.IModal;
 import entity.DealType;
 import entity.Worker;
 import entity.documents.Deal;
+import entity.products.ProductAction;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -40,22 +41,24 @@ public class DealEdit extends IModal {
         }
 
         if (id != -1) {
-            req.setAttribute("deal", dao.getDealById(id));
-            req.setAttribute("title", Constants.Languages.DEAL_EDIT);
+            req.setAttribute(DEAL, dao.getDealById(id));
+            req.setAttribute(TITLE, Constants.Languages.DEAL_EDIT);
             log.info("User \'" + worker.getValue() + "\' open edit deal \'" + id + "\'");
         } else if (copy != -1){
             Deal deal = dao.getDealById(copy);
             deal.setId(-1);
             deal.setComplete(0);
-            req.setAttribute("deal", deal);
-            req.setAttribute("title", Constants.Languages.DEAL_COPY);
+            req.setAttribute(DEAL, deal);
+            req.setAttribute(TITLE, Constants.Languages.DEAL_COPY);
             log.info("User \'" + worker.getValue() + "\' open copy deal \'" + copy + "\'");
         } else {
-            req.setAttribute("title", Constants.Languages.DEAL_CREATE);
+            req.setAttribute(TITLE, Constants.Languages.DEAL_CREATE);
             log.info("User \'" + worker.getValue() + "\' open create new deal");
+
         }
 
-        req.setAttribute(TYPE, req.getParameter("type"));
+        req.setAttribute(ACTIONS, dao.getObjects(ProductAction.class));
+        req.setAttribute(TYPE, req.getParameter(TYPE));
         req.setAttribute(TYPES, DealType.values());
         req.setAttribute(PRODUCTS, dao.getProductList());
         req.setAttribute(SHIPPERS, dao.getShipperList());

@@ -77,11 +77,9 @@
           }
         })
       }
-
     }
   });
   productEdit.api.save ='${save}';
-
   productEdit.product.id='${product.id}';
   productEdit.product.name='${product.name}';
   productEdit.product.weight = ${product.weight};
@@ -103,6 +101,9 @@
     id:${unit.id},
     name:'${unit.name}'
   });
+  </c:forEach>
+  <c:forEach items="${actions}" var="action">
+  productEdit.product.${action.type} = true;
   </c:forEach>
 </script>
 <table id="productEdit">
@@ -181,6 +182,19 @@
           {{p}} /</a>
       </span>
       <input id="path" v-model="pathInput" style="width: 8em" v-on:keyup.enter="addPath" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <fmt:message key="product.actions"/>
+    </td>
+    <td>
+      <c:forEach items="${types}" var="type">
+        <input id="${type}" type="checkbox" v-model="product.${type}">
+        <label for="${type}">
+          <fmt:message key="${type}"/>
+        </label>
+      </c:forEach>
     </td>
   </tr>
   <tr>

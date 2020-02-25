@@ -2,6 +2,7 @@ package controllers.references.products;
 
 import constants.Branches;
 import controllers.IModal;
+import entity.DealType;
 import entity.products.Product;
 import org.json.simple.JSONObject;
 
@@ -26,7 +27,9 @@ public class EditProduct extends IModal {
             Product product = dao.getObjectById(Product.class, body.get(ID));
             req.setAttribute(PRODUCT, product);
             req.setAttribute(SETTINGS, dao.getProductSettings(product));
+            req.setAttribute(ACTIONS, dao.getProductActionsByProduct(product));
         }
+        req.setAttribute(TYPES, DealType.values());
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute(SAVE, Branches.API.PRODUCT_EDIT);

@@ -1,6 +1,8 @@
 package utils.hibernate;
 
 import constants.Constants;
+import entity.documents.Deal;
+import entity.organisations.Organisation;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
 
@@ -17,15 +19,11 @@ public class CustomHandler implements Constants{
     public static void main(String[] args) {
         Hibernator instance = Hibernator.getInstance();
 
+        Organisation organisation = dao.getObjectById(Organisation.class, 9637);
         HashMap<String, Object> params = instance.getParams();
-        params.put(CUSTOMER, TransportCustomer.contragent);
-        for (Transportation transportation : instance.query(Transportation.class, params)){
-            TransportCustomer customer = transportation.getCustomer();
-            if (customer == TransportCustomer.contragent){
-                customer = TransportCustomer.cont;
-                transportation.setCustomer(customer);
-                dao.save(transportation);
-            }
+        params.put("organisation", organisation);
+        for (Deal deal : instance.query(Deal.class, params)){
+            dao.save(deal);
         }
 //        SealBatch batch = dao.getObjectById(SealBatch.class, 114990);
 //        for (int i = 0; i < 100; i++){

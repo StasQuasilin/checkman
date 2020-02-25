@@ -35,10 +35,8 @@ $(document).ready(function(){
 });
 
 function lockSession(cause){
-    console.log('clock ' + cause);
     GetChildElemById(sessionLocker, 'reason').innerText = cause;
     sessionLocker.style.display='block';
-
 }
 
 function loadContent(url){
@@ -47,7 +45,9 @@ function loadContent(url){
         coverlet.style.display='block';
         content.style.display='none';
         //filter.style.display='none';
-        console.log('[ Application ] Load page ' + url);
+        if (DEBUG) {
+            console.log('[ Application ] Load page ' + url);
+        }
         localStorage.setItem(lastPage + ';' + Settings.worker, url);
         PostReq(url, null, function (e) {
 
@@ -62,10 +62,7 @@ function loadContent(url){
             $(header).append(GetChildElemById(content, 'container-header'));
             let filterContent = GetChildElemById(content, 'filter-content');
             if (filterContent){
-                console.log('Set filter content');
                 $(filter).html(filterContent);
-            } else {
-                console.log('No filter content');
             }
 
             $(staticContent).html(GetChildElemById(content, 'static-content'));
@@ -99,8 +96,10 @@ function editableModal(url){
     loadModal(url, parameters)
 }
 function loadModal(url, parameters, onSave){
-    console.log('[ Application ] Load modal ' + url);
-    console.log(parameters);
+    if (DEBUG){
+        console.log('[ Application ] Load modal ' + url);
+        console.log(parameters);
+    }
     coverlet.style.display='block';
     PostReq(url, parameters, function(m){
         addModal(m, onSave);
@@ -136,10 +135,8 @@ function addModal(modal, onSave){
 }
 function logout(){
     PostApi(logoutAPI, null, function (a) {
-        console.log(a);
         if (a.status == 'success'){
             var p = document.location.origin + context + a['redirect'];
-            console.log(p);
             location.replace(p);
         }
     }, function(e){

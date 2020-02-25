@@ -7,8 +7,9 @@
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/templates/vehicleInput.vue"></script>
-<script src="${context}/vue/weightAdd.vue"></script>
+<%--<script src="${context}/vue/weightAdd.vue"></script>--%>
 <script>
+    <jsp:include page="/vue/weightAdd.vue"/>
     editor.organisationProps = {
         find:'${findOrganisation}',
         edit:'${editOrganisation}',
@@ -67,6 +68,12 @@
     editor.api.editAddress = '${editAddress}';
     editor.api.findAddress = '${findLoadAddress}';
     editor.worker = '${worker.person.value}';
+    <c:forEach items="${types}" var="type">
+    editor.typeNames['${type}'] = '<fmt:message key="_${type}"/>';
+    </c:forEach>
+    <c:forEach items="${actions}" var="action">
+    editor.addType(${action.toJson()});
+    </c:forEach>
     <c:forEach items="${managers}" var="manager">
     editor.managers.push({
         id:${manager.id},
@@ -200,26 +207,8 @@
     </c:if>
 </script>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
+<c:set var="type"><fmt:message key="deal.type"/></c:set>
 <table id="editor" class="editor" style="width: 480pt" border="0">
-    <%--DEAL TYPE--%>
-    <tr>
-        <td>
-            <label for="type">
-                <fmt:message key="deal.type"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="type" v-model="plan.type" :class="{error : errors.type}" v-on:click="errors.type = false">
-                <option disabled value="-1">
-                    <fmt:message key="need.select"/>
-                </option>
-                <option v-for="type in typeList()" :value="type.id">{{type.value}}</option>
-            </select>
-        </td>
-    </tr>
     <%--DATE--%>
     <tr>
         <td>
@@ -249,7 +238,7 @@
         </td>
     </tr>
     <%--ORGANISATION--%>
-    <tr>
+    <tr :class="{error : errors.product}">
         <td>
             <fmt:message key="deal.organisation"/>
         </td>
@@ -275,7 +264,7 @@
         <td>
             <select id="address" style="width: 300px" title="${editAddressTitle}" v-on:dblclick="editAddress(plan.address)"
                     v-if="addressList.length > 0" v-model="plan.address">
-                <option value="-1" disabled><fmt:message key="can.select"/></option>
+                <option value="-1"><fmt:message key="not.select"/></option>
                 <option v-for="address in addressList" :value="address.id">
                     {{address.city}}
                     {{address.street}}
@@ -309,7 +298,7 @@
         </td>
     </tr>
     <%--PRODUCT--%>
-    <tr v-if="plan.deal == -1">
+    <tr v-if="plan.deal == -1" :class="{error : errors.product}">
         <td>
             <label for="product">
                 <fmt:message key="deal.product"/>
@@ -319,10 +308,15 @@
             :
         </td>
         <td>
-            <select id="product" style="width: 200px" v-model="plan.product" :class="{error : errors.product}"
+            <select id="product" style="width: 200px" v-model="plan.product"
                     v-on:click="errors.product = false">
                 <option v-if="plan.deal == -1" disabled value="-1"><fmt:message key="need.select"/></option>
                 <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
+            </select>
+            <select v-if="plan.product != -1" id="type" title="${type}" v-model="plan.type" :class="{error : errors.type}" v-on:click="errors.type = false">
+                <option v-for="type in typesByProduct()" :value="type">
+                    {{typeNames[type]}}
+                </option>
             </select>
         </td>
     </tr>
@@ -488,7 +482,12 @@
                 <fmt:message key="button.cancel"/>
             </button>
             <button v-if="!already" v-on:click="save" class="right-button save-button">
-                <fmt:message key="button.save"/>
+                <template v-if="plan.id > 0">
+                    <fmt:message key="button.save"/>
+                </template>
+                <template v-else>
+                    <fmt:message key="button.create"/>
+                </template>
             </button>
             <button v-else>
                 ...

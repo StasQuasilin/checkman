@@ -2,7 +2,9 @@ package api.references.products;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.DealType;
 import entity.products.Product;
+import entity.products.ProductAction;
 import entity.products.ProductGroup;
 import entity.products.ProductSettings;
 import entity.weight.Unit;
@@ -64,6 +66,10 @@ public class EditProductAPI extends ServletAPI {
                 product.setProductGroup(null);
                 save = true;
             }
+
+            checkAction(product, DealType.buy, checkContain(body, DealType.buy));
+            checkAction(product, DealType.sell, checkContain(body, DealType.sell));
+
             JSONArray array = (JSONArray) body.get(PATH);
             String[] strings = new String[array.size()];
             int i = 0;
@@ -84,6 +90,24 @@ public class EditProductAPI extends ServletAPI {
 
             write(resp, json.toJSONString());
             pool.put(json);
+        }
+    }
+
+    private boolean checkContain(JSONObject json, DealType type) {
+        return json.containsKey(type.toString()) && Boolean.parseBoolean(String.valueOf(json.get(type.toString())));
+    }
+
+    private void checkAction(Product product, DealType type, boolean contain) {
+        ProductAction action = dao.getProductAction(product, type);
+        if (contain){
+            if (action == null){
+                action = new ProductAction();
+                action.setProduct(product);
+                action.setType(type);
+                dao.save(action);
+            }
+        } else if (action != null){
+            dao.remove(action);
         }
     }
 }

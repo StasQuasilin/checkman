@@ -33,6 +33,7 @@ import entity.production.Forpress;
 import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.products.Product;
+import entity.products.ProductAction;
 import entity.products.ProductProperty;
 import entity.products.ProductSettings;
 import entity.reports.ManufactureReport;
@@ -140,6 +141,19 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public List<Transportation> getTransportationsByDeal(int dealId) {
         return hb.query(Transportation.class, DEAL, dealId);
+    }
+
+    @Override
+    public ProductAction getProductAction(Product product, DealType type) {
+        HashMap<String, Object> params = hb.getParams();
+        params.put(PRODUCT, product);
+        params.put(TYPE, type);
+        return hb.get(ProductAction.class, params);
+    }
+
+    @Override
+    public List<ProductAction> getProductActionsByProduct(Product product) {
+        return hb.query(ProductAction.class, PRODUCT, product);
     }
 
     @Override

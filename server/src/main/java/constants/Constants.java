@@ -4,6 +4,9 @@ package constants;
  * Created by quasilin on 11.03.2019.
  */
 public interface Constants {
+    String TOKEN = "token";
+    String LOCALE = "locale";
+    String USER = "user";
     String COUNT = "count";
     String HYPHEN = " - ";
     String SEMICOLON = "; ";
@@ -157,6 +160,7 @@ public interface Constants {
     String PRODUCT = "product";
     String GROUP = "group";
     String SETTINGS = "settings";
+    String ACTIONS = "actions";
     String REALISATION = "realisation";
     String ADD = "add";
     String TITLE = "title";
@@ -190,6 +194,7 @@ public interface Constants {
     String EDIT_ADDRESS = "editAddress";
     String FIND_ORGANISATION_TYPE = "findOrganisatonType";
     String FIND = "find";
+    String OFF = "off";
     String FIND_PRODUCT = "findProduct";
     String FIND_LOAD_ADDRESS = "findLoadAddress";
     String FIND_CONTRACTS = "findContracts";
@@ -340,6 +345,8 @@ public interface Constants {
     String SEED = "seed";
     String HUSK = "husk";
     String DUST = "dust";
+    String OFF_SEALS = "off_seals";
+
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
         public static final String EDIT_DOCUMENT = "document.edit";

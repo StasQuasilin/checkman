@@ -6,6 +6,7 @@ var editor = new Vue({
     data:{
         api:{},
         types:{},
+        typeNames:{},
         products:[],
         units:[],
         deals:[],
@@ -71,6 +72,29 @@ var editor = new Vue({
         transporterProps:{}
     },
     methods:{
+        addType:function(action){
+            if (!this.types[action.product.id]){
+                this.types[action.product.id] = [];
+            }
+            this.types[action.product.id].push(action.type);
+        },
+        typesByProduct:function(){
+            var types = this.types[this.plan.product];
+            var fount = false;
+            for (var i in types){
+                if (types.hasOwnProperty(i)){
+                    var t = types[i];
+                    if (this.plan.type == t){
+                        fount = true;
+                        break;
+                    }
+                }
+            }
+            if (!fount && types){
+                this.plan.type = types[0];
+            }
+            return types;
+        },
         editAddress:function(id){
             var data = {
                 type:'load',
@@ -98,9 +122,12 @@ var editor = new Vue({
             })
         },
         editNote:function(note, key){
+            console.log(note);
+            console.log(key);
             this.note.edit = true;
-            this.plan.notes.splice(key, 1);
-            if (key){
+
+            if (key != undefined) {
+                this.plan.notes.splice(key, 1);
                 this.note.key = key;
             }
             if (note) {
@@ -115,6 +142,7 @@ var editor = new Vue({
         saveNote:function(){
             if (this.note.input) {
                 this.plan.notes.push({
+                    id:this.note.id,
                     creator: this.worker,
                     note: this.note.input
                 });
@@ -168,16 +196,6 @@ var editor = new Vue({
                 return products;
             }
         },
-        newCounterparty:function(){
-            const self = this;
-            self.foundOrganisations = [];
-            loadModal(this.api.editCounterparty, {key : this.input.organisation}, function(a){
-                console.log(a);
-                if (a.status == 'success'){
-                    self.putOrganisation(a.organisation);
-                }
-            })
-        },
         visibleList:function(){
             if (this.plan.deal == -1){
                 return this.visibles;
@@ -220,29 +238,6 @@ var editor = new Vue({
                 self.plan.date = date;
             }, self.plan.date)
         },
-        findOrganisation:function(){
-            if (this.input.organisation) {
-                const self = this;
-                PostApi(this.api.findOrganisation, {key: this.input.organisation}, function (a) {
-                    self.foundOrganisations = a;
-                })
-            } else {
-                this.foundOrganisations = [];
-                this.plan.organisation = -1;
-            }
-        },
-        parseOrganisation:function(){
-            if (this.foundOrganisations.length == 0 && this.input.organisation){
-                const self = this;
-                PostApi(this.api.parseOrganisation, {name:this.input.organisation}, function(a){
-                    self.plan.organisation = a.id;
-                    self.input.organisation = a.value;
-                })
-            } else if (this.foundOrganisations.length > 0){
-                this.putOrganisation(this.foundOrganisations[0]);
-                this.foundOrganisations = [];
-            }
-        },
         putOrganisation:function(organisation){
             this.plan.organisation = organisation;
             if (organisation.id > 0) {
@@ -253,7 +248,6 @@ var editor = new Vue({
             }
         },
         findAddress:function(id){
-            console.log('find address ' + id );
             const self = this;
             PostApi(this.api.findAddress, {counterparty:id}, function(a){
                 self.addressList = [];
@@ -269,7 +263,6 @@ var editor = new Vue({
         findDeals:function(id){
             const self = this;
             PostApi(this.api.findDeals, {organisation:id}, function(a){
-                console.log(a);
                 self.deals = a;
                 if(a.length > 0) {
                     self.plan.deal = a[0].id;
@@ -298,85 +291,6 @@ var editor = new Vue({
                 }
             }
         },
-        findVehicle:function(){
-            clearTimeout(this.input.fnd);
-            if (this.input.vehicle) {
-                const self = this;
-                this.input.fnd = setTimeout(function(){
-                    PostApi(self.api.findVehicle, {key: self.input.vehicle}, function(a){
-                        self.foundVehicles = a;
-                    })
-                }, 500);
-            } else {
-                this.foundVehicles =[];
-                this.plan.vehicle = {
-                    id: -1
-                }
-            }
-        },
-        findDriver:function(){
-            clearTimeout(this.input.fnd);
-            if (this.input.driver){
-                const self = this;
-                this.input.fnd = setTimeout(function(){
-                    PostApi(self.api.findDriver, {key:self.input.driver}, function(a){
-                        self.foundDrivers = a;
-                    })
-                }, 500)
-            } else {
-                this.foundDrivers = [];
-                this.plan.driver = {
-                    id:-1
-                };
-            }
-        },
-        parseVehicle:function(onParse){
-            if (this.input.vehicle){
-                console.log('Parse vehicle');
-                const self = this;
-                PostApi(this.api.parseVehicle, {key:this.input.vehicle}, function(v){
-                    if (v.status === 'success'){
-                        if (v.vehicle){
-                            self.plan.vehicle = v.vehicle;
-                            self.input.vehicle = '';
-                        } else {
-                            console.log('Ahtung!!! Vehicle not set!!!')
-                        }
-                        if (onParse){
-                            onParse();
-                        }
-                    }
-
-                })
-            }
-        },
-        parseDriver:function(onParse){
-            console.log('Parse driver');
-            if (this.input.driver){
-                const self = this;
-                PostApi(this.api.parseDriver, {key:this.input.driver}, function(d){
-                    console.log(d);
-                    if (d.status === 'success'){
-                        if (d.driver){
-                            self.plan.driver = d.driver;
-                            self.input.driver = '';
-                            self.foundDrivers = [];
-                        } else {
-                            console.log('Ahtung!!! Driver not set')
-                        }
-                    }
-                    if (onParse){
-                        onParse();
-                    }
-                })
-            }
-        },
-        editVehicle:function(){
-            const self = this;
-            loadModal(this.api.editVehicle, this.plan.vehicle, function(a){
-                self.plan.vehicle = a;
-            })
-        },
         putVehicle:function(vehicle){
             this.plan.vehicle = vehicle;
 
@@ -387,20 +301,8 @@ var editor = new Vue({
         putTrailer:function(trailer){
             this.plan.trailer = trailer;
         },
-        cancelVehicle:function(){
-            this.plan.vehicle = {
-                id:-1
-            }
-        },
         putTransporter:function(transporter){
             this.plan.transporter = transporter;
-        },
-        editDriver:function(){
-            const self = this;
-            loadModal(this.api.editDriver, this.plan.driver, function(a){
-                self.plan.driver = a;
-                self.input.driver = '';
-            });
         },
         putDriver:function(driver){
             this.plan.driver = driver;
@@ -409,11 +311,6 @@ var editor = new Vue({
             }
             if (driver.organisation && this.plan.transporter.id == -1){
                 this.putTransporter(driver.organisation);
-            }
-        },
-        cancelDriver:function(){
-            this.plan.driver = {
-                id:-1
             }
         },
         save:function(){
@@ -429,6 +326,17 @@ var editor = new Vue({
                 e.manager = this.plan.manager == -1;
                 var plan = Object.assign({}, this.plan);
                 plan.organisation = this.plan.organisation.id;
+                plan.vehicle = plan.vehicle.id;
+                plan.trailer = plan.trailer.id;
+                plan.driver = plan.driver.id;
+                plan.transporter = plan.transporter.id;
+
+                for(var i in plan.notes){
+                    if (plan.notes.hasOwnProperty(i)){
+                        var note = plan.notes[i];
+                        delete note.creator;
+                    }
+                }
 
                 if (!e.type && !e.organisation && !e.product) {
                     PostApi(this.api.save, plan, function (a) {
@@ -441,15 +349,6 @@ var editor = new Vue({
                     })
                 }
             }
-        },
-        editOrganisation:function(){
-            const self = this;
-            loadModal(this.api.editCounterparty + '?id=' + this.plan.organisation, null, function(a){
-                console.log(a);
-                if (a.status === 'success'){
-                    self.input.organisation = a.organisation.value;
-                }
-            });
         }
     }
 });

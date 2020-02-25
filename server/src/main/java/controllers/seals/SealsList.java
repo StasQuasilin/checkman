@@ -23,6 +23,9 @@ public class SealsList extends IUIServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.SEAL_LIST);
         req.setAttribute(EDIT, Branches.UI.SEAL_CREATE);
+        req.setAttribute(FIND, Branches.UI.SEAL_FIND);
+        req.setAttribute(OFF, Branches.UI.SEAL_OFF);
+        req.setAttribute(SHOW, Branches.UI.SEAL_SHOW);
         req.setAttribute(SUBSCRIBE, subs);
         req.setAttribute(CONTENT, "/pages/seals/sealsList.jsp");
         show(req, resp);

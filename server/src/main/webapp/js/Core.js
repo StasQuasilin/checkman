@@ -1,6 +1,7 @@
 /**
  * Created by quasilin on 13.03.2019.
  */
+const DEBUG = false;
 
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (url) {
@@ -8,7 +9,7 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
             url = context + url;
         }
 
-        if (debug) {
+        if (debug && DEBUG) {
             console.log('[ Application Core ] Request to \'' + url + '\'...');
             console.log('<-------Parameters------->');
             console.log(parametrs);
@@ -18,7 +19,7 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
         xhr.onreadystatechange = function (e) {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    if (debug) {
+                    if (debug && DEBUG) {
                         console.log('[ Application Core ] Request successfuly');
                     }
                     if (onSuccess) {
@@ -76,7 +77,6 @@ function GetChildElemById(parent, childId){
             return elems[i];
         }
     }
-    console.log('Element \'' + childId + '\' not found');
 }
 function valid(input, min){
     if (min && input.value.length < min || input.value == 0){

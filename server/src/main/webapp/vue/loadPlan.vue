@@ -47,22 +47,11 @@ var plan = new Vue({
         },
         newVehicle:function(){
             var date = this.filterDate == -1 ? new Date() : new Date(this.filterDate);
-
             this.add({
                 id:-randomNumber(),
                 date: date.toISOString().substring(0, 10),
                 plan:0,
-                customer:this.customers[0].id,
-                transportation:{
-                    vehicle:{
-                        id:-1
-                    },
-                    driver:{
-                        id:-1
-                    },
-                    notes:[],
-                    weight:{}
-                }
+                customer:this.customers[0].id
             })
         },
         itemsByDate:function(date){
@@ -121,26 +110,37 @@ var plan = new Vue({
             this.initSaveTimer(plan.key);
         },
         add:function(plan){
+            if (!plan.vehicle){
+                plan.vehicle = {id:-1}
+            }
+            if (!plan.trailer){
+                plan.trailer = {id:-1}
+            }
+            if (!plan.transporter){
+                plan.transporter = {id:-1}
+            }
             let p = {
                 key : randomUUID(),
-                editVehicle:false,
-                editDriver:false,
                 editNote:false,
-                vehicleInput:'',
-                driverInput : '',
                 noteInput:'',
                 item : plan,
                 removed:false,
                 saveTimer:-1
             };
+
             this.plans.push(p);
             this.sort();
             return p;
         },
         initSaveTimer:function(item){
+            console.log(item);
             const self = this;
-            clearTimeout(item.saveTimer);
+            if (item.saveTimer != -1){
+                clearTimeout(item.saveTimer);
+            }
+
             item.saveTimer = setTimeout(function(){
+                item.saveTimer = -1;
                 self.save(item.item);
             }, 1500);
         },
@@ -191,11 +191,16 @@ var plan = new Vue({
             }
             plan.transporter = transporter;
             plan.notes = Object.assign([], item.notes);
+            for (var i in plan.notes){
+                if (plan.notes.hasOwnProperty(i)){
+                    delete plan.notes[i].creator;
+                }
+            }
 
             PostApi(this.api.save, {deal : this.deal, plan : plan},function(a){
                 if (a.status === 'success'){
                     if(a.id) {
-                        plan.id = a.id;
+                        item.id = a.id;
                     }
                 }
             });
@@ -218,7 +223,7 @@ var plan = new Vue({
                 this.initSaveTimer(item);
             }
             if (driver.organisation && !item.item.transporter || item.item.transporter.id == -1){
-                this.setTransporter(driver.organisation);
+                this.setTransporter(driver.organisation, item);
             }
         },
         setVehicle:function(vehicle, item){
@@ -321,29 +326,19 @@ var plan = new Vue({
             }
             this.focusInput();
         },
-        editNote:function(key, id){
-            console.log('editNote');
-            for (var i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    let plan = this.plans[i];
-
-                    if (plan.key === key){
-                        console.log(plan);
-                        plan.editNote = true;
-                        plan.noteInput = plan.item.notes[id].note
-                        this.focusInput();
-                        this.removeNote(i, id);
-                    } else {
-                        plan.editNote = false;
-                    }
-
-                }
+        editNote:function(item, id){
+            item.editNote = true;
+            if (id != undefined) {
+                item.noteId = item.item.notes[id].id;
+                item.noteInput = item.item.notes[id].note;
+                item.item.notes.splice(id, 1);
             }
+            this.focusInput();
         },
         saveNote:function(item){
             if (item.noteInput) {
                 item.item.notes.push({
-                    id: -randomNumber(),
+                    id: item.noteId,
                     creator: this.worker,
                     note: item.noteInput
                 });

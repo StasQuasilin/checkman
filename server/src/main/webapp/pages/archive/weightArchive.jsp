@@ -14,7 +14,7 @@
       :
     </td>
     <td>
-      ${weight.transportation.counterparty.value}
+      ${weight.counterparty.value}
     </td>
   </tr>
   <tr>
@@ -25,7 +25,7 @@
       :
     </td>
     <td>
-      ${weight.transportation.product.name}
+      ${weight.product.name}
     </td>
   </tr>
   <tr>
@@ -36,7 +36,7 @@
       :
     </td>
     <td>
-      ${weight.transportation.driver.person.value}
+      ${weight.driver.person.value}
     </td>
   </tr>
   <tr>
@@ -47,7 +47,7 @@
       :
     </td>
     <td>
-      ${weight.transportation.vehicle.value}
+      ${weight.vehicle.value}
     </td>
   </tr>
   <tr>
@@ -58,7 +58,7 @@
       :
     </td>
     <td>
-      ${weight.plan} ${unit}
+      ${weight.amount} ${unit}
     </td>
   </tr>
   <tr>
@@ -74,8 +74,8 @@
       :
     </td>
     <td>
-      ${weight.transportation.weight.brutto} ${unit}
-        <fmt:formatDate value="${weight.transportation.weight.bruttoTime.time}" pattern="dd.MM.yy HH:mm"/>
+      ${weight.weight.brutto} ${unit}
+        <fmt:formatDate value="${weight.weight.bruttoTime.time}" pattern="dd.MM.yy HH:mm"/>
     </td>
   </tr>
   <tr>
@@ -86,8 +86,8 @@
       :
     </td>
     <td>
-      ${weight.transportation.weight.tara} ${unit}
-      <fmt:formatDate value="${weight.transportation.weight.taraTime.time}" pattern="dd.MM.yy HH:mm"/>
+      ${weight.weight.tara} ${unit}
+      <fmt:formatDate value="${weight.weight.taraTime.time}" pattern="dd.MM.yy HH:mm"/>
     </td>
   </tr>
   <tr>
@@ -98,7 +98,7 @@
       :
     </td>
     <td>
-      ${weight.transportation.weight.netto} ${unit}
+      ${weight.weight.netto} ${unit}
 
     </td>
   </tr>
@@ -110,8 +110,8 @@
       :
     </td>
     <td>
-      <fmt:formatDate value="${weight.transportation.timeIn.time}"  pattern="dd.MM.yy HH:mm"/>
-      ${weight.transportation.timeIn.creator.person.value}
+      <fmt:formatDate value="${weight.timeIn.time}"  pattern="dd.MM.yy HH:mm"/>
+      ${weight.timeIn.creator.person.value}
     </td>
   </tr>
   <tr>
@@ -122,8 +122,8 @@
       :
     </td>
     <td>
-      <fmt:formatDate value="${weight.transportation.timeOut.time}"  pattern="dd.MM.yy HH:mm"/>
-      ${weight.transportation.timeOut.creator.person.value}
+      <fmt:formatDate value="${weight.timeOut.time}"  pattern="dd.MM.yy HH:mm"/>
+      ${weight.timeOut.creator.person.value}
     </td>
   </tr>
   <tr>

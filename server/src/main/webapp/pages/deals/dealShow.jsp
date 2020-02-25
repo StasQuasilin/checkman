@@ -40,6 +40,7 @@
     addHeader:'<fmt:message key="button.add"/>',
     header:'<fmt:message key="driver.add"/>',
     put:function(driver, item){
+
       plan.setDriver(driver, item);
     },
     show:['person/value']
@@ -293,14 +294,14 @@
                       <div class="lower">
                         <span v-if="value.editNote">
                           <input id="input" v-on:keyup.enter="saveNote(value)" v-on:blur="saveNote(value)"
-                                 v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput"
+                                 v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput" autocomplete="off"
                                  style="width: 100%; background: white; border: none">
                         </span>
                         <div style="flex-wrap: wrap">
                           <div v-for="(note, nId) in value.item.notes" :title="note.creator"
                                style="display: inline-flex; padding-left: 1pt">
-                              <a v-on:click="removeNote(value, nId)" class="mini-close">&times;</a>
-                              <a v-on:click="editNote(value.key, nId)">{{note.note}}</a>
+                              <span v-on:click="removeNote(value, nId)" class="mini-close">&times;</span>
+                              <a v-on:click="editNote(value, nId)">{{note.note}}</a>
                           </div>
                           <div style="display: inline-flex; padding-left: 1pt">
                             <a class="mini-close" v-on:click="addNote(value.key)">

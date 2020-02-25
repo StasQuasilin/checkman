@@ -22,7 +22,6 @@ import java.io.IOException;
  */
 public class SignInBox implements Constants{
 
-    private static final String TOKEN = "token";
     private static Logger log = Logger.getLogger(SignInBox.class);
     final static dbDAO dao = dbDAOService.getDAO();
     final static LanguageBase lb = LanguageBase.getBase();
@@ -41,18 +40,19 @@ public class SignInBox implements Constants{
                 String token = userBox.addUser(user, IpUtil.getIp(req), req.getSession().getId());
                 answer = new SuccessAnswer();
                 answer.add("redirect", Branches.UI.HOME);
-                answer.add("user", parser.toJson(user.getWorker()));
-                answer.add("uid", user.getUid());
-                answer.add("role", user.getWorker().getRole().toString());
+                answer.add(USER, parser.toJson(user.getWorker()));
+                answer.add(UID, user.getUid());
+                answer.add(ROLE, user.getWorker().getRole().toString());
                 answer.add(TOKEN, token);
                 //
-
+                req.getSession().setAttribute(ID, user.getId());
                 req.getSession().setAttribute(TOKEN, token);
+                req.getSession().setAttribute(LOCALE, user.getWorker().getLanguage());
                 req.getSession().setAttribute("lang", user.getWorker().getLanguage());
-                req.getSession().setAttribute("worker", user.getWorker());
-                req.getSession().setAttribute("user", user.getWorker().getPerson().getValue());
-                req.getSession().setAttribute("uid", user.getUid());
-                req.getSession().setAttribute("role", user.getWorker().getRole());
+                req.getSession().setAttribute(WORKER, user.getWorker());
+                req.getSession().setAttribute(USER, user.getWorker().getPerson().getValue());
+                req.getSession().setAttribute(UID, user.getUid());
+                req.getSession().setAttribute(ROLE, user.getWorker().getRole());
 
 
             } else {

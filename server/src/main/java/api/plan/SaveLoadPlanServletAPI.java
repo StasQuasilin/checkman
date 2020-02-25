@@ -22,7 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -106,43 +109,61 @@ public class SaveLoadPlanServletAPI extends ServletAPI {
                 save = true;
             }
 
-            if (save) {
-                dao.save(transportation);
-                updateUtil.onSave(transportation);
+
+
+            HashMap<Integer, DocumentNote> alreadyNote = new HashMap<>();
+            if (transportation.getNotes() != null) {
+                for (DocumentNote note : transportation.getNotes()) {
+                    alreadyNote.put(note.getId(), note);
+                }
             }
 
-            final HashSet<DocumentNote> notes = new HashSet<>();
-            notes.addAll(dao.getTransportationNotesByTransportation(transportation));
-            for (Object n : (JSONArray)json.get("notes")){
-                JSONObject nj = (JSONObject) n;
-                Object noteId = null;
-                if (nj.containsKey(Constants.ID)){
-                    noteId = nj.get(Constants.ID);
+            List<DocumentNote> liveNotes = transportation.getNotes();
+            if (liveNotes == null){
+                liveNotes = new ArrayList<>();
+            }else {
+                liveNotes.clear();
+            }
+            boolean saveNote;
+            for (Object o :(JSONArray) json.get(NOTES)){
+                JSONObject note = (JSONObject) o;
+                DocumentNote documentNote;
+                int noteId = -1;
+                if (note.containsKey(ID)){
+                    noteId = Integer.parseInt(String.valueOf(note.get(ID)));
                 }
-                DocumentNote note = null;
-                if (noteId != null) {
-                    note = dao.getTransportationNotesById(noteId);
+
+                if (alreadyNote.containsKey(noteId)){
+                    documentNote = alreadyNote.remove(noteId);
+                } else {
+                    documentNote = new DocumentNote(transportation, worker);
+                    documentNote.setDocument(transportation.getUid());
                 }
-                if (note == null){
-                    note = new DocumentNote();
-                    note.setTransportation(transportation);
-                    note.setDocument(transportation.getUid());
-                    note.setTime(new Timestamp(System.currentTimeMillis()));
-                    note.setCreator(worker);
+
+                String value = String.valueOf(note.get(NOTE));
+                saveNote = false;
+                String s = noteUtil.checkNote(transportation, value);
+                if (U.exist(s)){
+                    documentNote.setNote(s);
+                    saveNote = true;
+                    save = true;
+                } else {
+                    if (documentNote.getId() > 0){
+                        dao.remove(documentNote);
+                        save = true;
+                    }
                 }
-                if (notes.contains(note)){
-                    notes.remove(note);
-                }
-                String noteText = (String) nj.get("note");
-                noteText = noteText.trim().toLowerCase();
-                if (U.exist(noteText) && note.getNote() == null || !note.getNote().equals(noteText)){
-                    note.setNote(noteUtil.checkNote(transportation, noteText));
-                    dao.save(note);
-                    updateUtil.onSave(transportation);
+                if (saveNote) {
+                    liveNotes.add(documentNote);
                 }
             }
-            for (DocumentNote note : notes){
+
+            for (DocumentNote note : alreadyNote.values()){
                 dao.remove(note);
+            }
+
+            if (save) {
+                dao.save(transportation);
                 updateUtil.onSave(transportation);
             }
 

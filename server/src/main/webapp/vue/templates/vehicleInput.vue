@@ -13,18 +13,6 @@ var objectInput = {
             open:false
         }
     },
-    mounted:function(){
-        let props = this.props;
-        if (!props.header){
-            console.warn('Title \'header\' required');
-        }
-        if(!props.find){
-            console.warn('String \'find\' no have');
-        }
-        if (!props.put){
-            console.warn('Method \'put\' required');
-        }
-    },
     methods:{
         findObject:function(){
             if (this.props.find) {

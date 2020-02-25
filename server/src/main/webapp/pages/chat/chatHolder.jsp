@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+
   <div id="chat" class="chat-holder" :class="{full : show && !oversize()}">
     <div>
       <div class="chat-button-holder" v-on:click="switchChat()">
@@ -19,5 +20,10 @@
     </div>
   </div>
   <script type="text/javascript" src="${context}/vue/chat/chat.vue"></script>
+  <script>
+  subscribe('MESSAGES', function(a){
+    chat.handle(a);
+  });
+  </script>
 </html>
 
