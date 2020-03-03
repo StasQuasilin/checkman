@@ -29,13 +29,14 @@ public class ParseDriverServletAPI extends ServletAPI {
     private final UpdateUtil updateUtil = new UpdateUtil();
     private final Notificator notificator = new Notificator();
     public static final String SUCCESS_PARSE = "notificator.driver.success.parsed";
+    private final VehicleParser vehicleParser = new VehicleParser();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if(body != null) {
             String key = String.valueOf(body.get(Constants.KEY));
-            Driver driver = VehicleParser.parseDriver(key);
+            Driver driver = vehicleParser.parseDriver(key);
 
             JSONObject json = driver.toJson();
             json.put(IS_NEW, true);
@@ -45,7 +46,7 @@ public class ParseDriverServletAPI extends ServletAPI {
             JSONObject object = successAnswer.toJson();
             write(resp, object.toJSONString());
             pool.put(object);
-            if (body.containsKey(Constants.TRANSPORTATION)){
+            if (body.containsKey(TRANSPORTATION)){
                 Transportation transportation = dao.getObjectById(Transportation.class, body.get(TRANSPORTATION));
                 TransportUtil.setDriver(transportation, driver);
                 dao.save(transportation);

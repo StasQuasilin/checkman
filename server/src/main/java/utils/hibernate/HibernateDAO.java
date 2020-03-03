@@ -13,7 +13,6 @@ import entity.deal.ContractProduct;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.Protocol;
-import entity.laboratory.probes.IProbe;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
@@ -154,6 +153,21 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public List<ProductAction> getProductActionsByProduct(Product product) {
         return hb.query(ProductAction.class, PRODUCT, product);
+    }
+
+    @Override
+    public StatisticEntry getStatisticEntry(int documentId) {
+        return hb.get(StatisticEntry.class, DOCUMENT, documentId);
+    }
+
+    @Override
+    public List<StatisticEntry> getStatisticEntries(Date from, Date to, Organisation organisation, Product product, Shipper shipper) {
+        HashMap<String, Object> params = hb.getParams();
+        params.put(DATE, new BETWEEN(from, to));
+        params.put(ORGANISATION, organisation);
+        params.put(PRODUCT, product);
+        params.put(SHIPPER, shipper);
+        return hb.query(StatisticEntry.class, params);
     }
 
     @Override
@@ -502,15 +516,18 @@ public class HibernateDAO implements dbDAO, Constants {
         return hb.query(Transportation2.class, "archive", false);
     }
 
+    final String troubledChars = "[иИ]|[іІ]|[ыЫ]";
+    final String lowLine = "_";
+
     @Override
     public Collection<Organisation> findOrganisation(String key) {
         HashMap<Integer, Integer> ids = new HashMap<>();
         HashMap<Integer, Organisation> organisations = new HashMap<>();
         for (String string : key.split(SPACE)){
             String s = string.trim();
-            findOrganisation("name", s, ids, organisations);
-            if (organisations.size() > 0){
-                findOrganisation("type", s, ids, organisations);
+            findOrganisation(NAME, s, ids, organisations);
+            if (organisations.size() == 0){
+                findOrganisation(NAME, s.replaceAll(troubledChars, lowLine), ids, organisations);
             }
         }
 
@@ -673,58 +690,33 @@ public class HibernateDAO implements dbDAO, Constants {
 
     private static final String REG_EXP = Parser.NUMBER_REGEX;
 
+    Parser parser = new Parser();
+    final static String NUMBER_PATTERN = "(([А-Яа-яІі]{2}?\\s?\\d{2}-?\\d{2})|(\\d{2}-?\\d-?\\d{2}))\\s?[А-Яа-яІі]{2}";
+
     @Override
-    public <T> List<T> findVehicle(Class<T> tClass, Object key) {
+    public <T> List<T> findVehicle(Class<T> tClass, String key) {
         final HashMap<Integer, Integer> ids = new HashMap<>();
         final HashMap<Integer, T> vehicles = new HashMap<>();
 
-        StringBuilder builder = new StringBuilder();
-        String trim = key.toString().trim().toUpperCase().replaceAll("  ", " ");
-        char[] chars = trim.toCharArray();
-        int idx = 0;
-        for (char c : chars){
-            if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)){
-                builder.append(c);
-            }
-            if (idx < chars.length - 1){
-                char next = chars[++idx];
-                if (Character.isLetter(c) && Character.isDigit(next) || Character.isDigit(c) && Character.isLetter(next)){
-                    builder.append(SPACE);
-                }
-            }
-        }
+        findVehicle(tClass, NUMBER, key, ids, vehicles);
 
-        trim = builder.toString();
-
-        Pattern compile = Pattern.compile(REG_EXP);
-        Matcher matcher = compile.matcher(trim);
-        if (matcher.find()){
+        Pattern compile = Pattern.compile(NUMBER_PATTERN);
+        Matcher matcher = compile.matcher(key);
+        while (matcher.find()){
             String group = matcher.group();
-            findVehicle(tClass, "number", group, ids, vehicles);
+            findVehicle(tClass, NUMBER, group, ids, vehicles);
             if (vehicles.size() > 0){
-                trim = trim.replace(group, "").trim();
+                key = key.replace(group, EMPTY).trim();
             }
         }
 
         int min = 0;
-        String model = trim.split(SPACE)[0];
-        if (tClass == Vehicle.class) {
-            findVehicle(tClass, "model", model, ids, vehicles);
-        }
+//        String model = trim.split(SPACE)[0];
+//        if (tClass == Vehicle.class) {
+//            findVehicle(tClass, "model", model, ids, vehicles);
+//        }
 
-        trim = trim.replace(model, "").trim();
-
-        if (U.exist(trim)) {
-            int size = vehicles.size();
-
-            trim = Parser.prettyNumber(trim);
-            findVehicle(tClass, "number", trim, ids, vehicles);
-            if (tClass == Vehicle.class) {
-                if (vehicles.size() == size) {
-                    findVehicle(tClass, "trailerNumber", trim, ids, vehicles);
-                }
-            }
-        }
+//        trim = trim.replace(model, "").trim();
 
         ArrayList<T> result = new ArrayList<>();
 
@@ -746,6 +738,28 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     private <T> void findVehicle(Class<T> tClass, String key, String value, HashMap<Integer, Integer> ids, HashMap<Integer, T> vehicles){
+        StringBuilder builder = new StringBuilder();
+        for (char c : value.toUpperCase().toCharArray()){
+            if (Character.isDigit(c) || Character.isLetter(c)){
+                builder.append(c);
+            }
+        }
+        char[] chars = builder.toString().toCharArray();
+        builder = new StringBuilder();
+
+        for(int i = 0; i < chars.length; i++){
+            char c = chars[i];
+            builder.append(c);
+            if (i < chars.length - 1) {
+                char next = chars[i + 1];
+                if (Character.isLetter(c) != Character.isLetter(next)) {
+                    builder.append(SPACE);
+                }
+            }
+        }
+
+        value = builder.toString();
+
         for (T v : find(tClass, key, value)){
             int id = v.hashCode();
             if (ids.containsKey(id)){
@@ -945,8 +959,8 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public List<Deal> getDealsByOrganisation(Object organisation) {
         final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("archive", false);
-        parameters.put("organisation", organisation);
+        parameters.put(ARCHIVE, false);
+        parameters.put(ORGANISATION, organisation);
         return hb.query(Deal.class, parameters);
     }
 
@@ -999,19 +1013,9 @@ public class HibernateDAO implements dbDAO, Constants {
         final HashMap<Integer, Integer> ids = new HashMap<>();
         final HashMap<Integer, Driver> drivers = new HashMap<>();
 
-        String[] split = key.split(SPACE);
+        String[] split = key.replaceAll(troubledChars, lowLine).split(SPACE);
         if (split.length > 0){
             findDriver("person/surname", split[0], ids, drivers);
-            if (drivers.size() == 0){
-                char[] chars = split[0].toCharArray();
-                for (int i = 1; i < chars.length; i++){
-                    StringBuilder builder = new StringBuilder();
-                    for (int j = 0 ; j < i; j++){
-                        builder.append(chars[j]);
-                    }
-                    findDriver("person/surname", builder.toString(), ids, drivers);
-                }
-            }
             for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
                 ids.put(entry.getKey(), ids.get(entry.getKey()) + 2);
             }
@@ -1032,7 +1036,6 @@ public class HibernateDAO implements dbDAO, Constants {
             for (Map.Entry<Integer, Integer> entry : ids.entrySet()){
                 if (entry.getValue() == min){
                     result.add(drivers.remove(entry.getKey()));
-
                 }
             }
             min++;
@@ -1045,13 +1048,16 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public Person getPersonByName(String surname, String forename, String patronymic) {
         HashMap<String, Object> param = hb.getParams();
-        param.put("surname", surname);
-        if (forename != null){
-            param.put("forename", forename);
+        if (U.exist(surname)) {
+            param.put(SURNAME, surname);
         }
-        if (patronymic != null){
-            param.put("patronymic", patronymic);
+        if (U.exist(forename)){
+            param.put(FORENAME, forename);
         }
+        if (U.exist(patronymic)){
+            param.put(PATRONYMIC, patronymic);
+        }
+
         return hb.get(Person.class, param);
     }
 
@@ -1276,18 +1282,22 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale) {
+    public <T>List<T> getStoragePoints(Class<T> tClass, Date from, Date to, Object storage, Product product, Shipper shipper, PointScale scale) {
         HashMap<String, Object> param = hb.getParams();
         if (from == null){
             param.put("date", new LE(to));
         } else {
             param.put("date", new BETWEEN(from, to));
         }
-        param.put("storage", storage);
-        param.put("product", product);
+        if (storage != null) {
+            param.put("storage", storage);
+        }
+        if (product != null) {
+            param.put("product", product);
+        }
         param.put("shipper", shipper);
         param.put("scale", scale);
-        return hb.query(StoragePeriodPoint.class, param);
+        return hb.query(tClass, param);
     }
 
     @Override

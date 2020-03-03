@@ -91,7 +91,6 @@ public class CollapseUtil {
         if  (compare) {
             v.setModel(compare(v1.getModel(), v2.getModel()));
             v.setNumber(compare(v1.getNumber(), v2.getNumber()));
-            v.setTrailerNumber(compare(v1.getTrailerNumber(), v2.getTrailerNumber()));
             v.setTrailer(compare(v1.getTrailer(), v2.getTrailer()));
         }
 

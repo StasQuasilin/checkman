@@ -15,6 +15,7 @@ import utils.U;
 import utils.UpdateUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.storages.StatisticUtil;
 import utils.storages.StorageUtil;
 
 import java.io.IOException;
@@ -113,6 +114,8 @@ public class TransportUtil{
     }
 
     private static final StorageUtil storageUtil = new StorageUtil();
+    private static final StatisticUtil statisticUtil = new StatisticUtil();
+
     public synchronized static void updateUsedStorages(Transportation t, List<TransportStorageUsed> u, Worker worker){
         HashMap<Integer, Float> values = new HashMap<>();
         float total = 0;
@@ -312,5 +315,9 @@ public class TransportUtil{
             return true;
         }
         return false;
+    }
+
+    public static void updateUnloadStatistic(Transportation transportation) {
+        statisticUtil.updateStatisticEntry(transportation);
     }
 }

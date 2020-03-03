@@ -4,6 +4,7 @@ import entity.JsonAble;
 import entity.documents.Shipper;
 import entity.products.Product;
 import org.json.simple.JSONObject;
+import utils.storages.IStorageStatisticUtil;
 import utils.storages.PointScale;
 import utils.storages.StorageUtil;
 
@@ -113,7 +114,7 @@ public class StoragePeriodPoint extends JsonAble{
         object.put(SCALE, scale.toString());
         PointScale s = scale;
         LocalDate localDate = date.toLocalDate();
-        while ((s = StorageUtil.nextScale(s)) != scale){
+        while ((s = IStorageStatisticUtil.nextScale(s)) != scale){
             scale = s;
             LocalDate beginDate = StorageUtil.getBeginDate(localDate, scale);
             object.put(scale.toString(), Date.valueOf(beginDate).toString());

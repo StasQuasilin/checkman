@@ -24,8 +24,14 @@ public class ReferencesList extends IUIServlet {
             switch (tabs) {
                 case drivers:
                     req.setAttribute("referenceContent", "driverList.jsp");
-                    req.setAttribute("update", Branches.API.References.DRIVER_LIST);
+                    req.setAttribute(UPDATE, Branches.API.References.DRIVER_LIST);
                     req.setAttribute(EDIT, Branches.UI.EDIT_DRIVER);
+                    req.setAttribute(COLLAPSE, Branches.UI.DRIVER_COLLAPSE);
+                    break;
+                case vehicles:
+                    req.setAttribute("referenceContent", "vehicleList.jsp");
+                    req.setAttribute(UPDATE, Branches.API.References.VEHICLE_LIST);
+                    req.setAttribute(EDIT, Branches.UI.EDIT_VEHICLE);
                     req.setAttribute(COLLAPSE, Branches.UI.DRIVER_COLLAPSE);
                     break;
                 case organisations:
@@ -41,15 +47,17 @@ public class ReferencesList extends IUIServlet {
             }
             req.setAttribute("tab", tab);
         }
-        req.setAttribute("drivers", Branches.UI.REFERENCES + "?tab=" + ReferenceTabs.drivers.toString());
-        req.setAttribute("organisations", Branches.UI.REFERENCES + "?tab=" + ReferenceTabs.organisations.toString());
-        req.setAttribute("products", Branches.UI.REFERENCES + "?tab=" + ReferenceTabs.products.toString());
-        req.setAttribute("title", "title.references" + title);
-        req.setAttribute("content", "/pages/references/references.jsp");
+        for(ReferenceTabs t : ReferenceTabs.values()){
+            req.setAttribute(t.toString(), Branches.UI.REFERENCES + "?tab=" + t.toString());
+        }
+
+        req.setAttribute(TITLE, "title.references" + title);
+        req.setAttribute(CONTENT, "/pages/references/references.jsp");
         show(req, resp);
     }
     enum ReferenceTabs{
         drivers,
+        vehicles,
         organisations,
         products
     }

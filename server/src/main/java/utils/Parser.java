@@ -17,29 +17,14 @@ import java.util.regex.Pattern;
  */
 public class Parser {
 
-    public static final String NUMBER_REGEX = "[A-ZА-ЯІ]{0,3}\\s?\\d{2,3}\\W?\\d{2,3}\\s?[A-ZА-ЯІ]{2,3}";
+//    public static final String NUMBER_REGEX = "[A-ZА-ЯІ]{0,2}?\\s?\\d{4,5}\\s?[A-ZА-ЯІ]{2,3}";
+    public static final String NUMBER_REGEX = "((\\W{2}?\\s?\\d{2}-?\\s?\\d{2})|(\\d{2}-?\\s?\\d-?\\s?\\d{2}))\\s?\\W{2}";
     private static final String SPACE = Constants.SPACE;
     private static final Logger log = Logger.getLogger(Parser.class);
+    private static final String EMPTY = Constants.EMPTY;
 
-    public synchronized static List<String> parseVehicle(String value){
+    public synchronized List<String> parseVehicle(String value){
         value = value.toUpperCase().trim();
-        log.info("Parse " + value);
-        StringBuilder builder = new StringBuilder();
-        char[] chars = value.toCharArray();
-        int idx = 0;
-        for (char c : chars){
-            if (Character.isLetter(c) || Character.isDigit(c) || Character.isSpaceChar(c)){
-                builder.append(c);
-            }
-            if (idx < chars.length - 1){
-                char next = chars[++idx];
-                if (Character.isLetter(c) && Character.isDigit(next) || Character.isDigit(c) && Character.isLetter(next)){
-                    builder.append(SPACE);
-                }
-            }
-        }
-
-        value = builder.toString();
         Pattern pattern = Pattern.compile(NUMBER_REGEX);
         Matcher matcher = pattern.matcher(value);
         List<String> result = new ArrayList<>();
@@ -47,7 +32,7 @@ public class Parser {
         while (matcher.find()){
             String group = matcher.group();
             log.info("Found \'" + group + "\'");
-            value = value.replaceAll(group, "");
+            value = value.replaceAll(group, EMPTY);
             result.add(prettyNumber(group.trim()));
         }
         String model = value.trim();
@@ -59,19 +44,24 @@ public class Parser {
         return result;
     }
 
-    public static String prettyNumber(String number){
+    public String prettyNumber(String number){
         if (U.exist(number)) {
-            number = number.toUpperCase().replaceAll(" ", "");
-
             StringBuilder builder = new StringBuilder();
-            char[] chars = number.toCharArray();
-            for (int i = 0 ; i < number.length(); i++){
-                char a = chars[i];
+
+            ArrayList<Character> characters = new ArrayList<>();
+            for (char c : number.toCharArray()){
+                if (Character.isLetter(c) || Character.isDigit(c)) {
+                    characters.add(c);
+                }
+            }
+
+            for (int i = 0 ; i < characters.size(); i++){
+                char a = characters.get(i);
                 builder.append(a);
-                if (i < number.length() - 1) {
-                    char b = chars[i + 1];
-                    if (Character.isLetter(a) && Character.isDigit(b) || Character.isDigit(a) && Character.isLetter(b)){
-                        builder.append(' ');
+                if (i < characters.size() - 1){
+                    Character b = characters.get(i + 1);
+                    if (Character.isLetter(a) != Character.isLetter(b)){
+                        builder.append(SPACE);
                     }
                 }
             }
@@ -83,20 +73,24 @@ public class Parser {
     }
 
     public static void main(String[] args) throws IOException, DocumentException {
-        System.out.println(parseVehicle("ДАФ ВМ 1869 ВІ"));
+        Parser parser = new Parser();
+        System.out.println(parser.parseVehicle("ДАФ ВМ 1869 ВІ ВІ 5800 ВІ"));
+        System.out.println(parser.parseVehicle("ДАФ ВМ 18 69 ВІ"));
+        System.out.println(parser.parseVehicle("Камаз 018-69 ВІ"));
+        System.out.println(parser.parseVehicle(" ВМ 18-69 ВІ"));
+        System.out.println(parser.parseVehicle(" 018 69 ВІ"));
     }
 
 
     public static List<String> parsePerson(String value) {
-//        value = value.replaceAll("\\s+", " ").replaceAll("[^a-z^A-Zа-яА-ЯіІ\\s]", "").toLowerCase().trim();
-        value = value.replaceAll("\\.", " ");
+        value = value.replaceAll("\\.", EMPTY);
 
         String[] split = value.split(" ");
         List<String> result = new ArrayList<>();
         for (String s : split){
-            if (s.length()> 1) {
+            if (s.length() > 1) {
                 result.add(s.substring(0, 1).toUpperCase() + s.substring(1));
-            } else {
+            } else if (U.exist(s)){
                 result.add(s.toUpperCase() + ".");
             }
         }

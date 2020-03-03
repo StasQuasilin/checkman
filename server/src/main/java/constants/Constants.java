@@ -140,6 +140,7 @@ public interface Constants {
     String UID = "uid";
     String PASSWORD = "password";
     String ORGANISATION = "organisation";
+    String ORGANISATIONS = "organisations";
     String ORGANISATION_TYPE = "organisationType";
     String LEGAL_ADDRESS = "legalAddress";
     String LOAD_ADDRESS = "loadAddress";
@@ -161,6 +162,8 @@ public interface Constants {
     String GROUP = "group";
     String SETTINGS = "settings";
     String ACTIONS = "actions";
+    String ADDRESS_REMOVE = "addressRemove";
+    String UNLOAD_STAT = "unloadStatistic";
     String REALISATION = "realisation";
     String ADD = "add";
     String TITLE = "title";
@@ -227,6 +230,7 @@ public interface Constants {
     String VEHICLE = "vehicle";
     String VEHICLES = "vehicles";
     String DRIVER = "driver";
+    String DRIVERS = "drivers";
     String WEIGHT = "weight";
     String PALLET = "pallet";
     String SPACE = " ";

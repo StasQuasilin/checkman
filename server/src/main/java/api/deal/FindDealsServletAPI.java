@@ -3,6 +3,7 @@ package api.deal;
 import api.ServletAPI;
 import constants.Branches;
 import entity.documents.Deal;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -22,8 +23,13 @@ public class FindDealsServletAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            List<Deal> deals = dao.getDealsByOrganisation(body.get("organisation"));
-            write(resp, parser.toDealJson(deals).toJSONString());
+            List<Deal> deals = dao.getDealsByOrganisation(body.get(ORGANISATION));
+            JSONArray array = pool.getArray();
+            for (Deal deal : deals){
+                array.add(deal.toJson());
+            }
+            write(resp, array.toJSONString());
+            pool.put(array);
         } else {
             write(resp, EMPTY_BODY);
         }

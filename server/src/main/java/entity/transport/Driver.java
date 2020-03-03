@@ -19,6 +19,7 @@ public class Driver extends JsonAble{
     private Organisation organisation;
     private Vehicle vehicle;
     private String license;
+    private boolean approved;
 
     @Id
     @GeneratedValue
@@ -65,15 +66,23 @@ public class Driver extends JsonAble{
         this.license = license;
     }
 
+    @Basic
+    @Column(name = "approved")
+    public boolean isApproved() {
+        return approved;
+    }
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * person.hashCode() + hash;
-        if (organisation != null) {
-            hash = 31 * organisation.hashCode() + hash;
-        }
+        return id;
+    }
 
-        return hash;
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
     }
 
     @Override

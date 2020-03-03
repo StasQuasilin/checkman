@@ -89,12 +89,18 @@ public class Organisation extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toShortJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+        json.put(VALUE, getValue());
+        return json;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = toShortJson();
         json.put(NAME, name);
         json.put(TYPE, type);
-        json.put(VALUE, getValue());
         return json;
     }
 }

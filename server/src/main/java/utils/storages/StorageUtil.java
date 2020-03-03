@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by szpt_user045 on 08.10.2019.
  */
-public class StorageUtil {
+public class StorageUtil extends IStorageStatisticUtil {
 
     private static final Logger log = Logger.getLogger(StorageUtil.class);
     private final dbDAO dao = dbDAOService.getDAO();
@@ -163,7 +163,7 @@ public class StorageUtil {
         Date endDate = Date.valueOf(getEndDate(date, scale));
         float plusAmount = 0;
         float minusAmount = 0;
-        for (StoragePeriodPoint point : dao.getStoragePoints(beginDate, endDate, storage, product, shipper, prevScale(scale))){
+        for (StoragePeriodPoint point : dao.getStoragePoints(StoragePeriodPoint.class, beginDate, endDate, storage.getId(), product, shipper, prevScale(scale))){
             float amount = point.getAmount();
             if (amount > 0){
                 plusAmount += amount;
@@ -204,9 +204,8 @@ public class StorageUtil {
     }
 
     private void updateStock(Date date, Storage storage, Product product, Shipper shipper, PointScale scale, float amount){
-        log.info(storage.getName() + ": " + product.getName() + ": " + shipper.getValue() + " by " + scale.toString() + "=" + amount);
         StoragePeriodPoint point = null;
-        for (StoragePeriodPoint spp : dao.getStoragePoints(date, date, storage, product, shipper, scale)){
+        for (StoragePeriodPoint spp : dao.getStoragePoints(StoragePeriodPoint.class, date, date, storage.getId(), product, shipper, scale)){
             if (spp.getAmount() != 0 && Math.signum(spp.getAmount()) == Math.signum(amount)){
                 point = spp;
             } else if (spp.getAmount() == 0){
@@ -263,98 +262,11 @@ public class StorageUtil {
         LocalDate localDate = getBeginDate(time.toLocalDateTime().toLocalDate(), scale);
         Date date = Date.valueOf(localDate);
 
-        points.addAll(dao.getStoragePoints(prev, date, storage, product, shipper, scale));
+        points.addAll(dao.getStoragePoints(StoragePeriodPoint.class, prev, date, storage.getId(), product, shipper, scale));
 
         PointScale s = prevScale(scale);
         if (s != scale){
             getStocks(date, time, storage, product, shipper, s, points);
         }
     }
-
-    public static synchronized LocalDate getBeginDate(LocalDate date, PointScale scale){
-        int minus;
-        switch (scale){
-            case week:
-                minus = Math.min(toBegin(date, scale), toBegin(date, PointScale.month));
-                break;
-            default:
-                minus = toBegin(date, scale);
-        }
-
-        return date.minusDays(minus);
-    }
-
-    public static synchronized LocalDate getEndDate(LocalDate date, PointScale scale){
-        int plus;
-        switch (scale){
-            case week:
-                plus = Math.min(toEnd(date, scale), toEnd(date, PointScale.month));
-                break;
-            default:
-                plus = toEnd(date, scale);
-        }
-        return date.plusDays(plus);
-    }
-
-    public static int toBegin(LocalDate date, PointScale scale){
-        switch (scale){
-            case day:
-                return 0;
-            case week:
-                return date.getDayOfWeek().getValue() - 1;
-            case month:
-                return date.getDayOfMonth() - 1;
-            case year:
-                return date.getDayOfYear() - 1;
-            default:
-                log.warn("No such action for scale " + scale.toString());
-                return 0;
-        }
-    }
-
-    public static int toEnd(LocalDate date, PointScale scale){
-        switch (scale){
-            case day:
-                return 0;
-            case week:
-                return 7 - date.getDayOfWeek().getValue();
-            case month:
-                return date.lengthOfMonth() - date.getDayOfMonth();
-            case year:
-                return date.lengthOfYear() - date.getDayOfYear();
-            default:
-                log.warn("No such action for scale " + scale.toString());
-                return 0;
-        }
-    }
-
-    public static PointScale prevScale(PointScale scale){
-        switch (scale){
-            case week:
-                return PointScale.day;
-            case month:
-                return PointScale.week;
-            case year:
-                return PointScale.month;
-            default:
-                return scale;
-        }
-    }
-
-    public static PointScale nextScale(PointScale scale){
-        switch (scale){
-            case detail:
-                return PointScale.day;
-            case day:
-                return PointScale.week;
-            case week:
-                return PointScale.month;
-            case month:
-                return PointScale.year;
-            default:
-                return scale;
-        }
-    }
-
-
 }

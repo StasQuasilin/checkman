@@ -22,6 +22,7 @@ public class Deal extends JsonAble{
     private Date date;
     private Date dateTo;
     private String number;
+    private DealProduct dealProduct;
     private DealType type;
     private Shipper shipper;
     private Organisation organisation;
@@ -183,6 +184,11 @@ public class Deal extends JsonAble{
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
     }
 
     @Override

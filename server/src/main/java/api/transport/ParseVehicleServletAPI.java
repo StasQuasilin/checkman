@@ -32,14 +32,15 @@ public class ParseVehicleServletAPI extends ServletAPI {
     private static final String SUCCESS_V_PARSING = "notificator.vehicle.success.parsing";
     private static final String SUCCESS_VT_PARSING = "notificator.vehicle.trailer.success.parsing";
     private final LanguageBase lb = LanguageBase.getBase();
+    private final VehicleParser vehicleParser = new VehicleParser();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            String key = String.valueOf(body.get(Constants.KEY));
+            String key = String.valueOf(body.get(KEY));
 
-            Vehicle vehicle = VehicleParser.parse(key);
+            Vehicle vehicle = vehicleParser.parse(key);
             if (vehicle.getTrailer() != null){
                 dao.save(vehicle.getTrailer());
             }

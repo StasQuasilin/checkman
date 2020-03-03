@@ -280,9 +280,9 @@ public class Hibernator {
         return resultList;
     }
 
-    public <T> List<T> find (Class<T> tClass, String number, String key) {
+    public <T> List<T> find (Class<T> tClass, String key, String value) {
         HashMap<String, String> par = new HashMap<>();
-        par.put(number, key);
+        par.put(key, value);
         return find(tClass, par);
     }
 

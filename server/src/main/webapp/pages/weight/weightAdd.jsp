@@ -149,20 +149,6 @@
     <c:forEach items="${address}" var="a">
     editor.addressList.push(${a.address.toJson()});
     </c:forEach>
-    editor.deals.push({
-        id:${deal.id},
-        type:'${deal.type}',
-        date:'${deal.date}',
-        date_to:'${deal.dateTo}',
-        product:{
-            id:${deal.product.id},
-            name:'${deal.product.name}'
-        },
-        visibility:'${deal.shipper.value}',
-        unit:${deal.unit.id},
-        price:${deal.price}
-    });
-
     <c:if test="${not empty plan.vehicle.id}">
     editor.plan.vehicle = {
         id:${plan.vehicle.id},
@@ -205,10 +191,19 @@
     <c:if test="${role ne 'weigher'}">
     editor.plan.manager = ${worker.id};
     </c:if>
+    <c:forEach items="${deals}" var="deal">
+    editor.deals.push(${deal.toJson()});
+    </c:forEach>
 </script>
+<style>
+    .selected{
+        font-weight: bold;
+        background-color: #e3e3e3;
+    }
+</style>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
 <c:set var="type"><fmt:message key="deal.type"/></c:set>
-<table id="editor" class="editor" style="width: 480pt" border="0">
+<table id="editor" class="editor" border="0">
     <%--DATE--%>
     <tr>
         <td>
@@ -219,7 +214,7 @@
         <td>
             :
         </td>
-        <td>
+        <td style="width: 420px">
             <input id="date" readonly style="width: 7em" v-on:click="pickDate()"
                    v-model="new Date(plan.date).toLocaleDateString()">
         </td>
@@ -253,26 +248,35 @@
         </td>
     </tr>
     <tr v-if="plan.organisation.id > 0">
-        <td>
+        <td colspan="2" align="right" valign="top">
             <label for="address">
                 <fmt:message key="address"/>
             </label>
         </td>
         <td>
-            :
-        </td>
-        <td>
-            <select id="address" style="width: 300px" title="${editAddressTitle}" v-on:dblclick="editAddress(plan.address)"
-                    v-if="addressList.length > 0" v-model="plan.address">
-                <option value="-1"><fmt:message key="not.select"/></option>
-                <option v-for="address in addressList" :value="address.id">
-                    {{address.city}}
-                    {{address.street}}
-                    {{address.build}}
-                </option>
-            </select>
+            <div id="address" v-if="addressList.length > 0" style="font-size: 10pt; max-height: 50pt; overflow-y: scroll; border: solid black 1pt; padding: 2pt">
+                <div :class="{selected : plan.address == -1}" v-on:click="plan.address = -1" >
+                    <fmt:message key="not.select"/>
+                </div>
+                <div title="${editAddressTitle}" v-for="address in addressList"
+                     v-on:click="plan.address = address.id" v-on:dblclick="editAddress(address.id)">
+                    <span :class="{selected : plan.address == address.id}">
+                        <span v-if="!address.city">
+                            <span v-if="address.region">
+                                {{address.region}} <fmt:message key="address.region.short"/>,
+                            </span>
+                            <span v-if="address.district">
+                                {{address.district}} <fmt:message key="address.district.short"/>,
+                            </span>
+                        </span>
+                        {{address.city}}
+                        {{address.street}}
+                        {{address.build}}
+                    </span>
+                </div>
+            </div>
             <span class="mini-close" style="font-size: 10pt" v-on:click="editAddress(-1)">
-                <fmt:message key="add.address"/>
+                + <fmt:message key="add.address"/>
             </span>
         </td>
     </tr>

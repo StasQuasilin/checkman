@@ -20,12 +20,14 @@ import java.io.IOException;
 @WebServlet(Branches.API.PARSE_TRAILER)
 public class ParseTrailerServletAPI extends ServletAPI{
 
+    private final Parser parser = new Parser();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
             String key = String.valueOf(body.get("key"));
-            String number = Parser.prettyNumber(key);
+            String number = parser.prettyNumber(key);
             Trailer trailer = new Trailer();
             trailer.setNumber(number);
             dao.save(trailer);

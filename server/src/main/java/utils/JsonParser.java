@@ -406,9 +406,6 @@ public class JsonParser implements Constants{
             json.put(ID, vehicle.getId());
             json.put(MODEL, vehicle.getModel());
             json.put(NUMBER, vehicle.getNumber());
-            if (vehicle.getTrailerNumber() != null){
-                json.put(TRAILER, vehicle.getTrailerNumber());
-            }
         }
         return json;
     }
@@ -1213,7 +1210,6 @@ public class JsonParser implements Constants{
         JSONObject json = pool.getObject();
         json.put(ID, point.getId());
         json.put(DATE, point.getDate().toString());
-        json.put(STORAGE, toJson(point.getStorage()));
         json.put(PRODUCT, toJson(point.getProduct()));
         json.put(SHIPPER, toJson(point.getShipper()));
         json.put(AMOUNT, point.getAmount());

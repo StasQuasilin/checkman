@@ -18,7 +18,6 @@ public class Vehicle extends JsonAble {
     private String model;
     private String number;
     private Trailer trailer;
-    private String trailerNumber;
     private Organisation transporter;
 
     @Id
@@ -57,15 +56,6 @@ public class Vehicle extends JsonAble {
         this.trailer = trailer;
     }
 
-    @Basic
-    @Column(name = "trailer_number")
-    public String getTrailerNumber() {
-        return trailerNumber;
-    }
-    public void setTrailerNumber(String trailer) {
-        this.trailerNumber = trailer;
-    }
-
     @OneToOne
     @JoinColumn(name = "transporter")
     public Organisation getTransporter() {
@@ -77,25 +67,18 @@ public class Vehicle extends JsonAble {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        if (model != null) {
-            hash = 31 * model.hashCode() + hash;
-        }
-        if (number != null) {
-            hash = 31 * number.hashCode() + hash;
-        }
-        if (trailerNumber != null){
-            hash = 31 * trailerNumber.hashCode() + hash;
-        }
-        return hash;
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
     }
 
     @Transient
     public String getValue() {
-        return
-            (model != null ? model : "") +
-            (number != null ? " \'" + number + "\'" : "") +
-            (trailerNumber != null ? "\'" + trailerNumber + "\'" : "");
+        return (model != null ? model : EMPTY) +
+            (number != null ? " \'" + number + "\'" : EMPTY) + (trailer != null ? trailer.getNumber() : EMPTY);
     }
 
     @Override
@@ -107,7 +90,6 @@ public class Vehicle extends JsonAble {
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
-
         json.put(MODEL, model);
         json.put(NUMBER, number);
         String value = model + SPACE + number;

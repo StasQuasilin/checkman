@@ -79,15 +79,12 @@ public class Person extends JsonAble{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        if (forename != null) {
-            hash = 31 * forename.hashCode() + hash;
-        }
-        hash = 31 * surname.hashCode() + hash;
-        if (patronymic != null) {
-            hash = 31 * patronymic.hashCode() + hash;
-        }
-        return hash;
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
     }
 
     @Transient
@@ -96,16 +93,21 @@ public class Person extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toShortJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+        json.put(VALUE, getValue());
+        json.put(PHONES, phones.stream().map(PhoneNumber::toJson).collect(Collectors.toList()));
+        return json;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = toShortJson();
+
         json.put(SURNAME, surname);
         json.put(FORENAME, forename);
         json.put(PATRONYMIC, patronymic);
-        json.put(VALUE, getValue());
-        JSONArray array = pool.getArray();
-        array.addAll(phones.stream().map(PhoneNumber::toJson).collect(Collectors.toList()));
-        json.put(PHONES, array);
 
         return json;
     }

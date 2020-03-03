@@ -153,15 +153,15 @@ var editor = new Vue({
             this.plan.notes.splice(key, 1);
         },
         setQuantity:function(){
-            let quantity = 0;
             for (let i in this.deals){
                 if (this.deals.hasOwnProperty(i)){
                     if (this.deals[i].id == this.plan.deal){
-                        quantity = this.deals[i].quantity;
+                        this.plan.quantity = this.deals[i].quantity;
+                        this.plan.price = this.deals[i].price;
+                        break;
                     }
                 }
             }
-            this.plan.quantity = quantity;
         },
         clearNote:function(){
             this.note = {
@@ -266,6 +266,7 @@ var editor = new Vue({
                 self.deals = a;
                 if(a.length > 0) {
                     self.plan.deal = a[0].id;
+                    self.plan.type = a[0].type;
                     self.plan.product = a[0].product.id;
                     var now = new Date(self.plan.date);
                     for (var i in a) {
@@ -278,6 +279,7 @@ var editor = new Vue({
                             }
                         }
                     }
+                    self.setQuantity();
                 }
             })
         },
@@ -325,6 +327,12 @@ var editor = new Vue({
                 e.product = this.plan.product == -1;
                 e.manager = this.plan.manager == -1;
                 var plan = Object.assign({}, this.plan);
+                if (!plan.quantity){
+                    plan.quantity = 0;
+                }
+                if (!plan.price){
+                    plan.price = 0;
+                }
                 plan.organisation = this.plan.organisation.id;
                 plan.vehicle = plan.vehicle.id;
                 plan.trailer = plan.trailer.id;

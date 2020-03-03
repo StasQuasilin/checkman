@@ -34,6 +34,11 @@
             <fmt:message key="menu.storages"/>
         </span>
     </li>
+    <li class="menu-item">
+        <span class="main" onclick="loadContent('${unloadStatistic}')">
+            <fmt:message key="menu.unloads"/>
+        </span>
+    </li>
     <li class="menu-item" onclick="loadContent('${probeList}')">
         <span class="main">
           <fmt:message key="analyses.probe"/>

@@ -15,39 +15,39 @@ import java.util.List;
 public class VehicleParser {
 
     final static dbDAO dao = dbDAOService.getDAO();
+    private Parser parser = new Parser();
 
-    public static synchronized Vehicle parse(String data){
+    public synchronized Vehicle parse(String data){
 
-        List<String> vehicleData = Parser.parseVehicle(data);
-        Vehicle vehicle = new Vehicle();
-        if (vehicleData.size() > 0) {
-            vehicle.setModel(vehicleData.get(0));
-            if (vehicleData.size() > 1) {
-                vehicle.setNumber(vehicleData.get(1));
-                if (vehicleData.size() > 2){
-                    String trailerNumber = vehicleData.get(2);
-                    if (U.exist(trailerNumber)) {
-                        Trailer trailer = new Trailer();
-                        trailer.setNumber(trailerNumber);
-                        vehicle.setTrailer(trailer);
-                        vehicle.setTrailerNumber(trailerNumber);
+        List<String> vehicleData = parser.parseVehicle(data);
+        Vehicle vehicle = dao.getVehicleByNumber(vehicleData.get(1));
+        if (vehicle == null) {
+            vehicle = new Vehicle();
+            if (vehicleData.size() > 0) {
+                String s = vehicleData.get(0);
+                if (U.exist(s)) {
+                    vehicle.setModel(s);
+                }
+                if (vehicleData.size() > 1) {
+                    vehicle.setNumber(vehicleData.get(1));
+                    if (vehicleData.size() > 2) {
+                        String trailerNumber = vehicleData.get(2);
+                        if (U.exist(trailerNumber)) {
+                            Trailer trailer = new Trailer();
+                            trailer.setNumber(trailerNumber);
+                            vehicle.setTrailer(trailer);
+                        }
                     }
                 }
             }
-        }
-        if (U.exist(vehicle.getNumber())){
-            Vehicle vehicleByNumber = dao.getVehicleByNumber(vehicle.getNumber());
-            if (vehicleByNumber != null) {
-                vehicle = vehicleByNumber;
-            }
+            dao.save(vehicle);
         }
         return vehicle;
     }
 
-    public static synchronized Driver parseDriver(String key) {
+    public synchronized Driver parseDriver(String key) {
         List<String> personData = Parser.parsePerson(key);
         System.out.println("Data: " + personData);
-
 
         Driver driver;
         Person person;
@@ -89,8 +89,8 @@ public class VehicleParser {
         return driver;
     }
 
-    public static void parseTrailer(String key) {
-        List<String> strings = Parser.parseVehicle(key);
+    public void parseTrailer(String key) {
+        List<String> strings = parser.parseVehicle(key);
         if (strings.size() > 0){
 
         }

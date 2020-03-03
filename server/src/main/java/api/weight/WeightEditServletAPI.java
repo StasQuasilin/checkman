@@ -58,7 +58,7 @@ public class WeightEditServletAPI extends ServletAPI {
 
             comparator.fix(weight);
 
-            JSONObject w = (JSONObject) body.get("weight");
+            JSONObject w = (JSONObject) body.get(WEIGHT);
             float brutto = Float.parseFloat(String.valueOf(w.get(BRUTTO)));
             float tara = Float.parseFloat(String.valueOf(w.get(TARA)));
 
@@ -83,6 +83,7 @@ public class WeightEditServletAPI extends ServletAPI {
                     } else {
                         TransportUtil.updateUsedStorages(transportation, u, worker);
                     }
+                    TransportUtil.updateUnloadStatistic(transportation);
                 }
                 comparator.compare(weight, worker);
                 dao.saveTransportation(transportation);

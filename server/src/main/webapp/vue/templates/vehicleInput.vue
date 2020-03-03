@@ -23,7 +23,7 @@ var objectInput = {
                         PostApi(self.props.find, {key: self.input}, function (a) {
                             self.foundObjects = a;
                         })
-                    }, 300);
+                    }, 600);
                 } else {
                     this.foundObjects = [];
                 }
@@ -98,9 +98,14 @@ var objectInput = {
     template:
         '<span v-if="object && object.id > 0" class="object-block">' +
             '<a v-on:click="edit" style="font-weight: bold">{{show(object)}}</a>' +
-            '<span class="mini-close" v-on:click="closeObject()">' +
-                '&times;' +
-            '</span>' +
+            '<div class="object-menu">' +
+                '<span class="mini-close" v-on:click="edit">' +
+                    '<img src="images/pencil.svg" style="width: 8pt">' +
+                '</span>' +
+                '<span class="mini-close" v-on:click="closeObject()">' +
+                    '&times;' +
+                '</span>' +
+            '</div>' +
         '</span>' +
         '<div v-else style="display: inline-block">'+
             '<div v-if="open" style="display: inline-block; position: relative;" v-on:blur="closeInput()">' +
@@ -108,6 +113,7 @@ var objectInput = {
                     'v-on:keyup="findObject()" v-on:keyup.escape="closeInput()"' +
                     ':class="{error : error}" v-on:click="error = false"' +
                     'style=" width: 90%; border: none">' +
+
                 '<span class="mini-close" v-on:click="closeInput()">&times;</span>' +
                 '<div class="custom-data-list" v-if="foundObjects.length > 0 || input">' +
                     '<div v-for="o in foundObjects"' +

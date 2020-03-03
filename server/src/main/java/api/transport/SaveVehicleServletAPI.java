@@ -26,6 +26,7 @@ public class SaveVehicleServletAPI extends ServletAPI {
 
     final Logger logger = Logger.getLogger(SaveVehicleServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
+    final Parser parser = new Parser();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,17 +45,17 @@ public class SaveVehicleServletAPI extends ServletAPI {
             vehicle.setModel(String.valueOf(body.get(MODEL)).toUpperCase());
             logger.info("\t...Model: " + vehicle.getModel());
 
-            vehicle.setNumber(Parser.prettyNumber(String.valueOf(body.get(NUMBER))));
+            vehicle.setNumber(parser.prettyNumber(String.valueOf(body.get(NUMBER))));
             logger.info("\t...Number: " + vehicle.getNumber());
             String trailerNumber = String.valueOf(body.get(TRAILER));
             if (U.exist(trailerNumber)) {
-                vehicle.setTrailerNumber(Parser.prettyNumber(trailerNumber));
-                logger.info("\t...Trailer: " + vehicle.getTrailerNumber());
+                String tn = parser.prettyNumber(trailerNumber);
+                logger.info("\t...Trailer: " + tn);
                 Trailer trailer = vehicle.getTrailer();
                 if (trailer == null){
                     trailer = new Trailer();
                 }
-                trailer.setNumber(vehicle.getTrailerNumber());
+                trailer.setNumber(tn);
                 dao.save(trailer);
                 vehicle.setTrailer(trailer);
             }

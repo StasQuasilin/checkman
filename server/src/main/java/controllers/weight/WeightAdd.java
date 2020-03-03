@@ -4,6 +4,7 @@ import constants.Branches;
 import controllers.IModal;
 import entity.DealType;
 import entity.Role;
+import entity.documents.Deal;
 import entity.products.ProductAction;
 import entity.transport.DocumentNote;
 import entity.transport.TransportCustomer;
@@ -65,12 +66,18 @@ public class WeightAdd extends IModal {
             req.setAttribute(TITLE, _TITLE_ADD);
         }
         if (transportation != null){
-            req.setAttribute(DEAL, transportation.getDeal());
+            Deal deal = transportation.getDeal();
+            req.setAttribute(DEAL, deal);
+            List<Deal> deals = dao.getDealsByOrganisation(transportation.getCounterparty());
+            if (!deals.contains(deal)){
+                deals.add(deal);
+            }
+            req.setAttribute(DEALS, deals);
         }
         req.setAttribute("managers", dao.getWorkersByRole(Role.manager));
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute("findDeals", Branches.API.FIND_DEALS);
-        req.setAttribute(ACTIONS,dao.getObjects(ProductAction.class));
+        req.setAttribute(ACTIONS, dao.getObjects(ProductAction.class));
 
         req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
         req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);

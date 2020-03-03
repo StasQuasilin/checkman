@@ -19,6 +19,10 @@
                 <fmt:message key="drivers"/>
             </b>
             <a v-else onclick="loadContent('${drivers}')"><fmt:message key="drivers"/></a>
+            <b v-if="tab === 'vehicles'">
+                <fmt:message key="vehicles"/>
+            </b>
+            <a v-else onclick="loadContent('${vehicles}')"><fmt:message key="vehicles"/></a>
             <b v-if="tab === 'organisations'">
                 <fmt:message key="organisations"/>
             </b>

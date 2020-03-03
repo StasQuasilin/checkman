@@ -60,7 +60,6 @@ public class SignInFilter implements Filter{
             isValid = false;
         }
 
-
         if (isValid) {
             Worker worker = (Worker) request.getSession().getAttribute(WORKER);
             sessionTimer.update(worker);

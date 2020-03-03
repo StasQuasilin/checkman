@@ -24,7 +24,7 @@ public class FindTrailerServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         final JSONArray array = new JSONArray();
         if (body != null){
-            Object o = body.get(KEY);
+            String o = (String) body.get(KEY);
             array.addAll(dao.findVehicle(Trailer.class, o).stream().map(Trailer::toJson).collect(Collectors.toCollection(JSONArray::new)));
 
         }

@@ -35,12 +35,7 @@
      value:'${driver.person.surname} ${driver.person.forename} ${driver.person.patronymic}',
      license:'${driver.license}',
      <c:if test="${not empty driver.vehicle}">
-     vehicle:{
-       id:'${driver.vehicle.id}',
-       model:'${driver.vehicle.model}',
-       number:'${driver.vehicle.number}',
-       trailer:'${driver.vehicle.trailerNumber}'
-     }
+     vehicle:${driver.vehicle.toJson()}
      </c:if>
    });
    collapse.api.collapse = '${save}';

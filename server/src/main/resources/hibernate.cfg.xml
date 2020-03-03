@@ -75,6 +75,8 @@
         <mapping class="entity.storages.Storage"/>
         <mapping class="entity.storages.StorageProduct"/>
         <mapping class="entity.storages.StorageEntry"/>
+        <mapping class="entity.StatisticEntry"/>
+        <mapping class="entity.statistic.StatisticPeriodPoint"/>
         <mapping class="entity.storages.StoragePeriodPoint"/>
         <mapping class="entity.laboratory.subdivisions.extraction.StorageProtein"/>
         <mapping class="entity.laboratory.subdivisions.extraction.TurnProtein"/>

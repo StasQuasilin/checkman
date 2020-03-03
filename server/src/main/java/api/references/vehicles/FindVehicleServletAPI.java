@@ -25,23 +25,13 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.References.FIND_VEHICLE)
 public class FindVehicleServletAPI extends ServletAPI {
 
-    final Logger log = Logger.getLogger(FindVehicleServletAPI.class);
-    private final TruckInfoUtil infoUtil = new TruckInfoUtil();
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JSONArray array = new JSONArray();
         JSONObject body = parseBody(req);
         if (body != null) {
-            Object key = body.get(KEY);
+            String key = String.valueOf(body.get(KEY));
             for (Vehicle v : dao.findVehicle(Vehicle.class, key)){
-                if (!U.exist(v.getModel())){
-                    ArrayList<TruckInfo> info = infoUtil.getInfo(v.getNumber());
-                    if (info.size() > 0){
-                        v.setModel(info.get(0).getBrand());
-                        dao.save(v);
-                    }
-                }
                 array.add(v.toJson());
             }
 

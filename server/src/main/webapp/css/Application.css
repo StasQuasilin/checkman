@@ -151,6 +151,14 @@ button:focus, input:focus{
     border: solid 1pt;
     margin-top: 1pt;
 }
+.object-menu{
+    padding-left: 4pt;
+    display: inline-block;
+    visibility: hidden;
+}
+.object-block:hover .object-menu{
+    visibility: visible;
+}
 .context-menu{
     font-size: 10pt;
     height: fit-content;

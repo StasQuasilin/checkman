@@ -374,7 +374,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         json.put(PLAN, amount);
         json.put(UNIT, deal.getUnit().getName());
         json.put(PRICE, deal.getPrice());
-        json.put(COUNTERPARTY, deal.getOrganisation().toJson());
+        json.put(COUNTERPARTY, deal.getOrganisation().toShortJson());
         json.put(SHIPPER, shipper.getValue());
         if (address != null){
             json.put(ADDRESS, address.toJson());
@@ -390,16 +390,16 @@ public class Transportation extends JsonAble implements Serializable, Constants 
             json.put(TRAILER, trailer.toJson());
         }
         if (transporter != null) {
-            json.put(TRANSPORTER, transporter.toJson());
+            json.put(TRANSPORTER, transporter.toShortJson());
         }
         if (timeRegistration != null) {
-            json.put(REGISTRATION, timeRegistration.toJson());
+            json.put(REGISTRATION, timeRegistration.toShortJson());
         }
         if (timeIn != null) {
-            json.put(TIME_IN, timeIn.toJson());
+            json.put(TIME_IN, timeIn.toShortJson());
         }
         if (timeOut != null) {
-            json.put(TIME_OUT, timeOut.toJson());
+            json.put(TIME_OUT, timeOut.toShortJson());
         }
         if (weight != null) {
             json.put(WEIGHT, weight.toJson());
@@ -409,7 +409,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         json.put(ANY, any());
         json.put(ARCHIVE, archive);
         json.put(DONE, done);
-        json.put(MANAGER, manager.toJson());
+        json.put(MANAGER, manager.toShortJson());
         json.put(CREATE, createTime.toJson());
         return json;
     }

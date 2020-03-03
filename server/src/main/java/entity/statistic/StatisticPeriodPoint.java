@@ -1,32 +1,27 @@
-package entity.storages;
+package entity.statistic;
 
 import entity.JsonAble;
 import entity.documents.Shipper;
+import entity.organisations.Organisation;
 import entity.products.Product;
 import org.json.simple.JSONObject;
-import utils.storages.IStorageStatisticUtil;
 import utils.storages.PointScale;
 import utils.storages.StorageUtil;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 
 /**
- * Created by szpt_user045 on 31.10.2019.
+ * Created by szpt_user045 on 09.10.2019.
  */
 @Entity
-@Table(name = "storage_entry")
-public class StorageEntry extends JsonAble {
-
-    private static final IStorageStatisticUtil ssu = new IStorageStatisticUtil() {};
-
+@Table(name="statistic_period_points")
+public class StatisticPeriodPoint extends JsonAble{
     private int id;
-    private int document;
-    private StorageDocumentType type;
-    private Timestamp time;
-    private Storage storage;
+    private Date date;
+    private PointScale scale;
+    private Organisation storage;
     private Product product;
     private Shipper shipper;
     private float amount;
@@ -41,38 +36,29 @@ public class StorageEntry extends JsonAble {
     }
 
     @Basic
-    @Column(name = "document")
-    public int getDocument() {
-        return document;
+    @Column(name = "date")
+    public Date getDate() {
+        return date;
     }
-    public void setDocument(int document) {
-        this.document = document;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    public StorageDocumentType getType() {
-        return type;
+    @Column(name = "scale")
+    public PointScale getScale() {
+        return scale;
     }
-    public void setType(StorageDocumentType type) {
-        this.type = type;
-    }
-
-    @Basic
-    @Column(name = "time")
-    public Timestamp getTime() {
-        return time;
-    }
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setScale(PointScale scale) {
+        this.scale = scale;
     }
 
     @OneToOne
-    @JoinColumn(name = "storage")
-    public Storage getStorage() {
+    @JoinColumn(name = "counterparty")
+    public Organisation getStorage() {
         return storage;
     }
-    public void setStorage(Storage storage) {
+    public void setStorage(Organisation storage) {
         this.storage = storage;
     }
 
@@ -103,27 +89,36 @@ public class StorageEntry extends JsonAble {
         this.amount = amount;
     }
 
+
+    @Override
+    public String toString() {
+        return "StoragePeriodPoint {\n" +
+                "\tdate=" + date + "\n" +
+                "\tscale=" + scale + "\n" +
+                "\tstorage=" + storage + "\n" +
+                "\tproduct=" + product + "\n" +
+                "\tshipper=" + shipper + "\n" +
+                "\tamount=" + amount + "\n" +
+                '}';
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
         object.put(ID, id);
-        object.put(DOCUMENT, document);
-        object.put(DATE, time.toString());
-        object.put(TYPE, type.toString());
-        object.put(STORAGE, storage.toJson());
+        object.put(DATE, date.toString());
+        object.put(COUNTERPARTY, storage.toJson());
         object.put(PRODUCT, product.toJson());
         object.put(SHIPPER, shipper.toJson());
         object.put(AMOUNT, amount);
-        object.put(SCALE, PointScale.detail.toString());
-        PointScale scale = PointScale.detail;
+        object.put(SCALE, scale.toString());
         PointScale s = scale;
-        LocalDate localDate = time.toLocalDateTime().toLocalDate();
-        while ((s = ssu.nextScale(s)) != scale){
+        LocalDate localDate = date.toLocalDate();
+        while ((s = StorageUtil.nextScale(s)) != scale){
             scale = s;
-            LocalDate beginDate = ssu.getBeginDate(localDate, scale);
+            LocalDate beginDate = StorageUtil.getBeginDate(localDate, scale);
             object.put(scale.toString(), Date.valueOf(beginDate).toString());
         }
-
         return object;
     }
 }

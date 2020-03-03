@@ -128,7 +128,7 @@ public interface dbDAO {
     List<ProbeTurn> getLimitProbeTurns();
     List<Worker> findWorker(Object key);
     TurnProtein getTurnProteinById(Object id);
-    <T> List<T> findVehicle (Class<T> tClass, Object key);
+    <T> List<T> findVehicle (Class<T> tClass, String key);
     List<OrganisationType> getOrganisationTypeList();
     Organisation findOrganisation(String type, String name);
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
@@ -216,7 +216,7 @@ public interface dbDAO {
     StorageEntry getStorageEntry(int documentId, StorageDocumentType documentType);
     StoragePeriodPoint getStoragePoint(Date date, Storage storage, Product product, Shipper shipper, PointScale scale);
     List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper);
-    List<StoragePeriodPoint> getStoragePoints(Date from, Date to, Storage storage, Product product, Shipper shipper, PointScale scale);
+    <T>List<T> getStoragePoints(Class<T> tClass, Date from, Date to, Object storage, Product product, Shipper shipper, PointScale scale);
     List<Transportation> getTransportationsByTransporter(Organisation transporter);
     Product getProductByName(String name);
     List<LoadAddress> getLoadAddress(Organisation organisation);
@@ -241,4 +241,6 @@ public interface dbDAO {
     List<Transportation> getTransportationsByDeal(int dealId);
     ProductAction getProductAction(Product product, DealType type);
     List<ProductAction> getProductActionsByProduct(Product product);
+    StatisticEntry getStatisticEntry(int documentId);
+    List<StatisticEntry> getStatisticEntries(Date from, Date to, Organisation organisation, Product product, Shipper shipper);
 }

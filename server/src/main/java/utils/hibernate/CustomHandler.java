@@ -5,8 +5,12 @@ import entity.documents.Deal;
 import entity.organisations.Organisation;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
+import entity.transport.Vehicle;
+import utils.storages.StatisticUtil;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by szpt_user045 on 01.07.2019.
@@ -15,16 +19,11 @@ public class CustomHandler implements Constants{
 
     static dbDAO dao = dbDAOService.getDAO();
 
-
     public static void main(String[] args) {
-        Hibernator instance = Hibernator.getInstance();
-
-        Organisation organisation = dao.getObjectById(Organisation.class, 9637);
-        HashMap<String, Object> params = instance.getParams();
-        params.put("organisation", organisation);
-        for (Deal deal : instance.query(Deal.class, params)){
-            dao.save(deal);
-        }
+//        Hibernator instance = Hibernator.getInstance();
+        String REG_EX = "[иИ]|[іІ]|[ыЫ]";
+        String target = "МИЛіКЫ";
+        System.out.println(target.replaceAll(REG_EX, "!"));
 //        SealBatch batch = dao.getObjectById(SealBatch.class, 114990);
 //        for (int i = 0; i < 100; i++){
 //            Seal seal = new Seal();
@@ -63,7 +62,7 @@ public class CustomHandler implements Constants{
 //            dao.save(note);
 //        }
 
-        HibernateSessionFactory.shutdown();
+//        HibernateSessionFactory.shutdown();
     }
 
     static String pretty(String number){
