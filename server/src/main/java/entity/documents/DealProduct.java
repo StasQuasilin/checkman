@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "deal_products")
 public class DealProduct implements Constants{
     private int id;
-    private DealType type;
+    private Deal deal;
     private Product product;
     private Unit unit;
     private Shipper shipper;
@@ -35,13 +35,13 @@ public class DealProduct implements Constants{
         this.id = id;
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = TYPE)
-    public DealType getType() {
-        return type;
+    @ManyToOne
+    @JoinColumn(name = "deal")
+    public Deal getDeal() {
+        return deal;
     }
-    public void setType(DealType type) {
-        this.type = type;
+    public void setDeal(Deal deal) {
+        this.deal = deal;
     }
 
     @OneToOne

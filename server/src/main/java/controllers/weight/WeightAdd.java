@@ -45,7 +45,7 @@ public class WeightAdd extends IModal {
         Transportation transportation = null;
         if (id != -1) {
             transportation = dao.getObjectById(Transportation.class, id);
-            req.setAttribute(PLAN, transportation);
+            req.setAttribute(TRANSPORTATION, transportation);
             req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
             req.setAttribute(TITLE, _TITLE_EDIT);
         } else if (copy != -1) {
@@ -60,7 +60,7 @@ public class WeightAdd extends IModal {
                     i++;
                 }
             }
-            req.setAttribute(PLAN, transportation);
+            req.setAttribute(TRANSPORTATION, transportation);
             req.setAttribute(TITLE, _TITLE_COPY);
         } else {
             req.setAttribute(TITLE, _TITLE_ADD);

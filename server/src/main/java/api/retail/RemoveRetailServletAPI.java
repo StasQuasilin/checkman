@@ -3,8 +3,7 @@ package api.retail;
 import api.ServletAPI;
 import constants.Branches;
 import entity.transport.Transportation2;
-import entity.transport.TransportationDocument;
-import entity.transport.TransportationProduct;
+import entity.transport.TransportationDocument2;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
@@ -14,8 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Created by Kvasik on 25.12.2019.
@@ -35,7 +32,7 @@ public class RemoveRetailServletAPI extends ServletAPI {
                 Transportation2 transportation = dao.getObjectById(Transportation2.class, body.get(ID));
                 if (transportation != null) {
                     boolean remove = true;
-                    for (TransportationDocument document : transportation.getDocuments()) {
+                    for (TransportationDocument2 document : transportation.getDocuments()) {
                         if (remove && document.getProducts().size() > 0) {
                             remove = false;
                             dao.remove(document.getProducts().toArray());

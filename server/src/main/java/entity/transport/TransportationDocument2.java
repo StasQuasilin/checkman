@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "transportation_documents")
-public class TransportationDocument extends JsonAble implements Comparable<TransportationDocument> {
+public class TransportationDocument2 extends JsonAble implements Comparable<TransportationDocument2> {
     private int id;
     private Transportation2 transportation;
     private int index;
     private Address address;
-    private List<TransportationProduct> products;
+    private List<TransportationProduct2> products;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,10 +60,10 @@ public class TransportationDocument extends JsonAble implements Comparable<Trans
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "document", cascade = CascadeType.ALL)
-    public List<TransportationProduct> getProducts() {
+    public List<TransportationProduct2> getProducts() {
         return products;
     }
-    public void setProducts(List<TransportationProduct> products) {
+    public void setProducts(List<TransportationProduct2> products) {
         this.products = products;
     }
 
@@ -91,13 +91,13 @@ public class TransportationDocument extends JsonAble implements Comparable<Trans
             json.put(ADDRESS, address.toJson());
         }
         JSONArray array = pool.getArray();
-        array.addAll(products.stream().map(TransportationProduct::toJson).collect(Collectors.toList()));
+        array.addAll(products.stream().map(TransportationProduct2::toJson).collect(Collectors.toList()));
         json.put(PRODUCTS, array);
         return json;
     }
 
     @Override
-    public int compareTo(TransportationDocument o) {
+    public int compareTo(TransportationDocument2 o) {
         return index - o.index;
     }
 }

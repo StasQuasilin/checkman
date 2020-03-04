@@ -33,122 +33,21 @@ public class DealEditServletAPI extends IChangeServletAPI {
     private final Logger log = Logger.getLogger(DealEditServletAPI.class);
     private final UpdateUtil updateUtil = new UpdateUtil();
 
+    private final DealEditor dealEditor = new DealEditor();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            log.info(body);
-            Deal deal;
-            Worker worker = getWorker(req);
-            boolean save = false;
 
-            long id = -1;
-
-            if (body.containsKey(Constants.ID)) {
-                id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
-            }
-            if (id != -1) {
-                deal = dao.getDealById(id);
-            } else {
-                deal = new Deal();
-                deal.setCreator(worker);
-                deal.setUid(DocumentUIDGenerator.generateUID());
-                save = true;
-            }
-
-            comparator.fix(deal);
-
-            Date date = Date.valueOf(String.valueOf(body.get(Constants.DATE)));
-            Date dateTo = Date.valueOf(String.valueOf(body.get(Constants.DATE_TO)));
-            if (date.after(dateTo)) {
-                Date temp = date;
-                date = dateTo;
-                dateTo = temp;
-            }
-
-
-
-            if (deal.getDate() == null || !deal.getDate().equals(date)) {
-                deal.setDate(date);
-                save = true;
-            }
-
-            if (deal.getDateTo() == null || !deal.getDateTo().equals(dateTo)) {
-                deal.setDateTo(dateTo);
-                save = true;
-            }
-
-            DealType type = DealType.valueOf(String.valueOf(body.get(Constants.TYPE)));
-            if (deal.getType() == null || deal.getType() != type) {
-                deal.setType(type);
-                save = true;
-            }
-
-            String number = String.valueOf(body.get(NUMBER));
-            if (!U.exist(deal.getNumber()) || !deal.getNumber().equals(number)){
-                deal.setNumber(number);
-                save = true;
-            }
-
-            Organisation organisation;
-            long organisationId = (long) body.get(Constants.COUNTERPARTY);
-            if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisationId) {
-                organisation = dao.getOrganisationById(organisationId);
-                deal.setOrganisation(organisation);
-                save = true;
-            }
-
-            Product product = dao.getProductById(body.get(Constants.PRODUCT));
-            if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {
-                deal.setProduct(product);
-                save = true;
-            }
-
-            float quantity = Float.parseFloat(String.valueOf(body.get(Constants.QUANTITY)));
-            if (deal.getQuantity() != quantity) {
-                deal.setQuantity(quantity);
-                save = true;
-            }
-
-            long unit = (long) body.get(Constants.UNIT);
-            if (deal.getUnit() == null || deal.getUnit().getId() != unit) {
-                deal.setUnit(UnitBox.getUnit(unit));
-                save = true;
-            }
-            float price = Float.parseFloat(String.valueOf(body.get(Constants.PRICE)));
-            if (deal.getPrice() != price) {
-                deal.setPrice(price);
-                save = true;
-            }
-
-            Shipper shipper = dao.getShipperById(body.get(Constants.REALISATION));
-            if (deal.getShipper() == null || deal.getShipper().getId() != shipper.getId()) {
-                deal.setShipper(shipper);
-                save = true;
-            }
-
-            if (save) {
-                dao.saveDeal(deal);
-
+            Deal deal = dealEditor.editDeal(body, getWorker(req));
+            if (deal != null){
                 IAnswer resultAnswer = new SuccessAnswer();
-                resultAnswer.add("id", deal.getId());
-                JSONObject answerJson = parser.toJson(resultAnswer);
-                write(resp, answerJson.toJSONString());
-                pool.put(answerJson);
-
-                updateUtil.onSave(deal);
-                try {
-                    comparator.compare(deal, worker);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                write(resp, SUCCESS_ANSWER);
+                resultAnswer.add(ID, deal.getId());
+                JSONObject json = resultAnswer.toJson();
+                write(resp, json.toJSONString());
+                pool.put(json);
             }
-
-
-            body.clear();
         } else {
             write(resp, EMPTY_BODY);
         }

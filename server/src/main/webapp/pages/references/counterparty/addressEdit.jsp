@@ -67,7 +67,7 @@
   };
   </c:if>
   <c:if test="${not empty address}">
-  addressEditor.address = JSON.parse('${address.toJson()}');
+  addressEditor.address = ${address.toJson()};
   </c:if>
 </script>
 <table id="addressEditor" class="editor">

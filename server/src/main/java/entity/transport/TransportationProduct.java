@@ -1,23 +1,30 @@
 package entity.transport;
 
-import entity.JsonAble;
-import entity.deal.ContractProduct;
-import entity.products.Product;
+import entity.documents.Deal;
+import entity.documents.DealProduct;
+import entity.laboratory.MealAnalyses;
+import entity.laboratory.OilAnalyses;
+import entity.laboratory.SunAnalyses;
+import entity.organisations.Address;
 import entity.weight.Weight;
-import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
 /**
- * Created by szpt_user045 on 08.11.2019.
+ * Created by szpt_user045 on 03.03.2020.
  */
 @Entity
-@Table(name = "_transportation_products")
-public class TransportationProduct extends JsonAble{
+@Table(name = "transportation_products")
+public class TransportationProduct {
     private int id;
-    private TransportationDocument document;
-    private ContractProduct contractProduct;
+    private TransportationGroup group;
+    private DealProduct dealProduct;
     private float amount;
+    private Weight weight;
+    private String uid;
+    private SunAnalyses sunAnalyses;
+    private OilAnalyses oilAnalyses;
+    private MealAnalyses mealAnalyses;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,21 +36,21 @@ public class TransportationProduct extends JsonAble{
     }
 
     @ManyToOne
-    @JoinColumn(name = "document")
-    public TransportationDocument getDocument() {
-        return document;
+    @JoinColumn(name = "transportation_group")
+    public TransportationGroup getGroup() {
+        return group;
     }
-    public void setDocument(TransportationDocument document) {
-        this.document = document;
+    public void setGroup(TransportationGroup group) {
+        this.group = group;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "product")
-    public ContractProduct getContractProduct() {
-        return contractProduct;
+    @OneToOne
+    @JoinColumn(name = "deal_product")
+    public DealProduct getDealProduct() {
+        return dealProduct;
     }
-    public void setContractProduct(ContractProduct contractProduct) {
-        this.contractProduct = contractProduct;
+    public void setDealProduct(DealProduct dealProduct) {
+        this.dealProduct = dealProduct;
     }
 
     @Basic
@@ -55,20 +62,48 @@ public class TransportationProduct extends JsonAble{
         this.amount = amount;
     }
 
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = pool.getObject();
-        json.put(ID, id);
-        json.put(TYPE, contractProduct.getType().toString());
-        json.put(AMOUNT, amount);
-        json.put(UNIT, contractProduct.getUnit().toJson());
-        Product product = contractProduct.getProduct();
-        json.put(PRODUCT, product.toJson());
-        if (product.getAnalysesType() != null){
-            json.put(ANALYSES_TYPE, product.getAnalysesType().toString());
-        }
-        json.put(PRICE, contractProduct.getPrice());
-        json.put(SHIPPER, contractProduct.getShipper().toJson());
-        return json;
+    @OneToOne
+    @JoinColumn(name = "weight")
+    public Weight getWeight() {
+        return weight;
+    }
+    public void setWeight(Weight weight) {
+        this.weight = weight;
+    }
+
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "sun")
+    public SunAnalyses getSunAnalyses() {
+        return sunAnalyses;
+    }
+    public void setSunAnalyses(SunAnalyses sunAnalyses) {
+        this.sunAnalyses = sunAnalyses;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "oil")
+    public OilAnalyses getOilAnalyses() {
+        return oilAnalyses;
+    }
+    public void setOilAnalyses(OilAnalyses oilAnalyses) {
+        this.oilAnalyses = oilAnalyses;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "meal")
+    public MealAnalyses getMealAnalyses() {
+        return mealAnalyses;
+    }
+    public void setMealAnalyses(MealAnalyses mealAnalyses) {
+        this.mealAnalyses = mealAnalyses;
     }
 }

@@ -6,7 +6,7 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
         <!--<property name="connection.url">jdbc:postgresql://10.10.10.201:5432/chm_db</property>-->
-        <property name="connection.url">jdbc:postgresql://localhost:5432/chm_db</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/empty_base</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
         <!--suppress HibernateConfigDomInspection -->
@@ -32,10 +32,13 @@
         <mapping class="entity.organisations.Organisation"/>
         <mapping class="entity.organisations.OrganisationType"/>
         <mapping class="entity.transport.Transportation"/>
+        <mapping class="entity.transport.TransportationGroup"/>
+        <mapping class="entity.transport.TransportationProduct"/>
         <mapping class="entity.transport.DocumentNote"/>
         <mapping class="entity.transport.ActionTime"/>
         <mapping class="entity.transport.TransportStorageUsed"/>
         <mapping class="entity.documents.Deal"/>
+        <mapping class="entity.documents.DealProduct"/>
         <mapping class="entity.documents.Shipper"/>
         <mapping class="entity.log.ChangeLog"/>
         <mapping class="entity.log.Change"/>
@@ -111,8 +114,8 @@
         <mapping class="entity.organisations.Address"/>
         <mapping class="entity.organisations.LoadAddress"/>
         <mapping class="entity.transport.Transportation2"/>
-        <mapping class="entity.transport.TransportationDocument"/>
-        <mapping class="entity.transport.TransportationProduct"/>
+        <mapping class="entity.transport.TransportationDocument2"/>
+        <mapping class="entity.transport.TransportationProduct2"/>
         <mapping class="entity.deal.Contract"/>
         <mapping class="entity.deal.ContractProduct"/>
         <mapping class="entity.deal.ContractNote"/>

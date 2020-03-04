@@ -10,24 +10,16 @@ var editor = new Vue({
         products:[],
         units:[],
         deals:[],
-        visibles:[],
+        shippers:[],
         customers:{},
-        plan:{
+        transportation:{
             id:-1,
-            type:-1,
             date:new Date().toISOString().substring(0, 10),
-            number:'',
-            deal:-1,
+            deal:{},
             quantity:0,
-            organisation:{
-                id:-1
-            },
             address:-1,
-            product:-1,
             plan:20,
             from:-1,
-            price:0,
-            unit:-1,
             customer:'szpt',
             vehicle:{
                 id:-1
@@ -79,26 +71,26 @@ var editor = new Vue({
             this.types[action.product.id].push(action.type);
         },
         typesByProduct:function(){
-            var types = this.types[this.plan.product];
+            var types = this.types[this.transportation.deal.product.id];
             var fount = false;
             for (var i in types){
                 if (types.hasOwnProperty(i)){
                     var t = types[i];
-                    if (this.plan.type == t){
+                    if (this.transportation.type == t){
                         fount = true;
                         break;
                     }
                 }
             }
             if (!fount && types){
-                this.plan.type = types[0];
+                this.transportation.type = types[0];
             }
             return types;
         },
         editAddress:function(id){
             var data = {
                 type:'load',
-                counterparty:this.plan.organisation.id,
+                counterparty:this.transportation.organisation.id,
                 id:id
             };
 
@@ -117,7 +109,7 @@ var editor = new Vue({
                     self.addressList.push(a);
                 }
                 if (self.addressList.length == 1){
-                    self.plan.address = self.addressList[0].id
+                    self.transportation.address = self.addressList[0].id
                 }
             })
         },
@@ -127,7 +119,7 @@ var editor = new Vue({
             this.note.edit = true;
 
             if (key != undefined) {
-                this.plan.notes.splice(key, 1);
+                this.transportation.notes.splice(key, 1);
                 this.note.key = key;
             }
             if (note) {
@@ -141,7 +133,7 @@ var editor = new Vue({
         },
         saveNote:function(){
             if (this.note.input) {
-                this.plan.notes.push({
+                this.transportation.notes.push({
                     id:this.note.id,
                     creator: this.worker,
                     note: this.note.input
@@ -150,14 +142,14 @@ var editor = new Vue({
             }
         },
         removeNote:function(key){
-            this.plan.notes.splice(key, 1);
+            this.transportation.notes.splice(key, 1);
         },
         setQuantity:function(){
             for (let i in this.deals){
                 if (this.deals.hasOwnProperty(i)){
-                    if (this.deals[i].id == this.plan.deal){
-                        this.plan.quantity = this.deals[i].quantity;
-                        this.plan.price = this.deals[i].price;
+                    if (this.deals[i].id == this.transportation.deal){
+                        this.transportation.quantity = this.deals[i].quantity;
+                        this.transportation.price = this.deals[i].price;
                         break;
                     }
                 }
@@ -172,23 +164,23 @@ var editor = new Vue({
             }
         },
         cancelOrganisation:function(){
-            this.plan.type = -1;
-            this.plan.deal = -1;
-            this.plan.product = -1;
+            this.transportation.type = -1;
+            this.transportation.deal = -1;
+            this.transportation.product = -1;
             this.deals = [];
             this.addressList = [];
         },
         productList:function(){
-            if (this.plan.deal == -1){
+            if (this.transportation.deal.id == -1){
                 return this.products;
             } else {
                 var products = [];
                 for (var d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
                         var deal = this.deals[d];
-                        if (deal.id === this.plan.deal){
+                        if (deal.id === this.transportation.deal){
                             products.push(deal.product);
-                            this.plan.product = deal.product.id;
+                            this.transportation.product = deal.product.id;
                             break;
                         }
                     }
@@ -196,17 +188,17 @@ var editor = new Vue({
                 return products;
             }
         },
-        visibleList:function(){
-            if (this.plan.deal == -1){
-                return this.visibles;
+        shipperList:function(){
+            if (this.transportation.deal.id == -1){
+                return this.shippers;
             } else {
                 var froms = [];
                 for (var d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
                         var deal = this.deals[d];
-                        if (deal.id === this.plan.deal){
+                        if (deal.id === this.transportation.deal.id){
                             froms.push(deal.visibility);
-                            this.plan.from = deal.visibility;
+                            this.transportation.from = deal.visibility;
                             break;
                         }
                     }
@@ -215,16 +207,16 @@ var editor = new Vue({
             }
         },
         typeList:function(){
-            if (this.plan.deal == -1){
+            if (this.transportation.deal == -1){
                 return this.types;
             } else {
                 var types = {};
                 for (var d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
                         var deal = this.deals[d];
-                        if (deal.id === this.plan.deal){
+                        if (deal.id === this.transportation.deal){
                             types[deal.type] = this.types[deal.type];
-                            this.plan.type = deal.type;
+                            this.transportation.type = deal.type;
                             break;
                         }
                     }
@@ -235,11 +227,11 @@ var editor = new Vue({
         pickDate:function(){
             const self = this;
             datepicker.show(function(date){
-                self.plan.date = date;
-            }, self.plan.date)
+                self.transportation.date = date;
+            }, self.transportation.date)
         },
         putOrganisation:function(organisation){
-            this.plan.organisation = organisation;
+            this.transportation.organisation = organisation;
             if (organisation.id > 0) {
                 this.findDeals(organisation.id);
                 this.findAddress(organisation.id);
@@ -255,7 +247,7 @@ var editor = new Vue({
                     self.addressList.push(item);
                 });
                 if (a.length == 1){
-                   self.plan.address = a[0].id ;
+                   self.transportation.address = a[0].id ;
                 }
 
             });
@@ -265,17 +257,15 @@ var editor = new Vue({
             PostApi(this.api.findDeals, {organisation:id}, function(a){
                 self.deals = a;
                 if(a.length > 0) {
-                    self.plan.deal = a[0].id;
-                    self.plan.type = a[0].type;
-                    self.plan.product = a[0].product.id;
-                    var now = new Date(self.plan.date);
+                    self.transportation.deal = a[0];
+                    var now = new Date(self.transportation.date);
                     for (var i in a) {
                         if (a.hasOwnProperty(i)) {
                             var deal = a[i];
                             var from = new Date(deal.date);
                             var to = new Date(deal.date_to);
                             if (now >= from && now <= to) {
-                                self.plan.deal = deal.id;
+                                self.transportation.deal = deal.id;
                             }
                         }
                     }
@@ -287,31 +277,31 @@ var editor = new Vue({
             for (var d in this.deals){
                 if (this.deals.hasOwnProperty(d)){
                     var deal = this.deals[d];
-                    if (deal.id === this.plan.deal){
-                        return this.plan.price = deal.price;
+                    if (deal.id === this.transportation.deal){
+                        return this.transportation.price = deal.price;
                     }
                 }
             }
         },
         putVehicle:function(vehicle){
-            this.plan.vehicle = vehicle;
+            this.transportation.vehicle = vehicle;
 
             if (vehicle.trailer && vehicle.trailer.id > 0){
                 this.putTrailer(vehicle.trailer);
             }
         },
         putTrailer:function(trailer){
-            this.plan.trailer = trailer;
+            this.transportation.trailer = trailer;
         },
         putTransporter:function(transporter){
-            this.plan.transporter = transporter;
+            this.transportation.transporter = transporter;
         },
         putDriver:function(driver){
-            this.plan.driver = driver;
-            if (driver.vehicle && this.plan.vehicle.id == -1){
+            this.transportation.driver = driver;
+            if (driver.vehicle && this.transportation.vehicle.id == -1){
                 this.putVehicle(driver.vehicle);
             }
-            if (driver.organisation && this.plan.transporter.id == -1){
+            if (driver.organisation && this.transportation.transporter.id == -1){
                 this.putTransporter(driver.organisation);
             }
         },
@@ -322,32 +312,33 @@ var editor = new Vue({
                     this.saveNote();
                 }
                 var e = this.errors;
-                e.type = this.plan.type == -1;
-                e.organisation = this.plan.organisation.id == -1;
-                e.product = this.plan.product == -1;
-                e.manager = this.plan.manager == -1;
-                var plan = Object.assign({}, this.plan);
-                if (!plan.quantity){
-                    plan.quantity = 0;
+                e.organisation = this.transportation.deal.organisation.id == -1;
+                e.product = this.transportation.deal.product == -1;
+                e.manager = this.transportation.manager == -1;
+                var transportation = Object.assign({}, this.transportation);
+                if (!transportation.quantity){
+                    transportation.quantity = 0;
                 }
-                if (!plan.price){
-                    plan.price = 0;
+                if (!transportation.price){
+                    transportation.price = 0;
                 }
-                plan.organisation = this.plan.organisation.id;
-                plan.vehicle = plan.vehicle.id;
-                plan.trailer = plan.trailer.id;
-                plan.driver = plan.driver.id;
-                plan.transporter = plan.transporter.id;
+                transportation.deal.counterparty = this.transportation.deal.counterparty.id;
+                transportation.deal.product = this.transportation.deal.product.id;
 
-                for(var i in plan.notes){
-                    if (plan.notes.hasOwnProperty(i)){
-                        var note = plan.notes[i];
+                //transportation.vehicle = transportation.vehicle.id;
+                //transportation.trailer = transportation.trailer.id;
+                //transportation.driver = transportation.driver.id;
+                //transportation.transporter = transportation.transporter.id;
+
+                for(var i in transportation.notes){
+                    if (transportation.notes.hasOwnProperty(i)){
+                        var note = transportation.notes[i];
                         delete note.creator;
                     }
                 }
 
                 if (!e.type && !e.organisation && !e.product) {
-                    PostApi(this.api.save, plan, function (a) {
+                    PostApi(this.api.save, transportation, function (a) {
                         if (a.status === 'success') {
                             closeModal();
                         }

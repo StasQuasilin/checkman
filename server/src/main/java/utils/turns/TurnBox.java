@@ -30,9 +30,9 @@ public final class TurnBox{
         def = new TurnDateTime(-1, LocalDateTime.now(), LocalDateTime.now());
     }
 
-    public static TurnDateTime getTurnDate(LocalDateTime date){
+    public static TurnDateTime getTurnDate(LocalDateTime date) {
         if (turns.size() == 0) {
-            log.warn("No any turn setting!!!");
+            log.error("No any turn setting!!!");
         }
 //        else {
 //            log.info("Look at turn for: " + date);

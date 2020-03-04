@@ -12,9 +12,7 @@ import entity.laboratory.SunAnalyses;
 import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.products.Product;
-import entity.weight.Unit;
 import entity.weight.Weight;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.U;
 
@@ -22,9 +20,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -35,8 +31,6 @@ import java.util.stream.Collectors;
 public class Transportation extends JsonAble implements Serializable, Constants {
     private int id;
     private Date date;
-    private Address address;
-    private Deal deal;
     private Vehicle vehicle;
     private Trailer trailer;
     private String truckNumber;
@@ -45,24 +39,28 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     private String transporterValue;
     private Driver driver;
     private String driverLicense;
-    private Shipper shipper;
     private ActionTime timeRegistration;
     private ActionTime timeIn;
     private ActionTime timeOut;
-    private Product product;
-    private Weight weight;
-    private SunAnalyses sunAnalyses;
-    private OilAnalyses oilAnalyses;
-    private MealAnalyses mealAnalyses;
     private Worker creator;
     private Worker manager;
     private List<DocumentNote> notes = new ArrayList<>();
     private boolean archive;
     private boolean done;
     private String uid;
-    private ActionTime createTime;
     private TransportCustomer customer;
+    private ActionTime createTime;
+
+    private Address address;
+    private SunAnalyses sunAnalyses;
+    private OilAnalyses oilAnalyses;
+    private MealAnalyses mealAnalyses;
+    private Weight weight;
     private float amount;
+
+    private Deal deal;
+    private Shipper shipper;
+    private Product product;
 
     @Id
     @GeneratedValue

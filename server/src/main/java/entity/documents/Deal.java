@@ -5,12 +5,14 @@ import entity.JsonAble;
 import entity.products.Product;
 import entity.Worker;
 import entity.organisations.Organisation;
+import entity.transport.ActionTime;
 import entity.weight.Unit;
 import org.json.simple.JSONObject;
 import utils.U;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -22,19 +24,22 @@ public class Deal extends JsonAble{
     private Date date;
     private Date dateTo;
     private String number;
-    private DealProduct dealProduct;
     private DealType type;
+//    private List<DealProduct> products;
+    private String uid;
+
+    private Product product;
+    private Unit unit;
     private Shipper shipper;
     private Organisation organisation;
-    private Product product;
-    private float quantity;
-    private Unit unit;
     private float price;
+
     private float complete;
-    private Worker creator;
-    private String uid;
+    private float quantity;
     private boolean done;
     private boolean archive;
+    private Worker creator;
+    private ActionTime create;
 
     @Id
     @GeneratedValue
@@ -43,6 +48,24 @@ public class Deal extends JsonAble{
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "deal", cascade = CascadeType.ALL)
+//    public List<DealProduct> getProducts() {
+//        return products;
+//    }
+//    public void setProducts(List<DealProduct> products) {
+//        this.products = products;
+//    }
+
+    @OneToOne
+    @JoinColumn(name = "created")
+    public ActionTime getCreate() {
+        return create;
+    }
+    public void setCreate(ActionTime create) {
+        this.create = create;
     }
 
     @Basic
@@ -55,22 +78,21 @@ public class Deal extends JsonAble{
     }
 
     @Basic
-    @Column(name = "_number")
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    @Basic
     @Column(name = "date_to")
     public Date getDateTo() {
         return dateTo;
     }
     public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
+    }
+
+    @Basic
+    @Column(name = "_number")
+    public String getNumber() {
+        return number;
+    }
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Basic
@@ -212,6 +234,7 @@ public class Deal extends JsonAble{
         json.put(DATE, date.toString());
         json.put(DATE_TO, dateTo.toString());
         json.put(ORGANISATION, organisation.toJson());
+        json.put(COUNTERPARTY, organisation.toJson());
         json.put(VISIBILITY, shipper.getValue());
         json.put(PRODUCT, product.toJson());
         json.put(QUANTITY, quantity);

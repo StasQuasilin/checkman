@@ -2,7 +2,6 @@ package entity.transport;
 
 import entity.JsonAble;
 import entity.Worker;
-import entity.documents.Shipper;
 import entity.organisations.Organisation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -31,7 +30,7 @@ public class Transportation2 extends JsonAble {
     private ActionTime registered;
     private ActionTime timeIn;
     private ActionTime timeOut;
-    private List<TransportationDocument> documents = new ArrayList<>();
+    private List<TransportationDocument2> documents = new ArrayList<>();
     private boolean done;
     private boolean archive;
     private ActionTime createTime;
@@ -174,11 +173,11 @@ public class Transportation2 extends JsonAble {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public List<TransportationDocument> getDocuments() {
+    public List<TransportationDocument2> getDocuments() {
         Collections.sort(documents);
         return documents;
     }
-    public void setDocuments(List<TransportationDocument> products) {
+    public void setDocuments(List<TransportationDocument2> products) {
         this.documents = products;
     }
 
@@ -251,7 +250,7 @@ public class Transportation2 extends JsonAble {
             json.put(TIME_OUT, timeOut.getTime().toString());
         }
         JSONArray docs = pool.getArray();
-        docs.addAll(getDocuments().stream().map(TransportationDocument::toJson).collect(Collectors.toList()));
+        docs.addAll(getDocuments().stream().map(TransportationDocument2::toJson).collect(Collectors.toList()));
         json.put(PRODUCTS, docs);
         json.put(MANAGER, manager.toJson());
         json.put(CREATOR, createTime.getCreator().toJson());

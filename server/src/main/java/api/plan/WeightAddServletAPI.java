@@ -1,6 +1,7 @@
 package api.plan;
 
 import api.ServletAPI;
+import api.deal.DealEditor;
 import constants.Branches;
 import constants.Constants;
 import entity.DealType;
@@ -37,6 +38,7 @@ import java.util.List;
 @WebServlet(Branches.API.PLAN_LIST_ADD)
 public class WeightAddServletAPI extends ServletAPI {
 
+    private DealEditor dealEditor = new DealEditor();
     private static final String FROM = "from";
     private final Logger log = Logger.getLogger(WeightAddServletAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
@@ -68,53 +70,7 @@ public class WeightAddServletAPI extends ServletAPI {
                 manager = creator;
             }
 
-            Deal deal = dao.getObjectById(Deal.class, body.get(DEAL));
-            if (deal == null){
-                deal = new Deal();
-                dealComparator.fix(null);
-                deal.setUid(DocumentUIDGenerator.generateUID());
-                deal.setType(DealType.valueOf(String.valueOf(body.get(TYPE))));
-
-                deal.setDate(date);
-                deal.setDateTo(date);
-                deal.setOrganisation(dao.getOrganisationById(body.get(ORGANISATION)));
-                deal.setShipper(shipper);
-                deal.setProduct(dao.getProductById(body.get(PRODUCT)));
-                deal.setUnit(dao.getWeightUnitById(body.get(UNIT)));
-
-                deal.setCreator(creator);
-                dao.saveDeal(deal);
-                updateUtil.onSave(deal);
-
-            } else {
-                dealComparator.fix(deal);
-            }
-
-            boolean saveDeal = false;
-
-            String number = String.valueOf(body.get(NUMBER));
-            if (!U.exist(deal.getNumber()) || !deal.getNumber().equals(number)){
-                deal.setNumber(number);
-                saveDeal = true;
-            }
-
-            float quantity = Float.parseFloat(String.valueOf(body.get(QUANTITY)));
-            if (deal.getQuantity() != quantity){
-                deal.setQuantity(quantity);
-                saveDeal = true;
-            }
-
-            float price = Float.parseFloat(String.valueOf(body.get(PRICE)));
-            if (deal.getPrice() != price){
-                deal.setPrice(price);
-                saveDeal = true;
-            }
-
-            if (saveDeal){
-                dao.saveDeal(deal);
-                updateUtil.onSave(deal);
-                dealComparator.compare(deal, creator);
-            }
+            Deal deal = dealEditor.editDeal((JSONObject) body.get(DEAL), creator);
 
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
             if (transportation == null) {

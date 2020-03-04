@@ -6,8 +6,8 @@ import entity.Worker;
 import entity.deal.Contract;
 import entity.deal.ContractProduct;
 import entity.transport.Transportation2;
-import entity.transport.TransportationDocument;
-import entity.transport.TransportationProduct;
+import entity.transport.TransportationDocument2;
+import entity.transport.TransportationProduct2;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by szpt_user045 on 03.12.2019.
@@ -45,12 +44,12 @@ public class EditRetailServletAPI extends ServletAPI {
             Transportation2 transportation = transportationSaver.saveTransportation(body, worker);
             SuccessAnswer successAnswer = new SuccessAnswer(TRANSPORTATION, transportation.getId());
 
-            HashMap<Integer, TransportationDocument> documents = new HashMap<>();
-            HashMap<Integer, TransportationProduct> products = new HashMap<>();
+            HashMap<Integer, TransportationDocument2> documents = new HashMap<>();
+            HashMap<Integer, TransportationProduct2> products = new HashMap<>();
 
-            for (TransportationDocument document : transportation.getDocuments()){
+            for (TransportationDocument2 document : transportation.getDocuments()){
                 if (document.getProducts().size() > 0) {
-                    for (TransportationProduct product : document.getProducts()) {
+                    for (TransportationProduct2 product : document.getProducts()) {
                         ContractProduct contractProduct = product.getContractProduct();
                         Contract contract = contractProduct.getContract();
                         if (!documents.containsKey(contract.getId())) {
@@ -65,8 +64,8 @@ public class EditRetailServletAPI extends ServletAPI {
                 }
             }
 
-            ArrayList<TransportationDocument> saveDocuments = new ArrayList<>();
-            ArrayList<TransportationProduct> saveProducts = new ArrayList<>();
+            ArrayList<TransportationDocument2> saveDocuments = new ArrayList<>();
+            ArrayList<TransportationProduct2> saveProducts = new ArrayList<>();
             JSONObject array = pool.getObject();
 
             for (Object d : (JSONArray) body.get(DEALS)){
@@ -76,11 +75,11 @@ public class EditRetailServletAPI extends ServletAPI {
                 array.put(key, contract.getId());
 
                 int idx = Integer.parseInt(String.valueOf(object.get(INDEX)));
-                TransportationDocument document;
+                TransportationDocument2 document;
                 if (documents.containsKey(contract.getId())){
                     document = documents.remove(contract.getId());
                 } else {
-                    document = new TransportationDocument();
+                    document = new TransportationDocument2();
                 }
                 document.setIndex(idx);
 
@@ -94,11 +93,11 @@ public class EditRetailServletAPI extends ServletAPI {
                 saveDocuments.add(document);
 
                 for (ContractProduct contractProduct : contract.getProducts()){
-                    TransportationProduct product;
+                    TransportationProduct2 product;
                     if (products.containsKey(contractProduct.getId())){
                         product = products.remove(contractProduct.getId());
                     } else {
-                        product = new TransportationProduct();
+                        product = new TransportationProduct2();
                         product.setDocument(document);
                         product.setContractProduct(contractProduct);
                     }
@@ -110,11 +109,11 @@ public class EditRetailServletAPI extends ServletAPI {
             saveDocuments.forEach(dao::save);
             saveProducts.forEach(dao::save);
 //
-            for (TransportationProduct product : products.values()){
+            for (TransportationProduct2 product : products.values()){
                 log.info("Remove transportation product " + product.getId());
                 dao.remove(product);
             }
-            for (TransportationDocument document : documents.values()){
+            for (TransportationDocument2 document : documents.values()){
                 log.info("Remove transportation document " + document.getId());
                 dao.remove(document);
             }
