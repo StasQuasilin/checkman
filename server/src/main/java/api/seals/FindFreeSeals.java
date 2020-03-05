@@ -25,8 +25,11 @@ public class FindFreeSeals extends ServletAPI {
         if (body != null) {
 
             String key = String.valueOf(body.get(KEY));
-            JSONArray array = dao.findSeal(key).stream()
-                    .map(Seal::toJson).collect(Collectors.toCollection(pool::getArray));
+            JSONArray array = pool.getArray();
+            for (Seal seal : dao.findSeal(key)){
+                array.add(seal.toJson());
+            }
+
             write(resp, array.toJSONString());
             pool.put(array);
         }

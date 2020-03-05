@@ -27,10 +27,12 @@ public class FindDriverServletAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            final JSONArray array = new JSONArray();
             String key = String.valueOf(body.get(KEY));
 
-            array.addAll(dao.findDriver(key).stream().map(Driver::toJson).collect(Collectors.toCollection(JSONArray::new)));
+            JSONArray array = pool.getArray();
+            for (Driver driver : dao.findDriver(key)){
+                array.add(driver.toJson());
+            }
 
             write(resp, array.toJSONString());
 
