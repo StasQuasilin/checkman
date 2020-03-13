@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${context}/css/Coverlet.css">
     <link rel="stylesheet" href="${context}/css/chat/chat-holder.css">
     <link rel="stylesheet" href="${context}/css/date-picker.css">
-    <script src="${context}/ext/vue.min.js"></script>
+    <script src="${context}/ext/vue.js"></script>
     <script src="${context}/ext/vuetify.js"></script>
     <script src="${context}/ext/jquery.min.js"></script>
     <script src="${context}/js/Core.js"></script>

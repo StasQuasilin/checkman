@@ -27,24 +27,26 @@ public class DeleteDealServletAPI extends ServletAPI{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
-            final Object id = body.get(Constants.ID);
-            final Deal deal = dao.getDealById(id);
-
+            final Deal deal = dao.getObjectById(Deal.class, body.get(ID));
 
             final List<Transportation> list = dao.getTransportationsByDeal(deal.getId());
-
-            for (Transportation plan : list){
-                dao.remove(plan);
-                updateUtil.onRemove(plan);
-            }
 
             if (deal.getComplete() > 0 || list.size() > 0){
                 deal.setArchive(true);
                 dao.save(deal);
                 updateUtil.onArchive(deal);
+                for (Transportation plan : list){
+                    plan.setArchive(true);
+                    dao.save(plan);
+                    updateUtil.onRemove(plan);
+                }
             } else {
                 dao.remove(deal);
                 updateUtil.onRemove(deal);
+                for (Transportation plan : list){
+                    dao.remove(plan);
+                    updateUtil.onRemove(plan);
+                }
             }
 
             write(resp, SUCCESS_ANSWER);

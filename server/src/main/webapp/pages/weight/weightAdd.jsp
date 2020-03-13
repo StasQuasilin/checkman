@@ -78,9 +78,9 @@
     </c:forEach>
     
     <c:forEach items="${managers}" var="manager">
-    editor.managers.push({
+    editor.managers.push(
         ${manager.toJson()}
-    });
+    );
     </c:forEach>
     
     <c:forEach items="${types}" var="type">
@@ -98,9 +98,10 @@
     </c:forEach>
     
     <c:forEach items="${units}" var="unit">
-    editor.units.push(
-        '${unit.name}'
-    );
+    editor.units.push({
+        id:${unit.id},
+        name:'${unit.name}'
+    });
     </c:forEach>
     
     <c:forEach items="${shippers}" var="shipper">
@@ -115,92 +116,18 @@
         value:'<fmt:message key="${customer}"/>'
     };
     </c:forEach>
-    
-    <%--<c:choose>--%>
-    <%--<c:when test="${not empty transportation }">--%>
-    <%--editor.plan = {--%>
-        <%--id:${transportation.id},--%>
-        <%--type:'${deal.type}',--%>
-        <%--date:'${transportation.date}',--%>
-        <%--deal:${transportation.deal.id},--%>
-        <%--number:'${deal.number}',--%>
-        <%--organisation:{--%>
-            <%--id:'${deal.organisation.id}',--%>
-            <%--value:"${deal.organisation.value}"--%>
-        <%--},--%>
-        <%--address:-1,--%>
-        <%--product:${deal.product.id},--%>
-        <%--quantity:${deal.quantity},--%>
-        <%--plan:${transportation.amount},--%>
-        <%--from:'${deal.shipper.value}',--%>
-        <%--price:${deal.price},--%>
-        <%--unit:${deal.unit.id},--%>
-        <%--customer:'${transportation.customer}',--%>
-        <%--driver:{--%>
-            <%--id:-1--%>
-        <%--},--%>
-        <%--vehicle:{--%>
-            <%--id:-1--%>
-        <%--},--%>
-        <%--trailer:{--%>
-            <%--id:-1--%>
-        <%--},--%>
-        <%--transporter:{--%>
-            <%--id:-1--%>
-        <%--},--%>
-        <%--notes:[]--%>
-    <%--};--%>
-    <%--<c:if test="${not empty transportation.address}">--%>
-    <%--editor.transportation.address = ${transportation.address.id}--%>
-    <%--</c:if>--%>
-    <%--<c:forEach items="${address}" var="a">--%>
-    <%--editor.addressList.push(${a.address.toJson()});--%>
-    <%--</c:forEach>--%>
-    <%--<c:if test="${not empty transportation.vehicle.id}">--%>
-    <%--editor.transportation.vehicle = {--%>
-        <%--id:${transportation.vehicle.id},--%>
-        <%--model:'${transportation.vehicle.model}',--%>
-        <%--number:'${transportation.vehicle.number}'--%>
-    <%--};--%>
-    <%--<c:if test="${transportation.trailer ne null}">--%>
-    <%--editor.transportation.trailer = {--%>
-        <%--id:${transportation.trailer.id},--%>
-        <%--number:'${transportation.trailer.number}'--%>
-    <%--};--%>
-    <%--</c:if>--%>
-    <%--</c:if>--%>
-    <%--<c:if test="${not empty transportation.driver.id}">--%>
-    <%--editor.transportation.driver = {--%>
-        <%--id:${transportation.driver.id},--%>
-        <%--person:{--%>
-            <%--surname:'${transportation.driver.person.surname}',--%>
-            <%--forename:'${transportation.driver.person.forename}',--%>
-            <%--patronymic:'${transportation.driver.person.patronymic}'--%>
-        <%--}--%>
-    <%--};--%>
-    <%--</c:if>--%>
-    <%--<c:if test="${not empty transportation.transporter.id}">--%>
-    <%--editor.transportation.transporter = {--%>
-        <%--id:${transportation.transporter.id},--%>
-        <%--value:'${transportation.transporter.value}'--%>
-    <%--};--%>
-    <%--</c:if>--%>
-    <%--<c:forEach items="${transportation.notes}" var="note">--%>
-    <%--editor.transportation.notes.push(${note.toJson()});--%>
-    <%--</c:forEach>--%>
-    <%--</c:when>--%>
-    <%--<c:otherwise>--%>
-    <%--editor.transportation.from = editor.shippers[0];--%>
-    <%--editor.transportation.unit = editor.units[0].id;--%>
-    <%--</c:otherwise>--%>
-    <%--</c:choose>--%>
-    <%--editor.role = '${role}';--%>
-    <%--<c:if test="${role ne 'weigher'}">--%>
-    <%--editor.transportation.manager = ${worker.id};--%>
-    <%--</c:if>--%>
-    <%--<c:forEach items="${deals}" var="deal">--%>
-    <%--editor.deals.push(${deal.toJson()});--%>
-    <%--</c:forEach>--%>
+    <c:choose>
+    <c:when test="${not empty transportation}">
+    editor.transportation = ${transportation.toJson()}
+    editor.transportation.deal = ${transportation.deal.toJson()}
+    <c:forEach items="${deals}" var="deal">
+    editor.deals.push(${deal.toJson()});
+    </c:forEach>
+    </c:when>
+    <c:otherwise>
+    alert('create');
+    </c:otherwise>
+    </c:choose>
 </script>
 <style>
     .selected{
@@ -210,8 +137,8 @@
 </style>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
 <c:set var="type"><fmt:message key="deal.type"/></c:set>
-<table id="editor" class="editor" border="0">
-    <%--DATE--%>
+    <table id="editor" class="editor" border="1">
+<%--    DATE--%>
     <tr>
         <td>
             <label for="date">
@@ -226,19 +153,19 @@
                    v-model="new Date(transportation.date).toLocaleDateString()">
         </td>
     </tr>
-    <tr>
-        <td>
-            <label for="number">
-                <fmt:message key="transportation.deal.number"/><br>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="number" v-model="transportation.deal.number" autocomplete="off">
-        </td>
-    </tr>
+<%--    <tr>--%>
+<%--        <td>--%>
+<%--            <label for="number">--%>
+<%--                <fmt:message key="transportation.deal.number"/><br>--%>
+<%--            </label>--%>
+<%--        </td>--%>
+<%--        <td>--%>
+<%--            :--%>
+<%--        </td>--%>
+<%--        <td>--%>
+<%--            <input id="number" v-model="transportation.deal.number" autocomplete="off">--%>
+<%--        </td>--%>
+<%--    </tr>--%>
     <%--ORGANISATION--%>
     <tr :class="{error : errors.organisation}">
         <td>
@@ -254,40 +181,6 @@
             <object-input :props="organisationProps" :object="transportation.deal.counterparty"></object-input>
         </td>
     </tr>
-    <%--<tr v-if="transportation.deal.organisation.id > 0">--%>
-        <%--<td colspan="2" align="right" valign="top">--%>
-            <%--<label for="address">--%>
-                <%--<fmt:message key="address"/>--%>
-            <%--</label>--%>
-        <%--</td>--%>
-        <%--<td>--%>
-            <%--<div id="address" v-if="addressList.length > 0" style="font-size: 10pt; max-height: 50pt; overflow-y: scroll; border: solid black 1pt; padding: 2pt">--%>
-                <%--<div :class="{selected : transportation.address == -1}" v-on:click="transportation.address = -1" >--%>
-                    <%--<fmt:message key="not.select"/>--%>
-                <%--</div>--%>
-                <%--<div title="${editAddressTitle}" v-for="address in addressList"--%>
-                     <%--v-on:click="transportation.address = address.id" v-on:dblclick="editAddress(address.id)">--%>
-                    <%--<span :class="{selected : transportation.address == address.id}">--%>
-                        <%--<span v-if="!address.city">--%>
-                            <%--<span v-if="address.region">--%>
-                                <%--{{address.region}} <fmt:message key="address.region.short"/>,--%>
-                            <%--</span>--%>
-                            <%--<span v-if="address.district">--%>
-                                <%--{{address.district}} <fmt:message key="address.district.short"/>,--%>
-                            <%--</span>--%>
-                        <%--</span>--%>
-                        <%--{{address.city}}--%>
-                        <%--{{address.street}}--%>
-                        <%--{{address.build}}--%>
-                    <%--</span>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<span class="mini-close" style="font-size: 10pt" v-on:click="editAddress(-1)">--%>
-                <%--+ <fmt:message key="add.address"/>--%>
-            <%--</span>--%>
-        <%--</td>--%>
-    <%--</tr>--%>
-    <%--DEAL--%>
     <tr>
         <td>
             <label for="deal">
@@ -298,7 +191,7 @@
             :
         </td>
         <td>
-            <select id="deal" style="width: 300px" v-model="transportation.deal.id"  v-on:change="setQuantity()">
+            <select id="deal" style="width: 100%" v-model="transportation.deal.id"  v-on:change="setQuantity()">
                 <option value="-1"><fmt:message key="deal.new"/></option>
                 <option :value="deal.id" v-for="deal in deals">
                     <template v-if="deal.number">№ {{deal.number}}</template>
@@ -309,7 +202,6 @@
         </td>
     </tr>
     <%--PRODUCT--%>
-
     <tr v-if="transportation.deal.id == -1" :class="{error : errors.product}">
         <td>
             <label for="product">
@@ -344,6 +236,7 @@
         </td>
         <td>
             <input id="quantity" type="number" v-model="transportation.deal.quantity" autocomplete="off" onfocus="this.select()">
+            {{transportation.deal.unit}}
         </td>
     </tr>
     <%--PRICE--%>
@@ -361,7 +254,7 @@
             <label for="from">
                 <fmt:message key="deal.from"/>
             </label>
-            <select id="from" v-model="transportation.from">
+            <select id="from" v-model="transportation.deal.visibility">
                 <option v-for="shipper in shipperList()" :value="shipper">{{shipper}}</option>
             </select>
         </td>
@@ -379,7 +272,7 @@
             <input id="load" type="number" v-model.number="transportation.plan" onfocus="this.select()" autocomplete="off">
             <c:set var="units"><fmt:message key="units"/></c:set>
             <select title="${units}" v-model="transportation.deal.unit">
-                <option v-for="unit in units" :value="unit">{{unit}}</option>
+                <option v-for="unit in units" :value="unit.id">{{unit.name}}</option>
             </select>
         </td>
     </tr>
@@ -398,6 +291,7 @@
             </select>
         </td>
     </tr>
+<%--    DRIVER--%>
     <tr>
         <td>
             <fmt:message key="transportation.driver"/>
@@ -409,6 +303,7 @@
             <object-input :props="driverProps" :object="transportation.driver" :item="transportation"></object-input>
         </td>
     </tr>
+<%--    VEHICLE + TRAILER--%>
     <tr>
         <td>
             <fmt:message key="transportation.automobile"/>/<fmt:message key="transportation.automobile.trailer"/>
@@ -418,10 +313,9 @@
         </td>
         <td>
             <object-input :props="vehicleProps" :object="transportation.vehicle"></object-input>
-            <template v-if="transportation.vehicle.id != -1">
+            <template v-if="transportation.vehicle && transportation.vehicle.id != -1">
                 <object-input :props="trailerProps" :object="transportation.trailer"></object-input>
             </template>
-
         </td>
     </tr>
     <tr>
@@ -467,27 +361,6 @@
             </div>
         </td>
     </tr>
-    <%--<tr v-if="role === 'weigher' || role === 'logistic'">--%>
-        <%--<td>--%>
-            <%--<label for="manager">--%>
-                <%--<fmt:message key="deal.manager"/>--%>
-            <%--</label>--%>
-        <%--</td>--%>
-        <%--<td>--%>
-            <%--:--%>
-        <%--</td>--%>
-        <%--<td>--%>
-            <%--<select id="manager" v-model="transportation.manager" v-on:click="this.errors.manager = false"--%>
-                    <%--:class="{error : errors.manager}">--%>
-                <%--<option disabled value="-1">--%>
-                    <%--<fmt:message key="need.select"/>--%>
-                <%--</option>--%>
-                <%--<option v-for="manager in managers" :value="manager.id">--%>
-                    <%--{{manager.value}}--%>
-                <%--</option>--%>
-            <%--</select>--%>
-        <%--</td>--%>
-    <%--</tr>--%>
     <tr>
         <td colspan="3" align="center">
             <button onclick="closeModal()" class="left-button close-button">

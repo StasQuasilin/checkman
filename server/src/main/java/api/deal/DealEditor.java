@@ -1,16 +1,19 @@
 package api.deal;
 
+import com.google.gson.JsonObject;
 import constants.Constants;
 import entity.DealType;
 import entity.Worker;
 import entity.answers.IAnswer;
 import entity.documents.Deal;
+import entity.documents.DealProduct;
 import entity.documents.Shipper;
 import entity.log.comparators.DealComparator;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
 import utils.U;
@@ -22,6 +25,8 @@ import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 03.03.2020.
@@ -119,6 +124,11 @@ public class DealEditor implements Constants {
             save = true;
         }
 
+        JSONArray products = (JSONArray) body.get(PRODUCTS);
+        if (product != null){
+            saveDealProducts(deal, products, worker);
+        }
+
         if (save) {
             if (isNew) {
                 deal.setUid(DocumentUIDGenerator.generateUID());
@@ -143,5 +153,72 @@ public class DealEditor implements Constants {
             return deal;
         }
         return null;
+    }
+
+    private void saveDealProducts(Deal deal, JSONArray array, Worker worker) {
+        HashMap<Integer, DealProduct> dealProducts = createProductHashMap(deal.getProducts());
+        for (Object o : array){
+            JSONObject json = (JSONObject) o;
+
+            boolean save = false;
+            boolean isNew = false;
+            int productId = Integer.parseInt(String.valueOf(json.get(PRODUCT)));
+
+            DealProduct dealProduct;
+            if (dealProducts.containsKey(productId)){
+                dealProduct = dealProducts.remove(productId);
+            } else {
+                isNew = true;
+                dealProduct = new DealProduct();
+                dealProduct.setDeal(deal);
+                dealProduct.setUid(DocumentUIDGenerator.generateUID());
+            }
+
+            if (dealProduct.getProduct() == null || dealProduct.getProduct().getId() != productId){
+                Product product = dao.getObjectById(Product.class, productId);
+                dealProduct.setProduct(product);
+            }
+
+            float quantity = Float.parseFloat(String.valueOf(json.get(QUANTITY)));
+            if (dealProduct.getQuantity() != quantity){
+                dealProduct.setQuantity(quantity);
+                save = true;
+            }
+
+            int unitId = Integer.parseInt(String.valueOf(json.get(UNIT)));
+            if (dealProduct.getUnit() == null || dealProduct.getUnit().getId() != unitId){
+                dealProduct.setUnit(UnitBox.getUnit(unitId));
+                save = true;
+            }
+
+            float price = Float.parseFloat(String.valueOf(json.get(PRICE)));
+            if (dealProduct.getPrice() != price){
+                dealProduct.setPrice(price);
+                save = true;
+            }
+
+            Shipper shipper = dao.getObjectById(Shipper.class, json.get(SHIPPER));
+            if (dealProduct.getShipper() == null || dealProduct.getShipper().getId() != shipper.getId()){
+                dealProduct.setShipper(shipper);
+                save = true;
+            }
+
+            if (save){
+                if (isNew){
+                    ActionTime actionTime = new ActionTime(worker);
+                    dao.save(actionTime);
+                    dealProduct.setCreate(actionTime);
+                }
+                dao.save(dealProduct);
+            }
+        }
+    }
+
+    private HashMap<Integer, DealProduct> createProductHashMap(Set<DealProduct> products) {
+        HashMap<Integer, DealProduct> map = new HashMap<>();
+        for (DealProduct product : products){
+            map.put(product.getProduct().getId(), product);
+        }
+        return map;
     }
 }

@@ -94,7 +94,7 @@
   <table border="0" style="height: 100%" id="load_plan">
     <tr>
       <td valign="top">
-        <table border="0" style="height: 100%; width: 440px">
+        <table border="0" style="width: 440px">
           <tr>
             <td>
               <fmt:message key="deal.type"/>
@@ -132,54 +132,55 @@
               ${deal.organisation.value}
             </td>
           </tr>
-          <tr>
-            <td>
-              <fmt:message key="deal.realisation"/>
-            </td>
-            <td>
-              :
-            </td>
-            <td>
-              ${deal.shipper.value}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <fmt:message key="deal.product"/>
-            </td>
-            <td>
-              :
-            </td>
-            <td>
-              ${deal.product.name}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <fmt:message key="deal.quantity"/>
-            </td>
-            <td>
-              :
-            </td>
-            <td>
-              <fmt:formatNumber value="${deal.quantity}"/>&nbsp;${deal.unit.name}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <fmt:message key="deal.price"/>
-            </td>
-            <td>
-              :
-            </td>
-            <td>
-              <fmt:formatNumber value="${deal.price}"/>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="3" height="100%" valign="top"></td>
-          </tr>
         </table>
+        <div style="width: 100%">
+          <table>
+            <tr>
+              <td>
+                <fmt:message key="deal.realisation"/>
+              </td>
+              <td>
+                :
+              </td>
+              <td>
+                ${deal.shipper.value}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <fmt:message key="deal.product"/>
+              </td>
+              <td>
+                :
+              </td>
+              <td>
+                ${deal.product.name}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <fmt:message key="deal.quantity"/>
+              </td>
+              <td>
+                :
+              </td>
+              <td>
+                <fmt:formatNumber value="${deal.quantity}"/>&nbsp;${deal.unit.name}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <fmt:message key="deal.price"/>
+              </td>
+              <td>
+                :
+              </td>
+              <td>
+                <fmt:formatNumber value="${deal.price}"/>
+              </td>
+            </tr>
+          </table>
+        </div>
       </td>
       <td valign="top" style="border: solid black 1pt; width: 170px">
         <div style="max-height: 500px; overflow-y: scroll">

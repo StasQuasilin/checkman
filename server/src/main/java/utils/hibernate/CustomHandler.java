@@ -21,9 +21,7 @@ public class CustomHandler implements Constants{
 
     public static void main(String[] args) {
 //        Hibernator instance = Hibernator.getInstance();
-        String REG_EX = "[иИ]|[іІ]|[ыЫ]";
-        String target = "МИЛіКЫ";
-        System.out.println(target.replaceAll(REG_EX, "!"));
+
 //        SealBatch batch = dao.getObjectById(SealBatch.class, 114990);
 //        for (int i = 0; i < 100; i++){
 //            Seal seal = new Seal();

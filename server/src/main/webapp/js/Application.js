@@ -80,11 +80,10 @@ function loadContent(url){
 }
 
 function editableModal(url){
-    console.log(event);
-    var id = event.toElement.getAttribute("id");
-    var copy = event.toElement.getAttribute('copy');
+    let id = event.toElement.getAttribute("id");
+    let copy = event.toElement.getAttribute('copy');
 
-    var parameters = {};
+    let parameters = {};
 
     if (id){
         parameters.id = id;

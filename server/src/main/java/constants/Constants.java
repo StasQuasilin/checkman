@@ -318,6 +318,7 @@ public interface Constants {
     String ACID_VALUE = "acidValue";
     String CONTAMINATION = "contamination";
     String CREATE = "create";
+    String CREATED = "created";
     String ORGANOLEPTIC = "organoleptic";
     String SOAP = "soap";
     String WAX = "wax";

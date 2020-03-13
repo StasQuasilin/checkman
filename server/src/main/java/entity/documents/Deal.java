@@ -13,6 +13,7 @@ import utils.U;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -25,13 +26,13 @@ public class Deal extends JsonAble{
     private Date dateTo;
     private String number;
     private DealType type;
-//    private List<DealProduct> products;
-    private String uid;
+    private Organisation organisation;
+    private Set<DealProduct> products;
 
+    private String uid;
     private Product product;
     private Unit unit;
     private Shipper shipper;
-    private Organisation organisation;
     private float price;
 
     private float complete;
@@ -50,14 +51,13 @@ public class Deal extends JsonAble{
         this.id = id;
     }
 
-
-//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "deal", cascade = CascadeType.ALL)
-//    public List<DealProduct> getProducts() {
-//        return products;
-//    }
-//    public void setProducts(List<DealProduct> products) {
-//        this.products = products;
-//    }
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = DEAL, cascade = CascadeType.ALL)
+    public Set<DealProduct> getProducts() {
+        return products;
+    }
+    public void setProducts(Set<DealProduct> products) {
+        this.products = products;
+    }
 
     @OneToOne
     @JoinColumn(name = "created")

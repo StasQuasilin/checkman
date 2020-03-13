@@ -1,10 +1,8 @@
 package entity.documents;
 
 import constants.Constants;
-import entity.DealType;
 import entity.organisations.Organisation;
 import entity.products.Product;
-import entity.Worker;
 import entity.transport.ActionTime;
 import entity.weight.Unit;
 
@@ -19,9 +17,9 @@ public class DealProduct implements Constants{
     private int id;
     private Deal deal;
     private Product product;
+    private float quantity;
     private Unit unit;
     private Shipper shipper;
-    private Organisation counterparty;
     private float price;
     private String uid;
     private ActionTime create;
@@ -36,7 +34,7 @@ public class DealProduct implements Constants{
     }
 
     @ManyToOne
-    @JoinColumn(name = "deal")
+    @JoinColumn(name = DEAL)
     public Deal getDeal() {
         return deal;
     }
@@ -51,6 +49,15 @@ public class DealProduct implements Constants{
     }
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    @Basic
+    @Column(name = QUANTITY)
+    public float getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
     }
 
     @OneToOne
@@ -69,15 +76,6 @@ public class DealProduct implements Constants{
     }
     public void setShipper(Shipper shipper) {
         this.shipper = shipper;
-    }
-
-    @OneToOne
-    @JoinColumn(name = COUNTERPARTY)
-    public Organisation getCounterparty() {
-        return counterparty;
-    }
-    public void setCounterparty(Organisation counterparty) {
-        this.counterparty = counterparty;
     }
 
     @Basic
@@ -99,11 +97,21 @@ public class DealProduct implements Constants{
     }
 
     @OneToOne
-    @JoinColumn(name = CREATE)
+    @JoinColumn(name = CREATED)
     public ActionTime getCreate() {
         return create;
     }
     public void setCreate(ActionTime create) {
         this.create = create;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
     }
 }

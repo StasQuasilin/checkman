@@ -48,7 +48,7 @@ public class SubscribesAPI extends API{
                     session.getBasicRemote().sendText("Success, " + msg);
                 }
                 default:
-                    log.info("Unhandled action \'" + action + "\'");
+                    log.info("Unhandled action '" + action + "'");
                     break;
             }
         }

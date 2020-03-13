@@ -62,16 +62,23 @@ var editor = new Vue({
             this.deal.counterparty = counterparty;
         },
         save:function(onSave){
-            var e = this.errors;
-            e.organisation = this.deal.counterparty.id == -1;
+            let e = this.errors;
+            e.organisation = this.deal.counterparty.id === -1;
             e.quantity = this.deal.quantity <= 0;
             e.price = this.deal.price <= 0;
 
             if (!e.organisation && !e.quantity && !e.price) {
-                var data = Object.assign({}, this.deal);
+                let data = Object.assign({}, this.deal);
                 data.counterparty = this.deal.counterparty.id;
+                data.products = [{
+                    product:data.product,
+                    quantity:data.quantity,
+                    unit:data.unit,
+                    shipper:data.realisation,
+                    price:data.price
+                }];
                 PostApi(this.api.save, data, function (a) {
-                    if (a.status == 'success') {
+                    if (a.status === 'success') {
                         closeModal();
                         if (onSave) {
                             onSave(a);
