@@ -1,12 +1,9 @@
 *{
-    font-family: Andale Mono, monospace;
+    font-family: Gill Sans, sans-serif;
+    font-size: 10pt;
     color: #333333;
     user-select: none;
     -moz-user-select: -moz-none;
-    font-size: 12pt;
-}
-.linux .chrome *{
-    font-size: 10pt;
 }
 .note{
     font-size: 10pt;
