@@ -6,7 +6,6 @@ var transportView = {
     },
     methods:{
         driverName:function(driver){
-            return driver;
             if (driver && driver.person) {
                 return driver.person.surname + ' ' + driver.person.forename + ' ' + driver.person.patronymic;
             }
@@ -51,7 +50,7 @@ var transportView = {
                 '</div>' +
             '</div>' +
             '<div v-if="item.driver && item.driver.person.phones.length > 0" style="position: absolute">' +
-                '&#128222;' +
+                '<img style="width: 10pt" src="images/phone.svg">' +
                 '<span v-for="phone in item.driver.person.phones" style="padding: 0 2pt">' +
                     '<span>' +
                         '{{phone.number}}' +
