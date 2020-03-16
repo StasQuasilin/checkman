@@ -1,32 +1,20 @@
-var objectInput = {
-    props:{
-        props:Object,
-        object:Object,
-        item:Object,
-        error:Boolean
+let objectInput = {
+    props: {
+        props: Object,
+        object: Object,
+        item: Object,
+        error: Boolean
     },
-    data:function(){
-        return{
-            input:'',
-            foundObjects:[],
-            timer:-1,
-            open:false
-        }
-    },
-    mounted:function(){
-        let props = this.props;
-        if (!props.header){
-            console.warn('Title \'header\' required');
-        }
-        if(!props.find){
-            console.warn('String \'find\' no have');
-        }
-        if (!props.put){
-            console.warn('Method \'put\' required');
+    data: function () {
+        return {
+            input: '',
+            foundObjects: [],
+            timer: -1,
+            open: false
         }
     },
-    methods:{
-        findObject:function(){
+    methods: {
+        findObject: function () {
             if (this.props.find) {
                 clearTimeout(this.timer);
                 if (this.input) {
@@ -35,17 +23,17 @@ var objectInput = {
                         PostApi(self.props.find, {key: self.input}, function (a) {
                             self.foundObjects = a;
                         })
-                    }, 300);
+                    }, 600);
                 } else {
                     this.foundObjects = [];
                 }
             }
         },
-        putObject:function(object){
+        putObject: function (object) {
             this.props.put(object, this.item);
-            if (object.isNew){
+            if (object.isNew) {
                 const self = this;
-                setTimeout(function(){
+                setTimeout(function () {
                     self.edit();
                 }, 10);
             }
@@ -53,47 +41,47 @@ var objectInput = {
             this.input = '';
             this.foundObjects = [];
         },
-        openObjectInput:function(){
+        openObjectInput: function () {
             this.open = true;
             const self = this;
-            setTimeout(function(){
+            setTimeout(function () {
                 self.$refs.input.select();
 
             }, 10);
         },
-        closeInput:function(){
+        closeInput: function () {
             this.input = '';
             this.open = false;
             this.foundObjects = [];
         },
-        closeObject:function(){
+        closeObject: function () {
             console.log('Cancel');
-            this.props.put({id:-1}, this.item);
+            this.props.put({id: -1}, this.item);
         },
-        edit:function(){
-            if (this.props.edit){
+        edit: function () {
+            if (this.props.edit) {
                 const self = this;
-                loadModal(this.props.edit, {id:this.object.id}, function(a){
+                loadModal(this.props.edit, {id: this.object.id}, function (a) {
                     console.log(a);
-                    if (a.status === 'success'){
+                    if (a.status === 'success') {
                         self.props.put(a.result, self.item);
                     }
 
                 })
             }
         },
-        show:function(item){
+        show: function (item) {
             let values = [];
-            this.props.show.forEach(function(a){
+            this.props.show.forEach(function (a) {
                 let field = item;
-                a.split('/').forEach(function(split){
+                a.split('/').forEach(function (split) {
                     field = field[split];
                 });
                 values.push(field)
             });
             return values.join(' ');
         },
-        addItem:function(){
+        addItem: function () {
             if (this.props.add) {
                 const self = this;
                 PostApi(this.props.add, {key: this.input}, function (a) {
@@ -110,33 +98,39 @@ var objectInput = {
     template:
         '<span v-if="object && object.id > 0" class="object-block">' +
             '<a v-on:click="edit" style="font-weight: bold">{{show(object)}}</a>' +
-            '<span class="mini-close" v-on:click="closeObject()">' +
-                '&times;' +
-            '</span>' +
+            '<div class="object-menu">' +
+                '<span class="mini-close" v-on:click="edit">' +
+            '<img src="images/pencil.svg" style="width: 8pt">' +
         '</span>' +
-        '<div v-else style="display: inline-block">'+
-            '<div v-if="open" style="display: inline-block; position: relative;" v-on:blur="closeInput()">' +
-                '<input v-model="input" autocomplete="off" ref="input"' +
-                    'v-on:keyup="findObject()" v-on:keyup.escape="closeInput()"' +
-                    ':class="{error : error}" v-on:click="error = false"' +
-                    'style=" width: 90%; border: none">' +
-                '<span class="mini-close" v-on:click="closeInput()">&times;</span>' +
-                '<div class="custom-data-list" v-if="foundObjects.length > 0 || input">' +
-                    '<div v-for="o in foundObjects"' +
-                        'class="custom-data-list-item" ' +
-                            'v-on:click="putObject(o)">' +
-                                '{{show(o)}} ' +
-                    '</div>' +
-                    '<div v-if="props.add" class="custom-data-list-item" v-on:click="addItem()">' +
-                        '<b>' +
-                            '+ {{props.addHeader}}' +
-                        '</b>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" :class="{error : error}">' +
-                '{{props.header}}' +
-            '</a>' +
+        '<span class="mini-close" v-on:click="closeObject()">' +
+            '&times;' +
+        '</span>' +
+        '</div>' +
+        '</span>' +
+        '<div v-else style="display: inline-block">' +
+        '<div v-if="open" style="display: inline-block; position: relative;" v-on:blur="closeInput()">' +
+        '<input v-model="input" autocomplete="off" ref="input"' +
+        'v-on:keyup="findObject()" v-on:keyup.escape="closeInput()"' +
+        ':class="{error : error}" v-on:click="error = false"' +
+        'style=" width: 90%; border: none">' +
+
+        '<span class="mini-close" v-on:click="closeInput()">&times;</span>' +
+        '<div class="custom-data-list" v-if="foundObjects.length > 0 || input">' +
+        '<div v-for="o in foundObjects"' +
+        'class="custom-data-list-item" ' +
+        'v-on:click="putObject(o)">' +
+        '{{show(o)}} ' +
+        '</div>' +
+        '<div v-if="props.add" class="custom-data-list-item" v-on:click="addItem()">' +
+        '<b>' +
+        '+ {{props.addHeader}}' +
+        '</b>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" :class="{error : error}">' +
+        '{{props.header}}' +
+        '</a>' +
         '</div>'
 
 };
