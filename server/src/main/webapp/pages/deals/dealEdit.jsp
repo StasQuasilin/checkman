@@ -50,7 +50,7 @@
             date : '${deal.date}',
             dateTo : '${deal.dateTo}',
             counterparty : ${deal.organisation.toJson()},
-            realisation : ${deal.shipper.id},
+            shipper : ${deal.shipper.id},
             product : ${deal.product.id},
             quantity : ${deal.quantity},
             price: ${deal.price}
@@ -64,7 +64,7 @@
         <c:otherwise>
         editor.deal.type = '${type}';
         if (editor.realisations.length > 0){
-            editor.deal.realisation= editor.realisations[0].id;
+            editor.deal.shipper= editor.realisations[0].id;
         }
         if (editor.products.length > 0){
             editor.deal.product = editor.products[0].id;
@@ -124,7 +124,7 @@
         </tr>
         <tr>
             <td>
-                <label for="realisation">
+                <label for="shipper">
                     <fmt:message key="deal.realisation"/>
                 </label>
             </td>
@@ -132,7 +132,7 @@
                 :
             </td>
             <td>
-                <select id="realisation" v-model="deal.realisation">
+                <select id="shipper" v-model="deal.shipper">
                     <option v-for="realisation in realisations" :value="realisation.id">{{realisation.value}}</option>
                 </select>
             </td>

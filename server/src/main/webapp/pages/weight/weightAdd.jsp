@@ -125,7 +125,7 @@
     </c:forEach>
     </c:when>
     <c:otherwise>
-    alert('create');
+
     </c:otherwise>
     </c:choose>
 </script>
@@ -137,7 +137,7 @@
 </style>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
 <c:set var="type"><fmt:message key="deal.type"/></c:set>
-    <table id="editor" class="editor" border="1">
+    <table id="editor" class="editor">
 <%--    DATE--%>
     <tr>
         <td>
@@ -153,19 +153,7 @@
                    v-model="new Date(transportation.date).toLocaleDateString()">
         </td>
     </tr>
-<%--    <tr>--%>
-<%--        <td>--%>
-<%--            <label for="number">--%>
-<%--                <fmt:message key="transportation.deal.number"/><br>--%>
-<%--            </label>--%>
-<%--        </td>--%>
-<%--        <td>--%>
-<%--            :--%>
-<%--        </td>--%>
-<%--        <td>--%>
-<%--            <input id="number" v-model="transportation.deal.number" autocomplete="off">--%>
-<%--        </td>--%>
-<%--    </tr>--%>
+
     <%--ORGANISATION--%>
     <tr :class="{error : errors.organisation}">
         <td>
@@ -201,29 +189,45 @@
             </select>
         </td>
     </tr>
+    <template v-if="transportation.deal.id == -1">
+        <tr>
+            <td>
+                <label for="number">
+                    <fmt:message key="transportation.deal.number"/><br>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <input id="number" v-model="transportation.deal.number" autocomplete="off">
+            </td>
+        </tr>
+        <tr :class="{error : errors.product}">
+            <td>
+                <label for="product">
+                    <fmt:message key="deal.product"/>
+                </label>
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                <select id="product" style="width: 200px" v-model="transportation.deal.product.id"
+                        v-on:click="errors.product = false">
+                    <option v-if="transportation.deal.id == -1" disabled value="-1"><fmt:message key="need.select"/></option>
+                    <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
+                </select>
+                <select v-if="transportation.deal.product.id != -1" id="type" title="${type}" v-model="transportation.deal.type" :class="{error : errors.type}" v-on:click="errors.type = false">
+                    <option v-for="type in typesByProduct()" :value="type">
+                        {{typeNames[type]}}
+                    </option>
+                </select>
+            </td>
+        </tr>
+    </template>
     <%--PRODUCT--%>
-    <tr v-if="transportation.deal.id == -1" :class="{error : errors.product}">
-        <td>
-            <label for="product">
-                <fmt:message key="deal.product"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="product" style="width: 200px" v-model="transportation.deal.product.id"
-                    v-on:click="errors.product = false">
-                <option v-if="transportation.deal.id == -1" disabled value="-1"><fmt:message key="need.select"/></option>
-                <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
-            </select>
-            <select v-if="transportation.deal.product.id != -1" id="type" title="${type}" v-model="transportation.deal.type" :class="{error : errors.type}" v-on:click="errors.type = false">
-                <option v-for="type in typesByProduct()" :value="type">
-                    {{typeNames[type]}}
-                </option>
-            </select>
-        </td>
-    </tr>
+
     <%--QUANTITY--%>
     <tr>
         <td>
@@ -236,7 +240,11 @@
         </td>
         <td>
             <input id="quantity" type="number" v-model="transportation.deal.quantity" autocomplete="off" onfocus="this.select()">
-            {{transportation.deal.unit}}
+<%--            {{transportation.deal.unit.name}}--%>
+            <c:set var="units"><fmt:message key="units"/></c:set>
+            <select title="${units}" v-model="transportation.deal.unit">
+                <option v-for="unit in units" :value="unit.id">{{unit.name}}</option>
+            </select>
         </td>
     </tr>
     <%--PRICE--%>
@@ -254,8 +262,8 @@
             <label for="from">
                 <fmt:message key="deal.from"/>
             </label>
-            <select id="from" v-model="transportation.deal.visibility">
-                <option v-for="shipper in shipperList()" :value="shipper">{{shipper}}</option>
+            <select id="from" v-model="transportation.deal.shipper">
+                <option v-for="shipper in shipperList()" :value="shipper">{{shipper.name}}</option>
             </select>
         </td>
     </tr>
@@ -270,10 +278,8 @@
         </td>
         <td>
             <input id="load" type="number" v-model.number="transportation.plan" onfocus="this.select()" autocomplete="off">
-            <c:set var="units"><fmt:message key="units"/></c:set>
-            <select title="${units}" v-model="transportation.deal.unit">
-                <option v-for="unit in units" :value="unit.id">{{unit.name}}</option>
-            </select>
+<%--            {{transportation.deal.unit.name}}--%>
+
         </td>
     </tr>
     <tr>

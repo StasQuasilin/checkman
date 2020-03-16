@@ -118,14 +118,14 @@ public class DealEditor implements Constants {
             save = true;
         }
 
-        Shipper shipper = dao.getShipperById(body.get(REALISATION));
+        Shipper shipper = dao.getShipperById(body.get(SHIPPER));
         if (deal.getShipper() == null || deal.getShipper().getId() != shipper.getId()) {
             deal.setShipper(shipper);
             save = true;
         }
 
         JSONArray products = (JSONArray) body.get(PRODUCTS);
-        if (product != null){
+        if (products != null){
             saveDealProducts(deal, products, worker);
         }
 
@@ -149,10 +149,8 @@ public class DealEditor implements Constants {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            return deal;
         }
-        return null;
+        return deal;
     }
 
     private void saveDealProducts(Deal deal, JSONArray array, Worker worker) {
