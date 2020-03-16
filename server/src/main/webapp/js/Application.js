@@ -12,6 +12,12 @@ var currentPage = '';
 var sessionLocker;
 
 $(document).ready(function(){
+    if(navigator.platform.includes('Linux')){
+        console.log('Is Linux');
+        var style = document.createElement('style');
+        document.head.appendChild(style);
+        style.sheet.insertRule('* {font-size: 10pt;'); // font-family: Helvetica, sans-serif}
+    }
     document.body.style.maxWidth = Settings.switchWidth + 'px';
     coverlet = document.getElementById('coverlet');
     header = document.getElementById('header');
@@ -128,7 +134,7 @@ function addModal(modal, onSave){
         var d = modals[modals.length - 1];
         modals.splice(modals.length - 1, 1);
         $(d).remove();
-        if(modals.length == 0){
+        if(modals.length === 0){
             modalLayer.style.display='none';
         }
     });
@@ -137,7 +143,7 @@ function addModal(modal, onSave){
 function logout(){
     PostApi(logoutAPI, null, function (a) {
         console.log(a);
-        if (a.status == 'success'){
+        if (a.status === 'success'){
             var p = document.location.origin + context + a['redirect'];
             console.log(p);
             location.replace(p);

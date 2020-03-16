@@ -3,6 +3,7 @@ package api.references.organisation;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.organisations.Organisation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -25,11 +26,12 @@ public class FindOrganisationServletAPI extends ServletAPI {
         if (body != null) {
             String key = String.valueOf(body.get(Constants.KEY));
 
-            JSONArray array = dao.findOrganisation(key).stream().map(parser::toJson).collect(Collectors.toCollection(JSONArray::new));
+            JSONArray array = pool.getArray();
+            for (Organisation organisation : dao.findOrganisation(key)){
+                array.add(organisation.toJson());
+            }
             write(resp, array.toJSONString());
-
-            array.clear();
-            body.clear();
+            pool.put(array);
         } else {
             write(resp, EMPTY_BODY);
         }

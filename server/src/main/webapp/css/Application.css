@@ -1,9 +1,10 @@
 *{
-    font-family: Andale Mono, monospace;
+    font-family: Helvetica, sans-serif;
     color: #333333;
     user-select: none;
     -moz-user-select: -moz-none;
 }
+
 .note{
     font-size: 10pt;
     color: dimgray;

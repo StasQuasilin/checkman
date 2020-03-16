@@ -32,12 +32,14 @@
     </script>
     <script src="${context}/js/Subscriber.js"></script>
     <script>
+
+
         subscribe('NOTIFICATIONS', function(a){
             notificator.notify(a);
         });
-        subscribe('MESSAGES', function(a){
-            chat.handle(a);
-        });
+        // subscribe('MESSAGES', function(a){
+        //     chat.handle(a);
+        // });
         subscribe('SESSION_TIMER', function(a){
             lockSession(a);
         })
@@ -76,14 +78,14 @@
     <jsp:include page="notifications/notificator.jsp"/>
 
     <div class="modal-layer" style="display: none" id="modal"></div>
-    <jsp:include page="chat/chatHolder.jsp"/>
-    <script>
-        chat.api.send = '${sendMessage}';
-        chat.api.get = '${getMessages}';
-        chat.api.leave = '${leaveChat}';
-        chat.api.rename = '${renameChat}';
-        chat.api.remove = '${removeChat}';
-    </script>
+<%--    <jsp:include page="chat/chatHolder.jsp"/>--%>
+<%--    <script>--%>
+<%--        chat.api.send = '${sendMessage}';--%>
+<%--        chat.api.get = '${getMessages}';--%>
+<%--        chat.api.leave = '${leaveChat}';--%>
+<%--        chat.api.rename = '${renameChat}';--%>
+<%--        chat.api.remove = '${removeChat}';--%>
+<%--    </script>--%>
 
     <div class="datetime-picker" id="datePicker" v-show="onSelects.length" v-on:click="close">
         <div class="picker-content" ref="date" :style="{top:y + 'px', left:x + 'px'}">

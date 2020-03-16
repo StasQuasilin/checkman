@@ -2,8 +2,10 @@ package api.references.vehicles;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.JsonAble;
 import entity.transport.Trailer;
 import entity.transport.Transportation;
+import entity.transport.Vehicle;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -22,13 +24,15 @@ public class FindTrailerServletAPI extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
-        final JSONArray array = new JSONArray();
         if (body != null){
             Object o = body.get(KEY);
-            array.addAll(dao.findVehicle(Trailer.class, o).stream().map(Trailer::toJson).collect(Collectors.toCollection(JSONArray::new)));
+            JSONArray array = pool.getArray();
+            for (Trailer v : dao.findVehicle(Trailer.class, o)){
+                array.add(v.toJson());
+            }
 
+            write(resp, array.toJSONString());
+            pool.put(array);
         }
-        write(resp, array.toJSONString());
-        array.clear();
     }
 }
