@@ -1,10 +1,13 @@
 *{
-    font-family: Helvetica, sans-serif;
+    font-family: Andale Mono, monospace;
     color: #333333;
     user-select: none;
     -moz-user-select: -moz-none;
+    font-size: 12pt;
 }
-
+.linux .chrome *{
+    font-size: 10pt;
+}
 .note{
     font-size: 10pt;
     color: dimgray;
@@ -152,6 +155,14 @@ button:focus, input:focus{
     border: solid 1pt;
     margin-top: 1pt;
 }
+.object-menu{
+    padding-left: 4pt;
+    display: inline-block;
+    visibility: hidden;
+}
+.object-block:hover .object-menu{
+    visibility: visible;
+}
 .context-menu{
     font-size: 10pt;
     height: fit-content;
@@ -213,7 +224,7 @@ a:hover{
 }
 .flipY{
     transform: scaleX(-1);
-    -webkit-transform: scaleX(-1)
+    -webkit-transform: scaleX(-1);
     display: inline-block;
 }
 

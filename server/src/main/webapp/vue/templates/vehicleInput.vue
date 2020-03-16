@@ -1,4 +1,4 @@
-let objectInput = {
+var objectInput = {
     props: {
         props: Object,
         object: Object,
