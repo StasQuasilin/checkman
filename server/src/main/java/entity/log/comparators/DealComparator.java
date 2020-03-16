@@ -22,10 +22,12 @@ public class DealComparator extends IChangeComparator<Deal> {
 
     @Override
     public void fix(Deal oldObject) {
-        date = oldObject.getDate();
-        dateTo = oldObject.getDateTo();
-        if (oldObject.getOrganisation() != null) {
-            organisationId = oldObject.getOrganisation().getId();
+        if (oldObject != null) {
+            date = oldObject.getDate();
+            dateTo = oldObject.getDateTo();
+            if (oldObject.getOrganisation() != null) {
+                organisationId = oldObject.getOrganisation().getId();
+            }
         }
     }
 
