@@ -5,6 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
+    <link rel="shortcut icon" type="image/x-icon" href="${context}/images/sunflower_small.png" />
     <title>
         <fmt:message key="application.title"/>.${lang}
     </title>
