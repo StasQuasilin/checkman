@@ -74,7 +74,7 @@ var editor = new Vue({
                     product:data.product,
                     quantity:data.quantity,
                     unit:data.unit,
-                    shipper:data.realisation,
+                    shipper:data.shipper,
                     price:data.price
                 }];
                 PostApi(this.api.save, data, function (a) {

@@ -235,13 +235,13 @@ public class Deal extends JsonAble{
         json.put(DATE_TO, dateTo.toString());
         json.put(ORGANISATION, organisation.toJson());
         json.put(COUNTERPARTY, organisation.toJson());
-        json.put(VISIBILITY, shipper.getValue());
+        json.put(SHIPPER, shipper.toJson());
         json.put(PRODUCT, product.toJson());
         json.put(QUANTITY, quantity);
         json.put(COMPLETE, complete);
         json.put(PRICE, price);
         json.put(CREATOR, creator.toJson());
-        json.put(UNIT, unit.getName());
+        json.put(UNIT, unit.toJson());
         json.put(TYPE, type.toString());
         json.put(DONE, isDone());
         json.put(ARCHIVE, isArchive());

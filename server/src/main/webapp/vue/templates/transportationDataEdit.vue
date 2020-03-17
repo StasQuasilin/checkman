@@ -27,10 +27,13 @@ var transportView = {
                 '</div>' +
                 '<div>' +
                     '<span class="label"/>'+
-                        '{{fields.vehicle}}/{{fields.trailer}}:' +
+                        '{{fields.vehicle}}:' +
                     '</span>'+
-                    '<object-input :props=fields.vehicleProps :object=item.vehicle :item="item"></object-input> '+
-                    '<object-input :props=fields.trailerProps :object=item.trailer :item="item"></object-input>'+
+                    '<object-input :props=fields.vehicleProps :object=item.vehicle :item="item"></object-input> ' +
+                    '<template v-if="item.vehicle && item.vehicle.id > 0">' +
+                        '<object-input  :props=fields.trailerProps :object=item.trailer :item="item"></object-input>'+
+                    '</template>'+
+
                 '</div>'+
             '</div>'+
             '<div style="display: inline-block; margin-left: 2pt">'+
@@ -50,15 +53,13 @@ var transportView = {
                 '</div>' +
             '</div>' +
         '</div>' +
-        '<div v-if="item.driver" style="position: absolute">' +
-            '<span v-if="item.driver.person.phones.length > 0">' +
-                '&#128222;' +
-            '</span>'+
+        '<div v-if="item.driver && item.driver.person.phones.length > 0" style="position: absolute">' +
+            '<img style="width: 10pt" src="images/phone.svg">' +
             '<span v-for="phone in item.driver.person.phones" style="padding: 0 2pt">' +
                 '<span>' +
                     '{{phone.number}}' +
                 '</span>' +
             '</span>' +
-        '</div>'+
+        '</div>' +
     '</div>'
 };

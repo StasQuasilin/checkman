@@ -15,7 +15,8 @@ var editor = new Vue({
         transportation:{
             id:-1,
             date:new Date().toISOString().substring(0, 10),
-            deal:{},
+            deal:{
+            },
             quantity:0,
             address:-1,
             plan:20,
@@ -71,12 +72,12 @@ var editor = new Vue({
             this.types[action.product.id].push(action.type);
         },
         typesByProduct:function(){
-            var types = this.types[this.transportation.deal.product.id];
-            var fount = false;
+            let types = this.types[this.transportation.deal.product.id];
+            let fount = false;
             for (var i in types){
                 if (types.hasOwnProperty(i)){
                     var t = types[i];
-                    if (this.transportation.type == t){
+                    if (this.transportation.type === t){
                         fount = true;
                         break;
                     }
@@ -88,18 +89,18 @@ var editor = new Vue({
             return types;
         },
         editAddress:function(id){
-            var data = {
-                type:'load',
-                counterparty:this.transportation.organisation.id,
-                id:id
+            let data = {
+                type: 'load',
+                counterparty: this.transportation.organisation.id,
+                id: id
             };
 
             const self = this;
             loadModal(this.api.editAddress, data, function(a){
-                var found = false;
-                for (var i in self.addressList){
+                let found = false;
+                for (let i in self.addressList){
                     if (self.addressList.hasOwnProperty(i)){
-                        if(self.addressList[i].id == a.id){
+                        if(self.addressList[i].id === a.id){
                             self.addressList.splice(i, 1, a);
                             found = true;
                         }
@@ -108,7 +109,7 @@ var editor = new Vue({
                 if (!found){
                     self.addressList.push(a);
                 }
-                if (self.addressList.length == 1){
+                if (self.addressList.length === 1){
                     self.transportation.address = self.addressList[0].id
                 }
             })
@@ -118,7 +119,7 @@ var editor = new Vue({
             console.log(key);
             this.note.edit = true;
 
-            if (key != undefined) {
+            if (key !== undefined) {
                 this.transportation.notes.splice(key, 1);
                 this.note.key = key;
             }
@@ -147,7 +148,7 @@ var editor = new Vue({
         setQuantity:function(){
             for (let i in this.deals){
                 if (this.deals.hasOwnProperty(i)){
-                    if (this.deals[i].id == this.transportation.deal){
+                    if (this.deals[i].id === this.transportation.deal){
                         this.transportation.quantity = this.deals[i].quantity;
                         this.transportation.price = this.deals[i].price;
                         break;
@@ -171,13 +172,13 @@ var editor = new Vue({
             this.addressList = [];
         },
         productList:function(){
-            if (this.transportation.deal.id == -1){
+            if (this.transportation.deal.id === -1){
                 return this.products;
             } else {
-                var products = [];
-                for (var d in this.deals){
+                let products = [];
+                for (let d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
-                        var deal = this.deals[d];
+                        let deal = this.deals[d];
                         if (deal.id === this.transportation.deal){
                             products.push(deal.product);
                             this.transportation.product = deal.product.id;
@@ -189,28 +190,28 @@ var editor = new Vue({
             }
         },
         shipperList:function(){
-            if (this.transportation.deal.id == -1){
+            if (this.transportation.deal.id === -1){
                 return this.shippers;
             } else {
-                var froms = [];
-                for (var d in this.deals){
+                let shippers = [];
+                for (let d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
-                        var deal = this.deals[d];
+                        let deal = this.deals[d];
                         if (deal.id === this.transportation.deal.id){
-                            froms.push(deal.visibility);
-                            this.transportation.from = deal.visibility;
+                            shippers.push(deal.shipper);
+                            this.transportation.from = deal.shipper;
                             break;
                         }
                     }
                 }
-                return froms;
+                return shippers;
             }
         },
         typeList:function(){
-            if (this.transportation.deal == -1){
+            if (this.transportation.deal === -1){
                 return this.types;
             } else {
-                var types = {};
+                let types = {};
                 for (var d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
                         var deal = this.deals[d];
@@ -298,10 +299,10 @@ var editor = new Vue({
         },
         putDriver:function(driver){
             this.transportation.driver = driver;
-            if (driver.vehicle && this.transportation.vehicle.id == -1){
+            if (driver.vehicle && this.transportation.vehicle.id === -1){
                 this.putVehicle(driver.vehicle);
             }
-            if (driver.organisation && this.transportation.transporter.id == -1){
+            if (driver.organisation && this.transportation.transporter.id === -1){
                 this.putTransporter(driver.organisation);
             }
         },
@@ -311,11 +312,11 @@ var editor = new Vue({
                 if (this.note.edit) {
                     this.saveNote();
                 }
-                var e = this.errors;
-                e.organisation = this.transportation.deal.organisation.id == -1;
-                e.product = this.transportation.deal.product == -1;
-                e.manager = this.transportation.manager == -1;
-                var transportation = Object.assign({}, this.transportation);
+                let e = this.errors;
+                e.organisation = this.transportation.deal.organisation.id === -1;
+                e.product = this.transportation.deal.product === -1;
+                e.manager = this.transportation.manager === -1;
+                let transportation = Object.assign({}, this.transportation);
                 if (!transportation.quantity){
                     transportation.quantity = 0;
                 }
@@ -324,11 +325,14 @@ var editor = new Vue({
                 }
                 transportation.deal.counterparty = this.transportation.deal.counterparty.id;
                 transportation.deal.product = this.transportation.deal.product.id;
+                transportation.deal.unit = this.transportation.deal.unit.id;
+                transportation.deal.shipper = this.transportation.deal.shipper.id;
+                transportation.manager = transportation.manager.id;
 
-                //transportation.vehicle = transportation.vehicle.id;
-                //transportation.trailer = transportation.trailer.id;
-                //transportation.driver = transportation.driver.id;
-                //transportation.transporter = transportation.transporter.id;
+                transportation.vehicle = this.transportation.vehicle.id;
+                transportation.trailer = this.transportation.trailer.id;
+                transportation.driver = this.transportation.driver.id;
+                transportation.transporter = this.transportation.transporter.id;
 
                 for(var i in transportation.notes){
                     if (transportation.notes.hasOwnProperty(i)){

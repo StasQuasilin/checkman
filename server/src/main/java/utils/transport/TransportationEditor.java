@@ -34,6 +34,9 @@ public class TransportationEditor {
 
         boolean save = false;
         boolean isNew = false;
+
+        log.info(json);
+
         Transportation transportation = dao.getObjectById(Transportation.class, json.get(ID));
         if (transportation == null){
             isNew = true;
