@@ -79,10 +79,12 @@ public class DealEditor implements Constants {
             save = true;
         }
 
-        String number = String.valueOf(body.get(NUMBER));
-        if (!U.exist(deal.getNumber()) || !deal.getNumber().equals(number)){
-            deal.setNumber(number);
-            save = true;
+        if (body.containsKey(NUMBER)) {
+            String number = String.valueOf(body.get(NUMBER));
+            if (!U.exist(deal.getNumber()) || !deal.getNumber().equals(number)) {
+                deal.setNumber(number);
+                save = true;
+            }
         }
 
         //DEAL PRODUCT PART
