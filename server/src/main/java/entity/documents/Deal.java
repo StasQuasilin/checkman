@@ -39,6 +39,7 @@ public class Deal extends JsonAble{
     private float quantity;
     private boolean done;
     private boolean archive;
+    //todo remove this field
     private Worker creator;
     private ActionTime create;
 

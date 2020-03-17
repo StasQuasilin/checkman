@@ -225,7 +225,6 @@ a:hover{
 }
 
 .error{
-    font-size: 10pt;
     color: orangered;
 }
 .error * {

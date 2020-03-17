@@ -2,15 +2,11 @@ package api.plan;
 
 import api.ServletAPI;
 import constants.Branches;
-import constants.Constants;
 import entity.Worker;
-import entity.answers.IAnswer;
 import entity.documents.Deal;
 import entity.log.comparators.TransportComparator;
-import entity.organisations.Organisation;
 import entity.transport.*;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.*;
 import utils.answers.SuccessAnswer;
@@ -21,10 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -49,7 +41,7 @@ public class SaveLoadPlanAPI extends ServletAPI {
             Worker worker = getWorker(req);
 
             JSONObject json = (JSONObject) body.get(PLAN);
-            Transportation transportation = transportationEditor.saveTransportation(deal, json, worker);
+            Transportation transportation = transportationEditor.saveTransportation(deal, json, worker, worker);
 
             JSONObject toJson = new SuccessAnswer(ID, transportation.getId()).toJson();
             write(resp, toJson.toJSONString());

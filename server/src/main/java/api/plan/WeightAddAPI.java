@@ -58,7 +58,7 @@ public class WeightAddAPI extends ServletAPI {
             }
 
             Deal deal = dealEditor.editDeal((JSONObject) body.get(DEAL), manager);
-            Transportation transportation = transportationEditor.saveTransportation(deal, body, creator);
+            Transportation transportation = transportationEditor.saveTransportation(deal, body, creator, manager);
 
             dao.save(transportation);
             dao.getUsedStoragesByTransportation(transportation).forEach(storageUtil::updateStorageEntry);

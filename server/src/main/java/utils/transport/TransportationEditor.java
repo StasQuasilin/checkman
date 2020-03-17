@@ -30,7 +30,7 @@ public class TransportationEditor {
     private final NoteUtil noteUtil = new NoteUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
-    public Transportation saveTransportation(Deal deal, JSONObject json, Worker worker) {
+    public Transportation saveTransportation(Deal deal, JSONObject json, Worker creator, Worker manager) {
 
         boolean save = false;
         boolean isNew = false;
@@ -40,7 +40,7 @@ public class TransportationEditor {
         Transportation transportation = dao.getObjectById(Transportation.class, json.get(ID));
         if (transportation == null){
             isNew = true;
-            transportation = TransportUtil.createTransportation(deal, deal.getCreator(), worker);
+            transportation = TransportUtil.createTransportation(deal, manager, creator);
             transportComparator.fix(null);
         } else {
             transportComparator.fix(transportation);
@@ -125,7 +125,7 @@ public class TransportationEditor {
             if (alreadyNote.containsKey(noteId)){
                 documentNote = alreadyNote.remove(noteId);
             } else {
-                documentNote = new DocumentNote(transportation, worker);
+                documentNote = new DocumentNote(transportation, creator);
                 documentNote.setDocument(transportation.getUid());
             }
 
@@ -151,6 +151,11 @@ public class TransportationEditor {
             dao.remove(note);
         }
 
+        if (transportation.getManager() != manager){
+            transportation.setManager(manager);
+            save = true;
+        }
+
         if (save) {
             if(isNew){
                 dao.save(transportation.getCreateTime());
@@ -163,7 +168,7 @@ public class TransportationEditor {
             }
         }
 
-        transportComparator.compare(transportation, worker);
+        transportComparator.compare(transportation, creator);
 
         return transportation;
     }

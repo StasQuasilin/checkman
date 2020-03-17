@@ -16,11 +16,11 @@ import javax.persistence.*;
 public class DealProduct implements Constants{
     private int id;
     private Deal deal;
-    private Product product;
-    private float quantity;
-    private Unit unit;
-    private Shipper shipper;
-    private float price;
+    private Product product;    //!
+    private float quantity;     //!
+    private Unit unit;          //!
+    private Shipper shipper;    //!
+    private float price;        //!
     private String uid;
     private ActionTime create;
 

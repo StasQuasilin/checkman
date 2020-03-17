@@ -76,7 +76,7 @@
     <c:forEach items="${actions}" var="action">
     editor.addType(${action.toJson()});
     </c:forEach>
-    
+
     <c:forEach items="${managers}" var="manager">
     editor.managers.push(
         ${manager.toJson()}
@@ -105,9 +105,10 @@
     </c:forEach>
     
     <c:forEach items="${shippers}" var="shipper">
-    editor.shippers.push(
-        '${shipper.value}'
-    );
+    editor.shippers.push({
+        id:${shipper.id},
+        name:'${shipper.value}'
+    });
     </c:forEach>
     
     <c:forEach items="${customers}" var="customer">
@@ -123,9 +124,22 @@
     <c:forEach items="${deals}" var="deal">
     editor.deals.push(${deal.toJson()});
     </c:forEach>
+    var managerFounded = false;
+    for (let i in editor.managers){
+        if (editor.managers.hasOwnProperty(i)){
+            let manager = editor.managers[i];
+            if (manager.id === editor.transportation.manager.id){
+                managerFounded = true;
+            }
+        }
+    }
+    if(!managerFounded){
+        editor.transportation.manager = {id:-1}
+    }
     </c:when>
     <c:otherwise>
-
+    editor.transportation.deal.unit = editor.units[0];
+    editor.transportation.deal.shipper = editor.shippers[0];
     </c:otherwise>
     </c:choose>
 </script>
@@ -163,9 +177,6 @@
             :
         </td>
         <td>
-            <%--!--%>
-            <%--!--%>
-            <%--ORGANISATION--%>
             <object-input :props="organisationProps" :object="transportation.deal.counterparty"></object-input>
         </td>
     </tr>
@@ -184,12 +195,13 @@
                 <option :value="deal.id" v-for="deal in deals">
                     <template v-if="deal.number">№ {{deal.number}}</template>
                     <template v-else>{{deal.id}}</template>
-                    {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}
+                    {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}, {{deal.price.toLocaleString()}}, {{deal.shipper.name}}
                 </option>
             </select>
         </td>
     </tr>
-    <template v-if="transportation.deal.id == -1">
+    <template v-if="transportation.deal.id === -1">
+        <%--CONTRACT NUMBER--%>
         <tr>
             <td>
                 <label for="number">
@@ -203,6 +215,7 @@
                 <input id="number" v-model="transportation.deal.number" autocomplete="off">
             </td>
         </tr>
+        <%--PRODUCT--%>
         <tr :class="{error : errors.product}">
             <td>
                 <label for="product">
@@ -215,10 +228,11 @@
             <td>
                 <select id="product" style="width: 200px" v-model="transportation.deal.product.id"
                         v-on:click="errors.product = false">
-                    <option v-if="transportation.deal.id == -1" disabled value="-1"><fmt:message key="need.select"/></option>
+                    <option v-if="transportation.deal.id === -1" disabled value="-1"><fmt:message key="need.select"/></option>
                     <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
                 </select>
-                <select v-if="transportation.deal.product.id != -1" id="type" title="${type}" v-model="transportation.deal.type" :class="{error : errors.type}" v-on:click="errors.type = false">
+                <select v-if="transportation.deal.product.id != -1" id="type" title="${type}"
+                        v-model="transportation.deal.type" :class="{error : errors.type}" v-on:click="errors.type = false">
                     <option v-for="type in typesByProduct()" :value="type">
                         {{typeNames[type]}}
                     </option>
@@ -226,8 +240,6 @@
             </td>
         </tr>
     </template>
-    <%--PRODUCT--%>
-
     <%--QUANTITY--%>
     <tr>
         <td>
@@ -240,11 +252,11 @@
         </td>
         <td>
             <input id="quantity" type="number" v-model="transportation.deal.quantity" autocomplete="off" onfocus="this.select()">
-<%--            {{transportation.deal.unit.name}}--%>
             <c:set var="units"><fmt:message key="units"/></c:set>
             <select title="${units}" v-model="transportation.deal.unit">
-                <option v-for="unit in units" :value="unit.id">{{unit.name}}</option>
+                <option v-for="unit in units" :value="unit">{{unit.name}}</option>
             </select>
+            <%--{{transportation.deal.unit}}--%>
         </td>
     </tr>
     <%--PRICE--%>
@@ -262,9 +274,11 @@
             <label for="from">
                 <fmt:message key="deal.from"/>
             </label>
-            <select id="from" v-model="transportation.deal.shipper">
-                <option v-for="shipper in shipperList()" :value="shipper">{{shipper.name}}</option>
-            </select>
+            <template v-if="transportation.deal.shipper">
+                <select id="from" v-model="transportation.deal.shipper.id">
+                    <option v-for="shipper in shipperList()" :value="shipper.id">{{shipper.name}}</option>
+                </select>
+            </template>
         </td>
     </tr>
     <tr>
@@ -278,8 +292,9 @@
         </td>
         <td>
             <input id="load" type="number" v-model.number="transportation.plan" onfocus="this.select()" autocomplete="off">
-<%--            {{transportation.deal.unit.name}}--%>
-
+            <span v-if="transportation.deal.unit">
+                {{transportation.deal.unit.name}}
+            </span>
         </td>
     </tr>
     <tr>
@@ -335,6 +350,24 @@
             <object-input :props="transporterProps" :object="transportation.transporter"></object-input>
         </td>
     </tr>
+    <%--MANAGER--%>
+    <tr>
+        <td>
+            <label for="manger">
+                <fmt:message key="deal.manager"/>
+            </label>
+        </td>
+        <td>:</td>
+        <td>
+            <select id="manger" v-model="transportation.manager.id">
+                <option disabled value="-1"><fmt:message key="can.select"/></option>
+                <option v-for="manager in managers" :value="manager.id">
+                    {{manager.person.value}}
+                </option>
+            </select>
+        </td>
+    </tr>
+    <%--NOTES--%>
     <tr>
         <td colspan="3">
             <div>
@@ -367,6 +400,7 @@
             </div>
         </td>
     </tr>
+
     <tr>
         <td colspan="3" align="center">
             <button onclick="closeModal()" class="left-button close-button">

@@ -12,6 +12,7 @@ import entity.log.comparators.DealComparator;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.transport.ActionTime;
+import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -38,7 +39,7 @@ public class DealEditor implements Constants {
     private final DealComparator comparator = new DealComparator();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
-    public Deal editDeal(JSONObject body, Worker worker) {
+    public Deal editDeal(JSONObject body, Worker creator) {
 
         log.info(body);
         boolean save = false;
@@ -47,7 +48,7 @@ public class DealEditor implements Constants {
         Deal deal = dao.getObjectById(Deal.class, body.get(ID));
         if (deal == null){
             deal = new Deal();
-            deal.setCreator(worker);
+            deal.setCreator(creator);
             isNew = true;
         }
 
@@ -56,11 +57,16 @@ public class DealEditor implements Constants {
 //      DEAL PART
 
         Date date = Date.valueOf(String.valueOf(body.get(DATE)));
-        Date dateTo = Date.valueOf(String.valueOf(body.get(DATE_TO)));
-        if (date.after(dateTo)) {
-            Date temp = date;
-            date = dateTo;
-            dateTo = temp;
+        Date dateTo;
+        if (body.containsKey(DATE_TO)){
+            dateTo = Date.valueOf(String.valueOf(body.get(DATE_TO)));
+            if (date.after(dateTo)) {
+                Date temp = date;
+                date = dateTo;
+                dateTo = temp;
+            }
+        } else {
+            dateTo = date;
         }
 
         if (deal.getDate() == null || !deal.getDate().equals(date)) {
@@ -126,19 +132,24 @@ public class DealEditor implements Constants {
             save = true;
         }
 
-        JSONArray products = (JSONArray) body.get(PRODUCTS);
-        if (products != null){
-            saveDealProducts(deal, products, worker);
-        }
-
         if (save) {
             if (isNew) {
                 deal.setUid(DocumentUIDGenerator.generateUID());
-                ActionTime actionTime = new ActionTime(worker);
+                ActionTime actionTime = new ActionTime(creator);
                 dao.save(actionTime);
                 deal.setCreate(actionTime);
             }
+
             dao.save(deal);
+            if (!isNew){
+                for (Transportation t : dao.getTransportationByDeal(deal, false, false)){
+                    try {
+                        updateUtil.onSave(t);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
             try {
                 updateUtil.onSave(deal);
@@ -147,11 +158,17 @@ public class DealEditor implements Constants {
             }
 
             try {
-                comparator.compare(deal, worker);
+                comparator.compare(deal, creator);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        JSONArray products = (JSONArray) body.get(PRODUCTS);
+        if (products != null){
+            saveDealProducts(deal, products, creator);
+        }
+
         return deal;
     }
 
@@ -216,8 +233,10 @@ public class DealEditor implements Constants {
 
     private HashMap<Integer, DealProduct> createProductHashMap(Set<DealProduct> products) {
         HashMap<Integer, DealProduct> map = new HashMap<>();
-        for (DealProduct product : products){
-            map.put(product.getProduct().getId(), product);
+        if (products != null) {
+            for (DealProduct product : products) {
+                map.put(product.getProduct().getId(), product);
+            }
         }
         return map;
     }
