@@ -120,6 +120,7 @@ public class Branches {
         public static final String SEAL_OFF = "/seal/off.j";
         public static final String SEAL_SHOW = "/seal/show.j";
         public static final String UNLOAD_STATISTIC_LIST = "/statistic/unloads.j";
+        public static final String TRANSPORT_ADD_FAST = "/transport/add/fast.j";
 
 
         public class Extraction {
@@ -311,6 +312,7 @@ public class Branches {
         public static final String GET_STATISTIC = API + "/statistic/unload";
         public static final String DELETE_VEHICLE = API + "/vehicle/delete";
         public static final String ADDRESS_REMOVE = API + "/address/remove";
+        public static final String TRANSPORTATION_SAVE_FAST = API + "/transportation/save/fast";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

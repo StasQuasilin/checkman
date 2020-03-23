@@ -5,7 +5,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<link rel="stylesheet" href="${context}/css/editor.css">
+c
 <script src="${context}/vue/templates/vehicleInput.vue"></script>
 <script src="${context}/vue/weightAdd.vue"></script>
 <script>
@@ -119,7 +119,8 @@
     </c:forEach>
     <c:choose>
     <c:when test="${not empty transportation}">
-    editor.transportation = ${transportation.toJson()}
+    editor.transportation = ${transportation.toJson()};
+    editor.dealId = ${transportation.deal.id}
     editor.transportation.deal = ${transportation.deal.toJson()}
     <c:forEach items="${deals}" var="deal">
     editor.deals.push(${deal.toJson()});
@@ -190,7 +191,7 @@
             :
         </td>
         <td>
-            <select id="deal" style="width: 100%" v-model="transportation.deal.id"  v-on:change="setQuantity()">
+            <select id="deal" style="width: 100%" v-model="dealId"  v-on:change="setQuantity()">
                 <option value="-1"><fmt:message key="deal.new"/></option>
                 <option :value="deal.id" v-for="deal in deals">
                     <template v-if="deal.number">№ {{deal.number}}</template>
@@ -200,7 +201,7 @@
             </select>
         </td>
     </tr>
-    <template v-if="transportation.deal.id === -1">
+    <template v-if="dealId === '-1'">
         <%--CONTRACT NUMBER--%>
         <tr>
             <td>
@@ -228,7 +229,7 @@
             <td>
                 <select id="product" style="width: 200px" v-model="transportation.deal.product.id"
                         v-on:click="errors.product = false">
-                    <option v-if="transportation.deal.id === -1" disabled value="-1"><fmt:message key="need.select"/></option>
+                    <option v-if="dealId === -1" disabled value="-1"><fmt:message key="need.select"/></option>
                     <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
                 </select>
                 <select v-if="transportation.deal.product.id != -1" id="type" title="${type}"

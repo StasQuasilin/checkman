@@ -135,6 +135,7 @@ public interface Constants {
     String HANDED_OVER = "handedOver";
     String WORKER = "worker";
     String WORKERS = "workers";
+    String FIND_DEALS = "findDeals";
     String MEMBERS = "members";
     String CHAT = "chat";
     String UID = "uid";
@@ -351,6 +352,7 @@ public interface Constants {
     String HUSK = "husk";
     String DUST = "dust";
     String OFF_SEALS = "off_seals";
+    String EDITABLE = "editable";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";

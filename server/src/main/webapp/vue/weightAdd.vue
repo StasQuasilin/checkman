@@ -12,6 +12,7 @@ var editor = new Vue({
         deals:[],
         shippers:[],
         customers:{},
+        dealId:'-1',
         transportation:{
             id:-1,
             date:new Date().toISOString().substring(0, 10),
@@ -81,9 +82,9 @@ var editor = new Vue({
         typesByProduct:function(){
             let types = this.types[this.transportation.deal.product.id];
             let fount = false;
-            for (var i in types){
+            for (let i in types){
                 if (types.hasOwnProperty(i)){
-                    var t = types[i];
+                    let t = types[i];
                     if (this.transportation.deal.type === t){
                         fount = true;
                         break;
@@ -153,15 +154,31 @@ var editor = new Vue({
             this.transportation.notes.splice(key, 1);
         },
         setQuantity:function(){
-            for (let i in this.deals){
-                if (this.deals.hasOwnProperty(i)){
-                    if (this.deals[i].id === this.transportation.deal){
-                        this.transportation.quantity = this.deals[i].quantity;
-                        this.transportation.price = this.deals[i].price;
-                        break;
+            if (this.dealId !== "-1") {
+                for (let i in this.deals) {
+                    if (this.deals.hasOwnProperty(i)) {
+                        let deal = this.deals[i];
+                        if (deal.id === this.dealId) {
+                            //Vue.set(this.transportation, 'deal', deal);
+                            this.transportation.deal = deal;
+                            this.transportation.quantity = deal.quantity;
+                            this.transportation.price = deal.price;
+                            break;
+                        }
                     }
                 }
+            } else{
+                // this.transportation.deal = {
+                //     id:-1,
+                //     product:{
+                //         id:-1
+                //     }
+                // };
+                this.transportation.quantity = 0;
+                this.transportation.price = 0;
             }
+
+            console.log(this.dealId);
         },
         clearNote:function(){
             this.note = {
@@ -179,14 +196,14 @@ var editor = new Vue({
             this.addressList = [];
         },
         productList:function(){
-            if (this.transportation.deal.id === -1){
+            if (this.dealId === '-1'){
                 return this.products;
             } else {
                 let products = [];
                 for (let d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
                         let deal = this.deals[d];
-                        if (deal.id === this.transportation.deal){
+                        if (deal.id === this.dealId){
                             products.push(deal.product);
                             this.transportation.product = deal.product.id;
                             break;
@@ -197,14 +214,14 @@ var editor = new Vue({
             }
         },
         shipperList:function(){
-            if (this.transportation.deal.id === -1){
+            if (this.dealId === '-1'){
                 return this.shippers;
             } else {
                 let shippers = [];
                 for (let d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
                         let deal = this.deals[d];
-                        if (deal.id === this.transportation.deal.id){
+                        if (deal.id === this.dealId){
                             shippers.push(deal.shipper);
                             this.transportation.from = deal.shipper;
                             break;
@@ -254,7 +271,7 @@ var editor = new Vue({
                 a.forEach(function(item){
                     self.addressList.push(item);
                 });
-                if (a.length == 1){
+                if (a.length === 1){
                    self.transportation.address = a[0].id ;
                 }
 
@@ -265,13 +282,14 @@ var editor = new Vue({
             PostApi(this.api.findDeals, {organisation:id}, function(a){
                 self.deals = a;
                 if(a.length > 0) {
-                    self.transportation.deal = a[0];
-                    var now = new Date(self.transportation.date);
-                    for (var i in a) {
+                    self.dealId = a[0].id;
+                    //self.transportation.deal = a[0];
+                    let now = new Date(self.transportation.date);
+                    for (let i in a) {
                         if (a.hasOwnProperty(i)) {
-                            var deal = a[i];
-                            var from = new Date(deal.date);
-                            var to = new Date(deal.date_to);
+                            let deal = a[i];
+                            let from = new Date(deal.date);
+                            let to = new Date(deal.date_to);
                             if (now >= from && now <= to) {
                                 self.transportation.deal = deal.id;
                             }
@@ -305,11 +323,12 @@ var editor = new Vue({
             this.transportation.transporter = transporter;
         },
         putDriver:function(driver){
-            this.transportation.driver = driver;
-            if (driver.vehicle && this.transportation.vehicle.id === -1){
+            Vue.set(this.transportation, 'driver', driver);
+            console.log(typeof this.transportation.vehicle);
+            if (driver.vehicle && (typeof this.transportation.vehicle === 'undefined' || this.transportation.vehicle.id === -1)){
                 this.putVehicle(driver.vehicle);
             }
-            if (driver.organisation && this.transportation.transporter.id === -1){
+            if (driver.organisation && (typeof this.transportation.transporter === 'undefined' || this.transportation.transporter.id === -1)){
                 this.putTransporter(driver.organisation);
             }
         },

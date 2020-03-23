@@ -110,10 +110,16 @@ public class Product extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toShortJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(NAME, name);
+        return json;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = toShortJson();
         if (productGroup != null){
             json.put(GROUP, productGroup.toJson());
         }

@@ -21,7 +21,7 @@ import java.io.IOException;
 public class SignInFilter implements Filter{
 
     private static final String WORKER = "worker";
-    final UserBox userBox = UserBox.getUserBox();
+    UserBox userBox;
     final Logger log = Logger.getLogger(SignInFilter.class);
     final SessionTimer sessionTimer = SessionTimer.getInstance();
 
@@ -46,7 +46,7 @@ public class SignInFilter implements Filter{
         String ip = IpUtil.getIp(request);
 
         boolean isValid = true;
-
+        userBox = UserBox.getUserBox();
         if (token == null){
             log.info("Session: " + request.getSession().getId() + ": token not found");
             isValid = false;
