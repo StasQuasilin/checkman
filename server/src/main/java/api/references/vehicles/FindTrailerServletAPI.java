@@ -22,12 +22,14 @@ public class FindTrailerServletAPI extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
+        final JSONArray array = new JSONArray();
         if (body != null){
-            String o = (String) body.get(KEY);
+            Object o = body.get(KEY);
             JSONArray array = pool.getArray();
-            for (Trailer trailer : dao.findVehicle(Trailer.class, o)){
-                array.add(trailer.toJson());
+            for (Trailer v : dao.findVehicle(Trailer.class, o)){
+                array.add(v.toJson());
             }
+
             write(resp, array.toJSONString());
             pool.put(array);
         }

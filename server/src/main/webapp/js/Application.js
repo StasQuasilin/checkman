@@ -12,6 +12,12 @@ var currentPage = '';
 var sessionLocker;
 
 $(document).ready(function(){
+    if(navigator.platform.includes('Linux')){
+        console.log('Is Linux');
+        var style = document.createElement('style');
+        document.head.appendChild(style);
+        style.sheet.insertRule('* {font-size: 10pt;'); // font-family: Helvetica, sans-serif}
+    }
     document.body.style.maxWidth = Settings.switchWidth + 'px';
     coverlet = document.getElementById('coverlet');
     header = document.getElementById('header');
@@ -35,8 +41,10 @@ $(document).ready(function(){
 });
 
 function lockSession(cause){
+    console.log('clock ' + cause);
     GetChildElemById(sessionLocker, 'reason').innerText = cause;
     sessionLocker.style.display='block';
+
 }
 
 function loadContent(url){
@@ -134,7 +142,7 @@ function addModal(modal, onSave){
 }
 function logout(){
     PostApi(logoutAPI, null, function (a) {
-        if (a.status == 'success'){
+        if (a.status === 'success'){
             var p = document.location.origin + context + a['redirect'];
             location.replace(p);
         }
