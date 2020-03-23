@@ -19,7 +19,7 @@ import java.util.List;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.DEAL_DELETE)
-public class DeleteDealServletAPI extends ServletAPI{
+public class DeleteDealAPI extends ServletAPI{
 
     final UpdateUtil updateUtil = new UpdateUtil();
 
