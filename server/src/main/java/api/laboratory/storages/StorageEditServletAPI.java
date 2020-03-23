@@ -13,6 +13,7 @@ import entity.production.Turn;
 import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.U;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
 import utils.turns.TurnService;
@@ -39,8 +40,8 @@ public class StorageEditServletAPI extends ServletAPI {
         if (body != null) {
 
             long id = -1;
-            if(body.containsKey("id")){
-                id = (long) body.get("id");
+            if(body.containsKey(ID)){
+                id = (long) body.get(ID);
             }
             StorageAnalyses analyses;
             boolean save = false;
@@ -69,31 +70,31 @@ public class StorageEditServletAPI extends ServletAPI {
                 save = true;
             }
 
-            Storage storage = dao.getStorageById(body.get("storage"));
+            Storage storage = dao.getStorageById(body.get(STORAGE));
             if (analyses.getStorage() == null || analyses.getStorage().getId() != storage.getId()){
                 analyses.setStorage(storage);
                 save = true;
             }
             OilAnalyses oilAnalyses = analyses.getOilAnalyses();
-            float phosphorus = Float.parseFloat(String.valueOf(body.get("phosphorus")));
+            float phosphorus = U.parseFloat(String.valueOf(body.get(PHOSPHORUS)));
             if (oilAnalyses.getPhosphorus() != phosphorus) {
                 oilAnalyses.setPhosphorus(phosphorus);
                 save = true;
             }
 
-            float acid = Float.parseFloat(String.valueOf(body.get("acid")));
+            float acid = U.parseFloat(String.valueOf(body.get(ACID)));
             if (oilAnalyses.getAcidValue() != acid){
                 oilAnalyses.setAcidValue(acid);
                 save = true;
             }
 
-            float peroxide = Float.parseFloat(String.valueOf(body.get("peroxide")));
+            float peroxide = U.parseFloat(String.valueOf(body.get(PEROXIDE)));
             if (oilAnalyses.getPeroxideValue() != peroxide) {
                 oilAnalyses.setPeroxideValue(peroxide);
                 save = true;
             }
 
-            float color = Float.parseFloat(String.valueOf(body.get("color")));
+            float color = U.parseFloat(String.valueOf(body.get(COLOR)));
             if (oilAnalyses.getColor() != color){
                 oilAnalyses.setColor(color);
                 save = true;

@@ -141,4 +141,11 @@ public class U implements Constants {
         long round = Math.round(v - tail);
         return round + SPACE + unit1 + SPACE + (int)(tail * 100) + SPACE + unit2;
     }
+
+    public static float parseFloat(String value) {
+        if (U.exist(value)){
+            return Float.parseFloat(value);
+        }
+        return 0;
+    }
 }
