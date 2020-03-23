@@ -51,9 +51,11 @@ public class UserBox {
         final String token = getToken();
         for (Map.Entry<String, UserInfo> entry : users.entrySet()){
             UserInfo value = entry.getValue();
-            if (value.getUser() != null) {
-                if (value.getUser().getId() == user.getId()) {
-                    users.remove(entry.getKey());
+            if (value != null) {
+                if (value.getUser() != null) {
+                    if (value.getUser().getId() == user.getId()) {
+                        users.remove(entry.getKey());
+                    }
                 }
             }
         }
