@@ -35,7 +35,7 @@ import java.util.Set;
 public class DealEditor implements Constants {
 
     private static final Logger log = Logger.getLogger(DealEditor.class);
-    private final dbDAO dao = dbDAOService.getDAO();
+    public final dbDAO dao = dbDAOService.getDAO();
     private final DealComparator comparator = new DealComparator();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -48,7 +48,7 @@ public class DealEditor implements Constants {
         Deal deal = dao.getObjectById(Deal.class, body.get(ID));
         if (deal == null){
             deal = new Deal();
-            deal.setCreator(creator);
+
             isNew = true;
         }
 
@@ -134,10 +134,7 @@ public class DealEditor implements Constants {
 
         if (save) {
             if (isNew) {
-                deal.setUid(DocumentUIDGenerator.generateUID());
-                ActionTime actionTime = new ActionTime(creator);
-                dao.save(actionTime);
-                deal.setCreate(actionTime);
+                newDeal(deal, creator);
             }
 
             dao.save(deal);
@@ -170,6 +167,14 @@ public class DealEditor implements Constants {
         }
 
         return deal;
+    }
+
+    public void newDeal(Deal deal, Worker creator) {
+        deal.setUid(DocumentUIDGenerator.generateUID());
+        ActionTime actionTime = new ActionTime(creator);
+        dao.save(actionTime);
+        deal.setCreator(creator);
+        deal.setCreate(actionTime);
     }
 
     private void saveDealProducts(Deal deal, JSONArray array, Worker worker) {
@@ -222,6 +227,7 @@ public class DealEditor implements Constants {
 
             if (save){
                 if (isNew){
+
                     ActionTime actionTime = new ActionTime(worker);
                     dao.save(actionTime);
                     dealProduct.setCreate(actionTime);

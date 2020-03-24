@@ -199,13 +199,17 @@
     </td>
     <td>
       <c:forEach items="${types}" var="type">
-        <input id="${type}" type="checkbox" v-model="product.${type}.value">
-        <c:if test="${role eq 'admin'}">
-          <input title="EDITABLE?" type="checkbox" v-model="product.${type}.editable">
-        </c:if>
-        <label for="${type}">
-          <fmt:message key="${type}"/>
-        </label>
+        <template v-if="product.${type}">
+
+          <input id="${type}" :disabled="!product.${type}.editable" type="checkbox" v-model="product.${type}.value">
+          <label for="${type}">
+            <fmt:message key="${type}"/>
+          </label>
+          <c:if test="${role eq 'admin'}">
+            <input title="EDITABLE?" type="checkbox" v-model="product.${type}.editable">
+            <br>
+          </c:if>
+        </template>
       </c:forEach>
     </td>
   </tr>

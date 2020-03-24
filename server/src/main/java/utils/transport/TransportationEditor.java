@@ -58,14 +58,20 @@ public class TransportationEditor {
             save = true;
         }
 
-        float plan = Float.parseFloat(String.valueOf(json.get(PLAN)));
+        float plan = U.parseFloat(String.valueOf(json.get(PLAN)));
         log.info("\t...Plan: '" + plan + "'");
         if (transportation.getAmount() != plan) {
             transportation.setAmount(plan);
             save = true;
         }
 
-        TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(json.get(CUSTOMER)));
+        TransportCustomer customer;
+        if (json.containsKey(CUSTOMER)){
+            customer = TransportCustomer.valueOf(String.valueOf(json.get(CUSTOMER)));
+        } else {
+            customer = TransportCustomer.szpt;
+        }
+
         if (customer == TransportCustomer.contragent){
             customer = TransportCustomer.cont;
         }
@@ -113,42 +119,44 @@ public class TransportationEditor {
         }else {
             liveNotes.clear();
         }
-        boolean saveNote;
-        for (Object o :(JSONArray) json.get(NOTES)){
-            JSONObject note = (JSONObject) o;
-            DocumentNote documentNote;
-            int noteId = -1;
-            if (note.containsKey(ID)){
-                noteId = Integer.parseInt(String.valueOf(note.get(ID)));
-            }
+        if (json.containsKey(NOTES)){
+            boolean saveNote;
+            for (Object o :(JSONArray) json.get(NOTES)){
+                JSONObject note = (JSONObject) o;
+                DocumentNote documentNote;
+                int noteId = -1;
+                if (note.containsKey(ID)){
+                    noteId = Integer.parseInt(String.valueOf(note.get(ID)));
+                }
 
-            if (alreadyNote.containsKey(noteId)){
-                documentNote = alreadyNote.remove(noteId);
-            } else {
-                documentNote = new DocumentNote(transportation, creator);
-                documentNote.setDocument(transportation.getUid());
-            }
+                if (alreadyNote.containsKey(noteId)){
+                    documentNote = alreadyNote.remove(noteId);
+                } else {
+                    documentNote = new DocumentNote(transportation, creator);
+                    documentNote.setDocument(transportation.getUid());
+                }
 
-            String value = String.valueOf(note.get(NOTE));
-            saveNote = false;
-            String s = noteUtil.checkNote(transportation, value);
-            if (U.exist(s)){
-                documentNote.setNote(s);
-                saveNote = true;
-                save = true;
-            } else {
-                if (documentNote.getId() > 0){
-                    dao.remove(documentNote);
+                String value = String.valueOf(note.get(NOTE));
+                saveNote = false;
+                String s = noteUtil.checkNote(transportation, value);
+                if (U.exist(s)){
+                    documentNote.setNote(s);
+                    saveNote = true;
                     save = true;
+                } else {
+                    if (documentNote.getId() > 0){
+                        dao.remove(documentNote);
+                        save = true;
+                    }
+                }
+                if (saveNote) {
+                    liveNotes.add(documentNote);
                 }
             }
-            if (saveNote) {
-                liveNotes.add(documentNote);
-            }
-        }
 
-        for (DocumentNote note : alreadyNote.values()){
-            dao.remove(note);
+            for (DocumentNote note : alreadyNote.values()){
+                dao.remove(note);
+            }
         }
 
         if (transportation.getManager() != manager){

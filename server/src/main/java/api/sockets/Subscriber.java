@@ -35,7 +35,8 @@ public enum Subscriber {
     TRANSPORT,
     STOP_REPORTS, TRANSPORT_ARCHIVE,
     NOTIFICATIONS,
-    SEALS
+    SEALS,
+    BOARD
 }
 
 //10592

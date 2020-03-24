@@ -10,10 +10,12 @@ var edit = new Vue({
         managers:[],
         deals:[],
         transportation:{
+            id:-1,
             date:new Date().toISOString().substring(0, 10),
             counterparty:{id:-1},
             deal:-1,
             product:-1,
+            action:'',
             driver:{id:-1},
             vehicle:{id:-1},
             trailer:{id:-1},
@@ -27,6 +29,12 @@ var edit = new Vue({
         transporterProps:{}
     },
     methods:{
+        selectDate:function(){
+            const self = this;
+            datepicker.show(function (a) {
+                self.transportation.date = a;
+            }, this.transportation.date)
+        },
         putDriver:function(driver){
             this.transportation.driver = driver;
             if (driver.vehicle && (typeof this.transportation.vehicle == 'undefined' || this.transportation.vehicle.id === -1)){
@@ -89,23 +97,42 @@ var edit = new Vue({
                         let dealDate = new Date(deal.date);
                         if (!date || dealDate > date){
                             date = dealDate;
-                            dealId =deal.id;
+                            dealId = deal.id;
                         }
                     }
                 }
             }
             this.transportation.deal = dealId;
         },
-        addAction:function(action){
-            console.log(action);
+        addAction:function(action, name){
             let product = action.product;
             if (!this.actions[product.id]){
                 this.actions[product.id] = [];
             }
-            this.actions[product.id].push(action.type);
+            this.actions[product.id].push({
+                type:action.type,
+                name:name
+            });
+        },
+        getActions:function(){
+            let actions = this.actions[this.transportation.product];
+            let founded = false;
+            for(let i in actions){
+                if (actions.hasOwnProperty(i)){
+                    let action = actions[i];
+                    if (this.transportation.action === action.type){
+                        founded = true;
+                    }
+                }
+            }
+            if (!founded){
+                this.transportation.action = actions[0].type;
+            }
+            return actions;
         },
         save:function(){
             let data = {
+                id:this.transportation.id,
                 date:this.transportation.date,
                 deal:{
                     id:this.transportation.deal,

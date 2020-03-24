@@ -22,7 +22,7 @@ public class U implements Constants {
     }
 
     public static synchronized boolean exist(String value){
-        return value != null && !value.isEmpty() && !value.equals("0");
+        return value != null && !value.isEmpty() && !value.equals("0") && !value.equals("null");
     }
 
     public static boolean exist (String ... values){

@@ -5,6 +5,7 @@ import api.sockets.Subscriber;
 import api.sockets.handlers.MessageHandler;
 import entity.DealType;
 import entity.Worker;
+import entity.border.BoardItem;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
@@ -205,6 +206,10 @@ public class UpdateUtil {
 
     public void onSave(SealBatch batch) throws IOException{
         doAction(Command.update, Subscriber.SEALS, batch.toJson());
+    }
+
+    public void onSave(BoardItem boardItem) throws IOException {
+        doAction(Command.update, Subscriber.BOARD, boardItem.toJson());
     }
 
     public enum Command {

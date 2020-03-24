@@ -16,6 +16,33 @@
     <script>
         edit.api.save = '${save}';
         edit.api.findDeals = '${findDeals}';
+        <c:if test="${not empty transportation}">
+        edit.transportation = {
+            id:${transportation.id},
+            date:new Date('${transportation.date}').toISOString().substring(0, 10),
+            counterparty:${transportation.deal.organisation.toJson()},
+            deal:${transportation.deal.id},
+            product:${transportation.deal.product.id},
+            action:'${transportation.deal.type}',
+            driver:{id:-1},
+            vehicle:{id:-1},
+            trailer:{id:-1},
+            transporter:{id:-1},
+            manager:${transportation.manager.id}
+        };
+        <c:if test="${not empty transportation.driver}">
+        edit.transportation.driver = ${transportation.driver.toJson()}
+        </c:if>
+        <c:if test="${not empty transportation.vehicle}">
+        edit.transportation.vehicle = ${transportation.vehicle.toJson()}
+        </c:if>
+        <c:if test="${not empty transportation.trailer}">
+        edit.transportation.trailer = ${transportation.trailer.toJson()}
+        </c:if>
+        <c:if test="${not empty transportation.transporter}">
+        edit.transportation.transporter = ${transportation.transporter.toJson()}
+        </c:if>
+        </c:if>
         <c:forEach items="${products}" var="product">
         edit.products.push(${product.toJson()});
         </c:forEach>
@@ -23,7 +50,7 @@
         edit.managers.push(${worker.toJson()});
         </c:forEach>
         <c:forEach items="${actions}" var="action">
-        edit.addAction(${action.toShortJson()});
+        edit.addAction(${action.toShortJson()}, '<fmt:message key="_${action.type}"/>');
         </c:forEach>
         edit.organisationProps = {
             find:'${findOrganisation}',
@@ -70,13 +97,13 @@
             show:['value']
         }
     </script>
-    <table id="editor" width="404px">
+    <table id="editor" width="505px">
         <tr>
             <td>
                 <fmt:message key="date"/>
             </td>
             <td style="width: 72%">
-                <span>
+                <span v-on:click="selectDate()">
                     {{new Date(transportation.date).toLocaleDateString()}}
                 </span>
             </td>
@@ -100,6 +127,11 @@
                     <option disabled value="-1"><fmt:message key="need.select"/></option>
                     <option v-for="p in products" :value="p.id">
                         {{p.name}}
+                    </option>
+                </select>
+                <select v-if="transportation.product > 0" v-model="transportation.action">
+                    <option v-for="a in getActions()" :value="a.type">
+                        {{a.name}}
                     </option>
                 </select>
             </td>

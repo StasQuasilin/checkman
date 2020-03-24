@@ -232,8 +232,11 @@ public class Deal extends JsonAble{
         if (U.exist(number)){
             json.put(NUMBER, number);
         }
+
         json.put(DATE, date.toString());
-        json.put(DATE_TO, dateTo.toString());
+        if (dateTo != null) {
+            json.put(DATE_TO, dateTo.toString());
+        }
         json.put(ORGANISATION, organisation.toJson());
         json.put(COUNTERPARTY, organisation.toJson());
         json.put(SHIPPER, shipper.toJson());

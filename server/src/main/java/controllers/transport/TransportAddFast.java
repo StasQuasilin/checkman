@@ -4,6 +4,8 @@ import constants.Branches;
 import controllers.IModal;
 import entity.Role;
 import entity.products.ProductAction;
+import entity.transport.Transportation;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,11 @@ public class TransportAddFast extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        JSONObject body = parseBody(req);
+        if (body != null){
+            Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
+            req.setAttribute(TRANSPORTATION, transportation);
+        }
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute(SAVE, Branches.API.TRANSPORTATION_SAVE_FAST);

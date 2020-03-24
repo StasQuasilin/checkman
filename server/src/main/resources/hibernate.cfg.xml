@@ -127,5 +127,6 @@
         <mapping class="entity.laboratory.subdivisions.extraction.MealGranules"/>
         <mapping class="entity.notifications.Notification"/>
         <mapping class="entity.organisations.LegalAddress"/>
+        <mapping class="entity.border.BoardItem"/>
     </session-factory>
 </hibernate-configuration>

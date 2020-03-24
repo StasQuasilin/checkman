@@ -168,6 +168,7 @@ public interface Constants {
     String REALISATION = "realisation";
     String ADD = "add";
     String TITLE = "title";
+    String ITEM = "item";
     String FREE = "free";
     String TOTAL = "total";
     String SAVE = "save";
