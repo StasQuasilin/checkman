@@ -999,6 +999,11 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
+    public List<Transportation> getTransportationByTrailer(Trailer trailer) {
+        return hb.query(Transportation.class, "trailer", trailer);
+    }
+
+    @Override
     public StorageProtein getStorageProteinById(Object id) {
         return hb.get(StorageProtein.class, ID, id);
     }

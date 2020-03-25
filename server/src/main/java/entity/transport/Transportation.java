@@ -112,7 +112,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     public Trailer getTrailer() {
         return trailer;
     }
-    void setTrailer(Trailer trailer) {
+    public void setTrailer(Trailer trailer) {
         this.trailer = trailer;
     }
 

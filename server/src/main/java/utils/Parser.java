@@ -31,7 +31,7 @@ public class Parser {
 
         while (matcher.find()){
             String group = matcher.group();
-            log.info("Found \'" + group + "\'");
+            log.info("Found '" + group + "'");
             value = value.replaceAll(group, EMPTY);
             result.add(prettyNumber(group.trim()));
         }

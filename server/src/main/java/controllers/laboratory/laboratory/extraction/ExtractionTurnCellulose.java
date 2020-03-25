@@ -34,6 +34,7 @@ public class ExtractionTurnCellulose extends IModal {
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute(TURNS, TurnBox.getTurns());
         req.setAttribute(SAVE, Branches.API.EXTRACTION_TURN_CELLULOSE);
+        req.setAttribute(REMOVE, Branches.API.EXTRACTION_TURN_CELLULOSE_REMOVE);
         show(req, resp);
     }
 }

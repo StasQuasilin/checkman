@@ -117,7 +117,7 @@ public class UpdateUtil {
     }
 
     public void onSave(ExtractionTurn turn) throws IOException {
-        doAction(Command.update, Subscriber.EXTRACTION, parser.toJson(turn));
+        doAction(Command.update, Subscriber.EXTRACTION, turn.toJson());
     }
 
     public void onSave(VROTurn turn) throws IOException {

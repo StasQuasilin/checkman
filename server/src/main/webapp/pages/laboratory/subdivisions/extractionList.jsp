@@ -18,6 +18,7 @@
     list.api.greaseStorageEdit = '${storageGrease}';
     list.api.proteinTurnEdit = '${turnProtein}';
     list.api.greaseTurnEdit = '${turnGrease}';
+    list.api.celluloseEdit = '${turnCellulose}';
     list.api.oilEdit = '${oilEdit}';
     list.crudeEdit = function(id){
         this.edit(this.api.crudeEdit, id);
@@ -45,6 +46,11 @@
     list.oilEdit = function(id){
         if (this.api.oilEdit) {
             this.edit(this.api.oilEdit, id);
+        }
+    };
+    list.editCellulose = function(id){
+        if (this.api.celluloseEdit){
+            this.edit(this.api.celluloseEdit, id)
         }
     };
     list.edit = function(api, id){
@@ -249,7 +255,7 @@
                         </span>
                     </td>
                     <td align="center">
-                        <span v-if="value.item.storageProtein[crude.time]" style="width: 100% display: inline-block"
+                        <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"
                               v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
                             {{value.item.storageProtein[crude.time].nuclear}}
                         </span>
@@ -258,7 +264,7 @@
                         </span>
                     </td>
                     <td align="center">
-                        <span v-if="value.item.storageGrease[crude.time]" style="width: 100% display: inline-block"
+                        <span v-if="value.item.storageGrease[crude.time]" style="width: 100%; display: inline-block"
                               v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
                             {{value.item.storageGrease[crude.time].grease}}
                         </span>
@@ -267,7 +273,7 @@
                         </span>
                     </td>
                     <td align="center">
-                        <span v-if="value.item.storageGrease[crude.time]" style="width: 100% display: inline-block"
+                        <span v-if="value.item.storageGrease[crude.time]" style="width: 100%; display: inline-block"
                               v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
                             {{value.item.storageGrease[crude.time].humidity}}
                         </span>
@@ -350,7 +356,7 @@
                 <fmt:message key="meal.diameter"/>:{{granulas.diameter}}
             </div>
 
-            <div v-for="cellulose in value.item.cellulose"
+            <div v-for="cellulose in value.item.cellulose" v-on:click="editCellulose(cellulose.id)"
                  style="font-size: 10pt; display: inline-block" class="selectable round">
                 <b>
                     <fmt:message key="menu.extraction.turn.cellulose"/>:

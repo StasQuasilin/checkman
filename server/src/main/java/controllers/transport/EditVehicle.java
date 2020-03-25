@@ -49,8 +49,6 @@ public class EditVehicle extends IModal {
                     }
                     req.setAttribute(INFO, info);
                 }
-                List<Transportation> transportations = dao.getTransportationByVehicle(vehicle);
-                req.setAttribute(TRANSPORTATIONS, transportations);
             }
         }
 

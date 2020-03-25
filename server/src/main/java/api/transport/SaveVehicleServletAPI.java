@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.transport.Trailer;
+import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -58,6 +59,18 @@ public class SaveVehicleServletAPI extends ServletAPI {
                 trailer.setNumber(tn);
                 dao.save(trailer);
                 vehicle.setTrailer(trailer);
+            } else if (vehicle.getTrailer() != null){
+                Trailer trailer = vehicle.getTrailer();
+                vehicle.setTrailer(null);
+                dao.save(vehicle);
+                for (Transportation t : dao.getTransportationByTrailer(trailer)){
+                    t.setTrailer(null);
+                    dao.save(t);
+                    if (!t.isArchive()) {
+                        updateUtil.onSave(t);
+                    }
+                }
+                dao.remove(trailer);
             }
 
             dao.save(vehicle);

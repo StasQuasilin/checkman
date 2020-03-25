@@ -27,13 +27,13 @@ var editor = new Vue({
         save:function(){
             if (!this.already) {
 
-                this.err.turn = this.oil.turn == -1;
+                this.err.turn = this.oil.turn === -1;
 
                 if (!this.err.turn) {
                     this.already = true;
                     const self = this;
                     PostApi(this.api.save, this.oil, function (a) {
-                        if (a.status == 'success') {
+                        if (a.status === 'success') {
                             closeModal();
                         }
                         self.already = false;
@@ -41,6 +41,15 @@ var editor = new Vue({
                         self.already = false;
                     })
                 }
+            }
+        },
+        remove:function(){
+            if (this.api.remove){
+                PostApi(this.api.remove, {id:this.oil.id}, function(a){
+                    if (a.status === 'success'){
+                        closeModal();
+                    }
+                })
             }
         }
     }

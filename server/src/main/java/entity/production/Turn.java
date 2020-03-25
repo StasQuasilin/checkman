@@ -46,10 +46,7 @@ public class Turn extends JsonAble{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * date.hashCode() + hash;
-        hash = 31 * number + hash;
-        return hash;
+        return id;
     }
 
     @Override

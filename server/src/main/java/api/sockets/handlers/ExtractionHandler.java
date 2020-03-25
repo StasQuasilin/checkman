@@ -22,12 +22,14 @@ public class ExtractionHandler extends OnSubscribeHandler {
 
     @Override
     public void handle(Session session) throws IOException {
-        JSONObject json = ActiveSubscriptions.pool.getObject();
-        JSONArray array = ActiveSubscriptions.pool.getArray();
+        JSONObject json = pool.getObject();
+        JSONArray array = pool.getArray();
         List<ExtractionTurn> turns = dao.getLimitExtractionTurns();
-        array.addAll(turns.stream().map(ExtractionTurn::toJson).collect(Collectors.toList()));
+        for (ExtractionTurn turn : turns){
+            array.add(turn.toJson());
+        }
         json.put(ADD, array);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
-        ActiveSubscriptions.pool.put(json);
+        pool.put(json);
     }
 }

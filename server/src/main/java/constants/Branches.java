@@ -317,6 +317,7 @@ public class Branches {
         public static final String TRANSPORTATION_SAVE_FAST = API + "/transportation/save/fast";
         public static final String BOARD_EDIT = API + "/board/edit";
         public static final String BOARD_REMOVE = API + "/board/remove";
+        public static final String EXTRACTION_TURN_CELLULOSE_REMOVE = API + "/extraction/turn/cellulose/remove";
 
         public class References {
             public static final String API = Branches.API.API + "/references";
