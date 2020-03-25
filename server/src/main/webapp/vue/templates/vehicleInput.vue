@@ -128,8 +128,7 @@ var objectInput = {
                     '</div>' +
                 '</div>' +
             '</div>' +
-            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" :class="{error : error}">' +
-                '{{props.header}}' +
+            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" :class="{error : error}" v-html="props.header">' +
             '</a>' +
         '</div>'
 
