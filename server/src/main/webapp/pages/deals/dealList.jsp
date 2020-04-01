@@ -99,7 +99,7 @@
           <span style="float: right">
             <fmt:message key="deal.manager"/>:
             <b>
-              {{value.item.creator.person.value}}
+              {{value.item.create.creator.person.value}}
             </b>
           </span>
           </div>

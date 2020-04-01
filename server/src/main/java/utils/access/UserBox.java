@@ -22,7 +22,7 @@ public class UserBox {
     }
     final HashMap<String, UserInfo> users = new HashMap<>();
 
-    public String getToken(){
+    public synchronized String getToken(){
         final String token = UUID.randomUUID().toString();
         if (users.containsKey(token)){
             return getToken();
@@ -64,10 +64,9 @@ public class UserBox {
         return token;
     }
 
-    public void remove(Worker worker){
+    public synchronized void remove(Worker worker){
         for (Map.Entry<String, UserInfo> entry : users.entrySet()){
             UserInfo value = entry.getValue();
-
             if (value.getUser().getWorker().getId() == worker.getId()){
                 users.remove(entry.getKey());
             }

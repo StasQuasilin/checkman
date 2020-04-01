@@ -39,18 +39,12 @@ public class WeightAddAPI extends ServletAPI {
     private DealEditor dealEditor = new DealEditor();
     private TransportationEditor transportationEditor = new TransportationEditor();
 
-    private static final String FROM = "from";
-    private final Logger log = Logger.getLogger(WeightAddAPI.class);
-    final UpdateUtil updateUtil = new UpdateUtil();
     private final StorageUtil storageUtil = new StorageUtil();
-    private final NoteUtil noteUtil = new NoteUtil();
-    private final TransportComparator transportComparator = new TransportComparator();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            log.info(body );
             Worker creator = getWorker(req);
             Worker manager = dao.getObjectById(body.get(MANAGER));
             if (manager == null){

@@ -47,6 +47,7 @@ public class SignInFilter implements Filter{
 
         boolean isValid = true;
         userBox = UserBox.getUserBox();
+
         if (token == null){
             log.info("Session: " + request.getSession().getId() + ": token not found");
             isValid = false;

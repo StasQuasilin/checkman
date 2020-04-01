@@ -48,7 +48,6 @@ public class DealEditor implements Constants {
         Deal deal = dao.getObjectById(Deal.class, body.get(ID));
         if (deal == null){
             deal = new Deal();
-
             isNew = true;
         }
 
@@ -173,7 +172,6 @@ public class DealEditor implements Constants {
         deal.setUid(DocumentUIDGenerator.generateUID());
         ActionTime actionTime = new ActionTime(creator);
         dao.save(actionTime);
-        deal.setCreator(creator);
         deal.setCreate(actionTime);
     }
 
@@ -227,7 +225,6 @@ public class DealEditor implements Constants {
 
             if (save){
                 if (isNew){
-
                     ActionTime actionTime = new ActionTime(worker);
                     dao.save(actionTime);
                     dealProduct.setCreate(actionTime);

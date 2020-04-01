@@ -271,10 +271,6 @@ var editor = new Vue({
                 a.forEach(function(item){
                     self.addressList.push(item);
                 });
-                if (a.length === 1){
-                   self.transportation.address = a[0].id ;
-                }
-
             });
         },
         findDeals:function(id){
@@ -334,7 +330,6 @@ var editor = new Vue({
         },
         save:function(){
             if (!this.already) {
-
                 if (this.note.edit) {
                     this.saveNote();
                 }
@@ -343,79 +338,80 @@ var editor = new Vue({
                 e.product = this.transportation.deal.product.id === -1;
 
                 if (!e.type && !e.organisation && !e.product) {
-
-                let transportation = {
-                    id:this.transportation.id,
-                    date:this.transportation.date,
-                    customer:this.transportation.customer,
-                    deal:{
-                        id:this.transportation.deal.id,
-                        type:this.transportation.deal.type,
+                    let transportation = {
+                        id:this.transportation.id,
                         date:this.transportation.date,
-                        counterparty : this.transportation.deal.counterparty.id,
-                        product : this.transportation.deal.product.id,
-                        unit : this.transportation.deal.unit.id,
-                        shipper : this.transportation.deal.shipper.id,
+                        customer:this.transportation.customer,
+                        deal:{
+                            id:this.transportation.deal.id,
+                            type:this.transportation.deal.type,
+                            date:this.transportation.date,
+                            counterparty : this.transportation.deal.counterparty.id,
+                            product : this.transportation.deal.product.id,
+                            unit : this.transportation.deal.unit.id,
+                            shipper : this.transportation.deal.shipper.id,
+                        },
 
+                        manager : this.transportation.manager.id,
+                        notes:[]
+                    };
+                    if (this.transportation.address > 0){
+                        transportation.address = this.transportation.address;
+                    }
+                    if (this.transportation.vehicle){
+                        transportation.vehicle = this.transportation.vehicle.id;
+                    }
+                    if (this.transportation.trailer){
+                        transportation.trailer = this.transportation.trailer.id;
+                    }
+                    if (this.transportation.driver){
+                        transportation.driver = this.transportation.driver.id;
+                    }
+                    if (this.transportation.transporter){
+                        transportation.transporter = this.transportation.transporter.id;
+                    }
+                    if (!this.transportation.deal.quantity){
+                        transportation.deal.quantity = 0;
+                    } else {
+                        transportation.deal.quantity = this.transportation.deal.quantity;
+                    }
+                    if (!this.transportation.deal.price){
+                        transportation.deal.price = 0;
+                    } else {
+                        transportation.deal.price = this.transportation.deal.price;
+                    }
+                    if (!this.transportation.plan){
+                        transportation.plan = 0;
+                    } else {
+                        transportation.plan = this.transportation.plan;
+                    }
+                    transportation.deal.products = [
+                        {
+                            product : transportation.deal.product,
+                            quantity: transportation.deal.quantity,
+                            unit: transportation.deal.unit,
+                            shipper:transportation.deal.shipper,
+                            price:transportation.deal.price
+                        }
+                    ];
 
-                    },
-                    manager : this.transportation.manager.id,
-                    notes:[]
-                };
-                if (this.transportation.vehicle){
-                    transportation.vehicle = this.transportation.vehicle.id;
-                }
-                if (this.transportation.trailer){
-                    transportation.trailer = this.transportation.trailer.id;
-                }
-                if (this.transportation.driver){
-                    transportation.driver = this.transportation.driver.id;
-                }
-                if (this.transportation.transporter){
-                    transportation.transporter = this.transportation.transporter.id;
-                }
-                if (!this.transportation.deal.quantity){
-                    transportation.deal.quantity = 0;
-                } else {
-                    transportation.deal.quantity = this.transportation.deal.quantity;
-                }
-                if (!this.transportation.deal.price){
-                    transportation.deal.price = 0;
-                } else {
-                    transportation.deal.price = this.transportation.deal.price;
-                }
-                if (!this.transportation.plan){
-                    transportation.plan = 0;
-                } else {
-                    transportation.plan = this.transportation.plan;
-                }
-                transportation.deal.products = [
-                    {
-                        product : transportation.deal.product,
-                        quantity: transportation.deal.quantity,
-                        unit: transportation.deal.unit,
-                        shipper:transportation.deal.shipper,
-                        price:transportation.deal.price
+                    for(let i in this.transportation.notes){
+                        if (this.transportation.notes.hasOwnProperty(i)){
+                            let note = this.transportation.notes[i];
+                            transportation.notes.push({
+                                id:note.id,
+                                note:note.note
+                            });
+                        }
                     }
-                ];
-
-                for(var i in this.transportation.notes){
-                    if (this.transportation.notes.hasOwnProperty(i)){
-                        var note = this.transportation.notes[i];
-                        transportation.notes.push({
-                            id:note.id,
-                            note:note.note
-                        });
-                    }
-                }
-                PostApi(this.api.save, transportation, function (a) {
-                    if (a.status === 'success') {
-                        closeModal();
-                    }
-                }, function(e){
-                    console.log(e);
-                    self.already = false
-                })
+                    PostApi(this.api.save, transportation, function (a) {
+                        if (a.status === 'success') {
+                            closeModal();
+                        }
+                    }, function(e){
+                        console.log(e);
+                        self.already = false
+                    })
                 }
             }
         }

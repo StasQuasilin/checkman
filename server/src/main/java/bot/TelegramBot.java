@@ -18,6 +18,7 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -50,7 +51,7 @@ public class TelegramBot extends IBot {
 
     public TelegramBot(String token, String name) {
         this.token = token;
-        this.name = new String(name.getBytes(), Charset.forName("UTF-8"));
+        this.name = new String(name.getBytes(), StandardCharsets.UTF_8);
     }
 
     void updateProcessing(Update update){
@@ -81,8 +82,8 @@ public class TelegramBot extends IBot {
         }
     }
 
-    final Pattern commandPattern = Pattern.compile("^\\/\\w{2,}");
-    final String unknownCommandFormat = "_Command \'%s\' not found_";
+    final Pattern commandPattern = Pattern.compile("^/\\w{2,}");
+    final String unknownCommandFormat = "_Command '%s' not found_";
     private void parseCommand(long id, String text, String title) {
 
         Matcher matcher = commandPattern.matcher(text);

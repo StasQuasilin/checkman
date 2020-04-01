@@ -21,7 +21,9 @@ import utils.storages.StorageUtil;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by quasilin on 18.03.2019.
@@ -102,12 +104,19 @@ public class TransportUtil{
 
     public synchronized static Transportation createTransportation(Deal deal, Worker manager, Worker creator) {
         Transportation transportation = new Transportation();
-
         transportation.setUid(DocumentUIDGenerator.generateUID());
-        transportation.setProduct(deal.getProduct());
         transportation.setManager(manager);
         transportation.setCreateTime(new ActionTime(creator));
+
+        TransportationGroup group = new TransportationGroup();
+        group.setTransportation(transportation);
+        group.setAddress(deal.getAddress());
+        Set<TransportationGroup> groups = new HashSet<>();
+        groups.add(group);
+        transportation.setTransportationGroups(groups);
+
         transportation.setShipper(deal.getShipper());
+        transportation.setProduct(deal.getProduct());
         transportation.setDeal(deal);
 
         return transportation;

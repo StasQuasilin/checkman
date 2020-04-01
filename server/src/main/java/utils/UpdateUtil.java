@@ -43,7 +43,7 @@ public class UpdateUtil {
     final dbDAO dao = dbDAOService.getDAO();
 
     public void onSave(Deal deal) throws IOException {
-        doAction(Command.update, getSubscriber(deal.getType()), parser.toJson(deal));
+        doAction(Command.update, getSubscriber(deal.getType()), deal.toJson());
     }
 
     public void onRemove(Deal deal) throws IOException {

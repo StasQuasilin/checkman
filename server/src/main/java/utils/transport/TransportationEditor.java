@@ -4,6 +4,7 @@ import constants.Constants;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.log.comparators.TransportComparator;
+import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.transport.*;
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import static constants.Constants.*;
 
@@ -48,6 +50,17 @@ public class TransportationEditor {
 
         if (transportation.getDeal() == null || transportation.getDeal().getId() != deal.getId()){
             transportation.setDeal(deal);
+            save = true;
+        }
+
+        if (json.containsKey(ADDRESS)){
+            Address address = dao.getObjectById(Address.class, json.get(ADDRESS));
+            if (transportation.getAddress() == null || transportation.getAddress().getId() != address.getId()){
+                transportation.setAddress(address);
+                save = true;
+            }
+        } else if (transportation.getAddress() != null){
+            transportation.setAddress(null);
             save = true;
         }
 
@@ -169,6 +182,14 @@ public class TransportationEditor {
                 dao.save(transportation.getCreateTime());
             }
             dao.save(transportation);
+
+            Set<TransportationGroup> transportationGroups = transportation.getTransportationGroups();
+            if (transportationGroups != null) {
+                for (TransportationGroup group : transportationGroups) {
+                    dao.save(group);
+                }
+            }
+
             try {
                 updateUtil.onSave(transportation);
             } catch (IOException e) {

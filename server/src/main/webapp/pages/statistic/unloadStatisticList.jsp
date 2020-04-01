@@ -61,6 +61,8 @@
                                 let product = res[a.product.id];
                                 if (!product){
                                     product = a.product;
+                                    product.plus = 0;
+                                    product.minus = 0;
                                     product.values = {};
                                     res[product.id] = product;
                                 }
@@ -87,9 +89,11 @@
 
                                 let amount = Math.round(parseFloat(a.amount) * 1000) / 1000;
                                 if (amount > 0){
+                                    product.plus += amount;
                                     counterparty.plus += amount;
                                     scale.plus += amount;
                                 } else {
+                                    product.minus += amount;
                                     counterparty.minus += amount;
                                     scale.minus += amount;
                                 }
@@ -124,7 +128,15 @@
         <div id="statistic" style="padding: 4pt">
             <div v-for="i in getItems()">
                 <div style="font-weight: bold">
-                    {{i.name}}
+                    <span>
+                        {{i.name}}
+                    </span>
+                    <span v-if="i.plus != 0" class="plus-amount">
+                        +{{i.plus.toLocaleString()}} {{i.unit.name}}
+                    </span>
+                    <span v-if="i.minus != 0" class="minus-amount">
+                        {{i.minus.toLocaleString()}} {{i.unit.name}}
+                    </span>
                 </div>
                 <template v-for="(counterparty) in sortByName(i.values)">
                     <div style="padding-left: 8pt" v-on:click="open(counterparty)" class="row">

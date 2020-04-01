@@ -120,8 +120,13 @@ c
     <c:choose>
     <c:when test="${not empty transportation}">
     editor.transportation = ${transportation.toJson()};
+    editor.transportation.address = -1;
+    <c:if test="${not empty transportation.address}">
+    editor.transportation.address = ${transportation.address.id};
+    </c:if>
     editor.dealId = ${transportation.deal.id}
     editor.transportation.deal = ${transportation.deal.toJson()}
+    editor.findAddress(editor.transportation.deal.counterparty.id);
     <c:forEach items="${deals}" var="deal">
     editor.deals.push(${deal.toJson()});
     </c:forEach>
@@ -179,6 +184,31 @@ c
         </td>
         <td>
             <object-input :props="organisationProps" :object="transportation.deal.counterparty"></object-input>
+
+        </td>
+    </tr>
+    <tr v-if="transportation.deal.counterparty && transportation.deal.counterparty.id != -1">
+        <td>
+            <label for="address">
+                <fmt:message key="address"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <select id="address" v-if="addressList.length > 0" v-model="transportation.address" style="width: 220pt">
+                <option value="-1"><fmt:message key="not.select"/></option>
+                <option v-for="address in addressList" :value="address.id">
+                    {{address.city}}
+                    <template v-if="address.street">
+                        {{address.street}}
+                    </template>
+                </option>
+            </select>
+            <span class="mini-close">
+                <fmt:message key="add.address"/>
+            </span>
         </td>
     </tr>
     <tr>

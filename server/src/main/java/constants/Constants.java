@@ -16,6 +16,8 @@ public interface Constants {
     String STAR = "*";
     String ENCODING = "UTF-8";
     String ID = "id";
+    String IP = "ip";
+    String SESSION = "session";
     String TEXT = "text";
     String WAIT_ANSWER = "waitAnswer";
     String SENDER = "sender";

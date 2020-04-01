@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +43,6 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     private ActionTime timeRegistration;
     private ActionTime timeIn;
     private ActionTime timeOut;
-    private Worker creator;
     private Worker manager;
     private List<DocumentNote> notes = new ArrayList<>();
     private boolean archive;
@@ -50,16 +50,24 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     private String uid;
     private TransportCustomer customer;
     private ActionTime createTime;
-
+    private Set<TransportationGroup> transportationGroups;
     private Address address;
+    @Deprecated
     private SunAnalyses sunAnalyses;
+    @Deprecated
     private OilAnalyses oilAnalyses;
+    @Deprecated
     private MealAnalyses mealAnalyses;
+    @Deprecated
     private Weight weight;
+    @Deprecated
     private float amount;
 
+    @Deprecated
     private Deal deal;
+    @Deprecated
     private Shipper shipper;
+    @Deprecated
     private Product product;
 
     @Id
@@ -91,9 +99,11 @@ public class Transportation extends JsonAble implements Serializable, Constants 
 
     @OneToOne
     @JoinColumn(name = DEAL)
+    @Deprecated
     public Deal getDeal() {
         return deal;
     }
+    @Deprecated
     public void setDeal(Deal deal) {
         this.deal = deal;
     }
@@ -208,56 +218,57 @@ public class Transportation extends JsonAble implements Serializable, Constants 
 
     @OneToOne
     @JoinColumn(name = PRODUCT)
+    @Deprecated
     public Product getProduct() {
         return product;
     }
+    @Deprecated
     public void setProduct(Product product) {
         this.product = product;
     }
 
     @OneToOne
     @JoinColumn(name = WEIGHT)
+    @Deprecated
     public Weight getWeight() {
         return weight;
     }
+    @Deprecated
     public void setWeight(Weight weight) {
         this.weight = weight;
     }
 
     @OneToOne
     @JoinColumn(name = "sun_analyses")
+    @Deprecated
     public SunAnalyses getSunAnalyses() {
         return sunAnalyses;
     }
+    @Deprecated
     public void setSunAnalyses(SunAnalyses sunAnalyse) {
         this.sunAnalyses = sunAnalyse;
     }
 
     @OneToOne
     @JoinColumn(name = "oil_analyses")
+    @Deprecated
     public OilAnalyses getOilAnalyses() {
         return oilAnalyses;
     }
+    @Deprecated
     public void setOilAnalyses(OilAnalyses oilAnalyses) {
         this.oilAnalyses = oilAnalyses;
     }
 
     @OneToOne
     @JoinColumn(name = "meal_analyses")
+    @Deprecated
     public MealAnalyses getMealAnalyses() {
         return mealAnalyses;
     }
+    @Deprecated
     public void setMealAnalyses(MealAnalyses mealAnalyses) {
         this.mealAnalyses = mealAnalyses;
-    }
-
-    @OneToOne
-    @JoinColumn(name = CREATOR)
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
     }
 
     @OneToOne
@@ -339,6 +350,14 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         this.createTime = createTime;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
+    public Set<TransportationGroup> getTransportationGroups() {
+        return transportationGroups;
+    }
+    public void setTransportationGroups(Set<TransportationGroup> transportationGroups) {
+        this.transportationGroups = transportationGroups;
+    }
+
     @Enumerated(EnumType.STRING)
     @Column(name = CUSTOMER)
     public TransportCustomer getCustomer() {
@@ -350,9 +369,11 @@ public class Transportation extends JsonAble implements Serializable, Constants 
 
     @Basic
     @Column(name = AMOUNT)
+    @Deprecated
     public float getAmount() {
         return amount;
     }
+    @Deprecated
     public void setAmount(float amount) {
         this.amount = amount;
     }
@@ -367,20 +388,20 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         }
         json.put(TYPE, deal.getType().toString());
         json.put(DATE, date.toString());
-        json.put(PRODUCT, product.toJson());
+        json.put(PRODUCT, deal.getProduct().toJson());
         json.put(CUSTOMER, customer.toString());
         json.put(PLAN, amount);
         json.put(UNIT, deal.getUnit().getName());
         json.put(PRICE, deal.getPrice());
         json.put(COUNTERPARTY, deal.getOrganisation().toShortJson());
-        json.put(SHIPPER, shipper.getValue());
+        json.put(SHIPPER, deal.getShipper().getValue());
         if (address != null){
             json.put(ADDRESS, address.toJson());
         }
         if (driver != null) {
             json.put(DRIVER, driver.toJson());
+            json.put(LICENSE, driverLicense);
         }
-        json.put(LICENSE, driverLicense);
         if (vehicle != null) {
             json.put(VEHICLE, vehicle.toJson());
         }
