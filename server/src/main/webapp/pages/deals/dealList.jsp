@@ -42,8 +42,8 @@
           </span>
           <span v-if="value.item.date">
             {{new Date(value.item.date).toLocaleDateString()}}
-            <template v-if="value.item.date !== value.item.date_to">
-              <br>{{new Date(value.item.date_to).toLocaleDateString()}}
+            <template v-if="value.item.date !== value.item.dateTo">
+              <br>{{new Date(value.item.dateTo).toLocaleDateString()}}
             </template>
           </span>
         </div>
@@ -64,7 +64,7 @@
           <span v-if="value.item.quantity > 0">
             <b>
               {{value.item.quantity}}
-              {{value.item.unit}}
+              {{value.item.unit.name}}
             </b>
           </span>
           <span v-if="value.item.price > 0">
@@ -76,7 +76,7 @@
           <span style="width: 12%">
             <fmt:message key="deal.from"/>:
             <b>
-              {{value.item.visibility}}
+              {{value.item.shipper.name}}
             </b>
           </span>
 
@@ -86,12 +86,12 @@
             <fmt:message key="deal.done"/>:
             <b>
               {{(value.item.complete).toLocaleString()}} / {{(value.item.quantity).toLocaleString()}}
-              {{value.item.unit}}
+              {{value.item.unit.name}}
             </b>
             <span v-if="value.item.quantity > 0">
               ( {{(value.item.complete / value.item.quantity * 100).toLocaleString() + ' %'}} )
               <span v-if="value.item.quantity>value.item.complete">
-                {{(value.item.quantity-value.item.complete).toLocaleString()}} {{value.item.unit}} <fmt:message key="deal.leave"/>
+                {{(value.item.quantity-value.item.complete).toLocaleString()}} {{value.item.unit.name}} <fmt:message key="deal.leave"/>
               </span>
             </span>
 

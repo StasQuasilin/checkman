@@ -53,7 +53,7 @@ public class UpdateUtil {
     public void onArchive(Deal deal) throws IOException {
         onRemove(deal);
         Subscriber subscriber = deal.getType() == DealType.buy ? Subscriber.DEAL_BUY_ARCHIVE : Subscriber.DEAL_SELL_ARCHIVE;
-        doAction(Command.update, subscriber, parser.toJson(deal));
+        doAction(Command.update, subscriber, deal.toJson());
     }
 
     static Subscriber getSubscriber(DealType type){

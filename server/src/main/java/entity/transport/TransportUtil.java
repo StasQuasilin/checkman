@@ -91,7 +91,7 @@ public class TransportUtil{
 
         dao.saveWeight(weight);
         if (newWeight){
-            dao.saveTransportation(transportation);
+            dao.save(transportation);
         }
         return percentage;
     }

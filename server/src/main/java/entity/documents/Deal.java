@@ -262,6 +262,7 @@ public class Deal extends JsonAble{
         json.put(TYPE, type.toString());
         json.put(DONE, isDone());
         json.put(ARCHIVE, isArchive());
+        json.put(CREATE, create.toShortJson());
         return json;
     }
 }

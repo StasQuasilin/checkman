@@ -32,7 +32,7 @@ public class TransportationEditor {
     private final NoteUtil noteUtil = new NoteUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
-    public Transportation saveTransportation(Deal deal, JSONObject json, Worker creator, Worker manager) {
+    public Transportation saveTransportation(Deal deal, JSONObject json, Worker creator, Worker manager) throws IOException {
 
         boolean save = false;
         boolean isNew = false;
@@ -69,6 +69,11 @@ public class TransportationEditor {
         if (transportation.getDate() == null || !transportation.getDate().equals(date)) {
             transportation.setDate(date);
             save = true;
+        }
+        if (deal.getDateTo().before(date)){
+            deal.setDateTo(date);
+            dao.save(deal);
+            updateUtil.onSave(deal);
         }
 
         float plan = U.parseFloat(String.valueOf(json.get(PLAN)));
@@ -189,12 +194,7 @@ public class TransportationEditor {
                     dao.save(group);
                 }
             }
-
-            try {
-                updateUtil.onSave(transportation);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            updateUtil.onSave(transportation);
         }
 
         transportComparator.compare(transportation, creator);

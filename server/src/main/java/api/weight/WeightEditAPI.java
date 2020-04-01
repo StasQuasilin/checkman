@@ -31,11 +31,11 @@ import java.util.List;
  * Created by szpt_user045 on 22.03.2019.
  */
 @WebServlet(Branches.API.SAVE_WEIGHT)
-public class WeightEditServletAPI extends ServletAPI {
+public class WeightEditAPI extends ServletAPI {
 
     private final WeightComparator comparator = new WeightComparator();
     private final TransportComparator transportComparator = new TransportComparator();
-    private final Logger log = Logger.getLogger(WeightEditServletAPI.class);
+    private final Logger log = Logger.getLogger(WeightEditAPI.class);
     private final StorageUtil storageUtil = new StorageUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -90,8 +90,8 @@ public class WeightEditServletAPI extends ServletAPI {
 
                 updateUtil.onSave(transportation);
 
-                WeightUtil.calculateDealDone(transportation.getDeal());
                 TransportUtil.calculateWeight(transportation);
+                WeightUtil.calculateDealDone(transportation.getDeal());
 
                 transportComparator.fix(transportation);
                 TransportUtil.checkTransport(transportation);

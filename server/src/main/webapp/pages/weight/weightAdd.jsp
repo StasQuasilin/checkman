@@ -82,6 +82,9 @@ c
         ${manager.toJson()}
     );
     </c:forEach>
+    editor.managers.sort(function (a, b) {
+        return a.person.value.localeCompare(b.person.value);
+    });
     
     <c:forEach items="${types}" var="type">
     editor.types['${type}'] = {
@@ -96,6 +99,9 @@ c
         name:'${product.name}'
     });
     </c:forEach>
+    editor.products.sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+    });
     
     <c:forEach items="${units}" var="unit">
     editor.units.push({
