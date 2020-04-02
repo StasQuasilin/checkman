@@ -240,26 +240,31 @@ public class Deal extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
-        JSONObject json = pool.getObject();
-        json.put(ID, id);
+    public JSONObject toShortJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(TYPE, type.toString());
+        object.put(COUNTERPARTY, organisation.toShortJson());
+        object.put(SHIPPER, shipper.toJson());
+        object.put(PRODUCT, product.toJson());
+        object.put(QUANTITY, quantity);
+        object.put(UNIT, unit.toJson());
+        object.put(PRICE, price);
         if (U.exist(number)){
-            json.put(NUMBER, number);
+            object.put(NUMBER, number);
         }
+        return object;
+    }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = toShortJson();
         json.put(DATE, date.toString());
         if (dateTo != null) {
             json.put(DATE_TO, dateTo.toString());
         }
         json.put(ORGANISATION, organisation.toJson());
-        json.put(COUNTERPARTY, organisation.toJson());
-        json.put(SHIPPER, shipper.toJson());
-        json.put(PRODUCT, product.toJson());
-        json.put(QUANTITY, quantity);
         json.put(COMPLETE, complete);
-        json.put(PRICE, price);
-        json.put(UNIT, unit.toJson());
-        json.put(TYPE, type.toString());
         json.put(DONE, isDone());
         json.put(ARCHIVE, isArchive());
         json.put(CREATE, create.toShortJson());

@@ -70,8 +70,18 @@ public class TransportationEditor {
             transportation.setDate(date);
             save = true;
         }
+        boolean updateDeal = false;
         if (deal.getDateTo().before(date)){
             deal.setDateTo(date);
+            updateDeal = true;
+        }
+
+        if (deal.getDate().after(date)){
+            deal.setDate(date);
+            updateDeal = true;
+        }
+
+        if (updateDeal){
             dao.save(deal);
             updateUtil.onSave(deal);
         }

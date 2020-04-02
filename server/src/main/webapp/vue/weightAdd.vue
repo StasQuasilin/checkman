@@ -12,7 +12,9 @@ var editor = new Vue({
         deals:[],
         shippers:[],
         customers:{},
-        dealId:'-1',
+        deal:{
+            id:-1
+        },
         transportation:{
             id:-1,
             date:new Date().toISOString().substring(0, 10),
@@ -70,7 +72,8 @@ var editor = new Vue({
         driverProps:{},
         vehicleProps:{},
         trailerProps:{},
-        transporterProps:{}
+        transporterProps:{},
+        duplicateDeal:-1
     },
     methods:{
         addType:function(action){
@@ -96,13 +99,30 @@ var editor = new Vue({
             }
             return types;
         },
+        checkDeal:function(){
+            this.duplicateDeal = -1;
+            if (this.deal === '-1'){
+                let target = this.transportation.deal;
+                for (let i in this.deals){
+                    if (this.deals.hasOwnProperty(i)){
+                        let deal = this.deals[i];
+                        if (target.price === deal.price
+                            && target.shipper.id === deal.shipper.id
+                            && target.quantity === deal.quantity
+                            && target.product.id === deal.product.id
+                            && target.type === deal.type){
+                            this.duplicateDeal = deal.id;
+                        }
+                    }
+                }
+            }
+        },
         editAddress:function(id){
             let data = {
                 type: 'load',
-                counterparty: this.transportation.organisation.id,
+                counterparty: this.transportation.deal.counterparty.id,
                 id: id
             };
-
             const self = this;
             loadModal(this.api.editAddress, data, function(a){
                 let found = false;
@@ -154,31 +174,12 @@ var editor = new Vue({
             this.transportation.notes.splice(key, 1);
         },
         setQuantity:function(){
-            if (this.dealId !== "-1") {
-                for (let i in this.deals) {
-                    if (this.deals.hasOwnProperty(i)) {
-                        let deal = this.deals[i];
-                        if (deal.id === this.dealId) {
-                            //Vue.set(this.transportation, 'deal', deal);
-                            this.transportation.deal = deal;
-                            this.transportation.quantity = deal.quantity;
-                            this.transportation.price = deal.price;
-                            break;
-                        }
-                    }
-                }
+            this.checkDeal();
+            if (this.deal !== "-1") {
+                this.transportation.deal = Object.assign({}, this.deal);
             } else{
-                // this.transportation.deal = {
-                //     id:-1,
-                //     product:{
-                //         id:-1
-                //     }
-                // };
-                this.transportation.quantity = 0;
-                this.transportation.price = 0;
+                this.transportation.deal.id = -1;
             }
-
-            console.log(this.dealId);
         },
         clearNote:function(){
             this.note = {
@@ -190,20 +191,22 @@ var editor = new Vue({
         },
         cancelOrganisation:function(){
             this.transportation.type = -1;
-            this.transportation.deal = -1;
+            this.transportation.address = -1;
+            this.deal = -1;
             this.transportation.product = -1;
             this.deals = [];
             this.addressList = [];
+            this.duplicateDeal = -1;
         },
         productList:function(){
-            if (this.dealId === '-1'){
+            if (this.deal === '-1'){
                 return this.products;
             } else {
                 let products = [];
                 for (let d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
                         let deal = this.deals[d];
-                        if (deal.id === this.dealId){
+                        if (deal.id === this.deal){
                             products.push(deal.product);
                             this.transportation.product = deal.product.id;
                             break;
@@ -214,14 +217,14 @@ var editor = new Vue({
             }
         },
         shipperList:function(){
-            if (this.dealId === '-1'){
+            if (this.deal === -1){
                 return this.shippers;
             } else {
                 let shippers = [];
                 for (let d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
                         let deal = this.deals[d];
-                        if (deal.id === this.dealId){
+                        if (deal.id === this.deal.id){
                             shippers.push(deal.shipper);
                             this.transportation.from = deal.shipper;
                             break;
@@ -278,8 +281,7 @@ var editor = new Vue({
             PostApi(this.api.findDeals, {organisation:id}, function(a){
                 self.deals = a;
                 if(a.length > 0) {
-                    self.dealId = a[0].id;
-                    //self.transportation.deal = a[0];
+                    self.deal = a[0];
                     let now = new Date(self.transportation.date);
                     for (let i in a) {
                         if (a.hasOwnProperty(i)) {

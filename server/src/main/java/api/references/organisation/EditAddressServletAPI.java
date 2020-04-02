@@ -3,8 +3,10 @@ package api.references.organisation;
 import api.ServletAPI;
 import constants.Branches;
 import entity.organisations.*;
+import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.AddressUtil;
+import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -20,6 +22,7 @@ import java.io.IOException;
 public class EditAddressServletAPI extends ServletAPI {
 
     private AddressUtil addressUtil = new AddressUtil();
+    private UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -55,6 +58,10 @@ public class EditAddressServletAPI extends ServletAPI {
             JSONObject json = new SuccessAnswer(RESULT, address.toJson()).toJson();
             write(resp, json.toJSONString());
             pool.put(json);
+
+            for (Transportation t : dao.getTransportationByAddress(address)){
+                updateUtil.onSave(t);
+            }
         }
     }
 }

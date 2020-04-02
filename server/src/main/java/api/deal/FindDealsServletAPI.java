@@ -26,7 +26,7 @@ public class FindDealsServletAPI extends ServletAPI {
             List<Deal> deals = dao.getDealsByOrganisation(body.get(ORGANISATION));
             JSONArray array = pool.getArray();
             for (Deal deal : deals){
-                array.add(deal.toJson());
+                array.add(deal.toShortJson());
             }
             write(resp, array.toJSONString());
             pool.put(array);

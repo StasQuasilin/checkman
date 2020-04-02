@@ -3,10 +3,7 @@ package utils.hibernate;
 import constants.Constants;
 import entity.documents.Deal;
 import entity.organisations.Organisation;
-import entity.transport.ActionTime;
-import entity.transport.TransportCustomer;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import utils.storages.StatisticUtil;
 
 import java.sql.Timestamp;
@@ -25,17 +22,10 @@ public class CustomHandler implements Constants{
 
     public static void main(String[] args) {
         Hibernator hibernator = Hibernator.getInstance();
-        HashMap<String, Object> params = hibernator.getParams();
-        params.put("create", null);
-        ActionTime at;
-        LocalTime time = LocalTime.of(0, 0);
-        for (Deal deal : hibernator.query(Deal.class, params)){
-            at = new ActionTime();
-            at.setCreator(deal.getCreator());
-            at.setTime(Timestamp.valueOf(LocalDateTime.of(deal.getDate().toLocalDate(), time)));
-            hibernator.save(at);
-            deal.setCreate(at);
-            hibernator.save(deal);
+        for (TransportationGroup group : hibernator.query(TransportationGroup.class, null)){
+            Transportation transportation = group.getTransportation();
+            group.setAddress(transportation.getAddress());
+            hibernator.save(group);
         }
 
         HibernateSessionFactory.shutdown();

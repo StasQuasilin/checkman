@@ -1004,6 +1004,14 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
+    public List<Transportation> getTransportationByAddress(Address address) {
+        HashMap<String, Object> params = hb.getParams();
+        params.put("archive", false);
+        params.put("address", address.getId());
+        return hb.query(Transportation.class, params);
+    }
+
+    @Override
     public StorageProtein getStorageProteinById(Object id) {
         return hb.get(StorageProtein.class, ID, id);
     }
