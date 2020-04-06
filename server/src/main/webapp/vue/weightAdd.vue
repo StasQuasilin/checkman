@@ -190,9 +190,9 @@ var editor = new Vue({
             }
         },
         cancelOrganisation:function(){
+            this.deal = '-1';
             this.transportation.type = -1;
             this.transportation.address = -1;
-            this.deal = -1;
             this.transportation.product = -1;
             this.deals = [];
             this.addressList = [];
@@ -217,7 +217,7 @@ var editor = new Vue({
             }
         },
         shipperList:function(){
-            if (this.deal === -1){
+            if (this.deal === '-1'){
                 return this.shippers;
             } else {
                 let shippers = [];
@@ -294,13 +294,15 @@ var editor = new Vue({
                         }
                     }
                     self.setQuantity();
+                } else {
+                    console.log(self.transportation);
                 }
             })
         },
         getPrice: function(){
-            for (var d in this.deals){
+            for (let d in this.deals){
                 if (this.deals.hasOwnProperty(d)){
-                    var deal = this.deals[d];
+                    let deal = this.deals[d];
                     if (deal.id === this.transportation.deal){
                         return this.transportation.price = deal.price;
                     }
@@ -308,8 +310,7 @@ var editor = new Vue({
             }
         },
         putVehicle:function(vehicle){
-            this.transportation.vehicle = vehicle;
-
+            Vue.set(this.transportation, 'vehicle', vehicle);
             if (vehicle.trailer && vehicle.trailer.id > 0){
                 this.putTrailer(vehicle.trailer);
             }
@@ -318,7 +319,7 @@ var editor = new Vue({
             this.transportation.trailer = trailer;
         },
         putTransporter:function(transporter){
-            this.transportation.transporter = transporter;
+            Vue.set(this.transportation, 'transporter', transporter);
         },
         putDriver:function(driver){
             Vue.set(this.transportation, 'driver', driver);

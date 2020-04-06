@@ -35,6 +35,7 @@ public class VehicleParser {
                         if (U.exist(trailerNumber)) {
                             Trailer trailer = new Trailer();
                             trailer.setNumber(trailerNumber);
+                            dao.save(trailer);
                             vehicle.setTrailer(trailer);
                         }
                     }

@@ -24,7 +24,7 @@ var filter_control = new Vue({
                 }
             }
             return Object.values(organisations).sort(function(a, b){
-                return a.name.localeCompare(b.name);
+                return a.value.localeCompare(b.value);
             })
         },
         products:function(){

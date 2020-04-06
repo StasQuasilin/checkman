@@ -92,6 +92,7 @@ public class Organisation extends JsonAble{
     public JSONObject toShortJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+
         json.put(VALUE, getValue());
         return json;
     }

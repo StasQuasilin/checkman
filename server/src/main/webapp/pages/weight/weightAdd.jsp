@@ -167,14 +167,14 @@
     }
     </c:when>
     <c:otherwise>
-    editor.deal = -1;
+    editor.deal = '-1';
     editor.transportation.deal = {
         id:-1,
         counterparty:{id:-1},
         unit: editor.units[0],
         shipper: editor.shippers[0],
         quantity:0,
-        product:-1,
+        product:{id:-1},
         price:0
     };
 
@@ -292,7 +292,7 @@
             <td>
                 <select id="product" style="width: 200px" v-model="transportation.deal.product.id"
                         v-on:click="errors.product = false" v-on:change="checkDeal()">
-                    <option v-if="deal.id === -1" disabled value="-1"><fmt:message key="need.select"/></option>
+                    <option v-if="deal === '-1'" disabled value="-1"><fmt:message key="need.select"/></option>
                     <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
                 </select>
                 <select v-if="transportation.deal.product.id != -1" id="type" title="${type}" v-on:change="checkDeal()"

@@ -113,7 +113,6 @@ var objectInput = {
                     'v-on:keyup="findObject()" v-on:keyup.escape="closeInput()"' +
                     ':class="{error : error}" v-on:click="error = false"' +
                     'style=" width: 90%; border: none">' +
-
                 '<span class="mini-close" v-on:click="closeInput()">&times;</span>' +
                 '<div class="custom-data-list" v-if="foundObjects.length > 0 || input">' +
                     '<div v-for="o in foundObjects"' +
@@ -128,7 +127,8 @@ var objectInput = {
                     '</div>' +
                 '</div>' +
             '</div>' +
-            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" :class="{error : error}" v-html="props.header">' +
+            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" ' +
+        '       :class="{error : error}" v-html="props.header">' +
             '</a>' +
         '</div>'
 
