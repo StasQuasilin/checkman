@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -13,6 +13,8 @@
         id:${turn.id},
         number:${turn.number},
         value:'<fmt:message key="turn"/> #${turn.number}',
+        begin:'${turn.begin}',
+        end:'${turn.end}',
         <c:choose>
         <c:when test="${turn.begin lt turn.end}">
         day:0
@@ -23,15 +25,10 @@
         </c:choose>
     });
     </c:forEach>
-    <c:forEach items="${laborants}" var="l">
-    editor.laborants.push({
-        id:${l.id},
-        value:'${l.person.value}'
-    });
-    </c:forEach>
     <c:choose>
     <c:when test="${not empty oil}">
     editor.oil = {
+        id:${oil.id},
         date : new Date('${oil.turn.turn.date}').toISOString().substring(0, 10),
         turn : ${oil.turn.turn.number},
         humidity:${oil.humidity},
@@ -42,9 +39,24 @@
     };
     </c:when>
     <c:otherwise>
+
+    hour = new Date().getHours();
+    var turn = -1;
+    for(let i in editor.turns){
+        if (editor.turns.hasOwnProperty(i)){
+            let t = editor.turns[i];
+            let beginHour = new Date(now.toISOString().substring(0, 10) + ' ' + t.begin).getHours();
+            let endHour = new Date(now.toISOString().substring(0, 10) + ' ' + t.end).getHours();
+            if (beginHour > endHour){
+                turn = 1;
+            } else {
+                turn = 2;
+            }
+        }
+    }
     editor.oil = {
         date : new Date().toISOString().substring(0, 10),
-        turn : -1,
+        turn : turn,
         humidity:0,
         acid:0,
         peroxide:0,

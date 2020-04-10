@@ -160,10 +160,10 @@ public class DealEditor implements Constants {
             }
         }
 
-        JSONArray products = (JSONArray) body.get(PRODUCTS);
-        if (products != null){
-            saveDealProducts(deal, products, creator);
-        }
+//        JSONArray products = (JSONArray) body.get(PRODUCTS);
+//        if (products != null){
+//            saveDealProducts(deal, products, creator);
+//        }
 
         return deal;
     }

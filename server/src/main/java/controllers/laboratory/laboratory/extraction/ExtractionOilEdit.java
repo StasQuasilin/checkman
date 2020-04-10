@@ -21,22 +21,25 @@ import java.util.HashMap;
  */
 @WebServlet(Branches.UI.Extraction.OIL_EDIT)
 public class ExtractionOilEdit extends IModal {
+
+    private static final String _CONTENT = "/pages/laboratory/subdivisions/extraction/oilEdit.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         ExtractionOIl oil = null;
-        String id = req.getParameter("id");
+        String id = req.getParameter(ID);
         if (U.exist(id)){
             oil = dao.getExtractionOilById(Integer.parseInt(id));
         }
 
         if (oil != null) {
-            req.setAttribute("oil", oil);
+            req.setAttribute(OIL, oil);
         }
-        req.setAttribute("title", Titles.EXTRACTION_OIL);
-        req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/oilEdit.jsp");
-        req.setAttribute("turns", TurnBox.getTurns());
-        req.setAttribute("save", Branches.API.EXTRACTION_OIL_EDIT);
+        req.setAttribute(TITLE, Titles.EXTRACTION_OIL);
+        req.setAttribute(MODAL_CONTENT, _CONTENT);
+        req.setAttribute(TURNS, TurnBox.getTurns());
+        req.setAttribute(SAVE, Branches.API.EXTRACTION_OIL_EDIT);
         show(req, resp);
     }
 }
