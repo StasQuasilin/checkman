@@ -30,7 +30,7 @@ public class DealArchiveServletAPI extends ServletAPI {
             DealType type = DealType.valueOf(String.valueOf(body.get("type")));
             List<Deal> deals = dao.getLimitArchiveDeals(type);
 
-            array.addAll(deals.stream().map(parser::toJson).collect(Collectors.toList()));
+            array.addAll(deals.stream().map(Deal::toJson).collect(Collectors.toList()));
 
             write(resp, array.toJSONString());
             array.clear();

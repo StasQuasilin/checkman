@@ -22,7 +22,7 @@ public class U implements Constants {
     }
 
     public static synchronized boolean exist(String value){
-        return value != null && !value.isEmpty() && !value.equals("0");
+        return value != null && !value.isEmpty() && !value.equals("0") && !value.equals("null");
     }
 
     public static boolean exist (String ... values){
@@ -140,5 +140,12 @@ public class U implements Constants {
         float tail = 1f * Math.round((v % 1) * 1000) / 1000;
         long round = Math.round(v - tail);
         return round + SPACE + unit1 + SPACE + (int)(tail * 100) + SPACE + unit2;
+    }
+
+    public static float parseFloat(String value) {
+        if (U.exist(value)){
+            return Float.parseFloat(value);
+        }
+        return 0;
     }
 }

@@ -100,7 +100,7 @@ var objectInput = {
             '<a v-on:click="edit" style="font-weight: bold">{{show(object)}}</a>' +
             '<div class="object-menu">' +
                 '<span class="mini-close" v-on:click="edit">' +
-                    '<img src="images/pencil.svg" style="width: 8pt">' +
+                    '<img src="images/smallpensil.svg" style="width: 8pt" alt="">' +
                 '</span>' +
                 '<span class="mini-close" v-on:click="closeObject()">' +
                     '&times;' +
@@ -128,8 +128,7 @@ var objectInput = {
                     '</div>' +
                 '</div>' +
             '</div>' +
-            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" :class="{error : error}">' +
-                '{{props.header}}' +
+            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" :class="{error : error}" v-html="props.header">' +
             '</a>' +
         '</div>'
 

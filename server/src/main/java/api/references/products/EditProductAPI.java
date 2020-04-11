@@ -67,8 +67,9 @@ public class EditProductAPI extends ServletAPI {
                 save = true;
             }
 
-            checkAction(product, DealType.buy, checkContain(body, DealType.buy));
-            checkAction(product, DealType.sell, checkContain(body, DealType.sell));
+            for(DealType type : DealType.values()){
+                checkAction(product, type, (JSONObject)body.get(type.toString()));
+            }
 
             JSONArray array = (JSONArray) body.get(PATH);
             String[] strings = new String[array.size()];
@@ -97,15 +98,18 @@ public class EditProductAPI extends ServletAPI {
         return json.containsKey(type.toString()) && Boolean.parseBoolean(String.valueOf(json.get(type.toString())));
     }
 
-    private void checkAction(Product product, DealType type, boolean contain) {
+    private void checkAction(Product product, DealType type, JSONObject contain) {
         ProductAction action = dao.getProductAction(product, type);
-        if (contain){
+        boolean value = Boolean.parseBoolean(String.valueOf(contain.get(VALUE)));
+        if (value){
             if (action == null){
                 action = new ProductAction();
                 action.setProduct(product);
                 action.setType(type);
-                dao.save(action);
             }
+            boolean editable = Boolean.parseBoolean(String.valueOf(contain.get(EDITABLE)));
+            action.setEditable(editable);
+            dao.save(action);
         } else if (action != null){
             dao.remove(action);
         }

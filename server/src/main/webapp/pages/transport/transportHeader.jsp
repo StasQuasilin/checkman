@@ -6,6 +6,9 @@
 <html>
 <link rel="stylesheet" href="${context}/css/drop-menu.css">
 <div id="container-header" class="container-header">
+    <button onclick="loadModal('${add}')">
+        <fmt:message key="button.add"/>
+    </button>
     <c:if test="${not empty check}">
         <button onclick="loadModal('${check}')"><fmt:message key="button.check"/></button>
     </c:if>

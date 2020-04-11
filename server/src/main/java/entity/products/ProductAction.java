@@ -16,6 +16,7 @@ public class ProductAction extends JsonAble implements Constants {
     private int id;
     private Product product;
     private DealType type;
+    private boolean editable;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,12 +45,28 @@ public class ProductAction extends JsonAble implements Constants {
         this.type = type;
     }
 
+    @Basic
+    @Column(name = EDITABLE)
+    public boolean getEditable() {
+        return editable;
+    }
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    @Override
+    public JSONObject toShortJson() {
+        JSONObject object = pool.getObject();
+        object.put(PRODUCT, product.toShortJson());
+        object.put(TYPE, type.toString());
+        object.put(EDITABLE, editable);
+        return object;
+    }
+
     @Override
     public JSONObject toJson() {
-        JSONObject object = pool.getObject();
-        object.put(ID, id);
+        JSONObject object = toShortJson();
         object.put(PRODUCT, product.toJson());
-        object.put(TYPE, type.toString());
         return object;
     }
 }

@@ -9,6 +9,7 @@ import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.GE;
@@ -60,11 +61,7 @@ public class TransportationCarriagePrintServletAPI extends ServletAPI{
                 req.setAttribute(ORGANISATION, organisation);
                 params.put("deal/organisation", organisation);
             }
-            if (body.containsKey(DRIVER)){
-                Driver driver = dao.getObjectById(Driver.class, body.get(DRIVER));
-                req.setAttribute(DRIVER, driver);
-                params.put("driver", driver);
-            }
+
             ArrayList<Transportation> transportations = new ArrayList<>();
             if (body.containsKey(PRODUCT)){
                 Product product = dao.getObjectById(Product.class, body.get(PRODUCT));
@@ -81,7 +78,15 @@ public class TransportationCarriagePrintServletAPI extends ServletAPI{
                     transportations.addAll(dao.getObjectsByParams(Transportation.class, map));
                 }
             } else {
-                transportations.addAll(dao.getObjectsByParams(Transportation.class, params));
+                JSONArray array = (JSONArray)body.get(DRIVERS);
+                if(array.size() > 0){
+                    for (Object o : array){
+                        params.put(DRIVER, o);
+                        transportations.addAll(dao.getObjectsByParams(Transportation.class, params));
+                    }
+                } else {
+                    transportations.addAll(dao.getObjectsByParams(Transportation.class, params));
+                }
             }
             if (from != null){
                 req.setAttribute(FROM, from);

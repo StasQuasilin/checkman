@@ -8,6 +8,7 @@
 <script src="${context}/vue/laboratory/extractionOil.vue"></script>
 <script>
   editor.api.save = '${save}';
+  editor.api.remove = '${remove}';
   <c:forEach items="${turns}" var="turn">
     editor.turns.push({
       id:${turn.id},
@@ -125,6 +126,9 @@ editor.oil = {
   </tr>
   <tr>
     <td colspan="3" align="center">
+      <button v-if="oil.id > 0" v-on:click="remove()">
+        <fmt:message key="button.delete"/>
+      </button>
       <button onclick="closeModal()">
         <fmt:message key="button.close"/>
       </button>

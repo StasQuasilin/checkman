@@ -2,6 +2,7 @@ package entity.documents;
 
 import entity.DealType;
 import entity.JsonAble;
+import entity.organisations.Address;
 import entity.products.Product;
 import entity.Worker;
 import entity.organisations.Organisation;
@@ -27,20 +28,23 @@ public class Deal extends JsonAble{
     private String number;
     private DealType type;
     private Organisation organisation;
+    private Address address;
     private Set<DealProduct> products;
 
     private String uid;
+    @Deprecated
     private Product product;
+    @Deprecated
     private Unit unit;
+    @Deprecated
     private Shipper shipper;
+    @Deprecated
     private float price;
 
     private float complete;
     private float quantity;
     private boolean done;
     private boolean archive;
-    //todo remove this field
-    private Worker creator;
     private ActionTime create;
 
     @Id
@@ -107,6 +111,7 @@ public class Deal extends JsonAble{
 
     @OneToOne
     @JoinColumn(name = "visibility")
+    @Deprecated
     public Shipper getShipper() {
         return shipper;
     }
@@ -124,7 +129,17 @@ public class Deal extends JsonAble{
     }
 
     @OneToOne
+    @JoinColumn(name = "address")
+    public Address getAddress() {
+        return address;
+    }
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @OneToOne
     @JoinColumn(name = "product")
+    @Deprecated
     public Product getProduct() {
         return product;
     }
@@ -134,6 +149,7 @@ public class Deal extends JsonAble{
 
     @Basic
     @Column(name = "quantity")
+    @Deprecated
     public float getQuantity() {
         return quantity;
     }
@@ -143,6 +159,7 @@ public class Deal extends JsonAble{
 
     @OneToOne
     @JoinColumn(name = "unit")
+    @Deprecated
     public Unit getUnit() {
         return unit;
     }
@@ -152,6 +169,7 @@ public class Deal extends JsonAble{
 
     @Basic
     @Column(name = "price")
+    @Deprecated
     public float getPrice() {
         return price;
     }
@@ -168,13 +186,10 @@ public class Deal extends JsonAble{
         this.complete = done;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
+    @Transient
+    @Deprecated
     public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
+        return create.getCreator();
     }
 
     @Basic
@@ -220,32 +235,39 @@ public class Deal extends JsonAble{
                 "\tdateTo=" + dateTo + ",\n" +
                 "\ttype=" + type + ",\n" +
                 "\torganisation=" + organisation + ",\n" +
-                "\tcreator=" + creator + ",\n" +
                 "\tuid='" + uid + '\'' + ",\n" +
                 '}';
     }
 
     @Override
-    public JSONObject toJson() {
-        JSONObject json = pool.getObject();
-        json.put(ID, id);
+    public JSONObject toShortJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(TYPE, type.toString());
+        object.put(COUNTERPARTY, organisation.toShortJson());
+        object.put(SHIPPER, shipper.toJson());
+        object.put(PRODUCT, product.toJson());
+        object.put(QUANTITY, quantity);
+        object.put(UNIT, unit.toJson());
+        object.put(PRICE, price);
         if (U.exist(number)){
-            json.put(NUMBER, number);
+            object.put(NUMBER, number);
         }
+        return object;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = toShortJson();
         json.put(DATE, date.toString());
-        json.put(DATE_TO, dateTo.toString());
+        if (dateTo != null) {
+            json.put(DATE_TO, dateTo.toString());
+        }
         json.put(ORGANISATION, organisation.toJson());
-        json.put(COUNTERPARTY, organisation.toJson());
-        json.put(SHIPPER, shipper.toJson());
-        json.put(PRODUCT, product.toJson());
-        json.put(QUANTITY, quantity);
         json.put(COMPLETE, complete);
-        json.put(PRICE, price);
-        json.put(CREATOR, creator.toJson());
-        json.put(UNIT, unit.toJson());
-        json.put(TYPE, type.toString());
         json.put(DONE, isDone());
         json.put(ARCHIVE, isArchive());
+        json.put(CREATE, create.toShortJson());
         return json;
     }
 }

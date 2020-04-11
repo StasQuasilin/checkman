@@ -1,16 +1,11 @@
 package utils.hibernate;
 
 import constants.Constants;
-import entity.seals.Seal;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
-import org.omg.CORBA.OBJECT_NOT_EXIST;
 import utils.hibernate.DateContainers.*;
 
 import javax.persistence.criteria.*;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**

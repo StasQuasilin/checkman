@@ -14,11 +14,11 @@ var filter_control = new Vue({
     },
     methods:{
         organisations:function(){
-            var organisations = {};
-            for (var i in this.items){
+            let organisations = {};
+            for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    var organisation = this.items[i].item.organisation;
-                    if (organisations[organisation.id] == undefined) {
+                    let organisation = this.items[i].item.counterparty;
+                    if (organisations[organisation.id] === undefined) {
                         organisations[organisation.id] = organisation;
                     }
                 }
@@ -28,11 +28,11 @@ var filter_control = new Vue({
             })
         },
         products:function(){
-            var products = {};
-            for (var i in this.items){
+            let products = {};
+            for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    var product = this.items[i].item.product;
-                    if (products[product.id] == undefined) {
+                    let product = this.items[i].item.product;
+                    if (products[product.id] === undefined) {
                         products[product.id] = product;
                     }
                 }
@@ -40,11 +40,11 @@ var filter_control = new Vue({
             return products;
         },
         dates:function(){
-            var dates = {};
-            for (var i in this.items){
+            let dates = {};
+            for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    var date = this.items[i].item.date;
-                    if (dates[date] == undefined) {
+                    let date = this.items[i].item.date;
+                    if (dates[date] === undefined) {
                         dates[date] = date;
                     }
                 }
@@ -54,11 +54,11 @@ var filter_control = new Vue({
             });
         },
         creators:function(){
-            var creators = {};
-            for (var i in this.items){
+            let creators = {};
+            for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    var creator = this.items[i].item.creator;
-                    if (creators[creator.id] == undefined) {
+                    let creator = this.items[i].item.create.creator;
+                    if (creators[creator.id] === undefined) {
                         creators[creator.id] = creator;
                     }
                 }
@@ -72,12 +72,12 @@ var filter_control = new Vue({
             this.filter.creator=-1;
         },
         filteredItems:function(){
-            var self = this;
+            let self = this;
             return this.items.filter(function(item){
                 return (self.filter.date === -1 || self.filter.date === item.item.date) &
                     (self.filter.organisation === -1 || self.filter.organisation === item.item.organisation.id) &
                     (self.filter.product === -1 || self.filter.product === item.item.product.id) &
-                    (self.filter.creator === -1 || self.filter.creator === item.item.creator.id)
+                    (self.filter.creator === -1 || self.filter.creator === item.item.create.creator.id)
             })
         }
     }

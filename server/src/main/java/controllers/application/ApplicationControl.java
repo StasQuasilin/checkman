@@ -83,6 +83,7 @@ public class ApplicationControl extends IServlet{
         req.setAttribute("leaveChat", Branches.API.LEAVE_CHAT);
         req.setAttribute("renameChat", Branches.API.RENAME_CHAT);
         req.setAttribute("removeChat", Branches.API.REMOVE_NOTE);
+        req.setAttribute("board", Branches.UI.BOARD);
 
         req.setAttribute("shortCutUpdate", Branches.ShortCuts.UPDATE);
         req.setAttribute("logoutAPI", Branches.Sign.LOGOUT);

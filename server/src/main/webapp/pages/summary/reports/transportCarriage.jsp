@@ -26,7 +26,8 @@
       from:new Date().toISOString().substring(0, 10),
       to:new Date().toISOString().substring(0, 10),
       organisation:{},
-      driver:{},
+      drivers:[],
+      driver:{id:-1},
       vehicle:'',
       product:-1,
       products:[],
@@ -44,9 +45,9 @@
       },
       driverProps:{
         find:'${findDriver}',
-        header:'<fmt:message key="button.add"/>',
+        header:'<b>++<fmt:message key="button.add"/></b>',
         put:function(driver){
-          print.driver = driver;
+          print.drivers.push(driver);
         },
         show:['person/value']
       }
@@ -64,11 +65,12 @@
           self.to = date;
         }, this.to)
       },
+      removeDriver:function(idx){
+        this.drivers.splice(idx, 1);
+      },
       print:function(){
         if (!this.already) {
           this.already = true;
-          this.err.organisation = this.organisation.id;
-          this.err.driver = this.driver.id;
           let params = {};
           if (this.from) {
             params.from = this.from;
@@ -79,20 +81,25 @@
           if (this.organisation) {
             params.organisation = this.organisation.id
           }
-          if (this.driver) {
-            params.driver = this.driver.id;
+
+          params.drivers = [];
+          for (let i in this.drivers){
+            if (this.drivers.hasOwnProperty(i)){
+              params.drivers.push(this.drivers[i].id)
+            }
           }
+
           if (this.vehicle) {
             params.vehicleContain = this.vehicle;
           }
-          if (this.product != -1) {
+          if (this.product !== -1) {
             params.product = this.product;
           }
           const self = this;
 
           PostReq(this.api.print, params, function (a) {
             self.already = false;
-            var print = window.open();
+            let print = window.open();
             print.document.write(a);
             print.print();
           })
@@ -160,6 +167,15 @@
       <fmt:message key="transportation.driver"/>
     </td>
     <td>
+      <span v-for="(d, dIdx) in drivers">
+        <span style="padding-left: 4pt">
+          {{d.person.value}}
+        </span>
+        <span v-on:click="removeDriver(dIdx)">
+          &times;
+        </span>
+        <template v-if="dIdx < drivers.length - 1">,</template>
+      </span>
       <object-input :props="driverProps" :object="driver"></object-input>
     </td>
   </tr>

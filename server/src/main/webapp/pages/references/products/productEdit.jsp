@@ -53,7 +53,7 @@
           for (let i in this.units){
             if (this.units.hasOwnProperty(i)){
               let unit = this.units[i];
-              if (unit.id == self.product.unit){
+              if (unit.id === self.product.unit){
                 return unit.name;
               }
             }
@@ -102,8 +102,17 @@
     name:'${unit.name}'
   });
   </c:forEach>
+  <c:forEach items="${types}" var="type">
+  productEdit.product.${type} = {
+    value:false,
+    editable:true
+  };
+  </c:forEach>
   <c:forEach items="${actions}" var="action">
-  productEdit.product.${action.type} = true;
+  productEdit.product.${action.type} = {
+    value:true,
+    editable:${action.editable}
+  };
   </c:forEach>
 </script>
 <table id="productEdit">
@@ -190,10 +199,17 @@
     </td>
     <td>
       <c:forEach items="${types}" var="type">
-        <input id="${type}" type="checkbox" v-model="product.${type}">
-        <label for="${type}">
-          <fmt:message key="${type}"/>
-        </label>
+        <template v-if="product.${type}">
+
+          <input id="${type}" :disabled="!product.${type}.editable" type="checkbox" v-model="product.${type}.value">
+          <label for="${type}">
+            <fmt:message key="${type}"/>
+          </label>
+          <c:if test="${role eq 'admin'}">
+            <input title="EDITABLE?" type="checkbox" v-model="product.${type}.editable">
+            <br>
+          </c:if>
+        </template>
       </c:forEach>
     </td>
   </tr>

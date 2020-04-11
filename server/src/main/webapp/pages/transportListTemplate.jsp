@@ -89,10 +89,10 @@
                     bi = !bN && (b.item.weight.tara > 0 || b.item.weight.brutto > 0);
                 }
 
-                if (aN == 0 && bN > 0 || ai && !bi) { //(aN == 0 && bN > 0) ||
+                if (aN === 0 && bN > 0 || ai && !bi) { //(aN == 0 && bN > 0) ||
                     return -1;
                 }
-                if (aN > 0 && bN == 0 || !ai && bi) { //
+                if (aN > 0 && bN === 0 || !ai && bi) { //
                     return 1;
                 }
             }

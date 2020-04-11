@@ -16,6 +16,8 @@ public interface Constants {
     String STAR = "*";
     String ENCODING = "UTF-8";
     String ID = "id";
+    String IP = "ip";
+    String SESSION = "session";
     String TEXT = "text";
     String WAIT_ANSWER = "waitAnswer";
     String SENDER = "sender";
@@ -135,6 +137,7 @@ public interface Constants {
     String HANDED_OVER = "handedOver";
     String WORKER = "worker";
     String WORKERS = "workers";
+    String FIND_DEALS = "findDeals";
     String MEMBERS = "members";
     String CHAT = "chat";
     String UID = "uid";
@@ -167,6 +170,7 @@ public interface Constants {
     String REALISATION = "realisation";
     String ADD = "add";
     String TITLE = "title";
+    String ITEM = "item";
     String FREE = "free";
     String TOTAL = "total";
     String SAVE = "save";
@@ -351,6 +355,7 @@ public interface Constants {
     String HUSK = "husk";
     String DUST = "dust";
     String OFF_SEALS = "off_seals";
+    String EDITABLE = "editable";
 
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";

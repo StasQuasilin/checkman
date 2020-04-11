@@ -76,7 +76,7 @@ public class WeightAdd extends IModal {
         }
         req.setAttribute("managers", dao.getWorkersByRole(Role.manager));
         req.setAttribute(MODAL_CONTENT, _CONTENT);
-        req.setAttribute("findDeals", Branches.API.FIND_DEALS);
+        req.setAttribute(FIND_DEALS, Branches.API.FIND_DEALS);
         req.setAttribute(ACTIONS, dao.getObjects(ProductAction.class));
 
         req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);

@@ -47,10 +47,10 @@ var list = new Vue({
         }
         ,
         update:function(item){
-            var found = false;
-            for(var i in this.items){
+            let found = false;
+            for(let i in this.items){
                 if (this.items.hasOwnProperty(i)) {
-                    if (this.items[i].item.id == item.id) {
+                    if (this.items[i].item.id === item.id) {
                         found = true;
                         this.items[i].item = item;
                         break;
@@ -68,7 +68,7 @@ var list = new Vue({
 
         },
         drop:function(id){
-            for(var i in this.items){
+            for(let i in this.items){
                 if (this.items.hasOwnProperty(i)) {
                     if (this.items[i].item.id === id) {
                         this.items.splice(i, 1);
@@ -81,21 +81,21 @@ var list = new Vue({
         handler:function(e){
             const self = this;
             if (e.add){
-                for(var a in e.add){
+                for(let a in e.add){
                     if (e.add.hasOwnProperty(a)) {
                         self.update(e.add[a]);
                     }
                 }
             }
             if (e.update) {
-                for (var u in e.update) {
+                for (let u in e.update) {
                     if (e.update.hasOwnProperty(u)) {
                         self.update(e.update[u]);
                     }
                 }
             }
             if (e.remove){
-                for(var r in e.remove){
+                for(let r in e.remove){
                     if (e.remove.hasOwnProperty(r)) {
                         self.drop(e.remove[r])
                     }

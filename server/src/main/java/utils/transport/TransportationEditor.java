@@ -4,6 +4,7 @@ import constants.Constants;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.log.comparators.TransportComparator;
+import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.transport.*;
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import static constants.Constants.*;
 
@@ -30,7 +32,7 @@ public class TransportationEditor {
     private final NoteUtil noteUtil = new NoteUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
-    public Transportation saveTransportation(Deal deal, JSONObject json, Worker creator, Worker manager) {
+    public Transportation saveTransportation(Deal deal, JSONObject json, Worker creator, Worker manager) throws IOException {
 
         boolean save = false;
         boolean isNew = false;
@@ -51,21 +53,53 @@ public class TransportationEditor {
             save = true;
         }
 
+        if (json.containsKey(ADDRESS)){
+            Address address = dao.getObjectById(Address.class, json.get(ADDRESS));
+            if (transportation.getAddress() == null || transportation.getAddress().getId() != address.getId()){
+                transportation.setAddress(address);
+                save = true;
+            }
+        } else if (transportation.getAddress() != null){
+            transportation.setAddress(null);
+            save = true;
+        }
+
         Date date = Date.valueOf(String.valueOf(json.get(Constants.DATE)));
         log.info("\t...Date: '" + date.toString() + "'");
         if (transportation.getDate() == null || !transportation.getDate().equals(date)) {
             transportation.setDate(date);
             save = true;
         }
+        boolean updateDeal = false;
+        if (deal.getDateTo().before(date)){
+            deal.setDateTo(date);
+            updateDeal = true;
+        }
 
-        float plan = Float.parseFloat(String.valueOf(json.get(PLAN)));
+        if (deal.getDate().after(date)){
+            deal.setDate(date);
+            updateDeal = true;
+        }
+
+        if (updateDeal){
+            dao.save(deal);
+            updateUtil.onSave(deal);
+        }
+
+        float plan = U.parseFloat(String.valueOf(json.get(PLAN)));
         log.info("\t...Plan: '" + plan + "'");
         if (transportation.getAmount() != plan) {
             transportation.setAmount(plan);
             save = true;
         }
 
-        TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(json.get(CUSTOMER)));
+        TransportCustomer customer;
+        if (json.containsKey(CUSTOMER)){
+            customer = TransportCustomer.valueOf(String.valueOf(json.get(CUSTOMER)));
+        } else {
+            customer = TransportCustomer.szpt;
+        }
+
         if (customer == TransportCustomer.contragent){
             customer = TransportCustomer.cont;
         }
@@ -113,42 +147,44 @@ public class TransportationEditor {
         }else {
             liveNotes.clear();
         }
-        boolean saveNote;
-        for (Object o :(JSONArray) json.get(NOTES)){
-            JSONObject note = (JSONObject) o;
-            DocumentNote documentNote;
-            int noteId = -1;
-            if (note.containsKey(ID)){
-                noteId = Integer.parseInt(String.valueOf(note.get(ID)));
-            }
+        if (json.containsKey(NOTES)){
+            boolean saveNote;
+            for (Object o :(JSONArray) json.get(NOTES)){
+                JSONObject note = (JSONObject) o;
+                DocumentNote documentNote;
+                int noteId = -1;
+                if (note.containsKey(ID)){
+                    noteId = Integer.parseInt(String.valueOf(note.get(ID)));
+                }
 
-            if (alreadyNote.containsKey(noteId)){
-                documentNote = alreadyNote.remove(noteId);
-            } else {
-                documentNote = new DocumentNote(transportation, creator);
-                documentNote.setDocument(transportation.getUid());
-            }
+                if (alreadyNote.containsKey(noteId)){
+                    documentNote = alreadyNote.remove(noteId);
+                } else {
+                    documentNote = new DocumentNote(transportation, creator);
+                    documentNote.setDocument(transportation.getUid());
+                }
 
-            String value = String.valueOf(note.get(NOTE));
-            saveNote = false;
-            String s = noteUtil.checkNote(transportation, value);
-            if (U.exist(s)){
-                documentNote.setNote(s);
-                saveNote = true;
-                save = true;
-            } else {
-                if (documentNote.getId() > 0){
-                    dao.remove(documentNote);
+                String value = String.valueOf(note.get(NOTE));
+                saveNote = false;
+                String s = noteUtil.checkNote(transportation, value);
+                if (U.exist(s)){
+                    documentNote.setNote(s);
+                    saveNote = true;
                     save = true;
+                } else {
+                    if (documentNote.getId() > 0){
+                        dao.remove(documentNote);
+                        save = true;
+                    }
+                }
+                if (saveNote) {
+                    liveNotes.add(documentNote);
                 }
             }
-            if (saveNote) {
-                liveNotes.add(documentNote);
-            }
-        }
 
-        for (DocumentNote note : alreadyNote.values()){
-            dao.remove(note);
+            for (DocumentNote note : alreadyNote.values()){
+                dao.remove(note);
+            }
         }
 
         if (transportation.getManager() != manager){
@@ -161,11 +197,14 @@ public class TransportationEditor {
                 dao.save(transportation.getCreateTime());
             }
             dao.save(transportation);
-            try {
-                updateUtil.onSave(transportation);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            Set<TransportationGroup> transportationGroups = transportation.getTransportationGroups();
+            if (transportationGroups != null) {
+                for (TransportationGroup group : transportationGroups) {
+                    dao.save(group);
+                }
             }
+            updateUtil.onSave(transportation);
         }
 
         transportComparator.compare(transportation, creator);

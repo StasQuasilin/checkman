@@ -49,22 +49,20 @@ import java.util.stream.Collectors;
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
+@Deprecated
 public class JsonParser implements Constants{
 
     private static final String MESSAGE = "message";
     private static final String IS_GROUP = "isGroup";
     private static final String EPOCH = "epoch";
-    private static final String COMPLETE = "complete";
     private static final String DELIVERED = "delivered";
     private static final String READ = "read";
     private static final String REGISTRATION = "registration";
     private static final String OFFICE = "office";
-    private static final String STORGES = Constants.STORAGE;
     private static final String AMOUNT = Constants.AMOUNT;
     private static final String LICENSE = "license";
     private static final String DRY = "dry";
     private static final String SCALE = IServlet.SCALE;
-    private static final String PARENT = "parent";
     private static final String OLD = "old";
     private static final String GRANULAS = "granulas";
 
@@ -79,34 +77,9 @@ public class JsonParser implements Constants{
         return json;
     }
     
-    public static final String DATE_TO = "date_to";
-    public static final String VISIBILITY = "visibility";
     public static final String DONE = "done";
     public static final String PRICE = "price";
     
-    public JSONObject toJson(Deal deal) {
-        JSONObject json = pool.getObject();
-        json.put(ID, deal.getId());
-        if (U.exist(deal.getNumber())){
-            json.put(NUMBER, deal.getNumber());
-        }
-        json.put(DATE, deal.getDate().toString());
-        json.put(DATE_TO, deal.getDateTo().toString());
-        json.put(ORGANISATION, toJson(deal.getOrganisation()));
-        json.put(VISIBILITY, deal.getShipper().getValue());
-        json.put(PRODUCT, toJson(deal.getProduct()));
-        json.put(QUANTITY, deal.getQuantity());
-        json.put(COMPLETE, deal.getComplete());
-        json.put(PRICE, deal.getPrice());
-        json.put(CREATOR, toJson(deal.getCreator()));
-        json.put(HASH, deal.hashCode());
-        json.put(UNIT, deal.getUnit().getName());
-        json.put(TYPE, deal.getType().toString());
-        json.put(DONE, deal.isDone());
-        json.put(ARCHIVE, deal.isArchive());
-        return json;
-    }
-
     public JSONObject toJson(Worker worker) {
         JSONObject json = pool.getObject();
         if (worker != null) {
@@ -174,7 +147,6 @@ public class JsonParser implements Constants{
     }
 
     public static final String PLAN = "plan";
-    public static final String CUSTOMER = "customer";
 
     final static String VEHICLE = "vehicle";
     final static String DRIVER = "driver";
@@ -223,14 +195,6 @@ public class JsonParser implements Constants{
 
         }
         return json;
-    }
-
-    private JSONArray toStoragesJson(Set<TransportStorageUsed> list) {
-        JSONArray array = pool.getArray();
-        if (list != null) {
-            array.addAll(list.stream().map(this::toJson).collect(Collectors.toList()));
-        }
-        return array;
     }
 
     private JSONObject toJson(TransportStorageUsed tsu) {
@@ -415,10 +379,6 @@ public class JsonParser implements Constants{
     final static String TYPE = "type";
     final static String ORGANISATION = "organisation";
     final static String PRODUCT = "product";
-    final static String QUANTITY = "quantity";
-    final static String UNIT = "unit";
-    final static String REALISATION = "realisation";
-    final static String TRANSPORTATION = "transportation";
     final static String HASH = "hash";
 
     public static final String MANAGER = "manager";
@@ -488,14 +448,6 @@ public class JsonParser implements Constants{
         json.put("kpo", setting.isKpo());
         json.put("show", setting.isShow());
         return json;
-    }
-
-    public JSONArray toDealJson(List<Deal> deals) {
-        JSONArray array = pool.getArray();
-        for (Deal deal : deals) {
-            array.add(toJson(deal));
-        }
-        return array;
     }
 
     public JSONArray toJson(Collection<Driver> drivers, HashMap<Integer, Vehicle> vehicles) {

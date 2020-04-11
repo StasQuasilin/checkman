@@ -50,21 +50,23 @@
                 })
             },
             getItems:function(){
-                var res = {};
-                var items = filter_control.getItems();
-                for (var i in items){
+                let res = {};
+                let items = filter_control.getItems();
+                for (let i in items){
                     if (items.hasOwnProperty(i)){
-                        var item = items[i];
-                        for (var j in item){
+                        let item = items[i];
+                        for (let j in item){
                             if (item.hasOwnProperty(j)){
-                                var a = item[j];
-                                var product = res[a.product.id];
+                                let a = item[j];
+                                let product = res[a.product.id];
                                 if (!product){
                                     product = a.product;
+                                    product.plus = 0;
+                                    product.minus = 0;
                                     product.values = {};
                                     res[product.id] = product;
                                 }
-                                var counterparty = product.values[a.counterparty.id];
+                                let counterparty = product.values[a.counterparty.id];
                                 if (!counterparty){
                                     counterparty = a.counterparty;
                                     counterparty.values = {};
@@ -73,22 +75,25 @@
                                     counterparty.open = false;
                                     product.values[counterparty.id] = counterparty;
                                 }
-                                var key = a.scale + ' ' + a.date;
-                                var scale = counterparty.values[key];
+                                let key = a.scale + ' ' + a.date;
+                                let scale = counterparty.values[key];
                                 if (!scale){
                                     scale = {
                                         date: a.date,
+                                        scale:a.scale,
                                         plus: 0,
                                         minus: 0
                                     };
                                     counterparty.values[key] = scale;
                                 }
 
-                                var amount = Math.round(parseFloat(a.amount) * 1000) / 1000;
+                                let amount = Math.round(parseFloat(a.amount) * 1000) / 1000;
                                 if (amount > 0){
+                                    product.plus += amount;
                                     counterparty.plus += amount;
                                     scale.plus += amount;
                                 } else {
+                                    product.minus += amount;
                                     counterparty.minus += amount;
                                     scale.minus += amount;
                                 }
@@ -123,7 +128,15 @@
         <div id="statistic" style="padding: 4pt">
             <div v-for="i in getItems()">
                 <div style="font-weight: bold">
-                    {{i.name}}
+                    <span>
+                        {{i.name}}
+                    </span>
+                    <span v-if="i.plus != 0" class="plus-amount">
+                        +{{i.plus.toLocaleString()}} {{i.unit.name}}
+                    </span>
+                    <span v-if="i.minus != 0" class="minus-amount">
+                        {{i.minus.toLocaleString()}} {{i.unit.name}}
+                    </span>
                 </div>
                 <template v-for="(counterparty) in sortByName(i.values)">
                     <div style="padding-left: 8pt" v-on:click="open(counterparty)" class="row">
@@ -140,7 +153,7 @@
                     <template v-if="isOpen(counterparty)">
                         <div style="padding-left: 16pt" v-for="scale in sortByDate(counterparty.values)">
                         <span>
-                            {{new Date(scale.date).toLocaleDateString()}}
+                            {{scale.scale}} {{new Date(scale.date).toLocaleDateString()}}
                         </span>
                         <span v-if="scale.plus != 0" class="plus-amount">
                             +{{scale.plus.toLocaleString()}}

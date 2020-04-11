@@ -24,7 +24,7 @@ public class DealArchiveHandler extends OnSubscribeHandler {
     @Override
     public void handle(Session session) throws IOException {
         JSONArray array = ActiveSubscriptions.pool.getArray();
-        array.addAll(dao.getLimitArchiveDeals(type).stream().map(parser::toJson).collect(Collectors.toList()));
+        array.addAll(dao.getLimitArchiveDeals(type).stream().map(Deal::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
         json.put(ADD, array);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));

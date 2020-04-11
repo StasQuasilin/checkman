@@ -5,6 +5,7 @@ import api.sockets.Subscriber;
 import api.sockets.handlers.MessageHandler;
 import entity.DealType;
 import entity.Worker;
+import entity.border.BoardItem;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Deal;
@@ -42,7 +43,7 @@ public class UpdateUtil {
     final dbDAO dao = dbDAOService.getDAO();
 
     public void onSave(Deal deal) throws IOException {
-        doAction(Command.update, getSubscriber(deal.getType()), parser.toJson(deal));
+        doAction(Command.update, getSubscriber(deal.getType()), deal.toJson());
     }
 
     public void onRemove(Deal deal) throws IOException {
@@ -52,7 +53,7 @@ public class UpdateUtil {
     public void onArchive(Deal deal) throws IOException {
         onRemove(deal);
         Subscriber subscriber = deal.getType() == DealType.buy ? Subscriber.DEAL_BUY_ARCHIVE : Subscriber.DEAL_SELL_ARCHIVE;
-        doAction(Command.update, subscriber, parser.toJson(deal));
+        doAction(Command.update, subscriber, deal.toJson());
     }
 
     static Subscriber getSubscriber(DealType type){
@@ -116,7 +117,7 @@ public class UpdateUtil {
     }
 
     public void onSave(ExtractionTurn turn) throws IOException {
-        doAction(Command.update, Subscriber.EXTRACTION, parser.toJson(turn));
+        doAction(Command.update, Subscriber.EXTRACTION, turn.toJson());
     }
 
     public void onSave(VROTurn turn) throws IOException {
@@ -205,6 +206,10 @@ public class UpdateUtil {
 
     public void onSave(SealBatch batch) throws IOException{
         doAction(Command.update, Subscriber.SEALS, batch.toJson());
+    }
+
+    public void onSave(BoardItem boardItem) throws IOException {
+        doAction(Command.update, Subscriber.BOARD, boardItem.toJson());
     }
 
     public enum Command {

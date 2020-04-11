@@ -38,8 +38,8 @@ public class TurnCelluloseServletAPI extends ServletAPI {
         if (body != null) {
             TurnCellulose turnCellulose;
             long id = -1;
-            if (body.containsKey(Constants.ID)) {
-                id = (long) body.get(Constants.ID);
+            if (body.containsKey(ID)) {
+                id = (long) body.get(ID);
             }
             if (id != -1){
                 turnCellulose = dao.getObjectById(TurnCellulose.class, id);
@@ -47,8 +47,8 @@ public class TurnCelluloseServletAPI extends ServletAPI {
                 turnCellulose = new TurnCellulose();
             }
 
-            LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
-            long turnId = (long) body.get("turn");
+            LocalDate date = LocalDate.parse(String.valueOf(body.get(DATE)));
+            long turnId = (long) body.get(TURN);
             TurnSettings turn = TurnBox.getTurn(turnId);
             if (turn.getBegin().after(turn.getEnd())) {
                 date = date.minusDays(1);
@@ -76,6 +76,8 @@ public class TurnCelluloseServletAPI extends ServletAPI {
                 save = true;
             }
 
+            write(resp, SUCCESS_ANSWER);
+
             if (save) {
                 ActionTime createTime = turnCellulose.getCreateTime();
                 if (createTime == null) {
@@ -91,9 +93,9 @@ public class TurnCelluloseServletAPI extends ServletAPI {
                     createTime.setCreator(worker);
                 }
                 dao.save(createTime, turnCellulose);
-                updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
+                updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
-                    updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
+                    updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
                 }
                 TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
@@ -101,7 +103,6 @@ public class TurnCelluloseServletAPI extends ServletAPI {
                 }
             }
 
-            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, EMPTY_BODY);
         }

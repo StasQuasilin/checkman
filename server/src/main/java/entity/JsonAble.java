@@ -17,7 +17,6 @@ public abstract class JsonAble implements Constants{
     public static final JSONObject EMPTY_OBJECT = pool.getObject();
     static {
         EMPTY_OBJECT.put(ID, -1);
-
     }
 
     public JSONObject toShortJson(){

@@ -63,17 +63,6 @@
             <input id="trailer" v-model="vehicleTrailer" v-on:keyup.enter="save" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
-    <c:set var="transportationsCount" value="${fn:length(transportations)}"/>
-    <tr>
-        <td>
-
-        </td>
-        <td>:</td>
-        <td>
-            ${transportationsCount}
-        </td>
-    </tr>
-
     <tr>
         <td colspan="3" align="center" v-on:click="close">
             <c:if test="${role eq 'admin' or transportationsCount == 0}">

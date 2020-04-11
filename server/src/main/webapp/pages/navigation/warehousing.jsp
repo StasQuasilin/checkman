@@ -8,7 +8,7 @@
           <fmt:message key="menu.transport"/>
         </span>
         <span>
-          <a onclick="loadContent('${warehousingArchive}')"><fmt:message key="archive"/> </a>
+          <a onclick="loadContent('${weightArchive}')"><fmt:message key="archive"/> </a>
         </span>
     </li>
     <li class="menu-item">

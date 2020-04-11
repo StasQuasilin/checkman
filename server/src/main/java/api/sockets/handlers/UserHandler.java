@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static constants.Constants.*;
+
 /**
  * Created by szpt_user045 on 16.09.2019.
  */
@@ -26,13 +28,12 @@ public class UserHandler extends OnSubscribeHandler {
     @Override
     public void handle(Session session) throws IOException {
         JSONArray active = pool.getArray();
-        JSONObject w;
+
 
         for (Map.Entry<String, UserInfo> entry : userBox.getUsers().entrySet()){
-
-            w = parser.toJson(entry.getValue().getUser().getWorker());
-            w.put("ip", entry.getValue().getIp());
-            w.put("session", entry.getValue().getSessionId());
+            JSONObject w = entry.getValue().getUser().getWorker().toShortJson();
+            w.put(IP, entry.getValue().getIp());
+            w.put(SESSION, entry.getValue().getSessionId());
             active.add(w);
         }
 

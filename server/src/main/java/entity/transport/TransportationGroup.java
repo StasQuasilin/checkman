@@ -3,6 +3,7 @@ package entity.transport;
 import entity.organisations.Address;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by szpt_user045 on 03.03.2020.

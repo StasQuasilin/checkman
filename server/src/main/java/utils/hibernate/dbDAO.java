@@ -243,4 +243,7 @@ public interface dbDAO {
     List<ProductAction> getProductActionsByProduct(Product product);
     StatisticEntry getStatisticEntry(int documentId);
     List<StatisticEntry> getStatisticEntries(Date from, Date to, Organisation organisation, Product product, Shipper shipper);
+    List<Transportation> getTransportationByTrailer(Trailer trailer);
+
+    List<Transportation> getTransportationByAddress(Address address);
 }
