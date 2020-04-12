@@ -340,6 +340,7 @@ public interface Constants {
     String SEED = "seed";
     String HUSK = "husk";
     String DUST = "dust";
+    String GOOD = "good";
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
         public static final String EDIT_DOCUMENT = "document.edit";

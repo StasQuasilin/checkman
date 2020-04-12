@@ -31,7 +31,7 @@
                 })
             },
             openSettings:function(index, open){
-                for (var i in this.bots){
+                for (let i in this.bots){
                     if (this.bots.hasOwnProperty(i)){
                         if (i == index){
                             this.bots[i].open = open;
@@ -67,17 +67,11 @@
         vro:${bot.vro},
         kpo:${bot.kpo},
         show:${bot.show},
-        reports:${bot.reports},
+        manufactureReports:${bot.manufactureReports},
+        roundReports:${bot.roundReport},
         open:false
     });
     </c:forEach>
-    <%--<c:set var="object" value="${botSettings}" />--%>
-    <%--<c:if test="${not empty object['class'].declaredFields}">--%>
-        <%--<c:forEach var="field" items="${object['class'].declaredFields}">--%>
-            <%--'${field.name}: ${object[field.name]}'--%>
-        <%--</c:forEach>--%>
-    <%--</c:if>--%>
-//    botSettings.status();
 </script>
 <style>
     .bold{
@@ -229,9 +223,20 @@
             <tr>
                 <td colspan="2">
                     <input type="checkbox" name="manufactureReports" id="manufactureReports"
-                           v-model="bot.reports" v-on:change="save(key)">
+                           v-model="bot.manufactureReports" v-on:change="save(key)">
                     <label for="manufactureReports">
                         <fmt:message key="manufacture.reports"/>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="checkbox" name="roundReports" id="roundReports"
+                           v-model="bot.roundReports" v-on:change="save(key)">
+                    <label for="roundReports">
+                        <span class="mini-close">
+                            <fmt:message key="round.reports"/>
+                        </span>
                     </label>
                 </td>
             </tr>

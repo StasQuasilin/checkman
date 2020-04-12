@@ -36,6 +36,7 @@ public class WeightList extends IUIServlet{
         req.setAttribute(FILTER, _FILTER);
         req.setAttribute(TYPES, DealType.values());
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
+        req.setAttribute(REPORT, Branches.UI.EDIT_REPORT);
         show(req, resp);
     }
 }

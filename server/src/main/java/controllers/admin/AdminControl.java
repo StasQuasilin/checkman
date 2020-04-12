@@ -17,8 +17,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.ADMIN)
 public class AdminControl extends IUIServlet {
 
-    private static final long serialVersionUID = 426725708745358802L;
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

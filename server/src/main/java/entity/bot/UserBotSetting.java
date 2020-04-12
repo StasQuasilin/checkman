@@ -23,7 +23,8 @@ public class UserBotSetting {
     private boolean extraction;
     private boolean vro;
     private boolean kpo;
-    private boolean reports;
+    private boolean manufactureReports;
+    private boolean roundReport;
 
     @Id
     @GeneratedValue
@@ -137,12 +138,20 @@ public class UserBotSetting {
     }
 
     @Basic
-    @Column(name = "report")
-    public boolean isReports() {
-        return reports;
+    @Column(name = "manufacture_report")
+    public boolean isManufactureReports() {
+        return manufactureReports;
+    }
+    public void setManufactureReports(boolean reports) {
+        this.manufactureReports = reports;
     }
 
-    public void setReports(boolean reports) {
-        this.reports = reports;
+    @Basic
+    @Column(name = "round_report")
+    public boolean isRoundReport() {
+        return roundReport;
+    }
+    public void setRoundReport(boolean roundReport) {
+        this.roundReport = roundReport;
     }
 }

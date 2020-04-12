@@ -116,6 +116,7 @@ public class Branches {
         public static final String RETAIL_REMOVE = "/retail/remove.j";
         public static final String MEAL_GRANULES = "/extraction/meal/granules.j";
         public static final String TRANSPORT_PER_MONTH = "/transport/per/month.j";
+        public static final String EDIT_REPORT = "/report/edit.j";
 
 
         public class Extraction {
@@ -303,6 +304,7 @@ public class Branches {
         public static final String WAYBILL_PRINT = API + "/waybill/print";
         public static final String FIND_ORGANISATION_TYPE = API + "/find/organsiation/type";
         public static final String ORGANISATION_INFO = API + "/organisation/info";
+        public static final String REPORT_EDIT = API + "/report/edit";
 
         public class References {
             public static final String API = Branches.API.API + "/references";
