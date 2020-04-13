@@ -28,15 +28,17 @@ public class WeightList extends IUIServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.WEIGHT_LIST);
         req.setAttribute(SUBSCRIBE, subscribers);
-        req.setAttribute(EDIT, Branches.UI.WEIGHT_EDIT);
-        req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
+
         req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
         req.setAttribute(ARCHIVE, Branches.API.ARCHIVE_LOAD_PLAN);
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(FILTER, _FILTER);
         req.setAttribute(TYPES, DealType.values());
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
+        req.setAttribute(EDIT, Branches.UI.WEIGHT_EDIT);
+        req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
         req.setAttribute(REPORT, Branches.UI.EDIT_REPORT);
+        req.setAttribute(MANUFACTURE_REPORT, Branches.UI.MANUFACTURE_REPORT_EDIT);
         show(req, resp);
     }
 }

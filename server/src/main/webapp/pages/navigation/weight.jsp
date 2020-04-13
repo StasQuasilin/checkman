@@ -13,12 +13,17 @@
     </li>
     <li class="menu-item">
         <span class="main" onclick="loadContent('${manufactureReport}')">
-            <fmt:message key="menu.manufacture.report"/>
+            <fmt:message key="menu.manufacture.roundReport"/>
         </span>
     </li>
     <li class="menu-item">
         <span class="main" onclick="loadContent('${stopList}')">
             <fmt:message key="menu.stop.list"/>
+        </span>
+    </li>
+    <li class="menu-item">
+        <span class="main" onclick="loadContent('${roundReports}')">
+            <fmt:message key="menu.round.reports"/>
         </span>
     </li>
 

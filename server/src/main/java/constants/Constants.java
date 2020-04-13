@@ -53,6 +53,7 @@ public interface Constants {
     String WAREHOUSING_ARCHIVE = "warehousingArchive";
     String STOP_LIST = "stopList";
     String REPORTS = "reports";
+    String ROUND_REPORTS = "roundReports";
     String SCALE = "scale";
     String TURNS = "turns";
     String SUBSCRIBE = "subscribe";
@@ -83,6 +84,7 @@ public interface Constants {
     String REPLACE = "replace";
     String CORRECTION = "correction";
     String REPORT = "report";
+    String MANUFACTURE_REPORT = "manufactureReport";
     String FIELDS = "fields";
     String CATEGORIES = "categories";
     String SEND = "send";
@@ -357,6 +359,10 @@ public interface Constants {
     String OFF_SEALS = "off_seals";
     String EDITABLE = "editable";
     String GOOD = "good";
+    String SERVICEABILITY = "serviceability";
+    String ADHERENCE = "adherence";
+    String TEH = "teh";
+    String LIMIT = "limit";
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
         public static final String EDIT_DOCUMENT = "document.edit";

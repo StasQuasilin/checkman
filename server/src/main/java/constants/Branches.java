@@ -124,6 +124,7 @@ public class Branches {
         public static final String BOARD = "/board.j";
         public static final String BOARD_EDIT = "/board/edit.j";
         public static final String EDIT_REPORT = "/report/edit.j";
+        public static final String ROUND_REPORTS = "/round/reports/list.j";
 
 
         public class Extraction {

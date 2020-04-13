@@ -13,6 +13,7 @@ public class Subdivision extends JsonAble {
     private int id;
     private String name;
     private SubdivisionKey key;
+    private boolean tehControl;
 
 
     @Id
@@ -42,11 +43,21 @@ public class Subdivision extends JsonAble {
         this.key = key;
     }
 
+    @Basic
+    @Column(name = "teh_control")
+    public boolean isTehControl() {
+        return tehControl;
+    }
+    public void setTehControl(boolean tehControl) {
+        this.tehControl = tehControl;
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put(NAME, name);
+        object.put(TEH, tehControl);
         return object;
     }
 }

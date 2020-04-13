@@ -14,13 +14,14 @@ import java.io.IOException;
  */
 public class IUIServlet extends IServlet {
 
+    private static final String _CONTENT_SHELL = "/pages/contentShell.jsp";
     private final Logger log = Logger.getLogger(IUIServlet.class);
     protected final dbDAO dao = dbDAOService.getDAO();
 
     public void show(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getAttribute("content") == null) {
-            log.warn("No content for \'" + request.getRequestURI() + "\'");
+        if (request.getAttribute(CONTENT) == null) {
+            log.warn("No content for '" + request.getRequestURI() + "'");
         }
-        request.getRequestDispatcher("/pages/contentShell.jsp").forward(request, response);
+        request.getRequestDispatcher(_CONTENT_SHELL).forward(request, response);
     }
 }

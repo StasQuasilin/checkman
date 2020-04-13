@@ -4,7 +4,7 @@
   Date: 22.11.2019
   Time: 13:45
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
   <script src="${context}/vue/templates/laboratoryDataView.vue"></script>
   <script src="${context}/vue/templates/transportationDataView.vue"></script>

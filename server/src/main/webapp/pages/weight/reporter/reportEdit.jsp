@@ -17,7 +17,7 @@
         reporter.addSubdivision(${subdivision.toJson()});
         </c:forEach>
         <c:if test="${not empty report}">
-        reporter.report = ${report.toJons()}
+        reporter.report = ${report.toJson()}
         </c:if>
     </script>
     <table id="reporter">
@@ -33,17 +33,44 @@
         </tr>
         <template v-for="f in report.reports">
             <tr>
-                <td style="font-size: 12pt">
+                <td colspan="2" style="font-size: 12pt">
                     {{f.subdivision.name}}
-                </td>
-                <td>
-                    <input :title="f.subdivision.name" type="checkbox" v-model="f.good">
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <textarea :v-model="f.note" style="width: 100%; height: 60px"></textarea>
+                <td>
+                    <fmt:message key="equipment.health"/>:
+                    <span v-on:click="f.serviceability=!f.serviceability">
+                        <b style="color: green" v-if="f.serviceability">
+                            <fmt:message key="norm"/>
+                        </b>
+                        <b style="color: orangered" v-else>
+                            <fmt:message key="not.norm"/>
+                        </b>
+                    </span>
                 </td>
+            </tr>
+            <tr v-if="f.subdivision.teh">
+                <td>
+                    <fmt:message key="process.adherence"/>
+                    <span v-on:click="f.adherence=!f.adherence">
+                        <b style="color: green" v-if="f.adherence">
+                            <fmt:message key="norm"/>
+                        </b>
+                        <b style="color: orangered" v-else>
+                            <fmt:message key="not.norm"/>
+                        </b>
+                    </span>
+                </td>
+            </tr>
+            <tr v-if="!f.serviceability || !f.adherence || f.editNote">
+                <td colspan="2">
+                    <textarea v-model="f.note" style="width: 100%; height: 60px"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+               <td colspan="2" style="border-bottom: solid gray 1pt"></td>
             </tr>
         </template>
         <tr>

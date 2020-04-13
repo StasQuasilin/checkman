@@ -23,6 +23,7 @@ import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Transportation2;
 import entity.transport.Vehicle;
+import entity.weight.RoundReport;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -210,6 +211,10 @@ public class UpdateUtil {
 
     public void onSave(BoardItem boardItem) throws IOException {
         doAction(Command.update, Subscriber.BOARD, boardItem.toJson());
+    }
+
+    public void onSave(RoundReport report) throws IOException {
+        doAction(Command.update, Subscriber.ROUND_REPORT, report.toJson());
     }
 
     public enum Command {

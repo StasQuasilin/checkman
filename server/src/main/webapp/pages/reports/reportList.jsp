@@ -10,18 +10,18 @@
   var reportView = new Vue({
     el:'#container',
     data:{
-      report:{}
+      roundReport:{}
     }
   })
 </script>
 <div id="static-content">
   <script>
-    var report= new Vue({
-      el:'#report',
+    var roundReport= new Vue({
+      el:'#roundReport',
       data:{
         api:{},
         period:false,
-        report:{
+        roundReport:{
           date:new Date().toISOString().substring(0, 10),
           turn:-1,
           product:-1,
@@ -34,41 +34,41 @@
       methods:{
         build:function(){
           if (this.api.builder){
-            PostApi(this.api.builder, this.report, function(a){
-              reportView.report = a;
+            PostApi(this.api.builder, this.roundReport, function(a){
+              reportView.roundReport = a;
             })
           }
         },
         pickDate:function(){
           const self = this;
           datepicker.show(function(d){
-            self.report.date = d;
-          }, this.report.date)
+            self.roundReport.date = d;
+          }, this.roundReport.date)
         }
       }
     });
-    report.api.builder = '${builder}';
+    roundReport.api.builder = '${builder}';
     <c:forEach items="${turns}" var="turn">
-    report.turns.push({
+    roundReport.turns.push({
       id:${turn.id},
       name:'<fmt:message key="turn"/> #${turn.number}',
       number:${turn.number}
     });
     </c:forEach>
     <c:forEach items="${products}" var="product">
-    report.products.push({
+    roundReport.products.push({
       id:${product.id},
       name:'${product.name}'
     });
     </c:forEach>
     <c:forEach items="${storages}" var="storage">
-    report.storages.push({
+    roundReport.storages.push({
       id:${storage.id},
       name:'${storage.name}'
     });
     </c:forEach>
   </script>
-  <table id="report">
+  <table id="roundReport">
     <tr>
       <td v-on:click="period = !period">
         <label for="date">
@@ -77,7 +77,7 @@
       </td>
       <td>
         <span>
-          <input id="date" v-model="new Date(report.date).toLocaleString().substring(0, 10)"
+          <input id="date" v-model="new Date(roundReport.date).toLocaleString().substring(0, 10)"
                  style="width: 7em" readonly autocomplete="off" v-on:click="pickDate()">
         </span>
       </td>
@@ -102,7 +102,7 @@
         </label>
       </td>
       <td>
-        <select id="turn" style="width: 100%" v-model="report.turn">
+        <select id="turn" style="width: 100%" v-model="roundReport.turn">
           <option value="-1"><fmt:message key="none"/></option>
           <option v-for="turn in turns" :value="turn.number">
             {{turn.name}}
@@ -117,7 +117,7 @@
         </label>
       </td>
       <td>
-        <select id="product" style="width: 100%" v-model="report.product">
+        <select id="product" style="width: 100%" v-model="roundReport.product">
           <option value="-1"><fmt:message key="none"/></option>
           <option v-for="product in products" :value="product.id">
             {{product.name}}
@@ -132,7 +132,7 @@
         </label>
       </td>
       <td>
-        <select id="storage" style="width: 100%" v-model="report.storage">
+        <select id="storage" style="width: 100%" v-model="roundReport.storage">
           <option value="-1"><fmt:message key="none"/></option>
           <option v-for="storage in storages" :value="storage.id">
             {{storage.name}}
@@ -143,7 +143,7 @@
     <tr>
       <td colspan="2" align="center">
         <button v-on:click="build()">
-          <fmt:message key="report.build"/>
+          <fmt:message key="roundReport.build"/>
         </button>
       </td>
     </tr>
@@ -157,24 +157,24 @@
   </table>
 </div>
 <div id="container">
-  <table v-if="report.date">
+  <table v-if="roundReport.date">
     <tr>
       <td>
         <b>
-          {{new Date(report.date).toLocaleDateString().substring(0, 10)}}
+          {{new Date(roundReport.date).toLocaleDateString().substring(0, 10)}}
         </b>
-        <b v-if="report.turn">
-          <fmt:message key="turn"/> {{report.turn}}
+        <b v-if="roundReport.turn">
+          <fmt:message key="turn"/> {{roundReport.turn}}
         </b>
       </td>
     </tr>
-    <template v-if="report.loads">
+    <template v-if="roundReport.loads">
       <tr>
         <td style="border-bottom: solid black 1pt">
           <fmt:message key="deal.loads.done"/>
         </td>
       </tr>
-      <template v-for="(load, key) in report.loads">
+      <template v-for="(load, key) in roundReport.loads">
         <tr>
           <td>
             <div style="padding-left: 18pt; font-weight: bold">

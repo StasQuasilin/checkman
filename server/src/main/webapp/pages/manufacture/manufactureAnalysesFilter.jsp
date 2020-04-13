@@ -47,7 +47,7 @@
                     --
                 </button>
                 <button v-else v-on:click="build()">
-                    <fmt:message key="report.build"/>
+                    <fmt:message key="roundReport.build"/>
                 </button>
             </td>
         </tr>

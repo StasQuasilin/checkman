@@ -60,7 +60,8 @@ public class ApplicationControl extends IServlet{
         req.setAttribute(WAREHOUSING_ARCHIVE, Branches.UI.WAREHOUSING_ARCHIVE);
         req.setAttribute(STOP_LIST, Branches.UI.STOP_LIST);
         req.setAttribute(REPORTS, Branches.UI.REPORTS);
-        req.setAttribute("storages", Branches.UI.STORAGE_LIST);
+        req.setAttribute(ROUND_REPORTS, Branches.UI.ROUND_REPORTS);
+        req.setAttribute(STORAGES, Branches.UI.STORAGE_LIST);
         req.setAttribute(UNLOAD_STAT, Branches.UI.UNLOAD_STATISTIC_LIST);
         req.setAttribute("manufactureReport", Branches.UI.MANUFACTURE_REPORT);
         req.setAttribute("probeList", Branches.UI.PROBE_LIST);

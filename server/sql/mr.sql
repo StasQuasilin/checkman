@@ -11,7 +11,7 @@ CREATE TABLE public.report_fields
 (
   id SERIAL PRIMARY KEY NOT NULL,
   category INT NOT NULL,
-  report INT NOT NULL,
+  roundReport INT NOT NULL,
   title VARCHAR(45) NOT NULL,
   storage INT,
   value REAL DEFAULT 0 NOT NULL,

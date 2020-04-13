@@ -6,10 +6,10 @@
 <html>
 <script src="${context}/vue/dailyReportPrint.vue"></script>
 <script>
-  report.dateType='month';
-  report.api.print='${print}'
+  roundReport.dateType='month';
+  roundReport.api.print='${print}'
 </script>
-<table id="report">
+<table id="roundReport">
   <tr>
     <td>
       <label for="month">

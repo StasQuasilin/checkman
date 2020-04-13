@@ -17,12 +17,12 @@
   }
 </style>
 <script>
-  var report = new Vue({
-    el:'#report',
+  var roundReport = new Vue({
+    el:'#roundReport',
     data:{
       api:{},
       subdivisions:[],
-      report:{
+      roundReport:{
         subdivision:-1,
         reason:'',
         delay:{
@@ -38,29 +38,29 @@
     },
     methods:{
       checkHours:function(){
-        if(this.report.delay.hours > 23){
-          let days = Math.floor(this.report.delay.hours / 24);
-          this.report.delay.days += days;
-          this.report.delay.hours -= days * 24;
-        } else if (this.report.delay.hours < 0){
-          this.report.delay.hours = 0;
+        if(this.roundReport.delay.hours > 23){
+          let days = Math.floor(this.roundReport.delay.hours / 24);
+          this.roundReport.delay.days += days;
+          this.roundReport.delay.hours -= days * 24;
+        } else if (this.roundReport.delay.hours < 0){
+          this.roundReport.delay.hours = 0;
         }
       },
       checkMinutes:function(){
-        if (this.report.delay.minutes > 59){
-          let hours = Math.floor(this.report.delay.minutes / 60);
-          this.report.delay.hours += hours;
-          this.report.delay.minutes -= hours * 60;
-        } else  if (this.report.delay.minutes < 0){
-          this.report.delay.minutes = 0;
+        if (this.roundReport.delay.minutes > 59){
+          let hours = Math.floor(this.roundReport.delay.minutes / 60);
+          this.roundReport.delay.hours += hours;
+          this.roundReport.delay.minutes -= hours * 60;
+        } else  if (this.roundReport.delay.minutes < 0){
+          this.roundReport.delay.minutes = 0;
         }
       },
       save:function(){
         let e = this.errors;
-        e.subdivision = this.report.subdivision == -1;
-        e.reason = this.report.reason.replace(/ /g, '') === '';
+        e.subdivision = this.roundReport.subdivision == -1;
+        e.reason = this.roundReport.reason.replace(/ /g, '') === '';
         if (!e.subdivision && !e.reason) {
-          PostApi(this.api.save, this.report, function (a) {
+          PostApi(this.api.save, this.roundReport, function (a) {
             if (a.status === 'success') {
               closeModal();
             }
@@ -69,15 +69,15 @@
       }
     }
   });
-  report.api.save = '${save}';
+  roundReport.api.save = '${save}';
   <c:forEach items="${subdivisions}" var="subdivision">
-  report.subdivisions.push({
+  roundReport.subdivisions.push({
     id:${subdivision.id},
     name:'${subdivision.name}'
   });
   </c:forEach>
 </script>
-<table width="100%" id="report">
+<table width="100%" id="roundReport">
   <tr>
     <td>
       <label for="subdivision">
@@ -86,7 +86,7 @@
     </td>
     <td>
       <select :class="{error : errors.subdivision}" v-on:click="errors.subdivision = false"
-              id="subdivision" v-model="report.subdivision">
+              id="subdivision" v-model="roundReport.subdivision">
         <option value="-1">
           <fmt:message key="need.select"/>
         </option>
@@ -108,13 +108,13 @@
   <tr>
     <td colspan="2">
       <textarea id="reason" style="width: 100%; height: 100pt" onfocus="this.select()"
-          v-model="report.reason" v-on:click="errors.reason = false"></textarea>
+          v-model="roundReport.reason" v-on:click="errors.reason = false"></textarea>
     </td>
   </tr>
   <tr>
     <td colspan="2">
       <span style="font-size: 8pt; color: darkgray">
-        {{report.reason.length}}
+        {{roundReport.reason.length}}
       </span>
     </td>
   </tr>
@@ -128,16 +128,16 @@
       <label for="days">
         <fmt:message key="days"/>
       </label>
-      <input id="days" type="number" step="0" v-model="report.delay.days" style="width: 7em">
+      <input id="days" type="number" step="0" v-model="roundReport.delay.days" style="width: 7em">
       <label for="hours">
         <fmt:message key="hourses"/>
       </label>
-      <input id="hours" type="number" min="0" max="23" v-model="report.delay.hours" style="width: 7em"
+      <input id="hours" type="number" min="0" max="23" v-model="roundReport.delay.hours" style="width: 7em"
           v-on:change="checkHours()">
       <label for="minutes">
         <fmt:message key="minutes"/>
       </label>
-      <input id="minutes" type="number" min="0" max="59" v-model="report.delay.minutes" style="width: 7em"
+      <input id="minutes" type="number" min="0" max="59" v-model="roundReport.delay.minutes" style="width: 7em"
           v-on:change="checkMinutes">
     </td>
   </tr>

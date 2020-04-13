@@ -11,7 +11,6 @@ import entity.deal.Contract;
 import entity.documents.*;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.Protocol;
-import entity.laboratory.probes.IProbe;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
 import entity.laboratory.probes.ProbeTurn;
@@ -42,6 +41,7 @@ import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.storages.*;
 import entity.transport.*;
+import entity.weight.RoundReport;
 import entity.weight.Weight;
 import entity.weight.Unit;
 import utils.ArchiveType;
@@ -244,6 +244,6 @@ public interface dbDAO {
     StatisticEntry getStatisticEntry(int documentId);
     List<StatisticEntry> getStatisticEntries(Date from, Date to, Organisation organisation, Product product, Shipper shipper);
     List<Transportation> getTransportationByTrailer(Trailer trailer);
-
     List<Transportation> getTransportationByAddress(Address address);
+    List<RoundReport> getLimitRoundReports();
 }

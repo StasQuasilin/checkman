@@ -52,14 +52,13 @@ public class ActiveSubscriptions {
         handlers.put(Subscriber.KPO, new KpoHandler(Subscriber.KPO));
         handlers.put(Subscriber.LABORATORY_STORAGES, new StoragesHandler(Subscriber.LABORATORY_STORAGES));
         handlers.put(Subscriber.LABORATORY_TURNS, new TurnHandler(Subscriber.LABORATORY_TURNS));
-//        handlers.put(Subscriber.TRANSPORT_BUY, new LaboratoryHandler(Subscriber.TRANSPORT_BUY, DealType.buy));
-//        handlers.put(Subscriber.TRANSPORT_SELL, new LaboratoryHandler(Subscriber.TRANSPORT_SELL, DealType.sell));
         handlers.put(Subscriber.USERS, new UserHandler(Subscriber.USERS));
         handlers.put(Subscriber.MANUFACTURE_REPORTS, new ManufactureReportHandler(Subscriber.MANUFACTURE_REPORTS));
         handlers.put(Subscriber.STOCK, new StockHandler(Subscriber.STOCK));
         handlers.put(Subscriber.TRANSPORT, new RetailHandler(Subscriber.TRANSPORT));
         handlers.put(Subscriber.SEALS, new SealHandler(Subscriber.SEALS));
         handlers.put(Subscriber.BOARD, new BoardHandler(Subscriber.BOARD));
+        handlers.put(Subscriber.ROUND_REPORT, new RoundReportHandler(Subscriber.ROUND_REPORT));
     }
 
     public static ActiveSubscriptions getInstance() {

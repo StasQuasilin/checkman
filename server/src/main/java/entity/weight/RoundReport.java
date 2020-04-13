@@ -8,12 +8,17 @@ import org.json.simple.JSONObject;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 
 @Entity
-@Table(name = "reports")
-public class Report extends JsonAble {
+@Table(name = "round_reports")
+public class RoundReport extends JsonAble {
     private int id;
+    private Timestamp timestamp;
     private Date date;
     private Time time;
     private Set<SubdivisionReport> reports;
@@ -26,6 +31,15 @@ public class Report extends JsonAble {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "_timestamp")
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Basic
@@ -46,12 +60,19 @@ public class Report extends JsonAble {
         this.time = time;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "report", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "report", cascade = CascadeType.ALL)
     public Set<SubdivisionReport> getReports() {
         return reports;
     }
     public void setReports(Set<SubdivisionReport> reports) {
         this.reports = reports;
+    }
+
+    @Transient
+    public ArrayList<SubdivisionReport> sortedReports(){
+        ArrayList<SubdivisionReport> list = new ArrayList<>(reports);
+        Collections.sort(list);
+        return list;
     }
 
     @OneToOne
@@ -67,8 +88,7 @@ public class Report extends JsonAble {
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
         object.put(ID, id);
-        object.put(DATE, date.toString());
-        object.put(TIME, time.toString());
+        object.put("timestamp", timestamp.toString());
         object.put(REPORTS, reports());
         object.put(CREATE, createTime.toJson());
         return object;
@@ -76,7 +96,7 @@ public class Report extends JsonAble {
 
     private JSONArray reports() {
         JSONArray array = pool.getArray();
-        for (SubdivisionReport report : reports){
+        for (SubdivisionReport report : sortedReports()){
             array.add(report.toJson());
         }
         return array;

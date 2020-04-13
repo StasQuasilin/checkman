@@ -3,7 +3,7 @@ package controllers.weight.reporter;
 import constants.Branches;
 import controllers.IModal;
 import entity.Subdivision;
-import entity.weight.Report;
+import entity.weight.RoundReport;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ public class EditReport extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
-            Report report = dao.getObjectById(Report.class, body.get(ID));
+            RoundReport report = dao.getObjectById(RoundReport.class, body.get(ID));
             req.setAttribute(REPORT, report);
         }
         req.setAttribute(TITLE, _TITLE);

@@ -2,16 +2,18 @@ package entity.weight;
 
 import entity.JsonAble;
 import entity.Subdivision;
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "subdivision_reports")
-public class SubdivisionReport extends JsonAble {
+public class SubdivisionReport extends JsonAble implements Comparable<SubdivisionReport> {
     private int id;
-    private Report report;
-    private boolean good;
+    private RoundReport report;
+    private boolean serviceability;
+    private boolean adherence;
     private Subdivision subdivision;
     private String note;
 
@@ -25,21 +27,30 @@ public class SubdivisionReport extends JsonAble {
     }
 
     @Basic
-    @Column(name = "no_observation")
-    public boolean isGood() {
-        return good;
+    @Column(name = "serviceability")
+    public boolean isServiceability() {
+        return serviceability;
     }
-    public void setGood(boolean good) {
-        this.good = good;
+    public void setServiceability(boolean serviceability) {
+        this.serviceability = serviceability;
+    }
+
+    @Basic
+    @Column(name = "adherence")
+    public boolean isAdherence() {
+        return adherence;
+    }
+    public void setAdherence(boolean adherence) {
+        this.adherence = adherence;
     }
 
     @ManyToOne
     @JoinColumn(name = "report")
-    public Report getReport() {
+    public RoundReport getReport() {
         return report;
     }
-    public void setReport(Report report) {
-        this.report = report;
+    public void setReport(RoundReport roundReport) {
+        this.report = roundReport;
     }
 
     @OneToOne
@@ -52,7 +63,7 @@ public class SubdivisionReport extends JsonAble {
     }
 
     @Basic
-    @Column(name = "notes")
+    @Column(name = "note")
     public String getNote() {
         return note;
     }
@@ -64,8 +75,17 @@ public class SubdivisionReport extends JsonAble {
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
         object.put(ID, id);
-        object.put(GOOD, good);
+        object.put(SUBDIVISION, subdivision.toJson());
+        object.put(SERVICEABILITY, serviceability);
+        if (subdivision.isTehControl()){
+            object.put(ADHERENCE, adherence);
+        }
         object.put(NOTE, note);
         return object;
+    }
+
+    @Override
+    public int compareTo(@NotNull SubdivisionReport subdivisionReport) {
+        return getSubdivision().getId() - subdivisionReport.getSubdivision().getId();
     }
 }

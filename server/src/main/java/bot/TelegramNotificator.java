@@ -18,7 +18,8 @@ import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
 import entity.warehousing.StopReport;
-import entity.weight.Report;
+import entity.weight.RoundReport;
+import entity.weight.SubdivisionReport;
 import entity.weight.Unit;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -32,7 +33,10 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -475,6 +479,7 @@ public class TelegramNotificator extends INotificator {
     public static final String SEMICOLON = "; ";
     public static final String COLON = ": ";
     public static final String NEW_LINE = "\n";
+    public static final String UNDERCORE = "_";
     public static final String FORMAT = "%1$,.3f";
     public static final String STAR = "*";
 
@@ -743,8 +748,6 @@ public class TelegramNotificator extends INotificator {
             } else {
                 return String.format(lb.get(language, "5.days"), days);
             }
-
-
         } else {
             return EMPTY;
         }
@@ -765,7 +768,49 @@ public class TelegramNotificator extends INotificator {
 
     }
 
-    public void sendReport(Report report) {
+    static final String ALERT = "‼️";
+    static String prettyLocalDateTime(LocalDateTime dateTime){
+        return dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+    }
 
+    public void sendReport(RoundReport report) {
+
+        HashMap<String, String> messages = new HashMap<>();
+        for(UserBotSetting setting : getSettings()){
+            if (setting.isShow() && setting.isRoundReport()){
+                String language = setting.getLanguage();
+                if(!messages.containsKey(language)){
+                    StringBuilder builder = new StringBuilder();
+
+                    builder.append(String.format(lb.get(language, "telegram.report.head"),
+                            prettyLocalDateTime(report.getTimestamp().toLocalDateTime())));
+                    builder.append(NEW_LINE);
+                    for (SubdivisionReport r : report.sortedReports()){
+
+                        builder.append(STAR).append(r.getSubdivision().getName()).append(STAR)
+                                .append(SPACE).append(COLON);
+                        if (r.isServiceability()){
+                            builder.append(lb.get(language, "serviceability"));
+                        } else {
+                            builder.append(ALERT).append(lb.get(language, "not.serviceability"));
+                        }
+                        builder.append(NEW_LINE);
+                        if (r.getSubdivision().isTehControl()){
+                            if (r.isAdherence()){
+                                builder.append(lb.get(language, "adherence"));
+                            } else {
+                                builder.append(ALERT).append(lb.get(language, "no.adherence"));
+                            }
+                            builder.append(NEW_LINE);
+                        }
+                        if (!r.isServiceability() || !r.isAdherence()){
+                            builder.append(UNDERCORE).append(r.getNote()).append(UNDERCORE).append(NEW_LINE);
+                        }
+                    }
+                    messages.put(language, builder.toString());
+                }
+                sendMessage(setting.getTelegramId(), messages.get(language), null);
+            }
+        }
     }
 }

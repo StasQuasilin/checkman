@@ -15,12 +15,21 @@ var reporter = new Vue({
             this.report.reports.push({
                 id:-1,
                 subdivision:subdivision,
-                good:true,
-                note:''
+                serviceability:true,
+                adherence:true,
+                note:'',
+                editNote:false
             })
         },
         save:function(){
-            PostApi(this.api.save, this.report, function (ans) {
+            let data = Object.assign({}, this.report);
+            for (let i in data.reports){
+                if (data.reports.hasOwnProperty(i)){
+                    let report = data.reports[i];
+                    report.subdivision = report.subdivision.id;
+                }
+            }
+            PostApi(this.api.save, data, function (ans) {
                 if (ans.status === 'success'){
                     closeModal();
                 }

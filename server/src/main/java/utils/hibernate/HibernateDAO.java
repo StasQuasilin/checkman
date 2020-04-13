@@ -43,6 +43,7 @@ import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.storages.*;
 import entity.transport.*;
+import entity.weight.RoundReport;
 import entity.weight.Weight;
 import entity.weight.Unit;
 import org.apache.log4j.Logger;
@@ -1009,6 +1010,11 @@ public class HibernateDAO implements dbDAO, Constants {
         params.put("archive", false);
         params.put("address", address.getId());
         return hb.query(Transportation.class, params);
+    }
+
+    @Override
+    public List<RoundReport> getLimitRoundReports() {
+        return hb.limitQuery(RoundReport.class, "timestamp", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
     }
 
     @Override

@@ -128,5 +128,7 @@
         <mapping class="entity.notifications.Notification"/>
         <mapping class="entity.organisations.LegalAddress"/>
         <mapping class="entity.border.BoardItem"/>
+        <mapping class="entity.weight.RoundReport"/>
+        <mapping class="entity.weight.SubdivisionReport"/>
     </session-factory>
 </hibernate-configuration>

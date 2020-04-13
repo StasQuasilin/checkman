@@ -6,9 +6,9 @@
 <html>
 <script src="${context}/vue/dailyReportPrint.vue"></script>
 <script>
-  report.api.print = '${print}'
+  roundReport.api.print = '${print}'
 </script>
-<table id="report">
+<table id="roundReport">
   <tr>
     <td>
       <label for="date">

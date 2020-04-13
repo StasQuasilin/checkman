@@ -104,7 +104,7 @@
                     </label>
                 </td>
                 <td>
-                    <a v-if="driver.length > 0" v-on:click="driver = []">
+                    <a v-if="driver.length > 0" v-on:click="driver = []" style="color: orangered; font-weight: bold">
                         <fmt:message key="button.clear"/> ( {{driver.length}} )
                     </a>
                 </td>

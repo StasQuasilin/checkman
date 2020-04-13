@@ -22,12 +22,12 @@
       <fmt:message key="date"/>
     </td>
     <td>
-      <fmt:formatDate value="${report.turn.date}" pattern="dd.MM.yyyy"/>
+      <fmt:formatDate value="${roundReport.turn.date}" pattern="dd.MM.yyyy"/>
     </td>
   </tr>
   <tr>
     <td colspan="2" align="right">
-      <fmt:message key="turn"/> <span>#</span>${report.turn.number}
+      <fmt:message key="turn"/> <span>#</span>${roundReport.turn.number}
     </td>
   </tr>
   <c:forEach items="${noCategory}" var="no">
@@ -86,7 +86,7 @@
 </table>
 </html>
 <script>
-  id = '${report.id}';
+  id = '${roundReport.id}';
   api = {
     remove:'${delete}',
     edit:'${edit}',
