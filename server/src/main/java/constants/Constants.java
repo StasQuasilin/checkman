@@ -356,7 +356,7 @@ public interface Constants {
     String DUST = "dust";
     String OFF_SEALS = "off_seals";
     String EDITABLE = "editable";
-
+    String GOOD = "good";
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
         public static final String EDIT_DOCUMENT = "document.edit";

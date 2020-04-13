@@ -7,7 +7,6 @@ import constants.Constants;
 import entity.bot.NotifyStatus;
 import entity.bot.UserBotSetting;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -72,11 +71,17 @@ public class UserBotSettingsServletAPI extends ServletAPI {
                     setting.setShow(show);
                     save = true;
                 }
-                boolean reports = Boolean.parseBoolean(String.valueOf(body.get("reports")));
-                if (setting.isReports() != reports){
-                    setting.setReports(reports);
+                boolean manufactureReports = Boolean.parseBoolean(String.valueOf(body.get("manufactureReports")));
+                if (setting.isManufactureReports() != manufactureReports){
+                    setting.setManufactureReports(manufactureReports);
                     save = true;
                 }
+                boolean roundReports = Boolean.parseBoolean(String.valueOf(body.get("roundReports")));
+                if (setting.isRoundReport() != roundReports){
+                    setting.setRoundReport(roundReports);
+                    save = true;
+                }
+
                 if (save) {
                     botSettings.save(setting);
                 }

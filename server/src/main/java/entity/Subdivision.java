@@ -1,5 +1,7 @@
 package entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "subdivisions")
-public class Subdivision {
+public class Subdivision extends JsonAble {
     private int id;
     private String name;
     private SubdivisionKey key;
@@ -38,5 +40,13 @@ public class Subdivision {
     }
     public void setKey(SubdivisionKey key) {
         this.key = key;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject object = pool.getObject();
+        object.put(ID, id);
+        object.put(NAME, name);
+        return object;
     }
 }

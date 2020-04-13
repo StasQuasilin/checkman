@@ -123,6 +123,7 @@ public class Branches {
         public static final String TRANSPORT_ADD_FAST = "/transport/add/fast.j";
         public static final String BOARD = "/board.j";
         public static final String BOARD_EDIT = "/board/edit.j";
+        public static final String EDIT_REPORT = "/report/edit.j";
 
 
         public class Extraction {
@@ -318,6 +319,7 @@ public class Branches {
         public static final String BOARD_EDIT = API + "/board/edit";
         public static final String BOARD_REMOVE = API + "/board/remove";
         public static final String EXTRACTION_TURN_CELLULOSE_REMOVE = API + "/extraction/turn/cellulose/remove";
+        public static final String REPORT_EDIT = API + "/report/edit";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

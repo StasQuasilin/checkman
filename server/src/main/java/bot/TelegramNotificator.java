@@ -18,6 +18,7 @@ import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
 import entity.transport.Transportation;
 import entity.warehousing.StopReport;
+import entity.weight.Report;
 import entity.weight.Unit;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -32,7 +33,6 @@ import utils.hibernate.dbDAOService;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -483,7 +483,7 @@ public class TelegramNotificator extends INotificator {
         HashMap<String, String> messages = new HashMap<>();
 
         for (UserBotSetting setting : getSettings()){
-            if (setting.isShow() && setting.isReports()){
+            if (setting.isShow() && setting.isManufactureReports()){
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
                     StringBuilder builder = new StringBuilder();
@@ -762,6 +762,10 @@ public class TelegramNotificator extends INotificator {
         } else {
             return EMPTY;
         }
+
+    }
+
+    public void sendReport(Report report) {
 
     }
 }

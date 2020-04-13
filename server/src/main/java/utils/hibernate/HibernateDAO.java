@@ -1102,7 +1102,7 @@ public class HibernateDAO implements dbDAO, Constants {
 
     @Override
     public List<Subdivision> getSubdivisions() {
-        return hb.query(Subdivision.class, null);
+        return hb.query(Subdivision.class, "key", State.notNull);
     }
 
     @Override

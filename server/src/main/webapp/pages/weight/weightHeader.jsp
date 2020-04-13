@@ -14,5 +14,6 @@
   <c:if test="${not empty add}">
     <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
   </c:if>
+  <button onclick="loadModal('${report}')"><fmt:message key="do.report"/></button>
 </div>
 </html>
