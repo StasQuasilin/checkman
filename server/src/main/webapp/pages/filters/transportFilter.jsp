@@ -20,7 +20,7 @@
         <table style="height: 100%; width: 100%">
             <tr>
                 <td colspan="2" style="text-align: center; font-size: 10pt">
-                    <a v-on:click="clear"><fmt:message key="button.clear"/> </a>
+                    <a v-on:click="clear"><fmt:message key="filter.clear"/> </a>
                 </td>
             </tr>
             <tr v-if="filters.types.length">
@@ -110,8 +110,8 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="border: solid 1pt; height: 100%">
-                    <select id="driver" multiple v-model="driver" style="height: 100%; width: 100%">
+                <td colspan="2" style="height: 100%">
+                    <select id="driver" multiple v-model="driver" style="height: 100%; width: 100%; outline: none">
                         <option v-for="driver in drivers()" :value="driver.id">
                             {{driver.person.value}}: ( {{driver.amount}} )
                         </option>
