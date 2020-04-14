@@ -471,7 +471,6 @@ public class TelegramNotificator extends INotificator {
                 }
             }
         }
-
     }
 
     public static final String HYPHEN = " - ";

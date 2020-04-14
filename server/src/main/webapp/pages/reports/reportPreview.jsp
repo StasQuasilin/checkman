@@ -9,7 +9,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <c:set var="count" value="${fn:length(noCategory)}"/>
 <c:forEach items="${categories}" var="cat">
@@ -22,12 +22,12 @@
       <fmt:message key="date"/>
     </td>
     <td>
-      <fmt:formatDate value="${roundReport.turn.date}" pattern="dd.MM.yyyy"/>
+      <fmt:formatDate value="${report.turn.date}" pattern="dd.MM.yyyy"/>
     </td>
   </tr>
   <tr>
     <td colspan="2" align="right">
-      <fmt:message key="turn"/> <span>#</span>${roundReport.turn.number}
+      <fmt:message key="turn"/> <span>#</span>${report.turn.number}
     </td>
   </tr>
   <c:forEach items="${noCategory}" var="no">
@@ -86,7 +86,7 @@
 </table>
 </html>
 <script>
-  id = '${roundReport.id}';
+  id = '${report.id}';
   api = {
     remove:'${delete}',
     edit:'${edit}',

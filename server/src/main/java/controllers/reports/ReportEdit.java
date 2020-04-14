@@ -28,13 +28,13 @@ public class ReportEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = -1;
-        String parameter = req.getParameter(Constants.ID);
+        String parameter = req.getParameter(ID);
         if (parameter != null){
             id = Integer.parseInt(parameter);
         } else {
             JSONObject body = parseBody(req);
-            if (body != null && body.containsKey(Constants.ID)){
-                id = Integer.parseInt(String.valueOf(body.get(Constants.ID)));
+            if (body != null && body.containsKey(ID)){
+                id = Integer.parseInt(String.valueOf(body.get(ID)));
             }
         }
 

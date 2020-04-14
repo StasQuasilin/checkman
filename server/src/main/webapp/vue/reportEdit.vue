@@ -45,7 +45,7 @@ var editor = new Vue({
         getUnit:function(id){
             for(var i in this.units){
                 if (this.units.hasOwnProperty(i)){
-                    if (this.units[i].id == id){
+                    if (this.units[i].id === id){
                         return this.units[i];
                     }
                 }
@@ -61,7 +61,7 @@ var editor = new Vue({
             for (var i in this.categories){
                 if(this.categories.hasOwnProperty(i)){
                     var cat = this.categories[i];
-                    if (cat.id == categoryId){
+                    if (cat.id === categoryId){
                         return cat;
                     }
                 }
@@ -113,7 +113,7 @@ var editor = new Vue({
             const self = this;
             for (var i in this.fields){
                 if (this.fields.hasOwnProperty(i)) {
-                    this.fields[i].editComment = this.fields[i] == field;
+                    this.fields[i].editComment = this.fields[i] === field;
                     if (this.fields[i].editComment){
                         this.commentInput = this.fields[i].comment;
                         setTimeout(function(){
@@ -141,7 +141,7 @@ var editor = new Vue({
         },
         save:function(){
             console.log(this.report);
-            this.errors.turn = this.report.turn == -1;
+            this.errors.turn = this.report.turn === -1;
             if (!this.errors.turn){
                 var fields = [];
                 this.categories.forEach(function(category){
