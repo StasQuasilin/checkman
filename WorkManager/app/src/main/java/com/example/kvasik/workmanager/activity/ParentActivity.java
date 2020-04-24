@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -17,7 +18,6 @@ import com.example.kvasik.workmanager.utils.WorkManagerUtil;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * Created by Kvasik on 08.01.2020.
@@ -34,13 +34,17 @@ public class ParentActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityHashMap = new HashMap<>();
-        activityHashMap.put(R.id.nav_camera, new MainActivity());
+        activityHashMap.put(R.id.nav_deals, new DealsActivity());
+        activityHashMap.put(R.id.nav_transport, new TransportActivity());
+
         WorkManagerUtil.stopWorker(getApplicationContext());
+
         fragmentTransaction = getSupportFragmentManager();
+
         setContentView(R.layout.navigation_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setView(R.id.nav_camera);
+//        setView(R.id.nav_deals);
     }
 
     void setView(int id){
@@ -49,7 +53,14 @@ public class ParentActivity extends AppCompatActivity
             if (fragment != null) {
                 fragmentTransaction.beginTransaction().replace(R.id.content, fragment).commit();
             }
-            Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.app_name);
+            ActionBar supportActionBar = getSupportActionBar();
+            if (supportActionBar != null) {
+                if (id == R.id.nav_deals) {
+                    supportActionBar.setTitle(R.string.deals_title);
+                } else if (id == R.id.nav_transport) {
+                    supportActionBar.setTitle(R.string.transport_title);
+                }
+            }
         } else {
             Toast.makeText(getApplicationContext(), "No such fragment for " + id, Toast.LENGTH_SHORT).show();
         }
@@ -59,6 +70,7 @@ public class ParentActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Log.i("SELECT", String.valueOf(id));
         setView(id);
 
         DrawerLayout drawer = findViewById(R.id.draw_layout);

@@ -4,6 +4,7 @@ import constants.Constants;
 import entity.JsonAble;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.CodeUtil;
 import utils.U;
 
 import javax.persistence.*;
@@ -78,8 +79,8 @@ public class Organisation extends JsonAble{
     public String toString() {
         return "Organisation{\n" +
                 "\tid=" + id + ",\n" +
-                "\ttype=\'" + (type != null ? type : "") + "\',\n" +
-                "\tname='" + name + "\'\n" +
+                "\ttype='" + (type != null ? type : "") + "',\n" +
+                "\tname='" + name + "'\n" +
                 '}';
     }
 
@@ -91,8 +92,10 @@ public class Organisation extends JsonAble{
     @Override
     public JSONObject toShortJson() {
         JSONObject json = pool.getObject();
+        if (code != null) {
+            json.put(CODE, code);
+        }
         json.put(ID, id);
-
         json.put(VALUE, getValue());
         return json;
     }

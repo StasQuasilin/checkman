@@ -153,6 +153,18 @@
                                         <span class="label">
                                             <fmt:message key="deal.organisation"/>:
                                         </span>
+                                        <span v-if="value.item.counterparty.code" class="counterparty-code code-valid">
+                                            &check;
+                                            <span class="code-text">
+                                                <template v-if="value.item.counterparty.code == 8">
+                                                    <fmt:message key="counterparty.code.1"/>
+                                                </template>
+                                                <template v-else>
+                                                    <fmt:message key="counterparty.code.2"/>
+                                                </template>
+                                                 {{value.item.counterparty.code}}
+                                            </span>
+                                        </span>
                                         <b>
                                             {{value.item.counterparty.value}}
                                         </b>
@@ -181,8 +193,8 @@
                                             {{value.item.shipper}}
                                         </span>
                                     </div>
-                                    <div v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >
-                                        <fmt:message key="address"/>:
+                                    <b v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >
+                                        <fmt:message key="load.address"/>:
                                         <template v-if="value.item.address.index">
                                             {{value.item.address.index}},
                                         </template>
@@ -202,7 +214,7 @@
                                         </template>
 
                                         {{value.item.address.build}}
-                                    </div>
+                                    </b>
                                 </div>
                             </div>
 

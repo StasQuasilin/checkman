@@ -37,5 +37,10 @@ public abstract class ServletAPI extends IServlet{
         writer.write(text);
         writer.close();
     }
+    public void write(HttpServletResponse resp, JSONObject jsonObject) throws IOException {
+        write(resp, jsonObject.toJSONString());
+        pool.put(jsonObject);
+    }
+
 
 }

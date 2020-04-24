@@ -11,6 +11,8 @@
       api:{},
       organisation:{},
       type:'',
+      codeValid:false,
+      codeTimer:-1,
       legalAddress:{},
       loadAddress:[],
       err:{
@@ -18,6 +20,21 @@
       }
     },
     methods:{
+      validateCode:function(){
+        clearTimeout(this.codeTimer);
+        if (this.organisation.code.length === 8 || this.organisation.code.length === 10){
+          const self =this;
+          this.codeTimer = setTimeout(function () {
+            PostApi(this.api.codeValid, {code:self.organisation.code}, function (a) {
+              if (a.status === 'success'){
+                self.codeValid = a.result;
+              }
+            })
+          }, 300)
+        } else {
+          this.codeValid = false;
+        }
+      },
       findType:function(){
         if (!this.type.fullName && this.organisation.type){
           const self = this;
@@ -57,15 +74,15 @@
         })
       },
       save:function(){
-        var err = this.err.name = this.organisation.name === '';
+        let err = this.err.name = this.organisation.name === '';
         if (!err) {
-          var data = {
-            organisation:this.organisation,
-            type:this.type
+          let data = {
+            organisation: this.organisation,
+            type: this.type
           };
           PostApi(this.api.save, data, function (a) {
             saveModal(a);
-            if (a.status == 'success') {
+            if (a.status === 'success') {
               closeModal();
             }
           })
@@ -75,8 +92,9 @@
   });
   editor.api.save='${save}';
   editor.api.editAddress = '${editAddress}';
-  editor.api.findType = '${findOrganisatonType}';
+  editor.api.findType = '${findOrganisationType}';
   editor.api.info = '${info}';
+  editor.api.codeValid = '${codeValid}'
 
   <c:choose>
   <c:when test="${not empty organisation}">
@@ -87,7 +105,9 @@
   editor.organisation.create = ${organisation.create.toJson()}
   </c:if>
   editor.organisation.code = '${organisation.code}';
-
+  if (editor.organisation.code){
+    editor.codeValid = true;
+  }
   <c:if test="${not empty organisationType}">
   editor.type = ${organisationType.toJson()};
   </c:if>
@@ -102,7 +122,7 @@
 <c:set var="fullName"><fmt:message key="organisation.full.name"/> </c:set>
 <table id="edit" style="width: 300pt">
   <tr>
-    <td>
+    <td colspan="2">
       ID ${organisation.id}
     </td>
   </tr>
@@ -113,21 +133,34 @@
       </label>
     </td>
     <td>
-      <input id="code" v-model="organisation.code" autocomplete="off" onfocus="this.select()">
+      <input id="code" v-model="organisation.code" autocomplete="off"
+             v-on:keyup="validateCode()" onfocus="this.select()">
+      <span v-if="codeValid" class="counterparty-code code-valid">
+        &check;
+        <span class="code-text">
+          <fmt:message key="code.valid"/>
+        </span>
+      </span>
+      <span v-else class="counterparty-code code-invalid">
+        &times;
+        <span class="code-text">
+          <fmt:message key="code.invalid"/>
+        </span>
+      </span>
       <span class="mini-close" v-on:click="info()" v-if="!organisation.code">
         i
       </span>
     </td>
   </tr>
   <tr>
-    <td colspan="3">
+    <td colspan="2">
       <label for="name">
         <fmt:message key="organisation.name"/>
       </label>
     </td>
   </tr>
   <tr>
-    <td colspan="3">
+    <td colspan="2">
       <input id="name" v-model="organisation.name" v-on:click="err.name = false" style="width: 100%"
           onfocus="this.select()" :class="{error : err.name}" autocomplete="off">
     </td>
@@ -154,7 +187,7 @@
     </td>
   </tr>
   <tr v-if="legalAddress.id">
-    <td>
+    <td colspan="2">
       <a v-on:click="editLegalAddress(legalAddress.id)">
         <b>
           <span v-if="legalAddress.index">

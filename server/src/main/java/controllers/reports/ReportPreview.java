@@ -32,7 +32,7 @@ public class ReportPreview extends IModal {
             if (body.containsKey(ID)){
                 ManufactureReport report = dao.getObjectById(ManufactureReport.class, body.get(ID));
                 HashMap<ReportFieldCategory, ArrayList<ReportField>> fields = new HashMap<>();
-                report.getFields().sort((o1, o2) -> o1.getIndex() - o2.getIndex());
+                report.getFields().sort(Comparator.comparingInt(ReportField::getIndex));
                 for (ReportField reportField : report.getFields()){
                     if (!fields.containsKey(reportField.getCategory())){
                         fields.put(reportField.getCategory(), new ArrayList<>());

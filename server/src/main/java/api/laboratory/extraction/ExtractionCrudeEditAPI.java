@@ -30,10 +30,10 @@ import java.time.LocalTime;
  * Created by szpt_user045 on 04.04.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_CRUDE_EDIT)
-public class ExtractionCrudeEditServletAPI extends ServletAPI {
+public class ExtractionCrudeEditAPI extends ServletAPI {
 
     final UpdateUtil updateUtil = new UpdateUtil();
-    private final Logger log = Logger.getLogger(ExtractionCrudeEditServletAPI.class);
+    private final Logger log = Logger.getLogger(ExtractionCrudeEditAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -137,7 +137,6 @@ public class ExtractionCrudeEditServletAPI extends ServletAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                crude.setCreator(worker);
 
                 dao.save(createTime);
                 dao.save(crude);

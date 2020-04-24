@@ -24,7 +24,9 @@ public interface Constants {
     String BRAND = "brand";
     String VIN = "vin";
     String INFO = "info";
+    String CODE_VALID = "codeValid";
     String CODE= "code";
+    String VALID = "valid";
     String LOCATION = "location";
     String CEO = "ceo";
     String CEO_NAME = "ceo_name";
@@ -201,7 +203,7 @@ public interface Constants {
     String PATH = "path";
     String IS_NEW = "isNew";
     String EDIT_ADDRESS = "editAddress";
-    String FIND_ORGANISATION_TYPE = "findOrganisatonType";
+    String FIND_ORGANISATION_TYPE = "findOrganisationType";
     String FIND = "find";
     String OFF = "off";
     String FIND_PRODUCT = "findProduct";

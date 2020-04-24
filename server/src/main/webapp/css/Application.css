@@ -300,3 +300,22 @@ input.error {
     font-weight: bold;
     color: green;
 }
+.counterparty-code{
+    position: relative;
+}
+.code-text{
+    position: absolute;
+    background-color: #5F9EA0;
+    border: solid gray 1px;
+    padding: 2px;
+    left: 0;
+}
+.counterparty-code .code-text{
+    display: none;
+}
+.counterparty-code:hover .code-text{
+    display: block;
+}
+.code-valid{
+    color: green;
+}

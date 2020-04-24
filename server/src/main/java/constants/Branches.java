@@ -321,6 +321,7 @@ public class Branches {
         public static final String BOARD_REMOVE = API + "/board/remove";
         public static final String EXTRACTION_TURN_CELLULOSE_REMOVE = API + "/extraction/turn/cellulose/remove";
         public static final String REPORT_EDIT = API + "/report/edit";
+        public static final String CODE_VALID = API + "/code/valid";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

@@ -35,6 +35,7 @@ public class OrganisationEdit extends IModal {
                 req.setAttribute(ADDRESS_REMOVE, Branches.API.ADDRESS_REMOVE);
                 req.setAttribute(SAVE, Branches.API.References.EDIT_ORGANISATION);
                 req.setAttribute(INFO, Branches.API.ORGANISATION_INFO);
+                req.setAttribute(CODE_VALID, Branches.API.CODE_VALID);
                 show(req, resp);
             }
         }

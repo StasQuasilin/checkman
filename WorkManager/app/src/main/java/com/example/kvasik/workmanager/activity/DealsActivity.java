@@ -11,8 +11,10 @@ import com.example.kvasik.workmanager.R;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import java.util.Objects;
 
-public class MainActivity extends Fragment {
+
+public class DealsActivity extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

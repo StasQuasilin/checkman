@@ -27,7 +27,7 @@ public class ExtractionCrude extends JsonAble implements Comparable<ExtractionCr
     private float explosionTemperature;
     private float oilHumidity;
     private ActionTime createTime;
-    private Worker creator;
+    private long massageId;
 
     @Id
     @GeneratedValue
@@ -146,13 +146,13 @@ public class ExtractionCrude extends JsonAble implements Comparable<ExtractionCr
         this.createTime = createTime;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
+    @Basic
+    @Column(name = "message_id")
+    public long getMassageId() {
+        return massageId;
     }
-    public void setCreator(Worker worker) {
-        this.creator = worker;
+    public void setMassageId(long massageId) {
+        this.massageId = massageId;
     }
 
     @Override

@@ -9,6 +9,7 @@ import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import utils.CodeUtil;
 import utils.U;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
@@ -24,7 +25,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.References.EDIT_ORGANISATION)
-public class EditOrganisationServletAPI extends ServletAPI {
+public class EditOrganisationAPI extends ServletAPI {
 
     private final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -77,9 +78,11 @@ public class EditOrganisationServletAPI extends ServletAPI {
 
         String code = String.valueOf(json.get(CODE));
         if (U.exist(code)){
-            if (!U.exist(organisation.getCode()) || !organisation.getCode().equals(code)){
-                organisation.setCode(code);
-                save = true;
+            if (CodeUtil.validCode(code)) {
+                if (!U.exist(organisation.getCode()) || !organisation.getCode().equals(code)) {
+                    organisation.setCode(code);
+                    save = true;
+                }
             }
         }
         String name = String.valueOf(json.get(NAME));
