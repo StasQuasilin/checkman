@@ -5,6 +5,7 @@ import entity.User;
 import entity.UserInfo;
 import entity.Worker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -49,17 +50,20 @@ public class UserBox {
     public synchronized String addUser(User user, String ip, String sessionId) {
 
         final String token = getToken();
+        ArrayList<String> remove = new ArrayList<>();
         for (Map.Entry<String, UserInfo> entry : users.entrySet()){
             UserInfo value = entry.getValue();
             if (value != null) {
                 if (value.getUser() != null) {
                     if (value.getUser().getId() == user.getId()) {
-                        users.remove(entry.getKey());
+                        remove.add(entry.getKey());
                     }
                 }
             }
         }
-
+        for (String key : remove){
+            users.remove(key);
+        }
         users.put(token, new UserInfo(user, ip, sessionId));
         return token;
     }

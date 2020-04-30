@@ -25,7 +25,7 @@
         if (this.organisation.code.length === 8 || this.organisation.code.length === 10){
           const self =this;
           this.codeTimer = setTimeout(function () {
-            PostApi(this.api.codeValid, {code:self.organisation.code}, function (a) {
+            PostApi(self.api.codeValid, {code:self.organisation.code}, function (a) {
               if (a.status === 'success'){
                 self.codeValid = a.result;
               }

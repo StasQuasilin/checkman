@@ -21,8 +21,8 @@ import java.io.IOException;
 @WebServlet(Branches.API.References.ADDRESS_EDIT)
 public class EditAddressServletAPI extends ServletAPI {
 
-    private AddressUtil addressUtil = new AddressUtil();
-    private UpdateUtil updateUtil = new UpdateUtil();
+    private final AddressUtil addressUtil = new AddressUtil();
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -385,6 +385,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         json.put(ID, id);
         if (U.exist(deal.getNumber())){
             json.put(CONTRACT_NUMBER, deal.getNumber());
+            json.put(DEAL_DATE, deal.getDate().toString());
         }
         json.put(TYPE, deal.getType().toString());
         json.put(DATE, date.toString());

@@ -156,7 +156,7 @@
                                         <span v-if="value.item.counterparty.code" class="counterparty-code code-valid">
                                             &check;
                                             <span class="code-text">
-                                                <template v-if="value.item.counterparty.code == 8">
+                                                <template v-if="value.item.counterparty.code.length == 8">
                                                     <fmt:message key="counterparty.code.1"/>
                                                 </template>
                                                 <template v-else>

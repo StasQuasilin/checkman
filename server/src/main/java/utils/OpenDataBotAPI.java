@@ -91,7 +91,7 @@ public class OpenDataBotAPI implements Constants {
                     JSONObject data = (JSONObject) parse.get("data");
                     System.out.println(data);
                     if (data != null) {
-                        Integer count = Integer.parseInt(String.valueOf(data.get("count")));
+                        int count = Integer.parseInt(String.valueOf(data.get("count")));
                         JSONArray array = (JSONArray) data.get("items");
                         if (count > 0){
                             for (Object o1 : array){

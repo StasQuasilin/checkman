@@ -44,6 +44,7 @@ public interface Constants {
     String DISTRICT = "district";
     String CONTRACT = "contract";
     String CONTRACT_NUMBER = "contractNumber";
+    String DEAL_DATE = "dealDate";
     String CONTRACTS = "contracts";
     String MANUFACTURE_ANALYSE = "manufactureAnalyses";
     String WAYBILL_PRINT = "waybillPrint";

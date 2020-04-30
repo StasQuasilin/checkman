@@ -6,7 +6,7 @@
 
     <groupId>com.checkman</groupId>
     <artifactId>checkman</artifactId>
-    <version>2.2.3</version>
+    <version>2.2.31</version>
     <packaging>war</packaging>
 
     <properties>

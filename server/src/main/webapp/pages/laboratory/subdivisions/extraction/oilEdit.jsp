@@ -41,7 +41,8 @@
     <c:otherwise>
 
     hour = new Date().getHours();
-    var turn = -1;
+    turn = -1;
+    now = new Date();
     for(let i in editor.turns){
         if (editor.turns.hasOwnProperty(i)){
             let t = editor.turns[i];

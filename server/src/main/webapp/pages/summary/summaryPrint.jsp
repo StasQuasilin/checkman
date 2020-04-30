@@ -11,6 +11,9 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <script>
+  var contractNumber = ' <fmt:message key="deal.title"/> '
+  var by = ' <fmt:message key="by"/> '
+  var transporter = '<fmt:message key="waybill.transporter"/>: '
   var printer = new Vue({
     el:'#print',
     data:{
@@ -63,7 +66,7 @@
             for(let p in this.products){
               if (this.products.hasOwnProperty(p)){
                 let product = this.products[p];
-                if (product.check && product.id == item.product.id){
+                if (product.check && product.id === item.product.id){
                   productMatch = true;
                   break;
                 }
@@ -88,7 +91,7 @@
         w.document.write('<style>table{border-collapse: collapse; width: 100%; font-size: 10pt;}');
         w.document.write('td{ border: solid gray 1pt; padding: 2pt 4pt; }');
         w.document.write('</style>');
-        w.document.write('<html><table border="1">');
+        w.document.write('<html lang="${lang}"><table border="1">');
         for (let i in items){
           if (items.hasOwnProperty(i)){
             w.document.write('<tr><td colspan="7">');
@@ -108,9 +111,21 @@
                 for (let k in item){
                   if (item.hasOwnProperty(k)){
                     let row = item[k];
-
-                    w.document.write('<tr><td style="padding-left: 16pt;">');
+                    w.document.write('<tr><td style="width: 48%; padding-left: 16pt;">');
                     w.document.write(row.counterparty.value);
+                    if (row.contractNumber){
+                      w.document.write(contractNumber);
+                      w.document.write(row.contractNumber);
+                      w.document.write(by);
+                      w.document.write(new Date(row.dealDate).toLocaleDateString());
+                    }
+                    if (row.transporter){
+                      w.document.write('<br><span style="font-size: 10pt">');
+                      w.document.write(transporter);
+                      w.document.write(row.transporter.value);
+                      w.document.write('</span>');
+                    }
+
                     w.document.write('</td><td>');
                     w.document.write(row.product.name);
                     w.document.write('</td><td>');
@@ -134,8 +149,8 @@
           }
         }
         w.document.write('</table></html>');
+        w.stop();
         w.print();
-//        w.close();
       }
     }
   })
@@ -162,8 +177,10 @@
   <tr>
     <td colspan="2">
       <div v-for="product in productList()">
-        <input type="checkbox" :id="product.id" v-model="product.check">
-        {{product.name}}
+        <input :id="'p' + product.id" type="checkbox" :id="product.id" v-model="product.check">
+        <label :for="'p' + product.id">
+          {{product.name}}
+        </label>
       </div>
     </td>
   </tr>
