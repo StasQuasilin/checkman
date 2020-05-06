@@ -47,9 +47,8 @@ public class ExtractionCrudeEditAPI extends ServletAPI {
             final LocalDateTime localDateTime = LocalDateTime.of(date, time);
             final TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
-            if (body.containsKey(Constants.ID)) {
-                long id = (long) body.get(Constants.ID);
-                crude = dao.getExtractionCrudeById(id);
+            if (body.containsKey(ID)) {
+                crude = dao.getObjectById(ExtractionCrude.class, body.get(ID));
             } else {
                 crude = new ExtractionCrude();
             }
@@ -128,16 +127,9 @@ public class ExtractionCrudeEditAPI extends ServletAPI {
                 if (createTime == null) {
                     createTime = new ActionTime();
                     crude.setCreateTime(createTime);
+
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
-                Worker worker = getWorker(req);
-                if (body.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(dao.getObjectById(creatorId));
-                } else {
-                    createTime.setCreator(worker);
-                }
-
                 dao.save(createTime);
                 dao.save(crude);
 

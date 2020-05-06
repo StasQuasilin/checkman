@@ -13,17 +13,17 @@ var editor = new Vue({
     },
     methods:{
         currentTime:function(target){
-            var now = target ? new Date(target) : new Date();
-            var min = Number.MAX_VALUE;
-            var current = '';
-            for (var t in this.times){
+            let now = target ? new Date(target) : new Date();
+            let min = Number.MAX_VALUE;
+            let current = '';
+            for (let t in this.times){
                 if (this.times.hasOwnProperty(t)) {
-                    var time = this.times[t];
-                    var date = new Date();
+                    let time = this.times[t];
+                    let date = new Date();
                     date.setHours(parseInt(time.hour));
                     date.setMinutes(time.minute);
 
-                    var d = Math.abs((date.getHours() * 60 + date.getMinutes()) - (now.getHours() * 60 + now.getMinutes()));
+                    let d = Math.abs((date.getHours() * 60 + date.getMinutes()) - (now.getHours() * 60 + now.getMinutes()));
                     if (d < min) {
                         min = d;
                         current = time.hour + ':' + time.minute
@@ -37,7 +37,7 @@ var editor = new Vue({
                 this.already = true;
                 const self = this;
                 PostApi(this.api.save, this.crude, function (a) {
-                    if (a.status == 'success') {
+                    if (a.status === 'success') {
                         closeModal();
                     }
                     self.already = false;

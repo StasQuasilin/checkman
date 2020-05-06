@@ -9,6 +9,7 @@
 <script>
     editor.api.save = '${save}';
     editor.api.remove = '${remove}';
+
     editor.times = [
         {
             hour:'08',
@@ -63,7 +64,7 @@
     <c:when test="${not empty crude}">
     editor.crude = {
         id : ${crude.id},
-        date : new Date('${crude.turn.turn.date}').toISOString().substring(0, 10),
+        date : new Date('${crude.time}').toISOString().substring(0, 10),
         time : editor.currentTime(new Date('${crude.time}')),
         humidityIncome:${crude.humidityIncome},
         oilinessIncome:${crude.oilinessIncome},
@@ -77,9 +78,10 @@
     };
     </c:when>
     <c:otherwise>
+    console.log('${date}');
     editor.crude = {
-        date : new Date().toISOString().substring(0, 10),
-        time : editor.currentTime(),
+        date : new Date('${date}').toISOString().substring(0, 10),
+        time : editor.currentTime('${date}'),
         humidityIncome:0,
         oilinessIncome:0,
         fraction:0,
@@ -120,7 +122,7 @@
             :
         </td>
         <td>
-            <input id="date" readonly style="width: 7em" v-on:click="datePicker"
+            <input id="date" readonly style="width: 7em"
                    v-model="new Date(crude.date).toLocaleDateString()">
         </td>
     </tr>
@@ -135,7 +137,7 @@
             :
         </td>
         <td>
-            <select id="time" v-model="crude.time">
+            <select id="time" v-model="crude.time" disabled>
                 <option v-for="time in times">
                     {{time.hour}}:{{time.minute}}
                 </option>

@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -10,106 +10,66 @@
 <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/templates/commentatorPlug.vue"></script>
-<script src="${context}/vue/dataList.vue"></script>
+<script src="${context}/vue/templates/list.vue"></script>
+<script src="${context}/vue/templates/laboratoryList.vue"></script>
+<script src="${context}/vue/extractionList.vue"></script>
 <script>
-    list.limit = 14;
-    list.api.crudeEdit ='${crudeEdit}';
-    list.api.proteinStorageEdit = '${storageProtein}';
-    list.api.greaseStorageEdit = '${storageGrease}';
-    list.api.proteinTurnEdit = '${turnProtein}';
-    list.api.greaseTurnEdit = '${turnGrease}';
-    list.api.celluloseEdit = '${turnCellulose}';
-    list.api.oilEdit = '${oilEdit}';
-    list.crudeEdit = function(id){
-        this.edit(this.api.crudeEdit, id);
-    };
-    list.proteinStorageEdit = function(id){
+    extractionList.limit = 14;
+    extractionList.api.crudeEdit ='${crudeEdit}';
+    extractionList.api.proteinStorageEdit = '${storageProtein}';
+    extractionList.api.greaseStorageEdit = '${storageGrease}';
+    extractionList.api.proteinTurnEdit = '${turnProtein}';
+    extractionList.api.greaseTurnEdit = '${turnGrease}';
+    extractionList.api.celluloseEdit = '${turnCellulose}';
+    extractionList.api.oilEdit = '${oilEdit}';
+    extractionList.turns.push( {
+        number:1,
+        begin:8,
+        end:20
+    });
+    extractionList.turns.push( {
+        number:2,
+        begin:20,
+        end:8
+    })
+    extractionList.offsets = [
+        0, 2, 4, 6, 8, 10
+    ]
+
+    extractionList.proteinStorageEdit = function(id){
         if (this.api.proteinStorageEdit) {
             this.edit(this.api.proteinStorageEdit, id);
         }
     };
-    list.greaseStorageEdit = function(id){
+    extractionList.greaseStorageEdit = function(id){
         if (this.api.greaseStorageEdit) {
             this.edit(this.api.greaseStorageEdit, id);
         }
     };
-    list.proteinTurnEdit = function(id){
+    extractionList.proteinTurnEdit = function(id){
         if (this.api.proteinTurnEdit) {
             this.edit(this.api.proteinTurnEdit, id);
         }
     };
-    list.greaseTurnEdit = function(id){
+    extractionList.greaseTurnEdit = function(id){
         if (this.api.greaseTurnEdit) {
             this.edit(this.api.greaseTurnEdit, id);
         }
     };
-    list.oilEdit = function(id){
+    extractionList.oilEdit = function(id){
         if (this.api.oilEdit) {
             this.edit(this.api.oilEdit, id);
         }
     };
-    list.editCellulose = function(id){
+    extractionList.editCellulose = function(id){
         if (this.api.celluloseEdit){
             this.edit(this.api.celluloseEdit, id)
         }
     };
-    list.edit = function(api, id){
-        loadModal(api + '?id=' + id, {id :id});
-    };
-    list.sort = function(){
-        list.items.sort(function(a, b){
-            return new Date(b.item.date) - new Date(a.item.date);
-        })
-    };
-    list.middle = function(item){
-        if (!item.middle){
-            let middle = {
-                humidityIncome:0,
-                oilinessIncome:0,
-                fraction:0,
-                miscellas:0,
-                humidity:0,
-                explosionTemperature:0,
-                dissolvent:0,
-                grease:0,
-                oilHumidity:0
-            };
-            for (var j in item.crude){
-                if (item.crude.hasOwnProperty(j)){
-                    let crude = item.crude[j];
-                    middle.humidityIncome += crude.humidityIncome;
-                    middle.oilinessIncome += crude.oilinessIncome;
-                    middle.fraction += crude.fraction;
-                    middle.miscellas += crude.miscellas;
-                    middle.humidity += crude.humidity;
-                    middle.explosionTemperature += crude.explosionTemperature;
-                    middle.dissolvent += crude.dissolvent;
-                    middle.grease += crude.grease;
-                    middle.oilHumidity += crude.oilHumidity;
-                }
-            }
-            let count = item.crude.length;
-            if (count > 0) {
-                middle.humidityIncome /= count;
-                middle.oilinessIncome /= count;
-                middle.fraction /= count;
-                middle.miscellas /= count;
-                middle.humidity /= count;
-                middle.explosionTemperature /= count;
-                middle.explosionTemperature = Math.round(middle.explosionTemperature);
-                middle.dissolvent /= count;
-                middle.dissolvent = Math.round(middle.dissolvent * 10000) / 10000;
-                middle.grease /= count;
-                middle.oilHumidity /= count;
-            }
-            item.middle = middle;
 
-        }
-        return item.middle;
-    };
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
-        list.handler(a);
+        extractionList.handler(a);
     });
     </c:forEach>
     stopContent = function(){
@@ -132,7 +92,7 @@
             </span>
         </div>
         <div style="padding-left: 12pt">
-            <table style="font-size: 10pt; border: none" border="1">
+            <table style="font-size: 10pt; border: 1pt">
                 <tr>
                     <th rowspan="2">
                         <span style="display: inline-block; width: 4em;">
@@ -214,105 +174,118 @@
                         </span>
                     </th>
                 </tr>
-                <tr v-for="crude in value.item.crude" class="selectable" :item="crude.id">
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{new Date(crude.time).toLocaleTimeString().substring(0,5)}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.humidityIncome).toLocaleString()}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.oilinessIncome).toLocaleString()}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.fraction).toLocaleString()}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.miscellas).toLocaleString()}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.humidity).toLocaleString()}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.explosionTemperature).toLocaleString()}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{crude.dissolvent}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.grease)}}
-                    </td>
-                    <td align="center" v-on:click="crudeEdit(crude.id)">
-                        {{(crude.oilHumidity).toLocaleString()}}
-                    </td>
-                    <td align="center">
-                        <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"
-                              v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
-                            {{value.item.storageProtein[crude.time].protein}}
-                        </span>
-                        <span v-else>
-                            --
-                        </span>
-                    </td>
-                    <td align="center">
-                        <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"
-                              v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
-                            {{value.item.storageProtein[crude.time].nuclear}}
-                        </span>
-                        <span v-else>
-                            --
-                        </span>
-                    </td>
-                    <td align="center">
-                        <span v-if="value.item.storageGrease[crude.time]" style="width: 100%; display: inline-block"
-                              v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
-                            {{value.item.storageGrease[crude.time].grease}}
-                        </span>
-                        <span v-else>
-                            --
-                        </span>
-                    </td>
-                    <td align="center">
-                        <span v-if="value.item.storageGrease[crude.time]" style="width: 100%; display: inline-block"
-                              v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
-                            {{value.item.storageGrease[crude.time].humidity}}
-                        </span>
-                        <span v-else>
-                            --
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <fmt:message key="middle"/>
-                    </th>
-                    <th>
-                        {{(middle(value.item).humidityIncome).toLocaleString()}}
-                    </th>
-                    <th>
-                        {{(middle(value.item).oilinessIncome).toLocaleString()}}
-                    </th>
-                    <th>
-                        {{(middle(value.item).fraction).toLocaleString()}}
-                    </th>
-                    <th>
-                        {{(middle(value.item).miscellas).toLocaleString()}}
-                    </th>
-                    <th>
-                        {{(middle(value.item).humidity).toLocaleString()}}
-                    </th>
-                    <th>
-                        {{(middle(value.item).explosionTemperature).toLocaleString()}}
-                    </th>
-                    <th>
-                        {{middle(value.item).dissolvent}}
-                    </th>
-                    <th>
-                        {{(middle(value.item).grease).toLocaleString()}}
-                    </th>
-                    <th>
-                        {{(middle(value.item).oilHumidity).toLocaleString()}}
-                    </th>
+                <template  v-for="offset in offsets">
+
+                    <tr class="selectable" v-for="crude in getCrude(value.item, offset, 30)" :item="crude.id">
+                        <td align="center" v-on:click="crudeEdit(crude.id, crude.time)">
+                            {{new Date(crude.time).toLocaleTimeString().substring(0, 5)}}
+                        </td>
+                        <template v-if="!crude.empty">
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{(crude.humidityIncome).toLocaleString()}}
+                            </td>
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{(crude.oilinessIncome).toLocaleString()}}
+                            </td>
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{(crude.fraction).toLocaleString()}}
+                            </td>
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{(crude.miscellas).toLocaleString()}}
+                            </td>
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{(crude.humidity).toLocaleString()}}
+                            </td>
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{(crude.explosionTemperature).toLocaleString()}}
+                            </td>
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{crude.dissolvent}}
+                            </td>
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{(crude.grease)}}
+                            </td>
+                            <td align="center" v-on:click="crudeEdit(crude.id)">
+                                {{(crude.oilHumidity).toLocaleString()}}
+                            </td>
+                            <td align="center">
+                                <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"
+                                      v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
+                                    {{value.item.storageProtein[crude.time].protein}}
+                                </span>
+                                <span v-else>
+                                    --
+                                </span>
+                            </td>
+                            <td align="center">
+                                <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"
+                                      v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
+                                    {{value.item.storageProtein[crude.time].nuclear}}
+                                </span>
+                                <span v-else>
+                                    --
+                                </span>
+                            </td>
+                            <td align="center">
+                                <span v-if="value.item.storageGrease[crude.time]" style="width: 100%; display: inline-block"
+                                      v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
+                                    {{value.item.storageGrease[crude.time].grease}}
+                                </span>
+                                <span v-else>
+                                    --
+                                </span>
+                            </td>
+                            <td align="center">
+                                <span v-if="value.item.storageGrease[crude.time]" style="width: 100%; display: inline-block"
+                                      v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
+                                    {{value.item.storageGrease[crude.time].humidity}}
+                                </span>
+                                <span v-else>
+                                    --
+                                </span>
+                            </td>
+                        </template>
+                        <template v-else>
+                            <td colspan="9" v-on:click="crudeEdit(crude.id, crude.time)" class="selectable">
+                                <fmt:message key="press.here"/>
+                            </td>
+                            <td colspan="4" v-on:click="proteinStorageEdit(-1)">
+                                <fmt:message key="press.here"/>
+                            </td>
+                        </template>
+                    </tr>
+                </template>
+                    <tr>
+                        <th>
+                            <fmt:message key="middle"/>
+                        </th>
+                        <th>
+                            {{(middle(value.item).humidityIncome).toLocaleString()}}
+                        </th>
+                        <th>
+                            {{(middle(value.item).oilinessIncome).toLocaleString()}}
+                        </th>
+                        <th>
+                            {{(middle(value.item).fraction).toLocaleString()}}
+                        </th>
+                        <th>
+                            {{(middle(value.item).miscellas).toLocaleString()}}
+                        </th>
+                        <th>
+                            {{(middle(value.item).humidity).toLocaleString()}}
+                        </th>
+                        <th>
+                            {{(middle(value.item).explosionTemperature).toLocaleString()}}
+                        </th>
+                        <th>
+                            {{middle(value.item).dissolvent}}
+                        </th>
+                        <th>
+                            {{(middle(value.item).grease).toLocaleString()}}
+                        </th>
+                        <th>
+                            {{(middle(value.item).oilHumidity).toLocaleString()}}
+                        </th>
                 </tr>
             </table>
         </div>

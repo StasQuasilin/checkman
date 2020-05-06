@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Created by quasilin on 30.03.2019.
@@ -168,6 +169,7 @@ public class ExtractionCrude extends JsonAble implements Comparable<ExtractionCr
     @Override
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
+
         object.put(ID, id);
         object.put(TIME, time.toString());
         object.put(HUMIDITY_INCOME, humidityIncome);

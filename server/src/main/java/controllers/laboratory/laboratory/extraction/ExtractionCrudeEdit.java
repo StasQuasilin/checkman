@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 
 /**
  * Created by szpt_user045 on 28.03.2019.
@@ -25,17 +26,18 @@ public class ExtractionCrudeEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        JSONObject json = parseBody(req);
+        JSONObject body = parseBody(req);
 
-        if (json != null) {
-            log.info(json);
+        if (body != null) {
+            log.info(body);
             long id = -1;
-            if (json.containsKey(Constants.ID)){
-                id = Long.parseLong(String.valueOf(json.remove(Constants.ID)));
+            if (body.containsKey(ID)){
+                id = Long.parseLong(String.valueOf(body.remove(ID)));
             }
             if (id != -1) {
                 req.setAttribute("crude", dao.getExtractionCrudeById(id));
             }
+            req.setAttribute(DATE, body.get(DATE));
         }
 
         req.setAttribute("title", Titles.EXTRACTION_CRUDE);

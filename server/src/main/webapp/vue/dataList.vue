@@ -117,11 +117,11 @@ var list = new Vue({
             this.menu.y = event.pageY;
             this.menu.show = true;
             const self = this;
-            var menu = this.$refs.contextMenu;
+            let menu = this.$refs.contextMenu;
             if (menu){
                 setTimeout(function(){
-                    var menuBottom = menu.getBoundingClientRect().bottom;
-                    var screenBottom = document.body.getBoundingClientRect().bottom;
+                    let menuBottom = menu.getBoundingClientRect().bottom;
+                    let screenBottom = document.body.getBoundingClientRect().bottom;
                     if (menuBottom > screenBottom){
                         self.menu.y += self.menu.y - menuBottom;
                     }
