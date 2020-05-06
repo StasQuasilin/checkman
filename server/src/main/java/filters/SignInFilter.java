@@ -26,7 +26,7 @@ public class SignInFilter implements Filter{
     final SessionTimer sessionTimer = SessionTimer.getInstance();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {}
+    public void init(FilterConfig filterConfig) {}
 
     public static final String TOKEN = "token";
 
@@ -44,6 +44,7 @@ public class SignInFilter implements Filter{
         }
 
         String ip = IpUtil.getIp(request);
+        request.setAttribute("ip", ip);
 
         boolean isValid = true;
         userBox = UserBox.getUserBox();

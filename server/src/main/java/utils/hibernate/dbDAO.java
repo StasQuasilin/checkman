@@ -46,6 +46,7 @@ import entity.weight.Weight;
 import entity.weight.Unit;
 import utils.ArchiveType;
 import utils.TurnDateTime;
+import utils.hibernate.DateContainers.LT;
 import utils.storages.PointScale;
 
 import java.sql.Date;
@@ -246,4 +247,5 @@ public interface dbDAO {
     List<Transportation> getTransportationByTrailer(Trailer trailer);
     List<Transportation> getTransportationByAddress(Address address);
     List<RoundReport> getLimitRoundReports();
+    <T>List<T> getDone(Class<T> tClass, Object date);
 }

@@ -47,7 +47,7 @@ public class UpdateUtil {
         doAction(Command.update, getSubscriber(deal.getType()), deal.toJson());
     }
 
-    public void onRemove(Deal deal) throws IOException {
+    public void onRemove(Deal deal) {
         doAction(Command.remove, getSubscriber(deal.getType()), deal.getId());
     }
 
@@ -69,7 +69,7 @@ public class UpdateUtil {
         doAction(Command.update, getSubscriber(transportation), transportation.toJson());
     }
 
-    public void onRemove(Transportation transportation) throws IOException {
+    public void onRemove(Transportation transportation) {
         doAction(Command.remove, getSubscriber(transportation), transportation.getId());
     }
 
@@ -89,7 +89,7 @@ public class UpdateUtil {
         subscriptions.send(sub, worker, json);
         pool.put(json);
     }
-    void doAction(Command command, Subscriber subscriber, Object ... obj) throws IOException {
+    void doAction(Command command, Subscriber subscriber, Object ... obj) {
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
         for (Object o : obj) {
@@ -125,7 +125,7 @@ public class UpdateUtil {
         doAction(Command.update, Subscriber.VRO, turn.toJson());
     }
 
-    public void onSave(ProbeTurn turn) throws IOException {
+    public void onSave(ProbeTurn turn) {
         doAction(Command.update, Subscriber.PROBES, parser.toJson(turn));
     }
 

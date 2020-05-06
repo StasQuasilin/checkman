@@ -86,11 +86,15 @@ public class ActiveSubscriptions {
         bySubscribe.get(sub).remove(session);
     }
 
-    public synchronized void send(Subscriber sub, Object txt) throws IOException {
+    public synchronized void send(Subscriber sub, Object txt) {
         String prepareMessage = prepareMessage(sub, txt);
         for (Session session : bySubscribe.get(sub)){
             if (session.isOpen()){
-                session.getBasicRemote().sendText(prepareMessage);
+                try {
+                    session.getBasicRemote().sendText(prepareMessage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

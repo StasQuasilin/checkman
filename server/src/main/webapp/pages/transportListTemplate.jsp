@@ -217,27 +217,28 @@
                                     </b>
                                 </div>
                             </div>
-
                     <%--</div>--%>
                     <div class="middle-row">
-                        <div style="display: inline-block; font-size: 10pt; width: 7em">
-                            <div>
+                        <div style="display: inline-block; width: 8em">
+                            <div style="font-size: 9pt">
                                 <fmt:message key="transportation.time.in"/>:
-                                <span v-if="value.item.timeIn">
+                                <template v-if="value.item.timeIn">
+                                    {{new Date(value.item.timeIn.time).toLocaleDateString().substring(0, 5)}}
                                     {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
-                                </span>
-                                <span v-else>
-                                    --:--
-                                </span>
+                                </template>
+                                <template v-else>
+                                    --.-- --:--
+                                </template>
                             </div>
-                            <div>
+                            <div style="font-size: 9pt">
                                 <fmt:message key="transportation.time.out"/>:
-                                  <span v-if="value.item.timeOut">
+                                  <template v-if="value.item.timeOut">
+                                    {{new Date(value.item.timeOut.time).toLocaleDateString().substring(0, 5)}}
                                     {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
-                                  </span>
-                                    <span v-else>
-                                        --:--
-                                    </span>
+                                  </template>
+                                    <template v-else>
+                                        --.-- --:--
+                                    </template>
                             </div>
                         </div>
                         <transport-view :item="value.item" :fields="fields" :customers="customers"></transport-view>

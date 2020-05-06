@@ -29,7 +29,7 @@ public class TransportReplaceUtil {
     private static final String NOTE_AUTO_REPLACE = "note.auto.replace";
     private final dbDAO dao = dbDAOService.getDAO();
     private final UpdateUtil updateUtil = new UpdateUtil();
-    private Logger log = Logger.getLogger(TransportReplaceUtil.class);
+    private final Logger log = Logger.getLogger(TransportReplaceUtil.class);
 
     public TransportReplaceUtil() {
         init();
@@ -38,7 +38,7 @@ public class TransportReplaceUtil {
     public void init(){
         initTimer();
     }
-    final LocalTime targetTime = LocalTime.of(1, 0);
+    final LocalTime targetTime = LocalTime.of(0, 5);
     private void initTimer(){
         if (timer != null && timer.isRunning()){
             timer.stop();

@@ -51,7 +51,6 @@ public class TransportUtil{
         dao.save(transportation);
 
         if (isArchive){
-            Archivator.add(transportation);
             try {
                 updateUtil.onSave(transportation);
             } catch (IOException e) {

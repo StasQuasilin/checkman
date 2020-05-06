@@ -31,13 +31,7 @@ public class WeightUtil {
         if (deal.getComplete() != complete) {
             deal.setComplete(complete);
             save = true;
-            if (complete >= deal.getQuantity()){
-                deal.setDone(true);
-                Archivator.add(deal);
-            } else {
-                deal.setDone(false);
-            }
-
+            deal.setDone(complete >= deal.getQuantity());
         }
         if (save){
             dao.save(deal);
