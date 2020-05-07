@@ -125,12 +125,12 @@ public class TelegramNotificator extends INotificator {
         DealType type = transportation.getType();
         String action = lb.get("_" + type.toString()).toLowerCase();
 
-        Product product = transportation.getProduct();
+        Product product = transportation.getDeal().getProduct();
         ProductProperty productProperty = dao.getProductProperty(product, type.toString());
         String productName = (productProperty != null ? productProperty.getValue() : product.getName()).toLowerCase();
         String driver = transportation.getDriver() != null ? transportation.getDriver().getPerson().getValue() : "--";
 
-        String organisation = transportation.getCounterparty().getValue();
+        String organisation = transportation.getDeal().getOrganisation().getValue();
         String message = String.format(messageFormat, action, productName, driver, organisation);
         getSettings().stream().filter(setting -> setting.isShow() && setting.getTransport() != NotifyStatus.off).forEach(setting -> {
             sendMessage(setting.getTelegramId(), message, null);
@@ -145,8 +145,8 @@ public class TelegramNotificator extends INotificator {
         if (transportation.getDriver() !=null){
             driver = transportation.getDriver().getPerson().getValue();
         }
-        String organisation = transportation.getCounterparty().getValue();
-        String product = transportation.getProduct().getName();
+        String organisation = transportation.getDeal().getOrganisation().getValue();
+        String product = transportation.getDeal().getProduct().getName();
         String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product,
                 transportation.getWeight().getBrutto() - transportation.getWeight().getTara()
         );

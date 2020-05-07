@@ -99,14 +99,7 @@ public class ExtractionStorageProteinEditServletAPI extends ServletAPI {
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
-                if (body.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(dao.getObjectById(creatorId));
-                } else {
-                    createTime.setCreator(worker);
-                }
-                storageProtein.setCreator(worker);
-
+                createTime.setCreator(worker);
                 dao.save(createTime, storageProtein);
 
                 updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));

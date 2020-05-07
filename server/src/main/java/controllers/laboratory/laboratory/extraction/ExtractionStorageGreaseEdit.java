@@ -31,22 +31,22 @@ public class ExtractionStorageGreaseEdit extends IModal {
         if (U.exist(id)){
             grease = dao.getStorageGreaseById(Integer.parseInt(id));
         } else {
-            JSONObject body = PostUtil.parseBodyJson(req);
+            JSONObject body = parseBody(req);
             if (body != null){
-                if (body.containsKey(Constants.ID)){
-                    grease = dao.getStorageGreaseById(body.get(Constants.ID));
+                if (body.containsKey(ID)){
+                    grease = dao.getStorageGreaseById(body.get(ID));
                 }
             }
         }
 
         if (grease != null) {
-            req.setAttribute("grease", grease);
+            req.setAttribute(GREASE, grease);
         }
-        req.setAttribute("title", Titles.EXTRACTION_STORAGE_GREASE);
-        req.setAttribute("storages", dao.getStoragesByAnalysesType(AnalysesType.meal));
-        req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/storageGreaseEdit.jsp");
-        req.setAttribute("turns", TurnBox.getTurns());
-        req.setAttribute("save", Branches.API.EXTRACTION_STORAGE_GREASE_EDIT);
+        req.setAttribute(TITLE, Titles.EXTRACTION_STORAGE_GREASE);
+        req.setAttribute(STORAGES, dao.getStoragesByAnalysesType(AnalysesType.meal));
+        req.setAttribute(MODAL_CONTENT, "/pages/laboratory/subdivisions/extraction/storageGreaseEdit.jsp");
+        req.setAttribute(TURNS, TurnBox.getTurns());
+        req.setAttribute(SAVE, Branches.API.EXTRACTION_STORAGE_GREASE_EDIT);
         show(req, resp);
     }
 }

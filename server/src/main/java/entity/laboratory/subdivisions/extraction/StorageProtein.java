@@ -23,7 +23,6 @@ public class StorageProtein extends JsonAble{
     private float humidity;
     private float nuclearGrease;
     private ActionTime createTime;
-    private Worker creator;
 
     @Id
     @GeneratedValue
@@ -93,18 +92,8 @@ public class StorageProtein extends JsonAble{
     public ActionTime getCreateTime() {
         return createTime;
     }
-
     public void setCreateTime(ActionTime createTime) {
         this.createTime = createTime;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
     }
 
     @Transient
@@ -117,19 +106,14 @@ public class StorageProtein extends JsonAble{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        if (time != null) {
-            hash = 31 * time.hashCode() + hash;
-        }
-        hash = 31 * Float.hashCode(protein) + hash;
-        hash = 31 * Float.hashCode(humidity) + hash;
-        return hash;
+        return id;
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
         object.put(ID, id);
+        object.put(TIME, time.toString());
         object.put(PROTEIN, protein);
         object.put(HUMIDITY, humidity);
         object.put(NUCLEAR, nuclearGrease);

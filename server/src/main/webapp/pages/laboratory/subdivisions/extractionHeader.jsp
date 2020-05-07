@@ -10,9 +10,9 @@
         <div class="drop-menu">
             <a class="drop-btn"><fmt:message key="analyses"/>&nbsp;+</a>
             <div class="drop-menu-content">
-                <div class="drop-menu-item" onclick="loadModal('${crudeEdit}')">
-                    <fmt:message key="extraction.crude"/>
-                </div>
+<%--                <div class="drop-menu-item" onclick="loadModal('${crudeEdit}')">--%>
+<%--                    <fmt:message key="extraction.crude"/>--%>
+<%--                </div>--%>
                 <div class="drop-menu drop-menu-item">
                     <span>
                         <fmt:message key="storage.analyses"/>

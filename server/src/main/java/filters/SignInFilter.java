@@ -44,7 +44,7 @@ public class SignInFilter implements Filter{
         }
 
         String ip = IpUtil.getIp(request);
-        request.setAttribute("ip", ip);
+        request.setAttribute("address", ip);
 
         boolean isValid = true;
         userBox = UserBox.getUserBox();

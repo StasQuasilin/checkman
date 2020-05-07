@@ -64,7 +64,7 @@
     <c:when test="${not empty crude}">
     editor.crude = {
         id : ${crude.id},
-        date : new Date('${crude.time}').toISOString().substring(0, 10),
+        date : new Date('${crude.time}').toLocaleDateString(),
         time : editor.currentTime(new Date('${crude.time}')),
         humidityIncome:${crude.humidityIncome},
         oilinessIncome:${crude.oilinessIncome},
@@ -78,9 +78,8 @@
     };
     </c:when>
     <c:otherwise>
-    console.log('${date}');
     editor.crude = {
-        date : new Date('${date}').toISOString().substring(0, 10),
+        date : new Date('${date}').toLocaleDateString(),
         time : editor.currentTime('${date}'),
         humidityIncome:0,
         oilinessIncome:0,
@@ -109,13 +108,13 @@
     <tr>
         <td style="width: 238px">
             <label for="date">
-                <span style="font-size: 10pt; font-weight: bold; color: red" v-if="!crude.id && afterMidnight()">
-                <fmt:message key="date.will.be"/>
-                {{prevDate().toLocaleDateString()}}
-                </span>
-                <span v-else>
-                    <fmt:message key="date"/>
-                </span>
+<%--&lt;%&ndash;                <span style="font-size: 10pt; font-weight: bold; color: red" v-if="!crude.id && afterMidnight()">&ndash;%&gt;--%>
+<%--                <fmt:message key="date.will.be"/>--%>
+<%--                {{prevDate().toLocaleDateString()}}--%>
+<%--                </span>--%>
+<%--                <span v-else>--%>
+<%--                    <fmt:message key="date"/>--%>
+<%--                </span>--%>
             </label>
         </td>
         <td>
@@ -123,7 +122,7 @@
         </td>
         <td>
             <input id="date" readonly style="width: 7em"
-                   v-model="new Date(crude.date).toLocaleDateString()">
+                   v-model="crude.date">
         </td>
     </tr>
     <%--TIME--%>

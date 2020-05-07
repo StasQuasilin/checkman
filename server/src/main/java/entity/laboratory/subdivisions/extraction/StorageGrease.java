@@ -112,6 +112,7 @@ public class StorageGrease extends JsonAble{
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+        json.put(TIME, time.toString());
         json.put(GREASE, grease);
         json.put(HUMIDITY, humidity);
         return json;

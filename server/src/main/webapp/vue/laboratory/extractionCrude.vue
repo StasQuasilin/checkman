@@ -7,7 +7,7 @@ var editor = new Vue({
         },
         laborants:[],
         times: [],
-        crude:{},
+         crude:{},
         storages:[],
         already:false
     },

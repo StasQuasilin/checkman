@@ -3,6 +3,8 @@ var extractionList = new Vue({
     mixins:[laboratoryList],
     mounted:function(){
         console.log('Extraction list mounted')
+        let date = Date.now();
+
     },
     methods:{
         crudeEdit:function(id, date){
@@ -10,7 +12,7 @@ var extractionList = new Vue({
                 id:id
             }
             if (date){
-                data.date = date
+                data.date = date.toISOString();
             }
             console.log(data)
             this.edit(this.api.crudeEdit, data);
@@ -91,13 +93,31 @@ var extractionList = new Vue({
                     let crudeDate = new Date(crude.time);
                     if (crudeDate.toISOString() === time.toISOString()){
                         res.push(crude);
+                        for (let j in item.storageProtein){
+                            if (item.storageProtein.hasOwnProperty(j)){
+                                let protein = item.storageProtein[j];
+                                let proteinDate = new Date(protein.time);
+                                if (proteinDate.toISOString() === time.toISOString()){
+                                    crude.protein = protein;
+                                }
+                            }
+                        }
+                        for (let k in item.storageGrease){
+                            if (item.storageGrease.hasOwnProperty(k)){
+                                let grease = item.storageGrease[k];
+                                let greaseDate = new Date(grease.time);
+                                if (greaseDate.toISOString() === time.toISOString()){
+                                    crude.storageGrease = grease;
+                                }
+                            }
+                        }
                     }
                 }
             }
             if (res.length === 0){
                 res.push({
                     id:-1,
-                    time:time.toISOString(),
+                    time:time,
                     empty:true
                 })
             }

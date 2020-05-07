@@ -130,7 +130,6 @@ public class ExtractionTurn extends JsonAble{
         return array;
     }
 
-
     @Transient
     private Object turnCellulose() {
         JSONArray array = pool.getArray();

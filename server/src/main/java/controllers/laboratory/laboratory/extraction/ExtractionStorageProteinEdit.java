@@ -30,10 +30,10 @@ public class ExtractionStorageProteinEdit extends IModal {
         if (U.exist(id)){
             protein = dao.getStorageProteinById(Integer.parseInt(id));
         } else {
-            JSONObject body = PostUtil.parseBodyJson(req);
+            JSONObject body = parseBody(req);
             if (body != null){
-                if (body.containsKey(Constants.ID)){
-                    protein = dao.getStorageProteinById(body.get(Constants.ID));
+                if (body.containsKey(ID)){
+                    protein = dao.getStorageProteinById(body.get(ID));
                 }
             }
         }
@@ -42,10 +42,10 @@ public class ExtractionStorageProteinEdit extends IModal {
             req.setAttribute("protein", protein);
         }
 
-        req.setAttribute("title", Titles.EXTRACTION_STORAGE_PROTEIN);
-        req.setAttribute("storages", dao.getStoragesByAnalysesType(AnalysesType.meal));
-        req.setAttribute("modalContent", "/pages/laboratory/subdivisions/extraction/storageProteinEdit.jsp");
-        req.setAttribute("save", Branches.API.EXTRACTION_STORAGE_PROTEIN_EDIT);
+        req.setAttribute(TITLE, Titles.EXTRACTION_STORAGE_PROTEIN);
+        req.setAttribute(STORAGES, dao.getStoragesByAnalysesType(AnalysesType.meal));
+        req.setAttribute(MODAL_CONTENT, "/pages/laboratory/subdivisions/extraction/storageProteinEdit.jsp");
+        req.setAttribute(SAVE, Branches.API.EXTRACTION_STORAGE_PROTEIN_EDIT);
         show(req, resp);
     }
 }

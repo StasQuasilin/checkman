@@ -35,15 +35,15 @@
     extractionList.offsets = [
         0, 2, 4, 6, 8, 10
     ]
-
+    extractionList.checkTurns();
     extractionList.proteinStorageEdit = function(id){
         if (this.api.proteinStorageEdit) {
-            this.edit(this.api.proteinStorageEdit, id);
+            this.edit(this.api.proteinStorageEdit, {id:id});
         }
     };
     extractionList.greaseStorageEdit = function(id){
         if (this.api.greaseStorageEdit) {
-            this.edit(this.api.greaseStorageEdit, id);
+            this.edit(this.api.greaseStorageEdit, {id:id});
         }
     };
     extractionList.proteinTurnEdit = function(id){
@@ -175,9 +175,8 @@
                     </th>
                 </tr>
                 <template  v-for="offset in offsets">
-
                     <tr class="selectable" v-for="crude in getCrude(value.item, offset, 30)" :item="crude.id">
-                        <td align="center" v-on:click="crudeEdit(crude.id, crude.time)">
+                        <td align="center">
                             {{new Date(crude.time).toLocaleTimeString().substring(0, 5)}}
                         </td>
                         <template v-if="!crude.empty">
@@ -209,36 +208,36 @@
                                 {{(crude.oilHumidity).toLocaleString()}}
                             </td>
                             <td align="center">
-                                <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"
-                                      v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
-                                    {{value.item.storageProtein[crude.time].protein}}
+                                <span v-if="crude.protein" style="width: 100%; display: inline-block"
+                                      v-on:click="proteinStorageEdit(crude.protein.id)">
+                                    {{crude.protein.protein}}
                                 </span>
                                 <span v-else>
                                     --
                                 </span>
                             </td>
                             <td align="center">
-                                <span v-if="value.item.storageProtein[crude.time]" style="width: 100%; display: inline-block"
-                                      v-on:click="proteinStorageEdit(value.item.storageProtein[crude.time].id)">
-                                    {{value.item.storageProtein[crude.time].nuclear}}
+                                <span v-if="crude.protein" style="width: 100%; display: inline-block"
+                                      v-on:click="proteinStorageEdit(crude.protein.id)">
+                                    {{crude.protein.nuclear}}
                                 </span>
                                 <span v-else>
                                     --
                                 </span>
                             </td>
                             <td align="center">
-                                <span v-if="value.item.storageGrease[crude.time]" style="width: 100%; display: inline-block"
-                                      v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
-                                    {{value.item.storageGrease[crude.time].grease}}
+                                <span v-if="crude.storageGrease" style="width: 100%; display: inline-block"
+                                      v-on:click="greaseStorageEdit(crude.storageGrease.id)">
+                                    {{crude.storageGrease.grease}}
                                 </span>
                                 <span v-else>
                                     --
                                 </span>
                             </td>
                             <td align="center">
-                                <span v-if="value.item.storageGrease[crude.time]" style="width: 100%; display: inline-block"
-                                      v-on:click="greaseStorageEdit(value.item.storageGrease[crude.time].id)">
-                                    {{value.item.storageGrease[crude.time].humidity}}
+                                <span v-if="crude.storageGrease" style="width: 100%; display: inline-block"
+                                      v-on:click="greaseStorageEdit(crude.storageGrease.id)">
+                                    {{crude.storageGrease.humidity}}
                                 </span>
                                 <span v-else>
                                     --
@@ -246,12 +245,15 @@
                             </td>
                         </template>
                         <template v-else>
-                            <td colspan="9" v-on:click="crudeEdit(crude.id, crude.time)" class="selectable">
+                            <td colspan="13" v-on:click="crudeEdit(crude.id, crude.time)" class="selectable">
                                 <fmt:message key="press.here"/>
                             </td>
-                            <td colspan="4" v-on:click="proteinStorageEdit(-1)">
-                                <fmt:message key="press.here"/>
-                            </td>
+<%--                            <td colspan="2" v-on:click="proteinStorageEdit(-1)">--%>
+<%--                                <fmt:message key="press.here"/>--%>
+<%--                            </td>--%>
+<%--                            <td colspan="2" v-on:click="greaseStorageEdit(-1)">--%>
+<%--                                <fmt:message key="press.here"/>--%>
+<%--                            </td>--%>
                         </template>
                     </tr>
                 </template>

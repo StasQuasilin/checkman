@@ -11,6 +11,7 @@ import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import utils.DateUtil;
 import utils.TurnDateTime;
 import utils.UpdateUtil;
 import utils.turns.TurnBox;
@@ -21,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,8 +44,10 @@ public class ExtractionCrudeEditAPI extends ServletAPI {
             log.info(body);
             ExtractionCrude crude;
             boolean save = false;
+
             final LocalTime time = LocalTime.parse(String.valueOf(body.get("time")));
-            final LocalDate date = LocalDate.parse(String.valueOf(body.get("date")));
+            final LocalDate date = DateUtil.parseFromEditor(String.valueOf(body.get("date"))).toLocalDate();
+
             final LocalDateTime localDateTime = LocalDateTime.of(date, time);
             final TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
