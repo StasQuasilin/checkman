@@ -78,7 +78,7 @@ public class SignInFilter implements Filter{
         } else {
             String uri = request.getRequestURI();
             String path = request.getContextPath();
-            uri = uri.substring(path.length(), uri.length());
+            uri = uri.substring(path.length());
             int length = Branches.API.API.length();
             if (uri.length() >= length && uri.substring(0, length).equals(Branches.API.API)){
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);

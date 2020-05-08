@@ -5,23 +5,25 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-<jsp:include page="extractionHeader.jsp"/>
 
-<script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
-<script src="${context}/vue/templates/pricePlug.vue"></script>
-<script src="${context}/vue/templates/commentatorPlug.vue"></script>
 <script src="${context}/vue/templates/list.vue"></script>
 <script src="${context}/vue/templates/laboratoryList.vue"></script>
 <script src="${context}/vue/extractionList.vue"></script>
+<c:if test="${role eq 'analyser' or role eq 'admin'}">
+    <jsp:include page="extractionHeader.jsp"/>
+    <script>
+        extractionList.api.crudeEdit ='${crudeEdit}';
+        extractionList.api.proteinStorageEdit = '${storageProtein}';
+        extractionList.api.greaseStorageEdit = '${storageGrease}';
+        extractionList.api.proteinTurnEdit = '${turnProtein}';
+        extractionList.api.greaseTurnEdit = '${turnGrease}';
+        extractionList.api.celluloseEdit = '${turnCellulose}';
+        extractionList.api.oilEdit = '${oilEdit}';
+    </script>
+</c:if>
 <script>
     extractionList.limit = 14;
-    extractionList.api.crudeEdit ='${crudeEdit}';
-    extractionList.api.proteinStorageEdit = '${storageProtein}';
-    extractionList.api.greaseStorageEdit = '${storageGrease}';
-    extractionList.api.proteinTurnEdit = '${turnProtein}';
-    extractionList.api.greaseTurnEdit = '${turnGrease}';
-    extractionList.api.celluloseEdit = '${turnCellulose}';
-    extractionList.api.oilEdit = '${oilEdit}';
+
     extractionList.turns.push( {
         number:1,
         begin:8,
@@ -36,37 +38,6 @@
         0, 2, 4, 6, 8, 10
     ]
     extractionList.checkTurns();
-    extractionList.proteinStorageEdit = function(id){
-        if (this.api.proteinStorageEdit) {
-            this.edit(this.api.proteinStorageEdit, {id:id});
-        }
-    };
-    extractionList.greaseStorageEdit = function(id){
-        if (this.api.greaseStorageEdit) {
-            this.edit(this.api.greaseStorageEdit, {id:id});
-        }
-    };
-    extractionList.proteinTurnEdit = function(id){
-        if (this.api.proteinTurnEdit) {
-            this.edit(this.api.proteinTurnEdit, id);
-        }
-    };
-    extractionList.greaseTurnEdit = function(id){
-        if (this.api.greaseTurnEdit) {
-            this.edit(this.api.greaseTurnEdit, id);
-        }
-    };
-    extractionList.oilEdit = function(id){
-        if (this.api.oilEdit) {
-            this.edit(this.api.oilEdit, id);
-        }
-    };
-    extractionList.editCellulose = function(id){
-        if (this.api.celluloseEdit){
-            this.edit(this.api.celluloseEdit, id)
-        }
-    };
-
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
         extractionList.handler(a);

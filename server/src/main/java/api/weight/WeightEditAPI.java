@@ -89,6 +89,7 @@ public class WeightEditAPI extends ServletAPI {
                 dao.saveTransportation(transportation);
 
                 updateUtil.onSave(transportation);
+                write(resp, SUCCESS_ANSWER);
 
                 TransportUtil.calculateWeight(transportation);
                 WeightUtil.calculateDealDone(transportation.getDeal());
@@ -105,9 +106,11 @@ public class WeightEditAPI extends ServletAPI {
                         notificator.transportInto(transportation);
                     }
                 }
+            } else {
+                write(resp, SUCCESS_ANSWER);
             }
 
-            write(resp, SUCCESS_ANSWER);
+
             body.clear();
         } else {
             write(resp, EMPTY_BODY);

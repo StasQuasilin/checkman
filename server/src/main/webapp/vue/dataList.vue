@@ -59,6 +59,7 @@ var list = new Vue({
             }
             if (!found){
                 this.items.push({item: item});
+                this.sort();
                 if (this.limit > 0){
                     this.clean();
                 }

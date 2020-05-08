@@ -52,8 +52,8 @@ public class VROCrudeEditServletAPI extends ServletAPI {
             LocalDateTime localDateTime = LocalDateTime.of(date, time);
             TurnDateTime turnDate = TurnBox.getTurnDate(localDateTime);
 
-            if (body.containsKey(Constants.ID)) {
-                Object id = body.get(Constants.ID);
+            if (body.containsKey(ID)) {
+                Object id = body.get(ID);
                 crude = dao.getVroCrudeById(id);
             } else {
                 crude = new VROCrude();
@@ -160,33 +160,31 @@ public class VROCrudeEditServletAPI extends ServletAPI {
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
-                if (body.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(dao.getObjectById(creatorId));
-                } else {
-                    createTime.setCreator(worker);
-                }
-                crude.setCreator(worker);
+                createTime.setCreator(worker);
                 dao.save(createTime);
                 dao.save(crude);
                 cakes.forEach(dao::save);
 
-                updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
-                if (currentTurn != null && targetTurn.getId() != currentTurn.getId()){
-                    updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
-                }
+                write(resp, SUCCESS_ANSWER);
 
                 TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
                     notificator.vroShow(crude, cakes);
                 }
 
+                updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
+                if (currentTurn != null && targetTurn.getId() != currentTurn.getId()){
+                    updateUtil.onSave(dao.getVROTurnByTurn(currentTurn.getTurn()));
+                }
+
                 forpressCakeHashMap.values().forEach(dao::remove);
                 cakes.clear();
                 forpressCakeHashMap.clear();
+            } else {
+                write(resp, SUCCESS_ANSWER);
             }
 
-            write(resp, SUCCESS_ANSWER);
+
 
         } else {
             write(resp, EMPTY_BODY);

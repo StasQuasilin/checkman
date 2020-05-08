@@ -4,7 +4,6 @@ var extractionList = new Vue({
     mounted:function(){
         console.log('Extraction list mounted')
         let date = Date.now();
-
     },
     methods:{
         crudeEdit:function(id, date){
@@ -114,7 +113,7 @@ var extractionList = new Vue({
                     }
                 }
             }
-            if (res.length === 0){
+            if (res.length === 0 && this.api.crudeEdit){
                 res.push({
                     id:-1,
                     time:time,
@@ -122,6 +121,36 @@ var extractionList = new Vue({
                 })
             }
             return res;
+        },
+        proteinStorageEdit:function(id){
+            if (this.api.proteinStorageEdit) {
+                this.edit(this.api.proteinStorageEdit, {id:id});
+            }
+        },
+        greaseStorageEdit:function(id){
+            if (this.api.greaseStorageEdit) {
+                this.edit(this.api.greaseStorageEdit, {id:id});
+            }
+        },
+        proteinTurnEdit:function(id){
+            if (this.api.proteinTurnEdit) {
+                this.edit(this.api.proteinTurnEdit, id);
+            }
+        },
+        greaseTurnEdit:function(id){
+            if (this.api.greaseTurnEdit) {
+                this.edit(this.api.greaseTurnEdit, id);
+            }
+        },
+        oilEdit:function(id){
+            if (this.api.oilEdit) {
+                this.edit(this.api.oilEdit, id);
+            }
+        },
+        editCellulose:function(id){
+            if (this.api.celluloseEdit){
+                this.edit(this.api.celluloseEdit, id)
+            }
         }
     }
 })

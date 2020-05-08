@@ -3,18 +3,18 @@ package entity.transport;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.laboratory.SunAnalyses;
+import entity.notifications.Notification;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
-import utils.Archivator;
-import utils.DocumentUIDGenerator;
-import utils.U;
-import utils.UpdateUtil;
+import org.json.simple.JSONObject;
+import utils.*;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.notifications.Notificator;
 import utils.storages.StatisticUtil;
 import utils.storages.StorageUtil;
 
@@ -30,9 +30,13 @@ import java.util.Set;
  */
 public class TransportUtil{
 
-    private final Logger log = Logger.getLogger(TransportUtil.class);
+    private static final JsonPool pool = JsonPool.getPool();
+    private static final Logger log = Logger.getLogger(TransportUtil.class);
     static dbDAO dao = dbDAOService.getDAO();
-    private static UpdateUtil updateUtil = new UpdateUtil();
+    private static final UpdateUtil updateUtil = new UpdateUtil();
+    private static final Notificator notificator = new Notificator();
+    private static final LanguageBase base = LanguageBase.getBase();
+    public static final String SUCCESS_TEXT = "notificator.archived.success";
 
     public static void checkTransport(Transportation transportation) {
         boolean isArchive = true;
@@ -95,10 +99,21 @@ public class TransportUtil{
         return percentage;
     }
 
-    public static void archive(Transportation transportation) throws IOException {
+    public static void archive(Transportation transportation, Worker worker) throws IOException {
+        log.info(worker.getValue() + " archive transportation " + transportation.getId());
         transportation.setArchive(true);
         dao.save(transportation);
-        updateUtil.onArchive(transportation);
+        updateUtil.onRemove(transportation);
+        JSONObject json = new Notification(
+                String.format(
+                        base.get(worker.getLanguage(), SUCCESS_TEXT),
+                        transportation.getDriver().getPerson().getValue(),
+                        transportation.getCounterparty().getValue(),
+                        transportation.getProduct().getName(),
+                        worker.getPerson().getValue())
+        ).toJson();
+        notificator.sendNotification(json);
+        pool.put(json);
     }
 
     public synchronized static Transportation createTransportation(Deal deal, Worker manager, Worker creator) {

@@ -102,6 +102,8 @@ public class ExtractionStorageProteinEditServletAPI extends ServletAPI {
                 createTime.setCreator(worker);
                 dao.save(createTime, storageProtein);
 
+                write(resp, SUCCESS_ANSWER);
+
                 updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
                     updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
@@ -111,8 +113,9 @@ public class ExtractionStorageProteinEditServletAPI extends ServletAPI {
                     notificator.extractionShow(storageProtein);
                 }
 
+            } else {
+                write(resp, SUCCESS_ANSWER);
             }
-            write(resp, SUCCESS_ANSWER);
         } else {
             write(resp, EMPTY_BODY);
         }

@@ -22,7 +22,6 @@ public class StorageGrease extends JsonAble{
     private float grease;
     private float humidity;
     private ActionTime createTime;
-    private Worker creator;
 
     @Id
     @GeneratedValue
@@ -83,29 +82,13 @@ public class StorageGrease extends JsonAble{
     public ActionTime getCreateTime() {
         return createTime;
     }
-
     public void setCreateTime(ActionTime createTime) {
         this.createTime = createTime;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        if (time != null) {
-            hash = 31 * time.hashCode() + hash;
-        }
-        hash = 31 * Float.hashCode(grease) + hash;
-        hash = 31 * Float.hashCode(humidity) + hash;
-        return hash;
+        return id;
     }
 
     @Override

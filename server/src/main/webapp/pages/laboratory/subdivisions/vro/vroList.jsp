@@ -12,69 +12,22 @@
     }
 </style>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
-<script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
-<script src="${context}/vue/templates/pricePlug.vue"></script>
-<script src="${context}/vue/templates/commentatorPlug.vue"></script>
-<script src="${context}/vue/dataList.vue"></script>
+<script src="${context}/vue/templates/list.vue"></script>
+<script src="${context}/vue/templates/vroList.vue"></script>
 <script>
-    list.middle = function(item){
-        if (!item.middle){
-            let middle = {
-                humidityBefore:0,
-                sorenessBefore:0,
-                humidityAfter:0,
-                sorenessAfter:0,
-                kernelOffset:0,
-                huskiness:0
-            };
-            for (var j in item.crudes){
-                if (item.crudes.hasOwnProperty(j)){
-                    let crude = item.crudes[j];
-                    middle.humidityBefore += crude.humidityBefore;
-                    middle.sorenessBefore += crude.sorenessBefore;
-                    middle.humidityAfter += crude.humidityAfter;
-                    middle.sorenessAfter += crude.sorenessAfter;
-                    middle.kernelOffset += crude.kernelOffset;
-                    middle.huskiness += crude.huskiness;
-                }
-            }
-            let count = item.crudes.length;
-            if (count > 0) {
-                middle.humidityBefore /= count;
-                middle.sorenessBefore /= count;
-                middle.humidityAfter /= count;
-                middle.sorenessAfter /= count;
-                middle.kernelOffset /= count;
-                middle.huskiness /= count;
-            }
-            item.middle = middle;
 
-        }
-        return item.middle;
-    };
-    list.limit = 14;
-    list.api.editDaily = '${dailyEdit}';
-    list.api.editGranules = '${granules}';
-    list.editGranules = function(id){
-        loadModal(this.api.editGranules, {id: id});
-    };
-    list.forpress = [];
+    vroList.limit = 14;
+    vroList.api.editDaily = '${dailyEdit}';
+    vroList.api.editGranules = '${granules}';
+
     <c:forEach items="${forpress}" var="fp">
-    list.forpress.push({
+    vroList.forpress.push({
         value:'${fp.name}'
     });
-    list.sort = function(){
-        list.items.sort(function(a, b){
-            return new Date(b.item.date) - new Date(a.item.date);
-        })
-    };
-    list.editDaily = function(id){
-        loadModal(this.api.editDaily, {id: id});
-    };
     </c:forEach>
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
-        list.handler(a);
+        vroList.handler(a);
     });
     </c:forEach>
     stopContent = function(){
@@ -167,7 +120,7 @@
                         </th>
                     </template>
                 </tr>
-                <tr class="selectable" v-for="crude in value.item.crudes"
+                <tr class="selectable" v-for="crude in sortedCrudes(value.item.crudes)"
                     :id="crude.id" onclick="editableModal('${crudeEdit}')">
                     <td align="center" :id="crude.id" >
                         {{new Date(crude.time).toLocaleTimeString().substring(0, 5)}}

@@ -39,6 +39,7 @@ public class Notificator {
 
     public void sendNotification(Object notification) throws IOException {
         for (int id : subscriptions.getSubscribeWorkers()){
+            System.out.println("Notification " + notification.toString() + " for " + id);
             subscriptions.send(Subscriber.NOTIFICATIONS, id, notification);
         }
     }

@@ -91,15 +91,12 @@ public class ExtractionStorageGreaseEditServletAPI extends ServletAPI {
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
-                if (body.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) body.get(Constants.CREATOR);
-                    createTime.setCreator(dao.getObjectById(creatorId));
-                } else {
-                    createTime.setCreator(worker);
-                }
-                storageGrease.setCreator(worker);
+                createTime.setCreator(worker);
 
                 dao.save(createTime, storageGrease);
+
+                write(resp, SUCCESS_ANSWER);
+
                 updateUtil.onSave(dao.getExtractionTurnByTurn(targetTurn.getTurn()));
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()){
                     updateUtil.onSave(dao.getExtractionTurnByTurn(currentTurn.getTurn()));
@@ -110,8 +107,10 @@ public class ExtractionStorageGreaseEditServletAPI extends ServletAPI {
                     notificator.extractionShow(storageGrease);
                 }
 
+            } else {
+                write(resp, SUCCESS_ANSWER);
             }
-            write(resp, SUCCESS_ANSWER);
+
         } else {
             write(resp, EMPTY_BODY);
         }

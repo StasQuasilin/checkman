@@ -12,6 +12,7 @@ import utils.hibernate.dbDAOService;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -20,7 +21,7 @@ import java.util.HashMap;
 public class ActiveSubscriptions {
 
     private final dbDAO dao = dbDAOService.getDAO();
-    private static ActiveSubscriptions instance = new ActiveSubscriptions();
+    private static final ActiveSubscriptions instance = new ActiveSubscriptions();
     private final Logger log = Logger.getLogger(ActiveSubscriptions.class);
     final HashMap<Subscriber, OnSubscribeHandler> handlers = new HashMap<>();
     final HashMap<Subscriber, ArrayList<Session>> bySubscribe = new HashMap<>();
@@ -67,11 +68,17 @@ public class ActiveSubscriptions {
 
     public void subscribe(Subscriber sub, Session session, long workerId) throws IOException {
         Worker worker = dao.getObjectById(Worker.class, workerId);
-        if (sub == Subscriber.MESSAGES) {
+        if (sub == Subscriber.NOTIFICATIONS) {
             if (!byWorker.containsKey(worker.getId())) {
                 byWorker.put(worker.getId(), new ArrayList<>());
+                byWorker.get(worker.getId()).add(session);
             }
-            byWorker.get(worker.getId()).add(session);
+
+        }else if (sub == Subscriber.MESSAGES){
+            if (!byWorker.containsKey(worker.getId())) {
+                byWorker.put(worker.getId(), new ArrayList<>());
+                byWorker.get(worker.getId()).add(session);
+            }
             messageHandler.handle(worker, session);
         } else if (sub == Subscriber.SESSION_TIMER){
             sessionTimer.register(worker, session);
@@ -102,10 +109,10 @@ public class ActiveSubscriptions {
         return send(sub, worker.getId(), message);
     }
 
-    public synchronized boolean send(Subscriber sub, int worker, Object message) throws IOException {
-        if (byWorker.containsKey(worker)) {
+    public synchronized boolean send(Subscriber sub, int workerId, Object message) throws IOException {
+        if (byWorker.containsKey(workerId)) {
             String prepareMessage = prepareMessage(sub, message);
-            for (Session session : byWorker.get(worker)){
+            for (Session session : byWorker.get(workerId)){
                 if(session.isOpen()) {
                     session.getBasicRemote().sendText(prepareMessage);
                 }
@@ -130,18 +137,14 @@ public class ActiveSubscriptions {
 
     public void close() {
         log.info("Close all subscribe sessions");
-
-        for (ArrayList<Session> sessions : bySubscribe.values()){
-            sessions.stream().filter(Session::isOpen).forEach(session -> {
-                try {
-                    session.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+        clearSessions(bySubscribe.values());
+        clearSessions(byWorker.values());
         bySubscribe.clear();
-        for (ArrayList<Session> sessions : byWorker.values()){
+        byWorker.clear();
+    }
+
+    private void clearSessions(Collection<ArrayList<Session>> values) {
+        for (ArrayList<Session> sessions : values) {
             sessions.stream().filter(Session::isOpen).forEach(session -> {
                 try {
                     session.close();
@@ -150,8 +153,6 @@ public class ActiveSubscriptions {
                 }
             });
         }
-        byWorker.clear();
-
     }
 
     public ArrayList<Integer> getSubscribeWorkers() {

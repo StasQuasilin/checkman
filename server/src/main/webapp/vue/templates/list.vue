@@ -6,6 +6,21 @@ var list = {
             limit:-1
         }
     },
+    mounted:function(){
+        console.log('Vro list mounted');
+        if (typeof filter_control !== 'undefined'){
+            filter_control.items = this.items;
+            if (typeof filter_control.filteredItems === 'function') {
+                this.getItems = function () {
+                    let items = Object.values(filter_control.filteredItems());
+                    items.sort(this.sort);
+                    return items;
+                }
+            }
+        } else {
+            console.log('Filter not found')
+        }
+    },
     methods:{
         handler:function(data){
             console.log(data);

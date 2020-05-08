@@ -58,14 +58,12 @@
     editor.actualForpress = function(){
         var forpress = [];
         forpress.push(editor.forpress);
-        for (var i in editor.crude.forpressCake){
+        for (let i in editor.crude.forpressCake){
             if (editor.crude.forpressCake.hasOwnProperty(i)){
-                var id = editor.crude.forpressCake[i].forpress;
-                for (var j in forpress){
-                    if (forpress.hasOwnProperty(j)){
-                        if (forpress[j].id == id){
-                            forpress.splice(j, 1);
-                        }
+                const id = editor.crude.forpressCake[i].forpress;
+                for (let j in forpress){
+                    if (forpress.hasOwnProperty(j) && forpress[j].id === id) {
+                        forpress.splice(j, 1);
                     }
                 }
             }
@@ -109,8 +107,7 @@
                 oiliness:${fp.oiliness}
             },
         </c:forEach>
-        ],
-        creator:${crude.creator.id}
+        ]
     };
     </c:when>
     <c:otherwise>
@@ -130,8 +127,7 @@
         kernelOffset:0,
         pulpHumidity1:0,
         pulpHumidity2:0,
-        forpressCake:[],
-        creator:${worker.id}
+        forpressCake:[]
     };
     </c:otherwise>
     </c:choose>
@@ -145,7 +141,7 @@
         return selected;
     };
 </script>
-<table id="editor" class="editor" border="0">
+<table id="editor" class="editor">
     <tr>
         <td>
             <table>

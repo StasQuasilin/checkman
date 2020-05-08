@@ -28,6 +28,7 @@ public class SubscribesAPI extends API{
     @OnMessage
     public void onMessage(Session session, String msg) throws ParseException, IOException {
         JSONObject json = (JSONObject) parseJson(msg);
+        System.out.println(json);
         if(json.containsKey("action")){
             String action = String.valueOf(json.get("action"));
             switch (action){

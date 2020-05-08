@@ -11,6 +11,7 @@ import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
 import entity.laboratory.subdivisions.vro.*;
+import entity.production.Turn;
 import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.reports.ManufactureReport;
@@ -242,8 +243,9 @@ public class TelegramNotificator extends INotificator {
     }
 
     public void vroShow(VROCrude crude, List<ForpressCake> cakes) {
-        final int turn = crude.getTurn().getTurn().getNumber();
-        String date = DateUtil.prettyDate(Date.valueOf(crude.getTime().toLocalDateTime().toLocalDate()));
+        Turn turn = crude.getTurn().getTurn();
+        final int turnNumber = turn.getNumber();
+        String date = DateUtil.prettyDate(Date.valueOf(turn.getDate().toLocalDateTime().toLocalDate()));
         String time = crude.getTime().toLocalDateTime().toLocalTime().toString();
         final HashMap<String, String> messages = new HashMap<>();
 
@@ -252,7 +254,7 @@ public class TelegramNotificator extends INotificator {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
                     String message = lb.get(language, "notification.vro.title");
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn"), turn, date, time);
+                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn"), turnNumber, date, time);
                     message += NEW_LINE + lb.get(language, "notification.vro.before");
                     message += NEW_LINE + String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityBefore());
                     message += NEW_LINE + String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessBefore());
