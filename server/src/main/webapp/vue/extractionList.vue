@@ -151,6 +151,13 @@ var extractionList = new Vue({
             if (this.api.celluloseEdit){
                 this.edit(this.api.celluloseEdit, id)
             }
-        }
+        },
+        sortedGranulas:function(list){
+            let sorted = Object.assign([], list);
+            sorted.sort(function(a, b){
+                return new Date(a.time) - new Date(b.time);
+            })
+            return sorted;
+        },
     }
 })

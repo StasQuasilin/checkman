@@ -36,7 +36,7 @@ public class TransportReplaceUtil {
     }
 
     public void init(){
-        initTimer();
+        checkTransport();
     }
     final LocalTime targetTime = LocalTime.of(0, 5);
     private void initTimer(){

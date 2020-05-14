@@ -1,74 +1,75 @@
 var login = new Vue({
+    components:{
+        'user-input':objectInput
+    },
     el: '#login',
     data:{
         api:{
-            find:'',
             signIn:''
         },
-        foundUsers:[],
+        userProps:{},
         user:{
             uid:'',
-            password:''
+            password:'',
+            value:''
         },
         state:0,
-        worker:'',
-        fnd:-1,
         err:'',
         cover:false,
+        users:{},
         errors:{
             user:false,
             password:false
         }
     },
-    mounted:function(){
-        let uid = localStorage.getItem('uid');
-        let worker = localStorage.getItem('worker');
-        if (uid && worker){
-            this.user.uid = uid;
-            this.worker = worker;
-            this.state = 1;
-            const self = this;
-            setTimeout(function(){
-                self.$refs.password.select();
-            },10);
-        } else {
-            const self = this;
-            setTimeout(function(){
-                self.$refs.worker.select();
-            },10);
-        }
+    mounted:function() {
+        this.users = this.getUserAccess();
+        // if (this.users.length === 1){
+        //     this.user.uid = uid;
+        //     this.state = 1;
+        //     const self = this;
+        //     setTimeout(function(){
+        //         self.$refs.password.select();
+        //     },10);
+        // } else {
+        //     const self = this;
+        //     setTimeout(function(){
+        //         self.$refs.worker.select();
+        //     },10);
+        // }
     },
     methods:{
         check:function(){
             console.log(this.worker);
         },
-        findUser:function(){
-            const self = this;
-            if (this.worker != '') {
-                clearTimeout(this.fnd);
-                this.fnd = setTimeout(function () {
-                    PostApi(self.api.find, {key: self.worker}, function (a) {
-                        self.foundUsers = a;
-                    })
-                }, 500)
-            } else {
-                this.user.uid = '';
-                this.foundUsers = [];
-                clearTimeout(this.fnd);
+        getUserAccess:function(){
+            let userString = localStorage.getItem('users');
+            if (userString) {
+                return JSON.parse(userString);
             }
+            return {};
         },
-        setUser:function(user){
-            this.user.uid = user.uid;
-            this.worker = user.person.value;
-            localStorage.setItem('uid', user.uid);
-            localStorage.setItem('worker', user.person.value);
-            this.foundUsers = [];
+        addUserAccess:function(uid, name){
+            let users = this.getUserAccess();
+            users[uid] = name;
+            this.saveUserAccess(users);
+        },
+        saveUserAccess:function(acc){
+            localStorage.setItem('users', JSON.stringify(acc));
+        },
+        removeUserAccess:function(uid){
+            Vue.delete(this.users, uid);
+            this.saveUserAccess(this.users);
+        },
+        setUser:function(uid, user){
+            this.user.uid = uid;
+            this.user.value = user;
+            console.log(this.user);
             this.state = 1;
             const self = this;
             setTimeout(function(){
                 self.$refs.password.select();
             },10);
-
         },
         back:function(){
             this.user.uid = '';
@@ -82,11 +83,11 @@ var login = new Vue({
         signIn2:function(){
             const self = this;
             console.log(this.worker);
-            var worker = this.worker;
-            var index = worker.indexOf(' ');
-            var surname = worker.substring(0, index);
+            let worker = this.worker;
+            let index = worker.indexOf(' ');
+            let surname = worker.substring(0, index);
             PostApi(self.api.find, {key: surname}, function(a){
-                if (a.length == 1){
+                if (a.length === 1){
                     self.user.uid = a[0].uid;
                     self.signIn();
                 } else {
@@ -119,7 +120,8 @@ var login = new Vue({
                             password:btoa(this.user.password)
                         }, function (a) {
                             console.log(a);
-                            if (a.status == 'success') {
+                            if (a.status === 'success') {
+                                self.addUserAccess(self.user.uid, self.user.value);
                                 location.href = (context + a['redirect']);
                             } else {
                                 self.err = a['msd'];

@@ -46,7 +46,7 @@ public class DealEditor implements Constants {
         boolean isNew = false;
 
         Deal deal = dao.getObjectById(Deal.class, body.get(ID));
-        if (deal == null){
+        if (deal == null || deal.isArchive()){
             deal = new Deal();
             isNew = true;
         }

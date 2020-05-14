@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -13,14 +13,16 @@
     <script src="${context}/ext/vue.js"></script>
     <title><fmt:message key="sign.in"/></title>
     <script src="${context}/js/Core.js"></script>
+    <script src="${context}/vue/templates/vehicleInput.vue"></script>
     <link rel="stylesheet" href="${context}/css/login.css">
+
 </head>
 <body>
 <div id="login">
     <div class="coverlet" v-show="cover"></div>
     <div class="wrapper">
         <div class="content">
-            <table border="0">
+            <table border="0" style="width: 100%">
                 <tr>
                     <th colspan="3" align="center">
                         <div class="header">
@@ -28,33 +30,29 @@
                         </div>
                     </th>
                 </tr>
-                <tr v-if="state == 0">
-                    <td>
-                        <label for="worker">
-                            <fmt:message key="user.name"/>
-                        </label>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        <div>
-                            <input id="worker" autocomplete="off" v-model="worker" :class="{error : errors.user}"
-                                   v-on:keyup.enter="check()" v-on:keyup="findUser()" onfocus="this.select()"
-                                ref="worker">
-                            <div class="custom-data-list" v-show="foundUsers.length > 0">
-                                <div class="custom-data-list-item" v-for="user in foundUsers" v-on:click="setUser(user)">
-                                    {{user.person.surname}}&nbsp;{{user.person.forename}}&nbsp;{{user.person.patronymic}}
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+                <template v-if="state == 0">
+                    <tr v-for="(value, key) in users">
+                        <td colspan="3">
+                            <span v-on:click="removeUserAccess(key)">
+                                &times;
+                            </span>
+                            <span v-on:click="setUser(key, value)">
+                                {{value}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <user-input :props="userProps" :object="user"></user-input>
+                        </td>
+                    </tr>
+                </template>
+
                 <template v-else>
                     <tr>
                         <td colspan="3">
                             <span>
-                                {{worker}}
+                                {{user.value}}
                             </span>
                             <a class="mini-close" style="font-size: 10pt" v-on:click="back">
                                 <fmt:message key="sign.in.no.me"/>
@@ -88,7 +86,6 @@
                         </td>
                     </tr>
                 </template>
-
             </table>
         </div>
     </div>
@@ -99,6 +96,15 @@
     const context = '${context}';
     login.api.find = '${userApi}';
     login.api.signin = '${loginApi}';
+    login.userProps = {
+        header:'<fmt:message key="user.select.other"/>',
+        find:'${userApi}',
+        put:function(user){
+            console.log(user);
+            login.setUser(user.uid, user.person.value)
+        },
+        show:['person/value']
+    }
 </script>
 </body>
 

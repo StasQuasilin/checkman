@@ -290,8 +290,11 @@
                     <fmt:message key="title.extraction.turn.granulas"/>:
                 </b>
             </div>
-            <div v-for="granulas in value.item.granulas" class="selectable round"
+            <div v-for="granulas in sortedGranulas(value.item.granulas)" class="selectable round"
                  style="font-size: 10pt">
+                <span>
+                    {{new Date(granulas.time).toLocaleDateString().substring(0, 5)}}
+                </span>
                 <b>
                     {{new Date(granulas.time).toLocaleTimeString().substring(0, 5)}}
                 </b>
@@ -328,7 +331,6 @@
             <fmt:message key="extraction.oil.explosion"/>:
             {{(oil.explosionTemperature).toLocaleString()}}
         </div>
-
     </div>
 </div>
 </html>

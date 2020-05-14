@@ -17,6 +17,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -52,6 +54,11 @@ public class WeightAdd extends IModal {
             transportation = dao.getObjectById(Transportation.class, copy);
             req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
             transportation.setId(-1);
+            transportation.setDate(Date.valueOf(LocalDate.now()));
+            Deal deal = transportation.getDeal();
+            if (deal.isArchive()){
+                deal.setId(-1);
+            }
             List<DocumentNote> notes = transportation.getNotes();
             for (int i = 0; i < notes.size();){
                 if (notes.get(i).getCreator() == null){

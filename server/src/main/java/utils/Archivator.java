@@ -46,7 +46,7 @@ public final class Archivator {
     }
 
     static Timer timer;
-    final static int HOURS = 4;
+    final static int HOURS = 8;
     final static int MILLISECONDS = HOURS * 60 * 60 * 1000;
     private static void next() {
         if (timer != null && timer.isRunning()) {

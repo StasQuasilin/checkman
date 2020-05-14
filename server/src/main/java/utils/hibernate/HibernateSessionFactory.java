@@ -18,7 +18,7 @@ public class HibernateSessionFactory {
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
     protected static SessionFactory buildSessionFactory() {
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
         try {

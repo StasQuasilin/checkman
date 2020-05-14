@@ -26,7 +26,7 @@ public class TransportArchive extends IUIServlet {
         req.setAttribute(TITLE, Titles.ARCHIVE + "." + type.toString());
 
         req.setAttribute(TYPES, DealType.values());
-        req.setAttribute("copy", Branches.UI.WEIGHT_ADD);
+        req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
         req.setAttribute("haveMenu", false);
 
         switch (type){
@@ -43,9 +43,6 @@ public class TransportArchive extends IUIServlet {
                 break;
             }
             case laboratory_buy:
-                req.setAttribute(CONTENT, "/pages/laboratory/laboratoryList.jsp");
-                req.setAttribute(EDIT, Branches.UI.LABORATORY_SHOW);
-                break;
             case laboratory_sell:
                 req.setAttribute(CONTENT, "/pages/laboratory/laboratoryList.jsp");
                 req.setAttribute(EDIT, Branches.UI.LABORATORY_SHOW);

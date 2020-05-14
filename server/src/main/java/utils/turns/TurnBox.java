@@ -8,6 +8,7 @@ import utils.hibernate.dbDAOService;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -25,8 +26,7 @@ public final class TurnBox{
 
     static void init(){
         turns = dao.getTurnSettings();
-        turns.sort((o1, o2) -> Integer.compare( o1.getNumber(), o2.getNumber()));
-
+        turns.sort(Comparator.comparingInt(TurnSettings::getNumber));
         def = new TurnDateTime(-1, LocalDateTime.now(), LocalDateTime.now());
     }
 
