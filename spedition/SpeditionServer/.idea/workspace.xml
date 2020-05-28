@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="172a4ec0-76bb-442d-8dce-2d5c0377b8c3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/szpt_user045.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Spedition.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/ServletAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/login/LoginAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/login/RegistrationAPI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/references/GetDrivers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/references/GetUsers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/AddReportField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/GetReports.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/RemoveReport.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/RemoveReportField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/SaveReport.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/constants/Keys.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Counterparty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/DealType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Driver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Locality.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Person.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Phone.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Report.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/ReportField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Route.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/UserAccess.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Weight.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/BETWEEN.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/EQ.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/GE.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/GT.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/IDateContainer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/LE.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/LIKE.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/LT.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/MONTH.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/NOT.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/OR.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/HibernateSessionFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/State.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/dao/RegistrationDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/dao/UserDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/messages_ua.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/controllers/weight/WeightAdd.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/controllers/weight/WeightAdd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/utils/OpenDataBotAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/utils/OpenDataBotAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/webapp/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/webapp/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/webapp/pages/weight/weightAdd.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/webapp/pages/weight/weightAdd.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/webapp/vue/templates/transportationDataView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/webapp/vue/templates/transportationDataView.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="spedition_db@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="spedition_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="spedition_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="spedition_db: database" type="162271b6:PgImplModel$Database" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="spedition_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="spedition_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="spedition_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="spedition_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="spedition_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="spedition_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1cQvzCh6buSOFsrccIoVx2Wv62r" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="postgresql" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/utils/hibernate" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/utils/hibernate" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="172a4ec0-76bb-442d-8dce-2d5c0377b8c3" name="Default Changelist" comment="" />
+      <created>1590473891124</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590473891124</updated>
+      <workItem from="1590473894180" duration="5386000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="235" y="164" width="800" height="677" key="#Assign_Data_Sources" timestamp="1590476244575">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="235" y="164" width="800" height="677" key="#Assign_Data_Sources/0.27.1280.954@0.27.1280.954" timestamp="1590476244575" />
+    <state x="235" y="164" width="800" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590475505774">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="235" y="164" width="800" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1280.954@0.27.1280.954" timestamp="1590475505774" />
+    <state x="448" y="214" width="374" height="577" key="#com.intellij.ide.util.MemberChooser" timestamp="1590478755251">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="448" y="214" width="374" height="577" key="#com.intellij.ide.util.MemberChooser/0.27.1280.954@0.27.1280.954" timestamp="1590478755251" />
+    <state x="262" y="195" width="745" height="616" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1590479262272">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="262" y="195" width="745" height="616" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.27.1280.954@0.27.1280.954" timestamp="1590479262272" />
+    <state x="423" y="302" width="424" height="401" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog" timestamp="1590476256327">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="423" y="302" width="424" height="401" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog/0.27.1280.954@0.27.1280.954" timestamp="1590476256327" />
+    <state x="679" y="230" width="552" height="704" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1590477582140">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="679" y="230" width="552" height="704" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.27.1280.954@0.27.1280.954" timestamp="1590477582140" />
+  </component>
+</project>

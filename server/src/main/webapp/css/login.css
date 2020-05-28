@@ -55,8 +55,6 @@ a:hover{
     right: 0;
     height: min-content;
     width: max-content;
-
-
 }
 .content{
     border: solid gray 1.2pt;

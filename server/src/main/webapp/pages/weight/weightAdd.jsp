@@ -399,9 +399,7 @@
         </td>
         <td>
             <object-input :props="vehicleProps" :object="transportation.vehicle"></object-input>
-            <template v-if="transportation.vehicle && transportation.vehicle.id != -1">
-                <object-input :props="trailerProps" :object="transportation.trailer"></object-input>
-            </template>
+            <object-input :props="trailerProps" :object="transportation.trailer"></object-input>
         </td>
     </tr>
     <tr>

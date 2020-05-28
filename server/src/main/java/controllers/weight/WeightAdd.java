@@ -67,6 +67,7 @@ public class WeightAdd extends IModal {
                     i++;
                 }
             }
+
             req.setAttribute(TRANSPORTATION, transportation);
             req.setAttribute(TITLE, _TITLE_COPY);
         } else {

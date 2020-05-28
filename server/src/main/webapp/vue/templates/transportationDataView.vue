@@ -40,12 +40,12 @@ var transportView = {
                         '<span class="vehicle-number">'+
                             '{{item.vehicle.number}}'+
                         '</span>'+
-                        '<span v-if="item.trailer" class="vehicle-number">'+
-                            '{{item.trailer.number}}'+
-                        '</span>'+
                     '</span>'+
                     '<span v-else>'+
                         '{{fields.noData}}'+
+                    '</span>'+
+                    '<span v-if="item.trailer" class="vehicle-number">'+
+                        '{{item.trailer.number}}'+
                     '</span>'+
                 '</div>' +
             '</div>' +

@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">SpeditionClient</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="leaveTime">Дата/Час виїзду</string>
+    <string name="driver">Водій</string>
+    <string name="route">Маршрут</string>
+    <string name="save">Зберегти</string>
+    <string name="point">Точка</string>
+    <string name="arriveDateTime">Дата/час прибуття</string>
+    <string name="product">Продукція</string>
+    <string name="weightAdd">Додати вагу</string>
+    <string name="net">Нетто</string>
+    <string name="tare">Тара</string>
+    <string name="gross">Брутто</string>
+    <string name="add">Додати</string>
+    <string name="clear">Очистити</string>
+    <string name="references">Довідники</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Відмінити</string>
+    <string-array name="products_list">
+        <item>Олія раф</item>
+        <item>Олія нераф</item>
+    </string-array>
+</resources>

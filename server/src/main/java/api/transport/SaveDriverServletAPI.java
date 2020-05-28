@@ -75,12 +75,10 @@ public class SaveDriverServletAPI extends ServletAPI {
             }
 
             if (body.containsKey("transporter")) {
-                int transporterId = Integer.parseInt(String.valueOf(body.get("transporter")));
-                if (transporterId != -1) {
-                    Organisation transporter = dao.getOrganisationById(transporterId);
-                    driver.setOrganisation(transporter);
-                    log.info("\t...Transporter: " + transporter.getValue());
-                }
+                Organisation transporter = dao.getObjectById(Organisation.class, body.get("transporter"));
+                driver.setOrganisation(transporter);
+            } else {
+                driver.setOrganisation(null);
             }
 
             if (body.containsKey(VEHICLE)){
@@ -88,27 +86,16 @@ public class SaveDriverServletAPI extends ServletAPI {
                 if (vehicle != null) {
                     if (body.containsKey(TRAILER)) {
                         Trailer trailer = dao.getObjectById(Trailer.class, body.get(TRAILER));
-                        if (trailer != null) {
-                            if (vehicle.getTrailer() == null || (vehicle.getTrailer().getId() != trailer.getId())) {
-                                vehicle.setTrailer(trailer);
-                                dao.save(vehicle);
-                            }
-                        } else {
-                            vehicle.setTrailer(null);
-                            dao.save(vehicle);
-                        }
+                        vehicle.setTrailer(trailer);
                     } else {
                         vehicle.setTrailer(null);
-                        dao.save(vehicle);
                     }
-                    if (driver.getVehicle() == null || driver.getVehicle().getId() != vehicle.getId()) {
-                        driver.setVehicle(vehicle);
-                    }
+                    dao.save(vehicle);
                 }
+                driver.setVehicle(vehicle);
             } else {
                 driver.setVehicle(null);
             }
-
             dao.save(person);
             dao.save(driver);
             updateUtil.onSave(driver);

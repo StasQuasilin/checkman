@@ -24,19 +24,14 @@ var login = new Vue({
     },
     mounted:function() {
         this.users = this.getUserAccess();
-        // if (this.users.length === 1){
-        //     this.user.uid = uid;
-        //     this.state = 1;
-        //     const self = this;
-        //     setTimeout(function(){
-        //         self.$refs.password.select();
-        //     },10);
-        // } else {
-        //     const self = this;
-        //     setTimeout(function(){
-        //         self.$refs.worker.select();
-        //     },10);
-        // }
+        let keys = Object.keys(this.users);
+        if (keys.length === 1){
+            let key = keys[0];
+            this.user.uid = key;
+            this.user.value = this.users[key];
+            this.state = 1;
+        }
+
     },
     methods:{
         check:function(){

@@ -122,10 +122,8 @@ public class OpenDataBotAPI implements Constants {
 
     public static void main(String[] args) {
         OpenDataBotAPI api = new OpenDataBotAPI();
-        ArrayList<OrganisationInfo> infos = new ArrayList<>();
-        api.searchCompany("українське зерно", infos);
-        for (OrganisationInfo info : infos){
-            System.out.println(info);
-        }
+        ArrayList<TruckInfo> infos = new ArrayList<>();
+        api.infoRequest(infos,"вм2523се");
+
     }
 }
