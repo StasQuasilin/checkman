@@ -3,6 +3,7 @@ package stanislav.vasilina.speditionclient.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 
 import stanislav.vasilina.speditionclient.R;
+import stanislav.vasilina.speditionclient.utils.CustomListener;
 
 public class DateDialog extends DialogFragment {
 
@@ -23,9 +25,9 @@ public class DateDialog extends DialogFragment {
     private final Calendar calendar;
     private final Calendar innerCalendar;
     private final DateDialogState state;
-    private final View.OnClickListener onClickListener;
+    private final CustomListener onClickListener;
 
-    DateDialog(Calendar calendar, LayoutInflater inflater, DateDialogState state, View.OnClickListener onClickListener) {
+    public DateDialog(Calendar calendar, LayoutInflater inflater, DateDialogState state, CustomListener onClickListener) {
         this.calendar = calendar;
         this.inflater = inflater;
         this.state = state;
@@ -50,22 +52,13 @@ public class DateDialog extends DialogFragment {
             }
         });
 
-        final View view = inflater.inflate(R.layout.date_picker_dialog, null);
-        final CalendarView calendarView = view.findViewById(R.id.calendarView);
+        View view;
 
-        if (state == DateDialogState.date) {
-            calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-                @Override
-                public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                    innerCalendar.set(year, month, dayOfMonth);
-                }
-            });
-        } else {
-            calendarView.setVisibility(View.GONE);
-        }
-        final TimePicker timePicker = view.findViewById(R.id.timePicker);
         if (state == DateDialogState.time) {
-            timePicker.setIs24HourView(true);
+            view = inflater.inflate(R.layout.time_picker_dialog, null);
+            final TimePicker timePicker = view.findViewById(R.id.timePicker);
+
+
             timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                 @Override
                 public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
@@ -73,11 +66,25 @@ public class DateDialog extends DialogFragment {
                     innerCalendar.set(Calendar.MINUTE, minute);
                 }
             });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                timePicker.setHour(innerCalendar.get(Calendar.HOUR));
+                timePicker.setMinute(innerCalendar.get(Calendar.MINUTE));
+            } else {
+                timePicker.setCurrentHour(innerCalendar.get(Calendar.HOUR));
+                timePicker.setCurrentMinute(innerCalendar.get(Calendar.MINUTE));
+            }
+            timePicker.setIs24HourView(true);
         } else {
-            timePicker.setVisibility(View.GONE);
+            view = inflater.inflate(R.layout.date_picker_dialog, null);
+            final CalendarView calendarView = view.findViewById(R.id.calendarView);
+            calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                @Override
+                public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                    innerCalendar.set(year, month, dayOfMonth);
+                }
+            });
+            calendarView.setDate(innerCalendar.getTime().getTime());
         }
-
-
 
         builder.setView(view);
         return builder.create();
@@ -89,6 +96,6 @@ public class DateDialog extends DialogFragment {
 
     private void save() {
         calendar.setTime(innerCalendar.getTime());
-        onClickListener.onClick(null);
+        onClickListener.onChange();
     }
 }

@@ -5,22 +5,24 @@ import org.json.simple.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
+import static stanislav.vasilina.speditionclient.constants.Keys.DRIVER;
 import static stanislav.vasilina.speditionclient.constants.Keys.FIELDS;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
-import static stanislav.vasilina.speditionclient.constants.Keys.UUID;
+import static stanislav.vasilina.speditionclient.constants.Keys.UID;
 
 public class Report extends JsonAble implements Serializable {
     private int id;
     private String uuid;
-    private Date leaveTime;
+    private Calendar leaveTime;
     private User attendant;
     private Driver driver;
     final private ArrayList<ReportField> fields = new ArrayList<>();
     private boolean done;
+    private boolean sync;
 
 
     public int getId() {
@@ -37,10 +39,10 @@ public class Report extends JsonAble implements Serializable {
         this.uuid = uuid;
     }
 
-    public Date getLeaveTime() {
+    public Calendar getLeaveTime() {
         return leaveTime;
     }
-    public void setLeaveTime(Date leaveTime) {
+    public void setLeaveTime(Calendar leaveTime) {
         this.leaveTime = leaveTime;
     }
 
@@ -65,6 +67,14 @@ public class Report extends JsonAble implements Serializable {
         this.done = done;
     }
 
+    public boolean isSync() {
+        return sync;
+    }
+
+    public void setSync(boolean sync) {
+        this.sync = sync;
+    }
+
     public void addField(ReportField field){
         fields.add(field);
     }
@@ -73,9 +83,12 @@ public class Report extends JsonAble implements Serializable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put(ID, id);
-        json.put(UUID, uuid);
+        json.put(UID, uuid);
         if (leaveTime != null) {
-            json.put(LEAVE, leaveTime.toString());
+            json.put(LEAVE, leaveTime.getTimeInMillis());
+        }
+        if (driver != null){
+            json.put(DRIVER, driver.toJson());
         }
         json.put(FIELDS, fields());
         return json;

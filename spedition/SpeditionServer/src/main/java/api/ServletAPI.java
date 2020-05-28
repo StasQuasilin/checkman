@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public abstract class ServletAPI extends HttpServlet {
 
+    public static final String SUCCESS_ANSWER = "success";
+
     public void write(HttpServletResponse resp, String msg) throws IOException {
         resp.getWriter().write(msg);
     }

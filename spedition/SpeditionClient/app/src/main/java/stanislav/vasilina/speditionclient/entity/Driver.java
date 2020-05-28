@@ -1,6 +1,11 @@
 package stanislav.vasilina.speditionclient.entity;
 
-public class Driver {
+import org.json.simple.JSONObject;
+
+import static stanislav.vasilina.speditionclient.constants.Keys.ID;
+import static stanislav.vasilina.speditionclient.constants.Keys.PERSON;
+
+public class Driver extends JsonAble{
     private int id;
     private Person person;
 
@@ -16,5 +21,13 @@ public class Driver {
     }
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put(ID, id);
+        json.put(PERSON, person.toJson());
+        return json;
     }
 }

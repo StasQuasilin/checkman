@@ -18,31 +18,48 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.ReportFieldAdapter;
+import stanislav.vasilina.speditionclient.dialogs.DateDialog;
+import stanislav.vasilina.speditionclient.dialogs.DateDialogState;
+import stanislav.vasilina.speditionclient.dialogs.DriverEditDialog;
+import stanislav.vasilina.speditionclient.entity.Driver;
+import stanislav.vasilina.speditionclient.entity.Person;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.entity.ReportField;
-import stanislav.vasilina.speditionclient.utils.StorageUtil;
+import stanislav.vasilina.speditionclient.utils.CustomListener;
+import stanislav.vasilina.speditionclient.utils.ReportsUtil;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 
 public class ReportEdit extends AppCompatActivity {
 
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-    private StorageUtil storageUtil;
+    private ReportsUtil storageUtil;
     private Report report;
     private ReportFieldAdapter adapter;
+
+    private Button driverButton;
+    private Button dateButton;
+    private Button timeButton;
+
+    void initDriverButton(){
+        final Driver driver = report.getDriver();
+        if (driver != null){
+            final Person person = driver.getPerson();
+            final String value = person.getForename() + " " + person.getSurname();
+            driverButton.setText(value);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Context context = getApplicationContext();
-        storageUtil = new StorageUtil(context);
         setContentView(R.layout.activity_report_edit);
+        final Context context = getApplicationContext();
         adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager());
-
+        storageUtil = new ReportsUtil(context);
         final Intent intent = getIntent();
         final String uuid = intent.getStringExtra(ID);
         if (uuid != null) {
@@ -50,9 +67,68 @@ public class ReportEdit extends AppCompatActivity {
             adapter.addAll(report.getFields());
         } else {
             report = new Report();
-            report.setLeaveTime(Calendar.getInstance().getTime());
+            report.setLeaveTime(Calendar.getInstance());
         }
 
+        driverButton = findViewById(R.id.driverButton);
+        driverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Driver driver = report.getDriver();
+                if (driver == null){
+                    driver = new Driver();
+                    driver.setPerson(new Person());
+                    report.setDriver(driver);
+                }
+                CustomListener cl = new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        initDriverButton();
+                    }
+                };
+                DriverEditDialog driverEditDialog = new DriverEditDialog(driver, getLayoutInflater(), cl);
+                driverEditDialog.show(getSupportFragmentManager(), "DriverEdit");
+            }
+        });
+        initDriverButton();
+
+        dateButton = findViewById(R.id.dateButton);
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar leaveTime = report.getLeaveTime();
+                if (leaveTime == null){
+                    leaveTime = Calendar.getInstance();
+                    report.setLeaveTime(leaveTime);
+                }
+                DateDialog dateDialog = new DateDialog(leaveTime, getLayoutInflater(), DateDialogState.date, new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        initDateButton();
+                    }
+                });
+                dateDialog.show(getSupportFragmentManager(), "DateEdit");
+            }
+        });
+        timeButton = findViewById(R.id.timeButton);
+        timeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar leaveTime = report.getLeaveTime();
+                if (leaveTime == null){
+                    leaveTime = Calendar.getInstance();
+                    report.setLeaveTime(leaveTime);
+                }
+                DateDialog dateDialog = new DateDialog(leaveTime, getLayoutInflater(), DateDialogState.time, new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        initDateButton();
+                    }
+                });
+                dateDialog.show(getSupportFragmentManager(), "DateEdit");
+            }
+        });
+        initDateButton();
         ListView reports = findViewById(R.id.fields);
         reports.setAdapter(adapter);
 
@@ -66,13 +142,16 @@ public class ReportEdit extends AppCompatActivity {
                 report.addField(field);
             }
         });
+    }
 
-        final Button dateButton = findViewById(R.id.dateButton);
-
-        simpleDateFormat.applyPattern("dd.MM.yy");
-        final Date date = new Date();
-        final String format1 = simpleDateFormat.format(date);
-        dateButton.setText(format1);
+    private void initDateButton() {
+        final Calendar leaveTime = report.getLeaveTime();
+        if (leaveTime != null){
+            simpleDateFormat.applyPattern("dd.MM.yy");
+            dateButton.setText(simpleDateFormat.format(leaveTime.getTime()));
+            simpleDateFormat.applyPattern("hh.mm");
+            timeButton.setText(simpleDateFormat.format(leaveTime.getTime()));
+        }
     }
 
     @Override

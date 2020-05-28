@@ -1,8 +1,14 @@
 package stanislav.vasilina.speditionclient.entity;
 
+import org.json.simple.JSONObject;
+
 import java.util.Set;
 
-public class Person {
+import static stanislav.vasilina.speditionclient.constants.Keys.FORENAME;
+import static stanislav.vasilina.speditionclient.constants.Keys.ID;
+import static stanislav.vasilina.speditionclient.constants.Keys.SURNAME;
+
+public class Person extends JsonAble{
     private int id;
     private String surname;
     private String forename;
@@ -34,5 +40,14 @@ public class Person {
     }
     public void setPhones(Set<Phone> phones) {
         this.phones = phones;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put(ID, id);
+        json.put(FORENAME, forename);
+        json.put(SURNAME, surname);
+        return json;
     }
 }

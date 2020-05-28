@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SpeditionClient</string>
+    <string name="app_name">Відрядження</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -25,6 +25,9 @@
     <string name="references">Довідники</string>
     <string name="ok">OK</string>
     <string name="cancel">Відмінити</string>
+    <string name="wifi_connected">Підключення по ВіФі</string>
+    <string name="any_connected">Інтернет підключений</string>
+    <string name="lost_connection">Втрата з’єднання</string>
     <string-array name="products_list">
         <item>Олія раф</item>
         <item>Олія нераф</item>

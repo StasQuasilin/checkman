@@ -2,6 +2,7 @@ package stanislav.vasilina.speditionclient.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,9 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
         TextView dateView = view.findViewById(R.id.date);
         if (report.getLeaveTime() != null) {
             dateView.setText(report.getLeaveTime().toString());
+        }
+        if (report.isSync()){
+            view.setBackgroundColor(Color.GREEN);
         }
         return view;
     }

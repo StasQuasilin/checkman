@@ -24,6 +24,7 @@ import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.entity.Product;
 import stanislav.vasilina.speditionclient.entity.ReportField;
 import stanislav.vasilina.speditionclient.entity.Weight;
+import stanislav.vasilina.speditionclient.utils.CustomListener;
 import stanislav.vasilina.speditionclient.utils.ProductsUtil;
 
 public class ReportFieldEditDialog extends DialogFragment {
@@ -75,9 +76,9 @@ public class ReportFieldEditDialog extends DialogFragment {
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DateDialog dateDialog = new DateDialog(reportField.getArriveTime(), inflater, DateDialogState.date, new View.OnClickListener() {
+                final DateDialog dateDialog = new DateDialog(reportField.getArriveTime(), inflater, DateDialogState.date, new CustomListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onChange() {
                         changeDate();
                     }
                 });
@@ -90,9 +91,9 @@ public class ReportFieldEditDialog extends DialogFragment {
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DateDialog dateDialog = new DateDialog(reportField.getArriveTime(), inflater, DateDialogState.time, new View.OnClickListener() {
+                final DateDialog dateDialog = new DateDialog(reportField.getArriveTime(), inflater, DateDialogState.time, new CustomListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onChange() {
                         changeTime();
                     }
                 });

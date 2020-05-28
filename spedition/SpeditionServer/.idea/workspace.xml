@@ -1,66 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="SpeditionServer:war exploded" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="172a4ec0-76bb-442d-8dce-2d5c0377b8c3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/szpt_user045.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Spedition.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/ServletAPI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/login/LoginAPI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/login/RegistrationAPI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/references/GetDrivers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/references/GetUsers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/AddReportField.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/GetReports.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/RemoveReport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/RemoveReportField.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/api/reports/SaveReport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/constants/Keys.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Counterparty.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/DealType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Driver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Locality.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Phone.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Report.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/ReportField.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Route.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/UserAccess.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/entity/Weight.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/BETWEEN.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/EQ.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/GE.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/GT.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/IDateContainer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/LE.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/LIKE.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/LT.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/MONTH.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/NOT.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/DateContainers/OR.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/HibernateSessionFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/Hibernator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/State.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/dao/RegistrationDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/hibernate/dao/UserDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/messages_ua.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/controllers/weight/WeightAdd.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/controllers/weight/WeightAdd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/utils/OpenDataBotAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/utils/OpenDataBotAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/webapp/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/webapp/css/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/webapp/pages/weight/weightAdd.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/webapp/pages/weight/weightAdd.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/webapp/vue/templates/transportationDataView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/webapp/vue/templates/transportationDataView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/constants/ApiLinks.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/receivers/BootReceiver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/receivers/OnConnectReceiver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/utils/NetworkUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/utils/ReportsUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/constants/ApiLinks.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../SpeditionClient/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/src/androidTest/java/stanislav/vasilina/speditionclient/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/activity/ReportEdit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/activity/ReportEdit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/activity/Reports.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/activity/Reports.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/utils/ReportFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/utils/FileFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/utils/StorageUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/java/stanislav/vasilina/speditionclient/utils/StorageUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SpeditionClient/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SpeditionClient/app/src/test/java/stanislav/vasilina/speditionclient/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/ServletAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/api/ServletAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/reports/GetReports.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/api/reports/GetReports.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,11 +99,19 @@
         <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -156,13 +136,121 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/utils/hibernate" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/web" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.33333334" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/utils/hibernate" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Tomcat 7.0.100" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.100" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER" value="false" />
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:3322/Spedition" />
+      <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
+      <deployment>
+        <artifact name="SpeditionServer:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/SpeditionServer_war_exploded" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Unnamed_Spedition" />
+        <option name="HTTP_PORT" value="3322" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="38251" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="SpeditionServer:war exploded" />
+        </option>
+      </method>
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <option name="contentProportion" value="0.21836229" />
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="Running" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -175,29 +263,101 @@
       <option name="presentableId" value="Default" />
       <updated>1590473891124</updated>
       <workItem from="1590473894180" duration="5386000" />
+      <workItem from="1590650617276" duration="791000" />
+      <workItem from="1590653340286" duration="178000" />
+      <workItem from="1590661100334" duration="2587000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
+  </component>
   <component name="WindowStateProjectService">
     <state x="235" y="164" width="800" height="677" key="#Assign_Data_Sources" timestamp="1590476244575">
       <screen x="0" y="27" width="1280" height="954" />
     </state>
     <state x="235" y="164" width="800" height="677" key="#Assign_Data_Sources/0.27.1280.954@0.27.1280.954" timestamp="1590476244575" />
-    <state x="235" y="164" width="800" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590475505774">
+    <state x="235" y="164" width="845" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590663158493">
       <screen x="0" y="27" width="1280" height="954" />
     </state>
-    <state x="235" y="164" width="800" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1280.954@0.27.1280.954" timestamp="1590475505774" />
-    <state x="448" y="214" width="374" height="577" key="#com.intellij.ide.util.MemberChooser" timestamp="1590478755251">
+    <state x="235" y="164" width="845" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1280.954@0.27.1280.954" timestamp="1590663158493" />
+    <state x="448" y="214" width="374" height="577" key="#com.intellij.ide.util.MemberChooser" timestamp="1590652942766">
       <screen x="0" y="27" width="1280" height="954" />
     </state>
-    <state x="448" y="214" width="374" height="577" key="#com.intellij.ide.util.MemberChooser/0.27.1280.954@0.27.1280.954" timestamp="1590478755251" />
-    <state x="262" y="195" width="745" height="616" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1590479262272">
+    <state x="448" y="214" width="374" height="577" key="#com.intellij.ide.util.MemberChooser/0.27.1280.954@0.27.1280.954" timestamp="1590652942766" />
+    <state x="262" y="195" width="745" height="616" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1590661990656">
       <screen x="0" y="27" width="1280" height="954" />
     </state>
-    <state x="262" y="195" width="745" height="616" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.27.1280.954@0.27.1280.954" timestamp="1590479262272" />
+    <state x="262" y="195" width="745" height="616" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.27.1280.954@0.27.1280.954" timestamp="1590661990656" />
+    <state x="252" y="164" width="800" height="677" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable" timestamp="1590662815457">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="252" y="164" width="800" height="677" key="#com.intellij.j2ee.appServerIntegrations.ApplicationServersConfigurable/0.27.1280.954@0.27.1280.954" timestamp="1590662815457" />
+    <state x="447" y="468" width="408" height="180" key="#com.intellij.javaee.module.view.web.EditWebRootDialog" timestamp="1590663382090">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="447" y="468" width="408" height="180" key="#com.intellij.javaee.module.view.web.EditWebRootDialog/0.27.1280.954@0.27.1280.954" timestamp="1590663382090" />
+    <state x="439" y="303" width="424" height="511" key="FileChooserDialogImpl" timestamp="1590663380508">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="439" y="303" width="424" height="511" key="FileChooserDialogImpl/0.27.1280.954@0.27.1280.954" timestamp="1590663380508" />
+    <state width="944" height="247" key="GridCell.Tab.0.bottom" timestamp="1590663686761">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.0.bottom/0.27.1280.954@0.27.1280.954" timestamp="1590663686761" />
+    <state width="944" height="247" key="GridCell.Tab.0.center" timestamp="1590663686761">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.0.center/0.27.1280.954@0.27.1280.954" timestamp="1590663686761" />
+    <state width="944" height="247" key="GridCell.Tab.0.left" timestamp="1590663686760">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.0.left/0.27.1280.954@0.27.1280.954" timestamp="1590663686760" />
+    <state width="944" height="247" key="GridCell.Tab.0.right" timestamp="1590663686761">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.0.right/0.27.1280.954@0.27.1280.954" timestamp="1590663686761" />
+    <state width="944" height="247" key="GridCell.Tab.1.bottom" timestamp="1590663686763">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.1.bottom/0.27.1280.954@0.27.1280.954" timestamp="1590663686763" />
+    <state width="944" height="247" key="GridCell.Tab.1.center" timestamp="1590663686762">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.1.center/0.27.1280.954@0.27.1280.954" timestamp="1590663686762" />
+    <state width="944" height="247" key="GridCell.Tab.1.left" timestamp="1590663686762">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.1.left/0.27.1280.954@0.27.1280.954" timestamp="1590663686762" />
+    <state width="944" height="247" key="GridCell.Tab.1.right" timestamp="1590663686763">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.1.right/0.27.1280.954@0.27.1280.954" timestamp="1590663686763" />
+    <state width="944" height="247" key="GridCell.Tab.2.bottom" timestamp="1590663686762">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.2.bottom/0.27.1280.954@0.27.1280.954" timestamp="1590663686762" />
+    <state width="944" height="247" key="GridCell.Tab.2.center" timestamp="1590663686761">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.2.center/0.27.1280.954@0.27.1280.954" timestamp="1590663686761" />
+    <state width="944" height="247" key="GridCell.Tab.2.left" timestamp="1590663686761">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.2.left/0.27.1280.954@0.27.1280.954" timestamp="1590663686761" />
+    <state width="944" height="247" key="GridCell.Tab.2.right" timestamp="1590663686762">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="944" height="247" key="GridCell.Tab.2.right/0.27.1280.954@0.27.1280.954" timestamp="1590663686762" />
+    <state x="144" y="136" width="1024" height="845" key="SettingsEditor" timestamp="1590663516023">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="144" y="136" width="1024" height="845" key="SettingsEditor/0.27.1280.954@0.27.1280.954" timestamp="1590663516023" />
     <state x="423" y="302" width="424" height="401" key="com.intellij.database.psi.DbRenamePsiElementProcessor.DbRenameDialog" timestamp="1590476256327">
       <screen x="0" y="27" width="1280" height="954" />
     </state>
@@ -206,5 +366,9 @@
       <screen x="0" y="27" width="1280" height="954" />
     </state>
     <state x="679" y="230" width="552" height="704" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.27.1280.954@0.27.1280.954" timestamp="1590477582140" />
+    <state x="56" y="208" width="1157" height="590" key="new project wizard" timestamp="1590662845926">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="56" y="208" width="1157" height="590" key="new project wizard/0.27.1280.954@0.27.1280.954" timestamp="1590662845926" />
   </component>
 </project>
