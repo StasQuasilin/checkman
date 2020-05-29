@@ -43,4 +43,9 @@ public class Product extends JsonAble{
         jsonObject.put(NAME, name);
         return jsonObject;
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

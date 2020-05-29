@@ -8,8 +8,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.ReportFieldAdapter;
@@ -27,10 +31,12 @@ import stanislav.vasilina.speditionclient.dialogs.DriverEditDialog;
 import stanislav.vasilina.speditionclient.dialogs.RouteEditDialog;
 import stanislav.vasilina.speditionclient.entity.Driver;
 import stanislav.vasilina.speditionclient.entity.Person;
+import stanislav.vasilina.speditionclient.entity.Product;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.entity.ReportField;
 import stanislav.vasilina.speditionclient.entity.Route;
 import stanislav.vasilina.speditionclient.utils.CustomListener;
+import stanislav.vasilina.speditionclient.utils.ProductsUtil;
 import stanislav.vasilina.speditionclient.utils.ReportsUtil;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
@@ -46,6 +52,7 @@ public class ReportEdit extends AppCompatActivity {
     private Button dateButton;
     private Button timeButton;
     private Button routeButton;
+    private ProductsUtil productsUtil = new ProductsUtil();
 
     void initDriverButton(){
         final Driver driver = report.getDriver();
@@ -61,7 +68,12 @@ public class ReportEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_edit);
         final Context context = getApplicationContext();
-        adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager());
+        adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager(), new CustomListener() {
+            @Override
+            public void onChange() {
+                save(false);
+            }
+        });
         storageUtil = new ReportsUtil(context);
         final Intent intent = getIntent();
         final String uuid = intent.getStringExtra(ID);
@@ -153,6 +165,28 @@ public class ReportEdit extends AppCompatActivity {
         });
         buildRoute();
 
+        final Spinner productList = findViewById(R.id.productSpinner);
+        final ArrayAdapter<Product> productAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item);
+        productAdapter.addAll(productsUtil.getProducts());
+        productList.setAdapter(productAdapter);
+        Product product = report.getProduct();
+        if (product == null){
+            product = productAdapter.getItem(0);
+            report.setProduct(product);
+        }
+        productList.setSelection(productAdapter.getPosition(product));
+        productList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final Product product = productAdapter.getItem(position);
+                report.setProduct(product);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         ListView reports = findViewById(R.id.fields);
         reports.setAdapter(adapter);
 
@@ -196,7 +230,7 @@ public class ReportEdit extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         final int itemId = item.getItemId();
         if(itemId == R.id.save){
-            save();
+            save(true);
         }
         return false;
     }
@@ -207,11 +241,13 @@ public class ReportEdit extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    void save(){
+    void save(boolean redirect){
+        Collections.sort(report.getFields());
         storageUtil.saveReport(report);
-
-        final Context context = getApplicationContext();
-        Intent intent = new Intent(context, Reports.class);
-        context.startActivity(intent);
+        if (redirect) {
+            final Context context = getApplicationContext();
+            Intent intent = new Intent(context, Reports.class);
+            context.startActivity(intent);
+        }
     }
 }

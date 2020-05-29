@@ -163,7 +163,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView7" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/productSpinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

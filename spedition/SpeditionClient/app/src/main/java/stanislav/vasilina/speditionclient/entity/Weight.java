@@ -1,6 +1,12 @@
 package stanislav.vasilina.speditionclient.entity;
 
-public class Weight {
+import org.json.simple.JSONObject;
+
+import static stanislav.vasilina.speditionclient.constants.Keys.GROSS;
+import static stanislav.vasilina.speditionclient.constants.Keys.ID;
+import static stanislav.vasilina.speditionclient.constants.Keys.TARE;
+
+public class Weight extends JsonAble{
     private int id;
     private float gross;
     private float tare;
@@ -24,5 +30,21 @@ public class Weight {
     }
     public void setTare(float tare) {
         this.tare = tare;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(ID, id);
+        jsonObject.put(GROSS, gross);
+        jsonObject.put(TARE, tare);
+        return jsonObject;
+    }
+
+    public float getNet() {
+        if(gross > 0 && tare > 0){
+            return gross - tare;
+        }
+        return 0;
     }
 }

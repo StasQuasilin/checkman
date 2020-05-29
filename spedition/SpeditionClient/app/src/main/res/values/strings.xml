@@ -14,6 +14,7 @@
     <string name="route">Маршрут</string>
     <string name="save">Зберегти</string>
     <string name="point">Точка</string>
+    <string name="pointN">Точка #</string>
     <string name="arriveDateTime">Дата/час прибуття</string>
     <string name="product">Продукція</string>
     <string name="weightAdd">Додати вагу</string>
@@ -30,8 +31,9 @@
     <string name="lost_connection">Втрата з’єднання</string>
     <string name="routeEdit">Маршрут</string>
     <string name="base">Бездрик</string>
-    <string-array name="products_list">
-        <item>Олія раф</item>
-        <item>Олія нераф</item>
-    </string-array>
+    <string name="give">Передано</string>
+    <string name="discarded">Отримано</string>
+    <string name="B">"Б: "</string>
+    <string name="T">"Т: "</string>
+    <string name="N">"Н: "</string>
 </resources>

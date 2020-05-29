@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,10 +35,11 @@ public class ReportFieldEditDialog extends DialogFragment {
     private final SimpleDateFormat sdf = new SimpleDateFormat();
     private final ReportField reportField;
     private final LayoutInflater inflater;
+    private final CustomListener saveListener;
 
     private EditText counterparty;
     private Spinner product;
-    private EditText sum;
+    private EditText moneyEdit;
     private EditText gross;
     private EditText tare;
     private Button dateButton;
@@ -44,15 +47,18 @@ public class ReportFieldEditDialog extends DialogFragment {
     private boolean haveWeight;
     private Button addWeight;
     private ConstraintLayout weightLayout;
-    private final ProductsUtil productsUtil = new ProductsUtil();
     private final List<Product> products;
+    private boolean isPlus = true;
 
 
-    public ReportFieldEditDialog(ReportField reportField, LayoutInflater inflater) {
+    public ReportFieldEditDialog(ReportField reportField, LayoutInflater inflater, CustomListener saveListener) {
         this.reportField = reportField;
         this.inflater = inflater;
+        this.saveListener = saveListener;
         haveWeight = reportField.getWeight() != null;
+        ProductsUtil productsUtil = new ProductsUtil();
         products = productsUtil.getProducts();
+
     }
 
     private void switchWeight(){
@@ -71,8 +77,10 @@ public class ReportFieldEditDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = inflater.inflate(R.layout.field_edit_dialog, null);
 
-        counterparty = view.findViewById(R.id.driver);
-         dateButton = view.findViewById(R.id.dateButton);
+        counterparty = view.findViewById(R.id.counterparty);
+        counterparty.setText(reportField.getCounterparty());
+
+        dateButton = view.findViewById(R.id.dateButton);
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,8 +110,24 @@ public class ReportFieldEditDialog extends DialogFragment {
         });
         changeTime();
 
-        product = view.findViewById(R.id.product);
+        product = view.findViewById(R.id.details);
         initProductSpinner();
+
+        final Switch paymentSwitch = view.findViewById(R.id.paymentSwitch);
+        paymentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isPlus = isChecked;
+                if (isChecked){
+                    paymentSwitch.setText(R.string.give);
+                } else {
+                    paymentSwitch.setText(R.string.discarded);
+                }
+            }
+        });
+
+        moneyEdit = view.findViewById(R.id.money);
+
         gross = view.findViewById(R.id.gross);
         tare = view.findViewById(R.id.tare);
         EditText net = view.findViewById(R.id.net);
@@ -123,6 +147,8 @@ public class ReportFieldEditDialog extends DialogFragment {
         });
 
         builder.setView(view);
+
+        builder.setNegativeButton(R.string.cancel, null);
 
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
@@ -149,6 +175,19 @@ public class ReportFieldEditDialog extends DialogFragment {
     }
 
     private void save(){
+
+        final String counterparty = this.counterparty.getText().toString();
+        reportField.setCounterparty(counterparty);
+
+        final String moneyText = moneyEdit.getText().toString();
+        if(!moneyText.isEmpty()){
+            int money = Integer.parseInt(moneyText);
+            if(!isPlus){
+                money *= -1;
+            }
+            reportField.setMoney(money);
+        }
+
         if(haveWeight){
             Weight weight = reportField.getWeight();
             if (weight == null){
@@ -168,6 +207,7 @@ public class ReportFieldEditDialog extends DialogFragment {
         } else {
             reportField.setWeight(null);
         }
+        saveListener.onChange();
 //        reportField.setIndex(Integer.parseInt(numberText.getText().toString()));
     }
 }

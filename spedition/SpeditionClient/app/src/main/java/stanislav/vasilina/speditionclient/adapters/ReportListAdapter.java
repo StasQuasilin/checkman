@@ -77,7 +77,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
 
         final Product product = report.getProduct();
         if (product != null){
-            final TextView productView = view.findViewById(R.id.product);
+            final TextView productView = view.findViewById(R.id.details);
             productView.setText(product.getName());
         }
         if (report.isSync()){

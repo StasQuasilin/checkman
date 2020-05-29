@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
     <TextView
-        android:id="@+id/product"
+        android:id="@+id/details"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

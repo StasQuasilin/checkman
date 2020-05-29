@@ -8,25 +8,26 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static stanislav.vasilina.speditionclient.constants.Keys.DONE;
 import static stanislav.vasilina.speditionclient.constants.Keys.DRIVER;
 import static stanislav.vasilina.speditionclient.constants.Keys.FIELDS;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
+import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.UID;
 
-public class Report extends JsonAble implements Serializable {
+public class Report extends JsonAble implements Serializable, Comparable<Report> {
     private int id;
     private String uuid;
     private Calendar leaveTime;
-    private User attendant;
+    private Calendar doneDate;
     private Driver driver;
     private Route route;
     private Product product;
     final private ArrayList<ReportField> fields = new ArrayList<>();
     private boolean done;
     private boolean sync;
-
 
     public int getId() {
         return id;
@@ -49,11 +50,11 @@ public class Report extends JsonAble implements Serializable {
         this.leaveTime = leaveTime;
     }
 
-    public User getAttendant() {
-        return attendant;
+    public Calendar getDoneDate() {
+        return doneDate;
     }
-    public void setAttendant(User attendant) {
-        this.attendant = attendant;
+    public void setDoneDate(Calendar doneDate) {
+        this.doneDate = doneDate;
     }
 
     public Driver getDriver() {
@@ -104,11 +105,17 @@ public class Report extends JsonAble implements Serializable {
         if (leaveTime != null) {
             json.put(LEAVE, leaveTime.getTimeInMillis());
         }
+        if(doneDate != null){
+            json.put(DONE, doneDate.getTimeInMillis());
+        }
         if (driver != null){
             json.put(DRIVER, driver.toJson());
         }
         if (route != null){
             json.put(ROUTE, route.toJson());
+        }
+        if (product != null){
+            json.put(PRODUCT, product.getId());
         }
         json.put(FIELDS, fields());
         return json;
@@ -124,5 +131,10 @@ public class Report extends JsonAble implements Serializable {
 
     public List<ReportField> getFields() {
         return fields;
+    }
+
+    @Override
+    public int compareTo(Report o) {
+        return o.leaveTime.compareTo(leaveTime);
     }
 }

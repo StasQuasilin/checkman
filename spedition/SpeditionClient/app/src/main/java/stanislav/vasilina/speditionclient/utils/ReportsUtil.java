@@ -24,12 +24,15 @@ import stanislav.vasilina.speditionclient.entity.Route;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.ANSWER;
 import static stanislav.vasilina.speditionclient.constants.Keys.ARRIVE;
+import static stanislav.vasilina.speditionclient.constants.Keys.COUNTERPARTY;
 import static stanislav.vasilina.speditionclient.constants.Keys.DRIVER;
 import static stanislav.vasilina.speditionclient.constants.Keys.FIELDS;
 import static stanislav.vasilina.speditionclient.constants.Keys.FORENAME;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
+import static stanislav.vasilina.speditionclient.constants.Keys.MONEY;
 import static stanislav.vasilina.speditionclient.constants.Keys.PERSON;
+import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.SUCCESS;
 import static stanislav.vasilina.speditionclient.constants.Keys.SURNAME;
@@ -41,6 +44,7 @@ public class ReportsUtil {
     private final JSONParser parser = new JSONParser();
     private StorageUtil storageUtil;
     private NetworkUtil networkUtil;
+    private ProductsUtil productsUtil = new ProductsUtil();
 
     private static final String reportsDir = "report_";
     private final FileFilter fileFilter;
@@ -127,17 +131,33 @@ public class ReportsUtil {
                 }
                 report.setRoute(route);
             }
+            if (parse.containsKey(PRODUCT)){
+                int productId = Integer.parseInt(String.valueOf(parse.get(PRODUCT)));
+                report.setProduct(productsUtil.getProduct(productId));
+            }
             if (detailed) {
                 if (parse.containsKey(FIELDS)) {
                     final Object fields = parse.get(FIELDS);
                     if (fields != null) {
                         for (Object o : (JSONArray) fields) {
                             JSONObject field = (JSONObject) o;
+                            ReportField reportField = new ReportField();
 
                             long arrive = Long.parseLong(String.valueOf(field.get(ARRIVE)));
                             Calendar calendar = Calendar.getInstance();
                             calendar.setTimeInMillis(arrive);
-                            ReportField reportField = new ReportField(calendar);
+                            reportField.setArriveTime(calendar);
+
+                            if (field.containsKey(COUNTERPARTY)){
+                                String counterparty = String.valueOf(field.get(COUNTERPARTY));
+                                reportField.setCounterparty(counterparty);
+                            }
+
+                            if (field.containsKey(MONEY)){
+                                int money = Integer.parseInt(String.valueOf(field.get(MONEY)));
+                                reportField.setMoney(money);
+                            }
+
                             report.addField(reportField);
                         }
                     }

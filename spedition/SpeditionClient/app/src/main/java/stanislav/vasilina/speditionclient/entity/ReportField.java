@@ -5,17 +5,19 @@ import org.json.simple.JSONObject;
 import java.util.Calendar;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.ARRIVE;
+import static stanislav.vasilina.speditionclient.constants.Keys.COUNTERPARTY;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.INDEX;
-import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
+import static stanislav.vasilina.speditionclient.constants.Keys.MONEY;
+import static stanislav.vasilina.speditionclient.constants.Keys.WEIGHT;
 
-public class ReportField extends JsonAble {
+public class ReportField extends JsonAble implements Comparable<ReportField> {
     private int id;
     private int index;
-    private Counterparty counterparty;
+    private String counterparty;
     private Calendar arriveTime;
 
-    private DealType dealType;
+    private int money;
     private Weight weight;
 
     public ReportField(Calendar instance) {
@@ -40,10 +42,10 @@ public class ReportField extends JsonAble {
         this.index = index;
     }
 
-    public Counterparty getCounterparty() {
+    public String getCounterparty() {
         return counterparty;
     }
-    public void setCounterparty(Counterparty counterparty) {
+    public void setCounterparty(String counterparty) {
         this.counterparty = counterparty;
     }
 
@@ -54,13 +56,11 @@ public class ReportField extends JsonAble {
         this.arriveTime = arriveTime;
     }
 
-
-
-    public DealType getDealType() {
-        return dealType;
+    public int getMoney() {
+        return money;
     }
-    public void setDealType(DealType dealType) {
-        this.dealType = dealType;
+    public void setMoney(int money) {
+        this.money = money;
     }
 
     public Weight getWeight() {
@@ -75,7 +75,18 @@ public class ReportField extends JsonAble {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, id);
         jsonObject.put(INDEX, index);
+        jsonObject.put(COUNTERPARTY, counterparty);
         jsonObject.put(ARRIVE, arriveTime.getTimeInMillis());
+        jsonObject.put(MONEY, money);
+        if (weight != null){
+            jsonObject.put(WEIGHT, weight.toJson());
+        }
         return jsonObject;
+    }
+
+
+    @Override
+    public int compareTo(ReportField o) {
+        return arriveTime.compareTo(o.arriveTime);
     }
 }
