@@ -24,10 +24,12 @@ import stanislav.vasilina.speditionclient.adapters.ReportFieldAdapter;
 import stanislav.vasilina.speditionclient.dialogs.DateDialog;
 import stanislav.vasilina.speditionclient.dialogs.DateDialogState;
 import stanislav.vasilina.speditionclient.dialogs.DriverEditDialog;
+import stanislav.vasilina.speditionclient.dialogs.RouteEditDialog;
 import stanislav.vasilina.speditionclient.entity.Driver;
 import stanislav.vasilina.speditionclient.entity.Person;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.entity.ReportField;
+import stanislav.vasilina.speditionclient.entity.Route;
 import stanislav.vasilina.speditionclient.utils.CustomListener;
 import stanislav.vasilina.speditionclient.utils.ReportsUtil;
 
@@ -43,6 +45,7 @@ public class ReportEdit extends AppCompatActivity {
     private Button driverButton;
     private Button dateButton;
     private Button timeButton;
+    private Button routeButton;
 
     void initDriverButton(){
         final Driver driver = report.getDriver();
@@ -129,6 +132,27 @@ public class ReportEdit extends AppCompatActivity {
             }
         });
         initDateButton();
+
+        routeButton = findViewById(R.id.routeButton);
+        routeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Route route = report.getRoute();
+                if (route == null){
+                    route = new Route();
+                    report.setRoute(route);
+                }
+                RouteEditDialog routeEditDialog = new RouteEditDialog(route, getLayoutInflater(), new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        buildRoute();
+                    }
+                });
+                routeEditDialog.show(getSupportFragmentManager(), "Route Edit");
+            }
+        });
+        buildRoute();
+
         ListView reports = findViewById(R.id.fields);
         reports.setAdapter(adapter);
 
@@ -142,6 +166,13 @@ public class ReportEdit extends AppCompatActivity {
                 report.addField(field);
             }
         });
+    }
+
+    private void buildRoute() {
+        final Route route = report.getRoute();
+        if (route != null){
+            routeButton.setText(route.getValue());
+        }
     }
 
     private void initDateButton() {

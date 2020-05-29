@@ -12,11 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.activity.ReportEdit;
+import stanislav.vasilina.speditionclient.entity.Driver;
+import stanislav.vasilina.speditionclient.entity.Product;
 import stanislav.vasilina.speditionclient.entity.Report;
+import stanislav.vasilina.speditionclient.entity.Route;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 
@@ -26,6 +30,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
     private final int resource;
     private final List<Report> reports;
     private LayoutInflater inflater;
+    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
     public ReportListAdapter(@NonNull Context context, int resource, @NonNull List<Report> reports) {
         super(context, resource, reports);
@@ -53,12 +58,27 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
             }
         });
 
-        TextView indexView = view.findViewById(R.id.index);
-        indexView.setText((position + 1) + ".");
-
         TextView dateView = view.findViewById(R.id.date);
         if (report.getLeaveTime() != null) {
-            dateView.setText(report.getLeaveTime().toString());
+            simpleDateFormat.applyPattern("dd.MM.yy");
+            dateView.setText(simpleDateFormat.format(report.getLeaveTime().getTime()));
+        }
+        final Driver driver = report.getDriver();
+        if (driver != null){
+            final TextView driverView = view.findViewById(R.id.driver);
+            driverView.setText(driver.getValue());
+        }
+
+        final Route route = report.getRoute();
+        if (route != null){
+            final TextView routeView = view.findViewById(R.id.route);
+            routeView.setText(route.getValue());
+        }
+
+        final Product product = report.getProduct();
+        if (product != null){
+            final TextView productView = view.findViewById(R.id.product);
+            productView.setText(product.getName());
         }
         if (report.isSync()){
             view.setBackgroundColor(Color.GREEN);

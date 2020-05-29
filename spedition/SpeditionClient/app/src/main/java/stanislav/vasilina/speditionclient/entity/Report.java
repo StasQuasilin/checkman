@@ -12,6 +12,7 @@ import static stanislav.vasilina.speditionclient.constants.Keys.DRIVER;
 import static stanislav.vasilina.speditionclient.constants.Keys.FIELDS;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
+import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.UID;
 
 public class Report extends JsonAble implements Serializable {
@@ -20,6 +21,8 @@ public class Report extends JsonAble implements Serializable {
     private Calendar leaveTime;
     private User attendant;
     private Driver driver;
+    private Route route;
+    private Product product;
     final private ArrayList<ReportField> fields = new ArrayList<>();
     private boolean done;
     private boolean sync;
@@ -60,11 +63,25 @@ public class Report extends JsonAble implements Serializable {
         this.driver = driver;
     }
 
+    public Route getRoute() {
+        return route;
+    }
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
     public boolean isDone() {
         return done;
     }
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public boolean isSync() {
@@ -89,6 +106,9 @@ public class Report extends JsonAble implements Serializable {
         }
         if (driver != null){
             json.put(DRIVER, driver.toJson());
+        }
+        if (route != null){
+            json.put(ROUTE, route.toJson());
         }
         json.put(FIELDS, fields());
         return json;

@@ -16,4 +16,6 @@ public interface Keys {
     String ANSWER = "answer";
     String SUCCESS = "success";
     String SYNC = "sync";
+    String SPACE = " ";
+    String ROUTE = "route";
 }

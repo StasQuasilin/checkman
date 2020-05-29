@@ -6,6 +6,7 @@ import java.util.Set;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.FORENAME;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
+import static stanislav.vasilina.speditionclient.constants.Keys.SPACE;
 import static stanislav.vasilina.speditionclient.constants.Keys.SURNAME;
 
 public class Person extends JsonAble{
@@ -49,5 +50,9 @@ public class Person extends JsonAble{
         json.put(FORENAME, forename);
         json.put(SURNAME, surname);
         return json;
+    }
+
+    public String getValue() {
+        return surname + SPACE + forename;
     }
 }

@@ -28,6 +28,8 @@
     <string name="wifi_connected">Підключення по ВіФі</string>
     <string name="any_connected">Інтернет підключений</string>
     <string name="lost_connection">Втрата з’єднання</string>
+    <string name="routeEdit">Маршрут</string>
+    <string name="base">Бездрик</string>
     <string-array name="products_list">
         <item>Олія раф</item>
         <item>Олія нераф</item>

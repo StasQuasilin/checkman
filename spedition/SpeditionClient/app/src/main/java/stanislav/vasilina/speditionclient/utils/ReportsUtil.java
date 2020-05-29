@@ -20,6 +20,7 @@ import stanislav.vasilina.speditionclient.entity.Driver;
 import stanislav.vasilina.speditionclient.entity.Person;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.entity.ReportField;
+import stanislav.vasilina.speditionclient.entity.Route;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.ANSWER;
 import static stanislav.vasilina.speditionclient.constants.Keys.ARRIVE;
@@ -29,6 +30,7 @@ import static stanislav.vasilina.speditionclient.constants.Keys.FORENAME;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
 import static stanislav.vasilina.speditionclient.constants.Keys.PERSON;
+import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.SUCCESS;
 import static stanislav.vasilina.speditionclient.constants.Keys.SURNAME;
 import static stanislav.vasilina.speditionclient.constants.Keys.SYNC;
@@ -113,6 +115,17 @@ public class ReportsUtil {
                 final Calendar instance = Calendar.getInstance();
                 instance.setTimeInMillis(Long.parseLong(String.valueOf(parse.get(LEAVE))));
                 report.setLeaveTime(instance);
+            }
+            if (parse.containsKey(ROUTE)){
+                Route route = new Route();
+                JSONObject routeJson = (JSONObject) parse.get(ROUTE);
+                final JSONArray routeArray = (JSONArray) routeJson.get(ROUTE);
+                for (Object o : routeArray){
+                    String point = String.valueOf(o);
+                    route.addPoint(point);
+
+                }
+                report.setRoute(route);
             }
             if (detailed) {
                 if (parse.containsKey(FIELDS)) {

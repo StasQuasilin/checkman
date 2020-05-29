@@ -71,7 +71,7 @@ public class ReportFieldEditDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = inflater.inflate(R.layout.field_edit_dialog, null);
 
-        counterparty = view.findViewById(R.id.counterparty);
+        counterparty = view.findViewById(R.id.driver);
          dateButton = view.findViewById(R.id.dateButton);
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,11 +149,6 @@ public class ReportFieldEditDialog extends DialogFragment {
     }
 
     private void save(){
-
-        final int selectedItemPosition = this.product.getSelectedItemPosition();
-        final Product product = products.get(selectedItemPosition);
-        reportField.setProduct(product);
-
         if(haveWeight){
             Weight weight = reportField.getWeight();
             if (weight == null){

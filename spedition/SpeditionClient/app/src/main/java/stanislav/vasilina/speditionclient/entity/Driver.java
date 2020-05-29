@@ -30,4 +30,8 @@ public class Driver extends JsonAble{
         json.put(PERSON, person.toJson());
         return json;
     }
+
+    public String getValue() {
+        return person.getValue();
+    }
 }

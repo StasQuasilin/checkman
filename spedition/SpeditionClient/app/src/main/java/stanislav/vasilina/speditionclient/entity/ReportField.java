@@ -14,7 +14,7 @@ public class ReportField extends JsonAble {
     private int index;
     private Counterparty counterparty;
     private Calendar arriveTime;
-    private Product product;
+
     private DealType dealType;
     private Weight weight;
 
@@ -54,12 +54,7 @@ public class ReportField extends JsonAble {
         this.arriveTime = arriveTime;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+
 
     public DealType getDealType() {
         return dealType;
@@ -81,9 +76,6 @@ public class ReportField extends JsonAble {
         jsonObject.put(ID, id);
         jsonObject.put(INDEX, index);
         jsonObject.put(ARRIVE, arriveTime.getTimeInMillis());
-        if (product != null) {
-            jsonObject.put(PRODUCT, product.toJson());
-        }
         return jsonObject;
     }
 }
