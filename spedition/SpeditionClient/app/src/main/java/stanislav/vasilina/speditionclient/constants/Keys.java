@@ -11,6 +11,9 @@ public interface Keys {
     String SURNAME = "surname";
     String ARRIVE = "arrive";
     String MONEY = "money";
+    String FARE = "fare";
+    String EXPENSES = "expenses";
+    String PER_DIEM = "perDiem";
     String WEIGHT = "weight";
     String UID = "uuid";
     String PRODUCT = "product";
@@ -20,6 +23,8 @@ public interface Keys {
     String SUCCESS = "success";
     String SYNC = "sync";
     String SPACE = " ";
+    String HYPHEN = " — ";
+    String TOKEN = "token";
     String ROUTE = "route";
     String GROSS = "gross";
     String TARE = "tare";

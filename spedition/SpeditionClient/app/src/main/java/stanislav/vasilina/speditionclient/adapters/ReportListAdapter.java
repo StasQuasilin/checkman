@@ -22,6 +22,7 @@ import stanislav.vasilina.speditionclient.entity.Product;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.entity.Route;
 
+import static stanislav.vasilina.speditionclient.constants.Keys.HYPHEN;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 
 public class ReportListAdapter extends ArrayAdapter<Report> {
@@ -59,10 +60,19 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
         });
 
         TextView dateView = view.findViewById(R.id.date);
+        StringBuilder dateBuilder = new StringBuilder();
+
         if (report.getLeaveTime() != null) {
             simpleDateFormat.applyPattern("dd.MM.yy");
-            dateView.setText(simpleDateFormat.format(report.getLeaveTime().getTime()));
+            dateBuilder.append(simpleDateFormat.format(report.getLeaveTime().getTime()));
+
         }
+        if (report.getDoneDate() != null){
+            dateBuilder.append(HYPHEN);
+            dateBuilder.append(simpleDateFormat.format(report.getDoneDate().getTime()));
+        }
+        dateView.setText(dateBuilder.toString());
+
         final Driver driver = report.getDriver();
         if (driver != null){
             final TextView driverView = view.findViewById(R.id.driver);

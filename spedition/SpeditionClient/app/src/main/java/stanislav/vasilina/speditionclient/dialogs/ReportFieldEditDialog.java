@@ -114,6 +114,8 @@ public class ReportFieldEditDialog extends DialogFragment {
         initProductSpinner();
 
         final Switch paymentSwitch = view.findViewById(R.id.paymentSwitch);
+        final int money = reportField.getMoney();
+
         paymentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -125,8 +127,10 @@ public class ReportFieldEditDialog extends DialogFragment {
                 }
             }
         });
+        paymentSwitch.setChecked(money < 0);
 
         moneyEdit = view.findViewById(R.id.money);
+        moneyEdit.setText(String.valueOf(Math.abs(money)));
 
         gross = view.findViewById(R.id.gross);
         tare = view.findViewById(R.id.tare);
@@ -182,7 +186,7 @@ public class ReportFieldEditDialog extends DialogFragment {
         final String moneyText = moneyEdit.getText().toString();
         if(!moneyText.isEmpty()){
             int money = Integer.parseInt(moneyText);
-            if(!isPlus){
+            if(isPlus){
                 money *= -1;
             }
             reportField.setMoney(money);

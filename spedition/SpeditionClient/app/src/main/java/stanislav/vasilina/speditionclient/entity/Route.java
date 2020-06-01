@@ -10,7 +10,7 @@ import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 public class Route extends JsonAble {
 
     private ArrayList<String> points = new ArrayList<>();
-    public static final String ARROW = "➞";
+    public static final String ARROW = " ➞ ";
 
     public String getValue(){
         if (points.size() > 0){

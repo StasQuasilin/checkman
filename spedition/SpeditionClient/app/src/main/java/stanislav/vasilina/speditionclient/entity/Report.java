@@ -10,9 +10,12 @@ import java.util.List;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.DONE;
 import static stanislav.vasilina.speditionclient.constants.Keys.DRIVER;
+import static stanislav.vasilina.speditionclient.constants.Keys.EXPENSES;
+import static stanislav.vasilina.speditionclient.constants.Keys.FARE;
 import static stanislav.vasilina.speditionclient.constants.Keys.FIELDS;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
+import static stanislav.vasilina.speditionclient.constants.Keys.PER_DIEM;
 import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.UID;
@@ -25,6 +28,9 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     private Driver driver;
     private Route route;
     private Product product;
+    private int fare;
+    private int expenses;
+    private int perDiem;
     final private ArrayList<ReportField> fields = new ArrayList<>();
     private boolean done;
     private boolean sync;
@@ -85,6 +91,27 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         this.product = product;
     }
 
+    public int getFare() {
+        return fare;
+    }
+    public void setFare(int fare) {
+        this.fare = fare;
+    }
+
+    public int getExpenses() {
+        return expenses;
+    }
+    public void setExpenses(int expenses) {
+        this.expenses = expenses;
+    }
+
+    public int getPerDiem() {
+        return perDiem;
+    }
+    public void setPerDiem(int perDiem) {
+        this.perDiem = perDiem;
+    }
+
     public boolean isSync() {
         return sync;
     }
@@ -118,6 +145,9 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
             json.put(PRODUCT, product.getId());
         }
         json.put(FIELDS, fields());
+        json.put(FARE, fare);
+        json.put(EXPENSES, expenses);
+        json.put(PER_DIEM, perDiem);
         return json;
     }
 

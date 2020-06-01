@@ -18,12 +18,14 @@ import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.ReportListAdapter;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.utils.ReportsUtil;
+import stanislav.vasilina.speditionclient.utils.SyncUtil;
 
 public class Reports extends AppCompatActivity {
 
     private ReportListAdapter adapter;
     private final ArrayList<Report> reports = new ArrayList<>();
     private ReportsUtil reportsUtil;
+    private SyncUtil syncUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class Reports extends AppCompatActivity {
 
         final Context context = getApplicationContext();
         reportsUtil = new ReportsUtil(context);
+        syncUtil = new SyncUtil(reportsUtil);
+//        syncUtil.sync();
 
         reports.addAll(reportsUtil.readStorage());
         Collections.sort(reports);

@@ -1,5 +1,6 @@
 package stanislav.vasilina.speditionclient.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.dialogs.ReportFieldEditDialog;
@@ -26,6 +30,8 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
     private final LayoutInflater inflater;
     private final FragmentManager fragmentManager;
     private final CustomListener customListener;
+    @SuppressLint("SimpleDateFormat")
+    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
     public ReportFieldAdapter(@NonNull Context context, int resource, FragmentManager fragmentManager, CustomListener customListener) {
         super(context, resource);
@@ -50,7 +56,16 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
         final Resources resources = getContext().getResources();
 
         final TextView indexView = view.findViewById(R.id.index);
-        indexView.setText(resources.getString(R.string.pointN).toString() + (position + 1));
+        indexView.setText(resources.getString(R.string.pointN) + (position + 1));
+
+        final TextView timeView = view.findViewById(R.id.timeView);
+        final Calendar arriveTime = item.getArriveTime();
+        if (arriveTime != null){
+            simpleDateFormat.applyPattern("dd.MM.yy HH:mm");
+            timeView.setText(simpleDateFormat.format(arriveTime.getTime()));
+        } else {
+            timeView.setVisibility(View.GONE);
+        }
 
         final TextView counterpartyView = view.findViewById(R.id.counterparty);
         if (item.getCounterparty() != null) {
@@ -62,8 +77,10 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
         if (weight != null){
             builder.append(resources.getString(R.string.B));
             builder.append(weight.getGross());
+            builder.append(SPACE);
             builder.append(resources.getString(R.string.T));
             builder.append(weight.getTare());
+            builder.append(SPACE);
             final float net = weight.getNet();
             if (net > 0){
                 builder.append(resources.getString(R.string.N));

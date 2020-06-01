@@ -1,6 +1,9 @@
 package api.login;
 
 import api.ServletAPI;
+import entity.ErrorAnswer;
+import entity.ServerAnswer;
+import entity.SuccessAnswer;
 import entity.UserAccess;
 import org.json.simple.JSONObject;
 import utils.hibernate.dao.UserDAO;
@@ -9,8 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static constants.Keys.PASSWORD;
-import static constants.Keys.PHONE;
+import static constants.Keys.*;
 
 public class LoginAPI extends ServletAPI {
 
@@ -22,15 +24,19 @@ public class LoginAPI extends ServletAPI {
         if (body != null){
             String phone = String.valueOf(body.get(PHONE));
             final UserAccess access = userDAO.getUserAccessByPhone(phone);
+            ServerAnswer answer;
             if (access != null){
                 String password = String.valueOf(body.get(PASSWORD));
                 if (access.getPassword().equals(password)){
-                    //todo write success
+                    answer = new SuccessAnswer();
+                    answer.addParam(TOKEN, access.getToken());
                 } else {
-                    //todo write wrong password
+                    answer = new ErrorAnswer();
+                    answer.addParam(REASON, WRONG_PASSWORD);
                 }
             } else {
-                //todo write no user data
+                answer = new ErrorAnswer();
+                answer.addParam(REASON, NOT_FOUND);
             }
         }
     }

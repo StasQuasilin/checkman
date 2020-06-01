@@ -22,7 +22,7 @@ public class Report {
     }
 
     @Basic
-    @Column(name = "leaveTime")
+    @Column(name = "leave_time")
     public Timestamp getLeaveTime() {
         return leaveTime;
     }
@@ -49,7 +49,7 @@ public class Report {
     }
 
     @OneToOne
-    @JoinColumn(name = "counterpart")
+    @JoinColumn(name = "counterparty")
     public Counterparty getCounterparty() {
         return counterparty;
     }

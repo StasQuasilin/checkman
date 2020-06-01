@@ -1,5 +1,6 @@
 package stanislav.vasilina.speditionclient.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -22,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.ReportFieldAdapter;
@@ -43,8 +46,9 @@ import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 
 public class ReportEdit extends AppCompatActivity {
 
+    @SuppressLint("SimpleDateFormat")
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-    private ReportsUtil storageUtil;
+    private ReportsUtil reportsUtil;
     private Report report;
     private ReportFieldAdapter adapter;
 
@@ -52,6 +56,10 @@ public class ReportEdit extends AppCompatActivity {
     private Button dateButton;
     private Button timeButton;
     private Button routeButton;
+    private Button doneDateButton;
+    private Button doneTimeButton;
+    private EditText fareEdit;
+    private EditText expensesEdit;
     private ProductsUtil productsUtil = new ProductsUtil();
 
     void initDriverButton(){
@@ -68,17 +76,18 @@ public class ReportEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_edit);
         final Context context = getApplicationContext();
+
         adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager(), new CustomListener() {
             @Override
             public void onChange() {
                 save(false);
             }
         });
-        storageUtil = new ReportsUtil(context);
+        reportsUtil = new ReportsUtil(context);
         final Intent intent = getIntent();
         final String uuid = intent.getStringExtra(ID);
         if (uuid != null) {
-            report = storageUtil.openReport(uuid);
+            report = reportsUtil.openReport(uuid);
             adapter.addAll(report.getFields());
         } else {
             report = new Report();
@@ -186,6 +195,45 @@ public class ReportEdit extends AppCompatActivity {
 
             }
         });
+        Calendar doneDate = report.getDoneDate();
+        if (doneDate == null){
+            doneDate = Calendar.getInstance();
+            report.setDoneDate(doneDate);
+        }
+        doneDateButton = findViewById(R.id.doneDateButton);
+        doneDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar dd = report.getDoneDate();
+                DateDialog doneDialog = new DateDialog(dd, getLayoutInflater(), DateDialogState.date, new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        initDoneButton();
+                    }
+                });
+                doneDialog.show(getSupportFragmentManager(), "Done Date");
+            }
+        });
+        doneTimeButton = findViewById(R.id.doneTimeButton);
+        doneTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar dd = report.getDoneDate();
+                DateDialog doneDialog = new DateDialog(dd, getLayoutInflater(), DateDialogState.time, new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        initDoneButton();
+                    }
+                });
+                doneDialog.show(getSupportFragmentManager(), "Done Time");
+            }
+        });
+        initDoneButton();
+
+        fareEdit = findViewById(R.id.fareEdit);
+        fareEdit.setText(String.valueOf(report.getFare()));
+        expensesEdit =findViewById(R.id.expensesEdit);
+        expensesEdit.setText(String.valueOf(report.getExpenses()));
 
         ListView reports = findViewById(R.id.fields);
         reports.setAdapter(adapter);
@@ -200,6 +248,16 @@ public class ReportEdit extends AppCompatActivity {
                 report.addField(field);
             }
         });
+    }
+
+    private void initDoneButton() {
+        final Calendar doneDate = report.getDoneDate();
+        if (doneDate != null) {
+            simpleDateFormat.applyPattern("dd.MM.yy");
+            doneDateButton.setText(simpleDateFormat.format(doneDate.getTime()));
+            simpleDateFormat.applyPattern("hh.mm");
+            doneTimeButton.setText(simpleDateFormat.format(doneDate.getTime()));
+        }
     }
 
     private void buildRoute() {
@@ -242,12 +300,29 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     void save(boolean redirect){
-        Collections.sort(report.getFields());
-        storageUtil.saveReport(report);
+        final String expensesText = expensesEdit.getText().toString();
+        int expenses = 0;
+        if (!expensesText.isEmpty()){
+            expenses = Integer.parseInt(expensesText);
+        }
+        report.setExpenses(expenses);
+        final String fareText = fareEdit.getText().toString();
+        int fare = 0;
+        if (!fareText.isEmpty()){
+            fare = Integer.parseInt(fareText);
+        }
+        report.setFare(fare);
+
+        reportsUtil.saveAndSync(report);
         if (redirect) {
             final Context context = getApplicationContext();
             Intent intent = new Intent(context, Reports.class);
             context.startActivity(intent);
+        } else {
+            final List<ReportField> fields = report.getFields();
+            Collections.sort(fields);
+            adapter.clear();
+            adapter.addAll(fields);
         }
     }
 }
