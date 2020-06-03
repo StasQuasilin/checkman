@@ -18,13 +18,6 @@ public class Hibernator {
         return instance;
     }
 
-    public void delete(Object object){
-        Session session = HibernateSessionFactory.getSession();
-        session.delete(object);
-        session.beginTransaction().commit();
-        HibernateSessionFactory.putSession(session);
-    }
-
     public <T>List<T> limitQuery(Class<T> tClass, HashMap<String, Object> parameters, int limit) {
         Session session = HibernateSessionFactory.getSession();
         CriteriaQuery<T> query = getCriteriaQuery(session, tClass, parameters);

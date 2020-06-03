@@ -1,5 +1,6 @@
 package stanislav.vasilina.speditionclient.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
     private final int resource;
     private final List<Report> reports;
     private LayoutInflater inflater;
+    @SuppressLint("SimpleDateFormat")
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
     public ReportListAdapter(@NonNull Context context, int resource, @NonNull List<Report> reports) {

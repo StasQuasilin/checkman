@@ -29,4 +29,9 @@ public interface Keys {
     String GROSS = "gross";
     String TARE = "tare";
     String COUNTERPARTY = "counterparty";
+    String EMPTY = "";
+    String PHONE = "phone";
+    String PASSWORD = "password";
+    String STATUS = "status";
+    String REASON = "reason";
 }

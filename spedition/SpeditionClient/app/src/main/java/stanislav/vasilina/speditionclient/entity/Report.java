@@ -18,6 +18,7 @@ import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
 import static stanislav.vasilina.speditionclient.constants.Keys.PER_DIEM;
 import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
+import static stanislav.vasilina.speditionclient.constants.Keys.SYNC;
 import static stanislav.vasilina.speditionclient.constants.Keys.UID;
 
 public class Report extends JsonAble implements Serializable, Comparable<Report> {
@@ -148,6 +149,7 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         json.put(FARE, fare);
         json.put(EXPENSES, expenses);
         json.put(PER_DIEM, perDiem);
+        json.put(SYNC, sync);
         return json;
     }
 

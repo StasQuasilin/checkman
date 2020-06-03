@@ -1,11 +1,15 @@
 package entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import java.util.Set;
 
+import static constants.Keys.*;
+
 @Entity
 @Table(name = "persons")
-public class Person {
+public class Person extends JsonAble{
     private int id;
     private String surname;
     private String forename;
@@ -44,5 +48,14 @@ public class Person {
     }
     public void setPhones(Set<Phone> phones) {
         this.phones = phones;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = getJsonObject();
+        json.put(ID, id);
+        json.put(SURNAME, surname);
+        json.put(FORENAME, forename);
+        return json;
     }
 }

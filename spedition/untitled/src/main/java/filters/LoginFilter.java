@@ -1,6 +1,8 @@
 package filters;
 
 import constants.Links;
+import utils.hibernate.HibernateSessionFactory;
+import utils.hibernate.Hibernator;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -12,12 +14,13 @@ import static constants.ApiLinks.API;
 import static constants.Keys.TOKEN;
 import static constants.Links.LOGIN;
 
-//@WebFilter(value = {"/*", "*" + Links.SUFFIX})
+@WebFilter(value = {API + "/*", "*" + Links.SUFFIX})
 public class LoginFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-
+        final Hibernator instance = Hibernator.getInstance();
+        instance.clear();
     }
 
     @Override
@@ -36,16 +39,14 @@ public class LoginFilter implements Filter {
         if (token != null){
             filterChain.doFilter(request, response);
         } else {
-            if (useHeader){
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            } else {
-                response.sendRedirect(LOGIN);
-            }
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            if (!useHeader)
+            response.sendRedirect(request.getContextPath() + LOGIN);
         }
     }
 
     @Override
     public void destroy() {
-
+        HibernateSessionFactory.shutdown();
     }
 }

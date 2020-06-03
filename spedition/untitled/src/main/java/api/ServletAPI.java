@@ -14,6 +14,10 @@ public abstract class ServletAPI extends HttpServlet {
 
     public static final String SUCCESS_ANSWER = "{\"answer\":\"success\"}";
 
+    public void write(HttpServletResponse resp, JSONObject json) throws IOException {
+        write(resp, json.toJSONString());
+    }
+
     public void write(HttpServletResponse resp, String msg) throws IOException {
         resp.getWriter().write(msg);
     }

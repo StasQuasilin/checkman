@@ -11,5 +11,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/spedition_db</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="chm_db@10.10.10.201" uuid="da5ecf2e-e58e-4f18-8583-b38d6681aceb">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://10.10.10.201:5432/chm_db</jdbc-url>
+    </data-source>
   </component>
 </project>

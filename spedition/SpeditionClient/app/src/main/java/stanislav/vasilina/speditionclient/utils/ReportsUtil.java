@@ -62,6 +62,10 @@ public class ReportsUtil {
         syncUtil = new SyncUtil(this);
     }
 
+    public Context getContext() {
+        return context;
+    }
+
     public void saveAndSync(final Report report){
         saveReport(report);
         syncUtil.syncThread(report);
@@ -85,6 +89,10 @@ public class ReportsUtil {
             System.out.println(data);
             final JSONObject parse = (JSONObject) parser.parse(data);
             report = new Report();
+            if (parse.containsKey(SYNC)){
+                report.setSync(Boolean.parseBoolean(String.valueOf(parse.get(SYNC))));
+            }
+
             report.setId(Integer.parseInt(String.valueOf(parse.get(ID))));
             report.setUuid(String.valueOf(parse.get(UID)));
             if (detailed == ReportDetail.no) {
@@ -213,6 +221,7 @@ public class ReportsUtil {
                 }
             }
         }
+        syncUtil.sync(reports);
         return reports;
     }
 

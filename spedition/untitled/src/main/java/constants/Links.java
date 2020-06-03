@@ -1,7 +1,7 @@
 package constants;
 
 public interface Links {
-    String SUFFIX = ".php";
+    String SUFFIX = ".jsp";
     String LOGIN = "/login";
     String REPORTS = "/reports" + SUFFIX;
 }

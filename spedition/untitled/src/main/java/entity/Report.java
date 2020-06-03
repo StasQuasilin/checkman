@@ -1,16 +1,22 @@
 package entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+import static constants.Keys.*;
+
 @Entity
 @Table(name = "reports")
-public class Report {
+public class Report extends JsonAble {
     private int id;
+    private String uuid;
     private Timestamp leaveTime;
-    private User attendant;
+    private Product product;
+    private String route;
+    private User owner;
     private Driver driver;
-    private Counterparty counterparty;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +25,15 @@ public class Report {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "uuid")
+    public String getUuid() {
+        return uuid;
+    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @Basic
@@ -31,12 +46,30 @@ public class Report {
     }
 
     @OneToOne
-    @JoinColumn(name = "attendant")
-    public User getAttendant() {
-        return attendant;
+    @JoinColumn(name = "product")
+    public Product getProduct() {
+        return product;
     }
-    public void setAttendant(User attendant) {
-        this.attendant = attendant;
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    @Basic
+    @Column(name = "route")
+    public String getRoute() {
+        return route;
+    }
+    public void setRoute(String route) {
+        this.route = route;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "owner")
+    public User getOwner() {
+        return owner;
+    }
+    public void setOwner(User attendant) {
+        this.owner = attendant;
     }
 
     @OneToOne
@@ -48,12 +81,21 @@ public class Report {
         this.driver = driver;
     }
 
-    @OneToOne
-    @JoinColumn(name = "counterparty")
-    public Counterparty getCounterparty() {
-        return counterparty;
-    }
-    public void setCounterparty(Counterparty counterparty) {
-        this.counterparty = counterparty;
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = getJsonObject();
+        json.put(ID, id);
+        json.put(UUID, uuid);
+        json.put(LEAVE, leaveTime.toString());
+
+        if (product != null){
+            json.put(PRODUCT, product.toJson());
+        }
+        if (route != null){
+            json.put(ROUTE, route);
+        }
+
+        json.put(OWNER, owner.toJson());
+        return json;
     }
 }

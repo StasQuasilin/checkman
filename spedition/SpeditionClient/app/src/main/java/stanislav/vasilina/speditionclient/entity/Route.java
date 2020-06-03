@@ -12,6 +12,14 @@ public class Route extends JsonAble {
     private ArrayList<String> points = new ArrayList<>();
     public static final String ARROW = " ➞ ";
 
+    public ArrayList<String> getPoints() {
+        return points;
+    }
+
+    public void setPoints(ArrayList<String> points) {
+        this.points = points;
+    }
+
     public String getValue(){
         if (points.size() > 0){
             StringBuilder builder = new StringBuilder();
@@ -43,5 +51,9 @@ public class Route extends JsonAble {
             array.add(points.get(i));
         }
         return array;
+    }
+
+    public void clear() {
+        points.clear();
     }
 }

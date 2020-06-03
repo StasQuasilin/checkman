@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,16 +17,17 @@ import java.util.Collections;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.ReportListAdapter;
+import stanislav.vasilina.speditionclient.dialogs.LoginDialog;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.utils.ReportsUtil;
-import stanislav.vasilina.speditionclient.utils.SyncUtil;
 
 public class Reports extends AppCompatActivity {
 
     private ReportListAdapter adapter;
     private final ArrayList<Report> reports = new ArrayList<>();
     private ReportsUtil reportsUtil;
-    private SyncUtil syncUtil;
+    private long backPressedTime;
+    private Toast backToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,6 @@ public class Reports extends AppCompatActivity {
 
         final Context context = getApplicationContext();
         reportsUtil = new ReportsUtil(context);
-        syncUtil = new SyncUtil(reportsUtil);
-//        syncUtil.sync();
 
         reports.addAll(reportsUtil.readStorage());
         Collections.sort(reports);
@@ -59,6 +59,8 @@ public class Reports extends AppCompatActivity {
         } else if (itemId == R.id.clear){
             reportsUtil.clearStorage();
             adapter.clear();
+        } else if (itemId == R.id.login){
+            new LoginDialog(getApplicationContext(),getLayoutInflater()).show(getSupportFragmentManager(), "Login Dialog");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -67,5 +69,18 @@ public class Reports extends AppCompatActivity {
         final Context context = getApplicationContext();
         Intent intent = new Intent(context, ReportEdit.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            return;
+        } else {
+            backToast = Toast.makeText(getBaseContext(), R.string.pressBack, Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
     }
 }

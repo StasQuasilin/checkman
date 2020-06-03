@@ -6,5 +6,10 @@ public abstract class JsonAble {
     public JSONObject getJsonObject(){
         return new JSONObject();
     }
+
+    public JSONObject toSimpleJson(){
+        return toJson();
+    }
+
     public abstract JSONObject toJson();
 }

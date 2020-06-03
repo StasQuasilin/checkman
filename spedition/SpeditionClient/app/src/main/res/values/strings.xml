@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Відрядження</string>
+    <string name="app_name">Мої відрядження</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -36,4 +36,10 @@
     <string name="B">"Б: "</string>
     <string name="T">"Т: "</string>
     <string name="N">"Н: "</string>
+    <string name="login">Номер телефону</string>
+    <string name="password">Пароль</string>
+    <string name="enter">Вхід</string>
+    <string name="alreadyLogin">Авторизація не потрібна</string>
+    <string name="removeToken">Вихід</string>
+    <string name="pressBack">Для виходу жми Назад ще раз</string>
 </resources>

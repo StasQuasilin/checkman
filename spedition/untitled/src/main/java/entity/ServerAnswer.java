@@ -9,9 +9,9 @@ import static constants.Keys.STATUS;
 
 public abstract class ServerAnswer extends JsonAble {
 
-    private HashMap<String, String> params = new HashMap<>();
+    private HashMap<String, Object> params = new HashMap<>();
 
-    public void addParam(String key, String value){
+    public void addParam(String key, Object value){
         params.put(key, value);
     }
 
@@ -21,7 +21,7 @@ public abstract class ServerAnswer extends JsonAble {
     public JSONObject toJson() {
         final JSONObject jsonObject = getJsonObject();
         jsonObject.put(STATUS, getStatus());
-        for (Map.Entry<String, String> entry : params.entrySet()){
+        for (Map.Entry<String, Object> entry : params.entrySet()){
             jsonObject.put(entry.getKey(), entry.getValue());
         }
         return jsonObject;

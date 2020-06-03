@@ -1,11 +1,17 @@
 package entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
+
+import static constants.Keys.ID;
+import static constants.Keys.PERSON;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends JsonAble{
     private int id;
+    private User supervisor;
     private Person person;
     private Role role;
 
@@ -16,6 +22,15 @@ public class User {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "supervisor")
+    public User getSupervisor() {
+        return supervisor;
+    }
+    public void setSupervisor(User supervisor) {
+        this.supervisor = supervisor;
     }
 
     @OneToOne
@@ -34,5 +49,13 @@ public class User {
     }
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = getJsonObject();
+        json.put(ID, id);
+        json.put(PERSON, person.toJson());
+        return json;
     }
 }
