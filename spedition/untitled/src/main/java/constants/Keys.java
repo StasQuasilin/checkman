@@ -34,4 +34,19 @@ public interface Keys {
     String FORENAME = "forename";
     String ADD = "add";
     String COMA = ",";
+    String DONE = "done";
+    String DRIVER = "driver";
+    String FARE = "fare";
+    String EXPENSES = "expenses";
+    String PER_DIEM = "perDiem";
+    String REPORT = "report";
+    String SHOW = "show";
+    String FIELDS = "fields";
+    String LOCALE = "locale";
+    String SPACE = " ";
+    String ARRIVE = "arrive";
+    String COUNTERPARTY = "counterparty";
+    String MONEY = "money";
+    String LEFT_BRACKET = "(";
+    String RIGHT_BRACKET = ")";
 }

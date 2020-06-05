@@ -2,3 +2,13 @@
     user-select: none;
     font-family: 'Segoe UI', 'Roboto', arial, sans-serif;
 }
+body{
+    margin: 0;
+}
+.content{
+    margin: 8pt;
+}
+button{
+    border-radius: 0;
+    outline: none;
+}

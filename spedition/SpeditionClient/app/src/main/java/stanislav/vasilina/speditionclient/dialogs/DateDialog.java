@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CalendarView;
@@ -32,7 +33,9 @@ public class DateDialog extends DialogFragment {
         this.inflater = inflater;
         this.state = state;
         this.onClickListener = onClickListener;
-        innerCalendar = (Calendar) calendar.clone();
+        innerCalendar = Calendar.getInstance();
+        innerCalendar.setTime(calendar.getTime());
+        Log.i("DATE DIALOG", innerCalendar.getTime().toString());
     }
 
     @NonNull
@@ -57,23 +60,28 @@ public class DateDialog extends DialogFragment {
         if (state == DateDialogState.time) {
             view = inflater.inflate(R.layout.time_picker_dialog, null);
             final TimePicker timePicker = view.findViewById(R.id.timePicker);
-
-
+            timePicker.setIs24HourView(true);
             timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                 @Override
                 public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                    innerCalendar.set(Calendar.HOUR, hourOfDay);
+                    innerCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     innerCalendar.set(Calendar.MINUTE, minute);
                 }
             });
+            final int hour = innerCalendar.get(Calendar.HOUR_OF_DAY);
+            final int minute = innerCalendar.get(Calendar.MINUTE);
+
+            Log.i("DATE DIALOG", hour + ":" + minute);
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                timePicker.setHour(innerCalendar.get(Calendar.HOUR));
-                timePicker.setMinute(innerCalendar.get(Calendar.MINUTE));
+                timePicker.setHour(hour);
+                timePicker.setMinute(minute);
             } else {
-                timePicker.setCurrentHour(innerCalendar.get(Calendar.HOUR));
-                timePicker.setCurrentMinute(innerCalendar.get(Calendar.MINUTE));
+                timePicker.setCurrentHour(hour);
+                timePicker.setCurrentMinute(minute);
             }
-            timePicker.setIs24HourView(true);
+
+
         } else {
             view = inflater.inflate(R.layout.date_picker_dialog, null);
             final CalendarView calendarView = view.findViewById(R.id.calendarView);

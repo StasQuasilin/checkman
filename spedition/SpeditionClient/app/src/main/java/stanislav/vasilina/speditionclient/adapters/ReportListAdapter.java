@@ -3,7 +3,6 @@ package stanislav.vasilina.speditionclient.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,21 +63,30 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
         TextView dateView = view.findViewById(R.id.date);
         StringBuilder dateBuilder = new StringBuilder();
 
+
+        byte b = 0;
         if (report.getLeaveTime() != null) {
             simpleDateFormat.applyPattern("dd.MM.yy");
             dateBuilder.append(simpleDateFormat.format(report.getLeaveTime().getTime()));
-
+            b++;
         }
         if (report.getDoneDate() != null){
             dateBuilder.append(HYPHEN);
             dateBuilder.append(simpleDateFormat.format(report.getDoneDate().getTime()));
+            b++;
         }
         dateView.setText(dateBuilder.toString());
+        final TextView check = view.findViewById(R.id.check);
+        if (b == 2){
+            check.setVisibility(View.VISIBLE);
+        } else {
+            check.setVisibility(View.GONE);
+        }
 
         final Driver driver = report.getDriver();
         if (driver != null){
             final TextView driverView = view.findViewById(R.id.driver);
-            driverView.setText(driver.getValue());
+            driverView.setText(driver.getValue().toUpperCase());
         }
 
         final Route route = report.getRoute();
@@ -92,9 +100,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
             final TextView productView = view.findViewById(R.id.details);
             productView.setText(product.getName());
         }
-        if (report.isSync()){
-            view.setBackgroundColor(Color.GREEN);
-        }
+
         return view;
     }
 

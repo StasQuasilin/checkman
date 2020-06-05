@@ -4,7 +4,31 @@ let reports = new Vue({
         api:{},
         reports:{}
     },
+    computed:{
+        maxDate:function(){
+            let now = new Date();
+            if (reports) {
+                let values = Object.values(reports);
+                for (let i in values) {
+                    if (values.hasOwnProperty(i)) {
+                        let value = values[i];
+                        let date = new Date(value.leave);
+                        if (date > now) {
+                            now = date;
+                        }
+                    }
+                }
+            }
+            return now;
+        }
+    },
     methods:{
+        show:function(item){
+            let data = {
+                id:item.id
+            };
+            loadModal(this.api.show, data);
+        },
         handler:function (data) {
             console.log(data);
             for (let i in data.add){

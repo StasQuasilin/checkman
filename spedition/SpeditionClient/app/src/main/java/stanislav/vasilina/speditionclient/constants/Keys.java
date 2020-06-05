@@ -13,6 +13,7 @@ public interface Keys {
     String MONEY = "money";
     String FARE = "fare";
     String EXPENSES = "expenses";
+    String EXPENSES_SUM = "expensesSum";
     String PER_DIEM = "perDiem";
     String WEIGHT = "weight";
     String UID = "uuid";
@@ -22,6 +23,7 @@ public interface Keys {
     String ANSWER = "answer";
     String SUCCESS = "success";
     String SYNC = "sync";
+    String COLON = ":";
     String SPACE = " ";
     String HYPHEN = " — ";
     String TOKEN = "token";
@@ -34,4 +36,9 @@ public interface Keys {
     String PASSWORD = "password";
     String STATUS = "status";
     String REASON = "reason";
+    String QUESTION = "?";
+    String FONE = "fone";
+    String CURRENCY_SIGN = "₴";
+    String DESCRIPTION = "description";
+    String AMOUNT = "amount";
 }

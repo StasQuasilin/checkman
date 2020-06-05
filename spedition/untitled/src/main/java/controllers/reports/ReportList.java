@@ -22,6 +22,7 @@ public class ReportList extends Controller {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute(SHOW, Links.SHOW_REPORT);
         req.setAttribute(SUBSCRIBE, SubscribeType.reports);
         req.setAttribute(CONTENT, _CONTENT);
         show(req, resp);

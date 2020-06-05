@@ -22,6 +22,8 @@ import stanislav.vasilina.speditionclient.entity.ReportField;
 import stanislav.vasilina.speditionclient.entity.Weight;
 import stanislav.vasilina.speditionclient.utils.CustomListener;
 
+import static stanislav.vasilina.speditionclient.constants.Keys.CURRENCY_SIGN;
+import static stanislav.vasilina.speditionclient.constants.Keys.QUESTION;
 import static stanislav.vasilina.speditionclient.constants.Keys.SPACE;
 
 public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
@@ -41,6 +43,7 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -59,8 +62,10 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
         indexView.setText(resources.getString(R.string.pointN) + (position + 1));
 
         final TextView timeView = view.findViewById(R.id.timeView);
+
+        assert item != null;
         final Calendar arriveTime = item.getArriveTime();
-        if (arriveTime != null){
+        if (arriveTime != null) {
             simpleDateFormat.applyPattern("dd.MM.yy HH:mm");
             timeView.setText(simpleDateFormat.format(arriveTime.getTime()));
         } else {
@@ -69,12 +74,14 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
 
         final TextView counterpartyView = view.findViewById(R.id.counterparty);
         if (item.getCounterparty() != null) {
-            counterpartyView.setText(item.getCounterparty());
+            counterpartyView.setText(item.getCounterparty().toUpperCase());
+        } else {
+            counterpartyView.setText(QUESTION);
         }
 
         StringBuilder builder = new StringBuilder();
         final Weight weight = item.getWeight();
-        if (weight != null){
+        if (weight != null) {
             builder.append(resources.getString(R.string.B));
             builder.append(weight.getGross());
             builder.append(SPACE);
@@ -82,20 +89,26 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
             builder.append(weight.getTare());
             builder.append(SPACE);
             final float net = weight.getNet();
-            if (net > 0){
+            if (net > 0) {
                 builder.append(resources.getString(R.string.N));
                 builder.append(net);
             }
         }
 
         final int money = item.getMoney();
-        if (money != 0){
+        if (money != 0) {
             builder.append(SPACE);
-            builder.append(money);
+            builder.append(money).append(CURRENCY_SIGN);
         }
 
         final TextView detailView = view.findViewById(R.id.details);
-        detailView.setText(builder.toString());
+        final String details = builder.toString();
+        if (details.isEmpty()) {
+            detailView.setVisibility(View.GONE);
+        } else {
+            detailView.setText(details);
+        }
+
 
         return view;
     }

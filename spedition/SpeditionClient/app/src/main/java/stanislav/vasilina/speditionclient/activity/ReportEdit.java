@@ -25,14 +25,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.ReportFieldAdapter;
 import stanislav.vasilina.speditionclient.dialogs.DateDialog;
 import stanislav.vasilina.speditionclient.dialogs.DateDialogState;
 import stanislav.vasilina.speditionclient.dialogs.DriverEditDialog;
+import stanislav.vasilina.speditionclient.dialogs.ExpensesDialog;
 import stanislav.vasilina.speditionclient.dialogs.RouteEditDialog;
 import stanislav.vasilina.speditionclient.entity.Driver;
+import stanislav.vasilina.speditionclient.entity.Expense;
 import stanislav.vasilina.speditionclient.entity.Person;
 import stanislav.vasilina.speditionclient.entity.Product;
 import stanislav.vasilina.speditionclient.entity.Report;
@@ -59,7 +62,8 @@ public class ReportEdit extends AppCompatActivity {
     private Button doneDateButton;
     private Button doneTimeButton;
     private EditText fareEdit;
-    private EditText expensesEdit;
+    private Button expensesButton;
+
     private ProductsUtil productsUtil = new ProductsUtil();
 
     void initDriverButton(){
@@ -101,6 +105,7 @@ public class ReportEdit extends AppCompatActivity {
                 Driver driver = report.getDriver();
                 if (driver == null){
                     driver = new Driver();
+                    driver.setUuid(UUID.randomUUID().toString());
                     driver.setPerson(new Person());
                     report.setDriver(driver);
                 }
@@ -195,16 +200,17 @@ public class ReportEdit extends AppCompatActivity {
 
             }
         });
-        Calendar doneDate = report.getDoneDate();
-        if (doneDate == null){
-            doneDate = Calendar.getInstance();
-            report.setDoneDate(doneDate);
-        }
+
+
         doneDateButton = findViewById(R.id.doneDateButton);
         doneDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar dd = report.getDoneDate();
+                Calendar dd = report.getDoneDate();
+                if (dd == null){
+                    dd = Calendar.getInstance();
+                    report.setDoneDate(dd);
+                }
                 DateDialog doneDialog = new DateDialog(dd, getLayoutInflater(), DateDialogState.date, new CustomListener() {
                     @Override
                     public void onChange() {
@@ -218,7 +224,11 @@ public class ReportEdit extends AppCompatActivity {
         doneTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar dd = report.getDoneDate();
+                Calendar dd = report.getDoneDate();
+                if (dd == null){
+                    dd = Calendar.getInstance();
+                    report.setDoneDate(dd);
+                }
                 DateDialog doneDialog = new DateDialog(dd, getLayoutInflater(), DateDialogState.time, new CustomListener() {
                     @Override
                     public void onChange() {
@@ -228,12 +238,29 @@ public class ReportEdit extends AppCompatActivity {
                 doneDialog.show(getSupportFragmentManager(), "Done Time");
             }
         });
-        initDoneButton();
+
+        if (report.getDoneDate() != null){
+            initDoneButton();
+        }
 
         fareEdit = findViewById(R.id.fareEdit);
         fareEdit.setText(String.valueOf(report.getFare()));
-        expensesEdit =findViewById(R.id.expensesEdit);
-        expensesEdit.setText(String.valueOf(report.getExpenses()));
+
+        expensesButton = findViewById(R.id.expensesEdit);
+        expensesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExpensesDialog expensesDialog = new ExpensesDialog(report.getExpenses(), getLayoutInflater(), new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        calculateExpenses();
+                        save(false);
+                    }
+                });
+                expensesDialog.show(getSupportFragmentManager(), "Expenses Dialog");
+            }
+        });
+        calculateExpenses();
 
         ListView reports = findViewById(R.id.fields);
         reports.setAdapter(adapter);
@@ -244,10 +271,21 @@ public class ReportEdit extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final ReportField field = new ReportField(Calendar.getInstance());
-                adapter.add(field);
+                field.setUuid(UUID.randomUUID().toString());
                 report.addField(field);
+                adapter.add(field);
             }
         });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void calculateExpenses() {
+        int expenses = 0;
+        for (Expense expense : report.getExpenses()){
+            expenses += expense.getAmount();
+        }
+
+        expensesButton.setText(Integer.toString(expenses));
     }
 
     private void initDoneButton() {
@@ -255,7 +293,7 @@ public class ReportEdit extends AppCompatActivity {
         if (doneDate != null) {
             simpleDateFormat.applyPattern("dd.MM.yy");
             doneDateButton.setText(simpleDateFormat.format(doneDate.getTime()));
-            simpleDateFormat.applyPattern("hh.mm");
+            simpleDateFormat.applyPattern("HH:mm");
             doneTimeButton.setText(simpleDateFormat.format(doneDate.getTime()));
         }
     }
@@ -272,7 +310,7 @@ public class ReportEdit extends AppCompatActivity {
         if (leaveTime != null){
             simpleDateFormat.applyPattern("dd.MM.yy");
             dateButton.setText(simpleDateFormat.format(leaveTime.getTime()));
-            simpleDateFormat.applyPattern("hh.mm");
+            simpleDateFormat.applyPattern("HH:mm");
             timeButton.setText(simpleDateFormat.format(leaveTime.getTime()));
         }
     }
@@ -289,6 +327,8 @@ public class ReportEdit extends AppCompatActivity {
         final int itemId = item.getItemId();
         if(itemId == R.id.save){
             save(true);
+        } else if (itemId == R.id.cancel){
+            onBackPressed();
         }
         return false;
     }
@@ -300,20 +340,15 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     void save(boolean redirect){
-        final String expensesText = expensesEdit.getText().toString();
-        int expenses = 0;
-        if (!expensesText.isEmpty()){
-            expenses = Integer.parseInt(expensesText);
-        }
-        report.setExpenses(expenses);
+
         final String fareText = fareEdit.getText().toString();
         int fare = 0;
         if (!fareText.isEmpty()){
             fare = Integer.parseInt(fareText);
         }
         report.setFare(fare);
-
-        reportsUtil.saveAndSync(report);
+        report.setSync(false);
+        reportsUtil.saveReport(report);
         if (redirect) {
             final Context context = getApplicationContext();
             Intent intent = new Intent(context, Reports.class);

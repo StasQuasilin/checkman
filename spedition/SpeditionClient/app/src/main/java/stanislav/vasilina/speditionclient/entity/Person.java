@@ -5,22 +5,13 @@ import org.json.simple.JSONObject;
 import java.util.Set;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.FORENAME;
-import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.SPACE;
 import static stanislav.vasilina.speditionclient.constants.Keys.SURNAME;
 
 public class Person extends JsonAble{
-    private int id;
     private String surname;
     private String forename;
     private Set<Phone> phones;
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getSurname() {
         return surname;
@@ -46,7 +37,6 @@ public class Person extends JsonAble{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put(ID, id);
         json.put(FORENAME, forename);
         json.put(SURNAME, surname);
         return json;

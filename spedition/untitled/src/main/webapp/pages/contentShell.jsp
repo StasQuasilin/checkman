@@ -9,16 +9,36 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="${context}/css/main.css"/>
+    <link rel="stylesheet" href="${context}/css/modalLayer.css">
     <script>
         if(typeof context == "undefined"){
             context = '${context}';
         }
     </script>
+    <script src="${context}/external/jquery.min.js"></script>
     <script src="${context}/js/utils.js"></script>
     <script src="${context}/external/vue.js"></script>
     <script src="${context}/js/socket.js"></script>
+    <script src="${context}/js/modal.js"></script>
 </head>
     <body>
-        <jsp:include page="${content}"/>
+        <div id="modalLayer" class="modal-layer">
+            <div class="modal-body">
+                <div class="model-content">
+                    <div class="modal-header">
+                        &nbsp;
+                        <div id="modalTitle" class="modal-title"></div>
+                        <div class="modal-close-button" onclick="closeModal()">
+                            &times;
+                        </div>
+                    </div>
+                    <div id="modalContent" class="modal-data"></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <jsp:include page="${content}"/>
+        </div>
+
     </body>
 </html>

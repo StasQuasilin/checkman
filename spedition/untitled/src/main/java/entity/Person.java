@@ -58,4 +58,25 @@ public class Person extends JsonAble{
         json.put(FORENAME, forename);
         return json;
     }
+
+    @Transient
+    public String getValue(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(surname).append(SPACE).append(forename);
+        if (phones.size() > 0){
+            builder.append(SPACE);
+            builder.append(LEFT_BRACKET).append(SPACE);
+            int i = 0;
+            for (Phone phone : phones){
+                builder.append(phone.getNumber());
+                if (i < phones.size() - 1){
+                    builder.append(COMA).append(SPACE);
+                }
+                i++;
+            }
+            builder.append(SPACE).append(RIGHT_BRACKET);
+        }
+
+        return builder.toString();
+    }
 }

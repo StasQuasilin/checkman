@@ -42,4 +42,7 @@
     <string name="alreadyLogin">Авторизація не потрібна</string>
     <string name="removeToken">Вихід</string>
     <string name="pressBack">Для виходу жми Назад ще раз</string>
+    <string name="expenses_description">Опис</string>
+    <string name="expenses_amount">Сума</string>
+    <string name="expenses_title">Додаткові витрати</string>
 </resources>

@@ -6,14 +6,17 @@ import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.PERSON;
 
 public class Driver extends JsonAble{
-    private int id;
+    private String uuid;
     private Person person;
 
-    public int getId() {
-        return id;
+    public Driver() {
     }
-    public void setId(int id) {
-        this.id = id;
+
+    public String getUuid() {
+        return uuid;
+    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Person getPerson() {
@@ -25,9 +28,8 @@ public class Driver extends JsonAble{
 
     @Override
     public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put(ID, id);
-        json.put(PERSON, person.toJson());
+        JSONObject json = person.toJson();
+        json.put(ID, uuid);
         return json;
     }
 

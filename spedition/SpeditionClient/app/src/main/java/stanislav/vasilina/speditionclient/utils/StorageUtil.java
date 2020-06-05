@@ -65,5 +65,7 @@ public class StorageUtil {
         }
     }
 
+    public void remove(String name) {
 
+    }
 }

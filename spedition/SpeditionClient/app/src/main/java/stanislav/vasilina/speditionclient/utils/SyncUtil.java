@@ -5,7 +5,9 @@ import android.util.Log;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import stanislav.vasilina.speditionclient.constants.ApiLinks;
 import stanislav.vasilina.speditionclient.entity.Report;
@@ -46,24 +48,31 @@ public class SyncUtil {
             }
         }.start();
     }
+    private final Set<String> nowSync = new HashSet<>();
 
     private void sync(final Report report){
-        report.setSync(false);
         final String token = loginUtil.getToken();
         if (token != null) {
-            final JSONObject jsonObject = report.toJson();
-            try {
-                final String post = networkUtil.post(ApiLinks.REPORT_SAVE, jsonObject.toJSONString(), token);
-                Log.i("Result", post);
-                final JSONObject answer = parser.parse(post);
-                if (answer != null){
-                    String status = String.valueOf(answer.get(STATUS));
-                    if (status.equals(SUCCESS)){
-                        report.setSync(true);
+            final String uuid = report.getUuid();
+            if (!nowSync.contains(uuid)) {
+                nowSync.add(uuid);
+
+                final JSONObject jsonObject = report.toJson();
+                try {
+                    final String post = networkUtil.post(ApiLinks.REPORT_SAVE, jsonObject.toJSONString(), token);
+                    Log.i("Result", post);
+                    final JSONObject answer = parser.parse(post);
+                    if (answer != null) {
+                        String status = String.valueOf(answer.get(STATUS));
+                        if (status.equals(SUCCESS)) {
+                            report.setSync(true);
+                        }
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                nowSync.remove(uuid);
             }
         }
         reportsUtil.saveReport(report);

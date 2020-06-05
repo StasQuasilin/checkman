@@ -1,0 +1,7 @@
+.report {
+    border : solid gray 1px;
+    margin: 2px 0;
+}
+.report:hover {
+    background-color: #d3f9d3;
+}

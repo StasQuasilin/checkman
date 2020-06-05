@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import static constants.Keys.*;
 
@@ -15,8 +16,12 @@ public class Report extends JsonAble {
     private Timestamp leaveTime;
     private Product product;
     private String route;
+    private Timestamp done;
     private User owner;
     private Driver driver;
+    private int fare;
+    private int expenses;
+    private int perDiem;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +68,15 @@ public class Report extends JsonAble {
         this.route = route;
     }
 
+    @Basic
+    @Column(name = "done")
+    public Timestamp getDone() {
+        return done;
+    }
+    public void setDone(Timestamp done) {
+        this.done = done;
+    }
+
     @OneToOne
     @JoinColumn(name = "owner")
     public User getOwner() {
@@ -81,6 +95,33 @@ public class Report extends JsonAble {
         this.driver = driver;
     }
 
+    @Basic
+    @Column(name = "fare")
+    public int getFare() {
+        return fare;
+    }
+    public void setFare(int fare) {
+        this.fare = fare;
+    }
+
+    @Basic
+    @Column(name = "expenses")
+    public int getExpenses() {
+        return expenses;
+    }
+    public void setExpenses(int expenses) {
+        this.expenses = expenses;
+    }
+
+    @Basic
+    @Column(name = "per_diem")
+    public int getPerDiem() {
+        return perDiem;
+    }
+    public void setPerDiem(int perDiem) {
+        this.perDiem = perDiem;
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = getJsonObject();
@@ -95,7 +136,23 @@ public class Report extends JsonAble {
             json.put(ROUTE, route);
         }
 
+        if (done != null){
+            json.put(DONE, done.toString());
+        }
+
         json.put(OWNER, owner.toJson());
+        json.put(FARE, fare);
+        json.put(EXPENSES, expenses);
+        json.put(PER_DIEM, perDiem);
         return json;
+    }
+    static final int divider = 1000 * 60 * 60 * 24;
+    @Transient
+    public int length(){
+        if (leaveTime != null && done != null){
+            final long diff = done.getTime() - leaveTime.getTime();
+            return (int) Math.ceil(1d * diff / divider);
+        }
+        return 0;
     }
 }

@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "drivers")
 public class Driver {
     private int id;
+    private String uuid;
     private Person person;
 
     @Id
@@ -15,6 +16,15 @@ public class Driver {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "uuid")
+    public String getUuid() {
+        return uuid;
+    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @OneToOne

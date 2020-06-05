@@ -11,6 +11,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="${context}/css/main.css">
+        <link rel="stylesheet" href="${context}/css/modalLayer.css">
         <title>LOGIN</title>
         <script>
             if (typeof context === "undefined"){
@@ -21,9 +22,9 @@
         <script src="${context}/js/utils.js"></script>
     </head>
     <body>
-        <div id="signIn">
-            <div>
-                <div>
+        <div id="signIn" class="modal-layer">
+            <div class="modal-body">
+                <div class="model-content">
                     <table>
                         <tr>
                             <td>

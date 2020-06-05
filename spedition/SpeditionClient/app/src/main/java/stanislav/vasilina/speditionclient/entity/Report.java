@@ -13,16 +13,16 @@ import static stanislav.vasilina.speditionclient.constants.Keys.DRIVER;
 import static stanislav.vasilina.speditionclient.constants.Keys.EXPENSES;
 import static stanislav.vasilina.speditionclient.constants.Keys.FARE;
 import static stanislav.vasilina.speditionclient.constants.Keys.FIELDS;
+import static stanislav.vasilina.speditionclient.constants.Keys.FONE;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
 import static stanislav.vasilina.speditionclient.constants.Keys.PER_DIEM;
 import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.SYNC;
-import static stanislav.vasilina.speditionclient.constants.Keys.UID;
 
 public class Report extends JsonAble implements Serializable, Comparable<Report> {
-    private int id;
+
     private String uuid;
     private Calendar leaveTime;
     private Calendar doneDate;
@@ -30,18 +30,13 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     private Route route;
     private Product product;
     private int fare;
-    private int expenses;
+    private int expensesSum;
     private int perDiem;
     final private ArrayList<ReportField> fields = new ArrayList<>();
+    final private ArrayList<Expense> expenses = new ArrayList<>();
     private boolean done;
     private boolean sync;
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
+    private boolean fone;
 
     public String getUuid() {
         return uuid;
@@ -99,11 +94,15 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         this.fare = fare;
     }
 
-    public int getExpenses() {
-        return expenses;
+    public int getExpensesSum() {
+        return expensesSum;
     }
-    public void setExpenses(int expenses) {
-        this.expenses = expenses;
+    public void setExpensesSum(int expensesSum) {
+        this.expensesSum = expensesSum;
+    }
+
+    public ArrayList<Expense> getExpenses() {
+        return expenses;
     }
 
     public int getPerDiem() {
@@ -113,10 +112,16 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         this.perDiem = perDiem;
     }
 
+    public boolean isFone() {
+        return fone;
+    }
+    public void setFone(boolean fone) {
+        this.fone = fone;
+    }
+
     public boolean isSync() {
         return sync;
     }
-
     public void setSync(boolean sync) {
         this.sync = sync;
     }
@@ -128,8 +133,7 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put(ID, id);
-        json.put(UID, uuid);
+        json.put(ID, uuid);
         if (leaveTime != null) {
             json.put(LEAVE, leaveTime.getTimeInMillis());
         }
@@ -147,10 +151,20 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         }
         json.put(FIELDS, fields());
         json.put(FARE, fare);
-        json.put(EXPENSES, expenses);
+        json.put(EXPENSES, expenses());
         json.put(PER_DIEM, perDiem);
+        json.put(FONE, fone);
         json.put(SYNC, sync);
+
         return json;
+    }
+
+    private JSONArray expenses() {
+        JSONArray array = new JSONArray();
+        for (Expense expense : expenses){
+            array.add(expense.toJson());
+        }
+        return array;
     }
 
     private JSONArray fields() {
@@ -168,5 +182,9 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     @Override
     public int compareTo(Report o) {
         return o.leaveTime.compareTo(leaveTime);
+    }
+
+    public void addExpense(Expense expense) {
+        expenses.add(expense);
     }
 }

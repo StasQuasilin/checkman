@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.ReportListAdapter;
@@ -38,7 +37,7 @@ public class Reports extends AppCompatActivity {
         reportsUtil = new ReportsUtil(context);
 
         reports.addAll(reportsUtil.readStorage());
-        Collections.sort(reports);
+
         adapter = new ReportListAdapter(context, R.layout.report_list_row, reports);
         ListView view = findViewById(R.id.report_list);
         view.setAdapter(adapter);

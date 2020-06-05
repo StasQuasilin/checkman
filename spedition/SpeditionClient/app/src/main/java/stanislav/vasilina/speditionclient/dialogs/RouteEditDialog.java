@@ -36,12 +36,14 @@ public class RouteEditDialog extends DialogFragment {
     private int currentItem = -1;
     private SimpleListAdapter<String> adapter;
 
+    EditText pointEdit;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = inflater.inflate(R.layout.route_edit, null);
-        final EditText pointEdit = view.findViewById(R.id.editRoute);
+        pointEdit = view.findViewById(R.id.editRoute);
 
         adapter = new SimpleListAdapter<>(getContext(), R.layout.simple_list_item, new AdapterItemEditInterface<String>() {
             @Override
@@ -65,23 +67,14 @@ public class RouteEditDialog extends DialogFragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            final String s = pointEdit.getText().toString();
-            if (!s.isEmpty()){
-                if (currentItem != -1){
-                    adapter.remove(adapter.getItem(currentItem));
-                    adapter.insert(s, currentItem);
-                } else {
-                    adapter.add(s);
-                }
-                currentItem = -1;
-                pointEdit.getText().clear();
-            }
+                save();
             }
         });
         builder.setTitle(R.string.routeEdit);
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                save();
                 route.clear();
                 for (int i = 0; i < adapter.getCount(); i++){
                     final String item = adapter.getItem(i);
@@ -97,8 +90,21 @@ public class RouteEditDialog extends DialogFragment {
             }
         });
 
-
         builder.setView(view);
         return builder.create();
+    }
+
+    private void save() {
+        final String s = pointEdit.getText().toString();
+        if (!s.isEmpty()){
+            if (currentItem != -1){
+                adapter.remove(adapter.getItem(currentItem));
+                adapter.insert(s, currentItem);
+            } else {
+                adapter.add(s);
+            }
+            currentItem = -1;
+            pointEdit.getText().clear();
+        }
     }
 }

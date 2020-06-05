@@ -11,44 +11,47 @@ import org.json.simple.parser.ParseException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import stanislav.vasilina.speditionclient.entity.Driver;
+import stanislav.vasilina.speditionclient.entity.Expense;
 import stanislav.vasilina.speditionclient.entity.Person;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.entity.ReportField;
 import stanislav.vasilina.speditionclient.entity.Route;
 import stanislav.vasilina.speditionclient.entity.Weight;
 
+import static stanislav.vasilina.speditionclient.constants.Keys.AMOUNT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ARRIVE;
 import static stanislav.vasilina.speditionclient.constants.Keys.COUNTERPARTY;
+import static stanislav.vasilina.speditionclient.constants.Keys.DESCRIPTION;
 import static stanislav.vasilina.speditionclient.constants.Keys.DONE;
 import static stanislav.vasilina.speditionclient.constants.Keys.DRIVER;
 import static stanislav.vasilina.speditionclient.constants.Keys.EXPENSES;
 import static stanislav.vasilina.speditionclient.constants.Keys.FARE;
 import static stanislav.vasilina.speditionclient.constants.Keys.FIELDS;
+import static stanislav.vasilina.speditionclient.constants.Keys.FONE;
 import static stanislav.vasilina.speditionclient.constants.Keys.FORENAME;
 import static stanislav.vasilina.speditionclient.constants.Keys.GROSS;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
 import static stanislav.vasilina.speditionclient.constants.Keys.MONEY;
-import static stanislav.vasilina.speditionclient.constants.Keys.PERSON;
 import static stanislav.vasilina.speditionclient.constants.Keys.PER_DIEM;
 import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.SURNAME;
 import static stanislav.vasilina.speditionclient.constants.Keys.SYNC;
 import static stanislav.vasilina.speditionclient.constants.Keys.TARE;
-import static stanislav.vasilina.speditionclient.constants.Keys.UID;
 import static stanislav.vasilina.speditionclient.constants.Keys.WEIGHT;
 
 public class ReportsUtil {
     private static final String TAG = "ReportsUtil";
     private final JSONParser parser = new JSONParser();
     private StorageUtil storageUtil;
-    private NetworkUtil networkUtil;
     private ProductsUtil productsUtil = new ProductsUtil();
+    private static final int STORAGE_SIZE = 20;
 
     private static final String reportsDir = "report_";
     private final FileFilter fileFilter;
@@ -56,7 +59,6 @@ public class ReportsUtil {
     private final SyncUtil syncUtil;
     public ReportsUtil(Context context) {
         storageUtil = new StorageUtil(context);
-        networkUtil = new NetworkUtil();
         fileFilter = new FileFilter(reportsDir);
         this.context = context;
         syncUtil = new SyncUtil(this);
@@ -67,6 +69,7 @@ public class ReportsUtil {
     }
 
     public void saveAndSync(final Report report){
+        report.setSync(false);
         saveReport(report);
         syncUtil.syncThread(report);
     }
@@ -93,8 +96,7 @@ public class ReportsUtil {
                 report.setSync(Boolean.parseBoolean(String.valueOf(parse.get(SYNC))));
             }
 
-            report.setId(Integer.parseInt(String.valueOf(parse.get(ID))));
-            report.setUuid(String.valueOf(parse.get(UID)));
+            report.setUuid(String.valueOf(parse.get(ID)));
             if (detailed == ReportDetail.no) {
                 if (parse.containsKey(SYNC)) {
                     report.setSync(Boolean.parseBoolean(String.valueOf(parse.get(SYNC))));
@@ -104,14 +106,10 @@ public class ReportsUtil {
                     Driver driver = new Driver();
                     final JSONObject driverJson = (JSONObject) parse.get(DRIVER);
                     if (driverJson != null) {
-                        driver.setId(Integer.parseInt(String.valueOf(driverJson.get(ID))));
-                        final JSONObject personJson = (JSONObject) driverJson.get(PERSON);
+                        driver.setUuid(String.valueOf(driverJson.get(ID)));
                         Person person = new Person();
-                        if (personJson != null) {
-                            person.setId(Integer.parseInt(String.valueOf(personJson.get(ID))));
-                            person.setSurname(String.valueOf(personJson.get(SURNAME)));
-                            person.setForename(String.valueOf(personJson.get(FORENAME)));
-                        }
+                        person.setSurname(String.valueOf(driverJson.get(SURNAME)));
+                        person.setForename(String.valueOf(driverJson.get(FORENAME)));
                         driver.setPerson(person);
                     }
                     report.setDriver(driver);
@@ -145,9 +143,11 @@ public class ReportsUtil {
                     report.setProduct(productsUtil.getProduct(productId));
                 }
                 if (detailed == ReportDetail.full) {
-                    if (parse.containsKey(EXPENSES)) {
-                        int expenses = Integer.parseInt(String.valueOf(parse.get(EXPENSES)));
-                        report.setExpenses(expenses);
+
+                    if (parse.containsKey(EXPENSES)){
+                        final Object o = parse.get(EXPENSES);
+                        if (o != null)
+                            parseExpenses(report, (JSONArray)o);
                     }
 
                     if (parse.containsKey(FARE)) {
@@ -160,40 +160,16 @@ public class ReportsUtil {
                         report.setPerDiem(perDiem);
                     }
 
+                    if (parse.containsKey(FONE)){
+                        boolean fone = Boolean.parseBoolean(String.valueOf(parse.get(FONE)));
+                        report.setFone(fone);
+                    }
+
                     if (parse.containsKey(FIELDS)) {
-                        final Object fields = parse.get(FIELDS);
-                        if (fields != null) {
-                            for (Object o : (JSONArray) fields) {
-                                JSONObject field = (JSONObject) o;
-                                ReportField reportField = new ReportField();
+                        final Object o = parse.get(FIELDS);
+                        if (o != null)
+                            parseFields(report, (JSONArray)o);
 
-                                long arrive = Long.parseLong(String.valueOf(field.get(ARRIVE)));
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.setTimeInMillis(arrive);
-                                reportField.setArriveTime(calendar);
-
-                                if (field.containsKey(COUNTERPARTY)) {
-                                    String counterparty = String.valueOf(field.get(COUNTERPARTY));
-                                    reportField.setCounterparty(counterparty);
-                                }
-
-                                if (field.containsKey(MONEY)) {
-                                    int money = Integer.parseInt(String.valueOf(field.get(MONEY)));
-                                    reportField.setMoney(money);
-                                }
-
-                                if (field.containsKey(WEIGHT)) {
-                                    final JSONObject weightJson = (JSONObject) field.get(WEIGHT);
-                                    if (weightJson != null) {
-                                        Weight weight = new Weight();
-                                        weight.setGross(Float.parseFloat(String.valueOf(weightJson.get(GROSS))));
-                                        weight.setTare(Float.parseFloat(String.valueOf(weightJson.get(TARE))));
-                                        reportField.setWeight(weight);
-                                    }
-                                }
-                                report.addField(reportField);
-                            }
-                        }
                     }
                 }
             }
@@ -203,6 +179,52 @@ public class ReportsUtil {
         }
 
         return report;
+    }
+
+    private void parseFields(Report report, JSONArray fieldsArray) {
+        for (Object o :  fieldsArray) {
+            JSONObject field = (JSONObject) o;
+            ReportField reportField = new ReportField();
+
+            reportField.setUuid(String.valueOf(field.get(ID)));
+
+            long arrive = Long.parseLong(String.valueOf(field.get(ARRIVE)));
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(arrive);
+            reportField.setArriveTime(calendar);
+
+            if (field.containsKey(COUNTERPARTY)) {
+                String counterparty = String.valueOf(field.get(COUNTERPARTY));
+                reportField.setCounterparty(counterparty);
+            }
+
+            if (field.containsKey(MONEY)) {
+                int money = Integer.parseInt(String.valueOf(field.get(MONEY)));
+                reportField.setMoney(money);
+            }
+
+            if (field.containsKey(WEIGHT)) {
+                final JSONObject weightJson = (JSONObject) field.get(WEIGHT);
+                if (weightJson != null) {
+                    Weight weight = new Weight();
+                    weight.setGross(Float.parseFloat(String.valueOf(weightJson.get(GROSS))));
+                    weight.setTare(Float.parseFloat(String.valueOf(weightJson.get(TARE))));
+                    reportField.setWeight(weight);
+                }
+            }
+            report.addField(reportField);
+        }
+    }
+
+    private void parseExpenses(Report report, JSONArray expensesArray) {
+        for (Object o : expensesArray){
+            JSONObject json = (JSONObject) o;
+            Expense expense = new Expense();
+            expense.setUuid(String.valueOf(json.get(ID)));
+            expense.setDescription(String.valueOf(json.get(DESCRIPTION)));
+            expense.setAmount(Integer.parseInt(String.valueOf(json.get(AMOUNT))));
+            report.addExpense(expense);
+        }
     }
 
     public List<Report> readStorage(){
@@ -221,7 +243,16 @@ public class ReportsUtil {
                 }
             }
         }
+        Collections.sort(reports);
+        while (reports.size() > STORAGE_SIZE){
+            final Report report = reports.get(reports.size() - 1);
+            if (report.isSync() && report.isDone()){
+                reports.remove(report);
+                storageUtil.remove(reportsDir + report.getUuid());
+            }
+        }
         syncUtil.sync(reports);
+
         return reports;
     }
 

@@ -5,12 +5,14 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "report_fields")
-public class ReportField {
+public class ReportField implements Comparable<ReportField> {
     private int id;
-    private int index;
+    private Report report;
+    private String uuid;
     private Timestamp arriveTime;
+    private String counterparty;
+    private int money;
     private Product product;
-    private DealType dealType;
     private Weight weight;
 
     @Id
@@ -22,13 +24,22 @@ public class ReportField {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "index")
-    public int getIndex() {
-        return index;
+    @ManyToOne
+    @JoinColumn(name = "report")
+    public Report getReport() {
+        return report;
     }
-    public void setIndex(int index) {
-        this.index = index;
+    public void setReport(Report report) {
+        this.report = report;
+    }
+
+    @Basic
+    @Column(name = "uuid")
+    public String getUuid() {
+        return uuid;
+    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @Basic
@@ -40,6 +51,24 @@ public class ReportField {
         this.arriveTime = arriveTime;
     }
 
+    @Basic
+    @Column(name = "counterparty")
+    public String getCounterparty() {
+        return counterparty;
+    }
+    public void setCounterparty(String counterparty) {
+        this.counterparty = counterparty;
+    }
+
+    @Basic
+    @Column(name = "money")
+    public int getMoney() {
+        return money;
+    }
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     @OneToOne
     @JoinColumn(name = "product")
     public Product getProduct() {
@@ -49,15 +78,6 @@ public class ReportField {
         this.product = product;
     }
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "deal_type")
-    public DealType getDealType() {
-        return dealType;
-    }
-    public void setDealType(DealType dealType) {
-        this.dealType = dealType;
-    }
-
     @OneToOne
     @JoinColumn(name = "weight")
     public Weight getWeight() {
@@ -65,5 +85,16 @@ public class ReportField {
     }
     public void setWeight(Weight weight) {
         this.weight = weight;
+    }
+
+    @Override
+    public int compareTo(ReportField reportField) {
+        if (arriveTime == null){
+            return -1;
+        } else if (reportField.getArriveTime() == null){
+            return 1;
+        } else {
+            return reportField.getArriveTime().compareTo(arriveTime);
+        }
     }
 }

@@ -35,9 +35,9 @@ public class NetWatcher implements TextWatcher {
         final String grossString = editGross.getText().toString();
         final String tareString = editTare.getText().toString();
         if (!grossString.isEmpty() && !tareString.isEmpty()){
-            int gross = Integer.parseInt(grossString);
-            int tare = Integer.parseInt(tareString);
-            int net = gross - tare;
+            float gross = Float.parseFloat(grossString);
+            float tare = Float.parseFloat(tareString);
+            float net = gross - tare;
             editNet.setText(String.valueOf(net));
         }
     }

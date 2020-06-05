@@ -47,15 +47,14 @@ public class ReportFieldEditDialog extends DialogFragment {
     private boolean haveWeight;
     private Button addWeight;
     private ConstraintLayout weightLayout;
+    private Switch paymentSwitch;
     private final List<Product> products;
-    private boolean isPlus = true;
-
 
     public ReportFieldEditDialog(ReportField reportField, LayoutInflater inflater, CustomListener saveListener) {
         this.reportField = reportField;
         this.inflater = inflater;
         this.saveListener = saveListener;
-        haveWeight = reportField.getWeight() != null;
+
         ProductsUtil productsUtil = new ProductsUtil();
         products = productsUtil.getProducts();
 
@@ -113,13 +112,12 @@ public class ReportFieldEditDialog extends DialogFragment {
         product = view.findViewById(R.id.details);
         initProductSpinner();
 
-        final Switch paymentSwitch = view.findViewById(R.id.paymentSwitch);
+        paymentSwitch = view.findViewById(R.id.paymentSwitch);
         final int money = reportField.getMoney();
 
         paymentSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isPlus = isChecked;
                 if (isChecked){
                     paymentSwitch.setText(R.string.give);
                 } else {
@@ -140,6 +138,13 @@ public class ReportFieldEditDialog extends DialogFragment {
         tare.addTextChangedListener(watcher);
         addWeight = view.findViewById(R.id.addWeight);
         weightLayout = view.findViewById(R.id.weight);
+        final Weight weight = reportField.getWeight();
+        haveWeight = weight != null;
+
+        if(haveWeight){
+            gross.setText(String.valueOf(weight.getGross()));
+            tare.setText(String.valueOf(weight.getTare()));
+        }
 
         switchWeight();
         addWeight.setOnClickListener(new View.OnClickListener() {
@@ -186,8 +191,8 @@ public class ReportFieldEditDialog extends DialogFragment {
         final String moneyText = moneyEdit.getText().toString();
         if(!moneyText.isEmpty()){
             int money = Integer.parseInt(moneyText);
-            if(isPlus){
-                money *= -1;
+            if(paymentSwitch.isChecked()){
+                money = -money;
             }
             reportField.setMoney(money);
         }
@@ -200,12 +205,12 @@ public class ReportFieldEditDialog extends DialogFragment {
             }
             final String grossString = gross.getText().toString();
             if (!grossString.isEmpty()){
-                final int gross = Integer.parseInt(grossString);
+                final float gross = Float.parseFloat(grossString);
                 weight.setGross(gross);
             }
             final String tareString = tare.getText().toString();
             if (!tareString.isEmpty()){
-                final int tare = Integer.parseInt(tareString);
+                final float tare = Float.parseFloat(tareString);
                 weight.setTare(tare);
             }
         } else {

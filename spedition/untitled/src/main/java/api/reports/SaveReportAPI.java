@@ -6,6 +6,7 @@ import constants.Keys;
 import entity.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.hibernate.dao.DriverDAO;
 import utils.hibernate.dao.ProductDAO;
 import utils.hibernate.dao.ReportDAO;
 import utils.hibernate.dao.UserDAO;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import static constants.Keys.*;
 
@@ -24,16 +27,17 @@ public class SaveReportAPI extends ServletAPI {
     private final UserDAO userDAO = new UserDAO();
     private final ReportDAO reportDAO = new ReportDAO();
     private final ProductDAO productDAO = new ProductDAO();
+    private final DriverDAO driverDAO = new DriverDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         JSONObject body = parseBody(req);
         ServerAnswer answer;
         if (body != null) {
-            System.out.println(body);
+//            System.out.println(body);
             final String header = req.getHeader(TOKEN);
             final User user = userDAO.getUserByToken(header);
-            Report report = reportDAO.getReportByUUID(body.get(Keys.UUID));
+            Report report = reportDAO.getReportByUUID(body.get(Keys.ID));
 
             if (report == null){
                 report = new Report();
@@ -42,6 +46,11 @@ public class SaveReportAPI extends ServletAPI {
 
             Timestamp leave = new Timestamp(Long.parseLong(String.valueOf(body.get(LEAVE))));
             report.setLeaveTime(leave);
+
+            if (body.containsKey(DONE)){
+                Timestamp done = new Timestamp(Long.parseLong(String.valueOf(body.get(DONE))));
+                report.setDone(done);
+            }
 
             final Product product = productDAO.getProduct(body.get(PRODUCT));
             report.setProduct(product);
@@ -57,20 +66,82 @@ public class SaveReportAPI extends ServletAPI {
                         if (i < routeArray.size() - 1){
                             stringBuilder.append(COMA);
                         }
+                        i++;
                     }
                     report.setRoute(stringBuilder.toString());
                 }
             }
 
-            report.setUuid(String.valueOf(body.get(Keys.UUID)));
+            report.setUuid(String.valueOf(body.get(Keys.ID)));
+
+            if(body.containsKey(DRIVER)){
+                JSONObject driverJson = (JSONObject) body.get(DRIVER);
+                Driver driver = driverDAO.getDriverByUUID(driverJson.get(ID));
+                if (driver == null){
+                    driver = new Driver();
+                    driver.setPerson(new Person());
+                }
+                driver.setUuid(String.valueOf(driverJson.get(ID)));
+                final Person person = driver.getPerson();
+                person.setSurname(String.valueOf(driverJson.get(SURNAME)));
+                person.setForename(String.valueOf(driverJson.get(FORENAME)));
+                driverDAO.save(driver);
+                report.setDriver(driver);
+            } else {
+                report.setDriver(null);
+            }
+
+            int fare = Integer.parseInt(String.valueOf(body.get(FARE)));
+            report.setFare(fare);
+
+            int expenses = Integer.parseInt(String.valueOf(body.get(EXPENSES)));
+            report.setExpenses(expenses);
+
+            int perDiem = Integer.parseInt(String.valueOf(body.get(PER_DIEM)));
+            report.setPerDiem(perDiem);
 
             reportDAO.save(report);
 
-            answer = new SuccessAnswer();
-            answer.addParam(ID, report.getId());
-            answer.addParam(Keys.UUID, report.getUuid());
-            write(resp, answer.toJson());
+            saveFields(report, (JSONArray) body.get(FIELDS));
 
+            answer = new SuccessAnswer();
+            write(resp, answer.toJson());
+        }
+    }
+
+    private void saveFields(Report report, JSONArray fields) {
+        HashMap<String, ReportField> fieldHashMap = new HashMap<>();
+        for (ReportField rf : reportDAO.getFields(report)){
+            fieldHashMap.put(rf.getUuid(), rf);
+        }
+        for (Object o : fields){
+            JSONObject field = (JSONObject) o;
+            String id = String.valueOf(field.get(ID));
+            ReportField reportField = fieldHashMap.remove(id);
+            if (reportField == null){
+                System.out.println("NEW");
+                reportField = new ReportField();
+                reportField.setReport(report);
+                reportField.setUuid(id);
+            }
+
+            if (field.containsKey(ARRIVE)){
+                Timestamp arrive = new Timestamp(Long.parseLong(String.valueOf(field.get(ARRIVE))));
+                reportField.setArriveTime(arrive);
+            }
+
+            if (field.containsKey(COUNTERPARTY)){
+                String counterparty = String.valueOf(field.get(COUNTERPARTY)).toUpperCase();
+                reportField.setCounterparty(counterparty);
+            }
+
+            int money = Integer.parseInt(String.valueOf(field.get(MONEY)));
+            reportField.setMoney(money);
+
+            reportDAO.save(reportField);
+        }
+        for (Map.Entry<String, ReportField> entry : fieldHashMap.entrySet()){
+            reportDAO.remove(entry.getValue());
         }
     }
 }

@@ -7,33 +7,28 @@ import java.util.Calendar;
 import static stanislav.vasilina.speditionclient.constants.Keys.ARRIVE;
 import static stanislav.vasilina.speditionclient.constants.Keys.COUNTERPARTY;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
-import static stanislav.vasilina.speditionclient.constants.Keys.INDEX;
 import static stanislav.vasilina.speditionclient.constants.Keys.MONEY;
 import static stanislav.vasilina.speditionclient.constants.Keys.WEIGHT;
 
 public class ReportField extends JsonAble implements Comparable<ReportField> {
-    private int id;
-    private int index;
+    private String uuid;
     private String counterparty;
     private Calendar arriveTime;
-
 
     private int money;
     private Weight weight;
 
-    public ReportField(Calendar instance) {
-        this.arriveTime = instance;
+    public ReportField() {}
+
+    public ReportField(Calendar arriveTime) {
+        this.arriveTime = arriveTime;
     }
 
-    public ReportField() {
-
+    public String getUuid() {
+        return uuid;
     }
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getCounterparty() {
@@ -67,8 +62,7 @@ public class ReportField extends JsonAble implements Comparable<ReportField> {
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put(ID, id);
-        jsonObject.put(INDEX, index);
+        jsonObject.put(ID, uuid);
         jsonObject.put(COUNTERPARTY, counterparty);
         jsonObject.put(ARRIVE, arriveTime.getTimeInMillis());
         jsonObject.put(MONEY, money);
