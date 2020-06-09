@@ -1,5 +1,7 @@
 package stanislav.vasilina.speditionclient.utils;
 
-public interface CustomListener {
+import java.io.Serializable;
+
+public interface CustomListener extends Serializable {
     void onChange();
 }

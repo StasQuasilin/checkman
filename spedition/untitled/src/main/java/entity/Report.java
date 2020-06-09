@@ -165,4 +165,8 @@ public class Report extends JsonAble {
         }
         return 0;
     }
+    @Transient
+    public String buildRoute(){
+        return route.replaceAll(COMA, SPACE + RIGHT_ARROW + SPACE);
+    }
 }

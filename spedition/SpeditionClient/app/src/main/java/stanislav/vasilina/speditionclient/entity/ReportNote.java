@@ -2,13 +2,14 @@ package stanislav.vasilina.speditionclient.entity;
 
 import org.json.simple.JSONObject;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.NOTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.TIME;
 
-public class ReportNote extends JsonAble{
+public class ReportNote extends JsonAble implements Serializable {
     private String uuid;
     private Calendar time;
     private String note;

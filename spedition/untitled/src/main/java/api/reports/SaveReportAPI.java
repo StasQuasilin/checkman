@@ -100,9 +100,39 @@ public class SaveReportAPI extends ServletAPI {
             reportDAO.save(report);
             saveFields(report, (JSONArray) body.get(FIELDS));
             saveExpenses(report, (JSONArray) body.get(EXPENSES));
+            saveNotes(report, (JSONArray) body.get(NOTES));
 
             answer = new SuccessAnswer();
             write(resp, answer.toJson());
+        }
+    }
+
+    private void saveNotes(Report report, JSONArray array) {
+        final HashMap<String, ReportNote> noteHashMap = new HashMap<>();
+        for (ReportNote note : reportDAO.getNotes(report)){
+            noteHashMap.put(note.getUuid(), note);
+        }
+
+        for (Object o : array){
+            JSONObject json = (JSONObject) o;
+            String uuid = String.valueOf(json.get(ID));
+            ReportNote reportNote = noteHashMap.remove(uuid);
+            if (reportNote == null){
+                reportNote = new ReportNote();
+                reportNote.setReport(report);
+                reportNote.setUuid(uuid);
+            }
+
+            Timestamp time = new Timestamp(Long.parseLong(String.valueOf(json.get(TIME))));
+            reportNote.setTime(time);
+
+            String note = String.valueOf(json.get(NOTE));
+            reportNote.setNote(note);
+
+            reportDAO.save(reportNote);
+        }
+        for (Map.Entry<String, ReportNote> entry : noteHashMap.entrySet()){
+            reportDAO.remove(entry.getValue());
         }
     }
 

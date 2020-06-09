@@ -6,6 +6,7 @@ import constants.Keys;
 import entity.Expense;
 import entity.Report;
 import entity.ReportField;
+import entity.ReportNote;
 import utils.hibernate.Hibernator;
 
 import java.util.List;
@@ -42,11 +43,19 @@ public class ReportDAO {
         hibernator.save(reportField);
     }
 
-    public void remove(ReportField reportField) {
-        hibernator.remove(reportField);
+    public void remove(Object item) {
+        hibernator.remove(item);
     }
 
     public void save(Expense expense) {
         hibernator.save(expense);
+    }
+
+    public List<ReportNote> getNotes(Object report) {
+        return hibernator.query(ReportNote.class, REPORT, report);
+    }
+
+    public void save(ReportNote reportNote) {
+        hibernator.save(reportNote);
     }
 }

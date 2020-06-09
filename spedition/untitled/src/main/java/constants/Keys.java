@@ -44,6 +44,7 @@ public interface Keys {
     String FIELDS = "fields";
     String LOCALE = "locale";
     String SPACE = " ";
+    String RIGHT_ARROW = ">";
     String ARRIVE = "arrive";
     String COUNTERPARTY = "counterparty";
     String MONEY = "money";
@@ -51,4 +52,7 @@ public interface Keys {
     String RIGHT_BRACKET = ")";
     String DESCRIPTION = "description";
     String AMOUNT = "amount";
+    String NOTES = "notes";
+    String TIME = "time";
+    String NOTE = "note";
 }

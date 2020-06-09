@@ -12,155 +12,181 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
     <body>
-        <table>
-            <tr>
-                <td colspan="2">
-                    ${report.owner.person.value}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <fmt:message key="driver"/>
-                </td>
-                <td>
-                    <c:if test="${not empty report.driver}">
-                        ${fn:toUpperCase(report.driver.person.value)}
+    <table>
+        <tr>
+            <td colspan="2">
+                <fmt:message key="forwarder"/>: ${report.owner.person.value}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <fmt:message key="driver"/>:
+                <c:if test="${not empty report.driver}">
+                    ${fn:toUpperCase(report.driver.person.value)}
+                </c:if>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <fmt:message key="route"/>: ${fn:toUpperCase(report.buildRoute())}
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top">
+                <table>
+                    <tr>
+                        <td>
+                            <fmt:message key="date.leave"/>
+                        </td>
+                        <td>
+                            <fmt:formatDate value="${report.leaveTime}" pattern="dd.MM.yyyy hh:mm"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="product"/>
+                        </td>
+                        <td>
+                            ${report.product.name}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="max-height: 200pt; padding-left: 8pt">
+                            <div>
+                                <table>
+                                    <c:forEach items="${fields}" var="field" varStatus="status">
+                                        <tr>
+                                            <td colspan="2">
+                                                <b>
+                                                    <fmt:message key="report.point"/> # ${status.index + 1}
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                    ${field.counterparty}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <fmt:message key="date.arrive"/>
+                                            </td>
+                                            <td>
+                                                <fmt:formatDate value="${field.arriveTime}" pattern="dd.MM.yy HH:mm"/>
+                                            </td>
+                                        </tr>
+                                        <c:if test="${field.money != 0}">
+                                            <tr>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${field.money > 0}">
+                                                            <fmt:message key="money.get"/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <fmt:message key="money"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td>
+                                                    <fmt:formatNumber value="${field.money < 0 ? -field.money : field.money}"/>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                        <tr>
+                                            <td colspan="2" style="border-bottom: solid gray 1pt; "></td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <c:if test="${not empty report.done}">
+                        <tr>
+                            <td colspan="2">
+                                <fmt:message key="date.done"/>:
+                                <fmt:formatDate value="${report.leaveTime}" pattern="dd.MM"/> -
+                                <fmt:formatDate value="${report.done}" pattern="dd.MM"/>
+                                <c:set var="length" value="${report.length()}"/>
+                                ( ${length}
+                                <c:choose>
+                                    <c:when test="${length == 1}">
+                                        <fmt:message key="day.1"/>
+                                    </c:when>
+                                    <c:when test="${length < 5}">
+                                        <fmt:message key="day.2"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <fmt:message key="day.5"/>
+                                    </c:otherwise>
+                                </c:choose>
+                                )
+                            </td>
+                        </tr>
                     </c:if>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <fmt:message key="route"/>
-                </td>
-                <td>
-                    ${fn:toUpperCase(report.route)}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <fmt:message key="date.leave"/>
-                </td>
-                <td>
-                    <fmt:formatDate value="${report.leaveTime}" pattern="dd.MM.yyyy hh:mm"/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <fmt:message key="product"/>
-                </td>
-                <td>
-                    ${report.product.name}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="max-height: 200pt; padding-left: 8pt">
-                    <div>
-                        <table>
-                            <c:forEach items="${fields}" var="field" varStatus="status">
-                                <tr>
-                                    <td colspan="2">
-                                        <fmt:message key="report.point"/> # ${status.index + 1}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        ${field.counterparty}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <fmt:message key="date.arrive"/>
-                                    </td>
-                                    <td>
-                                        <fmt:formatDate value="${field.arriveTime}" pattern="dd.MM.yy HH:mm"/>
-                                    </td>
-                                </tr>
-                                <c:if test="${field.money != 0}">
-                                    <tr>
-                                        <td>
-                                            <c:choose>
-                                                <c:when test="${field.money > 0}">
-                                                    <fmt:message key="money.get"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <fmt:message key="money"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </td>
-                                        <td>
-                                            <fmt:formatNumber value="${field.money < 0 ? -field.money : field.money}"/>
-                                        </td>
-                                    </tr>
-                                </c:if>
-                                <tr>
-                                    <td colspan="2" style="border-bottom: solid gray 1pt; "></td>
-                                </tr>
+                    <tr>
+                        <td colspan="2">
+                            <fmt:message key="money.spending"/>:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="fare"/>
+                        </td>
+                        <td>
+                            <fmt:formatNumber value="${report.fare}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top">
+                            <fmt:message key="expenses"/>
+                        </td>
+                        <td>
+                            <c:set var="totalExpenses" value="0"/>
+                            <c:forEach items="${report.expenses}" var="expense" varStatus="exStatus">
+                                <div>
+                                    ${exStatus.index + 1}. ${expense.description}: ${expense.amount}
+                                </div>
+                                <c:set var="totalExpenses" value="${totalExpenses + expense.amount}"/>
                             </c:forEach>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            <c:if test="${not empty report.done}">
-                <tr>
-                    <td colspan="2">
-                        <fmt:message key="date.done"/>:
-                        <fmt:formatDate value="${report.leaveTime}" pattern="dd.MM"/> -
-                        <fmt:formatDate value="${report.done}" pattern="dd.MM"/>
-                        <c:set var="length" value="${report.length()}"/>
-                        ( ${length}
-                            <c:choose>
-                                <c:when test="${length == 1}">
-                                    <fmt:message key="day.1"/>
-                                </c:when>
-                                <c:when test="${length < 5}">
-                                    <fmt:message key="day.2"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <fmt:message key="day.5"/>
-                                </c:otherwise>
-                            </c:choose>
-                        )
-                    </td>
-                </tr>
-            </c:if>
-            <tr>
-                <td colspan="2">
-                    <fmt:message key="money.spending"/>:
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <fmt:message key="fare"/>
-                </td>
-                <td>
-                    <fmt:formatNumber value="${report.fare}"/>
-                </td>
-            </tr>
-            <tr>
-                <td style="vertical-align: top">
-                    <fmt:message key="expenses"/>
-                </td>
-                <td>
-                    <c:set var="totalExpenses" value="0"/>
-                    <c:forEach items="${report.expenses}" var="expense" varStatus="status">
-                        <div>
-                            ${status.index + 1}. ${expense.description}: ${expense.amount}
+                            <b>
+                                <c:if test="${totalExpenses > 0}">
+                                    <fmt:message key="total"/>:
+                                </c:if>
+                                <fmt:formatNumber value="${totalExpenses}"/>
+                            </b>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="vertical-align: top;">
+                <c:if test="${fn:length(notes) > 0}">
+                    <div style="height: 100%; display: block;">
+                        <div style="width: 100%; display: block; text-align: center">
+                            <fmt:message key="notes"/>
                         </div>
-                        <c:set var="totalExpenses" value="${totalExpenses + expense.amount}"/>
-                    </c:forEach>
-                    <c:if test="${totalExpenses > 0}">
-                        <fmt:message key="total"/>:
-                    </c:if>
-                    <fmt:formatNumber value="${totalExpenses}"/>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="text-align: center">
-                    <button onclick="closeModal()">
-                        <fmt:message key="button.close"/>
-                    </button>
-                </td>
-            </tr>
-        </table>
+                        <div style="padding: 0 4px; max-width: 300px;">
+                            <c:forEach items="${notes}" var="note">
+                                <div style="border-bottom: solid gray 1pt">
+                                    <b>
+                                        <fmt:formatDate value="${note.time}" pattern="HH:mm dd.MM"/>
+                                    </b>
+                                    <span style="word-wrap: break-spaces">
+                                            ${note.note}
+                                    </span>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </c:if>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center">
+                <button onclick="closeModal()">
+                    <fmt:message key="button.close"/>
+                </button>
+            </td>
+        </tr>
+    </table>
     </body>
 </html>

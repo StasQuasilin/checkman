@@ -80,6 +80,12 @@ public class ReportEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            final String test = savedInstanceState.getString("test");
+            if (test != null){
+                Log.i("Test", test);
+            }
+        }
         setContentView(R.layout.activity_report_edit);
         final Context context = getApplicationContext();
         final ActionBar supportActionBar = getSupportActionBar();

@@ -94,7 +94,7 @@ public class ReportField implements Comparable<ReportField> {
         } else if (reportField.getArriveTime() == null){
             return 1;
         } else {
-            return reportField.getArriveTime().compareTo(arriveTime);
+            return arriveTime.compareTo(reportField.getArriveTime());
         }
     }
 }

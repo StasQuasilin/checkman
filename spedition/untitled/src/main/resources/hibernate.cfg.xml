@@ -30,5 +30,6 @@
         <mapping class="entity.Weight"/>
         <mapping class="entity.UserAccess"/>
         <mapping class="entity.Expense"/>
+        <mapping class="entity.ReportNote"/>
     </session-factory>
 </hibernate-configuration>

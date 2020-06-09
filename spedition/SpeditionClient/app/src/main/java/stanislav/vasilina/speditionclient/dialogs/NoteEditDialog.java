@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
@@ -23,18 +24,31 @@ import java.util.UUID;
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.NoteAdapter;
 import stanislav.vasilina.speditionclient.entity.ReportNote;
+import stanislav.vasilina.speditionclient.utils.AdapterItemEditInterface;
 import stanislav.vasilina.speditionclient.utils.CustomListener;
 
 public class NoteEditDialog extends DialogFragment {
-    private final Context context;
-    private final ArrayList<ReportNote> notes;
-    private final LayoutInflater inflater;
-    private final CustomListener listener;
+    private Context context;
+    private ArrayList<ReportNote> notes;
+    private LayoutInflater inflater;
+    private CustomListener listener;
     private EditText noteEdit;
     private int currentItem = -1;
     ArrayAdapter<ReportNote> adapter;
+    AdapterItemEditInterface<ReportNote> onClick;
 
-    public NoteEditDialog(Context context, ArrayList<ReportNote> notes, LayoutInflater inflater, CustomListener listener) {
+    public NoteEditDialog() {}
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        this.context = context;
+        super.onAttach(context);
+    }
+
+    public NoteEditDialog(Context context,
+                          ArrayList<ReportNote> notes,
+                          LayoutInflater inflater,
+                          CustomListener listener) {
         this.context = context;
         this.notes = notes;
         this.inflater = inflater;
@@ -44,27 +58,19 @@ public class NoteEditDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        final View view = inflater.inflate(R.layout.note_edit_dialog, null);
 
-        noteEdit = view.findViewById(R.id.noteEdit);
-
-        final ImageButton saveNote = view.findViewById(R.id.saveNote);
-        saveNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveNote();
+        String text = "";
+        if (savedInstanceState != null) {
+            final Serializable array = savedInstanceState.getSerializable("array");
+            if (array != null){
+                notes = (ArrayList<ReportNote>) array;
             }
-        });
+            currentItem = savedInstanceState.getInt("current");
+            text = savedInstanceState.getString("text");
+            listener = (CustomListener) savedInstanceState.getSerializable("listener");
+        }
 
-        adapter = new NoteAdapter(context, R.layout.note_view, inflater);
-        adapter.addAll(notes);
-
-        final ListView noteList = view.findViewById(R.id.noteList);
-        noteList.setAdapter(adapter);
-
-
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.notes);
 
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
@@ -81,8 +87,48 @@ public class NoteEditDialog extends DialogFragment {
             }
         });
 
-        builder.setView(view);
+        builder.setView(createView(text));
         return builder.create();
+    }
+
+    public View createView(String text) {
+        if (inflater == null){
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        if (inflater != null) {
+            final View view = inflater.inflate(R.layout.note_edit_dialog, null);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            noteEdit = view.findViewById(R.id.noteEdit);
+            noteEdit.setText(text);
+
+            final ImageButton saveNote = view.findViewById(R.id.saveNote);
+            saveNote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveNote();
+                }
+            });
+
+            adapter = new NoteAdapter(context, R.layout.note_view, inflater, new AdapterItemEditInterface<ReportNote>() {
+                @Override
+                public void click(ReportNote item, int index) {
+                    noteEdit.setText(item.getNote());
+                    currentItem = index;
+                }
+            });
+            adapter.addAll(notes);
+//
+            final ListView noteList = view.findViewById(R.id.noteList);
+            noteList.setAdapter(adapter);
+            return view;
+        }
+        return null;
     }
 
     private void saveNote() {
@@ -118,6 +164,23 @@ public class NoteEditDialog extends DialogFragment {
         for (int i = 0; i < adapter.getCount(); i++){
             notes.add(adapter.getItem(i));
         }
-        listener.onChange();
+        if (listener != null) {
+            listener.onChange();
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        save();
+        outState.putSerializable("array", notes);
+        outState.putString("text", noteEdit.getText().toString());
+        outState.putInt("current", currentItem);
+        outState.putSerializable("listener", listener);
+        super.onSaveInstanceState(outState);
     }
 }

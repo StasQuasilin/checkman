@@ -16,6 +16,7 @@ import java.util.Calendar;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.entity.ReportNote;
+import stanislav.vasilina.speditionclient.utils.AdapterItemEditInterface;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.COLON;
 import static stanislav.vasilina.speditionclient.constants.Keys.DOT;
@@ -23,26 +24,32 @@ import static stanislav.vasilina.speditionclient.constants.Keys.SPACE;
 
 public class NoteAdapter extends ArrayAdapter<ReportNote> {
 
-
     private final int resource;
     private LayoutInflater inflater;
+    private AdapterItemEditInterface<ReportNote> onClick;
 
-    public NoteAdapter(@NonNull Context context, int resource, LayoutInflater inflater) {
+    public NoteAdapter(@NonNull Context context, int resource, LayoutInflater inflater,
+                       AdapterItemEditInterface<ReportNote> onClick) {
         super(context, resource);
-
         this.resource = resource;
         this.inflater = inflater;
+        this.onClick = onClick;
     }
 
     @SuppressLint("SetTextI18n")
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         final View view = convertView != null ? convertView : inflater.inflate(resource, parent, false);
 
         final ReportNote item = getItem(position);
         if (item != null){
-
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClick.click(item, position);
+                }
+            });
             final Calendar time = item.getTime();
             if (time != null){
                 final TextView timeView = view.findViewById(R.id.noteTime);
