@@ -19,7 +19,6 @@
         tools:ignore="AllowBackup">
         <activity android:name=".activity.References" />
         <activity android:name=".activity.Registration" />
-        <activity android:name=".activity.Login"/>
         <activity android:name=".activity.ReportEdit" />
         <activity android:name=".activity.Reports">
             <intent-filter>

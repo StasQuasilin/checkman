@@ -16,6 +16,7 @@ import static stanislav.vasilina.speditionclient.constants.Keys.FIELDS;
 import static stanislav.vasilina.speditionclient.constants.Keys.FONE;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
+import static stanislav.vasilina.speditionclient.constants.Keys.NOTES;
 import static stanislav.vasilina.speditionclient.constants.Keys.PER_DIEM;
 import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
@@ -34,6 +35,7 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     private int perDiem;
     final private ArrayList<ReportField> fields = new ArrayList<>();
     final private ArrayList<Expense> expenses = new ArrayList<>();
+    final private ArrayList<ReportNote> notes = new ArrayList<>();
     private boolean done;
     private boolean sync;
     private boolean fone;
@@ -105,6 +107,10 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         return expenses;
     }
 
+    public ArrayList<ReportNote> getNotes() {
+        return notes;
+    }
+
     public int getPerDiem() {
         return perDiem;
     }
@@ -155,8 +161,17 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         json.put(PER_DIEM, perDiem);
         json.put(FONE, fone);
         json.put(SYNC, sync);
+        json.put(NOTES, notes());
 
         return json;
+    }
+
+    private JSONArray notes() {
+        JSONArray array = new JSONArray();
+        for (ReportNote note : notes){
+            array.add(note.toJson());
+        }
+        return array;
     }
 
     private JSONArray expenses() {

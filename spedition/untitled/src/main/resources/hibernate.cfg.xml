@@ -29,5 +29,6 @@
         <mapping class="entity.Route"/>
         <mapping class="entity.Weight"/>
         <mapping class="entity.UserAccess"/>
+        <mapping class="entity.Expense"/>
     </session-factory>
 </hibernate-configuration>

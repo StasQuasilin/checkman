@@ -107,6 +107,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
     private void open(String uuid) {
         Intent intent = new Intent(context, ReportEdit.class);
         intent.putExtra(ID, uuid);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 }

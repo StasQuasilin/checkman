@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div style="height: 100%; background-color: palegoldenrod">
             <jsp:include page="${content}"/>
         </div>
 

@@ -20,6 +20,7 @@ import stanislav.vasilina.speditionclient.entity.Expense;
 import stanislav.vasilina.speditionclient.entity.Person;
 import stanislav.vasilina.speditionclient.entity.Report;
 import stanislav.vasilina.speditionclient.entity.ReportField;
+import stanislav.vasilina.speditionclient.entity.ReportNote;
 import stanislav.vasilina.speditionclient.entity.Route;
 import stanislav.vasilina.speditionclient.entity.Weight;
 
@@ -38,12 +39,15 @@ import static stanislav.vasilina.speditionclient.constants.Keys.GROSS;
 import static stanislav.vasilina.speditionclient.constants.Keys.ID;
 import static stanislav.vasilina.speditionclient.constants.Keys.LEAVE;
 import static stanislav.vasilina.speditionclient.constants.Keys.MONEY;
+import static stanislav.vasilina.speditionclient.constants.Keys.NOTE;
+import static stanislav.vasilina.speditionclient.constants.Keys.NOTES;
 import static stanislav.vasilina.speditionclient.constants.Keys.PER_DIEM;
 import static stanislav.vasilina.speditionclient.constants.Keys.PRODUCT;
 import static stanislav.vasilina.speditionclient.constants.Keys.ROUTE;
 import static stanislav.vasilina.speditionclient.constants.Keys.SURNAME;
 import static stanislav.vasilina.speditionclient.constants.Keys.SYNC;
 import static stanislav.vasilina.speditionclient.constants.Keys.TARE;
+import static stanislav.vasilina.speditionclient.constants.Keys.TIME;
 import static stanislav.vasilina.speditionclient.constants.Keys.WEIGHT;
 
 public class ReportsUtil {
@@ -82,7 +86,9 @@ public class ReportsUtil {
         }
         final String fileName = reportsDir + uuid;
         final JSONObject jsonObject = report.toJson();
-        storageUtil.saveDate(fileName, jsonObject.toJSONString());
+        final String s = jsonObject.toJSONString();
+        Log.i("Storage Util", s);
+        storageUtil.saveDate(fileName, s);
     }
 
     private Report parseReport(String data, ReportDetail detailed){
@@ -169,7 +175,13 @@ public class ReportsUtil {
                         final Object o = parse.get(FIELDS);
                         if (o != null)
                             parseFields(report, (JSONArray)o);
+                    }
 
+                    if (parse.containsKey(NOTES)){
+                        final Object o = parse.get(NOTES);
+                        if (o != null){
+                            parseNotes(report, (JSONArray)o);
+                        }
                     }
                 }
             }
@@ -179,6 +191,19 @@ public class ReportsUtil {
         }
 
         return report;
+    }
+
+    private void parseNotes(Report report, JSONArray array) {
+        for (Object o : array){
+            JSONObject json = (JSONObject) o;
+            ReportNote note = new ReportNote();
+            note.setUuid(String.valueOf(json.get(ID)));
+            final Calendar instance = Calendar.getInstance();
+            instance.setTimeInMillis(Long.parseLong(String.valueOf(json.get(TIME))));
+            note.setTime(instance);
+            note.setNote(String.valueOf(json.get(NOTE)));
+            report.getNotes().add(note);
+        }
     }
 
     private void parseFields(Report report, JSONArray fieldsArray) {

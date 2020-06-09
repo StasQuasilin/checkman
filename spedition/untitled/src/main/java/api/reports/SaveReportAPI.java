@@ -34,7 +34,7 @@ public class SaveReportAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         ServerAnswer answer;
         if (body != null) {
-//            System.out.println(body);
+            System.out.println(body);
             final String header = req.getHeader(TOKEN);
             final User user = userDAO.getUserByToken(header);
             Report report = reportDAO.getReportByUUID(body.get(Keys.ID));
@@ -94,18 +94,40 @@ public class SaveReportAPI extends ServletAPI {
             int fare = Integer.parseInt(String.valueOf(body.get(FARE)));
             report.setFare(fare);
 
-            int expenses = Integer.parseInt(String.valueOf(body.get(EXPENSES)));
-            report.setExpenses(expenses);
-
             int perDiem = Integer.parseInt(String.valueOf(body.get(PER_DIEM)));
             report.setPerDiem(perDiem);
 
             reportDAO.save(report);
-
             saveFields(report, (JSONArray) body.get(FIELDS));
+            saveExpenses(report, (JSONArray) body.get(EXPENSES));
 
             answer = new SuccessAnswer();
             write(resp, answer.toJson());
+        }
+    }
+
+    private void saveExpenses(Report report, JSONArray expensesList) {
+        HashMap<String, Expense> expenseHashMap = new HashMap<>();
+        for (Expense expense : report.getExpenses()){
+            expenseHashMap.put(expense.getUuid(), expense);
+        }
+        for (Object o : expensesList){
+            JSONObject json = (JSONObject) o;
+            String uuid = String.valueOf(json.get(ID));
+            Expense expense = expenseHashMap.remove(uuid);
+            if (expense == null){
+                expense = new Expense();
+                expense.setReport(report);
+                expense.setUuid(uuid);
+            }
+
+            String description = String.valueOf(json.get(DESCRIPTION));
+            expense.setDescription(description);
+
+            int amount = Integer.parseInt(String.valueOf(json.get(AMOUNT)));
+            expense.setAmount(amount);
+
+            reportDAO.save(expense);
         }
     }
 

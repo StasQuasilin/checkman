@@ -137,11 +137,21 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td style="vertical-align: top">
                     <fmt:message key="expenses"/>
                 </td>
                 <td>
-                    <fmt:formatNumber value="${report.expenses}"/>
+                    <c:set var="totalExpenses" value="0"/>
+                    <c:forEach items="${report.expenses}" var="expense" varStatus="status">
+                        <div>
+                            ${status.index + 1}. ${expense.description}: ${expense.amount}
+                        </div>
+                        <c:set var="totalExpenses" value="${totalExpenses + expense.amount}"/>
+                    </c:forEach>
+                    <c:if test="${totalExpenses > 0}">
+                        <fmt:message key="total"/>:
+                    </c:if>
+                    <fmt:formatNumber value="${totalExpenses}"/>
                 </td>
             </tr>
             <tr>

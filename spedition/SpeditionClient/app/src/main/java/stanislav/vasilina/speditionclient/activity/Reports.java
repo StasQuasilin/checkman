@@ -67,6 +67,7 @@ public class Reports extends AppCompatActivity {
     private void newItem(){
         final Context context = getApplicationContext();
         Intent intent = new Intent(context, ReportEdit.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

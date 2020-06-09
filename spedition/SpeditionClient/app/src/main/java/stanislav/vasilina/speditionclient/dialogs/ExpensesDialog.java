@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import stanislav.vasilina.speditionclient.R;
 import stanislav.vasilina.speditionclient.adapters.SimpleListAdapter;
@@ -114,6 +115,7 @@ public class ExpensesDialog extends DialogFragment {
             if (expense == null) {
                 currentIndex = -1;
                 expense = new Expense();
+                expense.setUuid(UUID.randomUUID().toString());
             }
 
             expense.setDescription(description);

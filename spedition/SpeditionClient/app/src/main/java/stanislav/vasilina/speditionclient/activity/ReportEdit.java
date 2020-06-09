@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +34,7 @@ import stanislav.vasilina.speditionclient.dialogs.DateDialog;
 import stanislav.vasilina.speditionclient.dialogs.DateDialogState;
 import stanislav.vasilina.speditionclient.dialogs.DriverEditDialog;
 import stanislav.vasilina.speditionclient.dialogs.ExpensesDialog;
+import stanislav.vasilina.speditionclient.dialogs.NoteEditDialog;
 import stanislav.vasilina.speditionclient.dialogs.RouteEditDialog;
 import stanislav.vasilina.speditionclient.entity.Driver;
 import stanislav.vasilina.speditionclient.entity.Expense;
@@ -80,6 +82,9 @@ public class ReportEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_edit);
         final Context context = getApplicationContext();
+        final ActionBar supportActionBar = getSupportActionBar();
+        assert supportActionBar != null;
+        supportActionBar.setTitle(R.string.edit);
 
         adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager(), new CustomListener() {
             @Override
@@ -201,7 +206,6 @@ public class ReportEdit extends AppCompatActivity {
             }
         });
 
-
         doneDateButton = findViewById(R.id.doneDateButton);
         doneDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,11 +266,24 @@ public class ReportEdit extends AppCompatActivity {
         });
         calculateExpenses();
 
+        final Button noteButton = findViewById(R.id.notesButton);
+        noteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NoteEditDialog noteEditDialog = new NoteEditDialog(getApplicationContext(), report.getNotes(), getLayoutInflater(), new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        save(false);
+                    }
+                });
+                noteEditDialog.show(getSupportFragmentManager(), "Notes Dialog");
+            }
+        });
+
         ListView reports = findViewById(R.id.fields);
         reports.setAdapter(adapter);
 
         FloatingActionButton addField = findViewById(R.id.addField);
-
         addField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -329,6 +346,8 @@ public class ReportEdit extends AppCompatActivity {
             save(true);
         } else if (itemId == R.id.cancel){
             onBackPressed();
+        } else if (itemId == R.id.remove){
+
         }
         return false;
     }
@@ -341,6 +360,7 @@ public class ReportEdit extends AppCompatActivity {
 
     void save(boolean redirect){
 
+        Log.i("Report Edit", "Save report, redirect: " + redirect);
         final String fareText = fareEdit.getText().toString();
         int fare = 0;
         if (!fareText.isEmpty()){
@@ -348,10 +368,14 @@ public class ReportEdit extends AppCompatActivity {
         }
         report.setFare(fare);
         report.setSync(false);
+
+
         reportsUtil.saveReport(report);
+
         if (redirect) {
             final Context context = getApplicationContext();
             Intent intent = new Intent(context, Reports.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
             final List<ReportField> fields = report.getFields();

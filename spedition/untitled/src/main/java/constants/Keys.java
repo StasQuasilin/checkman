@@ -49,4 +49,6 @@ public interface Keys {
     String MONEY = "money";
     String LEFT_BRACKET = "(";
     String RIGHT_BRACKET = ")";
+    String DESCRIPTION = "description";
+    String AMOUNT = "amount";
 }

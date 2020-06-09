@@ -45,4 +45,9 @@
     <string name="expenses_description">Опис</string>
     <string name="expenses_amount">Сума</string>
     <string name="expenses_title">Додаткові витрати</string>
+    <string name="edit">Редагування</string>
+    <string name="delete">Видалити</string>
+    <string name="close">Закрити</string>
+    <string name="check">✓</string>
+    <string name="notes">Примітки</string>
 </resources>

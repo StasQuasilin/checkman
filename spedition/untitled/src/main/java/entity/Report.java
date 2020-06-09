@@ -1,9 +1,11 @@
 package entity;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 import static constants.Keys.*;
@@ -20,7 +22,7 @@ public class Report extends JsonAble {
     private User owner;
     private Driver driver;
     private int fare;
-    private int expenses;
+    private Set<Expense> expenses = new HashSet<>();
     private int perDiem;
 
     @Id
@@ -104,12 +106,11 @@ public class Report extends JsonAble {
         this.fare = fare;
     }
 
-    @Basic
-    @Column(name = "expenses")
-    public int getExpenses() {
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "report", cascade = CascadeType.ALL)
+    public Set<Expense> getExpenses() {
         return expenses;
     }
-    public void setExpenses(int expenses) {
+    public void setExpenses(Set<Expense> expenses) {
         this.expenses = expenses;
     }
 
@@ -142,10 +143,19 @@ public class Report extends JsonAble {
 
         json.put(OWNER, owner.toJson());
         json.put(FARE, fare);
-        json.put(EXPENSES, expenses);
+        json.put(EXPENSES, expenses());
         json.put(PER_DIEM, perDiem);
         return json;
     }
+
+    private JSONArray expenses() {
+        JSONArray array = new JSONArray();
+        for (Expense expense : expenses){
+            array.add(expense.toJson());
+        }
+        return array;
+    }
+
     static final int divider = 1000 * 60 * 60 * 24;
     @Transient
     public int length(){

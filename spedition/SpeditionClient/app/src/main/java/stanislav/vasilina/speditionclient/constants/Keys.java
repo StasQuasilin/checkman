@@ -2,13 +2,13 @@ package stanislav.vasilina.speditionclient.constants;
 
 public interface Keys {
     String ID = "id";
-    String INDEX = "index";
     String LEAVE = "leave";
     String DONE = "done";
     String DRIVER = "driver";
     String PERSON = "person";
     String FORENAME = "forename";
     String SURNAME = "surname";
+    String PATRONYMIC = "patronymic";
     String ARRIVE = "arrive";
     String MONEY = "money";
     String FARE = "fare";
@@ -41,4 +41,8 @@ public interface Keys {
     String CURRENCY_SIGN = "₴";
     String DESCRIPTION = "description";
     String AMOUNT = "amount";
+    String TIME = "time";
+    String NOTE = "note";
+    String NOTES = "notes";
+    String DOT = ".";
 }

@@ -3,6 +3,7 @@ package utils.hibernate.dao;
 import api.socket.SubscribeType;
 import api.socket.UpdateUtil;
 import constants.Keys;
+import entity.Expense;
 import entity.Report;
 import entity.ReportField;
 import utils.hibernate.Hibernator;
@@ -43,5 +44,9 @@ public class ReportDAO {
 
     public void remove(ReportField reportField) {
         hibernator.remove(reportField);
+    }
+
+    public void save(Expense expense) {
+        hibernator.save(expense);
     }
 }

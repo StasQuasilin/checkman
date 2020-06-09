@@ -5,3 +5,40 @@
 .report:hover {
     background-color: #d3f9d3;
 }
+.cell-container{
+    width: fit-content;
+    overflow-x: scroll;
+}
+.cell{
+    border: solid gray 1pt;
+    display: inline-grid;
+    height: 50px;
+    width: 180px;
+    text-align: center;
+    vertical-align: center;
+}
+.report-cell{
+    background-color: cadetblue;
+    height: 100%;
+
+    /*display: grid-cell;*/
+}
+.report-cell-content{
+    padding: 2px;
+    font-size: 10pt;
+}
+.date-cell{
+    width: 100px;
+}
+.report-column{
+    width: 130px;
+    display: inline-block;
+    height: 100%;
+}
+.report-column:hover{
+    background-color: gray;
+}
+.report-row{
+    background-color: pink;
+    border-bottom: solid yellow 1pt;
+}

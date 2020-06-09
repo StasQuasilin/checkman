@@ -5,12 +5,14 @@ import org.json.simple.JSONObject;
 import java.util.Set;
 
 import static stanislav.vasilina.speditionclient.constants.Keys.FORENAME;
+import static stanislav.vasilina.speditionclient.constants.Keys.PATRONYMIC;
 import static stanislav.vasilina.speditionclient.constants.Keys.SPACE;
 import static stanislav.vasilina.speditionclient.constants.Keys.SURNAME;
 
 public class Person extends JsonAble{
     private String surname;
     private String forename;
+    private String patronymic;
     private Set<Phone> phones;
 
     public String getSurname() {
@@ -34,11 +36,19 @@ public class Person extends JsonAble{
         this.phones = phones;
     }
 
+    public String getPatronymic() {
+        return patronymic;
+    }
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put(FORENAME, forename);
         json.put(SURNAME, surname);
+        json.put(PATRONYMIC, patronymic);
         return json;
     }
 
