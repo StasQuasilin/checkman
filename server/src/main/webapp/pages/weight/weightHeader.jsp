@@ -13,10 +13,16 @@
 <div id="container-header" class="container-header">
   <c:if test="${not empty add}">
     <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
-    <button onclick="loadModal('${report}')"><fmt:message key="do.roundReport"/></button>
-    <button onclick="loadModal('${manufactureReport}')">
-      <fmt:message key="turn.roundReport.add"/>
-    </button>
+  </c:if>
+  <c:if test="${role == 'weigher' or role == 'admin'}">
+    <c:if test="${not empty report}">
+      <button onclick="loadModal('${report}')"><fmt:message key="do.roundReport"/></button>
+    </c:if>
+    <c:if test="${not empty manufactureReport}">
+      <button onclick="loadModal('${manufactureReport}')">
+        <fmt:message key="turn.roundReport.add"/>
+      </button>
+    </c:if>
   </c:if>
 </div>
 </html>

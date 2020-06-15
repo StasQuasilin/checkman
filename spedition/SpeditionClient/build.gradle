@@ -1,4 +1,8 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    var = 'Stas53721456'
+    var1 = 'key0'
+    var2 = '53721456'
+}// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     

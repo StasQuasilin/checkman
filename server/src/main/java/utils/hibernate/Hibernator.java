@@ -14,7 +14,7 @@ import java.util.*;
 public class Hibernator {
     private static final Hibernator instance = new Hibernator();
 
-    static synchronized Hibernator getInstance() {
+    public static synchronized Hibernator getInstance() {
         return instance;
     }
 

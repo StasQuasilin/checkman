@@ -40,7 +40,7 @@
     <string name="password">Пароль</string>
     <string name="enter">Вхід</string>
     <string name="alreadyLogin">Авторизація не потрібна</string>
-    <string name="removeToken">Вихід</string>
+    <string name="removeToken">Видалити дані користувача</string>
     <string name="pressBack">Для виходу жми Назад ще раз</string>
     <string name="expenses_description">Опис</string>
     <string name="expenses_amount">Сума</string>
@@ -51,4 +51,8 @@
     <string name="check">✓</string>
     <string name="notes">Примітки</string>
     <string name="done">Завершено</string>
+    <string name="patronymic">По-батькові</string>
+    <string name="phones">Телефони</string>
+    <string name="title_location_permission">Геодані</string>
+    <string name="message_location_permission">Для кращої роботи програмі потрібен дозвіл на доступ до геоданих пристрою</string>
 </resources>

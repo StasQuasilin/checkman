@@ -1,18 +1,18 @@
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setBundle basename="messages"/>
-<fmt:setLocale value="uk"/>
 <%--
   Created by IntelliJ IDEA.
   User: szpt-user045
   Date: 02.06.20
   Time: 14:20
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setBundle basename="messages"/>
+<fmt:setLocale value="uk"/>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
         <link rel="stylesheet" href="${context}/css/main.css">
         <link rel="stylesheet" href="${context}/css/modalLayer.css">
-        <title>LOGIN</title>
+        <title><fmt:message key="login"/></title>
         <script>
             if (typeof context === "undefined"){
                 context = '${context}';
@@ -26,6 +26,9 @@
             <div class="modal-body">
                 <div class="model-content">
                     <table>
+                        <tr>
+                            <td colspan="2" style="text-align: center"></td>
+                        </tr>
                         <tr>
                             <td>
                                 <label for="login">

@@ -44,6 +44,4 @@ public class HibernateSessionFactory {
     public static void shutdown() {
         sessionFactory.close();
     }
-
-
 }

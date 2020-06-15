@@ -113,7 +113,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     public Vehicle getVehicle() {
         return vehicle;
     }
-    void setVehicle(Vehicle vehicle) {
+    public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
 
@@ -167,7 +167,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     public Driver getDriver() {
         return driver;
     }
-    void setDriver(Driver driver) {
+    public void setDriver(Driver driver) {
         this.driver = driver;
     }
 

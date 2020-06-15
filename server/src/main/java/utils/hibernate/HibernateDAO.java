@@ -568,8 +568,12 @@ public class HibernateDAO implements dbDAO, Constants {
     @Override
     public List<Deal> getDealsByType(DealType type) {
         final HashMap<String, Object> param = hb.getParams();
-        param.put("type", type);
-        param.put("archive", false);
+        param.put(TYPE, type);
+        param.put(ARCHIVE, false);
+        param.put(DATE, new BETWEEN(
+                Date.valueOf(LocalDate.now().plusMonths(1)),
+                Date.valueOf(LocalDate.now().minusMonths(1))
+        ));
         return hb.query(Deal.class, param);
     }
 

@@ -104,7 +104,16 @@ var plan = new Vue({
         },
         copy:function(idx){
             let p = Object.assign({}, this.plans[idx].item);
+            console.log(p);
             p.id=-1;
+            p.timeIn = null;
+            p.timeOut = null;
+            p.weight = null;
+            p.sunAnalyses = null;
+            p.oilAnalyses = null;
+            p.mealAnalyses = null;
+            p.archive = false;
+            p.done = false;
             let plan = this.add(p);
 
             this.initSaveTimer(plan.key);
@@ -175,35 +184,38 @@ var plan = new Vue({
             }
         },
         save:function(item){
-            var plan = Object.assign({}, item);
-            if (item.driver) {
-                plan.driver = item.driver.id;
-            }
-            if (item.vehicle) {
-                plan.vehicle = item.vehicle.id;
-            }
-            if (item.trailer) {
-                plan.trailer = item.trailer.id;
-            }
-            var transporter = -1;
-            if(item.transporter){
-                transporter = item.transporter.id;
-            }
-            plan.transporter = transporter;
-            plan.notes = Object.assign([], item.notes);
-            for (var i in plan.notes){
-                if (plan.notes.hasOwnProperty(i)){
-                    delete plan.notes[i].creator;
+            console.log(item);
+            if (item) {
+                let plan = Object.assign({}, item);
+                if (item.driver) {
+                    plan.driver = item.driver.id;
                 }
-            }
-
-            PostApi(this.api.save, {deal : this.deal, plan : plan},function(a){
-                if (a.status === 'success'){
-                    if(a.id) {
-                        item.id = a.id;
+                if (item.vehicle) {
+                    plan.vehicle = item.vehicle.id;
+                }
+                if (item.trailer) {
+                    plan.trailer = item.trailer.id;
+                }
+                let transporter = -1;
+                if (item.transporter) {
+                    transporter = item.transporter.id;
+                }
+                plan.transporter = transporter;
+                plan.notes = Object.assign([], item.notes);
+                for (let i in plan.notes) {
+                    if (plan.notes.hasOwnProperty(i)) {
+                        delete plan.notes[i].creator;
                     }
                 }
-            });
+
+                PostApi(this.api.save, {deal: this.deal, plan: plan}, function (a) {
+                    if (a.status === 'success') {
+                        if (a.id) {
+                            item.id = a.id;
+                        }
+                    }
+                });
+            }
         },
         focusInput:function(){
             setTimeout(function(){

@@ -17,16 +17,17 @@ import java.io.IOException;
 @WebServlet(Branches.UI.DEAL_ARCHIVE)
 public class DealArchive extends IUIServlet {
 
+    private static final String FILTER_PAGE = "/pages/filters/archiveFilter.jsp";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DealType type = DealType.valueOf(req.getParameter("type"));
-        req.setAttribute("title", Titles.Archive.DEAL + "." + type.toString());
-        req.setAttribute("filter", "/pages/filters/archiveFilter.jsp");
+        req.setAttribute(TITLE, Titles.Archive.DEAL + "." + type.toString());
+        req.setAttribute(FILTER, FILTER_PAGE);
         req.setAttribute("show", "");
-        req.setAttribute("type", type.toString());
-        req.setAttribute("content", "/pages/deals/dealList.jsp");
-        req.setAttribute("subscribe", "DEAL_" + type.toString().toUpperCase() + "_ARCHIVE");
-        req.setAttribute("limit", 14);
+        req.setAttribute(TYPE, type.toString());
+        req.setAttribute(CONTENT, "/pages/deals/dealList.jsp");
+        req.setAttribute(SUBSCRIBE, "DEAL_" + type.toString().toUpperCase() + "_ARCHIVE");
         show(req, resp);
     }
 }

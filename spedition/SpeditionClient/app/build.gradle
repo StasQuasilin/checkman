@@ -3,17 +3,32 @@ configurations {
     compile.exclude group: "junit", module: "junit"
 }
 android {
+    signingConfigs {
+        config {
+            storeFile file('/home/szpt-user045/Dropbox/ks/mks.jks')
+            storePassword var
+            keyAlias var1
+            keyPassword var2
+        }
+        debug {
+            storeFile file('/home/szpt-user045/Dropbox/ks/mks.jks')
+            storePassword var
+            keyAlias var1
+            keyPassword var2
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "stanislav.vasilina.speditionclient"
+        applicationId 'ua.svasilina.spedition'
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
+        versionCode 3
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
@@ -21,13 +36,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+            versionNameSuffix 'first'
+            debuggable false
+        }
     }
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.squareup.okhttp3:okhttp:4.5.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
