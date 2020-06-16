@@ -30,7 +30,7 @@ import static ua.svasilina.spedition.constants.Keys.DESCRIPTION;
 import static ua.svasilina.spedition.constants.Keys.DONE;
 import static ua.svasilina.spedition.constants.Keys.DRIVER;
 import static ua.svasilina.spedition.constants.Keys.EXPENSES;
-import static ua.svasilina.spedition.constants.Keys.FARE;
+import static ua.svasilina.spedition.constants.Keys.FARES;
 import static ua.svasilina.spedition.constants.Keys.FIELDS;
 import static ua.svasilina.spedition.constants.Keys.FONE;
 import static ua.svasilina.spedition.constants.Keys.GROSS;
@@ -75,7 +75,10 @@ public class ReportsUtil {
         syncUtil.syncThread(report);
     }
 
+//    ChangeUtil changeUtil = new ChangeUtil();
     public void saveReport(final Report report){
+
+//        changeUtil.compare(report, report);
         String uuid = report.getUuid();
         if(uuid == null){
             uuid = UUID.randomUUID().toString();
@@ -85,7 +88,7 @@ public class ReportsUtil {
         final JSONObject jsonObject = report.toJson();
         final String s = jsonObject.toJSONString();
         Log.i("Storage Util", s);
-        storageUtil.saveDate(fileName, s);
+        storageUtil.saveData(fileName, s);
     }
 
     private Report parseReport(String data, ReportDetail detailed){
@@ -142,13 +145,13 @@ public class ReportsUtil {
                     if (parse.containsKey(EXPENSES)){
                         final Object o = parse.get(EXPENSES);
                         if (o != null)
-                            parseExpenses(report, (JSONArray)o);
+                            parseExpenses(report.getExpenses(), (JSONArray)o);
                     }
 
-                    if (parse.containsKey(FARE)) {
-                        int fare = Integer.parseInt(String.valueOf(parse.get(FARE)));
-                        report.setFare(fare);
-                    }
+//                    if (parse.containsKey(FARE)) {
+//                        int fare = Integer.parseInt(String.valueOf(parse.get(FARE)));
+//                        report.setFare(fare);
+//                    }
 
                     if (parse.containsKey(PER_DIEM)) {
                         int perDiem = Integer.parseInt(String.valueOf(parse.get(PER_DIEM)));
@@ -170,6 +173,13 @@ public class ReportsUtil {
                         final Object o = parse.get(NOTES);
                         if (o != null){
                             parseNotes(report, (JSONArray)o);
+                        }
+                    }
+
+                    if (parse.containsKey(FARES)){
+                        final Object o = parse.get(FARES);
+                        if (o != null){
+                            parseExpenses(report.getFares(), (JSONArray)o);
                         }
                     }
                 }
@@ -238,14 +248,15 @@ public class ReportsUtil {
         }
     }
 
-    private void parseExpenses(Report report, JSONArray expensesArray) {
+    private void parseExpenses(ArrayList<Expense> list, JSONArray expensesArray) {
+
         for (Object o : expensesArray){
             JSONObject json = (JSONObject) o;
             Expense expense = new Expense();
             expense.setUuid(String.valueOf(json.get(ID)));
             expense.setDescription(String.valueOf(json.get(DESCRIPTION)));
             expense.setAmount(Integer.parseInt(String.valueOf(json.get(AMOUNT))));
-            report.addExpense(expense);
+            list.add(expense);
         }
     }
 

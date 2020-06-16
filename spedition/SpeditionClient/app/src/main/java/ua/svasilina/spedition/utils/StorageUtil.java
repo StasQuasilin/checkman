@@ -20,7 +20,7 @@ public class StorageUtil {
         this.context = context;
     }
 
-    public void saveDate(String fileName, String data){
+    public void saveData(String fileName, String data){
         try {
             FileOutputStream outputStream = context.openFileOutput(fileName, MODE_PRIVATE);
             outputStream.write(data.getBytes());

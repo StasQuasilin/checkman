@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ua.svasilina.spedition.entity.changes.IChangeComparable;
+
 import static ua.svasilina.spedition.constants.Keys.DONE;
 import static ua.svasilina.spedition.constants.Keys.DRIVER;
 import static ua.svasilina.spedition.constants.Keys.EXPENSES;
-import static ua.svasilina.spedition.constants.Keys.FARE;
+import static ua.svasilina.spedition.constants.Keys.FARES;
 import static ua.svasilina.spedition.constants.Keys.FIELDS;
 import static ua.svasilina.spedition.constants.Keys.FONE;
 import static ua.svasilina.spedition.constants.Keys.ID;
@@ -22,23 +24,24 @@ import static ua.svasilina.spedition.constants.Keys.PRODUCT;
 import static ua.svasilina.spedition.constants.Keys.ROUTE;
 import static ua.svasilina.spedition.constants.Keys.SYNC;
 
-public class Report extends JsonAble implements Serializable, Comparable<Report> {
+public class Report extends JsonAble implements Serializable, Comparable<Report>, IChangeComparable {
 
     private String uuid;
-    private Calendar leaveTime;
-    private Calendar doneDate;
-    private Driver driver;
-    private Route route;
-    private Product product;
-    private int fare;
+    public Calendar leaveTime;
+    public Calendar doneDate;
+    public Driver driver;
+    public Route route;
+    public Product product;
+    public int fare;
     private int expensesSum;
-    private int perDiem;
-    final private ArrayList<ReportField> fields = new ArrayList<>();
-    final private ArrayList<Expense> expenses = new ArrayList<>();
-    final private ArrayList<ReportNote> notes = new ArrayList<>();
-    private boolean done;
+    public int perDiem;
+    final public ArrayList<ReportField> fields = new ArrayList<>();
+    final public ArrayList<Expense> expenses = new ArrayList<>();
+    final public ArrayList<Expense> fares = new ArrayList<>();
+    final public ArrayList<ReportNote> notes = new ArrayList<>();
+    public boolean done;
     private boolean sync;
-    private boolean fone;
+    public boolean fone;
 
     public String getUuid() {
         return uuid;
@@ -106,9 +109,11 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     public ArrayList<Expense> getExpenses() {
         return expenses;
     }
-
     public ArrayList<ReportNote> getNotes() {
         return notes;
+    }
+    public ArrayList<Expense> getFares() {
+        return fares;
     }
 
     public int getPerDiem() {
@@ -132,10 +137,6 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         this.sync = sync;
     }
 
-    public void addField(ReportField field){
-        fields.add(field);
-    }
-
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -156,7 +157,7 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
             json.put(PRODUCT, product.getId());
         }
         json.put(FIELDS, fields());
-        json.put(FARE, fare);
+        json.put(FARES, fare());
         json.put(EXPENSES, expenses());
         json.put(PER_DIEM, perDiem);
         json.put(FONE, fone);
@@ -164,6 +165,14 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         json.put(NOTES, notes());
 
         return json;
+    }
+
+    private JSONArray fare() {
+        JSONArray array = new JSONArray();
+        for (Expense fare : fares){
+            array.add(fare.toJson());
+        }
+        return array;
     }
 
     private JSONArray notes() {
@@ -196,10 +205,24 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
 
     @Override
     public int compareTo(Report o) {
-        return o.leaveTime.compareTo(leaveTime);
+        if (leaveTime == null){
+            return -1;
+        } else if (o == null || o.leaveTime == null){
+            return 1;
+        } else {
+            return o.leaveTime.compareTo(leaveTime);
+        }
+    }
+
+    public void addField(ReportField field){
+        fields.add(field);
     }
 
     public void addExpense(Expense expense) {
         expenses.add(expense);
+    }
+
+    public void addFare(Expense fare) {
+        fares.add(fare);
     }
 }

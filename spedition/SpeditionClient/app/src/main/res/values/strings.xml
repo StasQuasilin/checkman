@@ -49,10 +49,23 @@
     <string name="delete">Видалити</string>
     <string name="close">Закрити</string>
     <string name="check">✓</string>
-    <string name="notes">Примітки</string>
+    <string name="notes">Примітки до відрядження</string>
     <string name="done">Завершено</string>
+    <string name="report_done">Завершити відрядження</string>
     <string name="patronymic">По-батькові</string>
     <string name="phones">Телефони</string>
     <string name="title_location_permission">Геодані</string>
     <string name="message_location_permission">Для кращої роботи програмі потрібен дозвіл на доступ до геоданих пристрою</string>
+    <string name="done_date">Дата завершення відрядження:</string>
+    <string name="date_template">--.--.--</string>
+    <string name="time_template">--:--</string>
+    <string name="fare">Проїзд</string>
+    <string name="expanses">Додаткові витрати</string>
+    <string name="route_edit">Редагувати маршрут</string>
+    <string name="fares">Витрати на проїзд</string>
+    <string name="fixLeaveTime">Зафіксувати час виїзду</string>
+    <string name="done_report_title">Завершення відрядження</string>
+    <string name="done_report_message">Встановити відмітку про завершення відрядження?</string>
+    <string name="no_title">Не всі обов’язкові поля заповнені</string>
+    <string name="fields">Точки відвантаження</string>
 </resources>

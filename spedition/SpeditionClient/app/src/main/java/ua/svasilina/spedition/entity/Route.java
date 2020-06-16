@@ -56,4 +56,8 @@ public class Route extends JsonAble {
     public void clear() {
         points.clear();
     }
+
+    public boolean isEmpty() {
+        return points.size() == 0;
+    }
 }

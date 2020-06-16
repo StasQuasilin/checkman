@@ -32,11 +32,13 @@ public class ExpensesDialog extends DialogFragment {
     private EditText descriptionEdit;
     private EditText amountEdit;
     private SimpleListAdapter<Expense> adapter;
+    private final String title;
 
-    public ExpensesDialog(ArrayList<Expense> expenses, LayoutInflater inflater, CustomListener customListener) {
+    public ExpensesDialog(ArrayList<Expense> expenses, LayoutInflater inflater, CustomListener customListener, String title) {
         this.expenses = expenses;
         this.inflater = inflater;
         this.customListener = customListener;
+        this.title = title;
     }
     int currentIndex = -1;
     @NonNull
@@ -46,7 +48,7 @@ public class ExpensesDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setTitle(R.string.expenses_title);
+        builder.setTitle(title);
 
         final View view = inflater.inflate(R.layout.expenses_dialog, null);
 

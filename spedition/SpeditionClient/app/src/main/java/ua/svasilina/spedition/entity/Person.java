@@ -55,4 +55,8 @@ public class Person extends JsonAble{
     public String getValue() {
         return surname + SPACE + forename;
     }
+
+    public boolean isEmpty() {
+        return surname.isEmpty() && forename.isEmpty();
+    }
 }

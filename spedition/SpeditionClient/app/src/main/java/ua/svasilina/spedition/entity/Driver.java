@@ -52,4 +52,8 @@ public class Driver extends JsonAble{
     public String getValue() {
         return person.getValue();
     }
+
+    public boolean isEmpty() {
+        return person.isEmpty();
+    }
 }

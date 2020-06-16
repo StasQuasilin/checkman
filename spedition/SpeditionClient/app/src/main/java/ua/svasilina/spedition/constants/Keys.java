@@ -12,6 +12,7 @@ public interface Keys {
     String ARRIVE = "arrive";
     String MONEY = "money";
     String FARE = "fare";
+    String FARES = "fares";
     String EXPENSES = "expenses";
     String EXPENSES_SUM = "expensesSum";
     String PER_DIEM = "perDiem";
@@ -28,6 +29,7 @@ public interface Keys {
     String HYPHEN = " — ";
     String TOKEN = "token";
     String ROUTE = "route";
+    String COAST = "coast";
     String GROSS = "gross";
     String TARE = "tare";
     String COUNTERPARTY = "counterparty";

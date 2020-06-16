@@ -15,7 +15,7 @@ public class LoginUtil {
     }
 
     public void saveToken(String token) {
-        storageUtil.saveDate(FILE_NAME, token);
+        storageUtil.saveData(FILE_NAME, token);
     }
 
     public boolean checkLogin() {
