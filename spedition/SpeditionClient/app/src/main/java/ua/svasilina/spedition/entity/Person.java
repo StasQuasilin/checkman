@@ -1,11 +1,13 @@
 package ua.svasilina.spedition.entity;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.Set;
+import java.util.ArrayList;
 
 import static ua.svasilina.spedition.constants.Keys.FORENAME;
 import static ua.svasilina.spedition.constants.Keys.PATRONYMIC;
+import static ua.svasilina.spedition.constants.Keys.PHONES;
 import static ua.svasilina.spedition.constants.Keys.SPACE;
 import static ua.svasilina.spedition.constants.Keys.SURNAME;
 
@@ -13,7 +15,7 @@ public class Person extends JsonAble{
     private String surname;
     private String forename;
     private String patronymic;
-    private Set<Phone> phones;
+    private final ArrayList<String> phones = new ArrayList<>();
 
     public String getSurname() {
         return surname;
@@ -29,13 +31,9 @@ public class Person extends JsonAble{
         this.forename = forename;
     }
 
-    public Set<Phone> getPhones() {
+    public ArrayList<String> getPhones() {
         return phones;
     }
-    public void setPhones(Set<Phone> phones) {
-        this.phones = phones;
-    }
-
     public String getPatronymic() {
         return patronymic;
     }
@@ -49,7 +47,16 @@ public class Person extends JsonAble{
         json.put(FORENAME, forename);
         json.put(SURNAME, surname);
         json.put(PATRONYMIC, patronymic);
+        json.put(PHONES, phones());
         return json;
+    }
+
+    private JSONArray phones() {
+        JSONArray array = new JSONArray();
+        for (String phone : phones){
+            array.add(phone);
+        }
+        return array;
     }
 
     public String getValue() {
@@ -57,6 +64,14 @@ public class Person extends JsonAble{
     }
 
     public boolean isEmpty() {
-        return surname.isEmpty() && forename.isEmpty();
+        return (surname == null || surname.isEmpty()) && (forename == null || forename.isEmpty());
+    }
+
+    public void addPhone(String phone) {
+        phones.add(phone);
+    }
+
+    public boolean anyChanges() {
+        return !isEmpty() || (patronymic != null && !patronymic.isEmpty()) || phones.size() > 0;
     }
 }

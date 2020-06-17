@@ -56,4 +56,15 @@ public class Driver extends JsonAble{
     public boolean isEmpty() {
         return person.isEmpty();
     }
+
+    public void addPhone(String phone) {
+        person.addPhone(phone);
+    }
+
+    public boolean anyChanges() {
+        if (person != null){
+            return person.anyChanges();
+        }
+        return false;
+    }
 }

@@ -17,12 +17,13 @@ import java.util.List;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.activity.ReportEdit;
+import ua.svasilina.spedition.activity.ReportShow;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Product;
 import ua.svasilina.spedition.entity.Report;
 import ua.svasilina.spedition.entity.Route;
 
-import static ua.svasilina.spedition.constants.Keys.HYPHEN;
+import static ua.svasilina.spedition.constants.Keys.EMPTY;
 import static ua.svasilina.spedition.constants.Keys.ID;
 
 public class ReportListAdapter extends ArrayAdapter<Report> {
@@ -56,57 +57,65 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                open(report.getUuid());
+                open(report);
             }
         });
 
         TextView dateView = view.findViewById(R.id.date);
         StringBuilder dateBuilder = new StringBuilder();
 
-
-        byte b = 0;
         if (report.getLeaveTime() != null) {
             simpleDateFormat.applyPattern("dd.MM.yy");
             dateBuilder.append(simpleDateFormat.format(report.getLeaveTime().getTime()));
-            b++;
         }
-        if (report.getDoneDate() != null){
-            dateBuilder.append(HYPHEN);
-            dateBuilder.append(simpleDateFormat.format(report.getDoneDate().getTime()));
-            b++;
-        }
+
         dateView.setText(dateBuilder.toString());
         final TextView check = view.findViewById(R.id.check);
-        if (b == 2){
+
+        if (report.getDoneDate() != null){
             check.setVisibility(View.VISIBLE);
         } else {
             check.setVisibility(View.GONE);
         }
 
         final Driver driver = report.getDriver();
+        final TextView driverView = view.findViewById(R.id.driver);
         if (driver != null){
-            final TextView driverView = view.findViewById(R.id.driver);
             driverView.setText(driver.getValue().toUpperCase());
+        } else {
+            driverView.setText(EMPTY);
         }
 
         final Route route = report.getRoute();
+        final TextView routeView = view.findViewById(R.id.route);
         if (route != null){
-            final TextView routeView = view.findViewById(R.id.route);
             routeView.setText(route.getValue());
+        } else {
+            routeView.setText(EMPTY);
         }
 
         final Product product = report.getProduct();
+        final TextView productView = view.findViewById(R.id.details);
         if (product != null){
-            final TextView productView = view.findViewById(R.id.details);
             productView.setText(product.getName());
+        } else {
+            productView.setText(EMPTY);
         }
+
 
         return view;
     }
 
-    private void open(String uuid) {
-        Intent intent = new Intent(context, ReportEdit.class);
-        intent.putExtra(ID, uuid);
+    private void open(Report report) {
+
+        Intent intent = new Intent();
+        if (report.isDone()){
+            intent.setClass(context, ReportShow.class);
+        } else {
+            intent.setClass(context, ReportEdit.class);
+        }
+
+        intent.putExtra(ID, report.getUuid());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

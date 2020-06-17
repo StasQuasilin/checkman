@@ -49,4 +49,8 @@ public interface Keys {
     String NOTE = "note";
     String NOTES = "notes";
     String DOT = ".";
+    String COMA = ",";
+    String PHONES = "phones";
+    String LEFT_BRACE = "(";
+    String RIGHT_BRACE = ")";
 }

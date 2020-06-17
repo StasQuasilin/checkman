@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Прізвище"
+        android:text="@string/surname"
+        android:labelFor="@id/surnameEdit"
         app:layout_constraintBottom_toBottomOf="@+id/surnameEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/surnameEdit" />
@@ -25,14 +26,16 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/forenameEdit"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Ім’я"
+        android:text="@string/forename"
+        android:labelFor="@id/forenameEdit"
         app:layout_constraintBottom_toBottomOf="@+id/forenameEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/forenameEdit" />
@@ -46,13 +49,15 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/patronymicEdit"
-        app:layout_constraintTop_toBottomOf="@+id/surnameEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/surnameEdit"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:labelFor="@id/patronymicEdit"
         android:text="@string/patronymic"
         app:layout_constraintBottom_toBottomOf="@+id/patronymicEdit"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,10 +85,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/addPhoneButton" />
 
     <ImageButton
-        android:id="@+id/addPhone"
+        android:id="@+id/addPhoneButton"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"

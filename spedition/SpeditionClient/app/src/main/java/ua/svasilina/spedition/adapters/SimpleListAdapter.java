@@ -60,13 +60,14 @@ public class SimpleListAdapter<T> extends ArrayAdapter<T> {
             }
         }
 
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.click(item, position);
-            }
-        });
+        if (listener != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.click(item, position);
+                }
+            });
+        }
         return view;
     }
 }

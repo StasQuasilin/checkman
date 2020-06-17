@@ -23,6 +23,7 @@ import static ua.svasilina.spedition.constants.Keys.PER_DIEM;
 import static ua.svasilina.spedition.constants.Keys.PRODUCT;
 import static ua.svasilina.spedition.constants.Keys.ROUTE;
 import static ua.svasilina.spedition.constants.Keys.SYNC;
+import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
 public class Report extends JsonAble implements Serializable, Comparable<Report>, IChangeComparable {
 
@@ -32,6 +33,7 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     public Driver driver;
     public Route route;
     public Product product;
+    private Weight weight;
     public int fare;
     private int expensesSum;
     public int perDiem;
@@ -39,7 +41,6 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     final public ArrayList<Expense> expenses = new ArrayList<>();
     final public ArrayList<Expense> fares = new ArrayList<>();
     final public ArrayList<ReportNote> notes = new ArrayList<>();
-    public boolean done;
     private boolean sync;
     public boolean fone;
 
@@ -78,11 +79,16 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         this.route = route;
     }
 
-    public boolean isDone() {
-        return done;
+    public Weight getWeight() {
+        return weight;
     }
-    public void setDone(boolean done) {
-        this.done = done;
+
+    public void setWeight(Weight weight) {
+        this.weight = weight;
+    }
+
+    public boolean isDone() {
+        return doneDate != null;
     }
 
     public Product getProduct() {
@@ -147,7 +153,7 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         if(doneDate != null){
             json.put(DONE, doneDate.getTimeInMillis());
         }
-        if (driver != null){
+        if (driver != null && driver.anyChanges()){
             json.put(DRIVER, driver.toJson());
         }
         if (route != null){
@@ -155,6 +161,9 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         }
         if (product != null){
             json.put(PRODUCT, product.getId());
+        }
+        if (weight != null){
+            json.put(WEIGHT, weight.toJson());
         }
         json.put(FIELDS, fields());
         json.put(FARES, fare());

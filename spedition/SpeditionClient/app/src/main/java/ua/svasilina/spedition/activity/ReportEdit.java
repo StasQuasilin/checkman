@@ -3,6 +3,7 @@ package ua.svasilina.spedition.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -38,18 +40,25 @@ import ua.svasilina.spedition.dialogs.ExpensesDialog;
 import ua.svasilina.spedition.dialogs.NoteEditDialog;
 import ua.svasilina.spedition.dialogs.ReportNotCompletedDialog;
 import ua.svasilina.spedition.dialogs.RouteEditDialog;
+import ua.svasilina.spedition.dialogs.WeightDialog;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
 import ua.svasilina.spedition.entity.Person;
 import ua.svasilina.spedition.entity.Product;
 import ua.svasilina.spedition.entity.Report;
 import ua.svasilina.spedition.entity.ReportField;
+import ua.svasilina.spedition.entity.ReportNote;
 import ua.svasilina.spedition.entity.Route;
+import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
 import ua.svasilina.spedition.utils.ReportsUtil;
 
+import static ua.svasilina.spedition.constants.Keys.COMA;
 import static ua.svasilina.spedition.constants.Keys.ID;
+import static ua.svasilina.spedition.constants.Keys.LEFT_BRACE;
+import static ua.svasilina.spedition.constants.Keys.RIGHT_BRACE;
+import static ua.svasilina.spedition.constants.Keys.SPACE;
 
 public class ReportEdit extends AppCompatActivity {
 
@@ -64,6 +73,7 @@ public class ReportEdit extends AppCompatActivity {
     private Button timeButton;
     private Button routeButton;
     private Spinner productList;
+    private Button weightButton;
     private Button fixLeaveTime;
     private View leaveTimeContainer;
     private Button fareEdit;
@@ -93,22 +103,17 @@ public class ReportEdit extends AppCompatActivity {
         supportActionBar.setTitle(R.string.edit);
 
         reportsUtil = new ReportsUtil(context);
-        adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager(), report, new CustomListener() {
-            @Override
-            public void onChange() {
-                save(false);
-            }
-        });
 
         final Intent intent = getIntent();
         final String uuid = intent.getStringExtra(ID);
 
         if (uuid != null) {
             report = reportsUtil.openReport(uuid);
-            adapter.addAll(report.getFields());
         } else {
             report = new Report();
         }
+
+        Log.i("Editable report data", report.toJson().toJSONString());
 
         driverButton = findViewById(R.id.driverButton);
         initDriverButton();
@@ -118,6 +123,9 @@ public class ReportEdit extends AppCompatActivity {
 
         productList = findViewById(R.id.productSpinner);
         initProductList();
+
+        weightButton = findViewById(R.id.weightButton);
+        initWeightButton();
 
         fixLeaveTime = findViewById(R.id.fixLeaveTime);
         leaveTimeContainer = findViewById(R.id.lealeTimeContainer);
@@ -139,6 +147,15 @@ public class ReportEdit extends AppCompatActivity {
         doneDateView = findViewById(R.id.doneDateLabel);
         initDoneLabel();
 
+
+        adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager(), report, new CustomListener() {
+            @Override
+            public void onChange() {
+                save(false);
+            }
+        });
+        adapter.addAll(report.getFields());
+
         ListView reports = findViewById(R.id.fields);
         reports.setAdapter(adapter);
 
@@ -154,6 +171,53 @@ public class ReportEdit extends AppCompatActivity {
         });
     }
 
+    private void initWeightButton() {
+        weightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showWeightDialog();
+            }
+        });
+        updateWeightButton();
+    }
+
+    private void updateWeightButton() {
+        final Weight weight = report.getWeight();
+        if (weight == null){
+            weightButton.setVisibility(View.GONE);
+        } else {
+            weightButton.setVisibility(View.VISIBLE);
+            final Resources resources = getResources();
+            String builder = resources.getString(R.string.B) +
+                    SPACE +
+                    weight.getGross() +
+                    COMA + SPACE +
+                    resources.getString(R.string.T) +
+                    SPACE +
+                    weight.getTare() +
+                    COMA + SPACE +
+                    resources.getString(R.string.N) +
+                    SPACE +
+                    weight.getNet();
+            weightButton.setText(builder);
+        }
+    }
+
+    private void showWeightDialog() {
+        Weight weight = report.getWeight();
+        if (weight == null){
+            weight = new Weight();
+            report.setWeight(weight);
+        }
+        new WeightDialog(weight, getLayoutInflater(), new CustomListener() {
+            @Override
+            public void onChange() {
+                updateWeightButton();
+                save(false);
+            }
+        }).show(getSupportFragmentManager(), "Weight Dialog");
+    }
+
     private void initNoteButton() {
         noteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,12 +225,26 @@ public class ReportEdit extends AppCompatActivity {
             NoteEditDialog noteEditDialog = new NoteEditDialog(getApplicationContext(), report.getNotes(), getLayoutInflater(), new CustomListener() {
                 @Override
                 public void onChange() {
+                    updateNoteButton();
                     save(false);
                 }
             });
             noteEditDialog.show(getSupportFragmentManager(), "Notes Dialog");
             }
         });
+        updateNoteButton();
+    }
+
+    private void updateNoteButton() {
+        final ArrayList<ReportNote> notes = report.getNotes();
+        StringBuilder builder = new StringBuilder();
+        builder.append(getResources().getString(R.string.notes));
+        if (notes.size() > 0){
+            builder.append(SPACE).append(LEFT_BRACE).append(SPACE);
+            builder.append(notes.size()).append(SPACE);
+            builder.append(RIGHT_BRACE);
+        }
+        noteButton.setText(builder.toString());
     }
 
     private void initExpenseButton() {
@@ -391,8 +469,11 @@ public class ReportEdit extends AppCompatActivity {
         } else if (itemId == R.id.cancel){
             onBackPressed();
         } else if (itemId == R.id.done){
-            doneReport();
-
+            if (report.getDoneDate() != null) {
+                doneReport();
+            }
+        } else if (itemId == R.id.weight){
+            showWeightDialog();
         }
         return false;
     }
@@ -413,8 +494,13 @@ public class ReportEdit extends AppCompatActivity {
             DoneReportDialog drd = new DoneReportDialog(new CustomListener() {
                 @Override
                 public void onChange() {
+                    report.setDoneDate(Calendar.getInstance());
                     save(false);
-                    initDoneLabel();
+                    final Context context = getApplicationContext();
+                    final Intent intent = new Intent(context, ReportShow.class);
+                    intent.putExtra(ID, report.getUuid());
+                    context.startActivity(intent);
+
                 }
             });
             drd.show(getSupportFragmentManager(), "Done dialog");
@@ -428,9 +514,7 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     void save(boolean redirect){
-
         report.setSync(false);
-
         reportsUtil.saveReport(report);
 
         if (redirect) {

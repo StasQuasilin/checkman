@@ -51,7 +51,7 @@ public class StorageUtil {
             }
             return builder.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }

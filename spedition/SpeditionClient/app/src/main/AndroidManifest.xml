@@ -22,6 +22,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity android:name="ua.svasilina.spedition.activity.ReportEdit" />
+        <activity android:name="ua.svasilina.spedition.activity.ReportShow" />
         <activity android:name="ua.svasilina.spedition.activity.Reports">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

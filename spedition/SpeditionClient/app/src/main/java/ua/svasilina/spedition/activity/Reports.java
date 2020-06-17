@@ -18,7 +18,6 @@ import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.ReportListAdapter;
 import ua.svasilina.spedition.dialogs.LoginDialog;
 import ua.svasilina.spedition.entity.Report;
-import ua.svasilina.spedition.services.LocationService;
 import ua.svasilina.spedition.utils.ReportsUtil;
 
 public class Reports extends AppCompatActivity {
@@ -36,13 +35,11 @@ public class Reports extends AppCompatActivity {
 
         final Context context = getApplicationContext();
         reportsUtil = new ReportsUtil(context);
-
         reports.addAll(reportsUtil.readStorage());
-
         adapter = new ReportListAdapter(context, R.layout.report_list_row, reports);
         ListView view = findViewById(R.id.report_list);
         view.setAdapter(adapter);
-        new LocationService(context).checkGranted(this);
+//        new LocationService(context).checkGranted(this);
     }
 
     @Override
@@ -81,7 +78,7 @@ public class Reports extends AppCompatActivity {
     public void onBackPressed() {
         if (backPressedTime + 2000 > System.currentTimeMillis()) {
             backToast.cancel();
-            super.onBackPressed();
+            finish();
             return;
         } else {
             backToast = Toast.makeText(getBaseContext(), R.string.pressBack, Toast.LENGTH_SHORT);
