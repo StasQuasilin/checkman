@@ -6,16 +6,19 @@
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="messages"/>
-<fmt:setLocale value="uk"/>
+<fmt:setLocale value="${locale}"/>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="${context}/css/main.css"/>
-    <link rel="stylesheet" href="${context}/css/modalLayer.css">
+    <link rel="stylesheet" href="${context}/css/menu.css">
     <script>
         if(typeof context == "undefined"){
             context = '${context}';
+        }
+        if (typeof userId == "undefined"){
+            userId = ${user.id};
         }
     </script>
     <script src="${context}/external/jquery.min.js"></script>
@@ -23,25 +26,19 @@
     <script src="${context}/external/vue.js"></script>
     <script src="${context}/js/socket.js"></script>
     <script src="${context}/js/modal.js"></script>
+    <script>
+        logoutApi = context + '${logout}';
+    </script>
 </head>
-    <body>
+    <body style="background-color: #d3f9d3;">
         <div id="modalLayer" class="modal-layer">
-            <div class="modal-body">
-                <div class="model-content">
-                    <div class="modal-header">
-                        &nbsp;
-                        <div id="modalTitle" class="modal-title"></div>
-                        <div class="modal-close-button" onclick="closeModal()">
-                            &times;
-                        </div>
-                    </div>
-                    <div id="modalContent" class="modal-data"></div>
-                </div>
-            </div>
+
         </div>
-        <div style="height: 100%; background-color: palegoldenrod">
+        <div style="padding: 8px">
+            <div class="menu-holder">
+                <jsp:include page="menu.jsp"/>
+            </div>
             <jsp:include page="${content}"/>
         </div>
-
     </body>
 </html>

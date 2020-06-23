@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static constants.Keys.*;
 
@@ -34,7 +35,7 @@ public class SaveReportAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         ServerAnswer answer;
         if (body != null) {
-            System.out.println(body);
+            System.out.println("!" + body);
             final String header = req.getHeader(TOKEN);
             final User user = userDAO.getUserByToken(header);
             Report report = reportDAO.getReportByUUID(body.get(Keys.ID));
@@ -44,8 +45,10 @@ public class SaveReportAPI extends ServletAPI {
                 report.setOwner(user);
             }
 
-            Timestamp leave = new Timestamp(Long.parseLong(String.valueOf(body.get(LEAVE))));
-            report.setLeaveTime(leave);
+            if (body.containsKey(LEAVE)) {
+                Timestamp leave = new Timestamp(Long.parseLong(String.valueOf(body.get(LEAVE))));
+                report.setLeaveTime(leave);
+            }
 
             if (body.containsKey(DONE)){
                 Timestamp done = new Timestamp(Long.parseLong(String.valueOf(body.get(DONE))));
@@ -54,6 +57,18 @@ public class SaveReportAPI extends ServletAPI {
 
             final Product product = productDAO.getProduct(body.get(PRODUCT));
             report.setProduct(product);
+
+            if(body.containsKey(WEIGHT)){
+                final Object o = body.get(WEIGHT);
+                if (o != null){
+                    Weight weight = report.getWeight();
+                    if (weight == null){
+                        weight = new Weight();
+                        report.setWeight(weight);
+                    }
+                    parseWeight(weight, (JSONObject)o);
+                }
+            }
 
             if (body.containsKey(ROUTE)) {
                 JSONObject route = (JSONObject) body.get(ROUTE);
@@ -83,28 +98,60 @@ public class SaveReportAPI extends ServletAPI {
                 }
                 driver.setUuid(String.valueOf(driverJson.get(ID)));
                 final Person person = driver.getPerson();
+
                 person.setSurname(String.valueOf(driverJson.get(SURNAME)));
                 person.setForename(String.valueOf(driverJson.get(FORENAME)));
+
                 driverDAO.save(driver);
+
+                final HashMap<String, Phone> phones = new HashMap<>();
+                if (person.getPhones() != null) {
+                    for (Phone phone : person.getPhones()) {
+                        phones.put(phone.getNumber(), phone);
+                    }
+                }
+                final Object o = driverJson.get(PHONES);
+                if (o != null){
+                    for (Object p : (JSONArray)o){
+                        String number = String.valueOf(p);
+                        Phone phone = phones.remove(number);
+                        if (phone == null){
+                            phone = new Phone();
+                            phone.setPerson(person);
+                            phone.setNumber(number);
+                            userDAO.save(phone);
+                        }
+                    }
+                }
+                for (Map.Entry<String, Phone> entry : phones.entrySet()){
+                    userDAO.remove(entry.getValue());
+                }
+
                 report.setDriver(driver);
             } else {
                 report.setDriver(null);
             }
-
-            int fare = Integer.parseInt(String.valueOf(body.get(FARE)));
-            report.setFare(fare);
 
             int perDiem = Integer.parseInt(String.valueOf(body.get(PER_DIEM)));
             report.setPerDiem(perDiem);
 
             reportDAO.save(report);
             saveFields(report, (JSONArray) body.get(FIELDS));
-            saveExpenses(report, (JSONArray) body.get(EXPENSES));
+            saveExpenses(report, report.getFares(), (JSONArray) body.get(FARES), ExpenseType.fare);
+            saveExpenses(report, report.getExpenses(), (JSONArray) body.get(EXPENSES), ExpenseType.expense);
             saveNotes(report, (JSONArray) body.get(NOTES));
 
             answer = new SuccessAnswer();
             write(resp, answer.toJson());
         }
+    }
+
+    private void parseWeight(Weight weight, JSONObject o) {
+        float gross = Float.parseFloat(String.valueOf(o.get(GROSS)));
+        float tare = Float.parseFloat(String.valueOf(o.get(TARE)));
+        weight.setGross(gross);
+        weight.setTare(tare);
+        reportDAO.save(weight);
     }
 
     private void saveNotes(Report report, JSONArray array) {
@@ -136,9 +183,9 @@ public class SaveReportAPI extends ServletAPI {
         }
     }
 
-    private void saveExpenses(Report report, JSONArray expensesList) {
+    private void saveExpenses(Report report, Set<Expense> expenses, JSONArray expensesList, ExpenseType type) {
         HashMap<String, Expense> expenseHashMap = new HashMap<>();
-        for (Expense expense : report.getExpenses()){
+        for (Expense expense : expenses){
             expenseHashMap.put(expense.getUuid(), expense);
         }
         for (Object o : expensesList){
@@ -149,6 +196,7 @@ public class SaveReportAPI extends ServletAPI {
                 expense = new Expense();
                 expense.setReport(report);
                 expense.setUuid(uuid);
+                expense.setType(type);
             }
 
             String description = String.valueOf(json.get(DESCRIPTION));
@@ -171,7 +219,6 @@ public class SaveReportAPI extends ServletAPI {
             String id = String.valueOf(field.get(ID));
             ReportField reportField = fieldHashMap.remove(id);
             if (reportField == null){
-                System.out.println("NEW");
                 reportField = new ReportField();
                 reportField.setReport(report);
                 reportField.setUuid(id);
@@ -189,6 +236,18 @@ public class SaveReportAPI extends ServletAPI {
 
             int money = Integer.parseInt(String.valueOf(field.get(MONEY)));
             reportField.setMoney(money);
+
+            if (field.containsKey(WEIGHT)){
+                final Object w = field.get(WEIGHT);
+                if (w != null) {
+                    Weight weight = reportField.getWeight();
+                    if (weight == null) {
+                        weight = new Weight();
+                        reportField.setWeight(weight);
+                    }
+                    parseWeight(weight, (JSONObject) w);
+                }
+            }
 
             reportDAO.save(reportField);
         }

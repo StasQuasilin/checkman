@@ -2,6 +2,7 @@ package api.socket.handlers;
 
 import api.socket.DataType;
 import api.socket.SubscribeType;
+import entity.User;
 import org.json.simple.JSONObject;
 
 import javax.websocket.Session;
@@ -21,8 +22,8 @@ public abstract class Handler {
         return subscribeType;
     }
 
-    public void onSubscribe(Session session) throws IOException {
-        send(session, DataType.add, getData());
+    public void onSubscribe(Session session, User user) throws IOException {
+        send(session, DataType.add, getData(user));
     }
 
     public void send(Session session, DataType dataType, Object data){
@@ -40,5 +41,5 @@ public abstract class Handler {
         }
     }
 
-    public abstract Object getData();
+    public abstract Object getData(User user);
 }

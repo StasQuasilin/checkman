@@ -22,6 +22,8 @@ import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.ReportNote;
 import ua.svasilina.spedition.entity.Route;
 import ua.svasilina.spedition.entity.Weight;
+import ua.svasilina.spedition.utils.changes.ChangeLog;
+import ua.svasilina.spedition.utils.changes.ChangeUtil;
 
 import static ua.svasilina.spedition.constants.Keys.AMOUNT;
 import static ua.svasilina.spedition.constants.Keys.ARRIVE;
@@ -59,27 +61,29 @@ public class ReportsUtil {
     private final FileFilter fileFilter;
     private final Context context;
     private final SyncUtil syncUtil;
-
+    private final ChangeUtil changeUtil;
     public ReportsUtil(Context context) {
         storageUtil = new StorageUtil(context);
         fileFilter = new FileFilter(reportsDir);
         this.context = context;
         syncUtil = new SyncUtil(this);
+        changeUtil = new ChangeUtil(context);
     }
 
     public Context getContext() {
         return context;
     }
 
-//    ChangeUtil changeUtil = new ChangeUtil();
     public void saveReport(final Report report){
-
-//        changeUtil.compare(report, report);
         String uuid = report.getUuid();
         if(uuid == null){
             uuid = UUID.randomUUID().toString();
             report.setUuid(uuid);
         }
+
+        Report oldReport = openReport(uuid);
+        final ChangeLog changeLog = changeUtil.compare(oldReport, report);
+
         final String fileName = reportsDir + uuid;
         final JSONObject jsonObject = report.toJson();
         final String data = jsonObject.toJSONString();
@@ -91,7 +95,6 @@ public class ReportsUtil {
 
         Report report = null;
         try {
-//            System.out.println(data);
             final JSONObject parse = (JSONObject) parser.parse(data);
             report = new Report();
             report.setUuid(String.valueOf(parse.get(ID)));
@@ -296,7 +299,10 @@ public class ReportsUtil {
 
     public Report openReport(String uuid) {
         final String s = storageUtil.readFile(reportsDir + uuid);
-        return parseReport(s, ReportDetail.full);
+        if (s != null) {
+            return parseReport(s, ReportDetail.full);
+        }
+        return null;
     }
 
     public void clearStorage() {

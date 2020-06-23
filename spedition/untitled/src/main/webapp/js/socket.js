@@ -24,7 +24,8 @@ function subscribe(subscribe, handler) {
     subscribes[subscribe] = handler;
     send(JSON.stringify({
         action:'subscribe',
-        subscribe:subscribe
+        subscribe:subscribe,
+        user:userId
     }))
 }
 function unsubscribe(subscribe) {

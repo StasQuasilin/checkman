@@ -48,6 +48,6 @@ public class Expense extends JsonAble{
     @NonNull
     @Override
     public String toString() {
-        return description + COLON + SPACE + amount;
+        return description.toUpperCase() + COLON + SPACE + amount;
     }
 }

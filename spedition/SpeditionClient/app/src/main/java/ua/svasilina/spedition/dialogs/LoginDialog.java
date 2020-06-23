@@ -1,15 +1,12 @@
 package ua.svasilina.spedition.dialogs;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +18,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import org.json.simple.JSONObject;
@@ -73,7 +69,7 @@ public class LoginDialog extends DialogFragment {
         Log.i("Login", "Create dialog");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        if (isAuthorize){
+        if (isAuthorize) {
             final View view = inflater.inflate(R.layout.already_login, null);
             final Button removeToken = view.findViewById(R.id.removeToken);
             removeToken.setOnClickListener(new View.OnClickListener() {
@@ -121,15 +117,23 @@ public class LoginDialog extends DialogFragment {
 
     @SuppressLint("HardwareIds")
     private String getNumber() {
-        final int granted = PackageManager.PERMISSION_GRANTED;
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_SMS) == granted &&
-                    ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_NUMBERS) == granted &&
-                    ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == granted) {
-                TelephonyManager tMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-                if (tMgr != null) {
-                    return tMgr.getLine1Number();
-                }
-            }
+//        final Context context = getContext();
+//        assert context != null;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+//                List<SubscriptionInfo> subscription = SubscriptionManager.from(context).getActiveSubscriptionInfoList();
+//                return subscription.get(0).getNumber();
+//            }
+//
+//        } else {
+//            final TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+//            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+//                    ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED &&
+//                    ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+//                assert telephonyManager != null;
+//                return telephonyManager.getLine1Number();
+//            }
+//        }
         return EMPTY;
     }
 
@@ -143,7 +147,7 @@ public class LoginDialog extends DialogFragment {
         json.put(PHONE, login);
         json.put(PASSWORD, Base64.encodeToString(password.getBytes(), Base64.NO_WRAP));
 
-        final StatusHandler statusHandler = new StatusHandler(statusView);
+        final StatusHandler statusHandler = new StatusHandler(statusView, progressBar);
         final LoginHandler loginHandler = new LoginHandler(loginUtil);
 
         new Thread(new Runnable() {
@@ -154,21 +158,27 @@ public class LoginDialog extends DialogFragment {
                     waitAnswer = false;
                     Log.i("Login", post);
                     JSONParser parser = new JSONParser();
-                    try {
-                        JSONObject json = (JSONObject) parser.parse(post);
-                        String status = String.valueOf(json.get(STATUS));
-                        if (status.equals(SUCCESS)){
-                            String token = String.valueOf(json.get(TOKEN));
-                            sendMessage(loginHandler, TOKEN, token);
-                            statusHandler.removeCallbacksAndMessages(null);
-                            dismiss();
-                        } else {
-                            String reason = String.valueOf(json.get(REASON));
-                            sendMessage(statusHandler, REASON, reason);
+                    if (post.contains("<")){
+                        sendMessage(statusHandler, REASON, "Probably answer is html\nprobably answer is 404");
+                    } else {
+                        try {
+                            JSONObject json = (JSONObject) parser.parse(post);
+                            String status = String.valueOf(json.get(STATUS));
+                            if (status.equals(SUCCESS)){
+                                String token = String.valueOf(json.get(TOKEN));
+                                sendMessage(loginHandler, TOKEN, token);
+                                statusHandler.removeCallbacksAndMessages(null);
+                                dismiss();
+                            } else {
+                                String reason = String.valueOf(json.get(REASON));
+                                sendMessage(statusHandler, REASON, reason);
+                            }
+                        } catch (ParseException e) {
+                            sendMessage(statusHandler, REASON, "Can't parse answer");
+                            e.printStackTrace();
                         }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
                     }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

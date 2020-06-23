@@ -1,5 +1,6 @@
 package entity;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Person extends JsonAble{
     private int id;
     private String surname;
     private String forename;
+    private String patronymic;
     private Set<Phone> phones;
 
     @Id
@@ -42,6 +44,15 @@ public class Person extends JsonAble{
         this.forename = forename;
     }
 
+    @Basic
+    @Column(name = "patronymic")
+    public String getPatronymic() {
+        return patronymic;
+    }
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL)
     public Set<Phone> getPhones() {
         return phones;
@@ -56,7 +67,17 @@ public class Person extends JsonAble{
         json.put(ID, id);
         json.put(SURNAME, surname);
         json.put(FORENAME, forename);
+        json.put(PATRONYMIC, patronymic);
+        json.put(PHONES, phones());
         return json;
+    }
+
+    private JSONArray phones() {
+        JSONArray array = new JSONArray();
+        for (Phone phone : phones){
+            array.add(phone.getNumber());
+        }
+        return array;
     }
 
     @Transient

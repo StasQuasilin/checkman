@@ -1,15 +1,20 @@
 package utils;
 
+import entity.Expense;
+import entity.ExpenseType;
+import org.hibernate.jdbc.Expectation;
+import utils.hibernate.Hibernator;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Test {
+
+    static Hibernator hibernator = Hibernator.getInstance();
     public static void main(String[] args) {
-        final LocalDateTime now = LocalDateTime.now();
-        final Timestamp t1 = Timestamp.valueOf(now);
-        final Timestamp t2 = Timestamp.valueOf(now.plusHours(18).plusDays(1));
-        long diff = t2.getTime() - t1.getTime();
-        final double ceil = Math.ceil(1d * diff / (60 * 60 * 1000 * 24));
-        System.out.println(ceil);
+        for (Expense expense : hibernator.query(Expense.class, null)){
+            expense.setType(ExpenseType.expense);
+            hibernator.save(expense);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package entity;
 
+import org.hibernate.annotations.Where;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,11 +18,12 @@ public class Report extends JsonAble {
     private String uuid;
     private Timestamp leaveTime;
     private Product product;
+    private Weight weight;
     private String route;
     private Timestamp done;
     private User owner;
     private Driver driver;
-    private int fare;
+    private Set<Expense> fares = new HashSet<>();
     private Set<Expense> expenses = new HashSet<>();
     private int perDiem;
 
@@ -61,6 +63,15 @@ public class Report extends JsonAble {
         this.product = product;
     }
 
+    @OneToOne
+    @JoinColumn(name = "weight")
+    public Weight getWeight() {
+        return weight;
+    }
+    public void setWeight(Weight weight) {
+        this.weight = weight;
+    }
+
     @Basic
     @Column(name = "route")
     public String getRoute() {
@@ -97,16 +108,17 @@ public class Report extends JsonAble {
         this.driver = driver;
     }
 
-    @Basic
-    @Column(name = "fare")
-    public int getFare() {
-        return fare;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "report", cascade = CascadeType.ALL)
+    @Where(clause = "type = 0")
+    public Set<Expense> getFares() {
+        return fares;
     }
-    public void setFare(int fare) {
-        this.fare = fare;
+    public void setFares(Set<Expense> fares) {
+        this.fares = fares;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "report", cascade = CascadeType.ALL)
+    @Where(clause = "type = 1")
     public Set<Expense> getExpenses() {
         return expenses;
     }
@@ -124,28 +136,41 @@ public class Report extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toSimpleJson() {
         JSONObject json = getJsonObject();
         json.put(ID, id);
-        json.put(UUID, uuid);
-        json.put(LEAVE, leaveTime.toString());
-
-        if (product != null){
-            json.put(PRODUCT, product.toJson());
+        if (leaveTime != null) {
+            json.put(LEAVE, leaveTime.toString());
         }
         if (route != null){
             json.put(ROUTE, route);
         }
-
+        if (product != null){
+            json.put(PRODUCT, product.toJson());
+        }
         if (done != null){
             json.put(DONE, done.toString());
         }
-
         json.put(OWNER, owner.toJson());
-        json.put(FARE, fare);
+        return json;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        final JSONObject json = toSimpleJson();
+        if (weight != null){
+            json.put(WEIGHT, weight.toJson());
+        }
+
+        json.put(FARES, fares());
         json.put(EXPENSES, expenses());
         json.put(PER_DIEM, perDiem);
         return json;
+    }
+
+    private JSONArray fares() {
+        JSONArray array = new JSONArray();
+        return array;
     }
 
     private JSONArray expenses() {

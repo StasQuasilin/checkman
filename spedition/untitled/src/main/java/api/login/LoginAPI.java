@@ -13,6 +13,7 @@ import utils.hibernate.dao.UserDAO;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static constants.Keys.*;
@@ -36,7 +37,10 @@ public class LoginAPI extends ServletAPI {
                 if (access.getPassword().equals(password)){
                     answer = new SuccessAnswer();
                     if(body.containsKey(REDIRECT)){
-                        req.getSession().setAttribute(TOKEN, access.getToken());
+                        final HttpSession session = req.getSession();
+                        session.setAttribute(USER, access.getUser());
+                        session.setAttribute(TOKEN, access.getToken());
+                        session.setAttribute(ROLE, access.getUser().getRole());
                         answer.addParam(REDIRECT, req.getContextPath() + Links.REPORTS);
                     } else {
                         answer.addParam(TOKEN, access.getToken());

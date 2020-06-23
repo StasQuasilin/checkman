@@ -3,12 +3,11 @@ package utils.hibernate.dao;
 import api.socket.SubscribeType;
 import api.socket.UpdateUtil;
 import constants.Keys;
-import entity.Expense;
-import entity.Report;
-import entity.ReportField;
-import entity.ReportNote;
+import entity.*;
 import utils.hibernate.Hibernator;
+import utils.hibernate.State;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static constants.Keys.REPORT;
@@ -22,13 +21,25 @@ public class ReportDAO {
     }
 
     public void save(Report report) {
-        System.out.println("Save report " + report.getUuid());
         hibernator.save(report);
-        updateUtil.update(SubscribeType.reports, report.toJson());
+        final User owner = report.getOwner();
+        updateUtil.update(SubscribeType.reports, report.toJson(), owner);
+        if (owner.getSupervisor() != null){
+            updateUtil.update(SubscribeType.reports, report.toJson(), owner.getSupervisor());
+        }
     }
 
-    public List<Report> getReports() {
-        return hibernator.query(Report.class, null);
+    public List<Report> getReports(User user) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("leaveTime", State.notNull);
+        final Role role = user.getRole();
+        if (role == Role.supervisor){
+            params.put("owner/supervisor", user);
+        } else {
+            params.put("owner", user);
+        }
+
+        return hibernator.query(Report.class, params);
     }
 
     public List<ReportField> getFields(Object report){
@@ -57,5 +68,9 @@ public class ReportDAO {
 
     public void save(ReportNote reportNote) {
         hibernator.save(reportNote);
+    }
+
+    public void save(Weight weight) {
+        hibernator.save(weight);
     }
 }

@@ -45,7 +45,7 @@ public class RouteEditDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.route_edit, null);
         pointEdit = view.findViewById(R.id.editRoute);
 
-        adapter = new SimpleListAdapter<>(getContext(), R.layout.simple_list_item, new AdapterItemEditInterface<String>() {
+        adapter = new SimpleListAdapter<>(getContext(), R.layout.simple_list_item_d, new AdapterItemEditInterface<String>() {
             @Override
             public void click(String item, int index) {
                 currentItem = index;

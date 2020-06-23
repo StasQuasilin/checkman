@@ -41,12 +41,6 @@ public class SyncUtil {
                 }
             }
         }).start();
-        new Thread(){
-            @Override
-            public void run() {
-
-            }
-        }.start();
     }
     private final Set<String> nowSync = new HashSet<>();
 

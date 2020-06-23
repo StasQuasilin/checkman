@@ -1,14 +1,16 @@
 package ua.svasilina.spedition.entity;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
-import ua.svasilina.spedition.entity.changes.IChangeComparable;
+import ua.svasilina.spedition.utils.changes.IChanged;
 
 import static ua.svasilina.spedition.constants.Keys.DONE;
 import static ua.svasilina.spedition.constants.Keys.DRIVER;
@@ -25,24 +27,22 @@ import static ua.svasilina.spedition.constants.Keys.ROUTE;
 import static ua.svasilina.spedition.constants.Keys.SYNC;
 import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
-public class Report extends JsonAble implements Serializable, Comparable<Report>, IChangeComparable {
+public class Report extends JsonAble implements Serializable, Comparable<Report>, IChanged {
 
     private String uuid;
     public Calendar leaveTime;
-    public Calendar doneDate;
-    public Driver driver;
+    private Calendar doneDate;
+    private Driver driver;
     public Route route;
-    public Product product;
+    private Product product;
     private Weight weight;
-    public int fare;
-    private int expensesSum;
-    public int perDiem;
+    private int perDiem;
     final public ArrayList<ReportField> fields = new ArrayList<>();
     final public ArrayList<Expense> expenses = new ArrayList<>();
     final public ArrayList<Expense> fares = new ArrayList<>();
     final public ArrayList<ReportNote> notes = new ArrayList<>();
     private boolean sync;
-    public boolean fone;
+    private boolean fone;
 
     public String getUuid() {
         return uuid;
@@ -82,7 +82,6 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     public Weight getWeight() {
         return weight;
     }
-
     public void setWeight(Weight weight) {
         this.weight = weight;
     }
@@ -96,20 +95,6 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     }
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public int getFare() {
-        return fare;
-    }
-    public void setFare(int fare) {
-        this.fare = fare;
-    }
-
-    public int getExpensesSum() {
-        return expensesSum;
-    }
-    public void setExpensesSum(int expensesSum) {
-        this.expensesSum = expensesSum;
     }
 
     public ArrayList<Expense> getExpenses() {
@@ -213,10 +198,10 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     }
 
     @Override
-    public int compareTo(Report o) {
+    public int compareTo(@NotNull Report o) {
         if (leaveTime == null){
             return -1;
-        } else if (o == null || o.leaveTime == null){
+        } else if (o.leaveTime == null){
             return 1;
         } else {
             return o.leaveTime.compareTo(leaveTime);
@@ -233,5 +218,23 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
 
     public void addFare(Expense fare) {
         fares.add(fare);
+    }
+
+    @Override
+    public HashMap<String, Object> getValues(String key) {
+        HashMap<String, Object> values = new HashMap<>();
+        if (leaveTime != null){
+            values.put(LEAVE, leaveTime.getTimeInMillis());
+        } else {
+            values.put(LEAVE, null);
+        }
+        if (doneDate != null){
+            values.put(DONE, doneDate.getTimeInMillis());
+        } else {
+            values.put(DONE, null);
+        }
+
+
+        return values;
     }
 }

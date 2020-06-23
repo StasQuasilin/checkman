@@ -12,8 +12,8 @@ let login = new Vue({
                 password:btoa(this.password),
                 redirect:true
             };
-            console.log(data);
             PostApi(this.api.login, data, function (ans) {
+                console.log(ans);
                 if (ans.status === 'success'){
                     window.location = ans.redirect;
                 }

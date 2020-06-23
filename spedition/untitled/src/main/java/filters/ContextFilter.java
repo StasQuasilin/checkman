@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 import static constants.Keys.CONTEXT;
+import static constants.Keys.LOCALE;
 
 @WebFilter(value = {"*"})
 public class ContextFilter implements Filter {

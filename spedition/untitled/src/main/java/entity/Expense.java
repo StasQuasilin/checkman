@@ -15,6 +15,7 @@ public class Expense extends JsonAble{
     private Report report;
     private String description;
     private int amount;
+    private ExpenseType type;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +60,16 @@ public class Expense extends JsonAble{
     }
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Basic
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "type")
+    public ExpenseType getType() {
+        return type;
+    }
+    public void setType(ExpenseType type) {
+        this.type = type;
     }
 
     @Override

@@ -16,7 +16,6 @@ public class ReportField extends JsonAble implements Comparable<ReportField> {
     private String counterparty;
     private Calendar arriveTime;
     private Calendar leaveTime;
-
     private int money;
     private Weight weight;
 

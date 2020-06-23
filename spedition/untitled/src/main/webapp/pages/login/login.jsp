@@ -6,7 +6,7 @@
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="messages"/>
-<fmt:setLocale value="uk"/>
+<fmt:setLocale value="${locale}"/>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
     <head>

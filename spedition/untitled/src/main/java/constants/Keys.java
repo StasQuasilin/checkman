@@ -1,5 +1,4 @@
 package constants;
-
 public interface Keys {
     String PHONE = "phone";
     String SLASH = "/";
@@ -32,11 +31,12 @@ public interface Keys {
     String NAME = "name";
     String SURNAME = "surname";
     String FORENAME = "forename";
+    String PATRONYMIC = "patronymic";
     String ADD = "add";
     String COMA = ",";
     String DONE = "done";
     String DRIVER = "driver";
-    String FARE = "fare";
+    String FARES = "fares";
     String EXPENSES = "expenses";
     String PER_DIEM = "perDiem";
     String REPORT = "report";
@@ -55,4 +55,18 @@ public interface Keys {
     String NOTES = "notes";
     String TIME = "time";
     String NOTE = "note";
+    String WEIGHT = "weight";
+    String GROSS = "gross";
+    String TARE = "tare";
+    String PHONES = "phones";
+    String REGISTRATION = "registration";
+    String TITLE = "title";
+    String ROLES = "roles";
+    String SUPERVISORS = "supervisors";
+    String ROLE = "role";
+    String MESSAGE = "message";
+    String LOGOUT = "logout";
+    String SUPERVISOR = "supervisor";
+    String USER = "user";
+    String USERS = "users";
 }

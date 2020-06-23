@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -23,7 +25,9 @@ public class StorageUtil {
     public void saveData(String fileName, String data){
         try {
             FileOutputStream outputStream = context.openFileOutput(fileName, MODE_PRIVATE);
-            outputStream.write(data.getBytes());
+            GZIPOutputStream gzipOutputStream = new GZIPOutputStream(outputStream);
+            gzipOutputStream.write(data.getBytes());
+            gzipOutputStream.close();
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,12 +47,16 @@ public class StorageUtil {
     String readFile(String name) {
         try {
             final FileInputStream fileInputStream = context.openFileInput(name);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
-            StringBuilder builder = new StringBuilder();
+            final GZIPInputStream gzipInputStream = new GZIPInputStream(fileInputStream);
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(gzipInputStream));
+            final StringBuilder builder = new StringBuilder();
             String s;
             while ((s = reader.readLine()) != null){
                 builder.append(s);
             }
+            fileInputStream.close();
+            gzipInputStream.close();
+            reader.close();
             return builder.toString();
         } catch (IOException e) {
 //            e.printStackTrace();

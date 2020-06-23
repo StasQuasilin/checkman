@@ -109,7 +109,7 @@ public class EditPhonesDialog extends DialogFragment {
                 currentIndex = index;
             }
         };
-        adapter = new SimpleListAdapter<>(context, R.layout.simple_list_item, listener);
+        adapter = new SimpleListAdapter<>(context, R.layout.simple_list_item_d, listener);
         adapter.addAll(phones);
 
         phonesList.setAdapter(adapter);

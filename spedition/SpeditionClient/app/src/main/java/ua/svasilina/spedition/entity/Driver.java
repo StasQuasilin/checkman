@@ -7,12 +7,11 @@ import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.PATRONYMIC;
 import static ua.svasilina.spedition.constants.Keys.SURNAME;
 
-public class Driver extends JsonAble{
+public class Driver extends JsonAble {
     private String uuid;
     private Person person;
 
-    public Driver() {
-    }
+    public Driver() {}
 
     public static Driver fromJson(JSONObject driverJson) {
         if (driverJson != null) {

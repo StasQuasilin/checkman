@@ -3,7 +3,6 @@ package ua.svasilina.spedition.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -53,8 +52,8 @@ import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
 import ua.svasilina.spedition.utils.ReportsUtil;
+import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
 
-import static ua.svasilina.spedition.constants.Keys.COMA;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.LEFT_BRACE;
 import static ua.svasilina.spedition.constants.Keys.RIGHT_BRACE;
@@ -83,6 +82,7 @@ public class ReportEdit extends AppCompatActivity {
     private TextView doneDateView;
 
     private ProductsUtil productsUtil = new ProductsUtil();
+    private WeightStringBuilder weightStringBuilder;
 
     void updateDriverButtonValue(){
         final Driver driver = report.getDriver();
@@ -101,7 +101,7 @@ public class ReportEdit extends AppCompatActivity {
         final ActionBar supportActionBar = getSupportActionBar();
         assert supportActionBar != null;
         supportActionBar.setTitle(R.string.edit);
-
+        weightStringBuilder = new WeightStringBuilder(getResources());
         reportsUtil = new ReportsUtil(context);
 
         final Intent intent = getIntent();
@@ -129,7 +129,7 @@ public class ReportEdit extends AppCompatActivity {
 
         fixLeaveTime = findViewById(R.id.fixLeaveTime);
         leaveTimeContainer = findViewById(R.id.lealeTimeContainer);
-        dateButton = findViewById(R.id.dateButton);
+        dateButton = findViewById(R.id.leaveText);
         timeButton = findViewById(R.id.timeButton);
         initLeaveButtons();
         checkLeaveTime();
@@ -146,7 +146,6 @@ public class ReportEdit extends AppCompatActivity {
         doneLayout = findViewById(R.id.doneLayout);
         doneDateView = findViewById(R.id.doneDateLabel);
         initDoneLabel();
-
 
         adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager(), report, new CustomListener() {
             @Override
@@ -187,19 +186,8 @@ public class ReportEdit extends AppCompatActivity {
             weightButton.setVisibility(View.GONE);
         } else {
             weightButton.setVisibility(View.VISIBLE);
-            final Resources resources = getResources();
-            String builder = resources.getString(R.string.B) +
-                    SPACE +
-                    weight.getGross() +
-                    COMA + SPACE +
-                    resources.getString(R.string.T) +
-                    SPACE +
-                    weight.getTare() +
-                    COMA + SPACE +
-                    resources.getString(R.string.N) +
-                    SPACE +
-                    weight.getNet();
-            weightButton.setText(builder);
+
+            weightButton.setText(weightStringBuilder.build(weight));
         }
     }
 
@@ -469,7 +457,7 @@ public class ReportEdit extends AppCompatActivity {
         } else if (itemId == R.id.cancel){
             onBackPressed();
         } else if (itemId == R.id.done){
-            if (report.getDoneDate() != null) {
+            if (report.getDoneDate() == null) {
                 doneReport();
             }
         } else if (itemId == R.id.weight){
@@ -491,16 +479,15 @@ public class ReportEdit extends AppCompatActivity {
             final ReportNotCompletedDialog dialog = new ReportNotCompletedDialog(emptyDriver, emptyRoute, emptyLeave, emptyFields);
             dialog.show(getSupportFragmentManager(), "NoNoNo");
         } else {
-            DoneReportDialog drd = new DoneReportDialog(new CustomListener() {
+            DoneReportDialog drd = new DoneReportDialog(getLayoutInflater(), report, new CustomListener() {
                 @Override
                 public void onChange() {
-                    report.setDoneDate(Calendar.getInstance());
                     save(false);
                     final Context context = getApplicationContext();
                     final Intent intent = new Intent(context, ReportShow.class);
                     intent.putExtra(ID, report.getUuid());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-
                 }
             });
             drd.show(getSupportFragmentManager(), "Done dialog");

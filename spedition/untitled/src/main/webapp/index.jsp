@@ -8,8 +8,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%--<%@ page session="false" trimDirectiveWhitespaces="true"%>--%>
 <html>
-<head>
     <% response.sendRedirect(request.getContextPath() + Links.REPORTS);%>
-    <title></title>
-</head>
 </html>

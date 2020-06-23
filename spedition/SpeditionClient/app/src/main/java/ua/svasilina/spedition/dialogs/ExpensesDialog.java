@@ -52,7 +52,7 @@ public class ExpensesDialog extends DialogFragment {
 
         final View view = inflater.inflate(R.layout.expenses_dialog, null);
 
-        adapter = new SimpleListAdapter<>(context, R.layout.simple_list_item, new AdapterItemEditInterface<Expense>() {
+        adapter = new SimpleListAdapter<>(context, R.layout.simple_list_item_d, new AdapterItemEditInterface<Expense>() {
             @Override
             public void click(Expense item, int index) {
                 editExpenses(item, index);

@@ -20,7 +20,7 @@ public class UserAccess {
     }
 
     @OneToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "_user")
     public User getUser() {
         return user;
     }

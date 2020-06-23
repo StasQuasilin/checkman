@@ -44,6 +44,12 @@ public interface Keys {
     String DESCRIPTION = "description";
     String AMOUNT = "amount";
     String TIME = "time";
+    String LOCATION = "location";
+    String CHANGES = "changes";
+    String FIELD = "field";
+    String OLD = "old";
+    String NEW = "new";
+    String SLASH = "/";
     String LATITUDE = "latitude";
     String LONGITUDE = "longitude";
     String NOTE = "note";

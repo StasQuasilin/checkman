@@ -12,3 +12,16 @@ button{
     border-radius: 0;
     outline: none;
 }
+input{
+    border: solid 1px;
+    padding: 0 2px;
+    outline: none;
+}
+select{
+    outline: none;
+    width: 100%;
+}
+.error{
+    border: solid orangered 1px;
+    color: orangered;
+}

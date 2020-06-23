@@ -32,6 +32,35 @@
             </td>
         </tr>
         <tr>
+            <td>
+                <fmt:message key="product"/>
+            </td>
+            <td>
+                ${report.product.name}
+            </td>
+        </tr>
+        <c:if test="${not empty report.weight}">
+            <tr>
+                <td style="vertical-align: top">
+                    <fmt:message key="weight.base"/>
+                </td>
+                <td>
+                    <div>
+                        <fmt:message key="weight.gross"/>:
+                        <fmt:formatNumber value="${report.weight.gross}"/>
+                    </div>
+                    <div>
+                        <fmt:message key="weight.tare"/>:
+                        <fmt:formatNumber value="${report.weight.tare}"/>
+                    </div>
+                    <div>
+                        <fmt:message key="weight.net"/>:
+                        <fmt:formatNumber value="${report.weight.net()}"/>
+                    </div>
+                </td>
+            </tr>
+        </c:if>
+        <tr>
             <td style="vertical-align: top">
                 <table>
                     <tr>
@@ -40,14 +69,6 @@
                         </td>
                         <td>
                             <fmt:formatDate value="${report.leaveTime}" pattern="dd.MM.yyyy hh:mm"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <fmt:message key="product"/>
-                        </td>
-                        <td>
-                            ${report.product.name}
                         </td>
                     </tr>
                     <tr>
@@ -92,6 +113,27 @@
                                                 </td>
                                             </tr>
                                         </c:if>
+                                        <c:if test="${not empty field.weight}">
+                                            <tr>
+                                                <td style="vertical-align: top">
+                                                    <fmt:message key="weight.point"/>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <fmt:message key="weight.gross"/>:
+                                                        <fmt:formatNumber value="${field.weight.gross}"/>
+                                                    </div>
+                                                    <div>
+                                                        <fmt:message key="weight.tare"/>:
+                                                        <fmt:formatNumber value="${field.weight.tare}"/>
+                                                    </div>
+                                                    <div>
+                                                        <fmt:message key="weight.net"/>:
+                                                        <fmt:formatNumber value="${field.weight.net()}"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:if>
                                         <tr>
                                             <td colspan="2" style="border-bottom: solid gray 1pt; "></td>
                                         </tr>
@@ -129,11 +171,23 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td style="vertical-align: top">
                             <fmt:message key="fare"/>
                         </td>
                         <td>
-                            <fmt:formatNumber value="${report.fare}"/>
+                            <c:set var="totalFare" value="0"/>
+                            <c:forEach items="${report.fares}" var="fare" varStatus="fareStatus">
+                                <div>
+                                    ${fareStatus.index + 1}. ${fn:toUpperCase(fare.description)}: ${fare.amount}
+                                </div>
+                                <c:set var="totalFare" value="${totalFare + fare.amount}"/>
+                            </c:forEach>
+                            <b>
+                                <c:if test="${totalFare > 0}">
+                                    <fmt:message key="total"/>:
+                                </c:if>
+                                <fmt:formatNumber value="${totalFare}"/>
+                            </b>
                         </td>
                     </tr>
                     <tr>
@@ -144,7 +198,7 @@
                             <c:set var="totalExpenses" value="0"/>
                             <c:forEach items="${report.expenses}" var="expense" varStatus="exStatus">
                                 <div>
-                                    ${exStatus.index + 1}. ${expense.description}: ${expense.amount}
+                                    ${exStatus.index + 1}. ${fn:toUpperCase(expense.description)}: ${expense.amount}
                                 </div>
                                 <c:set var="totalExpenses" value="${totalExpenses + expense.amount}"/>
                             </c:forEach>

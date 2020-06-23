@@ -3,6 +3,7 @@ package controllers.reports;
 import api.socket.SubscribeType;
 import constants.Links;
 import controllers.Controller;
+import entity.Role;
 import entity.User;
 import utils.hibernate.dao.UserDAO;
 
@@ -18,13 +19,22 @@ import static constants.Keys.*;
 public class ReportList extends Controller {
 
     private static final String _CONTENT = "/pages/reports/reportList.jsp";
-//    private final UserDAO userDAO = new UserDAO();
+    private static final String _CONTENT2 = "/pages/reports/reportList2.jsp";
+    private final UserDAO userDAO = new UserDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute(TITLE, "title.report.show");
         req.setAttribute(SHOW, Links.SHOW_REPORT);
         req.setAttribute(SUBSCRIBE, SubscribeType.reports);
-        req.setAttribute(CONTENT, _CONTENT);
+        final Role role = getRole(req);
+        if (role == Role.user){
+            req.setAttribute(CONTENT, _CONTENT);
+        } else {
+            final User user = getUser(req);
+            req.setAttribute(USERS, userDAO.getUsersBySupervisor(user));
+            req.setAttribute(CONTENT, _CONTENT2);
+        }
         show(req, resp);
     }
 }

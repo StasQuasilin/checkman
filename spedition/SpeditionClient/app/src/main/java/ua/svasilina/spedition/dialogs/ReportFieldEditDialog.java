@@ -83,7 +83,7 @@ public class ReportFieldEditDialog extends DialogFragment {
         counterparty = view.findViewById(R.id.counterparty);
         counterparty.setText(reportField.getCounterparty());
 
-        dateButton = view.findViewById(R.id.dateButton);
+        dateButton = view.findViewById(R.id.leaveText);
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

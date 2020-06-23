@@ -2,6 +2,7 @@ package api.socket;
 
 import api.socket.handlers.Handler;
 import api.socket.handlers.ReportHandler;
+import entity.User;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.Map;
 public class Subscribes {
 
     private static final Subscribes instance = new Subscribes();
-    private final HashMap<SubscribeType, ArrayList<Session>> sessions = new HashMap<>();
+    private final HashMap<SubscribeType, HashMap<User, Session>> sessions = new HashMap<>();
     private static final HashMap<SubscribeType, Handler> handlers = new HashMap<>();
     static {
         addHandler(new ReportHandler(SubscribeType.reports));
@@ -29,37 +30,30 @@ public class Subscribes {
         handlers.put(handler.getSubscribeType(), handler);
     }
 
-    public void add(Session session, SubscribeType subscribeType) {
+    public void add(Session session, SubscribeType subscribeType, User user) {
         if (!sessions.containsKey(subscribeType)){
-            sessions.put(subscribeType, new ArrayList<>());
+            sessions.put(subscribeType, new HashMap<>());
         }
-        sessions.get(subscribeType).add(session);
+        sessions.get(subscribeType).put(user, session);
         final Handler handler = handlers.get(subscribeType);
         try {
-            handler.onSubscribe(session);
+            handler.onSubscribe(session, user);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public ArrayList<Session> getSessions(SubscribeType type){
-        return sessions.get(type);
+    public Session getSession(SubscribeType type, User user){
+        return sessions.get(type).get(user);
     }
 
     public Handler getHandler(SubscribeType type){
         return handlers.get(type);
     }
 
-    public void remove(Session session, SubscribeType subscribeType) {
-        if (sessions.containsKey(subscribeType)){
-            final ArrayList<Session> list = sessions.get(subscribeType);
-            list.remove(session);
-        }
-    }
-
-    public void remove(Session session) {
-        for(Map.Entry<SubscribeType, ArrayList<Session>> entry : sessions.entrySet()){
-            entry.getValue().remove(session);
+    public void remove(User user) {
+        for (Map.Entry<SubscribeType, HashMap<User, Session>> entry : sessions.entrySet()){
+            entry.getValue().remove(user);
         }
     }
 }

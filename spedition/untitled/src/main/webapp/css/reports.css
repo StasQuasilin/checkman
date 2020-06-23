@@ -10,12 +10,17 @@
     overflow-x: scroll;
 }
 .cell{
-    border: solid gray 1pt;
-    display: inline-grid;
-    height: 50px;
-    width: 180px;
     text-align: center;
-    vertical-align: center;
+    vertical-align: middle;
+    margin: auto;
+}
+.cell-content{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(197,236,175);
+}
+.cell-content:hover{
+    background-color: rgb(164, 197, 146);
 }
 .report-cell{
     background-color: cadetblue;
@@ -41,4 +46,16 @@
 .report-row{
     background-color: pink;
     border-bottom: solid yellow 1pt;
+}
+.user-cell{
+    position: absolute;
+    width: 5em;
+    left: 0;
+    top: auto;
+    border-top-width: 1px;
+    margin-top: -1px;
+}
+.middle{
+    width: 100%;
+    text-align: center;
 }

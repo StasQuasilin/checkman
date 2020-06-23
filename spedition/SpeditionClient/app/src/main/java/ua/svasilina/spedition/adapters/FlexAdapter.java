@@ -26,7 +26,7 @@ public class FlexAdapter <T> extends RecyclerView.Adapter<FlexHolder<T>> {
     @Override
     public FlexHolder<T> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.simple_list_item, parent, false);
+                .inflate(R.layout.simple_list_item_d, parent, false);
         return new FlexHolder<T>(view);
     }
 

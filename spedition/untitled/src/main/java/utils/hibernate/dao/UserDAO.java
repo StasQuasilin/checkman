@@ -1,9 +1,12 @@
 package utils.hibernate.dao;
 
 import entity.Phone;
+import entity.Role;
 import entity.User;
 import entity.UserAccess;
 import utils.hibernate.Hibernator;
+
+import java.util.List;
 
 import static constants.Keys.*;
 
@@ -19,7 +22,27 @@ public class UserDAO {
         return null;
     }
 
-    public User getUserByToken(String token) {
+    public User getUserByToken(Object token) {
         return hibernator.get(UserAccess.class, TOKEN, token).getUser();
+    }
+
+    public void save(Phone phone) {
+        hibernator.save(phone);
+    }
+
+    public void remove(Phone phone) {
+        hibernator.remove(phone);
+    }
+
+    public List<User> getUsersByRole(Role role) {
+        return hibernator.query(User.class, ROLE, role);
+    }
+
+    public User getUserById(Object id) {
+        return hibernator.get(User.class, ID, id);
+    }
+
+    public List<User> getUsersBySupervisor(User supervisor) {
+        return hibernator.query(User.class, SUPERVISOR, supervisor);
     }
 }
