@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CalendarView;
@@ -35,7 +34,6 @@ public class DateDialog extends DialogFragment {
         this.onClickListener = onClickListener;
         innerCalendar = Calendar.getInstance();
         innerCalendar.setTime(calendar.getTime());
-        Log.i("DATE DIALOG", innerCalendar.getTime().toString());
     }
 
     @NonNull
@@ -48,12 +46,7 @@ public class DateDialog extends DialogFragment {
                 save();
             }
         });
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.cancel, null);
 
         View view;
 
@@ -71,8 +64,6 @@ public class DateDialog extends DialogFragment {
             final int hour = innerCalendar.get(Calendar.HOUR_OF_DAY);
             final int minute = innerCalendar.get(Calendar.MINUTE);
 
-            Log.i("DATE DIALOG", hour + ":" + minute);
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 timePicker.setHour(hour);
                 timePicker.setMinute(minute);
@@ -80,8 +71,6 @@ public class DateDialog extends DialogFragment {
                 timePicker.setCurrentHour(hour);
                 timePicker.setCurrentMinute(minute);
             }
-
-
         } else {
             view = inflater.inflate(R.layout.date_picker_dialog, null);
             final CalendarView calendarView = view.findViewById(R.id.calendarView);
@@ -96,10 +85,6 @@ public class DateDialog extends DialogFragment {
 
         builder.setView(view);
         return builder.create();
-    }
-
-    private void cancel() {
-
     }
 
     private void save() {

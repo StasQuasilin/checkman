@@ -15,6 +15,8 @@ public class UpdateUtil {
         final Session session = subscribes.getSession(type, owner);
         if (session != null) {
             handler.send(session, DataType.update, o);
+        } else {
+            System.out.println("No sessions for " + owner.getPerson().getValue());
         }
     }
 }

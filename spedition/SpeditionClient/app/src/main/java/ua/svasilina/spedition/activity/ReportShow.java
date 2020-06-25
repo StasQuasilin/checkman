@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.CustomAdapter;
@@ -123,6 +124,7 @@ public class ReportShow extends AppCompatActivity {
             public void build(ReportField item, View view, int position) {
                 final TextView indexView = view.findViewById(R.id.indexView);
                 final TextView arriveView = view.findViewById(R.id.arriveTimeView);
+                final TextView leaveView = view.findViewById(R.id.leaveTimeView);
                 final TextView productView = view.findViewById(R.id.productView);
                 final TextView actionView = view.findViewById(R.id.actionView);
                 final TextView amountView = view.findViewById(R.id.amountView);
@@ -132,19 +134,32 @@ public class ReportShow extends AppCompatActivity {
                 final TextView netView = view.findViewById(R.id.netView);
 
                 indexView.setText(String.valueOf(position + 1));
-                arriveView.setText(dateTimeBuilder.build(item.getArriveTime()));
-//                productView.setText(item.get);
+                final Calendar arriveTime = item.getArriveTime();
+                if (arriveTime != null) {
+                    arriveView.setText(dateTimeBuilder.build(item.getArriveTime()));
+                }
+
+                final Calendar leaveTime = item.getLeaveTime();
+                if (leaveTime != null){
+                    leaveView.setText(dateTimeBuilder.build(leaveTime));
+                }
+                
+                if (item.getProduct() != null){
+                    productView.setText(item.getProduct().getName());
+                }
+
                 final int money = item.getMoney();
                 final Resources resources = getResources();
-                if (money == 0){
-
-                } else {
+                if (money != 0) {
                     if (money > 0){
                         actionView.setText(resources.getString(R.string.discarded));
                     } else {
                         actionView.setText(resources.getString(R.string.give));
                     }
                     amountView.setText(String.valueOf(Math.abs(money)));
+                } else {
+                    actionView.setVisibility(View.GONE);
+                    amountView.setVisibility(View.GONE);
                 }
 
                 final Weight weight = report.getWeight();

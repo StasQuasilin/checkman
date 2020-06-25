@@ -44,6 +44,18 @@ public class Subscribes {
     }
 
     public Session getSession(SubscribeType type, User user){
+        System.out.println("--" + type.toString());
+        for (Map.Entry<SubscribeType, HashMap<User, Session>> entry : sessions.entrySet()){
+            System.out.println("\t" + entry.getKey().toString());
+            for (Map.Entry<User, Session> sessionEntry : entry.getValue().entrySet()){
+                System.out.println("\t- " + sessionEntry.getKey().getPerson().getValue() + ": " + sessionEntry.getValue().getId());
+            }
+        }
+        final HashMap<User, Session> userSessionHashMap = sessions.get(type);
+        for (Map.Entry<User, Session> entry : userSessionHashMap.entrySet()){
+            final User u = entry.getKey();
+            System.out.println(u.getPerson().getValue() + ": " + u.equals(user));
+        }
         return sessions.get(type).get(user);
     }
 

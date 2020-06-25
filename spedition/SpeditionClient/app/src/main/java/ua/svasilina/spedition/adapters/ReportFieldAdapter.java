@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ua.svasilina.spedition.R;
@@ -22,10 +21,14 @@ import ua.svasilina.spedition.entity.Report;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.CustomListener;
+import ua.svasilina.spedition.utils.builders.DateTimeBuilder;
 
 import static ua.svasilina.spedition.constants.Keys.CURRENCY_SIGN;
+import static ua.svasilina.spedition.constants.Keys.HYPHEN;
 import static ua.svasilina.spedition.constants.Keys.QUESTION;
 import static ua.svasilina.spedition.constants.Keys.SPACE;
+import static ua.svasilina.spedition.constants.Patterns.DATE_PATTERN;
+import static ua.svasilina.spedition.constants.Patterns.TIME_PATTERN;
 
 public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
 
@@ -33,9 +36,9 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
     private final LayoutInflater inflater;
     private final FragmentManager fragmentManager;
     private final CustomListener customListener;
-    @SuppressLint("SimpleDateFormat")
-    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
     private final Report report;
+    private final DateTimeBuilder dateBuilder;
+    private final DateTimeBuilder timeBuilder;
 
     public ReportFieldAdapter(@NonNull Context context, int resource, FragmentManager fragmentManager, Report report, CustomListener customListener) {
         super(context, resource);
@@ -44,6 +47,8 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
         this.report = report;
         this.customListener = customListener;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        dateBuilder = new DateTimeBuilder(DATE_PATTERN);
+        timeBuilder = new DateTimeBuilder(TIME_PATTERN);
     }
 
     @SuppressLint("SetTextI18n")
@@ -68,9 +73,20 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
 
         assert item != null;
         final Calendar arriveTime = item.getArriveTime();
+        final Calendar leaveTime = item.getLeaveTime();
+
         if (arriveTime != null) {
-            simpleDateFormat.applyPattern("dd.MM.yy HH:mm");
-            timeView.setText(simpleDateFormat.format(arriveTime.getTime()));
+            StringBuilder builder = new StringBuilder();
+            builder.append(dateBuilder.build(arriveTime)).append(SPACE);
+            builder.append(timeBuilder.build(arriveTime));
+            if (leaveTime != null){
+                builder.append(HYPHEN);
+                if (arriveTime.get(Calendar.DATE) != leaveTime.get(Calendar.DATE)){
+                    builder.append(dateBuilder.build(leaveTime)).append(SPACE);
+                }
+                builder.append(timeBuilder.build(leaveTime));
+            }
+            timeView.setText(builder.toString());
         } else {
             timeView.setVisibility(View.GONE);
         }

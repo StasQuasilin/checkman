@@ -139,6 +139,9 @@ public class Report extends JsonAble {
     public JSONObject toSimpleJson() {
         JSONObject json = getJsonObject();
         json.put(ID, id);
+        if (driver != null){
+            json.put(DRIVER, driver.toJson());
+        }
         if (leaveTime != null) {
             json.put(LEAVE, leaveTime.toString());
         }

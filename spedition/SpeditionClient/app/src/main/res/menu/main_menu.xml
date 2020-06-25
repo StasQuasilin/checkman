@@ -8,8 +8,7 @@
         android:id="@+id/login"
         android:icon="@android:drawable/ic_secure"
         android:title="@string/enter"
-        app:showAsAction="ifRoom" />
-
+        app:showAsAction="never" />
     <item
         android:id="@+id/add"
         android:icon="@android:drawable/ic_menu_add"

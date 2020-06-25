@@ -30,7 +30,7 @@
         tools:ignore="SmallSp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lealeTimeContainer"
+        android:id="@+id/leaveTimeContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,23 +43,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/leaveTime"
-            app:layout_constraintBottom_toBottomOf="@+id/leaveText"
+            app:layout_constraintBottom_toBottomOf="@+id/leaveDate"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/leaveText" />
+            app:layout_constraintTop_toTopOf="@+id/leaveDate" />
 
         <Button
-            android:id="@+id/leaveText"
+            android:id="@+id/leaveDate"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textView6"
+            app:layout_constraintEnd_toStartOf="@+id/leaveTime"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SmallSp" />
 
         <Button
-            android:id="@+id/timeButton"
+            android:id="@+id/leaveTime"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_marginStart="8dp"
@@ -68,8 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toEndOf="@id/leaveText"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/leaveDate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -94,7 +93,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doneLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/notesButton" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addField"
@@ -113,20 +112,20 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/fare"
         app:layout_constraintBottom_toBottomOf="@+id/fareEdit"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fareEdit"
         app:layout_constraintTop_toTopOf="@+id/fareEdit" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/expanses"
         app:layout_constraintBottom_toBottomOf="@+id/expensesEdit"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/expensesEdit"
         app:layout_constraintTop_toTopOf="@+id/expensesEdit" />
 
     <TextView
@@ -168,29 +167,23 @@
 
     <Button
         android:id="@+id/fareEdit"
-        android:layout_width="0dp"
+        android:layout_width="180dp"
         android:layout_height="32dp"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:importantForAutofill="no"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/lealeTimeContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/leaveTimeContainer" />
 
     <Button
         android:id="@+id/expensesEdit"
-        android:layout_width="0dp"
+        android:layout_width="180dp"
         android:layout_height="32dp"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/fareEdit" />
 
     <Button
@@ -218,35 +211,6 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weightButton" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/doneLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notesButton">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/done_date"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/doneDateLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/weightButton"

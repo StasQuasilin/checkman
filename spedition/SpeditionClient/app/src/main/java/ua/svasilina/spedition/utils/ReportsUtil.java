@@ -94,102 +94,104 @@ public class ReportsUtil {
     private Report parseReport(String data, ReportDetail detailed){
 
         Report report = null;
-        try {
-            final JSONObject parse = (JSONObject) parser.parse(data);
-            report = new Report();
-            report.setUuid(String.valueOf(parse.get(ID)));
-            report.setSync(Boolean.parseBoolean(String.valueOf(parse.get(SYNC))));
+        if (data != null && !data.isEmpty()) {
+            try {
+                final JSONObject parse = (JSONObject) parser.parse(data);
+                report = new Report();
+                report.setUuid(String.valueOf(parse.get(ID)));
+                report.setSync(Boolean.parseBoolean(String.valueOf(parse.get(SYNC))));
 
-            if (parse.containsKey(DRIVER)) {
-                final JSONObject driverJson = (JSONObject) parse.get(DRIVER);
-                final Driver driver = Driver.fromJson(driverJson);
-                report.setDriver(driver);
-                if (driverJson != null) {
-                    if (detailed == ReportDetail.full && driverJson.containsKey(PHONES)) {
-                        final Object o = driverJson.get(PHONES);
-                        if (o != null){
-                            for (Object p : (JSONArray)o){
-                                driver.addPhone(String.valueOf(p));
+                if (parse.containsKey(DRIVER)) {
+                    final JSONObject driverJson = (JSONObject) parse.get(DRIVER);
+                    final Driver driver = Driver.fromJson(driverJson);
+                    report.setDriver(driver);
+                    if (driverJson != null) {
+                        if (detailed == ReportDetail.full && driverJson.containsKey(PHONES)) {
+                            final Object o = driverJson.get(PHONES);
+                            if (o != null) {
+                                for (Object p : (JSONArray) o) {
+                                    driver.addPhone(String.valueOf(p));
+                                }
                             }
                         }
                     }
                 }
-            }
-            if (parse.containsKey(LEAVE)) {
-                final Calendar instance = Calendar.getInstance();
-                instance.setTimeInMillis(Long.parseLong(String.valueOf(parse.get(LEAVE))));
-                report.setLeaveTime(instance);
-            }
-            if (parse.containsKey(DONE)) {
-                final Calendar instance = Calendar.getInstance();
-                instance.setTimeInMillis(Long.parseLong(String.valueOf(parse.get(DONE))));
-                report.setDoneDate(instance);
-            }
-            if (parse.containsKey(ROUTE)) {
-                Route route = new Route();
-                JSONObject routeJson = (JSONObject) parse.get(ROUTE);
-                if (routeJson != null) {
-                    final JSONArray routeArray = (JSONArray) routeJson.get(ROUTE);
-                    if (routeArray != null) {
-                        for (Object o : routeArray) {
-                            String point = String.valueOf(o);
-                            route.addPoint(point);
+                if (parse.containsKey(LEAVE)) {
+                    final Calendar instance = Calendar.getInstance();
+                    instance.setTimeInMillis(Long.parseLong(String.valueOf(parse.get(LEAVE))));
+                    report.setLeaveTime(instance);
+                }
+                if (parse.containsKey(DONE)) {
+                    final Calendar instance = Calendar.getInstance();
+                    instance.setTimeInMillis(Long.parseLong(String.valueOf(parse.get(DONE))));
+                    report.setDoneDate(instance);
+                }
+                if (parse.containsKey(ROUTE)) {
+                    Route route = new Route();
+                    JSONObject routeJson = (JSONObject) parse.get(ROUTE);
+                    if (routeJson != null) {
+                        final JSONArray routeArray = (JSONArray) routeJson.get(ROUTE);
+                        if (routeArray != null) {
+                            for (Object o : routeArray) {
+                                String point = String.valueOf(o);
+                                route.addPoint(point);
+                            }
+                        }
+                    }
+                    report.setRoute(route);
+                }
+                if (parse.containsKey(PRODUCT)) {
+                    int productId = Integer.parseInt(String.valueOf(parse.get(PRODUCT)));
+                    report.setProduct(productsUtil.getProduct(productId));
+                }
+                if (detailed == ReportDetail.full) {
+
+                    if (parse.containsKey(WEIGHT)) {
+                        final JSONObject weightJson = (JSONObject) parse.get(WEIGHT);
+                        if (weightJson != null) {
+                            report.setWeight(parseWeight(weightJson));
+                        }
+                    }
+
+                    if (parse.containsKey(EXPENSES)) {
+                        final Object o = parse.get(EXPENSES);
+                        if (o != null)
+                            parseExpenses(report.getExpenses(), (JSONArray) o);
+                    }
+
+                    if (parse.containsKey(PER_DIEM)) {
+                        int perDiem = Integer.parseInt(String.valueOf(parse.get(PER_DIEM)));
+                        report.setPerDiem(perDiem);
+                    }
+
+                    if (parse.containsKey(FONE)) {
+                        boolean fone = Boolean.parseBoolean(String.valueOf(parse.get(FONE)));
+                        report.setFone(fone);
+                    }
+
+                    if (parse.containsKey(FIELDS)) {
+                        final Object o = parse.get(FIELDS);
+                        if (o != null)
+                            parseFields(report, (JSONArray) o);
+                    }
+
+                    if (parse.containsKey(NOTES)) {
+                        final Object o = parse.get(NOTES);
+                        if (o != null) {
+                            parseNotes(report, (JSONArray) o);
+                        }
+                    }
+
+                    if (parse.containsKey(FARES)) {
+                        final Object o = parse.get(FARES);
+                        if (o != null) {
+                            parseExpenses(report.getFares(), (JSONArray) o);
                         }
                     }
                 }
-                report.setRoute(route);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-            if (parse.containsKey(PRODUCT)) {
-                int productId = Integer.parseInt(String.valueOf(parse.get(PRODUCT)));
-                report.setProduct(productsUtil.getProduct(productId));
-            }
-            if (detailed == ReportDetail.full) {
-
-                if (parse.containsKey(WEIGHT)){
-                    final JSONObject weightJson = (JSONObject) parse.get(WEIGHT);
-                    if (weightJson != null){
-                        report.setWeight(parseWeight(weightJson));
-                    }
-                }
-
-                if (parse.containsKey(EXPENSES)) {
-                    final Object o = parse.get(EXPENSES);
-                    if (o != null)
-                        parseExpenses(report.getExpenses(), (JSONArray) o);
-                }
-
-                if (parse.containsKey(PER_DIEM)) {
-                    int perDiem = Integer.parseInt(String.valueOf(parse.get(PER_DIEM)));
-                    report.setPerDiem(perDiem);
-                }
-
-                if (parse.containsKey(FONE)) {
-                    boolean fone = Boolean.parseBoolean(String.valueOf(parse.get(FONE)));
-                    report.setFone(fone);
-                }
-
-                if (parse.containsKey(FIELDS)) {
-                    final Object o = parse.get(FIELDS);
-                    if (o != null)
-                        parseFields(report, (JSONArray) o);
-                }
-
-                if (parse.containsKey(NOTES)) {
-                    final Object o = parse.get(NOTES);
-                    if (o != null) {
-                        parseNotes(report, (JSONArray) o);
-                    }
-                }
-
-                if (parse.containsKey(FARES)) {
-                    final Object o = parse.get(FARES);
-                    if (o != null) {
-                        parseExpenses(report.getFares(), (JSONArray) o);
-                    }
-                }
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
 
         return report;
@@ -226,6 +228,10 @@ public class ReportsUtil {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(leave);
                 reportField.setLeaveTime(calendar);
+            }
+
+            if (field.containsKey(PRODUCT)){
+                reportField.setProduct(productsUtil.getProduct(Integer.parseInt(String.valueOf(field.get(PRODUCT)))));
             }
 
             if (field.containsKey(COUNTERPARTY)) {

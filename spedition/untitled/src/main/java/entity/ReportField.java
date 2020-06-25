@@ -10,6 +10,7 @@ public class ReportField implements Comparable<ReportField> {
     private Report report;
     private String uuid;
     private Timestamp arriveTime;
+    private Timestamp leaveTime;
     private String counterparty;
     private int money;
     private Product product;
@@ -52,6 +53,15 @@ public class ReportField implements Comparable<ReportField> {
     }
 
     @Basic
+    @Column(name = "leave_time")
+    public Timestamp getLeaveTime() {
+        return leaveTime;
+    }
+    public void setLeaveTime(Timestamp leaveTime) {
+        this.leaveTime = leaveTime;
+    }
+
+    @Basic
     @Column(name = "counterparty")
     public String getCounterparty() {
         return counterparty;
@@ -90,9 +100,9 @@ public class ReportField implements Comparable<ReportField> {
     @Override
     public int compareTo(ReportField reportField) {
         if (arriveTime == null){
-            return -1;
-        } else if (reportField.getArriveTime() == null){
             return 1;
+        } else if (reportField.getArriveTime() == null){
+            return -1;
         } else {
             return arriveTime.compareTo(reportField.getArriveTime());
         }

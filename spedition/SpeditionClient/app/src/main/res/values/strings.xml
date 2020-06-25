@@ -65,7 +65,7 @@
     <string name="fares">Витрати на проїзд</string>
     <string name="fixLeaveTime">Зафіксувати час виїзду</string>
     <string name="done_report_title">Завершення відрядження</string>
-    <string name="done_report_message">Встановити дату завершення відрядження?</string>
+    <string name="done_report_message">Встановити наступну дату завершення відрядження?</string>
     <string name="no_title">Не всі обов’язкові поля заповнені</string>
     <string name="fields">Точки відвантаження</string>
     <string name="surname">Прізвище</string>
@@ -75,4 +75,5 @@
     <string name="addBaseWeight">Вага на заводі</string>
     <string name="weightTitle">Редагування ваги</string>
     <string name="copy">Копіювати</string>
+    <string name="fixArriveTime">Зафіксувати час прибуття</string>
 </resources>

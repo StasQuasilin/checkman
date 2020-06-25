@@ -143,6 +143,7 @@ public class SaveReportAPI extends ServletAPI {
 
             answer = new SuccessAnswer();
             write(resp, answer.toJson());
+            reportDAO.afterSave(report);
         }
     }
 
@@ -227,6 +228,11 @@ public class SaveReportAPI extends ServletAPI {
             if (field.containsKey(ARRIVE)){
                 Timestamp arrive = new Timestamp(Long.parseLong(String.valueOf(field.get(ARRIVE))));
                 reportField.setArriveTime(arrive);
+            }
+
+            if (field.containsKey(LEAVE)){
+                Timestamp leave = new Timestamp(Long.parseLong(String.valueOf(field.get(LEAVE))));
+                reportField.setLeaveTime(leave);
             }
 
             if (field.containsKey(COUNTERPARTY)){

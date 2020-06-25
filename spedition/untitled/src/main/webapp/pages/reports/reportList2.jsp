@@ -4,11 +4,11 @@
         <link rel="stylesheet" href="${context}/css/reports.css">
         <div id="reports">
             <div ref="reportContainer" style="width: 100%; overflow-x: scroll" v-on:scroll="scrollListener()">
-                <table border="1">
+                <table border="1" style="border-collapse: collapse; margin-top: 8px">
                     <tr style="height: 0">
                         <td>&nbsp;</td>
-                        <th v-for="i in 14" style="padding: 0 16px">
-                            {{dateOffset(nowDate(), i -1).toLocaleDateString()}}
+                        <th v-for="i in 16" style="padding: 0 16px">
+                            {{dateOffset(nowDate(), i-1).toLocaleDateString()}}
                         </th>
                     </tr>
                     <tr v-for="user in users">
@@ -18,10 +18,8 @@
                                <user-cell :style="{visibility : scroll <= 10 ? 'visible' : 'hidden'}" :user="user"></user-cell>
                            </div>
                        </td>
-                        <td v-for="column in getReportCells(user.id)" :colspan="getReportLength(user.id, column)">
-                            <div style="background-color: red">
-                                <cell :functions="functions" :data="getReportData(user.id, column)"></cell>
-                            </div>
+                        <td v-for="(date, idx) in getDates(user.id)" :colspan="getReportLength(user.id, date)">
+                            <cell :functions="functions" :data="getReportData(user.id, date)"></cell>
                         </td>
                     </tr>
                 </table>
@@ -42,5 +40,6 @@
                 reports.open(id);
             }
         }
+
     </script>
 </html>

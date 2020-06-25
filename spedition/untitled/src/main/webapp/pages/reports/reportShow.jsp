@@ -1,12 +1,13 @@
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: szpt-user045
   Date: 04.06.20
   Time: 09:44
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -88,14 +89,27 @@
                                                     ${field.counterparty}
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <fmt:message key="date.arrive"/>
-                                            </td>
-                                            <td>
-                                                <fmt:formatDate value="${field.arriveTime}" pattern="dd.MM.yy HH:mm"/>
-                                            </td>
-                                        </tr>
+                                        <c:if test="${not empty field.arriveTime}">
+                                            <tr>
+                                                <td>
+                                                    <fmt:message key="date.arrive"/>
+                                                </td>
+                                                <td>
+                                                    <fmt:formatDate value="${field.arriveTime}" pattern="dd.MM.yy HH:mm"/>
+                                                </td>
+                                            </tr>
+                                            <c:if test="${not empty field.leaveTime}">
+                                                <tr>
+                                                    <td>
+                                                        <fmt:message key="date.leave"/>
+                                                    </td>
+                                                    <td>
+                                                        <fmt:formatDate value="${field.leaveTime}" pattern="dd.MM.yy HH:mm"/>
+                                                    </td>
+                                                </tr>
+                                            </c:if>
+                                        </c:if>
+
                                         <c:if test="${field.money != 0}">
                                             <tr>
                                                 <td>

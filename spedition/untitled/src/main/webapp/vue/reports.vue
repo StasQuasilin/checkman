@@ -9,17 +9,21 @@ let reports = new Vue({
         users:[],
         reports:{},
         scroll:0,
-        opacity:0
+        opacity:0,
+        indices:{}
     },
     methods:{
         handle(data){
+            console.log(data);
             for (let a in data.add){
                 if (data.add.hasOwnProperty(a)){
                     let add = data.add[a];
                     this.update(add);
                 }
             }
-            console.log(data);
+            if (data.update){
+                this.update(data.update);
+            }
         },
         update:function(item){
             let owner = item.owner;
@@ -35,11 +39,15 @@ let reports = new Vue({
             let report = reports[doneDate];
             let leave = new Date(item.leave);
             report.length = Math.floor((done - leave) / 1000 / 60 / 60 / 24) + 1;
-            report.data = {
+            Vue.set(report, 'data', {
                 id:item.id,
+                driver:item.driver,
                 route : item.route,
-                product : item.product
-            }
+                product : item.product,
+                length:Math.floor((done - leave) / 1000 / 60 / 60 / 24) + 1,
+                done:done,
+                leave:leave
+            });
         },
         nowDate:function(){
             return new Date();
@@ -47,18 +55,29 @@ let reports = new Vue({
         dateOffset:function(date, offset){
             return new Date(date.setDate(date.getDate() - offset));
         },
-        getReportLength(report, index){
-            let length = this.getSomeFromReport(report, index, 'length');
+        getReportLength(report, date){
+            // let date = this.dateOffset(new Date(), index).toLocaleDateString();
+            let length = this.getSomeFromReport(report, date, 'length');
             if (length != null){
                 return length;
             }
-            return 0;
+            return 1;
         },
-        getReportData:function(report, index){
-            return this.getSomeFromReport(report, index, 'data');
+        getDates:function(report){
+            let dates = [];
+            let now = new Date();
+            for (let i = 0; i < this.getReportCells(report); i++){
+                let date = now.toLocaleDateString();
+                dates.push(date);
+                let length = this.getReportLength(report, date);
+                now.setDate(now.getDate() - length);
+            }
+            return dates;
         },
-        getSomeFromReport:function(report, index, field){
-            let date = this.dateOffset(this.nowDate(), index - 1).toLocaleDateString();
+        getReportData:function(report, date){
+            return this.getSomeFromReport(report, date, 'data');
+        },
+        getSomeFromReport:function(report, date, field){
             if (this.reports.hasOwnProperty(report)){
                 let reports = this.reports[report];
                 if (reports.hasOwnProperty(date)){
@@ -68,7 +87,7 @@ let reports = new Vue({
             return null;
         },
         getReportCells:function (report) {
-            let length = 12;
+            let length = 16;
             if (this.reports.hasOwnProperty(report)){
                 let reports = this.reports[report];
                 for (let i in reports){
@@ -90,6 +109,9 @@ let reports = new Vue({
         },
         open:function(id){
             loadModal(this.api.show, {id:id});
+        },
+        getColumnIndex:function(row){
+            return 1;
         }
     }
 });

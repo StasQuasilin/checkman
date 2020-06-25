@@ -14,9 +14,11 @@ public class CurrentLocation extends JsonAble{
     private long time;
 
     public CurrentLocation(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        time = location.getTime();
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            time = location.getTime();
+        }
     }
 
     public double getLatitude() {

@@ -1,5 +1,6 @@
 package ua.svasilina.spedition.entity;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONObject;
 
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import static ua.svasilina.spedition.constants.Keys.COUNTERPARTY;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.LEAVE;
 import static ua.svasilina.spedition.constants.Keys.MONEY;
+import static ua.svasilina.spedition.constants.Keys.PRODUCT;
 import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
 public class ReportField extends JsonAble implements Comparable<ReportField> {
@@ -16,14 +18,9 @@ public class ReportField extends JsonAble implements Comparable<ReportField> {
     private String counterparty;
     private Calendar arriveTime;
     private Calendar leaveTime;
+    private Product product;
     private int money;
     private Weight weight;
-
-    public ReportField() {}
-
-    public ReportField(Calendar arriveTime) {
-        this.arriveTime = arriveTime;
-    }
 
     public String getUuid() {
         return uuid;
@@ -53,6 +50,13 @@ public class ReportField extends JsonAble implements Comparable<ReportField> {
         this.leaveTime = leaveTime;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     public int getMoney() {
         return money;
     }
@@ -71,12 +75,17 @@ public class ReportField extends JsonAble implements Comparable<ReportField> {
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, uuid);
-        jsonObject.put(COUNTERPARTY, counterparty);
+        if (counterparty != null) {
+            jsonObject.put(COUNTERPARTY, counterparty);
+        }
         if (arriveTime != null) {
             jsonObject.put(ARRIVE, arriveTime.getTimeInMillis());
         }
         if (leaveTime != null){
             jsonObject.put(LEAVE, leaveTime.getTimeInMillis());
+        }
+        if (product != null){
+            jsonObject.put(PRODUCT, product.getId());
         }
         jsonObject.put(MONEY, money);
         if (weight != null){
@@ -88,7 +97,12 @@ public class ReportField extends JsonAble implements Comparable<ReportField> {
 
 
     @Override
-    public int compareTo(ReportField o) {
+    public int compareTo(@NotNull ReportField o) {
+        if (arriveTime == null){
+            return 1;
+        } else if (o.arriveTime == null){
+            return -1;
+        }
         return arriveTime.compareTo(o.arriveTime);
     }
 }

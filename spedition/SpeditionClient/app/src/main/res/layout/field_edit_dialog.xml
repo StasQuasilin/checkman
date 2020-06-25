@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -14,6 +14,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/point"
         android:textColor="@color/textColor"
+        android:labelFor="@id/counterparty"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,42 +25,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/arriveDateTime"
-        android:textColor="@color/textColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/counterparty" />
-
-    <Button
-        android:id="@+id/leaveText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="25.05.20"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toStartOf="@+id/timeButton"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <Button
-        android:id="@+id/timeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="08:30"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/leaveText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/leaveText" />
 
     <TextView
         android:id="@+id/textView3"
@@ -70,7 +41,7 @@
         android:text="@string/product"
         android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaveText" />
+        app:layout_constraintTop_toBottomOf="@+id/leaveContainer" />
 
     <Spinner
         android:id="@+id/details"
@@ -92,6 +63,7 @@
         android:layout_marginStart="8dp"
         android:text="@string/discarded"
         android:textColor="@color/textColor"
+        android:labelFor="@id/money"
         app:layout_constraintBottom_toBottomOf="@+id/money"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/money" />
@@ -106,14 +78,16 @@
         android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/paymentSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/details" />
+        app:layout_constraintTop_toBottomOf="@+id/details"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/addWeight"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:layout_marginStart="8dp"
         android:text="@string/weightAdd"
+        android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/money" />
 
@@ -133,6 +107,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/gross"
             android:textColor="@color/textColor"
+            android:labelFor="@id/gross"
             app:layout_constraintBottom_toBottomOf="@+id/gross"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/gross" />
@@ -142,14 +117,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
             android:inputType="number"
             android:textColor="@color/textColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/text"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/weightDelete"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/textView8"
@@ -158,6 +133,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/tare"
             android:textColor="@color/textColor"
+            android:labelFor="@id/tare"
             app:layout_constraintBottom_toBottomOf="@+id/tare"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tare" />
@@ -170,6 +146,7 @@
             android:layout_marginStart="8dp"
             android:text="@string/net"
             android:textColor="@color/textColor"
+            android:labelFor="@id/net"
             app:layout_constraintBottom_toBottomOf="@+id/net"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/net" />
@@ -185,7 +162,8 @@
             android:textColor="@color/textColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/gross"
-            app:layout_constraintTop_toBottomOf="@+id/gross" />
+            app:layout_constraintTop_toBottomOf="@+id/gross"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/net"
@@ -201,9 +179,119 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tare"
-            app:layout_constraintTop_toBottomOf="@+id/tare" />
+            app:layout_constraintTop_toBottomOf="@+id/tare"
+            android:importantForAutofill="no" />
 
+        <ImageButton
+            android:id="@+id/weightDelete"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            android:contentDescription="@string/delete" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <Button
+        android:id="@+id/fixArrive"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/fixArriveTime"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/counterparty" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/arriveContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fixArrive">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/arriveDateTime"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/arriveDate"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/arriveTime"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <Button
+            android:id="@+id/arriveTime"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/arriveDate" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/fixLeave"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/fixLeaveTime"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arriveContainer" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/leaveContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fixLeave">
+
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/leaveTime"
+            android:textColor="@color/textColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/leaveDate"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/leaveTime"
+            app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+        <Button
+            android:id="@+id/leaveTime"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/leaveDate" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

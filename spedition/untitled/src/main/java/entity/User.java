@@ -58,4 +58,14 @@ public class User extends JsonAble{
         json.put(PERSON, person.toJson());
         return json;
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
+    }
 }

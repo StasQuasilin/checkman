@@ -570,10 +570,10 @@ public class HibernateDAO implements dbDAO, Constants {
         final HashMap<String, Object> param = hb.getParams();
         param.put(TYPE, type);
         param.put(ARCHIVE, false);
-        param.put(DATE, new BETWEEN(
-                Date.valueOf(LocalDate.now().plusMonths(1)),
-                Date.valueOf(LocalDate.now().minusMonths(1))
-        ));
+//        param.put(DATE, new BETWEEN(
+//                Date.valueOf(LocalDate.now().minusMonths(1)),
+//                Date.valueOf(LocalDate.now().plusMonths(1))
+//        ));
         return hb.query(Deal.class, param);
     }
 

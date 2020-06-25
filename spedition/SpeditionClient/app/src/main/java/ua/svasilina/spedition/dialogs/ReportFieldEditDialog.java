@@ -1,6 +1,5 @@
 package ua.svasilina.spedition.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -19,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import ua.svasilina.spedition.R;
@@ -29,11 +28,13 @@ import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
+import ua.svasilina.spedition.utils.builders.DateTimeBuilder;
+
+import static ua.svasilina.spedition.constants.Patterns.DATE_PATTERN;
+import static ua.svasilina.spedition.constants.Patterns.TIME_PATTERN;
 
 public class ReportFieldEditDialog extends DialogFragment {
 
-    @SuppressLint("SimpleDateFormat")
-    private final SimpleDateFormat sdf = new SimpleDateFormat();
     private final ReportField reportField;
     private final LayoutInflater inflater;
     private final CustomListener saveListener;
@@ -43,13 +44,21 @@ public class ReportFieldEditDialog extends DialogFragment {
     private EditText moneyEdit;
     private EditText gross;
     private EditText tare;
-    private Button dateButton;
-    private Button timeButton;
+    private Button fixArrive;
+    private View arriveContainer;
+    private Button arriveDate;
+    private Button arriveTime;
+    private Button fixLeave;
+    private View leaveContainer;
+    private Button leaveDate;
+    private Button leaveTime;
     private boolean haveWeight;
     private Button addWeight;
     private ConstraintLayout weightLayout;
     private Switch paymentSwitch;
     private final List<Product> products;
+    private final DateTimeBuilder dateBuilder;
+    private final DateTimeBuilder timeBuilder;
 
     public ReportFieldEditDialog(ReportField reportField, LayoutInflater inflater, Report report, CustomListener saveListener) {
         this.reportField = reportField;
@@ -62,6 +71,8 @@ public class ReportFieldEditDialog extends DialogFragment {
         } else {
             products = productsUtil.getProducts();
         }
+        dateBuilder = new DateTimeBuilder(DATE_PATTERN);
+        timeBuilder = new DateTimeBuilder(TIME_PATTERN);
     }
 
     private void switchWeight(){
@@ -83,35 +94,16 @@ public class ReportFieldEditDialog extends DialogFragment {
         counterparty = view.findViewById(R.id.counterparty);
         counterparty.setText(reportField.getCounterparty());
 
-        dateButton = view.findViewById(R.id.leaveText);
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final DateDialog dateDialog = new DateDialog(reportField.getArriveTime(), inflater, DateDialogState.date, new CustomListener() {
-                    @Override
-                    public void onChange() {
-                        changeDate();
-                    }
-                });
-                dateDialog.show(getChildFragmentManager(), "DateDialog");
-            }
-        });
-        changeDate();
+        fixArrive = view.findViewById(R.id.fixArrive);
+        arriveContainer = view.findViewById(R.id.arriveContainer);
+        arriveDate = view.findViewById(R.id.arriveDate);
+        arriveTime = view.findViewById(R.id.arriveTime);
+        fixLeave = view.findViewById(R.id.fixLeave);
+        leaveContainer = view.findViewById(R.id.leaveContainer);
+        leaveDate = view.findViewById(R.id.leaveDate);
+        leaveTime = view.findViewById(R.id.leaveTime);
+        initArrive();
 
-        timeButton = view.findViewById(R.id.timeButton);
-        timeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final DateDialog dateDialog = new DateDialog(reportField.getArriveTime(), inflater, DateDialogState.time, new CustomListener() {
-                    @Override
-                    public void onChange() {
-                        changeTime();
-                    }
-                });
-                dateDialog.show(getChildFragmentManager(), "TimeDialog");
-            }
-        });
-        changeTime();
 
         product = view.findViewById(R.id.details);
         initProductSpinner();
@@ -172,25 +164,123 @@ public class ReportFieldEditDialog extends DialogFragment {
         return builder.create();
     }
 
-    private void changeDate(){
-        sdf.applyPattern("dd.MM.yy");
-        dateButton.setText(sdf.format(reportField.getArriveTime().getTime()));
-    }
-    private void changeTime(){
-        sdf.applyPattern("HH:mm");
-        timeButton.setText(sdf.format(reportField.getArriveTime().getTime()));
+    private void initLeave() {
+        fixLeave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportField.setLeaveTime(Calendar.getInstance());
+                switchLeaveDateTime();
+            }
+        });
+        final CustomListener cl = new CustomListener() {
+            @Override
+            public void onChange() {
+                updateLeaveDateTime();
+            }
+        };
+        leaveDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DateDialog dateDialog = new DateDialog(reportField.getLeaveTime(), inflater, DateDialogState.date, cl);
+                dateDialog.show(getChildFragmentManager(), "LeaveDateDialog");
+            }
+        });
+        leaveTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DateDialog dateDialog = new DateDialog(reportField.getLeaveTime(), inflater, DateDialogState.time, cl);
+                dateDialog.show(getChildFragmentManager(), "LeaveTimeDialog");
+            }
+        });
+        switchLeaveDateTime();
     }
 
+    private void switchLeaveDateTime() {
+        final Calendar leaveTime = reportField.getLeaveTime();
+        if (leaveTime == null){
+            fixLeave.setVisibility(View.VISIBLE);
+            leaveContainer.setVisibility(View.GONE);
+        } else {
+            fixLeave.setVisibility(View.GONE);
+            leaveContainer.setVisibility(View.VISIBLE);
+            updateLeaveDateTime();
+        }
+    }
+
+    private void updateLeaveDateTime() {
+        final Calendar ldt = reportField.getLeaveTime();
+        leaveDate.setText(dateBuilder.build(ldt));
+        leaveTime.setText(timeBuilder.build(ldt));
+    }
+
+    private void initArrive() {
+        fixArrive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportField.setArriveTime(Calendar.getInstance());
+                switchArriveDateTime();
+            }
+        });
+        final CustomListener cl = new CustomListener() {
+            @Override
+            public void onChange() {
+                updateArriveDateTime();
+            }
+        };
+        arriveDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DateDialog dateDialog = new DateDialog(reportField.getArriveTime(), inflater, DateDialogState.date, cl);
+                dateDialog.show(getChildFragmentManager(), "ArriveDateDialog");
+            }
+        });
+        arriveTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DateDialog dateDialog = new DateDialog(reportField.getArriveTime(), inflater, DateDialogState.time, cl);
+                dateDialog.show(getChildFragmentManager(), "ArriveTimeDialog");
+            }
+        });
+        switchArriveDateTime();
+    }
+
+    private void switchArriveDateTime(){
+        final Calendar arriveTime = reportField.getArriveTime();
+        if (arriveTime == null){
+            fixArrive.setVisibility(View.VISIBLE);
+            arriveContainer.setVisibility(View.GONE);
+            fixLeave.setVisibility(View.GONE);
+            leaveContainer.setVisibility(View.GONE);
+        } else {
+            fixArrive.setVisibility(View.GONE);
+            arriveContainer.setVisibility(View.VISIBLE);
+            initLeave();
+            updateArriveDateTime();
+        }
+    }
+
+    private void updateArriveDateTime(){
+        final Calendar adt = reportField.getArriveTime();
+        arriveDate.setText(dateBuilder.build(adt));
+        arriveTime.setText(timeBuilder.build(adt));
+    }
+
+    ArrayAdapter<Product> adapter;
     private void initProductSpinner() {
-        ArrayAdapter<Product> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item);
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item);
         adapter.addAll(products);
         product.setAdapter(adapter);
+        if (reportField.getProduct() != null){
+            product.setSelection(adapter.getPosition(reportField.getProduct()));
+        }
     }
 
     private void save(){
 
         final String counterparty = this.counterparty.getText().toString();
         reportField.setCounterparty(counterparty);
+
+        reportField.setProduct(adapter.getItem(product.getSelectedItemPosition()));
 
         final String moneyText = moneyEdit.getText().toString();
         if(!moneyText.isEmpty()){

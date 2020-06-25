@@ -22,10 +22,16 @@ public class ReportDAO {
 
     public void save(Report report) {
         hibernator.save(report);
+    }
+
+    public void afterSave(Report report){
         final User owner = report.getOwner();
         updateUtil.update(SubscribeType.reports, report.toJson(), owner);
-        if (owner.getSupervisor() != null){
+        if (owner.getSupervisor() != null) {
+            System.out.println("SUPERVISOR + " + owner.getSupervisor().getPerson().getValue());
             updateUtil.update(SubscribeType.reports, report.toJson(), owner.getSupervisor());
+        } else {
+            System.out.println("No supervisor");
         }
     }
 

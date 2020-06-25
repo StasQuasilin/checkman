@@ -1,10 +1,14 @@
 package entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
+
+import static constants.Keys.ID;
 
 @Entity
 @Table(name = "drivers")
-public class Driver {
+public class Driver extends JsonAble{
     private int id;
     private String uuid;
     private Person person;
@@ -34,5 +38,12 @@ public class Driver {
     }
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        final JSONObject jsonObject = person.toJson();
+        jsonObject.put(ID, id);
+        return jsonObject;
     }
 }

@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -78,8 +77,6 @@ public class ReportEdit extends AppCompatActivity {
     private Button fareEdit;
     private Button expensesButton;
     private Button noteButton;
-    private View doneLayout;
-    private TextView doneDateView;
 
     private ProductsUtil productsUtil = new ProductsUtil();
     private WeightStringBuilder weightStringBuilder;
@@ -128,9 +125,9 @@ public class ReportEdit extends AppCompatActivity {
         initWeightButton();
 
         fixLeaveTime = findViewById(R.id.fixLeaveTime);
-        leaveTimeContainer = findViewById(R.id.lealeTimeContainer);
-        dateButton = findViewById(R.id.leaveText);
-        timeButton = findViewById(R.id.timeButton);
+        leaveTimeContainer = findViewById(R.id.leaveTimeContainer);
+        dateButton = findViewById(R.id.leaveDate);
+        timeButton = findViewById(R.id.leaveTime);
         initLeaveButtons();
         checkLeaveTime();
 
@@ -143,17 +140,15 @@ public class ReportEdit extends AppCompatActivity {
         noteButton = findViewById(R.id.notesButton);
         initNoteButton();
 
-        doneLayout = findViewById(R.id.doneLayout);
-        doneDateView = findViewById(R.id.doneDateLabel);
-        initDoneLabel();
-
         adapter = new ReportFieldAdapter(context, R.layout.field_list_row, getSupportFragmentManager(), report, new CustomListener() {
             @Override
             public void onChange() {
                 save(false);
             }
         });
-        adapter.addAll(report.getFields());
+        final List<ReportField> fields = report.getFields();
+        Collections.sort(fields);
+        adapter.addAll(fields);
 
         ListView reports = findViewById(R.id.fields);
         reports.setAdapter(adapter);
@@ -162,7 +157,7 @@ public class ReportEdit extends AppCompatActivity {
         addField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ReportField field = new ReportField(Calendar.getInstance());
+                final ReportField field = new ReportField();
                 field.setUuid(UUID.randomUUID().toString());
                 report.addField(field);
                 adapter.add(field);
@@ -412,17 +407,6 @@ public class ReportEdit extends AppCompatActivity {
             expenses += expense.getAmount();
         }
         expensesButton.setText(String.valueOf(expenses));
-    }
-
-    private void initDoneLabel() {
-        final Calendar doneDate = report.getDoneDate();
-        if (doneDate != null) {
-            doneLayout.setVisibility(View.VISIBLE);
-            simpleDateFormat.applyPattern("dd.MM.yy HH:mm");
-            doneDateView.setText(simpleDateFormat.format(doneDate.getTime()));
-        } else {
-            doneLayout.setVisibility(View.GONE);
-        }
     }
 
     private void updateRouteButtonValue() {

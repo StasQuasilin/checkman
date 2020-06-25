@@ -31,7 +31,7 @@ public class ContextFilter implements Filter {
     TransportReplaceUtil tru;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         gcTimer = new Timer(20 * 1000, e -> System.gc());
         gcTimer.start();
         HibernateSessionFactory.init();
