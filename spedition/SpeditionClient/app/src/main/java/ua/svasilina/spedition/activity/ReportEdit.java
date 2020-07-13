@@ -485,7 +485,6 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     void save(boolean redirect){
-        report.setSync(false);
         reportsUtil.saveReport(report);
 
         if (redirect) {

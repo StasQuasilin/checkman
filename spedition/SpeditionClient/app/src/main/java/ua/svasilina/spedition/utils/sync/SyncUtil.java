@@ -1,4 +1,4 @@
-package ua.svasilina.spedition.utils;
+package ua.svasilina.spedition.utils.sync;
 
 import android.util.Log;
 
@@ -6,11 +6,16 @@ import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import ua.svasilina.spedition.constants.ApiLinks;
 import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.entity.sync.SyncList;
+import ua.svasilina.spedition.entity.sync.SyncListItem;
+import ua.svasilina.spedition.utils.JsonParser;
+import ua.svasilina.spedition.utils.LoginUtil;
+import ua.svasilina.spedition.utils.NetworkUtil;
+import ua.svasilina.spedition.utils.ReportsUtil;
 
 import static ua.svasilina.spedition.constants.Keys.STATUS;
 import static ua.svasilina.spedition.constants.Keys.SUCCESS;
@@ -21,22 +26,24 @@ public class SyncUtil {
     private final NetworkUtil networkUtil;
     private final LoginUtil loginUtil;
     private final JsonParser parser;
+    private final SyncListUtil syncList;
 
     public SyncUtil(ReportsUtil reportsUtil) {
         this.reportsUtil = reportsUtil;
         networkUtil = new NetworkUtil();
         loginUtil  = new LoginUtil(reportsUtil.getContext());
         parser = new JsonParser();
+        syncList = new SyncListUtil(reportsUtil.getContext());
     }
 
-    public void sync(final List<Report> reportList){
+    public void sync(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (Report report : reportList){
-                    if (!report.isSync()){
-                        final Report openReport = reportsUtil.openReport(report.getUuid());
-                        sync(openReport);
+                final SyncList list = syncList.readSyncList();
+                for (SyncListItem item : list.getFields()){
+                    if (item.getSyncTime() == null){
+                        sync(item.getReport());
                     }
                 }
             }
@@ -59,7 +66,7 @@ public class SyncUtil {
                     if (answer != null) {
                         String status = String.valueOf(answer.get(STATUS));
                         if (status.equals(SUCCESS)) {
-                            report.setSync(true);
+                            syncList.setSyncTime(uuid);
                         }
                     }
                 } catch (IOException e) {
@@ -69,7 +76,11 @@ public class SyncUtil {
                 nowSync.remove(uuid);
             }
         }
-        reportsUtil.saveReport(report);
+    }
+
+    private void sync(final String uuid){
+        final Report openReport = reportsUtil.openReport(uuid);
+        sync(openReport);
     }
 
     public void syncThread(final Report report){

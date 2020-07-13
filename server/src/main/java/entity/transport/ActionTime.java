@@ -24,7 +24,8 @@ public class ActionTime extends JsonAble {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
+//            (strategy = GenerationType.SEQUENCE)
     public int getId() {
         return id;
     }
@@ -52,10 +53,7 @@ public class ActionTime extends JsonAble {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 31 * time.hashCode() + hash;
-        hash = 31 * creator.hashCode() + hash;
-        return hash;
+        return id;
     }
 
     @Override

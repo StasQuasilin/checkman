@@ -24,4 +24,10 @@
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/clear"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/syncList"
+        android:icon="@android:drawable/stat_notify_sync"
+        android:title="@string/sync"
+
+        app:showAsAction="never" />
 </menu>

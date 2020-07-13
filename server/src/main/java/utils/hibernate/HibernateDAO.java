@@ -1151,7 +1151,15 @@ public class HibernateDAO implements dbDAO, Constants {
 
     @Override
     public List<User> findUser(Object key) {
-        return findWorker(key).stream().map(this::getUserByWorker).collect(Collectors.toCollection(ArrayList::new));
+        List<User> users = new ArrayList<>();
+
+        for (Worker w : findWorker(key)){
+            final User user = getUserByWorker(w);
+            if (user != null){
+                users.add(user);
+            }
+        }
+        return  users;
     }
 
     @Override

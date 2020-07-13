@@ -76,4 +76,6 @@
     <string name="weightTitle">Редагування ваги</string>
     <string name="copy">Копіювати</string>
     <string name="fixArriveTime">Зафіксувати час прибуття</string>
+    <string name="sync">Синхронізація</string>
+    <string name="syncList">Синхронізації</string>
 </resources>

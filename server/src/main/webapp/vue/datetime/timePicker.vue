@@ -35,10 +35,10 @@ var timepicker = new Vue({
             this.mm = minutes;
         },
         save:function(){
-            var date = new Date();
+            let date = new Date();
             date.setHours(this.hh);
             date.setMinutes(this.mm);
-            for (var i in this.onSave){
+            for (let i in this.onSave){
                 if (this.onSave.hasOwnProperty(i)) {
                     this.onSave[i](date);
                 }
@@ -49,7 +49,7 @@ var timepicker = new Vue({
             this.onSave = [];
         },
         saveAndClose:function(){
-            if (event.target.className == 'datetime-picker') {
+            if (event.target.className === 'datetime-picker') {
                 this.save()
             }
         }

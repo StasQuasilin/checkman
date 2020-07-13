@@ -59,4 +59,5 @@ public interface Keys {
     String PHONES = "phones";
     String LEFT_BRACE = "(";
     String RIGHT_BRACE = ")";
+    String REPORT = "report";
 }

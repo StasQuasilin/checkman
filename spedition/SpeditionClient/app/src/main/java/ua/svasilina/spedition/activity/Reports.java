@@ -39,6 +39,7 @@ public class Reports extends AppCompatActivity {
         adapter = new ReportListAdapter(context, R.layout.report_list_row, reports);
         ListView view = findViewById(R.id.report_list);
         view.setAdapter(adapter);
+        reportsUtil.sync();
 //        new LocationService(context).checkGranted(this);
     }
 
@@ -59,8 +60,18 @@ public class Reports extends AppCompatActivity {
             adapter.clear();
         } else if (itemId == R.id.login){
             showLoginDialog();
+        } else if (itemId == R.id.syncList){
+            showSyncList();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSyncList() {
+        final Context context = getApplicationContext();
+        Intent intent = new Intent(context, SyncListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+
     }
 
     public void showLoginDialog(){

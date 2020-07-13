@@ -44,7 +44,7 @@ public class StorageUtil {
         return files;
     }
 
-    String readFile(String name) {
+    public String readFile(String name) {
         try {
             final FileInputStream fileInputStream = context.openFileInput(name);
             final GZIPInputStream gzipInputStream = new GZIPInputStream(fileInputStream);

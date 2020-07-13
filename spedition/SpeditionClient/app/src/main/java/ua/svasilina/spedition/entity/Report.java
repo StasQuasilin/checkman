@@ -24,7 +24,6 @@ import static ua.svasilina.spedition.constants.Keys.NOTES;
 import static ua.svasilina.spedition.constants.Keys.PER_DIEM;
 import static ua.svasilina.spedition.constants.Keys.PRODUCT;
 import static ua.svasilina.spedition.constants.Keys.ROUTE;
-import static ua.svasilina.spedition.constants.Keys.SYNC;
 import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
 public class Report extends JsonAble implements Serializable, Comparable<Report>, IChanged {
@@ -41,7 +40,6 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
     final public ArrayList<Expense> expenses = new ArrayList<>();
     final public ArrayList<Expense> fares = new ArrayList<>();
     final public ArrayList<ReportNote> notes = new ArrayList<>();
-    private boolean sync;
     private boolean fone;
 
     public String getUuid() {
@@ -121,13 +119,6 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         this.fone = fone;
     }
 
-    public boolean isSync() {
-        return sync;
-    }
-    public void setSync(boolean sync) {
-        this.sync = sync;
-    }
-
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -155,7 +146,6 @@ public class Report extends JsonAble implements Serializable, Comparable<Report>
         json.put(EXPENSES, expenses());
         json.put(PER_DIEM, perDiem);
         json.put(FONE, fone);
-        json.put(SYNC, sync);
         json.put(NOTES, notes());
 
         return json;

@@ -125,6 +125,8 @@ public class Branches {
         public static final String BOARD_EDIT = "/board/edit.j";
         public static final String EDIT_REPORT = "/report/edit.j";
         public static final String ROUND_REPORTS = "/round/reports/list.j";
+        public static final String CUSTOM_TIME = "/transportation/custom-time.j";
+        public static final String USER_PAGE = "/user/page.j";
 
 
         public class Extraction {
@@ -322,6 +324,9 @@ public class Branches {
         public static final String EXTRACTION_TURN_CELLULOSE_REMOVE = API + "/extraction/turn/cellulose/remove";
         public static final String REPORT_EDIT = API + "/report/edit";
         public static final String CODE_VALID = API + "/code/valid";
+        public static final String SAVE_CUSTOM_TIME = API + "/custom/time";
+        public static final String SAVE_USER_DATA = API + "/save/user";
+        public static final String USER_DELETE = API + "/delete/user";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

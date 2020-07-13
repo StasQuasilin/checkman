@@ -32,7 +32,7 @@ public class ContextFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        gcTimer = new Timer(20 * 1000, e -> System.gc());
+        gcTimer = new Timer(10 * 60 * 1000, e -> System.gc());
         gcTimer.start();
         HibernateSessionFactory.init();
         TelegramBotFactory.init();
@@ -67,7 +67,6 @@ public class ContextFilter implements Filter {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
         resp.setHeader("Expires", "0");
-
 
         filterChain.doFilter(req, resp);
     }

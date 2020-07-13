@@ -37,11 +37,11 @@
     <div class="head">
       <c:if test="${not empty from}">
         <fmt:message key="date.from"/>
-        <fmt:formatDate value="${from}" pattern="dd.MM.yyyy"/>
+        <fmt:formatDate value="${from}" pattern="dd.MM.yyyy HH:mm"/>
       </c:if>
       <c:if test="${not empty to}">
         <fmt:message key="date.to"/>
-        <fmt:formatDate value="${to}" pattern="dd.MM.yyyy"/>
+        <fmt:formatDate value="${to}" pattern="dd.MM.yyyy HH:mm"/>
       </c:if>
     </div>
     <div class="head">
@@ -67,7 +67,7 @@
           <th rowspan="2">
             <fmt:message key="date"/>
           </th>
-          <th>
+          <th style="width: 5em">
             <fmt:message key="transportation.time.in"/>
           </th>
           <c:if test="${empty organisation}">

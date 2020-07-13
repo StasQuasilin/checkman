@@ -22,7 +22,7 @@ const datepicker = new Vue({
                 this.type = 'date'
             }
 
-            if (this.onSelects.length == 0){
+            if (this.onSelects.length === 0){
                 this.date = date
             } else {
                 this.date = new Date().toISOString().substring(0, 10)
@@ -30,7 +30,7 @@ const datepicker = new Vue({
             this.onSelects.push(onSelect);
             const self = this;
             setTimeout(function(){
-                var bound = self.$refs.date.getBoundingClientRect();
+                let bound = self.$refs.date.getBoundingClientRect();
                 if (bound.x + bound.width > document.body.clientWidth){
                     self.x = document.body.clientWidth - bound.width;
                 }
@@ -40,7 +40,7 @@ const datepicker = new Vue({
         },
         put:function(){
             console.log(this.date);
-            for (var i in this.onSelects){
+            for (let i in this.onSelects){
                 if (this.onSelects.hasOwnProperty(i)){
                     this.onSelects[i](this.date)
                 }
@@ -48,7 +48,7 @@ const datepicker = new Vue({
             this.onSelects = [];
         },
         close:function(){
-            if (event.target.className == 'datetime-picker'){
+            if (event.target.className === 'datetime-picker'){
                 this.onSelects = [];
             }
         }

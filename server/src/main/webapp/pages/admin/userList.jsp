@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -28,6 +28,7 @@
   var list = new Vue({
     el:'#list',
     data:{
+      api:{},
       active:[],
       all:[]
     },
@@ -47,18 +48,20 @@
             }
           }
         }
+      },
+      openUserPage:function(id){
+        loadModal(this.api.userPage, {id:id});
       }
     }
   });
+  list.api.userPage = '${userPage}';
   <c:forEach items="${subscribe}" var="s">
   subscribe('${s}', function(a){
     list.handler(a);
   });
   </c:forEach>
 </script>
-
-
-<table id="list" style="width: 400pt; height: 300pt" border="0">
+<table id="list" style="width: 400pt; height: 300pt">
   <tr>
     <th style="width: 50%">
       <fmt:message key="admin.user.list.active"/>
@@ -68,7 +71,7 @@
     </th>
   </tr>
   <tr style="height: 100%">
-    <td valign="top">
+    <td style="vertical-align: top">
       <div class="user-list">
         <div v-for="user in active" class="user-row">
           <div class="user-name">
@@ -83,9 +86,9 @@
         </div>
       </div>
     </td>
-    <td valign="top">
+    <td style="vertical-align: top">
       <div class="user-list">
-        <div v-for="user in all">
+        <div v-for="user in all" v-on:click="openUserPage(user.id)" class="mini-close">
           {{user.person.value}}
         </div>
       </div>

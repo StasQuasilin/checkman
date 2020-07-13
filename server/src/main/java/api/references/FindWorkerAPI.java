@@ -3,10 +3,10 @@ package api.references;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.User;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.JsonParser;
 import utils.JsonPool;
 
 import javax.servlet.ServletException;
@@ -20,18 +20,19 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.References.FIND_WORKER)
-public class FindWorkerServletAPI extends ServletAPI {
+public class FindWorkerAPI extends ServletAPI {
 
     final JsonPool pool = JsonPool.getPool();
-    final Logger log = Logger.getLogger(FindWorkerServletAPI.class);
+    final Logger log = Logger.getLogger(FindWorkerAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
             JSONArray array = pool.getArray();
-            Object key = body.get(Constants.KEY);
-            array.addAll(dao.findUser(key).stream().map(parser::toJson).collect(Collectors.toList()));
+            Object key = body.get(KEY);
+
+            array.addAll(dao.findUser(key).stream().map(User::toJson).collect(Collectors.toList()));
             write(resp, array.toJSONString());
             body.clear();
             pool.put(array);

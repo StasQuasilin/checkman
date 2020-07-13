@@ -24,6 +24,8 @@ import ua.svasilina.spedition.entity.Route;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.changes.ChangeLog;
 import ua.svasilina.spedition.utils.changes.ChangeUtil;
+import ua.svasilina.spedition.utils.sync.SyncListUtil;
+import ua.svasilina.spedition.utils.sync.SyncUtil;
 
 import static ua.svasilina.spedition.constants.Keys.AMOUNT;
 import static ua.svasilina.spedition.constants.Keys.ARRIVE;
@@ -45,16 +47,17 @@ import static ua.svasilina.spedition.constants.Keys.PER_DIEM;
 import static ua.svasilina.spedition.constants.Keys.PHONES;
 import static ua.svasilina.spedition.constants.Keys.PRODUCT;
 import static ua.svasilina.spedition.constants.Keys.ROUTE;
-import static ua.svasilina.spedition.constants.Keys.SYNC;
 import static ua.svasilina.spedition.constants.Keys.TARE;
 import static ua.svasilina.spedition.constants.Keys.TIME;
 import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
 public class ReportsUtil {
+
     private static final String TAG = "ReportsUtil";
     private final JSONParser parser = new JSONParser();
     private StorageUtil storageUtil;
     private ProductsUtil productsUtil = new ProductsUtil();
+    private SyncListUtil syncListUtil;
     private static final int STORAGE_SIZE = 20;
 
     private static final String reportsDir = "report_";
@@ -62,12 +65,14 @@ public class ReportsUtil {
     private final Context context;
     private final SyncUtil syncUtil;
     private final ChangeUtil changeUtil;
+
     public ReportsUtil(Context context) {
         storageUtil = new StorageUtil(context);
         fileFilter = new FileFilter(reportsDir);
         this.context = context;
         syncUtil = new SyncUtil(this);
         changeUtil = new ChangeUtil(context);
+        syncListUtil = new SyncListUtil(context);
     }
 
     public Context getContext() {
@@ -76,18 +81,20 @@ public class ReportsUtil {
 
     public void saveReport(final Report report){
         String uuid = report.getUuid();
+        syncListUtil.resetSyncTime(uuid);
         if(uuid == null){
             uuid = UUID.randomUUID().toString();
             report.setUuid(uuid);
         }
 
         Report oldReport = openReport(uuid);
+
         final ChangeLog changeLog = changeUtil.compare(oldReport, report);
 
         final String fileName = reportsDir + uuid;
         final JSONObject jsonObject = report.toJson();
         final String data = jsonObject.toJSONString();
-        Log.i("Save report", data);
+
         storageUtil.saveData(fileName, data);
     }
 
@@ -99,7 +106,6 @@ public class ReportsUtil {
                 final JSONObject parse = (JSONObject) parser.parse(data);
                 report = new Report();
                 report.setUuid(String.valueOf(parse.get(ID)));
-                report.setSync(Boolean.parseBoolean(String.valueOf(parse.get(SYNC))));
 
                 if (parse.containsKey(DRIVER)) {
                     final JSONObject driverJson = (JSONObject) parse.get(DRIVER);
@@ -293,12 +299,11 @@ public class ReportsUtil {
         Collections.sort(reports);
         while (reports.size() > STORAGE_SIZE){
             final Report report = reports.get(reports.size() - 1);
-            if (report.isSync() && report.isDone()){
+            if (report.isDone()){
                 reports.remove(report);
                 storageUtil.remove(reportsDir + report.getUuid());
             }
         }
-        syncUtil.sync(reports);
 
         return reports;
     }
@@ -313,5 +318,10 @@ public class ReportsUtil {
 
     public void clearStorage() {
         storageUtil.clearStorage(fileFilter);
+    }
+
+    public void sync() {
+        Log.i(TAG, "Sync Storage");
+        syncUtil.sync();
     }
 }

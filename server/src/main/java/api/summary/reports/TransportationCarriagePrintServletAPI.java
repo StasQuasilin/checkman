@@ -21,10 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 
 /**
  * Created by szpt_user045 on 25.11.2019.
@@ -37,25 +38,25 @@ public class TransportationCarriagePrintServletAPI extends ServletAPI{
     private static final String DRIVER = Constants.DRIVER;
     private static final String TRANSPORTATIONS = Constants.TRANSPORTATIONS;
     private final Logger log = Logger.getLogger(TransportationCarriagePrintServletAPI.class);
+    private static final LocalTime time = LocalTime.of(8, 0);
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
             log.info(body);
             HashMap<String, Object> params = new HashMap<>();
-            Date from = null, to = null;
+            Timestamp from = null, to = null;
 
             if (body.containsKey(FROM) && body.containsKey(TO)){
-                from = Date.valueOf(String.valueOf(body.get(FROM)));
-                to = Date.valueOf(String.valueOf(body.get(TO)));
-                params.put("date", new BETWEEN(from, to));
-            } else if (body.containsKey(FROM)){
-                from = Date.valueOf(String.valueOf(body.get(FROM)));
-                params.put("date", new GE(from));
-            } else if (body.containsKey(TO)){
-                to = Date.valueOf(String.valueOf(body.get(TO)));
-                params.put("date", new LE(to));
+                LocalDateTime f = LocalDateTime.of(LocalDate.parse(String.valueOf(body.get(FROM))), time);
+                LocalDateTime t = LocalDateTime.of(LocalDate.parse(String.valueOf(body.get(TO))).plusDays(1), time);
+
+                from = Timestamp.valueOf(f);
+                to = Timestamp.valueOf(t);
+
+                params.put("timeIn/time", new BETWEEN(from, to));
             }
+
             if (body.containsKey(ORGANISATION)){
                 Organisation organisation = dao.getObjectById(Organisation.class, body.get(ORGANISATION));
                 req.setAttribute(ORGANISATION, organisation);
@@ -120,7 +121,23 @@ public class TransportationCarriagePrintServletAPI extends ServletAPI{
             hashMap.clear();
             productHashMap.clear();
             for (ArrayList<Transportation> a : result.values()){
-                a.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+                a.sort((t1, t2) -> {
+                    final Date d1 = t1.getDate();
+                    final Date d2 = t2.getDate();
+                    if (d1.equals(d2)){
+                        final Timestamp time1 = t1.getTimeIn().getTime();
+                        final Timestamp time2 = t2.getTimeIn().getTime();
+                        if (time1 == null){
+                            return 1;
+                        } else if (time2 == null){
+                            return -1;
+                        } else {
+                            return time2.compareTo(time1);
+                        }
+                    } else {
+                        return d2.compareTo(d1);
+                    }
+                });
             }
 
             req.setAttribute(TRANSPORTATIONS, result);

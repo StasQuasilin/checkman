@@ -2,6 +2,7 @@ package controllers.sign;
 
 import constants.Branches;
 import controllers.IUIServlet;
+import entity.Role;
 import utils.LanguageBase;
 
 import javax.servlet.ServletException;
@@ -15,11 +16,13 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.FORGOT)
 public class PasswordRestore extends IUIServlet {
+    private static final String ADMINS = "admins";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("lang", LanguageBase.getBase().DEFAULT_LANGUAGE);
-        req.setAttribute("restore", Branches.API.PASSWORD_RESTORE);
+        req.setAttribute("lang", LanguageBase.DEFAULT_LANGUAGE);
         req.setAttribute("signIn", Branches.UI.SING_IN);
+        req.setAttribute(ADMINS, dao.getWorkersByRole(Role.admin));
         req.getRequestDispatcher("/pages/sign/RestorePassword.jsp").forward(req, resp);
     }
 }

@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
+import static ua.svasilina.spedition.constants.Keys.EMPTY;
 import static ua.svasilina.spedition.constants.Keys.ROUTE;
 
 public class Route extends JsonAble {
@@ -23,15 +24,23 @@ public class Route extends JsonAble {
     public String getValue(){
         if (points.size() > 0){
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < points.size(); i++){
-                builder.append(points.get(i).toUpperCase());
-                if (i < points.size() - 1){
-                    builder.append(ARROW);
+            if (points.size() > 2){
+                builder.append("...").append(ARROW);
+                builder.append(points.get(points.size() - 2));
+                builder.append(ARROW);
+                builder.append(points.get(points.size() - 1));
+            } else {
+                for (int i = 0; i < points.size(); i++){
+                    builder.append(points.get(i));
+                    if (i < points.size() - 1){
+                        builder.append(ARROW);
+                    }
                 }
             }
-            return builder.toString();
+
+            return builder.toString().toUpperCase();
         }
-        return "->->->";
+        return EMPTY;
     }
 
     public void addPoint(String item) {

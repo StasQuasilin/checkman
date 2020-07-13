@@ -32,6 +32,7 @@ public class AdminControl extends IUIServlet {
         req.setAttribute("userList", Branches.UI.USER_LIST);
         req.setAttribute("organisationCollapse", Branches.UI.ORGANISATION_COLLAPSE);
         req.setAttribute("formattingTest", Branches.UI.FORMATTING_TEST);
+
         show(req, resp);
 
     }

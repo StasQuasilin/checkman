@@ -21,9 +21,9 @@
         saveEvents.push(event);
     }
     function saveModal(result){
-        for (var a in saveEvents){
+        for (let a in saveEvents){
             if (saveEvents.hasOwnProperty(a)){
-                var save = saveEvents[a];
+                let save = saveEvents[a];
                 if (typeof save === 'function') {
                     save(result)
                 }

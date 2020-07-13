@@ -112,6 +112,7 @@ public interface Constants {
     String REGISTRATION = "registration";
     String REMOVE_TIME = "removeTime";
     String SAVE_TIME = "saveTime";
+    String CUSTOM_TIME = "customTime";
     String HAVE_MENU = "menu";
     String CHECK = "check";
     String LABORATORY_CARRIAGES = "laboratoryCarriages";
@@ -169,6 +170,7 @@ public interface Constants {
     String PRODUCT = "product";
     String GROUP = "group";
     String SETTINGS = "settings";
+    String ACTION = "action";
     String ACTIONS = "actions";
     String ADDRESS_REMOVE = "addressRemove";
     String UNLOAD_STAT = "unloadStatistic";
@@ -384,6 +386,7 @@ public interface Constants {
 
     String EMAIL = "email";
     String ROLE = "role";
+    String ROLES = "roles";
 
     public class Sun {
         public static final String OILINESS = "oiliness";

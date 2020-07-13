@@ -101,13 +101,10 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
         } else {
             productView.setText(EMPTY);
         }
-
-
         return view;
     }
 
     private void open(Report report) {
-
         Intent intent = new Intent();
         if (report.isDone()){
             intent.setClass(context, ReportShow.class);

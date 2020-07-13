@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -15,6 +15,7 @@
     show.id = ${transportation.id};
     show.directionIn = '${in}';
     show.directionOut = '${out}';
+    show.api.customTime = '${customTime}';
     <c:if test="${not empty transportation.timeRegistration}">
     show.registrationTime = new Date('${transportation.timeRegistration.time}');
     </c:if>
@@ -186,15 +187,16 @@
             :
         </td>
         <td style="width: 200px">
-            <div v-if="timeIn">
+            <div v-if="timeIn" style="display: inline-block">
                 <button>
-                    {{(timeIn).toLocaleString()}}
+                    {{(timeIn).toLocaleDateString()}}
+                    {{(timeIn).toLocaleTimeString().substring(0, 5)}}
                 </button>
                 <span class="mini-close" v-on:click="removeTimeIn()">
                     &times;
                 </span>
             </div>
-            <div v-else>
+            <div v-else style="display: inline-block">
                 <button v-if="already">
                     ...
                 </button>
@@ -202,6 +204,9 @@
                     <fmt:message key="transportation.in"/>
                 </button>
             </div>
+            <span class="mini-close" v-on:click="customTimeIn()" style="display: inline-block">
+                <img src="${context}/images/smallpensil.svg" alt="" style="width: 12px">
+            </span>
         </td>
     </tr>
     <tr>
@@ -212,15 +217,16 @@
             :
         </td>
         <td>
-            <div v-if="timeOut">
+            <div v-if="timeOut" style="display: inline-block">
                 <button>
-                    {{(timeOut).toLocaleString()}}
+                    {{(timeOut).toLocaleDateString()}}
+                    {{(timeOut).toLocaleTimeString().substring(0, 5)}}
                 </button>
                 <span class="mini-close" v-on:click="removeTimeOut()">
                     &times;
                 </span>
             </div>
-            <div v-else>
+            <div v-else style="display: inline-block">
                 <button v-if="already">
                     ...
                 </button>
@@ -228,6 +234,9 @@
                     <fmt:message key="transportation.out"/>
                 </button>
             </div>
+            <span class="mini-close" v-on:click="customTimeOut()" style="display: inline-block">
+                <img src="${context}/images/smallpensil.svg" alt="" style="width: 12px">
+            </span>
         </td>
     </tr>
     <tr>

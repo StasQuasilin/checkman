@@ -7,17 +7,13 @@ import entity.Person;
 import entity.Role;
 import entity.User;
 import entity.Worker;
-import entity.answers.ErrorAnswer;
-import entity.answers.IAnswer;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.PasswordGenerator;
 import utils.LanguageBase;
+import utils.PasswordGenerator;
 import utils.UpdateUtil;
-import utils.email.RegistratorEmail;
 
-import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -91,20 +87,7 @@ public class SignUpServletAPI extends ServletAPI {
                 dao.saveWorker(worker, user);
                 updateUtil.onSave(worker);
 
-                if (autoPassword){
-                    try {
-                        RegistratorEmail.sendEmail(email, getAddress(req), new String(Base64.getDecoder().decode(user.getPassword())));
-                        write(resp, SUCCESS_ANSWER);
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                        IAnswer answer = new ErrorAnswer("msg", e.getMessage());
-                        JSONObject jsonAnswer = parser.toJson(answer);
-                        write(resp, jsonAnswer.toJSONString());
-                        pool.put(jsonAnswer);
-                    }
-                }else {
-                    write(resp, SUCCESS_ANSWER);
-                }
+                write(resp, SUCCESS_ANSWER);
 
             }
         } else {

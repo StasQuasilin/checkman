@@ -41,7 +41,6 @@
             lockSession(a);
         })
     </script>
-
 </head>
 <%--oncontextmenu="return false;"--%>
     <body style="margin: 0;" >
@@ -110,7 +109,9 @@
                     </div>
                     <div v-for="i in 6">
                         <span class="mini-close" v-for="j in 4" v-on:click="setHours(hours[(i - 1) * 4 + (j - 1)])">
-                            {{hours[(i - 1) * 4 + (j - 1)]}}
+                            <span style="font-size: 24pt">
+                                {{hours[(i - 1) * 4 + (j - 1)]}}
+                            </span>
                         </span>
                     </div>
                 </div>
@@ -120,15 +121,17 @@
                     </div>
                     <div v-for="i in 6">
                         <span class="mini-close" v-for="j in 2" v-on:click="setMinutes(minutes[(i - 1) * 2 + (j - 1)])">
-                            {{minutes[(i - 1) * 2 + (j - 1)]}}
+                            <span style="font-size: 24pt">
+                                {{minutes[(i - 1) * 2 + (j - 1)]}}
+                            </span>
                         </span>
                     </div>
                 </div>
                 <div style="width: 100%; text-align: center">
-                    <span v-on:click="save">
+                    <span v-on:click="save" style="font-size: 18pt">
                         &#10003;
                     </span>
-                    <span v-on:click="close">
+                    <span v-on:click="close" style="font-size: 18pt">
                         &times;
                     </span>
                 </div>

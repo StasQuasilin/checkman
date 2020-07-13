@@ -1,5 +1,7 @@
 package entity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends JsonAble{
     private int id;
     private String uid;
     private String email;
@@ -77,5 +79,12 @@ public class User {
     }
     public void setRegistrator(Worker registrator) {
         this.registrator = registrator;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        final JSONObject jsonObject = worker.toJson();
+        jsonObject.put(UID, uid);
+        return jsonObject;
     }
 }

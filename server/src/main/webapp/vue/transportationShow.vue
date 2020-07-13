@@ -1,14 +1,7 @@
 var show = new Vue({
     el: '#show',
     data:{
-        api:{
-            timeInApi:'',
-            timeOutApi:'',
-            registration:'',
-            findSeals:'',
-            saveSeal:'',
-            removeSeal:''
-        },
+        api:{},
         id:-1,
         registrationTime:'',
         timeIn:'',
@@ -23,6 +16,26 @@ var show = new Vue({
         directionOut:''
     },
     methods: {
+        customTimeIn:function(){
+            const self = this;
+            this.customTime('in', function (a) {
+                self.timeIn = a;
+            })
+        },
+        customTimeOut:function(){
+            const self = this;
+            this.customTime('out', function (a) {
+                self.timeOut = a;
+            })
+        },
+        customTime:function(action, onSave){
+            let data = {
+                id:this.id,
+                action:action
+            };
+
+            loadModal(this.api.customTime, data, onSave);
+        },
         removeTimeIn:function(){
             this.removeTime('in');
             this.timeIn = '';
@@ -95,7 +108,7 @@ var show = new Vue({
             }
         },
         addSeal:function(seal, doOffer){
-            var parameters = {};
+            let parameters = {};
             parameters.seal = seal.id;
             parameters.transportation = this.id;
             if (doOffer) {

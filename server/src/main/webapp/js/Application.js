@@ -131,10 +131,10 @@ function addModal(modal, onSave){
 
     addOnSaveEvent(onSave);
     addOnCloseEvent(function () {
-        var d = modals[modals.length - 1];
+        let d = modals[modals.length - 1];
         modals.splice(modals.length - 1, 1);
         $(d).remove();
-        if(modals.length == 0){
+        if(modals.length === 0){
             modalLayer.style.display='none';
         }
     });

@@ -23,7 +23,8 @@ public class UserList extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, "title.user.list");
         req.setAttribute(SUBSCRIBE, subscribers);
-        req.setAttribute("modalContent", "/pages/admin/userList.jsp");
+        req.setAttribute(MODAL_CONTENT, "/pages/admin/userList.jsp");
+        req.setAttribute("userPage", Branches.UI.USER_PAGE);
         show(req, resp);
     }
 }

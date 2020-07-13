@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CheckmanClient</string>
+    <string name="menu_deals">Контракти</string>
+    <string name="menu_transport">Транспорт</string>
+    <string name="settings">Налаштування</string>
+    <string name="deal_edit">Редагування контракту</string>
+</resources>

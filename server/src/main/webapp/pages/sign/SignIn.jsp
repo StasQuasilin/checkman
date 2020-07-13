@@ -47,7 +47,6 @@
                         </td>
                     </tr>
                 </template>
-
                 <template v-else>
                     <tr>
                         <td colspan="3">

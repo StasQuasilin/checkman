@@ -28,8 +28,6 @@ public class UserHandler extends OnSubscribeHandler {
     @Override
     public void handle(Session session) throws IOException {
         JSONArray active = pool.getArray();
-
-
         for (Map.Entry<String, UserInfo> entry : userBox.getUsers().entrySet()){
             JSONObject w = entry.getValue().getUser().getWorker().toShortJson();
             w.put(IP, entry.getValue().getIp());

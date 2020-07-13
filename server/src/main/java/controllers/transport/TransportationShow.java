@@ -43,6 +43,7 @@ public class TransportationShow extends IModal {
         req.setAttribute(TRANSPORTATION, transportation);
         req.setAttribute(TITLE, Titles.TRANSPORT_SHOW);
         req.setAttribute(SAVE_TIME, Branches.API.TRANSPORT_TIME);
+        req.setAttribute(CUSTOM_TIME, Branches.UI.CUSTOM_TIME);
         req.setAttribute(REMOVE_TIME, Branches.API.REMOVE_TRANSPORT_TIME);
         req.setAttribute(REGISTRATION, Branches.API.TRANSPORT_REGISTRATION);
         req.setAttribute(FIND_SEALS, Branches.API.SEALS_FREE_FIND);
