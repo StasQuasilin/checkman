@@ -43,10 +43,9 @@ var plan = new Vue({
         },
         newCarriage:function(){
 
-
         },
         newVehicle:function(){
-            var date = this.filterDate == -1 ? new Date() : new Date(this.filterDate);
+            let date = this.filterDate === -1 ? new Date() : new Date(this.filterDate);
             this.add({
                 id:-randomNumber(),
                 date: date.toISOString().substring(0, 10),
@@ -55,14 +54,14 @@ var plan = new Vue({
             })
         },
         itemsByDate:function(date){
-            var result = {
+            let result = {
                 count:0,
                 weight:0
             };
-            var items = this.plans.filter(function(item){
-                return item.item.date == date;
+            let items = this.plans.filter(function(item){
+                return item.item.date === date;
             });
-            for (var i in items){
+            for (let i in items){
                 if (items.hasOwnProperty(i)){
                     result.count++;
                     result.weight+=parseInt(items[i].item.plan);
@@ -71,10 +70,10 @@ var plan = new Vue({
             return result;
         },
         dates:function(){
-            var dates = [];
-            for (var i in this.plans){
+            let dates = [];
+            for (let i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
-                    var date = this.plans[i].item.date;
+                    let date = this.plans[i].item.date;
                     if(!dates.includes(date)){
                         dates.push(date);
                     }
@@ -86,7 +85,7 @@ var plan = new Vue({
             return dates;
         },
         getPlans:function(){
-            if (this.filterDate == -1){
+            if (this.filterDate === -1){
                 return this.plans;
             } else {
                 const self = this;
@@ -114,9 +113,7 @@ var plan = new Vue({
             p.mealAnalyses = null;
             p.archive = false;
             p.done = false;
-            let plan = this.add(p);
-
-            this.initSaveTimer(plan.key);
+            this.initSaveTimer(this.add(p));
         },
         add:function(plan){
             if (!plan.vehicle){
@@ -144,7 +141,7 @@ var plan = new Vue({
         initSaveTimer:function(item){
             console.log(item);
             const self = this;
-            if (item.saveTimer != -1){
+            if (item.saveTimer !== -1){
                 clearTimeout(item.saveTimer);
             }
 
@@ -154,8 +151,8 @@ var plan = new Vue({
             }, 1500);
         },
         update:function(plan){
-            var found = false;
-            for (var p in this.plans){
+            let found = false;
+            for (let p in this.plans){
                 if (this.plans.hasOwnProperty(p)){
                     if (!this.plans[p].item.id){
                         this.plans.splice(p, 1);
@@ -170,7 +167,7 @@ var plan = new Vue({
         },
         remove:function(id){
             const _id = id;
-            var plan = this.plans[id].item;
+            let plan = this.plans[id].item;
             if (plan.id > 0){
                 console.log('remove ' + plan.id);
                 const self = this;
@@ -229,7 +226,7 @@ var plan = new Vue({
         },
         setDriver:function(driver, item){
             item.item.driver = driver;
-            if(driver.vehicle && item.item.vehicle.id == -1){
+            if(driver.vehicle && item.item.vehicle.id === -1){
                 this.setVehicle(driver.vehicle, item);
             }else{
                 this.initSaveTimer(item);
@@ -255,7 +252,7 @@ var plan = new Vue({
             this.initSaveTimer(item);
         },
         weight:function(item){
-            if (item.weight == 'undefined') {
+            if (item.weight === 'undefined') {
                 console.log('calculate weight');
                 var w = {
                     brutto:0,
@@ -277,10 +274,10 @@ var plan = new Vue({
             return item.weight;
         },
         totalPlan:function(){
-            var total = 0;
-            for (var i in this.plans){
+            let total = 0;
+            for (let i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
-                    var p = parseFloat(this.plans[i].item.plan);
+                    let p = parseFloat(this.plans[i].item.plan);
                     if (!isNaN(p)){
                         total += p;
                     }
@@ -289,13 +286,13 @@ var plan = new Vue({
             return total;
         },
         totalFact:function(){
-            var total = 0;
-            for (var p in this.plans){
+            let total = 0;
+            for (let p in this.plans){
                 if (this.plans.hasOwnProperty(p)){
-                    var plan = this.plans[p];
-                    var weight = plan.item.weight;
+                    let plan = this.plans[p];
+                    let weight = plan.item.weight;
                     if (weight) {
-                        total += weight.brutto == 0 || weight.tara == 0 ? 0 : weight.brutto - weight.tara;
+                        total += weight.brutto === 0 || weight.tara === 0 ? 0 : weight.brutto - weight.tara;
                     }
                 }
             }
@@ -319,9 +316,9 @@ var plan = new Vue({
             })
         },
         different:function(w, plan){
-            var netto = w.netto;
-            if (netto > 0  && netto !== plan){
-                var d = netto - plan;
+            let net = w.netto;
+            if (net > 0  && net !== plan){
+                let d = net - plan;
                 if (d > 0) {
                     d = '+' + (d).toLocaleString();
                 } else {
@@ -340,7 +337,7 @@ var plan = new Vue({
         },
         editNote:function(item, id){
             item.editNote = true;
-            if (id != undefined) {
+            if (id !== undefined) {
                 item.noteId = item.item.notes[id].id;
                 item.noteInput = item.item.notes[id].note;
                 item.item.notes.splice(id, 1);

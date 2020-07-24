@@ -55,7 +55,7 @@
     <string name="patronymic">По-батькові</string>
     <string name="phones">Телефони</string>
     <string name="title_location_permission">Геодані</string>
-    <string name="message_location_permission">Для кращої роботи програмі потрібен дозвіл на доступ до геоданих пристрою</string>
+    <string name="message_location_permission">Для кращої роботи програми потрібен дозвіл на доступ до геоданих пристрою</string>
     <string name="done_date">Відрядження завершено:</string>
     <string name="date_template">--.--.--</string>
     <string name="time_template">--:--</string>
@@ -78,4 +78,7 @@
     <string name="fixArriveTime">Зафіксувати час прибуття</string>
     <string name="sync">Синхронізація</string>
     <string name="syncList">Синхронізації</string>
+    <string name="sync_queston">Синхронізувати дані з сервером перед початком роботи?</string>
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
 </resources>

@@ -35,13 +35,7 @@ public class StorageUtil {
     }
 
     File[] getFiles(FileFilter fileFilter){
-        final File[] files = context.getFilesDir().listFiles(fileFilter);
-        if (files != null){
-            for (File file : files){
-                System.out.println(file.getName());
-            }
-        }
-        return files;
+        return context.getFilesDir().listFiles(fileFilter);
     }
 
     public String readFile(String name) {
@@ -75,5 +69,13 @@ public class StorageUtil {
 
     public void remove(String name) {
 
+    }
+
+    public boolean isSync() {
+        final File[] syncs = getFiles(new FileFilter("sync"));
+        if (syncs != null){
+            return syncs.length > 0;
+        }
+        return false;
     }
 }

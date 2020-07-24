@@ -94,7 +94,7 @@ public class SessionTimer {
     }
 
     private void close(Worker worker, Session session, String reason) {
-        System.out.println("Close session for: " + worker.getPerson().getValue() + ", cause \'" + reason + "\'");
+        System.out.println("Close session for: " + worker.getPerson().getValue() + ", cause '" + reason + "'");
         if(session.isOpen()) {
             String closed = ActiveSubscriptions.prepareMessage(Subscriber.SESSION_TIMER, lb.get(worker.getLanguage(), reason));
             try {

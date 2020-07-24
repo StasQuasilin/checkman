@@ -1,5 +1,6 @@
 package api;
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -13,12 +14,14 @@ import java.io.IOException;
 public abstract class ServletAPI extends HttpServlet {
 
     public static final String SUCCESS_ANSWER = "{\"answer\":\"success\"}";
+    private final Logger log = Logger.getLogger(ServletAPI.class);
 
     public void write(HttpServletResponse resp, JSONObject json) throws IOException {
         write(resp, json.toJSONString());
     }
 
     public void write(HttpServletResponse resp, String msg) throws IOException {
+        log.info("Write '" + msg + "'");
         resp.getWriter().write(msg);
     }
 

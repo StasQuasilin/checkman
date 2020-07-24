@@ -4,7 +4,6 @@ import android.util.Log;
 
 import org.json.simple.JSONObject;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,28 +51,30 @@ public class SyncUtil {
     private final Set<String> nowSync = new HashSet<>();
 
     private void sync(final Report report){
-        final String token = loginUtil.getToken();
-        if (token != null) {
-            final String uuid = report.getUuid();
-            if (!nowSync.contains(uuid)) {
-                nowSync.add(uuid);
+        if (report != null) {
+            final String token = loginUtil.getToken();
+            if (token != null) {
+                final String uuid = report.getUuid();
+                if (!nowSync.contains(uuid)) {
+                    nowSync.add(uuid);
 
-                final JSONObject jsonObject = report.toJson();
-                try {
-                    final String post = networkUtil.post(ApiLinks.REPORT_SAVE, jsonObject.toJSONString(), token);
-                    Log.i("Result", post);
-                    final JSONObject answer = parser.parse(post);
-                    if (answer != null) {
-                        String status = String.valueOf(answer.get(STATUS));
-                        if (status.equals(SUCCESS)) {
-                            syncList.setSyncTime(uuid);
+                    final JSONObject jsonObject = report.toJson();
+                    try {
+                        final String post = networkUtil.post(ApiLinks.REPORT_SAVE, jsonObject.toJSONString(), token);
+                        Log.i("Result", post);
+                        final JSONObject answer = parser.parse(post);
+                        if (answer != null) {
+                            String status = String.valueOf(answer.get(STATUS));
+                            if (status.equals(SUCCESS)) {
+                                syncList.setSyncTime(uuid);
+                            }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
-                nowSync.remove(uuid);
+                    nowSync.remove(uuid);
+                }
             }
         }
     }

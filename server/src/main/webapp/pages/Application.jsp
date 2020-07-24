@@ -37,13 +37,13 @@
         subscribe('NOTIFICATIONS', function(a){
             notificator.notify(a);
         });
-        subscribe('SESSION_TIMER', function(a){
-            lockSession(a);
-        })
+        // subscribe('SESSION_TIMER', function(a){
+        //     lockSession(a);
+        // })
     </script>
 </head>
-<%--oncontextmenu="return false;"--%>
-    <body style="margin: 0;" >
+
+    <body style="margin: 0;" oncontextmenu="return false;">
     <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">
         <table style="width: 100%; height: 100%;">
             <tr>

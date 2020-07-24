@@ -18,7 +18,9 @@ import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.ReportListAdapter;
 import ua.svasilina.spedition.dialogs.LoginDialog;
 import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.utils.LoginUtil;
 import ua.svasilina.spedition.utils.ReportsUtil;
+import ua.svasilina.spedition.utils.StorageUtil;
 
 public class Reports extends AppCompatActivity {
 
@@ -32,8 +34,8 @@ public class Reports extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         final Context context = getApplicationContext();
+
         reportsUtil = new ReportsUtil(context);
         reports.addAll(reportsUtil.readStorage());
         adapter = new ReportListAdapter(context, R.layout.report_list_row, reports);

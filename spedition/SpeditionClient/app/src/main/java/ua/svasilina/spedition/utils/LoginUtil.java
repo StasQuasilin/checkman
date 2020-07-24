@@ -5,20 +5,22 @@ import android.content.Context;
 import java.io.File;
 
 public class LoginUtil {
+    private final Context context;
     private final StorageUtil storageUtil;
     private static final String FILE_NAME = "user_access";
-    private final NetworkUtil net;
 
     public LoginUtil(Context context) {
+        this.context = context;
         storageUtil = new StorageUtil(context);
-        net = new NetworkUtil();
     }
 
     public void saveToken(String token) {
         storageUtil.saveData(FILE_NAME, token);
+
+
     }
 
-    public boolean checkLogin() {
+    public boolean isLogin() {
 
         final String userData = storageUtil.readFile(FILE_NAME);
         return userData != null;

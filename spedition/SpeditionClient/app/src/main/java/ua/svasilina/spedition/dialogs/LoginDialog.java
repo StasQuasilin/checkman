@@ -24,8 +24,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
-
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.activity.Reports;
 import ua.svasilina.spedition.constants.ApiLinks;
@@ -156,30 +154,35 @@ public class LoginDialog extends DialogFragment {
                 try {
                     final String post = networkUtil.post(ApiLinks.LOGIN, json.toJSONString(), null);
                     waitAnswer = false;
-                    Log.i("Login", post);
-                    JSONParser parser = new JSONParser();
-                    if (post.contains("<")){
-                        sendMessage(statusHandler, REASON, "Probably answer is html\nprobably answer is 404");
-                    } else {
-                        try {
-                            JSONObject json = (JSONObject) parser.parse(post);
-                            String status = String.valueOf(json.get(STATUS));
-                            if (status.equals(SUCCESS)){
-                                String token = String.valueOf(json.get(TOKEN));
-                                sendMessage(loginHandler, TOKEN, token);
-                                statusHandler.removeCallbacksAndMessages(null);
-                                dismiss();
-                            } else {
-                                String reason = String.valueOf(json.get(REASON));
-                                sendMessage(statusHandler, REASON, reason);
+                    if (post != null) {
+                        Log.i("Login", post);
+
+                        JSONParser parser = new JSONParser();
+                        if (post.contains("<")) {
+                            sendMessage(statusHandler, REASON, "Probably answer is html\nprobably answer is 404");
+                        } else {
+                            try {
+                                JSONObject json = (JSONObject) parser.parse(post);
+                                String status = String.valueOf(json.get(STATUS));
+                                if (status.equals(SUCCESS)) {
+                                    String token = String.valueOf(json.get(TOKEN));
+                                    sendMessage(loginHandler, TOKEN, token);
+                                    statusHandler.removeCallbacksAndMessages(null);
+                                    dismiss();
+                                } else {
+                                    String reason = String.valueOf(json.get(REASON));
+                                    sendMessage(statusHandler, REASON, reason);
+                                }
+                            } catch (ParseException e) {
+                                sendMessage(statusHandler, REASON, "Can't parse answer");
+                                e.printStackTrace();
                             }
-                        } catch (ParseException e) {
-                            sendMessage(statusHandler, REASON, "Can't parse answer");
-                            e.printStackTrace();
                         }
+                    } else {
+                        sendMessage(statusHandler, REASON, "No server answer");
                     }
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

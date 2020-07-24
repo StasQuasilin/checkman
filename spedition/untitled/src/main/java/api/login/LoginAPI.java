@@ -57,7 +57,6 @@ public class LoginAPI extends ServletAPI {
             answer = new ErrorAnswer();
             answer.addParam(REASON, EMPTY_BODY);
         }
-
         write(resp, answer.toJson());
     }
 }
