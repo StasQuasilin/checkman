@@ -33,7 +33,6 @@ public class TransportTimeServletAPI extends ServletAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         JSONObject body = parseBody(req);
         if (body != null) {
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));

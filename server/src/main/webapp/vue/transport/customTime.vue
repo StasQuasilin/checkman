@@ -29,7 +29,7 @@ customTime = new Vue({
             let d = this.date;
             let data = {
                 id:this.id,
-                date:d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(),
+                date:d.toISOString().substring(0, 10) + ' ' + d.toLocaleTimeString(),
                 action:this.action
             };
             PostApi(this.api.save, data, function (answer) {
