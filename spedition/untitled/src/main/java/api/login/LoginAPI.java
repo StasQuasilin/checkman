@@ -44,6 +44,7 @@ public class LoginAPI extends ServletAPI {
                         answer.addParam(REDIRECT, req.getContextPath() + Links.REPORTS);
                     } else {
                         answer.addParam(TOKEN, access.getToken());
+                        answer.addParam(USER, access.getUser().getPerson().getValue());
                     }
                 } else {
                     answer = new ErrorAnswer();

@@ -2,6 +2,8 @@ package ua.svasilina.spedition.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,9 +20,7 @@ import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.ReportListAdapter;
 import ua.svasilina.spedition.dialogs.LoginDialog;
 import ua.svasilina.spedition.entity.Report;
-import ua.svasilina.spedition.utils.LoginUtil;
 import ua.svasilina.spedition.utils.ReportsUtil;
-import ua.svasilina.spedition.utils.StorageUtil;
 
 public class Reports extends AppCompatActivity {
 
@@ -49,6 +49,21 @@ public class Reports extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
+
+        try {
+            PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+            final MenuItem item = menu.findItem(R.id.versionCode);
+            long versionCode;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                versionCode = pInfo.getLongVersionCode();
+            } else {
+                versionCode = pInfo.versionCode;
+            }
+            item.setTitle(pInfo.versionName + " ( " + versionCode + " )");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 

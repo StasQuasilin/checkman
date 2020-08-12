@@ -1,10 +1,18 @@
 package ua.svasilina.spedition.utils.sync;
 
-import android.util.Log;
+import android.widget.Toast;
 
-import org.json.simple.JSONObject;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import ua.svasilina.spedition.constants.ApiLinks;
@@ -15,9 +23,11 @@ import ua.svasilina.spedition.utils.JsonParser;
 import ua.svasilina.spedition.utils.LoginUtil;
 import ua.svasilina.spedition.utils.NetworkUtil;
 import ua.svasilina.spedition.utils.ReportsUtil;
+import ua.svasilina.spedition.utils.network.Connector;
 
 import static ua.svasilina.spedition.constants.Keys.STATUS;
 import static ua.svasilina.spedition.constants.Keys.SUCCESS;
+import static ua.svasilina.spedition.constants.Keys.TOKEN;
 
 public class SyncUtil {
 
@@ -58,22 +68,42 @@ public class SyncUtil {
                 if (!nowSync.contains(uuid)) {
                     nowSync.add(uuid);
 
-                    final JSONObject jsonObject = report.toJson();
-                    try {
-                        final String post = networkUtil.post(ApiLinks.REPORT_SAVE, jsonObject.toJSONString(), token);
-                        Log.i("Result", post);
-                        final JSONObject answer = parser.parse(post);
-                        if (answer != null) {
-                            String status = String.valueOf(answer.get(STATUS));
-                            if (status.equals(SUCCESS)) {
-                                syncList.setSyncTime(uuid);
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    final JSONObject object = new JSONObject(report.toJson());
 
-                    nowSync.remove(uuid);
+                    JsonObjectRequest request = new JsonObjectRequest(
+                            Request.Method.POST,
+                            ApiLinks.REPORT_SAVE,
+                            object,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    System.out.println(response);
+                                    try {
+                                        final String status = response.getString(STATUS);
+                                        if (status.equals(SUCCESS)){
+                                            syncList.setSyncTime(uuid);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(reportsUtil.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                    }){
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            final HashMap<String, String> map = new HashMap<>();
+                            map.put(TOKEN, token);
+                            map.put("content-type", "application/json; charset=utf-8");
+                            return map;
+                        }
+                    };
+
+                    Connector.getConnector().addRequest(reportsUtil.getContext(), request);
                 }
             }
         }
@@ -82,14 +112,5 @@ public class SyncUtil {
     private void sync(final String uuid){
         final Report openReport = reportsUtil.openReport(uuid);
         sync(openReport);
-    }
-
-    public void syncThread(final Report report){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                sync(report);
-            }
-        }).start();
     }
 }

@@ -28,6 +28,7 @@ public interface Keys {
     String SPACE = " ";
     String HYPHEN = " — ";
     String TOKEN = "token";
+    String USER = "user";
     String ROUTE = "route";
     String COAST = "coast";
     String GROSS = "gross";

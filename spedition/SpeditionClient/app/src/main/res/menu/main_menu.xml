@@ -28,6 +28,9 @@
         android:id="@+id/syncList"
         android:icon="@android:drawable/stat_notify_sync"
         android:title="@string/sync"
-
         app:showAsAction="never" />
+    <item
+        android:id="@+id/versionCode"
+        android:title=""
+        app:showAsAction="never"/>
 </menu>

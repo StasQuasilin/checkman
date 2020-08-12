@@ -1,5 +1,6 @@
 package constants;
 public interface Keys {
+    String ENCODING = "UTF-8";
     String PHONE = "phone";
     String SLASH = "/";
     String PERSON = "person";

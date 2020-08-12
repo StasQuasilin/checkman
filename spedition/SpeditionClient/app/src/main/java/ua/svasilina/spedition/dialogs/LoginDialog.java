@@ -1,6 +1,5 @@
 package ua.svasilina.spedition.dialogs;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -15,20 +14,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.activity.Reports;
 import ua.svasilina.spedition.constants.ApiLinks;
 import ua.svasilina.spedition.utils.LoginUtil;
 import ua.svasilina.spedition.utils.NetworkUtil;
+import ua.svasilina.spedition.utils.network.Connector;
 
 import static ua.svasilina.spedition.constants.Keys.EMPTY;
 import static ua.svasilina.spedition.constants.Keys.PASSWORD;
@@ -37,6 +42,9 @@ import static ua.svasilina.spedition.constants.Keys.REASON;
 import static ua.svasilina.spedition.constants.Keys.STATUS;
 import static ua.svasilina.spedition.constants.Keys.SUCCESS;
 import static ua.svasilina.spedition.constants.Keys.TOKEN;
+import static ua.svasilina.spedition.constants.Keys.USER;
+
+//import org.json.simple.JSONObject;
 
 public class LoginDialog extends DialogFragment {
 
@@ -69,6 +77,13 @@ public class LoginDialog extends DialogFragment {
 
         if (isAuthorize) {
             final View view = inflater.inflate(R.layout.already_login, null);
+            final TextView userName = view.findViewById(R.id.userName);
+            final String name = loginUtil.getUserName();
+            if (name != null){
+                userName.setText(name.toUpperCase());
+            } else {
+                userName.setVisibility(View.INVISIBLE);
+            }
             final Button removeToken = view.findViewById(R.id.removeToken);
             removeToken.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,25 +128,7 @@ public class LoginDialog extends DialogFragment {
         return builder.create();
     }
 
-    @SuppressLint("HardwareIds")
     private String getNumber() {
-//        final Context context = getContext();
-//        assert context != null;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-//                List<SubscriptionInfo> subscription = SubscriptionManager.from(context).getActiveSubscriptionInfoList();
-//                return subscription.get(0).getNumber();
-//            }
-//
-//        } else {
-//            final TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
-//                    ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED &&
-//                    ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-//                assert telephonyManager != null;
-//                return telephonyManager.getLine1Number();
-//            }
-//        }
         return EMPTY;
     }
 
@@ -139,55 +136,55 @@ public class LoginDialog extends DialogFragment {
         progressBar.setVisibility(View.INVISIBLE);
         waitAnswer = true;
         progressBar.setVisibility(View.VISIBLE);
+
         final String login = phoneEdit.getText().toString();
         String password = passwordEdit.getText().toString();
         final JSONObject json = new JSONObject();
-        json.put(PHONE, login);
-        json.put(PASSWORD, Base64.encodeToString(password.getBytes(), Base64.NO_WRAP));
+        try {
+            json.put(PHONE, login);
+            json.put(PASSWORD, Base64.encodeToString(password.getBytes(), Base64.NO_WRAP));
+        } catch (JSONException ignore) {}
 
         final StatusHandler statusHandler = new StatusHandler(statusView, progressBar);
         final LoginHandler loginHandler = new LoginHandler(loginUtil);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    final String post = networkUtil.post(ApiLinks.LOGIN, json.toJSONString(), null);
+        JsonObjectRequest request = new JsonObjectRequest(
+            Request.Method.POST,
+            ApiLinks.LOGIN,
+            json,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
                     waitAnswer = false;
-                    if (post != null) {
-                        Log.i("Login", post);
+                    try {
+                        final String status = response.getString(STATUS);
+                        if (status.equals(SUCCESS)) {
+                            String token = response.getString(TOKEN);
 
-                        JSONParser parser = new JSONParser();
-                        if (post.contains("<")) {
-                            sendMessage(statusHandler, REASON, "Probably answer is html\nprobably answer is 404");
-                        } else {
-                            try {
-                                JSONObject json = (JSONObject) parser.parse(post);
-                                String status = String.valueOf(json.get(STATUS));
-                                if (status.equals(SUCCESS)) {
-                                    String token = String.valueOf(json.get(TOKEN));
-                                    sendMessage(loginHandler, TOKEN, token);
-                                    statusHandler.removeCallbacksAndMessages(null);
-                                    dismiss();
-                                } else {
-                                    String reason = String.valueOf(json.get(REASON));
-                                    sendMessage(statusHandler, REASON, reason);
-                                }
-                            } catch (ParseException e) {
-                                sendMessage(statusHandler, REASON, "Can't parse answer");
-                                e.printStackTrace();
+                            sendMessage(loginHandler, TOKEN, token);
+                            if (response.has(USER)){
+                                final String user = String.valueOf(response.get(USER));
+                                sendMessage(loginHandler, USER, user);
                             }
+                            statusHandler.removeCallbacksAndMessages(null);
+                            dismiss();
+                        } else {
+                            String reason = response.getString(REASON);
+                            sendMessage(statusHandler, REASON, reason);
                         }
-                    } else {
-                        sendMessage(statusHandler, REASON, "No server answer");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    sendMessage(statusHandler, REASON, error.getMessage());
                 }
             }
-        }){
-        }.start();
+        );
+
+        Connector.getConnector().addRequest(context, request);
     }
 
     private void sendMessage(Handler handler, String key, String value) {

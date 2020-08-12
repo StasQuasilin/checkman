@@ -11,9 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import static constants.Keys.ENCODING;
+
 public abstract class ServletAPI extends HttpServlet {
 
     public static final String SUCCESS_ANSWER = "{\"answer\":\"success\"}";
+
     private final Logger log = Logger.getLogger(ServletAPI.class);
 
     public void write(HttpServletResponse resp, JSONObject json) throws IOException {
@@ -22,6 +25,7 @@ public abstract class ServletAPI extends HttpServlet {
 
     public void write(HttpServletResponse resp, String msg) throws IOException {
         log.info("Write '" + msg + "'");
+        resp.setCharacterEncoding(ENCODING);
         resp.getWriter().write(msg);
     }
 

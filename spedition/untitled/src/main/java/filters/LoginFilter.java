@@ -27,20 +27,20 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        boolean useHeader = true;
+        boolean useHeader = false;
         String token = request.getHeader(TOKEN);
         if (token == null){
-            useHeader = false;
             final Object attribute = request.getSession().getAttribute(TOKEN);
             if (attribute != null){
                 token = attribute.toString();
             }
+        } else {
+            useHeader = true;
         }
         if (token != null){
             filterChain.doFilter(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            if (!useHeader)
             response.sendRedirect(request.getContextPath() + LOGIN);
         }
     }
