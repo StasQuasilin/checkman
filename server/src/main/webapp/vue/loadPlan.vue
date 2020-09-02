@@ -27,7 +27,13 @@ var plan = new Vue({
         upd:-1,
         picker:false,
         worker:{},
-        filterDate:-1
+        filterDate:-1,
+        tab:'vehicles',
+        tabs:[
+            'vehicles',
+            'rails'
+        ],
+        tabNames:{}
     },
     methods:{
         handler:function(a){

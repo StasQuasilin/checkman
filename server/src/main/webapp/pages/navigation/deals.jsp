@@ -30,6 +30,11 @@
       </span>
     </li>
     <li class="menu-item">
+        <span class="main" onclick="loadContent('${railList}')">
+            <fmt:message key="menu.rails"/>
+        </span>
+    </li>
+    <li class="menu-item">
         <span class="main" onclick="loadContent('${storages}')">
             <fmt:message key="menu.storages"/>
         </span>
@@ -49,5 +54,4 @@
           <fmt:message key="menu.references"/>
         </span>
     </li>
-
 </ul>

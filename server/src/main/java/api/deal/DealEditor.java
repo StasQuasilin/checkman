@@ -78,7 +78,7 @@ public class DealEditor implements Constants {
             save = true;
         }
 
-        DealType type = DealType.valueOf(String.valueOf(body.get(Constants.TYPE)));
+        DealType type = DealType.valueOf(String.valueOf(body.get(TYPE)));
         if (deal.getType() == null || deal.getType() != type) {
             deal.setType(type);
             save = true;

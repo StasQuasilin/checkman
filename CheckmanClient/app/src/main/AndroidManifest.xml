@@ -17,7 +17,8 @@
         <activity android:name="ua.s.vasilina.checkman.activity.SettingActivity"/>
         <activity android:name="ua.s.vasilina.checkman.activity.LoginActivity"/>
         <activity android:name="ua.s.vasilina.checkman.activity.NoConnectActivity"/>
-        <activity android:name="ua.s.vasilina.checkman.activity.MainActivity">
+        <activity android:name="ua.s.vasilina.checkman.activity.MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

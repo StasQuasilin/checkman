@@ -5,8 +5,8 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <script>
-    var closeEvents = [];
-    var saveEvents = [];
+    let closeEvents = [];
+    let saveEvents = [];
     function addOnCloseEvent(event){
         closeEvents.push(event);
     }
@@ -38,8 +38,11 @@
             <tr>
                 <td>
                     <div class="modal-body">
-                        <div class="modal-header">
+                        <div class="modal-header-wrapper modal-header">
                             <fmt:message key="${title}"/>
+                            <span class="mini-close modal-close" onclick="closeModal()">
+                                &times;
+                            </span>
                         </div>
                         <div class="modal-content" id="modal-content">
                             <jsp:include page="${modalContent}"/>

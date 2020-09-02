@@ -5,7 +5,7 @@ const DEBUG = false;
 
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (url) {
-        if (context && url.substring(0, context.length) != context) {
+        if (context && url.substring(0, context.length) !== context) {
             url = context + url;
         }
 
@@ -14,13 +14,13 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
             console.log('<-------Parameters------->');
             console.log(parametrs);
         }
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
         xhr.onreadystatechange = function (e) {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     if (debug && DEBUG) {
-                        console.log('[ Application Core ] Request successfuly');
+                        console.log('[ Application Core ] Request successfully');
                     }
                     if (onSuccess) {
                         onSuccess(xhr.responseText);
@@ -45,9 +45,9 @@ function PostReq(url, parametrs, onSuccess, onError, debug){
 function PostApi(url, parameters, onSuccess, onError, debug){
     PostReq(url, parameters, function(answer){
         if (onSuccess){
-            if (answer != '') {
+            if (answer !== '') {
                 try {
-                    var json = JSON.parse(answer);
+                    let json = JSON.parse(answer);
                     try {
                         onSuccess(json);
                     } catch (on) {
@@ -55,7 +55,7 @@ function PostApi(url, parameters, onSuccess, onError, debug){
                     }
 
                 } catch (e) {
-                    console.error('[ Application Core ] Can\'t parse \'' + answer + '\'')
+                    console.error('[ Application Core ] Can\'t parse \'' + answer + '\'');
                     if (onError) {
                         onError(answer);
                     }

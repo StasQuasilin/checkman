@@ -27,7 +27,7 @@ $(document).ready(function(){
     staticContent = document.getElementById('static');
     sessionLocker = document.getElementById('sessionLocker');
 
-    var last = localStorage.getItem(lastPage + ';' + Settings.worker);
+    let last = localStorage.getItem(lastPage + ';' + Settings.worker);
 
     if (last){
         document.addEventListener('loading', function(event){
@@ -48,7 +48,7 @@ function lockSession(cause){
 }
 
 function loadContent(url){
-    if (url && currentPage != url) {
+    if (url && currentPage !== url) {
         currentPage = url;
         coverlet.style.display='block';
         content.style.display='none';
@@ -58,7 +58,6 @@ function loadContent(url){
         }
         localStorage.setItem(lastPage + ';' + Settings.worker, url);
         PostReq(url, null, function (e) {
-
             if (typeof stopContent === 'function'){
                 stopContent();
             }
@@ -72,8 +71,14 @@ function loadContent(url){
             if (filterContent){
                 $(filter).html(filterContent);
             }
+            let static = GetChildElemById(content, 'static-content');
+            if (static){
+                staticContent.style.display = 'block';
+                $(staticContent).html(static);
+            } else {
+                staticContent.style.display = 'none';
+            }
 
-            $(staticContent).html(GetChildElemById(content, 'static-content'));
 
             content.style.display='block';
             coverlet.style.display='none';

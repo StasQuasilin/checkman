@@ -42,8 +42,8 @@
         // })
     </script>
 </head>
-
-    <body style="margin: 0;" oncontextmenu="return false;">
+<%--oncontextmenu="return false;"--%>
+<body style="margin: 0;" >
     <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">
         <table style="width: 100%; height: 100%;">
             <tr>
@@ -74,15 +74,6 @@
     <jsp:include page="notifications/notificator.jsp"/>
 
     <div class="modal-layer" style="display: none" id="modal"></div>
-    <%--<jsp:include page="chat/chatHolder.jsp"/>--%>
-    <%--<script>--%>
-        <%--chat.api.send = '${sendMessage}';--%>
-        <%--chat.api.get = '${getMessages}';--%>
-        <%--chat.api.leave = '${leaveChat}';--%>
-        <%--chat.api.rename = '${renameChat}';--%>
-        <%--chat.api.remove = '${removeChat}';--%>
-    <%--</script>--%>
-
     <div class="datetime-picker" id="datePicker" v-show="onSelects.length" v-on:click="close">
         <div class="picker-content" ref="date" :style="{top:y + 'px', left:x + 'px'}">
             <v-date-picker class="date-picker"
@@ -95,7 +86,6 @@
         </div>
     </div>
     <script src="${context}/vue/datetime/datePicker.vue"></script>
-
     <div id="timepicker" class="datetime-picker" v-on:click="saveAndClose"
         v-show="onSave.length">
         <div class="picker-content" :style="{top:y + 'px', left:x + 'px'}">
@@ -150,47 +140,32 @@
         </c:choose>
 
     </script>
-
-        <table border="1" class="body-table" style="width: 100%; height: 100%;">
-            <tr>
-                <td rowspan="2" valign="top" style="height: 100%; width: 1px; padding: 0; border-right: solid 2pt; background-color: #d3dbe2;">
-                    <table style="height: 100%" border="0">
-                        <tr>
-                            <td>
-                                <jsp:include page="NavigationMenu.jsp"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="height: 100%" valign="top">
-                                <div id="filter" class="filter"></div>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td colspan="2">
-                    <div class="header-wrapper">
-                        <div class="header" id="header"></div>
-                        <div style="font-size: 10pt; text-align: right; float: right;">
-                            <div style="padding: 6.5pt 4pt">
-                                <a onclick="loadContent('${personal}')">
-                                    ${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}
-                                </a>
-                                <a onclick="logout()">
-                                    (<fmt:message key="sign.out"/>)
-                                </a>
-                            </div>
+    <div class="body-table">
+        <div class="navigation-panel">
+            <jsp:include page="NavigationMenu.jsp"/>
+            <div id="filter" class="filter"></div>
+        </div>
+        <div class="content">
+            <div class="title-holder">
+                <div class="header-wrapper">
+                    <div class="header" id="header"></div>
+                    <div style="font-size: 10pt; text-align: right; float: right;">
+                        <div style="padding: 6.5pt 4pt">
+                            <a onclick="loadContent('${personal}')">
+                                ${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}
+                            </a>
+                            <a onclick="logout()">
+                                (<fmt:message key="sign.out"/>)
+                            </a>
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td valign="top" height="100%" width="100%">
-                    <div class="wrapper" id="content"></div>
-                </td>
-                <td style="max-width: 200pt">
-                    <div class="static-content" id="static"></div>
-                </td>
-            </tr>
-        </table>
-    </body>
+                </div>
+            </div>
+            <div class="content-holder">
+                <div class="wrapper" id="content"></div>
+                <div class="static-content" id="static"></div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

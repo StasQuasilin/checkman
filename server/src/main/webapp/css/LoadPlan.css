@@ -1,5 +1,17 @@
+.full-page{
+    display: flex;
+    flex-direction: column;
+    /*width: 440px;*/
+}
+.page-content{
+    display: flex;
+    flex-direction: row;
+}
 .plan-wrapper{
 
+}
+.upper{
+    background-color: rgb(153, 201, 136);
 }
 .plan-wrapper .upper{
     border-bottom: solid gray 1pt;
@@ -13,7 +25,6 @@
     text-align: center;
 }
 .plan-container{
-    border: solid gray 1pt;
     width: 500px;
     height: 300pt;
     overflow-y: scroll;

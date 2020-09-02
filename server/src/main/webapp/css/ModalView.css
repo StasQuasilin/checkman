@@ -19,12 +19,21 @@
     width: fit-content;
     width: -moz-fit-content;
 }
+.modal-header-wrapper{
+    border-radius: 7pt 7pt 0 0;
+    font-style: italic;
+    overflow: hidden;
+}
 .modal-header{
-    border-radius: 6pt 6pt 0 0;
     background-color: #7fd0d0;
     padding: 4pt;
-    font-style: italic;
 }
 .modal-content{
     padding: 8pt;
+}
+.modal-close{
+    float: right;
+}
+.modal-footer{
+    text-align: center;
 }

@@ -9,9 +9,7 @@
 </div>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
-  list.api.update = '${update}';
-  list.api.edit = '${show}';
-  list.doRequest();
+
 </script>
 
 <div id="container">

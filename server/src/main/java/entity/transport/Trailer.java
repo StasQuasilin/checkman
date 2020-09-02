@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class Trailer extends JsonAble{
     private int id;
     private String number;
+    private TrailerType type;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

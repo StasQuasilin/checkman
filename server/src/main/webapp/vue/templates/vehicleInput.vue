@@ -97,7 +97,7 @@ var objectInput = {
     },
     template:
         '<span v-if="object && object.id > 0" class="object-block">' +
-            '<a v-on:click="edit" style="font-weight: bold">{{show(object)}}</a>' +
+            '<a v-on:click="edit">{{show(object)}}</a>' +
             '<div class="object-menu">' +
                 '<span class="mini-close" v-on:click="edit">' +
                     '<img src="images/smallpensil.svg" style="width: 8pt" alt="">' +

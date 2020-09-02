@@ -28,9 +28,7 @@ public class DealEditAPI extends IChangeServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-
             Deal deal = dealEditor.editDeal(body, getWorker(req));
-
             if (deal != null){
                 IAnswer resultAnswer = new SuccessAnswer();
                 resultAnswer.add(ID, deal.getId());
@@ -41,6 +39,5 @@ public class DealEditAPI extends IChangeServletAPI {
         } else {
             write(resp, EMPTY_BODY);
         }
-
     }
 }

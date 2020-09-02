@@ -19,6 +19,7 @@ public class Vehicle extends JsonAble {
     private String number;
     private Trailer trailer;
     private Organisation transporter;
+    private VehicleType type;
 
     @Id
     @GeneratedValue
@@ -78,7 +79,7 @@ public class Vehicle extends JsonAble {
     @Transient
     public String getValue() {
         return (model != null ? model : EMPTY) +
-            (number != null ? " \'" + number + "\'" : EMPTY) + (trailer != null ? trailer.getNumber() : EMPTY);
+            (number != null ? " '" + number + "'" : EMPTY) + (trailer != null ? trailer.getNumber() : EMPTY);
     }
 
     @Override

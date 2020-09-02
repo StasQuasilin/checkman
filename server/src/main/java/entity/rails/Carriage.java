@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "carriages")
 public class Carriage {
     private int id;
+    private Train train;
     private Deal deal;
     private String number;
     private List<CarriageLoadPlan> plans;
@@ -23,6 +24,15 @@ public class Carriage {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "_train")
+    public Train getTrain() {
+        return train;
+    }
+    public void setTrain(Train train) {
+        this.train = train;
     }
 
     @OneToOne

@@ -10,11 +10,12 @@ var editor = new Vue({
         products:[],
         units:[],
         deal: {
-            number:'',
             id: -1,
+            number:'',
             type:'',
             date: new Date().toISOString().substring(0, 10),
-            dateTo: new Date().toISOString().substring(0, 10),
+            from:new Date().toISOString().substring(0, 10),
+            to: new Date().toISOString().substring(0, 10),
             counterparty: {
                 id:-1
             },
