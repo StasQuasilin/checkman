@@ -1,19 +1,110 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: szpt-user045
-  Date: 03.09.20
-  Time: 15:16
---%>
-<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="${locale}"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
+    <c:if test="${not empty token}">
+        <script>
+            location.href='${context}/app'
+        </script>
+    </c:if>
+    <script src="${context}/external/vue.js"></script>
     <title><fmt:message key="page.login"/></title>
-    <link rel="stylesheet" href="${context}/css/main.css">
+    <script src="${context}/js/connection.js"></script>
+    <script src="${context}/vue/templates/search.vue"></script>
+    <link rel="stylesheet" href="${context}/css/login.css">
+
 </head>
 <body>
-LOGIN
+<div id="login">
+    <div class="coverlet" v-show="cover"></div>
+    <div class="wrapper">
+        <div class="content">
+            <table border="0" style="width: 100%">
+                <tr>
+                    <th colspan="3" align="center">
+                        <div class="header">
+                            <fmt:message key="page.login"/>
+                        </div>
+                    </th>
+                </tr>
+                <template v-if="state == 0">
+                    <tr v-for="(value, key) in users">
+                        <td colspan="3">
+                            <span v-on:click="removeUserAccess(key)">
+                                &times;
+                            </span>
+                            <span v-on:click="setUser(key, value)">
+                                {{value}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <user-input :props="userProps" :object="user"></user-input>
+                        </td>
+                    </tr>
+                </template>
+                <template v-else>
+                    <tr>
+                        <td colspan="3">
+                            <span>
+                                {{user.value}}
+                            </span>
+                            <a class="mini-close" style="font-size: 10pt" v-on:click="back">
+                                <fmt:message key="login.is.not.me"/>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td>
+                            <label for="key">
+                                <fmt:message key="user.password"/>
+                            </label>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <input id="key" ref="password" type="password" v-on:keyup.enter="signIn"
+                                   v-model="user.password" :class="{error : errors.password}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="center">
+                            <a onclick="location.href='${context}${forgot}'"><fmt:message key="button.forgot"/>...</a>
+                            <button v-on:click="signIn"><fmt:message key="page.login"/></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="center">
+                            <span v-if="err" class="error">{{err}}</span>
+                            <span v-else>&nbsp;</span>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="${context}/vue/login/login.vue"></script>
+<script>
+    context = '${context}';
+    login.api.find = '${userApi}';
+    login.api.signin = '${loginApi}';
+    login.userProps = {
+        header:'<fmt:message key="user.select.other"/>',
+        find:'${userApi}',
+        put:function(user){
+            console.log(user);
+            login.setUser(user.uid, user.person.value)
+        },
+        show:['person/value']
+    }
+</script>
 </body>
+
 </html>

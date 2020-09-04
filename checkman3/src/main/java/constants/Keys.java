@@ -17,4 +17,23 @@ public interface Keys {
     String ROLE = "role";
     String PERSON = "person";
     String RESULT = "result";
+    String LOCALE = "locale";
+    String DEAL_TYPES = "dealTypes";
+    String DEALS = "deals";
+    String CONTENT = "content";
+    String EDIT = "edit";
+    String TITLE = "title";
+    String TYPE = "type";
+    String TYPES = "types";
+    String DOT = ".";
+    String SUBSCRIBER = "subscriber";
+    String ACTION = "action";
+    String SUBSCRIBE = "subscribe";
+    String UNSUBSCRIBE = "unsubscribe";
+    String WORKER = "worker";
+    String ADD = "add";
+    String ARCHIVE = "archive";
+    String DEAL = "deal";
+    String SAVE = "save";
+    String PRODUCTS = "products";
 }

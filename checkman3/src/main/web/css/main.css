@@ -1,7 +1,18 @@
 *{
     font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    user-select: none;
+    -moz-user-select: none;
 }
 body{
     background-color: aliceblue;
     margin: 0;
+}
+.data-list{
+    position: absolute;
+    background-color: white;
+    width: 100%;
+}
+.data-list-item{
+    border-bottom: dashed gray 1px;
+    padding: 2px 4px;
 }

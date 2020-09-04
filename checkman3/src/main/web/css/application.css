@@ -37,3 +37,18 @@
 .main-content{
     flex: 1 0 auto;
 }
+.navigation-menu{
+
+}
+.navigation-menu .menu-item{
+    padding: 4px;
+    border-bottom: dashed gray 1px;
+}
+.navigation-menu .menu-item:hover{
+
+    background-color: rgba(128, 128, 128, 0.29);
+}
+.title-holder{
+    display: flex;
+    flex-direction: row;
+}
