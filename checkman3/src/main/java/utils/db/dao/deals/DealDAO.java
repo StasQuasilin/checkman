@@ -9,4 +9,6 @@ public abstract class DealDAO {
     public abstract List<Deal> getDealsByType(DealType type);
 
     public abstract Deal getDealById(Object id);
+
+    public abstract void save(Deal deal);
 }

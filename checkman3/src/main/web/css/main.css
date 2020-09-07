@@ -7,12 +7,23 @@ body{
     background-color: aliceblue;
     margin: 0;
 }
-.data-list{
+.search-result{
     position: absolute;
-    background-color: white;
     width: 100%;
+}
+.search-info{
+    color: gray;
+    font-size: 8pt;
+}
+.data-list{
+    background-color: white;
+
 }
 .data-list-item{
     border-bottom: dashed gray 1px;
     padding: 2px 4px;
+}
+.text-button:hover{
+    color: white;
+    text-shadow: 0 0 4px #363636;
 }

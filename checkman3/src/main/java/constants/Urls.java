@@ -6,4 +6,5 @@ public interface Urls {
     String LOGIN = "/login";
     String DEALS = "/deals" + SUFFIX;
     String DEAL_EDIT = "/deal/edit" + SUFFIX;
+    String EDIT_PRODUCT = "/product/edit" + SUFFIX;
 }

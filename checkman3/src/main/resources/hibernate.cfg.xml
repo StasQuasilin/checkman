@@ -21,5 +21,14 @@
             <mapping class="entity.Worker"/>
             <mapping class="entity.Person"/>
             <mapping class="entity.PhoneNumber"/>
+            <mapping class="entity.references.Product"/>
+            <mapping class="entity.references.ProductAction"/>
+            <mapping class="entity.references.Organisation"/>
+            <mapping class="entity.deals.Deal"/>
+            <mapping class="entity.deals.DealDocument"/>
+            <mapping class="entity.deals.DealProduct"/>
+            <mapping class="entity.weight.Unit"/>
+            <mapping class="entity.deals.Shipper"/>
+            <mapping class="entity.ActionTime"/>
         </session-factory>
     </hibernate-configuration>

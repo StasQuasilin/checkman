@@ -15,6 +15,11 @@
 <script type="application/javascript" src="${context}/vue/dealEdit.vue"></script>
 <script>
     dealEdit.api.save = '${save}';
+    dealEdit.api.productEdit = '${productEdit}';
+    dealEdit.organisationProps.findApi = '${findOrganisation}';
+    <c:forEach items="${products}" var="product">
+    dealEdit.products.push(${product.toJson()});
+    </c:forEach>
     <c:forEach items="${types}" var="type">
     dealEdit.types.push('${type}');
     dealEdit.typeNames['${type}'] = '<fmt:message key="${type}"/>';
@@ -35,6 +40,7 @@
                 id:-1,
                 product:-1,
                 amount:1,
+                unit:-1,
                 price:1
             }
         ]
@@ -56,7 +62,7 @@
             <fmt:message key="deal.date"/>
         </td>
         <td>
-            <span>
+            <span class="text-button">
                 {{new Date(object.date).toLocaleDateString()}}
             </span>
         </td>
@@ -73,7 +79,6 @@
             <span>
                 {{new Date(object.to).toLocaleDateString()}}
             </span>
-
         </td>
     </tr>
     <tr>
@@ -81,7 +86,7 @@
             <fmt:message key="deal.counterparty"/>
         </td>
         <td>
-            <search></search>
+            <search :props="organisationProps" :object="object.counterparty" :field="'name'"></search>
         </td>
     </tr>
     <tr>
@@ -102,10 +107,16 @@
             </td>
             <td>
                 <select id="product" v-model="dp.product">
-                    <option disabled value="-1">
-                        <fmt:message key="deal.product.not.selected"/>
+                    <option v-if="dp.product === -1" disabled value="-1">
+                        <fmt:message key="some.not.selected"/>
+                    </option>
+                    <option v-for="product in products" :value="product.id">
+                        {{product.name}}
                     </option>
                 </select>
+                <span class="text-button" v-on:click="newProduct()">
+                    +
+                </span>
             </td>
         </tr>
         <tr>
@@ -115,7 +126,15 @@
                 </label>
             </td>
             <td>
-                <input :id="'amount' + idx" v-model="dp.amount" onfocus="this.select()" autocomplete="off">
+                <input :id="'amount' + idx" type="number" step="0.01" v-model="dp.amount" onfocus="this.select()" autocomplete="off">
+                <select v-model="dp.unit">
+                    <option v-if="dp.unit === -1" disabled value="-1">
+                        <fmt:message key="some.not.selected"/>
+                    </option>
+                    <option v-for="unit in units" :value="unit.id">
+                        {{unit.name}}
+                    </option>
+                </select>
             </td>
         </tr>
         <tr>
@@ -125,10 +144,19 @@
                 </label>
             </td>
             <td>
-                <input id="'price ' + idx" v-model="dp.price" onfocus="this.select()" autocomplete="off">
+                <input id="'price ' + idx" type="number" step="0.01" v-model="dp.price" onfocus="this.select()" autocomplete="off">
             </td>
         </tr>
     </template>
-
+    <tr>
+        <td colspan="2" style="text-align: center">
+            <button onclick="closeModal()">
+                <fmt:message key="button.cancel"/>
+            </button>
+            <button v-on:click="save()">
+                <fmt:message key="button.save"/>
+            </button>
+        </td>
+    </tr>
 </table>
 </html>

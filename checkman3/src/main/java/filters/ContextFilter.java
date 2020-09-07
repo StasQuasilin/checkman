@@ -3,6 +3,7 @@ package filters;
 import constants.Keys;
 import constants.Urls;
 import entity.Language;
+import utils.db.hibernate.HibernateSessionFactory;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -34,6 +35,6 @@ public class ContextFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        HibernateSessionFactory.shutdown();
     }
 }

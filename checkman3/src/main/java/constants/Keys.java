@@ -25,6 +25,7 @@ public interface Keys {
     String TITLE = "title";
     String TYPE = "type";
     String TYPES = "types";
+    String ACTIONS = "actions";
     String DOT = ".";
     String SUBSCRIBER = "subscriber";
     String ACTION = "action";
@@ -36,4 +37,9 @@ public interface Keys {
     String DEAL = "deal";
     String SAVE = "save";
     String PRODUCTS = "products";
+    String PRODUCT_EDIT = "productEdit";
+    String NAME = "name";
+    String ANALYSES_TYPE = "analysesType";
+    String FIND_ORGANISATION = "findOrganisation";
+    String DOCUMENTS = "documents";
 }
