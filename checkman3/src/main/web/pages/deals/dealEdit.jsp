@@ -24,6 +24,12 @@
     dealEdit.types.push('${type}');
     dealEdit.typeNames['${type}'] = '<fmt:message key="${type}"/>';
     </c:forEach>
+    <c:forEach items="${shippers}" var="shipper">
+    dealEdit.shippers.push(${shipper.toJson()});
+    </c:forEach>
+    <c:forEach items="${units}" var="unit">
+    dealEdit.units.push(${unit.toJson()});
+    </c:forEach>
     dealEdit.object = {
         id:-1,
         number:'',
@@ -31,17 +37,23 @@
         date:new Date().toISOString().substring(0, 10),
         from:new Date().toISOString().substring(0, 10),
         to:new Date().toISOString().substring(0, 10),
-        counterparty:{
-            id:-1,
-            name:''
-        },
-        products:[
+        documents:[
             {
                 id:-1,
-                product:-1,
-                amount:1,
-                unit:-1,
-                price:1
+                counterparty:{
+                    id:-1,
+                    name:''
+                },
+                products:[
+                    {
+                        id:-1,
+                        product:-1,
+                        amount:1,
+                        unit:-1,
+                        price:1,
+                        shipper:-1
+                    }
+                ]
             }
         ]
     }
@@ -81,14 +93,7 @@
             </span>
         </td>
     </tr>
-    <tr>
-        <td>
-            <fmt:message key="deal.counterparty"/>
-        </td>
-        <td>
-            <search :props="organisationProps" :object="object.counterparty" :field="'name'"></search>
-        </td>
-    </tr>
+
     <tr>
         <td colspan="2">
             <select v-model="object.type">
@@ -98,56 +103,84 @@
             </select>
         </td>
     </tr>
-    <template v-for="(dp, idx) in object.products">
+    <template v-for = "doc in object.documents">
         <tr>
             <td>
-                <label for="product">
-                    <fmt:message key="deal.product"/>
-                </label>
+                <fmt:message key="deal.counterparty"/>
             </td>
             <td>
-                <select id="product" v-model="dp.product">
-                    <option v-if="dp.product === -1" disabled value="-1">
-                        <fmt:message key="some.not.selected"/>
-                    </option>
-                    <option v-for="product in products" :value="product.id">
-                        {{product.name}}
-                    </option>
-                </select>
-                <span class="text-button" v-on:click="newProduct()">
+                <search :props="organisationProps" :object="doc.counterparty" :field="'name'"></search>
+            </td>
+        </tr>
+        <template v-for="(dp, idx) in doc.products">
+            <tr>
+                <td>
+                    <label for="product">
+                        <fmt:message key="deal.product"/>
+                    </label>
+                </td>
+                <td>
+                    <select id="product" v-model="dp.product">
+                        <option v-if="dp.product === -1" disabled value="-1">
+                            <fmt:message key="some.not.selected"/>
+                        </option>
+                        <option v-for="product in products" :value="product.id">
+                            {{product.name}}
+                        </option>
+                    </select>
+                    <span class="text-button" v-on:click="newProduct()">
                     +
                 </span>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label :for="'amount' + idx">
-                    <fmt:message key="deal.amount"/>
-                </label>
-            </td>
-            <td>
-                <input :id="'amount' + idx" type="number" step="0.01" v-model="dp.amount" onfocus="this.select()" autocomplete="off">
-                <select v-model="dp.unit">
-                    <option v-if="dp.unit === -1" disabled value="-1">
-                        <fmt:message key="some.not.selected"/>
-                    </option>
-                    <option v-for="unit in units" :value="unit.id">
-                        {{unit.name}}
-                    </option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label :for="'price ' + idx">
-                    <fmt:message key="deal.price"/>
-                </label>
-            </td>
-            <td>
-                <input id="'price ' + idx" type="number" step="0.01" v-model="dp.price" onfocus="this.select()" autocomplete="off">
-            </td>
-        </tr>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label :for="'amount' + idx">
+                        <fmt:message key="deal.amount"/>
+                    </label>
+                </td>
+                <td>
+                    <input :id="'amount' + idx" type="number" step="0.01" v-model="dp.amount" onfocus="this.select()" autocomplete="off">
+                    <select v-model="dp.unit">
+                        <option v-if="dp.unit === -1" disabled value="-1">
+                            <fmt:message key="some.not.selected"/>
+                        </option>
+                        <option v-for="unit in units" :value="unit.id">
+                            {{unit.name}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label :for="'price ' + idx">
+                        <fmt:message key="deal.price"/>
+                    </label>
+                </td>
+                <td>
+                    <input id="'price ' + idx" type="number" step="0.01" v-model="dp.price" onfocus="this.select()" autocomplete="off">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="shipper">
+                        <fmt:message key="deal.shipper"/>
+                    </label>
+                </td>
+                <td>
+                    <select id="shipper" v-model="dp.shipper">
+                        <option v-if="dp.shipper === -1" disabled value="-1">
+                            <fmt:message key="some.not.selected"/>
+                        </option>
+                        <option v-for="shipper in shippers" :value="shipper.id">
+                            {{shipper.name}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+        </template>
     </template>
+
     <tr>
         <td colspan="2" style="text-align: center">
             <button onclick="closeModal()">

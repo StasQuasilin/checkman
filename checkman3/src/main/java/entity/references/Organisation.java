@@ -39,4 +39,14 @@ public class Organisation extends JsonAble {
 
         return jsonObject;
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass().equals(getClass()) && hashCode() == obj.hashCode();
+    }
 }

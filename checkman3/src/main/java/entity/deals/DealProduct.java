@@ -1,13 +1,16 @@
 package entity.deals;
 
+import constants.Keys;
 import entity.references.Product;
 import entity.weight.Unit;
+import org.json.simple.JSONObject;
+import utils.json.JsonAble;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "deal_products")
-public class DealProduct {
+public class DealProduct extends JsonAble {
     private int id;
     private DealDocument document;
     private Product product;
@@ -52,8 +55,8 @@ public class DealProduct {
         this.amount = amount;
     }
 
-    @Basic
-    @Column(name = "_unit")
+    @OneToOne
+    @JoinColumn(name = "_unit")
     public Unit getUnit() {
         return unit;
     }
@@ -70,12 +73,24 @@ public class DealProduct {
         this.price = price;
     }
 
-    @Basic
-    @Column(name = "_shipper")
+    @OneToOne
+    @JoinColumn(name = "_shipper")
     public Shipper getShipper() {
         return shipper;
     }
     public void setShipper(Shipper shipper) {
         this.shipper = shipper;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        final JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Keys.ID, id);
+        jsonObject.put(Keys.PRODUCT, product.toJson());
+        jsonObject.put(Keys.AMOUNT, amount);
+        jsonObject.put(Keys.UNIT, unit.getName());
+        jsonObject.put(Keys.PRICE, price);
+        jsonObject.put(Keys.SHIPPER, shipper.getName());
+        return jsonObject;
     }
 }

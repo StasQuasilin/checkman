@@ -14,9 +14,10 @@ body{
 .search-info{
     color: gray;
     font-size: 8pt;
+    background-color: white;
 }
 .data-list{
-    background-color: white;
+
 
 }
 .data-list-item{

@@ -10,6 +10,7 @@ dealEdit = new Vue({
             typeNames:{},
             products:[],
             units:[],
+            shippers:[],
             organisationProps:{
                 put:function (organisation) {
                     dealEdit.object.counterparty = organisation;

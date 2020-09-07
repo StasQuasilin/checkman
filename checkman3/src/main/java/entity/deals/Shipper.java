@@ -1,10 +1,14 @@
 package entity.deals;
 
+import constants.Keys;
+import org.json.simple.JSONObject;
+import utils.json.JsonAble;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "shippers")
-public class Shipper {
+public class Shipper extends JsonAble {
     private int id;
     private String name;
 
@@ -24,5 +28,13 @@ public class Shipper {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        final JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Keys.ID, id);
+        jsonObject.put(Keys.NAME, name);
+        return jsonObject;
     }
 }

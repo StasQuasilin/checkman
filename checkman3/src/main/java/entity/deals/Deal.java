@@ -3,12 +3,16 @@ package entity.deals;
 import constants.Keys;
 import entity.ActionTime;
 import entity.references.Organisation;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.json.JsonAble;
 
 import javax.persistence.*;
 import java.sql.Date;
-import static constants.Keys.ID;
+import java.util.HashSet;
+import java.util.Set;
+
+import static constants.Keys.*;
 
 @Entity
 @Table(name = "deals")
@@ -19,9 +23,9 @@ public class Deal extends JsonAble {
     private Date date;
     private Date from;
     private Date to;
-    private Organisation counterparty;
     private ActionTime created;
     private boolean archive;
+    private Set<DealDocument> documents = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,15 +82,6 @@ public class Deal extends JsonAble {
     }
 
     @OneToOne
-    @JoinColumn(name = "_counterparty")
-    public Organisation getCounterparty() {
-        return counterparty;
-    }
-    public void setCounterparty(Organisation counterparty) {
-        this.counterparty = counterparty;
-    }
-
-    @OneToOne
     @JoinColumn(name = "_created")
     public ActionTime getCreated() {
         return created;
@@ -104,10 +99,35 @@ public class Deal extends JsonAble {
         this.archive = archive;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "deal", cascade = CascadeType.ALL)
+    public Set<DealDocument> getDocuments() {
+        return documents;
+    }
+    public void setDocuments(Set<DealDocument> documents) {
+        this.documents = documents;
+    }
+
     @Override
     public JSONObject toJson() {
         final JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, id);
+        jsonObject.put(NUMBER, number);
+        jsonObject.put(TYPE, type.toString());
+        jsonObject.put(Keys.DATE, date.toString());
+        jsonObject.put(Keys.FROM, from.toString());
+        jsonObject.put(Keys.TO, to.toString());
+
+        jsonObject.put(Keys.CREATED, created.toJson());
+        jsonObject.put(Keys.ARCHIVE, archive);
+        jsonObject.put(DOCUMENTS, documents());
         return jsonObject;
+    }
+
+    private JSONArray documents() {
+        JSONArray array = new JSONArray();
+        for(DealDocument dealDocument : documents){
+            array.add(dealDocument.toJson());
+        }
+        return array;
     }
 }

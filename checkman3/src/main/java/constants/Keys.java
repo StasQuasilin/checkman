@@ -42,4 +42,20 @@ public interface Keys {
     String ANALYSES_TYPE = "analysesType";
     String FIND_ORGANISATION = "findOrganisation";
     String DOCUMENTS = "documents";
+    String DATE = "date";
+    String FROM = "from";
+    String TO = "to";
+    String COUNTERPARTY = "counterparty";
+    String CREATED = "created";
+    String TIME = "time";
+    String CREATOR = "creator";
+    String ADDRESS = "address";
+    String PRODUCT = "product";
+    String AMOUNT = "amount";
+    String UNIT = "unit";
+    String PRICE = "price";
+    String SHIPPER = "shipper";
+    String NUMBER = "number";
+    String SHIPPERS = "shippers";
+    String UNITS = "units";
 }

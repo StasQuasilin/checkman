@@ -2,6 +2,8 @@ package utils.json;
 
 import org.json.simple.JSONObject;
 
+import java.sql.Date;
+
 public class JsonObject {
 
     private JSONObject json;
@@ -28,12 +30,26 @@ public class JsonObject {
 
     public int getInt(String key) {
         if (contains(key)){
-            return Integer.parseInt(getString(key));
+            return Integer.parseInt(String.valueOf(get(key)));
         }
         return 0;
     }
 
     public Object get(String key) {
         return json.get(key);
+    }
+
+    public Date getDate(String key) {
+        if (contains(key)){
+            return Date.valueOf(String.valueOf(get(key)));
+        }
+        return null;
+    }
+
+    public float getFloat(String key) {
+        if (contains(key)){
+            return Float.parseFloat(String.valueOf(get(key)));
+        }
+        return 0;
     }
 }
