@@ -17,7 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import static constants.Urls.*;
 import static constants.Keys.*;
 
 @WebServlet(Urls.DEAL_EDIT)
@@ -25,7 +24,7 @@ public class DealEdit extends Modal {
 
     private static final String _TITLE = "deal.edit";
     private static final String _CONTENT = "/pages/deals/dealEdit.jsp";
-    private static final String _RETAIL_CONTENT = "/pages/deals/retailEdit.jsp";
+
     private final DealDAO dealDAO = DaoService.getDealDAO();
     private final ReferencesDAO referencesDAO = DaoService.getReferencesDAO();
     private final ProductDAO productDAO = DaoService.getProductDAO();
@@ -42,17 +41,9 @@ public class DealEdit extends Modal {
                 }
             }
         }
-        final String typeParam = req.getParameter(TYPE);
-        final DealType type = DealType.valueOf(typeParam);
-        req.setAttribute(TYPE, typeParam);
-        if (type == DealType.retail){
-            req.setAttribute(TYPES, new DealType[]{DealType.retail});
-            req.setAttribute(CONTENT, _RETAIL_CONTENT);
-        } else {
-            req.setAttribute(TYPES, new DealType[]{DealType.buy, DealType.sell});
-            req.setAttribute(CONTENT, _CONTENT);
-        }
-
+        req.setAttribute(TYPE, req.getParameter(TYPE));
+        req.setAttribute(TYPES, new DealType[]{DealType.buy, DealType.sell});
+        req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(PRODUCTS, productDAO.getProducts());
         req.setAttribute(SAVE, Apis.DEAL_EDIT);

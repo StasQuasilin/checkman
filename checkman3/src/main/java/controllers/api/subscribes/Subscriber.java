@@ -20,7 +20,6 @@ public class Subscriber {
     {
         addHandler(new DealHandler(Subscribes.deals_buy, DealType.buy));
         addHandler(new DealHandler(Subscribes.deals_sell, DealType.sell));
-        addHandler(new DealHandler(Subscribes.deals_retail, DealType.retail));
     }
 
     private void addHandler(Handler handler) {

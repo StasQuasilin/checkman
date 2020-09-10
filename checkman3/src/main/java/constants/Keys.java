@@ -81,4 +81,9 @@ public interface Keys {
     String DEAL_PRODUCT = "dealProduct";
     String OIL_ANALYSES = "oilAnalyses";
     String CARRIAGE = "carriage";
+    String SHOW = "show";
+    String DEAL_DETAILS = "dealDetails";
+    String SAVE_TRANSPORTATION = "saveTransportation";
+    String SAVE_CARRIAGE = "saveCarriage";
+    String CUSTOMERS = "customers";
 }

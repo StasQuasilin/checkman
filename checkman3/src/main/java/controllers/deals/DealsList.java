@@ -1,5 +1,6 @@
 package controllers.deals;
 
+import constants.Keys;
 import constants.Urls;
 import controllers.Page;
 import utils.json.JsonObject;
@@ -24,6 +25,7 @@ public class DealsList extends Page {
         req.setAttribute(TITLE, _TITLE + DOT + type);
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(EDIT, Urls.DEAL_EDIT + "?type=" + type);
+        req.setAttribute(Keys.SHOW, Urls.DEAL_SHOW);
         req.setAttribute(SUBSCRIBER, DEALS + "_" + type.toLowerCase());
         show(req, resp);
     }

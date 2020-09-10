@@ -7,4 +7,7 @@ public interface Apis {
     String DEAL_EDIT = API + "/deal/edit";
     String EDIT_PRODUCT = API + "/product/edit";
     String FIND_ORGANISATION = API + "/organisation/find";
+    String DEAL_DETAILS = API + "/deal/details";
+    String SAVE_TRANSPORTATION = API + "/deal/save/transportation";
+    String SAVE_CARRIAGE = API + "/deal/save/carriage";
 }
