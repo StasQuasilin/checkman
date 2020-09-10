@@ -20,6 +20,7 @@ public class ApplicationHome extends Servlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(DEALS, Urls.DEALS);
+        req.setAttribute(TRANSPORTATIONS, Urls.TRANSPORTATIONS);
         req.setAttribute(DEAL_TYPES, DealType.values());
         req.setAttribute(SUBSCRIBER, Apis.SUBSCRIBES);
         req.getRequestDispatcher(APPLICATION).forward(req, resp);

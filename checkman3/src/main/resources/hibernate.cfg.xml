@@ -24,11 +24,22 @@
             <mapping class="entity.references.Product"/>
             <mapping class="entity.references.ProductAction"/>
             <mapping class="entity.references.Organisation"/>
+            <mapping class="entity.references.Address"/>
             <mapping class="entity.deals.Deal"/>
             <mapping class="entity.deals.DealDocument"/>
             <mapping class="entity.deals.DealProduct"/>
             <mapping class="entity.weight.Unit"/>
             <mapping class="entity.deals.Shipper"/>
             <mapping class="entity.ActionTime"/>
+            <mapping class="entity.references.Driver"/>
+            <mapping class="entity.references.Vehicle"/>
+            <mapping class="entity.references.Trailer"/>
+            <mapping class="entity.transportations.Transportation"/>
+            <mapping class="entity.transportations.TransportationDocument"/>
+            <mapping class="entity.transportations.TransportationProduct"/>
+            <mapping class="entity.transportations.TransportationNote"/>
+            <mapping class="entity.weight.Weight"/>
+            <mapping class="entity.rails.Train"/>
+            <mapping class="entity.rails.Carriage"/>
         </session-factory>
     </hibernate-configuration>

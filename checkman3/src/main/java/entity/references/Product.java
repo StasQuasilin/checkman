@@ -57,6 +57,7 @@ public class Product extends JsonAble {
         final JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, id);
         jsonObject.put(NAME, name);
+        jsonObject.put(GROUP, group);
         return jsonObject;
     }
 

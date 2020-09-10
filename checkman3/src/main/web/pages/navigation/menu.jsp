@@ -9,4 +9,7 @@
             <fmt:message key="menu.deals.${type}"/>
         </div>
     </c:forEach>
+    <div class="menu-item" onclick="loadContent('${transportations}')">
+        <fmt:message key="menu.transportations"/>
+    </div>
 </div>

@@ -18,6 +18,7 @@ public class DealProduct extends JsonAble {
     private Unit unit;
     private float price;
     private Shipper shipper;
+    private float done;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,6 +83,15 @@ public class DealProduct extends JsonAble {
         this.shipper = shipper;
     }
 
+    @Basic
+    @Column(name = "_done")
+    public float getDone() {
+        return done;
+    }
+    public void setDone(float done) {
+        this.done = done;
+    }
+
     @Override
     public JSONObject toJson() {
         final JSONObject jsonObject = new JSONObject();
@@ -91,6 +101,7 @@ public class DealProduct extends JsonAble {
         jsonObject.put(Keys.UNIT, unit.getName());
         jsonObject.put(Keys.PRICE, price);
         jsonObject.put(Keys.SHIPPER, shipper.getName());
+        jsonObject.put(Keys.DONE, done);
         return jsonObject;
     }
 }

@@ -61,4 +61,24 @@ public interface Keys {
     String ENCODING = "UTF-8";
     String DATA = "data";
     String GROUP = "group";
+    String DONE = "done";
+    String TRANSPORTATIONS = "transportations";
+    String DRIVER = "driver";
+    String TRAILER = "trailer";
+    String VEHICLE = "vehicle";
+    String CUSTOMER = "customer";
+    String WEIGHT = "weight";
+    String REGISTRATION = "registration";
+    String TIME_IN = "timeIn";
+    String TIME_OUT = "timeOut";
+    String NOTES = "notes";
+    String LICENSE = "license";
+    String MODEL = "model";
+    String NOTE = "note";
+    String GROSS = "gross";
+    String TARE = "tare";
+    String CARRIAGES = "carriages";
+    String DEAL_PRODUCT = "dealProduct";
+    String OIL_ANALYSES = "oilAnalyses";
+    String CARRIAGE = "carriage";
 }

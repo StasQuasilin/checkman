@@ -10,6 +10,9 @@ body{
 .search-result{
     position: absolute;
     width: 100%;
+    background-color: white;
+    z-index: 2;
+
 }
 .search-info{
     color: gray;
@@ -27,4 +30,7 @@ body{
 .text-button:hover{
     color: white;
     text-shadow: 0 0 4px #363636;
+}
+input[type=number]{
+    width: 56pt;
 }
