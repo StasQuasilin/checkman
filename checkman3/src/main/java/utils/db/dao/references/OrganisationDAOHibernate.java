@@ -19,4 +19,9 @@ public class OrganisationDAOHibernate implements OrganisationDAO {
     public Organisation getOrganisation(Object id) {
         return hibernator.get(Organisation.class, Keys.ID, id);
     }
+
+    @Override
+    public void save(Organisation organisation) {
+        hibernator.save(organisation);
+    }
 }

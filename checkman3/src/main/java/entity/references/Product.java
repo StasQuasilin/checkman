@@ -14,6 +14,7 @@ public class Product extends JsonAble {
     private int id;
     private String name;
     private AnalysesType analysesType;
+    private boolean group;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +43,26 @@ public class Product extends JsonAble {
         this.analysesType = analysesType;
     }
 
+    @Basic
+    @Column(name = "_group")
+    public boolean isGroup() {
+        return group;
+    }
+    public void setGroup(boolean group) {
+        this.group = group;
+    }
+
     @Override
-    public JSONObject toJson() {
+    public JSONObject toShortJson() {
         final JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, id);
         jsonObject.put(NAME, name);
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        final JSONObject jsonObject = toShortJson();
         if (analysesType != null) {
             jsonObject.put(ANALYSES_TYPE, analysesType);
         }

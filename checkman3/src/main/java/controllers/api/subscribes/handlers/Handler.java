@@ -1,5 +1,6 @@
 package controllers.api.subscribes.handlers;
 
+import constants.Keys;
 import controllers.api.subscribes.Subscribes;
 import org.json.simple.JSONObject;
 
@@ -26,7 +27,9 @@ public abstract class Handler {
     public void onSubscribe(Session session) {
         JSONObject object = new JSONObject();
         object.put(SUBSCRIBER, subscribes.toString());
-        object.put(ADD, getSubscribeData());
+        final JSONObject data = new JSONObject();
+        data.put(ADD, getSubscribeData());
+        object.put(Keys.DATA, data);
         try {
             session.getBasicRemote().sendText(object.toJSONString());
         } catch (IOException e) {

@@ -14,11 +14,12 @@ public class OrganisationConstructor {
         Organisation organisation = organisationDAO.getOrganisation(json.get(Keys.ID));
         if (organisation == null){
             organisation = new Organisation();
+            final String name = json.getString(Keys.NAME);
+            if(organisation.getName() == null || !organisation.getName().equals(name)){
+                organisation.setName(name);
+            }
         }
-        final String name = json.getString(Keys.NAME);
-        if(organisation.getName() == null || !organisation.getName().equals(name)){
-            organisation.setName(name);
-        }
+
         organisationDAO.save(organisation);
         return organisation;
 

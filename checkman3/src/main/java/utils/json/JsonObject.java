@@ -52,4 +52,11 @@ public class JsonObject {
         }
         return 0;
     }
+
+    public boolean getBoolean(String key) {
+        if (contains(key)){
+            return Boolean.parseBoolean(String.valueOf(json.get(key)));
+        }
+        return false;
+    }
 }

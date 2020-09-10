@@ -4,12 +4,14 @@ subscriber = {
     closableSubscribes:[],
     socket:null,
     connect(){
+        const self = this;
         this.socket = new WebSocket(this.address);
         this.socket.onmessage = function (env) {
             let json = JSON.parse(env.data);
-            let type = json['type'];
+            console.log(json);
+            let type = json['subscriber'];
             let data = json['data'];
-            let handler = this.handlers[type];
+            let handler = self.handlers[type];
             if (typeof  handler === 'function') {
                 handler(data);
             } else{

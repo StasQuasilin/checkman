@@ -22,7 +22,8 @@
     productEdit.object = {
         id:-1,
         name:'',
-        actions:{}
+        actions:{},
+        group:false
     }
 </script>
 <table id="productEdit">
@@ -43,9 +44,15 @@
                 <label :for="a">
                     {{actionNames[a]}}
                 </label>
-
             </template>
-
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input id="isGroup" v-model="object.group">
+            <label for="isGroup">
+                <fmt:message key="product.group"/>
+            </label>
         </td>
     </tr>
     <tr>

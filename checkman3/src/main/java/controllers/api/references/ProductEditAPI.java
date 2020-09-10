@@ -1,6 +1,7 @@
 package controllers.api.references;
 
 import constants.Apis;
+import constants.Keys;
 import controllers.api.API;
 import entity.analyses.AnalysesType;
 import entity.references.Product;
@@ -42,6 +43,9 @@ public class ProductEditAPI extends API {
             } else {
                 product.setAnalysesType(null);
             }
+
+            final boolean group = body.getBoolean(GROUP);
+            product.setGroup(group);
 
             productDAO.save(product);
             answer = new SuccessAnswer();

@@ -28,7 +28,7 @@
             if (typeof worker === "undefined"){
                 worker = '${worker}'
             }
-            subscriber.address = 'ws://' + window.location.host + context + '${subscribes}'
+            subscriber.address = 'ws://' + window.location.host + context + '${subscriber}'
         </script>
         <title><fmt:message key="application.title"/></title>
     </head>

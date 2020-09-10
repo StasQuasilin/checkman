@@ -3,6 +3,7 @@ package controllers.api.deals;
 import constants.Apis;
 import constants.Keys;
 import controllers.api.API;
+import entity.ActionTime;
 import entity.deals.*;
 import entity.references.Organisation;
 import entity.references.Product;
@@ -83,13 +84,11 @@ public class DealEditApi extends API {
                 save = true;
             }
 
+            dealDAO.save(deal);
             if(saveDocuments((JSONArray)body.get(Keys.DOCUMENTS), deal.getDocuments(), deal)){
                 save = true;
             }
 
-            if (save) {
-                dealDAO.save(deal);
-            }
             answer = new SuccessAnswer();
         } else {
             answer = new ErrorAnswer();

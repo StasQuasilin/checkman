@@ -58,4 +58,7 @@ public interface Keys {
     String NUMBER = "number";
     String SHIPPERS = "shippers";
     String UNITS = "units";
+    String ENCODING = "UTF-8";
+    String DATA = "data";
+    String GROUP = "group";
 }

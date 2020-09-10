@@ -13,7 +13,7 @@
 <script type="application/javascript" src="${context}/vue/dealList.vue"></script>
 <script>
     dealList.api.edit = '${edit}';
-    subscriber.subscribe('${subscribes}', dealList.handler);
+    subscriber.subscribe('${subscriber}', dealList.handler);
 
 </script>
 <div id="header-buttons">
@@ -22,6 +22,58 @@
     </button>
 </div>
 <div id="deals">
+    <div v-for="deal in items">
+        <div class="list-item">
+            <div style="display: flex; flex-direction: row">
+                <div style="border-right: solid gray 1px; font-size: 10pt">
+                    <div>
+                        <fmt:message key="deal.date"/>
+                    </div>
+                    <div>
+                        {{new Date(deal.date).toLocaleDateString()}}
+                    </div>
+                    <div>
+                        <fmt:message key="deal.period"/>
+                    </div>
+                    <div v-if="deal.from">
+                        <fmt:message key="deal.from"/>
+                        {{new Date(deal.from).toLocaleDateString()}}
+                    </div>
+                    <div v-if="deal.to">
+                        <fmt:message key="deal.to"/>
+                        {{new Date(deal.to).toLocaleDateString()}}
+                    </div>
+                </div>
+                <div style="flex: 1 0 auto; display: flex; flex-direction: column">
+                    <div>
+                        <template v-for="doc in deal.documents">
+                            <fmt:message key="deal.counterparty"/>: <b>{{doc.counterparty.name.toUpperCase()}}</b>
+                            <template v-for="(dp, pIndex) in doc.products">
+                                <div style="border-bottom: solid gray 1px; width: 100%" v-if="pIndex == 0">
+                                    <fmt:message key="deal.product"/>:
+                                    <b>{{dp.product.name}} {{dp.amount.toLocaleString()}} {{dp.unit}}</b>
+                                    <fmt:message key="deal.price"/>:
+                                    <b>
+                                        {{dp.price.toLocaleString()}}
+                                    </b>
+                                    <fmt:message key="deal.shipper"/>:
+                                    <b>
+                                        {{dp.shipper}}
+                                    </b>
+                                </div>
+                            </template>
+                            <span v-if="doc.products.length > 1">
+                                + {{(doc.products.length - 1).toLocaleString()}}
+                            </span>
+                        </template>
+                    </div>
+                    <div>
+                        <fmt:message key="deal.done"/>:
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
 </div>
 </html>

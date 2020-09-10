@@ -37,6 +37,7 @@ search = {
         put:function (item) {
             if (this.props.put){
                 this.props.put(item);
+                this.items = [];
             }
         }
     },
@@ -49,8 +50,8 @@ search = {
                     'Loading' +
                 '</div>' +
                 '<div v-else-if="items.length > 0" class="data-list">' +
-                    '<div v-for="item in items" clas="data-list-item">' +
-                    '{{item}}' +
+                    '<div v-for="item in items" v-on:click="put(item)" clas="data-list-item">' +
+                        '{{item}}' +
                     '</div>' +
                 '</div>' +
                 '<div v-else-if="input">' +

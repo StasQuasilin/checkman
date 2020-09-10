@@ -117,7 +117,9 @@ public class Deal extends JsonAble {
         jsonObject.put(Keys.FROM, from.toString());
         jsonObject.put(Keys.TO, to.toString());
 
-        jsonObject.put(Keys.CREATED, created.toJson());
+        if (created != null) {
+            jsonObject.put(Keys.CREATED, created.toJson());
+        }
         jsonObject.put(Keys.ARCHIVE, archive);
         jsonObject.put(DOCUMENTS, documents());
         return jsonObject;

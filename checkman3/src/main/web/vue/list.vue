@@ -5,7 +5,15 @@ list = {
     },
     methods:{
         handler:function (data) {
-            console.log(data);
+            if (data.add){
+                let add = data.add;
+                for (let i in add){
+                    if (add.hasOwnProperty(i)){
+                        let a = add[i];
+                        Vue.set(this.items, a.id, a);
+                    }
+                }
+            }
         },
         edit:function (id) {
             let params = {};
