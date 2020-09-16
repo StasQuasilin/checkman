@@ -14,6 +14,7 @@
 <script src="${context}/vue/editor.vue"></script>
 <script src="${context}/vue/dealShow.vue"></script>
 <script>
+    dealShow.api.dealDetails = '${dealDetails}';
     dealShow.api.saveTransportation = '${saveTransportation}';
     <c:forEach items="${customers}" var="customer">
     dealShow.customers.push('${customer}');

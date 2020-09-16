@@ -7,4 +7,5 @@ public interface ApiLinks {
     String SOCKET = "/socket";
     String REGISTRATION = API + "/sign/up";
     String REPORTS = API + "/reports";
+    String REFERENCES = API + "/references";
 }

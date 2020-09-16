@@ -70,4 +70,6 @@ public interface Keys {
     String SUPERVISOR = "supervisor";
     String USER = "user";
     String USERS = "users";
+    String KEY = "key";
+    String DRIVERS = "drivers";
 }

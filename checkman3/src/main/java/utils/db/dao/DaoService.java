@@ -3,6 +3,8 @@ package utils.db.dao;
 import utils.db.dao.deals.DealDAO;
 import utils.db.dao.deals.DealDAOHibernate;
 import utils.db.dao.references.*;
+import utils.db.dao.transportations.TransportationDAO;
+import utils.db.dao.transportations.TransportationDAOHibernate;
 import utils.db.dao.workers.WorkerDAO;
 import utils.db.dao.workers.WorkerDAOHibernate;
 
@@ -13,6 +15,7 @@ public final class DaoService {
     private static final ProductDAO productDAO = new ProductDAOHibernate();
     private static final OrganisationDAO organisationDAO = new OrganisationDAOHibernate();
     private static final ReferencesDAO referencesDAO = new ReferencesDAOHibernate();
+    private static final TransportationDAO transportationDAO = new TransportationDAOHibernate();
 
     public static WorkerDAO getWorkerDAO() {
         return workerDAO;
@@ -32,5 +35,9 @@ public final class DaoService {
 
     public static ReferencesDAO getReferencesDAO() {
         return referencesDAO;
+    }
+
+    public static TransportationDAO getTransportationDAO() {
+        return transportationDAO;
     }
 }

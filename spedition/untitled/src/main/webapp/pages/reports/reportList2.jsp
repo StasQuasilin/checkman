@@ -33,6 +33,7 @@
         reports.api.show ='${show}';
         <c:forEach items="${users}" var="u">
         reports.users.push(${u.toJson()});
+        reports.sortUsers();
         </c:forEach>
         subscribe('${subscribe}', reports.handle);
         reports.functions = {

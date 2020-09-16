@@ -21,4 +21,6 @@ public abstract class DealDAO {
     public abstract void remove(DealDocument dealDocument);
 
     public abstract void save(DealDocument dealDocument);
+
+    public abstract DealProduct getDealProduct(Object id);
 }

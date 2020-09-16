@@ -1,5 +1,6 @@
 package api;
 
+import entity.JsonAble;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,7 +20,12 @@ public abstract class ServletAPI extends HttpServlet {
 
     private final Logger log = Logger.getLogger(ServletAPI.class);
 
+    public void write(HttpServletResponse resp, JsonAble json) throws IOException {
+        write(resp, json.toJson());
+    }
+
     public void write(HttpServletResponse resp, JSONObject json) throws IOException {
+
         write(resp, json.toJSONString());
     }
 

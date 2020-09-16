@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Title</title>
+    <title><fmt:message key="application.title"/></title>
     <link rel="stylesheet" href="${context}/css/main.css"/>
     <link rel="stylesheet" href="${context}/css/menu.css">
     <script>

@@ -1,6 +1,7 @@
 *{
     user-select: none;
     font-family: 'Segoe UI', 'Roboto', arial, sans-serif;
+    -moz-user-select: none;
 }
 body{
     margin: 0;

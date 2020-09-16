@@ -81,6 +81,9 @@ dealShow = new Vue({
             if (!item.key){
                 item.key = randomUUID();
             }
+            if (!item.dealProduct){
+                item.dealProduct = this.dealProduct;
+            }
             let key = item.key;
 
             let saver = this.savers[key];
@@ -89,8 +92,9 @@ dealShow = new Vue({
             }
 
             saver = setTimeout(function () {
-                console.log('Save: ' + JSON.stringify(item) + ' on ' + api);
-                // PostApi(api, item);
+                PostApi(api, item, function (a) {
+                    console.log(a)
+                });
             }, 1000);
             this.savers[key] = saver;
         },
@@ -136,8 +140,14 @@ dealShow = new Vue({
         },
         checkDetails:function () {
             this.dealProduct = this.dealMap[this.deal].documents[0].products[0].id;
-            //todo load details
-
+            const self = this;
+            PostApi(this.api.dealDetails, {dealProduct:this.dealProduct}, function (a) {
+                console.log(a);
+                if (a.status === 'success'){
+                    let result = a.result;
+                    self.transportations = result.transportations;
+                }
+            })
         },
         getTransportations:function () {
             if (this.transportationDate){

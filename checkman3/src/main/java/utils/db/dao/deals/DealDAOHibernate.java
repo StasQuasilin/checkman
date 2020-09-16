@@ -53,4 +53,9 @@ public class DealDAOHibernate extends DealDAO {
     public void save(DealDocument dealDocument) {
         hibernator.save(dealDocument);
     }
+
+    @Override
+    public DealProduct getDealProduct(Object id) {
+        return hibernator.get(DealProduct.class, ID, id);
+    }
 }

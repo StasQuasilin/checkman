@@ -1,6 +1,7 @@
 package entity.transportations;
 
 import constants.Keys;
+import entity.deals.DealDocument;
 import entity.references.Address;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,6 +16,7 @@ import java.util.Set;
 public class TransportationDocument extends JsonAble {
     private int id;
     private Transportation transportation;
+    private DealDocument dealDocument;
     private Address address;
     private Set<TransportationProduct> products = new HashSet<>();
 
@@ -34,6 +36,15 @@ public class TransportationDocument extends JsonAble {
     }
     public void setTransportation(Transportation transportation) {
         this.transportation = transportation;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "_deal_document")
+    public DealDocument getDealDocument() {
+        return dealDocument;
+    }
+    public void setDealDocument(DealDocument dealDocument) {
+        this.dealDocument = dealDocument;
     }
 
     @OneToOne

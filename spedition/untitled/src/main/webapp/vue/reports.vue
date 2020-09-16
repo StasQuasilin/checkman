@@ -112,6 +112,15 @@ let reports = new Vue({
         },
         getColumnIndex:function(row){
             return 1;
+        },
+        sortUsers:function(){
+            this.users.sort(function (a,b) {
+                let sort = a.person.surname.localeCompare(b.person.surname);
+                if (sort === 0){
+                    sort = a.person.forename.localeCompare(b.person.forename);
+                }
+                return sort;
+            })
         }
     }
 });
