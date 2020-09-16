@@ -1,19 +1,21 @@
 package entity.documents;
 
+import constants.Constants;
 import entity.DealType;
 import entity.JsonAble;
+import entity.deal.DeliveryCost;
 import entity.organisations.Address;
 import entity.products.Product;
 import entity.Worker;
 import entity.organisations.Organisation;
 import entity.transport.ActionTime;
 import entity.weight.Unit;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.U;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,6 +32,7 @@ public class Deal extends JsonAble{
     private Organisation organisation;
     private Address address;
     private Set<DealProduct> products;
+    private Set<DeliveryCost> costs;
 
     private String uid;
     @Deprecated
@@ -219,6 +222,14 @@ public class Deal extends JsonAble{
         this.archive = archive;
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "deal", cascade = CascadeType.ALL)
+    public Set<DeliveryCost> getCosts() {
+        return costs;
+    }
+    public void setCosts(Set<DeliveryCost> coasts) {
+        this.costs = coasts;
+    }
+
     @Override
     public int hashCode() {
         return id;
@@ -253,6 +264,7 @@ public class Deal extends JsonAble{
         if (U.exist(number)){
             object.put(NUMBER, number);
         }
+
         return object;
     }
 
@@ -268,6 +280,17 @@ public class Deal extends JsonAble{
         json.put(DONE, isDone());
         json.put(ARCHIVE, isArchive());
         json.put(CREATE, create.toShortJson());
+        json.put(Constants.COSTS, costs());
         return json;
+    }
+
+    private JSONArray costs() {
+        JSONArray array = new JSONArray();
+        if(costs != null) {
+            for (DeliveryCost cost : costs) {
+                array.add(cost.toJson());
+            }
+        }
+        return array;
     }
 }

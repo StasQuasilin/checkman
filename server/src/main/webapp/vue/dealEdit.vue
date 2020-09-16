@@ -6,8 +6,10 @@ var editor = new Vue({
     data:{
         api:{},
         types:{},
-        realisations:[],
+        shippers:[],
         products:[],
+        customers:[],
+        customerNames:{},
         units:[],
         deal: {
             id: -1,
@@ -19,7 +21,7 @@ var editor = new Vue({
             counterparty: {
                 id:-1
             },
-            realisation: -1,
+            shipper: -1,
             product: -1,
             quantity: 0,
             unit:-1,
@@ -36,13 +38,39 @@ var editor = new Vue({
         date:0
     },
     methods:{
+        addCost:function(){
+            console.log('+');
+            if (!this.deal.costs){
+                Vue.set(this.deal, 'costs', []);
+            }
+            let customer;
+            let customers = Object.assign([], this.customers);
+
+            for (let c in this.deal.costs){
+                if (this.deal.costs.hasOwnProperty(c)){
+                    let cost = this.deal.costs[c];
+                    let customer = cost.customer;
+                    customers.splice(customers.indexOf(customer), 1);
+                }
+            }
+            if (customers.length > 0) {
+                this.deal.costs.push({
+                    id: -1,
+                    customer: customers[0],
+                    cost: 0
+                })
+            }
+        },
+        removeCost:function(idx){
+            this.deal.costs.splice(idx , 1);
+        },
         typesByProduct:function(){
             var types = this.types[this.deal.product];
             var fount = false;
             for (var i in types){
                 if (types.hasOwnProperty(i)){
-                    var t = types[i];
-                    if (this.deal.type == t){
+                    let t = types[i];
+                    if (this.deal.type === t){
                         fount = true;
                         break;
                     }

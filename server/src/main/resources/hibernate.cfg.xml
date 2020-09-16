@@ -131,5 +131,7 @@
         <mapping class="entity.weight.RoundReport"/>
         <mapping class="entity.weight.SubdivisionReport"/>
         <mapping class="entity.rails.Train"/>
+        <mapping class="entity.deal.DeliveryCost"/>
+        <mapping class="entity.organisations.OrganisationWe"/>
     </session-factory>
 </hibernate-configuration>

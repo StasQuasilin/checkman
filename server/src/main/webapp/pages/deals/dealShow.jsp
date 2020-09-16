@@ -127,7 +127,7 @@
         </tr>
         <tr>
           <td>
-            <fmt:message key="deal.realisation"/>
+            <fmt:message key="deal.shipper"/>
           </td>
           <td>
             :${deal.shipper.value}
@@ -157,6 +157,15 @@
             :<fmt:formatNumber value="${deal.price}"/>
           </td>
         </tr>
+        <c:forEach items="${deal.costs}" var="cost">
+          <tr>
+            <td colspan="2">
+              <fmt:message key="delivery.cost"/>
+              <fmt:message key="delivery.${cost.customer}"/>:
+              <fmt:formatNumber value="${cost.cost}"/>
+            </td>
+          </tr>
+        </c:forEach>
       </table>
     </div>
     <div class="page-column">
@@ -193,7 +202,7 @@
           <div>
             <table>
               <tr>
-                <td colspan="4" align="center">
+                <td colspan="3" align="center">
                   <fmt:message key="load.plans"/>
                   <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
                 </td>
@@ -219,15 +228,9 @@
                   <fmt:message key="transport.customer"/>
                 </span>
                 </td>
-                <td>
-                  <c:set var="factTitle"><fmt:message key="load.fact.title"/> </c:set>
-                  <span title="${factTitle}" class="table-header" style="width: 6em">
-                    <fmt:message key="fact"/>
-                  </span>
-                </td>
               </tr>
               <tr>
-                <td colspan="4">
+                <td colspan="3">
                   <%--TABLE--%>
                   <transition-group name="flip-list" tag="div" class="plan-container">
                     <div v-for="(value, key) in getPlans()" :key="value.key" class="plan-item"

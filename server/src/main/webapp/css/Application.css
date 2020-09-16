@@ -2,7 +2,7 @@
     font-family: Gill Sans, sans-serif;;
     color: #333333;
     user-select: none;
-    -moz-user-select: -moz-none;
+    -moz-user-select: none;
     font-size: 10pt;
 }
 .attention{
@@ -90,6 +90,7 @@ button:focus, input:focus{
 }
 .wrapper {
     display: inline-block;
+    width: 100%;
     height: 100%;
     max-height: 100%;
     background-color: aliceblue;
@@ -109,6 +110,10 @@ button:focus, input:focus{
 }
 .fast-content{
     height: 100%;
+}
+.item-container{
+    display: flex;
+    flex-direction: column;
 }
 .custom-data-list{
     font-size: 10pt;
@@ -299,14 +304,16 @@ input.error {
     flex-direction: column;
 }
 .content{
-    flex: 1 0 auto;
+    /*flex: 1 0 auto;*/
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .content-holder{
     display: flex;
     flex-direction: row;
-    height: 100%;
+    height: 100;
+    flex: 1 0 auto;
     border-left: solid gray 1px;
 }
 .underlined{

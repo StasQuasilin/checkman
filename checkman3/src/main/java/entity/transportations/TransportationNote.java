@@ -24,7 +24,7 @@ public class TransportationNote extends JsonAble {
         this.id = id;
     }
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "_transportation")
     public Transportation getTransportation() {
         return transportation;

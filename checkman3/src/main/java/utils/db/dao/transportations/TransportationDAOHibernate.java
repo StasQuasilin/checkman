@@ -6,6 +6,8 @@ import entity.transportations.TransportationDocument;
 import entity.transportations.TransportationProduct;
 import utils.db.hibernate.Hibernator;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TransportationDAOHibernate implements TransportationDAO {
@@ -33,7 +35,20 @@ public class TransportationDAOHibernate implements TransportationDAO {
     }
 
     @Override
-    public List<Transportation> getTransportationsByDealProduct(Object product) {
-        return hibernator.query(Transportation.class, "document/product/dealProduct", product);
+    public List<Transportation> getTransportationsByDealProduct(Object dp) {
+        final HashMap<Integer, Transportation> transportationHashMap = new HashMap<>();
+        for (TransportationProduct product : hibernator.query(TransportationProduct.class, "dealProduct", dp)){
+            final Transportation transportation = product.getDocument().getTransportation();
+            final int id = transportation.getId();
+            if (!transportationHashMap.containsKey(id)){
+                transportationHashMap.put(id, transportation);
+            }
+        }
+        return new LinkedList<>(transportationHashMap.values());
+    }
+
+    @Override
+    public List<Transportation> getActiveTransportation() {
+        return hibernator.query(Transportation.class, "archive", false);
     }
 }

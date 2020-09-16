@@ -368,6 +368,10 @@ public interface Constants {
     String ADHERENCE = "adherence";
     String TEH = "teh";
     String LIMIT = "limit";
+    String COSTS = "costs";
+    String COST = "cost";
+    String WE = "we";
+
     public static class Languages {
         public static final String CREATE_DOCUMENT = "document.create";
         public static final String EDIT_DOCUMENT = "document.edit";

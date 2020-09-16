@@ -105,6 +105,8 @@ public class TransportationProduct extends JsonAble {
             jsonObject.put(Keys.CARRIAGE, carriage.toShortJson());
         }
         jsonObject.put(Keys.AMOUNT, amount);
+        jsonObject.put(Keys.UNIT, dealProduct.getUnit().getName());
+        jsonObject.put(Keys.PRODUCT, dealProduct.getProduct().getName());
         if (weight != null){
             jsonObject.put(Keys.WEIGHT, weight.toJson());
         }

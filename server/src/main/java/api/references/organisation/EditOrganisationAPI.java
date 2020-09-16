@@ -7,8 +7,10 @@ import entity.Worker;
 import entity.answers.IAnswer;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
+import entity.organisations.OrganisationWe;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import utils.CodeUtil;
 import utils.U;
 import utils.UpdateUtil;
@@ -37,7 +39,14 @@ public class EditOrganisationAPI extends ServletAPI {
 
             Worker worker = getWorker(req);
             Organisation organisation = saveOrganisation((JSONObject) body.get(ORGANISATION), worker);
-            saveOrganisationType((JSONObject) body.get(TYPE), organisation, worker);
+            final String s = String.valueOf(body.get(TYPE));
+            if (U.exist(s)) {
+                try {
+                    saveOrganisationType(parser.parse(s), organisation, worker);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
 
             IAnswer answer = new SuccessAnswer(RESULT, organisation.toJson());
             JSONObject json = answer.toJson();
@@ -93,6 +102,7 @@ public class EditOrganisationAPI extends ServletAPI {
             save = true;
         }
 
+
         String type = String.valueOf(json.get(TYPE));
         type = type.trim().toUpperCase();
         if (!U.exist(organisation.getType()) || !organisation.getType().equals(type)){
@@ -101,6 +111,18 @@ public class EditOrganisationAPI extends ServletAPI {
         }
         if (save){
             dao.save(organisation);
+        }
+        OrganisationWe organisationWe = organisation.getOrganisationWe();
+        if (json.containsKey(Constants.WE)){
+            if(Boolean.parseBoolean(String.valueOf(json.get(Constants.WE)))){
+                if (organisationWe == null){
+                    organisationWe = new OrganisationWe();
+                    organisationWe.setOrganisation(organisation);
+                    dao.save(organisationWe);
+                }
+            }  else if (organisationWe != null){
+                dao.remove(organisationWe);
+            }
         }
         return organisation;
     }

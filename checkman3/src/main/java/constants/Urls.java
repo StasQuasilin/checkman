@@ -9,4 +9,5 @@ public interface Urls {
     String EDIT_PRODUCT = "/product/edit" + SUFFIX;
     String TRANSPORTATIONS = "/transportations" + SUFFIX;
     String DEAL_SHOW = "/deal/show" + SUFFIX;
+    String RETAIL_EDIT = "/retail/edit" + SUFFIX;
 }

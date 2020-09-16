@@ -94,7 +94,7 @@
   editor.api.editAddress = '${editAddress}';
   editor.api.findType = '${findOrganisationType}';
   editor.api.info = '${info}';
-  editor.api.codeValid = '${codeValid}'
+  editor.api.codeValid = '${codeValid}';
 
   <c:choose>
   <c:when test="${not empty organisation}">
@@ -232,6 +232,14 @@
     <td colspan="2" style="font-size: 8pt; color: grey">
       <fmt:message key="laboratory.response"/>: {{organisation.create.creator.person.value}}
       {{new Date(organisation.create.time).toLocaleString()}}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input id="we" type="checkbox" v-model="organisation.we">
+      <label for="we">
+        <fmt:message key="some.check.box"/>
+      </label>
     </td>
   </tr>
   <tr>

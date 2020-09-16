@@ -7,7 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -61,6 +61,7 @@
       </div>
       <c:set value="0" var="correction"/>
       <c:set value="0" var="total"/>
+      <c:set value="0" var="totalCost"/>
 
       <table style="border-bottom: solid black 1.5pt">
         <tr>
@@ -116,6 +117,9 @@
               </th>
             </c:when>
           </c:choose>
+          <td rowspan="2">
+            <fmt:message key="delivery.cost"/>
+          </td>
         </tr>
         <tr>
           <th>
@@ -257,6 +261,24 @@
                 </td>
               </c:when>
             </c:choose>
+            <td rowspan="2" style="text-align: center">
+              <c:forEach items="${transport.deal.costs}" var="cost">
+                <c:choose>
+                  <c:when test="${not empty transport.transporter.organisationWe}">
+                    <c:if test="${cost.customer eq 'szpt'}">
+                      ${cost.cost}
+                      <c:set var="totalCost" value="${totalCost + cost.cost}"/>
+                    </c:if>
+                  </c:when>
+                  <c:otherwise>
+                    <c:if test="${cost.customer ne 'szpt'}">
+                      ${cost.cost}
+                      <c:set var="totalCost" value="${totalCost + cost.cost}"/>
+                    </c:if>
+                  </c:otherwise>
+                </c:choose>
+              </c:forEach>
+            </td>
           </tr>
           <tr>
             <td>
@@ -280,6 +302,12 @@
       <c:if test="${total ne correction}">
         <div>
           <fmt:message key="valid.weight"/>: <fmt:formatNumber value="${correction}" maxFractionDigits="3"/>
+        </div>
+      </c:if>
+      <c:if test="${totalCost > 0}">
+        <div>
+          <fmt:message key="total.delivery.cost"/>:
+          <fmt:formatNumber value="${totalCost}" pattern="### ###"/>
         </div>
       </c:if>
       <div style="padding-bottom: 12pt">

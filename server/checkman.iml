@@ -17,7 +17,7 @@
         <datasource-map>
           <unit-entry name="hibernate-alt.cfg.xml" />
           <unit-entry name="hibernate.cfg.xml" value="21ddef42-27ac-44e1-9950-2b0d009e1795" />
-          <unit-entry name="restored:hibernate.cfg.xml" />
+          <unit-entry name="restored:hibernate.cfg.xml" value="9d862755-b389-4d4f-9cf2-e6d4d05a3761" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/hibernate.cfg.xml" />

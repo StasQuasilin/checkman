@@ -2,6 +2,7 @@ package entity.transportations;
 
 import constants.Keys;
 import entity.ActionTime;
+import entity.deals.DealType;
 import entity.deals.Shipper;
 import entity.references.Driver;
 import entity.references.Trailer;
@@ -32,6 +33,8 @@ public class Transportation extends JsonAble {
     private ActionTime timeOut;
     private Set<TransportationNote> notes = new HashSet<>();
     private Set<TransportationDocument> documents = new HashSet<>();
+    private boolean archive;
+    private DealType type;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -148,6 +151,24 @@ public class Transportation extends JsonAble {
         this.documents = documents;
     }
 
+    @Basic
+    @Column(name = "_archive")
+    public boolean isArchive() {
+        return archive;
+    }
+    public void setArchive(boolean archive) {
+        this.archive = archive;
+    }
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "_type")
+    public DealType getType() {
+        return type;
+    }
+    public void setType(DealType type) {
+        this.type = type;
+    }
+
     @Override
     public JSONObject toJson() {
         final JSONObject jsonObject = new JSONObject();
@@ -163,7 +184,9 @@ public class Transportation extends JsonAble {
             jsonObject.put(Keys.TRAILER, trailer.toJson());
         }
         jsonObject.put(Keys.CUSTOMER, customer.toString());
-        jsonObject.put(Keys.SHIPPER, shipper.toJson());
+        if (shipper != null){
+            jsonObject.put(Keys.SHIPPER, shipper.toJson());
+        }
         if (weight != null){
             jsonObject.put(Keys.WEIGHT, weight.toJson());
         }
@@ -176,6 +199,7 @@ public class Transportation extends JsonAble {
         if (timeOut != null){
             jsonObject.put(Keys.TIME_OUT, timeOut.toJson());
         }
+        jsonObject.put(Keys.TYPE, type.toString());
 
         jsonObject.put(Keys.NOTES, notes());
         jsonObject.put(Keys.DOCUMENTS, documents());

@@ -11,6 +11,7 @@
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+<link rel="stylesheet" href="${context}/css/dealShow.css">
 <script src="${context}/vue/editor.vue"></script>
 <script src="${context}/vue/dealShow.vue"></script>
 <script>
@@ -27,7 +28,7 @@
     dealShow.checkDetails();
 
 </script>
-<div id="dealShow" style="display: flex; flex-direction: row">
+<div id="dealShow" class="deal-show">
     <div>
         <div>
             <select v-model="deal" v-on:change="checkDetails()">
@@ -128,33 +129,45 @@
                         + <fmt:message key="deal.new.transportation"/>
                     </button>
                 </div>
-                <div>
-                    <div v-for="transportation in getTransportations()">
+                <div class="transportation-list">
+                    <div v-for="transportation in getTransportations()" class="transportation-list-item">
                         <div>
-                        <span class="text-button" style="font-size: 10pt">
-                            &times;
-                        </span>
-                            <span>
-                            {{new Date(transportation.date).toLocaleDateString()}}
-                        </span>
-                            <input type="number" v-model="transportation.amount" autocomplete="off" onfocus="this.select()">
-                            {{dpMap[dealProduct].unit}}
-                            <select v-model="transportation.customer">
-                                <option v-for="customer in customers" :value="customer">
-                                    {{customerNames[customer]}}
-                                </option>
-                            </select>
-                            <template v-if="carriages.length > 0">
-                                <input type="checkbox" v-model="transportation.inCarriage">
-                                <select v-if="transportation.inCarriage" v-model="transportation.carraige">
-                                    <option value="-1">
-                                        <fmt:message key="no.carraige"/>
-                                    </option>
-                                    <option v-for="carriage in carriages" :value="carriage.id">
-                                        {{carriage.number}}
+                            <div class="text-button" style="font-size: 10pt">
+                                &times;
+                            </div>
+                            <div v-if="transportation.save === 1" style="color: green">
+                                &check;
+                            </div>
+                            <div v-else-if="transportation.save === 2" style="color: orangered">
+                                &times;
+                            </div>
+                        </div>
+                        <div class="transportation-body">
+                            <div>
+                                <span>
+                                    {{new Date(transportation.date).toLocaleDateString()}}
+                                </span>
+                                <input type="number" v-model="transportation.documents[0].products[0].amount" autocomplete="off" onfocus="this.select()">
+                                {{dpMap[dealProduct].unit}}
+                                <select v-model="transportation.customer">
+                                    <option v-for="customer in customers" :value="customer">
+                                        {{customerNames[customer]}}
                                     </option>
                                 </select>
-                            </template>
+                            </div>
+                            <div style="width: 100%">
+                                <div style="width: 100%; display: flex; flex-direction: row">
+                                <span style="flex: 1 0 auto">
+                                    <fmt:message key="transportation.driver"/>
+                                </span>
+                                    <span style="flex: 1 0 auto">
+                                    <fmt:message key="transportation.vehicle"/>/<fmt:message key="transportation.trailer"/>
+                                </span>
+                                </div>
+                                <div>
+                                    <fmt:message key="transportation.transporter"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -20,23 +20,17 @@
     }
 </style>
 <div id="referencesList" style="width: 100%">
-    <table>
-        <template v-for="key in getKeys()">
-            <tr>
-                <td>
-                    <span style="font-size: 18pt; font-weight: bold">
-                        {{key}}
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div v-for="organisation in items[key]" class="block" v-on:click="edit(organisation)">
-                        {{organisation.value}}
-                    </div>
-                </td>
-            </tr>
-        </template>
-    </table>
+    <template v-for="key in getKeys()">
+        <div>
+            <h2>
+                {{key}}
+            </h2>
+        </div>
+        <div>
+            <div v-for="organisation in items[key]" class="block" v-on:click="edit(organisation)">
+                {{organisation.value}}
+            </div>
+        </div>
+    </template>
 </div>
 </html>

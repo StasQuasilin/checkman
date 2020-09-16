@@ -130,5 +130,6 @@
         <mapping class="entity.border.BoardItem"/>
         <mapping class="entity.weight.RoundReport"/>
         <mapping class="entity.weight.SubdivisionReport"/>
+        <mapping class="entity.organisations.OrganisationWe"/>
     </session-factory>
 </hibernate-configuration>

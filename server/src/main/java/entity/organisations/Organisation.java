@@ -20,7 +20,9 @@ public class Organisation extends JsonAble{
     private String code;
     private String type;
     private String name;
+    private OrganisationWe organisationWe;
     private ActionTime create;
+
 
     public static final String EMPTY = Constants.EMPTY;
     public static final String COMMA = Constants.COMMA + Constants.SPACE;
@@ -50,6 +52,14 @@ public class Organisation extends JsonAble{
     }
     public void setType(String type) {
         this.type = type;
+    }
+
+    @OneToOne(mappedBy = "organisation")
+    public OrganisationWe getOrganisationWe() {
+        return organisationWe;
+    }
+    public void setOrganisationWe(OrganisationWe organisationWe) {
+        this.organisationWe = organisationWe;
     }
 
     @Basic
@@ -105,6 +115,7 @@ public class Organisation extends JsonAble{
         JSONObject json = toShortJson();
         json.put(NAME, name);
         json.put(TYPE, type);
+        json.put(Constants.WE, organisationWe != null);
         return json;
     }
 }

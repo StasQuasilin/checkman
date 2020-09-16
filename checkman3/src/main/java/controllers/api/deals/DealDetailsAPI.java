@@ -30,6 +30,7 @@ public class DealDetailsAPI extends API {
         final JsonObject body = parseBody(req);
         Answer answer;
         if (body != null){
+            System.out.println(body);
             final Object product = body.get(Keys.DEAL_PRODUCT);
             JSONArray array = new JSONArray();
             for (Transportation transportation : transportationDAO.getTransportationsByDealProduct(product)){

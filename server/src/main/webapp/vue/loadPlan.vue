@@ -30,8 +30,7 @@ var plan = new Vue({
         filterDate:-1,
         tab:'vehicles',
         tabs:[
-            'vehicles',
-            'rails'
+            'vehicles'
         ],
         tabNames:{}
     },

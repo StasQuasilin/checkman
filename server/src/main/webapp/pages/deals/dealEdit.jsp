@@ -5,19 +5,22 @@
 <fmt:setBundle basename="messages"/>
 <html>
     <script src="${context}/vue/templates/vehicleInput.vue"></script>
-    <%--<script src="${context}/vue/dealEdit.vue"></script>--%>
+    <script src="${context}/vue/dealEdit.vue"></script>
     <script>
-        <jsp:include page="/vue/dealEdit.vue"/>
         <c:forEach items="${products}" var="product">
         editor.products.push({
             id:${product.id},
             value:'${product.name}'
         });</c:forEach>
         <c:forEach items="${shippers}" var="shipper">
-        editor.realisations.push({
+        editor.shippers.push({
             id:${shipper.id},
             value:'${shipper.value}'
         });</c:forEach>
+        <c:forEach items="${customers}" var="customer">
+        editor.customers.push('${customer}');
+        editor.customerNames['${customer}'] = '<fmt:message key="delivery.${customer}"/>';
+        </c:forEach>
         <c:forEach items="${units}" var="u">
         editor.units.push({
             id:${u.id},
@@ -43,19 +46,9 @@
         };
         <c:choose>
         <c:when test="${not empty deal}">
-        editor.deal={
-            number:'${deal.number}',
-            id : ${deal.id},
-            type : '${deal.type}',
-            date : '${deal.date}',
-            dateTo : '${deal.dateTo}',
-            counterparty : ${deal.organisation.toJson()},
-            shipper : ${deal.shipper.id},
-            product : ${deal.product.id},
-            quantity : ${deal.quantity},
-            price: ${deal.price}
-        };
-
+        editor.deal=${deal.toJson()};
+        editor.deal.shipper = editor.deal.shipper.id;
+        editor.deal.product = editor.deal.product.id;
         <c:if test="${not empty deal.unit}">
         editor.deal.unit = ${deal.unit.id};
         </c:if>
@@ -63,8 +56,8 @@
         </c:when>
         <c:otherwise>
         editor.deal.type = '${type}';
-        if (editor.realisations.length > 0){
-            editor.deal.shipper= editor.realisations[0].id;
+        if (editor.shippers.length > 0){
+            editor.deal.shipper= editor.shippers[0].id;
         }
         if (editor.products.length > 0){
             editor.deal.product = editor.products[0].id;
@@ -125,7 +118,7 @@
         <tr>
             <td>
                 <label for="shipper">
-                    <fmt:message key="deal.realisation"/>
+                    <fmt:message key="deal.shipper"/>
                 </label>
             </td>
             <td>
@@ -133,7 +126,7 @@
             </td>
             <td>
                 <select id="shipper" v-model="deal.shipper">
-                    <option v-for="realisation in realisations" :value="realisation.id">{{realisation.value}}</option>
+                    <option v-for="shipper in shippers" :value="shipper.id">{{shipper.value}}</option>
                 </select>
             </td>
         </tr>
@@ -193,6 +186,32 @@
             </td>
             <td>
                 {{(deal.price * deal.quantity).toLocaleString()}}
+            </td>
+        </tr>
+        <tr v-for="(cost, cIdx) in deal.costs">
+            <td colspan="3">
+                <span class="mini-close" v-on:click="removeCost(cIdx)">
+                    &times;
+                </span>
+                <label :for="'customer_' + cIdx">
+                    <fmt:message key="load.customer.title"/>
+                </label>
+                <select :id="'customer_' + cIdx" v-model="cost.customer">
+                    <option v-for="customer in customers" :value="customer">
+                        {{customerNames[customer]}}
+                    </option>
+                </select>
+                <label :for="'cost_' + cIdx">
+                    <fmt:message key="delivery.cost"/>
+                </label>
+                <input :id="'cost_' + cIdx" v-model="cost.cost" type="number" autocomplete="off" onfocus="this.select()">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <span class="mini-close" v-on:click="addCost()">
+                    <fmt:message key="deal.add.delivery.cost"/>
+                </span>
             </td>
         </tr>
         <tr>

@@ -3,6 +3,10 @@
  */
 const DEBUG = false;
 
+function readystatechange(e) {
+
+}
+
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (url) {
         if (context && url.substring(0, context.length) !== context) {

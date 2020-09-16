@@ -16,4 +16,6 @@ public interface TransportationDAO {
     void save(TransportationProduct product);
 
     List<Transportation> getTransportationsByDealProduct(Object product);
+
+    List<Transportation> getActiveTransportation();
 }

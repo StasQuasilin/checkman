@@ -5,6 +5,7 @@ import constants.Constants;
 import entity.DealType;
 import entity.Worker;
 import entity.answers.IAnswer;
+import entity.deal.DeliveryCost;
 import entity.documents.Deal;
 import entity.documents.DealProduct;
 import entity.documents.Shipper;
@@ -12,6 +13,7 @@ import entity.log.comparators.DealComparator;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.transport.ActionTime;
+import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -27,6 +29,7 @@ import utils.hibernate.dbDAOService;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -130,6 +133,37 @@ public class DealEditor implements Constants {
             deal.setShipper(shipper);
             save = true;
         }
+
+        final HashMap<Integer, DeliveryCost> costHashMap = new HashMap<>();
+        if (deal.getCosts() != null){
+            for (DeliveryCost cost : deal.getCosts()){
+                costHashMap.put(cost.getId(), cost);
+            }
+            deal.getCosts().clear();
+        }
+        if (body.containsKey(Constants.COSTS)) {
+            for (Object c : (JSONArray) body.get(Constants.COSTS)) {
+                JSONObject object = (JSONObject) c;
+                System.out.println(object);
+                final int id = Integer.parseInt(String.valueOf(object.get(ID)));
+                DeliveryCost deliveryCost = costHashMap.remove(id);
+                if (deliveryCost == null) {
+                    deliveryCost = new DeliveryCost();
+                    deliveryCost.setDeal(deal);
+                }
+                TransportCustomer customer = TransportCustomer.valueOf(String.valueOf(object.get(CUSTOMER)));
+                deliveryCost.setCustomer(customer);
+
+                float cost = Float.parseFloat(String.valueOf(object.get(COST)));
+                deliveryCost.setCost(cost);
+                deal.getCosts().add(deliveryCost);
+                save = true;
+            }
+        }
+        for (DeliveryCost deliveryCost : costHashMap.values()) {
+            dao.remove(deliveryCost);
+        }
+
 
         if (save) {
             if (isNew) {

@@ -33,7 +33,7 @@
 </script>
 <div id="container">
     <div v-for="(value, key) in items" class="container-item"
-         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: inline-block"
+         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: flex; flex-direction: column"
          :id="value.item.id" v-on:click="edit(value.item.id)">
         <div class="upper-row">
             {{new Date(value.item.date).toLocaleDateString()}}

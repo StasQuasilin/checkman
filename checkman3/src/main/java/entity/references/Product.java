@@ -57,13 +57,14 @@ public class Product extends JsonAble {
         final JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, id);
         jsonObject.put(NAME, name);
-        jsonObject.put(GROUP, group);
+
         return jsonObject;
     }
 
     @Override
     public JSONObject toJson() {
         final JSONObject jsonObject = toShortJson();
+        jsonObject.put(GROUP, group);
         if (analysesType != null) {
             jsonObject.put(ANALYSES_TYPE, analysesType);
         }

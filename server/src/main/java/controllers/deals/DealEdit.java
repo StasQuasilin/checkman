@@ -7,6 +7,7 @@ import entity.DealType;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.products.ProductAction;
+import entity.transport.TransportCustomer;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
@@ -25,6 +26,10 @@ public class DealEdit extends IModal {
 
     private static final String _CONTENT = "/pages/deals/dealEdit.jsp";
     private final Logger log = Logger.getLogger(DealEdit.class);
+    private final TransportCustomer[] customers = new TransportCustomer[]{
+            TransportCustomer.szpt,
+            TransportCustomer.cont
+    };
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,17 +48,17 @@ public class DealEdit extends IModal {
         if (id != -1) {
             req.setAttribute(DEAL, dao.getDealById(id));
             req.setAttribute(TITLE, Constants.Languages.DEAL_EDIT);
-            log.info("User \'" + worker.getValue() + "\' open edit deal \'" + id + "\'");
+            log.info("User '" + worker.getValue() + "' open edit deal '" + id + "'");
         } else if (copy != -1){
             Deal deal = dao.getDealById(copy);
             deal.setId(-1);
             deal.setComplete(0);
             req.setAttribute(DEAL, deal);
             req.setAttribute(TITLE, Constants.Languages.DEAL_COPY);
-            log.info("User \'" + worker.getValue() + "\' open copy deal \'" + copy + "\'");
+            log.info("User '" + worker.getValue() + "' open copy deal '" + copy + "'");
         } else {
             req.setAttribute(TITLE, Constants.Languages.DEAL_CREATE);
-            log.info("User \'" + worker.getValue() + "\' open create new deal");
+            log.info("User '" + worker.getValue() + "' open create new deal");
 
         }
 
@@ -62,6 +67,7 @@ public class DealEdit extends IModal {
         req.setAttribute(TYPES, DealType.values());
         req.setAttribute(PRODUCTS, dao.getProductList());
         req.setAttribute(SHIPPERS, dao.getShipperList());
+        req.setAttribute(CUSTOMERS, customers);
         req.setAttribute(UNITS, dao.getWeightUnits());
         req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
         req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);

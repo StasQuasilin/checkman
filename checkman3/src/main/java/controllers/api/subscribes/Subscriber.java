@@ -1,7 +1,9 @@
 package controllers.api.subscribes;
 
+import com.google.common.eventbus.Subscribe;
 import controllers.api.subscribes.handlers.DealHandler;
 import controllers.api.subscribes.handlers.Handler;
+import controllers.api.subscribes.handlers.TransportationHandler;
 import entity.deals.DealType;
 
 import javax.websocket.Session;
@@ -20,6 +22,7 @@ public class Subscriber {
     {
         addHandler(new DealHandler(Subscribes.deals_buy, DealType.buy));
         addHandler(new DealHandler(Subscribes.deals_sell, DealType.sell));
+        addHandler(new TransportationHandler());
     }
 
     private void addHandler(Handler handler) {

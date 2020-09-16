@@ -86,4 +86,5 @@ public interface Keys {
     String SAVE_TRANSPORTATION = "saveTransportation";
     String SAVE_CARRIAGE = "saveCarriage";
     String CUSTOMERS = "customers";
+    String TRANSPORTATION = "transportation";
 }

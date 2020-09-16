@@ -5,13 +5,13 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <script>
-    let closeEvents = [];
-    let saveEvents = [];
+    closeEvents = [];
+    saveEvents = [];
     function addOnCloseEvent(event){
         closeEvents.push(event);
     }
     function closeModal(){
-        for (var e in closeEvents){
+        for (let e in closeEvents){
             if (closeEvents.hasOwnProperty(e)){
                 closeEvents[e]();
             }

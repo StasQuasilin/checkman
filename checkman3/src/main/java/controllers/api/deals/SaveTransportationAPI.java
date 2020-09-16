@@ -34,7 +34,7 @@ public class SaveTransportationAPI extends API {
     private final TransportationSaver transportationSaver = new TransportationSaver();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final JsonObject body = parseBody(req);
         Answer answer;
         if (body != null){

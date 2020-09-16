@@ -51,9 +51,9 @@
         </c:forEach>
     }
 </script>
-<div id="container">
+<div id="container" class="item-container">
     <div v-for="(value, key) in getItems()" class="container-item"
-         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: inline-block">
+         :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: flex; flex-direction: column">
         <div class="turn-date" :class="'t-' + value.item.number">
             <span>
                 {{new Date(value.item.date).toLocaleDateString()}}

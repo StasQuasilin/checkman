@@ -71,7 +71,7 @@ dealShow = new Vue({
                 }
                 let item = tr[date];
                 item.count++;
-                item.amount += parseFloat(transportation.amount);
+                item.amount += parseFloat(transportation.documents[0].products[0].amount);
             }
             return tr;
         }
@@ -84,6 +84,7 @@ dealShow = new Vue({
             if (!item.dealProduct){
                 item.dealProduct = this.dealProduct;
             }
+            item.save = 0;
             let key = item.key;
 
             let saver = this.savers[key];
@@ -92,9 +93,11 @@ dealShow = new Vue({
             }
 
             saver = setTimeout(function () {
-                PostApi(api, item, function (a) {
-                    console.log(a)
-                });
+                // PostApi(api, item, function (a) {
+                //     console.log(a)
+                // });
+                console.log(item);
+                Vue.set(item, 'save', 1);
             }, 1000);
             this.savers[key] = saver;
         },
@@ -102,10 +105,21 @@ dealShow = new Vue({
             let item = {
                 id:-1,
                 date:this.getTransportationDate(),
-                amount:25,
+
                 customer:this.customers[0],
                 inCarriage:false,
-                carriage:-1
+                carriage:-1,
+                documents:[
+                    {
+                        id:-1,
+                        products:[
+                            {
+                                id:-1,
+                                amount:25,
+                            }
+                        ]
+                    }
+                ]
             };
             this.transportations.push(item);
             this.saveTransportation(item);
@@ -139,15 +153,22 @@ dealShow = new Vue({
             })
         },
         checkDetails:function () {
-            this.dealProduct = this.dealMap[this.deal].documents[0].products[0].id;
-            const self = this;
-            PostApi(this.api.dealDetails, {dealProduct:this.dealProduct}, function (a) {
-                console.log(a);
-                if (a.status === 'success'){
-                    let result = a.result;
-                    self.transportations = result.transportations;
-                }
-            })
+            let dealMap = this.dealMap;
+            if (dealMap) {
+                this.dealProduct = this.dealMap[this.deal].documents[0].products[0].id;
+                const self = this;
+                PostApi(this.api.dealDetails, {dealProduct: this.dealProduct}, function (a) {
+                    console.log(a);
+                    if (a.status === 'success') {
+                        let result = a.result;
+                        self.transportations = result.transportations;
+                    }
+                }, function (e) {
+                    console.log(e);
+                })
+            } else {
+                console.log(dealMap)
+            }
         },
         getTransportations:function () {
             if (this.transportationDate){
