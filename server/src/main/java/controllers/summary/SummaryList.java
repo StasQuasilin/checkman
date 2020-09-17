@@ -35,6 +35,7 @@ public class SummaryList extends IUIServlet {
 			}
 		}
 		req.setAttribute(TRANSPORT_CARRIAGES, Branches.UI.TRANSPORT_CARRIAGES);
+		req.setAttribute(TRANSPORT_COST, Branches.UI.TRANSPORT_COST);
 		req.setAttribute(PRINT, Branches.UI.SUMMARY_PLAN_PRINT);
 		req.setAttribute(TITLE, Titles.SUMMARY_LIST);
 		req.setAttribute(TYPES, DealType.values());

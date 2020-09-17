@@ -61,6 +61,8 @@
       </div>
       <c:set value="0" var="correction"/>
       <c:set value="0" var="total"/>
+      <c:set value="0" var="totalCost"/>
+      <c:set value="0" var="productCost"/>
 
       <table style="border-bottom: solid black 1.5pt">
         <tr>
@@ -83,39 +85,18 @@
           <th colspan="5">
             <fmt:message key="weight"/>
           </th>
-          <c:choose>
-            <c:when test="${t.key.analysesType eq 'sun'}">
-              <th colspan="2">
-                <fmt:message key="sun.humidity"/>
-              </th>
-              <th rowspan="2">
-                <fmt:message key="sun.soreness"/>
-              </th>
-              <th rowspan="2">
-                <fmt:message key="sun.oiliness"/>
-              </th>
-              <th rowspan="2">
-                <fmt:message key="recount.percentage"/>
-              </th>
-            </c:when>
-            <c:when test="${t.key.analysesType eq 'oil'}">
-              <th rowspan="2">
-                <fmt:message key="oil.color.value"/>
-              </th>
-              <th rowspan="2">
-                <fmt:message key="sun.acid.value"/>
-              </th>
-              <th rowspan="2">
-                <fmt:message key="oil.peroxide"/>
-              </th>
-              <th rowspan="2">
-                <fmt:message key="oil.phosphorus"/>
-              </th>
-              <th rowspan="2">
-                <fmt:message key="sun.humidity"/>
-              </th>
-            </c:when>
-          </c:choose>
+          <th rowspan="2">
+            <fmt:message key="deal.price"/>
+          </th>
+          <th rowspan="2">
+            <fmt:message key="product.amount"/>
+          </th>
+          <th rowspan="2">
+            <fmt:message key="delivery.cost"/>
+          </th>
+          <th rowspan="2">
+            <fmt:message key="unit.delivery.cost"/>
+          </th>
         </tr>
         <tr>
           <th>
@@ -138,16 +119,6 @@
           <th colspan="2">
             <fmt:message key="weight.creadit.netto"/>:
           </th>
-          <c:choose>
-            <c:when test="${t.key.analysesType eq 'sun'}">
-              <th>
-                <fmt:message key="transportation.automobile"/>
-              </th>
-              <th>
-                <fmt:message key="transportation.automobile.trailer"/>
-              </th>
-            </c:when>
-          </c:choose>
         </tr>
         <c:forEach items="${t.value}" var="transport">
           <tr style="border-top: solid black 1.5pt">
@@ -190,73 +161,53 @@
                 <fmt:formatNumber value="${(transport.weight.correctedNetto-transport.weight.netto)}" maxFractionDigits="3"/>
               </c:if>
             </td>
-            <c:choose>
-              <c:when test="${transport.sunAnalyses ne null}">
-                <td rowspan="2" align="center">
+            <td rowspan="2" style="text-align: center">
+              <fmt:formatNumber value="${transport.deal.price}" var="price"/>
+                ${fn:replace(price, ",", "&nbsp;")}
+            </td>
+            <td rowspan="2" style="text-align: center">
+              <c:if test="${transport.weight.netto > 0}">
+                <fmt:formatNumber value="${transport.deal.price * transport.weight.netto}" var="pc"/>
+                <c:set var="productCost" value="${productCost + transport.deal.price * transport.weight.netto}"/>
+                ${fn:replace(pc, ",", "&nbsp;")}
+              </c:if>
+            </td>
+            <td rowspan="2" style="text-align: center">
+              <c:forEach items="${transport.deal.costs}" var="cost">
+                <c:choose>
+                  <c:when test="${not empty transport.transporter.organisationWe}">
+                    <c:if test="${cost.customer eq 'szpt'}">
+                      ${cost.cost}
+                      <c:set var="totalCost" value="${totalCost + cost.cost}"/>
+                    </c:if>
+                  </c:when>
+                  <c:otherwise>
+                    <c:if test="${cost.customer ne 'szpt'}">
+                      ${cost.cost}
+                      <c:set var="totalCost" value="${totalCost + cost.cost}"/>
+                    </c:if>
+                  </c:otherwise>
+                </c:choose>
+              </c:forEach>
+            </td>
+            <td rowspan="2" style="text-align: center">
+              <c:if test="${transport.weight.netto > 0}">
+                <c:forEach items="${transport.deal.costs}" var="cost">
                   <c:choose>
-                    <c:when test="${transport.sunAnalyses.humidity1 > 7}">
-                      <b>
-                        <fmt:formatNumber value="${transport.sunAnalyses.humidity1}"/> %
-                      </b>
+                    <c:when test="${not empty transport.transporter.organisationWe}">
+                      <c:if test="${cost.customer eq 'szpt'}">
+                        <fmt:formatNumber value="${cost.cost / transport.weight.netto}" pattern="##.###"/>
+                      </c:if>
                     </c:when>
                     <c:otherwise>
-                      <fmt:formatNumber value="${transport.sunAnalyses.humidity1}"/> %
+                      <c:if test="${cost.customer ne 'szpt'}">
+                        <fmt:formatNumber value="${cost.cost / transport.weight.netto}" pattern="##.###"/>
+                      </c:if>
                     </c:otherwise>
                   </c:choose>
-                </td>
-                <td rowspan="2" align="center">
-                  <c:if test="${transport.sunAnalyses.humidity2 > 0}">
-                    <c:choose>
-                      <c:when test="${transport.sunAnalyses.humidity2 > 7}">
-                        <b>
-                          <fmt:formatNumber value="${transport.sunAnalyses.humidity2}"/> %
-                        </b>
-                      </c:when>
-                      <c:otherwise>
-                        <fmt:formatNumber value="${transport.sunAnalyses.humidity2}"/> %
-                      </c:otherwise>
-                    </c:choose>
-                  </c:if>
-                </td>
-                <td rowspan="2" align="center">
-                  <c:choose>
-                    <c:when test="${transport.sunAnalyses.soreness > 3}">
-                      <b>
-                        <fmt:formatNumber value="${transport.sunAnalyses.soreness}"/> %
-                      </b>
-                    </c:when>
-                    <c:otherwise>
-                      <fmt:formatNumber value="${transport.sunAnalyses.soreness}"/> %
-                    </c:otherwise>
-                  </c:choose>
-                </td>
-                <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.sunAnalyses.oiliness}"/> %
-                </td>
-                <td rowspan="2" align="center">
-                  <c:if test="${transport.weight.correction ne 0}">
-                    <fmt:formatNumber value="${transport.weight.correction}"/> %
-                  </c:if>
-                </td>
-              </c:when>
-              <c:when test="${transport.oilAnalyses ne null}">
-                <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.oilAnalyses.color}"/>
-                </td>
-                <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.oilAnalyses.acidValue}"/>
-                </td>
-                <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.oilAnalyses.peroxideValue}"/>
-                </td>
-                <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.oilAnalyses.phosphorus}"/>
-                </td>
-                <td rowspan="2" align="center">
-                  <fmt:formatNumber value="${transport.oilAnalyses.humidity}"/> %
-                </td>
-              </c:when>
-            </c:choose>
+                </c:forEach>
+              </c:if>
+            </td>
           </tr>
           <tr>
             <td>
@@ -275,13 +226,34 @@
         </c:forEach>
       </table>
       <div style="padding-top: 12pt">
-        <fmt:message key="amount.total.carriage"/>: <fmt:formatNumber value="${total}" maxFractionDigits="3"/>
+        <fmt:message key="amount.total.carriage"/>:
+        <fmt:formatNumber value="${total}" maxFractionDigits="3" var="c"/>
+          ${fn:replace(c, ",", "&nbsp;")}
       </div>
       <c:if test="${total ne correction}">
         <div>
-          <fmt:message key="valid.weight"/>: <fmt:formatNumber value="${correction}" maxFractionDigits="3"/>
+          <fmt:message key="valid.weight"/>:
+          <fmt:formatNumber value="${correction}" maxFractionDigits="3" var="vw"/>
+            ${fn:replace(vw, ",", "&nbsp;")}
         </div>
       </c:if>
+      <c:if test="${productCost > 0}">
+        <div>
+          <fmt:message key="total.product.cost"/>:
+          <fmt:formatNumber value="${productCost}" var="pc"/>
+            ${fn:replace(pc, ",", "&nbsp;")}
+        </div>
+      </c:if>
+      <c:if test="${totalCost > 0}">
+        <div>
+          <fmt:message key="total.delivery.cost"/>:
+          <fmt:formatNumber value="${totalCost}" var="tc"/>
+          ${fn:replace(tc, ",", "&nbsp;")}
+        </div>
+      </c:if>
+      <div style="padding-bottom: 12pt">
+        &nbsp;
+      </div>
     </c:forEach>
   </div>
 </html>

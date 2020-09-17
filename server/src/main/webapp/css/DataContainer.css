@@ -1,5 +1,6 @@
 .container{
-
+    display: flex;
+    flex-direction: column;
 }
 .turn-date{
     padding: 0 8pt;

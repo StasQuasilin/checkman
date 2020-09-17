@@ -1,7 +1,7 @@
 /**
  * Created by quasilin on 01.04.2019.
  */
-var editor = new Vue({
+editor = new Vue({
     el: '#editor',
     data:{
         api:{
@@ -20,7 +20,7 @@ var editor = new Vue({
     methods:{
         findManager:function(){
             clearTimeout(this.fnd);
-            var inp = this.probe.manager.value;
+            let inp = this.probe.manager.value;
             if (inp) {
                 const self = this;
                 this.fnd = setTimeout(function () {
@@ -42,16 +42,20 @@ var editor = new Vue({
         },
         findOrganisation:function(){
             clearTimeout(this.fnd);
-            var inp = this.probe.organisation.value;
-            if (inp) {
-                const self = this;
-                this.fnd = setTimeout(function () {
-                    PostApi(self.api.findOrganisation, {key : inp}, function (a) {
-                        self.foundOrganisations = a;
-                    })
-                }, 500);
-            } else {
+            if (event.key === 'Escape'){
                 this.foundOrganisations = [];
+            } else {
+                let inp = this.probe.organisation.value;
+                if (inp) {
+                    const self = this;
+                    this.fnd = setTimeout(function () {
+                        PostApi(self.api.findOrganisation, {key: inp}, function (a) {
+                            self.foundOrganisations = a;
+                        })
+                    }, 500);
+                } else {
+                    this.foundOrganisations = [];
+                }
             }
         },
         setOrganisation:function(organisation){

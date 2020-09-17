@@ -7,6 +7,7 @@ import entity.bot.UserBotSetting;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
+import entity.laboratory.probes.SunProbe;
 import entity.laboratory.storages.StorageAnalyses;
 import entity.laboratory.subdivisions.extraction.*;
 import entity.laboratory.subdivisions.kpo.KPOPart;
@@ -171,6 +172,37 @@ public class TelegramNotificator extends INotificator {
                 }
             }
         }
+    }
+
+    public void sunProbe(SunProbe probe) {
+        HashMap<String, String> messages = new HashMap<>();
+        for (UserBotSetting setting : getSettings()){
+            if (setting.isShow()) {
+                boolean show = setting.getAnalyses() == NotifyStatus.all;
+                if (show) {
+                    String language = setting.getLanguage();
+                    if (!messages.containsKey(language)){
+                        messages.put(language, getMessage(probe, language));
+                    }
+                    sendMessage(setting.getTelegramId(), messages.get(language), null);
+                }
+            }
+        }
+    }
+
+    String getMessage(SunProbe probe, String language){
+
+        return STAR + lb.get(language, "telegram.sun.probe") + STAR + NEW_LINE + NEW_LINE +
+                lb.get(language, "deal.organisation") + COLON + SPACE + probe.getOrganisation() + NEW_LINE +
+                lb.get(language, "deal.manager") + COLON + SPACE + probe.getManager() + NEW_LINE +
+                (probe.getAnalyses().isContamination() ? ATTENTION + lb.get(language, "sun.contamination") : "") +
+                String.format(lb.get(language, "bot.notificator.humidity"), probe.getAnalyses().getHumidity1()) + NEW_LINE +
+                String.format(lb.get(language, "bot.notificator.soreness"), probe.getAnalyses().getSoreness()) + NEW_LINE +
+                String.format(lb.get(language, "bot.notificator.oiliness"), probe.getAnalyses().getOiliness()) + NEW_LINE +
+                String.format(lb.get(language, "bot.notificator.oil.impurity"), probe.getAnalyses().getOilImpurity()) + NEW_LINE +
+                String.format(lb.get(language, "bot.notificator.oil.acid"), probe.getAnalyses().getAcidValue()) + NEW_LINE;
+
+
     }
 
     public static final String ATTENTION = "";//"‼";
@@ -814,4 +846,6 @@ public class TelegramNotificator extends INotificator {
             }
         }
     }
+
+
 }

@@ -15,6 +15,7 @@ var objectInput = {
     },
     methods:{
         findObject:function(){
+            console.log(event);
             if (this.props.find) {
                 clearTimeout(this.timer);
                 if (this.input) {
@@ -89,7 +90,6 @@ var objectInput = {
                     if (a.status === 'success') {
                         self.putObject(a.result);
                     }
-
                 });
             }
             this.closeInput();

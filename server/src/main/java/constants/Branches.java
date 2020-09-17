@@ -127,6 +127,7 @@ public class Branches {
         public static final String ROUND_REPORTS = "/round/reports/list.j";
         public static final String CUSTOM_TIME = "/transportation/custom-time.j";
         public static final String USER_PAGE = "/user/page.j";
+        public static final String TRANSPORT_COST = "/transport/cost.j";
 
 
         public class Extraction {
@@ -327,6 +328,7 @@ public class Branches {
         public static final String SAVE_CUSTOM_TIME = API + "/custom/time";
         public static final String SAVE_USER_DATA = API + "/save/user";
         public static final String USER_DELETE = API + "/delete/user";
+        public static final String TRANSPORT_COST = API + "/transport/cost";
 
         public class References {
             public static final String API = Branches.API.API + "/references";

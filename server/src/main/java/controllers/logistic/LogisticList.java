@@ -48,6 +48,7 @@ public class LogisticList extends IUIServlet{
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
         req.setAttribute(TRANSPORT_CARRIAGES, Branches.UI.TRANSPORT_CARRIAGES);
+        req.setAttribute(TRANSPORT_COST, Branches.UI.TRANSPORT_COST);
         req.setAttribute(PRINT, Branches.UI.SUMMARY_PLAN_PRINT);
         show(req, resp);
     }

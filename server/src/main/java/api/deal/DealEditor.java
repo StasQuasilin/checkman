@@ -29,6 +29,7 @@ import utils.hibernate.dbDAOService;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -140,6 +141,8 @@ public class DealEditor implements Constants {
                 costHashMap.put(cost.getId(), cost);
             }
             deal.getCosts().clear();
+        } else {
+            deal.setCosts(new HashSet<>());
         }
         if (body.containsKey(Constants.COSTS)) {
             for (Object c : (JSONArray) body.get(Constants.COSTS)) {
@@ -160,10 +163,10 @@ public class DealEditor implements Constants {
                 save = true;
             }
         }
+
         for (DeliveryCost deliveryCost : costHashMap.values()) {
             dao.remove(deliveryCost);
         }
-
 
         if (save) {
             if (isNew) {

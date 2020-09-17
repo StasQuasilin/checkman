@@ -19,6 +19,7 @@
     oiliness:${probe.analyses.oiliness},
     oilImpurity:${probe.analyses.oilImpurity},
     acidValue:${probe.analyses.acidValue},
+    contamination:${probe.analyses.contamination},
     manager:{
       id:-1,
       value:'${probe.manager}'
@@ -37,6 +38,7 @@
     oiliness:0,
     oilImpurity:0,
     acidValue:0,
+    contamination:false,
     manager:{
       id:-1,
       value:''
@@ -62,7 +64,7 @@
         :
       </td>
       <td>
-        <input id="humidity" type="number" step="0.01" autocomplete="off" v-model="probe.humidity">
+        <input id="humidity" type="number" step="0.01" autocomplete="off" v-model="probe.humidity" onfocus="this.select()">
       </td>
     </tr>
     <tr>
@@ -75,7 +77,7 @@
         :
       </td>
       <td>
-        <input id="soreness" type="number" step="0.01" autocomplete="off" v-model="probe.soreness">
+        <input id="soreness" type="number" step="0.01" autocomplete="off" v-model="probe.soreness" onfocus="this.select()">
       </td>
     </tr>
     <tr>
@@ -88,7 +90,7 @@
         :
       </td>
       <td>
-        <input id="oiliness" type="number" step="0.01" autocomplete="off" v-model="probe.oiliness">
+        <input id="oiliness" type="number" step="0.01" autocomplete="off" v-model="probe.oiliness" onfocus="this.select()">
       </td>
     </tr>
     <tr>
@@ -101,7 +103,7 @@
         :
       </td>
       <td>
-        <input id="oilImpurity" type="number" step="0.01" autocomplete="off" v-model="probe.oilImpurity">
+        <input id="oilImpurity" type="number" step="0.01" autocomplete="off" v-model="probe.oilImpurity" onfocus="this.select()">
       </td>
     </tr>
     <tr>
@@ -114,7 +116,19 @@
         :
       </td>
       <td>
-        <input id="acidValue" type="number" step="0.01" autocomplete="off" v-model="probe.acidValue">
+        <input id="acidValue" type="number" step="0.01" autocomplete="off" v-model="probe.acidValue" onfocus="this.select()">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <span class="mini-close" v-on:click="probe.contamination = !probe.contamination">
+          <span v-if="probe.contamination" style="color: orangered">
+            <fmt:message key="sun.contaminate"/>
+          </span>
+          <span v-else style="color: green">
+            <fmt:message key="sun.contaminate.not"/>
+          </span>
+        </span>
       </td>
     </tr>
     <tr>
@@ -129,7 +143,7 @@
       <td>
         <div>
           <input id="manager" v-model="probe.manager.value" v-on:keyup="findManager()"
-                 onfocus="this.select()" autocomplete="off">
+                 onfocus="this.select()" autocomplete="off" onfocus="this.select()">
           <div class="custom-data-list" v-if="foundManagers.length > 0">
             <div class="custom-data-list-item" v-for="manager in foundManagers" v-on:click="setManager(manager)">
               {{manager.person.value}}
@@ -150,7 +164,7 @@
       <td>
         <div>
           <input id="organisation" v-model="probe.organisation.value" v-on:keyup="findOrganisation()"
-                 onfocus="this.select()" autocomplete="off">
+                 onfocus="this.select()" autocomplete="off" onfocus="this.select()">
           <div class="custom-data-list" v-if="foundOrganisations.length > 0">
             <div class="custom-data-list-item" v-for="organisation in foundOrganisations" v-on:click="setOrganisation(organisation)">
               {{organisation.value}}

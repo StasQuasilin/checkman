@@ -25,11 +25,11 @@ import java.time.LocalDate;
  */
 
 @WebServlet(Branches.API.TRANSPORT_TIME)
-public class TransportTimeServletAPI extends ServletAPI {
+public class TransportTimeAPI extends ServletAPI {
 
     private final TransportComparator comparator = new TransportComparator();
     final UpdateUtil updateUtil = new UpdateUtil();
-    private final Logger log = Logger.getLogger(TransportTimeServletAPI.class);
+    private final Logger log = Logger.getLogger(TransportTimeAPI.class);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

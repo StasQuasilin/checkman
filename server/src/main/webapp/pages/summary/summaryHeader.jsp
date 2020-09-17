@@ -24,6 +24,9 @@
         <div class="drop-menu drop-menu-item" onclick="loadModal('${transportCarriages}')">
           <fmt:message key="transport.carriage.head"/>
         </div>
+        <div class="drop-menu drop-menu-item" onclick="loadModal('${transportCost}')">
+          <fmt:message key="title.reports.transport.cost"/>
+        </div>
       </div>
     </div>
 </div>

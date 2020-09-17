@@ -5,15 +5,12 @@ import constants.Branches;
 import constants.Constants;
 import entity.organisations.Organisation;
 import entity.products.Product;
-import entity.transport.Driver;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.hibernate.DateContainers.BETWEEN;
-import utils.hibernate.DateContainers.GE;
-import utils.hibernate.DateContainers.LE;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,13 +28,13 @@ import java.util.*;
  * Created by szpt_user045 on 25.11.2019.
  */
 @WebServlet(Branches.API.TRANSPORT_CARRIAGE)
-public class TransportationCarriagePrintServletAPI extends ServletAPI{
+public class TransportationCarriagePrintAPI extends ServletAPI{
     private static final String FROM = Constants.FROM;
     private static final String TO = Constants.TO;
     private static final String ORGANISATION = Constants.ORGANISATION;
     private static final String DRIVER = Constants.DRIVER;
     private static final String TRANSPORTATIONS = Constants.TRANSPORTATIONS;
-    private final Logger log = Logger.getLogger(TransportationCarriagePrintServletAPI.class);
+    private final Logger log = Logger.getLogger(TransportationCarriagePrintAPI.class);
     private static final LocalTime time = LocalTime.of(8, 0);
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

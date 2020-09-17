@@ -1,6 +1,8 @@
 package api.laboratory.probes;
 
 import api.ServletAPI;
+import bot.TelegramBotFactory;
+import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
@@ -30,10 +32,10 @@ import java.time.LocalDateTime;
  * Created by szpt_user045 on 01.04.2019.
  */
 @WebServlet(Branches.API.PROBE_SUN_SAVE)
-public class EditSunProbeServletAPI extends ServletAPI {
-
+public class EditSunProbeAPI extends ServletAPI {
 
     final UpdateUtil updateUtil = new UpdateUtil();
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -139,6 +141,10 @@ public class EditSunProbeServletAPI extends ServletAPI {
                 dao.save(analyses);
                 dao.save(probe);
                 updateUtil.onSave(dao.getProbeTurnByTurn(targetTurn.getTurn()));
+                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
+                if (notificator != null){
+                    notificator.sunProbe(probe);
+                }
             }
 
             write(resp, SUCCESS_ANSWER);
