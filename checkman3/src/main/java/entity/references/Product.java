@@ -1,6 +1,7 @@
 package entity.references;
 
 import entity.analyses.AnalysesType;
+import entity.weight.Unit;
 import org.json.simple.JSONObject;
 import utils.json.JsonAble;
 
@@ -14,7 +15,10 @@ public class Product extends JsonAble {
     private int id;
     private String name;
     private AnalysesType analysesType;
+    private Unit unit;
+    private Product parent;
     private boolean group;
+    private boolean main;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +47,24 @@ public class Product extends JsonAble {
         this.analysesType = analysesType;
     }
 
+    @OneToOne
+    @JoinColumn(name = "_unit")
+    public Unit getUnit() {
+        return unit;
+    }
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "_parent")
+    public Product getParent() {
+        return parent;
+    }
+    public void setParent(Product parent) {
+        this.parent = parent;
+    }
+
     @Basic
     @Column(name = "_group")
     public boolean isGroup() {
@@ -52,11 +74,21 @@ public class Product extends JsonAble {
         this.group = group;
     }
 
+    @Basic
+    @Column(name = "_main")
+    public boolean isMain() {
+        return main;
+    }
+    public void setMain(boolean main) {
+        this.main = main;
+    }
+
     @Override
     public JSONObject toShortJson() {
         final JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, id);
         jsonObject.put(NAME, name);
+
 
         return jsonObject;
     }
@@ -69,5 +101,14 @@ public class Product extends JsonAble {
             jsonObject.put(ANALYSES_TYPE, analysesType);
         }
         return jsonObject;
+    }
+
+    @Override
+    public int hashCode() {
+        if (id > 0){
+            return id;
+        } else {
+            return name.hashCode();
+        }
     }
 }

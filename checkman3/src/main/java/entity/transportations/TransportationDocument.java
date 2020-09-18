@@ -3,6 +3,7 @@ package entity.transportations;
 import constants.Keys;
 import entity.deals.DealDocument;
 import entity.references.Address;
+import entity.references.Organisation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.json.JsonAble;
@@ -68,6 +69,15 @@ public class TransportationDocument extends JsonAble {
     public JSONObject toJson() {
         final JSONObject jsonObject = new JSONObject();
         jsonObject.put(Keys.ID, id);
+        jsonObject.put(Keys.DEAL_DOCUMENT, dealDocument.getId());
+        jsonObject.put(Keys.DEAL_NUMBER, dealDocument.getDeal().getNumber());
+        jsonObject.put(Keys.DEAL_DATE, dealDocument.getDeal().getDate().toString());
+
+        final Organisation counterparty = dealDocument.getCounterparty();
+        if (counterparty != null){
+            jsonObject.put(Keys.COUNTERPARTY, counterparty.toJson());
+        }
+
         jsonObject.put(Keys.PRODUCTS, products());
         return jsonObject;
     }

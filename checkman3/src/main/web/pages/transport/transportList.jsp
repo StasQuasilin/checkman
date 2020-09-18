@@ -14,7 +14,7 @@
         subscriber.subscribe('${subscribe}', transportations.handler);
     </script>
 <div id="transportations">
-    <div v-for="item in items" v-on:click="edit(item.id)">
+    <div v-for="item in items" v-on:click="edit(item.id)" style="word-wrap: break-spaces">
         {{item}}
     </div>
 </div>

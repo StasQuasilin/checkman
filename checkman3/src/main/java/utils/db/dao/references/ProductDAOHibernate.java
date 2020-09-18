@@ -3,6 +3,7 @@ package utils.db.dao.references;
 import entity.references.Product;
 import utils.db.hibernate.Hibernator;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static constants.Keys.ID;
@@ -10,6 +11,7 @@ import static constants.Keys.ID;
 public class ProductDAOHibernate implements ProductDAO {
 
     private final Hibernator hibernator = Hibernator.getInstance();
+    private final LinkedList<Product> mainProducts = new LinkedList<>();
 
     @Override
     public Product getProductById(Object id) {
@@ -19,10 +21,17 @@ public class ProductDAOHibernate implements ProductDAO {
     @Override
     public void save(Product product) {
         hibernator.save(product);
+        mainProducts.remove(product);
+        if (product.isMain()){
+            mainProducts.add(product);
+        }
     }
 
     @Override
-    public List<Product> getProducts() {
-        return hibernator.query(Product.class, null);
+    public synchronized List<Product> getProducts() {
+        if (mainProducts.isEmpty()){
+            mainProducts.addAll(hibernator.query(Product.class, "main", true));
+        }
+        return mainProducts;
     }
 }

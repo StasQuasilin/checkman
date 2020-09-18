@@ -27,6 +27,9 @@ body{
     border-bottom: dashed gray 1px;
     padding: 2px 4px;
 }
+.text-button{
+    font-size: 10pt;
+}
 .text-button:hover{
     color: white;
     text-shadow: 0 0 4px #363636;

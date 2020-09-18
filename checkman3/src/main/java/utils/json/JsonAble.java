@@ -7,4 +7,5 @@ public abstract class JsonAble {
         return toJson();
     }
     public abstract JSONObject toJson();
+    public JSONObject jsonForEditor(){ return toJson(); }
 }

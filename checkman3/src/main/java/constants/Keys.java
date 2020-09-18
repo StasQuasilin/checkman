@@ -87,4 +87,7 @@ public interface Keys {
     String SAVE_CARRIAGE = "saveCarriage";
     String CUSTOMERS = "customers";
     String TRANSPORTATION = "transportation";
+    String DEAL_DOCUMENT = "dealDocument";
+    String DEAL_NUMBER = "dealNumber";
+    String DEAL_DATE = "dealDate";
 }

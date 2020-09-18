@@ -104,16 +104,15 @@ public class TransportationProduct extends JsonAble {
         if (carriage != null){
             jsonObject.put(Keys.CARRIAGE, carriage.toShortJson());
         }
+        jsonObject.put(Keys.DEAL_PRODUCT, dealProduct.getId());
+        jsonObject.put(Keys.PRODUCT, dealProduct.getProduct().toShortJson());
         jsonObject.put(Keys.AMOUNT, amount);
+        jsonObject.put(Keys.PRICE, dealProduct.getPrice());
+        jsonObject.put(Keys.SHIPPER, dealProduct.getShipper().toJson());
         jsonObject.put(Keys.UNIT, dealProduct.getUnit().getName());
-        jsonObject.put(Keys.PRODUCT, dealProduct.getProduct().getName());
         if (weight != null){
             jsonObject.put(Keys.WEIGHT, weight.toJson());
         }
-//        if (sunAnalyses != null){
-//            jso
-//        }
-
         return jsonObject;
     }
 }
