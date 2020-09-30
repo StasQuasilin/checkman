@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -45,7 +45,7 @@
         <div class="lower-row" style="font-size: 10pt">
             <div v-if="item.item.sun.length > 0">
                 <b style="color: #535353; font-size: 14pt"><fmt:message key="sun"/></b>
-                <table style="font-size: 10pt; margin-left: 18pt">
+                <table class="probe-table">
                     <tr>
                         <th>
                             <fmt:message key="sun.humidity"/>

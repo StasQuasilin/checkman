@@ -10,6 +10,7 @@ var vroList = new Vue({
         middle:function(item){
             if (!item.middle){
                 let middle = {
+                    dry:0,
                     humidityBefore:0,
                     sorenessBefore:0,
                     humidityAfter:0,
@@ -22,6 +23,7 @@ var vroList = new Vue({
                     if (item.crudes.hasOwnProperty(j)){
                         count++;
                         let crude = item.crudes[j];
+                        middle.dry += crude.dry;
                         middle.humidityBefore += crude.humidityBefore;
                         middle.sorenessBefore += crude.sorenessBefore;
                         middle.humidityAfter += crude.humidityAfter;
@@ -32,6 +34,7 @@ var vroList = new Vue({
                 }
 
                 if (count > 0) {
+                    middle.dry /= count;
                     middle.humidityBefore /= count;
                     middle.sorenessBefore /= count;
                     middle.humidityAfter /= count;
@@ -51,11 +54,18 @@ var vroList = new Vue({
             let arr = Object.assign([], crudes);
             arr.sort(function(a, b){
                 return new Date(a.time) - new Date(b.time);
-            })
+            });
             return arr;
         },
         editDaily:function(id){
             loadModal(this.api.editDaily, {id: id});
+        },
+        sortedGranulas:function(list){
+            let sorted = Object.assign([], list);
+            sorted.sort(function(a, b){
+                return new Date(a.time) - new Date(b.time);
+            });
+            return sorted;
         }
     }
-})
+});

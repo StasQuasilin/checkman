@@ -8,4 +8,6 @@ public interface Links {
     String REPORTS2 = "/reports2" + SUFFIX;
     String REGISTRATION = "/registration" + SUFFIX;
     String LOGOUT = "/logout" + SUFFIX;
+    String REPORT_REMOVE = "/report/remove" + SUFFIX;
+    String MONTH_REPORT = "/month/report" + SUFFIX;
 }

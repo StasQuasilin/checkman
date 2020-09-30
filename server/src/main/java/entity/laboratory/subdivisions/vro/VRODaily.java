@@ -15,13 +15,13 @@ import javax.persistence.*;
 public class VRODaily extends JsonAble {
     private int id;
     private VROTurn turn;
+    private float dryOiliness;
     private float kernelHumidity;
     private float huskHumidity;
     private float huskSoreness;
     private float kernelPercent;
     private float huskPercent;
     private ActionTime createTime;
-    private Worker creator;
 
     @Id
     @GeneratedValue
@@ -39,6 +39,15 @@ public class VRODaily extends JsonAble {
     }
     public void setTurn(VROTurn turn) {
         this.turn = turn;
+    }
+
+    @Basic
+    @Column(name = "dry_oiliness")
+    public float getDryOiliness() {
+        return dryOiliness;
+    }
+    public void setDryOiliness(float dryOiliness) {
+        this.dryOiliness = dryOiliness;
     }
 
     @Basic
@@ -95,15 +104,6 @@ public class VRODaily extends JsonAble {
         this.createTime = createTime;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
-    }
-
     @Override
     public int hashCode() {
         return id;
@@ -113,6 +113,7 @@ public class VRODaily extends JsonAble {
     public JSONObject toJson() {
         JSONObject json = pool.getObject();
         json.put(ID, id);
+        json.put(DRY, dryOiliness);
         json.put(KERNEL_HUMIDITY, kernelHumidity);
         json.put(HUSK_HUMIDITY, huskHumidity);
         json.put(HUSK_SORENESS, huskSoreness);

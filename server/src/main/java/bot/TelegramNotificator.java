@@ -285,29 +285,32 @@ public class TelegramNotificator extends INotificator {
             if(setting.isVro() && setting.isShow()) {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
-                    String message = lb.get(language, "notification.vro.title");
-                    message += NEW_LINE + String.format(lb.get(language, "extraction.turn"), turnNumber, date, time);
-                    message += NEW_LINE + lb.get(language, "notification.vro.before");
-                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityBefore());
-                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessBefore());
-                    message += NEW_LINE + lb.get(language, "notification.vro.after");
-                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityAfter());
-                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessAfter());
-                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.kernel.offset.2"), crude.getKernelOffset());
-                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.huskiness.2"), crude.getHuskiness());
-                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.pulp.1"), crude.getPulpHumidity1());
-                    message += NEW_LINE + String.format(lb.get(language, "notification.vro.pulp.2"), crude.getPulpHumidity2());
+                    StringBuilder message = new StringBuilder(lb.get(language, "notification.vro.title"));
+                    message.append(NEW_LINE).append(String.format(lb.get(language, "extraction.turn"), turnNumber, date, time));
+                    if (crude.getDryOiliness() > 0) {
+                        message.append(NEW_LINE).append(String.format(lb.get(language, "notification.dryOiliness"), crude.getDryOiliness()));
+                    }
+                    message.append(NEW_LINE).append(NEW_LINE).append(lb.get(language, "notification.vro.before"));
+                    message.append(NEW_LINE).append(String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityBefore()));
+                    message.append(NEW_LINE).append(String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessBefore()));
+                    message.append(NEW_LINE).append(NEW_LINE).append(lb.get(language, "notification.vro.after"));
+                    message.append(NEW_LINE).append(String.format(lb.get(language, "notification.vro.humidity"), crude.getHumidityAfter()));
+                    message.append(NEW_LINE).append(String.format(lb.get(language, "notification.vro.soreness"), crude.getSorenessAfter()));
+                    message.append(NEW_LINE).append(NEW_LINE).append(String.format(lb.get(language, "notification.vro.kernel.offset.2"), crude.getKernelOffset()));
+                    message.append(NEW_LINE).append(String.format(lb.get(language, "notification.vro.huskiness.2"), crude.getHuskiness()));
+                    message.append(NEW_LINE).append(String.format(lb.get(language, "notification.vro.pulp.1"), crude.getPulpHumidity1()));
+                    message.append(NEW_LINE).append(String.format(lb.get(language, "notification.vro.pulp.2"), crude.getPulpHumidity2()));
 
-                    message += NEW_LINE;
+                    message.append(NEW_LINE);
                     if (cakes.size() > 0) {
-                        message += NEW_LINE + lb.get(language, "notification.forpress.cake.title");
+                        message.append(NEW_LINE).append(lb.get(language, "notification.forpress.cake.title"));
                         for (ForpressCake cake : cakes) {
-                            message += "\n*" + cake.getForpress().getName() + "*";
-                            message += "\n\t        " + String.format(lb.get(language, "bot.notificator.humidity"), cake.getHumidity());
-                            message += "\n\t        " + String.format(lb.get(language, "bot.notificator.oiliness"), cake.getOiliness());
+                            message.append("\n*").append(cake.getForpress().getName()).append("*");
+                            message.append("\n\t        ").append(String.format(lb.get(language, "bot.notificator.humidity"), cake.getHumidity()));
+                            message.append("\n\t        ").append(String.format(lb.get(language, "bot.notificator.oiliness"), cake.getOiliness()));
                         }
                     }
-                    messages.put(language, message);
+                    messages.put(language, message.toString());
                 }
                 sendMessage(setting.getTelegramId(), messages.get(language), null);
             }

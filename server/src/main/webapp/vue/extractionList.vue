@@ -2,14 +2,14 @@ var extractionList = new Vue({
     el:'#container',
     mixins:[laboratoryList],
     mounted:function(){
-        console.log('Extraction list mounted')
+        console.log('Extraction list mounted');
         let date = Date.now();
     },
     methods:{
         crudeEdit:function(id, date){
             let data = {
                 id:id
-            }
+            };
             if (date){
                 data.date = date.toISOString();
             }
@@ -149,15 +149,15 @@ var extractionList = new Vue({
         },
         editCellulose:function(id){
             if (this.api.celluloseEdit){
-                this.edit(this.api.celluloseEdit, id)
+                this.edit(this.api.celluloseEdit, {id:id})
             }
         },
         sortedGranulas:function(list){
             let sorted = Object.assign([], list);
             sorted.sort(function(a, b){
                 return new Date(a.time) - new Date(b.time);
-            })
+            });
             return sorted;
         },
     }
-})
+});

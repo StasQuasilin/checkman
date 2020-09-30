@@ -1,5 +1,6 @@
 package controllers.reports;
 
+import constants.Keys;
 import constants.Links;
 import controllers.Modal;
 import entity.Report;
@@ -40,6 +41,7 @@ public class ReportShow extends Modal {
                 req.setAttribute(CONTENT, PAGE);
             }
         }
+        req.setAttribute(Keys.REPORT_REMOVE, Links.REPORT_REMOVE);
         show(req, resp);
     }
 }

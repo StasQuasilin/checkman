@@ -84,7 +84,9 @@ public class OilProbe extends IProbe{
     public JSONObject toJson() {
         JSONObject object = pool.getObject();
         object.put(ID, id);
-        object.put(DATE, date.toString());
+        if (date != null) {
+            object.put(DATE, date.toString());
+        }
         object.put(MANAGER, manager);
         object.put(ORGANISATION, organisation);
         object.put(ANALYSES, analyses.toJson());

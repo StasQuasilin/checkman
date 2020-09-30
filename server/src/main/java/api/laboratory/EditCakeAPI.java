@@ -22,9 +22,9 @@ import java.sql.Timestamp;
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_CAKE)
-public class EditCakeServletAPI extends ServletAPI {
+public class EditCakeAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(EditCakeServletAPI.class);
+    private final Logger log = Logger.getLogger(EditCakeAPI.class);
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -32,7 +32,7 @@ public class EditCakeServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             long planId = (long) body.get(Constants.PLAN);
-            log.info("Edit CAKE analyses for plan \'" + planId + "\'...");
+            log.info("Edit CAKE analyses for plan '" + planId + "'...");
 
             Transportation transportation = dao.getTransportationById(planId);
             MealAnalyses mealAnalyses = transportation.getMealAnalyses();

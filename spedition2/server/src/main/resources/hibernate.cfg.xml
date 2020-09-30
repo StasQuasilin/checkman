@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/spedition_db</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">53721456</property>
+        <property name="current_session_context_class">thread</property>
+        <property name="connection.pool_size">150</property>
+        <property name="show_sql">false</property>
+        <mapping class="entity.references.Person"/>
+        <mapping class="entity.user.User"/>
+        <mapping class="entity.user.UserAccess"/>
+        <mapping class="entity.changes.Location"/>
+        <mapping class="entity.references.Counterparty"/>
+        <mapping class="entity.references.Driver"/>
+        <mapping class="entity.reports.Weight"/>
+        <mapping class="entity.references.Product"/>
+        <mapping class="entity.reports.Report"/>
+        <mapping class="entity.reports.Transportation"/>
+        <mapping class="entity.reports.ReportPoint"/>
+    </session-factory>
+</hibernate-configuration>

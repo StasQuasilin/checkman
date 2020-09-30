@@ -25,6 +25,7 @@
         id:${daily.id},
         date:new Date('${daily.turn.turn.date}').toISOString().substring(0, 10),
         turn:${daily.turn.turn.number},
+        dry:${daily.dryOiliness},
         kernelHumidity:${daily.kernelHumidity},
         huskHumidity:${daily.huskHumidity},
         huskSoreness:${daily.huskSoreness},
@@ -36,6 +37,7 @@
     editor.daily = {
         date:new Date().toISOString().substring(0, 10),
         turn:-1,
+        dry:0,
         kernelHumidity:0,
         huskHumidity:0,
         huskSoreness:0,
@@ -77,6 +79,19 @@
                     {{turn.name}}
                 </option>
             </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="dry">
+                <fmt:message key="dry.oiliness"/>
+            </label>
+        </td>
+        <td>
+            :
+        </td>
+        <td>
+            <input id="dry" type="number" v-model="daily.dry" autocomplete="off" onfocus="this.select()">
         </td>
     </tr>
     <tr>

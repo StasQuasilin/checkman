@@ -4,10 +4,10 @@
         <link rel="stylesheet" href="${context}/css/reports.css">
         <div id="reports">
             <div ref="reportContainer" style="width: 100%; overflow-x: scroll" v-on:scroll="scrollListener()">
-                <table border="1" style="border-collapse: collapse; margin-top: 8px">
+                <table border="1" style="border-collapse: collapse; margin-top: 8px; font-size: 10pt">
                     <tr style="height: 0">
                         <td>&nbsp;</td>
-                        <th v-for="i in 16" style="padding: 0 16px">
+                        <th v-for="i in tableLength" style="padding: 0 16px">
                             {{dateOffset(nowDate(), i-1).toLocaleDateString()}}
                         </th>
                     </tr>
@@ -41,6 +41,5 @@
                 reports.open(id);
             }
         }
-
     </script>
 </html>

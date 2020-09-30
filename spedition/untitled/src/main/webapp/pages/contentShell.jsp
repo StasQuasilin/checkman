@@ -5,10 +5,10 @@
   Time: 16:58
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setBundle basename="messages"/>
 <fmt:setLocale value="${locale}"/>
+<fmt:setBundle basename="messages"/>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<html>
+<html lang="${locale}">
 <head>
     <title><fmt:message key="application.title"/></title>
     <link rel="stylesheet" href="${context}/css/main.css"/>

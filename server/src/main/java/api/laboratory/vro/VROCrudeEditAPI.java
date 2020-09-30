@@ -4,7 +4,6 @@ import api.ServletAPI;
 import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
-import constants.Constants;
 import entity.Worker;
 import entity.laboratory.subdivisions.vro.ForpressCake;
 import entity.laboratory.subdivisions.vro.VROCrude;
@@ -35,9 +34,9 @@ import java.util.List;
  * Created by szpt_user045 on 10.04.2019.
  */
 @WebServlet(Branches.API.VRO_CRUDE_EDIT)
-public class VROCrudeEditServletAPI extends ServletAPI {
+public class VROCrudeEditAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(VROCrudeEditServletAPI.class);
+    private final Logger log = Logger.getLogger(VROCrudeEditAPI.class);
     private UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -97,6 +96,9 @@ public class VROCrudeEditServletAPI extends ServletAPI {
                 crude.setSorenessAfter(sorenessAfter);
                 save = true;
             }
+
+            final float dryOiliness = Float.parseFloat(String.valueOf(body.get("dryOiliness")));
+            crude.setDryOiliness(dryOiliness);
 
             float huskiness = Float.parseFloat(String.valueOf(body.get("huskiness")));
             if (crude.getHuskiness() != huskiness) {

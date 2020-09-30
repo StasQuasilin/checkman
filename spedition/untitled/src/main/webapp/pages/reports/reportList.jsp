@@ -10,7 +10,6 @@
     <body>
         <div id="reports">
             <div v-for="(value, key) in reports">
-                {{value.owner.person.surname}} {{value.owner.person.forename}}
                 <div style="padding-left: 16pt">
                     <div v-for="report in value.reports" class="report" v-on:click="show(report)">
                         <div>
@@ -32,20 +31,6 @@
                     </div>
                 </div>
             </div>
-<%--            <div style="display: inline-block; height: 3em; width: 100%; background-color: orchid;">--%>
-<%--                <div style="width: 98px; display: inline-block"></div>--%>
-<%--                <div v-for="owner in owners" class="cell">--%>
-<%--                    <div>--%>
-<%--                        {{owner.person.surname}}--%>
-<%--                    </div>--%>
-<%--                    <div>--%>
-<%--                        {{owner.person.forename}}--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            <div style="height: calc(100% - 3em); display: inline-block; width: 100%; overflow-y: scroll">--%>
-<%--                <row v-for="i in 14" :date="sumDate(maxDate, i - 1)" :owners="owners"></row>--%>
-<%--            </div>--%>
         </div>
     </body>
     <script src="${context}/vue/templates/reportsCell.vue"></script>

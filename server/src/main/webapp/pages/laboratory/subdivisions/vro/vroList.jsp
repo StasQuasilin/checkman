@@ -56,6 +56,11 @@
                     <th rowspan="2" style="width: 4em">
                         <fmt:message key="time"/>
                     </th>
+                    <th rowspan="2">
+                        <span style="width: 4em; font-size: 8pt; word-wrap: break-spaces">
+                            <fmt:message key="dry.oiliness"/>
+                        </span>
+                    </th>
                     <td colspan="2" align="center">
                         <fmt:message key="vro.sun.before"/>
                     </td>
@@ -124,6 +129,14 @@
                     :id="crude.id" onclick="editableModal('${crudeEdit}')">
                     <td align="center" :id="crude.id" >
                         {{new Date(crude.time).toLocaleTimeString().substring(0, 5)}}
+                    </td>
+                    <td style="text-align: center">
+                        <template v-if="crude.dry > 0">
+                            {{crude.dry.toLocaleString()}}
+                        </template>
+                        <template v-else>
+                            -
+                        </template>
                     </td>
                     <td align="center" :id="crude.id" >
                         {{(crude.humidityBefore).toLocaleString()}}
@@ -199,36 +212,68 @@
             <b>
                 {{oil.color}}
             </b>
-
         </div>
-        <div style="padding-left: 8pt; font-size: 10pt" v-for="g in value.item.granulas"
-             class="selectable" :id="g.id" v-on:click="editGranules(g.id)">
-            <b>
-                <fmt:message key="granules"/>
-            </b>
-            <fmt:message key="vro.volume.density"/>:
-            <b>
-                {{(g.density).toLocaleString()}},
-            </b>
-            <fmt:message key="sun.humidity"/>:
-            <b>
-                {{(g.humidity).toLocaleString()}},
-            </b>
-            <fmt:message key="dust"/>:
-            <b>
-                {{(g.dust).toLocaleString()}},
-            </b>
-            <b v-if="g.match">
-                <fmt:message key="match.dstu"/>
-            </b>
-            <b v-else>
-                <fmt:message key="dsnt.match.dstu"/>
-            </b>
-        </div>
+        <table v-if="value.item.granulas.length > 0">
+            <caption style="text-align: left">
+                <b>
+                    <fmt:message key="granules"/>
+                </b>
+            </caption>
+            <tr>
+                <th>
+                   <fmt:message key="date_time"/>
+                </th>
+                <th>
+                    <fmt:message key="vro.volume.density"/>
+                </th>
+                <th>
+                    <fmt:message key="sun.humidity"/>
+                </th>
+                <th>
+                    <fmt:message key="dust"/>
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+            <tr class="selectable" v-for="g in sortedGranulas(value.item.granulas)" :id="g.id" v-on:click="editGranules(g.id)">
+                <td>
+                    <span style="font-size: 8pt">
+                        {{new Date(g.time).toLocaleDateString().substring(0, 5)}}
+                    </span>
+                    <b>
+                        {{new Date(g.time).toLocaleTimeString().substring(0, 5)}}
+                    </b>
+                </td>
+                <td>
+                    <b>
+                        {{(g.density).toLocaleString()}}
+                    </b>
+                </td>
+                <td>
+                    <b>
+                        {{(g.humidity).toLocaleString()}}
+                    </b>
+                </td>
+                <td>
+                    <b>
+                        {{(g.dust).toLocaleString()}}
+                    </b>
+                </td>
+                <td>
+                    <b v-if="g.match" style="color: green">
+                        &check; <fmt:message key="match.dstu"/>
+                    </b>
+                    <span v-else style="color: orangered">
+                        &times; <fmt:message key="dsnt.match.dstu"/>
+                    </span>
+                </td>
+            </tr>
+        </table>
         <div style="padding-left: 8pt; font-size: 10pt">
             <table style="font-size: 10pt">
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <b>
                             <fmt:message key="vro.turn.analyses"/>
                         </b>
@@ -241,6 +286,10 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        <fmt:message key="dry.oiliness"/>:
+                        {{middle(value.item).dry.toLocaleString()}}
+                    </td>
                     <td>
                         <fmt:message key="vro.huskiness"/>:
                         {{(middle(value.item).huskiness).toLocaleString()}}
@@ -268,6 +317,15 @@
                 </tr>
                 <tr v-for="daily in value.item.dailies" class="selectable"
                     :id="daily.id" v-on:click="editDaily(daily.id)">
+                    <td>
+                        <fmt:message key="dry.oiliness"/>
+                        <template v-if="daily.dry > 0">
+                            {{daily.dry.toLocaleString()}}
+                        </template>
+                        <template v-else>
+                            -
+                        </template>
+                    </td>
                     <td>
                         <fmt:message key="kernel.humidity"/>:
                         {{(daily.kernelHumidity).toLocaleString()}}

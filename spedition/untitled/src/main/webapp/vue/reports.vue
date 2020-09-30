@@ -10,7 +10,8 @@ let reports = new Vue({
         reports:{},
         scroll:0,
         opacity:0,
-        indices:{}
+        indices:{},
+        tableLength:21
     },
     methods:{
         handle(data){
@@ -87,7 +88,7 @@ let reports = new Vue({
             return null;
         },
         getReportCells:function (report) {
-            let length = 16;
+            let length = this.tableLength;
             if (this.reports.hasOwnProperty(report)){
                 let reports = this.reports[report];
                 for (let i in reports){

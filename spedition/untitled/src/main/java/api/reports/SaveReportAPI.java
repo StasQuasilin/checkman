@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,6 +42,16 @@ public class SaveReportAPI extends ServletAPI {
             Report report = reportDAO.getReportByUUID(body.get(Keys.ID));
 
             if (report == null){
+                final List<Report> notClosetReports = reportDAO.getNotClosetReports(user);
+                if (notClosetReports.size() > 0){
+                    answer = new ErrorAnswer("Have not closed reports");
+                    JSONArray reports = new JSONArray();
+                    for (Report r : notClosetReports){
+                        reports.add(r.toJson());
+                    }
+                    answer.addParam(Keys.REPORTS, reports);
+                    write(resp, answer);
+                }
                 report = new Report();
                 report.setOwner(user);
             }

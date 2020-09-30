@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
  * Created by szpt_user045 on 16.05.2019.
  */
 @WebServlet(Branches.API.EXTRACTION_TURN_CELLULOSE)
-public class TurnCelluloseServletAPI extends ServletAPI {
+public class TurnCelluloseAPI extends ServletAPI {
 
     final UpdateUtil updateUtil = new UpdateUtil();
 

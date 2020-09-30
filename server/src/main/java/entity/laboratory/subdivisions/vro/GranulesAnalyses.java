@@ -91,6 +91,7 @@ public class GranulesAnalyses extends JsonAble{
         json.put(HUMIDITY, humidity);
         json.put(DUST, dust);
         json.put(MATCH, match);
+        json.put(TIME, createTime.getTime().toString());
         return json;
     }
 }

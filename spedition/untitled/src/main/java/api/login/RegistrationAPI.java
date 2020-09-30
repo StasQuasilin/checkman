@@ -62,8 +62,7 @@ public class RegistrationAPI extends ServletAPI {
                 write(resp, SUCCESS_ANSWER);
 
             } else {
-                ErrorAnswer errorAnswer = new ErrorAnswer();
-                errorAnswer.addParam(MESSAGE, "Phone already used");
+                ErrorAnswer errorAnswer = new ErrorAnswer("Phone already used");
                 write(resp, errorAnswer.toJson());
             }
         }

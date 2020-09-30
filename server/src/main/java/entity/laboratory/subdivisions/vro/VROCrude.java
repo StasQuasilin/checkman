@@ -20,6 +20,7 @@ public class VROCrude extends JsonAble implements Comparable<VROCrude>{
     private int id;
     private VROTurn turn;
     private Timestamp time;
+    private float dryOiliness;
     private float humidityBefore;
     private float sorenessBefore;
     private float humidityAfter;
@@ -30,7 +31,6 @@ public class VROCrude extends JsonAble implements Comparable<VROCrude>{
     private float pulpHumidity2;
     private Set<ForpressCake> forpressCakes;
     private ActionTime createTime;
-    private Worker creator;
 
     @Id
     @GeneratedValue
@@ -57,6 +57,15 @@ public class VROCrude extends JsonAble implements Comparable<VROCrude>{
     }
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+    @Basic
+    @Column(name = "dry_oiliness")
+    public float getDryOiliness() {
+        return dryOiliness;
+    }
+    public void setDryOiliness(float dryOiliness) {
+        this.dryOiliness = dryOiliness;
     }
 
     @Basic
@@ -148,15 +157,6 @@ public class VROCrude extends JsonAble implements Comparable<VROCrude>{
         this.createTime = createTime;
     }
 
-    @OneToOne
-    @JoinColumn(name = "creator")
-    public Worker getCreator() {
-        return creator;
-    }
-    public void setCreator(Worker creator) {
-        this.creator = creator;
-    }
-
     @Override
     public int hashCode() {
         return id;
@@ -172,6 +172,7 @@ public class VROCrude extends JsonAble implements Comparable<VROCrude>{
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(TIME, time.toString());
+        json.put(DRY, dryOiliness);
         json.put(HUMIDITY_BEFORE, humidityBefore);
         json.put(SORENESS_BEFORE, sorenessBefore);
         json.put(HUMIDITY_AFTER, humidityAfter);

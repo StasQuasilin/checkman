@@ -79,4 +79,11 @@ public class ReportDAO {
     public void save(Weight weight) {
         hibernator.save(weight);
     }
+
+    public List<Report> getNotClosetReports(User user) {
+        final HashMap<String, Object> params = new HashMap<>();
+        params.put("done", null);
+        params.put("owner", user);
+        return hibernator.query(Report.class, params);
+    }
 }

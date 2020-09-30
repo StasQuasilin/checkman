@@ -83,9 +83,6 @@
 }
 .container-item b{
     color: #0a0a0a;
-    /*text-decoration: underline;*/
-    /*border: solid gray 1pt;*/
-    padding: 0 2pt;
 }
 .container-item:hover{
     box-shadow: 0 0 1pt 2pt gray;

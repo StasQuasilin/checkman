@@ -33,7 +33,7 @@ import java.time.LocalTime;
 @WebServlet(Branches.API.VRO_GRANULES_EDIT)
 public class GranulesEditAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(VRODailyEditServletAPI.class);
+    private final Logger log = Logger.getLogger(VRODailyEditAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
     
     @Override

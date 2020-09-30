@@ -8,4 +8,5 @@ public interface ApiLinks {
     String REGISTRATION = API + "/sign/up";
     String REPORTS = API + "/reports";
     String REFERENCES = API + "/references";
+    String GET_REPORTS = API + "/reports/get";
 }

@@ -42,12 +42,6 @@
             minute:30
         }
     ];
-    <c:forEach items="${laborants}" var="l">
-    editor.laborants.push({
-        id:${l.id},
-        value:'${l.person.value}'
-    });
-    </c:forEach>
     editor.forpress = [];
     <c:forEach items="${forpress}" var="f">
     editor.forpress.push({
@@ -56,14 +50,16 @@
     });
     </c:forEach>
     editor.actualForpress = function(){
-        var forpress = [];
+        let forpress = [];
         forpress.push(editor.forpress);
         for (let i in editor.crude.forpressCake){
             if (editor.crude.forpressCake.hasOwnProperty(i)){
                 const id = editor.crude.forpressCake[i].forpress;
                 for (let j in forpress){
-                    if (forpress.hasOwnProperty(j) && forpress[j].id === id) {
-                        forpress.splice(j, 1);
+                    if (forpress.hasOwnProperty(j)){
+                        if (forpress[j].id === id) {
+                            forpress.splice(j, 1);
+                        }
                     }
                 }
             }
@@ -94,6 +90,7 @@
             humidity:${crude.humidityAfter},
             soreness:${crude.sorenessAfter}
         },
+        dryOiliness:${crude.dryOiliness},
         huskiness:${crude.huskiness},
         kernelOffset:${crude.kernelOffset},
         pulpHumidity1:${crude.pulpHumidity1},
@@ -123,6 +120,7 @@
             humidity:0,
             soreness:0
         },
+        dryOiliness:0,
         huskiness:0,
         kernelOffset:0,
         pulpHumidity1:0,
@@ -180,6 +178,19 @@
                                 {{time.hour}}:{{time.minute}}
                             </option>
                         </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="dryOiliness">
+                            <fmt:message key="dry.oiliness"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="dryOiliness" type="number" v-model="crude.dryOiliness" autocomplete="off" onfocus="this.select()">
                     </td>
                 </tr>
                 <tr>

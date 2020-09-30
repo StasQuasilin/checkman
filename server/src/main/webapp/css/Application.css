@@ -369,3 +369,11 @@ input.error {
     height: 100%;
     border: solid gray 1px;
 }
+.probe-table{
+    font-size: 10pt;
+    margin-left: 18pt
+}
+.probe-table *{
+    user-select: text;
+    -moz-user-select: text;
+}

@@ -72,4 +72,8 @@ public interface Keys {
     String USERS = "users";
     String KEY = "key";
     String DRIVERS = "drivers";
+    String REPORTS = "reports";
+    String REPORT_REMOVE = "reportRemove";
+    String MONTH_REPORT = "monthReport";
+    String GET_REPORTS = "getReports";
 }

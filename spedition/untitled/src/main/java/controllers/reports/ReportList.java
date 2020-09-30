@@ -1,6 +1,7 @@
 package controllers.reports;
 
 import api.socket.SubscribeType;
+import constants.Keys;
 import constants.Links;
 import controllers.Controller;
 import entity.Role;
@@ -26,6 +27,7 @@ public class ReportList extends Controller {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, "title.report.show");
         req.setAttribute(SHOW, Links.SHOW_REPORT);
+        req.setAttribute(Keys.MONTH_REPORT, Links.MONTH_REPORT);
         req.setAttribute(SUBSCRIBE, SubscribeType.reports);
         final Role role = getRole(req);
         if (role == Role.user){

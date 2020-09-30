@@ -18,11 +18,13 @@ public class Report extends JsonAble {
     private String uuid;
     private Timestamp leaveTime;
     private Product product;
-    private Weight weight;
     private String route;
     private Timestamp done;
     private User owner;
+
     private Driver driver;
+    private Weight weight;
+
     private Set<Expense> fares = new HashSet<>();
     private Set<Expense> expenses = new HashSet<>();
     private int perDiem;

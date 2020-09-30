@@ -47,15 +47,15 @@ public class LoginAPI extends ServletAPI {
                         answer.addParam(USER, access.getUser().getPerson().getValue());
                     }
                 } else {
-                    answer = new ErrorAnswer();
+                    answer = new ErrorAnswer(WRONG_PASSWORD);
                     answer.addParam(REASON, WRONG_PASSWORD);
                 }
             } else {
-                answer = new ErrorAnswer();
+                answer = new ErrorAnswer(NOT_FOUND);
                 answer.addParam(REASON, NOT_FOUND);
             }
         } else {
-            answer = new ErrorAnswer();
+            answer = new ErrorAnswer(EMPTY_BODY);
             answer.addParam(REASON, EMPTY_BODY);
         }
         write(resp, answer.toJson());

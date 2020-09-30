@@ -29,9 +29,9 @@ import java.time.LocalTime;
  * Created by szpt_user045 on 11.04.2019.
  */
 @WebServlet(Branches.API.VRO_DAILY_EDIT)
-public class VRODailyEditServletAPI extends ServletAPI {
+public class VRODailyEditAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(VRODailyEditServletAPI.class);
+    private final Logger log = Logger.getLogger(VRODailyEditAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -62,6 +62,11 @@ public class VRODailyEditServletAPI extends ServletAPI {
                 save = true;
             }
 
+            final float dry = Float.parseFloat(String.valueOf(body.get("dry")));
+            if (daily.getDryOiliness() != dry){
+                daily.setDryOiliness(dry);
+                save = true;
+            }
 
             float kernelHumidity = Float.parseFloat(String.valueOf(body.get("kernelHumidity")));
             if (daily.getKernelHumidity() != kernelHumidity) {
@@ -107,7 +112,6 @@ public class VRODailyEditServletAPI extends ServletAPI {
                 } else {
                     createTime.setCreator(worker);
                 }
-                daily.setCreator(worker);
                 dao.save(createTime, daily);
                 updateUtil.onSave(dao.getVROTurnByTurn(targetTurn.getTurn()));
                 if (currentTurn != null && currentTurn.getId() != targetTurn.getId()) {
