@@ -20,6 +20,7 @@
             to:-1,
             period:false,
             organisation:'',
+            manager:'',
             types:[],
             result:[],
             items:[],
@@ -28,15 +29,17 @@
         methods:{
             find:function(){
                 const self = this;
-                var data = {
-                    organisation:this.organisation
+                let data = {
+                    organisation : this.organisation,
+                    manager : this.manager
                 };
-                if(this.from != -1){
+                if(this.from !== -1){
                     data.from = this.from;
-                    if (this.to != -1){
+                    if (this.to !== -1){
                         data.to = this.to;
                     }
                 }
+
                 PostApi(this.api.find, data, function(a){
                     self.result = [];
                     self.notFound = false;
@@ -55,7 +58,7 @@
             },
             pickDateFrom:function(){
                 const self = this;
-                var from = this.from == -1 ? new Date().toISOString().substring(0, 10) : this.from;
+                let from = this.from === -1 ? new Date().toISOString().substring(0, 10) : this.from;
                 datepicker.show(function(date){
                     self.from = date;
                     if (!self.period){
@@ -74,6 +77,7 @@
                 this.from = -1;
                 this.to = -1;
                 this.organisation = "";
+                this.manager = "";
                 this.result = [];
                 this.notFound = false;
             }
@@ -110,7 +114,19 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input id="organisation" v-model="organisation" autocomplete="off" style="width: 100%">
+            <input id="organisation" v-model="organisation" onfocus="this.select()" autocomplete="off" style="width: 100%">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="font-size: 10pt">
+            <label for="manager">
+                <fmt:message key="deal.manager"/>
+            </label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input id="manager" v-model="manager" onfocus="this.select()" autocomplete="off" style="width: 100%">
         </td>
     </tr>
     <tr>

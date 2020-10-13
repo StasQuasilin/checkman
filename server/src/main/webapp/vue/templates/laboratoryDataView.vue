@@ -1,4 +1,4 @@
-var laboratoryView = {
+laboratoryView = {
     props:{
         item:Object,
         fields:Object

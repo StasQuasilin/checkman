@@ -27,15 +27,16 @@ public class FindProbeAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
-            System.out.println(body);
             Date from = parseDate(body.get(FROM));
             Date to = parseDate(body.get(TO));
             String organisation = String.valueOf(body.get(ORGANISATION));
+            String manager = String.valueOf(body.get(MANAGER));
+
 
             ArrayList<ProbeTurn> probeTurns = new ArrayList<>();
 
-            compileSun(probeTurns, getProbes(SunProbe.class, from, to, organisation));
-            compileOil(probeTurns, getProbes(OilProbe.class, from, to, organisation));
+            compileSun(probeTurns, getProbes(SunProbe.class, from, to, organisation, manager));
+            compileOil(probeTurns, getProbes(OilProbe.class, from, to, organisation, manager));
 
             JSONArray array = pool.getArray();
             for (ProbeTurn turn : probeTurns){
@@ -82,7 +83,7 @@ public class FindProbeAPI extends ServletAPI {
         }
     }
 
-    synchronized <T> List<T> getProbes(Class<T> tClass, Date from, Date to, String organisation){
-        return dao.findProbes(tClass, from, to, organisation);
+    synchronized <T> List<T> getProbes(Class<T> tClass, Date from, Date to, String organisation, String manager){
+        return dao.findProbes(tClass, from, to, organisation, manager);
     }
 }

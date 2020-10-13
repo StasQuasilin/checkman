@@ -46,7 +46,6 @@ import entity.weight.Weight;
 import entity.weight.Unit;
 import utils.ArchiveType;
 import utils.TurnDateTime;
-import utils.hibernate.DateContainers.LT;
 import utils.storages.PointScale;
 
 import java.sql.Date;
@@ -233,7 +232,7 @@ public interface dbDAO {
     List<TruckInfo> getTruckInfo(String number);
     void flush();
     List<Transportation> getTransportationsByDate(Date from, Date to);
-    <T>List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation);
+    <T>List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation, String manager);
     <T>List<T> getObjectsByTimestamp(Class<T> tClass, Timestamp date);
     LegalAddress getLegalAddress(Address address);
     LegalAddress getLegalAddress(Organisation organisation);

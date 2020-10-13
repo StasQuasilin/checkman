@@ -6,7 +6,7 @@
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -24,9 +24,11 @@
         <div class="drop-menu drop-menu-item" onclick="loadModal('${transportCarriages}')">
           <fmt:message key="transport.carriage.head"/>
         </div>
-        <div class="drop-menu drop-menu-item" onclick="loadModal('${transportCost}')">
-          <fmt:message key="title.reports.transport.cost"/>
-        </div>
+        <c:if test="${role eq 'manager' or role eq 'admin'}">
+          <div class="drop-menu drop-menu-item" onclick="loadModal('${transportCost}')">
+            <fmt:message key="title.reports.transport.cost"/>
+          </div>
+        </c:if>
       </div>
     </div>
 </div>

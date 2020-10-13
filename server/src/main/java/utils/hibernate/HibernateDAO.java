@@ -1366,16 +1366,23 @@ public class HibernateDAO implements dbDAO, Constants {
     }
 
     @Override
-    public <T> List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation) {
+    public <T> List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation, String manager) {
 
         HashMap<String, Object> params = hb.getParams();
-        if (from != null || to != null) {
+        if (from != null && to != null) {
             params.put(DATE, new BETWEEN(from, to));
+        } else if (from != null) {
+            params.put(DATE, new LE(from));
+        } else if (to != null) {
+            params.put(DATE, new GE(to));
         }
 
         HashMap<String, String> findData = new HashMap<>();
         if (U.exist(organisation)) {
             findData.put(ORGANISATION, organisation);
+        }
+        if (U.exist(manager)){
+            findData.put(MANAGER, manager);
         }
         return hb.find(tClass, findData, params);
     }

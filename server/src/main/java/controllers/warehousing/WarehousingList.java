@@ -32,6 +32,8 @@ public class WarehousingList extends IUIServlet {
         req.setAttribute(EDIT_STORAGE, Branches.UI.STORAGE_EDIT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(StorageList.STORAGES, dao.getObjects(Storage.class));
+        req.setAttribute(PRINT, Branches.UI.SUMMARY_PLAN_PRINT);
+        req.setAttribute(TRANSPORT_CARRIAGES, Branches.UI.TRANSPORT_CARRIAGES);
         req.setAttribute(TYPES, DealType.values());
         show(req, resp);
     }

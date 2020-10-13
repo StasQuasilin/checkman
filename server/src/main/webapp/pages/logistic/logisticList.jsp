@@ -1,7 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -12,13 +12,14 @@
     }
   }
   </script>
+  <script src="${context}/vue/templates/laboratoryDataView.vue"></script>
   <script src="${context}/vue/templates/vehicleInput.vue"></script>
   <script src="${context}/vue/templates/transportationDataEdit.vue"></script>
   <script src="${context}/vue/templates/priceView.vue"></script>
   <script src="${context}/vue/templates/commentator.vue"></script>
   <script src="${context}/vue/dataList.vue"></script>
   <script>
-    var save = '${save}';
+    let save = '${save}';
     list.fields = {
       trailer:'<fmt:message key="transportation.automobile.trailer"/>',
       license:'<fmt:message key="driver.license"/>',

@@ -34,9 +34,9 @@ public class SummaryList extends IUIServlet {
 				req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
 			}
 		}
+		req.setAttribute(PRINT, Branches.UI.SUMMARY_PLAN_PRINT);
 		req.setAttribute(TRANSPORT_CARRIAGES, Branches.UI.TRANSPORT_CARRIAGES);
 		req.setAttribute(TRANSPORT_COST, Branches.UI.TRANSPORT_COST);
-		req.setAttribute(PRINT, Branches.UI.SUMMARY_PLAN_PRINT);
 		req.setAttribute(TITLE, Titles.SUMMARY_LIST);
 		req.setAttribute(TYPES, DealType.values());
 		req.setAttribute(CONTENT, _CONTENT);

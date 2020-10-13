@@ -12,6 +12,6 @@
   <script src="${context}/vue/templates/commentator.vue"></script>
   <script src="${context}/vue/dataList.vue"></script>
 
-  <jsp:include page="weightHeader.jsp"/>
+  <jsp:include page="../summary/summaryHeader.jsp"/>
   <jsp:include page="../transportListTemplate.jsp"/>
 </html>

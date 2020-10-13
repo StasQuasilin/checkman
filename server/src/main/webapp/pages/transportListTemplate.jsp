@@ -100,7 +100,7 @@
             return new Date(a.item.date) - new Date(b.item.date);
         })
     };
-    var s = 0;
+    s = 0;
     <c:forEach items="${subscribe}" var="s">
     s++;
     subscribe('${s}', function(a){
@@ -243,17 +243,24 @@
                         </div>
                         <transport-view :item="value.item" :fields="fields" :customers="customers"></transport-view>
                     </div>
-                    <div>
+                    <div style="font-size: 8pt; padding: 0 4px">
                         &nbsp;
-                        <div style="font-size: 8pt; float: right">
+                        <span v-if="value.item.driver && value.item.driver.person.phones.length > 0">
+                            <img style="width: 10pt" src="${context}/images/phone.svg">
+                            <span v-for="phone in value.item.driver.person.phones" style="padding: 0 2pt">
+                                {{phone.number}}
+                            </span>
+                        </span>
+                        <span style="float: right;">
                             <fmt:message key="deal.manager"/>:
                             {{value.item.manager.person.value}},
                             <fmt:message key="created"/>:
                             <template v-if="value.item.manager.id != value.item.create.creator.id">
                                 {{value.item.create.creator.person.value}}
                             </template>
-                            {{new Date(value.item.create.time).toLocaleString()}}
-                        </div>
+                            {{new Date(value.item.create.time).toLocaleDateString().substring(0, 5)}}
+                            {{new Date(value.item.create.time).toLocaleTimeString().substring(0, 5)}}
+                        </span>
                     </div>
                     <div class="lower-row" v-if="value.item.notes.length > 0">
                         <a v-for="note in value.item.notes" v-on:click="editComment(note)" style="display: inline-block; padding-left: 4pt">

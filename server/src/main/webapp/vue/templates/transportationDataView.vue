@@ -49,15 +49,6 @@ var transportView = {
                     '</span>'+
                 '</div>' +
             '</div>' +
-            '<div v-if="item.driver && item.driver.person.phones.length > 0" style="position: absolute">' +
-                '<img style="width: 10pt" src="images/phone.svg">' +
-                '<span v-for="phone in item.driver.person.phones" style="padding: 0 2pt">' +
-                    '<span>' +
-                        '{{phone.number}}' +
-                    '</span>' +
-                '</span>' +
-            '</div>' +
-
         '</div>'+
         '<div style="display: inline-block; font-size: 10pt; padding-left: 4pt">' +
             '<div class="data-block">'+

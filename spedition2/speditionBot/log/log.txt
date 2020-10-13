@@ -1,0 +1,99 @@
+06.10.2020 14:23 INFO  BotLPC:32 - Start bot
+06.10.2020 14:23 INFO  Version:44 - HHH000412: Hibernate ORM core version 5.4.21.Final
+06.10.2020 14:23 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+06.10.2020 14:23 WARN  pooling:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+06.10.2020 14:23 INFO  pooling:115 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/bot_db]
+06.10.2020 14:23 INFO  pooling:124 - HHH10001001: Connection properties: {password=****, user=postgres}
+06.10.2020 14:23 INFO  pooling:129 - HHH10001003: Autocommit mode: false
+06.10.2020 14:23 INFO  DriverManagerConnectionProviderImpl:249 - HHH000115: Hibernate connection pool size: 20 (min=1)
+06.10.2020 14:23 INFO  Dialect:170 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+06.10.2020 14:56 INFO  BotLPC:32 - Start bot
+06.10.2020 14:56 INFO  BotLPC:57 - Register command /start
+06.10.2020 14:56 INFO  BotLPC:57 - Register command /list
+06.10.2020 14:56 INFO  BotLPC:57 - Register command /my_name
+06.10.2020 14:56 INFO  BotLPC:57 - Register command /set_name
+06.10.2020 14:56 INFO  BotLPC:57 - Register command /help
+06.10.2020 15:06 INFO  BotLPC:32 - Start bot
+06.10.2020 15:06 INFO  BotLPC:57 - Register command /start
+06.10.2020 15:06 INFO  BotLPC:57 - Register command /list
+06.10.2020 15:06 INFO  BotLPC:57 - Register command /my_name
+06.10.2020 15:06 INFO  BotLPC:57 - Register command /set_name
+06.10.2020 15:06 INFO  BotLPC:57 - Register command /help
+06.10.2020 15:06 INFO  Version:44 - HHH000412: Hibernate ORM core version 5.4.21.Final
+06.10.2020 15:06 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+06.10.2020 15:06 WARN  pooling:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+06.10.2020 15:06 INFO  pooling:115 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/bot_db]
+06.10.2020 15:06 INFO  pooling:124 - HHH10001001: Connection properties: {password=****, user=postgres}
+06.10.2020 15:06 INFO  pooling:129 - HHH10001003: Autocommit mode: false
+06.10.2020 15:06 INFO  DriverManagerConnectionProviderImpl:249 - HHH000115: Hibernate connection pool size: 20 (min=1)
+06.10.2020 15:06 INFO  Dialect:170 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+06.10.2020 15:07 INFO  BotLPC:32 - Start bot
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /start
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /list
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /my_name
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /set_name
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /help
+06.10.2020 15:07 INFO  Version:44 - HHH000412: Hibernate ORM core version 5.4.21.Final
+06.10.2020 15:07 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+06.10.2020 15:07 WARN  pooling:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+06.10.2020 15:07 INFO  pooling:115 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/bot_db]
+06.10.2020 15:07 INFO  pooling:124 - HHH10001001: Connection properties: {password=****, user=postgres}
+06.10.2020 15:07 INFO  pooling:129 - HHH10001003: Autocommit mode: false
+06.10.2020 15:07 INFO  DriverManagerConnectionProviderImpl:249 - HHH000115: Hibernate connection pool size: 20 (min=1)
+06.10.2020 15:07 INFO  Dialect:170 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+06.10.2020 15:07 INFO  BotLPC:32 - Start bot
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /start
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /list
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /my_name
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /set_name
+06.10.2020 15:07 INFO  BotLPC:57 - Register command /help
+06.10.2020 15:07 INFO  Version:44 - HHH000412: Hibernate ORM core version 5.4.21.Final
+06.10.2020 15:07 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+06.10.2020 15:07 WARN  pooling:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+06.10.2020 15:07 INFO  pooling:115 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/bot_db]
+06.10.2020 15:07 INFO  pooling:124 - HHH10001001: Connection properties: {password=****, user=postgres}
+06.10.2020 15:07 INFO  pooling:129 - HHH10001003: Autocommit mode: false
+06.10.2020 15:07 INFO  DriverManagerConnectionProviderImpl:249 - HHH000115: Hibernate connection pool size: 20 (min=1)
+06.10.2020 15:07 INFO  Dialect:170 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+06.10.2020 16:10 INFO  BotLPC:32 - Start bot
+06.10.2020 16:10 INFO  BotLPC:57 - Register command /start
+06.10.2020 16:10 INFO  BotLPC:57 - Register command /list
+06.10.2020 16:10 INFO  BotLPC:57 - Register command /my_name
+06.10.2020 16:10 INFO  BotLPC:57 - Register command /set_name
+06.10.2020 16:10 INFO  BotLPC:57 - Register command /help
+06.10.2020 16:10 INFO  Version:44 - HHH000412: Hibernate ORM core version 5.4.21.Final
+06.10.2020 16:10 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+06.10.2020 16:10 WARN  pooling:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+06.10.2020 16:10 INFO  pooling:115 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/bot_db]
+06.10.2020 16:10 INFO  pooling:124 - HHH10001001: Connection properties: {password=****, user=postgres}
+06.10.2020 16:10 INFO  pooling:129 - HHH10001003: Autocommit mode: false
+06.10.2020 16:10 INFO  DriverManagerConnectionProviderImpl:249 - HHH000115: Hibernate connection pool size: 20 (min=1)
+06.10.2020 16:10 INFO  Dialect:170 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+06.10.2020 16:18 INFO  BotLPC:32 - Start bot
+06.10.2020 16:18 INFO  BotLPC:57 - Register command /start
+06.10.2020 16:18 INFO  BotLPC:57 - Register command /list
+06.10.2020 16:18 INFO  BotLPC:57 - Register command /my_name
+06.10.2020 16:18 INFO  BotLPC:57 - Register command /set_name
+06.10.2020 16:18 INFO  BotLPC:57 - Register command /help
+06.10.2020 16:18 INFO  Version:44 - HHH000412: Hibernate ORM core version 5.4.21.Final
+06.10.2020 16:18 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+06.10.2020 16:18 WARN  pooling:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+06.10.2020 16:18 INFO  pooling:115 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/bot_db]
+06.10.2020 16:18 INFO  pooling:124 - HHH10001001: Connection properties: {password=****, user=postgres}
+06.10.2020 16:18 INFO  pooling:129 - HHH10001003: Autocommit mode: false
+06.10.2020 16:18 INFO  DriverManagerConnectionProviderImpl:249 - HHH000115: Hibernate connection pool size: 20 (min=1)
+06.10.2020 16:18 INFO  Dialect:170 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
+06.10.2020 16:22 INFO  BotLPC:34 - Start bot
+06.10.2020 16:22 INFO  BotLPC:59 - Register command /start
+06.10.2020 16:22 INFO  BotLPC:59 - Register command /list
+06.10.2020 16:22 INFO  BotLPC:59 - Register command /my_name
+06.10.2020 16:22 INFO  BotLPC:59 - Register command /set_name
+06.10.2020 16:22 INFO  BotLPC:59 - Register command /help
+06.10.2020 16:22 INFO  Version:44 - HHH000412: Hibernate ORM core version 5.4.21.Final
+06.10.2020 16:22 INFO  Version:49 - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+06.10.2020 16:22 WARN  pooling:72 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+06.10.2020 16:22 INFO  pooling:115 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/bot_db]
+06.10.2020 16:22 INFO  pooling:124 - HHH10001001: Connection properties: {password=****, user=postgres}
+06.10.2020 16:22 INFO  pooling:129 - HHH10001003: Autocommit mode: false
+06.10.2020 16:22 INFO  DriverManagerConnectionProviderImpl:249 - HHH000115: Hibernate connection pool size: 20 (min=1)
+06.10.2020 16:22 INFO  Dialect:170 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL9Dialect
