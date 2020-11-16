@@ -9,4 +9,5 @@ public interface ApiLinks {
     String REPORTS = API + "/reports";
     String REFERENCES = API + "/references";
     String GET_REPORTS = API + "/reports/get";
+    String ACTIVE_REPORTS = API + "/active/reports";
 }

@@ -31,7 +31,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
     private final Context context;
     private final int resource;
     private final List<Report> reports;
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
     @SuppressLint("SimpleDateFormat")
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 

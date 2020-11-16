@@ -2,6 +2,7 @@ package ua.svasilina.spedition.utils;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
 import ua.svasilina.spedition.entity.Report;
@@ -316,12 +318,9 @@ public class ReportsUtil {
         return null;
     }
 
-    public void clearStorage() {
-        storageUtil.clearStorage(fileFilter);
-    }
-
     public void sync() {
         Log.i(TAG, "Sync Storage");
+        Toast.makeText(context, R.string.sync, Toast.LENGTH_LONG).show();
         syncUtil.sync();
     }
 }

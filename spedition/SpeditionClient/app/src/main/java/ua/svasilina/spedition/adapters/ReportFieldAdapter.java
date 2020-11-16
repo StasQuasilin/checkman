@@ -3,6 +3,7 @@ package ua.svasilina.spedition.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +55,12 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
     @SuppressLint("SetTextI18n")
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         final ReportField item = getItem(position);
         final View view = convertView != null ? convertView : inflater.inflate(resource, parent,false);
-        view.setOnClickListener(new View.OnClickListener() {
+
+        final View editLayout = view.findViewById(R.id.editLayout);
+        editLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 edit(item);
@@ -66,10 +69,10 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
 
         final Resources resources = getContext().getResources();
 
-        final TextView indexView = view.findViewById(R.id.index);
+        final TextView indexView = editLayout.findViewById(R.id.index);
         indexView.setText(resources.getString(R.string.pointN) + (position + 1));
 
-        final TextView timeView = view.findViewById(R.id.timeView);
+        final TextView timeView = editLayout.findViewById(R.id.timeView);
 
         assert item != null;
         final Calendar arriveTime = item.getArriveTime();
@@ -91,7 +94,7 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
             timeView.setVisibility(View.GONE);
         }
 
-        final TextView counterpartyView = view.findViewById(R.id.counterparty);
+        final TextView counterpartyView = editLayout.findViewById(R.id.counterparty);
         if (item.getCounterparty() != null) {
             counterpartyView.setText(item.getCounterparty().toUpperCase());
         } else {
@@ -120,7 +123,7 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
             builder.append(money).append(CURRENCY_SIGN);
         }
 
-        final TextView detailView = view.findViewById(R.id.details);
+        final TextView detailView = editLayout.findViewById(R.id.details);
         final String details = builder.toString();
         if (details.isEmpty()) {
             detailView.setVisibility(View.GONE);
@@ -128,6 +131,15 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
             detailView.setText(details);
         }
 
+        final View remove = view.findViewById(R.id.removeButton);
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("Report Field Adapter", " Remove field " + position);
+                report.getFields().remove(item);
+                remove(item);
+            }
+        });
 
         return view;
     }

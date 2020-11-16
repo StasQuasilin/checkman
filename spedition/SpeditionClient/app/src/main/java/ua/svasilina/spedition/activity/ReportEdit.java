@@ -78,7 +78,7 @@ public class ReportEdit extends AppCompatActivity {
     private Button expensesButton;
     private Button noteButton;
 
-    private ProductsUtil productsUtil = new ProductsUtil();
+    private final ProductsUtil productsUtil = new ProductsUtil();
     private WeightStringBuilder weightStringBuilder;
 
     void updateDriverButtonValue(){
@@ -393,20 +393,23 @@ public class ReportEdit extends AppCompatActivity {
         updateDriverButtonValue();
     }
 
+    @SuppressLint("SetTextI18n")
     private void calculateFare() {
         int fare = 0;
         for (Expense expense : report.getFares()){
             fare += expense.getAmount();
         }
-        fareEdit.setText(String.valueOf(fare));
+
+        fareEdit.setText(getResources().getString(R.string.fares) + SPACE + fare);
     }
 
+    @SuppressLint("SetTextI18n")
     private void calculateExpenses() {
         int expenses = 0;
         for (Expense expense : report.getExpenses()){
             expenses += expense.getAmount();
         }
-        expensesButton.setText(String.valueOf(expenses));
+        expensesButton.setText(getResources().getString(R.string.expanses) + SPACE + expenses);
     }
 
     private void updateRouteButtonValue() {

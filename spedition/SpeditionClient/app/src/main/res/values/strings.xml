@@ -81,4 +81,5 @@
     <string name="sync_queston">Синхронізувати дані з сервером перед початком роботи?</string>
     <string name="yes">Так</string>
     <string name="no">Ні</string>
+    <string name="times">✕</string>
 </resources>

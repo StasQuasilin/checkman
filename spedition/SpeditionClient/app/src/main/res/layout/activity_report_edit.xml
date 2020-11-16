@@ -11,10 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/driver"
+        app:layout_constraintBottom_toBottomOf="@+id/driverButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/driverButton" />
 
     <Button
         android:id="@+id/driverButton"
@@ -23,10 +23,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/textView5"
-        app:layout_constraintTop_toTopOf="@id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/routeButton"
         tools:ignore="SmallSp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,26 +108,6 @@
         android:focusable="true" />
 
     <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/fare"
-        app:layout_constraintBottom_toBottomOf="@+id/fareEdit"
-        app:layout_constraintEnd_toStartOf="@+id/fareEdit"
-        app:layout_constraintTop_toTopOf="@+id/fareEdit" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/expanses"
-        app:layout_constraintBottom_toBottomOf="@+id/expensesEdit"
-        app:layout_constraintEnd_toStartOf="@+id/expensesEdit"
-        app:layout_constraintTop_toTopOf="@+id/expensesEdit" />
-
-    <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -148,7 +127,7 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/driverButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/productSpinner"
@@ -163,28 +142,29 @@
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/routeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/driverButton" />
 
     <Button
         android:id="@+id/fareEdit"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:ems="10"
         android:importantForAutofill="no"
         android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/expensesEdit"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/leaveTimeContainer" />
 
     <Button
         android:id="@+id/expensesEdit"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fareEdit" />
+        app:layout_constraintTop_toTopOf="@+id/fareEdit" />
 
     <Button
         android:id="@+id/notesButton"

@@ -72,13 +72,8 @@ public class Reports extends AppCompatActivity {
         int itemId = item.getItemId();
         if(itemId == R.id.add){
             newItem();
-        } else if (itemId == R.id.clear){
-            reportsUtil.clearStorage();
-            adapter.clear();
         } else if (itemId == R.id.login){
             showLoginDialog();
-        } else if (itemId == R.id.syncList){
-            showSyncList();
         }
         return super.onOptionsItemSelected(item);
     }

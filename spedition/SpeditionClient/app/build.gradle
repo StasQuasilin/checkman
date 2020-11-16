@@ -24,7 +24,7 @@ android {
         applicationId 'ua.svasilina.spedition'
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 13
+        versionCode 15
         versionName "1.104"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

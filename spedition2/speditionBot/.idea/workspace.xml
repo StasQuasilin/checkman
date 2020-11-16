@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="speditionBot:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="783ae5f1-564e-4bd7-818a-2679dd846bef" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../mobileApp/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/app/src/main/java/ua/szpt/escort/utils/connection/Connector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/app/src/main/java/ua/szpt/escort/views/ApplicationPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/app/src/main/java/ua/szpt/escort/views/LoginActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/app/src/main/java/ua/szpt/escort/views/MainActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/app/src/main/res/layout/maint_activity.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mobileApp/app/src/main/res/layout/reports_list.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/src/main/java/entity/references/ReferencesChange.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/src/main/java/entity/references/ReferencesType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/commands/LockCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/commands/UnlockCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/constants/Apis.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/constants/Apis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/controllers/api/references/GetDriversApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/controllers/api/references/GetDriversApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/entity/user/UserAccess.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/entity/user/UserAccess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/resources/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/speditionBot_jar/speditionBot.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/speditionBot_jar/speditionBot.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/BotLPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/BotLPC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/Commands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/HelpCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/ListCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/ListCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/MyNameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/MyNameCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/RemoveRoomCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/RemoveRoomCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/SetNameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/SetNameCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/StartCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/StartCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/StatusCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/StatusCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/commands/StopCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/commands/StopCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entity/Room.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@10.10.10.201" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@10.10.10.201" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@10.10.10.201" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@10.10.10.201" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@10.10.10.201" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@10.10.10.201" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@10.10.10.201" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="rooms: table" type="69fad909:PgImplModel$LocalTable" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bot_db@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bot_db: database" type="162271b6:PgImplModel$Database" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1iJpPG30AKx8OQlixy4WiAfbpU8" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="postgresql" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="speditionbot" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/META-INF/MANIFEST.MF" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.1736111" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/META-INF" />
+      <recent name="$PROJECT_DIR$/src/main" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+      <recent name="utils" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="commands" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.BotRunner">
+    <configuration name="BotRunner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="BotRunner" />
+      <module name="speditionBot" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 8.5.33" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.33" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/speditionBot/" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="speditionBot:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/speditionBot" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Unnamed_speditionBot" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="45097" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.BotRunner" />
+      <item itemvalue="Tomcat Server.Tomcat 8.5.33" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.BotRunner" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="Finished" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="bot_db@10.10.10.201: root" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="bot_db@localhost: root" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="bot_db@localhost: root" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@2e1d749d" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="bot_db@localhost: root" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="com.intellij.database.console.session.MessageBusSession@6b9cef34" type="9fbbdea:ServiceModel$ServiceNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="783ae5f1-564e-4bd7-818a-2679dd846bef" name="Default Changelist" comment="" />
+      <created>1601635522650</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1601635522650</updated>
+      <workItem from="1601635526184" duration="5087000" />
+      <workItem from="1601962653293" duration="25617000" />
+      <workItem from="1602069289127" duration="4177000" />
+      <workItem from="1602244169081" duration="695000" />
+      <workItem from="1602251828877" duration="14000" />
+      <workItem from="1602598004213" duration="4943000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="235" y="164" width="800" height="677" key="#Assign_Data_Sources" timestamp="1601969603379">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="235" y="164" width="800" height="677" key="#Assign_Data_Sources/0.27.1280.954@0.27.1280.954" timestamp="1601969603379" />
+    <state x="22" y="94" width="1044" height="677" key="#Project_Structure" timestamp="1601992059781">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="22" y="94" width="1044" height="677" key="#Project_Structure/0.27.1280.954@0.27.1280.954" timestamp="1601992059781" />
+    <state x="312" y="75" width="831" height="867" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602764634773">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="312" y="75" width="831" height="867" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1280.954@0.27.1280.954" timestamp="1602764634773" />
+    <state x="448" y="222" width="374" height="562" key="#com.intellij.ide.util.MemberChooser" timestamp="1602766850830">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="448" y="222" width="374" height="562" key="#com.intellij.ide.util.MemberChooser/0.27.1280.954@0.27.1280.954" timestamp="1602766850830" />
+    <state x="362" y="290" width="525" height="426" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1601992556855">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="362" y="290" width="525" height="426" key="#com.intellij.ide.util.TreeClassChooserDialog/0.27.1280.954@0.27.1280.954" timestamp="1601992556855" />
+    <state x="262" y="195" width="745" height="616" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1601989956705">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="262" y="195" width="745" height="616" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.27.1280.954@0.27.1280.954" timestamp="1601989956705" />
+    <state x="246" y="422" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1601967846623">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="246" y="422" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.27.1280.954@0.27.1280.954" timestamp="1601967846623" />
+    <state x="423" y="386" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1601991076586">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="423" y="386" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.27.1280.954@0.27.1280.954" timestamp="1601991076586" />
+    <state x="263" y="27" width="601" height="954" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1601965287659">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="263" y="27" width="601" height="954" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.27.1280.954@0.27.1280.954" timestamp="1601965287659" />
+    <state x="327" y="398" width="524" height="484" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1601991385517">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="327" y="398" width="524" height="484" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.27.1280.954@0.27.1280.954" timestamp="1601991385517" />
+    <state x="423" y="247" width="432" height="511" key="FileChooserDialogImpl" timestamp="1601989494099">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="423" y="247" width="432" height="511" key="FileChooserDialogImpl/0.27.1280.954@0.27.1280.954" timestamp="1601989494099" />
+    <state width="1238" height="247" key="GridCell.Tab.0.bottom" timestamp="1603277261021">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="1238" height="247" key="GridCell.Tab.0.bottom/0.27.1280.954@0.27.1280.954" timestamp="1603277261021" />
+    <state width="1238" height="247" key="GridCell.Tab.0.center" timestamp="1603277261020">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="1238" height="247" key="GridCell.Tab.0.center/0.27.1280.954@0.27.1280.954" timestamp="1603277261020" />
+    <state width="1238" height="247" key="GridCell.Tab.0.left" timestamp="1603277261020">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="1238" height="247" key="GridCell.Tab.0.left/0.27.1280.954@0.27.1280.954" timestamp="1603277261020" />
+    <state width="1238" height="247" key="GridCell.Tab.0.right" timestamp="1603277261021">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="1238" height="247" key="GridCell.Tab.0.right/0.27.1280.954@0.27.1280.954" timestamp="1603277261021" />
+    <state width="846" height="247" key="GridCell.Tab.1.bottom" timestamp="1601989150089">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="846" height="247" key="GridCell.Tab.1.bottom/0.27.1280.954@0.27.1280.954" timestamp="1601989150089" />
+    <state width="846" height="247" key="GridCell.Tab.1.center" timestamp="1601989150088">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="846" height="247" key="GridCell.Tab.1.center/0.27.1280.954@0.27.1280.954" timestamp="1601989150088" />
+    <state width="846" height="247" key="GridCell.Tab.1.left" timestamp="1601989150088">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="846" height="247" key="GridCell.Tab.1.left/0.27.1280.954@0.27.1280.954" timestamp="1601989150088" />
+    <state width="846" height="247" key="GridCell.Tab.1.right" timestamp="1601989150088">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="846" height="247" key="GridCell.Tab.1.right/0.27.1280.954@0.27.1280.954" timestamp="1601989150088" />
+    <state width="846" height="247" key="GridCell.Tab.2.bottom" timestamp="1601989150091">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="846" height="247" key="GridCell.Tab.2.bottom/0.27.1280.954@0.27.1280.954" timestamp="1601989150091" />
+    <state width="846" height="247" key="GridCell.Tab.2.center" timestamp="1601989150090">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="846" height="247" key="GridCell.Tab.2.center/0.27.1280.954@0.27.1280.954" timestamp="1601989150090" />
+    <state width="846" height="247" key="GridCell.Tab.2.left" timestamp="1601989150089">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="846" height="247" key="GridCell.Tab.2.left/0.27.1280.954@0.27.1280.954" timestamp="1601989150089" />
+    <state width="846" height="247" key="GridCell.Tab.2.right" timestamp="1601989150090">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state width="846" height="247" key="GridCell.Tab.2.right/0.27.1280.954@0.27.1280.954" timestamp="1601989150090" />
+    <state x="42" y="112" width="1187" height="845" key="SettingsEditor" timestamp="1601992561564">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="42" y="112" width="1187" height="845" key="SettingsEditor/0.27.1280.954@0.27.1280.954" timestamp="1601992561564" />
+    <state x="441" y="284" width="387" height="438" key="chooseDestDirectoryDialog" timestamp="1601967852471">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="441" y="284" width="387" height="438" key="chooseDestDirectoryDialog/0.27.1280.954@0.27.1280.954" timestamp="1601967852471" />
+    <state x="550" y="375" width="426" height="256" key="classpath-attribute-editor" timestamp="1601987075964">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="550" y="375" width="426" height="256" key="classpath-attribute-editor/0.27.1280.954@0.27.1280.954" timestamp="1601987075964" />
+    <state x="301" y="197" width="552" height="486" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog" timestamp="1602768290306">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="301" y="197" width="552" height="486" key="com.intellij.database.view.ui.AbstractDbRefactoringDialog/0.27.1280.954@0.27.1280.954" timestamp="1602768290306" />
+    <state x="24" y="230" width="647" height="494" key="find.popup" timestamp="1601982841346">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="24" y="230" width="647" height="494" key="find.popup/0.27.1280.954@0.27.1280.954" timestamp="1601982841346" />
+    <state x="344" y="134" width="582" height="737" key="refactoring.ChangeSignatureDialog" timestamp="1602766219900">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="344" y="134" width="582" height="737" key="refactoring.ChangeSignatureDialog/0.27.1280.954@0.27.1280.954" timestamp="1602766219900" />
+    <state x="303" y="233" width="672" height="678" key="search.everywhere.popup" timestamp="1602767928725">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="303" y="233" width="672" height="678" key="search.everywhere.popup/0.27.1280.954@0.27.1280.954" timestamp="1602767928725" />
+    <state x="365" y="418" width="540" height="170" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1601985384200">
+      <screen x="0" y="27" width="1280" height="954" />
+    </state>
+    <state x="365" y="418" width="540" height="170" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/0.27.1280.954@0.27.1280.954" timestamp="1601985384200" />
+  </component>
+</project>

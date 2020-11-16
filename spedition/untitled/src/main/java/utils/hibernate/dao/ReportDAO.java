@@ -4,9 +4,13 @@ import api.socket.SubscribeType;
 import api.socket.UpdateUtil;
 import constants.Keys;
 import entity.*;
+import utils.hibernate.DateContainers.LE;
+import utils.hibernate.DateContainers.LT;
 import utils.hibernate.Hibernator;
 import utils.hibernate.State;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,6 +42,7 @@ public class ReportDAO {
     public List<Report> getReports(User user) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("leaveTime", State.notNull);
+        params.put("done", new LE(Date.valueOf(LocalDate.now().plusMonths(1))));
         final Role role = user.getRole();
         if (role == Role.supervisor){
             params.put("owner/supervisor", user);

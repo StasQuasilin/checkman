@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="bot_db@10.10.10.201">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.17">
+    <root id="1">
+      <ServerVersion>11.8</ServerVersion>
+      <StartupTime>1597426640</StartupTime>
+    </root>
+    <database id="2" parent="1" name="bot_db">
+      <ObjectId>18188</ObjectId>
+      <Owner>postgres</Owner>
+      <IntrospectionStateNumber>180855</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Relations>sequence|table|18192|18189|1
+sequence|table|18197|18194|1
+</Relations>
+    </database>
+    <database id="3" parent="1" name="chm_db">
+      <ObjectId>16393</ObjectId>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="4" parent="1" name="postgres">
+      <ObjectId>13012</ObjectId>
+      <Comment>default administrative connection database</Comment>
+      <Owner>postgres</Owner>
+    </database>
+    <database id="5" parent="1" name="spedition_db">
+      <ObjectId>18168</ObjectId>
+      <Owner>postgres</Owner>
+    </database>
+    <role id="6" parent="1" name="pg_execute_server_program">
+      <ObjectId>4571</ObjectId>
+    </role>
+    <role id="7" parent="1" name="pg_monitor">
+      <ObjectId>3373</ObjectId>
+    </role>
+    <role id="8" parent="1" name="pg_read_all_settings">
+      <ObjectId>3374</ObjectId>
+    </role>
+    <role id="9" parent="1" name="pg_read_all_stats">
+      <ObjectId>3375</ObjectId>
+    </role>
+    <role id="10" parent="1" name="pg_read_server_files">
+      <ObjectId>4569</ObjectId>
+    </role>
+    <role id="11" parent="1" name="pg_signal_backend">
+      <ObjectId>4200</ObjectId>
+    </role>
+    <role id="12" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+    </role>
+    <role id="13" parent="1" name="pg_write_server_files">
+      <ObjectId>4570</ObjectId>
+    </role>
+    <role id="14" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <BypassRls>1</BypassRls>
+    </role>
+    <schema id="15" parent="2" name="information_schema">
+      <ObjectId>12716</ObjectId>
+      <StateNumber>366</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="16" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+      <Comment>system catalog schema</Comment>
+      <StateNumber>359</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="17" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <Comment>standard public schema</Comment>
+      <StateNumber>360</StateNumber>
+      <Owner>postgres</Owner>
+      <IntrospectionStateNumber>180856</IntrospectionStateNumber>
+      <Current>1</Current>
+    </schema>
+    <access-method id="18" parent="2" name="btree">
+      <ObjectId>403</ObjectId>
+      <Comment>b-tree index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.bthandler</Handler>
+      <HandlerId>330</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="19" parent="2" name="hash">
+      <ObjectId>405</ObjectId>
+      <Comment>hash index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.hashhandler</Handler>
+      <HandlerId>331</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="20" parent="2" name="gist">
+      <ObjectId>783</ObjectId>
+      <Comment>GiST index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.gisthandler</Handler>
+      <HandlerId>332</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="21" parent="2" name="gin">
+      <ObjectId>2742</ObjectId>
+      <Comment>GIN index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.ginhandler</Handler>
+      <HandlerId>333</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="22" parent="2" name="spgist">
+      <ObjectId>4000</ObjectId>
+      <Comment>SP-GiST index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.spghandler</Handler>
+      <HandlerId>334</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="23" parent="2" name="brin">
+      <ObjectId>3580</ObjectId>
+      <Comment>block range index (BRIN) access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.brinhandler</Handler>
+      <HandlerId>335</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <extension id="24" parent="2" name="plpgsql">
+      <ObjectId>12998</ObjectId>
+      <Comment>PL/pgSQL procedural language</Comment>
+      <StateNumber>519</StateNumber>
+      <Version>1.0</Version>
+      <SchemaName>pg_catalog</SchemaName>
+      <SchemaId>11</SchemaId>
+    </extension>
+    <sequence id="25" parent="17" name="room_members__id_seq">
+      <ObjectId>18192</ObjectId>
+      <StateNumber>156301</StateNumber>
+      <Owner>postgres</Owner>
+      <SequenceIdentity>1</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="26" parent="17" name="rooms__id_seq">
+      <ObjectId>18197</ObjectId>
+      <StateNumber>156306</StateNumber>
+      <Owner>postgres</Owner>
+      <SequenceIdentity>1</SequenceIdentity>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <table id="27" parent="17" name="room_members">
+      <ObjectId>18189</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>156299</StateNumber>
+    </table>
+    <table id="28" parent="17" name="rooms">
+      <ObjectId>18194</ObjectId>
+      <Owner>postgres</Owner>
+      <StateNumber>180852</StateNumber>
+    </table>
+    <column id="29" parent="27" name="_id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>156309</StateNumber>
+      <DefaultExpression>nextval(&apos;public.room_members__id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="30" parent="27" name="_telegram_id">
+      <Position>2</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>156299</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="31" parent="27" name="_name">
+      <Position>3</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <StateNumber>156299</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="32" parent="27" name="_room">
+      <Position>4</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>156299</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="33" parent="27" name="_chat_id">
+      <Position>5</Position>
+      <DataType>bigint|0s</DataType>
+      <StateNumber>156299</StateNumber>
+      <TypeId>20</TypeId>
+    </column>
+    <index id="34" parent="27" name="room_members__id_uindex">
+      <ObjectId>18205</ObjectId>
+      <StateNumber>156317</StateNumber>
+      <ColNames>_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="35" parent="27" name="room_members_pk">
+      <ObjectId>18201</ObjectId>
+      <StateNumber>156315</StateNumber>
+      <ColNames>_id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="36" parent="27" name="room_members_pk">
+      <ObjectId>18202</ObjectId>
+      <StateNumber>156315</StateNumber>
+      <ColNames>_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>room_members_pk</UnderlyingIndexName>
+    </key>
+    <column id="37" parent="28" name="_id">
+      <Position>1</Position>
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>156310</StateNumber>
+      <DefaultExpression>nextval(&apos;public.rooms__id_seq&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="38" parent="28" name="_owner">
+      <Position>2</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>156304</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="39" parent="28" name="_active">
+      <Position>3</Position>
+      <DataType>boolean|0s</DataType>
+      <StateNumber>156304</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="40" parent="28" name="_locked">
+      <Position>4</Position>
+      <DataType>boolean|0s</DataType>
+      <StateNumber>180852</StateNumber>
+      <DefaultExpression>false</DefaultExpression>
+      <TypeId>16</TypeId>
+    </column>
+    <index id="41" parent="28" name="rooms__id_uindex">
+      <ObjectId>18206</ObjectId>
+      <StateNumber>156318</StateNumber>
+      <ColNames>_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="42" parent="28" name="rooms_pk">
+      <ObjectId>18203</ObjectId>
+      <StateNumber>156316</StateNumber>
+      <ColNames>_id</ColNames>
+      <Unique>1</Unique>
+      <Primary>1</Primary>
+    </index>
+    <key id="43" parent="28" name="rooms_pk">
+      <ObjectId>18204</ObjectId>
+      <StateNumber>156316</StateNumber>
+      <ColNames>_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>rooms_pk</UnderlyingIndexName>
+    </key>
+  </database-model>
+</dataSource>
