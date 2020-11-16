@@ -1,44 +1,64 @@
 package ua.svasilina.spedition.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import java.util.LinkedList;
 
 import ua.svasilina.spedition.entity.Product;
+import ua.svasilina.spedition.utils.db.DBHelper;
+import ua.svasilina.spedition.utils.db.Tables;
 
 public class ProductsUtil {
 
-    private static final ArrayList<Product> products = new ArrayList<>();
-    private static final HashMap<Product, ArrayList<Product>> children = new HashMap<>();
-    static {
-        final Product product1 = new Product(1, "Олія раф");
-        final Product product2 = new Product(2, "Олія нераф");
-        final Product product3 = new Product(3, "Готова продукція");
-        final Product product4 = new Product(4, "Рафінація");
-        products.add(product1);
-        products.add(product2);
-        products.add(product3);
-        products.add(product4);
-        children.put(product1, new ArrayList<>(Collections.singleton(product1)));
-        children.put(product2, new ArrayList<>(Collections.singleton(product2)));
-        children.put(product3, new ArrayList<>(Collections.singleton(product3)));
-        children.put(product4, new ArrayList<>(Arrays.asList(product1, product2)));
+    SQLiteDatabase db;
+
+    public ProductsUtil(Context context) {
+        DBHelper helper = new DBHelper(context);
+        db = helper.getWritableDatabase();
     }
 
-    public ArrayList<Product> getProducts(){
+    public LinkedList<Product> getProducts(){
+        LinkedList<Product> products = new LinkedList<>();
+        final Cursor query = db.query(Tables.PRODUCTS, null, null, null, null, null, null);
+        if (query.moveToFirst()){
+
+            final int serverIdIdx = query.getColumnIndex("server_id");
+            final int nameIdx = query.getColumnIndex("name");
+
+            do {
+                final int serverId = query.getInt(serverIdIdx);
+                final String name = query.getString(nameIdx);
+                products.add(new Product(serverId, name));
+
+            } while (query.moveToNext());
+        }
+        if (products.size() == 0){
+            products.add(new Product(1, "- Олія раф"));
+            products.add(new Product(2, "- Олія нераф"));
+            products.add(new Product(3, "- Готова продукція"));
+            products.add(new Product(4, "- Рафінація"));
+        }
         return products;
     }
 
-    public ArrayList<Product> getChildren(Product product){
-        return children.get(product);
+
+
+    public LinkedList<Product> getChildren(Product product){
+        LinkedList<Product> products = new LinkedList<>();
+        products.add(product);
+        return products;
     }
 
     public Product getProduct(int productId) {
-        for(Product product : products){
-            if (productId == product.getId()){
-                return product;
-            }
+        final Cursor query = db.query(Tables.PRODUCTS, null, "server_id=?", new String[]{String.valueOf(productId)}, null, null, null);
+        if(query.moveToFirst()){
+            final int serverIdIdx = query.getColumnIndex("server_id");
+            final int nameIdx = query.getColumnIndex("name");
+            final int serverId = query.getInt(serverIdIdx);
+            final String name = query.getString(nameIdx);
+            return new Product(serverId, name);
         }
         return null;
     }

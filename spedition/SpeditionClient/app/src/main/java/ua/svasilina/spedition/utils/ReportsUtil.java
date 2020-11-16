@@ -58,7 +58,7 @@ public class ReportsUtil {
     private static final String TAG = "ReportsUtil";
     private final JSONParser parser = new JSONParser();
     private StorageUtil storageUtil;
-    private ProductsUtil productsUtil = new ProductsUtil();
+    private ProductsUtil productsUtil;
     private SyncListUtil syncListUtil;
     private static final int STORAGE_SIZE = 20;
 
@@ -75,6 +75,7 @@ public class ReportsUtil {
         syncUtil = new SyncUtil(this);
         changeUtil = new ChangeUtil(context);
         syncListUtil = new SyncListUtil(context);
+        productsUtil = new ProductsUtil(context);
     }
 
     public Context getContext() {
@@ -265,8 +266,8 @@ public class ReportsUtil {
 
     private Weight parseWeight(JSONObject weightJson) {
         Weight weight = new Weight();
-        weight.setGross(Float.parseFloat(String.valueOf(weightJson.get(GROSS))));
-        weight.setTare(Float.parseFloat(String.valueOf(weightJson.get(TARE))));
+        weight.setGross(Integer.parseInt(String.valueOf(weightJson.get(GROSS))));
+        weight.setTare(Integer.parseInt(String.valueOf(weightJson.get(TARE))));
         return weight;
     }
 
@@ -322,5 +323,9 @@ public class ReportsUtil {
         Log.i(TAG, "Sync Storage");
         Toast.makeText(context, R.string.sync, Toast.LENGTH_LONG).show();
         syncUtil.sync();
+    }
+
+    public boolean removeReport(String uuid) {
+        return storageUtil.remove(reportsDir + uuid);
     }
 }

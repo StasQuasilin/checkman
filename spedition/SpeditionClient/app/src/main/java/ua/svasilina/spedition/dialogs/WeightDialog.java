@@ -61,15 +61,15 @@ public class WeightDialog extends DialogFragment {
 
 
     private void save() {
-        float gross = 0;
+        int gross = 0;
         final String grossText = grossEdit.getText().toString();
         if (!grossText.isEmpty()){
-            gross = Float.parseFloat(grossText);
+            gross = Integer.parseInt(grossText);
         }
-        float tare = 0;
+        int tare = 0;
         final String tareText = tareEdit.getText().toString();
         if (!tareText.isEmpty()){
-            tare = Float.parseFloat(tareText);
+            tare = Integer.parseInt(tareText);
         }
 
         weight.setGross(gross);

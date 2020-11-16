@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.NAME;
 
-public class Product extends JsonAble{
+public class Product implements JsonAble {
     private int id;
     private String name;
 

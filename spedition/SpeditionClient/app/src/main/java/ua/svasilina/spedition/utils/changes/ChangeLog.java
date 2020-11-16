@@ -13,7 +13,7 @@ import static ua.svasilina.spedition.constants.Keys.CHANGES;
 import static ua.svasilina.spedition.constants.Keys.LOCATION;
 import static ua.svasilina.spedition.constants.Keys.TIME;
 
-public class ChangeLog extends JsonAble {
+public class ChangeLog implements JsonAble {
     private final Calendar time;
     private CurrentLocation location;
     private ArrayList<Change> changes;

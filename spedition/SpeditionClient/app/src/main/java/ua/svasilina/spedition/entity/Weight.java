@@ -6,10 +6,10 @@ import static ua.svasilina.spedition.constants.Keys.GROSS;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.TARE;
 
-public class Weight extends JsonAble{
+public class Weight implements JsonAble {
     private int id;
-    private float gross;
-    private float tare;
+    private int gross;
+    private int tare;
 
     public int getId() {
         return id;
@@ -18,17 +18,17 @@ public class Weight extends JsonAble{
         this.id = id;
     }
 
-    public float getGross() {
+    public int getGross() {
         return gross;
     }
-    public void setGross(float gross) {
+    public void setGross(int gross) {
         this.gross = gross;
     }
 
-    public float getTare() {
+    public int getTare() {
         return tare;
     }
-    public void setTare(float tare) {
+    public void setTare(int tare) {
         this.tare = tare;
     }
 

@@ -34,6 +34,7 @@ import static ua.svasilina.spedition.constants.Patterns.TIME_PATTERN;
 public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
 
     private final int resource;
+    private final Context context;
     private final LayoutInflater inflater;
     private final FragmentManager fragmentManager;
     private final CustomListener customListener;
@@ -44,6 +45,7 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
     public ReportFieldAdapter(@NonNull Context context, int resource, FragmentManager fragmentManager, Report report, CustomListener customListener) {
         super(context, resource);
         this.resource = resource;
+        this.context = context;
         this.fragmentManager = fragmentManager;
         this.report = report;
         this.customListener = customListener;
@@ -145,7 +147,7 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
     }
 
     private void edit(ReportField item){
-        final ReportFieldEditDialog editDialog = new ReportFieldEditDialog(item, inflater, report, new CustomListener() {
+        final ReportFieldEditDialog editDialog = new ReportFieldEditDialog(item, context, report, new CustomListener() {
             @Override
             public void onChange() {
                 customListener.onChange();

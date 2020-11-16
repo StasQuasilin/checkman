@@ -7,7 +7,9 @@ import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.PATRONYMIC;
 import static ua.svasilina.spedition.constants.Keys.SURNAME;
 
-public class Driver extends JsonAble {
+public class Driver implements JsonAble {
+    private long id;
+    private int serverId;
     private String uuid;
     private Person person;
 
@@ -25,6 +27,21 @@ public class Driver extends JsonAble {
             return driver;
         }
         return null;
+    }
+
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
     }
 
     public String getUuid() {

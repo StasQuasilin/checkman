@@ -9,9 +9,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -34,9 +36,11 @@ import ua.svasilina.spedition.dialogs.DateDialog;
 import ua.svasilina.spedition.dialogs.DateDialogState;
 import ua.svasilina.spedition.dialogs.DoneReportDialog;
 import ua.svasilina.spedition.dialogs.DriverEditDialog;
+import ua.svasilina.spedition.dialogs.InputDialog;
 import ua.svasilina.spedition.dialogs.ExpensesDialog;
 import ua.svasilina.spedition.dialogs.NoteEditDialog;
 import ua.svasilina.spedition.dialogs.ReportNotCompletedDialog;
+import ua.svasilina.spedition.dialogs.ReportRemoveDialog;
 import ua.svasilina.spedition.dialogs.RouteEditDialog;
 import ua.svasilina.spedition.dialogs.WeightDialog;
 import ua.svasilina.spedition.entity.Driver;
@@ -52,6 +56,7 @@ import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
 import ua.svasilina.spedition.utils.ReportsUtil;
 import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
+import ua.svasilina.spedition.utils.search.DriverSearchUtil;
 
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.LEFT_BRACE;
@@ -66,7 +71,9 @@ public class ReportEdit extends AppCompatActivity {
     private Report report;
     private ReportFieldAdapter adapter;
 
+    private View driverBox;
     private Button driverButton;
+    private EditText driverInput;
     private Button dateButton;
     private Button timeButton;
     private Button routeButton;
@@ -78,7 +85,7 @@ public class ReportEdit extends AppCompatActivity {
     private Button expensesButton;
     private Button noteButton;
 
-    private final ProductsUtil productsUtil = new ProductsUtil();
+    private ProductsUtil productsUtil;
     private WeightStringBuilder weightStringBuilder;
 
     void updateDriverButtonValue(){
@@ -87,6 +94,12 @@ public class ReportEdit extends AppCompatActivity {
             final Person person = driver.getPerson();
             final String value = person.getForename() + " " + person.getSurname();
             driverButton.setText(value);
+            driverBox.setVisibility(View.VISIBLE);
+            driverInput.setVisibility(View.GONE);
+        }
+        else {
+            driverBox.setVisibility(View.GONE);
+            driverInput.setVisibility(View.VISIBLE);
         }
     }
 
@@ -100,6 +113,7 @@ public class ReportEdit extends AppCompatActivity {
         supportActionBar.setTitle(R.string.edit);
         weightStringBuilder = new WeightStringBuilder(getResources());
         reportsUtil = new ReportsUtil(context);
+        productsUtil = new ProductsUtil(context);
 
         final Intent intent = getIntent();
         final String uuid = intent.getStringExtra(ID);
@@ -112,7 +126,9 @@ public class ReportEdit extends AppCompatActivity {
 
         Log.i("Editable report data", report.toJson().toJSONString());
 
-        driverButton = findViewById(R.id.driverButton);
+        driverBox = findViewById(R.id.driverBox);
+        driverButton = driverBox.findViewById(R.id.driverButton);
+        driverInput = findViewById(R.id.driverInputField);
         initDriverButton();
 
         routeButton = findViewById(R.id.routeButton);
@@ -163,6 +179,18 @@ public class ReportEdit extends AppCompatActivity {
                 adapter.add(field);
             }
         });
+        final View reportRemove = findViewById(R.id.reportRemove);
+        final String uuid1 = report.getUuid();
+        if (uuid != null) {
+            reportRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new ReportRemoveDialog(context, uuid).show(getSupportFragmentManager(), "RM");
+                }
+            });
+        } else {
+            reportRemove.setVisibility(View.GONE);
+        }
     }
 
     private void initWeightButton() {
@@ -391,6 +419,15 @@ public class ReportEdit extends AppCompatActivity {
             }
         });
         updateDriverButtonValue();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        driverInput.setFocusable(false);
+        driverInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new InputDialog(getApplicationContext(), new DriverSearchUtil()).show(getSupportFragmentManager(), "DIG");
+            }
+        });
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -409,7 +446,7 @@ public class ReportEdit extends AppCompatActivity {
         for (Expense expense : report.getExpenses()){
             expenses += expense.getAmount();
         }
-        expensesButton.setText(getResources().getString(R.string.expanses) + SPACE + expenses);
+        expensesButton.setText(getResources().getString(R.string.expenses_title) + SPACE + expenses);
     }
 
     private void updateRouteButtonValue() {

@@ -26,6 +26,8 @@ public interface Keys {
     String SYNC = "sync";
     String COLON = ":";
     String SPACE = " ";
+    String DOT_3 = "...";
+    String PLUS = "+";
     String HYPHEN = " — ";
     String TOKEN = "token";
     String USER = "user";
@@ -61,4 +63,8 @@ public interface Keys {
     String LEFT_BRACE = "(";
     String RIGHT_BRACE = ")";
     String REPORT = "report";
+    String PRODUCTS = "products";
+    String SERVER_ID = "server_id";
+    String DRIVERS = "drivers";
+    String ARROW = " ➞ ";
 }

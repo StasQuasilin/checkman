@@ -11,7 +11,7 @@ import static ua.svasilina.spedition.constants.Keys.PHONES;
 import static ua.svasilina.spedition.constants.Keys.SPACE;
 import static ua.svasilina.spedition.constants.Keys.SURNAME;
 
-public class Person extends JsonAble{
+public class Person implements JsonAble {
     private String surname;
     private String forename;
     private String patronymic;

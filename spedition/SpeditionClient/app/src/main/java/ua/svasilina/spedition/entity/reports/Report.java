@@ -1,4 +1,4 @@
-package ua.svasilina.spedition.entity;
+package ua.svasilina.spedition.entity.reports;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
@@ -8,12 +8,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
+import ua.svasilina.spedition.entity.Expense;
+import ua.svasilina.spedition.entity.JsonAble;
+import ua.svasilina.spedition.entity.Product;
+import ua.svasilina.spedition.entity.ReportDetail;
+import ua.svasilina.spedition.entity.ReportField;
+import ua.svasilina.spedition.entity.ReportNote;
 import ua.svasilina.spedition.utils.changes.IChanged;
 
+import static ua.svasilina.spedition.constants.Keys.COMA;
 import static ua.svasilina.spedition.constants.Keys.DONE;
-import static ua.svasilina.spedition.constants.Keys.DRIVER;
 import static ua.svasilina.spedition.constants.Keys.EXPENSES;
 import static ua.svasilina.spedition.constants.Keys.FARES;
 import static ua.svasilina.spedition.constants.Keys.FIELDS;
@@ -23,18 +30,13 @@ import static ua.svasilina.spedition.constants.Keys.LEAVE;
 import static ua.svasilina.spedition.constants.Keys.NOTES;
 import static ua.svasilina.spedition.constants.Keys.PER_DIEM;
 import static ua.svasilina.spedition.constants.Keys.PRODUCT;
-import static ua.svasilina.spedition.constants.Keys.ROUTE;
-import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
-public class Report implements Serializable, Comparable<Report>, IChanged, JsonAble {
+public class Report extends IReport implements JsonAble, Serializable, Comparable<Report>, IChanged {
 
     private String uuid;
-    public Calendar leaveTime;
-    private Calendar doneDate;
-    private Driver driver;
-    public Route route;
+    private LinkedList<ReportDetail> details;
     private Product product;
-    private Weight weight;
+    private boolean separatedProducts;
     private int perDiem;
     final public ArrayList<ReportField> fields = new ArrayList<>();
     final public ArrayList<Expense> expenses = new ArrayList<>();
@@ -42,11 +44,19 @@ public class Report implements Serializable, Comparable<Report>, IChanged, JsonA
     final public ArrayList<ReportNote> notes = new ArrayList<>();
     private boolean fone;
 
+    public Report() {
+        details = new LinkedList<>();
+    }
+
     public String getUuid() {
         return uuid;
     }
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public LinkedList<ReportDetail> getDetails() {
+        return details;
     }
 
     public Calendar getLeaveTime() {
@@ -63,29 +73,12 @@ public class Report implements Serializable, Comparable<Report>, IChanged, JsonA
         this.doneDate = doneDate;
     }
 
-    public Driver getDriver() {
-        return driver;
-    }
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
-
-    public Route getRoute() {
-        return route;
-    }
-    public void setRoute(Route route) {
-        this.route = route;
-    }
-
-    public Weight getWeight() {
-        return weight;
-    }
-    public void setWeight(Weight weight) {
-        this.weight = weight;
-    }
-
-    public boolean isDone() {
-        return doneDate != null;
+    private final LinkedList<Product> products = new LinkedList<>();
+    @Override
+    public LinkedList<Product> getProducts() {
+        products.clear();
+        products.add(product);
+        return products;
     }
 
     public Product getProduct() {
@@ -129,17 +122,11 @@ public class Report implements Serializable, Comparable<Report>, IChanged, JsonA
         if(doneDate != null){
             json.put(DONE, doneDate.getTimeInMillis());
         }
-        if (driver != null && driver.anyChanges()){
-            json.put(DRIVER, driver.toJson());
-        }
-        if (route != null){
-            json.put(ROUTE, route.toJson());
-        }
+//        if (route != null){
+//            json.put(ROUTE, route.toJson());
+//        }
         if (product != null){
             json.put(PRODUCT, product.getId());
-        }
-        if (weight != null){
-            json.put(WEIGHT, weight.toJson());
         }
         json.put(FIELDS, fields());
         json.put(FARES, fare());
@@ -226,5 +213,22 @@ public class Report implements Serializable, Comparable<Report>, IChanged, JsonA
 
 
         return values;
+    }
+
+    public String getRouteString() {
+        StringBuilder builder = new StringBuilder();
+        int i = 0;
+        for (String s : route){
+            builder.append(s);
+            if (i < route.size() - 1){
+                builder.append(COMA);
+            }
+            i++;
+        }
+        return builder.toString();
+    }
+
+    public void addDetail(ReportDetail reportDetail) {
+        details.add(reportDetail);
     }
 }

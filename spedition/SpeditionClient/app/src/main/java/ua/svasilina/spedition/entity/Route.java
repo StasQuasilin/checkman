@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static ua.svasilina.spedition.constants.Keys.EMPTY;
 import static ua.svasilina.spedition.constants.Keys.ROUTE;
 
-public class Route extends JsonAble {
+public class Route implements JsonAble {
 
     private ArrayList<String> points = new ArrayList<>();
     public static final String ARROW = " ➞ ";

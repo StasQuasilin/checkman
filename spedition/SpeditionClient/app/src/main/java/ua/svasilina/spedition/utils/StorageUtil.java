@@ -67,8 +67,12 @@ public class StorageUtil {
         }
     }
 
-    public void remove(String name) {
-
+    public boolean remove(String name) {
+        File file = context.getFileStreamPath(name);
+        if (file.exists()){
+            return file.delete();
+        }
+        return false;
     }
 
     public boolean isSync() {

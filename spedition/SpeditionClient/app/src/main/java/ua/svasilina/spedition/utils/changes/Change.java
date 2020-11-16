@@ -8,7 +8,7 @@ import static ua.svasilina.spedition.constants.Keys.FIELD;
 import static ua.svasilina.spedition.constants.Keys.NEW;
 import static ua.svasilina.spedition.constants.Keys.OLD;
 
-public class Change extends JsonAble {
+public class Change implements JsonAble {
     private final String field;
     private final Object oldValue;
     private final Object newValue;

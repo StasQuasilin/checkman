@@ -8,7 +8,7 @@ import static ua.svasilina.spedition.constants.Keys.LATITUDE;
 import static ua.svasilina.spedition.constants.Keys.LONGITUDE;
 import static ua.svasilina.spedition.constants.Keys.TIME;
 
-public class CurrentLocation extends JsonAble{
+public class CurrentLocation implements JsonAble {
     private double latitude;
     private double longitude;
     private long time;

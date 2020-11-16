@@ -2,6 +2,7 @@ package ua.svasilina.spedition.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -60,12 +61,12 @@ public class ReportFieldEditDialog extends DialogFragment {
     private final DateTimeBuilder dateBuilder;
     private final DateTimeBuilder timeBuilder;
 
-    public ReportFieldEditDialog(ReportField reportField, LayoutInflater inflater, Report report, CustomListener saveListener) {
+    public ReportFieldEditDialog(ReportField reportField, Context context, Report report, CustomListener saveListener) {
         this.reportField = reportField;
-        this.inflater = inflater;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.saveListener = saveListener;
 
-        ProductsUtil productsUtil = new ProductsUtil();
+        ProductsUtil productsUtil = new ProductsUtil(context);
         if (report != null) {
             products = productsUtil.getChildren(report.getProduct());
         } else {
@@ -299,12 +300,12 @@ public class ReportFieldEditDialog extends DialogFragment {
             }
             final String grossString = gross.getText().toString();
             if (!grossString.isEmpty()){
-                final float gross = Float.parseFloat(grossString);
+                final int gross = Integer.parseInt(grossString);
                 weight.setGross(gross);
             }
             final String tareString = tare.getText().toString();
             if (!tareString.isEmpty()){
-                final float tare = Float.parseFloat(tareString);
+                final int tare = Integer.parseInt(tareString);
                 weight.setTare(tare);
             }
         } else {

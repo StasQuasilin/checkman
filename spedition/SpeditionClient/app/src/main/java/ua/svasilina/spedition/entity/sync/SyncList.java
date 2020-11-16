@@ -12,7 +12,7 @@ import ua.svasilina.spedition.entity.JsonAble;
 
 import static ua.svasilina.spedition.constants.Keys.FIELDS;
 
-public class SyncList extends JsonAble {
+public class SyncList implements JsonAble {
 
     private final HashMap<String, SyncListItem> fields = new HashMap<>();
 

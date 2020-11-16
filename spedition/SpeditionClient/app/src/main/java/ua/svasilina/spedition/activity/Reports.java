@@ -40,7 +40,10 @@ public class Reports extends AppCompatActivity {
         reports.addAll(reportsUtil.readStorage());
         adapter = new ReportListAdapter(context, R.layout.report_list_row, reports);
         ListView view = findViewById(R.id.report_list);
-        view.setAdapter(adapter);
+        if (view != null){
+            view.setAdapter(adapter);
+        }
+
         reportsUtil.sync();
 //        new LocationService(context).checkGranted(this);
     }

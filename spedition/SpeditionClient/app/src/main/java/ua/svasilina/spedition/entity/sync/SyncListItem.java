@@ -9,7 +9,7 @@ import ua.svasilina.spedition.entity.JsonAble;
 import static ua.svasilina.spedition.constants.Keys.REPORT;
 import static ua.svasilina.spedition.constants.Keys.TIME;
 
-public class SyncListItem extends JsonAble {
+public class SyncListItem implements JsonAble {
     private final String report;
     private Calendar syncTime;
 

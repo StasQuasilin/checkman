@@ -9,7 +9,7 @@ import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.NOTE;
 import static ua.svasilina.spedition.constants.Keys.TIME;
 
-public class ReportNote extends JsonAble implements Serializable {
+public class ReportNote implements Serializable, JsonAble {
     private String uuid;
     private Calendar time;
     private String note;

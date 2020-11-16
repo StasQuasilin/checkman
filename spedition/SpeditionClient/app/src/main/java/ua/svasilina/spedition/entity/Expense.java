@@ -10,7 +10,7 @@ import static ua.svasilina.spedition.constants.Keys.DESCRIPTION;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.SPACE;
 
-public class Expense extends JsonAble{
+public class Expense implements JsonAble {
     private String uuid;
     private String description;
     private int amount;

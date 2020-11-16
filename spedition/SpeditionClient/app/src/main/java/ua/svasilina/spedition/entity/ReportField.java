@@ -13,7 +13,7 @@ import static ua.svasilina.spedition.constants.Keys.MONEY;
 import static ua.svasilina.spedition.constants.Keys.PRODUCT;
 import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
-public class ReportField extends JsonAble implements Comparable<ReportField> {
+public class ReportField implements Comparable<ReportField>, JsonAble {
     private String uuid;
     private String counterparty;
     private Calendar arriveTime;
