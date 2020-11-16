@@ -3,10 +3,7 @@ package api.login;
 import api.ServletAPI;
 import constants.ApiLinks;
 import constants.Links;
-import entity.ErrorAnswer;
-import entity.ServerAnswer;
-import entity.SuccessAnswer;
-import entity.UserAccess;
+import entity.*;
 import org.json.simple.JSONObject;
 import utils.hibernate.dao.UserDAO;
 
@@ -26,7 +23,7 @@ public class LoginAPI extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final JSONObject body = parseBody(req);
-        ServerAnswer answer;
+        Answer answer;
         if (body != null){
             System.out.println(body);
             String phone = String.valueOf(body.get(PHONE));

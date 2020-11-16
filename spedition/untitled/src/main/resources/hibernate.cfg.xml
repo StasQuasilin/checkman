@@ -6,13 +6,13 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
 <!--        <property name="connection.url">jdbc:postgresql://10.10.10.201:5432/chm_db</property>-->
-        <property name="connection.url">jdbc:postgresql://localhost:5432/spedition_o_db</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/spedition_db</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
         <!--suppress HibernateConfigDomInspection -->
 <!--        <property name="connection.password">53721456</property>-->
         <!--suppress HibernateConfigDomInspection -->
-        <property name="connection.password">53721456</property>
+        <property name="connection.password">Stas53721456</property>
         <property name="current_session_context_class">thread</property>
         <property name="connection.pool_size">20</property>
         <property name="show_sql">false</property>

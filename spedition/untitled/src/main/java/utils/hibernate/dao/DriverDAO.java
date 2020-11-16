@@ -21,4 +21,8 @@ public class DriverDAO {
     public List<Driver> getDrivers() {
         return hibernator.query(Driver.class, null);
     }
+
+    public Driver getDriver(Object id) {
+        return hibernator.get(Driver.class, Keys.ID, id);
+    }
 }

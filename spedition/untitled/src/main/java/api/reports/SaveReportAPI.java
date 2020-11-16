@@ -34,7 +34,7 @@ public class SaveReportAPI extends ServletAPI {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         JSONObject body = parseBody(req);
-        ServerAnswer answer;
+        Answer answer;
         if (body != null) {
             System.out.println("!" + body);
             final String header = req.getHeader(TOKEN);
