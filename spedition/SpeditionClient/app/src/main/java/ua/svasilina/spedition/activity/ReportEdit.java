@@ -95,12 +95,13 @@ public class ReportEdit extends AppCompatActivity {
             final String value = person.getForename() + " " + person.getSurname();
             driverButton.setText(value);
             driverBox.setVisibility(View.VISIBLE);
-            driverInput.setVisibility(View.GONE);
+
         }
-        else {
-            driverBox.setVisibility(View.GONE);
-            driverInput.setVisibility(View.VISIBLE);
-        }
+//        else {
+//            driverBox.setVisibility(View.GONE);
+//            driverInput.setVisibility(View.VISIBLE);
+//        }
+        driverInput.setVisibility(View.GONE);
     }
 
     @Override
@@ -124,7 +125,6 @@ public class ReportEdit extends AppCompatActivity {
             report = new Report();
         }
 
-        Log.i("Editable report data", report.toJson().toJSONString());
 
         driverBox = findViewById(R.id.driverBox);
         driverButton = driverBox.findViewById(R.id.driverButton);
@@ -180,7 +180,6 @@ public class ReportEdit extends AppCompatActivity {
             }
         });
         final View reportRemove = findViewById(R.id.reportRemove);
-        final String uuid1 = report.getUuid();
         if (uuid != null) {
             reportRemove.setOnClickListener(new View.OnClickListener() {
                 @Override

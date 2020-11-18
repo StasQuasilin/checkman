@@ -68,7 +68,6 @@ public class DBUtil {
         loadProgress = view.findViewById(R.id.loadProgres);
         loadStatus = view.findViewById(R.id.loadStatus);
 
-
         final HashMap<String,String> data = new HashMap<>();
 
         data.put(Keys.PRODUCTS, getLastSync(Tables.PRODUCTS));
@@ -215,8 +214,7 @@ public class DBUtil {
     private void syncProducts(int productId) {
         HashMap<String, Object> data = new HashMap<>();
         data.put(Keys.ID, productId);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                ApiLinks.GET_PRODUCT, new JSONObject(data), new Response.Listener<JSONObject>() {
+        sendJson(ApiLinks.GET_PRODUCT, new JSONObject(data), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -236,7 +234,6 @@ public class DBUtil {
                 System.out.println(error.getMessage());
             }
         });
-        connector.addRequest(context, request);
     }
 
     private void saveProduct(JSONObject product) throws JSONException {
@@ -250,6 +247,25 @@ public class DBUtil {
             db.update(Tables.PRODUCTS, cv, "server_id=?", new String[]{serverId});
         } else {
             db.insert(Tables.PRODUCTS, null, cv);
+        }
+    }
+
+    private void sendJson(String api, JSONObject json,  Response.Listener<JSONObject> onSuccess, Response.ErrorListener onError){
+        final String token = loginUtil.getToken();
+        if (token != null) {
+            JsonObjectRequest request = new JsonObjectRequest(
+                    Request.Method.POST,
+                    api, json, onSuccess,
+                    onError) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    final HashMap<String, String> map = new HashMap<>();
+                    map.put(TOKEN, token);
+                    map.put("content-type", "application/json; charset=utf-8");
+                    return map;
+                }
+            };
+            Connector.getConnector().addRequest(context, request);
         }
     }
 

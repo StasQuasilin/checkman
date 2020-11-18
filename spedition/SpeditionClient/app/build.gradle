@@ -24,8 +24,8 @@ android {
         applicationId 'ua.svasilina.spedition'
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 17
-        versionName "1.104"
+        versionCode 19
+        versionName '1.104'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug

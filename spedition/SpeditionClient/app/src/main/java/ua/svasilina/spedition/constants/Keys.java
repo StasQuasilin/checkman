@@ -67,4 +67,5 @@ public interface Keys {
     String SERVER_ID = "server_id";
     String DRIVERS = "drivers";
     String ARROW = " ➞ ";
+    String REMOVE = "remove";
 }

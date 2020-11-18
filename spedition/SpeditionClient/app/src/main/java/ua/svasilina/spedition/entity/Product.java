@@ -1,6 +1,7 @@
 package ua.svasilina.spedition.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.json.simple.JSONObject;
 
@@ -47,5 +48,11 @@ public class Product implements JsonAble {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        assert obj != null;
+        return getClass().equals(obj.getClass()) && hashCode() == obj.hashCode();
     }
 }

@@ -1,7 +1,5 @@
 package ua.svasilina.spedition.utils.sync;
 
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -16,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ua.svasilina.spedition.constants.ApiLinks;
+import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Report;
 import ua.svasilina.spedition.entity.sync.SyncList;
 import ua.svasilina.spedition.entity.sync.SyncListItem;
@@ -55,12 +54,61 @@ public class SyncUtil {
                         sync(item.getReport());
                     }
                 }
+                final SyncList removeList = syncList.readRemoveList();
+                for (SyncListItem item : removeList.getFields()){
+                    System.out.println("sync Remove " + item.getReport());
+                    remove(item.getReport());
+
+                }
             }
         }).start();
     }
+
+    public void remove(final String uuid) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put(Keys.REPORT, uuid);
+        sendJson(ApiLinks.REPORT_REMOVE, new JSONObject(hashMap), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    final String status = response.getString(STATUS);
+                    if (status.equals(SUCCESS)) {
+                        syncList.forgotAbout(uuid);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+    }
+
+    private void sendJson(String api, JSONObject json,  Response.Listener<JSONObject> onSuccess, Response.ErrorListener onError){
+        final String token = loginUtil.getToken();
+        if (token != null) {
+            JsonObjectRequest request = new JsonObjectRequest(
+                    Request.Method.POST,
+                    api, json, onSuccess,
+                    onError) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    final HashMap<String, String> map = new HashMap<>();
+                    map.put(TOKEN, token);
+                    map.put("content-type", "application/json; charset=utf-8");
+                    return map;
+                }
+            };
+            Connector.getConnector().addRequest(reportsUtil.getContext(), request);
+        }
+    }
+
     private final Set<String> nowSync = new HashSet<>();
 
-    private void sync(final Report report){
+    public void saveReport(final Report report){
         if (report != null) {
             final String token = loginUtil.getToken();
             if (token != null) {
@@ -69,41 +117,25 @@ public class SyncUtil {
                     nowSync.add(uuid);
 
                     final JSONObject object = new JSONObject(report.toJson());
-
-                    JsonObjectRequest request = new JsonObjectRequest(
-                            Request.Method.POST,
-                            ApiLinks.REPORT_SAVE,
-                            object,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    System.out.println(response);
-                                    try {
-                                        final String status = response.getString(STATUS);
-                                        if (status.equals(SUCCESS)){
-                                            syncList.setSyncTime(uuid);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            },
-                            new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(reportsUtil.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                    }){
+                    sendJson(ApiLinks.REPORT_SAVE, object, new Response.Listener<JSONObject>() {
                         @Override
-                        public Map<String, String> getHeaders() {
-                            final HashMap<String, String> map = new HashMap<>();
-                            map.put(TOKEN, token);
-                            map.put("content-type", "application/json; charset=utf-8");
-                            return map;
+                        public void onResponse(JSONObject response) {
+                            System.out.println(response);
+                            try {
+                                final String status = response.getString(STATUS);
+                                if (status.equals(SUCCESS)) {
+                                    syncList.setSyncTime(uuid);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    };
-
-                    Connector.getConnector().addRequest(reportsUtil.getContext(), request);
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
                 }
             }
         }
@@ -111,6 +143,6 @@ public class SyncUtil {
 
     private void sync(final String uuid){
         final Report openReport = reportsUtil.openReport(uuid);
-        sync(openReport);
+        saveReport(openReport);
     }
 }

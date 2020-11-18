@@ -1,8 +1,6 @@
 package ua.svasilina.spedition.utils;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
 import ua.svasilina.spedition.entity.Report;
@@ -24,7 +21,6 @@ import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.ReportNote;
 import ua.svasilina.spedition.entity.Route;
 import ua.svasilina.spedition.entity.Weight;
-import ua.svasilina.spedition.utils.changes.ChangeLog;
 import ua.svasilina.spedition.utils.changes.ChangeUtil;
 import ua.svasilina.spedition.utils.sync.SyncListUtil;
 import ua.svasilina.spedition.utils.sync.SyncUtil;
@@ -84,21 +80,17 @@ public class ReportsUtil {
 
     public void saveReport(final Report report){
         String uuid = report.getUuid();
-        syncListUtil.resetSyncTime(uuid);
         if(uuid == null){
             uuid = UUID.randomUUID().toString();
             report.setUuid(uuid);
         }
-
-        Report oldReport = openReport(uuid);
-
-        final ChangeLog changeLog = changeUtil.compare(oldReport, report);
 
         final String fileName = reportsDir + uuid;
         final JSONObject jsonObject = report.toJson();
         final String data = jsonObject.toJSONString();
 
         storageUtil.saveData(fileName, data);
+        syncUtil.saveReport(report);
     }
 
     private Report parseReport(String data, ReportDetail detailed){
@@ -266,8 +258,8 @@ public class ReportsUtil {
 
     private Weight parseWeight(JSONObject weightJson) {
         Weight weight = new Weight();
-        weight.setGross(Integer.parseInt(String.valueOf(weightJson.get(GROSS))));
-        weight.setTare(Integer.parseInt(String.valueOf(weightJson.get(TARE))));
+        weight.setGross((int) Float.parseFloat(String.valueOf(weightJson.get(GROSS))));
+        weight.setTare((int) Float.parseFloat(String.valueOf(weightJson.get(TARE))));
         return weight;
     }
 
@@ -320,12 +312,16 @@ public class ReportsUtil {
     }
 
     public void sync() {
-        Log.i(TAG, "Sync Storage");
-        Toast.makeText(context, R.string.sync, Toast.LENGTH_LONG).show();
+//        Log.i(TAG, "Sync Storage");
+//        Toast.makeText(context, R.string.sync, Toast.LENGTH_LONG).show();
         syncUtil.sync();
     }
 
     public boolean removeReport(String uuid) {
-        return storageUtil.remove(reportsDir + uuid);
+        final boolean remove = storageUtil.remove(reportsDir + uuid);
+        if (remove){
+            syncUtil.remove(uuid);
+        }
+        return remove;
     }
 }

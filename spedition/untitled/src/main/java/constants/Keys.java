@@ -76,4 +76,7 @@ public interface Keys {
     String REPORT_REMOVE = "reportRemove";
     String MONTH_REPORT = "monthReport";
     String GET_REPORTS = "getReports";
+    String PRODUCTS = "products";
+    String MONTH = "month";
+    String YEAR = "year";
 }

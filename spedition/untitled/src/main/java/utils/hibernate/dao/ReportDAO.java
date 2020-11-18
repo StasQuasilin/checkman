@@ -4,6 +4,7 @@ import api.socket.SubscribeType;
 import api.socket.UpdateUtil;
 import constants.Keys;
 import entity.*;
+import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
 import utils.hibernate.DateContainers.LT;
 import utils.hibernate.Hibernator;
@@ -32,10 +33,7 @@ public class ReportDAO {
         final User owner = report.getOwner();
         updateUtil.update(SubscribeType.reports, report.toJson(), owner);
         if (owner.getSupervisor() != null) {
-            System.out.println("SUPERVISOR + " + owner.getSupervisor().getPerson().getValue());
             updateUtil.update(SubscribeType.reports, report.toJson(), owner.getSupervisor());
-        } else {
-            System.out.println("No supervisor");
         }
     }
 
@@ -90,5 +88,9 @@ public class ReportDAO {
         params.put("done", null);
         params.put("owner", user);
         return hibernator.query(Report.class, params);
+    }
+
+    public List<Report> getReports(Date from, Date to) {
+        return hibernator.query(Report.class, "leaveTime", new BETWEEN(from, to));
     }
 }

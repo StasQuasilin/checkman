@@ -58,15 +58,6 @@ public class StorageUtil {
         return null;
     }
 
-    public void clearStorage(FileFilter filter){
-        final File[] files = getFiles(filter);
-        if (files != null){
-            for (File file : files){
-                file.delete();
-            }
-        }
-    }
-
     public boolean remove(String name) {
         File file = context.getFileStreamPath(name);
         if (file.exists()){

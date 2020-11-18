@@ -21,6 +21,7 @@ public class SyncListUtil {
 
     public static final String TAG = "Sync List Util";
     private static final String SYNC_LIST_FILE_NAME = "SyncList";
+    private static final String REMOVE_LIST = "RemoveList";
     private final StorageUtil storageUtil;
     private final JsonParser parser;
 
@@ -30,7 +31,15 @@ public class SyncListUtil {
     }
 
     public SyncList readSyncList(){
-        final String data = storageUtil.readFile(SYNC_LIST_FILE_NAME);
+        return readList(SYNC_LIST_FILE_NAME);
+    }
+
+    public SyncList readRemoveList(){
+        return readList(REMOVE_LIST);
+    }
+
+    private SyncList readList(String fileName){
+        final String data = storageUtil.readFile(fileName);
         SyncList list = new SyncList();
         if (data != null){
             final JSONObject parse = parser.parse(data);
@@ -78,5 +87,26 @@ public class SyncListUtil {
         final SyncList list = readSyncList();
         list.setSyncTime(report);
         saveSyncList(list);
+    }
+
+    public void addRemove(String uuid) {
+        final SyncList removeList = readRemoveList();
+        removeList.clearTime(uuid);
+        System.out.println("------------->");
+        for (SyncListItem i : removeList.getFields()){
+            System.out.println(i.getReport());
+        }
+        System.out.println("<-------------");
+        saveSyncList(removeList);
+    }
+
+    public void forgotAbout(String report) {
+        final SyncList removeList = readRemoveList();
+        removeList.clearTime(report);
+        saveSyncList(removeList);
+        Log.i(TAG, "Forgot about " + report);
+        final SyncList syncList = readSyncList();
+        syncList.remove(report);
+        saveSyncList(syncList);
     }
 }

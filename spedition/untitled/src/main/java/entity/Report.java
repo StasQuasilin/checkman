@@ -13,7 +13,7 @@ import static constants.Keys.*;
 
 @Entity
 @Table(name = "reports")
-public class Report extends JsonAble {
+public class Report extends JsonAble implements Comparable<Report> {
     private int id;
     private String uuid;
     private Timestamp leaveTime;
@@ -198,5 +198,10 @@ public class Report extends JsonAble {
     @Transient
     public String buildRoute(){
         return route.replaceAll(COMA, SPACE + RIGHT_ARROW + SPACE);
+    }
+
+    @Override
+    public int compareTo(Report report) {
+        return leaveTime.compareTo(report.getLeaveTime());
     }
 }

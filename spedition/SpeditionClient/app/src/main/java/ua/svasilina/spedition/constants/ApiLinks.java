@@ -12,4 +12,5 @@ public interface ApiLinks {
     String GET_PRODUCT = HOME + API + "/get/product";
     String GET_DRIVER = HOME + API + "/get/driver";
     String GET_COUNTERPARTY = HOME + API + "/get/counterparty";
+    String REPORT_REMOVE = HOME + API + "/report/remove";
 }

@@ -35,6 +35,10 @@ public class SyncList implements JsonAble {
         fields.put(item.getReport(), item);
     }
 
+    public void remove(String report){
+        fields.remove(report);
+    }
+
     public void clearTime(String report) {
         getItem(report).setSyncTime(null);
     }

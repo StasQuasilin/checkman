@@ -60,7 +60,7 @@
     <string name="date_template">--.--.--</string>
     <string name="time_template">--:--</string>
     <string name="fare">Проїзд</string>
-    <string name="expanses">Додаткові витрати</string>
+    <string name="expanses">Витрати</string>
     <string name="route_edit">Редагувати маршрут</string>
     <string name="fares">Витрати на проїзд</string>
     <string name="fixLeaveTime">Зафіксувати час виїзду</string>
