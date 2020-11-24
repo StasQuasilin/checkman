@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.text.SimpleDateFormat;
+import java.util.LinkedList;
 import java.util.List;
 
 import ua.svasilina.spedition.R;
@@ -20,22 +21,24 @@ import ua.svasilina.spedition.activity.ReportEdit;
 import ua.svasilina.spedition.activity.ReportShow;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Product;
-import ua.svasilina.spedition.entity.Report;
-import ua.svasilina.spedition.entity.Route;
+import ua.svasilina.spedition.entity.reports.SimpleReport;
 
+import static ua.svasilina.spedition.constants.Keys.ARROW;
+import static ua.svasilina.spedition.constants.Keys.COMA;
 import static ua.svasilina.spedition.constants.Keys.EMPTY;
 import static ua.svasilina.spedition.constants.Keys.ID;
+import static ua.svasilina.spedition.constants.Keys.SPACE;
 
-public class ReportListAdapter extends ArrayAdapter<Report> {
+public class ReportListAdapter extends ArrayAdapter<SimpleReport> {
 
     private final Context context;
     private final int resource;
-    private final List<Report> reports;
+    private final List<SimpleReport> reports;
     private final LayoutInflater inflater;
     @SuppressLint("SimpleDateFormat")
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
-    public ReportListAdapter(@NonNull Context context, int resource, @NonNull List<Report> reports) {
+    public ReportListAdapter(@NonNull Context context, int resource, @NonNull List<SimpleReport> reports) {
         super(context, resource, reports);
         this.context = context;
         this.resource = resource;
@@ -52,7 +55,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
             view = inflater.inflate(resource, parent, false);
         }
 
-        final Report report = reports.get(position);
+        final SimpleReport report = reports.get(position);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,33 +81,55 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
             check.setVisibility(View.GONE);
         }
 
-        final Driver driver = report.getDriver();
+        final LinkedList<Driver> drivers = report.getDrivers();
+
         final TextView driverView = view.findViewById(R.id.driver);
-        if (driver != null){
-            driverView.setText(driver.getValue().toUpperCase());
+        if (drivers.size() > 0){
+            StringBuilder builder = new StringBuilder();
+            for(int i = 0; i < drivers.size(); i++){
+                builder.append(drivers.get(i).getValue());
+                if (i < drivers.size() - 1){
+                    builder.append(COMA).append(SPACE);
+                }
+            }
+            driverView.setText(builder.toString().toUpperCase());
         } else {
             driverView.setText(EMPTY);
         }
 
-        final Route route = report.getRoute();
+        final LinkedList<String> route = report.getRoute();
         final TextView routeView = view.findViewById(R.id.route);
-        if (route != null){
-            routeView.setText(route.getValue());
+        if (route.size() > 0){
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < route.size(); i++){
+                builder.append(route.get(i));
+                if (i < route.size() - 1){
+                    builder.append(ARROW);
+                }
+            }
+            routeView.setText(builder.toString().toUpperCase());
         } else {
             routeView.setText(EMPTY);
         }
 
-        final Product product = report.getProduct();
+        final LinkedList<Product> products = report.getProducts();
         final TextView productView = view.findViewById(R.id.details);
-        if (product != null){
-            productView.setText(product.getName());
+        if (products.size() > 0){
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < products.size(); i++){
+                builder.append(products.get(i).getName());
+                if (i < products.size() - 1){
+                    builder.append(COMA).append(SPACE);
+                }
+            }
+            productView.setText(builder.toString());
         } else {
             productView.setText(EMPTY);
         }
         return view;
     }
 
-    private void open(Report report) {
+    private void open(SimpleReport report) {
         Intent intent = new Intent();
         if (report.isDone()){
             intent.setClass(context, ReportShow.class);
@@ -112,7 +137,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
             intent.setClass(context, ReportEdit.class);
         }
 
-        intent.putExtra(ID, report.getUuid());
+        intent.putExtra(ID, report.getId());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }

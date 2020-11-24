@@ -79,4 +79,5 @@ public interface Keys {
     String PRODUCTS = "products";
     String MONTH = "month";
     String YEAR = "year";
+    String DETAILS = "details";
 }

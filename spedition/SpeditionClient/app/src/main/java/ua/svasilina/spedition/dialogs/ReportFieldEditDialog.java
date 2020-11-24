@@ -24,9 +24,10 @@ import java.util.List;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.entity.Product;
-import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.entity.OldReport;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.Weight;
+import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
 import ua.svasilina.spedition.utils.builders.DateTimeBuilder;

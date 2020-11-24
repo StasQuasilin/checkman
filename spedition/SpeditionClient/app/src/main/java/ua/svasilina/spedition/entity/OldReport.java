@@ -26,7 +26,7 @@ import static ua.svasilina.spedition.constants.Keys.PRODUCT;
 import static ua.svasilina.spedition.constants.Keys.ROUTE;
 import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
-public class Report implements Serializable, Comparable<Report>, IChanged, JsonAble {
+public class OldReport implements Serializable, Comparable<OldReport>, IChanged, JsonAble {
 
     private String uuid;
     public Calendar leaveTime;
@@ -188,7 +188,7 @@ public class Report implements Serializable, Comparable<Report>, IChanged, JsonA
     }
 
     @Override
-    public int compareTo(@NotNull Report o) {
+    public int compareTo(@NotNull OldReport o) {
         if (leaveTime == null){
             return -1;
         } else if (o.leaveTime == null){

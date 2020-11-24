@@ -68,4 +68,6 @@ public interface Keys {
     String DRIVERS = "drivers";
     String ARROW = " ➞ ";
     String REMOVE = "remove";
+    String NEW_STRING = "\n";
+    String DETAILS = "details";
 }

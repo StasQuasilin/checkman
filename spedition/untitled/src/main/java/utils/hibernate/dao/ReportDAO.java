@@ -4,6 +4,7 @@ import api.socket.SubscribeType;
 import api.socket.UpdateUtil;
 import constants.Keys;
 import entity.*;
+import entity.reports.ReportDetails;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
 import utils.hibernate.DateContainers.LT;
@@ -92,5 +93,9 @@ public class ReportDAO {
 
     public List<Report> getReports(Date from, Date to) {
         return hibernator.query(Report.class, "leaveTime", new BETWEEN(from, to));
+    }
+
+    public void save(ReportDetails reportDetails) {
+        hibernator.save(reportDetails);
     }
 }

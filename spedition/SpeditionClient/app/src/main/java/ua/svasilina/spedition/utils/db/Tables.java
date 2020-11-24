@@ -10,4 +10,6 @@ public interface Tables {
     String REPORT_FIELDS = "report_fields";
     String EXPENSES = "expenses";
     String REPORT_NOTES = "report_notes";
+    String LOCATION_LOG = "location_logs";
+    String REMOVE_REPORTS = "remove_reports";
 }

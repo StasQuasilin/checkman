@@ -16,12 +16,13 @@ import java.util.UUID;
 
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
-import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.entity.OldReport;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.ReportNote;
 import ua.svasilina.spedition.entity.Route;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.changes.ChangeUtil;
+import ua.svasilina.spedition.utils.db.ReportUtil;
 import ua.svasilina.spedition.utils.sync.SyncListUtil;
 import ua.svasilina.spedition.utils.sync.SyncUtil;
 
@@ -68,7 +69,7 @@ public class ReportsUtil {
         storageUtil = new StorageUtil(context);
         fileFilter = new FileFilter(reportsDir);
         this.context = context;
-        syncUtil = new SyncUtil(this);
+        syncUtil = new SyncUtil(context, new ReportUtil(context));
         changeUtil = new ChangeUtil(context);
         syncListUtil = new SyncListUtil(context);
         productsUtil = new ProductsUtil(context);
@@ -78,7 +79,7 @@ public class ReportsUtil {
         return context;
     }
 
-    public void saveReport(final Report report){
+    public void saveReport(final OldReport report){
         String uuid = report.getUuid();
         if(uuid == null){
             uuid = UUID.randomUUID().toString();
@@ -90,16 +91,16 @@ public class ReportsUtil {
         final String data = jsonObject.toJSONString();
 
         storageUtil.saveData(fileName, data);
-        syncUtil.saveReport(report);
+//        syncUtil.saveReport(report, true);
     }
 
-    private Report parseReport(String data, ReportDetail detailed){
+    private OldReport parseReport(String data, ReportDetail detailed){
 
-        Report report = null;
+        OldReport report = null;
         if (data != null && !data.isEmpty()) {
             try {
                 final JSONObject parse = (JSONObject) parser.parse(data);
-                report = new Report();
+                report = new OldReport();
                 report.setUuid(String.valueOf(parse.get(ID)));
 
                 if (parse.containsKey(DRIVER)) {
@@ -198,7 +199,7 @@ public class ReportsUtil {
         return report;
     }
 
-    private void parseNotes(Report report, JSONArray array) {
+    private void parseNotes(OldReport report, JSONArray array) {
         for (Object o : array){
             JSONObject json = (JSONObject) o;
             ReportNote note = new ReportNote();
@@ -211,7 +212,7 @@ public class ReportsUtil {
         }
     }
 
-    private void parseFields(Report report, JSONArray fieldsArray) {
+    private void parseFields(OldReport report, JSONArray fieldsArray) {
         for (Object o :  fieldsArray) {
             JSONObject field = (JSONObject) o;
             ReportField reportField = new ReportField();
@@ -275,17 +276,17 @@ public class ReportsUtil {
         }
     }
 
-    public List<Report> readStorage(){
+    public List<OldReport> readStorage(){
         return readStorage(ReportDetail.info);
     }
 
-    public List<Report> readStorage(ReportDetail detail){
-        List<Report> reports = new ArrayList<>();
+    public List<OldReport> readStorage(ReportDetail detail){
+        List<OldReport> reports = new ArrayList<>();
         final File[] files = storageUtil.getFiles(fileFilter);
         if (files != null) {
             for (File file : files) {
                 final String s = storageUtil.readFile(file.getName());
-                Report report = parseReport(s, detail);
+                OldReport report = parseReport(s, detail);
                 if (report != null){
                     reports.add(report);
                 }
@@ -293,7 +294,7 @@ public class ReportsUtil {
         }
         Collections.sort(reports);
         while (reports.size() > STORAGE_SIZE){
-            final Report report = reports.get(reports.size() - 1);
+            final OldReport report = reports.get(reports.size() - 1);
             if (report.isDone()){
                 reports.remove(report);
                 storageUtil.remove(reportsDir + report.getUuid());
@@ -303,7 +304,7 @@ public class ReportsUtil {
         return reports;
     }
 
-    public Report openReport(String uuid) {
+    public OldReport openReport(String uuid) {
         final String s = storageUtil.readFile(reportsDir + uuid);
         if (s != null) {
             return parseReport(s, ReportDetail.full);
@@ -317,10 +318,10 @@ public class ReportsUtil {
         syncUtil.sync();
     }
 
-    public boolean removeReport(String uuid) {
+    public boolean removeReport(int uuid) {
         final boolean remove = storageUtil.remove(reportsDir + uuid);
         if (remove){
-            syncUtil.remove(uuid);
+//            syncUtil.remove(uuid, true);
         }
         return remove;
     }

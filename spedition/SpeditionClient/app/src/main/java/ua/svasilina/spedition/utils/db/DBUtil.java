@@ -183,13 +183,10 @@ public class DBUtil {
         connector.addRequest(context, request);
     }
 
-
-
     private void syncDrivers(int driverId) {
         HashMap<String, Object> data = new HashMap<>();
         data.put(Keys.ID, driverId);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                ApiLinks.GET_DRIVER, new JSONObject(data), new Response.Listener<JSONObject>() {
+        sendJson(ApiLinks.GET_DRIVER, new JSONObject(data), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -208,7 +205,6 @@ public class DBUtil {
                 System.out.println(error.getMessage());
             }
         });
-        connector.addRequest(context, request);
     }
 
     private void syncProducts(int productId) {

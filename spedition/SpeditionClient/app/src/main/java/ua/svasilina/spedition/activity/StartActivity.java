@@ -8,8 +8,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import ua.svasilina.spedition.R;
+import ua.svasilina.spedition.services.ActiveReportService;
 import ua.svasilina.spedition.utils.db.DBUtil;
 import ua.svasilina.spedition.utils.db.OnSyncDone;
 
@@ -21,6 +23,7 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ContextCompat.startForegroundService(getApplicationContext(), new Intent(getApplicationContext(), ActiveReportService.class));
         setContentView(R.layout.start_activity);
         final ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null){

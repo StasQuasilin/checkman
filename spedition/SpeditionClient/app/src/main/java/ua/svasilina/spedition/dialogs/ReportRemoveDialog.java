@@ -14,17 +14,17 @@ import androidx.fragment.app.DialogFragment;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.activity.Reports;
-import ua.svasilina.spedition.utils.ReportsUtil;
+import ua.svasilina.spedition.utils.db.ReportUtil;
 
 public class ReportRemoveDialog extends DialogFragment {
 
-    private final String uuid;
-    private final ReportsUtil reportsUtil;
+    private final int uuid;
+    private final ReportUtil reportsUtil;
     private final Context context;
 
-    public ReportRemoveDialog(Context context, String uuid) {
+    public ReportRemoveDialog(Context context, int uuid) {
         this.uuid = uuid;
-        reportsUtil = new ReportsUtil(context);
+        reportsUtil = new ReportUtil(context);
         this.context = context;
     }
 

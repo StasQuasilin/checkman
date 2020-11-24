@@ -21,7 +21,6 @@ let cell = {
     },
     template:'<div class="cell" v-on:click="onClick()">' +
             '<div class="cell-content" v-if="data">' +
-                '<div v-if="data.driver">{{data.driver.surname.toUpperCase()}} {{data.driver.forename.substring(0, 1).toUpperCase()}}.</div>' +
                 '<div style="display: inline-block" v-for="route in buildRoute()">' +
                     '{{(route).toUpperCase()}}' +
                 '</div>' +

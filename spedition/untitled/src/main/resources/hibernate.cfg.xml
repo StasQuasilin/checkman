@@ -9,9 +9,7 @@
         <property name="connection.url">jdbc:postgresql://localhost:5432/spedition_db</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
-        <!--suppress HibernateConfigDomInspection -->
         <property name="connection.password">53721456</property>
-        <!--suppress HibernateConfigDomInspection -->
 <!--        <property name="connection.password">Stas53721456!</property>-->
         <property name="current_session_context_class">thread</property>
         <property name="connection.pool_size">20</property>
@@ -25,6 +23,7 @@
         <mapping class="entity.Locality"/>
         <mapping class="entity.Product"/>
         <mapping class="entity.Report"/>
+        <mapping class="entity.reports.ReportDetails"/>
         <mapping class="entity.ReportField"/>
         <mapping class="entity.Route"/>
         <mapping class="entity.Weight"/>

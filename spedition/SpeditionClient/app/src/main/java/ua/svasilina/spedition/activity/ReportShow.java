@@ -23,7 +23,7 @@ import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.CustomAdapter;
 import ua.svasilina.spedition.adapters.SimpleListAdapter;
 import ua.svasilina.spedition.entity.Expense;
-import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.entity.OldReport;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.CustomAdapterBuilder;
@@ -47,7 +47,7 @@ public class ReportShow extends AppCompatActivity {
     private TextView doneView;
     private ListView fieldList;
     private WeightStringBuilder weightStringBuilder;
-    private Report report;
+    private OldReport report;
     DateTimeBuilder dateTimeBuilder;
 
     @Override

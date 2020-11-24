@@ -9,11 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -27,16 +25,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.ReportFieldAdapter;
+import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.dialogs.DateDialog;
 import ua.svasilina.spedition.dialogs.DateDialogState;
 import ua.svasilina.spedition.dialogs.DoneReportDialog;
-import ua.svasilina.spedition.dialogs.DriverEditDialog;
-import ua.svasilina.spedition.dialogs.InputDialog;
+import ua.svasilina.spedition.dialogs.DriversManageDialog;
 import ua.svasilina.spedition.dialogs.ExpensesDialog;
 import ua.svasilina.spedition.dialogs.NoteEditDialog;
 import ua.svasilina.spedition.dialogs.ReportNotCompletedDialog;
@@ -45,19 +44,19 @@ import ua.svasilina.spedition.dialogs.RouteEditDialog;
 import ua.svasilina.spedition.dialogs.WeightDialog;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
-import ua.svasilina.spedition.entity.Person;
 import ua.svasilina.spedition.entity.Product;
-import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.entity.ReportDetail;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.ReportNote;
 import ua.svasilina.spedition.entity.Route;
 import ua.svasilina.spedition.entity.Weight;
+import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
-import ua.svasilina.spedition.utils.ReportsUtil;
 import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
-import ua.svasilina.spedition.utils.search.DriverSearchUtil;
+import ua.svasilina.spedition.utils.db.ReportUtil;
 
+import static ua.svasilina.spedition.constants.Keys.ARROW;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.LEFT_BRACE;
 import static ua.svasilina.spedition.constants.Keys.RIGHT_BRACE;
@@ -67,13 +66,11 @@ public class ReportEdit extends AppCompatActivity {
 
     @SuppressLint("SimpleDateFormat")
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-    private ReportsUtil reportsUtil;
+    private ReportUtil reportUtil;
     private Report report;
     private ReportFieldAdapter adapter;
 
-    private View driverBox;
     private Button driverButton;
-    private EditText driverInput;
     private Button dateButton;
     private Button timeButton;
     private Button routeButton;
@@ -89,19 +86,19 @@ public class ReportEdit extends AppCompatActivity {
     private WeightStringBuilder weightStringBuilder;
 
     void updateDriverButtonValue(){
-        final Driver driver = report.getDriver();
-        if (driver != null){
-            final Person person = driver.getPerson();
-            final String value = person.getForename() + " " + person.getSurname();
-            driverButton.setText(value);
-            driverBox.setVisibility(View.VISIBLE);
-
+        final LinkedList<ReportDetail> details = report.getDetails();
+        if (details.size() > 0){
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < details.size(); i++){
+                builder.append(details.get(i));
+                if(i < details.size() - 1){
+                    builder.append(Keys.NEW_STRING);
+                }
+            }
+            driverButton.setText(builder.toString());
+        } else {
+            driverButton.setText(Keys.EMPTY);
         }
-//        else {
-//            driverBox.setVisibility(View.GONE);
-//            driverInput.setVisibility(View.VISIBLE);
-//        }
-        driverInput.setVisibility(View.GONE);
     }
 
     @Override
@@ -113,22 +110,19 @@ public class ReportEdit extends AppCompatActivity {
         assert supportActionBar != null;
         supportActionBar.setTitle(R.string.edit);
         weightStringBuilder = new WeightStringBuilder(getResources());
-        reportsUtil = new ReportsUtil(context);
+        reportUtil = new ReportUtil(context);
         productsUtil = new ProductsUtil(context);
 
         final Intent intent = getIntent();
-        final String uuid = intent.getStringExtra(ID);
+        final int uuid = intent.getIntExtra(ID, -1);
 
-        if (uuid != null) {
-            report = reportsUtil.openReport(uuid);
+        if (uuid != -1) {
+            report = reportUtil.getReport(uuid);
         } else {
             report = new Report();
         }
 
-
-        driverBox = findViewById(R.id.driverBox);
-        driverButton = driverBox.findViewById(R.id.driverButton);
-        driverInput = findViewById(R.id.driverInputField);
+        driverButton = findViewById(R.id.driverButton);
         initDriverButton();
 
         routeButton = findViewById(R.id.routeButton);
@@ -180,7 +174,7 @@ public class ReportEdit extends AppCompatActivity {
             }
         });
         final View reportRemove = findViewById(R.id.reportRemove);
-        if (uuid != null) {
+        if (uuid != -1) {
             reportRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -203,7 +197,7 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     private void updateWeightButton() {
-        final Weight weight = report.getWeight();
+        final Weight weight = null;//report.getWeight();
         if (weight == null){
             weightButton.setVisibility(View.GONE);
         } else {
@@ -214,10 +208,10 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     private void showWeightDialog() {
-        Weight weight = report.getWeight();
+        Weight weight = null;//report.getWeight();
         if (weight == null){
             weight = new Weight();
-            report.setWeight(weight);
+//            report.setWeight(weight);
         }
         new WeightDialog(weight, getLayoutInflater(), new CustomListener() {
             @Override
@@ -378,11 +372,7 @@ public class ReportEdit extends AppCompatActivity {
         routeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Route route = report.getRoute();
-                if (route == null){
-                    route = new Route();
-                    report.setRoute(route);
-                }
+                final LinkedList<String> route = report.getRoute();
                 RouteEditDialog routeEditDialog = new RouteEditDialog(route, getLayoutInflater(), new CustomListener() {
                     @Override
                     public void onChange() {
@@ -399,33 +389,16 @@ public class ReportEdit extends AppCompatActivity {
         driverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Driver driver = report.getDriver();
-                if (driver == null){
-                    driver = new Driver();
-                    driver.setUuid(UUID.randomUUID().toString());
-                    driver.setPerson(new Person());
-                    report.setDriver(driver);
-                }
-                CustomListener cl = new CustomListener() {
+                new DriversManageDialog(getApplicationContext(), report.getDetails(), new CustomListener() {
                     @Override
                     public void onChange() {
                         updateDriverButtonValue();
-                        save(false);
                     }
-                };
-                DriverEditDialog driverEditDialog = new DriverEditDialog(driver, getLayoutInflater(), cl);
-                driverEditDialog.show(getSupportFragmentManager(), "DriverEdit");
+                }).show(getSupportFragmentManager(), "DMD");
             }
         });
         updateDriverButtonValue();
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        driverInput.setFocusable(false);
-        driverInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new InputDialog(getApplicationContext(), new DriverSearchUtil()).show(getSupportFragmentManager(), "DIG");
-            }
-        });
+//        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
     }
 
@@ -449,10 +422,15 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     private void updateRouteButtonValue() {
-        final Route route = report.getRoute();
-        if (route != null){
-            routeButton.setText(route.getValue());
+        final LinkedList<String> route = report.getRoute();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < route.size(); i++){
+            builder.append(route.get(i));
+            if (i < route.size() - 1){
+                builder.append(ARROW);
+            }
         }
+        routeButton.setText(builder.toString());
     }
 
     private void updateLeaveButtons() {
@@ -490,9 +468,9 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     private void doneReport() {
-        final Driver driver = report.getDriver();
+        final Driver driver = null;//report.getDriver();
         boolean emptyDriver = driver == null || driver.isEmpty();
-        final Route route = report.getRoute();
+        final Route route = null;//report.getRoute();
         boolean emptyRoute = route == null || route.isEmpty();
         final Calendar leaveTime = report.getLeaveTime();
         boolean emptyLeave = leaveTime == null;
@@ -524,7 +502,7 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     void save(boolean redirect){
-        reportsUtil.saveReport(report);
+        reportUtil.saveReport(report);
 
         if (redirect) {
             final Context context = getApplicationContext();

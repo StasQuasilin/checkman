@@ -13,7 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TAG = "Db Helper";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 4);
     }
 
     @Override
@@ -87,10 +87,25 @@ public class DBHelper extends SQLiteOpenHelper {
                 "report integer not null," +
                 "time text," +
                 "note text)");
+        Log.i(TAG, "Create table 'Location Log'");
+        db.execSQL("create table " + Tables.LOCATION_LOG + " (" +
+                "id integer unique primary key autoincrement," +
+                "report integer not null," +
+                "time time," +
+                "latitude float," +
+                "longitude float)");
+        Log.i(TAG, "Create table 'Remove reports");
+        db.execSQL("create table " + Tables.REMOVE_REPORTS + " (" +
+                "id integer)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG, "Old version: " + oldVersion + ", new version: " + newVersion);
+        if (oldVersion<=3){
+            Log.i(TAG, "Create table 'Remove reports");
+            db.execSQL("create table " + Tables.REMOVE_REPORTS + " (" +
+                    "id integer)");
+        }
     }
 }

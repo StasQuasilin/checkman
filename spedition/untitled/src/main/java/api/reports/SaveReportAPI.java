@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.ApiLinks;
 import constants.Keys;
 import entity.*;
+import entity.reports.ReportDetails;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.hibernate.dao.DriverDAO;
@@ -39,7 +40,7 @@ public class SaveReportAPI extends ServletAPI {
             System.out.println("!" + body);
             final String header = req.getHeader(TOKEN);
             final User user = userDAO.getUserByToken(header);
-            Report report = reportDAO.getReportByUUID(body.get(Keys.ID));
+            Report report = reportDAO.getReport(body.get(Keys.ID));
 
             if (report == null){
                 final List<Report> notClosetReports = reportDAO.getNotClosetReports(user);
@@ -69,92 +70,155 @@ public class SaveReportAPI extends ServletAPI {
             final Product product = productDAO.getProduct(body.get(PRODUCT));
             report.setProduct(product);
 
-            if(body.containsKey(WEIGHT)){
-                final Object o = body.get(WEIGHT);
-                if (o != null){
-                    Weight weight = report.getWeight();
-                    if (weight == null){
-                        weight = new Weight();
-                        report.setWeight(weight);
-                    }
-                    parseWeight(weight, (JSONObject)o);
-                }
-            }
-
             if (body.containsKey(ROUTE)) {
-                JSONObject route = (JSONObject) body.get(ROUTE);
-                if (route.containsKey(ROUTE)){
-                    JSONArray routeArray = (JSONArray) route.get(ROUTE);
-                    StringBuilder stringBuilder = new StringBuilder();
+                JSONArray routeArray = null;
+                try {
+                    JSONObject route = (JSONObject) body.get(ROUTE);
+                    if (route.containsKey(ROUTE)) {
+                        routeArray = (JSONArray) route.get(ROUTE);
+                    }
+                } catch (Exception ignore){
+                    routeArray = (JSONArray) body.get(ROUTE);
+                }
+                StringBuilder stringBuilder = new StringBuilder();
+                if (routeArray != null) {
                     int i = 0;
-                    for (Object o : routeArray){
+                    for (Object o : routeArray) {
                         stringBuilder.append(o);
-                        if (i < routeArray.size() - 1){
+                        if (i < routeArray.size() - 1) {
                             stringBuilder.append(COMA);
                         }
                         i++;
                     }
                     report.setRoute(stringBuilder.toString());
+                } else {
+                    report.setRoute(String.valueOf(body.get(ROUTE)));
                 }
             }
 
             report.setUuid(String.valueOf(body.get(Keys.ID)));
 
-            if(body.containsKey(DRIVER)){
-                JSONObject driverJson = (JSONObject) body.get(DRIVER);
-                Driver driver = driverDAO.getDriverByUUID(driverJson.get(ID));
-                if (driver == null){
-                    driver = new Driver();
-                    driver.setPerson(new Person());
-                }
-                driver.setUuid(String.valueOf(driverJson.get(ID)));
-                final Person person = driver.getPerson();
-
-                person.setSurname(String.valueOf(driverJson.get(SURNAME)));
-                person.setForename(String.valueOf(driverJson.get(FORENAME)));
-
-                driverDAO.save(driver);
-
-                final HashMap<String, Phone> phones = new HashMap<>();
-                if (person.getPhones() != null) {
-                    for (Phone phone : person.getPhones()) {
-                        phones.put(phone.getNumber(), phone);
-                    }
-                }
-                final Object o = driverJson.get(PHONES);
-                if (o != null){
-                    for (Object p : (JSONArray)o){
-                        String number = String.valueOf(p);
-                        Phone phone = phones.remove(number);
-                        if (phone == null){
-                            phone = new Phone();
-                            phone.setPerson(person);
-                            phone.setNumber(number);
-                            userDAO.save(phone);
-                        }
-                    }
-                }
-                for (Map.Entry<String, Phone> entry : phones.entrySet()){
-                    userDAO.remove(entry.getValue());
-                }
-
-                report.setDriver(driver);
-            } else {
-                report.setDriver(null);
-            }
-
             int perDiem = Integer.parseInt(String.valueOf(body.get(PER_DIEM)));
             report.setPerDiem(perDiem);
 
             reportDAO.save(report);
+            if (body.containsKey(Keys.DETAILS)){
+                saveDetails(report, (JSONArray)body.get(DETAILS));
+            } else {
+                final Set<ReportDetails> details = report.getDetails();
+                ReportDetails reportDetails = null;
+                if (details != null && details.size() > 0){
+                    for (ReportDetails d : details){
+                        reportDetails = d;
+                        break;
+                    }
+                } else {
+                    reportDetails = new ReportDetails();
+                    reportDetails.setReport(report);
+                }
+
+                if(body.containsKey(DRIVER)){
+                    reportDetails.setDriver(extractDriver((JSONObject) body.get(DRIVER)));
+                } else {
+                    reportDetails.setDriver(null);
+                }
+                if(body.containsKey(WEIGHT)){
+                    final Object o = body.get(WEIGHT);
+                    if (o != null){
+                        Weight weight = reportDetails.getWeight();
+                        if (weight == null){
+                            weight = new Weight();
+                            reportDetails.setWeight(weight);
+                        }
+                        parseWeight(weight, (JSONObject)o);
+                    }
+                } else {
+                    reportDetails.setWeight(null);
+                }
+                reportDAO.save(reportDetails);
+            }
             saveFields(report, (JSONArray) body.get(FIELDS));
             saveExpenses(report, report.getFares(), (JSONArray) body.get(FARES), ExpenseType.fare);
             saveExpenses(report, report.getExpenses(), (JSONArray) body.get(EXPENSES), ExpenseType.expense);
             saveNotes(report, (JSONArray) body.get(NOTES));
 
             answer = new SuccessAnswer();
+            answer.addParam(ID, report.getId());
             write(resp, answer.toJson());
             reportDAO.afterSave(report);
+        }
+    }
+
+    private Driver extractDriver(JSONObject driverJson) {
+        Driver driver = driverDAO.getDriverByUUID(driverJson.get(ID));
+        if (driver == null){
+            driver = new Driver();
+            driver.setPerson(new Person());
+        }
+        driver.setUuid(String.valueOf(driverJson.get(ID)));
+        final Person person = driver.getPerson();
+
+        person.setSurname(String.valueOf(driverJson.get(SURNAME)));
+        person.setForename(String.valueOf(driverJson.get(FORENAME)));
+
+        driverDAO.save(driver);
+
+        final HashMap<String, Phone> phones = new HashMap<>();
+        if (person.getPhones() != null) {
+            for (Phone phone : person.getPhones()) {
+                phones.put(phone.getNumber(), phone);
+            }
+        }
+        final Object o = driverJson.get(PHONES);
+        if (o != null){
+            for (Object p : (JSONArray)o){
+                String number = String.valueOf(p);
+                Phone phone = phones.remove(number);
+                if (phone == null){
+                    phone = new Phone();
+                    phone.setPerson(person);
+                    phone.setNumber(number);
+                    userDAO.save(phone);
+                }
+            }
+        }
+        for (Map.Entry<String, Phone> entry : phones.entrySet()){
+            userDAO.remove(entry.getValue());
+        }
+        return driver;
+    }
+
+    private void saveDetails(Report report, JSONArray jsonArray) {
+        HashMap<Integer, ReportDetails> details = new HashMap<>();
+        for (ReportDetails d : report.getDetails()){
+            details.put(d.getId(), d);
+        }
+
+        for (Object o : jsonArray){
+            JSONObject json = (JSONObject) o;
+            final int id = Integer.parseInt(String.valueOf(json.get(ID)));
+            ReportDetails rd = details.remove(id);
+            if (rd == null){
+                rd = new ReportDetails();
+                rd.setReport(report);
+            }
+            if (json.containsKey(DRIVER)){
+                rd.setDriver(extractDriver((JSONObject) json.get(DRIVER)));
+            } else {
+                rd.setDriver(null);
+            }
+            if (json.containsKey(WEIGHT)){
+                Weight weight = rd.getWeight();
+                if (weight == null){
+                    weight = new Weight();
+                    rd.setWeight(weight);
+                }
+                parseWeight(weight, (JSONObject) json.get(WEIGHT));
+            }
+            reportDAO.save(rd);
+        }
+        for (ReportDetails d : details.values()){
+            reportDAO.remove(d);
         }
     }
 

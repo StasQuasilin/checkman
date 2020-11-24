@@ -58,6 +58,10 @@ public abstract class IReport {
         doneDate.setTimeInMillis(time);
     }
 
+    public void addRoute(String point){
+        route.add(point);
+    }
+
     public void setRoute(String route) {
         this.route.addAll(Arrays.asList(route.split(Keys.COMA)));
     }

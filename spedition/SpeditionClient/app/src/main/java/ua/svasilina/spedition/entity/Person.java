@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
+import static ua.svasilina.spedition.constants.Keys.EMPTY;
 import static ua.svasilina.spedition.constants.Keys.FORENAME;
 import static ua.svasilina.spedition.constants.Keys.PATRONYMIC;
 import static ua.svasilina.spedition.constants.Keys.PHONES;
@@ -60,7 +61,10 @@ public class Person implements JsonAble {
     }
 
     public String getValue() {
-        return surname + SPACE + forename;
+
+        return (surname != null ? surname : EMPTY) +
+                (surname != null && forename != null ? SPACE : EMPTY) +
+                (forename != null ? forename : EMPTY);
     }
 
     public boolean isEmpty() {

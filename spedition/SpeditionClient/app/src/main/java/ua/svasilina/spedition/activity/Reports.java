@@ -19,14 +19,13 @@ import java.util.ArrayList;
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.ReportListAdapter;
 import ua.svasilina.spedition.dialogs.LoginDialog;
-import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.entity.reports.SimpleReport;
 import ua.svasilina.spedition.utils.ReportsUtil;
+import ua.svasilina.spedition.utils.db.ReportUtil;
 
 public class Reports extends AppCompatActivity {
 
-    private ReportListAdapter adapter;
-    private final ArrayList<Report> reports = new ArrayList<>();
-    private ReportsUtil reportsUtil;
+    private final ArrayList<SimpleReport> reports = new ArrayList<>();
     private long backPressedTime;
     private Toast backToast;
 
@@ -36,9 +35,19 @@ public class Reports extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Context context = getApplicationContext();
 
-        reportsUtil = new ReportsUtil(context);
-        reports.addAll(reportsUtil.readStorage());
-        adapter = new ReportListAdapter(context, R.layout.report_list_row, reports);
+        ReportsUtil reportsUtil = new ReportsUtil(context);
+        ReportUtil reportUtil = new ReportUtil(context);
+        /*
+        final List<OldReport> reports = reportsUtil.readStorage();
+        if (reports.size() > 0){
+            for (int i = 0; i < reports.size(); i++){
+                reportUtil.saveReport(new Report(reports.get(i)));
+            }
+        }
+         //*/
+
+        reports.addAll(reportUtil.getReportsList());
+        ReportListAdapter adapter = new ReportListAdapter(context, R.layout.report_list_row, this.reports);
         ListView view = findViewById(R.id.report_list);
         if (view != null){
             view.setAdapter(adapter);
@@ -79,14 +88,6 @@ public class Reports extends AppCompatActivity {
             showLoginDialog();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void showSyncList() {
-        final Context context = getApplicationContext();
-        Intent intent = new Intent(context, SyncListActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-
     }
 
     public void showLoginDialog(){

@@ -10,7 +10,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="leaveTime">Дата/Час виїзду</string>
-    <string name="driver">Водій</string>
+    <string name="drivers">Водії</string>
     <string name="route">Маршрут</string>
     <string name="save">Зберегти</string>
     <string name="point">Точка</string>
@@ -44,7 +44,7 @@
     <string name="pressBack">Для виходу жми Назад ще раз</string>
     <string name="expenses_description">Опис</string>
     <string name="expenses_amount">Сума</string>
-    <string name="expenses_title">Додаткові витрати</string>
+    <string name="expenses_title">Додаткові</string>
     <string name="edit">Редагування</string>
     <string name="delete">Видалити</string>
     <string name="close">Закрити</string>
@@ -62,7 +62,7 @@
     <string name="fare">Проїзд</string>
     <string name="expanses">Витрати</string>
     <string name="route_edit">Редагувати маршрут</string>
-    <string name="fares">Витрати на проїзд</string>
+    <string name="fares">Проїзд</string>
     <string name="fixLeaveTime">Зафіксувати час виїзду</string>
     <string name="done_report_title">Завершення відрядження</string>
     <string name="done_report_message">Встановити наступну дату завершення відрядження?</string>
@@ -72,6 +72,7 @@
     <string name="forename">Ім’я</string>
     <string name="phones_edit_title">Редагування телефонів</string>
     <string name="show_title">Перегляд</string>
+    <string name="weight">Вага</string>
     <string name="ownWeight">Вага на заводі</string>
     <string name="ownWeightAdd">Додати вагу на заводі</string>
     <string name="counterpartyWeight"></string>

@@ -59,9 +59,18 @@ public class DriverUtil {
         final String id = String.valueOf(driver.getId());
 
         final Person person = driver.getPerson();
-        cv.put(Keys.SURNAME, person.getSurname().toUpperCase());
-        cv.put(Keys.FORENAME, person.getForename().toUpperCase());
-        cv.put(Keys.PATRONYMIC, person.getPatronymic().toUpperCase());
+        final String surname = person.getSurname();
+        if(surname != null) {
+            cv.put(Keys.SURNAME, surname.toUpperCase());
+        }
+        final String forename = person.getForename();
+        if (forename != null){
+            cv.put(Keys.FORENAME, forename.toUpperCase());
+        }
+        final String patronymic = person.getPatronymic();
+        if (patronymic != null){
+            cv.put(Keys.PATRONYMIC, patronymic.toUpperCase());
+        }
 
         final Cursor query = db.query(Tables.DRIVERS, new String[]{}, "id=?", new String[]{id}, null, null, null, "1");
         if (query.moveToFirst()){

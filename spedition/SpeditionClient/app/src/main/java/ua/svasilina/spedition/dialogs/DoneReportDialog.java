@@ -15,7 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 
 import ua.svasilina.spedition.R;
-import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.builders.DateTimeBuilder;
 

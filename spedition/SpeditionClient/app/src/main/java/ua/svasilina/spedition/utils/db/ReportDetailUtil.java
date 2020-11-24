@@ -46,7 +46,6 @@ public class ReportDetailUtil {
                 final Driver driver = driverUtil.getDriver(driverId);
                 if (driver != null) {
                     detail.setDriver(driver);
-                    Log.i("Get detail", detail.getId() + ", ( " + driver.getId() + " ) " + driver);
                 }
                 details.add(detail);
             }while (query.moveToNext());
@@ -66,15 +65,11 @@ public class ReportDetailUtil {
             cv.put(DRIVER_COLUMN, driver.getId());
         }
 
-        Log.i("Save detail", detail.getId() + ", ( " + driver.getId() + " ) " + driver);
-
         final Cursor query = db.query(Tables.REPORT_DETAILS, null, "id = ?", new String[]{id}, null, null, null, ONE_ROW);
         if(query.moveToFirst()){
             db.update(Tables.REPORT_DETAILS, cv, "id = ?", new String[]{id});
-            Log.i("Update", "detail " + id);
         } else {
             db.insert(Tables.REPORT_DETAILS, null, cv);
-            Log.i("Insert", "detail");
         }
     }
 
@@ -94,7 +89,6 @@ public class ReportDetailUtil {
 
     private void removeDetail(ReportDetail detail) {
         final String id = String.valueOf(detail.getId());
-        Log.i("Remove Detail ", id);
         db.delete(Tables.REPORT_DETAILS, "id=?", new String[]{id});
     }
 

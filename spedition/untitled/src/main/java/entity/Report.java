@@ -1,5 +1,6 @@
 package entity;
 
+import entity.reports.ReportDetails;
 import org.hibernate.annotations.Where;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,10 +16,12 @@ import static constants.Keys.*;
 @Table(name = "reports")
 public class Report extends JsonAble implements Comparable<Report> {
     private int id;
+    private int clientId;
     private String uuid;
+    private String route;
+    private Set<ReportDetails> details;
     private Timestamp leaveTime;
     private Product product;
-    private String route;
     private Timestamp done;
     private User owner;
 
@@ -36,6 +39,15 @@ public class Report extends JsonAble implements Comparable<Report> {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "_client_id")
+    public int getClientId() {
+        return clientId;
+    }
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
     @Basic
@@ -81,6 +93,14 @@ public class Report extends JsonAble implements Comparable<Report> {
     }
     public void setRoute(String route) {
         this.route = route;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "report", cascade = CascadeType.ALL)
+    public Set<ReportDetails> getDetails() {
+        return details;
+    }
+    public void setDetails(Set<ReportDetails> details) {
+        this.details = details;
     }
 
     @Basic
@@ -150,6 +170,7 @@ public class Report extends JsonAble implements Comparable<Report> {
         if (route != null){
             json.put(ROUTE, route);
         }
+        json.put(DETAILS, details());
         if (product != null){
             json.put(PRODUCT, product.toJson());
         }
@@ -158,6 +179,14 @@ public class Report extends JsonAble implements Comparable<Report> {
         }
         json.put(OWNER, owner.toJson());
         return json;
+    }
+
+    private JSONArray details() {
+        JSONArray array = new JSONArray();
+        for (ReportDetails details : details){
+            array.add(details.toJson());
+        }
+        return array;
     }
 
     @Override

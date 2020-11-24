@@ -11,8 +11,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import ua.svasilina.spedition.constants.Keys;
+import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
 import ua.svasilina.spedition.entity.JsonAble;
+import ua.svasilina.spedition.entity.OldReport;
 import ua.svasilina.spedition.entity.Product;
 import ua.svasilina.spedition.entity.ReportDetail;
 import ua.svasilina.spedition.entity.ReportField;
@@ -30,9 +33,11 @@ import static ua.svasilina.spedition.constants.Keys.LEAVE;
 import static ua.svasilina.spedition.constants.Keys.NOTES;
 import static ua.svasilina.spedition.constants.Keys.PER_DIEM;
 import static ua.svasilina.spedition.constants.Keys.PRODUCT;
+import static ua.svasilina.spedition.constants.Keys.ROUTE;
 
 public class Report extends IReport implements JsonAble, Serializable, Comparable<Report>, IChanged {
 
+    private int serverId;
     private String uuid;
     private LinkedList<ReportDetail> details;
     private Product product;
@@ -46,6 +51,37 @@ public class Report extends IReport implements JsonAble, Serializable, Comparabl
 
     public Report() {
         details = new LinkedList<>();
+    }
+
+    public Report(OldReport oldReport) {
+        this();
+        uuid = oldReport.getUuid();
+        leaveTime = oldReport.leaveTime;
+        doneDate = oldReport.getDoneDate();
+        for (String route : oldReport.getRoute().getPoints()){
+            addRoute(route);
+        }
+        final Driver driver = oldReport.getDriver();
+        if (driver != null) {
+            ReportDetail detail = new ReportDetail();
+            detail.setDriver(driver);
+            detail.setOwnWeight(oldReport.getWeight());
+        }
+
+        product = oldReport.getProduct();
+        perDiem = oldReport.getPerDiem();
+        fields.addAll( oldReport.fields);
+        expenses.addAll(oldReport.expenses);
+        fares.addAll(oldReport.fares);
+        notes.addAll(oldReport.notes);
+        fone = oldReport.isFone();
+    }
+
+    public int getServerId() {
+        return serverId;
+    }
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
     }
 
     public String getUuid() {
@@ -115,16 +151,17 @@ public class Report extends IReport implements JsonAble, Serializable, Comparabl
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put(ID, uuid);
+        json.put(ID, serverId);
         if (leaveTime != null) {
             json.put(LEAVE, leaveTime.getTimeInMillis());
         }
         if(doneDate != null){
             json.put(DONE, doneDate.getTimeInMillis());
         }
-//        if (route != null){
-//            json.put(ROUTE, route.toJson());
-//        }
+        if (route != null){
+            json.put(ROUTE, route);
+        }
+        json.put(Keys.DETAILS, details());
         if (product != null){
             json.put(PRODUCT, product.getId());
         }
@@ -136,6 +173,14 @@ public class Report extends IReport implements JsonAble, Serializable, Comparabl
         json.put(NOTES, notes());
 
         return json;
+    }
+
+    private JSONArray details() {
+        JSONArray array = new JSONArray();
+        for (ReportDetail detail : details){
+            array.add(detail.toJson());
+        }
+        return array;
     }
 
     private JSONArray fare() {

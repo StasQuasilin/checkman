@@ -1,5 +1,7 @@
 package ua.svasilina.spedition.entity;
 
+import androidx.annotation.NonNull;
+
 import org.json.simple.JSONObject;
 
 import static ua.svasilina.spedition.constants.Keys.FORENAME;
@@ -8,12 +10,14 @@ import static ua.svasilina.spedition.constants.Keys.PATRONYMIC;
 import static ua.svasilina.spedition.constants.Keys.SURNAME;
 
 public class Driver implements JsonAble {
-    private long id;
-    private int serverId;
+    private long id = -1;
+    private int serverId = -1;
     private String uuid;
     private Person person;
 
-    public Driver() {}
+    public Driver() {
+        person = new Person();
+    }
 
     public static Driver fromJson(JSONObject driverJson) {
         if (driverJson != null) {
@@ -61,7 +65,7 @@ public class Driver implements JsonAble {
     @Override
     public JSONObject toJson() {
         JSONObject json = person.toJson();
-        json.put(ID, uuid);
+        json.put(ID, serverId);
         return json;
     }
 
@@ -82,5 +86,11 @@ public class Driver implements JsonAble {
             return person.anyChanges();
         }
         return false;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getValue();
     }
 }

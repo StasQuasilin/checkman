@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import ua.svasilina.spedition.entity.CurrentLocation;
-import ua.svasilina.spedition.entity.Report;
+import ua.svasilina.spedition.entity.OldReport;
 import ua.svasilina.spedition.services.LocationService;
 import ua.svasilina.spedition.utils.NetworkUtil;
 import ua.svasilina.spedition.utils.StorageUtil;
@@ -28,7 +28,7 @@ public class ChangeUtil {
 
     private final ArrayList<String> fieldList = new ArrayList<>();
 
-    public ChangeLog compare(Report oldObject, Report newObject){
+    public ChangeLog compare(OldReport oldObject, OldReport newObject){
         HashMap<String, Object> oldValues = null;
         if (oldObject != null) {
             oldValues = oldObject.getValues(EMPTY);

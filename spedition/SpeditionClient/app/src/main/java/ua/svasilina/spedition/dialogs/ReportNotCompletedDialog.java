@@ -36,7 +36,7 @@ public class ReportNotCompletedDialog extends DialogFragment {
         view.setPadding(24, 0, 4, 0);
         if (e1){
             TextView textView = new TextView(context);
-            textView.setText(R.string.driver);
+            textView.setText(R.string.drivers);
             view.addView(textView);
         }
         if (e2){

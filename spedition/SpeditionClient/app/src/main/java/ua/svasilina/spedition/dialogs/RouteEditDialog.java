@@ -14,20 +14,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.LinkedList;
+
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.SimpleListAdapter;
-import ua.svasilina.spedition.entity.Route;
 import ua.svasilina.spedition.utils.AdapterItemEditInterface;
 import ua.svasilina.spedition.utils.CustomListener;
 
 public class RouteEditDialog extends DialogFragment {
 
 
-    private final Route route;
+    private final LinkedList<String> route;
     private final LayoutInflater inflater;
     private final CustomListener customListener;
 
-    public RouteEditDialog(Route route, LayoutInflater inflater, CustomListener customListener) {
+    public RouteEditDialog(LinkedList<String> route, LayoutInflater inflater, CustomListener customListener) {
         this.route = route;
         this.inflater = inflater;
         this.customListener = customListener;
@@ -56,9 +57,7 @@ public class RouteEditDialog extends DialogFragment {
         ListView listView = view.findViewById(R.id.routePoints);
         listView.setAdapter(adapter);
 
-        for (String point : route.getPoints()){
-            adapter.add(point);
-        }
+        adapter.addAll(route);
         if (adapter.getCount() > 0){
             pointEdit.getText().clear();
         }
@@ -78,7 +77,7 @@ public class RouteEditDialog extends DialogFragment {
                 route.clear();
                 for (int i = 0; i < adapter.getCount(); i++){
                     final String item = adapter.getItem(i);
-                    route.addPoint(item);
+                    route.add(item);
                 }
                 customListener.onChange();
             }

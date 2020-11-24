@@ -7,12 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.LinkedList;
 
+import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Product;
 import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.entity.reports.SimpleReport;
 import ua.svasilina.spedition.utils.ProductsUtil;
+import ua.svasilina.spedition.utils.sync.SyncUtil;
 
 public class ReportUtil {
 
@@ -30,19 +33,22 @@ public class ReportUtil {
     };
     private final ProductsUtil productsUtil;
     private final ReportDetailUtil detailUtil;
-
+    private final SyncUtil syncUtil;
+    private final DBHelper dbHelper;
     public ReportUtil(Context context) {
-        final DBHelper dbHelper = new DBHelper(context);
+        dbHelper = new DBHelper(context);
         db = dbHelper.getWritableDatabase();
         productsUtil = new ProductsUtil(context);
         detailUtil = new ReportDetailUtil(context);
+        syncUtil = new SyncUtil(context, this);
     }
 
     public LinkedList<SimpleReport> getReportsList(){
-        LinkedList<SimpleReport> reports = new LinkedList<>();
-
-        final Cursor query = db.query(Tables.REPORTS, simpleReportFields, null, null, null, null, null);
+        final LinkedList<SimpleReport> reports = new LinkedList<>();
+        final SQLiteDatabase database = dbHelper.getReadableDatabase();
+        final Cursor query = database.query(Tables.REPORTS, simpleReportFields, null, null, null, null, null);
         if(query.moveToFirst()){
+
             final int idColumn = query.getColumnIndex(ID_COLUMN);
             final int leaveColumn = query.getColumnIndex(LEAVE_COLUMN);
             final int doneColumn = query.getColumnIndex(DONE_COLUMN);
@@ -62,46 +68,24 @@ public class ReportUtil {
 
                 simpleReport.setRoute(query.getString(routeColumn));
                 final int productId = query.getInt(productColumn);
-                simpleReport.addProduct(productsUtil.getProduct(productId));
+                if (productId > 0) {
+                    simpleReport.addProduct(productsUtil.getProduct(productId));
+                }
                 detailUtil.getDetails(simpleReport);
 
 
                 reports.add(simpleReport);
             } while (query.moveToNext());
         }
-
+        database.close();
+        Collections.sort(reports);
         return reports;
     }
     public Report getReport(int id){
         Log.i("Open report", String.valueOf(id));
         final Cursor query = db.query(Tables.REPORTS, null, "id = ?", new String[]{String.valueOf(id)}, null, null, null, String.valueOf(1));
         if (query.moveToFirst()){
-
-            final int leaveColumn = query.getColumnIndex(LEAVE_COLUMN);
-            final int doneColumn = query.getColumnIndex(DONE_COLUMN);
-            final int routeColumn = query.getColumnIndex(ROUTE_COLUMN);
-            final int productColumn = query.getColumnIndex(PRODUCT_COLUMN);
-
-            Report report = new Report();
-
-            report.setId(id);
-            final long leaveTime = query.getLong(leaveColumn);
-            if (leaveTime > 0){
-                report.setLeaveTime(leaveTime);
-            }
-            final long doneTime = query.getLong(doneColumn);
-            if (doneTime > 0){
-                report.setDoneTime(doneTime);
-            }
-
-            report.setRoute(query.getString(routeColumn));
-            final int productId = query.getInt(productColumn);
-            final Product product = productsUtil.getProduct(productId);
-            report.setProduct(product);
-
-            detailUtil.getDetails(report);
-
-            return report;
+            return readReport(query);
         }
 
         return null;
@@ -127,12 +111,111 @@ public class ReportUtil {
         cv.put(SYNC_COLUMN, false);
 
         final String id = String.valueOf(report.getId());
-        final Cursor query = db.query(Tables.REPORTS, new String[]{}, "id=?", new String[]{id}, null, null, null, ONE_ROW);
+        final Cursor query = db.query(Tables.REPORTS, new String[]{Keys.ID}, "id=?", new String[]{id}, null, null, null, ONE_ROW);
         if (query.moveToFirst()){
             db.update(Tables.REPORTS, cv, "id=?", new String[]{id});
         } else {
             db.insert(Tables.REPORTS, null, cv);
         }
         detailUtil.saveDetails(report);
+        syncUtil.saveThread(report);
+
+    }
+
+    public boolean removeReport(int id) {
+        String[] par = new String[]{String.valueOf(id)};
+        final SQLiteDatabase database = dbHelper.getWritableDatabase();
+        final int delete = database.delete(Tables.REPORTS, "id=?", par);
+        db.delete(Tables.REPORT_DETAILS, "report=?", par);
+        db.delete(Tables.REPORT_FIELDS, "report=?", par);
+        db.delete(Tables.REPORT_NOTES, "report=?", par);
+        if (delete > 0) {
+            final ContentValues cv = new ContentValues();
+            cv.put(ID_COLUMN, id);
+            database.insert(Tables.REMOVE_REPORTS, null, cv);
+        }
+        return delete > 0;
+    }
+
+    public void makeSync(int localId, int serverId) {
+        final ContentValues cv = new ContentValues();
+        cv.put(Keys.SERVER_ID, serverId);
+        cv.put(SYNC_COLUMN, true);
+        
+        final SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.update(Tables.REPORTS, cv, "id=?", new String[]{String.valueOf(localId)});
+    }
+
+    public LinkedList<Report> getUnSyncReports() {
+        final LinkedList<Report> reports = new LinkedList<>();
+        final SQLiteDatabase database = dbHelper.getReadableDatabase();
+        final Cursor query = database.query(Tables.REPORTS, null, SYNC_COLUMN + "=?", new String[]{String.valueOf(false)}, null, null, null);
+        if (query.moveToFirst()){
+            reports.addAll(readReports(query));
+        }
+        return reports;
+    }
+
+    private LinkedList<Report> readReports(Cursor query) {
+        final LinkedList<Report> reports = new LinkedList<>();
+        do{
+            reports.add(readReport(query));
+        }while (query.moveToNext());
+        return reports;
+    }
+
+    private Report readReport(Cursor query) {
+        final int idColumn = query.getColumnIndex(ID_COLUMN);
+        final int leaveColumn = query.getColumnIndex(LEAVE_COLUMN);
+        final int doneColumn = query.getColumnIndex(DONE_COLUMN);
+        final int routeColumn = query.getColumnIndex(ROUTE_COLUMN);
+        final int productColumn = query.getColumnIndex(PRODUCT_COLUMN);
+
+        Report report = new Report();
+
+        report.setId(query.getInt(idColumn));
+
+        final long leaveTime = query.getLong(leaveColumn);
+        if (leaveTime > 0){
+            report.setLeaveTime(leaveTime);
+        }
+        final long doneTime = query.getLong(doneColumn);
+        if (doneTime > 0){
+            report.setDoneTime(doneTime);
+        }
+
+        report.setRoute(query.getString(routeColumn));
+        final int productId = query.getInt(productColumn);
+        final Product product = productsUtil.getProduct(productId);
+        report.setProduct(product);
+
+        detailUtil.getDetails(report);
+
+        return report;
+    }
+
+    public String[] getRemoved() {
+        final SQLiteDatabase database = dbHelper.getReadableDatabase();
+        String[] result;
+        final Cursor query = database.query(Tables.REMOVE_REPORTS, null, null, null, null, null, null);
+        if (query.moveToFirst()){
+            result = new String[query.getCount()];
+            int i = 0;
+            final int idColumn = query.getColumnIndex(ID_COLUMN);
+            do {
+                result[i] = query.getString(idColumn);
+                i++;
+            } while (query.moveToNext());
+        } else {
+            result = new String[0];
+        }
+        database.close();
+        return result;
+    }
+
+    public void forgotAbout(String uuid) {
+        final SQLiteDatabase da = dbHelper.getWritableDatabase();
+        da.delete(Tables.REMOVE_REPORTS, "id=?", new String[]{uuid});
+        da.close();
     }
 }

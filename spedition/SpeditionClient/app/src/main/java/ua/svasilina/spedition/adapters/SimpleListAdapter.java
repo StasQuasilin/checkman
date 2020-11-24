@@ -41,7 +41,6 @@ public class SimpleListAdapter<T> extends ArrayAdapter<T> {
             final TextView indexView = view.findViewById(R.id.index);
             if (indexView != null){
                 indexView.setText(String.valueOf(position + 1));
-
             }
             if (item != null) {
                 final TextView textView = view.findViewById(R.id.text);

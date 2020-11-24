@@ -1,5 +1,7 @@
 package ua.svasilina.spedition.utils.sync;
 
+import android.content.Context;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -15,56 +17,57 @@ import java.util.Set;
 
 import ua.svasilina.spedition.constants.ApiLinks;
 import ua.svasilina.spedition.constants.Keys;
-import ua.svasilina.spedition.entity.Report;
-import ua.svasilina.spedition.entity.sync.SyncList;
-import ua.svasilina.spedition.entity.sync.SyncListItem;
+import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.utils.JsonParser;
 import ua.svasilina.spedition.utils.LoginUtil;
 import ua.svasilina.spedition.utils.NetworkUtil;
-import ua.svasilina.spedition.utils.ReportsUtil;
+import ua.svasilina.spedition.utils.background.BackgroundWorkerUtil;
+import ua.svasilina.spedition.utils.db.ReportUtil;
 import ua.svasilina.spedition.utils.network.Connector;
 
+import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.STATUS;
 import static ua.svasilina.spedition.constants.Keys.SUCCESS;
 import static ua.svasilina.spedition.constants.Keys.TOKEN;
 
 public class SyncUtil {
 
-    private final ReportsUtil reportsUtil;
+    private final Context context;
+    private final ReportUtil reportsUtil;
     private final NetworkUtil networkUtil;
     private final LoginUtil loginUtil;
     private final JsonParser parser;
-    private final SyncListUtil syncList;
 
-    public SyncUtil(ReportsUtil reportsUtil) {
+    public SyncUtil(Context context, ReportUtil reportsUtil) {
+        this.context = context;
         this.reportsUtil = reportsUtil;
         networkUtil = new NetworkUtil();
-        loginUtil  = new LoginUtil(reportsUtil.getContext());
+        loginUtil  = new LoginUtil(context);
         parser = new JsonParser();
-        syncList = new SyncListUtil(reportsUtil.getContext());
     }
+
+    private boolean runTimer;
 
     public void sync(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final SyncList list = syncList.readSyncList();
-                for (SyncListItem item : list.getFields()){
-                    if (item.getSyncTime() == null){
-                        sync(item.getReport());
-                    }
+                runTimer = false;
+                for (Report r : reportsUtil.getUnSyncReports()){
+                    saveReport(r, false);
                 }
-                final SyncList removeList = syncList.readRemoveList();
-                for (SyncListItem item : removeList.getFields()){
-                    System.out.println("sync Remove " + item.getReport());
-                    remove(item.getReport());
-
+                
+                for (String item : reportsUtil.getRemoved()){
+                    remove(item, false);
+                }
+                if (runTimer){
+                    runBackground();
                 }
             }
         }).start();
     }
 
-    public void remove(final String uuid) {
+    public void remove(final String uuid, final boolean runBackground) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(Keys.REPORT, uuid);
         sendJson(ApiLinks.REPORT_REMOVE, new JSONObject(hashMap), new Response.Listener<JSONObject>() {
@@ -73,7 +76,7 @@ public class SyncUtil {
                 try {
                     final String status = response.getString(STATUS);
                     if (status.equals(SUCCESS)) {
-                        syncList.forgotAbout(uuid);
+                        reportsUtil.forgotAbout(uuid);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -83,6 +86,11 @@ public class SyncUtil {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
+                if(runBackground){
+                    runBackground();
+                } else {
+                    runTimer = true;
+                }
             }
         });
     }
@@ -102,47 +110,54 @@ public class SyncUtil {
                     return map;
                 }
             };
-            Connector.getConnector().addRequest(reportsUtil.getContext(), request);
+            Connector.getConnector().addRequest(context, request);
         }
     }
 
-    private final Set<String> nowSync = new HashSet<>();
+    private final Set<Integer> nowSync = new HashSet<>();
 
-    public void saveReport(final Report report){
+    public void saveReport(final Report report, final boolean runBackground){
         if (report != null) {
-            final String token = loginUtil.getToken();
-            if (token != null) {
-                final String uuid = report.getUuid();
-                if (!nowSync.contains(uuid)) {
-                    nowSync.add(uuid);
-
-                    final JSONObject object = new JSONObject(report.toJson());
-                    sendJson(ApiLinks.REPORT_SAVE, object, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            System.out.println(response);
-                            try {
-                                final String status = response.getString(STATUS);
-                                if (status.equals(SUCCESS)) {
-                                    syncList.setSyncTime(uuid);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+            final int localId = (report.getId());
+            final JSONObject object = new JSONObject(report.toJson());
+            sendJson(ApiLinks.REPORT_SAVE, object, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    System.out.println(response);
+                    try {
+                        final String status = response.getString(STATUS);
+                        if (status.equals(SUCCESS)) {
+                            final int serverId = response.getInt(ID);
+                            reportsUtil.makeSync(localId, serverId);
                         }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                    if (runBackground){
+                        runBackground();
+                    } else {
+                        runTimer = true;
+                    }
+                }
+            });
         }
     }
 
-    private void sync(final String uuid){
-        final Report openReport = reportsUtil.openReport(uuid);
-        saveReport(openReport);
+    private void runBackground() {
+        BackgroundWorkerUtil.getInstance().runWorker(context);
+    }
+
+    public void saveThread(final Report report) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                saveReport(report, true);
+            }
+        }).start();
     }
 }

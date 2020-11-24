@@ -15,4 +15,5 @@ public interface ApiLinks {
     String GET_DRIVER = API + "/get/driver";
     String GET_COUNTERPARTY = API + "/get/counterparty";
     String ACTIVE_REPORTS = API + "/active/reports";
+    String PING = "/ping";
 }
