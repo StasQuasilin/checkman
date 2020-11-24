@@ -166,6 +166,7 @@ public class ReportUtil {
 
     private Report readReport(Cursor query) {
         final int idColumn = query.getColumnIndex(ID_COLUMN);
+        final int serverIdColumn = query.getColumnIndex(Keys.SERVER_ID);
         final int leaveColumn = query.getColumnIndex(LEAVE_COLUMN);
         final int doneColumn = query.getColumnIndex(DONE_COLUMN);
         final int routeColumn = query.getColumnIndex(ROUTE_COLUMN);
@@ -174,6 +175,7 @@ public class ReportUtil {
         Report report = new Report();
 
         report.setId(query.getInt(idColumn));
+        report.setServerId(query.getInt(serverIdColumn));
 
         final long leaveTime = query.getLong(leaveColumn);
         if (leaveTime > 0){

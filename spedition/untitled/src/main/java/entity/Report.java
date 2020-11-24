@@ -19,7 +19,7 @@ public class Report extends JsonAble implements Comparable<Report> {
     private int clientId;
     private String uuid;
     private String route;
-    private Set<ReportDetails> details;
+    private Set<ReportDetails> details = new HashSet<>();
     private Timestamp leaveTime;
     private Product product;
     private Timestamp done;

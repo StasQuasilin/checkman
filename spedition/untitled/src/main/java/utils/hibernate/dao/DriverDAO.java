@@ -10,7 +10,7 @@ public class DriverDAO {
     private final Hibernator hibernator = Hibernator.getInstance();
 
     public Driver getDriverByUUID(Object uuid){
-        return hibernator.get(Driver.class, Keys.UUID, uuid);
+        return hibernator.get(Driver.class, Keys.ID, uuid);
     }
 
     public void save(Driver driver) {
