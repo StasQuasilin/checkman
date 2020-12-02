@@ -40,6 +40,7 @@
         <activity android:name="ua.svasilina.spedition.activity.Reports"
             android:configChanges="orientation|screenSize">
         </activity>
+        <activity android:name=".activity.TablesActivity" android:configChanges="orientation|screenSize"/>
         <service
             android:name=".services.ActiveReportService"
             android:enabled="true"/>

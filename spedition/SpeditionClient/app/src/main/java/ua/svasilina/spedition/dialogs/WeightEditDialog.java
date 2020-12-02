@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +23,8 @@ public class WeightEditDialog extends DialogFragment {
 
     private final ReportDetail item;
     private final LayoutInflater inflater;
+    private EditText editGross;
+    private EditText editTare;
     public WeightEditDialog(ReportDetail item, LayoutInflater inflater, CustomListener customListener) {
         this.item = item;
         this.inflater = inflater;
@@ -38,8 +41,8 @@ public class WeightEditDialog extends DialogFragment {
             driverLabel.setText(item.getDriver().toString());
         }
 
-        final EditText editGross = view.findViewById(R.id.editGross);
-        final EditText editTare = view.findViewById(R.id.editTare);
+        editGross = view.findViewById(R.id.editGross);
+        editTare = view.findViewById(R.id.editTare);
         final EditText editNet = view.findViewById(R.id.editNet);
 
         Weight ownWeight = item.getOwnWeight();
@@ -51,6 +54,20 @@ public class WeightEditDialog extends DialogFragment {
         editTare.setText(String.valueOf(ownWeight.getTare()));
 
         new NetWatcher(editGross, editTare, editNet);
+
+        editGross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editGross.selectAll();
+            }
+        });
+
+        editTare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTare.selectAll();
+            }
+        });
 
         builder.setTitle(R.string.weightTitle);
         builder.setView(view);
@@ -65,6 +82,18 @@ public class WeightEditDialog extends DialogFragment {
     }
 
     private void save() {
-
+        final Weight weight = item.getOwnWeight();
+        int gross = 0;
+        final Editable grossText = editGross.getText();
+        if (grossText.length() > 0){
+            gross = Integer.parseInt(grossText.toString());
+        }
+        weight.setGross(gross);
+        int tare = 0;
+        final Editable tareText = editTare.getText();
+        if (tareText.length() > 0){
+            tare = Integer.parseInt(tareText.toString());
+        }
+        weight.setTare(tare);
     }
 }

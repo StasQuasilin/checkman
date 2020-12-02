@@ -10,6 +10,7 @@ import static ua.svasilina.spedition.constants.Keys.TARE;
 
 public class Weight implements JsonAble {
     private int id;
+    private String uuid;
     private int gross;
     private int tare;
 
@@ -18,6 +19,13 @@ public class Weight implements JsonAble {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public int getGross() {
@@ -43,7 +51,7 @@ public class Weight implements JsonAble {
         return jsonObject;
     }
 
-    public float getNet() {
+    public int getNet() {
         if(gross > 0 && tare > 0){
             return gross - tare;
         }
@@ -53,7 +61,6 @@ public class Weight implements JsonAble {
     @NonNull
     @Override
     public String toString() {
-
         return super.toString();
     }
 }

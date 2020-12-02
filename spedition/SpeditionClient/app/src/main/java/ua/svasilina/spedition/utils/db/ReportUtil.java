@@ -34,12 +34,14 @@ public class ReportUtil {
     };
     private final ProductsUtil productsUtil;
     private final ReportDetailUtil detailUtil;
+    private final ReportFieldUtil reportFieldUtil;
     private final SyncUtil syncUtil;
     private final DBHelper dbHelper;
     public ReportUtil(Context context) {
         dbHelper = new DBHelper(context);
         db = dbHelper.getWritableDatabase();
         productsUtil = new ProductsUtil(context);
+        reportFieldUtil = new ReportFieldUtil(context);
         detailUtil = new ReportDetailUtil(context);
         syncUtil = new SyncUtil(context, this);
     }
@@ -130,6 +132,7 @@ public class ReportUtil {
             db.insert(Tables.REPORTS, null, cv);
         }
         detailUtil.saveDetails(report);
+        reportFieldUtil.saveFields(report);
         syncUtil.saveThread(report);
 
     }
@@ -207,7 +210,7 @@ public class ReportUtil {
         report.setProduct(product);
 
         detailUtil.getDetails(report);
-
+        reportFieldUtil.getFields(report);
         return report;
     }
 

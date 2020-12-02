@@ -50,12 +50,15 @@ import ua.svasilina.spedition.entity.ReportDetail;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.ReportNote;
 import ua.svasilina.spedition.entity.Route;
+import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
+import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
 import ua.svasilina.spedition.utils.db.ReportUtil;
 
 import static ua.svasilina.spedition.constants.Keys.ARROW;
+import static ua.svasilina.spedition.constants.Keys.COLON;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.LEFT_BRACE;
 import static ua.svasilina.spedition.constants.Keys.RIGHT_BRACE;
@@ -82,6 +85,7 @@ public class ReportEdit extends AppCompatActivity {
     private Button noteButton;
 
     private ProductsUtil productsUtil;
+    private WeightStringBuilder wsb;
 
     void updateDriverButtonValue(){
         final LinkedList<ReportDetail> details = report.getDetails();
@@ -91,7 +95,17 @@ public class ReportEdit extends AppCompatActivity {
                 if (details.size() > 1) {
                     builder.append(i + 1).append(Keys.DOT).append(SPACE);
                 }
-                builder.append(details.get(i));
+                final ReportDetail detail = details.get(i);
+                final Driver driver = detail.getDriver();
+
+                if (driver != null){
+                    builder.append(driver.toString());
+                    final Weight weight = detail.getOwnWeight();
+                    if (weight != null){
+                        builder.append(COLON).append(SPACE);
+                        builder.append(wsb.buildShort(weight));
+                    }
+                }
 
                 if(i < details.size() - 1){
                     builder.append(Keys.NEW_STRING);
@@ -115,6 +129,7 @@ public class ReportEdit extends AppCompatActivity {
         supportActionBar.setTitle(R.string.edit);
         reportUtil = new ReportUtil(context);
         productsUtil = new ProductsUtil(context);
+        wsb = new WeightStringBuilder(context.getResources());
 
         final Intent intent = getIntent();
         final long id = intent.getLongExtra(ID, -1);

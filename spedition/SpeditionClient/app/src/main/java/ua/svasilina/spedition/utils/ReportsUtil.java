@@ -238,7 +238,7 @@ public class ReportsUtil {
 
             if (field.containsKey(COUNTERPARTY)) {
                 String counterparty = String.valueOf(field.get(COUNTERPARTY));
-                reportField.setCounterparty(counterparty);
+//                reportField.setCounterparty(counterparty);
             }
 
             if (field.containsKey(MONEY)) {

@@ -12,4 +12,5 @@ public interface Tables {
     String REPORT_NOTES = "report_notes";
     String LOCATION_LOG = "location_logs";
     String REMOVE_REPORTS = "remove_reports";
+    String WEIGHTS = "weights";
 }

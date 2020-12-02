@@ -56,7 +56,7 @@ public class DriverWeightDialog extends DialogFragment {
                         new WeightEditDialog(item, inflater, new CustomListener() {
                             @Override
                             public void onChange() {
-
+                                weightAdapter.notifyDataSetChanged();
                             }
                         }).show(getParentFragmentManager(),"WED");
                     }

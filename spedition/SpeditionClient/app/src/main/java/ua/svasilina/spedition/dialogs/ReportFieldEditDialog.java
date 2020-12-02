@@ -24,7 +24,6 @@ import java.util.List;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.entity.Product;
-import ua.svasilina.spedition.entity.OldReport;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.entity.reports.Report;
@@ -94,7 +93,7 @@ public class ReportFieldEditDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.field_edit_dialog, null);
 
         counterparty = view.findViewById(R.id.counterparty);
-        counterparty.setText(reportField.getCounterparty());
+//        counterparty.setText(reportField.getCounterparty());
 
         fixArrive = view.findViewById(R.id.fixArrive);
         arriveContainer = view.findViewById(R.id.arriveContainer);
@@ -280,7 +279,7 @@ public class ReportFieldEditDialog extends DialogFragment {
     private void save(){
 
         final String counterparty = this.counterparty.getText().toString();
-        reportField.setCounterparty(counterparty);
+//        reportField.setCounterparty(counterparty);
 
         reportField.setProduct(adapter.getItem(product.getSelectedItemPosition()));
 

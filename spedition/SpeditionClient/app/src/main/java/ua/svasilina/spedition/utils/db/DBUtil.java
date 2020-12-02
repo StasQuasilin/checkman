@@ -75,6 +75,7 @@ public class DBUtil {
         data.put(Keys.DRIVERS, getLastSync(Tables.DRIVERS));
 //        data.put(Keys.DRIVERS, null);
         data.put(Keys.COUNTERPARTY, getLastSync(Tables.COUNTERPARTY));
+//        data.put(Keys.COUNTERPARTY, null);
 
         Log.i(TAG, data.toString());
 

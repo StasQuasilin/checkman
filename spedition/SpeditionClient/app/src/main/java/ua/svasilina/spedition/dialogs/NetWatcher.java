@@ -16,6 +16,7 @@ public class NetWatcher implements TextWatcher {
         this.editNet = editNet;
         editGross.addTextChangedListener(this);
         editTare.addTextChangedListener(this);
+        computeNet();
     }
 
     @Override
@@ -36,17 +37,14 @@ public class NetWatcher implements TextWatcher {
     private void computeNet(){
         final String grossString = editGross.getText().toString();
         final String tareString = editTare.getText().toString();
+        int net = 0;
         if (!grossString.isEmpty() && !tareString.isEmpty()){
             int gross = Integer.parseInt(grossString);
             int tare = Integer.parseInt(tareString);
-
-            int net = 0;
             if (gross > 0 && tare > 0){
                 net = gross - tare;
             }
-
-            editNet.setText(String.valueOf(net));
-
         }
+        editNet.setText(String.valueOf(net));
     }
 }

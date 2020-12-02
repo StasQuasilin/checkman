@@ -98,7 +98,7 @@ public class ReportFieldAdapter extends ArrayAdapter<ReportField> {
 
         final TextView counterpartyView = editLayout.findViewById(R.id.counterparty);
         if (item.getCounterparty() != null) {
-            counterpartyView.setText(item.getCounterparty().toUpperCase());
+            counterpartyView.setText(item.getCounterparty().getName().toUpperCase());
         } else {
             counterpartyView.setText(QUESTION);
         }

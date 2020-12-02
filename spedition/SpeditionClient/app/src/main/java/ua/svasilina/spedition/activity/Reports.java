@@ -78,8 +78,17 @@ public class Reports extends AppCompatActivity {
             newItem();
         } else if (itemId == R.id.login){
             showLoginDialog();
+        } else if (itemId == R.id.versionCode){
+            showTables();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showTables() {
+        final Context applicationContext = getApplicationContext();
+        Intent intent = new Intent(applicationContext, TablesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        applicationContext.startActivity(intent);
     }
 
     public void showLoginDialog(){

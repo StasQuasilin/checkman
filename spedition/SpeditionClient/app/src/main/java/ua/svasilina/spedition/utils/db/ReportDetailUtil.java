@@ -11,22 +11,28 @@ import java.util.UUID;
 import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.ReportDetail;
+import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.entity.reports.SimpleReport;
+
+import static ua.svasilina.spedition.constants.DBConstants.ONE_ROW;
+import static ua.svasilina.spedition.constants.DBConstants.UUID_PARAM;
 
 public class ReportDetailUtil {
 
     private static final String ID_COLUMN = "id";
     private static final String DRIVER_COLUMN = "driver";
     private static final String REPORT_COLUMN = "report";
-    private static final String ONE_ROW = "1";
+    private static final String OWN_WEIGHT_COLUMN = "own_weight";
     private final SQLiteDatabase db;
     private final DriverUtil driverUtil;
+    private final WeightUtil weightUtil;
 
     public ReportDetailUtil(Context context) {
         DBHelper helper = new DBHelper(context);
         db = helper.getWritableDatabase();
         driverUtil = new DriverUtil(context);
+        weightUtil = new WeightUtil(context);
     }
 
     public void getDetails(Report report){
@@ -41,15 +47,19 @@ public class ReportDetailUtil {
             final int idColumn = query.getColumnIndex(ID_COLUMN);
             final int uuidColumn = query.getColumnIndex(Keys.UUID);
             final int driverColumn = query.getColumnIndex(DRIVER_COLUMN);
+            final int ownWeightColumn = query.getColumnIndex(OWN_WEIGHT_COLUMN);
             do{
                 ReportDetail detail = new ReportDetail();
                 detail.setId(query.getInt(idColumn));
                 detail.setUuid(query.getString(uuidColumn));
 
-                final int driverId = query.getInt(driverColumn);
+                final String driverId = query.getString(driverColumn);
                 final Driver driver = driverUtil.getDriver(driverId);
-                if (driver != null) {
-                    detail.setDriver(driver);
+                detail.setDriver(driver);
+                final String weightUUID = query.getString(ownWeightColumn);
+                if(weightUUID != null) {
+                    final Weight weight = weightUtil.getWeight(weightUUID);
+                    detail.setOwnWeight(weight);
                 }
                 details.add(detail);
             }while (query.moveToNext());
@@ -59,7 +69,6 @@ public class ReportDetailUtil {
     public void saveDetail(ReportDetail detail, Report report){
         final ContentValues cv = new ContentValues();
 
-        final String id = String.valueOf(detail.getId());
         cv.put(REPORT_COLUMN, report.getUuid());
         String uuid = detail.getUuid();
         if(uuid == null){
@@ -69,19 +78,24 @@ public class ReportDetailUtil {
         cv.put(Keys.UUID, uuid);
         final Driver driver = detail.getDriver();
         if(driver != null){
-            System.out.println("Detail driver " + driver.getId() + ":" + driver.getValue());
             driverUtil.saveDriver(driver);
-            cv.put(DRIVER_COLUMN, driver.getId());
+            cv.put(DRIVER_COLUMN, driver.getUuid());
         } else {
-            System.out.println("--------> Detail without driver");
+            cv.put(DRIVER_COLUMN, -1);
         }
-
-        final Cursor query = db.query(Tables.REPORT_DETAILS, null, "id = ?", new String[]{id}, null, null, null, ONE_ROW);
-        if(query.moveToFirst()){
-            db.update(Tables.REPORT_DETAILS, cv, "id = ?", new String[]{id});
+        final Weight ownWeight = detail.getOwnWeight();
+        if(ownWeight != null){
+            weightUtil.saveWeight(ownWeight);
+            cv.put(OWN_WEIGHT_COLUMN, ownWeight.getUuid());
         } else {
-            final long insert = db.insert(Tables.REPORT_DETAILS, null, cv);
-            detail.setId(insert);
+            cv.put(OWN_WEIGHT_COLUMN, -1);
+        }
+        String[] id = new String[]{uuid};
+        final Cursor query = db.query(Tables.REPORT_DETAILS, null, UUID_PARAM, id, null, null, null, ONE_ROW);
+        if(query.moveToFirst()){
+            db.update(Tables.REPORT_DETAILS, cv, UUID_PARAM, id);
+        } else {
+            db.insert(Tables.REPORT_DETAILS, null, cv);
         }
     }
 
@@ -110,7 +124,7 @@ public class ReportDetailUtil {
             final int driverColumn = query.getColumnIndex(DRIVER_COLUMN);
 
             do{
-                final int driverId = query.getInt(driverColumn);
+                final String driverId = query.getString(driverColumn);
                 final Driver driver = driverUtil.getDriver(driverId);
                 simpleReport.addDriver(driver);
             }while (query.moveToNext());

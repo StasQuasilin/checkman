@@ -15,7 +15,7 @@ import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
 public class ReportField implements Comparable<ReportField>, JsonAble {
     private String uuid;
-    private String counterparty;
+    private Counterparty counterparty;
     private Calendar arriveTime;
     private Calendar leaveTime;
     private Product product;
@@ -29,10 +29,10 @@ public class ReportField implements Comparable<ReportField>, JsonAble {
         this.uuid = uuid;
     }
 
-    public String getCounterparty() {
+    public Counterparty getCounterparty() {
         return counterparty;
     }
-    public void setCounterparty(String counterparty) {
+    public void setCounterparty(Counterparty counterparty) {
         this.counterparty = counterparty;
     }
 

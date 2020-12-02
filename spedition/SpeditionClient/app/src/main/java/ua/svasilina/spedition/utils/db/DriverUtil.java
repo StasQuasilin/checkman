@@ -89,18 +89,19 @@ public class DriverUtil {
         }
     }
 
-    public Driver getDriver(int driverId) {
-        final Cursor query = db.query(Tables.DRIVERS, null, "id = ?", new String[]{String.valueOf(driverId)}, null, null, null, String.valueOf(1));
+    public Driver getDriver(String uuid) {
+
+        final Cursor query = db.query(Tables.DRIVERS, null, "id = ?", new String[]{String.valueOf(uuid)}, null, null, null, String.valueOf(1));
         if (query.moveToFirst()){
-            final int uuidColumn = query.getColumnIndex(Keys.UUID);
+            final int idColumn = query.getColumnIndex(Keys.ID);
             final int serverIdColumn = query.getColumnIndex(SERVER_ID);
             final int surnameColumn = query.getColumnIndex(SURNAME);
             final int forenameColumn = query.getColumnIndex(FORENAME);
             final int patronymicColumn = query.getColumnIndex(PATRONYMIC);
 
             Driver driver = new Driver();
-            driver.setId(driverId);
-            driver.setUuid(query.getString(uuidColumn));
+            driver.setId(query.getInt(idColumn));
+            driver.setUuid(uuid);
             driver.setServerId(query.getInt(serverIdColumn));
             final Person person = driver.getPerson();
             person.setSurname(query.getString(surnameColumn));

@@ -13,7 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TAG = "Db Helper";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 3);
     }
 
     @Override
@@ -67,11 +67,12 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.i(TAG, "Create table 'Report Fields'");
         db.execSQL("create table " + Tables.REPORT_FIELDS + " (" +
                 "id integer unique primary key autoincrement," +
+                "uuid text," +
                 "server_id integer unique," +
                 "report integer not null," +
                 "counterparty integer," +
-                "arrive_time text," +
-                "leave_time text," +
+                "arrive_time long," +
+                "leave_time long," +
                 "product integer," +
                 "money integer," +
                 "weight integer)");
@@ -100,10 +101,27 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.i(TAG, "Create table 'Remove reports");
         db.execSQL("create table " + Tables.REMOVE_REPORTS + " (" +
                 "id text)");
+        createWeightsTable(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG, "Old version: " + oldVersion + ", new version: " + newVersion);
+        if (oldVersion == 1){
+            createWeightsTable(db);
+        }
+        if(oldVersion == 2){
+            db.execSQL("alter table " + Tables.REPORT_FIELDS + " add uuid text");
+        }
+    }
+
+    private void createWeightsTable(SQLiteDatabase db) {
+        Log.i(TAG, "Create table 'Weights'");
+        db.execSQL("create table " + Tables.WEIGHTS + " (" +
+                "id integer unique primary key autoincrement," +
+                "uuid text," +
+                "gross integer," +
+                "tare intger)" );
+
     }
 }
