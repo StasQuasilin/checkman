@@ -26,8 +26,6 @@ public class RemoveReportApi extends ServletAPI {
         final JSONObject body = parseBody(req);
         Answer answer;
         if (body != null){
-            System.out.println("Remove report api");
-            System.out.println(body);
             final Report report = reportDAO.getReportByUUID(body.get(Keys.REPORT));
             if(report != null){
                 answer = new SuccessAnswer();

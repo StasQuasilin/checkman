@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "report_details")
 public class ReportDetails extends JsonAble {
     private int id;
+    private String uuid;
     private Report report;
     private Driver driver;
     private Weight weight;
@@ -23,6 +24,15 @@ public class ReportDetails extends JsonAble {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "_uuid")
+    public String getUuid() {
+        return uuid;
+    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @ManyToOne

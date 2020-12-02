@@ -34,11 +34,11 @@ import static ua.svasilina.spedition.constants.Keys.NOTES;
 import static ua.svasilina.spedition.constants.Keys.PER_DIEM;
 import static ua.svasilina.spedition.constants.Keys.PRODUCT;
 import static ua.svasilina.spedition.constants.Keys.ROUTE;
+import static ua.svasilina.spedition.constants.Keys.UUID;
 
 public class Report extends IReport implements JsonAble, Serializable, Comparable<Report>, IChanged {
 
-    private int serverId;
-    private String uuid;
+    private int serverId = -1;
     private LinkedList<ReportDetail> details;
     private Product product;
     private boolean separatedProducts;
@@ -55,7 +55,7 @@ public class Report extends IReport implements JsonAble, Serializable, Comparabl
 
     public Report(OldReport oldReport) {
         this();
-        uuid = oldReport.getUuid();
+        setUuid(oldReport.getUuid());
         leaveTime = oldReport.leaveTime;
         doneDate = oldReport.getDoneDate();
         for (String route : oldReport.getRoute().getPoints()){
@@ -82,13 +82,6 @@ public class Report extends IReport implements JsonAble, Serializable, Comparabl
     }
     public void setServerId(int serverId) {
         this.serverId = serverId;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public LinkedList<ReportDetail> getDetails() {
@@ -150,8 +143,9 @@ public class Report extends IReport implements JsonAble, Serializable, Comparabl
 
     @Override
     public JSONObject toJson() {
-        JSONObject json = new JSONObject();
+        JSONObject json  = new JSONObject();
         json.put(ID, serverId);
+        json.put(UUID, getUuid());
         if (leaveTime != null) {
             json.put(LEAVE, leaveTime.getTimeInMillis());
         }

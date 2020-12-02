@@ -70,4 +70,5 @@ public interface Keys {
     String REMOVE = "remove";
     String NEW_STRING = "\n";
     String DETAILS = "details";
+    String UUID = "uuid";
 }

@@ -29,15 +29,18 @@ public class DriverSearchUtil extends SearchUtil<Driver> {
         final Cursor query = database.query(Tables.DRIVERS, null, "surname like ? or forename like ?", new String[]{k, k}, null, null, null);
         if (query.moveToFirst()){
             final int idIdx = query.getColumnIndex(Keys.ID);
+            final int serverIdColumn = query.getColumnIndex(Keys.SERVER_ID);
             final int surnameIdx = query.getColumnIndex(Keys.SURNAME);
             final int forenameIdx = query.getColumnIndex(Keys.FORENAME);
 
             do {
                 final int id = query.getInt(idIdx);
+                final int serverId = query.getInt(serverIdColumn);
                 final String surname = query.getString(surnameIdx);
                 final String forename = query.getString(forenameIdx);
                 Driver driver = new Driver();
                 driver.setId(id);
+                driver.setServerId(serverId);
                 final Person person = driver.getPerson();
                 person.setSurname(surname);
                 person.setForename(forename);

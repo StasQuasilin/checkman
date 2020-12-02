@@ -1,5 +1,7 @@
 package ua.svasilina.spedition.entity;
 
+import androidx.annotation.NonNull;
+
 import org.json.simple.JSONObject;
 
 import static ua.svasilina.spedition.constants.Keys.GROSS;
@@ -46,5 +48,12 @@ public class Weight implements JsonAble {
             return gross - tare;
         }
         return 0;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+
+        return super.toString();
     }
 }

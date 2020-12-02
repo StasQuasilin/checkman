@@ -4,6 +4,8 @@ import constants.Keys;
 import entity.Driver;
 import utils.hibernate.Hibernator;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class DriverDAO {
@@ -15,6 +17,7 @@ public class DriverDAO {
 
     public void save(Driver driver) {
         hibernator.save(driver.getPerson());
+        driver.setModificationTime(Timestamp.valueOf(LocalDateTime.now()));
         hibernator.save(driver);
     }
 

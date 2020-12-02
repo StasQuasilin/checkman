@@ -8,6 +8,7 @@ import static ua.svasilina.spedition.constants.Keys.FORENAME;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.PATRONYMIC;
 import static ua.svasilina.spedition.constants.Keys.SURNAME;
+import static ua.svasilina.spedition.constants.Keys.UUID;
 
 public class Driver implements JsonAble {
     private long id = -1;
@@ -43,7 +44,6 @@ public class Driver implements JsonAble {
     public int getServerId() {
         return serverId;
     }
-
     public void setServerId(int serverId) {
         this.serverId = serverId;
     }
@@ -66,6 +66,7 @@ public class Driver implements JsonAble {
     public JSONObject toJson() {
         JSONObject json = person.toJson();
         json.put(ID, serverId);
+        json.put(UUID, uuid);
         return json;
     }
 

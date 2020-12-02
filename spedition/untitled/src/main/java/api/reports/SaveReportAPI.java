@@ -40,11 +40,13 @@ public class SaveReportAPI extends ServletAPI {
             System.out.println("!" + body);
             final String header = req.getHeader(TOKEN);
             final User user = userDAO.getUserByToken(header);
-            Report report = reportDAO.getReport(body.get(Keys.ID));
+            final Object uuid = body.get(UUID);
+            Report report = reportDAO.getReportByUUID(uuid);
 
             if (report == null){
                 report = new Report();
                 report.setOwner(user);
+                report.setUuid(uuid.toString());
             }
 
             if (body.containsKey(LEAVE)) {
@@ -85,9 +87,7 @@ public class SaveReportAPI extends ServletAPI {
                     report.setRoute(String.valueOf(body.get(ROUTE)));
                 }
             }
-
-            report.setUuid(String.valueOf(body.get(Keys.ID)));
-
+            
             int perDiem = Integer.parseInt(String.valueOf(body.get(PER_DIEM)));
             report.setPerDiem(perDiem);
 
@@ -141,9 +141,12 @@ public class SaveReportAPI extends ServletAPI {
 
     private Driver extractDriver(JSONObject driverJson) {
         Driver driver = driverDAO.getDriverByUUID(driverJson.get(ID));
+        int hash = -1;
         if (driver == null){
             driver = new Driver();
             driver.setPerson(new Person());
+        } else {
+            hash = driver.hashCode();
         }
         driver.setUuid(String.valueOf(driverJson.get(ID)));
         final Person person = driver.getPerson();
@@ -151,7 +154,9 @@ public class SaveReportAPI extends ServletAPI {
         person.setSurname(String.valueOf(driverJson.get(SURNAME)));
         person.setForename(String.valueOf(driverJson.get(FORENAME)));
 
-        driverDAO.save(driver);
+        if (hash != driver.hashCode()){
+            driverDAO.save(driver);
+        }
 
         final HashMap<String, Phone> phones = new HashMap<>();
         if (person.getPhones() != null) {
@@ -179,18 +184,19 @@ public class SaveReportAPI extends ServletAPI {
     }
 
     private void saveDetails(Report report, JSONArray jsonArray) {
-        HashMap<Integer, ReportDetails> details = new HashMap<>();
+        HashMap<String, ReportDetails> details = new HashMap<>();
         for (ReportDetails d : report.getDetails()){
-            details.put(d.getId(), d);
+            details.put(d.getUuid(), d);
         }
 
         for (Object o : jsonArray){
             JSONObject json = (JSONObject) o;
-            final int id = Integer.parseInt(String.valueOf(json.get(ID)));
-            ReportDetails rd = details.remove(id);
+            final String uuid = String.valueOf(json.get(UUID));
+            ReportDetails rd = details.remove(uuid);
             if (rd == null){
                 rd = new ReportDetails();
                 rd.setReport(report);
+                rd.setUuid(uuid);
             }
             if (json.containsKey(DRIVER)){
                 rd.setDriver(extractDriver((JSONObject) json.get(DRIVER)));

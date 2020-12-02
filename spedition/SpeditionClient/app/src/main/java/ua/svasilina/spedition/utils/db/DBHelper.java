@@ -9,11 +9,11 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "db";
+    private static final String DB_NAME = "dbc";
     private static final String TAG = "Db Helper";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 4);
+        super(context, DB_NAME, null, 1);
     }
 
     @Override
@@ -26,6 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.i(TAG, "Create table 'Drivers'");
         db.execSQL("create table " + Tables.DRIVERS + " (" +
                 "id integer unique primary key autoincrement," +
+                "uuid text," +
                 "server_id integer default -1," +
                 "surname text," +
                 "forename text," +
@@ -45,6 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + Tables.REPORTS + " (" +
                 "id integer unique primary key autoincrement," +
                 "server_id integer unique," +
+                "uuid text," +
                 "leave_time long," +
                 "done_time long," +
                 "route text," +
@@ -57,7 +59,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + Tables.REPORT_DETAILS + " (" +
                 "id integer unique primary key autoincrement," +
                 "server_id integer unique," +
-                "report integer not null," +
+                "uuid text," +
+                "report text not null," +
                 "driver integer," +
                 "product integer," +
                 "own_weight integer)");
@@ -96,16 +99,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 "longitude float)");
         Log.i(TAG, "Create table 'Remove reports");
         db.execSQL("create table " + Tables.REMOVE_REPORTS + " (" +
-                "id integer)");
+                "id text)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG, "Old version: " + oldVersion + ", new version: " + newVersion);
-        if (oldVersion<=3){
-            Log.i(TAG, "Create table 'Remove reports");
-            db.execSQL("create table " + Tables.REMOVE_REPORTS + " (" +
-                    "id integer)");
-        }
     }
 }

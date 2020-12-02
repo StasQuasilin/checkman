@@ -18,11 +18,11 @@ import ua.svasilina.spedition.utils.db.ReportUtil;
 
 public class ReportRemoveDialog extends DialogFragment {
 
-    private final int uuid;
+    private final String uuid;
     private final ReportUtil reportsUtil;
     private final Context context;
 
-    public ReportRemoveDialog(Context context, int uuid) {
+    public ReportRemoveDialog(Context context, String uuid) {
         this.uuid = uuid;
         reportsUtil = new ReportUtil(context);
         this.context = context;

@@ -87,9 +87,12 @@ public class ReportListAdapter extends ArrayAdapter<SimpleReport> {
         if (drivers.size() > 0){
             StringBuilder builder = new StringBuilder();
             for(int i = 0; i < drivers.size(); i++){
-                builder.append(drivers.get(i).getValue());
-                if (i < drivers.size() - 1){
-                    builder.append(COMA).append(SPACE);
+                final Driver driver = drivers.get(i);
+                if(driver != null) {
+                    builder.append(driver.getValue());
+                    if (i < drivers.size() - 1) {
+                        builder.append(COMA).append(SPACE);
+                    }
                 }
             }
             driverView.setText(builder.toString().toUpperCase());

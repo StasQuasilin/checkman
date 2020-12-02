@@ -8,33 +8,38 @@ import org.json.simple.JSONObject;
 import ua.svasilina.spedition.constants.Keys;
 
 public class ReportDetail implements JsonAble{
-    private int id = -2;
+    private long id = -1;
     private int serverId;
+    private String uuid;
     private Driver driver;
     private Product product;
     private Weight ownWeight;
     private Weight weight;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
     public int getServerId() {
         return serverId;
     }
-
     public void setServerId(int serverId) {
         this.serverId = serverId;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Driver getDriver() {
         return driver;
     }
-
     public void setDriver(Driver driver) {
         this.driver = driver;
     }
@@ -42,7 +47,6 @@ public class ReportDetail implements JsonAble{
     public Product getProduct() {
         return product;
     }
-
     public void setProduct(Product product) {
         this.product = product;
     }
@@ -50,7 +54,6 @@ public class ReportDetail implements JsonAble{
     public Weight getOwnWeight() {
         return ownWeight;
     }
-
     public void setOwnWeight(Weight ownWeight) {
         this.ownWeight = ownWeight;
     }
@@ -58,14 +61,13 @@ public class ReportDetail implements JsonAble{
     public Weight getWeight() {
         return weight;
     }
-
     public void setWeight(Weight weight) {
         this.weight = weight;
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return (int) id;
     }
 
     @Override
@@ -76,16 +78,16 @@ public class ReportDetail implements JsonAble{
     @NonNull
     @Override
     public String toString() {
-        if (driver != null){
-            return driver.toString();
-        }
-        return Keys.EMPTY;
+        return (driver != null ? driver.toString() : Keys.EMPTY) +
+                (driver != null && ownWeight != null ? Keys.COLON+ Keys.SPACE : Keys.EMPTY) +
+                (ownWeight != null ? ownWeight.toString() : Keys.EMPTY);
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(Keys.ID, id);
+        jsonObject.put(Keys.UUID, uuid);
         if (driver != null) {
             jsonObject.put(Keys.DRIVER, driver.toJson());
         }

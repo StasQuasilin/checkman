@@ -4,10 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.LinkedList;
+import java.util.UUID;
 
+import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.ReportDetail;
 import ua.svasilina.spedition.entity.reports.Report;
@@ -29,7 +30,7 @@ public class ReportDetailUtil {
     }
 
     public void getDetails(Report report){
-        final String id = String.valueOf(report.getId());
+        final String id = report.getUuid();
         final LinkedList<ReportDetail> details = report.getDetails();
         getDetails(id, details);
     }
@@ -38,10 +39,13 @@ public class ReportDetailUtil {
         final Cursor query = db.query(Tables.REPORT_DETAILS, null, "report=?", new String[]{reportId}, null, null, null);
         if (query.moveToFirst()){
             final int idColumn = query.getColumnIndex(ID_COLUMN);
+            final int uuidColumn = query.getColumnIndex(Keys.UUID);
             final int driverColumn = query.getColumnIndex(DRIVER_COLUMN);
             do{
                 ReportDetail detail = new ReportDetail();
                 detail.setId(query.getInt(idColumn));
+                detail.setUuid(query.getString(uuidColumn));
+
                 final int driverId = query.getInt(driverColumn);
                 final Driver driver = driverUtil.getDriver(driverId);
                 if (driver != null) {
@@ -56,26 +60,34 @@ public class ReportDetailUtil {
         final ContentValues cv = new ContentValues();
 
         final String id = String.valueOf(detail.getId());
-
-        cv.put(REPORT_COLUMN, report.getId());
-
+        cv.put(REPORT_COLUMN, report.getUuid());
+        String uuid = detail.getUuid();
+        if(uuid == null){
+            uuid = UUID.randomUUID().toString();
+            detail.setUuid(uuid);
+        }
+        cv.put(Keys.UUID, uuid);
         final Driver driver = detail.getDriver();
         if(driver != null){
+            System.out.println("Detail driver " + driver.getId() + ":" + driver.getValue());
             driverUtil.saveDriver(driver);
             cv.put(DRIVER_COLUMN, driver.getId());
+        } else {
+            System.out.println("--------> Detail without driver");
         }
 
         final Cursor query = db.query(Tables.REPORT_DETAILS, null, "id = ?", new String[]{id}, null, null, null, ONE_ROW);
         if(query.moveToFirst()){
             db.update(Tables.REPORT_DETAILS, cv, "id = ?", new String[]{id});
         } else {
-            db.insert(Tables.REPORT_DETAILS, null, cv);
+            final long insert = db.insert(Tables.REPORT_DETAILS, null, cv);
+            detail.setId(insert);
         }
     }
 
     public void saveDetails(Report report) {
         final LinkedList<ReportDetail> details = new LinkedList<>();
-        getDetails(String.valueOf(report.getId()), details);
+        getDetails(report.getUuid(), details);
 
         for (ReportDetail detail : report.getDetails()){
             details.remove(detail);
@@ -93,7 +105,7 @@ public class ReportDetailUtil {
     }
 
     public void getDetails(SimpleReport simpleReport) {
-        final Cursor query = db.query(Tables.REPORT_DETAILS, new String[]{DRIVER_COLUMN}, "report=?", new String[]{String.valueOf(simpleReport.getId())}, null, null, null);
+        final Cursor query = db.query(Tables.REPORT_DETAILS, new String[]{DRIVER_COLUMN}, "report=?", new String[]{simpleReport.getUuid()}, null, null, null);
         if (query.moveToFirst()){
             final int driverColumn = query.getColumnIndex(DRIVER_COLUMN);
 

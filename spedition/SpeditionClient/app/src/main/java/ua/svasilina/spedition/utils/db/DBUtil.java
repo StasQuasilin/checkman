@@ -267,15 +267,15 @@ public class DBUtil {
 
     private void saveDriver(JSONObject driver) throws JSONException {
         final ContentValues cv = new ContentValues();
-        final String id = driver.getString(Keys.ID);
-        cv.put(Keys.SERVER_ID, id);
+        final String uuid = driver.getString(Keys.UUID);
+        cv.put(Keys.SERVER_ID, uuid);
         cv.put(Keys.SURNAME, driver.getString(Keys.SURNAME).toUpperCase());
         cv.put(Keys.FORENAME, driver.getString(Keys.FORENAME).toUpperCase());
         cv.put(Keys.PATRONYMIC, driver.getString(Keys.PATRONYMIC).toUpperCase());
-
-        final Cursor query = db.query(Tables.DRIVERS, new String[]{}, "server_id=?", new String[]{id}, null, null, null);
+        final String[] p = new String[]{uuid};
+        final Cursor query = db.query(Tables.DRIVERS, new String[]{}, "uuid=?", p, null, null, null);
         if (query.moveToFirst()){
-            db.update(Tables.DRIVERS, cv, "server_id=?", new String[]{id});
+            db.update(Tables.DRIVERS, cv, "uuid=?", p);
         } else {
             db.insert(Tables.DRIVERS, null, cv);
         }

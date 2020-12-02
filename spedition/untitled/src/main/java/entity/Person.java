@@ -74,8 +74,10 @@ public class Person extends JsonAble{
 
     private JSONArray phones() {
         JSONArray array = new JSONArray();
-        for (Phone phone : phones){
-            array.add(phone.getNumber());
+        if(phones != null) {
+            for (Phone phone : phones) {
+                array.add(phone.getNumber());
+            }
         }
         return array;
     }
@@ -99,5 +101,19 @@ public class Person extends JsonAble{
         }
 
         return builder.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * surname.hashCode() + hash;
+
+        if(forename != null){
+            hash = 31 * forename.hashCode() + hash;
+        }
+        if (patronymic!= null){
+            hash = 31 *patronymic.hashCode() + hash;
+        }
+        return hash;
     }
 }

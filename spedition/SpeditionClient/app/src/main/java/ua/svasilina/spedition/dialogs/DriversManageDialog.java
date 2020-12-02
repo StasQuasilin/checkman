@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.LinkedList;
+import java.util.UUID;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.CustomAdapter;
@@ -36,7 +37,6 @@ import ua.svasilina.spedition.utils.search.DriverSearchUtil;
 
 public class DriversManageDialog extends DialogFragment {
 
-    private final Context context;
     private final LayoutInflater inflater;
     DriverSearchUtil dsu;
     private EditText driverInput;
@@ -46,7 +46,6 @@ public class DriversManageDialog extends DialogFragment {
     private final LinkedList<ReportDetail> details;
 
     public DriversManageDialog(final Context context, final LinkedList<ReportDetail> details, CustomListener listener) {
-        this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         dsu = new DriverSearchUtil(context);
         driveListAdapter = new CustomAdapter<>(context, R.layout.report_detail_view, new CustomAdapterBuilder<ReportDetail>() {
@@ -62,7 +61,10 @@ public class DriversManageDialog extends DialogFragment {
                     }
                 });
                 final TextView driverName = view.findViewById(R.id.driverName);
-                driverName.setText(item.getDriver().getValue());
+                final Driver driver = item.getDriver();
+                if(driver != null) {
+                    driverName.setText(driver.getValue());
+                }
                 final TextView driverDetails = view.findViewById(R.id.driverDetails);
                 driverDetails.setVisibility(View.GONE);
                 final ImageButton driverEditButton = view.findViewById(R.id.driverEditButton);
@@ -80,23 +82,6 @@ public class DriversManageDialog extends DialogFragment {
 
                             }
                         }).show(getParentFragmentManager(), "DED");
-                    }
-                });
-                final Button editWeightButton = view.findViewById(R.id.editWeightButton);
-                editWeightButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Weight ownWeight = item.getOwnWeight();
-                        if (ownWeight == null){
-                            ownWeight = new Weight();
-                            item.setOwnWeight(ownWeight);
-                        }
-                        new WeightDialog(ownWeight, inflater, new CustomListener() {
-                            @Override
-                            public void onChange() {
-
-                            }
-                        }).show(getParentFragmentManager(), "WED");
                     }
                 });
             }
@@ -118,6 +103,8 @@ public class DriversManageDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = inflater.inflate(R.layout.drivers_manage_dialog, null);
         driverInput = view.findViewById(R.id.driverInput);
+        final ImageButton addNewDriver = view.findViewById(R.id.addNewDriver);
+        addNewDriver.setVisibility(View.GONE);
         driverInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -134,15 +121,21 @@ public class DriversManageDialog extends DialogFragment {
                 driverVariantsAdapter.clear();
                 if (s.length() > 1){
                     dsu.search(driverVariantsAdapter, s.toString());
+                    if(driverVariantsAdapter.getCount() > 0) {
+                        addNewDriver.setVisibility(View.GONE);
+                    } else {
+                        addNewDriver.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
-        final ImageButton addNewDriver = view.findViewById(R.id.addNewDriver);
+
         addNewDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String[] split = driverInput.getText().toString().trim().split(Keys.SPACE);
                 Driver driver = new Driver();
+                driver.setUuid(UUID.randomUUID().toString());
                 final Person person = driver.getPerson();
                 if(split.length > 0){
                     person.setSurname(split[0]);
@@ -154,6 +147,7 @@ public class DriversManageDialog extends DialogFragment {
                     person.setPatronymic(split[2]);
                 }
                 addDriver(driver);
+                addNewDriver.setVisibility(View.GONE);
             }
         });
         final ListView driver = view.findViewById(R.id.driverVariants);

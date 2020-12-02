@@ -37,14 +37,6 @@ public class Reports extends AppCompatActivity {
 
         ReportsUtil reportsUtil = new ReportsUtil(context);
         ReportUtil reportUtil = new ReportUtil(context);
-        /*
-        final List<OldReport> reports = reportsUtil.readStorage();
-        if (reports.size() > 0){
-            for (int i = 0; i < reports.size(); i++){
-                reportUtil.saveReport(new Report(reports.get(i)));
-            }
-        }
-         //*/
 
         reports.addAll(reportUtil.getReportsList());
         ReportListAdapter adapter = new ReportListAdapter(context, R.layout.report_list_row, this.reports);

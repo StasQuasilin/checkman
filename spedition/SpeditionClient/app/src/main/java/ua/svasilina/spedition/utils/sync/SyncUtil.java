@@ -118,7 +118,7 @@ public class SyncUtil {
 
     public void saveReport(final Report report, final boolean runBackground){
         if (report != null) {
-            final int localId = (report.getId());
+            final long localId = (report.getId());
             final JSONObject object = new JSONObject(report.toJson());
             sendJson(ApiLinks.REPORT_SAVE, object, new Response.Listener<JSONObject>() {
                 @Override

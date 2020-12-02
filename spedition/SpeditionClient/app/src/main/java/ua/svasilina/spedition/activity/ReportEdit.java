@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -41,7 +42,7 @@ import ua.svasilina.spedition.dialogs.NoteEditDialog;
 import ua.svasilina.spedition.dialogs.ReportNotCompletedDialog;
 import ua.svasilina.spedition.dialogs.ReportRemoveDialog;
 import ua.svasilina.spedition.dialogs.RouteEditDialog;
-import ua.svasilina.spedition.dialogs.WeightDialog;
+import ua.svasilina.spedition.dialogs.DriverWeightDialog;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
 import ua.svasilina.spedition.entity.Product;
@@ -49,11 +50,9 @@ import ua.svasilina.spedition.entity.ReportDetail;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.ReportNote;
 import ua.svasilina.spedition.entity.Route;
-import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
-import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
 import ua.svasilina.spedition.utils.db.ReportUtil;
 
 import static ua.svasilina.spedition.constants.Keys.ARROW;
@@ -83,21 +82,26 @@ public class ReportEdit extends AppCompatActivity {
     private Button noteButton;
 
     private ProductsUtil productsUtil;
-    private WeightStringBuilder weightStringBuilder;
 
     void updateDriverButtonValue(){
         final LinkedList<ReportDetail> details = report.getDetails();
         if (details.size() > 0){
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < details.size(); i++){
+                if (details.size() > 1) {
+                    builder.append(i + 1).append(Keys.DOT).append(SPACE);
+                }
                 builder.append(details.get(i));
+
                 if(i < details.size() - 1){
                     builder.append(Keys.NEW_STRING);
                 }
             }
             driverButton.setText(builder.toString());
+            driverButton.setTextColor(getResources().getColor(R.color.textColor));
         } else {
-            driverButton.setText(Keys.EMPTY);
+            driverButton.setText(R.string.press_for_driver);
+            driverButton.setTextColor(getResources().getColor(R.color.gray));
         }
     }
 
@@ -109,18 +113,22 @@ public class ReportEdit extends AppCompatActivity {
         final ActionBar supportActionBar = getSupportActionBar();
         assert supportActionBar != null;
         supportActionBar.setTitle(R.string.edit);
-        weightStringBuilder = new WeightStringBuilder(getResources());
         reportUtil = new ReportUtil(context);
         productsUtil = new ProductsUtil(context);
 
         final Intent intent = getIntent();
-        final int uuid = intent.getIntExtra(ID, -1);
-
-        if (uuid != -1) {
-            report = reportUtil.getReport(uuid);
+        final long id = intent.getLongExtra(ID, -1);
+        String uuid = null;
+        if (id != -1) {
+            report = reportUtil.getReport(id);
+            uuid = report.getUuid();
         } else {
             report = new Report();
+            report.setUuid(UUID.randomUUID().toString());
         }
+
+        final TextView uuidView = findViewById(R.id.reportUUID);
+        uuidView.setText(report.getUuid());
 
         driverButton = findViewById(R.id.driverButton);
         initDriverButton();
@@ -131,7 +139,7 @@ public class ReportEdit extends AppCompatActivity {
         productList = findViewById(R.id.productSpinner);
         initProductList();
 
-        weightButton = findViewById(R.id.weightButton);
+        weightButton = findViewById(R.id.wButton);
         initWeightButton();
 
         fixLeaveTime = findViewById(R.id.fixLeaveTime);
@@ -174,11 +182,12 @@ public class ReportEdit extends AppCompatActivity {
             }
         });
         final View reportRemove = findViewById(R.id.reportRemove);
-        if (uuid != -1) {
+        if (uuid != null) {
+            final String finalUuid = uuid;
             reportRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new ReportRemoveDialog(context, uuid).show(getSupportFragmentManager(), "RM");
+                    new ReportRemoveDialog(context, finalUuid).show(getSupportFragmentManager(), "RM");
                 }
             });
         } else {
@@ -197,23 +206,18 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     private void updateWeightButton() {
-        final Weight weight = null;//report.getWeight();
-        if (weight == null){
-            weightButton.setVisibility(View.GONE);
-        } else {
-            weightButton.setVisibility(View.VISIBLE);
-
-            weightButton.setText(weightStringBuilder.build(weight));
-        }
+//        final Weight weight = null;//report.getWeight();
+//        if (weight == null){
+//            weightButton.setVisibility(View.GONE);
+//        } else {
+//            weightButton.setVisibility(View.VISIBLE);
+//
+//            weightButton.setText(weightStringBuilder.build(weight));
+//        }
     }
 
     private void showWeightDialog() {
-        Weight weight = null;//report.getWeight();
-        if (weight == null){
-            weight = new Weight();
-//            report.setWeight(weight);
-        }
-        new WeightDialog(weight, getLayoutInflater(), new CustomListener() {
+        new DriverWeightDialog(report.getDetails(), getApplicationContext(), new CustomListener() {
             @Override
             public void onChange() {
                 updateWeightButton();

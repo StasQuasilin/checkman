@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.LinkedList;
+import java.util.UUID;
 
 import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Driver;
@@ -57,6 +58,12 @@ public class DriverUtil {
     public void saveDriver(Driver driver) {
         final ContentValues cv = new ContentValues();
         final String id = String.valueOf(driver.getId());
+        String uuid = driver.getUuid();
+        if(uuid== null){
+            uuid = UUID.randomUUID().toString();
+            driver.setUuid(uuid);
+        }
+        cv.put(Keys.UUID, uuid);
 
         final Person person = driver.getPerson();
         final String surname = person.getSurname();
@@ -85,6 +92,7 @@ public class DriverUtil {
     public Driver getDriver(int driverId) {
         final Cursor query = db.query(Tables.DRIVERS, null, "id = ?", new String[]{String.valueOf(driverId)}, null, null, null, String.valueOf(1));
         if (query.moveToFirst()){
+            final int uuidColumn = query.getColumnIndex(Keys.UUID);
             final int serverIdColumn = query.getColumnIndex(SERVER_ID);
             final int surnameColumn = query.getColumnIndex(SURNAME);
             final int forenameColumn = query.getColumnIndex(FORENAME);
@@ -92,6 +100,7 @@ public class DriverUtil {
 
             Driver driver = new Driver();
             driver.setId(driverId);
+            driver.setUuid(query.getString(uuidColumn));
             driver.setServerId(query.getInt(serverIdColumn));
             final Person person = driver.getPerson();
             person.setSurname(query.getString(surnameColumn));

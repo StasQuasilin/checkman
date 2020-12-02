@@ -8,7 +8,8 @@ import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Product;
 
 public abstract class IReport {
-    int id;
+    long id;
+    private String uuid;
     public Calendar leaveTime;
     Calendar doneDate;
     public LinkedList<String> route;
@@ -17,12 +18,18 @@ public abstract class IReport {
         route = new LinkedList<>();
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Calendar getLeaveTime() {
@@ -63,7 +70,8 @@ public abstract class IReport {
     }
 
     public void setRoute(String route) {
-        this.route.addAll(Arrays.asList(route.split(Keys.COMA)));
+        if (route != null)
+            this.route.addAll(Arrays.asList(route.split(Keys.COMA)));
     }
 
 

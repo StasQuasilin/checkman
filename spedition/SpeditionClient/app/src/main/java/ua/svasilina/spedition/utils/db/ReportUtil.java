@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.UUID;
 
 import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Product;
@@ -29,7 +30,7 @@ public class ReportUtil {
     private static final String PRODUCT_COLUMN = "product";
     private static final String SEPARATED_PRODUCT_COLUMN = "separated_products";
     private final String[] simpleReportFields = new String[]{
-            ID_COLUMN, LEAVE_COLUMN, DONE_COLUMN, ROUTE_COLUMN, PRODUCT_COLUMN, SEPARATED_PRODUCT_COLUMN
+            ID_COLUMN, Keys.UUID, LEAVE_COLUMN, DONE_COLUMN, ROUTE_COLUMN, PRODUCT_COLUMN, SEPARATED_PRODUCT_COLUMN
     };
     private final ProductsUtil productsUtil;
     private final ReportDetailUtil detailUtil;
@@ -50,6 +51,7 @@ public class ReportUtil {
         if(query.moveToFirst()){
 
             final int idColumn = query.getColumnIndex(ID_COLUMN);
+            final int uuidColumn = query.getColumnIndex(Keys.UUID);
             final int leaveColumn = query.getColumnIndex(LEAVE_COLUMN);
             final int doneColumn = query.getColumnIndex(DONE_COLUMN);
             final int routeColumn = query.getColumnIndex(ROUTE_COLUMN);
@@ -57,6 +59,7 @@ public class ReportUtil {
             do {
                 SimpleReport simpleReport = new SimpleReport();
                 simpleReport.setId(query.getInt(idColumn));
+                simpleReport.setUuid(query.getString(uuidColumn));
                 final long leaveTime = query.getLong(leaveColumn);
                 if (leaveTime > 0) {
                     simpleReport.setLeaveTime(leaveTime);
@@ -81,7 +84,8 @@ public class ReportUtil {
         Collections.sort(reports);
         return reports;
     }
-    public Report getReport(int id){
+
+    public Report getReport(long id){
         Log.i("Open report", String.valueOf(id));
         final Cursor query = db.query(Tables.REPORTS, null, "id = ?", new String[]{String.valueOf(id)}, null, null, null, String.valueOf(1));
         if (query.moveToFirst()){
@@ -95,6 +99,12 @@ public class ReportUtil {
         final ContentValues cv = new ContentValues();
 
         final Calendar leaveTime = report.getLeaveTime();
+        String uuid = report.getUuid();
+        if (uuid == null){
+            uuid = UUID.randomUUID().toString();
+            report.setUuid(uuid);
+        }
+        cv.put(Keys.UUID, uuid);
         if (leaveTime != null) {
             cv.put(LEAVE_COLUMN, leaveTime.getTimeInMillis());
         }
@@ -107,7 +117,9 @@ public class ReportUtil {
             cv.put(PRODUCT_COLUMN, product.getId());
         }
         final String route = report.getRouteString();
-        cv.put(ROUTE_COLUMN, route);
+        if (!route.isEmpty()) {
+            cv.put(ROUTE_COLUMN, route);
+        }
         cv.put(SYNC_COLUMN, false);
 
         final String id = String.valueOf(report.getId());
@@ -122,10 +134,12 @@ public class ReportUtil {
 
     }
 
-    public boolean removeReport(int id) {
-        String[] par = new String[]{String.valueOf(id)};
+    public boolean removeReport(String id) {
+        String[] par = new String[]{id};
         final SQLiteDatabase database = dbHelper.getWritableDatabase();
-        final int delete = database.delete(Tables.REPORTS, "id=?", par);
+
+        final int delete = database.delete(Tables.REPORTS, "uuid=?", par);
+
         db.delete(Tables.REPORT_DETAILS, "report=?", par);
         db.delete(Tables.REPORT_FIELDS, "report=?", par);
         db.delete(Tables.REPORT_NOTES, "report=?", par);
@@ -137,7 +151,7 @@ public class ReportUtil {
         return delete > 0;
     }
 
-    public void makeSync(int localId, int serverId) {
+    public void makeSync(long localId, int serverId) {
         final ContentValues cv = new ContentValues();
         cv.put(Keys.SERVER_ID, serverId);
         cv.put(SYNC_COLUMN, true);
@@ -167,6 +181,7 @@ public class ReportUtil {
     private Report readReport(Cursor query) {
         final int idColumn = query.getColumnIndex(ID_COLUMN);
         final int serverIdColumn = query.getColumnIndex(Keys.SERVER_ID);
+        final int uuidColumn = query.getColumnIndex(Keys.UUID);
         final int leaveColumn = query.getColumnIndex(LEAVE_COLUMN);
         final int doneColumn = query.getColumnIndex(DONE_COLUMN);
         final int routeColumn = query.getColumnIndex(ROUTE_COLUMN);
@@ -176,7 +191,7 @@ public class ReportUtil {
 
         report.setId(query.getInt(idColumn));
         report.setServerId(query.getInt(serverIdColumn));
-
+        report.setUuid(query.getString(uuidColumn));
         final long leaveTime = query.getLong(leaveColumn);
         if (leaveTime > 0){
             report.setLeaveTime(leaveTime);
