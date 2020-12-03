@@ -105,4 +105,6 @@
     <string name="report_remove_success">Звіт видалено</string>
     <string name="press_for_weight">Вага не вказана</string>
     <string name="tables">DB View</string>
+    <string name="counterparty">Контрагент</string>
+    <string name="newCounterparty">+ Новий контрагент</string>
 </resources>

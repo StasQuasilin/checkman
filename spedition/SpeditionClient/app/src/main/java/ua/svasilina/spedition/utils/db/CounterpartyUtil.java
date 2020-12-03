@@ -9,14 +9,17 @@ import java.util.UUID;
 
 import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Counterparty;
+import ua.svasilina.spedition.utils.search.CounterpartyParser;
 
 import static ua.svasilina.spedition.constants.DBConstants.ONE_ROW;
 import static ua.svasilina.spedition.constants.DBConstants.UUID_PARAM;
 
 public class CounterpartyUtil {
     private final DBHelper helper;
+    private final CounterpartyParser parser;
     public CounterpartyUtil(Context context) {
         helper = new DBHelper(context);
+        parser = new CounterpartyParser();
     }
 
     public void saveCounterparty(Counterparty counterparty){
@@ -41,16 +44,11 @@ public class CounterpartyUtil {
 
     public Counterparty getCounterparty(String counterpartyUuid) {
         final SQLiteDatabase database = helper.getReadableDatabase();
-        Counterparty counterparty =null;
+        Counterparty counterparty = null;
         final Cursor query = database.query(Tables.COUNTERPARTY, null, UUID_PARAM, new String[]{counterpartyUuid}, null, null, null, ONE_ROW);
         if (query.moveToFirst()){
-            final int idColumn = query.getColumnIndex(Keys.ID);
-            final int uuidColumn = query.getColumnIndex(Keys.UUID);
-            final int nameColumn = query.getColumnIndex(Keys.NAME);
-            counterparty = new Counterparty();
-            counterparty.setId(query.getInt(idColumn));
-            counterparty.setUuid(query.getString(uuidColumn));
-            counterparty.setName(query.getString(nameColumn));
+            parser.init(query);
+            counterparty = parser.parse(query);
         }
         database.close();
         return counterparty;

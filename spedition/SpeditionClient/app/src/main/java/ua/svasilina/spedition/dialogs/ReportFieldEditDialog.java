@@ -5,14 +5,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,13 +27,17 @@ import java.util.Calendar;
 import java.util.List;
 
 import ua.svasilina.spedition.R;
+import ua.svasilina.spedition.adapters.CustomAdapter;
+import ua.svasilina.spedition.entity.Counterparty;
 import ua.svasilina.spedition.entity.Product;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.entity.reports.Report;
+import ua.svasilina.spedition.utils.CustomAdapterBuilder;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
 import ua.svasilina.spedition.utils.builders.DateTimeBuilder;
+import ua.svasilina.spedition.utils.search.CounterpartySearchUtil;
 
 import static ua.svasilina.spedition.constants.Patterns.DATE_PATTERN;
 import static ua.svasilina.spedition.constants.Patterns.TIME_PATTERN;
@@ -40,7 +48,7 @@ public class ReportFieldEditDialog extends DialogFragment {
     private final LayoutInflater inflater;
     private final CustomListener saveListener;
 
-    private EditText counterparty;
+    private EditText counterpartyInput;
     private Spinner product;
     private EditText moneyEdit;
     private EditText gross;
@@ -91,9 +99,14 @@ public class ReportFieldEditDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final View view = inflater.inflate(R.layout.field_edit_dialog, null);
-
-        counterparty = view.findViewById(R.id.counterparty);
-//        counterparty.setText(reportField.getCounterparty());
+        counterpartyInput = view.findViewById(R.id.counterparty);
+        final Counterparty counterparty = reportField.getCounterparty();
+        if (counterparty !=null){
+            counterpartyInput.setText(counterparty.getName());
+        }
+        final ListView counterpartyList = view.findViewById(R.id.counterpartyList);
+        final TextView counterpartyLabel = view.findViewById(R.id.counterpartyLabel);
+        initCounterpartyInput(counterpartyList, counterpartyLabel);
 
         fixArrive = view.findViewById(R.id.fixArrive);
         arriveContainer = view.findViewById(R.id.arriveContainer);
@@ -163,6 +176,66 @@ public class ReportFieldEditDialog extends DialogFragment {
             }
         });
         return builder.create();
+    }
+
+    private void initCounterpartyInput(final ListView counterpartyList, final TextView counterpartyLabel) {
+        final Context context = getContext();
+        final CounterpartySearchUtil counterpartySearchUtil = new CounterpartySearchUtil(context);
+        final CustomAdapter<Counterparty> adapter = new CustomAdapter<>(context, android.R.layout.simple_list_item_1, new CustomAdapterBuilder<Counterparty>() {
+            @Override
+            public void build(final Counterparty item, View view, int position) {
+                final TextView text1 = view.findViewById(android.R.id.text1);
+                text1.setText(item.getName());
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        reportField.setCounterparty(item);
+                        counterpartyInput.setText(item.getName());
+                        counterpartyList.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
+        counterpartyList.setVisibility(View.GONE);
+        counterpartyList.setAdapter(adapter);
+        counterpartyInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                counterpartyList.setVisibility(View.GONE);
+                if (s.length() > 1){
+                    reportField.setCounterparty(null);
+                    counterpartySearchUtil.search(adapter, s.toString());
+                    if (adapter.getCount() == 0){
+                        newCounterparty();
+                    } else {
+                        oldCounterparty();
+                        counterpartyList.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    oldCounterparty();
+                }
+            }
+
+            private void oldCounterparty() {
+                counterpartyLabel.setText(context.getResources().getString(R.string.counterparty));
+                counterpartyLabel.setTextColor(context.getResources().getColor(R.color.textColor));
+            }
+
+            private void newCounterparty() {
+                counterpartyLabel.setText(context.getResources().getString(R.string.newCounterparty));
+                counterpartyLabel.setTextColor(context.getResources().getColor(R.color.someNew));
+            }
+        });
     }
 
     private void initLeave() {
@@ -277,9 +350,16 @@ public class ReportFieldEditDialog extends DialogFragment {
     }
 
     private void save(){
+        Counterparty counterparty = reportField.getCounterparty();
+        if(counterparty == null){
+            final String counterpartyValue = this.counterpartyInput.getText().toString();
+            if (!counterpartyValue.isEmpty()){
+                counterparty = new Counterparty();
+                counterparty.setName(counterpartyValue);
+                reportField.setCounterparty(counterparty);
+            }
 
-        final String counterparty = this.counterparty.getText().toString();
-//        reportField.setCounterparty(counterparty);
+        }
 
         reportField.setProduct(adapter.getItem(product.getSelectedItemPosition()));
 

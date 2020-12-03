@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/counterpartyLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/point"
-        android:textColor="@color/textColor"
         android:labelFor="@id/counterparty"
+        android:text="@string/counterparty"
+        android:textColor="@color/textColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +31,7 @@
         android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
+        app:layout_constraintTop_toBottomOf="@id/counterpartyLabel" />
 
     <TextView
         android:id="@+id/textView3"
@@ -202,7 +203,7 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/counterparty" />
+        app:layout_constraintTop_toTopOf="@+id/counterpartyList" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/arriveContainer"
@@ -254,6 +255,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/arriveContainer" />
+
+    <ListView
+        android:id="@+id/counterpartyList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#8BC34A"
+        android:importantForAccessibility="yes"
+        android:layerType="software"
+        android:layoutMode="opticalBounds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/counterparty" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/leaveContainer"

@@ -6,4 +6,5 @@
     <color name="textColor">#373737</color>
     <color name="spinnerBackground">#323232</color>
     <color name="gray">#B3B3B3</color>
+    <color name="someNew">#4CAF50</color>
 </resources>

@@ -13,7 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TAG = "Db Helper";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 3);
+        super(context, DB_NAME, null, 4);
     }
 
     @Override
@@ -36,6 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + Tables.COUNTERPARTY + " (" +
                 "id integer unique primary key autoincrement," +
                 "server_id integer unique," +
+                "uuid text," +
                 "name text)");
         Log.i(TAG, "Create table 'Last sync'");
         db.execSQL("create table " + Tables.LAST_SYNC + " (" +
@@ -110,8 +111,11 @@ public class DBHelper extends SQLiteOpenHelper {
         if (oldVersion == 1){
             createWeightsTable(db);
         }
-        if(oldVersion == 2){
+        if(oldVersion <= 2){
             db.execSQL("alter table " + Tables.REPORT_FIELDS + " add uuid text");
+        }
+        if( oldVersion <= 3){
+            db.execSQL("alter table " + Tables.COUNTERPARTY + " add uuid text");
         }
     }
 
