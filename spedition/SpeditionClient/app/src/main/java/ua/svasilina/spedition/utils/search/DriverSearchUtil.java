@@ -4,6 +4,7 @@ import android.content.Context;
 
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.utils.db.Tables;
+import ua.svasilina.spedition.utils.db.parsers.DriverParser;
 
 public class DriverSearchUtil extends SearchUtil<Driver> {
 

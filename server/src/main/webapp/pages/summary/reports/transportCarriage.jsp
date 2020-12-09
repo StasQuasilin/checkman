@@ -7,106 +7,30 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
 <script src="${context}/vue/templates/vehicleInput.vue"></script>
+<script src="${context}/vue/transport/carriages.vue?v=${now}"></script>
 <script>
-  var print = new Vue({
-    el:'#print',
-    components:{
-      'object-input':objectInput
-    },
-    data:{
-      api:{
-        print:'${print}'
+  print.api.print='${print}';
+  print.organisationProps ={
+      find:'${findOrganisation}',
+      header:'<b>+<fmt:message key="button.add"/></b>',
+      put:function(org){
+        print.organisation = org
       },
-      already:false,
-      from:new Date().toISOString().substring(0, 10),
-      to:new Date().toISOString().substring(0, 10),
-      organisation:{},
-      drivers:[],
-      driver:{id:-1},
-      vehicle:'',
-      product:-1,
-      products:[],
-      err:{
-        organisation:false,
-        driver:false
+      show:['value']
+  };
+  print.driverProps={
+      find:'${findDriver}',
+      header:'<b>+<fmt:message key="button.add"/></b>',
+      put:function(driver){
+        print.drivers.push(driver);
       },
-      organisationProps :{
-        find:'${findOrganisation}',
-        header:'<fmt:message key="button.add"/>',
-        put:function(org){
-          print.organisation = org
-        },
-        show:['value']
-      },
-      driverProps:{
-        find:'${findDriver}',
-        header:'<b>++<fmt:message key="button.add"/></b>',
-        put:function(driver){
-          print.drivers.push(driver);
-        },
-        show:['person/value']
-      }
-    },
-    methods:{
-      selectFrom:function(){
-        const self = this;
-        datepicker.show(function(date){
-          self.from = date;
-        }, this.from)
-      },
-      selectTo:function(){
-        const self = this;
-        datepicker.show(function(date){
-          self.to = date;
-        }, this.to)
-      },
-      removeDriver:function(idx){
-        this.drivers.splice(idx, 1);
-      },
-      print:function(){
-        if (!this.already) {
-          this.already = true;
-          let params = {};
-          if (this.from) {
-            params.from = this.from;
-          }
-          if (this.to) {
-            params.to = this.to;
-          }
-          if (this.organisation) {
-            params.organisation = this.organisation.id
-          }
-
-          params.drivers = [];
-          for (let i in this.drivers){
-            if (this.drivers.hasOwnProperty(i)){
-              params.drivers.push(this.drivers[i].id)
-            }
-          }
-
-          if (this.vehicle) {
-            params.vehicleContain = this.vehicle;
-          }
-          if (this.product !== -1) {
-            params.product = this.product;
-          }
-          const self = this;
-
-          PostReq(this.api.print, params, function (a) {
-            self.already = false;
-            let print = window.open();
-            print.document.write(a);
-            print.print();
-          })
-        }
-      }
-    }
-  });
+      show:['person/value']
+  };
   <c:forEach items="${products}" var="product">
   print.products.push({
     id:'${product.id}',
@@ -116,13 +40,18 @@
 </script>
 <table id="print" style="width: 280pt">
   <tr>
+    <td colspan="2">
+      <fmt:message key="period"/>
+    </td>
+  </tr>
+  <tr>
     <td>
       <label for="from">
         <fmt:message key="date.from"/>
       </label>
     </td>
     <td width="100%">
-      <input id="from" readonly style="width: 7em" v-on:click="selectFrom()"
+      <input id="from" readonly style="width: 8em" v-on:click="selectFrom()"
              v-model="new Date(from).toLocaleDateString().substring(0, 10)">
     </td>
   </tr>
@@ -133,7 +62,7 @@
       </label>
     </td>
     <td>
-      <input id="to" readonly style="width: 7em" v-on:click="selectTo()"
+      <input id="to" readonly style="width: 8em" v-on:click="selectTo()"
              v-model="new Date(to).toLocaleDateString().substring(0, 10)">
     </td>
   </tr>
@@ -187,6 +116,22 @@
     </td>
     <td>
       <input id="contain" v-model="vehicle" autocomplete="off">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input id="allType" type="radio" name="type" value="0" v-model="type">
+      <label for="allType">
+        <fmt:message key="all"/>
+      </label>
+      <input id="planType" type="radio" name="type" value="1" v-model="type">
+      <label for="planType">
+        <fmt:message key="planned"/>
+      </label>
+      <input id="doneType" type="radio" name="type" value="2" v-model="type">
+      <label for="doneType">
+        <fmt:message key="donned"/>
+      </label>
     </td>
   </tr>
   <tr>

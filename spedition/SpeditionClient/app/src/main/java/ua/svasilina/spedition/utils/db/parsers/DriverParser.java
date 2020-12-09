@@ -1,10 +1,11 @@
-package ua.svasilina.spedition.utils.search;
+package ua.svasilina.spedition.utils.db.parsers;
 
 import android.database.Cursor;
 
 import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Person;
+import ua.svasilina.spedition.utils.search.ItemParser;
 
 public class DriverParser extends ItemParser<Driver> {
 

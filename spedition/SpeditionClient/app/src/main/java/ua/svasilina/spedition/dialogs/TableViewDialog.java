@@ -75,14 +75,17 @@ public class TableViewDialog extends DialogFragment {
                 for (int i = 0; i < indices.length;i++){
                     builder.append(names[i]).append(Keys.COLON);
                     builder.append(query.getString(indices[i]));
-                    builder.append(Keys.NEW_STRING);
+                    builder.append(Keys.NEW_ROW);
                 }
                 strings[j] = builder.toString();
                 j++;
             } while (query.moveToNext());
+            database.close();
             return strings;
         } else {
+            database.close();
             return EMPTY;
         }
+
     }
 }

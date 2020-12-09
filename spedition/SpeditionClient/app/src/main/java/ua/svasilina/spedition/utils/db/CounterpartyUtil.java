@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Counterparty;
-import ua.svasilina.spedition.utils.search.CounterpartyParser;
+import ua.svasilina.spedition.utils.db.parsers.CounterpartyParser;
 
 import static ua.svasilina.spedition.constants.DBConstants.ONE_ROW;
 import static ua.svasilina.spedition.constants.DBConstants.UUID_PARAM;

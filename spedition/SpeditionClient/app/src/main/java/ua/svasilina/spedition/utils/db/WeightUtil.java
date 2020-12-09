@@ -58,6 +58,7 @@ public class WeightUtil {
             weight.setTare(query.getInt(tareColumn));
 
         }
+        db.close();
         return weight;
     }
 }

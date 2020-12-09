@@ -4,6 +4,7 @@ import api.socket.SubscribeType;
 import api.socket.UpdateUtil;
 import constants.Keys;
 import entity.*;
+import entity.reports.CounterpartyWeight;
 import entity.reports.ReportDetails;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.LE;
@@ -97,5 +98,13 @@ public class ReportDAO {
 
     public void save(ReportDetails reportDetails) {
         hibernator.save(reportDetails);
+    }
+
+    public List<CounterpartyWeight> getCounterpartyWeight(String detailUuid) {
+        return hibernator.query(CounterpartyWeight.class, "details", detailUuid);
+    }
+
+    public void save(CounterpartyWeight counterpartyWeight) {
+        hibernator.save(counterpartyWeight);
     }
 }

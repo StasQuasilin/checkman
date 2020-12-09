@@ -50,7 +50,7 @@ import static ua.svasilina.spedition.constants.Keys.TARE;
 import static ua.svasilina.spedition.constants.Keys.TIME;
 import static ua.svasilina.spedition.constants.Keys.WEIGHT;
 
-public class ReportsUtil {
+public class OldReportsUtil {
 
     private static final String TAG = "ReportsUtil";
     private final JSONParser parser = new JSONParser();
@@ -65,7 +65,7 @@ public class ReportsUtil {
     private final SyncUtil syncUtil;
     private final ChangeUtil changeUtil;
 
-    public ReportsUtil(Context context) {
+    public OldReportsUtil(Context context) {
         storageUtil = new StorageUtil(context);
         fileFilter = new FileFilter(reportsDir);
         this.context = context;
@@ -318,11 +318,7 @@ public class ReportsUtil {
         syncUtil.sync();
     }
 
-    public boolean removeReport(int uuid) {
-        final boolean remove = storageUtil.remove(reportsDir + uuid);
-        if (remove){
-//            syncUtil.remove(uuid, true);
-        }
-        return remove;
+    public void removeReport(String uuid) {
+        storageUtil.remove(reportsDir + uuid);
     }
 }

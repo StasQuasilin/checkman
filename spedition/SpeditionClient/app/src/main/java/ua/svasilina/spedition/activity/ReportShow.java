@@ -18,20 +18,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.CustomAdapter;
 import ua.svasilina.spedition.adapters.SimpleListAdapter;
+import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
-import ua.svasilina.spedition.entity.OldReport;
+import ua.svasilina.spedition.entity.ReportDetail;
 import ua.svasilina.spedition.entity.ReportField;
-import ua.svasilina.spedition.entity.Weight;
+import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.utils.CustomAdapterBuilder;
-import ua.svasilina.spedition.utils.ReportsUtil;
-import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
 import ua.svasilina.spedition.utils.builders.DateTimeBuilder;
+import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
+import ua.svasilina.spedition.utils.db.ReportUtil;
 
 import static ua.svasilina.spedition.constants.Keys.ID;
+import static ua.svasilina.spedition.constants.Keys.NEW_ROW;
 
 public class ReportShow extends AppCompatActivity {
 
@@ -47,7 +50,7 @@ public class ReportShow extends AppCompatActivity {
     private TextView doneView;
     private ListView fieldList;
     private WeightStringBuilder weightStringBuilder;
-    private OldReport report;
+    private Report report;
     DateTimeBuilder dateTimeBuilder;
 
     @Override
@@ -72,10 +75,9 @@ public class ReportShow extends AppCompatActivity {
         fieldList = findViewById(R.id.fields);
 
         final Intent intent = getIntent();
-        final String id = intent.getStringExtra(ID);
-
-        ReportsUtil reportsUtil = new ReportsUtil(getApplicationContext());
-        report = reportsUtil.openReport(id);
+        final long id = intent.getLongExtra(ID, -1);
+        ReportUtil reportUtil = new ReportUtil(getApplicationContext());
+        report = reportUtil.getReport(id);
         buildReport();
     }
 
@@ -102,15 +104,29 @@ public class ReportShow extends AppCompatActivity {
     }
 
     private void buildReport() {
-        driverView.setText(report.getDriver().getValue().toUpperCase());
-        routeView.setText(report.getRoute().getValue());
-        productView.setText(report.getProduct().getName());
-        final Weight weight = report.getWeight();
-        if (weight != null){
-            weightView.setText(weightStringBuilder.build(weight));
-        } else {
-            weightView.setVisibility(View.GONE);
+        final LinkedList<ReportDetail> details = report.getDetails();
+        StringBuilder builder = new StringBuilder();
+        int i = 0;
+        for (ReportDetail detail : details){
+            final Driver driver = detail.getDriver();
+            if (driver != null){
+                builder.append(driver.getValue());
+            }
+            if(i < details.size()- 1){
+                builder.append(NEW_ROW);
+            }
+            i++;
         }
+        driverView.setText(builder.toString().toUpperCase());
+
+//        routeView.setText(report.getRoute());
+        productView.setText(report.getProduct().getName());
+//        final Weight weight = report.getWeight();
+//        if (weight != null){
+//            weightView.setText(weightStringBuilder.build(weight));
+//        } else {
+//            weightView.setVisibility(View.GONE);
+//        }
         leaveView.setText(dateTimeBuilder.build(report.getLeaveTime()));
         initExpenses(fareContainer, fareList, report.getFares());
         initExpenses(expensesContainer, expensesList, report.getExpenses());
@@ -162,14 +178,14 @@ public class ReportShow extends AppCompatActivity {
                     amountView.setVisibility(View.GONE);
                 }
 
-                final Weight weight = report.getWeight();
-                if (weight == null){
-                    weightContainer.setVisibility(View.GONE);
-                } else {
-                    grossView.setText(String.valueOf(weight.getGross()));
-                    tareView.setText(String.valueOf(weight.getTare()));
-                    netView.setText(String.valueOf(weight.getNet()));
-                }
+//                final Weight weight = report.getWeight();
+//                if (weight == null){
+//                    weightContainer.setVisibility(View.GONE);
+//                } else {
+//                    grossView.setText(String.valueOf(weight.getGross()));
+//                    tareView.setText(String.valueOf(weight.getTare()));
+//                 +   netView.setText(String.valueOf(weight.getNet()));
+//                }
             }
         };
 

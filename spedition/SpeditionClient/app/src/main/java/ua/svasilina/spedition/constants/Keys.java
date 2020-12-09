@@ -68,7 +68,10 @@ public interface Keys {
     String DRIVERS = "drivers";
     String ARROW = " ➞ ";
     String REMOVE = "remove";
-    String NEW_STRING = "\n";
+    String NEW_ROW = "\n";
     String DETAILS = "details";
     String UUID = "uuid";
+    String OWN_WEIGHT = "ownWeight";
+    String DETAIL = "detail";
+    String COUNTERPARTY_WEIGHT = "counterpartyWeight";
 }

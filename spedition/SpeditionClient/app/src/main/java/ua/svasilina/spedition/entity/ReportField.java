@@ -76,7 +76,7 @@ public class ReportField implements Comparable<ReportField>, JsonAble {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, uuid);
         if (counterparty != null) {
-            jsonObject.put(COUNTERPARTY, counterparty);
+            jsonObject.put(COUNTERPARTY, counterparty.toJson());
         }
         if (arriveTime != null) {
             jsonObject.put(ARRIVE, arriveTime.getTimeInMillis());

@@ -15,19 +15,28 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import ua.svasilina.spedition.R;
-import ua.svasilina.spedition.entity.ReportDetail;
+import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Weight;
-import ua.svasilina.spedition.utils.CustomListener;
 
 public class WeightEditDialog extends DialogFragment {
 
-    private final ReportDetail item;
+    private final Weight weight;
+    private final Driver driver;
     private final LayoutInflater inflater;
     private EditText editGross;
     private EditText editTare;
-    public WeightEditDialog(ReportDetail item, LayoutInflater inflater, CustomListener customListener) {
-        this.item = item;
+    private final SaveWaiter<Weight> saveWaiter;
+
+    public WeightEditDialog(Weight weight, Driver driver, LayoutInflater inflater, SaveWaiter<Weight> saveWaiter) {
+        if (weight != null){
+            this.weight = weight;
+        } else {
+            this.weight = new Weight();
+        }
+
+        this.driver = driver;
         this.inflater = inflater;
+        this.saveWaiter = saveWaiter;
     }
 
     @NonNull
@@ -37,28 +46,24 @@ public class WeightEditDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.edit_weight, null);
         final TextView driverLabel = view.findViewById(R.id.driverLabel);
 
-        if (item.getDriver() != null){
-            driverLabel.setText(item.getDriver().toString());
+        if (driver != null){
+            driverLabel.setText(driver.toString());
         }
 
         editGross = view.findViewById(R.id.editGross);
         editTare = view.findViewById(R.id.editTare);
         final EditText editNet = view.findViewById(R.id.editNet);
 
-        Weight ownWeight = item.getOwnWeight();
-        if (ownWeight == null){
-            ownWeight = new Weight();
-            item.setOwnWeight(ownWeight);
-        }
-        editGross.setText(String.valueOf(ownWeight.getGross()));
-        editTare.setText(String.valueOf(ownWeight.getTare()));
+        editGross.setText(String.valueOf(weight.getGross()));
+        editTare.setText(String.valueOf(weight.getTare()));
 
         new NetWatcher(editGross, editTare, editNet);
-
-        editGross.setOnClickListener(new View.OnClickListener() {
+        editGross.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                editGross.selectAll();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    editGross.selectAll();
+                }
             }
         });
 
@@ -82,7 +87,6 @@ public class WeightEditDialog extends DialogFragment {
     }
 
     private void save() {
-        final Weight weight = item.getOwnWeight();
         int gross = 0;
         final Editable grossText = editGross.getText();
         if (grossText.length() > 0){
@@ -95,5 +99,6 @@ public class WeightEditDialog extends DialogFragment {
             tare = Integer.parseInt(tareText.toString());
         }
         weight.setTare(tare);
+        saveWaiter.onSave(weight);
     }
 }

@@ -15,12 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.ReportListAdapter;
 import ua.svasilina.spedition.dialogs.LoginDialog;
+import ua.svasilina.spedition.entity.OldReport;
+import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.entity.reports.SimpleReport;
-import ua.svasilina.spedition.utils.ReportsUtil;
+import ua.svasilina.spedition.utils.OldReportsUtil;
 import ua.svasilina.spedition.utils.db.ReportUtil;
 
 public class Reports extends AppCompatActivity {
@@ -35,8 +38,18 @@ public class Reports extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Context context = getApplicationContext();
 
-        ReportsUtil reportsUtil = new ReportsUtil(context);
+        OldReportsUtil oldReportsUtil = new OldReportsUtil(context);
+
         ReportUtil reportUtil = new ReportUtil(context);
+        final List<OldReport> oldReports = oldReportsUtil.readStorage();
+
+        if (oldReports.size() > 0){
+            for (OldReport r : oldReports){
+                reportUtil.saveReport(new Report(r));
+                oldReportsUtil.removeReport(r.getUuid());
+            }
+
+        }
 
         reports.addAll(reportUtil.getReportsList());
         ReportListAdapter adapter = new ReportListAdapter(context, R.layout.report_list_row, this.reports);
@@ -44,9 +57,6 @@ public class Reports extends AppCompatActivity {
         if (view != null){
             view.setAdapter(adapter);
         }
-
-        reportsUtil.sync();
-//        new LocationService(context).checkGranted(this);
     }
 
     @Override
@@ -92,7 +102,7 @@ public class Reports extends AppCompatActivity {
     }
 
     public void showLoginDialog(){
-        new LoginDialog(this, getLayoutInflater()).show(getSupportFragmentManager(), "Login Dialog");
+        LoginDialog.showLoginDialog(getApplicationContext(),getSupportFragmentManager(), null);
     }
 
     private void newItem(){

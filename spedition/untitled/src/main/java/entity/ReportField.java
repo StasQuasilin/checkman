@@ -11,7 +11,8 @@ public class ReportField implements Comparable<ReportField> {
     private String uuid;
     private Timestamp arriveTime;
     private Timestamp leaveTime;
-    private String counterparty;
+    private String oldCounterparty;
+    private Counterparty counterparty;
     private int money;
     private Product product;
     private Weight weight;
@@ -63,10 +64,19 @@ public class ReportField implements Comparable<ReportField> {
 
     @Basic
     @Column(name = "counterparty")
-    public String getCounterparty() {
+    public String getOldCounterparty() {
+        return oldCounterparty;
+    }
+    public void setOldCounterparty(String counterparty) {
+        this.oldCounterparty = counterparty;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "_counterparty")
+    public Counterparty getCounterparty() {
         return counterparty;
     }
-    public void setCounterparty(String counterparty) {
+    public void setCounterparty(Counterparty counterparty) {
         this.counterparty = counterparty;
     }
 

@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.activity.Reports;
+import ua.svasilina.spedition.utils.background.OnActiveReport;
 import ua.svasilina.spedition.utils.db.ReportUtil;
 
 public class ReportRemoveDialog extends DialogFragment {
@@ -21,11 +22,13 @@ public class ReportRemoveDialog extends DialogFragment {
     private final String uuid;
     private final ReportUtil reportsUtil;
     private final Context context;
+    private final OnActiveReport onActiveReport;
 
     public ReportRemoveDialog(Context context, String uuid) {
         this.uuid = uuid;
         reportsUtil = new ReportUtil(context);
         this.context = context;
+        onActiveReport = new OnActiveReport(context);
     }
 
     @NonNull
@@ -50,6 +53,7 @@ public class ReportRemoveDialog extends DialogFragment {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
             Toast.makeText(context, R.string.report_remove_success, Toast.LENGTH_LONG).show();
+            onActiveReport.checkReports();
         }
     }
 }

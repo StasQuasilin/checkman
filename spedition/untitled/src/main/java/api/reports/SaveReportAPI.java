@@ -4,13 +4,11 @@ import api.ServletAPI;
 import constants.ApiLinks;
 import constants.Keys;
 import entity.*;
+import entity.reports.CounterpartyWeight;
 import entity.reports.ReportDetails;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.hibernate.dao.DriverDAO;
-import utils.hibernate.dao.ProductDAO;
-import utils.hibernate.dao.ReportDAO;
-import utils.hibernate.dao.UserDAO;
+import utils.hibernate.dao.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,6 +28,7 @@ public class SaveReportAPI extends ServletAPI {
     private final ReportDAO reportDAO = new ReportDAO();
     private final ProductDAO productDAO = new ProductDAO();
     private final DriverDAO driverDAO = new DriverDAO();
+    private final CounterpartyDAO counterpartyDAO = new CounterpartyDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -190,6 +188,7 @@ public class SaveReportAPI extends ServletAPI {
         }
 
         for (Object o : jsonArray){
+            System.out.println("!! " + o);
             JSONObject json = (JSONObject) o;
             final String uuid = String.valueOf(json.get(UUID));
             ReportDetails rd = details.remove(uuid);
@@ -212,6 +211,32 @@ public class SaveReportAPI extends ServletAPI {
                 parseWeight(weight, (JSONObject) json.get(WEIGHT));
             }
             reportDAO.save(rd);
+            final String rdKey = rd.getUuid();
+            final HashMap<String, CounterpartyWeight> counterpartyExistWeight = new HashMap<>();
+            for (CounterpartyWeight cw : reportDAO.getCounterpartyWeight(rdKey)){
+                counterpartyExistWeight.put(cw.getField(), cw);
+            }
+            if (json.containsKey(COUNTERPARTY_WEIGHT)){
+                for (Object w : (JSONArray)json.get(Keys.COUNTERPARTY_WEIGHT)){
+                    JSONObject jsonObject = (JSONObject) w;
+                    final String fieldKey = String.valueOf(jsonObject.get(FIELD));
+                    CounterpartyWeight counterpartyWeight = counterpartyExistWeight.remove(fieldKey);
+                    if (counterpartyWeight == null){
+                        counterpartyWeight = new CounterpartyWeight();
+                        counterpartyWeight.setDetails(rdKey);
+                        counterpartyWeight.setField(fieldKey);
+                        counterpartyWeight.setWeight(new Weight());
+                    }
+                    final Weight weight = counterpartyWeight.getWeight();
+                    parseWeight(weight, (JSONObject) jsonObject.get(WEIGHT));
+                    reportDAO.save(counterpartyWeight);
+                }
+            }
+
+            for (CounterpartyWeight cw : counterpartyExistWeight.values()){
+                reportDAO.remove(cw.getWeight());
+                reportDAO.remove(cw);
+            }
         }
         for (ReportDetails d : details.values()){
             reportDAO.remove(d);
@@ -307,8 +332,9 @@ public class SaveReportAPI extends ServletAPI {
             }
 
             if (field.containsKey(COUNTERPARTY)){
-                String counterparty = String.valueOf(field.get(COUNTERPARTY)).toUpperCase();
-                reportField.setCounterparty(counterparty);
+                reportField.setCounterparty(parseCounterparty((JSONObject)field.get(COUNTERPARTY)));
+            } else {
+                reportField.setCounterparty(null);
             }
 
             int money = Integer.parseInt(String.valueOf(field.get(MONEY)));
@@ -331,6 +357,18 @@ public class SaveReportAPI extends ServletAPI {
         for (Map.Entry<String, ReportField> entry : fieldHashMap.entrySet()){
             reportDAO.remove(entry.getValue());
         }
+    }
+
+    private Counterparty parseCounterparty(JSONObject jsonObject) {
+        final String uuid = (String) jsonObject.get(UUID);
+        Counterparty counterparty = counterpartyDAO.getCounterpartyByUUID(uuid);
+        if (counterparty == null){
+            counterparty = new Counterparty();
+            counterparty.setUuid(uuid);
+            counterparty.setName(String.valueOf(jsonObject.get(NAME)));
+            counterpartyDAO.save(counterparty);
+        }
+        return counterparty;
     }
 }
 

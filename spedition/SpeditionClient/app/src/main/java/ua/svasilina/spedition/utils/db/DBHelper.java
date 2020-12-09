@@ -9,11 +9,11 @@ import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "dbc";
+    private static final String DB_NAME = "db";
     private static final String TAG = "Db Helper";
 
     public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, 4);
+        super(context, DB_NAME, null, 1);
     }
 
     @Override
@@ -77,6 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "product integer," +
                 "money integer," +
                 "weight integer)");
+        createCounterpartyWeightTable(db);
         Log.i(TAG, "Create table 'Expenses'");
         db.execSQL("create table " + Tables.EXPENSES + " (" +
                 "id integer unique primary key autoincrement," +
@@ -105,6 +106,15 @@ public class DBHelper extends SQLiteOpenHelper {
         createWeightsTable(db);
     }
 
+    private void createCounterpartyWeightTable(SQLiteDatabase db) {
+        Log.i(TAG, "Create table 'Counterparty Weights'");
+        db.execSQL("create table " + Tables.COUNTERPARTY_WEIGHT + " (" +
+                "id integer unique primary key autoincrement," +
+                "detail text," +
+                "field text," +
+                "weight text)");
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG, "Old version: " + oldVersion + ", new version: " + newVersion);
@@ -116,6 +126,9 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         if( oldVersion <= 3){
             db.execSQL("alter table " + Tables.COUNTERPARTY + " add uuid text");
+        }
+        if (oldVersion <= 4){
+            createCounterpartyWeightTable(db);
         }
     }
 

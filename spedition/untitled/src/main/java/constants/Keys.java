@@ -80,4 +80,6 @@ public interface Keys {
     String MONTH = "month";
     String YEAR = "year";
     String DETAILS = "details";
+    String COUNTERPARTY_WEIGHT = "counterpartyWeight";
+    String FIELD = "field";
 }

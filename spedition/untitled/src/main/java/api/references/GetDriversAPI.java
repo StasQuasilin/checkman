@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 @WebServlet(ApiLinks.GET_DRIVER)
 public class GetDriversAPI extends ServletAPI {
@@ -30,6 +31,12 @@ public class GetDriversAPI extends ServletAPI {
 
             final Driver driver = driverDAO.getDriver(id);
             if (driver != null){
+                String uuid = driver.getUuid();
+                if (uuid == null || uuid.length() < 36){
+                    uuid = UUID.randomUUID().toString();
+                    driver.setUuid(uuid);
+                    driverDAO.save(driver);
+                }
                 answer = new SuccessAnswer();
                 answer.addParam(Keys.DRIVER, driver.toJson());
             } else {

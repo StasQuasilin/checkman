@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -128,7 +129,7 @@ public class SyncUtil {
                         final String status = response.getString(STATUS);
                         if (status.equals(SUCCESS)) {
                             final int serverId = response.getInt(ID);
-                            reportsUtil.makeSync(localId, serverId);
+                            reportsUtil.markSync(localId, serverId);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -157,6 +158,18 @@ public class SyncUtil {
             @Override
             public void run() {
                 saveReport(report, true);
+            }
+        }).start();
+    }
+
+    public void saveReports(final LinkedList<Report> reports) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (Report report : reports){
+                    System.out.println("!!!!!!!!!!!!Save report " + report.getUuid());
+                    saveReport(report, false);
+                }
             }
         }).start();
     }

@@ -6,6 +6,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:spinnerStyle">@style/Spinner</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="color">@color/textColor</item>
     </style>
     <style name="Spinner" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textViewStyle">@color/textColor</item>

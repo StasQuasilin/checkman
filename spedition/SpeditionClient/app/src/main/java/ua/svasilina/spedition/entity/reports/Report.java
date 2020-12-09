@@ -39,7 +39,7 @@ import static ua.svasilina.spedition.constants.Keys.UUID;
 public class Report extends IReport implements JsonAble, Serializable, Comparable<Report>, IChanged {
 
     private int serverId = -1;
-    private LinkedList<ReportDetail> details;
+    private final LinkedList<ReportDetail> details;
     private Product product;
     private boolean separatedProducts;
     private int perDiem;
@@ -53,28 +53,28 @@ public class Report extends IReport implements JsonAble, Serializable, Comparabl
         details = new LinkedList<>();
     }
 
-    public Report(OldReport oldReport) {
+    public Report(OldReport report) {
         this();
-        setUuid(oldReport.getUuid());
-        leaveTime = oldReport.leaveTime;
-        doneDate = oldReport.getDoneDate();
-        for (String route : oldReport.getRoute().getPoints()){
+        setUuid(report.getUuid());
+        leaveTime = report.leaveTime;
+        doneDate = report.getDoneDate();
+        for (String route : report.getRoute().getPoints()){
             addRoute(route);
         }
-        final Driver driver = oldReport.getDriver();
+        final Driver driver = report.getDriver();
         if (driver != null) {
             ReportDetail detail = new ReportDetail();
             detail.setDriver(driver);
-            detail.setOwnWeight(oldReport.getWeight());
+            detail.setOwnWeight(report.getWeight());
         }
 
-        product = oldReport.getProduct();
-        perDiem = oldReport.getPerDiem();
-        fields.addAll( oldReport.fields);
-        expenses.addAll(oldReport.expenses);
-        fares.addAll(oldReport.fares);
-        notes.addAll(oldReport.notes);
-        fone = oldReport.isFone();
+        product = report.getProduct();
+        perDiem = report.getPerDiem();
+        fields.addAll( report.fields);
+        expenses.addAll(report.expenses);
+        fares.addAll(report.fares);
+        notes.addAll(report.notes);
+        fone = report.isFone();
     }
 
     public int getServerId() {

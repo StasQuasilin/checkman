@@ -70,6 +70,7 @@
           <th style="width: 5em">
             <fmt:message key="transportation.time.in"/>
           </th>
+          </th>
           <c:if test="${empty organisation}">
             <th rowspan="2">
               <fmt:message key="deal.organisation"/>

@@ -75,7 +75,6 @@
     <string name="weight">Вага</string>
     <string name="ownWeight">Вага на заводі</string>
     <string name="ownWeightAdd">Додати вагу на заводі</string>
-    <string name="counterpartyWeight"></string>
     <string name="weightTitle">Редагування ваги</string>
     <string name="copy">Копіювати</string>
     <string name="fixArriveTime">Зафіксувати час прибуття</string>
@@ -107,4 +106,8 @@
     <string name="tables">DB View</string>
     <string name="counterparty">Контрагент</string>
     <string name="newCounterparty">+ Новий контрагент</string>
+    <string name="counterpartyWeight">Вага контрагента</string>
+    <string name="save_status">Статус збереження</string>
+    <string name="sync_title">Синхронізація</string>
+    <string name="press_for_open">Торкніться щоб відкрити</string>
 </resources>

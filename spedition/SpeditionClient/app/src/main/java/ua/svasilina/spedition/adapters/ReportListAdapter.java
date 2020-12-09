@@ -1,6 +1,5 @@
 package ua.svasilina.spedition.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,12 +20,14 @@ import ua.svasilina.spedition.activity.ReportShow;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Product;
 import ua.svasilina.spedition.entity.reports.SimpleReport;
+import ua.svasilina.spedition.utils.builders.DateTimeBuilder;
 
 import static ua.svasilina.spedition.constants.Keys.ARROW;
 import static ua.svasilina.spedition.constants.Keys.COMA;
 import static ua.svasilina.spedition.constants.Keys.EMPTY;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.SPACE;
+import static ua.svasilina.spedition.constants.Patterns.DATE_PATTERN;
 
 public class ReportListAdapter extends ArrayAdapter<SimpleReport> {
 
@@ -35,14 +35,14 @@ public class ReportListAdapter extends ArrayAdapter<SimpleReport> {
     private final int resource;
     private final List<SimpleReport> reports;
     private final LayoutInflater inflater;
-    @SuppressLint("SimpleDateFormat")
-    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+    final DateTimeBuilder dateTimeBuilder;
 
     public ReportListAdapter(@NonNull Context context, int resource, @NonNull List<SimpleReport> reports) {
         super(context, resource, reports);
         this.context = context;
         this.resource = resource;
         this.reports = reports;
+        dateTimeBuilder = new DateTimeBuilder(DATE_PATTERN);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -65,14 +65,14 @@ public class ReportListAdapter extends ArrayAdapter<SimpleReport> {
         });
 
         TextView dateView = view.findViewById(R.id.date);
-        StringBuilder dateBuilder = new StringBuilder();
 
         if (report.getLeaveTime() != null) {
-            simpleDateFormat.applyPattern("dd.MM.yy");
-            dateBuilder.append(simpleDateFormat.format(report.getLeaveTime().getTime()));
+            dateView.setText(dateTimeBuilder.build(report.getLeaveTime()));
+        } else {
+            dateView.setText(EMPTY);
         }
 
-        dateView.setText(dateBuilder.toString());
+
         final TextView check = view.findViewById(R.id.check);
 
         if (report.getDoneDate() != null){
@@ -89,7 +89,7 @@ public class ReportListAdapter extends ArrayAdapter<SimpleReport> {
             for(int i = 0; i < drivers.size(); i++){
                 final Driver driver = drivers.get(i);
                 if(driver != null) {
-                    builder.append(driver.getValue());
+                    builder.append(driver.getPerson().getSurname());
                     if (i < drivers.size() - 1) {
                         builder.append(COMA).append(SPACE);
                     }

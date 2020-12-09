@@ -20,16 +20,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.CustomAdapter;
+import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Counterparty;
+import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Product;
+import ua.svasilina.spedition.entity.ReportDetail;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.entity.reports.Report;
@@ -37,6 +40,7 @@ import ua.svasilina.spedition.utils.CustomAdapterBuilder;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
 import ua.svasilina.spedition.utils.builders.DateTimeBuilder;
+import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
 import ua.svasilina.spedition.utils.search.CounterpartySearchUtil;
 
 import static ua.svasilina.spedition.constants.Patterns.DATE_PATTERN;
@@ -44,15 +48,15 @@ import static ua.svasilina.spedition.constants.Patterns.TIME_PATTERN;
 
 public class ReportFieldEditDialog extends DialogFragment {
 
+    private final Report report;
     private final ReportField reportField;
+    private final Context context;
     private final LayoutInflater inflater;
     private final CustomListener saveListener;
 
     private EditText counterpartyInput;
     private Spinner product;
     private EditText moneyEdit;
-    private EditText gross;
-    private EditText tare;
     private Button fixArrive;
     private View arriveContainer;
     private Button arriveDate;
@@ -61,16 +65,18 @@ public class ReportFieldEditDialog extends DialogFragment {
     private View leaveContainer;
     private Button leaveDate;
     private Button leaveTime;
-    private boolean haveWeight;
+    private TextView counterpartyWeight;
     private Button addWeight;
-    private ConstraintLayout weightLayout;
     private Switch paymentSwitch;
     private final List<Product> products;
     private final DateTimeBuilder dateBuilder;
     private final DateTimeBuilder timeBuilder;
+    private final WeightStringBuilder wsb;
 
     public ReportFieldEditDialog(ReportField reportField, Context context, Report report, CustomListener saveListener) {
+        this.report = report;
         this.reportField = reportField;
+        this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.saveListener = saveListener;
 
@@ -82,16 +88,7 @@ public class ReportFieldEditDialog extends DialogFragment {
         }
         dateBuilder = new DateTimeBuilder(DATE_PATTERN);
         timeBuilder = new DateTimeBuilder(TIME_PATTERN);
-    }
-
-    private void switchWeight(){
-        if (haveWeight){
-            addWeight.setVisibility(View.GONE);
-            weightLayout.setVisibility(View.VISIBLE);
-        } else {
-            addWeight.setVisibility(View.VISIBLE);
-            weightLayout.setVisibility(View.GONE);
-        }
+        wsb= new WeightStringBuilder(context.getResources());
     }
 
     @NonNull
@@ -140,28 +137,20 @@ public class ReportFieldEditDialog extends DialogFragment {
         moneyEdit = view.findViewById(R.id.money);
         moneyEdit.setText(String.valueOf(Math.abs(money)));
 
-        gross = view.findViewById(R.id.gross);
-        tare = view.findViewById(R.id.tare);
-        EditText net = view.findViewById(R.id.net);
-        NetWatcher watcher = new NetWatcher(gross, tare, net);
-        gross.addTextChangedListener(watcher);
-        tare.addTextChangedListener(watcher);
+
+        counterpartyWeight = view.findViewById(R.id.counterpartyWeight);
+        updateCounterpartyWeight();
         addWeight = view.findViewById(R.id.addWeight);
-        weightLayout = view.findViewById(R.id.weight);
-        final Weight weight = reportField.getWeight();
-        haveWeight = weight != null;
-
-        if(haveWeight){
-            gross.setText(String.valueOf(weight.getGross()));
-            tare.setText(String.valueOf(weight.getTare()));
-        }
-
-        switchWeight();
         addWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                haveWeight = !haveWeight;
-                switchWeight();
+                final LinkedList<ReportDetail> details = report.getDetails();
+                new CounterpartyWeightDialog(details, reportField, context, new CustomListener() {
+                    @Override
+                    public void onChange() {
+                        updateCounterpartyWeight();
+                    }
+                }).show(getParentFragmentManager(), "CWD");
             }
         });
 
@@ -176,6 +165,31 @@ public class ReportFieldEditDialog extends DialogFragment {
             }
         });
         return builder.create();
+    }
+
+    private void updateCounterpartyWeight() {
+        final LinkedList<ReportDetail> details = report.getDetails();
+        StringBuilder builder = new StringBuilder();
+        for (ReportDetail d : details){
+            final Weight weight = d.getCounterpartyWeight(reportField.getUuid());
+            if (weight != null){
+                if (builder.length() > 0){
+                    builder.append(Keys.NEW_ROW);
+                }
+                final Driver driver = d.getDriver();
+                if (driver != null){
+                    builder.append(driver.toString());
+                    builder.append(Keys.SPACE);
+                }
+                builder.append(wsb.buildShort(weight));
+            }
+        }
+        if (builder.length() > 0){
+            counterpartyWeight.setVisibility(View.VISIBLE);
+            counterpartyWeight.setText(builder.toString());
+        } else {
+            counterpartyWeight.setVisibility(View.GONE);
+        }
     }
 
     private void initCounterpartyInput(final ListView counterpartyList, final TextView counterpartyLabel) {
@@ -341,7 +355,7 @@ public class ReportFieldEditDialog extends DialogFragment {
 
     ArrayAdapter<Product> adapter;
     private void initProductSpinner() {
-        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item);
+        adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item);
         adapter.addAll(products);
         product.setAdapter(adapter);
         if (reportField.getProduct() != null){
@@ -370,26 +384,6 @@ public class ReportFieldEditDialog extends DialogFragment {
                 money = -money;
             }
             reportField.setMoney(money);
-        }
-
-        if(haveWeight){
-            Weight weight = reportField.getWeight();
-            if (weight == null){
-                weight = new Weight();
-                reportField.setWeight(weight);
-            }
-            final String grossString = gross.getText().toString();
-            if (!grossString.isEmpty()){
-                final int gross = Integer.parseInt(grossString);
-                weight.setGross(gross);
-            }
-            final String tareString = tare.getText().toString();
-            if (!tareString.isEmpty()){
-                final int tare = Integer.parseInt(tareString);
-                weight.setTare(tare);
-            }
-        } else {
-            reportField.setWeight(null);
         }
         saveListener.onChange();
 //        reportField.setIndex(Integer.parseInt(numberText.getText().toString()));

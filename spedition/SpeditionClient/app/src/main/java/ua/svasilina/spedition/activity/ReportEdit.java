@@ -36,24 +36,24 @@ import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.dialogs.DateDialog;
 import ua.svasilina.spedition.dialogs.DateDialogState;
 import ua.svasilina.spedition.dialogs.DoneReportDialog;
+import ua.svasilina.spedition.dialogs.DriverWeightDialog;
 import ua.svasilina.spedition.dialogs.DriversManageDialog;
 import ua.svasilina.spedition.dialogs.ExpensesDialog;
 import ua.svasilina.spedition.dialogs.NoteEditDialog;
 import ua.svasilina.spedition.dialogs.ReportNotCompletedDialog;
 import ua.svasilina.spedition.dialogs.ReportRemoveDialog;
 import ua.svasilina.spedition.dialogs.RouteEditDialog;
-import ua.svasilina.spedition.dialogs.DriverWeightDialog;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Expense;
 import ua.svasilina.spedition.entity.Product;
 import ua.svasilina.spedition.entity.ReportDetail;
 import ua.svasilina.spedition.entity.ReportField;
 import ua.svasilina.spedition.entity.ReportNote;
-import ua.svasilina.spedition.entity.Route;
 import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.entity.reports.Report;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.ProductsUtil;
+import ua.svasilina.spedition.utils.background.OnActiveReport;
 import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
 import ua.svasilina.spedition.utils.db.ReportUtil;
 
@@ -86,6 +86,7 @@ public class ReportEdit extends AppCompatActivity {
 
     private ProductsUtil productsUtil;
     private WeightStringBuilder wsb;
+    private OnActiveReport onActiveReport;
 
     void updateDriverButtonValue(){
         final LinkedList<ReportDetail> details = report.getDetails();
@@ -108,7 +109,7 @@ public class ReportEdit extends AppCompatActivity {
                 }
 
                 if(i < details.size() - 1){
-                    builder.append(Keys.NEW_STRING);
+                    builder.append(Keys.NEW_ROW);
                 }
             }
             driverButton.setText(builder.toString());
@@ -130,13 +131,17 @@ public class ReportEdit extends AppCompatActivity {
         reportUtil = new ReportUtil(context);
         productsUtil = new ProductsUtil(context);
         wsb = new WeightStringBuilder(context.getResources());
+        onActiveReport =new OnActiveReport(context);
 
         final Intent intent = getIntent();
         final long id = intent.getLongExtra(ID, -1);
+        System.out.println("report "+ id);
         String uuid = null;
         if (id != -1) {
             report = reportUtil.getReport(id);
-            uuid = report.getUuid();
+            if (report != null) {
+                uuid = report.getUuid();
+            }
         } else {
             report = new Report();
             report.setUuid(UUID.randomUUID().toString());
@@ -487,16 +492,15 @@ public class ReportEdit extends AppCompatActivity {
     }
 
     private void doneReport() {
-        final Driver driver = null;//report.getDriver();
-        boolean emptyDriver = driver == null || driver.isEmpty();
-        final Route route = null;//report.getRoute();
+
+        final LinkedList<String> route = report.getRoute();
         boolean emptyRoute = route == null || route.isEmpty();
         final Calendar leaveTime = report.getLeaveTime();
         boolean emptyLeave = leaveTime == null;
         boolean emptyFields = report.getFields().size() == 0;
 
-        if (emptyDriver || emptyRoute || emptyLeave || emptyFields){
-            final ReportNotCompletedDialog dialog = new ReportNotCompletedDialog(emptyDriver, emptyRoute, emptyLeave, emptyFields);
+        if (emptyRoute || emptyLeave || emptyFields){
+            final ReportNotCompletedDialog dialog = new ReportNotCompletedDialog(false, emptyRoute, emptyLeave, emptyFields);
             dialog.show(getSupportFragmentManager(), "NoNoNo");
         } else {
             DoneReportDialog drd = new DoneReportDialog(getLayoutInflater(), report, new CustomListener() {
@@ -522,6 +526,7 @@ public class ReportEdit extends AppCompatActivity {
 
     void save(boolean redirect){
         reportUtil.saveReport(report);
+        onActiveReport.updateNotification(report);
 
         if (redirect) {
             final Context context = getApplicationContext();

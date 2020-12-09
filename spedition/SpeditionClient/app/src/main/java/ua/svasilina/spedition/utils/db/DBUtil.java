@@ -27,6 +27,7 @@ import java.util.Map;
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.activity.StartActivity;
 import ua.svasilina.spedition.constants.ApiLinks;
+import ua.svasilina.spedition.constants.DBConstants;
 import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.utils.LoginUtil;
 import ua.svasilina.spedition.utils.network.Connector;
@@ -60,7 +61,6 @@ public class DBUtil {
         syncDB(view, onSyncDone, loginUtil.getToken());
     }
 
-
     public void syncDB(final StartActivity view, final OnSyncDone onSyncDone, final String token){
         message = view.findViewById(R.id.textInfo);
         loadGroup = view.findViewById(R.id.loadGroup);
@@ -72,8 +72,8 @@ public class DBUtil {
 
         data.put(Keys.PRODUCTS, getLastSync(Tables.PRODUCTS));
 //        data.put(Keys.PRODUCTS, null);
-        data.put(Keys.DRIVERS, getLastSync(Tables.DRIVERS));
-//        data.put(Keys.DRIVERS, null);
+//        data.put(Keys.DRIVERS, getLastSync(Tables.DRIVERS));
+        data.put(Keys.DRIVERS, null);
         data.put(Keys.COUNTERPARTY, getLastSync(Tables.COUNTERPARTY));
 //        data.put(Keys.COUNTERPARTY, null);
 
@@ -269,14 +269,15 @@ public class DBUtil {
     private void saveDriver(JSONObject driver) throws JSONException {
         final ContentValues cv = new ContentValues();
         final String uuid = driver.getString(Keys.UUID);
-        cv.put(Keys.SERVER_ID, uuid);
+        cv.put(Keys.UUID, uuid);
+        cv.put(Keys.SERVER_ID, driver.getInt(Keys.ID));
         cv.put(Keys.SURNAME, driver.getString(Keys.SURNAME).toUpperCase());
         cv.put(Keys.FORENAME, driver.getString(Keys.FORENAME).toUpperCase());
         cv.put(Keys.PATRONYMIC, driver.getString(Keys.PATRONYMIC).toUpperCase());
-        final String[] p = new String[]{uuid};
-        final Cursor query = db.query(Tables.DRIVERS, new String[]{}, "uuid=?", p, null, null, null);
+        final String[] args = new String[]{uuid};
+        final Cursor query = db.query(Tables.DRIVERS, new String[]{}, DBConstants.UUID_PARAM, args, null, null, null, DBConstants.ONE_ROW);
         if (query.moveToFirst()){
-            db.update(Tables.DRIVERS, cv, "uuid=?", p);
+            db.update(Tables.DRIVERS, cv, DBConstants.UUID_PARAM, args);
         } else {
             db.insert(Tables.DRIVERS, null, cv);
         }

@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import ua.svasilina.spedition.R;
 import ua.svasilina.spedition.adapters.CustomAdapter;
 import ua.svasilina.spedition.entity.ReportDetail;
+import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.CustomAdapterBuilder;
 import ua.svasilina.spedition.utils.CustomListener;
 import ua.svasilina.spedition.utils.builders.WeightStringBuilder;
@@ -43,27 +44,22 @@ public class DriverWeightDialog extends DialogFragment {
                     driverLabel.setText(item.getDriver().toString());
                 }
                 final TextView weightLabel = view.findViewById(R.id.weightLabel);
-                if (item.getOwnWeight() != null){
-                    weightLabel.setText(weightStringBuilder.build(item.getOwnWeight()));
+                final Weight weight = getWeight(item);
+                if (weight != null){
+                    weightLabel.setText(weightStringBuilder.build(weight));
                     weightLabel.setTextColor(getResources().getColor(R.color.textColor));
                 } else {
                     weightLabel.setText(R.string.press_for_weight);
                     weightLabel.setTextColor(getResources().getColor(R.color.gray));
                 }
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new WeightEditDialog(item, inflater, new CustomListener() {
-                            @Override
-                            public void onChange() {
-                                weightAdapter.notifyDataSetChanged();
-                            }
-                        }).show(getParentFragmentManager(),"WED");
-                    }
-                });
+                view.setOnClickListener(getClickListener(item));
             }
         });
         weightAdapter.addAll(details);
+    }
+
+    public Weight getWeight(ReportDetail item) {
+        return item.getOwnWeight();
     }
 
     @NonNull
@@ -76,7 +72,7 @@ public class DriverWeightDialog extends DialogFragment {
         wList.setAdapter(weightAdapter);
 
         builder.setView(view);
-        builder.setTitle(R.string.ownWeight);
+        builder.setTitle(getTitle());
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -86,8 +82,31 @@ public class DriverWeightDialog extends DialogFragment {
         return builder.create();
     }
 
+    public View.OnClickListener getClickListener(final ReportDetail item){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new WeightEditDialog(getWeight(item), item.getDriver(), inflater, new SaveWaiter<Weight>() {
+                    @Override
+                    public void onSave(Weight weight) {
+                        insertWeight(item, weight);
+                    }
+                }).show(getParentFragmentManager(),"WED");
+            }
+        };
+    }
+
+    public void insertWeight(ReportDetail item, Weight weight) {
+        item.setOwnWeight(weight);
+    }
+
+    public int getTitle(){
+        return R.string.ownWeight;
+    }
 
     private void save() {
-        listener.onChange();
+        if (listener != null) {
+            listener.onChange();
+        }
     }
 }

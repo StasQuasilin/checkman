@@ -1,4 +1,4 @@
-var list = new Vue({
+list = new Vue({
     el: '#container',
     components:{
         'transport-view':transportView,

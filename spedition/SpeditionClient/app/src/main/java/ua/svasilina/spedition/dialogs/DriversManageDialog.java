@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -29,7 +28,6 @@ import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Driver;
 import ua.svasilina.spedition.entity.Person;
 import ua.svasilina.spedition.entity.ReportDetail;
-import ua.svasilina.spedition.entity.Weight;
 import ua.svasilina.spedition.utils.AdapterItemEditInterface;
 import ua.svasilina.spedition.utils.CustomAdapterBuilder;
 import ua.svasilina.spedition.utils.CustomListener;
@@ -133,20 +131,7 @@ public class DriversManageDialog extends DialogFragment {
         addNewDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String[] split = driverInput.getText().toString().trim().split(Keys.SPACE);
-                Driver driver = new Driver();
-                driver.setUuid(UUID.randomUUID().toString());
-                final Person person = driver.getPerson();
-                if(split.length > 0){
-                    person.setSurname(split[0]);
-                }
-                if (split.length > 1){
-                    person.setForename(split[1]);
-                }
-                if (split.length > 2){
-                    person.setPatronymic(split[2]);
-                }
-                addDriver(driver);
+                parseDriver();
                 addNewDriver.setVisibility(View.GONE);
             }
         });
@@ -160,10 +145,31 @@ public class DriversManageDialog extends DialogFragment {
         builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                final Editable text = driverInput.getText();
+                if (text.length() > 0){
+                    parseDriver();
+                }
                 listener.onChange();
             }
         });
         return builder.create();
+    }
+
+    private void parseDriver(){
+        final String[] split = driverInput.getText().toString().trim().split(Keys.SPACE);
+        Driver driver = new Driver();
+        driver.setUuid(UUID.randomUUID().toString());
+        final Person person = driver.getPerson();
+        if(split.length > 0){
+            person.setSurname(split[0]);
+        }
+        if (split.length > 1){
+            person.setForename(split[1]);
+        }
+        if (split.length > 2){
+            person.setPatronymic(split[2]);
+        }
+        addDriver(driver);
     }
 
     private void addDriver(Driver driver) {

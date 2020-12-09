@@ -24,6 +24,7 @@
         <mapping class="entity.Product"/>
         <mapping class="entity.Report"/>
         <mapping class="entity.reports.ReportDetails"/>
+        <mapping class="entity.reports.CounterpartyWeight"/>
         <mapping class="entity.ReportField"/>
         <mapping class="entity.Route"/>
         <mapping class="entity.Weight"/>

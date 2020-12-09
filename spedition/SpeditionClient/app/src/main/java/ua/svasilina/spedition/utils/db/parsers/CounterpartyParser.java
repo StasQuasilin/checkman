@@ -1,9 +1,10 @@
-package ua.svasilina.spedition.utils.search;
+package ua.svasilina.spedition.utils.db.parsers;
 
 import android.database.Cursor;
 
 import ua.svasilina.spedition.constants.Keys;
 import ua.svasilina.spedition.entity.Counterparty;
+import ua.svasilina.spedition.utils.search.ItemParser;
 
 public class CounterpartyParser extends ItemParser<Counterparty> {
 

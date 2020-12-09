@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import static ua.svasilina.spedition.constants.Keys.GROSS;
 import static ua.svasilina.spedition.constants.Keys.ID;
 import static ua.svasilina.spedition.constants.Keys.TARE;
+import static ua.svasilina.spedition.constants.Keys.UUID;
 
 public class Weight implements JsonAble {
     private int id;
@@ -46,6 +47,7 @@ public class Weight implements JsonAble {
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, id);
+        jsonObject.put(UUID, uuid);
         jsonObject.put(GROSS, gross);
         jsonObject.put(TARE, tare);
         return jsonObject;

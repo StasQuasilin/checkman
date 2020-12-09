@@ -14,11 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,10 +29,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ua.svasilina.spedition.R;
-import ua.svasilina.spedition.activity.Reports;
 import ua.svasilina.spedition.constants.ApiLinks;
 import ua.svasilina.spedition.utils.LoginUtil;
 import ua.svasilina.spedition.utils.NetworkUtil;
+import ua.svasilina.spedition.utils.db.OnSyncDone;
 import ua.svasilina.spedition.utils.network.Connector;
 
 import static ua.svasilina.spedition.constants.Keys.EMPTY;
@@ -58,13 +58,13 @@ public class LoginDialog extends DialogFragment {
     private final LayoutInflater inflater;
     private boolean isAuthorize;
     private boolean waitAnswer = false;
-    private Reports reports;
+    private OnSyncDone onLogin;
 
-    public LoginDialog(Reports reports, LayoutInflater inflater) {
-        this.context = reports.getApplicationContext();
-        this.reports = reports;
-        this.inflater = inflater;
-        loginUtil = new LoginUtil(reports);
+    public LoginDialog(Context context, OnSyncDone onLogin) {
+        this.context = context;
+        this.onLogin = onLogin;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        loginUtil = new LoginUtil(context);
         networkUtil = new NetworkUtil();
         isAuthorize = loginUtil.getToken() != null;
     }
@@ -90,7 +90,7 @@ public class LoginDialog extends DialogFragment {
                 public void onClick(View v) {
                     loginUtil.removeToken();
                     dismiss();
-                    reports.showLoginDialog();
+                    showLoginDialog(context, getParentFragmentManager(), null);
                 }
             });
             final Button close = view.findViewById(R.id.close);
@@ -127,7 +127,9 @@ public class LoginDialog extends DialogFragment {
 
         return builder.create();
     }
-
+    public static void showLoginDialog(Context context, FragmentManager manager, OnSyncDone onLogin){
+        new LoginDialog(context, onLogin).show(manager, "Login Dialog");
+    }
     private String getNumber() {
         return EMPTY;
     }
@@ -167,6 +169,9 @@ public class LoginDialog extends DialogFragment {
                             }
                             statusHandler.removeCallbacksAndMessages(null);
                             dismiss();
+                            if (onLogin != null){
+                                onLogin.done();
+                            }
                         } else {
                             String reason = response.getString(REASON);
                             sendMessage(statusHandler, REASON, reason);

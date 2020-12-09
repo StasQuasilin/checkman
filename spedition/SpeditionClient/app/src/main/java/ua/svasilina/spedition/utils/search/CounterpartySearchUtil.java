@@ -4,6 +4,7 @@ import android.content.Context;
 
 import ua.svasilina.spedition.entity.Counterparty;
 import ua.svasilina.spedition.utils.db.Tables;
+import ua.svasilina.spedition.utils.db.parsers.CounterpartyParser;
 
 public class CounterpartySearchUtil extends SearchUtil<Counterparty> {
 

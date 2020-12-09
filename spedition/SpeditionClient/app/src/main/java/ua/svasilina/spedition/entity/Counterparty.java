@@ -1,6 +1,10 @@
 package ua.svasilina.spedition.entity;
 
-public class Counterparty {
+import org.json.simple.JSONObject;
+
+import ua.svasilina.spedition.constants.Keys;
+
+public class Counterparty implements JsonAble{
     private int id;
     private String uuid;
     private String name;
@@ -24,5 +28,14 @@ public class Counterparty {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(Keys.ID, id);
+        jsonObject.put(Keys.UUID, uuid);
+        jsonObject.put(Keys.NAME, name);
+        return jsonObject;
     }
 }

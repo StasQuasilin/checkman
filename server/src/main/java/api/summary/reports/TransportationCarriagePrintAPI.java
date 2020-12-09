@@ -40,18 +40,27 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
-            log.info(body);
             HashMap<String, Object> params = new HashMap<>();
             Timestamp from = null, to = null;
-
+            int type = Integer.parseInt(String.valueOf(body.get(Constants.TYPE)));
             if (body.containsKey(FROM) && body.containsKey(TO)){
-                LocalDateTime f = LocalDateTime.of(LocalDate.parse(String.valueOf(body.get(FROM))), time);
-                LocalDateTime t = LocalDateTime.of(LocalDate.parse(String.valueOf(body.get(TO))).plusDays(1), time);
+                final LocalDate fromDate = LocalDate.parse(String.valueOf(body.get(FROM)));
+                final LocalDate toDate = LocalDate.parse(String.valueOf(body.get(TO)));
+                if (type == 0 || type == 1){
+                    if (fromDate.equals(toDate)){
+                        params.put("date", Date.valueOf(fromDate));
+                    } else {
+                        params.put("date", new BETWEEN(Date.valueOf(fromDate), Date.valueOf(toDate)));
+                    }
 
-                from = Timestamp.valueOf(f);
-                to = Timestamp.valueOf(t);
+                } else if (type == 2){
+                    LocalDateTime f = LocalDateTime.of(fromDate, time);
+                    LocalDateTime t = LocalDateTime.of(toDate.plusDays(1), time);
 
-                params.put("timeIn/time", new BETWEEN(from, to));
+                    from = Timestamp.valueOf(f);
+                    to = Timestamp.valueOf(t);
+                    params.put("timeIn/time", new BETWEEN(from, to));
+                }
             }
 
             if (body.containsKey(ORGANISATION)){
@@ -63,7 +72,6 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
             ArrayList<Transportation> transportations = new ArrayList<>();
             if (body.containsKey(PRODUCT)){
                 Product product = dao.getObjectById(Product.class, body.get(PRODUCT));
-                log.info("by Product " + product.getName());
                 params.put(PRODUCT, product.getId());
             }
             if (body.containsKey("vehicleContain")){
@@ -86,6 +94,7 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                     transportations.addAll(dao.getObjectsByParams(Transportation.class, params));
                 }
             }
+            req.setAttribute(Constants.TYPE, type);
             if (from != null){
                 req.setAttribute(FROM, from);
             }
@@ -122,8 +131,14 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                     final Date d1 = t1.getDate();
                     final Date d2 = t2.getDate();
                     if (d1.equals(d2)){
-                        final Timestamp time1 = t1.getTimeIn().getTime();
-                        final Timestamp time2 = t2.getTimeIn().getTime();
+                        Timestamp time1 = null;
+                        if (t1.getTimeIn() != null){
+                            time1 = t1.getTimeIn().getTime();
+                        };
+                        Timestamp time2 = null;
+                        if (t2.getTimeIn() != null){
+                            time2 = t2.getTimeIn().getTime();
+                        }
                         if (time1 == null){
                             return 1;
                         } else if (time2 == null){
@@ -138,7 +153,11 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
             }
 
             req.setAttribute(TRANSPORTATIONS, result);
-            req.getRequestDispatcher("/pages/print/transportCarriagePrint.jsp").forward(req, resp);
+            if (type == 2) {
+                req.getRequestDispatcher("/pages/print/transportCarriagePrint.jsp").forward(req, resp);
+            } else {
+                req.getRequestDispatcher("/pages/print/transportCarriagePrint2.jsp").forward(req, resp);
+            }
         }
     }
 }

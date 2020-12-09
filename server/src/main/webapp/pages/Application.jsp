@@ -22,6 +22,7 @@
     <script src="${context}/js/Settings.js"></script>
     <script src="${context}/vue/templates/transportationDataView.vue"></script>
     <script src="${context}/vue/templates/retailProductView.vue"></script>
+    <script src="${context}/vue2/baseList.vue"></script>
     <script>
         Vue.component('product-view', productView);
     context = '${context}';

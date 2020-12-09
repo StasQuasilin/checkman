@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * Created by quasilin on 13.03.2019.
@@ -58,6 +59,8 @@ public class ContextFilter implements Filter {
         }
     }
 
+
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
@@ -67,7 +70,7 @@ public class ContextFilter implements Filter {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
         resp.setHeader("Expires", "0");
-
+        req.setAttribute(Constants.NOW, LocalDateTime.now().getNano());
         filterChain.doFilter(req, resp);
     }
 

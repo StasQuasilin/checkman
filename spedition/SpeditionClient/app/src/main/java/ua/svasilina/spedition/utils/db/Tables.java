@@ -13,4 +13,5 @@ public interface Tables {
     String LOCATION_LOG = "location_logs";
     String REMOVE_REPORTS = "remove_reports";
     String WEIGHTS = "weights";
+    String COUNTERPARTY_WEIGHT = "counterparty_weight";
 }

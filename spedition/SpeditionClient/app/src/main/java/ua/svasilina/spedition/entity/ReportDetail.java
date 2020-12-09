@@ -3,7 +3,11 @@ package ua.svasilina.spedition.entity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ua.svasilina.spedition.constants.Keys;
 
@@ -14,7 +18,7 @@ public class ReportDetail implements JsonAble{
     private Driver driver;
     private Product product;
     private Weight ownWeight;
-    private Weight weight;
+    private HashMap<String, Weight> counterpartyWeight = new HashMap<>();
 
     public long getId() {
         return id;
@@ -58,11 +62,14 @@ public class ReportDetail implements JsonAble{
         this.ownWeight = ownWeight;
     }
 
-    public Weight getWeight() {
-        return weight;
+    public HashMap<String, Weight> getCounterpartyWeight() {
+        return counterpartyWeight;
     }
-    public void setWeight(Weight weight) {
-        this.weight = weight;
+    public void setCounterpartyWeight(HashMap<String, Weight> counterpartyWeight) {
+        this.counterpartyWeight = counterpartyWeight;
+    }
+    public Weight getCounterpartyWeight(String uuid){
+        return counterpartyWeight.get(uuid);
     }
 
     @Override
@@ -72,6 +79,7 @@ public class ReportDetail implements JsonAble{
 
     @Override
     public boolean equals(@Nullable Object obj) {
+        assert obj != null;
         return obj.getClass().equals(getClass()) && obj.hashCode() == hashCode();
     }
 
@@ -91,12 +99,28 @@ public class ReportDetail implements JsonAble{
         if (driver != null) {
             jsonObject.put(Keys.DRIVER, driver.toJson());
         }
-        if(weight != null) {
-            jsonObject.put(Keys.WEIGHT, weight.toJson());
+        if (ownWeight != null){
+            jsonObject.put(Keys.OWN_WEIGHT, ownWeight.toJson());
         }
         if(product != null){
             jsonObject.put(Keys.PRODUCT, product.toJson());
         }
+        jsonObject.put(Keys.COUNTERPARTY_WEIGHT,counterpartyWeight());
         return jsonObject;
+    }
+
+    private JSONArray counterpartyWeight() {
+        JSONArray array = new JSONArray();
+        for (Map.Entry<String, Weight> entry : counterpartyWeight.entrySet()){
+            JSONObject json = new JSONObject();
+            json.put(Keys.FIELD, entry.getKey());
+            json.put(Keys.WEIGHT, entry.getValue().toJson());
+            array.add(json);
+        }
+        return array;
+    }
+
+    public void setCounterpartyWeight(String uuid, Weight weight) {
+        counterpartyWeight.put(uuid, weight);
     }
 }

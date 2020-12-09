@@ -372,11 +372,9 @@ public interface Constants {
     String COSTS = "costs";
     String COST = "cost";
     String WE = "we";
+    String NOW = "now";
 
-    public static class Languages {
-        public static final String CREATE_DOCUMENT = "document.create";
-        public static final String EDIT_DOCUMENT = "document.edit";
-        public static final String DATE_DOCUMENT = "document.date";
+    class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";
         public static final String ORGANISATION_DOCUMENT = "document.organisation";
         public static final String DEAL_PRODUCT = "document.product";
@@ -393,7 +391,7 @@ public interface Constants {
     String ROLE = "role";
     String ROLES = "roles";
 
-    public class Sun {
+    class Sun {
         public static final String OILINESS = "oiliness";
 
         public static final String HUMIDITY_1 = "humidity1";
@@ -403,7 +401,7 @@ public interface Constants {
         public static final String ACID_VALUE = "acidValue";
     }
 
-    public class Oil {
+    class Oil {
         public static final String ORGANOLEPTIC = "organoleptic";
         public static final String COLOR = "color";
         public static final String ACID_VALUE = "acidValue";
@@ -413,7 +411,7 @@ public interface Constants {
         public static final String WAX = "wax";
     }
 
-    public class Cake {
+    class Cake {
         public static final String PROTEIN = "protein";
         public static final String CELLULOSE = "cellulose";
     }

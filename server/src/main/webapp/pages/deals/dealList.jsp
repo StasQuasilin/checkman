@@ -8,7 +8,7 @@
 <script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/templates/commentator.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
-
+<script src="${context}/vue2/deals/dealList.vue?v=${now}"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
   <script>
     list.api.edit = '${edit}';

@@ -91,7 +91,7 @@ public class DriverUtil {
 
     public Driver getDriver(String uuid) {
 
-        final Cursor query = db.query(Tables.DRIVERS, null, "id = ?", new String[]{String.valueOf(uuid)}, null, null, null, String.valueOf(1));
+        final Cursor query = db.query(Tables.DRIVERS, null, "uuid=?", new String[]{String.valueOf(uuid)}, null, null, null, String.valueOf(1));
         if (query.moveToFirst()){
             final int idColumn = query.getColumnIndex(Keys.ID);
             final int serverIdColumn = query.getColumnIndex(SERVER_ID);
