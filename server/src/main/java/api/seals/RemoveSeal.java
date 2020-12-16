@@ -16,7 +16,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 08.04.2019.
  */
 @WebServlet(Branches.API.SEAL_REMOVE)
-public class RemoveSeals extends ServletAPI {
+public class RemoveSeal extends ServletAPI {
 
     private SealsUtil sealsUtil = new SealsUtil();
 

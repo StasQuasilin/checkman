@@ -12,7 +12,7 @@
 <script src="${context}/vue/templates/transportationDataView.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/templates/commentatorPlug.vue"></script>
-<script src="${context}/vue/dataList.vue"></script>
+<script src="${context}/vue/dataList.vue?v=${now}"></script>
 <script>
   list.api.show = '${show}';
   list.sort = function(){
@@ -38,7 +38,7 @@
   };
 </script>
 <div id="container" style="display: flex; flex-wrap: wrap;">
-  <div v-for="(value, key) in getItems()" style="border: solid 1pt; margin: 4pt 8pt; padding: 4pt;" v-on:click="show(value.id)">
+  <div v-for="(value, key) in getItems()" style="border: solid 1pt; margin: 4pt 8pt; padding: 4pt;" v-on:click="show(value.item.id)">
     <div style="text-align: center">
       {{value.item.title}}
     </div>

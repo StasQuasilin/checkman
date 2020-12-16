@@ -2,7 +2,6 @@ package entity.weight;
 
 import entity.JsonAble;
 import entity.transport.ActionTime;
-import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;

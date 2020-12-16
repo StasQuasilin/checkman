@@ -15,10 +15,10 @@ var laboratoryList = {
     methods:{
         buildTime:function(date, offset, min){
             let d = new Date(date);
-            d.setHours(d.getHours() + offset)
+            d.setHours(d.getHours() + offset);
             d.setMinutes(min);
             d.setSeconds(0);
-            d.setMilliseconds(0)
+            d.setMilliseconds(0);
 
             return d;
         },

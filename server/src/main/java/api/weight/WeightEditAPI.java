@@ -7,10 +7,7 @@ import constants.Branches;
 import entity.Worker;
 import entity.log.comparators.TransportComparator;
 import entity.log.comparators.WeightComparator;
-import entity.transport.ActionTime;
-import entity.transport.TransportStorageUsed;
-import entity.transport.TransportUtil;
-import entity.transport.Transportation;
+import entity.transport.*;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -100,50 +97,60 @@ public class WeightEditAPI extends ServletAPI {
 
                 TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
-                    if (weight.getNetto() > 0) {
+                    final float netto = weight.getNetto();
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("Net weight of ").append(transportation.getCounterparty().getValue());
+                    final Driver driver = transportation.getDriver();
+                    if (driver !=null){
+                        builder.append("\t").append("Driver: ").append(driver.toString());
+                    }
+                    builder.append(": ").append(netto);
+                    log.info(builder.toString());
+                    if (netto > 0) {
                         notificator.weightShow(transportation);
                     } else if (weight.getBrutto() > 0 || weight.getTara() > 0) {
                         notificator.transportInto(transportation);
                     }
+
+                } else {
+                    log.warn("Notificator is null");
                 }
             } else {
                 write(resp, SUCCESS_ANSWER);
             }
-
-
             body.clear();
         } else {
             write(resp, EMPTY_BODY);
         }
     }
-    synchronized boolean changeWeight(Weight weight, float brutto, float tara, Worker worker, boolean saveIt){
-        if (brutto != 0){
-            ActionTime bruttoTime = weight.getBruttoTime();
-            if (bruttoTime == null){
-                bruttoTime = new ActionTime();
-                weight.setBruttoTime(bruttoTime);
+    synchronized boolean changeWeight(Weight weight, float gross, float tare, Worker worker, boolean saveIt){
+        if (gross != 0 && gross != weight.getBrutto()){
+            ActionTime grossTime = weight.getBruttoTime();
+            if (grossTime == null){
+                grossTime = new ActionTime();
+                weight.setBruttoTime(grossTime);
             }
-            weight.setBrutto(brutto);
-            bruttoTime.setTime(new Timestamp(System.currentTimeMillis()));
-            bruttoTime.setCreator(worker);
+            weight.setBrutto(gross);
+            grossTime.setTime(new Timestamp(System.currentTimeMillis()));
+            grossTime.setCreator(worker);
             saveIt = true;
-        } else if (weight.getBrutto() != 0){
+        } else if (gross == 0 && weight.getBrutto() > 0){
             weight.setBrutto(0);
             weight.setBruttoTime(null);
             saveIt = true;
         }
 
-        if (tara != 0){
-            ActionTime taraTime = weight.getTaraTime();
-            if (taraTime == null){
-                taraTime = new ActionTime();
-                weight.setTaraTime(taraTime);
+        if (tare != 0 && tare != weight.getTara()){
+            ActionTime tareTime = weight.getTaraTime();
+            if (tareTime == null){
+                tareTime = new ActionTime();
+                weight.setTaraTime(tareTime);
             }
-            weight.setTara(tara);
-            taraTime.setTime(new Timestamp(System.currentTimeMillis()));
-            taraTime.setCreator(worker);
+            weight.setTara(tare);
+            tareTime.setTime(new Timestamp(System.currentTimeMillis()));
+            tareTime.setCreator(worker);
             saveIt = true;
-        } else if (weight.getTara() != 0){
+        } else if (tare == 0 && weight.getTara() > 0){
             weight.setTara(0);
             weight.setTaraTime(null);
             saveIt = true;

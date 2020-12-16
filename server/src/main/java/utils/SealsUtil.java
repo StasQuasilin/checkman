@@ -26,12 +26,14 @@ public class SealsUtil {
         }
         batch.setFree(free);
         batch.setTotal(seals.size());
-        batch.setArchive(free == 0);
-        dao.save(batch);
-        try {
-            updateUtil.onSave(batch);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        if (batch.getTotal() == 0){
+            dao.remove(batch);
+            updateUtil.onRemove(batch);
+        } else {
+            batch.setArchive(free == 0);
+            dao.save(batch);
         }
+        updateUtil.onSave(batch);
     }
 }

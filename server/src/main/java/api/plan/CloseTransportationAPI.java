@@ -2,6 +2,8 @@ package api.plan;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.Worker;
+import entity.transport.Driver;
 import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
@@ -27,17 +29,23 @@ public class CloseTransportationAPI extends ServletAPI{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
+
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
             if (transportation != null) {
-
-                if (transportation.any()) {
-                    TransportUtil.archive(transportation, getWorker(req));
-                } else {
-                    log.info("Remove transportation " + transportation.getId());
+                if (!transportation.any()) {
                     dao.remove(transportation);
                     updateUtil.onRemove(transportation);
+                    final Worker worker = getWorker(req);
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(worker.getValue()).append(" remove transportation\n");
+                    builder.append("\tid:").append(transportation.getId()).append("\n");
+                    builder.append("\tOrganisation: ").append(transportation.getCounterparty()).append("\n");
+                    final Driver driver = transportation.getDriver();
+                    if (driver != null){
+                        builder.append("\tDriver: ").append(driver.toString());
+                    }
+                    log.info(builder.toString());
                 }
-
             }
             write(resp, SUCCESS_ANSWER);
         }

@@ -312,9 +312,15 @@
                         <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
                     </c:if>
                     <c:if test="${not empty cancel}">
-                        <div class="custom-data-list-item" v-if="menu.item.any"
-                             v-on:click="archive(menu.id)"><fmt:message key="menu.archive"/></div>
-                        <div class="custom-data-list-item" v-else :id="menu.id"
+                        <div class="custom-data-list-item" v-if="menu.item.any" style="color: #bababa">
+                            <div>
+                                <fmt:message key="menu.archive"/>
+                            </div>
+                            <div style="font-size: 8pt">
+                                <fmt:message key="not.supported.already"/>
+                            </div>
+                        </div>
+                        <div class="custom-data-list-item" :id="menu.id" v-else
                              onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
                     </c:if>
                 </div>

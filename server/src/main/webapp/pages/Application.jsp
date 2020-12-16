@@ -1,7 +1,7 @@
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -10,19 +10,19 @@
     <title>
         <fmt:message key="application.title"/>.${lang}
     </title>
-    <link rel="stylesheet" href="${context}/css/Application.css">
-    <link rel="stylesheet" href="${context}/css/Coverlet.css">
-    <link rel="stylesheet" href="${context}/css/chat/chat-holder.css">
-    <link rel="stylesheet" href="${context}/css/date-picker.css">
+    <link rel="stylesheet" href="${context}/css/Application.css?v=${now}">
+    <link rel="stylesheet" href="${context}/css/Coverlet.css?v=${now}">
+    <link rel="stylesheet" href="${context}/css/chat/chat-holder.css?v=${now}">
+    <link rel="stylesheet" href="${context}/css/date-picker.css?v=${now}">
     <script src="${context}/ext/vue.js"></script>
     <script src="${context}/ext/vuetify.js"></script>
     <script src="${context}/ext/jquery.min.js"></script>
-    <script src="${context}/js/Core.js"></script>
-    <script src="${context}/js/Application.js"></script>
-    <script src="${context}/js/Settings.js"></script>
-    <script src="${context}/vue/templates/transportationDataView.vue"></script>
-    <script src="${context}/vue/templates/retailProductView.vue"></script>
-    <script src="${context}/vue2/baseList.vue"></script>
+    <script src="${context}/js/Core.js?v=${now}"></script>
+    <script src="${context}/js/Application.js?v=${now}"></script>
+    <script src="${context}/js/Settings.js?v=${now}"></script>
+    <script src="${context}/vue/templates/transportationDataView.vue?v=${now}"></script>
+    <script src="${context}/vue/templates/retailProductView.vue?v=${now}"></script>
+    <script src="${context}/vue2/baseList.vue?v=${now}"></script>
     <script>
         Vue.component('product-view', productView);
     context = '${context}';
@@ -42,9 +42,13 @@
         //     lockSession(a);
         // })
     </script>
+    <c:if test="${role eq 'admin'}">
+        <c:set var="onmenu" value="oncontextmenu=return false;"/>
+    </c:if>
 </head>
-<%--oncontextmenu="return false;"--%>
-<body style="margin: 0;" >
+<%----%>
+
+<body style="margin: 0;" oncontextmenu="return ${role ne 'admin'}";>
     <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">
         <table style="width: 100%; height: 100%;">
             <tr>

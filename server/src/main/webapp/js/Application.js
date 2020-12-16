@@ -4,7 +4,7 @@ var modalLayer;
 var chatLayer;
 var filter;
 var content;
-var staticContent;
+var staticfield;
 const lastPage = 'last-page';
 var welcome = '';
 var logoutAPI = '';
@@ -14,7 +14,7 @@ var sessionLocker;
 $(document).ready(function(){
     if(navigator.platform.includes('Linux')){
         console.log('Is Linux');
-        var style = document.createElement('style');
+        let style = document.createElement('style');
         document.head.appendChild(style);
         style.sheet.insertRule('* {font-size: 10pt;'); // font-family: Helvetica, sans-serif}
     }
@@ -24,7 +24,7 @@ $(document).ready(function(){
     modalLayer = document.getElementById('modal');
     filter = document.getElementById('filter');
     content = document.getElementById('content');
-    staticContent = document.getElementById('static');
+    staticfield = document.getElementById('static');
     sessionLocker = document.getElementById('sessionLocker');
 
     let last = localStorage.getItem(lastPage + ';' + Settings.worker);
@@ -62,7 +62,7 @@ function loadContent(url){
                 stopContent();
             }
             $(content).empty();
-            $(staticContent).empty();
+            $(staticfield).empty();
             $(filter).empty();
             $(content).html(e);
             $(header).html(GetChildElemById(content, 'header-content'));
@@ -71,12 +71,12 @@ function loadContent(url){
             if (filterContent){
                 $(filter).html(filterContent);
             }
-            let static = GetChildElemById(content, 'static-content');
-            if (static){
-                staticContent.style.display = 'block';
-                $(staticContent).html(static);
+            let staticCont = GetChildElemById(content, 'static-content');
+            if (staticCont){
+                staticfield.style.display = 'block';
+                $(staticfield).html(staticCont);
             } else {
-                staticContent.style.display = 'none';
+                staticfield.style.display = 'none';
             }
 
 
@@ -128,13 +128,14 @@ function loadModal(url, parameters, onSave){
 var modals = [];
 function addModal(modal, onSave){
     modalLayer.style.display='block';
-    var div = document.createElement('div');
+    let div = document.createElement('div');
     div.style.visibility='hidden';
     $(div).html(modal);
     $(modalLayer).append(div);
     modals.push(div);
-
-    addOnSaveEvent(onSave);
+    if (typeof addOnSaveEvent !== 'undefined') {
+        addOnSaveEvent(onSave);
+    }
     addOnCloseEvent(function () {
         let d = modals[modals.length - 1];
         modals.splice(modals.length - 1, 1);

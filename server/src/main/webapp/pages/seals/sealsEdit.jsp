@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -29,7 +29,7 @@
       :
     </td>
     <td>
-      <input id="number" v-model.number="number" autocomplete="off">
+      <input id="number" v-model.number="number" autocomplete="off" onfocus="this.select()">
     </td>
   </tr>
   <tr>
@@ -58,22 +58,18 @@
       <input id="quantity" v-model.number="quantity" autocomplete="off">
     </td>
   </tr>
-  <tr>
-    <td>
-      <fmt:message key="seal.preview"/>
-    </td>
-    <td>
-      :
-    </td>
-    <td>
-      &nbsp;
-    </td>
-  </tr>
-  <tr>
-    <td colspan="3">
-      {{preview()}}
-    </td>
-  </tr>
+    <template v-if="number > 0 && quantity > 0">
+      <tr>
+        <td>
+          <fmt:message key="seal.preview"/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          {{preview()}}
+        </td>
+      </tr>
+    </template>
   <tr>
     <td colspan="3" align="center">
       <button onclick="closeModal()">
@@ -86,7 +82,7 @@
   </tr>
 </table>
 <script>
-  var editor = new Vue({
+  editor = new Vue({
     el: '#editor',
     data:{
       api:{
@@ -99,19 +95,19 @@
     },
     methods:{
       preview:function(){
-        return this.doPreview(this.number) + (this.quantity > 0 ? ' ... ' + this.doPreview(this.number + this.quantity) : '')
+        return this.doPreview(this.number) + (this.quantity > 0 ? ' ... ' + this.doPreview(this.number + this.quantity - 1) : '')
       },
       doPreview:function(number){
         return (this.prefix ? (this.prefix).toUpperCase() + '-' : '') + number + (this.suffix ? '-' + (this.suffix).toUpperCase() : '')
       },
       save:function(){
-        var parameters = {};
+        let parameters = {};
         parameters.prefix = this.prefix;
         parameters.number = this.number;
         parameters.suffix = this.suffix;
         parameters.quantity = this.quantity;
         PostApi(this.api.save, parameters, function(a){
-          if (a.status == 'success'){
+          if (a.status === 'success'){
             closeModal();
           }
         })

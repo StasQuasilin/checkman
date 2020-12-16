@@ -35,9 +35,7 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -149,9 +147,8 @@ public class TelegramNotificator extends INotificator {
         }
         String organisation = transportation.getDeal().getOrganisation().getValue();
         String product = transportation.getDeal().getProduct().getName();
-        String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product,
-                transportation.getWeight().getBrutto() - transportation.getWeight().getTara()
-        );
+        final float net = transportation.getWeight().getNetto();
+        String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product, net);
         for (UserBotSetting setting : getSettings()){
             if (setting.isShow() && setting.getWeight() == NotifyStatus.all){
                 sendMessage(setting.getTelegramId(), message, null);

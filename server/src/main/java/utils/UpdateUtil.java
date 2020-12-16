@@ -205,7 +205,7 @@ public class UpdateUtil {
         doAction(Command.remove, Subscriber.TRANSPORT, transportation.getId());
     }
 
-    public void onSave(SealBatch batch) throws IOException{
+    public void onSave(SealBatch batch) {
         doAction(Command.update, Subscriber.SEALS, batch.toJson());
     }
 
@@ -215,6 +215,10 @@ public class UpdateUtil {
 
     public void onSave(RoundReport report) throws IOException {
         doAction(Command.update, Subscriber.ROUND_REPORT, report.toJson());
+    }
+
+    public void onRemove(SealBatch batch) {
+        doAction(Command.remove, Subscriber.SEALS, batch.toJson());
     }
 
     public enum Command {

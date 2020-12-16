@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -30,6 +31,7 @@ public class ContextFilter implements Filter {
     public static BotSettings settings;
     final Logger log = Logger.getLogger(ContextFilter.class);
     TransportReplaceUtil tru;
+    private long now;
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -40,9 +42,11 @@ public class ContextFilter implements Filter {
         initBot();
         Archivator.init();
         tru = new TransportReplaceUtil();
+        now = Timestamp.valueOf(LocalDateTime.now()).getTime();
     }
 
     Timer gcTimer;
+
 
     public void initBot(){
         log.info("Read bot settings...");
@@ -59,8 +63,6 @@ public class ContextFilter implements Filter {
         }
     }
 
-
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
@@ -70,7 +72,7 @@ public class ContextFilter implements Filter {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
         resp.setHeader("Expires", "0");
-        req.setAttribute(Constants.NOW, LocalDateTime.now().getNano());
+        req.setAttribute(Constants.NOW, now);
         filterChain.doFilter(req, resp);
     }
 

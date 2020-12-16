@@ -8,7 +8,6 @@ import entity.answers.IAnswer;
 import entity.bot.UserBotSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
-import entity.documents.Deal;
 import entity.documents.Shipper;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;

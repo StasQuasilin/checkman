@@ -32,6 +32,7 @@ public class TransportList extends IUIServlet{
         req.setAttribute("printOnTerritory", Branches.UI.PRINT_ON_TERRITORY);
         req.setAttribute("printIncome", Branches.UI.TRANSPORT_INCOME);
         req.setAttribute("transportPerMonth", Branches.UI.TRANSPORT_PER_MONTH);
+        req.setAttribute("sealsAdd", Branches.UI.SEAL_CREATE);
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(HAVE_MENU, false);
         req.setAttribute(CHECK, Branches.UI.CHECK);

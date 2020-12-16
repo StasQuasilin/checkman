@@ -33,10 +33,10 @@
         number:2,
         begin:20,
         end:8
-    })
+    });
     extractionList.offsets = [
         0, 2, 4, 6, 8, 10
-    ]
+    ];
     extractionList.checkTurns();
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
