@@ -125,7 +125,7 @@ function loadModal(url, parameters, onSave){
         coverlet.style.display='none';
     }, true)
 }
-var modals = [];
+let modals = [];
 function addModal(modal, onSave){
     modalLayer.style.display='block';
     let div = document.createElement('div');

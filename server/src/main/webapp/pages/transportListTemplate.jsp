@@ -6,8 +6,8 @@
 <fmt:setBundle basename="messages"/>
 <html>
 
-<link rel="stylesheet" href="${context}/css/DataContainer.css">
-<link rel="stylesheet" href="${context}/css/TransportList.css">
+<link rel="stylesheet" href="${context}/css/DataContainer.css?v=${now}">
+<link rel="stylesheet" href="${context}/css/TransportList.css?v=${now}">
 <script>
     list.api.edit = '${edit}';
     list.api.archive = '${archive}';
@@ -59,8 +59,8 @@
     <%--<c:forEach items="${types}" var="t">--%>
     <%--list.types['${t}'] = '<fmt:message key="_${t}"/> ';--%>
     <%--</c:forEach>--%>
-    list.types['buy']='Розв.';
-    list.types['sell']='Зав.';
+    list.types['buy']='<fmt:message key="_buy"/>';
+    list.types['sell']='<fmt:message key="_sell"/>';
     list.customers=[];
     <c:forEach items="${customers}" var="customer">
     list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
@@ -312,13 +312,12 @@
                         <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
                     </c:if>
                     <c:if test="${not empty cancel}">
-                        <div class="custom-data-list-item" v-if="menu.item.any" style="color: #bababa">
-                            <div>
-                                <fmt:message key="menu.archive"/>
-                            </div>
-                            <div style="font-size: 8pt">
-                                <fmt:message key="not.supported.already"/>
-                            </div>
+                        <div class="custom-data-list-item" v-if="canArchiveThis(menu.item)"
+                             :id="menu.id" onclick="editableModal('${cancel}')">
+                            <fmt:message key="menu.archive"/>
+                        </div>
+                        <div class="custom-data-list-item" v-else-if="menu.item.any" style="color: #bababa">
+                            <fmt:message key="menu.archive"/>
                         </div>
                         <div class="custom-data-list-item" :id="menu.id" v-else
                              onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>

@@ -17,7 +17,7 @@
   <script src="${context}/vue/templates/transportationDataEdit.vue"></script>
   <script src="${context}/vue/templates/priceView.vue"></script>
   <script src="${context}/vue/templates/commentator.vue"></script>
-  <script src="${context}/vue/dataList.vue"></script>
+  <script src="${context}/vue/dataList.vue?v=${now}"></script>
   <script>
     let save = '${save}';
     list.fields = {

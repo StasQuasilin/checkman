@@ -42,11 +42,11 @@ var list = {
         },
         getItems:function(){
             let values = Object.values(this.items);
-            values.sort(this.sort)
+            values.sort(this.sort);
             return values;
         },
         sort:function (a, b) {
             return new Date(b.item.date) - new Date(a.item.date);
         }
     }
-}
+};

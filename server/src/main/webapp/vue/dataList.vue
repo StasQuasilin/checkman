@@ -158,6 +158,11 @@ list = new Vue({
         },
         openModal:function(url, attr){
             loadModal(url, attr)
+        },
+        canArchiveThis:function (item) {
+            let date = new Date(item.date);
+            let now = new Date();
+            return item.any && now - date > 24 * 60 * 60 * 1000;
         }
     }
 });

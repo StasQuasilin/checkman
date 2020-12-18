@@ -15,6 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -32,22 +34,36 @@ public class CloseTransportationAPI extends ServletAPI{
 
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
             if (transportation != null) {
+                final Worker worker = getWorker(req);
                 if (!transportation.any()) {
                     dao.remove(transportation);
                     updateUtil.onRemove(transportation);
-                    final Worker worker = getWorker(req);
-                    StringBuilder builder = new StringBuilder();
-                    builder.append(worker.getValue()).append(" remove transportation\n");
-                    builder.append("\tid:").append(transportation.getId()).append("\n");
-                    builder.append("\tOrganisation: ").append(transportation.getCounterparty()).append("\n");
-                    final Driver driver = transportation.getDriver();
-                    if (driver != null){
-                        builder.append("\tDriver: ").append(driver.toString());
+                    writeMessage(worker, REMOVE, transportation);
+
+                } else {
+                    final LocalDate date = transportation.getDate().toLocalDate();
+                    final LocalDate now = LocalDate.now();
+                    if (now.isAfter(date)){
+                        transportation.setArchive(true);
+                        dao.save(transportation);
+                        updateUtil.onRemove(transportation);
+                        writeMessage(worker, ARCHIVE, transportation);
                     }
-                    log.info(builder.toString());
                 }
             }
             write(resp, SUCCESS_ANSWER);
         }
+    }
+
+    private void writeMessage(Worker worker, String action, Transportation transportation) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(worker.getValue()).append(SPACE).append(action).append(SPACE).append("transportation\n");
+        builder.append("\tid:").append(transportation.getId()).append("\n");
+        builder.append("\tOrganisation: ").append(transportation.getCounterparty().getValue()).append("\n");
+        final Driver driver = transportation.getDriver();
+        if (driver != null){
+            builder.append("\tDriver: ").append(driver.toString());
+        }
+        log.info(builder.toString());
     }
 }

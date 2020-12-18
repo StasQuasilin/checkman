@@ -23,7 +23,6 @@ public final class Archivator {
     final static UpdateUtil updateUtil = new UpdateUtil();
 
     public static void init(){
-        check();
         next();
     }
 
