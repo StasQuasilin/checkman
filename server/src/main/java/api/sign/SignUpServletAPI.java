@@ -59,9 +59,6 @@ public class SignUpServletAPI extends ServletAPI {
                     user.setPassword(PasswordGenerator.getPassword());
                 }
 
-                user.setEmail(email);
-                user.setRegistrator(getWorker(req));
-
                 long personId = -1;
                 if (json.containsKey("personId")) {
                     personId = (long) json.get("personId");

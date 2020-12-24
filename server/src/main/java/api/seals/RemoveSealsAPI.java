@@ -7,7 +7,7 @@ import entity.seals.SealBatch;
 import org.json.simple.JSONObject;
 import utils.SealsUtil;
 import utils.UpdateUtil;
-import utils.hibernate.HibernateDAO;
+import utils.hibernate.DeprecatedDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ import java.util.List;
 @WebServlet(Branches.API.SEALS_REMOVE)
 public class RemoveSealsAPI extends ServletAPI {
 
-    private final HibernateDAO dao = new HibernateDAO();
+    private final DeprecatedDAO dao = new DeprecatedDAO();
     private final SealsUtil sealsUtil = new SealsUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
     @Override

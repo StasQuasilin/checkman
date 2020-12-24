@@ -12,11 +12,10 @@ import javax.persistence.*;
 public class User extends JsonAble{
     private int id;
     private String uid;
-    private String email;
     private String password;
+    private String passwordHash;
     private Role role;
     private Worker worker;
-    private Worker registrator;
 
     @Id
     @GeneratedValue
@@ -37,21 +36,21 @@ public class User extends JsonAble{
     }
 
     @Basic
-    @Column(name = "email")
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Basic
     @Column(name = "password")
     public String getPassword() {
         return password;
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "_password_hash")
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     @Enumerated(EnumType.STRING)
@@ -70,15 +69,6 @@ public class User extends JsonAble{
     }
     public void setWorker(Worker worker) {
         this.worker = worker;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "registrator")
-    public Worker getRegistrator() {
-        return registrator;
-    }
-    public void setRegistrator(Worker registrator) {
-        this.registrator = registrator;
     }
 
     @Override

@@ -492,11 +492,9 @@ public class TelegramNotificator extends INotificator {
                 if (setting.getWorker().getId() == admin.getWorker().getId() && setting.getTelegramId() > 0){
                     String language = setting.getLanguage();
                     String message = lb.get(language, "bot.user.registration.title");
-                    message += NEW_LINE + String.format(lb.get(language, "bot.user.registration.registrator"), user.getRegistrator().getValue());
                     message += NEW_LINE + lb.get(language, "bot.user.registration.text");
                     message += NEW_LINE + String.format(lb.get(language, "bot.user.registration.user"), user.getWorker().getValue());
                     message += NEW_LINE + String.format(lb.get(language, "bot.user.registration.role"), lb.get(language, user.getRole().toString()));
-                    message += NEW_LINE + String.format(lb.get(language, "bot.user.registration.email"), user.getEmail());
 
                     buttons.add(new InlineKeyboardButton().setText("Yes").setCallbackData(String.valueOf(user.getId())));
                     buttons.add(new InlineKeyboardButton().setText("No").setCallbackData(String.valueOf(user.getId())));

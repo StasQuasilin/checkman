@@ -5,26 +5,21 @@ import constants.Branches;
 import entity.Worker;
 import entity.notifications.Notification;
 import entity.organisations.Organisation;
-import entity.organisations.OrganisationInfo;
 import entity.organisations.OrganisationType;
 import entity.transport.ActionTime;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.LanguageBase;
-import utils.OpenDataBotAPI;
 import utils.OrganisationInfoUtil;
-import utils.U;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
 import utils.notifications.Notificator;
-import utils.references.OrganisationNameChecker;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,9 +28,9 @@ import java.util.regex.Pattern;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.References.PARSE_ORGANISATION)
-public class ParseOrganisationServletAPI extends ServletAPI {
+public class ParseOrganisationAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(ParseOrganisationServletAPI.class);
+    private final Logger log = Logger.getLogger(ParseOrganisationAPI.class);
     private final Notificator notificator = new Notificator();
     private final LanguageBase lb = LanguageBase.getBase();
     private static final String SUCCESS_NOTIFICATION = "notification.organisation.create.success";
@@ -67,6 +62,7 @@ public class ParseOrganisationServletAPI extends ServletAPI {
     }
 
     public synchronized Organisation parseOrganisation(String origin, dbDAO dao, Worker worker){
+        //*
         origin = origin.replaceAll("\"", SPACE).trim().toUpperCase();
         String name = SPACE + origin + SPACE;
 
@@ -92,8 +88,9 @@ public class ParseOrganisationServletAPI extends ServletAPI {
             name = origin;
             type = null;
         }
+         //*/
 
-        Organisation organisation = dao.findOrganisation(type, name);
+        Organisation organisation = dao.findOrganisation(type, origin);
 
         if (organisation == null) {
             organisation = new Organisation();

@@ -373,6 +373,7 @@ public interface Constants {
     String COST = "cost";
     String WE = "we";
     String NOW = "now";
+    String ASTERISK = "*";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";

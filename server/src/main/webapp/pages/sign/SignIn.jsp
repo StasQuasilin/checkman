@@ -89,8 +89,9 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="${context}/vue/SignIn.vue"></script>
+<script src="${context}/ext/CryptoJS.js"></script>
+<script src="${context}/js/utils.js?v=${now}"></script>
+<script type="text/javascript" src="${context}/vue/SignIn.vue?v=${now}"></script>
 <script>
     const context = '${context}';
     login.api.find = '${userApi}';

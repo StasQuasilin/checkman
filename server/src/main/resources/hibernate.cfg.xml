@@ -133,5 +133,7 @@
         <mapping class="entity.rails.Train"/>
         <mapping class="entity.deal.DeliveryCost"/>
         <mapping class="entity.organisations.OrganisationWe"/>
+        <mapping class="entity.transport.TransportationRemove"/>
+        <mapping class="entity.transport.DriverTruckTrailer"/>
     </session-factory>
 </hibernate-configuration>

@@ -3,10 +3,9 @@ package controllers.seals;
 import constants.Branches;
 import constants.Constants;
 import controllers.IModal;
-import controllers.IUIServlet;
 import entity.seals.SealBatch;
 import org.json.simple.JSONObject;
-import utils.hibernate.HibernateDAO;
+import utils.hibernate.DeprecatedDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +18,7 @@ public class SealsShow extends IModal {
 
     private static final String _CONTENT = "/pages/seals/sealsShow.jsp";
     private static final String _TITLE = "title.seal.show";
-    private final HibernateDAO dao = new HibernateDAO();
+    private final DeprecatedDAO dao = new DeprecatedDAO();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JSONObject body = parseBody(req);

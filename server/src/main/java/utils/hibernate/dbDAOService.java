@@ -5,6 +5,6 @@ package utils.hibernate;
  */
 public class dbDAOService {
     public static dbDAO getDAO(){
-        return new HibernateDAO();
+        return new DeprecatedDAO();
     }
 }

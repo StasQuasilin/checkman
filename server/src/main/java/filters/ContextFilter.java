@@ -25,13 +25,12 @@ import java.time.LocalDateTime;
 /**
  * Created by quasilin on 13.03.2019.
  */
-@WebFilter(value = {Branches.UI.APPLICATION, "*.j", Branches.UI.FORGOT})
+@WebFilter(value = {Branches.UI.APPLICATION, "*.j" ,Branches.UI.FORGOT})
 public class ContextFilter implements Filter {
 
     public static BotSettings settings;
     final Logger log = Logger.getLogger(ContextFilter.class);
     TransportReplaceUtil tru;
-    private long now;
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -42,7 +41,6 @@ public class ContextFilter implements Filter {
         initBot();
         Archivator.init();
         tru = new TransportReplaceUtil();
-        now = Timestamp.valueOf(LocalDateTime.now()).getTime();
     }
 
     Timer gcTimer;
@@ -72,7 +70,6 @@ public class ContextFilter implements Filter {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
         resp.setHeader("Expires", "0");
-        req.setAttribute(Constants.NOW, now);
         filterChain.doFilter(req, resp);
     }
 

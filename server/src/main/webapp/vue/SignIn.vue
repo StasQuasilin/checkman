@@ -86,7 +86,7 @@ var login = new Vue({
                     self.user.uid = a[0].uid;
                     self.signIn();
                 } else {
-                    for (var i in a){
+                    for (let i in a){
                         if (a.hasOwnProperty(i)){
                             if (a[i].person.value === worker){
                                 self.user.uid = a[i].uid;
@@ -112,7 +112,8 @@ var login = new Vue({
                     PostApi(this.api.signin,
                         {
                             uid:this.user.uid,
-                            password:btoa(this.user.password)
+                            password:btoa(this.user.password),
+                            hash:md5(this.user.password)
                         }, function (a) {
                             console.log(a);
                             if (a.status === 'success') {

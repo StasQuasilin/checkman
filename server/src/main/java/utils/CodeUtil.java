@@ -1,8 +1,13 @@
 package utils;
 
+import entity.User;
 import org.apache.log4j.Logger;
+import utils.hibernate.HibernateSessionFactory;
+import utils.hibernate.Hibernator;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class CodeUtil {
 
@@ -69,7 +74,19 @@ public class CodeUtil {
     }
 
     public static void main(String[] args) {
-        validCode("3264518196");
+        Crypto crypto = new Crypto();
+        Hibernator hibernator = Hibernator.getInstance();
+        final Base64.Decoder decoder = Base64.getDecoder();
+        for (User user : hibernator.query(User.class, null)){
+            final String password = user.getPassword();
+            final String decode = new String(decoder.decode(password));
+            System.out.print(decode + ": ");
+            final String md5 = crypto.md5(decode);
+            user.setPasswordHash(md5);
+            hibernator.save(user);
+            System.out.println("Set hash "+ md5 + " for " + user.getWorker().getValue() );
+        }
+        HibernateSessionFactory.shutdown();
     }
 
     private static void check(String code){

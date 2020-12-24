@@ -34,13 +34,11 @@ public class FriendlyRegistrationServletAPI extends ServletAPI {
             Worker worker = new Worker();
             Person person = new Person();
             user.setWorker(worker);
-            user.setRegistrator(getWorker(req));
             worker.setPerson(person);
-            user.setEmail(String.valueOf(body.get("email")));
             user.setPassword(PasswordGenerator.getPassword());
             user.setRole(Role.valueOf(String.valueOf(body.get("role"))));
 
-            worker.setLanguage(LanguageBase.getBase().DEFAULT_LANGUAGE);
+            worker.setLanguage(LanguageBase.DEFAULT_LANGUAGE);
 
             person.setSurname(String.valueOf(body.get("surname")));
             person.setForename(String.valueOf(body.get("forename")));

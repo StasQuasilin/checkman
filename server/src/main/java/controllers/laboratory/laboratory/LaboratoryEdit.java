@@ -25,7 +25,7 @@ public class LaboratoryEdit extends IModal {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter(Constants.ID));
-        log.info("Edit analyses for transportation=" + id);
+        log.debug("Edit analyses for transportation=" + id);
         Transportation transportation = dao.getTransportationById(id);
         req.setAttribute("plan", transportation);
         req.setAttribute(PRINT, Branches.UI.LABORATORY_PRINT_OPTIONS);

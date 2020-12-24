@@ -7,11 +7,11 @@
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/templates/vehicleInput.vue"></script>
+<script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
 <script>
   var productEdit = new Vue({
     el:'#productEdit',

@@ -17,12 +17,14 @@
     <script src="${context}/ext/vue.js"></script>
     <script src="${context}/ext/vuetify.js"></script>
     <script src="${context}/ext/jquery.min.js"></script>
+    <script src="${context}/ext/CryptoJS.js"></script>
     <script src="${context}/js/Core.js?v=${now}"></script>
     <script src="${context}/js/Application.js?v=${now}"></script>
     <script src="${context}/js/Settings.js?v=${now}"></script>
     <script src="${context}/vue/templates/transportationDataView.vue?v=${now}"></script>
     <script src="${context}/vue/templates/retailProductView.vue?v=${now}"></script>
     <script src="${context}/vue2/baseList.vue?v=${now}"></script>
+    <script src="${context}/js/utils.js?v=${now}"></script>
     <script>
         Vue.component('product-view', productView);
     context = '${context}';

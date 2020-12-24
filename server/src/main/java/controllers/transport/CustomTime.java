@@ -4,7 +4,6 @@ import constants.Branches;
 import controllers.IModal;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
-import utils.hibernate.HibernateDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 

@@ -65,7 +65,7 @@ import java.util.stream.Collectors;
 /**
  * Created by szpt_user045 on 24.06.2019.
  */
-public class HibernateDAO implements dbDAO, Constants {
+public class DeprecatedDAO implements dbDAO, Constants {
 
     private static final String ID = "id";
     private static final String DEAL = "deal";
@@ -320,7 +320,7 @@ public class HibernateDAO implements dbDAO, Constants {
     public void saveCakeAnalyses(MealAnalyses mealAnalyses) {
         hb.save(mealAnalyses);
     }
-    private final Logger log = Logger.getLogger(HibernateDAO.class);
+    private final Logger log = Logger.getLogger(DeprecatedDAO.class);
 
     @Override
     public void remove(Object ... objects) {
