@@ -5,7 +5,7 @@ import constants.Constants;
 /**
  * Created by szpt_user045 on 19.02.2019.
  */
-public class ErrorAnswer extends IAnswer {
+public class ErrorAnswer extends Answer {
 
     public ErrorAnswer(String msg, String text) {
         add(msg, text);

@@ -2,9 +2,11 @@ package api.deal;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.answers.Answer;
 import entity.documents.Deal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

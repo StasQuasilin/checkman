@@ -9,12 +9,12 @@ import java.util.Map;
 /**
  * Created by szpt_user045 on 19.02.2019.
  */
-public abstract class IAnswer extends JsonAble{
+public abstract class Answer extends JsonAble{
 
     public abstract String status();
     private HashMap<String, Object> params;
 
-    public IAnswer() {
+    public Answer() {
         params = new HashMap<>();
     }
 

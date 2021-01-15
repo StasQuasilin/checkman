@@ -21,3 +21,15 @@
 .date{
     width: 7em;
 }
+.deal-field{
+    background-color: white;
+    border: solid gray 1px;
+    padding: 12px 12px 0 12px;
+    font-size: 10pt;
+}
+.deal-field table *{
+    background-color: transparent;
+}
+.editor input[type=number]{
+    width: 8em;
+}

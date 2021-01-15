@@ -27,10 +27,12 @@ import entity.weight.RoundReport;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.hibernate.dao.TransportationDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by szpt_user045 on 11.07.2019.
@@ -42,9 +44,13 @@ public class UpdateUtil {
     final JsonParser parser = new JsonParser();
     final Logger log = Logger.getLogger(UpdateUtil.class);
     final dbDAO dao = dbDAOService.getDAO();
+    private final TransportationDAO transportationDAO = new TransportationDAO();
 
     public void onSave(Deal deal) throws IOException {
         doAction(Command.update, getSubscriber(deal.getType()), deal.toJson());
+        for (Transportation t : transportationDAO.getTransportationsByDeal(deal.getId(), true)){
+            onSave(t);
+        }
     }
 
     public void onRemove(Deal deal) {

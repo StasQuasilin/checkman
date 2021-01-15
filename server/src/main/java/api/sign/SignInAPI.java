@@ -2,8 +2,7 @@ package api.sign;
 
 import api.ServletAPI;
 import constants.Branches;
-import constants.Constants;
-import entity.answers.IAnswer;
+import entity.answers.Answer;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.SignInBox;
@@ -27,8 +26,8 @@ public class SignInAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             final Object uuid = body.get(UID);
-            final Object hash = body.get(HASH);
-            IAnswer answer = SignInBox.signIn(req, String.valueOf(uuid), String.valueOf(hash));
+            final Object hash = body.get(PASSWORD);
+            Answer answer = SignInBox.signIn(req, String.valueOf(uuid), String.valueOf(hash));
             JSONObject json = answer.toJson();
              write(resp, json);
         }

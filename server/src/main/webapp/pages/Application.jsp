@@ -35,22 +35,34 @@
     Settings.api='${SUBSCRIBER}';
     Settings.worker = ${worker.id};
     </script>
-    <script src="${context}/js/Subscriber.js"></script>
-    <script>
-        subscribe('NOTIFICATIONS', function(a){
-            notificator.notify(a);
-        });
-        // subscribe('SESSION_TIMER', function(a){
-        //     lockSession(a);
-        // })
-    </script>
+    <script src="${context}/js/Subscriber.js?v=${now}"></script>
+
+
     <c:if test="${role eq 'admin'}">
         <c:set var="onmenu" value="oncontextmenu=return false;"/>
     </c:if>
 </head>
-<%----%>
+<%-- oncontextmenu="return ${role ne 'admin'}";--%>
 
-<body style="margin: 0;" oncontextmenu="return ${role ne 'admin'}";>
+<body style="margin: 0;">
+    <div class="screen-locker" :class="{unlock : show}" id="screenLocker">
+        <div class="locker-text" style="text-align: center">
+            <div style="font-size: 32pt">
+                <fmt:message key="keep-calm-title"/>
+            </div>
+            <p>
+                <fmt:message key="keep-calm-text"/>
+            </p>
+            <p v-if="!reconnect">
+                <fmt:message key="reconnect.after"/> {{timeLeft}}
+            </p>
+            <p v-else>
+                <fmt:message key="reconnect"/>
+            </p>
+        </div>
+        <img style="position: absolute; bottom: -4px; right: 0" src="${context}/images/keep_calm.png" alt="">
+    </div>
+    <script src="${context}/vue/screenLocker.vue?v=${now}"></script>
     <div class="modal-layer" id="sessionLocker" style="background-color: #5e5e5e; z-index: 101; display: none">
         <table style="width: 100%; height: 100%;">
             <tr>
@@ -136,17 +148,7 @@
         </div>
     </div>
     <script src="${context}/vue/datetime/timePicker.vue"></script>
-    <script>
-        <c:choose>
-        <c:when test="${lang eq 'ua'}">
-        datepicker.locale = 'uk';
-        </c:when>
-        <c:otherwise>
-        datepicker.locale = '${lang}';
-        </c:otherwise>
-        </c:choose>
 
-    </script>
     <div class="body-table">
         <div class="navigation-panel">
             <jsp:include page="NavigationMenu.jsp"/>
@@ -174,5 +176,23 @@
             </div>
         </div>
     </div>
+    <script>
+        <c:choose>
+        <c:when test="${lang eq 'ua'}">
+        datepicker.locale = 'uk';
+        </c:when>
+        <c:otherwise>
+        datepicker.locale = '${lang}';
+        </c:otherwise>
+        </c:choose>
+        Connect();
+        subscribe('NOTIFICATIONS', function(a){
+            notificator.notify(a);
+        });
+        // subscribe('SESSION_TIMER', function(a){
+        //     lockSession(a);
+        // })
+
+    </script>
 </body>
 </html>

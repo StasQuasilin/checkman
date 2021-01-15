@@ -4,21 +4,13 @@ import constants.Branches;
 import constants.Constants;
 import entity.User;
 import entity.answers.ErrorAnswer;
-import entity.answers.IAnswer;
-import entity.notifications.Notification;
+import entity.answers.Answer;
 import org.apache.log4j.Logger;
 import utils.access.UserBox;
-import utils.access.UserData;
 import utils.answers.SuccessAnswer;
-import utils.hibernate.dao.HibernateDAO;
 import utils.hibernate.dao.UserDAO;
-import utils.hibernate.dbDAO;
-import utils.hibernate.dbDAOService;
-import utils.notifications.Notificator;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Kvasik on 24.06.2019.
@@ -31,12 +23,12 @@ public class SignInBox implements Constants{
     final static Crypto crypto = new Crypto();
     private static final UserBox userBox = UserBox.getUserBox();
 
-    public static synchronized IAnswer signIn(HttpServletRequest req, String uid, String passwordHash) {
-        IAnswer answer;
+    public static synchronized Answer signIn(HttpServletRequest req, String uid, String passwordHash) {
+        Answer answer;
         User user = dao.getUserByUUID(uid);
 
         if (user != null ){
-            final String userHash = user.getPasswordHash();
+            final String userHash = user.getPassword();
             log.info(userHash + ".equals(" + passwordHash + ")=" + userHash.equals(passwordHash));
             if (userHash.equals(passwordHash)) {
                 String token = userBox.addUser(user, IpUtil.getIp(req), req.getSession().getId());

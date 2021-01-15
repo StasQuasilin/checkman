@@ -1,4 +1,4 @@
-var editor = new Vue({
+editor = new Vue({
     el: '#editor',
     components:{
         'object-input':objectInput
@@ -20,6 +20,10 @@ var editor = new Vue({
             date:new Date().toISOString().substring(0, 10),
             deal:{
                 id:-1,
+                type:null,
+                organisation:{
+                    id:-1
+                },
                 product:{
                     id:-1
                 },
@@ -68,6 +72,7 @@ var editor = new Vue({
             input:''
         },
         already:false,
+        dealProps:{},
         organisationProps:{},
         driverProps:{},
         vehicleProps:{},
@@ -76,6 +81,49 @@ var editor = new Vue({
         duplicateDeal:-1
     },
     methods:{
+        dealEdit:function(){
+            this.loadDealEdit(this.transportation.deal);
+        },
+        loadDealEdit:function(deal){
+            const self = this;
+            let attr = {};
+            if (deal.id !== -1){
+                attr.id=deal.id;
+            } else {
+                attr.deal=deal;
+            }
+            loadModal(this.api.dealEdit, attr, function (a) {
+                console.log('!!!!');
+                console.log(a);
+
+                editor.transportation.deal = a;
+                self.findDeals(a.organisation.id);
+                editor.deal = a;
+                self.$forceUpdate();
+
+            })
+        },
+        dealCopy:function(){
+            let deal = Object.assign({}, this.transportation.deal);
+            deal.id = -1;
+            deal.organisation = deal.counterparty;
+            this.loadDealEdit(deal);
+        },
+        selectCounterparty:function(){
+            const self = this;
+            loadModal(this.api.selectCounterparty, {have:this.transportation.deal.id !== -1}, function (a) {
+                if (a.code === 0){
+                    self.transportation.deal = a.deal;
+                    self.deal = a.deal;
+                    self.deals = a.deals;
+                    self.$forceUpdate();
+                } else {
+                    self.transportation.deal.id = -1;
+                    self.transportation.deal.organisation = a.organisation;
+                    self.dealEdit();
+                }
+            })
+        },
         addType:function(action){
             if (!this.types[action.product.id]){
                 this.types[action.product.id] = [];
@@ -281,11 +329,17 @@ var editor = new Vue({
             PostApi(this.api.findDeals, {organisation:id}, function(a){
                 self.deals = a;
                 if(a.length > 0) {
-                    self.deal = a[0];
+                    if (self.deal.id === -1){
+                        self.deal = a[0];
+                    }
                     let now = new Date(self.transportation.date);
                     for (let i in a) {
                         if (a.hasOwnProperty(i)) {
                             let deal = a[i];
+
+                            if(deal.id === self.deal.id){
+                                self.deal = deal;
+                            }
                             let from = new Date(deal.date);
                             let to = new Date(deal.date_to);
                             if (now >= from && now <= to) {

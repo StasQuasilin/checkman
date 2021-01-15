@@ -54,7 +54,7 @@ public class ParseOrganisationAPI extends ServletAPI {
             write(resp, answerJson.toJSONString());
             pool.put(answerJson);
 
-            infoUtil.checkOrganisation(organisation, worker);
+//            infoUtil.checkOrganisation(organisation, worker);
 
         } else {
             write(resp, EMPTY_BODY);

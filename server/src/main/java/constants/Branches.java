@@ -129,9 +129,10 @@ public class Branches {
         public static final String USER_PAGE = "/user/page.j";
         public static final String TRANSPORT_COST = "/transport/cost.j";
         public static final String SEALS_REMOVE = "/seals/remove.j";
+        public static final String SELECT_COUNTERPARTY = "/transportation/counterparty/select.j";
 
 
-        public class Extraction {
+        public static class Extraction {
             public static final String CRUDE_EDIT = "/laboratory/extraction/crude.j";
             public static final String RAW_EDIT = "/laboratory/extraction/raw.j";
             public static final String OIL_EDIT = "/laboratory/extraction/oil.j";
@@ -144,7 +145,7 @@ public class Branches {
             public static final String TURN_CELLULOSE = "/cellulose.j";
         }
 
-        public class VRO {
+        public static class VRO {
             public static final String CRUDE_EDIT = "/laboratory/vro/crude.j";
             public static final String OIL_EDIT = "/laboratory/vro/oil.j";
             public static final String DAILY_EDIT = "/laboratory/vro/daily.j";
@@ -155,19 +156,23 @@ public class Branches {
             public static final String SUN_PROTEIN = "/laboratory/vro/sun/protein.j";
         }
 
-        public class KPO {
+        public static class KPO {
             public static final String PART_EDIT = "/laboratory/kpo/edit.j";
         }
 
-        public class References {
+        public static class References {
             public static final String DRIVER_EDIT = "/driver/edit.j";
             public static final String ORGANISATION_EDIT = "/organisation/edit.j";
             public static final String PRODUCT_EDIT = "/product/edit.j";
             public static final String GROUP_PRODUCT_EDIT = "/product/group/edit";
             public static final String FIND_CONTRACTS = "/find/contracts.j";
         }
+
+        public static class Transportation {
+            public static final String DEAL_EDIT = "/transportation/deal/edit.j";
+        }
     }
-    public class API{
+    public static class API{
         public static final String API = "/api/v1";
         public static final String DEAL_SAVE =          API + "/deal/save";
         public static final String DEAL_DELETE =        API + "/deal/delete";
@@ -332,7 +337,7 @@ public class Branches {
         public static final String TRANSPORT_COST = API + "/transport/cost";
         public static final String SEALS_REMOVE = API + "/seals/remove";
 
-        public class References {
+        public static class References {
             public static final String API = Branches.API.API + "/references";
             public static final String PARSE_ORGANISATION = API + "/organisation/parse";
             public static final String EDIT_ORGANISATION =  API + "/organisation/edit";
@@ -360,25 +365,29 @@ public class Branches {
             public static final String VEHICLE_LIST = API + "/references/vehicles";
         }
 
-        public class Deal {
+        public static class Deal {
             public static final String DEAL = "/deal";
             public static final String EDIT_PRODUCT = DEAL + "/product/edit";
             public static final String DELETE_PRODUCT = DEAL + "/product/delete";
         }
 
-        public class Archive {
+        public static class Archive {
             public static final String DEALS = "/api/archive/deals";
+        }
+
+        public static class Transportation {
+            public static final String DEAL_EDIT = API + "/transportation/deal/edit";
         }
     }
 
-    public class ShortCuts {
+    public static class ShortCuts {
         public static final String SHORT_CUTS = "/api/short";
         public static final String UPDATE = SHORT_CUTS + "/update";
         public static final String MANAGER = SHORT_CUTS + "/manager";
 
     }
 
-    public class Sign {
+    public static class Sign {
         public static final String LOGOUT = "/api/logout";
     }
 }

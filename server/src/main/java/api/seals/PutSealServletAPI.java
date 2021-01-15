@@ -2,7 +2,7 @@ package api.seals;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.answers.IAnswer;
+import entity.answers.Answer;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.transport.Transportation;
@@ -74,7 +74,7 @@ public class PutSealServletAPI extends ServletAPI {
                 }
             }
             System.out.println("Total offers: " + offer.size());
-            IAnswer answer = new SuccessAnswer();
+            Answer answer = new SuccessAnswer();
             if (offer.size() > 0){
                 JSONArray array = pool.getArray();
                 for(Seal s : offer){

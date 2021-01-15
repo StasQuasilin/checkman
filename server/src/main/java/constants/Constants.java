@@ -37,6 +37,7 @@ public interface Constants {
     String MONTH = "month";
     String DATE_TO = "dateTo";
     String DEAL_ID = "dealId";
+    String PRE = "pre";
     String DEAL = "deal";
     String DEALS = "deals";
     String INDEX = "index";
@@ -374,6 +375,8 @@ public interface Constants {
     String WE = "we";
     String NOW = "now";
     String ASTERISK = "*";
+    String SELECT_COUNTERPARTY = "selectCounterparty";
+    String DEAL_EDIT = "dealEdit";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";

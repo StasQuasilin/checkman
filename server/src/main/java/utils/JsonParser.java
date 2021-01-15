@@ -4,7 +4,7 @@ import bot.BotUID;
 import constants.Constants;
 import controllers.IServlet;
 import entity.*;
-import entity.answers.IAnswer;
+import entity.answers.Answer;
 import entity.bot.UserBotSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
@@ -136,7 +136,7 @@ public class JsonParser implements Constants{
     
     public static final String STATUS = "status";
     
-    public JSONObject toJson(IAnswer answer) {
+    public JSONObject toJson(Answer answer) {
         JSONObject json = pool.getObject();
         json.put(STATUS, answer.status());
         for (Map.Entry<String, Object> entry : answer.getParams().entrySet()){

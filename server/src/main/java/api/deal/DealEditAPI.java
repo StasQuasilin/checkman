@@ -2,12 +2,9 @@ package api.deal;
 
 import api.IChangeServletAPI;
 import constants.Branches;
-import entity.answers.IAnswer;
+import entity.answers.Answer;
 import entity.documents.Deal;
-import entity.log.comparators.DealComparator;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.*;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -30,7 +27,7 @@ public class DealEditAPI extends IChangeServletAPI {
         if (body != null) {
             Deal deal = dealEditor.editDeal(body, getWorker(req));
             if (deal != null){
-                IAnswer resultAnswer = new SuccessAnswer();
+                Answer resultAnswer = new SuccessAnswer();
                 resultAnswer.add(ID, deal.getId());
                 JSONObject json = resultAnswer.toJson();
                 write(resp, json.toJSONString());

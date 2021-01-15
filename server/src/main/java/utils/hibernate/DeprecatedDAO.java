@@ -65,6 +65,7 @@ import java.util.stream.Collectors;
 /**
  * Created by szpt_user045 on 24.06.2019.
  */
+@Deprecated
 public class DeprecatedDAO implements dbDAO, Constants {
 
     private static final String ID = "id";

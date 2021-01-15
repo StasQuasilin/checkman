@@ -3,7 +3,7 @@ package api.chat;
 import api.ServletAPI;
 import constants.Branches;
 import entity.Worker;
-import entity.answers.IAnswer;
+import entity.answers.Answer;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
@@ -121,7 +121,7 @@ public class SendMessageServletAPI extends ServletAPI {
                 message.setMessage(text);
                 dao.save(message);
 
-                IAnswer success = new SuccessAnswer();
+                Answer success = new SuccessAnswer();
                 if (chatId == -1) {
                     success.add("chat", chat.getId());
                     success.add("key", chatKey);

@@ -1,11 +1,11 @@
 <%@ page import="utils.U" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<link rel="stylesheet" href="${context}/css/editor.css">
+<link rel="stylesheet" href="${context}/css/editor.css?v=${now}">
 <style>
     .deal-attention{
         display: inline-block;
@@ -23,10 +23,9 @@
         color: orangered;
     }
 </style>
-<script src="${context}/vue/templates/vehicleInput.vue"></script>
-<script src="${context}/vue/weightAdd.vue"></script>
+<script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
+<script src="${context}/vue/weightAdd.vue?v=${now}"></script>
 <script>
-    <%--<jsp:include page="/vue/weightAdd.vue"/>--%>
     editor.organisationProps = {
         find:'${findOrganisation}',
         edit:'${editOrganisation}',
@@ -71,6 +70,8 @@
         put:editor.putTransporter,
         show:['value']
     };
+    editor.api.selectCounterparty = '${selectCounterparty}';
+    editor.api.dealEdit = '${dealEdit}';
     editor.api.findOrganisation = '${findOrganisations}';
     editor.api.parseOrganisation = '${parseOrganisation}';
     editor.api.findDeals = '${findDeals}';
@@ -168,184 +169,157 @@
     </c:when>
     <c:otherwise>
     editor.deal = '-1';
-    editor.transportation.deal = {
-        id:-1,
-        counterparty:{id:-1},
-        unit: editor.units[0],
-        shipper: editor.shippers[0],
-        quantity:0,
-        product:{id:-1},
-        price:0
-    };
-
+    // editor.transportation.deal = {
+    //     id:-1,
+    //     counterparty:{id:-1},
+    //     unit: editor.units[0],
+    //     shipper: editor.shippers[0],
+    //     quantity:0,
+    //     product:{id:-1},
+    //     price:0
+    // };
     </c:otherwise>
     </c:choose>
 </script>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
 <c:set var="type"><fmt:message key="deal.type"/></c:set>
-    <table id="editor" class="editor">
-<%--    DATE--%>
-    <tr>
-        <td>
-            <label for="date">
-                <fmt:message key="date"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td style="width: 420px">
-            <input id="date" readonly style="width: 7em" v-on:click="pickDate()"
-                   v-model="new Date(transportation.date).toLocaleDateString()">
-        </td>
-    </tr>
+<div id="editor" class="editor">
 
-    <%--ORGANISATION--%>
-    <tr :class="{error : errors.organisation}">
-        <td>
-            <fmt:message key="deal.organisation"/>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <object-input :props="organisationProps" :object="transportation.deal.counterparty"></object-input>
-        </td>
-    </tr>
-    <tr v-if="transportation.deal.counterparty && transportation.deal.counterparty.id != -1">
-        <td>
-            <label for="address">
-                <fmt:message key="address"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <select id="address" v-if="addressList.length > 0" v-model="transportation.address" style="width: 220pt">
-                <option value="-1"><fmt:message key="not.select"/></option>
-                <option v-for="address in addressList" :value="address.id">{{address.city}}<template v-if="address.street">, {{address.street}}</template><template v-if="address.build">, {{address.build}}</template>
-                </option>
-            </select>
-            <span v-if="transportation.address !== -1" v-on:click="editAddress(transportation.address)">
-                <img style="width: 11pt;" src="${context}/images/smallpensil.svg" alt=""/>
+    <div>
+        <span style="font-weight: bold; font-size: 12pt">
+            <fmt:message key="deal"/>
+        </span>
+
+    </div>
+    <div class="deal-field" v-if="transportation.deal.id !== -1">
+        <table>
+            <tr :class="{error : errors.organisation}">
+                <td>
+                    <fmt:message key="deal.organisation"/>
+                </td>
+                <td v-if="transportation.deal.counterparty.value">
+                    {{transportation.deal.counterparty.value}}
+                </td>
+            </tr>
+            <tr v-if="transportation.deal.counterparty && transportation.deal.counterparty.id != -1">
+                <td>
+                    <label for="address">
+                        <fmt:message key="address"/>
+                    </label>
+                </td>
+                <td>
+                    <select id="address" v-if="addressList.length > 0" v-model="transportation.address" style="width: 220pt">
+                        <option value="-1"><fmt:message key="not.select"/></option>
+                        <option v-for="address in addressList" :value="address.id">{{address.city}}<template v-if="address.street">, {{address.street}}</template><template v-if="address.build">, {{address.build}}</template>
+                        </option>
+                    </select>
+                    <span v-if="transportation.address !== -1" v-on:click="editAddress(transportation.address)">
+                    <img style="width: 11pt;" src="${context}/images/smallpensil.svg" alt=""/>
+                </span>
+                    <button class="mini-close" v-on:click="editAddress(-1)">
+                        <fmt:message key="add.address"/>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="deal">
+                        <fmt:message key="deal"/>
+                    </label>
+                </td>
+                <td>
+                    <select id="deal" style="width: 100%" v-model="deal"  v-on:change="setQuantity()">
+                        <option :value="deal" v-for="deal in deals">
+                            <template v-if="deal.number">№ {{deal.number}}</template>
+                            <template v-else>{{deal.id}}</template>
+                            {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}, {{deal.price.toLocaleString()}}, {{deal.shipper.name}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <template v-if="transportation.deal.id === '-1'">
+                <%--PRODUCT--%>
+                <tr :class="{error : errors.product}">
+                    <td>
+                        <label for="product">
+                            <fmt:message key="deal.product"/>
+                        </label>
+                    </td>
+                    <td>
+                        <select id="product" style="width: 200px" v-model="transportation.deal.product.id"
+                                v-on:click="errors.product = false" v-on:change="checkDeal()">
+                            <option v-if="deal === '-1'" disabled value="-1"><fmt:message key="need.select"/></option>
+                            <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
+                        </select>
+                        <select v-if="transportation.deal.product.id != -1" id="type" title="${type}" v-on:change="checkDeal()"
+                                v-model="transportation.deal.type" :class="{error : errors.type}" v-on:click="errors.type = false">
+                            <option v-for="type in typesByProduct()" :value="type">
+                                {{typeNames[type]}}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </template>
+            <%--QUANTITY--%>
+            <tr>
+                <td>
+                    <fmt:message key="deal.quantity"/>
+                </td>
+                <td>
+                    {{transportation.deal.quantity.toLocaleString()}}
+                    {{transportation.deal.unit.name}}
+                </td>
+            </tr>
+            <%--PRICE--%>
+            <tr>
+                <td>
+                    <fmt:message key="deal.price"/>
+                </td>
+                <td>
+                    <template v-if="transportation.deal.price > 0">
+                        {{transportation.deal.price.toLocaleString()}}
+                    </template>
+                    <fmt:message key="deal.from"/>
+                    {{transportation.deal.shipper.name}}
+                </td>
+            </tr>
+        </table>
+        <div style="width: 100%; text-align: right">
+            <span class="mini-close" v-on:click="dealCopy()">
+                <fmt:message key="deal.copy"/>
             </span>
-            <button class="mini-close" v-on:click="editAddress(-1)">
-                <fmt:message key="add.address"/>
-            </button>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="deal">
-                <fmt:message key="deal"/>
-            </label>
-        </td>
+            <span class="mini-close" v-on:click="dealEdit()">
+                <fmt:message key="deal.edit"/>
+            </span>
+<%--            <span class="mini-close">--%>
+<%--                <fmt:message key="deal.remove"/>--%>
+<%--            </span>--%>
+        </div>
 
-        <td>
-            :
-        </td>
-        <td>
-            <select id="deal" style="width: 100%" v-model="deal"  v-on:change="setQuantity()">
-                <option value="-1"><fmt:message key="deal.new"/></option>
-                <option :value="deal" v-for="deal in deals">
-                    <template v-if="deal.number">№ {{deal.number}}</template>
-                    <template v-else>{{deal.id}}</template>
-                    {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}, {{deal.price.toLocaleString()}}, {{deal.shipper.name}}
-                </option>
-            </select>
-            <div class="deal-attention" v-if="duplicateDeal !== -1">
-                <div class="deal-attention-title">
-                    <fmt:message key="deal.attention.title"/>
-                </div>
-                <div>
-                    <fmt:message key="deal.attention.text"/>
-                </div>
-            </div>
-        </td>
-    </tr>
-    <template v-if="deal === '-1'">
-        <%--CONTRACT NUMBER--%>
+    </div>
+    <div>
+        <span class="mini-close" v-on:click="selectCounterparty()">
+            <template v-if="transportation.deal.id === -1">
+                +<fmt:message key="transportation.counterparty.select"/>
+            </template>
+            <template v-else>
+                &#8634;<fmt:message key="transportation.counterparty.change"/>
+            </template>
+        </span>
+    </div>
+    <table>
         <tr>
             <td>
-                <label for="number">
-                    <fmt:message key="transportation.deal.number"/><br>
+                <label for="date">
+                    <fmt:message key="date"/>
                 </label>
             </td>
+            <td>:</td>
             <td>
-                :
-            </td>
-            <td>
-                <input id="number" v-model="transportation.deal.number" autocomplete="off">
-            </td>
-        </tr>
-        <%--PRODUCT--%>
-        <tr :class="{error : errors.product}">
-            <td>
-                <label for="product">
-                    <fmt:message key="deal.product"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="product" style="width: 200px" v-model="transportation.deal.product.id"
-                        v-on:click="errors.product = false" v-on:change="checkDeal()">
-                    <option v-if="deal === '-1'" disabled value="-1"><fmt:message key="need.select"/></option>
-                    <option v-for="product in productList()" :value="product.id">{{product.name}}</option>
-                </select>
-                <select v-if="transportation.deal.product.id != -1" id="type" title="${type}" v-on:change="checkDeal()"
-                        v-model="transportation.deal.type" :class="{error : errors.type}" v-on:click="errors.type = false">
-                    <option v-for="type in typesByProduct()" :value="type">
-                        {{typeNames[type]}}
-                    </option>
-                </select>
+                <input id="date" readonly style="width: 7em" v-on:click="pickDate()"
+                       v-model="new Date(transportation.date).toLocaleDateString()">
             </td>
         </tr>
-    </template>
-    <%--QUANTITY--%>
-    <tr>
-        <td>
-            <label for="quantity">
-                <fmt:message key="deal.quantity"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="quantity" type="number" v-model="transportation.deal.quantity" v-on:keyup="checkDeal()"
-                   autocomplete="off" onfocus="this.select()">
-            <c:set var="units"><fmt:message key="units"/></c:set>
-            <select title="${units}" v-model="transportation.deal.unit">
-                <option v-for="unit in units" :value="unit">{{unit.name}}</option>
-            </select>
-        </td>
-    </tr>
-    <%--PRICE--%>
-    <tr>
-        <td>
-            <label for="price">
-                <fmt:message key="deal.price"/>
-            </label>
-        </td>
-        <td>
-            :
-        </td>
-        <td>
-            <input id="price" type="number" v-model.number="transportation.deal.price"
-                   onfocus="this.select()" autocomplete="off" v-on:keyup="checkDeal()">
-            <label for="from">
-                <fmt:message key="deal.from"/>
-            </label>
-            <template v-if="transportation.deal.shipper">
-                <select id="from" v-model="transportation.deal.shipper.id" v-on:change="checkDeal()">
-                    <option v-for="shipper in shipperList()" :value="shipper.id">{{shipper.name}}</option>
-                </select>
-            </template>
-        </td>
-    </tr>
     <tr>
         <td>
             <label for="load">
@@ -357,7 +331,7 @@
         </td>
         <td>
             <input id="load" type="number" v-model.number="transportation.plan" onfocus="this.select()" autocomplete="off">
-            <span v-if="transportation.deal.unit">
+            <span v-if="transportation.deal && transportation.deal.unit">
                 {{transportation.deal.unit.name}}
             </span>
         </td>
@@ -439,27 +413,36 @@
                         <fmt:message key="notes"/>
                     </label>
                 </span>
-                <span class="mini-close" style="font-size: 10pt" v-on:click="editNote()">
+                <span v-if="!note.edit" class="mini-close" style="font-size: 10pt" v-on:click="editNote()">
                     <fmt:message key="note.add"/>
                 </span>
             </div>
             <div>
-                <div style="font-size: 10pt" v-for="(note, noteIdx) in transportation.notes">
-                    <span class="mini-close" v-on:click="removeNote(noteIdx)">&times;</span>
-                    <span v-on:click="editNote(note, noteIdx)">
-                        <span v-if="note.creator" style="color: #8b8b8b">
-                            {{note.creator}}:
+                <span style="font-size: 10pt" v-for="(note, noteIdx) in transportation.notes">
+                    <template v-if="note.creator" >
+                        <span class="mini-close" v-on:click="removeNote(noteIdx)">&times;</span>
+                        <span v-on:click="editNote(note, noteIdx)" class="mini-close">
+                            <span style="color: #8b8b8b">
+                                {{note.creator}}:
+                            </span>
+                            <span style="color: #d06845">
+                                {{note.note}}
+                            </span>
                         </span>
+                    </template>
+                    <template v-else>
                         <span style="color: #d06845">
-                            {{note.note}}
-                        </span>
-
-                    </span>
-                </div>
+                                {{note.note}}
+                            </span>
+                    </template>
+                </span>
             </div>
-            <div v-if="note.edit">
-                <input id="note" ref="comment" style="border: none; width: 100%" v-model="note.input"
-                       v-on:keyup.enter="saveNote()" v-on:blur="saveNote()">
+            <c:set var="notePlaceHolder"><fmt:message key="note.placeholder"/> </c:set>
+            <div v-if="note.edit" v-on:blur="saveNote()">
+                <input id="note" ref="comment" placeholder="${notePlaceHolder}" v-model="note.input" v-on:keyup.escape="clearNote()" v-on:keyup.enter="saveNote()">
+                <span class="mini-close" v-on:click="clearNote()">
+                    &times;
+                </span>
             </div>
         </td>
     </tr>
@@ -483,4 +466,5 @@
         </td>
     </tr>
 </table>
+</div>
 </html>

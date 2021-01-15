@@ -4,7 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.User;
 import entity.answers.ErrorAnswer;
-import entity.answers.IAnswer;
+import entity.answers.Answer;
 import org.json.simple.JSONObject;
 import utils.LanguageBase;
 import utils.answers.SuccessAnswer;
@@ -25,7 +25,7 @@ public class ChangePasswordServletAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            IAnswer answer;
+            Answer answer;
             String current = String.valueOf(body.get("current"));
             User user = dao.getUserByWorker(getWorker(req));
             if (user.getPassword().equals(current)) {

@@ -1,9 +1,11 @@
-var objectInput = {
+objectInput = {
     props:{
         props:Object,
         object:Object,
         item:Object,
-        error:Boolean
+        error:Boolean,
+        is_open:Boolean,
+        always_open:Boolean
     },
     data:function(){
         return{
@@ -13,9 +15,13 @@ var objectInput = {
             open:false
         }
     },
+    mounted:function(){
+        if (this.is_open || this.always_open){
+            this.openObjectInput()
+        }
+    },
     methods:{
         findObject:function(){
-            console.log(event);
             if (this.props.find) {
                 clearTimeout(this.timer);
                 if (this.input) {
@@ -47,23 +53,26 @@ var objectInput = {
             const self = this;
             setTimeout(function(){
                 self.$refs.input.select();
-
             }, 10);
         },
         closeInput:function(){
             this.input = '';
             this.open = false;
             this.foundObjects = [];
+            if (this.always_open){
+                this.openObjectInput();
+            }
         },
         closeObject:function(){
-            console.log('Cancel');
             this.props.put({id:-1}, this.item);
+            if (this.always_open){
+                this.openObjectInput();
+            }
         },
         edit:function(){
             if (this.props.edit){
                 const self = this;
                 loadModal(this.props.edit, {id:this.object.id}, function(a){
-                    console.log(a);
                     if (a.status === 'success'){
                         self.props.put(a.result, self.item);
                     }

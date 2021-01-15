@@ -5,8 +5,8 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<link rel="stylesheet" href="${context}/css/editor.css">
-<script src="${context}/vue/weightEdit.vue"></script>
+<link rel="stylesheet" href="${context}/css/editor.css?v=${now}">
+<script src="${context}/vue/weightEdit.vue?v=${now}"></script>
 <script>
     editor.api.saveWeightAPI = '${save}';
     editor.api.print = '${print}';

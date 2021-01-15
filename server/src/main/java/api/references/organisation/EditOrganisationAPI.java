@@ -4,7 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
 import entity.Worker;
-import entity.answers.IAnswer;
+import entity.answers.Answer;
 import entity.organisations.Organisation;
 import entity.organisations.OrganisationType;
 import entity.organisations.OrganisationWe;
@@ -15,7 +15,6 @@ import utils.CodeUtil;
 import utils.U;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
-import utils.references.OrganisationNameChecker;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,7 +47,7 @@ public class EditOrganisationAPI extends ServletAPI {
                 }
             }
 
-            IAnswer answer = new SuccessAnswer(RESULT, organisation.toJson());
+            Answer answer = new SuccessAnswer(RESULT, organisation.toJson());
             JSONObject json = answer.toJson();
             write(resp, json.toJSONString());
             pool.put(json);

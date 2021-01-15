@@ -1,10 +1,8 @@
 package api.deal;
 
-import com.google.gson.JsonObject;
 import constants.Constants;
 import entity.DealType;
 import entity.Worker;
-import entity.answers.IAnswer;
 import entity.deal.DeliveryCost;
 import entity.documents.Deal;
 import entity.documents.DealProduct;
@@ -22,7 +20,6 @@ import utils.DocumentUIDGenerator;
 import utils.U;
 import utils.UnitBox;
 import utils.UpdateUtil;
-import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -30,7 +27,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 /**
