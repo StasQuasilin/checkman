@@ -1,8 +1,6 @@
 package utils;
 
 
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
-
 import java.util.Random;
 
 /**

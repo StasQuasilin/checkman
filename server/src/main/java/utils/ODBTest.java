@@ -1,19 +1,23 @@
 package utils;
 
-import entity.transport.TruckInfo;
-import utils.turns.TurnBox;
+import entity.User;
+import utils.hibernate.Hibernator;
 
-import java.time.LocalDateTime;
+import java.util.Base64;
 
 /**
  * Created by szpt_user045 on 19.12.2019.
  */
 public class ODBTest {
+
+    static Hibernator hibernator = Hibernator.getInstance();
+
     public static void main(String[] args) {
-//        OpenDataBotAPI api = new OpenDataBotAPI();
-//        TruckInfo info = new TruckInfo();
-//        api.infoRequest("СВ2207СА", info);
-//        System.out.println(info);
-        System.out.println(TurnBox.getTurnDate(LocalDateTime.now()).getEnd());
+
+        for (User user : hibernator.query(User.class, null)){
+            final String string = user.getPassword();
+            final String password = new String(Base64.getDecoder().decode(string));
+
+        }
     }
 }

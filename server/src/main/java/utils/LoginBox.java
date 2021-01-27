@@ -49,7 +49,7 @@ public class LoginBox {
                 inputStream.close();
             }
         } else {
-            log.info("File \'" + file.getPath() + " not found");
+            log.info("File '" + file.getPath() + "' not found");
         }
     }
     public String getLogin() {
@@ -58,13 +58,13 @@ public class LoginBox {
     public String getPassword() {
         return properties.getProperty("password");
     }
-    public boolean trySignIn(HttpServletRequest req) throws IOException {
+    public boolean trySignIn(HttpServletRequest req) {
         if (req.getSession().getAttribute(SignInFilter.TOKEN) == null) {
             if (fileRead) {
                 String login = getLogin();
                 String password = getPassword();
 
-                return SignInBox.signIn(req, login, password).status().equals("success");
+                return SignInBox.signIn(req, login, password, password).status().equals("success");
             }
         }
         return false;

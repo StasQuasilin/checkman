@@ -8,6 +8,7 @@ import controllers.archive.ArchiveType;
  */
 public class Branches {
     public static final String PING = "/ping";
+    public static final String QR_GENERATOR = "/qr";
 
     public static class UI{
 
@@ -336,6 +337,7 @@ public class Branches {
         public static final String USER_DELETE = API + "/delete/user";
         public static final String TRANSPORT_COST = API + "/transport/cost";
         public static final String SEALS_REMOVE = API + "/seals/remove";
+        public static final String INTEREST_SAVE = API + "/interest/save";
 
         public static class References {
             public static final String API = Branches.API.API + "/references";

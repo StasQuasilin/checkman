@@ -6,6 +6,7 @@ package constants;
 public interface Constants {
     String TOKEN = "token";
     String LOCALE = "locale";
+    String LANG = "lang";
     String USER = "user";
     String COUNT = "count";
     String HYPHEN = " - ";
@@ -17,6 +18,7 @@ public interface Constants {
     String ENCODING = "UTF-8";
     String ID = "id";
     String IP = "ip";
+    String CLIENT = "client";
     String SESSION = "session";
     String TEXT = "text";
     String WAIT_ANSWER = "waitAnswer";
@@ -246,6 +248,7 @@ public interface Constants {
     String DRIVERS = "drivers";
     String WEIGHT = "weight";
     String PALLET = "pallet";
+    String REFINING = "refining";
     String SPACE = " ";
     String COLON = ":";
     String EMPTY = "";
@@ -377,6 +380,17 @@ public interface Constants {
     String ASTERISK = "*";
     String SELECT_COUNTERPARTY = "selectCounterparty";
     String DEAL_EDIT = "dealEdit";
+    String INTEREST_SAVE = "interestSave";
+    String ITEM_ID = "itemId";
+    String I = "i";
+    String W = "w";
+    String A = "a";
+    String O = "o";
+    String INTERESTS = "interests";
+    String ALL = "all";
+    String ITEMS = "items";
+    String USING = "using";
+    String MSG = "msg";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";

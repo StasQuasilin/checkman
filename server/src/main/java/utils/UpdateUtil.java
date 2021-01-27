@@ -57,7 +57,7 @@ public class UpdateUtil {
         doAction(Command.remove, getSubscriber(deal.getType()), deal.getId());
     }
 
-    public void onArchive(Deal deal) throws IOException {
+    public void onArchive(Deal deal) {
         onRemove(deal);
         Subscriber subscriber = deal.getType() == DealType.buy ? Subscriber.DEAL_BUY_ARCHIVE : Subscriber.DEAL_SELL_ARCHIVE;
         doAction(Command.update, subscriber, deal.toJson());
@@ -95,7 +95,7 @@ public class UpdateUtil {
         subscriptions.send(sub, worker, json);
         pool.put(json);
     }
-    void doAction(Command command, Subscriber subscriber, Object ... obj) {
+    public void doAction(Command command, Subscriber subscriber, Object... obj) {
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
         for (Object o : obj) {

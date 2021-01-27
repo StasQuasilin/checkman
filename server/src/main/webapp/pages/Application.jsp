@@ -25,6 +25,7 @@
     <script src="${context}/vue/templates/retailProductView.vue?v=${now}"></script>
     <script src="${context}/vue2/baseList.vue?v=${now}"></script>
     <script src="${context}/js/utils.js?v=${now}"></script>
+
     <script>
         Vue.component('product-view', productView);
     context = '${context}';
@@ -34,6 +35,7 @@
     Settings.context='${context}';
     Settings.api='${SUBSCRIBER}';
     Settings.worker = ${worker.id};
+    Settings.token = '${token}'
     </script>
     <script src="${context}/js/Subscriber.js?v=${now}"></script>
 

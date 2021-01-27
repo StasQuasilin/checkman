@@ -35,6 +35,12 @@ function Connect(){
             location.reload();
         }
         console.log('Connection successfully');
+
+        let hello = {
+            action:'hello',
+            token:Settings.token
+        };
+        send(JSON.stringify(hello));
     }
 }
 
@@ -63,7 +69,8 @@ function send(msg){
                 send(msg);
             }, 500);
         } else {
-            restart(1);
+            console.log(subscriber.readyState);
+            restart(5);
         }
     }
 

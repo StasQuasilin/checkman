@@ -2,7 +2,6 @@ package filters;
 
 import api.sockets.handlers.SessionTimer;
 import constants.Branches;
-import entity.Worker;
 import org.apache.log4j.Logger;
 import utils.IpUtil;
 import utils.LoginBox;
@@ -26,7 +25,9 @@ public class SignInFilter implements Filter{
     final SessionTimer sessionTimer = SessionTimer.getInstance();
 
     @Override
-    public void init(FilterConfig filterConfig) {}
+    public void init(FilterConfig filterConfig) {
+        userBox = UserBox.getInstance();
+    }
 
     public static final String TOKEN = "token";
 
@@ -37,40 +38,28 @@ public class SignInFilter implements Filter{
 
         final Object t = request.getSession().getAttribute(TOKEN);
         String token = t != null ? t.toString() : null;
-        boolean inAttribute = false;
         if (token == null){
-            inAttribute= true;
             token = request.getHeader(TOKEN);
         }
 
-        String ip = IpUtil.getIp(request);
-        request.setAttribute("address", ip);
-
-        boolean isValid = true;
-        userBox = UserBox.getUserBox();
+        boolean valid = true;
 
         if (token == null){
-            log.info("Session: " + request.getSession().getId() + ": token not found");
-            isValid = false;
+            valid = false;
         } else if (!userBox.containsKey(token)){
-            log.info("User box doesn't contain token " + token);
             request.getSession().removeAttribute(TOKEN);
-            isValid = false;
-        } else if (!userBox.getUser(token).isValid(ip)){
-            log.info("Session: " + request.getSession().getId() + ": invalid IP: " + ip);
-            userBox.remove(token);
-            isValid = false;
+            valid = false;
         }
 
-        if (isValid) {
-            Worker worker = (Worker) request.getSession().getAttribute(WORKER);
-            sessionTimer.update(worker);
-            String updateToken = userBox.updateToken(token);
-            if (inAttribute){
-                response.setHeader(TOKEN, updateToken);
-            } else {
-                request.getSession().setAttribute(TOKEN, updateToken);
-            }
+        if (valid) {
+//            Worker worker = (Worker) request.getSession().getAttribute(WORKER);
+//            sessionTimer.update(worker);
+//            String updateToken = userBox.updateToken(token);
+//            if (inAttribute){
+//                response.setHeader(TOKEN, updateToken);
+//            } else {
+//                request.getSession().setAttribute(TOKEN, updateToken);
+//            }
 
             filterChain.doFilter(request, response);
         } else if (LoginBox.getInstance().trySignIn(request)){
@@ -86,7 +75,6 @@ public class SignInFilter implements Filter{
                 response.sendRedirect(request.getContextPath() + Branches.UI.SING_IN);
             }
         }
-
     }
 
     @Override

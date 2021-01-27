@@ -12,7 +12,6 @@ import utils.turns.TurnBox;
 
 import javax.websocket.Session;
 import java.io.IOException;
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -29,7 +28,7 @@ public class SessionTimer {
     public static final LocalTime TARGET_1 = LocalTime.of(8, 0);
     public static final LocalTime TARGET_2 = LocalTime.of(20, 0);
 
-    final static UserBox userBox = UserBox.getUserBox();
+    final static UserBox userBox = UserBox.getInstance();
     public static final SessionTimer instance = new SessionTimer();
     public static SessionTimer getInstance() {
         return instance;

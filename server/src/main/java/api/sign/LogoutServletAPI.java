@@ -25,7 +25,7 @@ public class LogoutServletAPI extends ServletAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserBox.getUserBox().remove(String.valueOf(req.getSession().getAttribute(SignInFilter.TOKEN)));
+        UserBox.getInstance().remove(String.valueOf(req.getSession().getAttribute(SignInFilter.TOKEN)));
         log.info("Clear session");
         Enumeration<String> attributeNames = req.getSession().getAttributeNames();
         while (attributeNames.hasMoreElements()){

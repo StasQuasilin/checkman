@@ -56,11 +56,11 @@ public class WeightEditAPI extends ServletAPI {
             comparator.fix(weight);
 
             JSONObject w = (JSONObject) body.get(WEIGHT);
-            float brutto = Float.parseFloat(String.valueOf(w.get(BRUTTO)));
-            float tara = Float.parseFloat(String.valueOf(w.get(TARA)));
+            float gross = Float.parseFloat(String.valueOf(w.get(BRUTTO)));
+            float tare = Float.parseFloat(String.valueOf(w.get(TARA)));
 
             Worker worker = getWorker(req);
-            saveIt = changeWeight(weight, brutto, tara, worker, saveIt);
+            saveIt = changeWeight(weight, gross, tare, worker, saveIt);
 
             if (saveIt){
                 if (weight.getBrutto() > 0 || weight.getTara() > 0){
@@ -97,16 +97,16 @@ public class WeightEditAPI extends ServletAPI {
 
                 TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
                 if (notificator != null) {
-                    final float netto = weight.getNetto();
+                    final float net = weight.getNetto();
                     StringBuilder builder = new StringBuilder();
                     builder.append("Net weight of ").append(transportation.getCounterparty().getValue());
                     final Driver driver = transportation.getDriver();
                     if (driver !=null){
                         builder.append("\t").append("Driver: ").append(driver.toString());
                     }
-                    builder.append(": ").append(netto);
+                    builder.append(": ").append(net);
                     log.info(builder.toString());
-                    if (netto > 0) {
+                    if (net > 0) {
                         notificator.weightShow(transportation);
                     } else if (weight.getBrutto() > 0 || weight.getTara() > 0) {
                         notificator.transportInto(transportation);
@@ -143,7 +143,7 @@ public class WeightEditAPI extends ServletAPI {
         if (tare != 0 && tare != weight.getTara()){
             ActionTime tareTime = weight.getTaraTime();
             if (tareTime == null){
-                tareTime = new ActionTime();
+                tareTime = new ActionTime(worker);
                 weight.setTaraTime(tareTime);
             }
             weight.setTara(tare);

@@ -13,4 +13,8 @@ public abstract class HibernateDAO {
     public void save(Object o){
         hibernator.save(o);
     }
+
+    public void remove(Object r){
+        hibernator.remove(r);
+    }
 }

@@ -5,7 +5,8 @@ objectInput = {
         item:Object,
         error:Boolean,
         is_open:Boolean,
-        always_open:Boolean
+        always_open:Boolean,
+        put:Function
     },
     data:function(){
         return{
@@ -37,7 +38,14 @@ objectInput = {
             }
         },
         putObject:function(object){
-            this.props.put(object, this.item);
+            if (this.props.put){
+                this.props.put(object, this.item);
+            } else if (this.put){
+                this.put(object)
+            } else {
+                console.warn('No place for put. Add attribute \'props.put\' or \'put\'')
+            }
+
             if (object.isNew){
                 const self = this;
                 setTimeout(function(){

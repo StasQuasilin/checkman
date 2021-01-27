@@ -89,7 +89,7 @@ public class ActiveSubscriptions {
             }
         }
     }
-    public void unSubscribe(Subscriber sub, Session session){
+    public void unsubscribe(Subscriber sub, Session session){
         bySubscribe.get(sub).remove(session);
     }
 

@@ -18,7 +18,7 @@
             find:'${findOrganisation}',
             edit:'${editOrganisation}',
             add:'${parseOrganisation}',
-            addHeader:'<fmt:message key="button.add"/>',
+            addHeader:'<fmt:message key="button.create"/>',
             header:'<fmt:message key="counterparty.add"/>',
             put:select.putOrganisation,
             show:['value']

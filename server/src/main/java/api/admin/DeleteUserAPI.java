@@ -19,7 +19,7 @@ import java.io.IOException;
 public class DeleteUserAPI extends ServletAPI {
 
     private final dbDAO dao = dbDAOService.getDAO();
-    UserBox userBox = UserBox.getUserBox();
+    UserBox userBox = UserBox.getInstance();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JSONObject body = parseBody(req);

@@ -21,6 +21,7 @@ public class Product extends JsonAble {
     private float weight;
     private float pallet;
     private boolean wholeSale;
+    private boolean refining;
 
     @Id
     @GeneratedValue
@@ -94,6 +95,15 @@ public class Product extends JsonAble {
         this.wholeSale = wholeSave;
     }
 
+    @Basic
+    @Column(name = "_refining")
+    public boolean isRefining() {
+        return refining;
+    }
+    public void setRefining(boolean refining) {
+        this.refining = refining;
+    }
+
     @Override
     public int hashCode() {
         return id;
@@ -114,6 +124,7 @@ public class Product extends JsonAble {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(NAME, name);
+        json.put(REFINING, refining);
         return json;
     }
 
@@ -127,6 +138,7 @@ public class Product extends JsonAble {
             json.put(UNIT, unit.toJson());
         }
         json.put(PALLET, pallet);
+
         return json;
     }
 }

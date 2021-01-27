@@ -9,7 +9,7 @@
     overflow-y: scroll;
     border: solid gray 1pt;
     padding: 2pt;
-    height: 100%;
+    height: 360px
   }
   .user-row{
 
@@ -29,24 +29,28 @@
     el:'#list',
     data:{
       api:{},
-      active:[],
+      users:{},
       all:[]
     },
     methods:{
       handler:function(a){
-        console.log(a);
-        if (a.add){
-          for(var i in a.add.active){
-            if (a.add.active.hasOwnProperty(i)){
-              this.active.push(a.add.active[i])
+        if (a.update){
+          for (let i in a.update){
+            if (a.update.hasOwnProperty(i)){
+              let update = a.update[i];
+              this.users[update.token] = update;
             }
           }
-
-          for (var j in a.add.all){
-            if (a.add.all.hasOwnProperty(j)){
-              this.all.push(a.add.all[j]);
+          this.$forceUpdate();
+        }
+        if (a.remove){
+          for (let r in a.remove){
+            if (a.remove.hasOwnProperty(r)){
+              let remove = a.remove[r];
+              delete this.users[remove];
             }
           }
+          this.$forceUpdate();
         }
       },
       openUserPage:function(id){
@@ -64,32 +68,22 @@
 <table id="list" style="width: 400pt; height: 300pt">
   <tr>
     <th style="width: 50%">
-      <fmt:message key="admin.user.list.active"/>
-    </th>
-    <th style="width: 50%">
       <fmt:message key="admin.user.list.all"/>
     </th>
   </tr>
   <tr style="height: 100%">
     <td style="vertical-align: top">
       <div class="user-list">
-        <div v-for="user in active" class="user-row">
-          <div class="user-name">
+        <div v-for="user in users" v-on:click="openUserPage(user.id)" style="border-bottom: dashed gray 1pt">
+          <span style="font-size: 6pt; color: gray">
+            {{user.token}}
+          </span><br>
+          <span v-if="user.session" style="color: green">
+            &#9679;
+          </span>
+          <span class="mini-close">
             {{user.person.value}}
-          </div>
-          <div class="user-office">
-            {{user.ip}}
-          </div>
-          <div class="user-office">
-            {{user.session}}
-          </div>
-        </div>
-      </div>
-    </td>
-    <td style="vertical-align: top">
-      <div class="user-list">
-        <div v-for="user in all" v-on:click="openUserPage(user.id)" class="mini-close">
-          {{user.person.value}}
+          </span>
         </div>
       </div>
     </td>

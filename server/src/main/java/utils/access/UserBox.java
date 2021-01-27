@@ -1,14 +1,20 @@
 package utils.access;
 
+import api.sockets.Subscriber;
 import api.sockets.handlers.SessionTimer;
+import entity.Client;
 import entity.User;
 import entity.UserInfo;
 import entity.Worker;
+import org.json.simple.JSONObject;
+import utils.UpdateUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static constants.Constants.TOKEN;
 
 /**
  * Created by szpt_user045 on 13.03.2019.
@@ -18,10 +24,11 @@ public class UserBox {
     private static final UserBox USER_BOX = new UserBox();
     static final SessionTimer sessionTimer = SessionTimer.getInstance();
 
-    public static UserBox getUserBox() {
+    public static UserBox getInstance() {
         return USER_BOX;
     }
     final HashMap<String, UserInfo> users = new HashMap<>();
+    private final UpdateUtil updateUtil = new UpdateUtil();
 
     public synchronized String getToken(){
         final String token = UUID.randomUUID().toString();
@@ -48,23 +55,12 @@ public class UserBox {
     }
 
     public synchronized String addUser(User user, String ip, String sessionId) {
-
         final String token = getToken();
-        ArrayList<String> remove = new ArrayList<>();
-        for (Map.Entry<String, UserInfo> entry : users.entrySet()){
-            UserInfo value = entry.getValue();
-            if (value != null) {
-                if (value.getUser() != null) {
-                    if (value.getUser().getId() == user.getId()) {
-                        remove.add(entry.getKey());
-                    }
-                }
-            }
-        }
-        for (String key : remove){
-            users.remove(key);
-        }
-        users.put(token, new UserInfo(user, ip, sessionId));
+        final UserInfo userInfo = new UserInfo(Client.web, user, ip, sessionId);
+        users.put(token, userInfo);
+        final JSONObject json = userInfo.toJson();
+        json.put(TOKEN, token);
+        updateUtil.doAction(UpdateUtil.Command.update, Subscriber.USERS, json);
         return token;
     }
 
@@ -79,6 +75,10 @@ public class UserBox {
 
     public void remove(String token) {
         UserInfo remove = users.remove(token);
+        if (remove != null){
+            updateUtil.doAction(UpdateUtil.Command.remove, Subscriber.USERS, token);
+        }
+
         if (sessionTimer != null) {
             sessionTimer.remove(remove.getUser().getWorker());
         }
@@ -86,5 +86,13 @@ public class UserBox {
 
     public UserInfo getUser(String token) {
         return users.get(token);
+    }
+
+    public void isLeft(String token) {
+        remove(token);
+    }
+
+    public void onlineWorkers() {
+        HashMap<Integer, UserInfo> map = new HashMap<>();
     }
 }
