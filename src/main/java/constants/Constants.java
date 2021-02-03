@@ -391,6 +391,7 @@ public interface Constants {
     String ITEMS = "items";
     String USING = "using";
     String MSG = "msg";
+    String KILL_SESSION = "kill";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";

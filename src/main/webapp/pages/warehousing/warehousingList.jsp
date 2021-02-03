@@ -133,7 +133,7 @@
                         </div>
                         <div>
                             <span>
-                                <fmt:message key="weight.netto"/>:{{value.item.weight.netto.toLocaleString()}}
+                                <fmt:message key="weight.net"/>:{{value.item.weight.netto.toLocaleString()}}
                             </span>
                             <span v-if="value.item.weight.correction">
                                 ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})

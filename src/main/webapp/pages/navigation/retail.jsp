@@ -7,7 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <jsp:include page="deals.jsp"/>
     <ul>
@@ -16,10 +16,5 @@
             <fmt:message key="menu.retail.list"/>
           </span>
       </li>
-        <li class="menu-item">
-            <span class="main" onclick="loadContent('${storages}')">
-                <fmt:message key="menu.storages"/>
-            </span>
-        </li>
     </ul>
 </html>

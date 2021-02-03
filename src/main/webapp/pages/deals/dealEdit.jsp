@@ -4,72 +4,75 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-    <script src="${context}/vue/templates/vehicleInput.vue"></script>
-    <script src="${context}/vue/dealEdit.vue"></script>
+    <script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
+    <script src="${context}/vue/dealEdit.vue?v=${now}"></script>
     <script>
         <c:forEach items="${products}" var="product">
-        editor.products.push({
+        dealEdit.products.push({
             id:${product.id},
             value:'${product.name}'
         });</c:forEach>
+        dealEdit.products.sort(function (a, b) {
+            return a.value.localeCompare(b.value)
+        });
         <c:forEach items="${shippers}" var="shipper">
-        editor.shippers.push({
+        dealEdit.shippers.push({
             id:${shipper.id},
             value:'${shipper.value}'
         });</c:forEach>
         <c:forEach items="${customers}" var="customer">
-        editor.customers.push('${customer}');
-        editor.customerNames['${customer}'] = '<fmt:message key="delivery.${customer}"/>';
+        dealEdit.customers.push('${customer}');
+        dealEdit.customerNames['${customer}'] = '<fmt:message key="delivery.${customer}"/>';
         </c:forEach>
         <c:forEach items="${units}" var="u">
-        editor.units.push({
+        dealEdit.units.push({
             id:${u.id},
             value:'${u.name}'
         });
         </c:forEach>
 
-        editor.api.save = '${save}';
-        editor.api.redirect = '${redirect}';
+        dealEdit.api.save = '${save}';
+        dealEdit.api.redirect = '${redirect}';
         <c:forEach items="${types}" var="type">
-        editor.typeNames['${type}'] = '<fmt:message key="${type}"/>';
+        dealEdit.typeNames['${type}'] = '<fmt:message key="${type}"/>';
         </c:forEach>
-        editor.organisationProps = {
+        <c:forEach items="${actions}" var="action">
+        dealEdit.addType(${action.toJson()});
+        </c:forEach>
+        dealEdit.organisationProps = {
             find:'${findOrganisation}',
             add:'${parseOrganisation}',
             edit:'${editOrganisation}',
             addHeader:'<fmt:message key="button.add"/>',
             header:'<fmt:message key="counterparty.select"/>',
-            put:function(transporter, item){
-                editor.setCounterparty(transporter);
+            put:function(organisation){
+                dealEdit.setCounterparty(organisation);
             },
             show:['value']
         };
         <c:choose>
         <c:when test="${not empty deal}">
-        editor.deal=${deal.toJson()};
-        editor.deal.shipper = editor.deal.shipper.id;
-        editor.deal.product = editor.deal.product.id;
+        dealEdit.deal=${deal.toJson()};
+        dealEdit.deal.shipper = dealEdit.deal.shipper.id;
+        dealEdit.deal.product = dealEdit.deal.product.id;
         <c:if test="${not empty deal.unit}">
-        editor.deal.unit = ${deal.unit.id};
+        dealEdit.deal.unit = ${deal.unit.id};
         </c:if>
-        editor.deal.price = ${deal.price};
+        dealEdit.deal.price = ${deal.price};
         </c:when>
         <c:otherwise>
-        editor.deal.type = '${type}';
-        if (editor.shippers.length > 0){
-            editor.deal.shipper= editor.shippers[0].id;
+        dealEdit.deal.type = '${type}';
+        if (dealEdit.shippers.length > 0){
+            dealEdit.deal.shipper= dealEdit.shippers[0].id;
         }
-        if (editor.products.length > 0){
-            editor.deal.product = editor.products[0].id;
-        }
-        if (editor.units.length > 0){
-            editor.deal.unit = editor.units[0].id;
+        dealEdit.selectProduct();
+
+        if (dealEdit.units.length > 0){
+            dealEdit.deal.unit = dealEdit.units[0].id;
         }
         </c:otherwise>
         </c:choose>
-        <c:forEach items="${actions}" var="action">
-        editor.addType(${action.toJson()});
-        </c:forEach>
+
     </script>
     <link rel="stylesheet" href="${context}/css/editor.css">
     <c:set var="findCunterparty"><fmt:message key="counterparty.find"/></c:set>
@@ -101,17 +104,17 @@
             <td>
                 <input id="date" readonly style="width: 7em" v-model="new Date(deal.date).toLocaleDateString()" v-on:click="showDatePicker">
                 <span>-</span>
-                <input readonly style="width: 7em" v-model="new Date(deal.dateTo).toLocaleDateString()" v-on:click="showDateToPicker">
+                <input readonly style="width: 7em" v-model="new Date(deal.to).toLocaleDateString()" v-on:click="showDateToPicker">
             </td>
         </tr>
-        <tr>
+        <tr :class="{error : errors.organisation}">
             <td>
                 <fmt:message key="deal.organisation"/>
             </td>
             <td>
                 :
             </td>
-            <td>
+            <td v-on:click="errors.organisation = false" >
                 <object-input :props="organisationProps" :object="deal.counterparty"></object-input>
             </td>
         </tr>

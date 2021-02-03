@@ -27,11 +27,11 @@ list = new Vue({
         loading:false
     },
     mounted:function(){
-        if (typeof filter_control !== 'undefined'){
-            filter_control.items = this.items;
-            if (typeof filter_control.filteredItems === 'function') {
+        if (typeof filterControl !== 'undefined'){
+            filterControl.items = this.items;
+            if (typeof filterControl.filteredItems === 'function') {
                 this.getItems = function () {
-                    return filter_control.filteredItems();
+                    return filterControl.filteredItems();
                 }
             }
         } else {
@@ -102,8 +102,8 @@ list = new Vue({
                     }
                 }
             }
-            if (typeof filter_control !== 'undefined' && filter_control.checkFilter){
-                filter_control.checkFilter();
+            if (typeof filterControl !== 'undefined' && filterControl.checkFilter){
+                filterControl.checkFilter();
             }
         },
         sort:function(){
@@ -118,6 +118,7 @@ list = new Vue({
             this.menu.y = event.pageY;
             this.menu.show = true;
             const self = this;
+
             let menu = this.$refs.contextMenu;
             if (menu){
                 setTimeout(function(){
@@ -127,6 +128,7 @@ list = new Vue({
                         self.menu.y += self.menu.y - menuBottom;
                     }
                 }, 0);
+
             } else {
                 console.log('Context menu not connected... For fix it add attribute \'ref="contextMenu"\'')
             }

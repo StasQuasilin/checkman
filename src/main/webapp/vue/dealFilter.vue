@@ -1,7 +1,8 @@
-var filter_control = new Vue({
-    el:'#filter_view',
+dealFilter = new Vue({
+    el:'#filterView',
     data:{
-        items:[],
+        items:null,
+        defaultId:-1,
         filter:{
             date:-1,
             organisation:-1,
@@ -9,16 +10,14 @@ var filter_control = new Vue({
             creator:-1
         }
     },
-    mounted:function(){
-        console.log('Deal filter mounted')
-    },
     methods:{
         organisations:function(){
             let organisations = {};
+
             for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    let organisation = this.items[i].item.counterparty;
-                    if (organisations[organisation.id] === undefined) {
+                    let organisation = this.items[i].counterparty;
+                    if (!organisations[organisation.id]) {
                         organisations[organisation.id] = organisation;
                     }
                 }
@@ -31,8 +30,8 @@ var filter_control = new Vue({
             let products = {};
             for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    let product = this.items[i].item.product;
-                    if (products[product.id] === undefined) {
+                    let product = this.items[i].product;
+                    if (!products[product.id]) {
                         products[product.id] = product;
                     }
                 }
@@ -43,8 +42,8 @@ var filter_control = new Vue({
             let dates = {};
             for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    let date = this.items[i].item.date;
-                    if (dates[date] === undefined) {
+                    let date = this.items[i].date;
+                    if (!dates[date]) {
                         dates[date] = date;
                     }
                 }
@@ -57,8 +56,8 @@ var filter_control = new Vue({
             let creators = {};
             for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    let creator = this.items[i].item.create.creator;
-                    if (creators[creator.id] === undefined) {
+                    let creator = this.items[i].create.creator;
+                    if (!creators[creator.id]) {
                         creators[creator.id] = creator;
                     }
                 }
@@ -71,14 +70,17 @@ var filter_control = new Vue({
             this.filter.product=-1;
             this.filter.creator=-1;
         },
+        clearFilterField:function(name){
+            this.filter[name] = -1;
+        },
         filteredItems:function(){
-            let self = this;
-            return this.items.filter(function(item){
-                return (self.filter.date === -1 || self.filter.date === item.item.date) &
-                    (self.filter.organisation === -1 || self.filter.organisation === item.item.organisation.id) &
-                    (self.filter.product === -1 || self.filter.product === item.item.product.id) &
-                    (self.filter.creator === -1 || self.filter.creator === item.item.create.creator.id)
-            })
+            return Object.values(this.items)[0];
+        },
+        doFilter:function (item) {
+            return (this.filter.date === -1 || this.filter.date === item.date) &&
+                (this.filter.organisation === -1 || this.filter.organisation === item.organisation.id) &&
+                (this.filter.product === -1 || this.filter.product === item.product.id) &&
+                (this.filter.creator === -1 || this.filter.creator === item.create.creator.id)
         }
     }
 });

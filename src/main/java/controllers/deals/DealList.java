@@ -1,6 +1,7 @@
 package controllers.deals;
 
 import constants.Branches;
+import constants.Constants;
 import constants.Titles;
 import controllers.IUIServlet;
 
@@ -30,7 +31,7 @@ public class DealList extends IUIServlet{
         req.setAttribute(EDIT, Branches.UI.DEAL_EDIT + "?type=" + type );
         req.setAttribute(DELETE, Branches.UI.DEAL_DELETE);
         req.setAttribute(SUBSCRIBE, "DEAL_" + type.toUpperCase());
-        req.setAttribute("limit", -1);
+        req.setAttribute(Constants.LIMIT, -1);
         show(req, resp);
     }
 }

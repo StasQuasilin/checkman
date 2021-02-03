@@ -29,16 +29,16 @@
         <a onclick="loadContent('${summaryArchive}')" ><fmt:message key="archive"/> </a>
       </span>
     </li>
-    <li class="menu-item">
-        <span class="main" onclick="loadContent('${railList}')">
-            <fmt:message key="menu.rails"/>
-        </span>
-    </li>
-    <li class="menu-item">
-        <span class="main" onclick="loadContent('${storages}')">
-            <fmt:message key="menu.storages"/>
-        </span>
-    </li>
+<%--    <li class="menu-item">--%>
+<%--        <span class="main" onclick="loadContent('${railList}')">--%>
+<%--            <fmt:message key="menu.rails"/>--%>
+<%--        </span>--%>
+<%--    </li>--%>
+<%--    <li class="menu-item">--%>
+<%--        <span class="main" onclick="loadContent('${storages}')">--%>
+<%--            <fmt:message key="menu.storages"/>--%>
+<%--        </span>--%>
+<%--    </li>--%>
     <li class="menu-item">
         <span class="main" onclick="loadContent('${unloadStatistic}')">
             <fmt:message key="menu.unloads"/>

@@ -1,4 +1,4 @@
-var editor = new Vue({
+dealEdit = new Vue({
     components:{
       'object-input':objectInput
     },
@@ -25,7 +25,8 @@ var editor = new Vue({
             product: -1,
             quantity: 0,
             unit:-1,
-            price: 0
+            price: 0,
+            costs:[]
         },
         typeNames:{},
         errors:{
@@ -39,7 +40,6 @@ var editor = new Vue({
     },
     methods:{
         addCost:function(){
-            console.log('+');
             if (!this.deal.costs){
                 Vue.set(this.deal, 'costs', []);
             }
@@ -65,9 +65,9 @@ var editor = new Vue({
             this.deal.costs.splice(idx , 1);
         },
         typesByProduct:function(){
-            var types = this.types[this.deal.product];
-            var fount = false;
-            for (var i in types){
+            let types = this.types[this.deal.product];
+            let fount = false;
+            for (let i in types){
                 if (types.hasOwnProperty(i)){
                     let t = types[i];
                     if (this.deal.type === t){
@@ -81,20 +81,15 @@ var editor = new Vue({
             }
             return types;
         },
-        addType:function(action){
-            if (!this.types[action.product.id]){
-                this.types[action.product.id] = [];
-            }
-            this.types[action.product.id].push(action.type);
-        },
+
         setCounterparty:function(counterparty){
             this.deal.counterparty = counterparty;
         },
         save:function(onSave){
             let e = this.errors;
             e.organisation = this.deal.counterparty.id === -1;
-            e.quantity = this.deal.quantity <= 0;
-            e.price = this.deal.price <= 0;
+            e.quantity = this.deal.quantity < 0;
+            e.price = this.deal.price < 0;
 
             if (!e.organisation && !e.quantity && !e.price) {
                 let data = Object.assign({}, this.deal);
@@ -116,17 +111,37 @@ var editor = new Vue({
                 })
             }
         },
-        newCounterparty:function(){
-            const self = this;
-            this.foundOrganisations=[];
-            loadModal(this.api.editCounterparty, {key:this.counterpartyInput}, function(a){
-                console.log(a);
-                if (a.status === 'success'){
-                    if (a.organisation) {
-                        self.setCounterparty(a.organisation);
+
+        selectProduct:function(){
+            if (this.products.length > 0){
+                let type = this.deal.type;
+                let interrupt = false;
+                for(let i in this.products){
+                    if (this.products.hasOwnProperty(i)){
+                        let product = this.products[i];
+                        let actions = this.types[product.id];
+                        for (let j in actions){
+                            if (actions.hasOwnProperty(j)){
+                                let action = actions[j];
+                                if (action === type){
+                                    this.deal.product = product.id;
+                                    interrupt = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if(interrupt){
+                        break;
                     }
                 }
-            })
+            }
+        },
+        addType:function(action){
+            if (!this.types[action.product.id]){
+                this.types[action.product.id] = [];
+            }
+            this.types[action.product.id].push(action.type);
         },
         saveAndClose:function(){
             this.save()

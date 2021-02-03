@@ -25,7 +25,7 @@
 
 </style>
 <script>
-  var list = new Vue({
+  list = new Vue({
     el:'#list',
     data:{
       api:{},
@@ -41,6 +41,7 @@
               this.users[update.token] = update;
             }
           }
+          this.sort();
           this.$forceUpdate();
         }
         if (a.remove){
@@ -50,15 +51,32 @@
               delete this.users[remove];
             }
           }
+          this.sort();
           this.$forceUpdate();
         }
       },
+      sort:function(a, b){
+        if (a && b && ((a.token && b.token) || (!a.token && !b.token))){
+          return a.person.value.localeCompare(b.person.value);
+        } else if (a && a.token){
+          return 1;
+        } else if (b && b.token){
+          return -1;
+        }
+      },
+      usersList:function(){
+        return Object.values(this.users);
+      },
       openUserPage:function(id){
         loadModal(this.api.userPage, {id:id});
+      },
+      killSession:function (session) {
+        PostApi(this.api.kill, {'session' : session});
       }
     }
   });
   list.api.userPage = '${userPage}';
+  list.api.kill = '${kill}';
   <c:forEach items="${subscribe}" var="s">
   subscribe('${s}', function(a){
     list.handler(a);
@@ -74,16 +92,26 @@
   <tr style="height: 100%">
     <td style="vertical-align: top">
       <div class="user-list">
-        <div v-for="user in users" v-on:click="openUserPage(user.id)" style="border-bottom: dashed gray 1pt">
-          <span style="font-size: 6pt; color: gray">
-            {{user.token}}
-          </span><br>
-          <span v-if="user.session" style="color: green">
-            &#9679;
-          </span>
-          <span class="mini-close">
-            {{user.person.value}}
-          </span>
+        <div v-for="user in usersList()" style="border-bottom: dashed gray 1pt; display: flex; flex-direction: row; background-color: lightgray">
+          <div style="width: 100%" v-on:click="openUserPage(user.id)">
+            <span style="font-size: 6pt; color: gray">
+              {{user.token}}
+            </span><br>
+            <span v-if="user.session" style="color: green">
+              &#9679;
+            </span>
+            <span class="mini-close">
+              {{user.person.value}}
+            </span><br>
+            <span v-if="user.ip" style="font-size: 8pt">
+              {{user.ip}}
+            </span>
+          </div>
+          <div v-if="user.token">
+            <span class="mini-close" v-on:click="killSession(user.token)">
+              &times;
+            </span>
+          </div>
         </div>
       </div>
     </td>

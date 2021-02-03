@@ -128,13 +128,13 @@
           </th>
         </c:if>
         <th>
-          <fmt:message key="weight.brutto"/>
+          <fmt:message key="weight.gross"/>
         </th>
         <th>
-          <fmt:message key="weight.tara"/>
+          <fmt:message key="weight.tare"/>
         </th>
         <th>
-          <fmt:message key="weight.netto"/>
+          <fmt:message key="weight.net"/>
         </th>
         <th colspan="2">
           <fmt:message key="weight.creadit.netto"/>:

@@ -17,7 +17,7 @@
             opens:[]
         },
         mounted:function(){
-            filter_control.result = this.result;
+            filterControl.result = this.result;
         },
         methods:{
             open:function(item){
@@ -51,7 +51,7 @@
             },
             getItems:function(){
                 let res = {};
-                let items = filter_control.getItems();
+                let items = filterControl.getItems();
                 for (let i in items){
                     if (items.hasOwnProperty(i)){
                         let item = items[i];

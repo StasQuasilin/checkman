@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * Created by szpt_user045 on 08.04.2019.
  */
 @WebServlet(Branches.API.Archive.DEALS)
-public class DealArchiveServletAPI extends ServletAPI {
+public class DealArchiveAPI extends ServletAPI {
     final JSONArray array = new JSONArray();
 
 
@@ -27,7 +27,7 @@ public class DealArchiveServletAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            DealType type = DealType.valueOf(String.valueOf(body.get("type")));
+            DealType type = DealType.valueOf(String.valueOf(body.get(TYPE)));
             List<Deal> deals = dao.getLimitArchiveDeals(type);
 
             array.addAll(deals.stream().map(Deal::toJson).collect(Collectors.toList()));

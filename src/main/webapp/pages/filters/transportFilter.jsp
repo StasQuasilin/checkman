@@ -1,17 +1,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<link rel="stylesheet" href="${context}/css/filter.css">
-<script src="${context}/vue/filters/transportFilter.vue"></script>
+<link rel="stylesheet" href="${context}/css/filter.css?v=${now}">
+<script src="${context}/vue/filters/transportFilter.vue?v=${now}"></script>
 <script>
-    filter_control.filters.types.push({
+    transportFilter.filters.types.push({
         id:'buy',
         value:'<fmt:message key="buy"/>'
     });
-    filter_control.filters.types.push({
+    transportFilter.filters.types.push({
         id:'sell',
         value:'<fmt:message key="sell"/>'
     });
@@ -46,7 +46,7 @@
             <tr>
                 <td colspan="2">
                     <select id="organisation" v-model="organisation" style="width: 100%">
-                        <option value="-1"><fmt:message key="all"/> </option>
+                        <option value="-1"><fmt:message key="all"/></option>
                         <option v-for="o in organisations()" :value="o.id">
                             {{o.value}}
                         </option>
@@ -91,10 +91,39 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <input id="on" type="checkbox" v-model="on">
-                    <label for="on">
-                        <fmt:message key="on.territory"/>
-                    </label>
+                    <div style="display: flex; flex-direction: row">
+                        <div style="">
+                            <input id="onTerritory" type="checkbox" v-model="onTerritory">
+                            <label for="onTerritory">
+                                <span class="mini-close">
+                                    <fmt:message key="on.territory"/>
+                                </span>
+                            </label><br>
+                            <input id="onVoyage" type="checkbox" v-model="onVoyage">
+                            <label for="onVoyage">
+                                <span class="mini-close">
+                                    <fmt:message key="on.voyage"/>
+                                </span>
+                            </label><br>
+                            <input id="onWait" type="checkbox" v-model="onWait">
+                            <label for="onWait">
+                                <span class="mini-close">
+                                    <fmt:message key="on.wait"/>
+                                </span>
+                            </label><br>
+                            <input id="onDone" type="checkbox" v-model="onDone">
+                            <label for="onDone">
+                                <span class="mini-close">
+                                    <fmt:message key="on.done"/>
+                                </span>
+                            </label>
+                        </div>
+                        <div v-if="anyTime" style="border-left: solid gray 1px; padding-top: 25%; padding-left: 4px">
+                            <span class="mini-close" v-on:click="clearTimes()">
+                                &times;
+                            </span>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -120,5 +149,4 @@
             </tr>
         </table>
     </div>
-
 </html>

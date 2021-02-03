@@ -29,15 +29,15 @@
     <script src="${context}/vue/templates/vehicleInput.vue"></script>
     <script>
         <jsp:include page="/vue/filters/statisticFilter.vue"/>
-        filter_control.api.find = '${find}';
+        filterControl.api.find = '${find}';
         <c:forEach items="${products}" var="product">
-        filter_control.products.push(${product.toJson()});
+        filterControl.products.push(${product.toJson()});
         </c:forEach>
-        filter_control.organisationProps = {
+        filterControl.organisationProps = {
             find:'${findOrganisation}',
             header:'<fmt:message key="counterparty.select"/>',
             put:function(organistion){
-                filter_control.organisation = organistion;
+                filterControl.organisation = organistion;
             },
             show:['value']
         }

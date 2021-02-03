@@ -2,6 +2,7 @@ package controllers.admin;
 
 import api.sockets.Subscriber;
 import constants.Branches;
+import constants.Constants;
 import controllers.IModal;
 
 import javax.servlet.ServletException;
@@ -16,7 +17,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.USER_LIST)
 public class UserList extends IModal {
 
-    private static final long serialVersionUID = 3036740553163445206L;
     private final Subscriber[] subscribers = new Subscriber[]{Subscriber.USERS};
 
     @Override
@@ -25,6 +25,7 @@ public class UserList extends IModal {
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(MODAL_CONTENT, "/pages/admin/userList.jsp");
         req.setAttribute("userPage", Branches.UI.USER_PAGE);
+        req.setAttribute(Constants.KILL_SESSION, Branches.API.KILL_SESSION);
         show(req, resp);
     }
 }

@@ -326,7 +326,7 @@
     <tr>
         <td>
             <label for="brutto">
-                <fmt:message key="weight.brutto"/>
+                <fmt:message key="weight.gross"/>
             </label>
         </td>
         <td>
@@ -336,7 +336,7 @@
     <tr>
         <td>
             <label for="netto">
-                <fmt:message key="weight.netto"/>
+                <fmt:message key="weight.net"/>
             </label>
         </td>
         <td>

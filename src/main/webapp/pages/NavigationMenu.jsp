@@ -116,14 +116,14 @@
           <jsp:include page="navigation/laboratory.jsp"/>
         </c:when>
       </c:choose>
-      <li class="menu-item" onclick="loadContent('${board}')">
-        <span class="main">
-          <fmt:message key="menu.board"/>
-          <span class="attention">
-            !
-          </span>
-        </span>
-      </li>
+<%--      <li class="menu-item" onclick="loadContent('${board}')">--%>
+<%--        <span class="main">--%>
+<%--          <fmt:message key="menu.board"/>--%>
+<%--          <span class="attention">--%>
+<%--            !--%>
+<%--          </span>--%>
+<%--        </span>--%>
+<%--      </li>--%>
     </ul>
   </div>
 </html>

@@ -16,6 +16,7 @@
 .data-block{
     background-color: rgba(255, 255, 255, 0.4);
     border: solid gray 1pt;
-    padding: 1pt 1pt 2pt;
+    padding: 1pt 4pt;
+    margin: 0 2pt;
     border-radius: 6pt;
 }

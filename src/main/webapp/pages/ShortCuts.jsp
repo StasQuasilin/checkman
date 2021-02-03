@@ -45,11 +45,11 @@
                     </div>
                     <div>
                         <div v-for="weight in plan.transportation.weights">
-                            <fmt:message key="weight.brutto"/>:
+                            <fmt:message key="weight.gross"/>:
                             {{weight.brutto}},
-                            <fmt:message key="weight.tara"/>:
+                            <fmt:message key="weight.tare"/>:
                             {{weight.tara}},
-                            <fmt:message key="weight.netto"/>:
+                            <fmt:message key="weight.net"/>:
                             {{weight.brutto > 0 && weight.tara > 0 ? (weight.brutto - weight.tara).toLocaleString() : 0}}
                         </div>
                     </div>
@@ -83,11 +83,11 @@
                     </div>
                     <div>
                         <div v-if="plan.transportation.weight.id">
-                            <fmt:message key="weight.brutto"/>:
+                            <fmt:message key="weight.gross"/>:
                             {{plan.transportation.weight.brutto}},
-                            <fmt:message key="weight.tara"/>:
+                            <fmt:message key="weight.tare"/>:
                             {{plan.transportation.weight.tara}},
-                            <fmt:message key="weight.netto"/>:
+                            <fmt:message key="weight.net"/>:
                             {{plan.transportation.weight.brutto > 0 && plan.transportation.weight.tara > 0 ?
                             (plan.transportation.weight.brutto - plan.transportation.weight.tara).toLocaleString() : 0}}
                         </div>

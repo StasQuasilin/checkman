@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static constants.Constants.UPDATE;
+
 /**
  * Created by szpt_user045 on 11.07.2019.
  */
@@ -30,7 +32,7 @@ public class TransportHandler extends OnSubscribeHandler {
         JSONObject json = pool.getObject();
         JSONArray add = pool.getArray();
         add.addAll(getTransport().stream().map(Transportation::toJson).collect(Collectors.toList()));
-        json.put(ADD, add);
+        json.put(UPDATE, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         pool.put(json);
     }

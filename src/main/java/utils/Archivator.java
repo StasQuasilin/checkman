@@ -4,6 +4,7 @@ import entity.documents.Deal;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import utils.hibernate.DateContainers.LE;
+import utils.hibernate.dao.DealDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -20,27 +21,30 @@ public final class Archivator {
 
     final static Logger log = Logger.getLogger(Archivator.class);
     final static dbDAO dao = dbDAOService.getDAO();
+    final static DealDAO dealDao = new DealDAO();
     final static UpdateUtil updateUtil = new UpdateUtil();
 
     public static void init(){
         next();
     }
 
+    private static final DealUtil dealUtil = new DealUtil();
+
     private static void check() {
         Date date = Date.valueOf(LocalDate.now().minusDays(1));
         LE lt = new LE(date);
         log.info("Check documents less or equals then " + date.toString());
-        for (Deal deal : dao.getDone(Deal.class, lt)){
-            deal.setArchive(true);
-            dao.save(deal);
-            updateUtil.onRemove(deal);
-            log.info("Archive deal " + deal.getId());
-        }
         for (Transportation transportation : dao.getDone(Transportation.class, lt)){
             transportation.setArchive(true);
             dao.save(transportation);
             updateUtil.onRemove(transportation);
-            log.info("Archive transportation " + transportation.getId());
+            log.info("\tArchive transportation " + transportation.getId());
+        }
+        date = Date.valueOf(LocalDate.now().minusMonths(1));
+        lt = new LE(date);
+        for (Deal deal : dealDao.getDealsAfter(lt)){
+            dealUtil.removeDeal(deal);
+            log.info("\tArchive deal " + deal.getId());
         }
     }
 

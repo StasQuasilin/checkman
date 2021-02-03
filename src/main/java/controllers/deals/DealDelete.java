@@ -26,7 +26,7 @@ public class DealDelete extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JSONObject body = parseBody(req);
         if (body != null) {
             Deal deal = dao.getDealById(body.get(Constants.ID));
             req.setAttribute(DEAL, deal);

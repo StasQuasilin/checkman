@@ -10,6 +10,8 @@ import org.json.simple.JSONObject;
 import javax.websocket.Session;
 import java.io.IOException;
 
+import static constants.Constants.UPDATE;
+
 /**
  * Created by szpt_user045 on 11.07.2019.
  */
@@ -29,7 +31,7 @@ public class DealHandler extends OnSubscribeHandler {
         for (Deal deal : dao.getDealsByType(type)){
             add.add(deal.toJson());
         }
-        json.put(ADD, add);
+        json.put(UPDATE, add);
         session.getBasicRemote().sendText(
                 ActiveSubscriptions.prepareMessage(subscriber, json)
         );

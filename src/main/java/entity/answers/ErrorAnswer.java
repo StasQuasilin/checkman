@@ -7,8 +7,8 @@ import constants.Constants;
  */
 public class ErrorAnswer extends Answer {
 
-    public ErrorAnswer(String msg, String text) {
-        add(msg, text);
+    public ErrorAnswer(String msg) {
+        add(Constants.MSG, msg);
     }
 
     @Override

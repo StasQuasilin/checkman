@@ -25,7 +25,6 @@
     transition: transform 1s;
 }
 .locker{
-    background: rgba(211, 219, 226, 0.75) url('/images/lock-512.png') no-repeat;
     background-size: 62px;
     position: absolute;
     width: 100%;
@@ -37,12 +36,14 @@
     border-radius: 8pt;
     position: relative;
     display: flex;
+    flex-direction: row;
 }
 .right-field{
+    border-left: solid gray 1pt;
     font-size: 10pt;
-    display: inline-flex;
     background: linear-gradient(0.25turn, rgba(0, 221, 28, 0.16), transparent);
     min-width: 58pt;
+    padding: 4pt;
     /*max-width: 58pt;*/
 }
 .right-field-content{
@@ -74,6 +75,8 @@
 }
 .container-item .middle-row{
     padding: 2pt 4pt;
+    display: flex;
+    flex-direction: row;
 }
 .container-item .lower-row{
     border-top: solid #474747 1pt;
@@ -111,6 +114,9 @@
 }
 .container-item-6{
     background-color: rgb(252, 198, 252);
+}
+.voyage{
+    background-color: #ffdf5c;
 }
 .done{
     background-color: white;

@@ -30,7 +30,6 @@ public class UserHandler extends OnSubscribeHandler {
     public void handle(Session session) throws IOException {
         JSONArray active = pool.getArray();
         final UserBox instance = UserBox.getInstance();
-
         final List<Worker> workers = dao.getWorkers();
 
         for (Map.Entry<String, UserInfo> entry : instance.getUsers().entrySet()){

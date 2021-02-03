@@ -255,7 +255,9 @@ public class Deal extends JsonAble{
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put(TYPE, type.toString());
-        object.put(COUNTERPARTY, organisation.toShortJson());
+        if (organisation != null) {
+            object.put(COUNTERPARTY, organisation.toShortJson());
+        }
         object.put(SHIPPER, shipper.toJson());
         object.put(PRODUCT, product.toJson());
         object.put(QUANTITY, quantity);
@@ -273,9 +275,11 @@ public class Deal extends JsonAble{
         JSONObject json = toShortJson();
         json.put(DATE, date.toString());
         if (dateTo != null) {
-            json.put(DATE_TO, dateTo.toString());
+            json.put(TO, dateTo.toString());
         }
-        json.put(ORGANISATION, organisation.toJson());
+        if (organisation != null) {
+            json.put(ORGANISATION, organisation.toJson());
+        }
         json.put(COMPLETE, complete);
         json.put(DONE, isDone());
         json.put(ARCHIVE, isArchive());

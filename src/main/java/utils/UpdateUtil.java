@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.hibernate.dao.TransportationDAO;
+import utils.hibernate.dao.TransportationStatus;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -48,7 +49,7 @@ public class UpdateUtil {
 
     public void onSave(Deal deal) throws IOException {
         doAction(Command.update, getSubscriber(deal.getType()), deal.toJson());
-        for (Transportation t : transportationDAO.getTransportationsByDeal(deal.getId(), true)){
+        for (Transportation t : transportationDAO.getTransportationsByDeal(deal.getId(), TransportationStatus.unarchive)){
             onSave(t);
         }
     }
@@ -79,7 +80,7 @@ public class UpdateUtil {
         doAction(Command.remove, getSubscriber(transportation), transportation.getId());
     }
 
-    public void onArchive(Transportation transportation) throws IOException {
+    public void onArchive(Transportation transportation) {
         onRemove(transportation);
         Subscriber subscriber = transportation.getDeal().getType() == DealType.buy ? Subscriber.TRANSPORT_BUY_ARCHIVE : Subscriber.TRANSPORT_SELL_ARCHIVE;
         doAction(Command.update, subscriber, transportation);

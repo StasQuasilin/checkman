@@ -68,7 +68,7 @@
   </tr>
   <tr>
     <td align="right">
-      <fmt:message key="weight.brutto"/>
+      <fmt:message key="weight.gross"/>
     </td>
     <td>
       :
@@ -80,7 +80,7 @@
   </tr>
   <tr>
     <td align="right">
-      <fmt:message key="weight.tara"/>
+      <fmt:message key="weight.tare"/>
     </td>
     <td>
       :
@@ -92,7 +92,7 @@
   </tr>
   <tr>
     <td align="right">
-      <fmt:message key="weight.netto"/>
+      <fmt:message key="weight.net"/>
     </td>
     <td>
       :

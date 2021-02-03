@@ -33,11 +33,11 @@ var list = new Vue({
         worker:{}
     },
     mounted:function(){
-        if (typeof filter_control !== 'undefined'){
-            filter_control.items = this.items;
-            if (typeof filter_control.filteredItems === 'function') {
+        if (typeof filterControl !== 'undefined'){
+            filterControl.items = this.items;
+            if (typeof filterControl.filteredItems === 'function') {
                 this.getItems = function () {
-                    return filter_control.filteredItems();
+                    return filterControl.filteredItems();
                 }
             }
         }
@@ -81,7 +81,7 @@ var list = new Vue({
                     }
                 }
             }
-            filter_control.checkFilter();
+            filterControl.checkFilter();
         },
         changeDate:function(key, days){
             var item = this.getItems()[key].item;

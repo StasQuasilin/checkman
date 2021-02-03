@@ -1,7 +1,7 @@
 var archive = new Vue({
    el: '#archive',
     data:{
-        filter:filter_control,
+        filter:filterControl,
         api:{
             update:'',
             show:''

@@ -45,14 +45,14 @@ public class SignInBox implements Constants{
                     System.out.println("Login via password");
                 } else {
                     final String msg = lb.get(Languages.WRONG_PASSWORD);
-                    answer = new ErrorAnswer("msd", msg);
+                    answer = new ErrorAnswer("msd");
                     answer.add(Constants.MSG, msg);
                     log.error("Wrong password");
                 }
             }
         } else {
             final String msg = lb.get(Languages.NO_USER);
-            answer = new ErrorAnswer("msd", msg);
+            answer = new ErrorAnswer("msd");
             answer.add(Constants.MSG, msg);
             log.error("User not found");
         }

@@ -1,4 +1,15 @@
-dList = new Vue({
-    el:'list',
-    mixins:[bl]
+dealList = new Vue({
+    el:'#dealList',
+    mixins:[bl, contextMenuView],
+    mounted:function(){
+        this.filter = dealFilter;
+    },
+    data:{
+        attributes:[]
+    },
+    methods:{
+        show:function (id) {
+            loadModal(this.api.show, {id: id});
+        }
+    }
 });

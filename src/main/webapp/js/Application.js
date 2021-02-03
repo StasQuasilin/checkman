@@ -1,19 +1,19 @@
-var coverlet;
-var header;
-var modalLayer;
-var chatLayer;
-var filter;
-var content;
-var staticfield;
+let coverlet;
+let header;
+let modalLayer;
+let chatLayer;
+let filter;
+let content;
+let staticField;
 const lastPage = 'last-page';
-var welcome = '';
-var logoutAPI = '';
-var currentPage = '';
-var sessionLocker;
+let welcome = '';
+let logoutAPI = '';
+let currentPage = '';
+let sessionLocker;
 
 $(document).ready(function(){
+    console.log('Platform ' + navigator.platform);
     if(navigator.platform.includes('Linux')){
-        console.log('Is Linux');
         let style = document.createElement('style');
         document.head.appendChild(style);
         style.sheet.insertRule('* {font-size: 10pt;'); // font-family: Helvetica, sans-serif}
@@ -24,7 +24,7 @@ $(document).ready(function(){
     modalLayer = document.getElementById('modal');
     filter = document.getElementById('filter');
     content = document.getElementById('content');
-    staticfield = document.getElementById('static');
+    staticField = document.getElementById('static');
     sessionLocker = document.getElementById('sessionLocker');
 
     let last = localStorage.getItem(lastPage + ';' + Settings.worker);
@@ -62,7 +62,7 @@ function loadContent(url){
                 stopContent();
             }
             $(content).empty();
-            $(staticfield).empty();
+            $(staticField).empty();
             $(filter).empty();
             $(content).html(e);
             $(header).html(GetChildElemById(content, 'header-content'));
@@ -73,10 +73,10 @@ function loadContent(url){
             }
             let staticCont = GetChildElemById(content, 'static-content');
             if (staticCont){
-                staticfield.style.display = 'block';
-                $(staticfield).html(staticCont);
+                staticField.style.display = 'block';
+                $(staticField).html(staticCont);
             } else {
-                staticfield.style.display = 'none';
+                staticField.style.display = 'none';
             }
 
 
@@ -93,6 +93,7 @@ function loadContent(url){
 }
 
 function editableModal(url){
+    console.log(event);
     let id = event.toElement.getAttribute("id");
     let copy = event.toElement.getAttribute('copy');
 

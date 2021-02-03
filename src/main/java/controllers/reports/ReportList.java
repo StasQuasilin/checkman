@@ -18,8 +18,6 @@ import java.io.IOException;
 @WebServlet(Branches.UI.MANUFACTURE_REPORT)
 public class ReportList extends IUIServlet {
 
-    private static final long serialVersionUID = 5105492191820969644L;
-
     private static final String TURNS = "turns";
     private static final String BUILDER = "builder";
     final Subscriber[] subscribe = new Subscriber[]{Subscriber.MANUFACTURE_REPORTS};

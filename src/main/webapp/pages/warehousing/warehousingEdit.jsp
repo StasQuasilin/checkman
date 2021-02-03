@@ -119,7 +119,7 @@
       </tr>
       <tr>
         <td>
-          <fmt:message key="weight.netto"/>
+          <fmt:message key="weight.net"/>
         </td>
         <td>
           {{(netto).toLocaleString()}}

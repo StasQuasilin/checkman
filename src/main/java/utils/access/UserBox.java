@@ -9,7 +9,6 @@ import entity.Worker;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -73,15 +72,13 @@ public class UserBox {
         }
     }
 
-    public void remove(String token) {
+    public boolean remove(String token) {
         UserInfo remove = users.remove(token);
         if (remove != null){
             updateUtil.doAction(UpdateUtil.Command.remove, Subscriber.USERS, token);
+            return true;
         }
-
-        if (sessionTimer != null) {
-            sessionTimer.remove(remove.getUser().getWorker());
-        }
+        return false;
     }
 
     public UserInfo getUser(String token) {

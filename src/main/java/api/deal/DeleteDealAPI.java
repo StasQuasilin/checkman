@@ -6,6 +6,7 @@ import constants.Constants;
 import entity.documents.Deal;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
+import utils.DealUtil;
 import utils.UpdateUtil;
 
 import javax.servlet.ServletException;
@@ -22,36 +23,15 @@ import java.util.List;
 public class DeleteDealAPI extends ServletAPI{
 
     final UpdateUtil updateUtil = new UpdateUtil();
+    final DealUtil dealUtil = new DealUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
             final Deal deal = dao.getObjectById(Deal.class, body.get(ID));
+            dealUtil.removeDeal(deal);
 
-            final List<Transportation> list = dao.getTransportationsByDeal(deal.getId());
-            boolean archive = false;
-            for (Transportation plan : list){
-                if (plan.any()){
-                    archive = true;
-                    plan.setArchive(true);
-                    dao.save(plan);
-                    updateUtil.onArchive(plan);
-                } else {
-                    dao.remove(plan);
-                    updateUtil.onRemove(plan);
-                }
-            }
-
-            if (deal.getComplete() > 0 || archive){
-                deal.setArchive(true);
-                dao.save(deal);
-                updateUtil.onArchive(deal);
-            } else {
-                dao.remove(deal);
-                updateUtil.onRemove(deal);
-
-            }
 
             write(resp, SUCCESS_ANSWER);
         }

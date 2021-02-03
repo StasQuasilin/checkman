@@ -1,12 +1,11 @@
 <html>
-  <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
-  <script src="${context}/vue/templates/transportationDataView.vue"></script>
-  <script src="${context}/vue/templates/priceView.vue"></script>
-  <script src="${context}/vue/templates/commentator.vue"></script>
-  <script src="${context}/vue/dataList.vue?v=${now}"></script>
+  <script src="${context}/vue2/contextMenuView.vue"></script>
+  <script src="${context}/vue2/baseList.vue"></script>
+  <script src="${context}/vue/transportView.vue"></script>
+  <script src="${context}/vue2/transportList.vue"></script>
   <jsp:include page="summaryHeader.jsp"/>
-  <jsp:include page="../transportListTemplate.jsp"/>
-  <jsp:include page="staticCalendar.jsp"/>
+  <jsp:include page="../transportListTemplate2.jsp"/>
+<%--  <jsp:include page="staticCalendar.jsp"/>--%>
 </html>
 
 

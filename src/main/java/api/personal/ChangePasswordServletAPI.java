@@ -6,7 +6,6 @@ import entity.User;
 import entity.answers.ErrorAnswer;
 import entity.answers.Answer;
 import org.json.simple.JSONObject;
-import utils.LanguageBase;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -34,7 +33,7 @@ public class ChangePasswordServletAPI extends ServletAPI {
                 dao.save(user);
                 answer = new SuccessAnswer();
             } else {
-                answer = new ErrorAnswer("msg", LanguageBase.getBase().get(user.getWorker().getLanguage(), "wrong.password"));
+                answer = new ErrorAnswer("msg");
             }
 
             write(resp, parser.toJson(answer).toJSONString());

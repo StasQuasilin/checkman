@@ -9,31 +9,30 @@
 <link rel="stylesheet" href="${context}/css/DataContainer.css?v=${now}">
 <link rel="stylesheet" href="${context}/css/TransportList.css?v=${now}">
 <script>
-    list.api.edit = '${edit}';
-    list.api.archive = '${archive}';
-    if (typeof list.fields === 'undefined'){
-        list.fields = {};
+    transportList.api.edit = '${edit}';
+    transportList.api.archive = '${archive}';
+    if (typeof transportList.fields === 'undefined'){
+        transportList.fields = {};
     }
-    list.fields.vehicle = '<fmt:message key="transportation.automobile"/>';
-    list.fields.driver = '<fmt:message key="transportation.driver"/>';
-    list.fields.license = '<fmt:message key="driver.license"/>';
-    list.fields.customer = '<fmt:message key="transport.customer"/>';
-    list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
-    list.fields.noData='<fmt:message key="no.data"/>';
-    list.commentFields = {
+    transportList.fields.vehicle = '<fmt:message key="transportation.automobile"/>';
+    transportList.fields.driver = '<fmt:message key="transportation.driver"/>';
+    transportList.fields.license = '<fmt:message key="driver.license"/>';
+    transportList.fields.customer = '<fmt:message key="transport.customer"/>';
+    transportList.fields.transporter = '<fmt:message key="transportation.transporter"/>';
+    transportList.fields.noData='<fmt:message key="no.data"/>';
+    transportList.commentFields = {
         header:'<fmt:message key="note.add"/>',
         save:'${saveNote}'
     };
-    list.editComment = function(comment){
-        console.log(commentator.editTarget);
+    transportList.editComment = function(comment){
         if (typeof commentator.editTarget !== 'undefined'){
             commentator.editTarget(comment);
         }
     };
-    list.priceFields = {
+    transportList.priceFields = {
         title:'<fmt:message key="deal.price"/>'
     };
-    list.analysesFields = {
+    transportList.analysesFields = {
         sun:{
             humidityA:'<fmt:message key="sun.humidity.1.short"/>',
             humidityB:'<fmt:message key="sun.humidity.2.short"/>',
@@ -54,22 +53,22 @@
         }
     };
     <c:if test="${not empty limit}">
-    list.limit = ${limit};
+    transportList.limit = ${limit};
     </c:if>
     <%--<c:forEach items="${types}" var="t">--%>
     <%--list.types['${t}'] = '<fmt:message key="_${t}"/> ';--%>
     <%--</c:forEach>--%>
-    list.types['buy']='<fmt:message key="_buy"/>';
-    list.types['sell']='<fmt:message key="_sell"/>';
-    list.customers=[];
+    transportList.types['buy']='<fmt:message key="_buy"/>';
+    transportList.types['sell']='<fmt:message key="_sell"/>';
+    transportList.customers=[];
     <c:forEach items="${customers}" var="customer">
-    list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
+    transportList.customers['${customer}'] = '<fmt:message key="${customer}"/>';
     </c:forEach>
-    list.styler = function(item){
+    transportList.styler = function(item){
         return item.weight.tara > 0
     };
-    list.sort = function(){
-        list.items.sort(function(a, b){
+    transportList.sort = function(){
+        transportList.items.sort(function(a, b){
             if (a.item.date === b.item.date) {
                 let aN = 0;
                 let ai = false;
@@ -100,12 +99,12 @@
             return new Date(a.item.date) - new Date(b.item.date);
         })
     };
-    s = 0;
+    // s = 0;
     <c:forEach items="${subscribe}" var="s">
-    s++;
+    // s++;
     subscribe('${s}', function(a){
         list.loading = false;
-        list.handler(a);
+        transportList.handle(a);
     });
     </c:forEach>
     stopContent = function(){
@@ -113,9 +112,9 @@
         unSubscribe('${s}');
         </c:forEach>
     };
-    if (s > 2) {
-        list.loading = true;
-    }
+    // if (s > 2) {
+    //     list.loading = true;
+    // }
 </script>
 <style>
     .label{

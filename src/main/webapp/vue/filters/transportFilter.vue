@@ -1,15 +1,18 @@
-var filter_control = new Vue({
+transportFilter = new Vue({
     el: '#filter_view',
     data:{
         filters:{
             types:[]
         },
-        items:[],
+        items:{},
         fItems:[],
         type:-1,
         organisation:-1,
         product:-1,
-        on:false,
+        onTerritory:false,
+        onVoyage:false,
+        onWait:false,
+        onDone:false,
         date:-1,
         driver:[]
     },
@@ -19,12 +22,15 @@ var filter_control = new Vue({
         },
         driverList:function(){
             return this.drivers();
+        },
+        anyTime:function () {
+            return this.onTerritory || this.onVoyage || this.onWait || this.onDone;
         }
     },
     mounted:function(){
         let product = localStorage.getItem('product');
         if (product) {
-            this.product = product;
+            this.putProduct(product);
         }
         this.date = new Date().toISOString().substring(0, 10);
     },
@@ -38,6 +44,9 @@ var filter_control = new Vue({
             }
         },
         putProduct:function(){
+            if (typeof this.product === "string"){
+                this.product = parseInt(this.product);
+            }
             localStorage.setItem('product', this.product);
         },
         organisations:function(){
@@ -45,7 +54,7 @@ var filter_control = new Vue({
             let items = this.filtered(this.product, null, this.date, this.driver);
             for (let i in items){
                 if (items.hasOwnProperty(i)){
-                    let counterparty = items[i].item.counterparty;
+                    let counterparty = items[i].counterparty;
                     if (counterparty.id) {
                         if (!counterparty[counterparty.id]) {
                             organisations[counterparty.id] = counterparty;
@@ -76,7 +85,7 @@ var filter_control = new Vue({
             let items = this.filtered(null, this.organisation, this.date, this.driver);
             for (let i in items){
                 if (items.hasOwnProperty(i)){
-                    let product = items[i].item.product;
+                    let product = items[i].product;
                     if (!products[product.id]) {
                         product.amount=1;
                         products[product.id] = product;
@@ -85,14 +94,16 @@ var filter_control = new Vue({
                     }
                 }
             }
-            return products;
+            return Object.values(products).sort(function (a, b) {
+                return a.name.localeCompare(b.name);
+            });
         },
         dates:function(){
             let dates = {};
             let items = this.items;
             for (let i in items){
                 if (items.hasOwnProperty(i)){
-                    let date = items[i].item.date;
+                    let date = items[i].date;
                     date.amount = 1;
                     if (!dates[date]) {
                         dates[date] = {
@@ -111,7 +122,7 @@ var filter_control = new Vue({
             let items = this.filtered(this.product, this.organisation, this.date, null);
             for (let i in items){
                 if (items.hasOwnProperty(i)){
-                    let driver = items[i].item.driver;
+                    let driver = items[i].driver;
                     if (driver && driver.id){
                         if (!drivers[driver.id]){
                             driver.amount = 1;
@@ -132,54 +143,74 @@ var filter_control = new Vue({
         },
         filtered:function(product, counterparty, date, driver){
             const self = this;
-            return this.items.filter(function (item){
-                let byProduct = true;
-                if (item.item.product && product && product != -1){
-                    byProduct = item.item.product.id === product;
-                }
-                let byCounterparty = true;
-                if (counterparty && counterparty != -1){
-                    byCounterparty = item.item.counterparty.id === counterparty;
-                }
-                let byDate = true;
-                if (date && date != -1){
-                    byDate = item.item.date === date;
-                }
-                let byDriver = true;
-                if (driver && driver.length > 0)
-                    if (item.item.driver && item.item.driver.id){
-                        let anyDriver = false;
-                        for (let i in driver){
-                            if (driver.hasOwnProperty(i)){
-                                let d = driver[i];
-                                if (item.item.driver.id === d){
-                                    anyDriver = true;
-                                    break;
-                                }
-                            }
-                        }
-                        byDriver = anyDriver;
-                    } else {
-                        byDriver = false;
-                    }
-                let byOn = true;
-                if (self.on){
-                    byOn = item.item.timeIn.time && !item.item.timeOut.time;
-                }
-
-                return byProduct & byCounterparty & byDate & byDriver & byOn;
+            let items = Object.values(this.items);
+            return items.filter(function (item) {
+                return self.filter(item, product, counterparty, date, driver)
             });
         },
-        filteredItems:function(){
-            return this.filtered(this.product, this.organisation, this.date, this.driver);
+        filter:function(item, product, counterparty, date, driver){
+            let byProduct = true;
+            if (item.product && product && product !== -1){
+                byProduct = item.product.id === product;
+            }
+            let byCounterparty = true;
+            if (counterparty && counterparty !== -1){
+                byCounterparty = item.counterparty.id === counterparty;
+            }
+            let byDate = true;
+            if (date && date !== -1){
+                byDate = item.date === date;
+            }
+            let byDriver = true;
+            if (driver && driver.length > 0) {
+                if (item.driver && item.driver.id) {
+                    let anyDriver = false;
+                    for (let i in driver) {
+                        if (driver.hasOwnProperty(i)) {
+                            let d = driver[i];
+                            if (item.driver.id === d) {
+                                anyDriver = true;
+                                break;
+                            }
+                        }
+                    }
+                    byDriver = anyDriver;
+                } else {
+                    byDriver = false;
+                }
+            }
+            let timeIn = item.timeIn;
+            let timeOut = item.timeOut;
+            let any = true;
+            if (this.anyTime){
+                any =
+                    this.onTerritory && timeIn && !timeOut ||
+                    this.onVoyage && !timeIn && timeOut ||
+                    this.onDone && timeIn && timeOut ||
+                    this.onWait && !timeIn && !timeOut;
+            }
+            return byProduct && byCounterparty && byDate && byDriver && any;
+        },
+        doFilter:function(item){
+            const product = this.product;
+            const counterparty = this.organisation;
+            const date = this.date;
+            const driver = this.driver;
+            return this.filter(item, product, counterparty, date, driver);
         },
         clear:function(){
             this.type = -1;
             this.product = -1;
             this.organisation = -1;
-            this.on = false;
             this.date = -1;
             this.driver = [];
+            this.clearTimes();
         },
+        clearTimes:function () {
+            this.onTerritory = false;
+            this.onVoyage = false;
+            this.onWait = false;
+            this.onDone = false;
+        }
     }
 });

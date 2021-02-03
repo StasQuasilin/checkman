@@ -8,11 +8,11 @@ var list = {
     },
     mounted:function(){
         console.log('Vro list mounted');
-        if (typeof filter_control !== 'undefined'){
-            filter_control.items = this.items;
-            if (typeof filter_control.filteredItems === 'function') {
+        if (typeof filterControl !== 'undefined'){
+            filterControl.items = this.items;
+            if (typeof filterControl.filteredItems === 'function') {
                 this.getItems = function () {
-                    let items = Object.values(filter_control.filteredItems());
+                    let items = Object.values(filterControl.filteredItems());
                     items.sort(this.sort);
                     return items;
                 }

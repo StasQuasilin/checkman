@@ -27,8 +27,8 @@ public class WeightComparator extends IChangeComparator<Weight> {
 
     @Override
     public void compare(Weight newObject, Worker worker) {
-        compare(brutto, newObject.getBrutto(), "weight.brutto");
-        compare(tara, newObject.getTara(), "weight.tara");
+        compare(brutto, newObject.getBrutto(), "weight.gross");
+        compare(tara, newObject.getTara(), "weight.tare");
         ChangeLogUtil.writeLog(newObject.getUid(), getTitle(), worker, changes);
     }
 
