@@ -41,6 +41,6 @@ bl = {
                 console.log('no sort');
             }
             return items;
-        },
+        }
     }
 };

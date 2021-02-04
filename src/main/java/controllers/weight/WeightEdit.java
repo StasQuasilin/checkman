@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Titles;
 import controllers.IModal;
 import entity.transport.Transportation;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,20 +22,20 @@ public class WeightEdit extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String parameterId = req.getParameter(ID);
-        int id = -1;
-        if (parameterId != null) {
-            id = Integer.parseInt(parameterId);
+        final JSONObject body = parseBody(req);
+        if(body != null){
+            final Object id = body.get(ID);
+            if (id != null) {
+                Transportation plan = dao.getObjectById(Transportation.class, id);
+                req.setAttribute(PLAN, plan);
+                req.setAttribute(SEALS, dao.getSealsByTransportation(plan));
+            }
+            req.setAttribute(SAVE, Branches.API.SAVE_WEIGHT);
+            req.setAttribute(TITLE, Titles.WEIGHT_EDIT);
+            req.setAttribute(MODAL_CONTENT, _CONTENT);
+            req.setAttribute(PRINT, Branches.UI.WAYBILL_PRINT);
+            show(req, resp);
         }
-        if (id != -1) {
-            Transportation plan = dao.getObjectById(Transportation.class, id);
-            req.setAttribute(PLAN, plan);
-            req.setAttribute(SEALS, dao.getSealsByTransportation(plan));
-        }
-        req.setAttribute(SAVE, Branches.API.SAVE_WEIGHT);
-        req.setAttribute(TITLE, Titles.WEIGHT_EDIT);
-        req.setAttribute(MODAL_CONTENT, _CONTENT);
-        req.setAttribute(PRINT, Branches.UI.WAYBILL_PRINT);
-        show(req, resp);
+
     }
 }

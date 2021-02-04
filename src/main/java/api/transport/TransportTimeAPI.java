@@ -68,7 +68,6 @@ public class TransportTimeAPI extends ServletAPI {
             dao.save(time);
             dao.save(transportation);
             updateUtil.onSave(transportation);
-
             TransportUtil.checkTransport(transportation);
             comparator.compare(transportation, worker);
 

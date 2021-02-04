@@ -2,7 +2,8 @@ transportView = {
   props:{
       titles:Object,
       fields: Object,
-      item:Object
+      item:Object,
+      f:Object
   },
     computed:{
       itemDate:function () {
@@ -14,9 +15,18 @@ transportView = {
             let classes = [];
             let timeIn = this.item.timeIn;
             let timeOut = this.item.timeOut;
-            if (timeIn && timeOut){
+
+            let g = 0;
+            let t = 0;
+            let weight = this.item.weight;
+            if (weight){
+                g = weight.brutto;
+                t = weight.tara;
+            }
+
+            if (timeIn && timeOut && ((g > 0 && t > 0) || g === 0 && t === 0)){
                 classes.push('done');
-            } else if (timeIn && !timeOut){
+            } else if ((timeIn && !timeOut) || ((g > 0 && t === 0) || (g === 0 && t > 0))){
                 classes.push('loading');
             } else if (!timeIn && timeOut){
                 classes.push('voyage')
@@ -61,7 +71,7 @@ transportView = {
                         '</b>' +
                     '</span>' +
                     '<span style="float: right">' +
-                        '<span v-if="item.price > 0">' +
+                        '<span v-if="item.price > 0 && f.p">' +
                             '<span class="label">' +
                                 '{{titles.price}}: ' +
                             '</span>' +
@@ -75,7 +85,16 @@ transportView = {
                         '</span>' +
                     '</span>' +
                     '<div v-if="item.address">' +
-                        '{{item.address}}' +
+                        '{{titles.address}}: ' +
+                        '<template v-if="item.address.region">' +
+                            '{{item.address.region}} {{titles.region}}, ' +
+                        '</template>' +
+                        '<template v-if="item.address.district">' +
+                            '{{item.address.district}} {{titles.district}}, ' +
+                        '</template>' +
+                        '<template v-if="item.address.city">' +
+                            '{{item.address.city}}' +
+                        '</template>' +
                     '</div>' +
                 '</div>' +
                 '<div class="middle-row">' +
@@ -99,7 +118,7 @@ transportView = {
                             '</span>' +
                         '</div>' +
                     '</div>' +
-                    '<div class="data-block">' +
+                    '<div class="data-block" style="width: 300px">' +
                         '<div>' +
                             // '{{titles.driver}}: ' +
                             '<span v-if="item.driver">' +
@@ -136,7 +155,7 @@ transportView = {
                             '</span>' +
                         '</div>' +
                     '</div>' +
-                    '<div class="data-block">' +
+                    '<div class="data-block" style="width: 400px">' +
                         '<div>' +
                             '{{titles.customer}}: {{titles[item.customer]}}' +
                         '</div>' +
@@ -194,7 +213,7 @@ transportView = {
                     '</template>' +
                 '</div>' +
             '</div>' +
-            '<div class="right-field">' +
+            '<div class="right-field" v-if="f.a">' +
                 '<div class="label" style="width: 100%; text-align: center">' +
                     '{{titles.analyses}}' +
                 '</div>' +

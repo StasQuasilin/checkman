@@ -1,4 +1,4 @@
-var filter_control = new Vue({
+transportFilter = new Vue({
     el: '#filter_view',
     data:{
         api:{},
@@ -28,6 +28,11 @@ var filter_control = new Vue({
     computed:{
         filterDate:function(){
             return this.filter.date ? new Date(this.filter.date).toLocaleDateString() : '';
+        }
+    },
+    mounted:function(){
+        transportList.getItems = function () {
+            return this.result;
         }
     },
     methods:{
@@ -88,37 +93,38 @@ var filter_control = new Vue({
             console.log('all right');
         },
         find:function(){
-            var f = Object.assign({}, this.filter);
+            let f = Object.assign({}, this.filter);
             delete f.any;
             console.log(f);
-            var fields = 0;
+            let fields = 0;
             if (f.date) {
                 fields++;
             }
-            if (f.product != -1) {
+            if (f.product !== -1) {
                 fields++;
             }
-            if (f.organisation != -1) {
+            if (f.organisation !== -1) {
                 fields++;
             }
-            if (f.driver != -1) {
+            if (f.driver !== -1) {
                 fields++;
             }
             this.tooFewParam = fields < 2;
             if (!this.tooFewParam) {
                 const self = this;
-                list.loading = true;
                 PostApi(this.api.find, f, function (a) {
-                    list.loading = false;
                     a.sort(function (a, b) {
                         return new Date(b.date) - new Date(a.date);
                     });
-                    self.result = [];
-                    for (var i in a) {
-                        if (a.hasOwnProperty(i)) {
-                            self.result.push({item: a[i]})
+                    self.result = a;
+                    transportList.items = {};
+                    for (let i in a){
+                        if (a.hasOwnProperty(i)){
+                            let item = a[i];
+                            transportList.items[item.id] = item;
                         }
                     }
+                    transportList.$forceUpdate();
                 });
             }
         },

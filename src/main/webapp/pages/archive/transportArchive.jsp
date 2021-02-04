@@ -1,9 +1,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <script src="${context}/vue/dataList.vue"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
@@ -18,6 +17,7 @@
     list.customers['contragent'] = '<fmt:message key="contragent"/>';
     list.customers['cont'] = '<fmt:message key="cont"/>';
 </script>
+
 <transition-group
         name="flip-list" tag="div"
         class="container" id="container">

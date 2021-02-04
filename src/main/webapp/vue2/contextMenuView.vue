@@ -17,7 +17,7 @@ contextMenu = {
             }
         }
     },
-    template:'<div v-if="menu.show" v-on:click="closeMenu" class="menu-wrapper">' +
+    template:'<div v-if="menu.show && items.length > 0" v-on:click="closeMenu" class="menu-wrapper">' +
         '      <div ref="contextMenu" :style="{ top: menu.y + \'px\', left:menu.x + \'px\'}" class="context-menu">' +
         '        <div v-for="(item,idx) in items" class="custom-data-list-item" v-on:click="clickOn(idx)">' +
                     '{{item.title}}' +
@@ -42,7 +42,6 @@ contextMenuView = {
     },
     methods:{
         showMenu:function (item) {
-            console.log('!!!');
             this.menu.item = item;
             let e = event;
             this.menu.x = e.pageX;

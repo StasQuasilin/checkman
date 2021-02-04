@@ -22,13 +22,13 @@ public class WarehousingList extends IUIServlet {
 
     final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
 //    public static final String _CONTENT = "/pages/warehousing/warehousingList.jsp";
-    public static final String _CONTENT = "/pages/weight/weightList.jsp";
+    public static final String _CONTENT = "/pages/weight/warehousingList.jsp";
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.TRANSPORT_LIST);
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(CONTENT, _CONTENT);
-        req.setAttribute(EDIT, Branches.UI.WAREHOUSING_EDIT);
+        req.setAttribute(SHOW, Branches.UI.WAREHOUSING_EDIT);
         req.setAttribute(EDIT_STORAGE, Branches.UI.STORAGE_EDIT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(StorageList.STORAGES, dao.getObjects(Storage.class));

@@ -8,10 +8,18 @@
 
 <link rel="stylesheet" href="${context}/css/DataContainer.css?v=${now}">
 <link rel="stylesheet" href="${context}/css/TransportList.css?v=${now}">
+<script src="${context}/vue2/contextMenuView.vue"></script>
+<script src="${context}/vue2/baseList.vue"></script>
+<script src="${context}/vue/transportView.vue"></script>
+<script src="${context}/vue2/transportList.vue"></script>
 <script>
+    transportList.api.show = '${show}';
     transportList.api.edit = '${edit}';
     transportList.api.archive = '${archive}';
     transportList.labels.counterparty = '<fmt:message key="deal.organisation"/>';
+    transportList.labels.address = '<fmt:message key="load.address"/>';
+    transportList.labels.region = '<fmt:message key="address.region.short"/>';
+    transportList.labels.district = '<fmt:message key="address.district.short"/>';
     transportList.labels.buy = '<fmt:message key="_buy"/>';
     transportList.labels.sell = '<fmt:message key="_sell"/>';
     transportList.labels.price = '<fmt:message key="deal.price"/>';
@@ -53,19 +61,22 @@
     };
     transportList.labels.missing = '<fmt:message key="missing"/>';
     transportList.menuItems.push({
-        title:'olololo'
+        title:'<fmt:message key="edit"/>',
+        onClick:function (itemId) {
+            loadModal('${edit}', {id: itemId});
+        }
     });
     transportList.menuItems.push({
-        title:'olololo'
+        title:'<fmt:message key="menu.copy"/>',
+        onClick:function (itemId) {
+            loadModal('${edit}', {copy: itemId});
+        }
     });
     transportList.menuItems.push({
-        title:'olololo'
-    });
-    transportList.menuItems.push({
-        title:'olololo'
-    });
-    transportList.menuItems.push({
-        title:'<fmt:message key="menu.delete"/>',
+        title:'<fmt:message key="menu.cancel"/>',
+        onClick:function (itemId) {
+            loadModal('${cancel}', {id:itemId})
+        }
     });
 
     <c:forEach items="${subscribe}" var="s">
@@ -90,10 +101,9 @@
 </style>
     <div id="transportList">
         <transition-group name="flip-list" tag="div" class="container" >
-            <div v-for="(value, key) in getItems()" :key="value.id" :id="value.id"
-                 v-on:click="edit(value.id)" v-on:click.right="showMenu(value)">
-                <transport-view :item="value" :titles="labels" ></transport-view>
-            </div>
+                <transport-view v-for="(value, key) in getItems()" :key="value.id" :id="value.id" :f="f"
+                    v-on:click.native="show(value.id)" v-on:click.right.native="showMenu(value)"
+                    :item="value" :titles="labels" ></transport-view>
         </transition-group>
         <context-menu ref="contextMenu" :items="menuItems" :menu="menu"></context-menu>
     </div>

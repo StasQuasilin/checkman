@@ -22,8 +22,6 @@ import java.io.IOException;
 @WebServlet(Branches.API.ARCHIVE_LOAD_PLAN)
 public class ArchiveTransportation extends ServletAPI {
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -32,8 +30,6 @@ public class ArchiveTransportation extends ServletAPI {
             if (!transportation.isArchive()) {
                 Worker worker = getWorker(req);
                 TransportUtil.archive(transportation, worker);
-
-
             }
         }
     }

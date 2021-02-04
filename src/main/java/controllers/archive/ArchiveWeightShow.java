@@ -3,6 +3,7 @@ package controllers.archive;
 import constants.Branches;
 import controllers.IModal;
 import entity.transport.Transportation;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,11 +18,17 @@ import java.io.IOException;
 public class ArchiveWeightShow extends IModal {
 
     public static final String CONTENT = "/pages/archive/weightArchive.jsp";
+    private static final String _TITLE = "title.archive.show";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute(TITLE, WEIGHT_SHOW);
-        req.setAttribute(MODAL_CONTENT, CONTENT);
-        req.setAttribute(WEIGHT, dao.getObjectById(Transportation.class, Integer.parseInt(req.getParameter(ID))));
-        show(req, resp);
+        final JSONObject body = parseBody(req);
+        if (body != null){
+            req.setAttribute(WEIGHT, dao.getObjectById(Transportation.class, body.get(ID)));
+            req.setAttribute(TITLE, _TITLE);
+            req.setAttribute(MODAL_CONTENT, CONTENT);
+
+            show(req, resp);
+        }
     }
 }

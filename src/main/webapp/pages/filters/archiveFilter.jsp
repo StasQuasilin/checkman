@@ -6,11 +6,11 @@
 <html>
 <script src="${context}/vue/archive/archiveFilter.vue"></script>
 <script>
-    filter_control.api.find = '${find}';
-    filter_control.api.findOrganisations = '${findOrganisations}';
-    filter_control.api.findDrivers = '${findDrivers}';
+    transportFilter.api.find = '${find}';
+    transportFilter.api.findOrganisations = '${findOrganisations}';
+    transportFilter.api.findDrivers = '${findDrivers}';
     <c:forEach items="${products}" var="p">
-    filter_control.productList.push({
+    transportFilter.productList.push({
         id:${p.id},
         value:'${p.name}'
     });

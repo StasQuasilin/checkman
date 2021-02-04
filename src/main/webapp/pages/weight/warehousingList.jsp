@@ -12,5 +12,6 @@
 <script>
   transportList.f.p = true;
   transportList.f.a = true;
+  transportList.menuItems = [];
 </script>
 </html>

@@ -45,6 +45,7 @@ public final class Archivator {
         for (Deal deal : dealDao.getDealsAfter(lt)){
             dealUtil.removeDeal(deal);
             log.info("\tArchive deal " + deal.getId());
+            break;
         }
     }
 

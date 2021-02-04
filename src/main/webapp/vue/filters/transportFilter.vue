@@ -30,7 +30,7 @@ transportFilter = new Vue({
     mounted:function(){
         let product = localStorage.getItem('product');
         if (product) {
-            this.putProduct(product);
+            this.putProduct(parseInt(product));
         }
         this.date = new Date().toISOString().substring(0, 10);
     },
@@ -43,11 +43,12 @@ transportFilter = new Vue({
                 this.date = -1;
             }
         },
-        putProduct:function(){
-            if (typeof this.product === "string"){
-                this.product = parseInt(this.product);
-            }
-            localStorage.setItem('product', this.product);
+        putProduct:function(id){
+            this.product = id;
+            // if (typeof this.product === "string"){
+            //     this.product = parseInt(this.product);
+            // }
+            localStorage.setItem('product', id);
         },
         organisations:function(){
             let organisations = {};
@@ -181,12 +182,20 @@ transportFilter = new Vue({
             }
             let timeIn = item.timeIn;
             let timeOut = item.timeOut;
+
+            let g = 0;
+            let t = 0;
+            let w = item.weight;
+            if (w){
+                g = w.brutto;
+                t = w.tara;
+            }
             let any = true;
             if (this.anyTime){
                 any =
-                    this.onTerritory && timeIn && !timeOut ||
+                    this.onTerritory && ((timeIn && !timeOut) || (g > 0 && t === 0 || g === 0 && t > 0)) ||
                     this.onVoyage && !timeIn && timeOut ||
-                    this.onDone && timeIn && timeOut ||
+                    this.onDone && ((timeIn && timeOut) && ((g > 0 && t > 0) || (g === 0 && t === 0))) ||
                     this.onWait && !timeIn && !timeOut;
             }
             return byProduct && byCounterparty && byDate && byDriver && any;

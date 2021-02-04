@@ -60,17 +60,11 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <div>
-                        <input type="radio" v-on:change="putProduct()" name="product_radio" id="product_" value="-1" v-model="product">
-                        <label for="product_">
-                            <fmt:message key="all"/> ( {{filtered(null, organisation, date, driver).length}} )
-                        </label>
+                    <div class="mini-close" v-on:click="putProduct(-1)" :class="{bold : product === -1}">
+                        <fmt:message key="all"/> ( {{filtered(null, organisation, date, driver).length}} )
                     </div>
-                    <div v-for="p in products()" >
-                        <input type="radio" v-on:change="putProduct()" name="product_radio" :id="'product_'+p.id" :value="p.id" v-model="product">
-                        <label :for="'product_' + p.id">
-                            {{p.name}} ( {{p.amount}} )
-                        </label>
+                    <div v-for="p in products()" v-on:click="putProduct(p.id)" class="mini-close" style="padding-top: 4pt; font-size: 9pt" :class="{bold : product === p.id}">
+                        {{p.name}} ( {{p.amount}} )
                     </div>
                 </td>
             </tr>

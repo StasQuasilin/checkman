@@ -83,7 +83,6 @@ public interface Constants {
     String TYPES = "types";
     String CONTENT = "content";
     String STATIC_CONTENT = "static";
-    String WEIGHT_SHOW = "";
     String PROTOCOL = "protocol";
     String PROTOCOLS = "protocols";
     String GET_STOCKS = "getStocks";

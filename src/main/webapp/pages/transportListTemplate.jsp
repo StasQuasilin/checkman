@@ -7,32 +7,32 @@
 <html>
 
 <link rel="stylesheet" href="${context}/css/DataContainer.css?v=${now}">
-<link rel="stylesheet" href="${context}/css/TransportList.css?v=${now}">
+<link rel="stylesheet" href="${context}/css/list.css?v=${now}">
 <script>
-    transportList.api.edit = '${edit}';
-    transportList.api.archive = '${archive}';
-    if (typeof transportList.fields === 'undefined'){
-        transportList.fields = {};
+    list.api.edit = '${edit}';
+    list.api.archive = '${archive}';
+    if (typeof list.fields === 'undefined'){
+        list.fields = {};
     }
-    transportList.fields.vehicle = '<fmt:message key="transportation.automobile"/>';
-    transportList.fields.driver = '<fmt:message key="transportation.driver"/>';
-    transportList.fields.license = '<fmt:message key="driver.license"/>';
-    transportList.fields.customer = '<fmt:message key="transport.customer"/>';
-    transportList.fields.transporter = '<fmt:message key="transportation.transporter"/>';
-    transportList.fields.noData='<fmt:message key="no.data"/>';
-    transportList.commentFields = {
+    list.fields.vehicle = '<fmt:message key="transportation.automobile"/>';
+    list.fields.driver = '<fmt:message key="transportation.driver"/>';
+    list.fields.license = '<fmt:message key="driver.license"/>';
+    list.fields.customer = '<fmt:message key="transport.customer"/>';
+    list.fields.transporter = '<fmt:message key="transportation.transporter"/>';
+    list.fields.noData='<fmt:message key="no.data"/>';
+    list.commentFields = {
         header:'<fmt:message key="note.add"/>',
         save:'${saveNote}'
     };
-    transportList.editComment = function(comment){
+    list.editComment = function(comment){
         if (typeof commentator.editTarget !== 'undefined'){
             commentator.editTarget(comment);
         }
     };
-    transportList.priceFields = {
+    list.priceFields = {
         title:'<fmt:message key="deal.price"/>'
     };
-    transportList.analysesFields = {
+    list.analysesFields = {
         sun:{
             humidityA:'<fmt:message key="sun.humidity.1.short"/>',
             humidityB:'<fmt:message key="sun.humidity.2.short"/>',
@@ -53,22 +53,22 @@
         }
     };
     <c:if test="${not empty limit}">
-    transportList.limit = ${limit};
+    list.limit = ${limit};
     </c:if>
-    <%--<c:forEach items="${types}" var="t">--%>
-    <%--list.types['${t}'] = '<fmt:message key="_${t}"/> ';--%>
-    <%--</c:forEach>--%>
-    transportList.types['buy']='<fmt:message key="_buy"/>';
-    transportList.types['sell']='<fmt:message key="_sell"/>';
-    transportList.customers=[];
-    <c:forEach items="${customers}" var="customer">
-    transportList.customers['${customer}'] = '<fmt:message key="${customer}"/>';
+    <c:forEach items="${types}" var="t">
+    list.types['${t}'] = '<fmt:message key="_${t}"/> ';
     </c:forEach>
-    transportList.styler = function(item){
+    list.types['buy']='<fmt:message key="_buy"/>';
+    list.types['sell']='<fmt:message key="_sell"/>';
+    list.customers=[];
+    <c:forEach items="${customers}" var="customer">
+    list.customers['${customer}'] = '<fmt:message key="${customer}"/>';
+    </c:forEach>
+    list.styler = function(item){
         return item.weight.tara > 0
     };
-    transportList.sort = function(){
-        transportList.items.sort(function(a, b){
+    list.sort = function(){
+        list.items.sort(function(a, b){
             if (a.item.date === b.item.date) {
                 let aN = 0;
                 let ai = false;
@@ -104,7 +104,7 @@
     // s++;
     subscribe('${s}', function(a){
         list.loading = false;
-        transportList.handle(a);
+        list.handler(a);
     });
     </c:forEach>
     stopContent = function(){

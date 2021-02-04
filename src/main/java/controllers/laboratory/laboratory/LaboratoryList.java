@@ -27,13 +27,12 @@ public class LaboratoryList extends IUIServlet{
         req.setAttribute(TYPE, type.toString());
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute("update", Branches.API.LABORATORY_LIST + "?type=" + type.toString());
-        req.setAttribute(EDIT, Branches.UI.LABORATORY_EDIT);
+        req.setAttribute(SHOW, Branches.UI.LABORATORY_EDIT);
         req.setAttribute("print", Branches.UI.LABORATORY_PRINT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
         req.setAttribute(SUBSCRIBE, "TRANSPORT_" + type.toString().toUpperCase());
         req.setAttribute(LABORATORY_CARRIAGES, Branches.UI.LABORATORY_CARRIAGES);
-        req.setAttribute(HAVE_MENU, false);
         show(req, resp);
     }
 }

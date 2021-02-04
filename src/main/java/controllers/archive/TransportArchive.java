@@ -27,19 +27,18 @@ public class TransportArchive extends IUIServlet {
 
         req.setAttribute(TYPES, DealType.values());
         req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
-        req.setAttribute("haveMenu", false);
 
         switch (type){
             case summary:
                 req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");
-                req.setAttribute(EDIT, Branches.UI.SUMMARY_SHOW);
+                req.setAttribute(SHOW, Branches.UI.SUMMARY_SHOW);
                 break;
             case transportation:
                 req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
                 break;
             case weight:{
                 req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");
-                req.setAttribute(EDIT, Branches.UI.ARCHIVE_WEIGHT_SHOW);
+                req.setAttribute(SHOW, Branches.UI.ARCHIVE_WEIGHT_SHOW);
                 break;
             }
             case laboratory_buy:

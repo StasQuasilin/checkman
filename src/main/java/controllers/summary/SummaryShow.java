@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Titles;
 import controllers.IModal;
 import entity.transport.Transportation;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +19,13 @@ public class SummaryShow extends IModal {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute(PLAN, dao.getObjectById(Transportation.class, req.getParameter(ID)));
-		req.setAttribute(UPDATE, Branches.API.SUMMARY_SHOW);
-		req.setAttribute(TITLE, Titles.SUMMARY_SHOW);
-		req.setAttribute(MODAL_CONTENT,  _CONTENT);
-		show(req, resp);
+		final JSONObject body = parseBody(req);
+		if(body != null) {
+			req.setAttribute(PLAN, dao.getObjectById(Transportation.class, body.get(ID)));
+			req.setAttribute(UPDATE, Branches.API.SUMMARY_SHOW);
+			req.setAttribute(TITLE, Titles.SUMMARY_SHOW);
+			req.setAttribute(MODAL_CONTENT, _CONTENT);
+			show(req, resp);
+		}
 	}
 }
