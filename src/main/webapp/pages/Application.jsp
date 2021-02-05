@@ -21,13 +21,10 @@
     <script src="${context}/js/Core.js?v=${now}"></script>
     <script src="${context}/js/Application.js?v=${now}"></script>
     <script src="${context}/js/Settings.js?v=${now}"></script>
-    <script src="${context}/vue/templates/transportationDataView.vue?v=${now}"></script>
-    <script src="${context}/vue/templates/retailProductView.vue?v=${now}"></script>
-    <script src="${context}/vue2/baseList.vue?v=${now}"></script>
     <script src="${context}/js/utils.js?v=${now}"></script>
+    <script src="${context}/vue2/transportationDataView.vue?v=${now}"></script>
 
     <script>
-        Vue.component('product-view', productView);
     context = '${context}';
     logoutAPI = '${logoutAPI}';
     welcome = '${welcome}';
@@ -38,11 +35,6 @@
     Settings.token = '${token}'
     </script>
     <script src="${context}/js/Subscriber.js?v=${now}"></script>
-
-
-    <c:if test="${role eq 'admin'}">
-        <c:set var="onmenu" value="oncontextmenu=return false;"/>
-    </c:if>
 </head>
 <%-- oncontextmenu="return ${role ne 'admin'}";--%>
 
@@ -154,7 +146,12 @@
     <div class="body-table">
         <div class="navigation-panel">
             <jsp:include page="NavigationMenu.jsp"/>
-            <div id="filter" class="filter"></div>
+            <div style="position: relative; height: 100%">
+                <div style="padding-left: 2pt; position:absolute;" onclick="hideFilter()">
+                    <img style="width: 14pt" src="${context}/images/filter.png">
+                </div>
+                <div id="filter" class="filter"></div>
+            </div>
         </div>
         <div class="content">
             <div class="title-holder">

@@ -24,19 +24,11 @@ list = new Vue({
             y:0
         },
         limit:-1,
-        loading:false
+        loading:false,
+        filter:null
     },
     mounted:function(){
-        if (typeof filterControl !== 'undefined'){
-            filterControl.items = this.items;
-            if (typeof filterControl.filteredItems === 'function') {
-                this.getItems = function () {
-                    return filterControl.filteredItems();
-                }
-            }
-        } else {
-            console.log('Filter not found')
-        }
+        this.filter = transportFilter;
     },
     methods:{
         clean:function(){
@@ -102,8 +94,14 @@ list = new Vue({
                     }
                 }
             }
-            if (typeof filterControl !== 'undefined' && filterControl.checkFilter){
-                filterControl.checkFilter();
+            this.filter.items = {};
+            if (typeof this.filter !== 'undefined'){
+                for (let i in this.items){
+                    if (this.items.hasOwnProperty(i)){
+                        let item = this.items[i].item;
+                        this.filter.items[item.id] = item;
+                    }
+                }
             }
         },
         sort:function(){
@@ -156,7 +154,14 @@ list = new Vue({
             }
         },
         getItems:function(){
-            return this.items;
+            let items = this.items;
+            if (this.filter){
+                const self = this;
+                return items.filter(function (item) {
+                    return self.filter.doFilter(item.item);
+                })
+            }
+            return items;
         },
         openModal:function(url, attr){
             loadModal(url, attr)

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
+  <script src="${context}/vue2/transportationDataView.vue"></script>
   <jsp:include page="../summary/summaryHeader.jsp"/>
   <jsp:include page="../transportListTemplate2.jsp"/>
 <script>

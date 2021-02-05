@@ -296,6 +296,8 @@
                             </template>
                         </div>
                     </div>
+                </div>
+                <div class="right-field">
                     <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>
                 </div>
             </div>

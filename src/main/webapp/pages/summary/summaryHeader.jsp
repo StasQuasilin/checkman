@@ -12,8 +12,8 @@
 <html>
 <link rel="stylesheet" href="${context}/css/drop-menu.css">
 <div id="container-header" class="container-header">
-  <c:if test="${not empty add}">
-    <button onclick="loadModal('${add}')"><fmt:message key="button.add"/> </button>
+  <c:if test="${not empty edit}">
+    <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
   </c:if>
     <div class="drop-menu">
       <a class="drop-btn"><fmt:message key="document.print"/></a>

@@ -1,7 +1,9 @@
 .container{
     display: flex;
     flex-direction: column;
+    max-width: 100%;
 }
+
 .turn-date{
     padding: 0 8pt;
     border-radius: 4pt;
@@ -44,18 +46,32 @@
     background: linear-gradient(0.25turn, rgba(0, 221, 28, 0.16), transparent);
     min-width: 58pt;
     padding: 4pt;
+    width: fit-content;
+    width: -moz-fit-content;
+    white-space: nowrap;
     /*max-width: 58pt;*/
 }
 .right-field-content{
     border-left: solid 1pt;
 
 }
+.weight-table{
+    border: none;
+}
+
+
 .container-item table{
     border-collapse: collapse;
     margin: 4px 0;
 }
 .container-item table, .container-item th, .container-item td {
     border: 1px solid #989898;
+}
+.weight-table td{
+    border: none;
+}
+.weight-table tr{
+    border-bottom: dashed gray 1pt;
 }
 
 .container-item tr[selectable]:hover{
@@ -129,7 +145,5 @@
     background-color: #0cdc0a;
 }
 .transport-loading{
-
-
     overflow: hidden;
 }

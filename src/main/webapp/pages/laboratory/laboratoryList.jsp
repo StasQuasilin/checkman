@@ -6,10 +6,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
+
 <jsp:include page="laboratoryHeader.jsp"/>
 <jsp:include page="../transportListTemplate2.jsp"/>
 <script>
-    transportList.f.a = true;
-    transportList.menuItems = [];
+    // transportList.f.a = true;
+    // transportList.menuItems = [];
 </script>
 </html>

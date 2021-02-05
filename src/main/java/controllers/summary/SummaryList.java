@@ -27,7 +27,7 @@ public class SummaryList extends IUIServlet {
 		Role role;
 		if (U.exist(r)){
 			role = Role.valueOf(r);
-			if (role == Role.manager || role == Role.admin) {
+			if (role == Role.manager || role == Role.admin || role == Role.logistic || role == Role.weigher) {
 				req.setAttribute(SHOW, Branches.UI.SUMMARY_SHOW);
 				req.setAttribute(EDIT, Branches.UI.WEIGHT_ADD);
 				req.setAttribute(ARCHIVE, Branches.API.ARCHIVE_LOAD_PLAN);

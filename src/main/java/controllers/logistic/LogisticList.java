@@ -19,8 +19,9 @@ import java.io.IOException;
 @WebServlet(Branches.UI.LOGISTIC_LIST)
 public class LogisticList extends IUIServlet{
 
+    private static final String _SCRIPT = "/vue2/logisticList.vue";
     final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
-    public static final String _CONTENT = "/pages/logistic/logisticList.jsp";
+    public static final String _CONTENT = "/pages/logistic/oldLogisticList.jsp";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,10 +41,11 @@ public class LogisticList extends IUIServlet{
         req.setAttribute("saveNote", Branches.API.SAVE_NOTE);
         req.setAttribute("removeNote", Branches.API.REMOVE_NOTE);
         req.setAttribute("dealTypes", DealType.values());
-        req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
+        req.setAttribute(EDIT, Branches.UI.WEIGHT_ADD);
         req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
         req.setAttribute(ARCHIVE, Branches.API.ARCHIVE_LOAD_PLAN);
         req.setAttribute(CONTENT, _CONTENT);
+        req.setAttribute(SCRIPT, _SCRIPT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
         req.setAttribute(SUBSCRIBE, subscribers);
         req.setAttribute(CUSTOMERS, TransportCustomer.values());

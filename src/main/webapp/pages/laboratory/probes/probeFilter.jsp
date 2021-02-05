@@ -6,16 +6,14 @@
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <script>
-    var filter_control = new Vue({
+    transportFilter = new Vue({
         el:'#filter_view',
         data:{
-            api:{
-
-            },
+            api:{},
             from:-1,
             to:-1,
             period:false,
@@ -25,6 +23,9 @@
             result:[],
             items:[],
             notFound:false
+        },
+        mounted:function(){
+
         },
         methods:{
             find:function(){
@@ -39,7 +40,6 @@
                         data.to = this.to;
                     }
                 }
-
                 PostApi(this.api.find, data, function(a){
                     self.result = [];
                     self.notFound = false;
@@ -80,10 +80,13 @@
                 this.manager = "";
                 this.result = [];
                 this.notFound = false;
+            },
+            doFilter:function () {
+
             }
         }
     });
-    filter_control.api.find = '${find}';
+    transportFilter.api.find = '${find}';
 </script>
 <html>
 <table width="100%" id="filter_view">

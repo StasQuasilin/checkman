@@ -14,12 +14,23 @@
         </c:forEach>
     </div>
 </c:if>
+<script>
+    transportView = {
+
+    }
+</script>
 <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/templates/commentatorPlug.vue"></script>
 <script src="${context}/vue/dataList.vue"></script>
 <script>
     list.limit = 14;
+    list.getItems = function(){
+        if (transportFilter.result.length > 0)
+        return transportFilter.result;
+        else
+            return list.items;
+    };
 
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
@@ -28,7 +39,7 @@
     </c:forEach>
     stopContent = function(){
         <c:forEach items="${subscribe}" var="s">
-        subscribe('${s}', function(a){
+        subscribe('${s}', function(){
             unSubscribe('${s}');
         });
         </c:forEach>

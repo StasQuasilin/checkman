@@ -1,11 +1,11 @@
 .navigation-menu{
     background-color: #d3dbe2;
     padding: 4pt;
-    width: 190px;
 }
 .navigation-menu ul{
     padding-left: 0;
     margin: 0;
+    width: 190px;
 }
 .navigation-menu[static]{
 

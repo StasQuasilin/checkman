@@ -5,6 +5,9 @@ transportView = {
       item:Object,
       f:Object
   },
+    components: {
+      'transport-data':transportaData
+    },
     computed:{
       itemDate:function () {
           return new Date(this.item.date).toLocaleDateString();
@@ -67,8 +70,11 @@ transportView = {
                     '<span>' +
                         '<img style="width: 12pt" :src="titles.icon[item.type]" :title="titles[item.type]" :alt="titles[item.type]"/>' +
                         '<b>' +
-                            '{{item.product.name}}' +
+                            '{{item.product.name}} ' +
                         '</b>' +
+                        '<span v-if="item.plan > 0">' +
+                            '{{item.plan}} {{item.unit}}' +
+                        '</span>' +
                     '</span>' +
                     '<span style="float: right">' +
                         '<span v-if="item.price > 0 && f.p">' +
@@ -98,7 +104,7 @@ transportView = {
                     '</div>' +
                 '</div>' +
                 '<div class="middle-row">' +
-                    '<div style="display: inline-block; width: 130px">' +
+                    '<div style="display: inline-block; width: 142px">' +
                         '<div>' +
                             '{{titles.timeIn}}: ' +
                             '<span v-if="item.timeIn">' +
@@ -118,60 +124,10 @@ transportView = {
                             '</span>' +
                         '</div>' +
                     '</div>' +
-                    '<div class="data-block" style="width: 300px">' +
-                        '<div>' +
-                            // '{{titles.driver}}: ' +
-                            '<span v-if="item.driver">' +
-                                '<b>' +
-                                    '{{item.driver.person.value}}' +
-                                '</b>' +
-                                '<span v-if="item.driver.license" style="display: inline-block; width: 90px; float: right; text-align: right">' +
-                                    '{{item.driver.license}}' +
-                                '</span>' +
-                            '</span>' +
-                            '<b v-else>' +
-                                '{{titles.noSpecified}}' +
-                            '</b>' +
-                        '</div>' +
-                        '<div>' +
-                            // '{{titles.truck}}: ' +
-                            '<span v-if="item.vehicle">' +
-                                '{{item.vehicle.model}}' +
-                                '<span class="vehicle-number">' +
-                                    '{{item.vehicle.number}}' +
-                                '</span>' +
-                                '<span v-if="item.vehicle.trailer" class="vehicle-number">' +
-                                    '{{item.vehicle.trailer.number}}' +
-                                '</span>' +
-                            '</span>' +
-                            '<span v-else>' +
-                                '{{titles.noSpecified}}' +
-                            '</span>' +
-                        '</div>' +
-                        '<div v-if="item.driver && item.driver.person.phones.length > 0">' +
-                            '<img style="width: 10pt" :src="titles.phoneIcon" alt=""/>' +
-                            '<span style="padding-left: 2px" v-for="phone in item.driver.person.phones">' +
-                                '{{phone.number}}' +
-                            '</span>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="data-block" style="width: 400px">' +
-                        '<div>' +
-                            '{{titles.customer}}: {{titles[item.customer]}}' +
-                        '</div>' +
-                        '<div>' +
-                            '{{titles.transporter}}: ' +
-                            '<b v-if="item.transporter">' +
-                                '{{item.transporter.value}}' +
-                            '</b>' +
-                            '<b v-else>' +
-                                '{{titles.noSpecified}}' +
-                            '</b>' +
-                        '</div>' +
-                    '</div>' +
+                    '<transport-data :item="item" :titles="titles"></transport-data>' +
                 '</div>' +
                 '<div class="lower-row" v-if="item.notes.length > 0">' +
-                    '<span v-for="note in item.notes">' +
+                    '<span v-for="note in item.notes" style="padding-left: 2pt">' +
                         '<template v-if="note.creator">' +
                             '{{note.creator}}: ' +
                         '</template>' +
@@ -181,61 +137,78 @@ transportView = {
                     '</span>' +
                 '</div>' +
             '</div>' +
-            '<div class="right-field">' +
-                '<div class="label" style="width: 100%; text-align: center">' +
-                    '{{titles.weight}}' +
-                '</div>' +
-                '<div>' +
-                    'Б:\t' +
-                    '<b v-if="item.weight">' +
-                        '{{item.weight.brutto.toLocaleString()}}' +
-                    '</b>' +
-                    '<template v-else>' +
-                        '0' +
-                    '</template>' +
-                '</div>' +
-                '<div>' +
-                    'Т:\t' +
-                    '<b v-if="item.weight">' +
-                        '{{item.weight.tara.toLocaleString()}}' +
-                    '</b>' +
-                    '<template v-else>' +
-                        '0' +
-                    '</template>' +
-                '</div>' +
-                '<div>' +
-                    'Н:\t' +
-                    '<b v-if="item.weight">' +
-                        '{{item.weight.netto.toLocaleString()}}' +
-                    '</b>' +
-                    '<template v-else>' +
-                        '0' +
-                    '</template>' +
-                '</div>' +
+            '<div class="right-field" v-if="item.weight">' +
+                '<table class="weight-table" style="border: none">' +
+                    '<tr>' +
+                        '<td>' +
+                            'Б:' +
+                        '</td>' +
+                        '<td style="text-align: right; width: 100%">' +
+                            '<template v-if="item.weight">' +
+                                '{{item.weight.brutto.toLocaleString()}}' +
+                            '</template>' +
+                            '<template v-else>' +
+                                '0' +
+                            '</template>' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<td>' +
+                            'Т:' +
+                        '</td>' +
+                        '<td style="text-align: right; width: 100%">' +
+                            '<template v-if="item.weight">' +
+                                '{{item.weight.tara.toLocaleString()}}' +
+                            '</template>' +
+                            '<template v-else>' +
+                                '0' +
+                            '</template>' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<td>' +
+                            'Н:' +
+                        '</td>' +
+                        '<td style="text-align: right; width: 100%">' +
+                            '<template v-if="item.weight">' +
+                                '{{item.weight.netto.toLocaleString()}}' +
+                            '</template>' +
+                            '<template v-else>' +
+                                '0' +
+                            '</template>' +
+                        '</td>' +
+                    '</tr>' +
+                    '<tr v-if="item.weight.correction > 0">' +
+                        '<td colspan="2">' +
+                            '<template v-if="item.weight.netto > 0">' +
+                                '({{(item.weight.netto * (1 - item.weight.correction / 100)).toLocaleString()}}) ' +
+                            '</template>' +
+                            '-{{item.weight.correction.toLocaleString()}} %' +
+                        '</td>' +
+                    '</tr>' +
+                '</table>' +
             '</div>' +
-            '<div class="right-field" v-if="f.a">' +
-                '<div class="label" style="width: 100%; text-align: center">' +
-                    '{{titles.analyses}}' +
-                '</div>' +
+            '<div class="right-field" v-if="f.a && (item.analyses.sun || item.analyses.oil)" style="width: 100pt">' +
                 '<template v-if="item.analyses.sun">' +
-                    '<div class="label">' +
-                        '{{titles.sun.humidity1}}: {{item.analyses.sun.humidity1}}' +
+                    '<div>' +
+                        '{{titles.sun.humidity1}}:&nbsp;{{item.analyses.sun.humidity1}}' +
                     '</div>' +
-                    '<div class="label" v-if="item.analyses.sun.humidity2 > 0">' +
-                        '{{titles.sun.humidity1}}: {{item.analyses.sun.humidity2}}' +
+                    '<div v-if="item.analyses.sun.humidity2 > 0">' +
+                        '{{titles.sun.humidity1}}:&nbsp;{{item.analyses.sun.humidity2}}' +
                     '</div>' +
-                    '<div class="label">' +
-                        '{{titles.sun.soreness}}: {{item.analyses.sun.soreness}}' +
+                    '<div>' +
+                        '{{titles.sun.soreness}}:&nbsp;{{item.analyses.sun.soreness}}' +
                     '</div>' +
-                    '<div class="label">' +
-                        '{{titles.sun.impurity}}: {{item.analyses.sun.oilImpurity}}' +
+                    '<div>' +
+                        '{{titles.sun.impurity}}:&nbsp;{{item.analyses.sun.oilImpurity}}' +
                     '</div>' +
-                    '<div class="label">' +
-                        '{{titles.sun.oiliness}}: {{item.analyses.sun.oiliness}}' +
+                    '<div>' +
+                        '{{titles.sun.oiliness}}:&nbsp;{{item.analyses.sun.oiliness}}' +
                     '</div>' +
                     '<div v-if="item.analyses.sun.contamination" style="color: orange">' +
                         '{{titles.contamination}}' +
                     '</div>' +
+
                 '</template>' +
                 '<template v-else-if="item.analyses.oil">' +
                     '<div class="label">' +
@@ -248,9 +221,6 @@ transportView = {
                         '{{titles.phosphorus}}: {{item.analyses.oil.phosphorus}}' +
                     '</div>' +
                 '</template>' +
-                '<div v-else>' +
-                    '{{titles.missing}}' +
-                '</div>' +
             '</div>' +
         '</div>'
 };

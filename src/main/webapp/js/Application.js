@@ -2,6 +2,7 @@ let coverlet;
 let header;
 let modalLayer;
 let chatLayer;
+let navMenu;
 let filter;
 let content;
 let staticField;
@@ -22,6 +23,7 @@ $(document).ready(function(){
     coverlet = document.getElementById('coverlet');
     header = document.getElementById('header');
     modalLayer = document.getElementById('modal');
+    navMenu = document.getElementById('nav-menu');
     filter = document.getElementById('filter');
     content = document.getElementById('content');
     staticField = document.getElementById('static');
@@ -150,16 +152,30 @@ function addModal(modal, onSave){
 function logout(){
     PostApi(logoutAPI, null, function (a) {
         if (a.status === 'success'){
-            var p = document.location.origin + context + a['redirect'];
+            let p = document.location.origin + context + a['redirect'];
             location.replace(p);
         }
     }, function(e){
         console.log(e)
     }, true);
 }
-function showChat(){
-
+let menuHidden = false;
+function hideMenu() {
+    if (!menuHidden){
+        navMenu.style.display = 'none';
+        menuHidden = true;
+    } else {
+        navMenu.style.display = 'block';
+        menuHidden = false;
+    }
 }
-function closeChat(){
-
+let filterHidden = false;
+function hideFilter() {
+    if (!filterHidden){
+        filter.style.display = 'none';
+        filterHidden = true;
+    } else {
+        filter.style.display = 'block';
+        filterHidden = false;
+    }
 }

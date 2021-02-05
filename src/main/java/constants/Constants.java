@@ -82,6 +82,7 @@ public interface Constants {
     String EDIT_STORAGE = "editStorage";
     String TYPES = "types";
     String CONTENT = "content";
+    String SCRIPT = "script";
     String STATIC_CONTENT = "static";
     String PROTOCOL = "protocol";
     String PROTOCOLS = "protocols";
