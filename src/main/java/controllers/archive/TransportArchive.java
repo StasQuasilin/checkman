@@ -26,7 +26,7 @@ public class TransportArchive extends IUIServlet {
         req.setAttribute(TITLE, Titles.ARCHIVE + "." + type.toString());
 
         req.setAttribute(TYPES, DealType.values());
-        req.setAttribute(ADD, Branches.UI.WEIGHT_ADD);
+        req.setAttribute(EDIT, Branches.UI.WEIGHT_ADD);
 
         switch (type){
             case summary:

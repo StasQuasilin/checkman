@@ -7,19 +7,19 @@
       <span class="main" onclick="loadContent('${buyList}')">
         <fmt:message key="deal.buy"/>
       </span>
-      <span class="archive">
-        <a onclick="loadContent('${buyArchive}')">
-            <fmt:message key="archive"/>
-        </a>
-      </span>
+<%--      <span class="archive">--%>
+<%--        <a onclick="loadContent('${buyArchive}')">--%>
+<%--            <fmt:message key="archive"/>--%>
+<%--        </a>--%>
+<%--      </span>--%>
     </li>
     <li class="menu-item">
       <span class="main" onclick="loadContent('${sellList}')">
         <fmt:message key="deal.sell"/>
       </span>
-      <span>
-        <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>
-      </span>
+<%--      <span>--%>
+<%--        <a onclick="loadContent('${sellArchive}')" ><fmt:message key="archive"/> </a>--%>
+<%--      </span>--%>
     </li>
     <li class="menu-item">
       <span class="main" onclick="loadContent('${summaryList}')">

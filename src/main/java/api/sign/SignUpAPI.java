@@ -26,9 +26,9 @@ import java.util.UUID;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.SIGN_UP)
-public class SignUpServletAPI extends ServletAPI {
+public class SignUpAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(SignUpServletAPI.class);
+    private final Logger log = Logger.getLogger(SignUpAPI.class);
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -40,24 +40,13 @@ public class SignUpServletAPI extends ServletAPI {
             for (Object o : (JSONArray) body.get("users")) {
                 JSONObject json = (JSONObject) o;
 
-                String email = (String) json.get(Constants.EMAIL);
                 Role role = Role.valueOf((String) json.get(Constants.ROLE));
 
                 User user = new User();
                 user.setUid(getToken());
 
-                boolean autoPassword = true;
-                if (json.containsKey("password")){
-                    String password = String.valueOf(json.get("password"));
-                    if (!password.isEmpty()){
-                        autoPassword = false;
-                        user.setPassword(new String(Base64.getEncoder().encode(password.getBytes())));
-                    }
-                }
-
-                if(autoPassword) {
-                    user.setPassword(PasswordGenerator.getPassword());
-                }
+                String hash = String.valueOf(json.get(HASH));
+                user.setPasswordHash(hash);
 
                 long personId = -1;
                 if (json.containsKey("personId")) {

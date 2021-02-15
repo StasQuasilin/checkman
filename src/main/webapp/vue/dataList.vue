@@ -1,7 +1,7 @@
 list = new Vue({
     el: '#container',
     components:{
-        'transport-view':transportView,
+        'transport-view':oldTransportView,
         'laboratory-view':laboratoryView,
         'price-view':priceView,
         'commentator':commentator

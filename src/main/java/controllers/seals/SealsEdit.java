@@ -15,6 +15,7 @@ import java.io.IOException;
  */
 @WebServlet(Branches.UI.SEAL_CREATE)
 public class SealsEdit extends IModal {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.SEAL_EDIT);

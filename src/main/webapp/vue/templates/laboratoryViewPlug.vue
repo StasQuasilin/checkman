@@ -1,3 +1,3 @@
-var laboratoryView = {
+laboratoryView = {
     template:'<div></div>'
 };

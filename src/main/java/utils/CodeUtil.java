@@ -1,13 +1,21 @@
 package utils;
 
+import entity.Person;
+import entity.PhoneNumber;
 import entity.User;
+import entity.documents.Deal;
+import entity.organisations.Organisation;
+import entity.transport.Driver;
 import org.apache.log4j.Logger;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Random;
 
 public class CodeUtil {
 
@@ -74,19 +82,31 @@ public class CodeUtil {
     }
 
     public static void main(String[] args) {
-        Crypto crypto = new Crypto();
         Hibernator hibernator = Hibernator.getInstance();
-        final Base64.Decoder decoder = Base64.getDecoder();
-        for (User user : hibernator.query(User.class, null)){
-            final String password = user.getPassword();
-            final String decode = new String(decoder.decode(password));
-            System.out.print(decode + ": ");
-            final String md5 = crypto.md5(decode);
-            user.setPasswordHash(md5);
-            hibernator.save(user);
-            System.out.println("Set hash "+ md5 + " for " + user.getWorker().getValue() );
+        for (Driver o : hibernator.query(Driver.class, null)){
+            final String license = o.getLicense();
+            if (license != null){
+                o.setLicense(randomString(o.getLicense().length()));
+            }
+            final Person person = o.getPerson();
+            person.setSurname(randomString(person.getSurname().length()));
+            hibernator.save(person);
+            hibernator.save(o);
         }
         HibernateSessionFactory.shutdown();
+    }
+    private static String randomString(int length){
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 146; // letter 'z'
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+
+        return buffer.toString();
     }
 
     private static void check(String code){

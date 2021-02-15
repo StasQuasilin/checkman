@@ -53,47 +53,50 @@ transportFilter = new Vue({
         organisations:function(){
             let organisations = {};
             let items = this.filtered(this.product, null, this.date, this.driver);
+            let found = false;
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     let counterparty = items[i].counterparty;
-                    if (counterparty.id) {
-                        if (!counterparty[counterparty.id]) {
-                            organisations[counterparty.id] = counterparty;
+                    let counterpartyId = counterparty.id;
+                    if (counterpartyId) {
+                        if (!counterparty[counterpartyId]) {
+                            organisations[counterpartyId] = counterparty;
                         }
                     }
-                }
-            }
-            let res = Object.values(organisations);
-            let found = false;
-            for (let i in res){
-                if (res.hasOwnProperty(i)){
-                    if (res[i].id === this.organisation){
+                    if (this.organisation === counterpartyId){
                         found = true;
-                        break;
                     }
                 }
             }
             if (!found){
                 this.organisation = -1;
             }
-            res.sort(function(a, b){
+
+            return Object.values(organisations).sort(function(a, b){
                 return a.value.localeCompare(b.value);
             });
-            return res;
         },
         products:function() {
             let products = {};
             let items = this.filtered(null, this.organisation, this.date, this.driver);
+            let found = false;
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     let product = items[i].product;
-                    if (!products[product.id]) {
-                        product.amount=1;
-                        products[product.id] = product;
+                    let productId = product.id;
+                    if (!products[productId]) {
+                        product.amount = 1;
+                        products[productId] = product;
                     }else {
-                        products[product.id].amount++;
+                        products[productId].amount++;
+                    }
+                    if (this.product === productId){
+                        found = true;
                     }
                 }
+            }
+            if (!found){
+                this.product = -1;
             }
             return Object.values(products).sort(function (a, b) {
                 return a.name.localeCompare(b.name);
@@ -138,6 +141,10 @@ transportFilter = new Vue({
             result.sort(function(a, b){
                 if (a.person.value && b.person.value) {
                     return a.person.value.localeCompare(b.person.value);
+                } else if (a.person.value){
+                    return -1
+                } else {
+                    return 1;
                 }
             });
             return result;

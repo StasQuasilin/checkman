@@ -114,6 +114,7 @@ public class DealEditor implements Constants {
             save = true;
         }
 
+
         long unit = (long) body.get(UNIT);
         if (deal.getUnit() == null || deal.getUnit().getId() != unit) {
             deal.setUnit(UnitBox.getUnit(unit));

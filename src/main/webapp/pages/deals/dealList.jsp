@@ -67,7 +67,7 @@
           <div class="row upper-row">
           <span style="width: 35%">
             <fmt:message key="deal.organisation"/>:
-            <b v-if="item.organisation">
+            <b v-if="item.organisation" class="secure">
               {{item.organisation.value}}
             </b>
             <b v-else>
@@ -88,17 +88,16 @@
           </span>
           <span v-if="item.price > 0">
             <fmt:message key="deal.price"/>:
-            <b>
+            <b class="secure">
               {{(item.price).toLocaleString()}}
             </b>
           </span>
           <span style="width: 12%">
             <fmt:message key="deal.from"/>:
-            <b>
+            <b class="secure">
               {{item.shipper.name}}
             </b>
           </span>
-
           </div>
           <div class="row" style="font-size: 10pt">
           <span>
@@ -117,7 +116,7 @@
           </span>
           <span style="float: right">
             <fmt:message key="deal.manager"/>:
-            <b>
+            <b class="secure">
               {{item.create.creator.person.value}}
             </b>
           </span>

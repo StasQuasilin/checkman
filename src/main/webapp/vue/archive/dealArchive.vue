@@ -1,4 +1,4 @@
-var arch = new Vue({
+arch = new Vue({
     el: '#archive',
     data:{
         api:{
@@ -11,8 +11,8 @@ var arch = new Vue({
     },
     methods:{
         doRequest:function(){
-            var parameters = {};
-            for (var k in this.parameters) {
+            let parameters = {};
+            for (let k in this.parameters) {
                 if (this.parameters.hasOwnProperty(k)){
                     parameters[k] = this.parameters[k];
                 }

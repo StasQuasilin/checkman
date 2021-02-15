@@ -2,6 +2,18 @@
     display: inline-block;
     position: relative;
 }
+.drop-btn-header{
+    border: solid #7ecfcf 1.2pt;
+    border-radius: 4pt;
+    padding: 0 6px;
+}
+.drop-btn-header::after{
+    content: " \25BC";
+}
+.drop-sub-btn::after{
+    content: " \25B6";
+    float: right;
+}
 .drop-menu:hover>.drop-menu-content{
     display: block;
 }
@@ -18,7 +30,7 @@
 .drop-menu-item{
     display: inline-block;
     margin: 0 4pt;
-    width: 10em;
+    width: 12em;
     padding: 4pt 0;
 }
 .drop-menu-item:hover{
@@ -27,4 +39,8 @@
 .drop-menu-item-header{
     text-align: center;
     font-weight: bold;
+}
+.sub-menu{
+    top: 0;
+    left: 100%;
 }

@@ -1,4 +1,4 @@
-var filter_control = new Vue({
+filterControl = new Vue({
     components:{
       'object-input':objectInput
     },
@@ -32,14 +32,14 @@ var filter_control = new Vue({
             return this.result;
         },
         find:function(){
-            var data = {
-                from:this.from,
-                to:this.to
+            let data = {
+                from: this.from,
+                to: this.to
             };
-            if (this.product != -1){
+            if (this.product !== -1){
                 data.product = this.product;
             }
-            if (this.organisation.id != -1){
+            if (this.organisation.id !== -1){
                 data.organisation = this.organisation.id;
             }
             const self = this;

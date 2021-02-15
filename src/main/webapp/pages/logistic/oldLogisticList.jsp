@@ -7,14 +7,14 @@
 <html>
   <script>
   </script>
-  <script src="${context}/vue/templates/laboratoryDataView.vue"></script>
-  <script src="${context}/vue/templates/vehicleInput.vue"></script>
-  <script src="${context}/vue/templates/transportationDataEdit.vue"></script>
-  <script src="${context}/vue/templates/priceView.vue"></script>
-  <script src="${context}/vue/templates/commentator.vue"></script>
+  <script src="${context}/vue/templates/laboratoryDataView.vue?v=${now}"></script>
+  <script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
+  <script src="${context}/vue/templates/transportationDataEdit.vue?v=${now}"></script>
+  <script src="${context}/vue/templates/priceView.vue?v=${now}"></script>
+  <script src="${context}/vue/templates/commentator.vue?v=${now}"></script>
   <script src="${context}/vue/dataList.vue?v=${now}"></script>
   <script>
-    let save = '${save}';
+    save = '${save}';
     list.fields = {
       trailer:'<fmt:message key="transportation.automobile.trailer"/>',
       license:'<fmt:message key="driver.license"/>',

@@ -5,6 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <head>
+    <link rel="shortcut icon" type="image/x-icon" href="${context}/images/sunflower_small.png" />
     <c:if test="${not empty token}">
         <script>
             location.href='${context}/app'
@@ -100,7 +101,6 @@
         header:'<fmt:message key="user.select.other"/>',
         find:'${userApi}',
         put:function(user){
-            console.log(user);
             login.setUser(user.uid, user.person.value)
         },
         show:['person/value']

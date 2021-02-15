@@ -23,19 +23,6 @@
                     <a v-on:click="clear"><fmt:message key="filter.clear"/> </a>
                 </td>
             </tr>
-            <tr v-if="filters.types.length">
-                <td>
-                    <label for="type">
-                        <fmt:message key="deal.type"/>
-                    </label>
-                </td>
-                <td>
-                    <select id="type" v-model="type" style="width: 100%">
-                        <option value="-1"><fmt:message key="all"/> </option>
-                        <option v-for="(value, key) in filters.types" :value="value.id">{{value.value}}</option>
-                    </select>
-                </td>
-            </tr>
             <tr>
                 <td colspan="2">
                     <label for="organisation">

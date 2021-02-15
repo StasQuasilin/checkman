@@ -59,7 +59,6 @@ var login = new Vue({
         setUser:function(uid, user){
             this.user.uid = uid;
             this.user.value = user;
-            console.log(this.user);
             this.state = 1;
             const self = this;
             setTimeout(function(){
@@ -72,8 +71,11 @@ var login = new Vue({
             this.state = 0;
             const self = this;
             setTimeout(function(){
-                self.$refs.worker.select();
-            },10);
+                let workerInput = self.$refs.worker;
+                if (workerInput){
+                    workerInput.select();
+                }
+            },0);
         },
         signIn2:function(){
             const self = this;
@@ -115,7 +117,6 @@ var login = new Vue({
                             password:btoa(this.user.password),
                             hash:md5(this.user.password)
                         }, function (a) {
-                            console.log(a);
                             if (a.status === 'success') {
                                 self.addUserAccess(self.user.uid, self.user.value);
                                 location.href = (context + a['redirect']);

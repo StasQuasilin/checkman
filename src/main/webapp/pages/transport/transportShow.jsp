@@ -52,7 +52,7 @@
             <fmt:message key="deal.organisation"/>
         </td>
         <td>:</td>
-        <td>
+        <td class="secure">
             ${transportation.counterparty.value}
         </td>
         <td rowspan="10" valign="top">
@@ -116,7 +116,7 @@
                             <span>
                                 ${transportation.vehicle.model}
                             </span>
-                            <div style="display: inline-block; font-size: 10pt">
+                            <div style="display: inline-block; font-size: 10pt" class="secure">
                                 <div>
                                     '${transportation.vehicle.number}'
                                 </div>

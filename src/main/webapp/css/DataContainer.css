@@ -59,7 +59,6 @@
     border: none;
 }
 
-
 .container-item table{
     border-collapse: collapse;
     margin: 4px 0;
@@ -101,7 +100,7 @@
     background: linear-gradient(0.25deg, rgba(0, 221, 28, 0.16), transparent);
 }
 .container-item b{
-    color: #0a0a0a;
+    /*color: #0a0a0a;*/
 }
 .container-item:hover{
     box-shadow: 0 0 1pt 2pt gray;

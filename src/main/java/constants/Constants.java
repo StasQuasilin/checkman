@@ -112,6 +112,7 @@ public interface Constants {
     String SEALS = "seals";
     String REMOVE_SEAL = "removeSeals";
     String SAVE_SEAL = "saveSeal";
+    String ADD_SEALS = "addSeals";
     String FIND_SEALS = "findSeals";
     String REGISTRATION = "registration";
     String REMOVE_TIME = "removeTime";

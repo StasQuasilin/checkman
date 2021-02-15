@@ -12,7 +12,7 @@
     <div id="nav-menu">
       <ul>
         <c:choose>
-          <c:when test="${role eq 'admin' or role eq 'top'}">
+          <c:when test="${role eq 'admin' or role eq 'secure'}">
             <ul class="nav-drop-menu">
               <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
@@ -30,14 +30,16 @@
                   <jsp:include page="navigation/retail.jsp"/>
                 </div>
               </li>
-              <li class="nav-menu-item nav-drop-menu-item">
-              <span class="main">
-                <fmt:message key="menu.logistic"/>&nbsp;>
-              </span>
-                <div class="nav-drop-menu-content">
-                  <jsp:include page="navigation/logistic.jsp"/>
-                </div>
-              </li>
+              <c:if test="${role eq 'admin'}">
+                <li class="nav-menu-item nav-drop-menu-item">
+                  <span class="main">
+                    <fmt:message key="menu.logistic"/>&nbsp;>
+                  </span>
+                  <div class="nav-drop-menu-content">
+                    <jsp:include page="navigation/logistic.jsp"/>
+                  </div>
+                </li>
+              </c:if>
               <li class="nav-menu-item nav-drop-menu-item">
               <span class="main">
                 <fmt:message key="menu.manufacture"/>&nbsp;>

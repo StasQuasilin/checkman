@@ -1,11 +1,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+<script src="${context}/ext/CryptoJS.js"></script>
 <script>
-    var registrator = new Vue({
+    registrator = new Vue({
         el: '#registrator',
         data:{
             api:{
@@ -19,7 +20,6 @@
                 forename:'',
                 patronymic:'',
                 role:''-1,
-                email:'',
                 password:''
             },
             err:{
@@ -37,28 +37,33 @@
             registration:function(){
                 if (!this.already) {
                     let e1 = this.err.surname = this.user.surname === '';
-                    let e2 = this.err.forename = this.user.forename === '';
-                    let e3 = this.err.patronymic = this.user.patronymic === '';
-                    let e4 = this.err.role = this.user.role == -1;
-                    let e5 = this.err.email = this.user.email === '';
+                    // let e2 = this.err.forename = this.user.forename === '';
+                    // let e3 = this.err.patronymic = this.user.patronymic === '';
+                    let e4 = this.err.role = this.user.role === -1;
                     let e6 = this.user.password || this.repeat;
                     if (e6){
                         e6 = this.err.password = this.user.password !== this.repeat;
                     }
-                    if (!e1 && !e2 && !e3 && !e4 && !e5 && !e6) {
+                    if (!e1 && !e4 && !e6) {
+
                         this.already = true;
-                        var users = [];
-                        users.push(this.user);
-                        var par = {};
+                        let user =  Object.assign({}, this.user);
+                        user.hash = md5(this.user.password);
+                        delete user.password;
+
+                        let users = [];
+                        users.push(user);
+                        let par = {};
                         par.users = users;
+
                         const self = this;
                         PostApi(this.api.registration, par, function (a) {
-                            alert(a.status);
                             self.already = false;
                             self.clear();
-
+                            if(a.status === 'success'){
+                                closeModal();
+                            }
                         }, function (e) {
-                            console.log(e);
                             self.already = false;
                         })
                     }

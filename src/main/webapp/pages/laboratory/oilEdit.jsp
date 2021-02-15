@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -72,7 +72,7 @@
         <td>
             :
         </td>
-        <td>
+        <td class="secure">
             ${plan.counterparty.value}
         </td>
     </tr>
@@ -89,12 +89,12 @@
                     <td rowspan="2" style="font-size: 18pt">
                         {{vehicle.model}}
                     </td>
-                    <td style="font-size: 8pt">
+                    <td style="font-size: 8pt" class="secure">
                         {{vehicle.number}}
                     </td>
                 </tr>
                 <tr>
-                    <td style="font-size: 8pt">
+                    <td style="font-size: 8pt" class="secure">
                         {{vehicle.trailer}}
                     </td>
                 </tr>

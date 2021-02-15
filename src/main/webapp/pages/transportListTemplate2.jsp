@@ -27,7 +27,7 @@
         transportList.api.archive = '${archive}';
 
         initFields(transportList.labels);
-
+        <c:if test="${not empty edit}">
         transportList.menuItems.push({
             title:'<fmt:message key="edit"/>',
             onClick:function (itemId) {
@@ -40,12 +40,15 @@
                 loadModal('${edit}', {copy: itemId});
             }
         });
+        </c:if>
+        <c:if test="${not empty cancel}">
         transportList.menuItems.push({
             title:'<fmt:message key="menu.cancel"/>',
             onClick:function (itemId) {
                 loadModal('${cancel}', {id:itemId})
             }
         });
+        </c:if>
 
         <c:forEach items="${subscribe}" var="s">
         subscribe('${s}', function(a){

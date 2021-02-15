@@ -53,10 +53,10 @@ transportView = {
             '<div style="width: 100%">' +
                 '<div class="upper-row">' +
                     '<span style="display: inline-block; width: 80px">' +
-                        '{{itemDate}}' +
+                        '{{new Date(item.date).toLocaleDateString()}}' +
                     '</span>' +
                     '<span style="display: inline-block; width: 45%;">' +
-                        '<b>' +
+                        '<b class="secure">' +
                             '{{item.counterparty.value}}' +
                         '</b>' +
                         '<span v-if="item.contractNumber">' +
@@ -76,7 +76,7 @@ transportView = {
                             '{{item.plan}} {{item.unit}}' +
                         '</span>' +
                     '</span>' +
-                    '<span style="float: right">' +
+                    '<span style="float: right" class="secure">' +
                         '<span v-if="item.price > 0 && f.p">' +
                             '<span class="label">' +
                                 '{{titles.price}}: ' +
@@ -92,15 +92,17 @@ transportView = {
                     '</span>' +
                     '<div v-if="item.address">' +
                         '{{titles.address}}: ' +
-                        '<template v-if="item.address.region">' +
-                            '{{item.address.region}} {{titles.region}}, ' +
-                        '</template>' +
-                        '<template v-if="item.address.district">' +
-                            '{{item.address.district}} {{titles.district}}, ' +
-                        '</template>' +
-                        '<template v-if="item.address.city">' +
-                            '{{item.address.city}}' +
-                        '</template>' +
+                        '<span class="secure">' +
+                            '<template v-if="item.address.region">' +
+                                '{{item.address.region}} {{titles.region}}, ' +
+                            '</template>' +
+                            '<template v-if="item.address.district">' +
+                                '{{item.address.district}} {{titles.district}}, ' +
+                            '</template>' +
+                            '<template v-if="item.address.city">' +
+                                '{{item.address.city}}' +
+                            '</template>' +
+                        '</span> ' +
                     '</div>' +
                 '</div>' +
                 '<div class="middle-row">' +
@@ -131,7 +133,7 @@ transportView = {
                         '<template v-if="note.creator">' +
                             '{{note.creator}}: ' +
                         '</template>' +
-                        '<b>' +
+                        '<b class="secure">' +
                             '{{note.note}}' +
                         '</b>' +
                     '</span>' +

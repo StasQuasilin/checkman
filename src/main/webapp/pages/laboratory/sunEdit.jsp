@@ -58,13 +58,13 @@
             humidity:7,
             soreness:3
         };
-        var humidity = (editor.analyses.humidity1 > 0 || editor.analyses.humidity2 > 0 ? (
+        let humidity = (editor.analyses.humidity1 > 0 || editor.analyses.humidity2 > 0 ? (
             (editor.analyses.humidity1 + editor.analyses.humidity2) / ((editor.analyses.humidity1 > 0 ? 1 : 0) + (editor.analyses.humidity2 > 0 ? 1 : 0))
         ) : 0);
-        var soreness = editor.analyses.soreness;
+        let soreness = editor.analyses.soreness;
         
 
-        var recount = 0;
+        let recount = 0;
         if (humidity > basis.humidity && soreness > basis.soreness){
             recount = 100-((100-humidity)*(100-soreness)*100)/((100-basis.humidity)*(100-basis.soreness));
         } else if (humidity > basis.humidity) {
@@ -83,7 +83,7 @@
         <td>
             :
         </td>
-        <td colspan="2">
+        <td colspan="2" class="secure">
             {{organisation}}
         </td>
     </tr>
@@ -111,12 +111,12 @@
                     <td rowspan="2" style="font-size: 14pt">
                         {{vehicle.model}}
                     </td>
-                    <td style="font-size: 8pt">
+                    <td style="font-size: 8pt" class="secure">
                         {{vehicle.number}}
                     </td>
                 </tr>
                 <tr>
-                    <td style="font-size: 8pt">
+                    <td style="font-size: 8pt" class="secure">
                         {{vehicle.trailer}}
                     </td>
                 </tr>

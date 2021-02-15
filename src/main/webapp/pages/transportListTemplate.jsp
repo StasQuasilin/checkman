@@ -7,7 +7,7 @@
 <html>
 
 <link rel="stylesheet" href="${context}/css/DataContainer.css?v=${now}">
-<link rel="stylesheet" href="${context}/css/list.css?v=${now}">
+<%--<link rel="stylesheet" href="${context}/css/list.css?v=${now}">--%>
 <script>
     list.api.edit = '${edit}';
     list.api.archive = '${archive}';
@@ -135,8 +135,7 @@
                  { loading: value.item.weight && (value.item.weight.tara > 0 && value.item.weight.brutto == 0 ||
                  value.item.weight.brutto > 0 && value.item.weight.tara == 0)}]"
                  v-on:click="edit(value.item.id)"
-                 v-on:click.right="contextMenu(value.item)"
-                    >
+                 v-on:click.right="contextMenu(value.item)">
                         <div style="display: inline-block; max-width: 98%; width: 94%">
                             <div class="upper-row" style="font-size: 11pt">
                                 <div style="display: inline-block">
@@ -211,7 +210,6 @@
                                         <template v-if="value.item.address.street">
                                             , {{value.item.address.street}},
                                         </template>
-
                                         {{value.item.address.build}}
                                     </b>
                                 </div>
@@ -305,9 +303,9 @@
         <c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">
             <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
                 <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-                    <c:if test="${not empty add}">
-                        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.edit"/> </div>
-                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${add}')"><fmt:message key="menu.copy"/></div>
+                    <c:if test="${not empty edit}">
+                        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/> </div>
+                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
                     </c:if>
                     <c:if test="${not empty copy}">
                         <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>

@@ -169,22 +169,12 @@
     </c:when>
     <c:otherwise>
     editor.deal = '-1';
-    // editor.transportation.deal = {
-    //     id:-1,
-    //     counterparty:{id:-1},
-    //     unit: editor.units[0],
-    //     shipper: editor.shippers[0],
-    //     quantity:0,
-    //     product:{id:-1},
-    //     price:0
-    // };
     </c:otherwise>
     </c:choose>
 </script>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
 <c:set var="type"><fmt:message key="deal.type"/></c:set>
 <div id="editor" class="editor">
-
     <div>
         <span style="font-weight: bold; font-size: 12pt">
             <fmt:message key="deal"/>
@@ -197,7 +187,7 @@
                 <td>
                     <fmt:message key="deal.organisation"/>
                 </td>
-                <td v-if="transportation.deal.counterparty.value">
+                <td v-if="transportation.deal.counterparty.value" class="secure">
                     {{transportation.deal.counterparty.value}}
                 </td>
             </tr>
@@ -228,7 +218,7 @@
                     </label>
                 </td>
                 <td>
-                    <select id="deal" style="width: 100%" v-model="deal"  v-on:change="setQuantity()">
+                    <select id="deal" style="width: 100%" v-model="deal"  v-on:change="setQuantity()" class="secure">
                         <option :value="deal" v-for="deal in deals">
                             <template v-if="deal.number">№ {{deal.number}}</template>
                             <template v-else>{{deal.id}}</template>
@@ -275,7 +265,7 @@
                 <td>
                     <fmt:message key="deal.price"/>
                 </td>
-                <td>
+                <td class="secure">
                     <template v-if="transportation.deal.price > 0">
                         {{transportation.deal.price.toLocaleString()}}
                     </template>
@@ -371,7 +361,7 @@
         <td>
             :
         </td>
-        <td>
+        <td class="secure">
             <object-input :props="vehicleProps" :object="transportation.vehicle"></object-input>
             <object-input :props="trailerProps" :object="transportation.trailer"></object-input>
         </td>
@@ -383,7 +373,7 @@
         <td>
             :
         </td>
-        <td>
+        <td class="secure">
             <object-input :props="transporterProps" :object="transportation.transporter"></object-input>
         </td>
     </tr>
@@ -418,7 +408,7 @@
                 </span>
             </div>
             <div>
-                <span style="font-size: 10pt" v-for="(note, noteIdx) in transportation.notes">
+                <span style="font-size: 10pt" v-for="(note, noteIdx) in transportation.notes"  class="secure">
                     <template v-if="note.creator" >
                         <span class="mini-close" v-on:click="removeNote(noteIdx)">&times;</span>
                         <span v-on:click="editNote(note, noteIdx)" class="mini-close">

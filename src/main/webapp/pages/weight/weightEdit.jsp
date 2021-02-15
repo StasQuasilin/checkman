@@ -23,63 +23,10 @@
     editor.weight={
         brutto:0,
         tara:0
-    }
+    };
     </c:otherwise>
     </c:choose>
-    <%--<c:forEach items="${plan.transportation.sunAnalyses}" var="sun">--%>
-    <%--editor.analyses.sun.push(--%>
-        <%--{--%>
-            <%--id:'${sun.id}',--%>
-            <%--humidity1:${sun.analyses.humidity1},--%>
-            <%--humidity2:${sun.analyses.humidity2},--%>
-            <%--soreness:${sun.analyses.soreness},--%>
-            <%--oiliness:${sun.analyses.oiliness},--%>
-            <%--oilImpurity:${sun.analyses.oilImpurity},--%>
-            <%--acid:${sun.analyses.acidValue}--%>
-        <%--}--%>
-    <%--)--%>
-    <%--</c:forEach>--%>
-    <%--<c:forEach items="${plan.transportation.oilAnalyses}" var="oil">--%>
-    <%--editor.analyses.oil.push(--%>
-        <%--{--%>
-            <%--id:'${oil.id}',--%>
-            <%--organoleptic:${oil.analyses.organoleptic},--%>
-            <%--color:${oil.analyses.color},--%>
-            <%--acid:${oil.analyses.acidValue},--%>
-            <%--peroxide:${oil.analyses.peroxideValue},--%>
-            <%--phosphorus:${oil.analyses.phosphorus},--%>
-            <%--humidity:${oil.analyses.humidity},--%>
-            <%--soap:${oil.analyses.soap},--%>
-            <%--wax:${oil.analyses.wax}--%>
-        <%--}--%>
-    <%--)--%>
-    <%--</c:forEach>--%>
-    <%--<c:forEach items="${plan.transportation.mealAnalyses}" var="cake">--%>
-    <%--editor.analyses.cake.push(--%>
-        <%--{--%>
-            <%--id:${cake.id},--%>
-            <%--humidity:${cake.analyses.humidity},--%>
-            <%--protein:${cake.analyses.protein},--%>
-            <%--cellulose:${cake.analyses.cellulose},--%>
-            <%--oiliness:${cake.analyses.oiliness}--%>
-        <%--}--%>
-    <%--)--%>
-    <%--</c:forEach>--%>
 </script>
-<style>
-    .custom-line{
-        line-height: 0.5;
-        height: 10px;
-
-    }
-    .custom-line:after{
-        content: "";
-        position: absolute;
-        height: 4px;
-        border-bottom: 1px solid gray;
-        width: 50%
-    }
-</style>
 <table border="0" id="editor" >
     <tr>
         <td>
@@ -102,7 +49,7 @@
                     <td>
                         :
                     </td>
-                    <td>
+                    <td class="secure">
                         ${plan.counterparty.value}
                     </td>
                 </tr>
@@ -150,7 +97,7 @@
                     <td>
                         :
                     </td>
-                    <td>
+                    <td class="secure">
                         ${plan.vehicle.value}
                     </td>
                 </tr>

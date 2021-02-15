@@ -21,8 +21,8 @@ public class SignInFilter implements Filter{
 
     private static final String WORKER = "worker";
     UserBox userBox;
-    final Logger log = Logger.getLogger(SignInFilter.class);
-    final SessionTimer sessionTimer = SessionTimer.getInstance();
+//    final Logger log = Logger.getLogger(SignInFilter.class);
+//    final SessionTimer sessionTimer = SessionTimer.getInstance();
 
     @Override
     public void init(FilterConfig filterConfig) {

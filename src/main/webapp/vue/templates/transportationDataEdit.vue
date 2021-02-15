@@ -1,4 +1,4 @@
-var transportView = {
+oldTransportView = {
     props:{
         item:Object,
         fields:Object,

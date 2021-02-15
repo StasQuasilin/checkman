@@ -23,7 +23,7 @@ objectInput = {
     },
     methods:{
         findObject:function(){
-            if (this.props.find) {
+            if (this.props && this.props.find) {
                 clearTimeout(this.timer);
                 if (this.input) {
                     const self = this;
@@ -38,7 +38,7 @@ objectInput = {
             }
         },
         putObject:function(object){
-            if (this.props.put){
+            if (this.props && this.props.put){
                 this.props.put(object, this.item);
             } else if (this.put){
                 this.put(object)
@@ -78,7 +78,7 @@ objectInput = {
             }
         },
         edit:function(){
-            if (this.props.edit){
+            if (this.props && this.props.edit){
                 const self = this;
                 loadModal(this.props.edit, {id:this.object.id}, function(a){
                     if (a.status === 'success'){
