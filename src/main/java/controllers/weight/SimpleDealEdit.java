@@ -41,6 +41,9 @@ public class SimpleDealEdit extends IModal {
         req.setAttribute(ACTIONS, dao.getObjects(ProductAction.class));
         req.setAttribute(SHIPPERS, dao.getShipperList());
         req.setAttribute(UNITS, dao.getObjects(Unit.class));
+        req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
+        req.setAttribute(ORGANISATION_EDIT, Branches.UI.References.ORGANISATION_EDIT);
+        req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute(SAVE, Branches.API.Transportation.DEAL_EDIT);
         show(req, resp);
     }

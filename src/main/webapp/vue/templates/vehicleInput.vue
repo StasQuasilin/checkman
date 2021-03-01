@@ -13,7 +13,8 @@ objectInput = {
             input:'',
             foundObjects:[],
             timer:-1,
-            open:false
+            open:false,
+            showAdd:false
         }
     },
     mounted:function(){
@@ -23,6 +24,7 @@ objectInput = {
     },
     methods:{
         findObject:function(){
+            this.showAdd = false;
             if (this.props && this.props.find) {
                 clearTimeout(this.timer);
                 if (this.input) {
@@ -30,6 +32,13 @@ objectInput = {
                     this.timer = setTimeout(function () {
                         PostApi(self.props.find, {key: self.input}, function (a) {
                             self.foundObjects = a;
+                            if (a.length){
+                                setTimeout(function () {
+                                    self.showAdd = true;
+                                }, 3000)
+                            } else {
+                                self.showAdd = true;
+                            }
                         })
                     }, 600);
                 } else {
@@ -136,7 +145,7 @@ objectInput = {
                             'v-on:click="putObject(o)">' +
                                 '{{show(o)}} ' +
                     '</div>' +
-                    '<div v-if="props.add" class="custom-data-list-item" v-on:click="addItem()">' +
+                    '<div v-if="props.add && showAdd" class="custom-data-list-item" v-on:click="addItem()">' +
                         '<b>' +
                             '+ {{props.addHeader}}' +
                         '</b>' +

@@ -104,22 +104,26 @@ transportFilter = new Vue({
         },
         dates:function(){
             let dates = {};
-            let items = this.items;
+            let items = this.filtered(this.product, this.organisation, null, this.driver);
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     let date = items[i].date;
-                    date.amount = 1;
                     if (!dates[date]) {
-                        dates[date] = {
-                            date:date,
-                            amount:1
-                        };
+                        dates[date] = 1;
                     } else {
-                        dates[date].amount++;
+                        dates[date]++;
                     }
                 }
             }
-            return dates;
+
+            return Object.keys(dates).sort(function (a, b) {
+                return new Date(a) - new Date(b);
+            }).reduce(
+                (obj, key) => {
+                    obj[key] = dates[key];
+                    return obj;
+                },{}
+            );
         },
         drivers:function(){
             let drivers = {};
@@ -166,7 +170,7 @@ transportFilter = new Vue({
                 byCounterparty = item.counterparty.id === counterparty;
             }
             let byDate = true;
-            if (date && date !== -1){
+            if (date != null && date !== '-1'){
                 byDate = item.date === date;
             }
             let byDriver = true;
@@ -218,7 +222,7 @@ transportFilter = new Vue({
             this.type = -1;
             this.product = -1;
             this.organisation = -1;
-            this.date = -1;
+            this.date = '-1';
             this.driver = [];
             this.clearTimes();
         },

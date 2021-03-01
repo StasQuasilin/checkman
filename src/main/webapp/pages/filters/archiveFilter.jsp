@@ -17,7 +17,6 @@
     </c:forEach>
 </script>
 <link rel="stylesheet" href="${context}/css/filter.css">
-
     <div id="filter_view" class="filter">
         <c:set var="noData"><fmt:message key="no.data"/> </c:set>
         <table width="100%">

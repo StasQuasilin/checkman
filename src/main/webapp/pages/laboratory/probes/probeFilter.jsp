@@ -10,7 +10,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <script>
-    transportFilter = new Vue({
+    probeFilter = new Vue({
         el:'#filter_view',
         data:{
             api:{},
@@ -21,13 +21,12 @@
             manager:'',
             types:[],
             result:[],
-            items:[],
             notFound:false
         },
-        mounted:function(){
-
-        },
         methods:{
+            any:function(){
+                return this.from !== -1 || this.organisation || this.manager
+            },
             find:function(){
                 const self = this;
                 let data = {
@@ -45,7 +44,7 @@
                     self.notFound = false;
                     if (a.length > 0) {
                         a.forEach(function (item) {
-                            self.result.push({item: item});
+                            self.result.push(item);
                         });
                         self.result.sort(function(a, b){
                             return new Date(a.date) - new Date(b.date)
@@ -53,7 +52,6 @@
                     } else{
                         self.notFound = true;
                     }
-
                 })
             },
             pickDateFrom:function(){
@@ -66,13 +64,6 @@
                     }
                 }, from)
             },
-            filteredItems:function(){
-                if (this.result.length > 0){
-                    return this.result;
-                }else {
-                    return this.items;
-                }
-            },
             clear:function(){
                 this.from = -1;
                 this.to = -1;
@@ -80,21 +71,16 @@
                 this.manager = "";
                 this.result = [];
                 this.notFound = false;
-            },
-            doFilter:function () {
-
             }
         }
     });
-    transportFilter.api.find = '${find}';
+    probeFilter.api.find = '${find}';
 </script>
 <html>
 <table width="100%" id="filter_view">
     <tr>
-        <td style="font-size: 10pt">
+        <td colspan="2" style="text-align:center; font-size: 10pt">
             <fmt:message key="date"/>
-        </td>
-        <td>
             <span v-on:click="pickDateFrom()">
                 <span v-if="from == -1">
                     <fmt:message key="select"/>
@@ -132,21 +118,23 @@
             <input id="manager" v-model="manager" onfocus="this.select()" autocomplete="off" style="width: 100%">
         </td>
     </tr>
-    <tr>
-        <td colspan="2" align="center">
-            <a class="mini-close" v-on:click="find()"><fmt:message key="find"/></a>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" align="center">
-            <a class="mini-close" v-on:click="clear()"><fmt:message key="button.clear"/></a>
-        </td>
-    </tr>
-    <tr v-if="notFound">
-        <td colspan="2" align="center" style="color: orangered">
-            <fmt:message key="not.found"/>
-        </td>
-    </tr>
+    <template v-if="any()">
+        <tr>
+            <td colspan="2" align="center">
+                <a class="mini-close" v-on:click="find()"><fmt:message key="find"/></a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <a class="mini-close" v-on:click="clear()"><fmt:message key="button.clear"/></a>
+            </td>
+        </tr>
+        <tr v-if="notFound">
+            <td colspan="2" align="center" style="color: orangered">
+                <fmt:message key="not.found"/>
+            </td>
+        </tr>
+    </template>
 </table>
 
 </html>

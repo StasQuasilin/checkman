@@ -2,6 +2,8 @@ package utils;
 
 import entity.seals.Seal;
 import entity.seals.SealBatch;
+import entity.transport.Transportation;
+import utils.hibernate.dao.SealDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -36,4 +38,16 @@ public class SealsUtil {
         }
         updateUtil.onSave(batch);
     }
+
+    public void removeBatch(SealBatch batch) {
+        final List<Seal> seals = dao.getSealsByBatch(batch);
+        for (Seal seal : seals){
+            if (seal.getCargo() == null){
+                dao.remove(seal);
+            }
+        }
+        checkBatch(batch);
+    }
+
+
 }

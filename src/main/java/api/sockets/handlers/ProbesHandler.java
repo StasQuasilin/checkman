@@ -11,6 +11,8 @@ import javax.websocket.Session;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import static constants.Constants.UPDATE;
+
 /**
  * Created by szpt_user045 on 19.07.2019.
  */
@@ -20,7 +22,7 @@ public class ProbesHandler extends OnSubscribeHandler {
         JSONArray array = ActiveSubscriptions.pool.getArray();
         array.addAll(dao.getLimitProbeTurns().stream().map(ProbeTurn::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
-        json.put(ADD, array);
+        json.put(UPDATE, array);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         ActiveSubscriptions.pool.put(json);
     }

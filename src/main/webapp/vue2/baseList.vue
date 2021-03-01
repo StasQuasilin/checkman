@@ -38,7 +38,7 @@ bl = {
             if (typeof this.sort === "function"){
                 return items.sort(this.sort);
             } else {
-                console.log('no sort');
+                console.log('Function \'Sort\' not realized!');
             }
             return items;
         }

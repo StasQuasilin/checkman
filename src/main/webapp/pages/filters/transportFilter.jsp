@@ -6,20 +6,10 @@
 <html>
 <link rel="stylesheet" href="${context}/css/filter.css?v=${now}">
 <script src="${context}/vue/filters/transportFilter.vue?v=${now}"></script>
-<script>
-    transportFilter.filters.types.push({
-        id:'buy',
-        value:'<fmt:message key="buy"/>'
-    });
-    transportFilter.filters.types.push({
-        id:'sell',
-        value:'<fmt:message key="sell"/>'
-    });
-</script>
     <div id="filter_view" style="width: 100%">
         <table style="height: 100%; width: 100%">
             <tr>
-                <td colspan="2" style="text-align: center; font-size: 10pt">
+                <td colspan="2" style="text-align: center;">
                     <a v-on:click="clear"><fmt:message key="filter.clear"/> </a>
                 </td>
             </tr>
@@ -48,10 +38,10 @@
             <tr>
                 <td colspan="2">
                     <div class="mini-close" v-on:click="putProduct(-1)" :class="{bold : product === -1}">
-                        <fmt:message key="all"/> ( {{filtered(null, organisation, date, driver).length}} )
+                        <fmt:message key="all"/>: {{filtered(null, organisation, date, driver).length}}
                     </div>
-                    <div v-for="p in products()" v-on:click="putProduct(p.id)" class="mini-close" style="padding-top: 4pt; font-size: 9pt" :class="{bold : product === p.id}">
-                        {{p.name}} ( {{p.amount}} )
+                    <div v-for="p in products()" v-on:click="putProduct(p.id)" class="mini-close" style="padding-top: 4pt; font-size: 11pt" :class="{bold : product === p.id}">
+                        {{p.name}}:&nbsp;{{p.amount}}
                     </div>
                 </td>
             </tr>
@@ -64,8 +54,8 @@
                 <td>
                     <select id="date" v-model="date" style="width: 100%">
                         <option value="-1"><fmt:message key="all"/> </option>
-                        <option v-for="date in dates()" :value="date.date">
-                            {{new Date(date.date).toLocaleDateString()}} - {{date.amount}}
+                        <option v-for="(amount, date) in dates()" :value="date">
+                            {{new Date(date).toLocaleDateString()}}: {{amount}}
                         </option>
                     </select>
                 </td>

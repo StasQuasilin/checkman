@@ -1,10 +1,13 @@
 package utils;
 
 import entity.documents.Deal;
+import entity.seals.Seal;
+import entity.seals.SealBatch;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import utils.hibernate.DateContainers.LE;
 import utils.hibernate.dao.DealDAO;
+import utils.hibernate.dao.SealDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -22,7 +25,9 @@ public final class Archivator {
     final static Logger log = Logger.getLogger(Archivator.class);
     final static dbDAO dao = dbDAOService.getDAO();
     final static DealDAO dealDao = new DealDAO();
+    final static SealDAO sealDao = new SealDAO();
     final static UpdateUtil updateUtil = new UpdateUtil();
+    final static SealsUtil sealsUtil = new SealsUtil();
 
     public static void init(){
         next();
@@ -46,6 +51,12 @@ public final class Archivator {
             dealUtil.removeDeal(deal);
             log.info("\tArchive deal " + deal.getId());
             break;
+        }
+
+        date = Date.valueOf(LocalDate.now().minusMonths(2));
+        lt = new LE(date);
+        for (SealBatch batch : sealDao.getBatchesByDate(lt)){
+            sealsUtil.removeBatch(batch);
         }
     }
 

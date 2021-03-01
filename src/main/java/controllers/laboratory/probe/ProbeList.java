@@ -22,7 +22,7 @@ public class ProbeList extends IUIServlet {
 
     private static final String _FILTER = "/pages/laboratory/probes/probeFilter.jsp";
     final Subscriber[] subscribe = new Subscriber[]{Subscriber.PROBES};
-    final AnalysesType[] types = new AnalysesType[]{AnalysesType.sun, AnalysesType.oil, AnalysesType.cake};
+    final AnalysesType[] types = new AnalysesType[]{AnalysesType.sun, AnalysesType.oil};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +34,7 @@ public class ProbeList extends IUIServlet {
 
         Role role = getRole(req);
         if (role == Role.analyser || role == Role.admin){
-            req.setAttribute("analysesTypes", types);
+            req.setAttribute(TYPES, types);
             req.setAttribute(EDIT, Branches.UI.PROBE_EDIT);
         }
         req.setAttribute(SUBSCRIBE, subscribe);

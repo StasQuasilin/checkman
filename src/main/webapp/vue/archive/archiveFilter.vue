@@ -23,7 +23,6 @@ transportFilter = new Vue({
         result:[],
         fnd:-1,
         tooFewParam:false
-
     },
     computed:{
         filterDate:function(){

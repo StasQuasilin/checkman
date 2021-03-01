@@ -17,11 +17,11 @@
     dealEdit.api.save = '${save}';
     dealEdit.organisationProps = {
         find:'${findOrganisation}',
-        edit:'${editOrganisation}',
+        edit:'${organisationEdit}',
         add:'${parseOrganisation}',
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="counterparty.add"/>',
-        put:editor.putOrganisation,
+        put:dealEdit.putOrganisation,
         show:['value']
     };
     <c:forEach items="${products}" var="product">
@@ -67,8 +67,6 @@
     dealEdit.deal.type = dealEdit.currentActions[0];
     dealEdit.check();
     </c:if>
-
-    console.log(dealEdit.deal);
 </script>
 <table id="dealEdit" class="editor">
     <tr v-if="deal.id !== -1">

@@ -318,13 +318,8 @@ public class Transportation extends JsonAble implements Serializable, Constants 
 
     @Transient
     public boolean any(){
-        return
-            timeIn != null ||
-            timeOut != null ||
-            weight != null ||
-            sunAnalyses != null ||
-            oilAnalyses != null ||
-            mealAnalyses != null;
+        return timeIn != null || timeOut != null || weight != null ||
+                sunAnalyses != null || oilAnalyses != null || mealAnalyses != null;
     }
 
     @Override

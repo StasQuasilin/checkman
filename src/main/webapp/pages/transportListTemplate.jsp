@@ -134,7 +134,6 @@
                  { done : value.item.weight && (value.item.weight.brutto > 0 && value.item.weight.tara > 0) },
                  { loading: value.item.weight && (value.item.weight.tara > 0 && value.item.weight.brutto == 0 ||
                  value.item.weight.brutto > 0 && value.item.weight.tara == 0)}]"
-                 v-on:click="edit(value.item.id)"
                  v-on:click.right="contextMenu(value.item)">
                         <div style="display: inline-block; max-width: 98%; width: 94%">
                             <div class="upper-row" style="font-size: 11pt">

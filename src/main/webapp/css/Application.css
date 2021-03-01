@@ -374,8 +374,12 @@ input.error {
     border: solid gray 1px;
 }
 .probe-table{
+    width: 100%;
     font-size: 10pt;
     margin-left: 18pt
+}
+.probe-table td{
+    padding-left: 8pt;
 }
 .probe-table *{
     user-select: text;

@@ -4,37 +4,51 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<link rel="stylesheet" href="${context}/css/DataContainer.css">
+<link rel="stylesheet" href="${context}/css/DataContainer.css?v=${now}">
 <c:if test="${edit ne null}">
     <div id="container-header" style="display: inline">
-        <c:forEach items="${analysesTypes}" var="a">
+        <c:forEach items="${types}" var="a">
             <button ondblclick="" onclick="loadModal('${edit}?type=${a}')">
                 <fmt:message key="${a}"/>
             </button>
         </c:forEach>
     </div>
 </c:if>
+<script src="${context}/vue2/baseList.vue?v=${now}"></script>
+<script src="${context}/vue2/probeView.vue?v=${now}"></script>
+<script src="${context}/vue2/probeList.vue?v=${now}"></script>
 <script>
-    transportView = {
+    probeList.fields ={
+        turn:'<fmt:message key="turn"/>',
+        sun:{
+            title:'<fmt:message key="sun"/>',
+            humidity:'<fmt:message key="sun.humidity"/>',
+            soreness:'<fmt:message key="sun.soreness"/>',
+            oiliness:'<fmt:message key="sun.oiliness"/>',
+            impurity:'<fmt:message key="sun.oil.impurity"/>',
+            acid:'<fmt:message key="sun.acid.value"/>'
+        },
+        oil:{
+            title:'<fmt:message key="oil"/>',
+            organoleptic:'<fmt:message key="oil.organoleptic"/>',
+            organolepticYes:'<fmt:message key="oil.organoleptic.match"/>',
+            organolepticNo:'<fmt:message key="oil.organoleptic.doesn't.match"/>',
+            color:'<fmt:message key="oil.color.value"/>',
+            acid:'<fmt:message key="sun.acid.value"/>',
+            peroxide:'<fmt:message key="oil.peroxide"/>',
+            phosphorus:'<fmt:message key="oil.phosphorus"/>',
+            wax:'<fmt:message key="oil.wax"/>',
+            soap:'<fmt:message key="oil.soap"/>',
+            soapYes:'',
+            soapNo:''
+        },
+        organisation:'<fmt:message key="deal.organisation"/>',
+        manager:'<fmt:message key="deal.manager"/>'
 
-    }
-</script>
-<script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
-<script src="${context}/vue/templates/pricePlug.vue"></script>
-<script src="${context}/vue/templates/commentatorPlug.vue"></script>
-<script src="${context}/vue/dataList.vue"></script>
-<script>
-    list.limit = 14;
-    list.getItems = function(){
-        if (transportFilter.result.length > 0)
-        return transportFilter.result;
-        else
-            return list.items;
     };
-
     <c:forEach items="${subscribe}" var="s">
     subscribe('${s}', function(a){
-        list.handler(a);
+        probeList.handle(a);
     });
     </c:forEach>
     stopContent = function(){
@@ -45,156 +59,7 @@
         </c:forEach>
     }
 </script>
-<div id="container" class="container">
-    <div v-for="item in getItems()" class="container-item" style="display: inline-block"
-         :class="'container-item-' + new Date(item.item.date).getDay()">
-        <div class="upper-row">
-            {{new Date(item.item.date).toLocaleDateString()}}
-            {{new Date(item.item.date).toLocaleTimeString().substring(0, 5)}}
-            <fmt:message key="turn"/> <span>#</span>{{item.item.number}}
-        </div>
-        <div class="lower-row" style="font-size: 10pt">
-            <div v-if="item.item.sun.length > 0">
-                <b style="color: #535353; font-size: 14pt"><fmt:message key="sun"/></b>
-                <table class="probe-table">
-                    <tr>
-                        <th>
-                            <fmt:message key="sun.humidity"/>
-                        </th>
-                        <th>
-                            <fmt:message key="sun.soreness"/>
-                        </th>
-                        <th>
-                            <fmt:message key="sun.oiliness"/>
-                        </th>
-                        <th>
-                            <fmt:message key="sun.oil.impurity"/>
-                        </th>
-                        <th>
-                            <fmt:message key="sun.acid.value"/>
-                        </th>
-                        <th>
-                            <fmt:message key="deal.organisation"/>
-                        </th>
-                        <th>
-                            <fmt:message key="deal.manager"/>
-                        </th>
-                    </tr>
-                    <tr v-for="sun in item.item.sun">
-                        <td>
-                            {{sun.analyses.humidity1}}
-                        </td>
-                        <td>
-                            {{sun.analyses.soreness}}
-                        </td>
-                        <td>
-                            {{sun.analyses.oiliness}}
-                        </td>
-                        <td>
-                            {{sun.analyses.oilImpurity}}
-                        </td>
-                        <td>
-                            {{sun.analyses.acidValue}}
-                        </td>
-                        <td>
-                            {{sun.organisation}}
-                        </td>
-                        <td>
-                            {{sun.manager}}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div v-if="item.item.oil.length > 0">
-                <b style="color: #929b00; font-size: 14pt"><fmt:message key="oil"/></b>
-                <table style="font-size: 10pt; margin-left: 18pt">
-                    <tr>
-                        <th>
-                            <fmt:message key="oil.organoleptic"/>
-                        </th>
-                        <th>
-                            <fmt:message key="oil.color.value"/>:
-                        </th>
-                        <th>
-                            <fmt:message key="sun.acid.value"/>:
-                        </th>
-                        <th>
-                            <fmt:message key="oil.peroxide"/>:
-                        </th>
-                        <th>
-                            <fmt:message key="oil.phosphorus"/>:
-                        </th>
-                        <th>
-                            <fmt:message key="oil.wax"/>
-                        </th>
-                        <th>
-                            <fmt:message key="oil.soap"/>
-                        </th>
-                        <th>
-                            <fmt:message key="deal.organisation"/>
-                        </th>
-                        <th>
-                            <fmt:message key="deal.manager"/>
-                        </th>
-                    </tr>
-                    <tr v-for="oil in item.item.oil">
-                        <td>
-                            <span v-if="oil.analyses.organoleptic">
-                                <fmt:message key="oil.organoleptic.match"/>
-                            </span>
-                            <span v-else>
-                                <fmt:message key="oil.organoleptic.doesn't.match"/>
-                            </span>
-                        </td>
-                        <td>
-                            {{oil.analyses.color}}
-                        </td>
-                        <td>
-                            {{oil.analyses.color}}
-                        </td>
-                        <td>
-                            {{oil.analyses.acid}}
-                        </td>
-                        <td>
-                            {{oil.analyses.peroxide}}
-                        </td>
-                        <td>
-                            {{oil.analyses.phosphorus}}
-                        </td>
-                        <td>
-                            {{oil.analyses.wax}}
-                        </td>
-                        <td>
-                            {{oil.organisation}}
-                        </td>
-                        <td>
-                            {{oil.manager}}
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-            <template v-if="item.item.type == 'oil'">
-                <b style="color: #929b00"><fmt:message key="oil"/></b>
-                <fmt:message key="oil.color.value"/>:
-                {{item.item.analyses.color}},
-                <fmt:message key="sun.acid.value"/>:
-                {{item.item.analyses.acid}},
-                <fmt:message key="oil.peroxide"/>:
-                {{item.item.analyses.peroxide}},
-                <fmt:message key="oil.phosphorus"/>:
-                {{item.item.analyses.phosphorus}},
-                <fmt:message key="oil.wax"/>
-                {{item.item.analyses.wax}},
-                <fmt:message key="oil.soap"/>
-                <span v-if="item.item.analyses.soap">
-                    +
-                </span>
-                <span v-else>
-                    -
-                </span>
-            </template>
-        </div>
-    </div>
+<div id="probeList" class="container">
+    <probe-view v-for="item in filteredItems()" :item="item" :fields="fields" :key="item.id"></probe-view>
 </div>
 </html>

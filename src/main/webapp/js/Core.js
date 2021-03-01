@@ -1,12 +1,7 @@
 /**
  * Created by quasilin on 13.03.2019.
  */
-const DEBUG = false;
-
-function readystatechange(e) {
-
-}
-
+DEBUG = false;
 function PostReq(url, parametrs, onSuccess, onError, debug){
     if (url) {
         if (context && url.substring(0, context.length) !== context) {
