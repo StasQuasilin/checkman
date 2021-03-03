@@ -5,18 +5,8 @@ import api.deal.DealEditor;
 import constants.Branches;
 import entity.Worker;
 import entity.documents.Deal;
-import entity.documents.Shipper;
-import entity.log.comparators.DealComparator;
-import entity.log.comparators.TransportComparator;
-import entity.organisations.Address;
-import entity.organisations.Organisation;
 import entity.transport.*;
-import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.NoteUtil;
-import utils.U;
-import utils.UpdateUtil;
 import utils.storages.StorageUtil;
 import utils.transport.TransportationEditor;
 
@@ -25,9 +15,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -52,7 +39,7 @@ public class WeightAddAPI extends ServletAPI {
             }
 
             Deal deal = dealEditor.editDeal((JSONObject) body.get(DEAL), manager);
-            Transportation transportation = transportationEditor.saveTransportation(deal, body, creator, manager);
+            Transportation transportation = transportationEditor.saveTransportation(deal, null, body, creator, manager);
 
             dao.save(transportation);
             dao.getUsedStoragesByTransportation(transportation).forEach(storageUtil::updateStorageEntry);

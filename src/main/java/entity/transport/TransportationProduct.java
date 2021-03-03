@@ -1,6 +1,5 @@
 package entity.transport;
 
-import entity.documents.Deal;
 import entity.documents.DealProduct;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
@@ -9,6 +8,7 @@ import entity.organisations.Address;
 import entity.weight.Weight;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Created by szpt_user045 on 03.03.2020.
@@ -18,6 +18,8 @@ import javax.persistence.*;
 public class TransportationProduct {
     private int id;
     private TransportationGroup group;
+    private Transportation transportation;
+    private Address address;
     private DealProduct dealProduct;
     private float amount;
     private Weight weight;
@@ -42,6 +44,24 @@ public class TransportationProduct {
     }
     public void setGroup(TransportationGroup group) {
         this.group = group;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "_transportation")
+    public Transportation getTransportation() {
+        return transportation;
+    }
+    public void setTransportation(Transportation transportation) {
+        this.transportation = transportation;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "_address")
+    public Address getAddress() {
+        return address;
+    }
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @OneToOne
@@ -105,5 +125,16 @@ public class TransportationProduct {
     }
     public void setMealAnalyses(MealAnalyses mealAnalyses) {
         this.mealAnalyses = mealAnalyses;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        TransportationProduct product = (TransportationProduct) o;
+        return product.dealProduct.equals(dealProduct);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, group, transportation, address, dealProduct, amount, weight, uid, sunAnalyses, oilAnalyses, mealAnalyses);
     }
 }

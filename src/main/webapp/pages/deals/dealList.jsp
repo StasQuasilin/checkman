@@ -49,6 +49,9 @@
            v-on:click="show(item.id)" ondblclick="" v-on:click.right="showMenu(item)">
         <div style="display: table-cell; border-right: solid gray 1.2pt; padding: 2pt 4pt; vertical-align: middle" >
           <span style="font-size: 8pt">
+            <span v-if="item.products.length > 0" style="color: green">
+              &checkmark;
+            </span>
             ID:{{item.id}}
           </span><br>
           <template v-if="item.number">
@@ -74,30 +77,52 @@
               <fmt:message key="unknown"/>
             </b>
           </span>
-          <span>
-            <fmt:message key="deal.product"/>:
-            <b>
-              {{item.product.name}},
-            </b>
-          </span>
-          <span v-if="item.quantity > 0">
-            <b>
-              {{item.quantity}}
-              {{item.unit.name}}
-            </b>
-          </span>
-          <span v-if="item.price > 0">
-            <fmt:message key="deal.price"/>:
-            <b class="secure">
-              {{(item.price).toLocaleString()}}
-            </b>
-          </span>
-          <span style="width: 12%">
-            <fmt:message key="deal.from"/>:
-            <b class="secure">
-              {{item.shipper.name}}
-            </b>
-          </span>
+            <span style="float: right">
+              <fmt:message key="deal.product"/>:
+              <template v-if="item.products.length > 0">
+                <span v-for="product in item.products">
+                  <b>
+                    {{product.product.name}},
+                  </b>
+                  <b v-if="item.products.length < 3">
+                    {{product.quantity.toLocaleString()}}
+                    {{product.unit.name}}
+                  </b>
+                  <span v-if="item.products.length < 2 && product.price > 0">
+                    <fmt:message key="deal.price"/>:
+                    {{(product.price).toLocaleString()}}
+                  </span>
+                  <fmt:message key="deal.from"/>:
+                    <b class="secure">
+                      {{product.shipper.name}}
+                    </b>
+                  </span>
+              </template>
+              <template v-else>
+                <b>
+                  {{item.product.name}},
+                </b>
+                <span v-if="item.quantity > 0">
+                  <b>
+                    {{item.quantity}}
+                    {{item.unit.name}}
+                  </b>
+                </span>
+                <span v-if="item.price > 0">
+                  <fmt:message key="deal.price"/>:
+                    <b class="secure">
+                      {{(item.price).toLocaleString()}}
+                    </b>
+                </span>
+                <span style="width: 12%">
+                <fmt:message key="deal.from"/>:
+                  <b class="secure">
+                    {{item.shipper.name}}
+                  </b>
+                </span>
+              </template>
+            </span>
+
           </div>
           <div class="row" style="font-size: 10pt">
           <span>

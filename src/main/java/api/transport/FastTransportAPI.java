@@ -1,12 +1,10 @@
 package api.transport;
 
 import api.ServletAPI;
-import api.deal.DealEditor;
 import api.deal.FastDealEditor;
 import constants.Branches;
 import entity.Worker;
 import entity.documents.Deal;
-import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.transport.TransportationEditor;
 
@@ -35,7 +33,7 @@ public class FastTransportAPI extends ServletAPI {
 
             Deal deal = dealEditor.editDeal((JSONObject) body.get(DEAL), worker);
 
-            transportationEditor.saveTransportation(deal, body, worker, manager);
+            transportationEditor.saveTransportation(deal, null, body, worker, manager);
             write(resp, SUCCESS_ANSWER);
         }
     }

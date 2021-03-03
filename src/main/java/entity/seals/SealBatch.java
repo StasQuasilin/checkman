@@ -33,7 +33,6 @@ public class SealBatch extends JsonAble{
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String name) {
         this.title = name;
     }

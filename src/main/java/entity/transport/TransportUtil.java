@@ -122,13 +122,6 @@ public class TransportUtil{
         transportation.setManager(manager);
         transportation.setCreateTime(new ActionTime(creator));
 
-        TransportationGroup group = new TransportationGroup();
-        group.setTransportation(transportation);
-        group.setAddress(deal.getAddress());
-        Set<TransportationGroup> groups = new HashSet<>();
-        groups.add(group);
-        transportation.setTransportationGroups(groups);
-
         transportation.setShipper(deal.getShipper());
         transportation.setProduct(deal.getProduct());
         transportation.setDeal(deal);

@@ -11,6 +11,8 @@ import javax.websocket.Session;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import static constants.Constants.UPDATE;
+
 /**
  * Created by szpt_user045 on 03.02.2020.
  */
@@ -25,7 +27,7 @@ public class SealHandler extends OnSubscribeHandler {
         JSONObject json = pool.getObject();
         JSONArray add = pool.getArray();
         add.addAll(dao.getActiveSealsBatches().stream().map(SealBatch::toJson).collect(Collectors.toList()));
-        json.put(ADD, add);
+        json.put(UPDATE, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
         pool.put(json);
     }

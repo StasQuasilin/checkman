@@ -50,7 +50,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     private String uid;
     private TransportCustomer customer;
     private ActionTime createTime;
-    private Set<TransportationGroup> transportationGroups;
+    private Set<TransportationProduct> products;
     private Address address;
     @Deprecated
     private SunAnalyses sunAnalyses;
@@ -346,11 +346,11 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportation", cascade = CascadeType.ALL)
-    public Set<TransportationGroup> getTransportationGroups() {
-        return transportationGroups;
+    public Set<TransportationProduct> getProducts() {
+        return products;
     }
-    public void setTransportationGroups(Set<TransportationGroup> transportationGroups) {
-        this.transportationGroups = transportationGroups;
+    public void setProducts(Set<TransportationProduct> products) {
+        this.products = products;
     }
 
     @Enumerated(EnumType.STRING)

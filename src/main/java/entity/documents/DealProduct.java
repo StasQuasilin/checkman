@@ -1,10 +1,12 @@
 package entity.documents;
 
 import constants.Constants;
+import entity.JsonAble;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.transport.ActionTime;
 import entity.weight.Unit;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
@@ -13,7 +15,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "deal_products")
-public class DealProduct implements Constants{
+public class DealProduct extends JsonAble implements Constants {
     private int id;
     private Deal deal;
     private Product product;    //!
@@ -113,5 +115,17 @@ public class DealProduct implements Constants{
     @Override
     public boolean equals(Object obj) {
         return getClass() == obj.getClass() && hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        final JSONObject object = new JSONObject();
+        object.put(ID, id);
+        object.put(PRODUCT, product.toShortJson());
+        object.put(QUANTITY, quantity);
+        object.put(UNIT, unit.toJson());
+        object.put(SHIPPER, shipper.toJson());
+        object.put(PRICE, price);
+        return object;
     }
 }

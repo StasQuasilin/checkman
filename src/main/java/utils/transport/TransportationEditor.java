@@ -3,6 +3,7 @@ package utils.transport;
 import constants.Constants;
 import entity.Worker;
 import entity.documents.Deal;
+import entity.documents.DealProduct;
 import entity.log.comparators.TransportComparator;
 import entity.organisations.Address;
 import entity.organisations.Organisation;
@@ -18,10 +19,7 @@ import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static constants.Constants.*;
 
@@ -32,12 +30,10 @@ public class TransportationEditor {
     private final NoteUtil noteUtil = new NoteUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
-    public Transportation saveTransportation(Deal deal, JSONObject json, Worker creator, Worker manager) throws IOException {
+    public Transportation saveTransportation(Deal deal, DealProduct product, JSONObject json, Worker creator, Worker manager) throws IOException {
 
         boolean save = false;
         boolean isNew = false;
-
-        log.info(json);
 
         Transportation transportation = dao.getObjectById(Transportation.class, json.get(ID));
         if (transportation == null){
@@ -47,6 +43,8 @@ public class TransportationEditor {
         } else {
             transportComparator.fix(transportation);
         }
+
+        final List<TransportationProduct> transportationProducts = buildProductMap(transportation);
 
         if (transportation.getDeal() == null || transportation.getDeal().getId() != deal.getId()){
             transportation.setDeal(deal);
@@ -144,7 +142,7 @@ public class TransportationEditor {
         List<DocumentNote> liveNotes = transportation.getNotes();
         if (liveNotes == null){
             liveNotes = new ArrayList<>();
-        }else {
+        } else {
             liveNotes.clear();
         }
         if (json.containsKey(NOTES)){
@@ -197,18 +195,15 @@ public class TransportationEditor {
                 dao.save(transportation.getCreateTime());
             }
             dao.save(transportation);
-
-            Set<TransportationGroup> transportationGroups = transportation.getTransportationGroups();
-            if (transportationGroups != null) {
-                for (TransportationGroup group : transportationGroups) {
-                    dao.save(group);
-                }
-            }
             updateUtil.onSave(transportation);
         }
 
         transportComparator.compare(transportation, creator);
 
         return transportation;
+    }
+
+    private List<TransportationProduct> buildProductMap(Transportation transportation) {
+        return new LinkedList<>(transportation.getProducts());
     }
 }

@@ -1,4 +1,4 @@
-var plan = new Vue({
+plan = new Vue({
     el: '#load_plan',
     components:{
         'object-input':objectInput
@@ -14,7 +14,9 @@ var plan = new Vue({
             editVehicle: '',
             editDriver: ''
         },
-        deal:0,
+        deal:null,
+        selectedProduct:-1,
+        dealId:0,
         dateFrom:'',
         dateTo:'',
         quantity:0,
@@ -39,8 +41,8 @@ var plan = new Vue({
 
         },
         messages:function(){
-            var msgs = [];
-            var total = this.totalPlan();
+            const msgs = [];
+            let total = this.totalPlan();
             if (total > this.quantity) {
                 msgs.push('Объем по сделке будет увеличен на ' + (total - this.quantity).toLocaleString() + '&nbsp;' + this.unit + '!');
             }
@@ -210,7 +212,7 @@ var plan = new Vue({
                     }
                 }
 
-                PostApi(this.api.save, {deal: this.deal, plan: plan}, function (a) {
+                PostApi(this.api.save, {deal: this.dealId, product:this.selectedProduct, plan: plan}, function (a) {
                     if (a.status === 'success') {
                         if (a.id) {
                             item.id = a.id;
@@ -236,13 +238,13 @@ var plan = new Vue({
             }else{
                 this.initSaveTimer(item);
             }
-            if (driver.organisation && !item.item.transporter || item.item.transporter.id == -1){
+            if (driver.organisation && !item.item.transporter || item.item.transporter.id === -1){
                 this.setTransporter(driver.organisation, item);
             }
         },
         setVehicle:function(vehicle, item){
             item.item.vehicle = vehicle;
-            if (vehicle.trailer && item.item.trailer.id == -1){
+            if (vehicle.trailer && item.item.trailer.id === -1){
                 this.setTrailer(vehicle.trailer, item);
             } else {
                 this.initSaveTimer(item);
@@ -259,18 +261,18 @@ var plan = new Vue({
         weight:function(item){
             if (item.weight === 'undefined') {
                 console.log('calculate weight');
-                var w = {
-                    brutto:0,
-                    tara:0,
-                    netto:function(){
-                        if(brutto > 0 && tara > 0) {
+                let w = {
+                    brutto: 0,
+                    tara: 0,
+                    netto: function () {
+                        if (brutto > 0 && tara > 0) {
                             return brutto - tara;
                         } else {
                             return 0;
                         }
                     }
                 };
-                var weight = item.weight[i];
+                let weight = item.weight[i];
                 w.brutto += weight.brutto;
                 w.tara += weight.tara;
                 item.weight = w;
@@ -362,7 +364,7 @@ var plan = new Vue({
             }
         },
         closeNote:function(key){
-            for (var i in this.plans){
+            for (let i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
                     this.plans[i].editNote = false;
                 }

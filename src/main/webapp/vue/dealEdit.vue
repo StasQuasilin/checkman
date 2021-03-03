@@ -94,13 +94,23 @@ dealEdit = new Vue({
             if (!e.organisation && !e.quantity && !e.price) {
                 let data = Object.assign({}, this.deal);
                 data.counterparty = this.deal.counterparty.id;
-                data.products = [{
-                    product:data.product,
-                    quantity:data.quantity,
-                    unit:data.unit,
-                    shipper:data.shipper,
-                    price:data.price
-                }];
+                if (data.products.length === 0) {
+                    data.products = [{
+                        id:-1,
+                        product: data.product,
+                        quantity: data.quantity,
+                        unit: data.unit,
+                        shipper: data.shipper,
+                        price: data.price
+                    }];
+                } else {
+                    let prod = data.products[0];
+                    prod.product = data.product;
+                    prod.quantity = data.quantity;
+                    prod.unit = data.unit;
+                    prod.shipper = data.shipper;
+                    prod.price = data.price;
+                }
                 PostApi(this.api.save, data, function (a) {
                     if (a.status === 'success') {
                         closeModal();

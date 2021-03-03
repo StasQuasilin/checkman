@@ -10,6 +10,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "transportation_groups")
+@Deprecated
 public class TransportationGroup {
     private int id;
     private Transportation transportation;

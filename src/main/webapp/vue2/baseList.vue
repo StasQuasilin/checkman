@@ -6,6 +6,9 @@ bl = {
     },
     methods:{
         handle:function(data){
+            if (data.add){
+                console.warn('What! Can i do with ADD attribute?')
+            }
             if(data.update){
                 for (let u in data.update){
                     if (data.update.hasOwnProperty(u)){

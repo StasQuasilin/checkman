@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.Worker;
 import entity.documents.Deal;
+import entity.documents.DealProduct;
 import entity.log.comparators.TransportComparator;
 import entity.transport.*;
 import org.apache.log4j.Logger;
@@ -25,9 +26,6 @@ import java.io.IOException;
 public class SaveLoadPlanAPI extends ServletAPI {
 
     final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);
-    final TransportComparator transportComparator = new TransportComparator();
-    final UpdateUtil updateUtil = new UpdateUtil();
-    final NoteUtil noteUtil = new NoteUtil();
     final TransportationEditor transportationEditor = new TransportationEditor();
 
     @Override
@@ -37,11 +35,14 @@ public class SaveLoadPlanAPI extends ServletAPI {
         if(body != null) {
             log.info(body);
             Deal deal = dao.getObjectById(Deal.class, body.get(DEAL));
-            log.info("Save load plan for deal '" + deal.getId() + "'...");
+            DealProduct product = null;
+            if (body.containsKey(PRODUCT)){
+                product = dao.getObjectById(DealProduct.class, body.get(PRODUCT));
+            }
             Worker worker = getWorker(req);
 
             JSONObject json = (JSONObject) body.get(PLAN);
-            Transportation transportation = transportationEditor.saveTransportation(deal, json, worker, worker);
+            Transportation transportation = transportationEditor.saveTransportation(deal, product, json, worker, worker);
 
             JSONObject toJson = new SuccessAnswer(ID, transportation.getId()).toJson();
             write(resp, toJson.toJSONString());

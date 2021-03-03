@@ -53,9 +53,7 @@ public class Carrier {
             transportation.setId(0);
         }
         ArrayList<DocumentNote> notes = new ArrayList<>(transportation.getNotes());
-        ArrayList<TransportationGroup> groups = new ArrayList<>(transportation.getTransportationGroups());
         transportation.setNotes(null);
-        transportation.setTransportationGroups(null);
 
         checkTime(transportation.getTimeOut());
         checkTime(transportation.getTimeIn());
@@ -155,12 +153,6 @@ public class Carrier {
         for (DocumentNote note : notes){
             note.setId(0);
             target.save(note);
-        }
-
-        for (TransportationGroup group : groups){
-            group.setId(0);
-            group.setTransportation(transportation);
-            target.save(group);
         }
     }
 

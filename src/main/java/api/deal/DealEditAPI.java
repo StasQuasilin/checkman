@@ -1,6 +1,6 @@
 package api.deal;
 
-import api.IChangeServletAPI;
+import api.EditAPI;
 import constants.Branches;
 import entity.answers.Answer;
 import entity.documents.Deal;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.DEAL_SAVE)
-public class DealEditAPI extends IChangeServletAPI {
+public class DealEditAPI extends EditAPI {
 
     private final DealEditor dealEditor = new DealEditor();
 

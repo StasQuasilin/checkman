@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-<link rel="stylesheet" href="${context}/css/LoadPlan.css">
-<script src="${context}/vue/templates/vehicleInput.vue"></script>
-<script src="${context}/vue/loadPlan.vue"></script>
+<link rel="stylesheet" href="${context}/css/LoadPlan.css?v=${now}">
+<script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
+<script src="${context}/vue/loadPlan.vue?v=${now}"></script>
 <script>
   <c:forEach items="${transportations}" var="transportation">
   plan.add(${transportation.toJson()});
@@ -19,7 +19,11 @@
   </c:forEach>
   Vue.set(plan.tabNames, 'vehicles', '<fmt:message key="deal.tab.vehicles"/>');
   Vue.set(plan.tabNames, 'rails', '<fmt:message key="deal.tab.rails"/>');
-  plan.deal = '${deal.id}';
+  plan.deal = ${deal.toJson()};
+  if (plan.deal.products.length > 0){
+    plan.selectedProduct = plan.deal.products[0].id;
+  }
+  plan.dealId = '${deal.id}';
   plan.dateFrom = new Date('${deal.date}');
   plan.dateTo = new Date('${deal.dateTo}');
   plan.quantity = ${deal.quantity};
@@ -42,7 +46,6 @@
     addHeader:'<fmt:message key="button.add"/>',
     header:'<fmt:message key="driver.add"/>',
     put:function(driver, item){
-
       plan.setDriver(driver, item);
     },
     show:['person/value']
@@ -138,7 +141,16 @@
             <fmt:message key="deal.product"/>
           </td>
           <td>
-            :${deal.product.name}
+<%--            <template v-if="deal.products.length > 0">--%>
+<%--              <select v-model="selectedProduct">--%>
+<%--                <option v-for="product in deal.products" :value="product.id">--%>
+<%--                  {{product.product.name}}--%>
+<%--                </option>--%>
+<%--              </select>--%>
+<%--            </template>--%>
+<%--            <template v-else>--%>
+              :${deal.product.name}
+<%--            </template>--%>
           </td>
         </tr>
         <tr>

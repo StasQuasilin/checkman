@@ -260,6 +260,7 @@ public class Deal extends JsonAble{
         }
         object.put(SHIPPER, shipper.toJson());
         object.put(PRODUCT, product.toJson());
+        object.put(PRODUCTS, products());
         object.put(QUANTITY, quantity);
         object.put(UNIT, unit.toJson());
         object.put(PRICE, price);
@@ -268,6 +269,14 @@ public class Deal extends JsonAble{
         }
 
         return object;
+    }
+
+    private JSONArray products() {
+        JSONArray array = new JSONArray();
+        for (DealProduct product : products){
+            array.add(product.toJson());
+        }
+        return array;
     }
 
     @Override

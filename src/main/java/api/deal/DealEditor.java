@@ -94,6 +94,7 @@ public class DealEditor implements Constants {
 
         //DEAL PRODUCT PART
 
+
         Organisation organisation;
         long organisationId = (long) body.get(COUNTERPARTY);
         if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisationId) {
@@ -101,6 +102,8 @@ public class DealEditor implements Constants {
             deal.setOrganisation(organisation);
             save = true;
         }
+
+        saveDealProducts(deal, (JSONArray) body.get(PRODUCTS), creator);
 
         Product product = dao.getProductById(body.get(PRODUCT));
         if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {
@@ -113,7 +116,6 @@ public class DealEditor implements Constants {
             deal.setQuantity(quantity);
             save = true;
         }
-
 
         long unit = (long) body.get(UNIT);
         if (deal.getUnit() == null || deal.getUnit().getId() != unit) {
@@ -216,18 +218,18 @@ public class DealEditor implements Constants {
 
             boolean save = false;
             boolean isNew = false;
-            int productId = Integer.parseInt(String.valueOf(json.get(PRODUCT)));
+            int id = Integer.parseInt(String.valueOf(json.get(ID)));
 
             DealProduct dealProduct;
-            if (dealProducts.containsKey(productId)){
-                dealProduct = dealProducts.remove(productId);
+            if (dealProducts.containsKey(id)){
+                dealProduct = dealProducts.remove(id);
             } else {
                 isNew = true;
                 dealProduct = new DealProduct();
                 dealProduct.setDeal(deal);
                 dealProduct.setUid(DocumentUIDGenerator.generateUID());
             }
-
+            final int productId = Integer.parseInt(String.valueOf(json.get(PRODUCT)));
             if (dealProduct.getProduct() == null || dealProduct.getProduct().getId() != productId){
                 Product product = dao.getObjectById(Product.class, productId);
                 dealProduct.setProduct(product);
@@ -272,7 +274,7 @@ public class DealEditor implements Constants {
         HashMap<Integer, DealProduct> map = new HashMap<>();
         if (products != null) {
             for (DealProduct product : products) {
-                map.put(product.getProduct().getId(), product);
+                map.put(product.getId(), product);
             }
         }
         return map;
