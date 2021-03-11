@@ -103,7 +103,7 @@ public class DealEditor implements Constants {
             save = true;
         }
 
-        saveDealProducts(deal, (JSONArray) body.get(PRODUCTS), creator);
+//        saveDealProducts(deal, (JSONArray) body.get(PRODUCTS), creator);
 
         Product product = dao.getProductById(body.get(PRODUCT));
         if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {

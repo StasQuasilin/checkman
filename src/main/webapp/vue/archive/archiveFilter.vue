@@ -4,6 +4,7 @@ transportFilter = new Vue({
         api:{},
         filter:{
             date:'',
+            dateTo:'',
             product:-1,
             organisation:-1,
             driver:-1,
@@ -22,11 +23,16 @@ transportFilter = new Vue({
         foundDrivers:[],
         result:[],
         fnd:-1,
-        tooFewParam:false
+        tooFewParam:false,
+        dateLimit:false,
+        period:false
     },
     computed:{
         filterDate:function(){
-            return this.filter.date ? new Date(this.filter.date).toLocaleDateString() : '';
+            return this.buildDate(this.filter.date);
+        },
+        filterDateTo:function () {
+            return this.buildDate(this.filter.dateTo);
         }
     },
     mounted:function(){
@@ -35,17 +41,28 @@ transportFilter = new Vue({
         }
     },
     methods:{
+        buildDate:function(val){
+            return val ? new Date(val).toLocaleDateString() : '';
+        },
         clear:function(){
-            this.filter.date = '';
-            this.filter.product = -1;
+            let filter = this.filter;
+            filter.date = '';
+            filter.dateTo = '';
+            filter.product = -1;
+            filter.driver = -1;
             this.closeOrganisation();
-            this.filter.driver = -1;
         },
         pickDate:function(){
             const self = this;
             datepicker.show(function(date){
                 self.filter.date = self.input.date = date;
             }, self.input.date)
+        },
+        pickDateTo:function(){
+            const self = this;
+            datepicker.show(function(date){
+                self.filter.dateTo = date;
+            }, self.filter.dateTo)
         },
         findOrganisation:function(){
             clearTimeout(this.fnd);
@@ -96,7 +113,7 @@ transportFilter = new Vue({
             delete f.any;
             console.log(f);
             let fields = 0;
-            if (f.date) {
+            if (f.date || f.dateTo) {
                 fields++;
             }
             if (f.product !== -1) {
@@ -112,15 +129,20 @@ transportFilter = new Vue({
             if (!this.tooFewParam) {
                 const self = this;
                 PostApi(this.api.find, f, function (a) {
-                    a.sort(function (a, b) {
-                        return new Date(b.date) - new Date(a.date);
-                    });
-                    self.result = a;
                     transportList.items = {};
-                    for (let i in a){
-                        if (a.hasOwnProperty(i)){
-                            let item = a[i];
-                            transportList.items[item.id] = item;
+                    if(a.status === 'success'){
+                        let result = a.result;
+                        result.sort(function (a, b) {
+                            return new Date(b.date) - new Date(a.date);
+                        });
+                        self.result = result;
+                        self.dateLimit = a.limit;
+
+                        for (let i in a){
+                            if (a.hasOwnProperty(i)){
+                                let item = a[i];
+                                transportList.items[item.id] = item;
+                            }
                         }
                     }
                     transportList.$forceUpdate();

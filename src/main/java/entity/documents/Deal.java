@@ -273,8 +273,10 @@ public class Deal extends JsonAble{
 
     private JSONArray products() {
         JSONArray array = new JSONArray();
-        for (DealProduct product : products){
-            array.add(product.toJson());
+        if (products != null) {
+            for (DealProduct product : products) {
+                array.add(product.toJson());
+            }
         }
         return array;
     }

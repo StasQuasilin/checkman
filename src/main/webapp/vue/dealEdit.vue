@@ -94,7 +94,7 @@ dealEdit = new Vue({
             if (!e.organisation && !e.quantity && !e.price) {
                 let data = Object.assign({}, this.deal);
                 data.counterparty = this.deal.counterparty.id;
-                if (data.products.length === 0) {
+                if (typeof data.products === "undefined" || data.products.length === 0) {
                     data.products = [{
                         id:-1,
                         product: data.product,

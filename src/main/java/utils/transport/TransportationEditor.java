@@ -44,7 +44,7 @@ public class TransportationEditor {
             transportComparator.fix(transportation);
         }
 
-        final List<TransportationProduct> transportationProducts = buildProductMap(transportation);
+//        final List<TransportationProduct> transportationProducts = buildProductMap(transportation);
 
         if (transportation.getDeal() == null || transportation.getDeal().getId() != deal.getId()){
             transportation.setDeal(deal);

@@ -55,8 +55,8 @@ public class TransportArchive extends IUIServlet {
         req.setAttribute("findOrganisations", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("findDrivers", Branches.API.References.FIND_DRIVER);
         req.setAttribute(FILTER, "/pages/filters/archiveFilter.jsp");
-        req.setAttribute("products", dao.getProductList());
-        req.setAttribute("find", Branches.API.ARCHIVE_FIND);
+        req.setAttribute(PRODUCTS, dao.getProductList());
+        req.setAttribute(FIND, Branches.API.ARCHIVE_FIND);
 
         show(req, resp);
     }

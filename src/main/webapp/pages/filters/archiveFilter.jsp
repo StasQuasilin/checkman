@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/archive/archiveFilter.vue"></script>
+<script src="${context}/vue/archive/archiveFilter.vue?v=${now}"></script>
 <script>
     transportFilter.api.find = '${find}';
     transportFilter.api.findOrganisations = '${findOrganisations}';
@@ -21,14 +21,49 @@
         <c:set var="noData"><fmt:message key="no.data"/> </c:set>
         <table width="100%">
             <tr>
-                <td>
+                <td style="text-align: center">
                     <label for="date">
-                        <fmt:message key="date"/>:
+                        <span class="mini-close" v-on:click="period=!period">
+                            <template v-if="period">
+                                <fmt:message key="period"/>
+                            </template>
+                            <template v-else>
+                                <fmt:message key="date"/>:
+                            </template>
+                        </span>
                     </label>
-                    <input id="date" placeholder="${noData}" style="width: 7em;" readonly
+                    <input v-if="!period" id="date" placeholder="${noData}" style="width: 7em;" readonly
                            v-model="filterDate " v-on:click="pickDate" autocomplete="off">
                 </td>
             </tr>
+            <template v-if="period">
+                <tr >
+                    <td>
+                        <fmt:message key="date.from"/>
+                        <span class="mini-close" v-on:click="pickDate">
+                            <template v-if="filterDate.length > 0">
+                                {{filterDate}}
+                            </template>
+                            <template v-else>
+                                ???
+                            </template>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <fmt:message key="date.to"/>
+                        <span class="mini-close" v-on:click="pickDateTo">
+                            <template v-if="filterDateTo.length > 0">
+                                {{filterDateTo}}
+                            </template>
+                            <template v-else>
+                                ???
+                            </template>
+                        </span>
+                    </td>
+                </tr>
+            </template>
             <tr>
                 <td>
                     <label for="product">
@@ -104,6 +139,13 @@
                 <td>
                     <div style="color: orangered; font-weight: bold; width: 100%; text-align: center">
                         <fmt:message key="too.few.params"/>
+                    </div>
+                </td>
+            </tr>
+            <tr v-if="dateLimit && result.length > 0">
+                <td>
+                    <div class="error">
+                        <fmt:message key="filter.date.limit"/>
                     </div>
                 </td>
             </tr>

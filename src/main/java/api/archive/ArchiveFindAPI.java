@@ -3,11 +3,16 @@ package api.archive;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.answers.Answer;
+import entity.answers.ErrorAnswer;
 import entity.transport.Transportation;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.U;
+import utils.answers.SuccessAnswer;
+import utils.hibernate.DateContainers.BETWEEN;
+import utils.hibernate.DateContainers.GE;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -34,10 +40,30 @@ public class ArchiveFindAPI extends ServletAPI {
         if (body != null) {
             logger.info(body);
             HashMap<String, Object> parameters = new HashMap<>();
-
-            String date = String.valueOf(body.get(Constants.DATE));
-            if (U.exist(date)){
-                parameters.put(DATE, Date.valueOf(date));
+            boolean dateLimit = false;
+            String date = String.valueOf(body.get(DATE));
+            String dateTo = String.valueOf(body.get(DATE_TO));
+            
+            final boolean e1 = U.exist(date);
+            final boolean e2 = U.exist(dateTo);
+            if(e1 && e2){
+                LocalDate f = Date.valueOf(date).toLocalDate();
+                LocalDate t = Date.valueOf(dateTo).toLocalDate();
+                final long days = f.toEpochDay() - t.toEpochDay();
+                if (days < 32){
+                    parameters.put(DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(dateTo)));
+                } else {
+                    dateLimit = true;
+                    parameters.put(DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(LocalDate.now().plusMonths(1))));
+                }
+            } else if (e1){
+                dateLimit = true;
+                parameters.put(DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(LocalDate.now().plusMonths(1))));
+            } else if (e2){
+                parameters.put(DATE, new GE(Date.valueOf(dateTo)));
+            } else {
+                dateLimit = true;
+                parameters.put(DATE, new GE(Date.valueOf(LocalDate.now().plusMonths(1))));
             }
 
             int driverId = Integer.parseInt(String.valueOf(body.get(DRIVER)));
@@ -52,21 +78,23 @@ public class ArchiveFindAPI extends ServletAPI {
                 }
             }
 
-
             if (body.containsKey(PRODUCT)) {
                 int productId = Integer.parseInt(String.valueOf(body.get(PRODUCT)));
                 if (productId > 0) {
                     parameters.put(PRODUCT_KEY, productId);
                 }
             }
-
-            if (parameters.size() > 0) {
+            Answer answer;
+            if (parameters.size() < 2){
+                answer = new ErrorAnswer("Need more parameters!");
+            } else {
+                answer = new SuccessAnswer();
                 JSONArray array = pool.getArray();
                 array.addAll(dao.query(Transportation.class, parameters).stream().map(Transportation::toJson).collect(Collectors.toList()));
-                write(resp, array.toJSONString());
-                pool.put(array);
+                answer.add(RESULT, answer);
+                answer.add(LIMIT, dateLimit);
             }
-
+            write(resp, answer);
         }
     }
 }
