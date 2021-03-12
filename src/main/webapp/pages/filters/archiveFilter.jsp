@@ -42,7 +42,12 @@
                         <fmt:message key="date.from"/>
                         <span class="mini-close" v-on:click="pickDate">
                             <template v-if="filterDate.length > 0">
-                                {{filterDate}}
+                                <span>
+                                    {{filterDate}}
+                                </span>
+                                <span class="mini-close" v-on:click="filter.date=''">
+                                    &times;
+                                </span>
                             </template>
                             <template v-else>
                                 ???
@@ -55,7 +60,12 @@
                         <fmt:message key="date.to"/>
                         <span class="mini-close" v-on:click="pickDateTo">
                             <template v-if="filterDateTo.length > 0">
-                                {{filterDateTo}}
+                                <span>
+                                    {{filterDateTo}}
+                                </span>
+                                <span class="mini-close" v-on:click="filter.dateTo=''">
+                                    &times;
+                                </span>
                             </template>
                             <template v-else>
                                 ???

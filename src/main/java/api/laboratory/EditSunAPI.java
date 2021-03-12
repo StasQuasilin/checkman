@@ -26,9 +26,9 @@ import java.sql.Timestamp;
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_SUN)
-public class EditSunServletAPI extends ServletAPI {
+public class EditSunAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(EditSunServletAPI.class);
+    private final Logger log = Logger.getLogger(EditSunAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
 
     @Override
@@ -36,7 +36,7 @@ public class EditSunServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             long planId = (long) body.get(Constants.PLAN);
-            log.info("Edit SUN analyses for plan \'" + planId + "\'...");
+            log.info("Edit SUN analyses for plan '" + planId + "'...");
             final Transportation transportation = dao.getTransportationById(planId);
 
             boolean save = false;
@@ -115,16 +115,7 @@ public class EditSunServletAPI extends ServletAPI {
                     sunAnalyses.setCreateTime(createTime);
                 }
                 createTime.setTime(new Timestamp(System.currentTimeMillis()));
-                Worker worker = getWorker(req);
-                Worker creator;
-                if (a.containsKey(Constants.CREATOR)) {
-                    long creatorId = (long) a.get(Constants.CREATOR);
-                    log.info("\t\tHave creator");
-                    creator = dao.getObjectById(creatorId);
-                } else {
-                    log.info("\t\tDoesn't have creator");
-                    creator = worker;
-                }
+                Worker creator = getWorker(req);
 
                 log.info("\t\tCreator: " + creator.getValue());
                 createTime.setCreator(creator);

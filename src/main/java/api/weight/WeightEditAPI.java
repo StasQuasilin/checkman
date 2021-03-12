@@ -12,6 +12,7 @@ import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
+import utils.U;
 import utils.UpdateUtil;
 import utils.WeightUtil;
 import utils.storages.StorageUtil;
@@ -56,8 +57,10 @@ public class WeightEditAPI extends ServletAPI {
             comparator.fix(weight);
 
             JSONObject w = (JSONObject) body.get(WEIGHT);
-            float gross = Float.parseFloat(String.valueOf(w.get(BRUTTO)));
-            float tare = Float.parseFloat(String.valueOf(w.get(TARA)));
+            final String grossString = String.valueOf(w.get(BRUTTO));
+            float gross = U.exist(grossString) ? Float.parseFloat(grossString) : 0;
+            final String tareString = String.valueOf(w.get(TARA));
+            float tare = U.exist(tareString) ? Float.parseFloat(tareString) : 0;
 
             Worker worker = getWorker(req);
             saveIt = changeWeight(weight, gross, tare, worker, saveIt);

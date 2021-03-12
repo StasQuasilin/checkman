@@ -1,4 +1,4 @@
-var editor = new Vue({
+editor = new Vue({
     el: '#editor',
     data: {
         api: {},
@@ -12,13 +12,16 @@ var editor = new Vue({
         },
         driver: '',
         analyses: {},
-        laborants:[],
-        helpers:{}
+        helpers:{},
+        already:false
     },
     methods:{
         saveLogic:function(onSave){
-            if (this.api.save) {
+            if (this.api.save && !this.already) {
+                const self = this;
+                this.already = true;
                 PostApi(this.api.save, {plan: this.plan, analyses: this.analyses}, function (a) {
+                    self.already = false;
                     if (onSave) {
                         onSave(a);
                     }
@@ -29,7 +32,7 @@ var editor = new Vue({
         },
         save:function(){
             this.saveLogic(function(a){
-                if (a.status == 'success'){
+                if (a.status === 'success'){
                     closeModal();
                 }
             })

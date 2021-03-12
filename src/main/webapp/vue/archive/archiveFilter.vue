@@ -138,9 +138,9 @@ transportFilter = new Vue({
                         self.result = result;
                         self.dateLimit = a.limit;
 
-                        for (let i in a){
-                            if (a.hasOwnProperty(i)){
-                                let item = a[i];
+                        for (let i in result){
+                            if (result.hasOwnProperty(i)){
+                                let item = result[i];
                                 transportList.items[item.id] = item;
                             }
                         }

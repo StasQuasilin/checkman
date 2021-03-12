@@ -4,8 +4,8 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<link rel="stylesheet" href="${context}/css/editor.css">
-<script src="${context}/vue/laboratory/extractionOil.vue"></script>
+<link rel="stylesheet" href="${context}/css/editor.css?v=${now}">
+<script src="${context}/vue/laboratory/extractionOil.vue?v=${now}"></script>
 <script>
     editor.api.save = '${save}';
     <c:forEach items="${turns}" var="turn">
@@ -43,12 +43,12 @@
     hour = new Date().getHours();
     turn = -1;
     now = new Date();
-    for(let i in editor.turns){
-        if (editor.turns.hasOwnProperty(i)){
+    for (let i in editor.turns) {
+        if (editor.turns.hasOwnProperty(i)) {
             let t = editor.turns[i];
             let beginHour = new Date(now.toISOString().substring(0, 10) + ' ' + t.begin).getHours();
             let endHour = new Date(now.toISOString().substring(0, 10) + ' ' + t.end).getHours();
-            if (beginHour > endHour){
+            if (beginHour > endHour) {
                 turn = 1;
             } else {
                 turn = 2;

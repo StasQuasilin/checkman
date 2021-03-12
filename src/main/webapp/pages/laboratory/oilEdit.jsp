@@ -4,8 +4,8 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<link rel="stylesheet" href="${context}/css/editor.css">
-<script src="${context}/vue/laboratory/laboratoryEdit.vue"></script>
+<link rel="stylesheet" href="${context}/css/editor.css?v=${now}">
+<script src="${context}/vue/laboratory/laboratoryEdit.vue?v=${now}"></script>
 <script>
     editor.api.save = '${save}';
     editor.api.print = '${print}';

@@ -5,7 +5,7 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css">
-<script src="${context}/vue/laboratory/laboratoryEdit.vue"></script>
+<script src="${context}/vue/laboratory/laboratoryEdit.vue?v=${now}"></script>
 <script>
     editor.api.save = '${save}';
     editor.api.print = '${print}';
@@ -46,13 +46,6 @@
     };
     </c:otherwise>
     </c:choose>
-    <c:forEach items="${laborants}" var="l">
-    editor.laborants.push({
-        id:${l.id},
-        value:'${l.person.value}'
-    });
-    </c:forEach>
-    
     editor.recount=function(){
         const basis = {
             humidity:7,

@@ -57,10 +57,9 @@ public class ArchiveFindAPI extends ServletAPI {
                     parameters.put(DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(LocalDate.now().plusMonths(1))));
                 }
             } else if (e1){
-                dateLimit = true;
-                parameters.put(DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(LocalDate.now().plusMonths(1))));
+                parameters.put(DATE, Date.valueOf(date));
             } else if (e2){
-                parameters.put(DATE, new GE(Date.valueOf(dateTo)));
+                parameters.put(DATE, Date.valueOf(dateTo));
             } else {
                 dateLimit = true;
                 parameters.put(DATE, new GE(Date.valueOf(LocalDate.now().plusMonths(1))));
@@ -91,7 +90,7 @@ public class ArchiveFindAPI extends ServletAPI {
                 answer = new SuccessAnswer();
                 JSONArray array = pool.getArray();
                 array.addAll(dao.query(Transportation.class, parameters).stream().map(Transportation::toJson).collect(Collectors.toList()));
-                answer.add(RESULT, answer);
+                answer.add(RESULT, array);
                 answer.add(LIMIT, dateLimit);
             }
             write(resp, answer);

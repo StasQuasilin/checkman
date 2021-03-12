@@ -6,7 +6,6 @@ var editor = new Vue({
         },
         oil:{},
         turns:[],
-        laborants:[],
         already:false,
         err:{
             turn:false
