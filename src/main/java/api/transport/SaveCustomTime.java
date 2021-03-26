@@ -32,21 +32,32 @@ public class SaveCustomTime extends ServletAPI {
         if (body != null){
             System.out.println(body);
             Timestamp date = Timestamp.valueOf(String.valueOf(body.get(DATE)));
-            String action = String.valueOf(body.get(ACTION));
+            TransportDirection direction = TransportDirection.valueOf(String.valueOf(body.get(ACTION)));
             final Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
             ActionTime actionTime;
-            if (action.equals(IN)){
-                actionTime = transportation.getTimeIn();
-            } else {
-                actionTime = transportation.getTimeOut();
+            switch (direction){
+                case in:
+                    actionTime = transportation.getTimeIn();
+                break;
+                case out:
+                    actionTime = transportation.getTimeOut();
+                    break;
+                default:
+                    actionTime = transportation.getTimeRegistration();
+                    break;
             }
+
             if (actionTime == null){
                 actionTime = new ActionTime();
                 actionTime.setCreator(getWorker(req));
-                if (action.equals(IN)){
-                    transportation.setTimeIn(actionTime);
-                } else {
-                    transportation.setTimeOut(actionTime);
+                switch (direction){
+                    case in:
+                        transportation.setTimeIn(actionTime);
+                        break;
+                    case out:
+                        transportation.setTimeOut(actionTime);
+                        break;
+                    default:transportation.setTimeRegistration(actionTime);
                 }
             }
             actionTime.setTime(date);

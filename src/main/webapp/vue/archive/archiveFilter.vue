@@ -25,6 +25,7 @@ transportFilter = new Vue({
         fnd:-1,
         tooFewParam:false,
         dateLimit:false,
+        countLimit:0,
         period:false
     },
     computed:{
@@ -137,6 +138,7 @@ transportFilter = new Vue({
                         });
                         self.result = result;
                         self.dateLimit = a.limit;
+                        self.countLimit = a.count;
 
                         for (let i in result){
                             if (result.hasOwnProperty(i)){

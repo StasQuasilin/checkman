@@ -1,7 +1,9 @@
 package controllers.transport;
 
+import api.transport.TransportDirection;
 import constants.Branches;
 import controllers.IModal;
+import entity.transport.ActionTime;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.hibernate.dbDAO;
@@ -12,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @WebServlet(Branches.UI.CUSTOM_TIME)
 public class CustomTime extends IModal {
@@ -25,9 +29,23 @@ public class CustomTime extends IModal {
         final JSONObject body = parseBody(req);
         if (body != null){
             System.out.println(body);
-            final Transportation tra = dao.getObjectById(Transportation.class, body.get(ID));
-            req.setAttribute(ACTION, body.get(ACTION));
-            req.setAttribute(TRANSPORTATION, tra);
+            final Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
+            TransportDirection direction = TransportDirection.valueOf(String.valueOf(body.get(ACTION)));
+            ActionTime time;
+            switch (direction){
+                case in:
+                    time= transportation.getTimeIn();
+                    break;
+                case out:
+                    time = transportation.getTimeOut();
+                    break;
+                default:
+                    time = transportation.getTimeRegistration();
+            }
+            final Timestamp timestamp = (time != null ? time.getTime() : Timestamp.valueOf(LocalDateTime.now()));
+            req.setAttribute(TIME, timestamp);
+            req.setAttribute(ACTION, direction);
+            req.setAttribute(TRANSPORTATION, transportation);
             req.setAttribute(TITLE, _TITLE);
             req.setAttribute(MODAL_CONTENT, _CONTENT);
             req.setAttribute(SAVE, Branches.API.SAVE_CUSTOM_TIME);

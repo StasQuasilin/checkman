@@ -13,6 +13,7 @@
     <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
     <script src="${context}/vue/templates/pricePlug.vue"></script>
     <script src="${context}/vue/templates/commentatorPlug.vue"></script>
+    <script src="${context}/vue/templates/transportationDataView.vue"></script>
     <script src="${context}/vue/dataList.vue"></script>
     <script>
         list.sort = function () {
@@ -21,7 +22,7 @@
                 let bD = new Date(b.item.timestamp);
                 return  bD - aD;
             })
-        }
+        };
         <c:forEach items="${subscribe}" var="s">
         subscribe('${s}', function(a){
             list.handler(a);

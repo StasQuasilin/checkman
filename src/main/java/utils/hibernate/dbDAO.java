@@ -247,4 +247,6 @@ public interface dbDAO {
     List<Transportation> getTransportationByAddress(Address address);
     List<RoundReport> getLimitRoundReports();
     <T>List<T> getDone(Class<T> tClass, Object date);
+    <T>List<T> limitQuery(Class<T> tClass, HashMap<String, Object> parameters, int limit);
+
 }

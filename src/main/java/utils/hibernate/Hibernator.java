@@ -28,7 +28,6 @@ public class Hibernator {
     public <T>List<T> limitQuery(Class<T> tClass, HashMap<String, Object> parameters, int limit) {
         Session session = HibernateSessionFactory.getSession();
         CriteriaQuery<T> query = getCriteriaQuery(session, tClass, parameters);
-
         List<T> resultList = session.createQuery(query)
                 .setMaxResults(limit)
                 .getResultList();
@@ -106,9 +105,7 @@ public class Hibernator {
 
     private <T> CriteriaQuery<T> getCriteriaQuery(CriteriaBuilder builder, Class<T> tClass, HashMap<String, Object> parameters) {
         CriteriaQuery<T> query = builder.createQuery(tClass);
-
         buildQuery(builder, query, tClass, parameters);
-
         return query;
     }
 

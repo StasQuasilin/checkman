@@ -5,5 +5,6 @@ package api.transport;
  */
 public enum TransportDirection {
     in,
-    out
+    out,
+    reg
 }

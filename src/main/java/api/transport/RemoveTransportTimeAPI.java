@@ -38,6 +38,10 @@ public class RemoveTransportTimeAPI extends ServletAPI {
                         time = transportation.getTimeOut();
                         transportation.setTimeOut(null);
                         break;
+                    case reg:
+                        time = transportation.getTimeRegistration();
+                        transportation.setTimeRegistration(null);
+                        break;
                 }
                 if (time != null) {
                     dao.save(transportation);
@@ -45,7 +49,6 @@ public class RemoveTransportTimeAPI extends ServletAPI {
                     updateUtil.onSave(transportation);
                     write(resp, SUCCESS_ANSWER);
                 }
-
             }
         }
     }

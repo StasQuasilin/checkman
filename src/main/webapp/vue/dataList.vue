@@ -142,6 +142,11 @@ list = new Vue({
                 loadModal(this.api.edit + '?id=' + id, {id : id})
             }
         },
+		copy:function(id){
+			if(this.api.edit){
+				loadModal(this.api.edit + '?copy=' + id, {copy : id})
+			}
+		},
         show:function(id){
             if (this.api.show) {
                 loadModal(this.api.show + '?id=' + id, {id: id})

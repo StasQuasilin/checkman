@@ -9,18 +9,8 @@
     customTime.api.save = '${save}';
     customTime.id = ${transportation.id};
     customTime.action = '${action}';
-    if (customTime.action === 'in'){
-        <c:if test="${not empty transportation.timeIn}">
-            customTime.date = new Date('${transportation.timeIn}');
-        </c:if>
-    } else if (customTime.action === 'out') {
-        <c:if test="${not empty transportation.timeOut}">
-            customTime.date = new Date('${transportation.timeOut}');
-        </c:if>
-    }
-    if (customTime.date == null){
-        customTime.date = new Date();
-    }
+
+    customTime.date = new Date('${time}');
 </script>
     <table id="custom">
         <tr>

@@ -159,6 +159,14 @@
                     </div>
                 </td>
             </tr>
+            <tr v-if="countLimit > 0 && result.length > 0">
+                <td>
+                    <div class="error">
+                        <fmt:message key="filter.count.limit"/> {{countLimit.toLocaleString()}}
+                        <fmt:message key="filter.count.limit.continue"/>
+                    </div>
+                </td>
+            </tr>
             <tr>
                 <td>
                     <span style="font-size: 10pt">

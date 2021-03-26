@@ -4,7 +4,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/transportationShow.vue"></script>
+<script src="${context}/vue/transportationShow.vue?v=${now}"></script>
 <script>
     show.api.timeApi = '${saveTime}';
     show.api.removeTime = '${removeTime}';
@@ -32,7 +32,7 @@
         </c:if>
     }
 </script>
-<table id="show" border="0">
+<table id="show">
     <tr>
         <td>
             <fmt:message key="date"/>
@@ -166,17 +166,26 @@
             </span>
         </td>
         <td>
-            <button v-if="registrationTime">
-                {{(registrationTime).toLocaleString()}}
-            </button>
-            <div v-else-if="!timeIn" v-on:click="registration()">
+            <template v-if="registrationTime">
+                <button>
+                    {{(registrationTime).toLocaleDateString()}}
+                    {{(registrationTime).toTimeString().substring(0, 5)}}
+                </button>
+                <span class="mini-close" v-on:click="removeRegTime()">
+                    &times;
+                </span>
+            </template>
+            <template v-else-if="!timeIn">
                 <button v-if="already">
                     ...
                 </button>
-                <button v-else>
+                <button v-else v-on:click="registration()">
                     <fmt:message key="transportation.registrate"/>
                 </button>
-            </div>
+            </template>
+            <span class="mini-close" v-on:click="customRegTime()" style="display: inline-block">
+                <img src="${context}/images/smallpensil.svg" alt="" style="width: 12px">
+            </span>
         </td>
     </tr>
     <tr>

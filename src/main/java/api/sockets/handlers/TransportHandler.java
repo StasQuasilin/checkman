@@ -7,6 +7,7 @@ import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,9 +32,14 @@ public class TransportHandler extends OnSubscribeHandler {
     public void handle(Session session) throws IOException {
         JSONObject json = pool.getObject();
         JSONArray add = pool.getArray();
-        add.addAll(getTransport().stream().map(Transportation::toJson).collect(Collectors.toList()));
-        json.put(UPDATE, add);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+
+        final RemoteEndpoint.Basic basicRemote = session.getBasicRemote();
+        for (Transportation transportation : getTransport()){
+            add.add(transportation.toJson());
+            json.put(UPDATE, add);
+            basicRemote.sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+            add.clear();
+        }
         pool.put(json);
     }
 

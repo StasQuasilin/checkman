@@ -147,8 +147,14 @@
                                 </div>
                                 <div style="display: inline-block; width: 92%">
                                     <div>
-                                        <span class="label">
-                                            <fmt:message key="deal.organisation"/>:
+                                        <span class="mini-close" v-on:click=edit(value.item.id)>
+                                            Edit
+                                        </span>
+										<span class="mini-close" v-on:click=copy(value.item.id)>
+                                            Copy
+                                        </span>
+										<span v-if=canArchiveThis(value.item) class="mini-close" v-on:click=delete(value.item.id)>
+                                            Delete
                                         </span>
                                         <span v-if="value.item.counterparty.code" class="counterparty-code code-valid">
                                             &check;

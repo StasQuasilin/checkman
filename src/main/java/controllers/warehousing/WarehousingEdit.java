@@ -3,6 +3,7 @@ package controllers.warehousing;
 import constants.Branches;
 import controllers.IModal;
 import entity.transport.Transportation;
+import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,17 +21,17 @@ public class WarehousingEdit extends IModal{
     public static final String _TITLE = "title.warehousing.edit";
     public static final String _CONTENT = "/pages/warehousing/warehousingEdit.jsp";
 
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter(ID));
-        Transportation plan = dao.getObjectById(Transportation.class, id);
-        req.setAttribute(PLAN, plan);
-        req.setAttribute(USED_STORAGES, dao.getUsedStoragesByTransportation(plan));
-        req.setAttribute(STORAGES, dao.getStorageProductByProduct(plan.getProduct()));
-        req.setAttribute(SHIPPERS, dao.getShipperList());
-        req.setAttribute(SAVE, Branches.API.WAREHOUSING_EDIT);
+        final JSONObject body = parseBody(req);
+        if(body != null) {
+            Transportation plan = dao.getObjectById(Transportation.class, body.get(ID));
+            req.setAttribute(PLAN, plan);
+            req.setAttribute(USED_STORAGES, dao.getUsedStoragesByTransportation(plan));
+            req.setAttribute(STORAGES, dao.getStorageProductByProduct(plan.getProduct()));
+            req.setAttribute(SHIPPERS, dao.getShipperList());
+            req.setAttribute(SAVE, Branches.API.WAREHOUSING_EDIT);
+        }
 
         req.setAttribute(TITLE, _TITLE);
         req.setAttribute(MODAL_CONTENT, _CONTENT);

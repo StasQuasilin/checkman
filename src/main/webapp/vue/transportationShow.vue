@@ -16,6 +16,12 @@ var show = new Vue({
         directionOut:''
     },
     methods: {
+        customRegTime:function(){
+            const self = this;
+            this.customTime('reg', function (a) {
+                self.registrationTime = a;
+            })
+        },
         customTimeIn:function(){
             const self = this;
             this.customTime('in', function (a) {
@@ -35,6 +41,10 @@ var show = new Vue({
             };
 
             loadModal(this.api.customTime, data, onSave);
+        },
+        removeRegTime:function(){
+            this.removeTime('reg');
+            this.registrationTime = '';
         },
         removeTimeIn:function(){
             this.removeTime('in');

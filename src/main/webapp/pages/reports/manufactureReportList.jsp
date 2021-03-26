@@ -15,6 +15,9 @@
 <script src="${context}/vue/templates/laboratoryViewPlug.vue"></script>
 <script src="${context}/vue/templates/pricePlug.vue"></script>
 <script src="${context}/vue/templates/commentatorPlug.vue"></script>
+<script>
+  oldTransportView = {}
+</script>
 <script src="${context}/vue/dataList.vue"></script>
 <link rel="stylesheet" href="${context}/css/DataContainer.css">
 <link rel="stylesheet" href="${context}/css/TransportList.css">

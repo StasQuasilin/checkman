@@ -13,6 +13,7 @@ import utils.U;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.GE;
+import utils.hibernate.DateContainers.LE;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +23,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
+
 
 /**
  * Created by szpt_user045 on 01.10.2019.
@@ -32,6 +35,7 @@ public class ArchiveFindAPI extends ServletAPI {
     
     public static final String ORGANISATION_KEY = DEAL + SLASH + ORGANISATION;
     public static final String PRODUCT_KEY = DEAL + SLASH + PRODUCT;
+    private static final int COUNT_LIMIT = 10;
     private final Logger logger = Logger.getLogger(ArchiveFindAPI.class);
 
     @Override
@@ -41,6 +45,7 @@ public class ArchiveFindAPI extends ServletAPI {
             logger.info(body);
             HashMap<String, Object> parameters = new HashMap<>();
             boolean dateLimit = false;
+            boolean countLimit = false;
             String date = String.valueOf(body.get(DATE));
             String dateTo = String.valueOf(body.get(DATE_TO));
             
@@ -61,8 +66,8 @@ public class ArchiveFindAPI extends ServletAPI {
             } else if (e2){
                 parameters.put(DATE, Date.valueOf(dateTo));
             } else {
-                dateLimit = true;
-                parameters.put(DATE, new GE(Date.valueOf(LocalDate.now().plusMonths(1))));
+                parameters.put(DATE, new LE(Date.valueOf(LocalDate.now())));
+                countLimit = true;
             }
 
             int driverId = Integer.parseInt(String.valueOf(body.get(DRIVER)));
@@ -89,9 +94,13 @@ public class ArchiveFindAPI extends ServletAPI {
             } else {
                 answer = new SuccessAnswer();
                 JSONArray array = pool.getArray();
-                array.addAll(dao.query(Transportation.class, parameters).stream().map(Transportation::toJson).collect(Collectors.toList()));
+
+                final List<Transportation> transportation = countLimit ? dao.limitQuery(Transportation.class, parameters, COUNT_LIMIT) : dao.query(Transportation.class, parameters);
+                array.addAll(transportation.stream().map(Transportation::toJson).collect(Collectors.toList()));
+
                 answer.add(RESULT, array);
                 answer.add(LIMIT, dateLimit);
+                answer.add(COUNT, countLimit ? COUNT_LIMIT : 0);
             }
             write(resp, answer);
         }

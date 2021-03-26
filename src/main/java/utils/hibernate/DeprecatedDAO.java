@@ -1032,6 +1032,11 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
+    public <T> List<T> limitQuery(Class<T> tClass, HashMap<String, Object> parameters, int limit) {
+        return hb.limitQuery(tClass, parameters, limit);
+    }
+
+    @Override
     public StorageProtein getStorageProteinById(Object id) {
         return hb.get(StorageProtein.class, ID, id);
     }
