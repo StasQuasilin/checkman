@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.DealType;
 import entity.transport.Transportation2;
 import org.json.simple.JSONArray;
@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 public class RetailHandler extends OnSubscribeHandler {
 
     DealType type;
-    public RetailHandler(Subscriber subscriber) {
-        super(subscriber);
+    public RetailHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 
-    public RetailHandler(Subscriber subscriber, DealType type) {
-        super(subscriber);
+    public RetailHandler(Subscribe subscribe, DealType type) {
+        super(subscribe);
         this.type = type;
     }
 
@@ -33,7 +33,7 @@ public class RetailHandler extends OnSubscribeHandler {
         JSONArray add = pool.getArray();
         add.addAll(getTransport().stream().map(Transportation2::toJson).collect(Collectors.toList()));
         json.put(ADD, add);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);
     }
 

@@ -9,8 +9,8 @@ let subscribes = {};
 function Connect(){
     locker.reconnect = true;
     subscriber = new WebSocket(address);
-    subscriber.onerror = function(){
-        console.log('Error on socket connection');
+    subscriber.onerror = function(e){
+        console.log('Error on socket connection :' + e);
     };
 
     subscriber.onclose = function(cause){
@@ -32,7 +32,16 @@ function Connect(){
     };
     subscriber.onopen = function () {
         if (locker.show){
-            location.reload();
+            loginer.autologin(function (a) {
+                if(a.status === 'success'){
+                    locker.show = false;
+                    for (let sub in subscribes){
+                        if (subscribes.hasOwnProperty(sub)){
+                            subscribe(sub, subscribes[sub]);
+                        }
+                    }
+                }
+            })
         }
         console.log('Connection successfully');
 
@@ -69,8 +78,7 @@ function send(msg){
                 send(msg);
             }, 500);
         } else {
-            console.log(subscriber.readyState);
-            restart(5);
+            // restart(5);
         }
     }
 

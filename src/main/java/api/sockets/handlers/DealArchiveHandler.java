@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.DealType;
 import entity.documents.Deal;
 import org.json.simple.JSONArray;
@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
  */
 public class DealArchiveHandler extends OnSubscribeHandler {
     final DealType type;
-    public DealArchiveHandler(DealType type, Subscriber subscriber) {
-        super(subscriber);
+    public DealArchiveHandler(DealType type, Subscribe subscribe) {
+        super(subscribe);
         this.type = type;
     }
 
@@ -27,7 +27,7 @@ public class DealArchiveHandler extends OnSubscribeHandler {
         array.addAll(dao.getLimitArchiveDeals(type).stream().map(Deal::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         ActiveSubscriptions.pool.put(json);
     }
 }

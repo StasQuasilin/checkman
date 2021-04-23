@@ -1,5 +1,6 @@
 package utils;
 
+import com.google.inject.internal.asm.$Handle;
 import constants.Branches;
 import constants.Constants;
 import entity.Role;
@@ -32,7 +33,7 @@ public class SignInBox implements Constants{
         if (user != null ){
             final String passwordHash = user.getPasswordHash();
             if (passwordHash.equals(hash)){
-                answer= new SuccessAnswer();
+                answer = new SuccessAnswer();
                 answer.add(Constants.USING, Constants.HASH);
                 System.out.println("Login via hash");
                 login(req, user, answer);
@@ -70,11 +71,11 @@ public class SignInBox implements Constants{
         answer.add(UID, user.getUid());
         answer.add(ROLE, role.toString());
         answer.add(TOKEN, token);
+
         //
         final HttpSession session = req.getSession();
         session.setAttribute(ID, user.getId());
         session.setAttribute(TOKEN, token);
-
         final String language = worker.getLanguage();
         session.setAttribute(LOCALE, language);
         session.setAttribute(LANG, language);

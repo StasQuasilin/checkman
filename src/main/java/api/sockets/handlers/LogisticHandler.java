@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.ApplicationSettings;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
  */
 public class LogisticHandler extends OnSubscribeHandler {
 
-    public LogisticHandler(Subscriber subscriber) {
-        super(subscriber);
+    public LogisticHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 
     ApplicationSettings applicationSettings = ApplicationSettingsBox.getBox().getSettings();
@@ -31,7 +31,7 @@ public class LogisticHandler extends OnSubscribeHandler {
             add.addAll(getTransport().stream().map(Transportation::toJson).collect(Collectors.toList()));
             JSONObject json = ActiveSubscriptions.pool.getObject();
             json.put(ADD, add);
-            session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+            session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
             ActiveSubscriptions.pool.put(json);
         }
     }

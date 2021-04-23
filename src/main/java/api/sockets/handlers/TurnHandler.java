@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
  */
 public class TurnHandler extends OnSubscribeHandler {
 
-    public TurnHandler(Subscriber subscriber) {
-        super(subscriber);
+    public TurnHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class TurnHandler extends OnSubscribeHandler {
         array.addAll(dao.getLimitLaboratoryTurn().stream().map(parser::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         ActiveSubscriptions.pool.put(json);
     }
 }

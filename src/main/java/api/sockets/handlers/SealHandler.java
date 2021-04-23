@@ -1,8 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
-import entity.seals.Seal;
+import api.sockets.Subscribe;
 import entity.seals.SealBatch;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,8 +17,8 @@ import static constants.Constants.UPDATE;
  */
 public class SealHandler extends OnSubscribeHandler {
 
-    public SealHandler(Subscriber subscriber) {
-        super(subscriber);
+    public SealHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 
     @Override
@@ -28,7 +27,7 @@ public class SealHandler extends OnSubscribeHandler {
         JSONArray add = pool.getArray();
         add.addAll(dao.getActiveSealsBatches().stream().map(SealBatch::toJson).collect(Collectors.toList()));
         json.put(UPDATE, add);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);
     }
 }

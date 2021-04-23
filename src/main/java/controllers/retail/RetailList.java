@@ -1,6 +1,6 @@
 package controllers.retail;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import controllers.IUIServlet;
 import entity.DealType;
@@ -35,7 +35,7 @@ public class RetailList extends IUIServlet {
             DealType type = DealType.valueOf(parameter);
             req.setAttribute(TYPE, type);
         } else {
-            req.setAttribute(SUBSCRIBE, Subscriber.TRANSPORT);
+            req.setAttribute(SUBSCRIBE, Subscribe.TRANSPORT);
         }
 
         show(req, resp);

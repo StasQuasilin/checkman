@@ -23,8 +23,8 @@ public class ActiveSubscriptions {
     private final dbDAO dao = dbDAOService.getDAO();
     private static final ActiveSubscriptions instance = new ActiveSubscriptions();
     private final Logger log = Logger.getLogger(ActiveSubscriptions.class);
-    final HashMap<Subscriber, OnSubscribeHandler> handlers = new HashMap<>();
-    final HashMap<Subscriber, ArrayList<Session>> bySubscribe = new HashMap<>();
+    final HashMap<Subscribe, OnSubscribeHandler> handlers = new HashMap<>();
+    final HashMap<Subscribe, ArrayList<Session>> bySubscribe = new HashMap<>();
     final HashMap<Integer, ArrayList<Session>> byWorker = new HashMap<>();
     final MessageHandler messageHandler = new MessageHandler();
     final SessionTimer sessionTimer = SessionTimer.getInstance();
@@ -33,54 +33,54 @@ public class ActiveSubscriptions {
     private static final String DATA = "data";
 
     private ActiveSubscriptions(){
-        for(Subscriber s : Subscriber.values()){
+        for(Subscribe s : Subscribe.values()){
             bySubscribe.put(s, new ArrayList<>());
         }
-        handlers.put(Subscriber.CONTRACTS_BUY, new ContractHandler(DealType.buy, Subscriber.CONTRACTS_BUY));
-        handlers.put(Subscriber.CONTRACTS_SELL, new ContractHandler(DealType.sell, Subscriber.CONTRACTS_SELL));
-        handlers.put(Subscriber.DEAL_BUY, new DealHandler(DealType.buy, Subscriber.DEAL_BUY));
-        handlers.put(Subscriber.DEAL_BUY_ARCHIVE, new DealArchiveHandler(DealType.buy, Subscriber.DEAL_BUY_ARCHIVE));
-        handlers.put(Subscriber.DEAL_SELL, new DealHandler(DealType.sell, Subscriber.DEAL_SELL));
-        handlers.put(Subscriber.DEAL_SELL_ARCHIVE, new DealArchiveHandler(DealType.sell, Subscriber.DEAL_SELL_ARCHIVE));
-        handlers.put(Subscriber.LOGISTIC, new LogisticHandler(Subscriber.LOGISTIC));
-        handlers.put(Subscriber.TRANSPORT_BUY, new TransportHandler(Subscriber.TRANSPORT_BUY, DealType.buy));
-        handlers.put(Subscriber.TRANSPORT_SELL, new TransportHandler(Subscriber.TRANSPORT_SELL, DealType.sell));
-        handlers.put(Subscriber.TRANSPORT_BUY_ARCHIVE, new TransportArchiveHandler(DealType.buy, Subscriber.TRANSPORT_BUY_ARCHIVE));
-        handlers.put(Subscriber.TRANSPORT_SELL_ARCHIVE, new TransportArchiveHandler(DealType.sell, Subscriber.TRANSPORT_SELL_ARCHIVE));
-        handlers.put(Subscriber.PROBES, new ProbesHandler(Subscriber.PROBES));
-        handlers.put(Subscriber.EXTRACTION, new ExtractionHandler(Subscriber.EXTRACTION));
-        handlers.put(Subscriber.VRO, new VroHandler(Subscriber.VRO));
-        handlers.put(Subscriber.KPO, new KpoHandler(Subscriber.KPO));
-        handlers.put(Subscriber.LABORATORY_STORAGES, new StoragesHandler(Subscriber.LABORATORY_STORAGES));
-        handlers.put(Subscriber.LABORATORY_TURNS, new TurnHandler(Subscriber.LABORATORY_TURNS));
-        handlers.put(Subscriber.USERS, new UserHandler(Subscriber.USERS));
-        handlers.put(Subscriber.MANUFACTURE_REPORTS, new ManufactureReportHandler(Subscriber.MANUFACTURE_REPORTS));
-        handlers.put(Subscriber.STOCK, new StockHandler(Subscriber.STOCK));
-        handlers.put(Subscriber.TRANSPORT, new RetailHandler(Subscriber.TRANSPORT));
-        handlers.put(Subscriber.SEALS, new SealHandler(Subscriber.SEALS));
-        handlers.put(Subscriber.BOARD, new BoardHandler(Subscriber.BOARD));
-        handlers.put(Subscriber.ROUND_REPORT, new RoundReportHandler(Subscriber.ROUND_REPORT));
+        handlers.put(Subscribe.CONTRACTS_BUY, new ContractHandler(DealType.buy, Subscribe.CONTRACTS_BUY));
+        handlers.put(Subscribe.CONTRACTS_SELL, new ContractHandler(DealType.sell, Subscribe.CONTRACTS_SELL));
+        handlers.put(Subscribe.DEAL_BUY, new DealHandler(DealType.buy, Subscribe.DEAL_BUY));
+        handlers.put(Subscribe.DEAL_BUY_ARCHIVE, new DealArchiveHandler(DealType.buy, Subscribe.DEAL_BUY_ARCHIVE));
+        handlers.put(Subscribe.DEAL_SELL, new DealHandler(DealType.sell, Subscribe.DEAL_SELL));
+        handlers.put(Subscribe.DEAL_SELL_ARCHIVE, new DealArchiveHandler(DealType.sell, Subscribe.DEAL_SELL_ARCHIVE));
+        handlers.put(Subscribe.LOGISTIC, new LogisticHandler(Subscribe.LOGISTIC));
+        handlers.put(Subscribe.TRANSPORT_BUY, new TransportHandler(Subscribe.TRANSPORT_BUY, DealType.buy));
+        handlers.put(Subscribe.TRANSPORT_SELL, new TransportHandler(Subscribe.TRANSPORT_SELL, DealType.sell));
+        handlers.put(Subscribe.TRANSPORT_BUY_ARCHIVE, new TransportArchiveHandler(DealType.buy, Subscribe.TRANSPORT_BUY_ARCHIVE));
+        handlers.put(Subscribe.TRANSPORT_SELL_ARCHIVE, new TransportArchiveHandler(DealType.sell, Subscribe.TRANSPORT_SELL_ARCHIVE));
+        handlers.put(Subscribe.PROBES, new ProbesHandler(Subscribe.PROBES));
+        handlers.put(Subscribe.EXTRACTION, new ExtractionHandler(Subscribe.EXTRACTION));
+        handlers.put(Subscribe.VRO, new VroHandler(Subscribe.VRO));
+        handlers.put(Subscribe.KPO, new KpoHandler(Subscribe.KPO));
+        handlers.put(Subscribe.LABORATORY_STORAGES, new StoragesHandler(Subscribe.LABORATORY_STORAGES));
+        handlers.put(Subscribe.LABORATORY_TURNS, new TurnHandler(Subscribe.LABORATORY_TURNS));
+        handlers.put(Subscribe.USERS, new UserHandler(Subscribe.USERS));
+        handlers.put(Subscribe.MANUFACTURE_REPORTS, new ManufactureReportHandler(Subscribe.MANUFACTURE_REPORTS));
+        handlers.put(Subscribe.STOCK, new StockHandler(Subscribe.STOCK));
+        handlers.put(Subscribe.TRANSPORT, new RetailHandler(Subscribe.TRANSPORT));
+        handlers.put(Subscribe.SEALS, new SealHandler(Subscribe.SEALS));
+        handlers.put(Subscribe.BOARD, new BoardHandler(Subscribe.BOARD));
+        handlers.put(Subscribe.ROUND_REPORT, new RoundReportHandler(Subscribe.ROUND_REPORT));
     }
 
     public static ActiveSubscriptions getInstance() {
         return instance;
     }
 
-    public void subscribe(Subscriber sub, Session session, long workerId) throws IOException {
+    public void subscribe(Subscribe sub, Session session, long workerId) throws IOException {
         Worker worker = dao.getObjectById(Worker.class, workerId);
-        if (sub == Subscriber.NOTIFICATIONS) {
+        if (sub == Subscribe.NOTIFICATIONS) {
             if (!byWorker.containsKey(worker.getId())) {
                 byWorker.put(worker.getId(), new ArrayList<>());
                 byWorker.get(worker.getId()).add(session);
             }
 
-        }else if (sub == Subscriber.MESSAGES){
+        }else if (sub == Subscribe.MESSAGES){
             if (!byWorker.containsKey(worker.getId())) {
                 byWorker.put(worker.getId(), new ArrayList<>());
                 byWorker.get(worker.getId()).add(session);
             }
             messageHandler.handle(worker, session);
-        } else if (sub == Subscriber.SESSION_TIMER){
+        } else if (sub == Subscribe.SESSION_TIMER){
             sessionTimer.register(worker, session);
         } else {
             bySubscribe.get(sub).add(session);
@@ -89,11 +89,11 @@ public class ActiveSubscriptions {
             }
         }
     }
-    public void unsubscribe(Subscriber sub, Session session){
+    public void unsubscribe(Subscribe sub, Session session){
         bySubscribe.get(sub).remove(session);
     }
 
-    public synchronized void send(Subscriber sub, Object txt) {
+    public synchronized void send(Subscribe sub, Object txt) {
         String prepareMessage = prepareMessage(sub, txt);
         for (Session session : bySubscribe.get(sub)){
             if (session.isOpen()){
@@ -105,11 +105,11 @@ public class ActiveSubscriptions {
             }
         }
     }
-    public synchronized boolean send(Subscriber sub, Worker worker, Object message) throws IOException {
+    public synchronized boolean send(Subscribe sub, Worker worker, Object message) throws IOException {
         return send(sub, worker.getId(), message);
     }
 
-    public synchronized boolean send(Subscriber sub, int workerId, Object message) throws IOException {
+    public synchronized boolean send(Subscribe sub, int workerId, Object message) throws IOException {
         if (byWorker.containsKey(workerId)) {
             String prepareMessage = prepareMessage(sub, message);
             for (Session session : byWorker.get(workerId)){
@@ -122,7 +122,7 @@ public class ActiveSubscriptions {
         return false;
     }
 
-    public static String prepareMessage(Subscriber type, Object msg){
+    public static String prepareMessage(Subscribe type, Object msg){
         return prepareMessage(type.toString(), msg);
     }
 
@@ -137,10 +137,16 @@ public class ActiveSubscriptions {
 
     public void close() {
         log.info("Close all subscribe sessions");
+        saveSubscribes();
         clearSessions(bySubscribe.values());
-        clearSessions(byWorker.values());
         bySubscribe.clear();
+        clearSessions(byWorker.values());
         byWorker.clear();
+    }
+
+    private void saveSubscribes() {
+        //todo remove saved subscribes by user
+        //todo user->subscribes
     }
 
     private void clearSessions(Collection<ArrayList<Session>> values) {

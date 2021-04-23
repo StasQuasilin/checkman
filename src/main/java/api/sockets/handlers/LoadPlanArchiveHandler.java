@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -19,11 +19,11 @@ public class LoadPlanArchiveHandler extends OnSubscribeHandler {
         array.addAll(dao.getLimitTransportationsArchive().stream().map(parser::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber,json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe,json));
         ActiveSubscriptions.pool.put(json);
     }
 
-    public LoadPlanArchiveHandler(Subscriber subscriber) {
-        super(subscriber);
+    public LoadPlanArchiveHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 }

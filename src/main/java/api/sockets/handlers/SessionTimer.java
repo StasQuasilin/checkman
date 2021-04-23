@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.Role;
 import entity.Worker;
 import org.apache.log4j.Logger;
@@ -95,7 +95,7 @@ public class SessionTimer {
     private void close(Worker worker, Session session, String reason) {
         System.out.println("Close session for: " + worker.getPerson().getValue() + ", cause '" + reason + "'");
         if(session.isOpen()) {
-            String closed = ActiveSubscriptions.prepareMessage(Subscriber.SESSION_TIMER, lb.get(worker.getLanguage(), reason));
+            String closed = ActiveSubscriptions.prepareMessage(Subscribe.SESSION_TIMER, lb.get(worker.getLanguage(), reason));
             try {
                 session.getBasicRemote().sendText(closed);
             } catch (IOException e1) {

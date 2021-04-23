@@ -15,6 +15,7 @@
     <title><fmt:message key="sign.in"/></title>
     <script src="${context}/js/Core.js"></script>
     <script src="${context}/vue/templates/vehicleInput.vue"></script>
+    <script src="${context}/js/loginer.js?v=${now}"></script>
     <link rel="stylesheet" href="${context}/css/login.css">
 
 </head>
@@ -96,7 +97,7 @@
 <script>
     const context = '${context}';
     login.api.find = '${userApi}';
-    login.api.signin = '${loginApi}';
+    loginer.api.signin = '${loginApi}';
     login.userProps = {
         header:'<fmt:message key="user.select.other"/>',
         find:'${userApi}',

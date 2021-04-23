@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.Worker;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
@@ -10,7 +10,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonParser;
 import utils.JsonPool;
-import utils.UpdateUtil;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -61,7 +60,7 @@ public class MessageHandler {
         JSONObject update = pool.getObject();
         update.put(UPDATE, data);
 
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(Subscriber.MESSAGES, update));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(Subscribe.MESSAGES, update));
         pool.put(data);
     }
 }

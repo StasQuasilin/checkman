@@ -3,7 +3,7 @@ package api.sockets;
 /**
  * Created by szpt_user045 on 11.07.2019.
  */
-public enum Subscriber {
+public enum Subscribe {
     DEAL_BUY,
     DEAL_BUY_ARCHIVE,
     DEAL_SELL,

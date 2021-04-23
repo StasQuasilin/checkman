@@ -10,6 +10,7 @@
 <%--<link rel="stylesheet" href="${context}/css/list.css?v=${now}">--%>
 <script>
     list.api.edit = '${edit}';
+    list.api.cancel = '${cancel}';
     list.api.archive = '${archive}';
     if (typeof list.fields === 'undefined'){
         list.fields = {};
@@ -122,41 +123,44 @@
     }
 </style>
 <c:set var="plan"><fmt:message key="load.plan"/></c:set>
-    <div id="container">
-        <div v-if="loading" style="color: darkgray; text-align: center; width: 100%">
-            Loading...
-        </div>
-        <transition-group name="flip-list" tag="div" class="container" >
-            <div v-for="(value, key) in getItems()"
-                 :key="value.item.id" :id="value.item.id"
-                 class="container-item"
-                 :class="['container-item-' + new Date(value.item.date).getDay(),
+<div id="container">
+    <div v-if="loading" style="color: darkgray; text-align: center; width: 100%">
+        Loading...
+    </div>
+    <transition-group name="flip-list" tag="div" class="container" >
+        <div v-for="(value, key) in getItems()"
+             :key="value.item.id" :id="value.item.id"
+             class="container-item"
+             :class="['container-item-' + new Date(value.item.date).getDay(),
                  { done : value.item.weight && (value.item.weight.brutto > 0 && value.item.weight.tara > 0) },
                  { loading: value.item.weight && (value.item.weight.tara > 0 && value.item.weight.brutto == 0 ||
                  value.item.weight.brutto > 0 && value.item.weight.tara == 0)}]"
-                 v-on:click.right="contextMenu(value.item)">
-                        <div style="display: inline-block; max-width: 98%; width: 94%">
-                            <div class="upper-row" style="font-size: 11pt">
-                                <div style="display: inline-block">
-                                    <div style="font-size: 6pt; color: gray" :title="'ID: ' + value.item.id">
-                                        {{value.item.id}}
-                                    </div>
-                                    <div :title="new Date(value.item.date).toLocaleDateString()">
-                                        {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
-                                    </div>
-                                </div>
-                                <div style="display: inline-block; width: 92%">
-                                    <div>
-                                        <span class="mini-close" v-on:click=edit(value.item.id)>
-                                            Edit
-                                        </span>
-										<span class="mini-close" v-on:click=copy(value.item.id)>
-                                            Copy
-                                        </span>
-										<span v-if=canArchiveThis(value.item) class="mini-close" v-on:click=delete(value.item.id)>
-                                            Delete
-                                        </span>
-                                        <span v-if="value.item.counterparty.code" class="counterparty-code code-valid">
+             v-on:click.right="contextMenu(value.item)">
+            <div style="display: inline-block; max-width: 98%; width: 94%">
+                <div class="upper-row" style="font-size: 11pt">
+                    <div style="display: inline-block">
+                        <div style="font-size: 6pt; color: gray" :title="'ID: ' + value.item.id">
+                            {{value.item.id}}
+                        </div>
+                        <div :title="new Date(value.item.date).toLocaleDateString()">
+                            {{new Date(value.item.date).toLocaleDateString().substring(0, 5)}}
+                        </div>
+                    </div>
+                    <div style="display: inline-block; width: 92%">
+                        <div>
+                            <span class="mini-close" v-on:click=edit(value.item.id)>
+                                Edit
+                            </span>
+                            <span class="mini-close" v-on:click=copy(value.item.id)>
+                                Copy
+                            </span>
+                            <span v-if=canArchiveThis(value.item) class="mini-close" v-on:click=archive(value.item.id)>
+                                Archive
+                            </span>
+                            <span v-else-if="!value.item.any" class="mini-close" v-on:click="cancel(value.item.id)">
+                                Delete
+                            </span>
+                            <span v-if="value.item.counterparty.code" class="counterparty-code code-valid">
                                             &check;
                                             <span class="code-text">
                                                 <template v-if="value.item.counterparty.code.length == 8">
@@ -168,10 +172,10 @@
                                                  {{value.item.counterparty.code}}
                                             </span>
                                         </span>
-                                        <b>
-                                            {{value.item.counterparty.value}}
-                                        </b>
-                                        <span v-if="value.item.contractNumber">
+                            <b>
+                                {{value.item.counterparty.value}}
+                            </b>
+                            <span v-if="value.item.contractNumber">
                                             <span class="label">
                                                 <fmt:message key="deal.num"/>:
                                             </span>
@@ -179,7 +183,7 @@
                                                 {{value.item.contractNumber}}
                                             </b>
                                         </span>
-                                        <span class="product-line" style="float: right;">
+                            <span class="product-line" style="float: right;">
                                             <span v-if="types[value.item.type]" class="label">
                                                 {{(types[value.item.type]).toLowerCase()}}
                                             </span>
@@ -195,65 +199,65 @@
                                         </span>
                                             {{value.item.shipper}}
                                         </span>
-                                    </div>
-                                    <b v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >
-                                        <fmt:message key="load.address"/>:
-                                        <template v-if="value.item.address.index">
-                                            {{value.item.address.index}},
-                                        </template>
-                                        <template v-if="value.item.address.region">
-                                            {{value.item.address.region}}
-                                            <fmt:message key="address.region.short"/>,
-                                        </template>
-                                        <template v-if="value.item.address.district">
-                                            {{value.item.address.district}}
-                                            <fmt:message key="address.district.short"/>,
-                                        </template>
-                                        <template v-if="value.item.address.city">
-                                            {{value.item.address.city}}
-                                        </template>
-                                        <template v-if="value.item.address.street">
-                                            , {{value.item.address.street}},
-                                        </template>
-                                        {{value.item.address.build}}
-                                    </b>
-                                </div>
-                            </div>
-                    <%--</div>--%>
-                    <div class="middle-row">
-                        <div style="display: inline-block; width: 8em">
-                            <div style="font-size: 9pt">
-                                <fmt:message key="transportation.time.in"/>:
-                                <template v-if="value.item.timeIn">
-                                    {{new Date(value.item.timeIn.time).toLocaleDateString().substring(0, 5)}}
-                                    {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
-                                </template>
-                                <template v-else>
-                                    --.-- --:--
-                                </template>
-                            </div>
-                            <div style="font-size: 9pt">
-                                <fmt:message key="transportation.time.out"/>:
-                                  <template v-if="value.item.timeOut">
-                                    {{new Date(value.item.timeOut.time).toLocaleDateString().substring(0, 5)}}
-                                    {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
-                                  </template>
-                                    <template v-else>
-                                        --.-- --:--
-                                    </template>
-                            </div>
                         </div>
-                        <transport-view :item="value.item" :fields="fields" :customers="customers"></transport-view>
+                        <b v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >
+                            <fmt:message key="load.address"/>:
+                            <template v-if="value.item.address.index">
+                                {{value.item.address.index}},
+                            </template>
+                            <template v-if="value.item.address.region">
+                                {{value.item.address.region}}
+                                <fmt:message key="address.region.short"/>,
+                            </template>
+                            <template v-if="value.item.address.district">
+                                {{value.item.address.district}}
+                                <fmt:message key="address.district.short"/>,
+                            </template>
+                            <template v-if="value.item.address.city">
+                                {{value.item.address.city}}
+                            </template>
+                            <template v-if="value.item.address.street">
+                                , {{value.item.address.street}},
+                            </template>
+                            {{value.item.address.build}}
+                        </b>
                     </div>
-                    <div style="font-size: 8pt; padding: 0 4px">
-                        &nbsp;
-                        <span v-if="value.item.driver && value.item.driver.person.phones.length > 0">
+                </div>
+                <%--</div>--%>
+                <div class="middle-row">
+                    <div style="display: inline-block; width: 8em">
+                        <div style="font-size: 9pt">
+                            <fmt:message key="transportation.time.in"/>:
+                            <template v-if="value.item.timeIn">
+                                {{new Date(value.item.timeIn.time).toLocaleDateString().substring(0, 5)}}
+                                {{new Date(value.item.timeIn.time).toLocaleTimeString().substring(0, 5)}}
+                            </template>
+                            <template v-else>
+                                --.-- --:--
+                            </template>
+                        </div>
+                        <div style="font-size: 9pt">
+                            <fmt:message key="transportation.time.out"/>:
+                            <template v-if="value.item.timeOut">
+                                {{new Date(value.item.timeOut.time).toLocaleDateString().substring(0, 5)}}
+                                {{new Date(value.item.timeOut.time).toLocaleTimeString().substring(0, 5)}}
+                            </template>
+                            <template v-else>
+                                --.-- --:--
+                            </template>
+                        </div>
+                    </div>
+                    <transport-view :item="value.item" :fields="fields" :customers="customers"></transport-view>
+                </div>
+                <div style="font-size: 8pt; padding: 0 4px">
+                    &nbsp;
+                    <span v-if="value.item.driver && value.item.driver.person.phones.length > 0">
                             <img style="width: 10pt" src="${context}/images/phone.svg">
                             <span v-for="phone in value.item.driver.person.phones" style="padding: 0 2pt">
                                 {{phone.number}}
                             </span>
                         </span>
-                        <span style="float: right;">
+                    <span style="float: right;">
                             <fmt:message key="deal.manager"/>:
                             {{value.item.manager.person.value}},
                             <fmt:message key="created"/>:
@@ -263,71 +267,71 @@
                             {{new Date(value.item.create.time).toLocaleDateString().substring(0, 5)}}
                             {{new Date(value.item.create.time).toLocaleTimeString().substring(0, 5)}}
                         </span>
-                    </div>
-                    <div class="lower-row" v-if="value.item.notes.length > 0">
-                        <a v-for="note in value.item.notes" v-on:click="editComment(note)" style="display: inline-block; padding-left: 4pt">
+                </div>
+                <div class="lower-row" v-if="value.item.notes.length > 0">
+                    <a v-for="note in value.item.notes" v-on:click="editComment(note)" style="display: inline-block; padding-left: 4pt">
                         <span v-if="note.creator">
                             {{note.creator}}:
                         </span>
-                            <b>
-                                {{note.note}}
-                            </b>
-                        </a>
-                    </div>
+                        <b>
+                            {{note.note}}
+                        </b>
+                    </a>
                 </div>
-                <div class="right-field">
-                    <div class="right-field-content">
-                        <div v-if="value.item.weight" style="width: 54pt; padding-left: 4pt">
+            </div>
+            <div class="right-field">
+                <div class="right-field-content">
+                    <div v-if="value.item.weight" style="width: 54pt; padding-left: 4pt">
+                        <div>
                             <div>
-                                <div>
-                                    Б: <b>{{value.item.weight.brutto}}</b>
-                                </div>
-                                <div>
-                                    Т: <b>{{value.item.weight.tara}}</b>
-                                </div>
-                                <div>
-                                    Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
-                                </div>
+                                Б: <b>{{value.item.weight.brutto}}</b>
                             </div>
-                            <template v-if="value.item.weight.correction > 0">
-                                <div v-if="value.item.weight.netto > 0">
-                                    ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
-                                </div>
-                                <div>
-                                    -{{value.item.weight.correction.toLocaleString()}}%
-                                </div>
-                            </template>
+                            <div>
+                                Т: <b>{{value.item.weight.tara}}</b>
+                            </div>
+                            <div>
+                                Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
+                            </div>
                         </div>
+                        <template v-if="value.item.weight.correction > 0">
+                            <div v-if="value.item.weight.netto > 0">
+                                ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
+                            </div>
+                            <div>
+                                -{{value.item.weight.correction.toLocaleString()}}%
+                            </div>
+                        </template>
                     </div>
                 </div>
-                <div class="right-field">
-                    <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>
-                </div>
             </div>
-        </transition-group>
-        <c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">
-            <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
-                <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
-                    <c:if test="${not empty edit}">
-                        <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/> </div>
-                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
-                    </c:if>
-                    <c:if test="${not empty copy}">
-                        <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
-                    </c:if>
-                    <c:if test="${not empty cancel}">
-                        <div class="custom-data-list-item" v-if="canArchiveThis(menu.item)"
-                             :id="menu.id" onclick="editableModal('${cancel}')">
-                            <fmt:message key="menu.archive"/>
-                        </div>
-                        <div class="custom-data-list-item" v-else-if="menu.item.any" style="color: #bababa">
-                            <fmt:message key="menu.archive"/>
-                        </div>
-                        <div class="custom-data-list-item" :id="menu.id" v-else
-                             onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
-                    </c:if>
-                </div>
+            <div class="right-field">
+                <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>
             </div>
-        </c:if>
-    </div>
+        </div>
+    </transition-group>
+    <c:if test="${(menu eq null) || (menu) || not empty add || not empty copy || not empty cancel}">
+        <div v-show="menu.show" v-on:click="closeMenu" class="menu-wrapper">
+            <div ref="contextMenu" :style="{ top: menu.y + 'px', left:menu.x + 'px'}" class="context-menu">
+                <c:if test="${not empty edit}">
+                    <div class="custom-data-list-item" :id="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.edit"/> </div>
+                    <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${edit}')"><fmt:message key="menu.copy"/></div>
+                </c:if>
+                <c:if test="${not empty copy}">
+                    <div class="custom-data-list-item" :copy="menu.id" onclick="editableModal('${copy}')"><fmt:message key="menu.copy"/></div>
+                </c:if>
+                <c:if test="${not empty cancel}">
+                    <div class="custom-data-list-item" v-if="canArchiveThis(menu.item)"
+                         :id="menu.id" onclick="editableModal('${cancel}')">
+                        <fmt:message key="menu.archive"/>
+                    </div>
+                    <div class="custom-data-list-item" v-else-if="menu.item.any" style="color: #bababa">
+                        <fmt:message key="menu.archive"/>
+                    </div>
+                    <div class="custom-data-list-item" :id="menu.id" v-else
+                         onclick="editableModal('${cancel}')"><fmt:message key="menu.delete"/></div>
+                </c:if>
+            </div>
+        </div>
+    </c:if>
+</div>
 </html>

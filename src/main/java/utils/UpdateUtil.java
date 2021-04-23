@@ -1,7 +1,7 @@
 package utils;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import api.sockets.handlers.MessageHandler;
 import entity.DealType;
 import entity.Worker;
@@ -33,7 +33,6 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 11.07.2019.
@@ -60,16 +59,16 @@ public class UpdateUtil {
 
     public void onArchive(Deal deal) {
         onRemove(deal);
-        Subscriber subscriber = deal.getType() == DealType.buy ? Subscriber.DEAL_BUY_ARCHIVE : Subscriber.DEAL_SELL_ARCHIVE;
-        doAction(Command.update, subscriber, deal.toJson());
+        Subscribe subscribe = deal.getType() == DealType.buy ? Subscribe.DEAL_BUY_ARCHIVE : Subscribe.DEAL_SELL_ARCHIVE;
+        doAction(Command.update, subscribe, deal.toJson());
     }
 
-    static Subscriber getSubscriber(DealType type){
-        return type == DealType.buy ? Subscriber.DEAL_BUY : Subscriber.DEAL_SELL;
+    static Subscribe getSubscriber(DealType type){
+        return type == DealType.buy ? Subscribe.DEAL_BUY : Subscribe.DEAL_SELL;
     }
 
-    static Subscriber getSubscriber(Transportation transportation){
-        return transportation.getDeal().getType() == DealType.buy ? Subscriber.TRANSPORT_BUY : Subscriber.TRANSPORT_SELL;
+    static Subscribe getSubscriber(Transportation transportation){
+        return transportation.getDeal().getType() == DealType.buy ? Subscribe.TRANSPORT_BUY : Subscribe.TRANSPORT_SELL;
     }
 
     public void onSave(Transportation transportation) throws IOException {
@@ -82,28 +81,28 @@ public class UpdateUtil {
 
     public void onArchive(Transportation transportation) {
         onRemove(transportation);
-        Subscriber subscriber = transportation.getDeal().getType() == DealType.buy ? Subscriber.TRANSPORT_BUY_ARCHIVE : Subscriber.TRANSPORT_SELL_ARCHIVE;
-        doAction(Command.update, subscriber, transportation);
+        Subscribe subscribe = transportation.getDeal().getType() == DealType.buy ? Subscribe.TRANSPORT_BUY_ARCHIVE : Subscribe.TRANSPORT_SELL_ARCHIVE;
+        doAction(Command.update, subscribe, transportation);
     }
 
     public void onRemove(ExtractionCrude crude) throws IOException {
-        doAction(Command.remove, Subscriber.EXTRACTION, crude.getId());
+        doAction(Command.remove, Subscribe.EXTRACTION, crude.getId());
     }
 
-    void doAction(Command command, Subscriber sub, Worker worker, Object obj) throws IOException {
+    void doAction(Command command, Subscribe sub, Worker worker, Object obj) throws IOException {
         JSONObject json = pool.getObject();
         json.put(command.toString(), obj);
         subscriptions.send(sub, worker, json);
         pool.put(json);
     }
-    public void doAction(Command command, Subscriber subscriber, Object... obj) {
+    public void doAction(Command command, Subscribe subscribe, Object... obj) {
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
         for (Object o : obj) {
             array.add(o);
         }
         json.put(command.toString(), array);
-        subscriptions.send(subscriber, json);
+        subscriptions.send(subscribe, json);
 
         pool.put(json);
     }
@@ -125,27 +124,27 @@ public class UpdateUtil {
     }
 
     public void onSave(ExtractionTurn turn) throws IOException {
-        doAction(Command.update, Subscriber.EXTRACTION, turn.toJson());
+        doAction(Command.update, Subscribe.EXTRACTION, turn.toJson());
     }
 
     public void onSave(VROTurn turn) throws IOException {
-        doAction(Command.update, Subscriber.VRO, turn.toJson());
+        doAction(Command.update, Subscribe.VRO, turn.toJson());
     }
 
     public void onSave(ProbeTurn turn) {
-        doAction(Command.update, Subscriber.PROBES, parser.toJson(turn));
+        doAction(Command.update, Subscribe.PROBES, parser.toJson(turn));
     }
 
     public void onSave(KPOPart part) throws IOException {
-        doAction(Command.update, Subscriber.KPO, parser.toJson(part));
+        doAction(Command.update, Subscribe.KPO, parser.toJson(part));
     }
 
     public void onSave(StorageTurn turn) throws IOException {
-        doAction(Command.update, Subscriber.LABORATORY_STORAGES, parser.toJson(turn));
+        doAction(Command.update, Subscribe.LABORATORY_STORAGES, parser.toJson(turn));
     }
 
     public void onSave(LaboratoryTurn turn) throws IOException{
-        doAction(Command.update, Subscriber.LABORATORY_TURNS, parser.toJson(turn));
+        doAction(Command.update, Subscribe.LABORATORY_TURNS, parser.toJson(turn));
     }
 
     public void onSave(ChatMessage message, Worker member) throws IOException {
@@ -155,7 +154,7 @@ public class UpdateUtil {
         JSONObject object = pool.getObject();
         object.put(MessageHandler.MESSAGES, array);
 
-        doAction(Command.update, Subscriber.MESSAGES, member, object);
+        doAction(Command.update, Subscribe.MESSAGES, member, object);
     }
 
     public void onSave(Chat chat, String chatKey, Worker member) throws IOException {
@@ -169,19 +168,19 @@ public class UpdateUtil {
         JSONObject object = pool.getObject();
         object.put(MessageHandler.CHATS, array);
 
-        doAction(Command.update, Subscriber.MESSAGES, member, object);
+        doAction(Command.update, Subscribe.MESSAGES, member, object);
     }
 
     public void onSave(Worker worker) throws IOException {
         JSONObject object = pool.getObject();
         object.put(MessageHandler.CONTACTS, parser.toJson(worker));
-        doAction(Command.update, Subscriber.MESSAGES, object);
+        doAction(Command.update, Subscribe.MESSAGES, object);
     }
 
     public void onArchive(Chat chat) throws IOException {
         JSONObject object = pool.getObject();
         object.put("id", chat.getId());
-        doAction(Command.remove, Subscriber.MESSAGES, object);
+        doAction(Command.remove, Subscribe.MESSAGES, object);
     }
 
     public void onSave(Organisation organisation) throws IOException {
@@ -197,35 +196,35 @@ public class UpdateUtil {
     }
 
     public void onSave(ManufactureReport manufactureReport) throws IOException {
-        doAction(Command.update, Subscriber.MANUFACTURE_REPORTS, parser.toJson(manufactureReport));
+        doAction(Command.update, Subscribe.MANUFACTURE_REPORTS, parser.toJson(manufactureReport));
     }
 
     public void updateStocks(JSONObject json) throws IOException {
-        doAction(Command.update, Subscriber.STOCK, json);
+        doAction(Command.update, Subscribe.STOCK, json);
     }
 
     public void onRemove(ManufactureReport report) throws IOException {
-        doAction(Command.remove, Subscriber.MANUFACTURE_REPORTS, report.getId());
+        doAction(Command.remove, Subscribe.MANUFACTURE_REPORTS, report.getId());
     }
 
     public void onRemove(Transportation2 transportation) throws IOException {
-        doAction(Command.remove, Subscriber.TRANSPORT, transportation.getId());
+        doAction(Command.remove, Subscribe.TRANSPORT, transportation.getId());
     }
 
     public void onSave(SealBatch batch) {
-        doAction(Command.update, Subscriber.SEALS, batch.toJson());
+        doAction(Command.update, Subscribe.SEALS, batch.toJson());
     }
 
     public void onSave(BoardItem boardItem) throws IOException {
-        doAction(Command.update, Subscriber.BOARD, boardItem.toJson());
+        doAction(Command.update, Subscribe.BOARD, boardItem.toJson());
     }
 
     public void onSave(RoundReport report) throws IOException {
-        doAction(Command.update, Subscriber.ROUND_REPORT, report.toJson());
+        doAction(Command.update, Subscribe.ROUND_REPORT, report.toJson());
     }
 
     public void onRemove(SealBatch batch) {
-        doAction(Command.remove, Subscriber.SEALS, batch.toJson());
+        doAction(Command.remove, Subscribe.SEALS, batch.toJson());
     }
 
     public enum Command {

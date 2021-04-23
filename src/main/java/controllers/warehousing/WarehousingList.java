@@ -1,6 +1,6 @@
 package controllers.warehousing;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
@@ -20,13 +20,13 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WAREHOUSING_LIST)
 public class WarehousingList extends IUIServlet {
 
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+    final Subscribe[] subscribes = new Subscribe[]{Subscribe.TRANSPORT_BUY, Subscribe.TRANSPORT_SELL};
 //    public static final String _CONTENT = "/pages/warehousing/warehousingList.jsp";
     public static final String _CONTENT = "/pages/weight/warehousingList.jsp";
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.TRANSPORT_LIST);
-        req.setAttribute(SUBSCRIBE, subscribers);
+        req.setAttribute(SUBSCRIBE, subscribes);
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(SHOW, Branches.UI.WAREHOUSING_EDIT);
         req.setAttribute(EDIT_STORAGE, Branches.UI.STORAGE_EDIT);

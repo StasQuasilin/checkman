@@ -1,6 +1,6 @@
 package controllers.summary;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SUMMARY_LIST)
 public class SummaryList extends IUIServlet {
 
-	final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+	final Subscribe[] subscribes = new Subscribe[]{Subscribe.TRANSPORT_BUY, Subscribe.TRANSPORT_SELL};
 	public static final String _CONTENT = "/pages/summary/summaryList.jsp";
 	private static final String _STATIC = "/pages/summary/staticCalendar.jsp";
 	@Override
@@ -42,7 +42,7 @@ public class SummaryList extends IUIServlet {
 		req.setAttribute(CONTENT, _CONTENT);
 		req.setAttribute(STATIC_CONTENT, _STATIC);
 		req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
-		req.setAttribute(SUBSCRIBE, subscribers);
+		req.setAttribute(SUBSCRIBE, subscribes);
 		req.setAttribute(CUSTOMERS, TransportCustomer.values());
 		show(req, resp);
 	}

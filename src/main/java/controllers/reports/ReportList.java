@@ -1,10 +1,9 @@
 package controllers.reports;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import controllers.IUIServlet;
 import utils.turns.TurnBox;
-import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +19,7 @@ public class ReportList extends IUIServlet {
 
     private static final String TURNS = "turns";
     private static final String BUILDER = "builder";
-    final Subscriber[] subscribe = new Subscriber[]{Subscriber.MANUFACTURE_REPORTS};
+    final Subscribe[] subscribe = new Subscribe[]{Subscribe.MANUFACTURE_REPORTS};
     private static final String _TITLE = "title.manufacture.reports";
     private static final String _CONTENT = "/pages/reports/manufactureReportList.jsp";
 

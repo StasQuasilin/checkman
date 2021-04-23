@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
  */
 public class VroHandler extends OnSubscribeHandler {
 
-    public VroHandler(Subscriber subscriber) {
-        super(subscriber);
+    public VroHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class VroHandler extends OnSubscribeHandler {
         array.addAll(dao.getLimitVroTurns().stream().map(VROTurn::toJson).collect(Collectors.toList()));
         JSONObject json = pool.getObject();
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);
     }
 }

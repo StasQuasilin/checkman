@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.UserInfo;
 import entity.Worker;
 import org.json.simple.JSONArray;
@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static constants.Constants.*;
 
@@ -22,8 +21,8 @@ import static constants.Constants.*;
  */
 public class UserHandler extends OnSubscribeHandler {
 
-    public UserHandler(Subscriber subscriber) {
-        super(subscriber);
+    public UserHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class UserHandler extends OnSubscribeHandler {
         JSONObject object = pool.getObject();
         object.put("update", active);
 
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, object));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, object));
         pool.put(object);
     }
 }

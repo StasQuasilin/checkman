@@ -1,4 +1,4 @@
-var list = {
+list = {
     data:function(){
         return{
             api:{},

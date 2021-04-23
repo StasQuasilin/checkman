@@ -1,6 +1,5 @@
 package controllers.contracts;
 
-import api.sockets.Subscriber;
 import constants.Branches;
 import controllers.IUIServlet;
 import entity.DealType;

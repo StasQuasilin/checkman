@@ -1,9 +1,8 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.DealType;
-import entity.JsonAble;
 import entity.deal.Contract;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,8 +18,8 @@ public class ContractHandler extends OnSubscribeHandler {
 
     final DealType type;
 
-    public ContractHandler(DealType type, Subscriber subscriber) {
-        super(subscriber);
+    public ContractHandler(DealType type, Subscribe subscribe) {
+        super(subscribe);
         this.type = type;
     }
 
@@ -30,7 +29,7 @@ public class ContractHandler extends OnSubscribeHandler {
         JSONArray array = pool.getArray();
         array.addAll(dao.getContractsByType(type).stream().map(Contract::toJson).collect(Collectors.toList()));
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);
     }
 }

@@ -1,12 +1,11 @@
 package controllers.laboratory.probe;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
 import entity.AnalysesType;
 import entity.Role;
-import entity.Worker;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +20,7 @@ import java.io.IOException;
 public class ProbeList extends IUIServlet {
 
     private static final String _FILTER = "/pages/laboratory/probes/probeFilter.jsp";
-    final Subscriber[] subscribe = new Subscriber[]{Subscriber.PROBES};
+    final Subscribe[] subscribe = new Subscribe[]{Subscribe.PROBES};
     final AnalysesType[] types = new AnalysesType[]{AnalysesType.sun, AnalysesType.oil};
 
     @Override

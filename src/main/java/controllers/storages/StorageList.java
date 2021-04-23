@@ -1,8 +1,7 @@
 package controllers.storages;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
-import constants.Constants;
 import controllers.IUIServlet;
 import entity.Role;
 import entity.products.Product;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Kvasik on 07.10.2019.
@@ -26,7 +24,7 @@ public class StorageList extends IUIServlet {
 
     private static final String _TITLE = "title.storages";
     private static final String _CONTENT = "/pages/storages/storageList.jsp";
-    private static final Subscriber[] SUBSCRIBES = new Subscriber[]{Subscriber.STOCK};
+    private static final Subscribe[] SUBSCRIBES = new Subscribe[]{Subscribe.STOCK};
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<Product, ArrayList<Storage>> products = new HashMap<>();

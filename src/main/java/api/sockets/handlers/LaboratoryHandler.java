@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.DealType;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
@@ -19,8 +19,8 @@ public class LaboratoryHandler extends OnSubscribeHandler {
 
     private final DealType type;
 
-    public LaboratoryHandler(Subscriber subscriber, DealType type) {
-        super(subscriber);
+    public LaboratoryHandler(Subscribe subscribe, DealType type) {
+        super(subscribe);
         this.type = type;
     }
 
@@ -30,7 +30,7 @@ public class LaboratoryHandler extends OnSubscribeHandler {
         JSONArray add = ActiveSubscriptions.pool.getArray();
         add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
         json.put(ADD, add);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         ActiveSubscriptions.pool.put(json);
     }
 

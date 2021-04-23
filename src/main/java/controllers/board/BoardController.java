@@ -1,7 +1,6 @@
 package controllers.board;
 
-import api.sockets.Subscriber;
-import com.google.common.eventbus.Subscribe;
+import api.sockets.Subscribe;
 import constants.Branches;
 import controllers.IUIServlet;
 
@@ -22,7 +21,7 @@ public class BoardController extends IUIServlet {
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(EDIT, Branches.UI.BOARD_EDIT);
         req.setAttribute(REMOVE, Branches.API.BOARD_REMOVE);
-        req.setAttribute(SUBSCRIBE, new Subscriber[]{Subscriber.BOARD});
+        req.setAttribute(SUBSCRIBE, new Subscribe[]{Subscribe.BOARD});
         show(req, resp);
     }
 }

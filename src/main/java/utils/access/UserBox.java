@@ -1,6 +1,6 @@
 package utils.access;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import api.sockets.handlers.SessionTimer;
 import entity.Client;
 import entity.User;
@@ -59,7 +59,7 @@ public class UserBox {
         users.put(token, userInfo);
         final JSONObject json = userInfo.toJson();
         json.put(TOKEN, token);
-        updateUtil.doAction(UpdateUtil.Command.update, Subscriber.USERS, json);
+        updateUtil.doAction(UpdateUtil.Command.update, Subscribe.USERS, json);
         return token;
     }
 
@@ -75,7 +75,7 @@ public class UserBox {
     public boolean remove(String token) {
         UserInfo remove = users.remove(token);
         if (remove != null){
-            updateUtil.doAction(UpdateUtil.Command.remove, Subscriber.USERS, token);
+            updateUtil.doAction(UpdateUtil.Command.remove, Subscribe.USERS, token);
             return true;
         }
         return false;

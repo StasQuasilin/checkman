@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.DealType;
 import entity.documents.Deal;
 import org.json.simple.JSONArray;
@@ -19,8 +19,8 @@ public class DealHandler extends OnSubscribeHandler {
 
     final DealType type;
 
-    public DealHandler(DealType type, Subscriber subscriber) {
-        super(subscriber);
+    public DealHandler(DealType type, Subscribe subscribe) {
+        super(subscribe);
         this.type = type;
     }
 
@@ -33,7 +33,7 @@ public class DealHandler extends OnSubscribeHandler {
         }
         json.put(UPDATE, add);
         session.getBasicRemote().sendText(
-                ActiveSubscriptions.prepareMessage(subscriber, json)
+                ActiveSubscriptions.prepareMessage(subscribe, json)
         );
         pool.put(json);
     }

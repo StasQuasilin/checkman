@@ -1,6 +1,5 @@
 package controllers.archive;
 
-import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;

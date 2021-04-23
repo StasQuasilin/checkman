@@ -1,6 +1,6 @@
 package controllers.seals;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SEAL_LIST)
 public class SealsList extends IUIServlet {
 
-    private static final Subscriber[] subs = new Subscriber[]{Subscriber.SEALS};
+    private static final Subscribe[] subs = new Subscribe[]{Subscribe.SEALS};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

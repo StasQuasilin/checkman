@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.border.BoardItem;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,11 +21,11 @@ public class BoardHandler extends OnSubscribeHandler {
             array.add(item.toJson());
         }
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);
     }
 
-    public BoardHandler(Subscriber subscriber) {
-        super(subscriber);
+    public BoardHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 }

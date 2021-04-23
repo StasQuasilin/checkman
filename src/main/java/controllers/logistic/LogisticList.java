@@ -1,6 +1,6 @@
 package controllers.logistic;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class LogisticList extends IUIServlet{
 
     private static final String _SCRIPT = "/vue2/logisticList.vue";
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+    final Subscribe[] subscribes = new Subscribe[]{Subscribe.TRANSPORT_BUY, Subscribe.TRANSPORT_SELL};
     public static final String _CONTENT = "/pages/logistic/oldLogisticList.jsp";
 
     @Override
@@ -47,7 +47,7 @@ public class LogisticList extends IUIServlet{
         req.setAttribute(CONTENT, _CONTENT);
         req.setAttribute(SCRIPT, _SCRIPT);
         req.setAttribute(FILTER, "/pages/filters/transportFilter.jsp");
-        req.setAttribute(SUBSCRIBE, subscribers);
+        req.setAttribute(SUBSCRIBE, subscribes);
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
         req.setAttribute(TRANSPORT_CARRIAGES, Branches.UI.TRANSPORT_CARRIAGES);
         req.setAttribute(TRANSPORT_COST, Branches.UI.TRANSPORT_COST);

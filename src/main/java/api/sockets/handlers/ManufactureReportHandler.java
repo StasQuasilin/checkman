@@ -1,8 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
-import entity.reports.ManufactureReport;
+import api.sockets.Subscribe;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -20,11 +19,11 @@ public class ManufactureReportHandler extends OnSubscribeHandler {
         array.addAll(dao.getLimitManufactureReports().stream().map(parser::toJson).collect(Collectors.toList()));
         JSONObject json = pool.getObject();
         json.put(ADD, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);
     }
 
-    public ManufactureReportHandler(Subscriber subscriber) {
-        super(subscriber);
+    public ManufactureReportHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 }

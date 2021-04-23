@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.weight.RoundReport;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,11 +17,11 @@ public class RoundReportHandler extends OnSubscribeHandler {
             add.add(report.toJson());
         }
         json.put(ADD, add);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);
     }
 
-    public RoundReportHandler(Subscriber subscriber) {
-        super(subscriber);
+    public RoundReportHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 }

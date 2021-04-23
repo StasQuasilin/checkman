@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static constants.Constants.*;
+
 /**
  * Created by szpt_user045 on 11.07.2019.
  */
@@ -53,20 +55,20 @@ public class SubscribesAPI extends API{
     @OnMessage
     public void onMessage(Session session, String msg) throws ParseException, IOException {
         JSONObject json = (JSONObject) parseJson(msg);
-        if (json.containsKey("action")) {
-            String action = String.valueOf(json.get("action"));
+        if (json.containsKey(ACTION)) {
+            String action = String.valueOf(json.get(ACTION));
             switch (action) {
-                case "subscribe":
-                    if (json.containsKey("subscriber")) {
-                        Subscriber subscriber = Subscriber.valueOf(String.valueOf(json.get("subscriber")));
-                        long worker = (long) json.get("worker");
-                        activeSubscriptions.subscribe(subscriber, session, worker);
+                case SUBSCRIBE:
+                    if (json.containsKey(SUBSCRIBER)) {
+                        Subscribe subscribe = Subscribe.valueOf(String.valueOf(json.get(SUBSCRIBER)));
+                        long worker = (long) json.get(WORKER);
+                        activeSubscriptions.subscribe(subscribe, session, worker);
                     }
                     break;
-                case "unsubscribe":
-                    if (json.containsKey("subscriber")) {
-                        Subscriber subscriber = Subscriber.valueOf(String.valueOf(json.get("subscriber")));
-                        activeSubscriptions.unsubscribe(subscriber, session);
+                case UNSUBSCRIBE:
+                    if (json.containsKey(SUBSCRIBER)) {
+                        Subscribe subscribe = Subscribe.valueOf(String.valueOf(json.get(SUBSCRIBER)));
+                        activeSubscriptions.unsubscribe(subscribe, session);
                     }
                     break;
                 case "ping": {
@@ -100,6 +102,5 @@ public class SubscribesAPI extends API{
     public void onError(Session session, Throwable t){
         log.error("Error in session #" + session.getId());
         t.printStackTrace();
-
     }
 }

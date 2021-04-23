@@ -1,6 +1,6 @@
 package controllers.transport;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebServlet(Branches.UI.TRANSPORT_LIST)
 public class TransportList extends IUIServlet{
 
-    Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+    Subscribe[] subscribes = new Subscribe[]{Subscribe.TRANSPORT_BUY, Subscribe.TRANSPORT_SELL};
     public static final String _CONTENT = "/pages/transport/transportList.jsp";
     private static final String _FILTER = "/pages/filters/transportFilter.jsp";
 
@@ -34,7 +34,7 @@ public class TransportList extends IUIServlet{
         req.setAttribute("transportPerMonth", Branches.UI.TRANSPORT_PER_MONTH);
         req.setAttribute(ADD_SEALS, Branches.UI.SEAL_CREATE);
         req.setAttribute(FIND_SEALS, Branches.UI.SEAL_FIND);
-        req.setAttribute(SUBSCRIBE, subscribers);
+        req.setAttribute(SUBSCRIBE, subscribes);
         req.setAttribute(HAVE_MENU, false);
         req.setAttribute(CHECK, Branches.UI.CHECK);
         req.setAttribute(CUSTOMERS, TransportCustomer.values());

@@ -1,6 +1,6 @@
 package controllers.weight;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
@@ -20,14 +20,14 @@ import java.io.IOException;
 @WebServlet(Branches.UI.WEIGHT_LIST)
 public class WeightList extends IUIServlet{
 
-    final Subscriber[] subscribers = new Subscriber[]{Subscriber.TRANSPORT_BUY, Subscriber.TRANSPORT_SELL};
+    final Subscribe[] subscribes = new Subscribe[]{Subscribe.TRANSPORT_BUY, Subscribe.TRANSPORT_SELL};
     private static final String _CONTENT = "/pages/weight/weightList.jsp";
     private static final String _FILTER = "/pages/filters/transportFilter.jsp";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.WEIGHT_LIST);
-        req.setAttribute(SUBSCRIBE, subscribers);
+        req.setAttribute(SUBSCRIBE, subscribes);
 
         req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
         req.setAttribute(ARCHIVE, Branches.API.ARCHIVE_LOAD_PLAN);

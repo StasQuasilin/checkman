@@ -1,7 +1,7 @@
 package utils.notifications;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.Worker;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class Notificator {
 
     public void sendNotification(Worker worker, Object notification){
         try {
-            subscriptions.send(Subscriber.NOTIFICATIONS, worker, notification);
+            subscriptions.send(Subscribe.NOTIFICATIONS, worker, notification);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,7 +32,7 @@ public class Notificator {
     public void sendNotificationFrom(Worker sender, Object notification) throws IOException {
         for (int id : subscriptions.getSubscribeWorkers()){
             if (sender.getId() != id){
-                subscriptions.send(Subscriber.NOTIFICATIONS, id, notification);
+                subscriptions.send(Subscribe.NOTIFICATIONS, id, notification);
             }
         }
     }
@@ -40,7 +40,7 @@ public class Notificator {
     public void sendNotification(Object notification) throws IOException {
         for (int id : subscriptions.getSubscribeWorkers()){
             System.out.println("Notification " + notification.toString() + " for " + id);
-            subscriptions.send(Subscriber.NOTIFICATIONS, id, notification);
+            subscriptions.send(Subscribe.NOTIFICATIONS, id, notification);
         }
     }
 }

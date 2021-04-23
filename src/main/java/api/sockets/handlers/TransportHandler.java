@@ -1,7 +1,7 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.DealType;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
@@ -10,9 +10,7 @@ import org.json.simple.JSONObject;
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static constants.Constants.UPDATE;
 
@@ -23,8 +21,8 @@ public class TransportHandler extends OnSubscribeHandler {
 
     final DealType type;
 
-    public TransportHandler(Subscriber subscriber, DealType type) {
-        super(subscriber);
+    public TransportHandler(Subscribe subscribe, DealType type) {
+        super(subscribe);
         this.type = type;
     }
 
@@ -37,7 +35,7 @@ public class TransportHandler extends OnSubscribeHandler {
         for (Transportation transportation : getTransport()){
             add.add(transportation.toJson());
             json.put(UPDATE, add);
-            basicRemote.sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+            basicRemote.sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
             add.clear();
         }
         pool.put(json);

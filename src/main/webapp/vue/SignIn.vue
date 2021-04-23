@@ -52,6 +52,7 @@ var login = new Vue({
         saveUserAccess:function(acc){
             localStorage.setItem('users', JSON.stringify(acc));
         },
+
         removeUserAccess:function(uid){
             Vue.delete(this.users, uid);
             this.saveUserAccess(this.users);
@@ -108,23 +109,18 @@ var login = new Vue({
 
             if (!this.errors.user && !this.errors.password) {
                 if (this.user.uid && this.user.password) {
-
                     this.cover = true;
                     const self = this;
-                    PostApi(this.api.signin,
-                        {
-                            uid:this.user.uid,
-                            password:btoa(this.user.password),
-                            hash:md5(this.user.password)
-                        }, function (a) {
-                            if (a.status === 'success') {
-                                self.addUserAccess(self.user.uid, self.user.value);
-                                location.href = (context + a['redirect']);
-                            } else {
-                                self.err = a['msd'];
-                                self.cover = false;
-                            }
-                    })
+                    loginer.login(this.user.uid, md5(this.user.password),function (a) {
+                        if (a.status === 'success') {
+                            self.addUserAccess(self.user.uid, self.user.value);
+                            location.href = (context + a['redirect']);
+                        } else {
+                            self.err = a['msd'];
+                            self.cover = false;
+                        }
+                    });
+
                 } else {
                     console.error('Something wrong with uid')
                 }

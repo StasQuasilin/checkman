@@ -142,11 +142,11 @@ list = new Vue({
                 loadModal(this.api.edit + '?id=' + id, {id : id})
             }
         },
-		copy:function(id){
-			if(this.api.edit){
-				loadModal(this.api.edit + '?copy=' + id, {copy : id})
-			}
-		},
+        copy:function(id){
+            if(this.api.edit){
+                loadModal(this.api.edit + '?copy=' + id, {copy : id})
+            }
+        },
         show:function(id){
             if (this.api.show) {
                 loadModal(this.api.show + '?id=' + id, {id: id})
@@ -156,6 +156,11 @@ list = new Vue({
             console.log('archive ' + id);
             if (this.api.archive) {
                 PostApi(this.api.archive, {id: id});
+            }
+        },
+        cancel:function(id){
+            if(this.api.cancel){
+                loadModal(this.api.cancel, {id:id});
             }
         },
         getItems:function(){

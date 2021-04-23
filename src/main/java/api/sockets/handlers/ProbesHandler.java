@@ -1,11 +1,10 @@
 package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import entity.laboratory.probes.ProbeTurn;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.UpdateUtil;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -23,11 +22,11 @@ public class ProbesHandler extends OnSubscribeHandler {
         array.addAll(dao.getLimitProbeTurns().stream().map(ProbeTurn::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();
         json.put(UPDATE, array);
-        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscriber, json));
+        session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         ActiveSubscriptions.pool.put(json);
     }
 
-    public ProbesHandler(Subscriber subscriber) {
-        super(subscriber);
+    public ProbesHandler(Subscribe subscribe) {
+        super(subscribe);
     }
 }

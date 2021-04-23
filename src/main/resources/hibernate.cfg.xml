@@ -137,5 +137,6 @@
         <mapping class="entity.transport.TransportationRemove"/>
         <mapping class="entity.transport.DriverTruckTrailer"/>
         <mapping class="entity.interest.Interest"/>
+        <mapping class="entity.UserInfo"/>
     </session-factory>
 </hibernate-configuration>

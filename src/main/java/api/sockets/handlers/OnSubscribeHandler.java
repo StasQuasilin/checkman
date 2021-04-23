@@ -1,6 +1,6 @@
 package api.sockets.handlers;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import utils.JsonParser;
 import utils.JsonPool;
 import utils.hibernate.dbDAO;
@@ -20,10 +20,10 @@ public abstract class OnSubscribeHandler {
 
     public abstract void handle(Session session) throws IOException;
     public final JsonParser parser = new JsonParser();
-    public final Subscriber subscriber;
+    public final Subscribe subscribe;
 
-    protected OnSubscribeHandler(Subscriber subscriber) {
-        this.subscriber = subscriber;
+    protected OnSubscribeHandler(Subscribe subscribe) {
+        this.subscribe = subscribe;
     }
 
 }

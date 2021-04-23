@@ -1,6 +1,6 @@
 package controllers.laboratory.subdivisions;
 
-import api.sockets.Subscriber;
+import api.sockets.Subscribe;
 import constants.Branches;
 import constants.Titles;
 import controllers.IUIServlet;
@@ -20,9 +20,9 @@ import java.io.IOException;
 @WebServlet(Branches.UI.SUBDIVISION_LIST)
 public class SubdivisionList extends IUIServlet {
 
-    final Subscriber[] extractionSubscribes = new Subscriber[]{Subscriber.EXTRACTION};
-    final Subscriber[] vroSubscribes = new Subscriber[]{Subscriber.VRO};
-    final Subscriber[] kpoSubscribes = new Subscriber[]{Subscriber.KPO};
+    final Subscribe[] extractionSubscribes = new Subscribe[]{Subscribe.EXTRACTION};
+    final Subscribe[] vroSubscribes = new Subscribe[]{Subscribe.VRO};
+    final Subscribe[] kpoSubscribes = new Subscribe[]{Subscribe.KPO};
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

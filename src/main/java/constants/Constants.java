@@ -51,7 +51,7 @@ public interface Constants {
     String CONTRACTS = "contracts";
     String MANUFACTURE_ANALYSE = "manufactureAnalyses";
     String WAYBILL_PRINT = "waybillPrint";
-    String SUBSCRIBER = "SUBSCRIBER";
+    String SUBSCRIBER = "subscriber";
     String WELCOME = "welcome";
     String BUI_LIST = "buyList";
     String BUY_ARCHIVE = "buyArchive";
@@ -393,6 +393,7 @@ public interface Constants {
     String USING = "using";
     String MSG = "msg";
     String KILL_SESSION = "kill";
+    String UNSUBSCRIBE = "unsubscribe";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";

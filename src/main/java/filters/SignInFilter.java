@@ -1,11 +1,10 @@
 package filters;
 
-import api.sockets.handlers.SessionTimer;
 import constants.Branches;
-import org.apache.log4j.Logger;
-import utils.IpUtil;
+import entity.UserInfo;
 import utils.LoginBox;
 import utils.access.UserBox;
+import utils.hibernate.Hibernator;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//230*3=690
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
@@ -20,6 +20,7 @@ import java.io.IOException;
 public class SignInFilter implements Filter{
 
     private static final String WORKER = "worker";
+    private final Hibernator hibernator = Hibernator.getInstance();
     UserBox userBox;
 //    final Logger log = Logger.getLogger(SignInFilter.class);
 //    final SessionTimer sessionTimer = SessionTimer.getInstance();
@@ -79,6 +80,10 @@ public class SignInFilter implements Filter{
 
     @Override
     public void destroy() {
-
+        int i = 0;
+        for (UserInfo info : userBox.getUsers().values()){
+            info.setId(i++);
+            hibernator.save(info);
+        }
     }
 }
