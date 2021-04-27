@@ -9,6 +9,7 @@ print = new Vue({
         from:new Date().toISOString().substring(0, 10),
         to:new Date().toISOString().substring(0, 10),
         organisation:{},
+        organisations:[],
         drivers:[],
         driver:{id:-1},
         vehicle:'',
@@ -18,7 +19,10 @@ print = new Vue({
         err:{
             organisation:false,
             driver:false
-        }
+        },
+        organisationProps:{},
+        driverProps:{},
+        file:''
     },
     methods:{
         selectFrom:function(){
@@ -36,7 +40,13 @@ print = new Vue({
         removeDriver:function(idx){
             this.drivers.splice(idx, 1);
         },
-        print:function(){
+        removeOrganisation:function(idx){
+            this.organisations.splice(idx, 1);
+        },
+        download:function(){
+            this.print(true);
+        },
+        print:function(download){
             if (!this.already) {
                 this.already = true;
                 let params = {};
@@ -46,8 +56,11 @@ print = new Vue({
                 if (this.to) {
                     params.to = this.to;
                 }
-                if (this.organisation) {
-                    params.organisation = this.organisation.id
+                params.organisations = [];
+                for (let o in this.organisations){
+                    if (this.organisations.hasOwnProperty(o)){
+                        params.organisations.push(this.organisations[o].id)
+                    }
                 }
 
                 params.drivers = [];
@@ -63,14 +76,25 @@ print = new Vue({
                 if (this.product !== -1) {
                     params.product = this.product;
                 }
+                if(download){
+                    params.download = download;
+                }
                 params.type = this.type;
                 const self = this;
 
                 PostReq(this.api.print, params, function (a) {
                     self.already = false;
-                    let print = window.open();
-                    print.document.write(a);
-                    print.print();
+                    if(!download) {
+                        let print = window.open();
+                        print.document.write(a);
+                        print.print();
+                    } else {
+                        console.log(a);
+                        let json = JSON.parse(a);
+                        if (json.status === 'success'){
+                            window.open(context + self.api.print + '?file=' + json.file);
+                        }
+                    }
                 })
             }
         }

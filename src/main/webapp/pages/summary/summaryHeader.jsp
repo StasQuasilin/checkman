@@ -18,9 +18,9 @@
     <div class="drop-menu">
       <a class="drop-btn"><fmt:message key="document.print"/></a>
       <div class="drop-menu-content">
-        <div class="drop-menu drop-menu-item" onclick="loadModal('${print}')">
-          <fmt:message key="document.print"/>
-        </div>
+<%--        <div class="drop-menu drop-menu-item" onclick="loadModal('${print}')">--%>
+<%--          <fmt:message key="document.print"/>--%>
+<%--        </div>--%>
         <div class="drop-menu drop-menu-item" onclick="loadModal('${transportCarriages}')">
           <fmt:message key="transport.carriage.head"/>
         </div>

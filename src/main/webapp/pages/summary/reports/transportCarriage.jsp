@@ -11,7 +11,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/templates/vehicleInput.vue"></script>
+<script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
 <script src="${context}/vue/transport/carriages.vue?v=${now}"></script>
 <script>
   print.api.print='${print}';
@@ -19,7 +19,7 @@
       find:'${findOrganisation}',
       header:'<b>+<fmt:message key="button.add"/></b>',
       put:function(org){
-        print.organisation = org
+        print.organisations.push(org);
       },
       show:['value']
   };
@@ -88,6 +88,12 @@
       <fmt:message key="deal.organisation"/>
     </td>
     <td>
+      <span v-for="(o, oId) in organisations">
+        {{o.name}}
+        <span class="mini-close" v-on:click="removeOrganisation(oId)">
+          &times;
+        </span>
+      </span>
       <object-input :props="organisationProps" :object="organisation"></object-input>
     </td>
   </tr>
@@ -139,12 +145,22 @@
       <button onclick="closeModal()">
         <fmt:message key="button.close"/>
       </button>
-      <button v-if="already" disabled>
-        <fmt:message key="document.print"/>...
-      </button>
-      <button v-on:click="print()" v-else>
-        <fmt:message key="document.print"/>
-      </button>
+      <template v-if="already">
+        <button disabled>
+          <fmt:message key="document.print"/>...
+        </button>
+        <button disabled>
+          Download...
+        </button>
+      </template>
+      <template v-else>
+        <button v-on:click="print()"  >
+          <fmt:message key="document.print"/>
+        </button>
+        <button v-on:click="download()">
+          Download
+        </button>
+      </template>
     </td>
   </tr>
 </table>

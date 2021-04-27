@@ -7,9 +7,14 @@ import entity.documents.Deal;
 import entity.organisations.Organisation;
 import entity.transport.Driver;
 import org.apache.log4j.Logger;
+import org.telegram.telegrambots.meta.api.objects.File;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
@@ -81,19 +86,11 @@ public class CodeUtil {
         }
     }
 
-    public static void main(String[] args) {
-        Hibernator hibernator = Hibernator.getInstance();
-        for (Driver o : hibernator.query(Driver.class, null)){
-            final String license = o.getLicense();
-            if (license != null){
-                o.setLicense(randomString(o.getLicense().length()));
-            }
-            final Person person = o.getPerson();
-            person.setSurname(randomString(person.getSurname().length()));
-            hibernator.save(person);
-            hibernator.save(o);
-        }
-        HibernateSessionFactory.shutdown();
+    public static void main(String[] args) throws IOException {
+        FileOutputStream fis = new FileOutputStream("test.file");
+                fis.write("Olololo".getBytes());
+                fis.flush();
+                fis.close();
     }
     private static String randomString(int length){
         int leftLimit = 97; // letter 'a'

@@ -82,6 +82,14 @@ public class Hibernator {
                     LT lt = (LT) entry.getValue();
                     predicates[i] = criteriaBuilder.lessThan(path, lt.getDate());
                     query.orderBy(criteriaBuilder.desc(path));
+                } else if(entry.getValue() instanceof OR){
+                    OR or = (OR) entry.getValue();
+                    Predicate[] p = new Predicate[or.size()];
+                    int l = 0;
+                    for (Object o : or.items()){
+                        p[l++] = criteriaBuilder.equal(path, o);
+                    }
+                    predicates[i] = criteriaBuilder.or(p);
                 } else {
                     predicates[i] = criteriaBuilder.equal(path, entry.getValue());
                 }

@@ -138,5 +138,6 @@
         <mapping class="entity.transport.DriverTruckTrailer"/>
         <mapping class="entity.interest.Interest"/>
         <mapping class="entity.UserInfo"/>
+        <mapping class="entity.GeneratedFile"/>
     </session-factory>
 </hibernate-configuration>

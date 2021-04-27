@@ -7,7 +7,6 @@ import entity.organisations.AddressType;
 import entity.organisations.Organisation;
 import org.json.simple.JSONObject;
 
-import javax.jws.WebService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;

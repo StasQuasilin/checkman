@@ -394,6 +394,8 @@ public interface Constants {
     String MSG = "msg";
     String KILL_SESSION = "kill";
     String UNSUBSCRIBE = "unsubscribe";
+    String DOWNLOAD = "download";
+    String FILE = "file";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";

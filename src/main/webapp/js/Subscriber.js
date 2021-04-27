@@ -4,6 +4,7 @@
 const address = Settings.getAddress();
 let subscriber;
 let subscribes = {};
+let time = 10;
 
 
 function Connect(){
@@ -17,7 +18,7 @@ function Connect(){
         console.log('Close socket connection');
         console.log(cause);
         if(cause.code === 1000 || cause.code === 1006) {
-            restart(10);
+            restart(time++);
         }
     };
     subscriber.onmessage = function(env){
@@ -31,6 +32,7 @@ function Connect(){
         }
     };
     subscriber.onopen = function () {
+        time = 10;
         if (locker.show){
             loginer.autologin(function (a) {
                 if(a.status === 'success'){

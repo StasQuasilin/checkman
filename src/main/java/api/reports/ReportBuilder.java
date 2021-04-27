@@ -2,16 +2,13 @@ package api.reports;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.production.Turn;
 import entity.production.TurnSettings;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import utils.TurnDateTime;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.turns.TurnBox;
-import utils.turns.TurnService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +18,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 15.10.2019.
