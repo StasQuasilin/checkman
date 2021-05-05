@@ -36,7 +36,6 @@ public class EditDriver extends IModal {
         if (body != null) {
             if (body.containsKey(Constants.ID)) {
                 driver = dao.getObjectById(Driver.class, body.get(Constants.ID));
-                log.info("Driver: " + driver.getId());
             } else if (body.containsKey(Constants.KEY)){
                 driver = new Driver();
                 driver.setPerson(new Person());

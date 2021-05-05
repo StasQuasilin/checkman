@@ -131,6 +131,7 @@ public class Branches {
         public static final String TRANSPORT_COST = "/transport/cost.j";
         public static final String SEALS_REMOVE = "/seals/remove.j";
         public static final String SELECT_COUNTERPARTY = "/transportation/counterparty/select.j";
+        public static final String TRAILER_EDIT = "/trailer/edit.j";
 
 
         public static class Extraction {
@@ -339,6 +340,7 @@ public class Branches {
         public static final String SEALS_REMOVE = API + "/seals/remove";
         public static final String INTEREST_SAVE = API + "/interest/save";
         public static final String KILL_SESSION = API + "/kill/session";
+        public static final String TRAILER_EDIT = API + "/trailer/edit";
 
         public static class References {
             public static final String API = Branches.API.API + "/references";

@@ -2,7 +2,6 @@ package api.transport;
 
 import api.ServletAPI;
 import constants.Branches;
-import constants.Constants;
 import entity.transport.Trailer;
 import entity.transport.Transportation;
 import entity.transport.Vehicle;
@@ -23,9 +22,9 @@ import java.io.IOException;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.API.References.SAVE_VEHICLE)
-public class SaveVehicleServletAPI extends ServletAPI {
+public class SaveVehicleAPI extends ServletAPI {
 
-    final Logger logger = Logger.getLogger(SaveVehicleServletAPI.class);
+    final Logger logger = Logger.getLogger(SaveVehicleAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
     final Parser parser = new Parser();
 
@@ -35,7 +34,6 @@ public class SaveVehicleServletAPI extends ServletAPI {
         Vehicle vehicle;
 
         if (body != null) {
-            logger.info(body);
             if (body.containsKey(VEHICLE_ID)) {
                 vehicle = dao.getObjectById(Vehicle.class, body.get(VEHICLE_ID));
                 logger.info("Edit vehicle " + vehicle.getId() + "...");

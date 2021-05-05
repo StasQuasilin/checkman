@@ -31,7 +31,7 @@ public class TransportationEditor {
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     public Transportation saveTransportation(Deal deal, DealProduct product, JSONObject json, Worker creator, Worker manager) throws IOException {
-
+        System.out.println(json);
         boolean save = false;
         boolean isNew = false;
 
@@ -109,13 +109,17 @@ public class TransportationEditor {
         }
 
         Vehicle vehicle = dao.getObjectById(Vehicle.class, json.get(VEHICLE));
-        if (vehicle != null){
+        final Vehicle v = transportation.getVehicle();
+
+        if (changeIt(vehicle, v)){
             TransportUtil.setVehicle(transportation, vehicle);
             save = true;
         }
 
         Trailer trailer = dao.getObjectById(Trailer.class, json.get(TRAILER));
-        if (trailer != null){
+        final Trailer t = transportation.getTrailer();
+
+        if (changeIt(trailer, t)){
             TransportUtil.setTrailer(transportation, trailer);
             save = true;
         }
@@ -201,6 +205,13 @@ public class TransportationEditor {
         transportComparator.compare(transportation, creator);
 
         return transportation;
+    }
+
+    private boolean changeIt(Object o1, Object o2) {
+        boolean b2 = o2 == null;
+        assert o1 != null;
+        boolean b3 = !o1.equals(o2);
+        return b2 || b3;
     }
 
     private List<TransportationProduct> buildProductMap(Transportation transportation) {

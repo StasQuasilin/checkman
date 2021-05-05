@@ -21,7 +21,7 @@ import java.util.List;
  * Created by szpt_user045 on 19.04.2019.
  */
 @WebServlet(Branches.API.PLAN_LIST_ADD)
-public class WeightAddAPI extends ServletAPI {
+public class TransportationEditAPI extends ServletAPI {
 
     private DealEditor dealEditor = new DealEditor();
     private TransportationEditor transportationEditor = new TransportationEditor();

@@ -27,7 +27,7 @@ var editor = new Vue({
             this.transporterInput = value;
         },
         save:function(){
-            var result = {};
+            let result = {};
             if (this.transportationId){
                 result.transportation_id = this.transportationId
             }

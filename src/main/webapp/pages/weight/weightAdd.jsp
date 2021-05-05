@@ -56,6 +56,7 @@
     editor.trailerProps = {
         find:'${findTrailer}',
         add:'${parseTrailer}',
+        edit:'${editTrailer}',
         addHeader:'<fmt:message key="button.add"/>',
         header:'<fmt:message key="button.add.trailer"/>',
         put:editor.putTrailer,

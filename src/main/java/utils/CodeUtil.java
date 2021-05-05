@@ -86,12 +86,23 @@ public class CodeUtil {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        FileOutputStream fis = new FileOutputStream("test.file");
-                fis.write("Olololo".getBytes());
-                fis.flush();
-                fis.close();
+    public static void main(String[] args) {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        choock(o1, o2);
+        choock(null, o2);
+        choock(o1, null);
+        choock(null, null);
+
     }
+
+    private static void choock(Object o1, Object o2) {
+        System.out.println(":>>>>>>>>>>>>>>>");
+        boolean b1 = (o1 == null);
+        boolean b2 = (o2 == null);
+        System.out.println(b1 + "+" + b2 + "=" + (b1 != b2));
+    }
+
     private static String randomString(int length){
         int leftLimit = 97; // letter 'a'
         int rightLimit = 146; // letter 'z'

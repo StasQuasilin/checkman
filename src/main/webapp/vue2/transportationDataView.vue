@@ -4,7 +4,7 @@ transportaData = {
         titles:Object
     },
     template:'<div style="display: flex; flex-direction: row">' +
-        '<div class="data-block" style="width: 300px">' +
+        '<div class="data-block" style="width: 400px">' +
             '<div>' +
                 '<span v-if="item.driver">' +
                     '<b>' +
@@ -25,7 +25,7 @@ transportaData = {
                 '{{item.vehicle.number}}' +
             '</span>' +
             '<span v-if="item.trailer" class="vehicle-number secure">' +
-                '{{item.vehicle.trailer.number}}' +
+                '{{item.trailer.number}}' +
             '</span>' +
         '</span>' +
         '<span v-else>' +

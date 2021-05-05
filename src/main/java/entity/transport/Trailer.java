@@ -40,4 +40,9 @@ public class Trailer extends JsonAble{
         json.put(NUMBER, number);
         return json;
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

@@ -32,6 +32,7 @@ public class WeightAdd extends IModal {
     private static final String _TITLE_COPY = "title.weight.copy";
     private static final String _TITLE_ADD = "title.weight.add";
     private static final String _CONTENT = "/pages/weight/weightAdd.jsp";
+    private static final String EDIT_TRAILER = "editTrailer";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -103,6 +104,7 @@ public class WeightAdd extends IModal {
 
         req.setAttribute(FIND_TRAILER, Branches.API.References.FIND_TRAILER);
         req.setAttribute(PARSE_TRAILER, Branches.API.PARSE_TRAILER);
+        req.setAttribute(EDIT_TRAILER, Branches.UI.TRAILER_EDIT);
 
         req.setAttribute(SAVE, Branches.API.PLAN_LIST_ADD);
         req.setAttribute(PRODUCTS, dao.getProductList());

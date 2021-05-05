@@ -371,6 +371,7 @@ editor = new Vue({
         },
         putTrailer:function(trailer){
             this.transportation.trailer = trailer;
+            this.$forceUpdate();
         },
         putTransporter:function(transporter){
             Vue.set(this.transportation, 'transporter', transporter);

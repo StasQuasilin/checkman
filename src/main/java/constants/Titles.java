@@ -11,7 +11,6 @@ public class Titles {
     public static final String TRANSPORT_SHOW = "title.transport.show";
     public static final String WEIGHT_LIST = "title.weight.list";
     public static final String WEIGHT_EDIT = "title.weight.edit";
-    public static final String VEHICLE_DRIVER_INPUT = "title.vehicle.driver.input";
     public static final String VEHICLE_INPUT = "title.vehicle.edit";
     public static final String DRIVER_INPUT = "title.driver.edit";
     public static final String PROBE_LIST = "title.probe.list";

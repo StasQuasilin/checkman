@@ -124,9 +124,6 @@ objectInput = {
         '<span v-if="object && object.id > 0" class="object-block">' +
             '<a v-on:click="edit">{{show(object)}}</a>' +
             '<div class="object-menu">' +
-                '<span class="mini-close" v-on:click="edit">' +
-                    '<img src="images/smallpensil.svg" style="width: 8pt" alt="">' +
-                '</span>' +
                 '<span class="mini-close" v-on:click="closeObject()">' +
                     '&times;' +
                 '</span>' +

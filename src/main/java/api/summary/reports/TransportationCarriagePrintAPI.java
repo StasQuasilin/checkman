@@ -5,6 +5,8 @@ import constants.Branches;
 import constants.Constants;
 import entity.AnalysesType;
 import entity.answers.Answer;
+import entity.laboratory.OilAnalyses;
+import entity.laboratory.SunAnalyses;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.transport.ActionTime;
@@ -223,12 +225,23 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
         final String netHeader = languageBase.get("weight.net");
         final String creditHeader = languageBase.get("weight.creadit.netto");
 
+        final String sunHumidityHeader = languageBase.get("sun.humidity");
+        final String sunSorenessHeader = languageBase.get("sun.soreness");
+        final String sunOilinessHeader = languageBase.get("sun.oiliness");
+        final String recountHeader = languageBase.get("recount.percentage");
+
+        final String oilColorHeader = languageBase.get("oil.color.value");
+        final String sunAcidHeader = languageBase.get("sun.acid.value");
+        final String oilPeroxideHeader = languageBase.get("oil.peroxide");
+        final String oilPhosphorusHeader = languageBase.get("oil.phosphorus");
+
         for (Map.Entry<Product, LinkedList<Transportation>> entry : hashMap.entrySet()){
             final Product product = entry.getKey();
             final AnalysesType analysesType = product.getAnalysesType();
             XSSFSheet sheet = workbook.createSheet(product.getName());
             int rowCount = 0;
 
+            //HEADERS
             final Row headerRow = sheet.createRow(rowCount++);
             int col = 0;
             headerRow.createCell(col++).setCellValue(dateHeader);
@@ -244,8 +257,22 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                 headerRow.createCell(col++).setCellValue(tareHeader); //tare
                 headerRow.createCell(col++).setCellValue(netHeader); //net
                 if(analysesType == AnalysesType.sun){
-                    headerRow.createCell(col).setCellValue(creditHeader); //
+                    headerRow.createCell(col++).setCellValue(creditHeader); //
                 }
+            }
+            //ANALYSES
+            if (analysesType == AnalysesType.sun){
+                headerRow.createCell(col++).setCellValue(sunHumidityHeader); //
+                headerRow.createCell(col++).setCellValue(sunHumidityHeader); //
+                headerRow.createCell(col++).setCellValue(sunSorenessHeader); //
+                headerRow.createCell(col++).setCellValue(sunOilinessHeader); //
+                headerRow.createCell(col).setCellValue(recountHeader); //
+            } else if(analysesType == AnalysesType.oil){
+                headerRow.createCell(col++).setCellValue(oilColorHeader); //
+                headerRow.createCell(col++).setCellValue(sunAcidHeader); //
+                headerRow.createCell(col++).setCellValue(oilPeroxideHeader); //
+                headerRow.createCell(col++).setCellValue(oilPhosphorusHeader); //
+                headerRow.createCell(col).setCellValue(sunHumidityHeader); //
             }
             for (Transportation transportation : entry.getValue()){
                 Row r = sheet.createRow(rowCount++);
@@ -276,8 +303,8 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                 if(vehicle != null){
                     r.createCell(col++).setCellValue(vehicle.getValue());
                 }
+                final Weight weight = transportation.getWeight();
                 if(type == 2){
-                    final Weight weight = transportation.getWeight();
                     if(weight != null){
                         r.createCell(col++).setCellValue(weight.getBrutto());
                         r.createCell(col++).setCellValue(weight.getTara());
@@ -285,6 +312,27 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                         if(analysesType == AnalysesType.sun){
                             r.createCell(col).setCellValue(weight.getCorrectedNetto());
                         }
+                    }
+                }
+                if (analysesType == AnalysesType.sun){
+                    final SunAnalyses sunAnalyses = transportation.getSunAnalyses();
+                    if (sunAnalyses != null){
+                        r.createCell(col++).setCellValue(sunAnalyses.getHumidity1());
+                        r.createCell(col++).setCellValue(sunAnalyses.getHumidity2());
+                        r.createCell(col++).setCellValue(sunAnalyses.getSoreness());
+                        r.createCell(col++).setCellValue(sunAnalyses.getOiliness());
+                        if (weight != null){
+                            r.createCell(col).setCellValue(weight.getCorrection());
+                        }
+                    }
+                } else if (analysesType == AnalysesType.oil){
+                    final OilAnalyses oilAnalyses = transportation.getOilAnalyses();
+                    if (oilAnalyses != null){
+                        r.createCell(col++).setCellValue(oilAnalyses.getColor());
+                        r.createCell(col++).setCellValue(oilAnalyses.getAcidValue());
+                        r.createCell(col++).setCellValue(oilAnalyses.getPeroxideValue());
+                        r.createCell(col++).setCellValue(oilAnalyses.getPhosphorus());
+                        r.createCell(col).setCellValue(oilAnalyses.getHumidity());
                     }
                 }
             }
