@@ -34,14 +34,12 @@ import java.util.Set;
  */
 public class DealEditor implements Constants {
 
-    private static final Logger log = Logger.getLogger(DealEditor.class);
     public final dbDAO dao = dbDAOService.getDAO();
     private final DealComparator comparator = new DealComparator();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     public Deal editDeal(JSONObject body, Worker creator) {
 
-        log.info(body);
         boolean save = false;
         boolean isNew = false;
 

@@ -31,7 +31,7 @@ public class TransportationEditor {
     private final UpdateUtil updateUtil = new UpdateUtil();
 
     public Transportation saveTransportation(Deal deal, DealProduct product, JSONObject json, Worker creator, Worker manager) throws IOException {
-        System.out.println(json);
+
         boolean save = false;
         boolean isNew = false;
 
@@ -63,7 +63,6 @@ public class TransportationEditor {
         }
 
         Date date = Date.valueOf(String.valueOf(json.get(Constants.DATE)));
-        log.info("\t...Date: '" + date.toString() + "'");
         if (transportation.getDate() == null || !transportation.getDate().equals(date)) {
             transportation.setDate(date);
             save = true;
@@ -85,7 +84,6 @@ public class TransportationEditor {
         }
 
         float plan = U.parseFloat(String.valueOf(json.get(PLAN)));
-        log.info("\t...Plan: '" + plan + "'");
         if (transportation.getAmount() != plan) {
             transportation.setAmount(plan);
             save = true;
@@ -102,17 +100,8 @@ public class TransportationEditor {
             customer = TransportCustomer.cont;
         }
 
-        log.info("\t...Customer: '" + customer.toString() + "'");
         if (transportation.getCustomer() != customer) {
             transportation.setCustomer(customer);
-            save = true;
-        }
-
-        Vehicle vehicle = dao.getObjectById(Vehicle.class, json.get(VEHICLE));
-        final Vehicle v = transportation.getVehicle();
-
-        if (changeIt(vehicle, v)){
-            TransportUtil.setVehicle(transportation, vehicle);
             save = true;
         }
 
@@ -124,8 +113,17 @@ public class TransportationEditor {
             save = true;
         }
 
+        Vehicle vehicle = dao.getObjectById(Vehicle.class, json.get(VEHICLE));
+        final Vehicle v = transportation.getVehicle();
+
+        if (changeIt(vehicle, v)){
+            TransportUtil.setVehicle(transportation, vehicle);
+            save = true;
+        }
+
         Driver driver = dao.getObjectById(Driver.class, json.get(DRIVER));
-        if (driver != null) {
+        final Driver d = transportation.getDriver();
+        if (changeIt(driver, d)) {
             TransportUtil.setDriver(transportation, driver);
             save = true;
         }
@@ -208,10 +206,11 @@ public class TransportationEditor {
     }
 
     private boolean changeIt(Object o1, Object o2) {
-        boolean b2 = o2 == null;
-        assert o1 != null;
-        boolean b3 = !o1.equals(o2);
-        return b2 || b3;
+        if (o1 == null){
+            return o2 != null;
+        } else {
+            return !o1.equals(o2);
+        }
     }
 
     private List<TransportationProduct> buildProductMap(Transportation transportation) {

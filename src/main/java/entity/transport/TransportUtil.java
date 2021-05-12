@@ -194,9 +194,11 @@ public class TransportUtil{
         if (vehicle != null) {
             transportation.setVehicle(vehicle);
             transportation.setTruckNumber(vehicle.getNumber());
-            if (vehicle.getTrailer() != null && transportation.getTrailer() == null) {
-                setTrailer(transportation, vehicle.getTrailer());
-            } else if (vehicle.getTrailer() == null && transportation.getTrailer() != null){
+            final Trailer t = vehicle.getTrailer();
+            final Trailer trailer = transportation.getTrailer();
+            if (trailer == null && t != null){
+                setTrailer(transportation, t);
+            } else {
                 vehicle.setTrailer(transportation.getTrailer());
                 dao.save(vehicle);
             }
@@ -268,14 +270,14 @@ public class TransportUtil{
         if(driver != null) {
             transportation.setDriver(driver);
             transportation.setDriverLicense(driver.getLicense());
-            if (driver.getVehicle() != null && transportation.getVehicle() == null) {
-                setVehicle(transportation, driver.getVehicle());
-            } else if (transportation.getVehicle() != null){
-                driver.setVehicle(transportation.getVehicle());
+
+            final Vehicle vehicle = driver.getVehicle();
+            final Vehicle v = transportation.getVehicle();
+            if (v == null && vehicle != null){
+                setVehicle(transportation, vehicle);
+            } else if (v != null){
+                driver.setVehicle(v);
                 dao.save(driver);
-            }
-            if (driver.getOrganisation() != null && transportation.getTransporter() == null){
-                setTransporter(transportation, driver.getOrganisation());
             }
         } else {
             transportation.setDriver(null);

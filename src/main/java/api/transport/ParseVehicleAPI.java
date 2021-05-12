@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Created by szpt_user045 on 12.07.2019.
  */
 @WebServlet(Branches.API.PARSE_VEHICLE)
-public class ParseVehicleServletAPI extends ServletAPI {
+public class ParseVehicleAPI extends ServletAPI {
     private final UpdateUtil updateUtil = new UpdateUtil();
     private final TruckInfoUtil infoUtil = new TruckInfoUtil();
     private final Notificator notificator = new Notificator();
@@ -39,30 +39,30 @@ public class ParseVehicleServletAPI extends ServletAPI {
         JSONObject body = parseBody(req);
         if (body != null) {
             String key = String.valueOf(body.get(KEY));
-
+            SuccessAnswer answer = new SuccessAnswer();
             Vehicle vehicle = vehicleParser.parse(key);
-            if (vehicle.getTrailer() != null){
-                dao.save(vehicle.getTrailer());
-            }
 
-            if (!U.exist(vehicle.getModel())){
-                ArrayList<TruckInfo> infos = infoUtil.getInfo(vehicle.getNumber());
-                if (infos.size() > 0){
-                    TruckInfo info = infos.get(0);
-                    if (U.exist(info.getBrand())){
-                        vehicle.setModel(info.getBrand());
+            if (vehicle != null) {
+                if (vehicle.getTrailer() != null) {
+                    dao.save(vehicle.getTrailer());
+                }
+
+                if (!U.exist(vehicle.getModel())) {
+                    ArrayList<TruckInfo> infos = infoUtil.getInfo(vehicle.getNumber());
+                    if (infos.size() > 0) {
+                        TruckInfo info = infos.get(0);
+                        if (U.exist(info.getBrand())) {
+                            vehicle.setModel(info.getBrand());
+                        }
                     }
                 }
+
+                dao.save(vehicle);
+                JSONObject json = vehicle.toJson();
+                answer.add(VEHICLE, json);
             }
 
-            dao.save(vehicle);
-            JSONObject json = vehicle.toJson();
-            SuccessAnswer answer = new SuccessAnswer(VEHICLE, json);
-            answer.add(RESULT, json);
-
-            JSONObject object = answer.toJson();
-            write(resp, object.toJSONString());
-            pool.put(object);
+            write(resp, answer.toJson());
 
             if (body.containsKey(Constants.TRANSPORTATION)){
                 Transportation transportation = dao.getObjectById(Transportation.class, body.get(TRANSPORTATION));
@@ -71,17 +71,17 @@ public class ParseVehicleServletAPI extends ServletAPI {
                 updateUtil.onSave(transportation);
             }
 
+            if (vehicle != null){
+                Worker worker = getWorker(req);
+                String format = (vehicle.getTrailer() != null) ? SUCCESS_VT_PARSING : SUCCESS_V_PARSING;
 
-            Worker worker = getWorker(req);
-
-            String format = vehicle.getTrailer() != null ? SUCCESS_VT_PARSING : SUCCESS_V_PARSING;
-
-            notificator.sendNotification(worker, new Notification(
-                    String.format(
-                            lb.get(worker.getLanguage(), format),
-                            vehicle.getModel(), vehicle.getNumber(), vehicle.getTrailer() != null ? vehicle.getTrailer().getNumber() : EMPTY
-                    )
-            ).toJson());
+                notificator.sendNotification(worker, new Notification(
+                        String.format(
+                                lb.get(worker.getLanguage(), format),
+                                vehicle.getModel(), vehicle.getNumber(), vehicle.getTrailer() != null ? vehicle.getTrailer().getNumber() : EMPTY
+                        )
+                ).toJson());
+            }
         }
     }
 }

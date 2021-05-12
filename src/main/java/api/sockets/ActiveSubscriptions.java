@@ -126,13 +126,11 @@ public class ActiveSubscriptions {
         return prepareMessage(type.toString(), msg);
     }
 
-    public static String prepareMessage(String type, Object msg){
-        JSONObject object = pool.getObject();
+    public static synchronized String prepareMessage(String type, Object msg){
+        JSONObject object = new JSONObject();
         object.put(TYPE, type);
         object.put(DATA, msg);
-        String result = object.toJSONString();
-        pool.put(object);
-        return result;
+        return object.toJSONString();
     }
 
     public void close() {

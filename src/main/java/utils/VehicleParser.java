@@ -20,30 +20,34 @@ public class VehicleParser {
     public synchronized Vehicle parse(String data){
 
         List<String> vehicleData = parser.parseVehicle(data);
-        Vehicle vehicle = dao.getVehicleByNumber(vehicleData.get(1));
-        if (vehicle == null) {
-            vehicle = new Vehicle();
-            if (vehicleData.size() > 0) {
-                String s = vehicleData.get(0);
-                if (U.exist(s)) {
-                    vehicle.setModel(s);
-                }
-                if (vehicleData.size() > 1) {
-                    vehicle.setNumber(vehicleData.get(1));
-                    if (vehicleData.size() > 2) {
-                        String trailerNumber = vehicleData.get(2);
-                        if (U.exist(trailerNumber)) {
-                            Trailer trailer = new Trailer();
-                            trailer.setNumber(trailerNumber);
-                            dao.save(trailer);
-                            vehicle.setTrailer(trailer);
+        if (vehicleData.size() > 0) {
+            Vehicle vehicle = dao.getVehicleByNumber(vehicleData.get(1));
+            if (vehicle == null) {
+                vehicle = new Vehicle();
+                if (vehicleData.size() > 0) {
+                    String s = vehicleData.get(0);
+                    if (U.exist(s)) {
+                        vehicle.setModel(s);
+                    }
+                    if (vehicleData.size() > 1) {
+                        vehicle.setNumber(vehicleData.get(1));
+                        if (vehicleData.size() > 2) {
+                            String trailerNumber = vehicleData.get(2);
+                            if (U.exist(trailerNumber)) {
+                                Trailer trailer = new Trailer();
+                                trailer.setNumber(trailerNumber);
+                                dao.save(trailer);
+                                vehicle.setTrailer(trailer);
+                            }
                         }
                     }
                 }
+                dao.save(vehicle);
             }
-            dao.save(vehicle);
+            return vehicle;
         }
-        return vehicle;
+
+        return null;
     }
 
     public synchronized Driver parseDriver(String key) {

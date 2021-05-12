@@ -19,21 +19,21 @@ import static constants.Constants.*;
  * Created by szpt_user045 on 11.07.2019.
  */
 @ServerEndpoint(value = Branches.API.SUBSCRIBER)
-public class SubscribesAPI extends API{
+public class Subscriber extends API{
 
-    private final Logger logger =Logger.getLogger(SubscribesAPI.class);
-    private static SubscribesAPI instance;
+    private final Logger logger =Logger.getLogger(Subscriber.class);
+    private static Subscriber instance;
 
-    public static SubscribesAPI getInstance() {
+    public static Subscriber getInstance() {
         return instance;
     }
 
     final HashMap<Session, String> sessions = new HashMap<>();
-    final static Logger log = Logger.getLogger(SubscribesAPI.class);
+    final static Logger log = Logger.getLogger(Subscriber.class);
     final ActiveSubscriptions activeSubscriptions = ActiveSubscriptions.getInstance();
     final UserBox userBox = UserBox.getInstance();
 
-    public SubscribesAPI(){
+    public Subscriber(){
         if (instance == null){
             instance = this;
         }

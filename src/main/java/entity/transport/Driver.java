@@ -81,11 +81,6 @@ public class Driver extends JsonAble{
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
-    }
-
-    @Override
     public String toString() {
         return getPerson().getValue();
     }

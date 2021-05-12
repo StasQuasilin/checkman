@@ -71,11 +71,6 @@ public class Vehicle extends JsonAble {
         return id;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
-    }
-
     @Transient
     public String getValue() {
         return (model != null ? model : EMPTY) +

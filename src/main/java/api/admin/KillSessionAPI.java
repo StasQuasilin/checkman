@@ -1,7 +1,7 @@
 package api.admin;
 
 import api.ServletAPI;
-import api.sockets.SubscribesAPI;
+import api.sockets.Subscriber;
 import constants.Branches;
 import constants.Constants;
 import entity.answers.Answer;
@@ -22,7 +22,7 @@ public class KillSessionAPI extends ServletAPI {
 
     private final UpdateUtil updateUtil = new UpdateUtil();
     private final UserBox userBox = UserBox.getInstance();
-    private final SubscribesAPI subscribesAPI = SubscribesAPI.getInstance();
+    private final Subscriber subscribesAPI = Subscriber.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

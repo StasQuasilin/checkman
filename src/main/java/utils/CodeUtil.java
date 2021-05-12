@@ -93,6 +93,7 @@ public class CodeUtil {
         choock(null, o2);
         choock(o1, null);
         choock(null, null);
+        choock(o1, o1);
 
     }
 
@@ -100,8 +101,15 @@ public class CodeUtil {
         System.out.println(":>>>>>>>>>>>>>>>");
         boolean b1 = (o1 == null);
         boolean b2 = (o2 == null);
-        System.out.println(b1 + "+" + b2 + "=" + (b1 != b2));
+        System.out.print(o1 + " + " + o2 + " = ");
+        if (o1 == null){
+            System.out.println(o2 != null);
+        } else {
+            System.out.println(!o1.equals(o2));
+        }
     }
+
+
 
     private static String randomString(int length){
         int leftLimit = 97; // letter 'a'
