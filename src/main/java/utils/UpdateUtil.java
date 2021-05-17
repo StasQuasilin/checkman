@@ -21,7 +21,6 @@ import entity.reports.ManufactureReport;
 import entity.seals.SealBatch;
 import entity.transport.Driver;
 import entity.transport.Transportation;
-import entity.transport.Transportation2;
 import entity.transport.Vehicle;
 import entity.weight.RoundReport;
 import org.apache.log4j.Logger;
@@ -205,10 +204,6 @@ public class UpdateUtil {
 
     public void onRemove(ManufactureReport report) throws IOException {
         doAction(Command.remove, Subscribe.MANUFACTURE_REPORTS, report.getId());
-    }
-
-    public void onRemove(Transportation2 transportation) throws IOException {
-        doAction(Command.remove, Subscribe.TRANSPORT, transportation.getId());
     }
 
     public void onSave(SealBatch batch) {

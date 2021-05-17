@@ -34,6 +34,7 @@ public class TransportArchive extends IUIServlet {
                 break;
             case transportation:
                 req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
+                req.setAttribute(SHOW, Branches.UI.TRANSPORT_SHOW);
                 break;
             case weight:{
                 req.setAttribute(CONTENT, "/pages/weight/weightList.jsp");

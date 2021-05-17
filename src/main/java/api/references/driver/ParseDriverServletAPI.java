@@ -48,7 +48,7 @@ public class ParseDriverServletAPI extends ServletAPI {
             pool.put(object);
             if (body.containsKey(TRANSPORTATION)){
                 Transportation transportation = dao.getObjectById(Transportation.class, body.get(TRANSPORTATION));
-                TransportUtil.setDriver(transportation, driver);
+                TransportUtil.setDriver(transportation, driver, false);
                 dao.save(transportation);
                 updateUtil.onSave(transportation);
             }

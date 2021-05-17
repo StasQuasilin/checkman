@@ -121,18 +121,20 @@ public class TransportationEditor {
             save = true;
         }
 
-        Driver driver = dao.getObjectById(Driver.class, json.get(DRIVER));
-        final Driver d = transportation.getDriver();
-        if (changeIt(driver, d)) {
-            TransportUtil.setDriver(transportation, driver);
-            save = true;
-        }
-
         Organisation transporter = dao.getObjectById(Organisation.class, json.get(TRANSPORTER));
         if (transporter != null){
             TransportUtil.setTransporter(transportation, transporter);
             save = true;
         }
+
+        Driver driver = dao.getObjectById(Driver.class, json.get(DRIVER));
+        final Driver d = transportation.getDriver();
+        if (changeIt(driver, d)) {
+            TransportUtil.setDriver(transportation, driver, transporter == null);
+            save = true;
+        }
+
+
 
         HashMap<Integer, DocumentNote> alreadyNote = new HashMap<>();
         if (transportation.getNotes() != null) {

@@ -8,7 +8,8 @@ editor = new Vue({
         number:'',
         suffix:'',
         quantity:100,
-        err:''
+        err:'',
+        already:false
     },
     methods:{
         preview:function(){
@@ -18,19 +19,25 @@ editor = new Vue({
             return (this.prefix ? (this.prefix).toUpperCase() + '-' : '') + number + (this.suffix ? '-' + (this.suffix).toUpperCase() : '')
         },
         save:function(){
-            let parameters = {};
-            parameters.prefix = this.prefix;
-            parameters.number = this.number;
-            parameters.suffix = this.suffix;
-            parameters.quantity = this.quantity;
-            const self =this;
-            PostApi(this.api.save, parameters, function(a){
-                if (a.status === 'success'){
-                    closeModal();
-                } else {
-                    self.err = a.msg;
-                }
-            })
+            if (!this.already) {
+                this.already = true;
+
+                let parameters = {
+                    prefix: this.prefix,
+                    number: this.number,
+                    suffix: this.suffix,
+                    quantity: this.quantity,
+                };
+
+                const self = this;
+                PostApi(this.api.save, parameters, function (a) {
+                    if (a.status === 'success') {
+                        closeModal();
+                    } else {
+                        self.err = a.msg;
+                    }
+                })
+            }
         }
     }
 });

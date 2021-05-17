@@ -134,7 +134,7 @@
     </td>
     <td>
       <select id="unit" v-model="product.unit">
-        <option value="-1" disabled>
+        <option v-if="product.unit === -1" value="-1" disabled>
           !!
         </option>
         <option v-for="unit in units" :value="unit.id">
@@ -145,62 +145,11 @@
   </tr>
   <tr>
     <td>
-      <label for="weight">
-        <fmt:message key="once.weight"/>
-        <span v-if="product.unit > 0">
-          {{getUnitName()}}
-        </span>
-      </label>
-    </td>
-    <td>
-      <input id="weight" style="width: 6em" type="number"
-             step="0.01" v-model="product.weight" autocomplete="off">
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label for="onPallet">
-        <fmt:message key="on.pallet.amount"/>
-        <span v-if="product.unit > 0">
-          {{getUnitName()}}
-        </span>
-      </label>
-    </td>
-    <td>
-      <input id="onPallet" style="width: 6em" type="number"
-             v-model="product.pallet" autocomplete="off">
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <fmt:message key="product.group"/>
-    </td>
-    <td>
-      <object-input :props="groupProps" :object="product.group"></object-input>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" style="font-size: 10pt">
-      <label for="path">
-        <fmt:message key="product.path"/>:
-      </label>
-      <span v-if="product.group.id > 0">
-        {{product.group.name}} /
-      </span>
-      <span><a v-for="(p, pId) in product.path" v-on:click="removePath(pId)">
-          {{p}} /</a>
-      </span>
-      <input id="path" v-model="pathInput" style="width: 8em" v-on:keyup.enter="addPath" autocomplete="off">
-    </td>
-  </tr>
-  <tr>
-    <td>
       <fmt:message key="product.actions"/>
     </td>
     <td>
       <c:forEach items="${types}" var="type">
         <template v-if="product.${type}">
-
           <input id="${type}" :disabled="!product.${type}.editable" type="checkbox" v-model="product.${type}.value">
           <label for="${type}">
             <fmt:message key="${type}"/>

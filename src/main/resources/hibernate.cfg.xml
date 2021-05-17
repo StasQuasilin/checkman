@@ -114,9 +114,6 @@
         <mapping class="entity.storages.StorageProductReplaceEntry"/>
         <mapping class="entity.organisations.Address"/>
         <mapping class="entity.organisations.LoadAddress"/>
-        <mapping class="entity.transport.Transportation2"/>
-        <mapping class="entity.transport.TransportationDocument2"/>
-        <mapping class="entity.transport.TransportationProduct2"/>
         <mapping class="entity.deal.Contract"/>
         <mapping class="entity.deal.ContractProduct"/>
         <mapping class="entity.deal.ContractNote"/>

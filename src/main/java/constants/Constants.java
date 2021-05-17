@@ -396,6 +396,8 @@ public interface Constants {
     String UNSUBSCRIBE = "unsubscribe";
     String DOWNLOAD = "download";
     String FILE = "file";
+    String GROSS = "gross";
+    String TARE = "tare";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";

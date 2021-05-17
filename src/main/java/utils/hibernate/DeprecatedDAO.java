@@ -11,7 +11,6 @@ import entity.chat.ChatMessage;
 import entity.deal.Contract;
 import entity.deal.ContractProduct;
 import entity.documents.*;
-import entity.laboratory.MealAnalyses;
 import entity.laboratory.Protocol;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
@@ -38,7 +37,6 @@ import entity.products.ProductSettings;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
-import entity.reports.ReportFieldSettings;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.storages.*;
@@ -47,7 +45,6 @@ import entity.weight.RoundReport;
 import entity.weight.Weight;
 import entity.weight.Unit;
 import org.apache.log4j.Logger;
-import utils.ArchiveType;
 import utils.Parser;
 import utils.TurnDateTime;
 import utils.U;
@@ -127,11 +124,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     @Override
     public List<Worker> getWorkers() {
         return hb.query(User.class, null).stream().map(User::getWorker).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<VROTurn> getVroTurnsByDate(HashMap<String, Object> parameters) {
-        return hb.limitQuery(VROTurn.class, parameters, 14);
     }
 
     @Override
@@ -275,21 +267,11 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public void flush() {
-        hb.flush();
-    }
-
-    @Override
     public List<Transportation> getTransportationsByDate(Date from, Date to) {
         HashMap<String, Object> params = hb.getParams();
         params.put(DATE, new BETWEEN(from, to));
 
         return hb.query(Transportation.class, params);
-    }
-
-    @Override
-    public List<Driver> getDriverList() {
-        return hb.query(Driver.class, "archive", null);
     }
 
     @Override
@@ -317,10 +299,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
         return hb.get(Worker.class, ID, id);
     }
 
-    @Override
-    public void saveCakeAnalyses(MealAnalyses mealAnalyses) {
-        hb.save(mealAnalyses);
-    }
     private final Logger log = Logger.getLogger(DeprecatedDAO.class);
 
     @Override
@@ -364,16 +342,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
         parameters.put(ARCHIVE, true);
         parameters.put(DATE, new LE(Date.valueOf(LocalDate.now().plusYears(10))));
         return hb.limitQuery(Transportation.class, parameters, 14);
-    }
-
-    @Override
-    public List<SunProbe> getLimitSunProbes(Date date) {
-        return hb.query(SunProbe.class, null);
-    }
-
-    @Override
-    public List<OilProbe> getLimitOilProbes(Date date) {
-        return hb.query(OilProbe.class, null);
     }
 
     @Override
@@ -439,11 +407,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public VROOil getVROOilById(Object id) {
-        return hb.get(VROOil.class, ID, id);
-    }
-
-    @Override
     public List<Forpress> getForpressList() {
         return hb.query(Forpress.class, null);
     }
@@ -471,11 +434,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     @Override
     public OilProbe getOilProbeById(Object id) {
         return hb.get(OilProbe.class, ID, id);
-    }
-
-    @Override
-    public Vehicle getVehicleById(Object id) {
-        return hb.get(Vehicle.class, ID, id);
     }
 
     @Override
@@ -511,11 +469,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     @Override
     public ExtractionCrude getExtractionCrudeById(Object id) {
         return hb.get(ExtractionCrude.class, ID, id);
-    }
-
-    @Override
-    public List<Transportation2> getTransportations(DealType type) {
-        return hb.query(Transportation2.class, "archive", false);
     }
 
     final String troubledChars = "[иИ]|[іІ]|[ыЫ]";
@@ -614,11 +567,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public Shipper getShipperByValue(Object value) {
-        return hb.get(Shipper.class, "value", value);
-    }
-
-    @Override
     public Unit getWeightUnitById(Object id) {
         return hb.get(Unit.class, ID, id);
     }
@@ -636,11 +584,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     @Override
     public List<StorageTurn> getLimitStorageTurns() {
         return hb.limitQuery(StorageTurn.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
-    }
-
-    @Override
-    public User getUserByUID(String uid) {
-        return hb.get(User.class, "uid", uid);
     }
 
     @Override
@@ -809,16 +752,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        return hb.get(User.class, "email", email);
-    }
-
-    @Override
-    public List<User> getUsersByEmail(String email) {
-        return hb.query(User.class, "email", email);
-    }
-
-    @Override
     public StorageAnalyses getStorageAnalysesById(Object id) {
         return hb.get(StorageAnalyses.class, ID, id);
     }
@@ -865,11 +798,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
         parameters.put("timeIn", State.notNull);
         parameters.put("timeOut", null);
         return hb.query(Transportation.class, parameters);
-    }
-
-    @Override
-    public List<Turn> getLimitTurns() {
-        return hb.limitQuery(Turn.class, "date", new LE(Date.valueOf(LocalDate.now().plusYears(1))), 14);
     }
 
     @Override
@@ -987,19 +915,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<ArchiveData> getArchiveData() {
-        return hb.query(ArchiveData.class, null);
-    }
-
-    @Override
-    public ArchiveData getArchiveData(ArchiveType type, int document) {
-        final HashMap<String, Object> parameters = hb.getParams();
-        parameters.put("type", type);
-        parameters.put("document", document);
-        return hb.get(ArchiveData.class, parameters);
-    }
-
-    @Override
     public List<Transportation> getTransportationByVehicle(Vehicle vehicle) {
         return hb.query(Transportation.class, "vehicle", vehicle);
     }
@@ -1034,6 +949,11 @@ public class DeprecatedDAO implements dbDAO, Constants {
     @Override
     public <T> List<T> limitQuery(Class<T> tClass, HashMap<String, Object> parameters, int limit) {
         return hb.limitQuery(tClass, parameters, limit);
+    }
+
+    @Override
+    public Seal getSealByName(String sealName) {
+        return hb.get(Seal.class, VALUE, sealName);
     }
 
     @Override
@@ -1121,11 +1041,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public DealProduct getDealProductById(int id) {
-        return hb.get(DealProduct.class, ID, id);
-    }
-
-    @Override
     public List<Subdivision> getSubdivisions() {
         return hb.query(Subdivision.class, "key", State.notNull);
     }
@@ -1143,11 +1058,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     @Override
     public List<LaboratoryTurn> getAnyTurnByDate(LocalDate date) {
         return hb.query(LaboratoryTurn.class, "turn/date", new LE(Date.valueOf(date.plusDays(1))));
-    }
-
-    @Override
-    public List<VROTurn> getVroTurnsBetween(LocalDate from, LocalDate to) {
-        return hb.query(VROTurn.class, "turn/date", new BETWEEN(Date.valueOf(from), Date.valueOf(to)));
     }
 
     @Override
@@ -1189,23 +1099,8 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<DocumentNote> getTransportationNotesByTransportation(Transportation transportation) {
-        return hb.query(DocumentNote.class, "transportation", transportation);
-    }
-
-    @Override
     public DocumentNote getTransportationNotesById(Object id) {
         return hb.get(DocumentNote.class, ID, id);
-    }
-
-    @Override
-    public List<Turn> getTurnsBetween(LocalDate from, LocalDate to) {
-        return hb.limitQuery(Turn.class, "date", new BETWEEN(Date.valueOf(from), Date.valueOf(to)), 14);
-    }
-
-    @Override
-    public List<ReportFieldSettings> getReportFields() {
-        return hb.query(ReportFieldSettings.class, null);
     }
 
     @Override
@@ -1224,11 +1119,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<ReportFieldCategory> getReportCategories() {
-        return hb.query(ReportFieldCategory.class, null);
-    }
-
-    @Override
     public ReportFieldCategory getReportCategory(Object categoryId) {
         return hb.get(ReportFieldCategory.class, "id", categoryId);
     }
@@ -1236,16 +1126,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
     @Override
     public List<ManufactureReport> getLimitManufactureReports() {
         return hb.limitQuery(ManufactureReport.class, "turn/date", new LE(Date.valueOf(LocalDate.now().plusDays(1))), 14);
-    }
-
-    @Override
-    public BotSettings getBotSettingsByChatId(Object id) {
-        return hb.get(BotSettings.class, "telegramId", id);
-    }
-
-    @Override
-    public BotSettings getBotSettingsById(Object id) {
-        return hb.get(BotSettings.class, "id", id);
     }
 
     @Override
@@ -1304,17 +1184,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
         param.put("document", documentId);
         param.put("type", documentType);
         return hb.get(StorageEntry.class, param);
-    }
-
-    @Override
-    public StoragePeriodPoint getStoragePoint(Date date, Storage storage, Product product, Shipper shipper, PointScale scale) {
-        HashMap<String, Object> param = hb.getParams();
-        param.put("date", date);
-        param.put("storage", storage);
-        param.put("product", product);
-        param.put("shipper", shipper);
-        param.put("scale", scale);
-        return hb.get(StoragePeriodPoint.class, param);
     }
 
     @Override
@@ -1391,11 +1260,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
             findData.put(MANAGER, manager);
         }
         return hb.find(tClass, findData, params);
-    }
-
-    @Override
-    public <T> List<T> getObjectsByTimestamp(Class<T> tClass, Timestamp date) {
-        return hb.query(tClass, DATE, date);
     }
 
     @Override

@@ -39,11 +39,7 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
                 TransportUtil.setVehicle(transportation, vehicle);
                 save = true;
             }
-            if (body.containsKey(Constants.DRIVER)){
-                Driver driver = dao.getObjectById(Driver.class, body.get(Constants.DRIVER));
-                TransportUtil.setDriver(transportation, driver);
-                save = true;
-            }
+
             if (body.containsKey(TRAILER)){
                 Trailer trailer = dao.getObjectById(Trailer.class, body.get(TRAILER));
                 TransportUtil.setTrailer(transportation, trailer);
@@ -52,6 +48,12 @@ public class SaveTransportationVehicleServletAPI extends ServletAPI {
             if (body.containsKey(TRANSPORTER)){
                 Organisation transporter = dao.getObjectById(Organisation.class, body.get(TRANSPORTER));
                 TransportUtil.setTransporter(transportation, transporter);
+                save = true;
+            }
+
+            if (body.containsKey(Constants.DRIVER)){
+                Driver driver = dao.getObjectById(Driver.class, body.get(Constants.DRIVER));
+                TransportUtil.setDriver(transportation, driver, !body.containsKey(TRANSPORTER));
                 save = true;
             }
             comparator.compare(transportation, getWorker(req));

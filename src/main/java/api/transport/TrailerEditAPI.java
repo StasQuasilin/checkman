@@ -3,7 +3,6 @@ package api.transport;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import controllers.transport.TrailerEdit;
 import entity.answers.Answer;
 import entity.transport.Trailer;
 import entity.transport.TransportUtil;
@@ -11,9 +10,6 @@ import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
-import utils.hibernate.dao.TransportationDAO;
-import utils.transport.TransportationEditor;
-import utils.transport.TransportationSaver;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

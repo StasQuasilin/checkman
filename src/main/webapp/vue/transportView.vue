@@ -139,19 +139,14 @@ transportView = {
                     '</span>' +
                 '</div>' +
             '</div>' +
-            '<div class="right-field" v-if="item.weight">' +
+            '<div class="right-field" v-if="item.gross > 0 || item.tare > 0">' +
                 '<table class="weight-table" style="border: none">' +
                     '<tr>' +
                         '<td>' +
                             'Б:' +
                         '</td>' +
                         '<td style="text-align: right; width: 100%">' +
-                            '<template v-if="item.weight">' +
-                                '{{item.weight.brutto.toLocaleString()}}' +
-                            '</template>' +
-                            '<template v-else>' +
-                                '0' +
-                            '</template>' +
+                            '{{item.gross.toLocaleString()}}' +
                         '</td>' +
                     '</tr>' +
                     '<tr>' +
@@ -159,12 +154,7 @@ transportView = {
                             'Т:' +
                         '</td>' +
                         '<td style="text-align: right; width: 100%">' +
-                            '<template v-if="item.weight">' +
-                                '{{item.weight.tara.toLocaleString()}}' +
-                            '</template>' +
-                            '<template v-else>' +
-                                '0' +
-                            '</template>' +
+                            '{{item.tare.toLocaleString()}}' +
                         '</td>' +
                     '</tr>' +
                     '<tr>' +
@@ -172,8 +162,8 @@ transportView = {
                             'Н:' +
                         '</td>' +
                         '<td style="text-align: right; width: 100%">' +
-                            '<template v-if="item.weight">' +
-                                '{{item.weight.netto.toLocaleString()}}' +
+                            '<template v-if="item.gross > 0 && item.tare > 0">' +
+                                '{{(item.gross - item.tare).toLocaleString()}}' +
                             '</template>' +
                             '<template v-else>' +
                                 '0' +

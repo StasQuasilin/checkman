@@ -3,7 +3,6 @@ package utils.transport;
 import entity.Person;
 import entity.transport.*;
 import org.apache.log4j.Logger;
-import utils.U;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -46,7 +45,7 @@ public class CollapseUtil {
             dao.save(driver);
             log.info("Save driver : " + driver.getPerson().getValue());
             for (Transportation transportation : transportations) {
-                TransportUtil.setDriver(transportation, driver);
+                TransportUtil.setDriver(transportation, driver, false);
                 Vehicle vehicle = driver.getVehicle();
                 if (vehicle != null) {
 

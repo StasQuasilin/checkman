@@ -9,7 +9,6 @@ import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
 import entity.deal.Contract;
 import entity.documents.*;
-import entity.laboratory.MealAnalyses;
 import entity.laboratory.Protocol;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.probes.OilProbe;
@@ -36,7 +35,6 @@ import entity.products.ProductSettings;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
-import entity.reports.ReportFieldSettings;
 import entity.seals.Seal;
 import entity.seals.SealBatch;
 import entity.storages.*;
@@ -44,7 +42,6 @@ import entity.transport.*;
 import entity.weight.RoundReport;
 import entity.weight.Weight;
 import entity.weight.Unit;
-import utils.ArchiveType;
 import utils.TurnDateTime;
 import utils.storages.PointScale;
 
@@ -58,9 +55,10 @@ import java.util.List;
 /**
  * Created by szpt_user045 on 24.06.2019.
  */
+@Deprecated
 public interface dbDAO {
     void saveDeal(Deal deal);
-    List<VROTurn> getVroTurnsByDate(HashMap<String, Object> parameters);
+
     Deal getDealById(Object id);
     Organisation getOrganisationById(Object organisationId);
     Product getProductById(Object id);
@@ -77,17 +75,16 @@ public interface dbDAO {
     List<Transportation> getTransportationByDeal(Object deal, Boolean done, Boolean archive);
     ApplicationSettings getApplicationSettings();
     List<ChangeLog> getLogs(String uid);
-    List<Driver> getDriverList();
+
     void savePerson(Person person);
     Person getPersonById(Object personId);
     void saveWorker(Worker worker, User user);
     List<User> getUsersByToken(String token);
     Worker getObjectById(Object id);
-    void saveCakeAnalyses(MealAnalyses mealAnalyses);
+
     void remove(Object ... o);
     void save(Object ... o);
-    List<SunProbe> getLimitSunProbes(Date date);
-    List<OilProbe> getLimitOilProbes(Date date);
+
     void saveChangeLod(ChangeLog log);
     void saveChange(Change change);
     <T> void remove (Class<T> tClass, Object id);
@@ -100,14 +97,14 @@ public interface dbDAO {
     List<Transportation> getTransportationsByDriver(Driver driver);
     OrganisationType getOrganisationTypeByName(String type);
     Seal getSealById(Object sealId);
-    VROOil getVROOilById(Object id);
+
     List<Forpress> getForpressList();
     OilMassFractionDry getOilMassFractionDry(Object id);
     Transportation getTransportationById(Object id);
     KPOPart getKPOPartById(Object id);
     SunProbe getSunProbeById(Object id);
     OilProbe getOilProbeById(Object id);
-    Vehicle getVehicleById(Object id);
+
     VRODaily getVRODailyById(Object id);
     DocumentUID getDocumentUID(String uid);
     User getUserByWorker(Worker worker);
@@ -117,12 +114,12 @@ public interface dbDAO {
     ExtractionCrude getExtractionCrudeById(Object id);
     Collection<Organisation> findOrganisation(String key);
     List<Deal> getLimitArchiveDeals(DealType type);
-    Shipper getShipperByValue(Object value);
+
     Unit getWeightUnitById(Object unit);
     BotUID getBotUidByWorker(Worker worker);
     BotUID getBotUidByUid(String uid);
     List<StorageTurn> getLimitStorageTurns();
-    User getUserByUID(String uid);
+
     List<ProductProperty> getProductProperties(Product product);
     List<ExtractionTurn> getLimitExtractionTurns();
     List<ProbeTurn> getLimitProbeTurns();
@@ -133,8 +130,7 @@ public interface dbDAO {
     Organisation findOrganisation(String type, String name);
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
     List<UserBotSetting> getBotSettingsByWorker(Worker worker);
-    User getUserByEmail(String email);
-    List<User> getUsersByEmail(String email);
+
     StorageAnalyses getStorageAnalysesById(Object id);
     StorageTurn getStorageTurnByTurn(Turn turn);
     Storage getStorageById(Object id);
@@ -144,7 +140,7 @@ public interface dbDAO {
     List<Transportation> getTransportationsBetweenDates(LocalDate from, LocalDate to);
     List<Unit> getWeightUnits();
     List<Transportation> getTransportationsOnTerritory();
-    List<Turn> getLimitTurns();
+
     ExtractionTurn getExtractionTurnByTurn(Turn turn);
     List<KPOPart> getLimitKPOParts();
     StorageGrease getStorageGreaseById(Object id);
@@ -154,28 +150,28 @@ public interface dbDAO {
     StorageProtein getStorageProteinById(Object id);
     UserBotSetting getUseBorSettingsByWorker(Worker worker);
     List<Driver> findDriver(String key);
-    DealProduct getDealProductById(int id);
+
     List<Subdivision> getSubdivisions();
     TurnGrease getTurnGreaseById(Object id);
     Turn getTurnByTime(Timestamp timestamp);
     List<LaboratoryTurn> getAnyTurnByDate(LocalDate date);
-    List<VROTurn> getVroTurnsBetween(LocalDate from, LocalDate to);
+
     List<VROTurn> getLimitVroTurns();
     List<User> findUser(Object key);
     List<Worker> getWorkersByRole(Role role);
     List<Seal> getSeals();
     List<SealBatch> getActiveSealsBatches();
     List<Seal> getSealsByBatch(SealBatch batch);
-    List<DocumentNote> getTransportationNotesByTransportation(Transportation transportation);
+
     DocumentNote getTransportationNotesById(Object id);
-    List<Turn> getTurnsBetween(LocalDate from, LocalDate to);
+
     List<Deal> getDealsByType(DealType type);
     Person getPersonByName(String surname, String forename, String patronymic);
     Driver getDriverByPerson(Person person);
     List<Transportation> getTransportationsByType(DealType type);
     Vehicle getVehicleByNumber(String number);
     List<Transportation> getTransportationByVehicle(Vehicle vehicle);
-    List<ArchiveData> getArchiveData();
+
     ProbeTurn getProbeTurnByTurn(Turn turn);
     List<LaboratoryTurn> getLimitLaboratoryTurn();
     List<Transportation> getLimitTransportationsArchive();
@@ -186,22 +182,21 @@ public interface dbDAO {
     ChatMember getChatMember(Chat chat, Worker worker);
     ChatMessage getMessageById(long messageId);
     List<ChatMessage> getLimitMessagesByChat(Object chat);
-    ArchiveData getArchiveData(ArchiveType type, int document);
+
     List<ChatMessage> getLimitMessagesByChat(Object chat, int limit);
     ProductProperty getProductProperty(Product product, String key);
     List<Transportation> getLimitArchiveTransportations(DealType type);
     List<Transportation> getTransportationByOrganisation(Object organisation);
     List<Transportation> getTransportationByAnalyses(DealType type);
     List<Worker> getWorkers();
-    List<ReportFieldSettings> getReportFields();
+
     ManufactureReport getManufactureReport(Object id);
     ReportField getReportField(Object fieldId);
     List<Storage> getStorages();
-    List<ReportFieldCategory> getReportCategories();
+
     List<ManufactureReport> getLimitManufactureReports();
     ReportFieldCategory getReportCategory(Object categoryId);
-    BotSettings getBotSettingsById(Object id);
-    BotSettings getBotSettingsByChatId(Object id);
+
     UserBotSetting getUserBotSettingsByChat(Object id);
     <T>List<T> query(Class<T> tClass, HashMap<String, Object> parameters);
     List<Organisation> getOrganisations();
@@ -214,7 +209,7 @@ public interface dbDAO {
     <T> List<T> getObjectsByParams(Class<T> tClass, HashMap<String, Object> params);
     List<Seal> getSealsByTransportation(Transportation transportation);
     StorageEntry getStorageEntry(int documentId, StorageDocumentType documentType);
-    StoragePeriodPoint getStoragePoint(Date date, Storage storage, Product product, Shipper shipper, PointScale scale);
+
     List<StorageEntry> getStorageEntries(Date from, Date to, Storage storage, Product product, Shipper shipper);
     <T>List<T> getStoragePoints(Class<T> tClass, Date from, Date to, Object storage, Product product, Shipper shipper, PointScale scale);
     List<Transportation> getTransportationsByTransporter(Organisation transporter);
@@ -225,15 +220,14 @@ public interface dbDAO {
     <T>List<T> find(Class<T> tClass, String key, String value);
     List<Contract> getContractsByType(DealType type);
     List<Contract> getContractsByOrganisation(Organisation organisation);
-    List<Transportation2> getTransportations(DealType type);
     float findPrice(Object counterparty, Object product);
     List<Protocol> getProtocols();
     Protocol getProtocol(Product product);
     List<TruckInfo> getTruckInfo(String number);
-    void flush();
+
     List<Transportation> getTransportationsByDate(Date from, Date to);
     <T>List<T> findProbes(Class<T> tClass, Date from, Date to, String organisation, String manager);
-    <T>List<T> getObjectsByTimestamp(Class<T> tClass, Timestamp date);
+
     LegalAddress getLegalAddress(Address address);
     LegalAddress getLegalAddress(Organisation organisation);
     Seal getSealByNumber(int number);
@@ -249,4 +243,5 @@ public interface dbDAO {
     <T>List<T> getDone(Class<T> tClass, Object date);
     <T>List<T> limitQuery(Class<T> tClass, HashMap<String, Object> parameters, int limit);
 
+    Seal getSealByName(String sealName);
 }

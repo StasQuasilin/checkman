@@ -43,6 +43,7 @@ public class SaveSealsAPI extends ServletAPI {
             int number = Integer.parseInt(String.valueOf(body.get(NUMBER)));
             String suffix = String.valueOf(body.get(SUFFIX));
             int quantity = Integer.parseInt(String.valueOf(body.get(QUANTITY)));
+
             final Worker worker = getWorker(req);
 
             String name = doSealName(prefix, number, suffix) + DELIMITER + doSealName(prefix, (number + quantity - 1), suffix);
@@ -63,12 +64,15 @@ public class SaveSealsAPI extends ServletAPI {
 
                     dao.save(time, batch);
                     for (int i = 0; i < quantity; i++) {
-
-                        Seal seal = new Seal();
-                        seal.setBatch(batch);
-                        seal.setNumber(number);
-                        seal.setValue(doSealName(prefix, number, suffix));
-                        dao.save(seal);
+                        final String sealName = doSealName(prefix, number, suffix);
+                        Seal seal = dao.getSealByName(sealName);
+                        if (seal == null){
+                            seal  = new Seal();
+                            seal.setBatch(batch);
+                            seal.setNumber(number);
+                            seal.setValue(sealName);
+                            dao.save(seal);
+                        }
                         number++;
                     }
                     answer = new SuccessAnswer();

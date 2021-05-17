@@ -419,6 +419,8 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         if (weight != null) {
             json.put(WEIGHT, weight.toJson());
         }
+        json.put(Constants.GROSS, gross());
+        json.put(Constants.TARE, tare());
         json.put(ANALYSES, analyses());
         json.put(NOTES, notes.stream().map(DocumentNote::toJson).collect(Collectors.toList()));
         json.put(ANY, any());
@@ -427,6 +429,20 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         json.put(MANAGER, manager.toShortJson());
         json.put(CREATE, createTime.toJson());
         return json;
+    }
+
+    private float tare() {
+        if (weight != null){
+            return weight.getTara();
+        }
+        return 0;
+    }
+
+    private float gross() {
+        if (weight != null){
+            return weight.getBrutto();
+        }
+        return 0;
     }
 
     private JSONObject analyses() {

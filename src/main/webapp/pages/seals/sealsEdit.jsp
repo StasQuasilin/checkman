@@ -63,18 +63,20 @@
         <input id="quantity" v-model.number="quantity" autocomplete="off">
       </td>
     </tr>
-    <template v-if="number > 0 && quantity > 0">
-      <tr>
-        <td>
-          <fmt:message key="seal.preview"/>
-        </td>
-      </tr>
       <tr>
         <td colspan="3">
-          {{preview()}}
+          <div style="height: 30pt; width: 100%">
+            <template v-if="number > 0 && quantity > 0">
+              <div>
+                <fmt:message key="seal.preview"/>
+              </div>
+              <div>
+                {{preview()}}
+              </div>
+            </template>
+          </div>
         </td>
       </tr>
-    </template>
     <tr>
       <td colspan="3" align="center">
         <button onclick="closeModal()">

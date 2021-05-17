@@ -56,7 +56,6 @@ public class ActiveSubscriptions {
         handlers.put(Subscribe.USERS, new UserHandler(Subscribe.USERS));
         handlers.put(Subscribe.MANUFACTURE_REPORTS, new ManufactureReportHandler(Subscribe.MANUFACTURE_REPORTS));
         handlers.put(Subscribe.STOCK, new StockHandler(Subscribe.STOCK));
-        handlers.put(Subscribe.TRANSPORT, new RetailHandler(Subscribe.TRANSPORT));
         handlers.put(Subscribe.SEALS, new SealHandler(Subscribe.SEALS));
         handlers.put(Subscribe.BOARD, new BoardHandler(Subscribe.BOARD));
         handlers.put(Subscribe.ROUND_REPORT, new RoundReportHandler(Subscribe.ROUND_REPORT));

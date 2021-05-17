@@ -53,9 +53,7 @@ public class ProductSettings extends JsonAble{
     @Transient
     public ArrayList<String> getFullPath() {
         ArrayList<String> strings = new ArrayList<>();
-        if (product.getProductGroup() != null){
-            strings.add(product.getProductGroup().getName());
-        }
+
         if (path != null){
             Collections.addAll(strings, getSplitPath());
         }

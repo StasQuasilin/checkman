@@ -49,9 +49,9 @@
           <fmt:message key="analyses.probe"/>
         </span>
     </li>
-    <li class="menu-item" onclick="loadContent('${referencesList}')">
-        <span class="main">
-          <fmt:message key="menu.references"/>
-        </span>
-    </li>
+<%--    <li class="menu-item" onclick="loadContent('${referencesList}')">--%>
+<%--        <span class="main">--%>
+<%--          <fmt:message key="menu.references"/>--%>
+<%--        </span>--%>
+<%--    </li>--%>
 </ul>

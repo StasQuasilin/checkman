@@ -108,7 +108,7 @@ public class SaveDriverServletAPI extends ServletAPI {
             if (transportationId != -1) {
                 Transportation transportation = dao.getObjectById(Transportation.class, transportationId);
                 comparator.fix(transportation);
-                TransportUtil.setDriver(transportation, driver);
+                TransportUtil.setDriver(transportation, driver, false);
                 dao.saveTransportation(transportation);
                 comparator.compare(transportation, getWorker(req));
                 log.info("Put in transportation " + transportation.getId());

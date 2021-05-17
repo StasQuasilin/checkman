@@ -14,12 +14,9 @@ import javax.persistence.*;
 @Table (name = "products")
 public class Product extends JsonAble {
     private int id;
-    private ProductGroup productGroup;
     private String name;
     private AnalysesType analysesType;
     private Unit unit;
-    private float weight;
-    private float pallet;
     private boolean wholeSale;
     private boolean refining;
 
@@ -30,15 +27,6 @@ public class Product extends JsonAble {
     }
     public void setId(int id) {
         this.id = id;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "product_group")
-    public ProductGroup getProductGroup() {
-        return productGroup;
-    }
-    public void setProductGroup(ProductGroup productGroup) {
-        this.productGroup = productGroup;
     }
 
     @Basic
@@ -69,24 +57,6 @@ public class Product extends JsonAble {
     }
 
     @Basic
-    @Column(name = "weight")
-    public float getWeight() {
-        return weight;
-    }
-    public void setWeight(float weight) {
-        this.weight = weight;
-    }
-
-    @Basic
-    @Column(name = "pallet")
-    public float getPallet() {
-        return pallet;
-    }
-    public void setPallet(float pallet) {
-        this.pallet = pallet;
-    }
-
-    @Basic
     @Column(name = "whole")
     public boolean getWholeSale() {
         return wholeSale;
@@ -110,11 +80,6 @@ public class Product extends JsonAble {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
-    }
-
-    @Override
     public String toString() {
         return name;
     }
@@ -131,13 +96,9 @@ public class Product extends JsonAble {
     @Override
     public JSONObject toJson() {
         JSONObject json = toShortJson();
-        if (productGroup != null){
-            json.put(GROUP, productGroup.toJson());
-        }
         if (unit != null) {
             json.put(UNIT, unit.toJson());
         }
-        json.put(PALLET, pallet);
 
         return json;
     }

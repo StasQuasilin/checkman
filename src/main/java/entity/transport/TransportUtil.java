@@ -19,11 +19,8 @@ import utils.storages.StatisticUtil;
 import utils.storages.StorageUtil;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by quasilin on 18.03.2019.
@@ -176,20 +173,7 @@ public class TransportUtil{
         dao.save(tsu);
         storageUtil.updateStorageEntry(tsu);
     }
-    public static boolean setVehicle(Transportation2 transportation, Vehicle vehicle){
-        if (vehicle != null){
-            if (transportation.getTruck() == null || transportation.getTrailer().getId() == vehicle.getId()){
-                transportation.setTruck(vehicle);
-                transportation.setTruckNumber(vehicle.getNumber());
-                return true;
-            }
-        } else {
-            transportation.setTruck(null);
-            transportation.setTruckNumber(null);
-            return true;
-        }
-        return false;
-    }
+
     public static void setVehicle(Transportation transportation, Vehicle vehicle) {
         if (vehicle != null) {
             transportation.setVehicle(vehicle);
@@ -214,20 +198,7 @@ public class TransportUtil{
             transportation.setTruckNumber(null);
         }
     }
-    public static boolean setTrailer(Transportation2 transportation, Trailer trailer) {
-        if (trailer != null){
-            if (transportation.getTrailer() == null || transportation.getTrailer().getId() != trailer.getId()) {
-                transportation.setTrailer(trailer);
-                transportation.setTrailerNumber(trailer.getNumber());
-                return true;
-            }
-        } else {
-            transportation.setTrailer(null);
-            transportation.setTrailerNumber(null);
-            return true;
-        }
-        return false;
-    }
+
     public static void setTrailer(Transportation transportation, Trailer trailer) {
         if (trailer != null){
             transportation.setTrailer(trailer);
@@ -251,22 +222,7 @@ public class TransportUtil{
         }
     }
 
-    public static boolean setDriver(Transportation2 transportation, Driver driver){
-        if (driver != null) {
-            if (transportation.getDriver() == null || transportation.getDriver().getId() != driver.getId()) {
-                transportation.setDriver(driver);
-                transportation.setDriverLicense(driver.getLicense());
-                return true;
-            }
-        } else {
-            transportation.setDriver(null);
-            transportation.setDriverLicense(null);
-            return true;
-        }
-        return false;
-    }
-
-    public static void setDriver(Transportation transportation, Driver driver) {
+    public static void setDriver(Transportation transportation, Driver driver, boolean b) {
         if(driver != null) {
             transportation.setDriver(driver);
             transportation.setDriverLicense(driver.getLicense());
@@ -279,28 +235,17 @@ public class TransportUtil{
                 driver.setVehicle(v);
                 dao.save(driver);
             }
+            if (b) {
+                final Organisation organisation = driver.getOrganisation();
+                final Organisation transporter = transportation.getTransporter();
+                if (organisation != null && transporter == null) {
+                    setTransporter(transportation, organisation);
+                }
+            }
         } else {
             transportation.setDriver(null);
             transportation.setDriverLicense(null);
         }
-    }
-
-    public static boolean setTransporter(Transportation2 transportation, Organisation transporter){
-        if (transporter != null){
-            if (transportation.getTransporter() == null || transportation.getTransporter().getId() != transporter.getId()){
-                transportation.setTransporter(transporter);
-                Driver driver = transportation.getDriver();
-                if (driver.getOrganisation() == null){
-                    driver.setOrganisation(transporter);
-                    dao.save(driver);
-                }
-                return true;
-            }
-        } else {
-            transportation.setTransporter(null);
-            return true;
-        }
-        return false;
     }
 
     public static void setTransporter(Transportation transportation, Organisation transporter){
@@ -317,22 +262,6 @@ public class TransportUtil{
         } else {
             transportation.setTransporter(null);
         }
-    }
-
-    public static boolean setDate(Transportation2 transportation, Date date) {
-        if (transportation.getDate() == null || !transportation.getDate().equals(date)){
-            transportation.setDate(date);
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean setCustomer(Transportation2 transportation, TransportCustomer customer) {
-        if (transportation.getCustomer() == null || transportation.getCustomer() != customer){
-            transportation.setCustomer(customer);
-            return true;
-        }
-        return false;
     }
 
     public static void updateUnloadStatistic(Transportation transportation) {
