@@ -59,7 +59,6 @@ import java.util.List;
 public interface dbDAO {
     void saveDeal(Deal deal);
 
-    Deal getDealById(Object id);
     Organisation getOrganisationById(Object organisationId);
     Product getProductById(Object id);
     Shipper getShipperById(Object id);
@@ -232,6 +231,9 @@ public interface dbDAO {
     LegalAddress getLegalAddress(Organisation organisation);
     Seal getSealByNumber(int number);
     List<TransportStorageUsed> getUsedStoragesByTransportation(Transportation transportation);
+
+    Deal _getDealById(Object id);
+
     List<Transportation> getTransportationsByDeal(int dealId);
     ProductAction getProductAction(Product product, DealType type);
     List<ProductAction> getProductActionsByProduct(Product product);

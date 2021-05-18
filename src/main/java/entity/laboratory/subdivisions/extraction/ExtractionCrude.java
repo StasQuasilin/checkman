@@ -1,13 +1,11 @@
 package entity.laboratory.subdivisions.extraction;
 
 import entity.JsonAble;
-import entity.Worker;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 /**
  * Created by quasilin on 30.03.2019.
@@ -167,7 +165,7 @@ public class ExtractionCrude extends JsonAble implements Comparable<ExtractionCr
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = pool.getObject();
 
         object.put(ID, id);

@@ -18,6 +18,7 @@ editor = new Vue({
         transportation:{
             id:-1,
             date:new Date().toISOString().substring(0, 10),
+            products:[],
             deal:{
                 id:-1,
                 type:null,
@@ -109,13 +110,29 @@ editor = new Vue({
             deal.organisation = deal.counterparty;
             this.loadDealEdit(deal);
         },
-        selectCounterparty:function(){
+        selectCounterparty:function(productIdx){
             const self = this;
-            loadModal(this.api.selectCounterparty, {have:this.transportation.deal.id !== -1}, function (a) {
+            let dealId= -1;
+            if (productIdx !== -1){
+                dealId = this.transportation.products[productIdx].deal;
+            }
+            loadModal(this.api.selectCounterparty, {have:dealId}, function (a) {
+                console.log(a);
                 if (a.code === 0){
-                    self.transportation.deal = a.deal;
-                    self.deal = a.deal;
-                    self.deals = a.deals;
+                    let product = {
+                        dealProduct:a.deal.id,
+                        counterparty:a.deal.counterparty,
+                        product:{
+
+                        },
+                        amount:0,
+                        deals:a.deals
+                    };
+                    if (productIdx === -1){
+                        self.transportation.products.push(product);
+                    } else {
+                        self.transportation.products.splice(productIdx, 1, product);
+                    }
                     self.$forceUpdate();
                 } else {
                     self.transportation.deal.id = -1;
@@ -324,33 +341,51 @@ editor = new Vue({
                 });
             });
         },
-        findDeals:function(id){
+        initDealsLists:function(){
+            let products = this.transportation.products;
+            for (let i = 0; i < products.length; i++){
+                let product = products[i];
+                this.findDeals(product.counterparty.id, product.id);
+            }
+        },
+        findDeals:function(id, productId){
             const self = this;
-            PostApi(this.api.findDeals, {organisation:id}, function(a){
-                self.deals = a;
-                if(a.length > 0) {
-                    if (self.deal.id === -1){
-                        self.deal = a[0];
-                    }
-                    let now = new Date(self.transportation.date);
-                    for (let i in a) {
-                        if (a.hasOwnProperty(i)) {
-                            let deal = a[i];
-
-                            if(deal.id === self.deal.id){
-                                self.deal = deal;
-                            }
-                            let from = new Date(deal.date);
-                            let to = new Date(deal.date_to);
-                            if (now >= from && now <= to) {
-                                self.transportation.deal = deal.id;
-                            }
+            PostApi(this.api.findDeals, {organisation:id, product:productId}, function(a){
+                if(a.status === 'success'){
+                    let p = a.product;
+                    let products = self.transportation.products;
+                    for (let i = 0; i < products.length; i++){
+                        let product = products[i];
+                        if (product.id === p){
+                            product.deals = a.result;
+                            self.$forceUpdate();
+                            break;
                         }
                     }
-                    self.setQuantity();
-                } else {
-                    console.log(self.transportation);
                 }
+                // if(a.length > 0) {
+                //     if (self.deal.id === -1){
+                //         self.deal = a[0];
+                //     }
+                //     let now = new Date(self.transportation.date);
+                //     for (let i in a) {
+                //         if (a.hasOwnProperty(i)) {
+                //             let deal = a[i];
+                //
+                //             if(deal.id === self.deal.id){
+                //                 self.deal = deal;
+                //             }
+                //             let from = new Date(deal.date);
+                //             let to = new Date(deal.date_to);
+                //             if (now >= from && now <= to) {
+                //                 self.transportation.deal = deal.id;
+                //             }
+                //         }
+                //     }
+                //     self.setQuantity();
+                // } else {
+                //     console.log(self.transportation);
+                // }
             })
         },
         getPrice: function(){

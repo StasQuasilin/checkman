@@ -11,7 +11,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Set;
 
 @Entity
@@ -85,7 +84,7 @@ public class RoundReport extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put("timestamp", timestamp.toString());

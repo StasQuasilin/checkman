@@ -66,6 +66,7 @@
             dealEdit.deal.shipper= dealEdit.shippers[0].id;
         }
         dealEdit.selectProduct();
+        dealEdit.addProduct();
 
         if (dealEdit.units.length > 0){
             dealEdit.deal.unit = dealEdit.units[0].id;
@@ -118,68 +119,133 @@
                 <object-input :props="organisationProps" :object="deal.counterparty"></object-input>
             </td>
         </tr>
-        <tr>
-            <td>
-                <label for="shipper">
-                    <fmt:message key="deal.shipper"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="shipper" v-model="deal.shipper">
-                    <option v-for="shipper in shippers" :value="shipper.id">{{shipper.value}}</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="product">
-                    <fmt:message key="deal.product"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <select id="product" v-model="deal.product">
-                    <option v-for="product in products" :value="product.id">{{product.value}}</option>
-                </select>
-                <select id="type" v-model="deal.type">
-                    <option v-for="type in typesByProduct()" :value="type">{{typeNames[type]}}</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="quantity">
-                    <fmt:message key="deal.quantity"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input type="number" min="0" id="quantity" v-model="deal.quantity" :class="{error : errors.quantity}" autocomplete="off">
-                <select v-model="deal.unit">
-                    <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="price">
-                    <fmt:message key="deal.price"/>
-                </label>
-            </td>
-            <td>
-                :
-            </td>
-            <td>
-                <input type="number" min="0" id="price" v-model="deal.price" :class="{error : errors.price}" autocomplete="off">
-            </td>
-        </tr>
+<%--        <tr>--%>
+<%--            <td>--%>
+<%--                <label for="product">--%>
+<%--                    <fmt:message key="deal.product"/>--%>
+<%--                </label>--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                :--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                <select id="product" v-model="deal.product">--%>
+<%--                    <option v-for="product in products" :value="product.id">{{product.value}}</option>--%>
+<%--                </select>--%>
+
+<%--            </td>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--            <td>--%>
+<%--                <label for="shipper">--%>
+<%--                    <fmt:message key="deal.shipper"/>--%>
+<%--                </label>--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                :--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                <select id="shipper" v-model="deal.shipper">--%>
+<%--                    <option v-for="shipper in shippers" :value="shipper.id">{{shipper.value}}</option>--%>
+<%--                </select>--%>
+<%--            </td>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--            <td>--%>
+<%--                <label for="quantity">--%>
+<%--                    <fmt:message key="deal.quantity"/>--%>
+<%--                </label>--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                :--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                <input type="number" min="0" id="quantity" v-model="deal.quantity" :class="{error : errors.quantity}" autocomplete="off" onfocus="this.select()">--%>
+<%--                <select v-model="deal.unit">--%>
+<%--                    <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>--%>
+<%--                </select>--%>
+<%--            </td>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--            <td>--%>
+<%--                <label for="price">--%>
+<%--                    <fmt:message key="deal.price"/>--%>
+<%--                </label>--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                :--%>
+<%--            </td>--%>
+<%--            <td>--%>
+<%--                <input type="number" min="0" id="price" v-model="deal.price" :class="{error : errors.price}" autocomplete="off" onfocus="this.select()">--%>
+<%--            </td>--%>
+<%--        </tr>--%>
+<%--        WRITE HERE--%>
+        <template v-for="(dp, dpIdx) in deal.products">
+<%--            <tr>--%>
+<%--               <td colspan="3">--%>
+<%--                   <span class="mini-close" v-on:click="deal.products.splice(dpIdx, 1)">--%>
+<%--                       &times;--%>
+<%--                   </span> {{(dpIdx + 1).toLocaleString()}}--%>
+<%--               </td>--%>
+<%--            </tr>--%>
+            <tr>
+                <td colspan="2">
+                    <label :for="'dpProduct_' + dpIdx">
+                        <fmt:message key="deal.product"/>
+                    </label>
+                </td>
+                <td>
+                    <select :id="'dpProduct_' + dpIdx" v-model="dp.productId">
+                        <option v-for="product in products" :value="product.id">{{product.value}}</option>
+                    </select>
+                    <select id="type" v-model="deal.type">
+                        <option v-for="type in typesByProduct()" :value="type">{{typeNames[type]}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label :for="'shipper_' + dpIdx">
+                        <fmt:message key="deal.shipper"/>
+                    </label>
+                </td>
+                <td>
+                    <select :id="'shipper_' + dpIdx" v-model="dp.shipperId">
+                        <option v-for="shipper in shippers" :value="shipper.id">{{shipper.value}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label :for="'quantity_' + dpIdx">
+                        <fmt:message key="deal.quantity"/>
+                    </label>
+                </td>
+                <td>
+                    <input type="number" min="0" :id="'quantity_' + dpIdx" v-model="dp.quantity" autocomplete="off" onfocus="this.select()">
+                    <select v-model="dp.unitId">
+                        <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label :for="'price_' + dpIdx">
+                        <fmt:message key="deal.price"/>
+                    </label>
+                </td>
+                <td>
+                    <input type="number" min="0" :id="'price_' + dpIdx" v-model="dp.price" autocomplete="off" onfocus="this.select()">
+                </td>
+            </tr>
+        </template>
+<%--        <tr>--%>
+<%--            <td colspan="3" style="text-align: right">--%>
+<%--                <span class="mini-close" v-on:click="addProduct()">--%>
+<%--                    +<fmt:message key="button.add.product"/>--%>
+<%--                </span>--%>
+<%--            </td>--%>
+<%--        </tr>--%>
         <tr>
             <td>
                 <fmt:message key="deal.amount"/>
@@ -188,7 +254,7 @@
                 :
             </td>
             <td>
-                {{(deal.price * deal.quantity).toLocaleString()}}
+                {{totalSum.toLocaleString()}}
             </td>
         </tr>
         <tr v-for="(cost, cIdx) in deal.costs">

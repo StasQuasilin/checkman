@@ -62,7 +62,7 @@ public class ForpressCakeDailyDry extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(FORPRESS, forpress.getName());
         json.put(OIL_CAKE, oilcake);

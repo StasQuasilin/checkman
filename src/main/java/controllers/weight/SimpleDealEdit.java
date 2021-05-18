@@ -7,6 +7,7 @@ import entity.documents.Deal;
 import entity.products.ProductAction;
 import entity.weight.Unit;
 import org.json.simple.JSONObject;
+import utils.hibernate.dao.DealDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +20,14 @@ public class SimpleDealEdit extends IModal {
 
     private static final String _TITLE = "deal.edit";
     private static final String _CONTENT = "/pages/weight/dealEdit.jsp";
+    private DealDAO dealDAO = new DealDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JSONObject body = parseBody(req);
         if(body != null){
             if (body.containsKey(ID)){
-                final Deal deal = dao.getObjectById(Deal.class, body.get(ID));
+                final Deal deal = dealDAO.getDealById(body.get(ID));
                 if (deal != null){
                     req.setAttribute(DEAL, deal);
                 }

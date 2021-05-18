@@ -1,7 +1,6 @@
 package entity.laboratory;
 
 import entity.JsonAble;
-import entity.Worker;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 
@@ -180,7 +179,7 @@ public class OilAnalyses extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(ORGANOLEPTIC, organoleptic);

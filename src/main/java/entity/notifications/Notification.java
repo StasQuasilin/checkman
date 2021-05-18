@@ -72,7 +72,8 @@ public class Notification extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
+
         JSONObject object = pool.getObject();
         if (id > 0) {
             object.put(ID, id);

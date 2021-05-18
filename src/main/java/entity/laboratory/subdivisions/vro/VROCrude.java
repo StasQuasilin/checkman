@@ -1,10 +1,8 @@
 package entity.laboratory.subdivisions.vro;
 
 import entity.JsonAble;
-import entity.Worker;
 import entity.transport.ActionTime;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -168,7 +166,7 @@ public class VROCrude extends JsonAble implements Comparable<VROCrude>{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(TIME, time.toString());

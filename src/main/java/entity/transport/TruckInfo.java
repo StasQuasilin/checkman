@@ -4,7 +4,6 @@ import entity.JsonAble;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 /**
  * Created by szpt_user045 on 19.12.2019.
@@ -129,7 +128,7 @@ public class TruckInfo extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(BRAND, brand);

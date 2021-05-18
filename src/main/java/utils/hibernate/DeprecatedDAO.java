@@ -127,7 +127,7 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public Deal getDealById(Object id) {
+    public Deal _getDealById(Object id) {
         return hb.get(Deal.class, ID, id);
     }
 

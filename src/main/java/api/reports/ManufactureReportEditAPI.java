@@ -6,8 +6,6 @@ import entity.production.Turn;
 import entity.reports.ManufactureReport;
 import entity.reports.ReportField;
 import entity.reports.ReportFieldCategory;
-import entity.reports.ReportFieldSettings;
-import entity.weight.Unit;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

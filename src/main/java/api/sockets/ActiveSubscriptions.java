@@ -84,7 +84,7 @@ public class ActiveSubscriptions {
         } else {
             bySubscribe.get(sub).add(session);
             if (handlers.containsKey(sub)) {
-                handlers.get(sub).handle(session);
+                handlers.get(sub).handle(session, worker);
             }
         }
     }

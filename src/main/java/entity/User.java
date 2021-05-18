@@ -72,7 +72,7 @@ public class User extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         final JSONObject jsonObject = worker.toJson();
         jsonObject.put(UID, uid);
         return jsonObject;

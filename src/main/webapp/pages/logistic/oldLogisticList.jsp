@@ -73,5 +73,5 @@
     };
   </script>
   <jsp:include page="../summary/summaryHeader.jsp"/>
-  <jsp:include page="../transportListTemplate.jsp"/>
+  <jsp:include page="../transportListTemplate2.jsp"/>
 </html>

@@ -38,6 +38,17 @@ dealEdit = new Vue({
         picker:false,
         date:0
     },
+    computed:{
+        totalSum:function () {
+            let sum = 0;
+            let products = this.deal.products;
+            for (let i = 0; i < products.length; i++){
+                let product = products[i];
+                sum += product.quantity * product.price;
+            }
+            return sum;
+        }
+    },
     methods:{
         addCost:function(){
             if (!this.deal.costs){
@@ -152,6 +163,19 @@ dealEdit = new Vue({
                 this.types[action.product.id] = [];
             }
             this.types[action.product.id].push(action.type);
+        },
+        addProduct:function(){
+            let product = this.products[0];
+            product.name = product.value;
+            let shipper = this.shippers[0];
+            shipper.name = shipper.value;
+            this.deal.products.push({
+                id:-1,
+                productId:product,
+                shipper:shipper,
+                quantity:0,
+                price:0
+            })
         },
         saveAndClose:function(){
             this.save()

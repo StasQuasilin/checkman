@@ -43,7 +43,7 @@ public class LoadAddress extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         return address.toJson();
     }
 }

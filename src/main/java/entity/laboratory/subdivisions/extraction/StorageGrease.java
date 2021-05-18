@@ -1,7 +1,6 @@
 package entity.laboratory.subdivisions.extraction;
 
 import entity.JsonAble;
-import entity.Worker;
 import entity.storages.Storage;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
@@ -92,7 +91,7 @@ public class StorageGrease extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(TIME, time.toString());

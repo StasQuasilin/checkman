@@ -3,7 +3,7 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
 import entity.DealType;
-import entity.deal.Contract;
+import entity.Worker;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -24,10 +24,10 @@ public class ContractHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session) throws IOException {
+    public void handle(Session session, Worker worker) throws IOException {
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
-        array.addAll(dao.getContractsByType(type).stream().map(Contract::toJson).collect(Collectors.toList()));
+        array.addAll(dao.getContractsByType(type).stream().map(contract -> contract.toJson()).collect(Collectors.toList()));
         json.put(ADD, array);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);

@@ -5,7 +5,6 @@ import constants.Branches;
 import entity.DealType;
 import entity.products.Product;
 import entity.products.ProductAction;
-import entity.products.ProductGroup;
 import entity.products.ProductSettings;
 import entity.weight.Unit;
 import org.json.simple.JSONArray;

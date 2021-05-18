@@ -1,6 +1,5 @@
 package entity;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.U;
 
@@ -97,12 +96,12 @@ public class Person extends JsonAble{
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(VALUE, getValue());
-        json.put(PHONES, phones.stream().map(PhoneNumber::toJson).collect(Collectors.toList()));
+        json.put(PHONES, phones.stream().map(phoneNumber -> phoneNumber.toJson()).collect(Collectors.toList()));
         return json;
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = toShortJson();
 
         json.put(SURNAME, surname);

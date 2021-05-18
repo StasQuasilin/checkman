@@ -2,7 +2,6 @@ package api.archive;
 
 import api.ServletAPI;
 import constants.Branches;
-import constants.Constants;
 import entity.answers.Answer;
 import entity.answers.ErrorAnswer;
 import entity.transport.Transportation;
@@ -12,7 +11,6 @@ import org.json.simple.JSONObject;
 import utils.U;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.DateContainers.BETWEEN;
-import utils.hibernate.DateContainers.GE;
 import utils.hibernate.DateContainers.LE;
 
 import javax.servlet.ServletException;
@@ -96,7 +94,7 @@ public class ArchiveFindAPI extends ServletAPI {
                 JSONArray array = pool.getArray();
 
                 final List<Transportation> transportation = countLimit ? dao.limitQuery(Transportation.class, parameters, COUNT_LIMIT) : dao.query(Transportation.class, parameters);
-                array.addAll(transportation.stream().map(Transportation::toJson).collect(Collectors.toList()));
+                array.addAll(transportation.stream().map(transportation1 -> transportation1.toJson()).collect(Collectors.toList()));
 
                 answer.add(RESULT, array);
                 answer.add(LIMIT, dateLimit);

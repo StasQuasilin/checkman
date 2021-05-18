@@ -6,7 +6,6 @@ import entity.transport.ActionTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -100,7 +99,7 @@ public class OilMassFractionDry extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(SEED, seed);

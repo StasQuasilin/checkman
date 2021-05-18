@@ -5,12 +5,11 @@ import constants.Branches;
 import entity.Worker;
 import entity.documents.Deal;
 import entity.documents.DealProduct;
-import entity.log.comparators.TransportComparator;
 import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
-import utils.*;
 import utils.answers.SuccessAnswer;
+import utils.hibernate.dao.DealDAO;
 import utils.transport.TransportationEditor;
 
 import javax.servlet.ServletException;
@@ -27,6 +26,7 @@ public class SaveLoadPlanAPI extends ServletAPI {
 
     final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);
     final TransportationEditor transportationEditor = new TransportationEditor();
+    private DealDAO dealDAO = new DealDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +34,7 @@ public class SaveLoadPlanAPI extends ServletAPI {
 
         if(body != null) {
             log.info(body);
-            Deal deal = dao.getObjectById(Deal.class, body.get(DEAL));
+            Deal deal = dealDAO.getDealById(body.get(DEAL));
             DealProduct product = null;
             if (body.containsKey(PRODUCT)){
                 product = dao.getObjectById(DealProduct.class, body.get(PRODUCT));

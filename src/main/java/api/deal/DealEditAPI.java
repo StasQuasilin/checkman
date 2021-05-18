@@ -29,9 +29,7 @@ public class DealEditAPI extends EditAPI {
             if (deal != null){
                 Answer resultAnswer = new SuccessAnswer();
                 resultAnswer.add(ID, deal.getId());
-                JSONObject json = resultAnswer.toJson();
-                write(resp, json.toJSONString());
-                pool.put(json);
+                write(resp, resultAnswer);
             }
         } else {
             write(resp, EMPTY_BODY);

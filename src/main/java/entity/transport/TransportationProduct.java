@@ -1,25 +1,24 @@
 package entity.transport;
 
+import entity.JsonAble;
 import entity.documents.DealProduct;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
-import entity.organisations.Address;
 import entity.weight.Weight;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 /**
  * Created by szpt_user045 on 03.03.2020.
  */
 @Entity
 @Table(name = "transportation_products")
-public class TransportationProduct {
+public class TransportationProduct extends JsonAble {
     private int id;
-    private TransportationGroup group;
+    private int index;
     private Transportation transportation;
-    private Address address;
     private DealProduct dealProduct;
     private float amount;
     private Weight weight;
@@ -37,13 +36,13 @@ public class TransportationProduct {
         this.id = id;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "transportation_group")
-    public TransportationGroup getGroup() {
-        return group;
+    @Basic
+    @Column(name = "_index")
+    public int getIndex() {
+        return index;
     }
-    public void setGroup(TransportationGroup group) {
-        this.group = group;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @ManyToOne
@@ -53,15 +52,6 @@ public class TransportationProduct {
     }
     public void setTransportation(Transportation transportation) {
         this.transportation = transportation;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "_address")
-    public Address getAddress() {
-        return address;
-    }
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     @OneToOne
@@ -128,13 +118,27 @@ public class TransportationProduct {
     }
 
     @Override
-    public boolean equals(Object o) {
-        TransportationProduct product = (TransportationProduct) o;
-        return product.dealProduct.equals(dealProduct);
+    public int hashCode() {
+        return id;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, group, transportation, address, dealProduct, amount, weight, uid, sunAnalyses, oilAnalyses, mealAnalyses);
+    public JSONObject toJson(int level) {
+        final JSONObject object = new JSONObject();
+        object.put(INDEX, index);
+        object.put(DEAL, dealProduct.getDeal().getId());
+        object.put(DEAL_PRODUCT, dealProduct.getId());
+        object.put(PRODUCT_ID, dealProduct.getProduct().getId());
+        object.put(PRODUCT_NAME, dealProduct.getProduct().getName());
+        object.put(COUNTERPARTY, dealProduct.getDeal().getOrganisation());
+        object.put(ADDRESS_ID, dealProduct.getAddress().getId());
+        object.put(ADDRESS, dealProduct.getAddress().toJson(level));
+        object.put(AMOUNT, amount);
+        object.put(UNIT_ID, dealProduct.getUnit().getId());
+        object.put(UNIT_NAME, dealProduct.getUnit().getName());
+        object.put(PRICE, dealProduct.getPrice());
+        object.put(SHIPPER_ID, dealProduct.getShipper().getId());
+        object.put(SHIPPER_NAME, dealProduct.getShipper().getValue());
+        return object;
     }
 }

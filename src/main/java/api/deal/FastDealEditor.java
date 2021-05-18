@@ -7,16 +7,18 @@ import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.products.ProductAction;
 import org.json.simple.JSONObject;
+import utils.hibernate.dao.DealDAO;
 
 import java.sql.Date;
 import java.util.List;
 
 public class FastDealEditor extends DealEditor{
 
+    private DealDAO dealDAO = new DealDAO();
 
     public Deal editDeal(JSONObject json, Worker worker) {
         boolean isNew = false;
-        Deal deal = dao.getObjectById(Deal.class, json.get(ID));
+        Deal deal = dealDAO.getDealById(json.get(ID));
 
         if (deal == null){
             deal = new Deal();

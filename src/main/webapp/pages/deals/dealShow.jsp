@@ -17,8 +17,9 @@
     value:'<fmt:message key="${customer}"/>'
   });
   </c:forEach>
-  Vue.set(plan.tabNames, 'vehicles', '<fmt:message key="deal.tab.vehicles"/>');
-  Vue.set(plan.tabNames, 'rails', '<fmt:message key="deal.tab.rails"/>');
+  plan.tabNames['vehicles'] = '<fmt:message key="deal.tab.vehicles"/>';
+  plan.tabNames['rails'] = '<fmt:message key="deal.tab.rails"/>';
+
   plan.deal = ${deal.toJson()};
   if (plan.deal.products.length > 0){
     plan.selectedProduct = plan.deal.products[0].id;
@@ -128,47 +129,49 @@
             :${deal.organisation.value}
           </td>
         </tr>
-        <tr>
-          <td>
-            <fmt:message key="deal.shipper"/>
-          </td>
-          <td>
-            :${deal.shipper.value}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <fmt:message key="deal.product"/>
-          </td>
-          <td>
-<%--            <template v-if="deal.products.length > 0">--%>
-<%--              <select v-model="selectedProduct">--%>
-<%--                <option v-for="product in deal.products" :value="product.id">--%>
-<%--                  {{product.product.name}}--%>
-<%--                </option>--%>
-<%--              </select>--%>
-<%--            </template>--%>
-<%--            <template v-else>--%>
-              :${deal.product.name}
-<%--            </template>--%>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <fmt:message key="deal.quantity"/>
-          </td>
-          <td>
-            :<fmt:formatNumber value="${deal.quantity}"/>&nbsp;${deal.unit.name}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <fmt:message key="deal.price"/>
-          </td>
-          <td>
-            :<fmt:formatNumber value="${deal.price}"/>
-          </td>
-        </tr>
+        <c:forEach items="${deal.products}" var="dp">
+          <tr>
+            <td>
+              <fmt:message key="deal.shipper"/>
+            </td>
+            <td>
+              :${dp.shipper.value}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <fmt:message key="deal.product"/>
+            </td>
+            <td>
+                <%--            <template v-if="deal.products.length > 0">--%>
+                <%--              <select v-model="selectedProduct">--%>
+                <%--                <option v-for="product in deal.products" :value="product.id">--%>
+                <%--                  {{product.product.name}}--%>
+                <%--                </option>--%>
+                <%--              </select>--%>
+                <%--            </template>--%>
+                <%--            <template v-else>--%>
+              :${dp.product.name}
+                <%--            </template>--%>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <fmt:message key="deal.quantity"/>
+            </td>
+            <td>
+              :<fmt:formatNumber value="${dp.quantity}"/>&nbsp;${dp.unit.name}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <fmt:message key="deal.price"/>
+            </td>
+            <td>
+              :<fmt:formatNumber value="${dp.price}"/>
+            </td>
+          </tr>
+        </c:forEach>
         <c:forEach items="${deal.costs}" var="cost">
           <tr>
             <td colspan="2">

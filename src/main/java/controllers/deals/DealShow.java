@@ -8,6 +8,7 @@ import entity.documents.Deal;
 import entity.transport.TransportCustomer;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dao.DealDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +22,8 @@ import java.io.IOException;
 @WebServlet(Branches.UI.DEAL_SHOW)
 public class DealShow extends IModal{
 
+    private DealDAO dealDAO = new DealDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int dealId = -1;
@@ -29,14 +32,14 @@ public class DealShow extends IModal{
         if (parameterId != null) {
             dealId = Integer.parseInt(parameterId);
         } else {
-            JSONObject body = PostUtil.parseBodyJson(req);
+            JSONObject body = parseBody(req);
             if (body != null && body.containsKey(Constants.ID)){
                 dealId = Integer.parseInt(String.valueOf(body.remove(Constants.ID)));
             }
         }
 
         if (dealId != -1) {
-            req.setAttribute(DEAL, dao.getObjectById(Deal.class, dealId));
+            req.setAttribute(DEAL, dealDAO.getDealById(dealId));
             req.setAttribute(TRANSPORTATIONS, dao.getTransportationsByDeal(dealId));
             req.setAttribute(TITLE, Titles.DEAL_SHOW);
             req.setAttribute(SAVE, Branches.API.PLAN_LIST_SAVE);

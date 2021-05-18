@@ -11,6 +11,7 @@ import entity.transport.TransportCustomer;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dao.DealDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ import java.io.IOException;
 public class DealEdit extends IModal {
 
     private static final String _CONTENT = "/pages/deals/dealEdit.jsp";
+    private DealDAO dealDAO = new DealDAO();
     private final Logger log = Logger.getLogger(DealEdit.class);
     private final TransportCustomer[] customers = new TransportCustomer[]{
             TransportCustomer.szpt,
@@ -33,7 +35,6 @@ public class DealEdit extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Worker worker = getWorker(req);
         JSONObject body = PostUtil.parseBodyJson(req);
         long id = -1;
         long copy = -1;
@@ -46,20 +47,16 @@ public class DealEdit extends IModal {
         }
 
         if (id != -1) {
-            req.setAttribute(DEAL, dao.getDealById(id));
+            req.setAttribute(DEAL, dealDAO.getDealById(id));
             req.setAttribute(TITLE, Constants.Languages.DEAL_EDIT);
-            log.info("User '" + worker.getValue() + "' open edit deal '" + id + "'");
         } else if (copy != -1){
-            Deal deal = dao.getDealById(copy);
+            Deal deal = dealDAO.getDealById(copy);
             deal.setId(-1);
             deal.setComplete(0);
             req.setAttribute(DEAL, deal);
             req.setAttribute(TITLE, Constants.Languages.DEAL_COPY);
-            log.info("User '" + worker.getValue() + "' open copy deal '" + copy + "'");
         } else {
             req.setAttribute(TITLE, Constants.Languages.DEAL_CREATE);
-            log.info("User '" + worker.getValue() + "' open create new deal");
-
         }
 
         req.setAttribute(ACTIONS, dao.getObjects(ProductAction.class));

@@ -71,7 +71,7 @@ public class ActionTime extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = toShortJson();
         object.put(CREATOR, creator.toShortJson());
         return object;

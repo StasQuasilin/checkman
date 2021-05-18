@@ -2,6 +2,7 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
+import entity.Worker;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class StoragesHandler extends OnSubscribeHandler {
     @Override
-    public void handle(Session session) throws IOException {
+    public void handle(Session session, Worker worker) throws IOException {
         JSONArray array = ActiveSubscriptions.pool.getArray();
         array.addAll(dao.getLimitStorageTurns().stream().map(parser::toJson).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();

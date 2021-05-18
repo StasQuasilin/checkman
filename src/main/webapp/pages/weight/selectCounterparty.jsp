@@ -56,12 +56,19 @@
             <tr>
                 <td colspan="2">
                     <div style=" max-height: 200pt; overflow-y: scroll">
-                        <div v-for="d in deals" >
-                            <input :id="d.id" type="radio" name="dealId" v-model="deal" :value="d.id"/>
-                            <label :for="d.id">
-                                {{d.id}}. {{d.product.name}}, {{(typeNames[d.type]).toLowerCase()}}, {{d.price.toLocaleString()}}, {{d.shipper.name}}
-                            </label>
-                        </div>
+                        <template v-for="d in deals" >
+                            <div v-for="product in d.products">
+                                <input :id="d.id" type="radio" name="dealId" v-model="deal" :value="d.id"/>
+                                <label :for="d.id">
+                                    {{d.id}} {{product.productName}},
+                                    <template v-if="product.price> 0">
+                                        {{product.price.toLocaleString()}}
+                                    </template>
+                                    <fmt:message key="deal.from"/>
+                                    {{product.shipperName}}
+                                </label>
+                            </div>
+                        </template>
                         <div>
                             <span v-if="deal === -1" disabled value="-1">
                                 <fmt:message key="nothing.choose"/>

@@ -4,7 +4,6 @@ import entity.JsonAble;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -50,7 +49,7 @@ public class Turn extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put(DATE, date.toString());

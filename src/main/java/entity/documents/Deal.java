@@ -258,12 +258,12 @@ public class Deal extends JsonAble{
         if (organisation != null) {
             object.put(COUNTERPARTY, organisation.toShortJson());
         }
-        object.put(SHIPPER, shipper.toJson());
-        object.put(PRODUCT, product.toJson());
-        object.put(PRODUCTS, products());
-        object.put(QUANTITY, quantity);
-        object.put(UNIT, unit.toJson());
-        object.put(PRICE, price);
+//        object.put(SHIPPER, shipper.toJson());
+//        object.put(PRODUCT, product.toJson());
+
+//        object.put(QUANTITY, quantity);
+//        object.put(UNIT, unit.toJson());
+//        object.put(PRICE, price);
         if (U.exist(number)){
             object.put(NUMBER, number);
         }
@@ -271,19 +271,56 @@ public class Deal extends JsonAble{
         return object;
     }
 
+    private int target() {
+        if (products != null && products.size() > 0){
+            int target = 0;
+            for(DealProduct product : products){
+                target += product.getQuantity();
+            }
+            return target;
+        }
+        return (int) quantity;
+    }
+
+    private int done() {
+        if (products != null && products.size() > 0){
+            int done = 0;
+            for(DealProduct product : products){
+                done += product.getDone();
+            }
+            return done;
+        }
+        return (int) complete;
+    }
+
     private JSONArray products() {
         JSONArray array = new JSONArray();
-        if (products != null) {
+        if (products != null && products.size() > 0) {
             for (DealProduct product : products) {
                 array.add(product.toJson());
+            }
+        } else {
+            for(int i = 0; i < 1; i++) {
+                final JSONObject object = new JSONObject();
+                object.put(ID, id);
+                object.put(PRODUCT_ID, product.getId());
+                object.put(PRODUCT_NAME, product.getName());
+                object.put(QUANTITY, quantity);
+                object.put(UNIT_ID, unit.getId());
+                object.put(UNIT_NAME, unit.getName());
+                object.put(SHIPPER_ID, shipper.getId());
+                object.put(SHIPPER_NAME, shipper.getValue());
+                object.put(PRICE, price);
+                array.add(object);
             }
         }
         return array;
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = toShortJson();
+        json.put(PRODUCTS, products());
         json.put(DATE, date.toString());
         if (dateTo != null) {
             json.put(TO, dateTo.toString());
@@ -291,7 +328,8 @@ public class Deal extends JsonAble{
         if (organisation != null) {
             json.put(ORGANISATION, organisation.toJson());
         }
-        json.put(COMPLETE, complete);
+        json.put(COMPLETE, done());
+        json.put(TARGET, target());
         json.put(DONE, isDone());
         json.put(ARCHIVE, isArchive());
         json.put(CREATE, create.toShortJson());

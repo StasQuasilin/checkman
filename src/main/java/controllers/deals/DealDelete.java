@@ -8,6 +8,7 @@ import entity.documents.Deal;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dao.DealDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,12 +24,13 @@ import java.util.List;
 public class DealDelete extends IModal {
 
     private static final String _CONTENT = "/pages/deals/dealDelete.jsp";
+    private DealDAO dealDAO = new DealDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            Deal deal = dao.getDealById(body.get(Constants.ID));
+            Deal deal = dealDAO.getDealById(body.get(Constants.ID));
             req.setAttribute(DEAL, deal);
             List<Transportation> done = dao.getTransportationByDeal(deal, true, null);
             req.setAttribute(DONE, done);

@@ -94,7 +94,7 @@ public class Product extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = toShortJson();
         if (unit != null) {
             json.put(UNIT, unit.toJson());

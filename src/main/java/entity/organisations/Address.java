@@ -2,7 +2,6 @@ package entity.organisations;
 
 import entity.JsonAble;
 import org.json.simple.JSONObject;
-import utils.LanguageBase;
 
 import javax.persistence.*;
 
@@ -104,7 +103,8 @@ public class Address extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
+
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(INDEX, index);

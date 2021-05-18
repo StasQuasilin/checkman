@@ -3,6 +3,7 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
 import entity.DealType;
+import entity.Worker;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -27,13 +28,13 @@ public class TransportHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session) throws IOException {
+    public void handle(Session session, Worker worker) throws IOException {
         JSONObject json = pool.getObject();
         JSONArray add = pool.getArray();
-
+        final int mask = calculateSecureMask(worker);
         final RemoteEndpoint.Basic basicRemote = session.getBasicRemote();
         for (Transportation transportation : getTransport()){
-            add.add(transportation.toJson());
+            add.add(transportation.toJson(mask));
             json.put(UPDATE, add);
             basicRemote.sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
             add.clear();

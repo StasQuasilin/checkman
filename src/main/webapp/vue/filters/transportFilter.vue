@@ -52,19 +52,23 @@ transportFilter = new Vue({
         },
         organisations:function(){
             let organisations = {};
-            let items = this.filtered(this.product, null, this.date, this.driver);
+            let items = this.filtered(this.product, -1, this.date, this.driver);
             let found = false;
             for (let i in items){
                 if (items.hasOwnProperty(i)){
-                    let counterparty = items[i].counterparty;
-                    let counterpartyId = counterparty.id;
-                    if (counterpartyId) {
-                        if (!counterparty[counterpartyId]) {
-                            organisations[counterpartyId] = counterparty;
+                    let item = items[i];
+                    for (let j = 0; j < item.products.length; j++){
+                        let product = item.products[j];
+                        let counterparty = product.counterparty;
+                        let counterpartyId = counterparty.id;
+                        if (counterpartyId) {
+                            if (!counterparty[counterpartyId]) {
+                                organisations[counterpartyId] = counterparty;
+                            }
                         }
-                    }
-                    if (this.organisation === counterpartyId){
-                        found = true;
+                        if (this.organisation === counterpartyId){
+                            found = true;
+                        }
                     }
                 }
             }
@@ -78,20 +82,24 @@ transportFilter = new Vue({
         },
         products:function() {
             let products = {};
-            let items = this.filtered(null, this.organisation, this.date, this.driver);
+            let items = this.filtered(-1, this.organisation, this.date, this.driver);
             let found = false;
             for (let i in items){
                 if (items.hasOwnProperty(i)){
-                    let product = items[i].product;
-                    let productId = product.id;
-                    if (!products[productId]) {
-                        product.amount = 1;
-                        products[productId] = product;
-                    }else {
-                        products[productId].amount++;
-                    }
-                    if (this.product === productId){
-                        found = true;
+                    let item = items[i];
+                    for (let j = 0; j < item.products.length; j++){
+                        let p = item.products[j];
+                        let product = p.product;
+                        let productId = product.id;
+                        if (!products[productId]) {
+                            product.amount = 1;
+                            products[productId] = product;
+                        }else {
+                            products[productId].amount++;
+                        }
+                        if (this.product === productId){
+                            found = true;
+                        }
                     }
                 }
             }
@@ -104,7 +112,7 @@ transportFilter = new Vue({
         },
         dates:function(){
             let dates = {};
-            let items = this.filtered(this.product, this.organisation, null, this.driver);
+            let items = this.filtered(this.product, this.organisation, -1, this.driver);
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     let date = items[i].date;
@@ -127,7 +135,7 @@ transportFilter = new Vue({
         },
         drivers:function(){
             let drivers = {};
-            let items = this.filtered(this.product, this.organisation, this.date, null);
+            let items = this.filtered(this.product, this.organisation, this.date, -1);
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     let driver = items[i].driver;
@@ -161,19 +169,14 @@ transportFilter = new Vue({
             });
         },
         filter:function(item, product, counterparty, date, driver){
-            let byProduct = true;
-            if (item.product && product && product !== -1){
-                byProduct = item.product.id === product;
-            }
-            let byCounterparty = true;
-            if (counterparty && counterparty !== -1){
-                byCounterparty = item.counterparty.id === counterparty;
-            }
+
             let byDate = true;
-            if (date != null && date !== '-1'){
+            let byDriver = true;
+
+            if (date !== -1 && date !== '-1'){
                 byDate = item.date === date;
             }
-            let byDriver = true;
+
             if (driver && driver.length > 0) {
                 if (item.driver && item.driver.id) {
                     let anyDriver = false;
@@ -194,13 +197,9 @@ transportFilter = new Vue({
             let timeIn = item.timeIn;
             let timeOut = item.timeOut;
 
-            let g = 0;
-            let t = 0;
-            let w = item.weight;
-            if (w){
-                g = w.brutto;
-                t = w.tara;
-            }
+            let g = item.gross;
+            let t = item.tare;
+
             let any = true;
             if (this.anyTime){
                 any =
@@ -209,6 +208,27 @@ transportFilter = new Vue({
                     this.onDone && ((timeIn && timeOut) && ((g > 0 && t > 0) || (g === 0 && t === 0))) ||
                     this.onWait && !timeIn && !timeOut;
             }
+            let byProduct = product === -1;
+            let byCounterparty = counterparty === -1;
+
+            for (let i = 0; i < item.products.length; i++){
+                let p = item.products[i];
+
+                if (p.product && product !== -1){
+                    if (p.product.id === product){
+                        byProduct = true;
+                    }
+                }
+
+                if (counterparty && counterparty !== -1){
+                    if (p.counterparty.id === counterparty){
+                        byCounterparty = true;
+                    }
+                }
+            }
+
+            // byProduct = bp;
+
             return byProduct && byCounterparty && byDate && byDriver && any;
         },
         doFilter:function(item){

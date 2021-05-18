@@ -22,7 +22,9 @@ select = new Vue({
             if (this.organisation.id !== -1) {
                 const self = this;
                 PostApi(this.api.deals, {organisation: this.organisation.id}, function (a) {
-                    self.deals = a;
+                    if(a.status === 'success'){
+                        self.deals = a.result;
+                    }
                     self.selectDeal();
                 })
             } else {

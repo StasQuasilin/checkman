@@ -3,6 +3,7 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
 import entity.ApplicationSettings;
+import entity.Worker;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
@@ -25,10 +26,10 @@ public class LogisticHandler extends OnSubscribeHandler {
 
     ApplicationSettings applicationSettings = ApplicationSettingsBox.getBox().getSettings();
     @Override
-    public void handle(Session session) throws IOException {
+    public void handle(Session session, Worker worker) throws IOException {
         if(applicationSettings != null ){
             JSONArray add = ActiveSubscriptions.pool.getArray();
-            add.addAll(getTransport().stream().map(Transportation::toJson).collect(Collectors.toList()));
+            add.addAll(getTransport().stream().map(transportation -> transportation.toJson()).collect(Collectors.toList()));
             JSONObject json = ActiveSubscriptions.pool.getObject();
             json.put(ADD, add);
             session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));

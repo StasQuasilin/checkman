@@ -5,7 +5,6 @@ import constants.Branches;
 import entity.transport.TruckInfo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.OpenDataBotAPI;
 import utils.TruckInfoUtil;
 import utils.answers.SuccessAnswer;
 
@@ -32,7 +31,7 @@ public class TransportCheckAPI extends ServletAPI {
             String value = String.valueOf(body.get(VALUE));
             ArrayList<TruckInfo> info = util.getInfo(value);
             JSONArray array = pool.getArray();
-            array.addAll(info.stream().map(TruckInfo::toJson).collect(Collectors.toList()));
+            array.addAll(info.stream().map(truckInfo -> truckInfo.toJson()).collect(Collectors.toList()));
             JSONObject json = new SuccessAnswer(RESULT, array).toJson();
             write(resp, json.toJSONString());
             pool.put(json);

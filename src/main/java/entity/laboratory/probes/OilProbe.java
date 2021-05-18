@@ -1,8 +1,6 @@
 package entity.laboratory.probes;
 
-import entity.Worker;
 import entity.laboratory.OilAnalyses;
-import entity.production.Turn;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
@@ -81,7 +79,7 @@ public class OilProbe extends IProbe{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = pool.getObject();
         object.put(ID, id);
         if (date != null) {

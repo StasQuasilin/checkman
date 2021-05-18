@@ -64,7 +64,7 @@ public class ProductAction extends JsonAble implements Constants {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = toShortJson();
         object.put(PRODUCT, product.toJson());
         return object;

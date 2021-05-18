@@ -13,7 +13,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.Deal.EDIT_PRODUCT)
-public class EditDealProductServletAPI extends EditAPI {
+public class _EditDealProductAPI extends EditAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

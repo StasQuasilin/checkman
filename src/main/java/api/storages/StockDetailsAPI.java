@@ -10,12 +10,10 @@ import entity.storages.StorageDocumentType;
 import entity.storages.StorageEntry;
 import entity.storages.StoragePeriodPoint;
 import entity.transport.*;
-import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.storages.IStorageStatisticUtil;
 import utils.storages.PointScale;
-import utils.storages.StorageUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
 
 /**
  * Created by szpt_user045 on 03.01.2020.

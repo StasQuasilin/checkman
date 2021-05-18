@@ -142,7 +142,7 @@ public class Contract extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(FROM, from.toString());
@@ -153,7 +153,7 @@ public class Contract extends JsonAble {
         }
         json.put(NUMBER, number);
         JSONArray array = pool.getArray();
-        array.addAll(products.stream().map(ContractProduct::toJson).collect(Collectors.toList()));
+        array.addAll(products.stream().map(contractProduct -> contractProduct.toJson()).collect(Collectors.toList()));
         json.put(PRODUCTS, array);
         json.put(ARCHIVE, archive);
         return json;

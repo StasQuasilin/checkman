@@ -111,7 +111,7 @@ public class ExtractionTurn extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = turn.toJson();
         object.put(CRUDE, crudesJson());
         object.put(STORAGE_PROTEIN, storageProtein());
@@ -126,56 +126,56 @@ public class ExtractionTurn extends JsonAble{
 
     private Object mealGranules() {
         JSONArray array = pool.getArray();
-        array.addAll(granules.stream().map(MealGranules::toJson).collect(Collectors.toList()));
+        array.addAll(granules.stream().map(mealGranules -> mealGranules.toJson()).collect(Collectors.toList()));
         return array;
     }
 
     @Transient
     private Object turnCellulose() {
         JSONArray array = pool.getArray();
-        array.addAll(cellulose.stream().map(TurnCellulose::toJson).collect(Collectors.toList()));
+        array.addAll(cellulose.stream().map(turnCellulose -> turnCellulose.toJson()).collect(Collectors.toList()));
         return array;
     }
 
     @Transient
     private Object turnGrease() {
         JSONArray array = pool.getArray();
-        array.addAll(turnGreases.stream().map(TurnGrease::toJson).collect(Collectors.toList()));
+        array.addAll(turnGreases.stream().map(turnGrease -> turnGrease.toJson()).collect(Collectors.toList()));
         return array;
     }
 
     @Transient
     private Object turnProtein() {
         JSONArray array = pool.getArray();
-        array.addAll(turnProteins.stream().map(TurnProtein::toJson).collect(Collectors.toList()));
+        array.addAll(turnProteins.stream().map(turnProtein -> turnProtein.toJson()).collect(Collectors.toList()));
         return array;
     }
 
     @Transient
     private Object oil() {
         JSONArray array = pool.getArray();
-        array.addAll(oils.stream().map(ExtractionOIl::toJson).collect(Collectors.toList()));
+        array.addAll(oils.stream().map(extractionOIl -> extractionOIl.toJson()).collect(Collectors.toList()));
         return array;
     }
 
     @Transient
     private Object storageGrease() {
         JSONArray array = pool.getArray();
-        array.addAll(greases.stream().map(StorageGrease::toJson).collect(Collectors.toList()));
+        array.addAll(greases.stream().map(storageGrease -> storageGrease.toJson()).collect(Collectors.toList()));
         return array;
     }
 
     @Transient
     private Object storageProtein() {
         JSONArray array = pool.getArray();
-        array.addAll(protein.stream().map(StorageProtein::toJson).collect(Collectors.toList()));
+        array.addAll(protein.stream().map(storageProtein -> storageProtein.toJson()).collect(Collectors.toList()));
         return array;
     }
 
     @Transient
     private Object crudesJson() {
         JSONArray array = pool.getArray();
-        array.addAll(crudes.stream().map(ExtractionCrude::toJson).collect(Collectors.toList()));
+        array.addAll(crudes.stream().map(extractionCrude -> extractionCrude.toJson()).collect(Collectors.toList()));
         return array;
     }
 }

@@ -1,10 +1,12 @@
 package entity.transport;
 
+import api.sockets.handlers.OnSubscribeHandler;
 import constants.Constants;
 import entity.DealType;
 import entity.JsonAble;
 import entity.Worker;
 import entity.documents.Deal;
+import entity.documents.DealProduct;
 import entity.documents.Shipper;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
@@ -13,6 +15,7 @@ import entity.organisations.Address;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.weight.Weight;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.U;
 
@@ -20,6 +23,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,6 +56,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     private ActionTime createTime;
     private Set<TransportationProduct> products;
     private Address address;
+
     @Deprecated
     private SunAnalyses sunAnalyses;
     @Deprecated
@@ -62,7 +67,6 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     private Weight weight;
     @Deprecated
     private float amount;
-
     @Deprecated
     private Deal deal;
     @Deprecated
@@ -374,26 +378,14 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
 
         json.put(ID, id);
-        if (U.exist(deal.getNumber())){
-            json.put(CONTRACT_NUMBER, deal.getNumber());
-            json.put(DEAL_DATE, deal.getDate().toString());
-        }
+
         json.put(TYPE, deal.getType().toString());
         json.put(DATE, date.toString());
-        json.put(PRODUCT, deal.getProduct().toJson());
         json.put(CUSTOMER, customer.toString());
-        json.put(PLAN, amount);
-        json.put(UNIT, deal.getUnit().getName());
-        json.put(PRICE, deal.getPrice());
-        json.put(COUNTERPARTY, deal.getOrganisation().toShortJson());
-        json.put(SHIPPER, deal.getShipper().getValue());
-        if (address != null){
-            json.put(ADDRESS, address.toJson());
-        }
         if (driver != null) {
             json.put(DRIVER, driver.toJson());
             json.put(LICENSE, driverLicense);
@@ -416,19 +408,70 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         if (timeOut != null) {
             json.put(TIME_OUT, timeOut.toShortJson());
         }
-        if (weight != null) {
-            json.put(WEIGHT, weight.toJson());
-        }
         json.put(Constants.GROSS, gross());
         json.put(Constants.TARE, tare());
-        json.put(ANALYSES, analyses());
-        json.put(NOTES, notes.stream().map(DocumentNote::toJson).collect(Collectors.toList()));
+
+        json.put(PRODUCTS, products(level));
+
+        if (U.exist(deal.getNumber())){
+            json.put(CONTRACT_NUMBER, deal.getNumber());
+            json.put(DEAL_DATE, deal.getDate().toString());
+        }
+
+//        json.put(PRODUCT, deal.getProduct().toJson());
+//        json.put(PLAN, amount);
+//        json.put(UNIT, deal.getUnit().getName());
+//        json.put(PRICE, deal.getPrice());
+//        json.put(COUNTERPARTY, deal.getOrganisation().toShortJson());
+//        json.put(SHIPPER, deal.getShipper().getValue());
+//        json.put(ANALYSES, analyses());
+        json.put(NOTES, notes.stream().map(documentNote -> documentNote.toJson()).collect(Collectors.toList()));
         json.put(ANY, any());
         json.put(ARCHIVE, archive);
         json.put(DONE, done);
         json.put(MANAGER, manager.toShortJson());
         json.put(CREATE, createTime.toJson());
         return json;
+    }
+
+    private JSONArray products(int level) {
+        JSONArray array = new JSONArray();
+        if (products.size() > 0){
+            for (TransportationProduct product : products){
+                array.add(product.toJson(level));
+            }
+        } else {
+            for (int i = 0; i < 1; i++) {
+                final JSONObject object = new JSONObject();
+                object.put(ID, id);
+                object.put(PRODUCT, getDeal().getProduct().toShortJson());
+                object.put(PLAN, amount);
+                object.put(AMOUNT, amount);
+                object.put(DEAL, deal.getId());
+                object.put(DEAL_PRODUCT, deal.getId());
+                object.put(UNIT, deal.getUnit().getName());
+
+                object.put(COUNTERPARTY, deal.getOrganisation().toShortJson());
+                object.put(SHIPPER, deal.getShipper().getValue());
+                object.put(SHIPPER_ID, deal.getShipper().getId());
+                object.put(SHIPPER_NAME, deal.getShipper().getValue());
+                if (level == OnSubscribeHandler.NO_ONE || level == OnSubscribeHandler.NO_PRICE){
+                    object.put(PRICE, 0);
+                } else {
+                    object.put(PRICE, deal.getPrice());
+                }
+                object.put(PRICE, deal.getPrice());
+                object.put(ANALYSES, analyses(level));
+                if (address != null) {
+                    object.put(ADDRESS, address.toJson());
+                }
+                if (weight != null) {
+                    object.put(WEIGHT, weight.toJson());
+                }
+                array.add(object);
+            }
+        }
+        return array;
     }
 
     private float tare() {
@@ -445,13 +488,15 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         return 0;
     }
 
-    private JSONObject analyses() {
+    private JSONObject analyses(int level) {
         JSONObject json = pool.getObject();
-        if (sunAnalyses != null) {
-            json.put(SUN, sunAnalyses.toJson());
-        }
-        if (oilAnalyses != null) {
-            json.put(OIL, oilAnalyses.toJson());
+        if (level != OnSubscribeHandler.NO_ONE && level != OnSubscribeHandler.NO_ANALYSES){
+            if (sunAnalyses != null) {
+                json.put(SUN, sunAnalyses.toJson());
+            }
+            if (oilAnalyses != null) {
+                json.put(OIL, oilAnalyses.toJson());
+            }
         }
         return json;
     }

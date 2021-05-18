@@ -40,7 +40,7 @@ public class DriverListAPI extends ServletAPI {
             JSONArray array = pool.getArray();
             ArrayList<Driver> d = drivers.get(key);
             d.sort((o1, o2) -> o1.getPerson().getSurname().compareTo(o2.getPerson().getSurname()));
-            array.addAll(d.stream().map(Driver::toJson).collect(Collectors.toList()));
+            array.addAll(d.stream().map(driver -> driver.toJson()).collect(Collectors.toList()));
             json.put(key, array);
         }
         write(resp, json.toJSONString());

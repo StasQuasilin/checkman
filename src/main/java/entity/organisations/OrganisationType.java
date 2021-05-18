@@ -43,7 +43,7 @@ public class OrganisationType extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put(NAME, name);

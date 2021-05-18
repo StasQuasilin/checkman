@@ -2,22 +2,15 @@ package api.references.vehicles;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.transport.TruckInfo;
 import entity.transport.Vehicle;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.OpenDataBotAPI;
-import utils.TruckInfoUtil;
-import utils.U;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 12.03.2019.

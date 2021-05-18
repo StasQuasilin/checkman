@@ -1,7 +1,6 @@
 package api.weight;
 
 import api.ServletAPI;
-import com.google.inject.internal.cglib.proxy.$MethodProxy;
 import constants.Branches;
 import constants.Constants;
 import entity.DealType;
@@ -15,6 +14,7 @@ import entity.weight.Unit;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
+import utils.hibernate.dao.DealDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +29,7 @@ public class SimpleDealEditAPI extends ServletAPI {
 
 
     private final UpdateUtil updateUtil = new UpdateUtil();
+    private DealDAO dealDAO = new DealDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +38,7 @@ public class SimpleDealEditAPI extends ServletAPI {
             System.out.println(body);
             boolean save = false;
             boolean newDeal = false;
-            Deal deal = dao.getObjectById(Deal.class, body.get(ID));
+            Deal deal = dealDAO.getDealById(body.get(ID));
             if (deal == null){
                 deal = new Deal();
                 final Date date = Date.valueOf(LocalDate.now());

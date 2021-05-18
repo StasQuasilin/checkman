@@ -69,7 +69,7 @@ public class UserInfo extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         final JSONObject json = user.toJson();
         json.put(IP, ip);
         json.put(CLIENT, client.toString());

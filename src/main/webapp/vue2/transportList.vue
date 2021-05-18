@@ -22,25 +22,14 @@ transportList = new Vue({
             if (a.date === b.date) {
                 let aState = this.calculateState(a.timeIn, a.timeOut);
                 let bState = this.calculateState(b.timeIn, b.timeOut);
-                let aWeight = a.weight;
-                let bWeight = b.weight;
-                let aG = 0;
-                let aT = 0;
-                let bG = 0;
-                let bT = 0;
-
-                if (aWeight){
-                    aG = aWeight.brutto;
-                    aT = aWeight.tara;
-                }
+                let aG = a.gross;
+                let aT = a.tare;
+                let bG = b.gross;
+                let bT = b.tare;
 
                 let aN = (aG > 0 && aT === 0) || (aG === 0 && aT > 0);
                 if (aState > 1 && aN){
                     aState = 0;
-                }
-                if (bWeight){
-                    bG = bWeight.brutto;
-                    bT = bWeight.tara;
                 }
                 let bN = (bG > 0 && bT === 0) || (bG === 0 && bT > 0);
                 if(bState > 1 && bN){

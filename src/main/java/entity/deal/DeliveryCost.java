@@ -53,7 +53,7 @@ public class DeliveryCost extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         final JSONObject jsonObject = new JSONObject();
         jsonObject.put(ID, id);
         jsonObject.put(CUSTOMER, customer.toString());

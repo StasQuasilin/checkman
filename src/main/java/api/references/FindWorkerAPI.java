@@ -2,8 +2,6 @@ package api.references;
 
 import api.ServletAPI;
 import constants.Branches;
-import constants.Constants;
-import entity.User;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -32,7 +30,7 @@ public class FindWorkerAPI extends ServletAPI {
             JSONArray array = pool.getArray();
             Object key = body.get(KEY);
 
-            array.addAll(dao.findUser(key).stream().map(User::toJson).collect(Collectors.toList()));
+            array.addAll(dao.findUser(key).stream().map(user -> user.toJson()).collect(Collectors.toList()));
             write(resp, array.toJSONString());
             body.clear();
             pool.put(array);

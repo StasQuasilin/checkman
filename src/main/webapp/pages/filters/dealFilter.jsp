@@ -66,7 +66,7 @@
             <tr>
                 <td colspan="3">
                     <select id="product" v-model="filter.product" style="width: 100%">
-                        <option :value="defaultId"><fmt:message key="all"/> </option>
+                        <option :value="defaultId"><fmt:message key="all"/></option>
                         <option v-for="product in products()" :value="product.id">
                             {{product.name}}
                         </option>

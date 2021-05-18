@@ -24,7 +24,7 @@ public class FindProductGroupAPI extends ServletAPI {
         if (body != null){
             String key = String.valueOf(body.get(KEY));
             JSONArray array = pool.getArray();
-            array.addAll(dao.find(ProductGroup.class, NAME, key).stream().map(ProductGroup::toJson).collect(Collectors.toList()));
+            array.addAll(dao.find(ProductGroup.class, NAME, key).stream().map(productGroup -> productGroup.toJson()).collect(Collectors.toList()));
             write(resp, array.toJSONString());
             pool.put(array);
         }

@@ -84,7 +84,7 @@ public class ProbeTurn extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = turn.toJson();
         object.put(SUN, sun());
         object.put(OIL, oil());
@@ -93,13 +93,13 @@ public class ProbeTurn extends JsonAble{
 
     private JSONArray oil() {
         JSONArray array = pool.getArray();
-        array.addAll(oilProbes.stream().map(OilProbe::toJson).collect(Collectors.toList()));
+        array.addAll(oilProbes.stream().map(oilProbe -> oilProbe.toJson()).collect(Collectors.toList()));
         return array;
     }
 
     private JSONArray sun() {
         JSONArray array = pool.getArray();
-        array.addAll(sunProbes.stream().map(SunProbe::toJson).collect(Collectors.toList()));
+        array.addAll(sunProbes.stream().map(probe -> probe.toJson()).collect(Collectors.toList()));
         return array;
     }
 }

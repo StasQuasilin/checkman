@@ -27,7 +27,7 @@ public abstract class Answer extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(STATUS, status());
         for (Map.Entry<String, Object> entry : params.entrySet()){

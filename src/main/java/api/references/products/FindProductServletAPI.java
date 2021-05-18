@@ -3,7 +3,6 @@ package api.references.products;
 import api.ServletAPI;
 import constants.Branches;
 import entity.products.Product;
-import entity.products.ProductGroup;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -25,7 +24,7 @@ public class FindProductServletAPI extends ServletAPI {
         if (body != null){
             String key = String.valueOf(body.get(KEY));
             JSONArray array = pool.getArray();
-            array.addAll(dao.find(Product.class, NAME, key).stream().map(Product::toJson).collect(Collectors.toList()));
+            array.addAll(dao.find(Product.class, NAME, key).stream().map(product -> product.toJson()).collect(Collectors.toList()));
             write(resp, array.toJSONString());
             pool.put(array);
         }

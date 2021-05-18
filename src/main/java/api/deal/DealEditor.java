@@ -20,6 +20,7 @@ import utils.DocumentUIDGenerator;
 import utils.U;
 import utils.UnitBox;
 import utils.UpdateUtil;
+import utils.hibernate.dao.DealDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -35,6 +36,7 @@ import java.util.Set;
 public class DealEditor implements Constants {
 
     public final dbDAO dao = dbDAOService.getDAO();
+    private final DealDAO dealDAO = new DealDAO();
     private final DealComparator comparator = new DealComparator();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -43,7 +45,7 @@ public class DealEditor implements Constants {
         boolean save = false;
         boolean isNew = false;
 
-        Deal deal = dao.getObjectById(Deal.class, body.get(ID));
+        Deal deal = dealDAO.getDealById(body.get(ID));
         if (deal == null || deal.isArchive()){
             deal = new Deal();
             isNew = true;
@@ -92,7 +94,6 @@ public class DealEditor implements Constants {
 
         //DEAL PRODUCT PART
 
-
         Organisation organisation;
         long organisationId = (long) body.get(COUNTERPARTY);
         if (deal.getOrganisation() == null || deal.getOrganisation().getId() != organisationId) {
@@ -101,7 +102,6 @@ public class DealEditor implements Constants {
             save = true;
         }
 
-//        saveDealProducts(deal, (JSONArray) body.get(PRODUCTS), creator);
 
         Product product = dao.getProductById(body.get(PRODUCT));
         if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {
@@ -194,6 +194,8 @@ public class DealEditor implements Constants {
             }
         }
 
+        saveDealProducts(deal, (JSONArray) body.get(PRODUCTS), creator);
+
 //        JSONArray products = (JSONArray) body.get(PRODUCTS);
 //        if (products != null){
 //            saveDealProducts(deal, products, creator);
@@ -216,7 +218,10 @@ public class DealEditor implements Constants {
 
             boolean save = false;
             boolean isNew = false;
-            int id = Integer.parseInt(String.valueOf(json.get(ID)));
+            int id = -1;
+            if (json.containsKey(ID)){
+                id = Integer.parseInt(String.valueOf(json.get(ID)));
+            }
 
             DealProduct dealProduct;
             if (dealProducts.containsKey(id)){
@@ -227,7 +232,7 @@ public class DealEditor implements Constants {
                 dealProduct.setDeal(deal);
                 dealProduct.setUid(DocumentUIDGenerator.generateUID());
             }
-            final int productId = Integer.parseInt(String.valueOf(json.get(PRODUCT)));
+            final int productId = Integer.parseInt(String.valueOf(json.get(PRODUCT_ID)));
             if (dealProduct.getProduct() == null || dealProduct.getProduct().getId() != productId){
                 Product product = dao.getObjectById(Product.class, productId);
                 dealProduct.setProduct(product);

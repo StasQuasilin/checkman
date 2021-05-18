@@ -19,19 +19,24 @@ import java.util.List;
  * Created by szpt_user045 on 19.04.2019.
  */
 @WebServlet(Branches.API.FIND_DEALS)
-public class FindDealsServletAPI extends ServletAPI {
+public class FindDealsAPI extends ServletAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
             List<Deal> deals = dao.getDealsByOrganisation(body.get(ORGANISATION));
+            Answer answer = new SuccessAnswer();
+
             JSONArray array = pool.getArray();
             for (Deal deal : deals){
-                array.add(deal.toShortJson());
+                array.add(deal.toJson());
             }
-            write(resp, array.toJSONString());
-            pool.put(array);
+            answer.add(RESULT, array);
+            for (Object key : body.keySet()){
+                answer.add(key.toString(), body.get(key));
+            }
+            write(resp, answer);
         } else {
             write(resp, EMPTY_BODY);
         }

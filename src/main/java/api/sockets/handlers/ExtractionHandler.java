@@ -2,6 +2,7 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
+import entity.Worker;
 import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,7 +21,7 @@ public class ExtractionHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session) throws IOException {
+    public void handle(Session session, Worker worker) throws IOException {
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
         List<ExtractionTurn> turns = dao.getLimitExtractionTurns();

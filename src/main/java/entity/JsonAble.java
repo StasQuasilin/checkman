@@ -1,12 +1,8 @@
 package entity;
 
 import constants.Constants;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.JsonPool;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by szpt_user045 on 08.11.2019.
@@ -20,7 +16,10 @@ public abstract class JsonAble implements Constants{
     }
 
     public JSONObject toShortJson(){
-        return toJson();
+        return toJson(0);
     }
-    public abstract JSONObject toJson();
+    public JSONObject toJson(){
+        return toJson(0);
+    }
+    public abstract JSONObject toJson(int level);
 }

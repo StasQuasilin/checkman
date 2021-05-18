@@ -30,9 +30,15 @@ dealFilter = new Vue({
             let products = {};
             for (let i in this.items){
                 if (this.items.hasOwnProperty(i)){
-                    let product = this.items[i].product;
-                    if (!products[product.id]) {
-                        products[product.id] = product;
+                    let item = this.items[i];
+                    for (let j = 0; j < item.products.length; j++){
+                        let product = item.products[j].productId;
+                        if (!products[product]) {
+                            products[product] = {
+                                id:product,
+                                name:item.products[j].productName
+                            };
+                        }
                     }
                 }
             }
@@ -77,9 +83,19 @@ dealFilter = new Vue({
             return Object.values(this.items)[0];
         },
         doFilter:function (item) {
+            let byProduct = this.filter.product === -1;
+            if (!byProduct){
+                for(let i = 0; i < item.products.length; i++){
+                    let product = item.products[i];
+                    if (this.filter.product === product.productId){
+                        byProduct = true;
+                        break;
+                    }
+                }
+            }
             return (this.filter.date === -1 || this.filter.date === item.date) &&
                 (this.filter.organisation === -1 || this.filter.organisation === item.organisation.id) &&
-                (this.filter.product === -1 || this.filter.product === item.product.id) &&
+                byProduct &&
                 (this.filter.creator === -1 || this.filter.creator === item.create.creator.id)
         }
     }

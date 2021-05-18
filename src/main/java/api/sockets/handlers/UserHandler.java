@@ -26,16 +26,16 @@ public class UserHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session) throws IOException {
+    public void handle(Session session, Worker worker) throws IOException {
         JSONArray active = pool.getArray();
         final UserBox instance = UserBox.getInstance();
         final List<Worker> workers = dao.getWorkers();
 
         for (Map.Entry<String, UserInfo> entry : instance.getUsers().entrySet()){
             final UserInfo userInfo = entry.getValue();
-            final Worker worker = userInfo.getUser().getWorker();
-            workers.remove(worker);
-            JSONObject w = worker.toShortJson();
+            final Worker wo = userInfo.getUser().getWorker();
+            workers.remove(wo);
+            JSONObject w = wo.toShortJson();
             w.put(TOKEN, entry.getKey());
             w.put(IP, userInfo.getIp());
             w.put(SESSION, userInfo.getSessionId());

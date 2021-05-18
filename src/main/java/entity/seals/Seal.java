@@ -65,7 +65,7 @@ public class Seal extends JsonAble implements Comparable<Seal>{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put(NUMBER, number);

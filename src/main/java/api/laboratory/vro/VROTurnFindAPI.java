@@ -2,7 +2,6 @@ package api.laboratory.vro;
 
 import api.ServletAPI;
 import constants.Branches;
-import entity.laboratory.subdivisions.extraction.ExtractionTurn;
 import entity.laboratory.subdivisions.vro.VROTurn;
 import entity.production.Turn;
 import entity.production.TurnSettings;

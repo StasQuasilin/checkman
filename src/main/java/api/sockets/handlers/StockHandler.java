@@ -2,6 +2,7 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
+import entity.Worker;
 import org.json.simple.JSONObject;
 import utils.storages.StorageUtil;
 
@@ -21,7 +22,7 @@ public class StockHandler extends OnSubscribeHandler {
 
 
     @Override
-    public void handle(Session session) throws IOException {
+    public void handle(Session session, Worker worker) throws IOException {
         JSONObject json = pool.getObject();
         json.put(ADD, parser.toStockJson(storageUtil.getStocks()));
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));

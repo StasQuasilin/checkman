@@ -41,6 +41,7 @@ public interface Constants {
     String DEAL_ID = "dealId";
     String PRE = "pre";
     String DEAL = "deal";
+    String DEAL_PRODUCT = "dealProduct";
     String DEALS = "deals";
     String INDEX = "index";
     String REGION = "region";
@@ -136,7 +137,12 @@ public interface Constants {
     String HUMIDITY_INCOME = "humidityIncome";
     String OILINESS_INCOME = "oilinessIncome";
     String GRANULAS = "granulas";
-    String PRODUCT_ID = "product_id";
+    String PRODUCT_ID = "productId";
+    String SHIPPER_ID = "shipperId";
+    String SHIPPER_NAME = "shipperName";
+    String UNIT_ID = "unitId";
+    String UNIT_NAME = "unitName";
+    String PRODUCT_NAME = "productName";
     String QUANTITY = "quantity";
     String PRICE = "price";
     String SUM = "sum";
@@ -231,6 +237,7 @@ public interface Constants {
     String COUNTERPARTY = "counterparty";
     String MEAL = "meal";
     String ADDRESS = "address";
+    String ADDRESS_ID = "addressId";
     String ADDRESS_TYPES = "addressTypes";
     String CITY = "city";
     String STREET = "street";
@@ -279,6 +286,7 @@ public interface Constants {
     String NUMBER_STRING = "numberString";
     String PRODUCTS = "products";
     String DONE = "done";
+    String TARGET = "target";
     String ANALYSES = "analyses";
     String VALUE = "value";
     String CARGO = "cargo";

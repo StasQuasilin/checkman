@@ -3,7 +3,6 @@ package api.sign;
 import api.ServletAPI;
 import constants.Branches;
 import entity.answers.Answer;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.SignInBox;
 

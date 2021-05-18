@@ -3,6 +3,7 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
 import entity.DealType;
+import entity.Worker;
 import entity.documents.Deal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,7 +26,7 @@ public class DealHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session) throws IOException {
+    public void handle(Session session, Worker worker) throws IOException {
         JSONObject json = pool.getObject();
         JSONArray add = pool.getArray();
         for (Deal deal : dao.getDealsByType(type)){

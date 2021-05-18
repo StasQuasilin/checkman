@@ -38,7 +38,7 @@
             <tr>
                 <td colspan="2">
                     <div class="mini-close" v-on:click="putProduct(-1)" :class="{bold : product === -1}">
-                        <fmt:message key="all"/>: {{filtered(null, organisation, date, driver).length}}
+                        <fmt:message key="all"/>: {{filtered(-1, organisation, date, driver).length}}
                     </div>
                     <div v-for="p in products()" v-on:click="putProduct(p.id)" class="mini-close" style="padding-top: 4pt; font-size: 11pt" :class="{bold : product === p.id}">
                         {{p.name}}:&nbsp;{{p.amount}}

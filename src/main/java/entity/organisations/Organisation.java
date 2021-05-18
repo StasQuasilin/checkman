@@ -4,11 +4,9 @@ import constants.Constants;
 import entity.JsonAble;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
-import utils.CodeUtil;
 import utils.U;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -111,7 +109,7 @@ public class Organisation extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = toShortJson();
         json.put(NAME, name);
         json.put(TYPE, type);

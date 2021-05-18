@@ -5,7 +5,6 @@ import constants.Branches;
 import entity.transport.Trailer;
 import org.json.simple.JSONObject;
 import utils.Parser;
-import utils.VehicleParser;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;

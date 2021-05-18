@@ -1,12 +1,10 @@
 package entity.laboratory.subdivisions.vro;
 
 import entity.JsonAble;
-import entity.Worker;
 import entity.transport.ActionTime;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 /**
  * Created by szpt_user045 on 10.04.2019.
@@ -111,7 +109,7 @@ public class VROOil extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(ACID, acid);

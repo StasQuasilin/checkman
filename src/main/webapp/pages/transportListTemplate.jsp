@@ -160,67 +160,55 @@
                             <span v-else-if="!value.item.any" class="mini-close" v-on:click="cancel(value.item.id)">
                                 Delete
                             </span>
-                            <span v-if="value.item.counterparty.code" class="counterparty-code code-valid">
-                                            &check;
-                                            <span class="code-text">
-                                                <template v-if="value.item.counterparty.code.length == 8">
-                                                    <fmt:message key="counterparty.code.1"/>
-                                                </template>
-                                                <template v-else>
-                                                    <fmt:message key="counterparty.code.2"/>
-                                                </template>
-                                                 {{value.item.counterparty.code}}
-                                            </span>
-                                        </span>
                             <b>
-                                {{value.item.counterparty.value}}
+<%--                                {{value.item.counterparty.value}}--%>
                             </b>
                             <span v-if="value.item.contractNumber">
-                                            <span class="label">
-                                                <fmt:message key="deal.num"/>:
-                                            </span>
-                                            <b>
-                                                {{value.item.contractNumber}}
-                                            </b>
-                                        </span>
+                                <span class="label">
+                                    <fmt:message key="deal.num"/>:
+                                </span>
+                                <b>
+<%--                                    {{value.item.contractNumber}}--%>
+                                </b>
+                            </span>
                             <span class="product-line" style="float: right;">
                                             <span v-if="types[value.item.type]" class="label">
                                                 {{(types[value.item.type]).toLowerCase()}}
                                             </span>
                                             <b>
-                                                {{value.item.product.name}}
-                                                <span v-if="value.item.plan" >
-                                                    {{value.item.plan}} {{value.item.unit}}
-                                                </span>
+<%--                                                {{value.item.product.name}}--%>
+<%--                                                <span v-if="value.item.plan" >--%>
+<%--                                                    {{value.item.plan}} {{value.item.unit}}--%>
+<%--                                                </span>--%>
                                             </b>
-                                        <price-view :props="priceFields" :item="value.item"></price-view>
-                                        <span class="label">
-                                            <fmt:message key="deal.from"/>
-                                        </span>
-                                            {{value.item.shipper}}
-                                        </span>
+<%--                                        <price-view :props="priceFields" :item="value.item"></price-view>--%>
+<%--                                        <span class="label">--%>
+<%--                                            <fmt:message key="deal.from"/>--%>
+<%--                                        </span>--%>
+<%--                                            {{value.item.shipper}}--%>
+<%--                                        </span>--%>
                         </div>
-                        <b v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >
-                            <fmt:message key="load.address"/>:
-                            <template v-if="value.item.address.index">
-                                {{value.item.address.index}},
-                            </template>
-                            <template v-if="value.item.address.region">
-                                {{value.item.address.region}}
-                                <fmt:message key="address.region.short"/>,
-                            </template>
-                            <template v-if="value.item.address.district">
-                                {{value.item.address.district}}
-                                <fmt:message key="address.district.short"/>,
-                            </template>
-                            <template v-if="value.item.address.city">
-                                {{value.item.address.city}}
-                            </template>
-                            <template v-if="value.item.address.street">
-                                , {{value.item.address.street}},
-                            </template>
-                            {{value.item.address.build}}
-                        </b>
+<%--                        <b v-if="value.item.address" style="font-size: 9pt; display: inline-flex" >--%>
+<%--                            <fmt:message key="load.address"/>:--%>
+<%--                            <template v-if="value.item.address.index">--%>
+<%--                                {{value.item.address.index}},--%>
+<%--                            </template>--%>
+<%--                            <template v-if="value.item.address.region">--%>
+<%--                                {{value.item.address.region}}--%>
+<%--                                <fmt:message key="address.region.short"/>,--%>
+<%--                            </template>--%>
+<%--                            <template v-if="value.item.address.district">--%>
+<%--                                {{value.item.address.district}}--%>
+<%--                                <fmt:message key="address.district.short"/>,--%>
+<%--                            </template>--%>
+<%--                            <template v-if="value.item.address.city">--%>
+<%--                                {{value.item.address.city}}--%>
+<%--                            </template>--%>
+<%--                            <template v-if="value.item.address.street">--%>
+<%--                                , {{value.item.address.street}},--%>
+<%--                            </template>--%>
+<%--                            {{value.item.address.build}}--%>
+<%--                        </b>--%>
                     </div>
                 </div>
                 <%--</div>--%>
@@ -280,32 +268,36 @@
                 </div>
             </div>
             <div class="right-field">
-                <div class="right-field-content">
-                    <div v-if="value.item.weight" style="width: 54pt; padding-left: 4pt">
+<%--                <div class="right-field-content">--%>
+                    <div v-if="value.item.gross > 0 || value.item.tare > 0" style="width: 54pt; padding-left: 4pt">
                         <div>
                             <div>
-                                Б: <b>{{value.item.weight.brutto}}</b>
+                                Б: <b>{{value.item.gross.toLocaleString()}}</b>
                             </div>
                             <div>
-                                Т: <b>{{value.item.weight.tara}}</b>
+                                Т: <b>{{value.item.tare.toLocaleString()}}</b>
                             </div>
                             <div>
-                                Н: <b>{{(value.item.weight.netto).toLocaleString()}}</b>
+                                Н: <b v-if="value.item.gross > 0 && value.item.tare > 0">
+                                {{(value.item.gross - value.item.tare).toLocaleString()}}</b>
+                                <b v-else>
+                                    0
+                                </b>
                             </div>
                         </div>
-                        <template v-if="value.item.weight.correction > 0">
-                            <div v-if="value.item.weight.netto > 0">
-                                ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})
-                            </div>
-                            <div>
-                                -{{value.item.weight.correction.toLocaleString()}}%
-                            </div>
-                        </template>
+<%--                        <template v-if="value.item.weight.correction > 0">--%>
+<%--                            <div v-if="value.item.weight.netto > 0">--%>
+<%--                                ({{(value.item.weight.netto * (1 - value.item.weight.correction / 100)).toLocaleString()}})--%>
+<%--                            </div>--%>
+<%--                            <div>--%>
+<%--                                -{{value.item.weight.correction.toLocaleString()}}%--%>
+<%--                            </div>--%>
+<%--                        </template>--%>
                     </div>
-                </div>
+<%--                </div>--%>
             </div>
             <div class="right-field">
-                <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>
+<%--                <laboratory-view :item="value.item" :fields="analysesFields"></laboratory-view>--%>
             </div>
         </div>
     </transition-group>

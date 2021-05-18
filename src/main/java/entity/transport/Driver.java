@@ -6,7 +6,6 @@ import entity.Person;
 import org.json.simple.JSONObject;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -86,7 +85,7 @@ public class Driver extends JsonAble{
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(PERSON, person.toJson());

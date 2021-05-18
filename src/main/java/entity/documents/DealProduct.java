@@ -2,7 +2,7 @@ package entity.documents;
 
 import constants.Constants;
 import entity.JsonAble;
-import entity.organisations.Organisation;
+import entity.organisations.Address;
 import entity.products.Product;
 import entity.transport.ActionTime;
 import entity.weight.Unit;
@@ -23,6 +23,8 @@ public class DealProduct extends JsonAble implements Constants {
     private Unit unit;          //!
     private Shipper shipper;    //!
     private float price;        //!
+    private float done;
+    private Address address;
     private String uid;
     private ActionTime create;
 
@@ -90,6 +92,24 @@ public class DealProduct extends JsonAble implements Constants {
     }
 
     @Basic
+    @Column(name = "_done")
+    public float getDone() {
+        return done;
+    }
+    public void setDone(float done) {
+        this.done = done;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "_address")
+    public Address getAddress() {
+        return address;
+    }
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Basic
     @Column(name = UID)
     public String getUid() {
         return uid;
@@ -118,13 +138,16 @@ public class DealProduct extends JsonAble implements Constants {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         final JSONObject object = new JSONObject();
         object.put(ID, id);
-        object.put(PRODUCT, product.toShortJson());
+        object.put(PRODUCT_ID, product.getId());
+        object.put(PRODUCT_NAME, product.getName());
         object.put(QUANTITY, quantity);
-        object.put(UNIT, unit.toJson());
-        object.put(SHIPPER, shipper.toJson());
+        object.put(UNIT_ID, unit.getId());
+        object.put(UNIT_NAME, unit.getName());
+        object.put(SHIPPER_ID, shipper.getId());
+        object.put(SHIPPER_NAME, shipper.getValue());
         object.put(PRICE, price);
         return object;
     }

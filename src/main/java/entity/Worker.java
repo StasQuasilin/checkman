@@ -85,7 +85,7 @@ public class Worker extends JsonAble {
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = toShortJson();
         object.put(ROLE, role.toString());
         object.put(PERSON, person.toJson());
