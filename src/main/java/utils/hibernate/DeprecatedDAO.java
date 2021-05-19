@@ -294,11 +294,6 @@ public class DeprecatedDAO implements dbDAO, Constants {
         return hb.query(User.class, "uid", token);
     }
 
-    @Override
-    public Worker getObjectById(Object id) {
-        return hb.get(Worker.class, ID, id);
-    }
-
     private final Logger log = Logger.getLogger(DeprecatedDAO.class);
 
     @Override

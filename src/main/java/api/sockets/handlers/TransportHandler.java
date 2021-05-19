@@ -7,6 +7,7 @@ import entity.Worker;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.hibernate.dao.TransportationDAO;
 
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
@@ -41,8 +42,9 @@ public class TransportHandler extends OnSubscribeHandler {
         }
         pool.put(json);
     }
+    private final TransportationDAO transportationDAO = new TransportationDAO();
 
     List<Transportation> getTransport(){
-        return dao.getTransportationsByType(type);
+        return transportationDAO.getTransportationsByType(type);
     }
 }

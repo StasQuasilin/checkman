@@ -58,8 +58,8 @@
                     <div style=" max-height: 200pt; overflow-y: scroll">
                         <template v-for="d in deals" >
                             <div v-for="product in d.products">
-                                <input :id="d.id" type="radio" name="dealId" v-model="deal" :value="d.id"/>
-                                <label :for="d.id">
+                                <input :id="product.id" type="radio" name="dealId" v-model="deal" :value="product.id"/>
+                                <label :for="product.id">
                                     {{d.id}} {{product.productName}},
                                     <template v-if="product.price> 0">
                                         {{product.price.toLocaleString()}}

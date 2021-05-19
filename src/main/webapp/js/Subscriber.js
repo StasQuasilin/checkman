@@ -27,7 +27,7 @@ function Connect(){
         let data = json['data'];
         if (typeof subscribes[type] === 'function') {
             subscribes[type](data, type);
-        } else{
+        } else {
             console.log('Subscribe \'' + type + '\' = ' + typeof subscribes[type]);
         }
     };

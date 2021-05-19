@@ -91,7 +91,7 @@ public class EditSunProbeAPI extends ServletAPI {
             Worker manager = null;
             String managerValue = null;
             if (m != null){
-                manager = dao.getObjectById(m.get(Constants.ID));
+                manager = dao.getObjectById(Worker.class, m.get(Constants.ID));
                 managerValue = String.valueOf(m.get("value"));
             }
 
@@ -132,7 +132,7 @@ public class EditSunProbeAPI extends ServletAPI {
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
                     Object creatorId = body.get(Constants.CREATOR);
-                    createTime.setCreator(dao.getObjectById(creatorId));
+                    createTime.setCreator(dao.getObjectById(Worker.class, creatorId));
                 } else {
                     createTime.setCreator(worker);
                 }

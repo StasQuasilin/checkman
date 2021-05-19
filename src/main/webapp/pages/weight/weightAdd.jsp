@@ -182,6 +182,14 @@
     </div>
     <div class="deal-field">
         <table v-for="(product, productId) in transportation.products">
+            <tr>
+                <td colspan="2">
+                    <span class="mini-close" v-on:click="removeProduct(productId)">
+                        &times;
+                    </span>
+                    {{product.id}}
+                </td>
+            </tr>
             <tr :class="{error : errors.organisation}">
                 <td>
                     <fmt:message key="deal.organisation"/>
@@ -219,14 +227,13 @@
                 <td>
                     <select id="deal" style="width: 100%" v-model="product.dealProduct" v-on:change="setQuantity()" class="secure">
                         <template v-for="deal in product.deals">
-                            <option :value="product.id" v-for="product in deal.products">
+                            <option :value="p.id" v-for="p in deal.products">
                                 <template v-if="deal.number">№ {{deal.number}}</template>
-                                {{product.productName}}, {{(types[deal.type].value).toLowerCase()}}
+                                {{p.productName}}, {{(types[deal.type].value).toLowerCase()}}
                                 <template v-if="product.price > 0">
-                                    {{product.price.toLocaleString()}}
+                                    {{p.price.toLocaleString()}}
                                 </template>
-                                {{product.shipperName}}
-<%--                            {{deal.product.name}}, {{(types[deal.type].value).toLowerCase()}}, {{deal.price.toLocaleString()}}, {{deal.shipper.name}}--%>
+                                {{p.shipperName}}
                             </option>
                         </template>
                     </select>
@@ -261,8 +268,13 @@
                     <fmt:message key="deal.quantity"/>
                 </td>
                 <td>
-                    {{product.amount.toLocaleString()}}
-                    {{product.unitName}}
+                    <span v-if="product.quantity">
+                        {{product.quantity.toLocaleString()}}
+                        {{product.unitName}}
+                    </span>
+                    <span v-else>
+                        ---
+                    </span>
                 </td>
             </tr>
             <%--PRICE--%>
@@ -285,7 +297,7 @@
                     </label>
                 </td>
                 <td>
-                    <input id="load" type="number" v-model.number="product.plan" onfocus="this.select()" autocomplete="off">
+                    <input id="load" type="number" v-model.number="product.amount" onfocus="this.select()" autocomplete="off">
                     {{product.unitName}}
                 </td>
             </tr>

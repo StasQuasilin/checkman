@@ -2,6 +2,7 @@ package api.laboratory;
 
 import api.ServletAPI;
 import constants.Branches;
+import entity.Worker;
 import entity.laboratory.turn.LaboratoryTurn;
 import entity.laboratory.turn.LaboratoryTurnWorker;
 import entity.production.Turn;
@@ -61,7 +62,7 @@ public class LaboratoryTurnEditServletAPI extends ServletAPI {
                 } else {
                     LaboratoryTurnWorker worker = new LaboratoryTurnWorker();
                     worker.setTurn(laboratoryTurn);
-                    worker.setWorker(dao.getObjectById(id));
+                    worker.setWorker(dao.getObjectById(Worker.class, id));
                     workers.add(worker);
                 }
             }

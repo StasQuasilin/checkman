@@ -89,11 +89,13 @@ transportFilter = new Vue({
                     let item = items[i];
                     for (let j = 0; j < item.products.length; j++){
                         let p = item.products[j];
-                        let product = p.product;
-                        let productId = product.id;
+                        let productId = p.productId;
                         if (!products[productId]) {
-                            product.amount = 1;
-                            products[productId] = product;
+                            products[productId] = {
+                                id:productId,
+                                name:p.productName,
+                                amount:1
+                            };
                         }else {
                             products[productId].amount++;
                         }
@@ -214,8 +216,8 @@ transportFilter = new Vue({
             for (let i = 0; i < item.products.length; i++){
                 let p = item.products[i];
 
-                if (p.product && product !== -1){
-                    if (p.product.id === product){
+                if (p.productId && product !== -1){
+                    if (p.productId === product){
                         byProduct = true;
                     }
                 }
@@ -226,8 +228,6 @@ transportFilter = new Vue({
                     }
                 }
             }
-
-            // byProduct = bp;
 
             return byProduct && byCounterparty && byDate && byDriver && any;
         },

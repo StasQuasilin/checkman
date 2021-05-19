@@ -79,7 +79,6 @@ public interface dbDAO {
     Person getPersonById(Object personId);
     void saveWorker(Worker worker, User user);
     List<User> getUsersByToken(String token);
-    Worker getObjectById(Object id);
 
     void remove(Object ... o);
     void save(Object ... o);

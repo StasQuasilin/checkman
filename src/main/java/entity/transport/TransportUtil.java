@@ -1,7 +1,6 @@
 package entity.transport;
 
 import entity.Worker;
-import entity.documents.Deal;
 import entity.laboratory.SunAnalyses;
 import entity.notifications.Notification;
 import entity.organisations.Organisation;
@@ -113,16 +112,11 @@ public class TransportUtil{
         pool.put(json);
     }
 
-    public synchronized static Transportation createTransportation(Deal deal, Worker manager, Worker creator) {
+    public synchronized static Transportation createTransportation(Worker manager, Worker creator) {
         Transportation transportation = new Transportation();
         transportation.setUid(DocumentUIDGenerator.generateUID());
         transportation.setManager(manager);
         transportation.setCreateTime(new ActionTime(creator));
-
-        transportation.setShipper(deal.getShipper());
-        transportation.setProduct(deal.getProduct());
-        transportation.setDeal(deal);
-
         return transportation;
     }
 

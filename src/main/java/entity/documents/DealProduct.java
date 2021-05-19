@@ -133,16 +133,12 @@ public class DealProduct extends JsonAble implements Constants {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
-    }
-
-    @Override
     public JSONObject toJson(int level) {
         final JSONObject object = new JSONObject();
         object.put(ID, id);
         object.put(PRODUCT_ID, product.getId());
         object.put(PRODUCT_NAME, product.getName());
+        object.put(PRODUCT, product.toShortJson());
         object.put(QUANTITY, quantity);
         object.put(UNIT_ID, unit.getId());
         object.put(UNIT_NAME, unit.getName());

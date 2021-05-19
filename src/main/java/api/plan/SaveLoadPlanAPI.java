@@ -42,7 +42,7 @@ public class SaveLoadPlanAPI extends ServletAPI {
             Worker worker = getWorker(req);
 
             JSONObject json = (JSONObject) body.get(PLAN);
-            Transportation transportation = transportationEditor.saveTransportation(deal, product, json, worker, worker);
+            Transportation transportation = transportationEditor.saveTransportation(json, worker, worker);
 
             JSONObject toJson = new SuccessAnswer(ID, transportation.getId()).toJson();
             write(resp, toJson.toJSONString());

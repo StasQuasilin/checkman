@@ -5,7 +5,10 @@ import api.deal.DealEditor;
 import constants.Branches;
 import entity.Worker;
 import entity.documents.Deal;
-import entity.transport.*;
+import entity.transport.TransportStorageUsed;
+import entity.transport.TransportUtil;
+import entity.transport.Transportation;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.storages.StorageUtil;
 import utils.transport.TransportationEditor;
@@ -32,21 +35,19 @@ public class TransportationEditAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
+            System.out.println(body);
             Worker creator = getWorker(req);
-            Worker manager = dao.getObjectById(body.get(MANAGER));
+            Worker manager = dao.getObjectById(Worker.class, body.get(MANAGER));
             if (manager == null){
                 manager = creator;
             }
-
-            Deal deal = dealEditor.editDeal((JSONObject) body.get(DEAL), manager);
-            Transportation transportation = transportationEditor.saveTransportation(deal, null, body, creator, manager);
-
-            dao.save(transportation);
-            dao.getUsedStoragesByTransportation(transportation).forEach(storageUtil::updateStorageEntry);
+            Transportation transportation = transportationEditor.saveTransportation(body, creator, manager);
 
             write(resp, SUCCESS_ANSWER);
-            List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
-            TransportUtil.updateUsedStorages(transportation, u, getWorker(req));
+
+//            dao.getUsedStoragesByTransportation(transportation).forEach(storageUtil::updateStorageEntry);
+//            List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
+//            TransportUtil.updateUsedStorages(transportation, u, getWorker(req));
         } else {
             write(resp, EMPTY_BODY);
         }

@@ -5,6 +5,7 @@ import entity.documents.DealProduct;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
+import entity.organisations.Address;
 import entity.weight.Weight;
 import org.json.simple.JSONObject;
 
@@ -126,13 +127,19 @@ public class TransportationProduct extends JsonAble {
     public JSONObject toJson(int level) {
         final JSONObject object = new JSONObject();
         object.put(INDEX, index);
+        object.put(ID, id);
         object.put(DEAL, dealProduct.getDeal().getId());
         object.put(DEAL_PRODUCT, dealProduct.getId());
         object.put(PRODUCT_ID, dealProduct.getProduct().getId());
         object.put(PRODUCT_NAME, dealProduct.getProduct().getName());
-        object.put(COUNTERPARTY, dealProduct.getDeal().getOrganisation());
-        object.put(ADDRESS_ID, dealProduct.getAddress().getId());
-        object.put(ADDRESS, dealProduct.getAddress().toJson(level));
+        object.put(PRODUCT, dealProduct.getProduct().toShortJson());
+        object.put(COUNTERPARTY, dealProduct.getDeal().getOrganisation().toJson(level));
+        final Address address = dealProduct.getAddress();
+        if (address != null){
+            object.put(ADDRESS_ID, address.getId());
+            object.put(ADDRESS, address.toJson(level));
+        }
+        object.put(QUANTITY, dealProduct.getQuantity());
         object.put(AMOUNT, amount);
         object.put(UNIT_ID, dealProduct.getUnit().getId());
         object.put(UNIT_NAME, dealProduct.getUnit().getName());

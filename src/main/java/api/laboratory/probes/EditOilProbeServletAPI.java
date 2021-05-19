@@ -108,7 +108,7 @@ public class EditOilProbeServletAPI extends ServletAPI {
             Worker manager = null;
             String managerValue = null;
             if (m != null){
-                manager = dao.getObjectById(m.get(Constants.ID));
+                manager = dao.getObjectById(Worker.class, m.get(Constants.ID));
                 managerValue = String.valueOf(m.get("value"));
             }
 
@@ -148,7 +148,7 @@ public class EditOilProbeServletAPI extends ServletAPI {
 
                 Worker worker = getWorker(req);
                 if (body.containsKey(Constants.CREATOR)) {
-                    createTime.setCreator(dao.getObjectById(body.get(Constants.CREATOR)));
+                    createTime.setCreator(dao.getObjectById(Worker.class, body.get(Constants.CREATOR)));
                 } else {
                     createTime.setCreator(worker);
                 }

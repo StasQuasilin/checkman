@@ -2,7 +2,6 @@ package utils.transport;
 
 import constants.Constants;
 import entity.Worker;
-import entity.documents.Deal;
 import entity.documents.DealProduct;
 import entity.log.comparators.TransportComparator;
 import entity.organisations.Address;
@@ -11,11 +10,15 @@ import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.DocumentUIDGenerator;
 import utils.NoteUtil;
 import utils.U;
 import utils.UpdateUtil;
+import utils.hibernate.dao.DealDAO;
+import utils.hibernate.dao.TransportationDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.json.JsonObject;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -29,8 +32,10 @@ public class TransportationEditor {
     private final TransportComparator transportComparator = new TransportComparator();
     private final NoteUtil noteUtil = new NoteUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
+    private final TransportationDAO transportationDAO = new TransportationDAO();
+    private final DealDAO dealDAO = new DealDAO();
 
-    public Transportation saveTransportation(Deal deal, DealProduct product, JSONObject json, Worker creator, Worker manager) throws IOException {
+    public Transportation saveTransportation(JSONObject json, Worker creator, Worker manager) throws IOException {
 
         boolean save = false;
         boolean isNew = false;
@@ -38,17 +43,10 @@ public class TransportationEditor {
         Transportation transportation = dao.getObjectById(Transportation.class, json.get(ID));
         if (transportation == null){
             isNew = true;
-            transportation = TransportUtil.createTransportation(deal, manager, creator);
+            transportation = TransportUtil.createTransportation(manager, creator);
             transportComparator.fix(null);
         } else {
             transportComparator.fix(transportation);
-        }
-
-//        final List<TransportationProduct> transportationProducts = buildProductMap(transportation);
-
-        if (transportation.getDeal() == null || transportation.getDeal().getId() != deal.getId()){
-            transportation.setDeal(deal);
-            save = true;
         }
 
         if (json.containsKey(ADDRESS)){
@@ -65,27 +63,6 @@ public class TransportationEditor {
         Date date = Date.valueOf(String.valueOf(json.get(Constants.DATE)));
         if (transportation.getDate() == null || !transportation.getDate().equals(date)) {
             transportation.setDate(date);
-            save = true;
-        }
-        boolean updateDeal = false;
-        if (deal.getDateTo().before(date)){
-            deal.setDateTo(date);
-            updateDeal = true;
-        }
-
-        if (deal.getDate().after(date)){
-            deal.setDate(date);
-            updateDeal = true;
-        }
-
-        if (updateDeal){
-            dao.save(deal);
-            updateUtil.onSave(deal);
-        }
-
-        float plan = U.parseFloat(String.valueOf(json.get(PLAN)));
-        if (transportation.getAmount() != plan) {
-            transportation.setAmount(plan);
             save = true;
         }
 
@@ -133,8 +110,6 @@ public class TransportationEditor {
             TransportUtil.setDriver(transportation, driver, transporter == null);
             save = true;
         }
-
-
 
         HashMap<Integer, DocumentNote> alreadyNote = new HashMap<>();
         if (transportation.getNotes() != null) {
@@ -195,10 +170,10 @@ public class TransportationEditor {
         }
 
         if (save) {
-            if(isNew){
-                dao.save(transportation.getCreateTime());
-            }
-            dao.save(transportation);
+            transportationDAO.saveTransportation(transportation, isNew);
+        }
+        final boolean update = saveTransportationProducts((JSONArray) json.get(PRODUCTS), transportation);
+        if (save || update){
             updateUtil.onSave(transportation);
         }
 
@@ -215,7 +190,64 @@ public class TransportationEditor {
         }
     }
 
-    private List<TransportationProduct> buildProductMap(Transportation transportation) {
-        return new LinkedList<>(transportation.getProducts());
+    private HashMap<Integer, TransportationProduct> buildProductMap(Transportation transportation) {
+        final HashMap<Integer, TransportationProduct> hashMap = new HashMap<>();
+        for (TransportationProduct product : transportation.getProducts()){
+            hashMap.put(product.getId(), product);
+        }
+        return hashMap;
+    }
+
+    public boolean saveTransportationProducts(JSONArray array, Transportation transportation) {
+
+        final HashMap<Integer, TransportationProduct> hashMap = buildProductMap(transportation);
+        final Set<TransportationProduct> products = transportation.getProducts();
+        products.clear();
+        int index = 0;
+        boolean update = false;
+        for (Object o : array){
+            JsonObject object = new JsonObject((JSONObject) o);
+            final int id = object.getInt(ID);
+            TransportationProduct product = hashMap.remove(id);
+            boolean saveIt = false;
+            if(product == null){
+                product = new TransportationProduct();
+                product.setTransportation(transportation);
+                product.setUid(DocumentUIDGenerator.generateUID());
+            }
+
+            final DealProduct dealProduct = dealDAO.getDealProduct(object.getInt(DEAL_PRODUCT));
+            if(dealProduct == null){
+                log.warn("--- No deal product for " + index + " product ");
+                continue;
+            }
+
+            final DealProduct dp = product.getDealProduct();
+            if (changeIt(dp, dealProduct)){
+                product.setDealProduct(dealProduct);
+                saveIt = true;
+            }
+            final int amount = object.getInt(AMOUNT);
+            if (product.getAmount() != amount){
+                product.setAmount(amount);
+                saveIt = true;
+            }
+            if (product.getIndex() != index){
+                product.setIndex(index);
+                saveIt = true;
+            }
+
+            if(saveIt){
+                update = true;
+                transportationDAO.saveProduct(product);
+            }
+            index++;
+            products.add(product);
+        }
+        for (TransportationProduct product : hashMap.values()){
+            transportationDAO.removeProduct(product);
+        }
+
+        return update;
     }
 }

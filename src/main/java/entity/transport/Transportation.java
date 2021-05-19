@@ -315,10 +315,6 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         return deal.getOrganisation();
     }
 
-    @Transient
-    public DealType getType(){
-        return deal.getType();
-    }
 
     @Transient
     public boolean any(){
@@ -444,8 +440,11 @@ public class Transportation extends JsonAble implements Serializable, Constants 
             for (int i = 0; i < 1; i++) {
                 final JSONObject object = new JSONObject();
                 object.put(ID, id);
-                object.put(PRODUCT, getDeal().getProduct().toShortJson());
-                object.put(PLAN, amount);
+                final Product product = getDeal().getProduct();
+                object.put(PRODUCT_ID, product.getId());
+                object.put(PRODUCT_NAME, product.getName());
+                object.put(PRODUCT, product.toShortJson());
+                object.put(QUANTITY, deal.getQuantity());
                 object.put(AMOUNT, amount);
                 object.put(DEAL, deal.getId());
                 object.put(DEAL_PRODUCT, deal.getId());
@@ -499,5 +498,10 @@ public class Transportation extends JsonAble implements Serializable, Constants 
             }
         }
         return json;
+    }
+
+    @Transient
+    public DealType getType() {
+        return deal.getType();
     }
 }

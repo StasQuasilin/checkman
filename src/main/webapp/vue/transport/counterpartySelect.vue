@@ -33,7 +33,9 @@ select = new Vue({
         },
         selectDeal:function () {
             if (this.deals.length > 0){
-                this.deal = this.deals[0].id;
+                let deal = this.deals[0];
+                let products = deal.products;
+                this.deal = products[0].id;
             } else {
                 this.deal = -2
             }
@@ -44,12 +46,22 @@ select = new Vue({
                 code:-1
             };
             if (this.deal > 0) {
+                let done = false;
                 for (let i in this.deals) {
                     if (this.deals.hasOwnProperty(i)) {
                         let d = this.deals[i];
-                        if (d.id === this.deal) {
-                            answer.code = 0;
-                            answer.deal = d;
+                        let products = d.products;
+                        for(let j = 0; j < products.length; j++){
+                            let product = products[j];
+                            if (product.id === this.deal){
+                                answer.code = 0;
+                                answer.deal = d;
+                                answer.product = product;
+                                done = true;
+                                break;
+                            }
+                        }
+                        if (done){
                             break;
                         }
                     }

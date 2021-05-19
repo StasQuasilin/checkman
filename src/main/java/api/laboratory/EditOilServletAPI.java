@@ -141,7 +141,7 @@ public class EditOilServletAPI extends ServletAPI {
                 Worker worker = getWorker(req);
                 if (a.containsKey(Constants.CREATOR)) {
                     log.info("\t\tHave creator");
-                    createTime.setCreator(dao.getObjectById(a.get(Constants.CREATOR)));
+                    createTime.setCreator(dao.getObjectById(Worker.class, a.get(Constants.CREATOR)));
                 } else {
                     log.info("\t\tDoesn't have creator");
                     createTime.setCreator(worker);

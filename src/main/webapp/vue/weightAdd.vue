@@ -119,12 +119,13 @@ editor = new Vue({
             loadModal(this.api.selectCounterparty, {have:dealId}, function (a) {
                 console.log(a);
                 if (a.code === 0){
+                    let deal = a.deal;
+                    let p = a.product;
                     let product = {
-                        dealProduct:a.deal.id,
-                        counterparty:a.deal.counterparty,
-                        product:{
-
-                        },
+                        id:-1,
+                        dealProduct:p.id,
+                        counterparty:deal.counterparty,
+                        quantity:p.quantity,
                         amount:0,
                         deals:a.deals
                     };
@@ -237,6 +238,9 @@ editor = new Vue({
         },
         removeNote:function(key){
             this.transportation.notes.splice(key, 1);
+        },
+        removeProduct:function(idx){
+            this.transportation.products.splice(idx, 1);
         },
         setQuantity:function(){
             this.checkDeal();
@@ -427,24 +431,24 @@ editor = new Vue({
                     this.saveNote();
                 }
                 let e = this.errors;
-                e.organisation = !(this.transportation.deal.counterparty && this.transportation.deal.counterparty.id !== -1);
-                e.product = this.transportation.deal.product.id === -1;
+                // e.organisation = !(this.transportation.deal.counterparty && this.transportation.deal.counterparty.id !== -1);
+                // e.product = this.transportation.deal.product.id === -1;
 
                 if (!e.type && !e.organisation && !e.product) {
+                    let products = [];
+                    for (let i = 0; i < this.transportation.products.length; i++){
+                        let product = this.transportation.products[i];
+                        products.push({
+                            id:product.id,
+                            dealProduct:product.dealProduct,
+                            amount:product.amount
+                        });
+                    }
                     let transportation = {
                         id:this.transportation.id,
                         date:this.transportation.date,
                         customer:this.transportation.customer,
-                        deal:{
-                            id:this.transportation.deal.id,
-                            type:this.transportation.deal.type,
-                            date:this.transportation.date,
-                            counterparty : this.transportation.deal.counterparty.id,
-                            product : this.transportation.deal.product.id,
-                            unit : this.transportation.deal.unit.id,
-                            shipper : this.transportation.deal.shipper.id,
-                        },
-
+                        products:products,
                         manager : this.transportation.manager.id,
                         notes:[]
                     };
@@ -463,30 +467,25 @@ editor = new Vue({
                     if (this.transportation.transporter){
                         transportation.transporter = this.transportation.transporter.id;
                     }
-                    if (!this.transportation.deal.quantity){
-                        transportation.deal.quantity = 0;
-                    } else {
-                        transportation.deal.quantity = this.transportation.deal.quantity;
-                    }
-                    if (!this.transportation.deal.price){
-                        transportation.deal.price = 0;
-                    } else {
-                        transportation.deal.price = this.transportation.deal.price;
-                    }
-                    if (!this.transportation.plan){
-                        transportation.plan = 0;
-                    } else {
-                        transportation.plan = this.transportation.plan;
-                    }
-                    transportation.deal.products = [
-                        {
-                            product : transportation.deal.product,
-                            quantity: transportation.deal.quantity,
-                            unit: transportation.deal.unit,
-                            shipper:transportation.deal.shipper,
-                            price:transportation.deal.price
-                        }
-                    ];
+                    // if (!this.transportation.deal.quantity){
+                    //     transportation.deal.quantity = 0;
+                    // } else {
+                    //     transportation.deal.quantity = this.transportation.deal.quantity;
+                    // }
+                    // if (!this.transportation.deal.price){
+                    //     transportation.deal.price = 0;
+                    // } else {
+                    //     transportation.deal.price = this.transportation.deal.price;
+                    // }
+                    // transportation.deal.products = [
+                    //     {
+                    //         product : transportation.deal.product,
+                    //         quantity: transportation.deal.quantity,
+                    //         unit: transportation.deal.unit,
+                    //         shipper:transportation.deal.shipper,
+                    //         price:transportation.deal.price
+                    //     }
+                    // ];
 
                     for(let i in this.transportation.notes){
                         if (this.transportation.notes.hasOwnProperty(i)){
