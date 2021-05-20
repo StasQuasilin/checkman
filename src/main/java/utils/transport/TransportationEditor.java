@@ -202,6 +202,7 @@ public class TransportationEditor {
 
         final HashMap<Integer, TransportationProduct> hashMap = buildProductMap(transportation);
         final Set<TransportationProduct> products = transportation.getProducts();
+        final int productsCount = products.size();
         products.clear();
         int index = 0;
         boolean update = false;
@@ -246,6 +247,10 @@ public class TransportationEditor {
         }
         for (TransportationProduct product : hashMap.values()){
             transportationDAO.removeProduct(product);
+        }
+
+        if (!update){
+            update = productsCount != products.size();
         }
 
         return update;

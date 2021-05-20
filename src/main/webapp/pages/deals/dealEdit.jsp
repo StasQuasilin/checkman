@@ -53,8 +53,8 @@
         <c:choose>
         <c:when test="${not empty deal}">
         dealEdit.deal=${deal.toJson()};
-        dealEdit.deal.shipper = dealEdit.deal.shipper.id;
-        dealEdit.deal.product = dealEdit.deal.product.id;
+        // dealEdit.deal.shipper = dealEdit.deal.shipper.id;
+        // dealEdit.deal.product = dealEdit.deal.product.id;
         <c:if test="${not empty deal.unit}">
         dealEdit.deal.unit = ${deal.unit.id};
         </c:if>
@@ -62,9 +62,9 @@
         </c:when>
         <c:otherwise>
         dealEdit.deal.type = '${type}';
-        if (dealEdit.shippers.length > 0){
-            dealEdit.deal.shipper= dealEdit.shippers[0].id;
-        }
+        // if (dealEdit.shippers.length > 0){
+        //     dealEdit.deal.shipper= dealEdit.shippers[0].id;
+        // }
         dealEdit.selectProduct();
         dealEdit.addProduct();
 
@@ -199,7 +199,7 @@
                         <option v-for="product in products" :value="product.id">{{product.value}}</option>
                     </select>
                     <select id="type" v-model="deal.type">
-                        <option v-for="type in typesByProduct()" :value="type">{{typeNames[type]}}</option>
+                        <option v-for="type in typesByProduct(dp.productId)" :value="type">{{typeNames[type]}}</option>
                     </select>
                 </td>
             </tr>

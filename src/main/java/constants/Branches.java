@@ -341,6 +341,7 @@ public class Branches {
         public static final String INTEREST_SAVE = API + "/interest/save";
         public static final String KILL_SESSION = API + "/kill/session";
         public static final String TRAILER_EDIT = API + "/trailer/edit";
+        public static final String DEAL_TRANSPORTATIONS = API + "/deal/transportations";
 
         public static class References {
             public static final String API = Branches.API.API + "/references";

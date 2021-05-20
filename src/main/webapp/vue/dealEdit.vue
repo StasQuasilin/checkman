@@ -23,6 +23,7 @@ dealEdit = new Vue({
             },
             shipper: -1,
             product: -1,
+            products:[],
             quantity: 0,
             unit:-1,
             price: 0,
@@ -75,8 +76,8 @@ dealEdit = new Vue({
         removeCost:function(idx){
             this.deal.costs.splice(idx , 1);
         },
-        typesByProduct:function(){
-            let types = this.types[this.deal.product];
+        typesByProduct:function(productId){
+            let types = this.types[productId];
             let fount = false;
             for (let i in types){
                 if (types.hasOwnProperty(i)){
@@ -105,23 +106,7 @@ dealEdit = new Vue({
             if (!e.organisation && !e.quantity && !e.price) {
                 let data = Object.assign({}, this.deal);
                 data.counterparty = this.deal.counterparty.id;
-                if (typeof data.products === "undefined" || data.products.length === 0) {
-                    data.products = [{
-                        id:-1,
-                        product: data.product,
-                        quantity: data.quantity,
-                        unit: data.unit,
-                        shipper: data.shipper,
-                        price: data.price
-                    }];
-                } else {
-                    let prod = data.products[0];
-                    prod.product = data.product;
-                    prod.quantity = data.quantity;
-                    prod.unit = data.unit;
-                    prod.shipper = data.shipper;
-                    prod.price = data.price;
-                }
+
                 PostApi(this.api.save, data, function (a) {
                     if (a.status === 'success') {
                         closeModal();

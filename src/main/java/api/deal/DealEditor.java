@@ -13,7 +13,6 @@ import entity.products.Product;
 import entity.transport.ActionTime;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
-import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
@@ -40,7 +39,7 @@ public class DealEditor implements Constants {
     private final DealComparator comparator = new DealComparator();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
-    public Deal editDeal(JSONObject body, Worker creator) {
+    public Deal editDeal(JSONObject body, Worker creator) throws IOException {
 
         boolean save = false;
         boolean isNew = false;
@@ -102,35 +101,34 @@ public class DealEditor implements Constants {
             save = true;
         }
 
+//        Product product = dao.getProductById(body.get(PRODUCT));
+//        if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {
+//            deal.setProduct(product);
+//            save = true;
+//        }
 
-        Product product = dao.getProductById(body.get(PRODUCT));
-        if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {
-            deal.setProduct(product);
-            save = true;
-        }
+//        float quantity = Float.parseFloat(String.valueOf(body.get(Constants.QUANTITY)));
+//        if (deal.getQuantity() != quantity) {
+//            deal.setQuantity(quantity);
+//            save = true;
+//        }
 
-        float quantity = Float.parseFloat(String.valueOf(body.get(Constants.QUANTITY)));
-        if (deal.getQuantity() != quantity) {
-            deal.setQuantity(quantity);
-            save = true;
-        }
+//        long unit = (long) body.get(UNIT);
+//        if (deal.getUnit() == null || deal.getUnit().getId() != unit) {
+//            deal.setUnit(UnitBox.getUnit(unit));
+//            save = true;
+//        }
+//        float price = Float.parseFloat(String.valueOf(body.get(PRICE)));
+//        if (deal.getPrice() != price) {
+//            deal.setPrice(price);
+//            save = true;
+//        }
 
-        long unit = (long) body.get(UNIT);
-        if (deal.getUnit() == null || deal.getUnit().getId() != unit) {
-            deal.setUnit(UnitBox.getUnit(unit));
-            save = true;
-        }
-        float price = Float.parseFloat(String.valueOf(body.get(PRICE)));
-        if (deal.getPrice() != price) {
-            deal.setPrice(price);
-            save = true;
-        }
-
-        Shipper shipper = dao.getShipperById(body.get(SHIPPER));
-        if (deal.getShipper() == null || deal.getShipper().getId() != shipper.getId()) {
-            deal.setShipper(shipper);
-            save = true;
-        }
+//        Shipper shipper = dao.getShipperById(body.get(SHIPPER));
+//        if (deal.getShipper() == null || deal.getShipper().getId() != shipper.getId()) {
+//            deal.setShipper(shipper);
+//            save = true;
+//        }
 
         final HashMap<Integer, DeliveryCost> costHashMap = new HashMap<>();
         if (deal.getCosts() != null){
@@ -182,19 +180,16 @@ public class DealEditor implements Constants {
             }
 
             try {
-                updateUtil.onSave(deal);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
                 comparator.compare(deal, creator);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        saveDealProducts(deal, (JSONArray) body.get(PRODUCTS), creator);
+        final boolean update = saveDealProducts(deal, (JSONArray) body.get(PRODUCTS), creator);
+        if (save || update){
+            updateUtil.onSave(deal);
+        }
 
 //        JSONArray products = (JSONArray) body.get(PRODUCTS);
 //        if (products != null){
@@ -211,8 +206,12 @@ public class DealEditor implements Constants {
         deal.setCreate(actionTime);
     }
 
-    private void saveDealProducts(Deal deal, JSONArray array, Worker worker) {
+    private boolean saveDealProducts(Deal deal, JSONArray array, Worker worker) {
         HashMap<Integer, DealProduct> dealProducts = createProductHashMap(deal.getProducts());
+        final Set<DealProduct> products = deal.getProducts();
+        final int productCount = products.size();
+        products.clear();
+        boolean update = false;
         for (Object o : array){
             JSONObject json = (JSONObject) o;
 
@@ -244,7 +243,7 @@ public class DealEditor implements Constants {
                 save = true;
             }
 
-            int unitId = Integer.parseInt(String.valueOf(json.get(UNIT)));
+            int unitId = Integer.parseInt(String.valueOf(json.get(UNIT_ID)));
             if (dealProduct.getUnit() == null || dealProduct.getUnit().getId() != unitId){
                 dealProduct.setUnit(UnitBox.getUnit(unitId));
                 save = true;
@@ -256,7 +255,7 @@ public class DealEditor implements Constants {
                 save = true;
             }
 
-            Shipper shipper = dao.getObjectById(Shipper.class, json.get(SHIPPER));
+            Shipper shipper = dao.getObjectById(Shipper.class, json.get(SHIPPER_ID));
             if (dealProduct.getShipper() == null || dealProduct.getShipper().getId() != shipper.getId()){
                 dealProduct.setShipper(shipper);
                 save = true;
@@ -268,9 +267,22 @@ public class DealEditor implements Constants {
                     dao.save(actionTime);
                     dealProduct.setCreate(actionTime);
                 }
-                dao.save(dealProduct);
+                dealDAO.saveDealProduct(dealProduct);
+
+                update = true;
             }
+            products.add(dealProduct);
         }
+
+        for (DealProduct product : dealProducts.values()){
+            dealDAO.removeDealProduct(product);
+        }
+
+        if (!update){
+            update = productCount != products.size();
+        }
+
+        return update;
     }
 
     private HashMap<Integer, DealProduct> createProductHashMap(Set<DealProduct> products) {

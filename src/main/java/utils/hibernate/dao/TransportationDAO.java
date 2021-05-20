@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import static constants.Constants.ARCHIVE;
+import static constants.Constants.*;
 
 public class TransportationDAO extends HibernateDAO{
     public List<Transportation> getTransportationsByDeal(Object dealId, TransportationStatus status) {
@@ -62,5 +62,9 @@ public class TransportationDAO extends HibernateDAO{
 
     public void removeProduct(TransportationProduct product) {
         hibernator.remove(product);
+    }
+
+    public List<TransportationProduct> getTransportationsByDealProduct(Object dealProduct) {
+        return hibernator.query(TransportationProduct.class, DEAL_PRODUCT, dealProduct);
     }
 }

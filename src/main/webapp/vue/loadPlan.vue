@@ -4,16 +4,7 @@ plan = new Vue({
         'object-input':objectInput
     },
     data: {
-        api: {
-            save: '',
-            remove:'',
-            findVehicle: '',
-            parseVehicle:'',
-            findDriver: '',
-            parseDriver:'',
-            editVehicle: '',
-            editDriver: ''
-        },
+        api: {},
         deal:null,
         selectedProduct:-1,
         dealId:0,
@@ -39,6 +30,18 @@ plan = new Vue({
     methods:{
         handler:function(a){
 
+        },
+        selectProduct:function(idx){
+            this.selectedProduct = idx;
+            let product = this.deal.products[idx];
+            const self = this;
+            PostApi(this.api.transportations, {product: product.id}, function (a) {
+                console.log(a);
+                if (a.status === 'success'){
+                    self.plans = a.result;
+                    self.$forceUpdate();
+                }
+            })
         },
         messages:function(){
             const msgs = [];
@@ -66,12 +69,12 @@ plan = new Vue({
                 weight:0
             };
             let items = this.plans.filter(function(item){
-                return item.item.date === date;
+                return item.date === date;
             });
             for (let i in items){
                 if (items.hasOwnProperty(i)){
                     result.count++;
-                    result.weight+=parseInt(items[i].item.plan);
+                    result.weight+=parseInt(items[i].plan);
                 }
             }
             return result;
@@ -80,7 +83,7 @@ plan = new Vue({
             let dates = [];
             for (let i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
-                    let date = this.plans[i].item.date;
+                    let date = this.plans[i].date;
                     if(!dates.includes(date)){
                         dates.push(date);
                     }
@@ -97,7 +100,7 @@ plan = new Vue({
             } else {
                 const self = this;
                 return this.plans.filter(function(item){
-                    return item.item.date === self.filterDate;
+                    return item.date === self.filterDate;
                 })
             }
         },
@@ -154,7 +157,7 @@ plan = new Vue({
 
             item.saveTimer = setTimeout(function(){
                 item.saveTimer = -1;
-                self.save(item.item);
+                self.save(item);
             }, 1500);
         },
         update:function(plan){
@@ -232,34 +235,34 @@ plan = new Vue({
             }, 500)
         },
         setDriver:function(driver, item){
-            item.item.driver = driver;
-            if(driver.vehicle && item.item.vehicle.id === -1){
+            item.driver = driver;
+            if(driver.vehicle && item.vehicle.id === -1){
                 this.setVehicle(driver.vehicle, item);
             }else{
                 this.initSaveTimer(item);
             }
-            if (driver.organisation && !item.item.transporter || item.item.transporter.id === -1){
+            if (driver.organisation && !item.transporter || item.transporter.id === -1){
                 this.setTransporter(driver.organisation, item);
             }
         },
         setVehicle:function(vehicle, item){
-            item.item.vehicle = vehicle;
-            if (vehicle.trailer && item.item.trailer.id === -1){
+            item.vehicle = vehicle;
+            if (vehicle.trailer && item.trailer.id === -1){
                 this.setTrailer(vehicle.trailer, item);
             } else {
                 this.initSaveTimer(item);
             }
         },
         setTrailer:function(trailer, item){
-            item.item.trailer = trailer;
+            item.trailer = trailer;
             this.initSaveTimer(item);
         },
         setTransporter:function(transporter, item){
-            item.item.transporter = transporter;
+            item.transporter = transporter;
             this.initSaveTimer(item);
         },
         weight:function(item){
-            if (item.weight === 'undefined') {
+            if (typeof item.weight === 'undefined') {
                 console.log('calculate weight');
                 let w = {
                     brutto: 0,
@@ -284,7 +287,7 @@ plan = new Vue({
             let total = 0;
             for (let i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
-                    let p = parseFloat(this.plans[i].item.plan);
+                    let p = 0;//parseFloat(this.plans[i].);
                     if (!isNaN(p)){
                         total += p;
                     }
@@ -297,7 +300,7 @@ plan = new Vue({
             for (let p in this.plans){
                 if (this.plans.hasOwnProperty(p)){
                     let plan = this.plans[p];
-                    let weight = plan.item.weight;
+                    let weight = plan.weight;
                     if (weight) {
                         total += weight.brutto === 0 || weight.tara === 0 ? 0 : weight.brutto - weight.tara;
                     }
@@ -305,17 +308,19 @@ plan = new Vue({
             }
             return total;
         },
+        goBack:function(){
+            loadContent(this.api.back, this.api.attributes);
+        },
         stop:function(){
-            console.log('Stop load plan');
             clearTimeout(this.upd);
         },
         dateTimePicker:function(item){
             const self = this;
             datepicker.show(function (date) {
-                item.item.date = date;
+                item.date = date;
                 self.sort();
                 self.initSaveTimer(item);
-            }, item.item.date)
+            }, item.date)
         },
         sort:function(){
             this.plans.sort(function(a, b){
@@ -345,15 +350,15 @@ plan = new Vue({
         editNote:function(item, id){
             item.editNote = true;
             if (id !== undefined) {
-                item.noteId = item.item.notes[id].id;
-                item.noteInput = item.item.notes[id].note;
-                item.item.notes.splice(id, 1);
+                item.noteId = item.notes[id].id;
+                item.noteInput = item.notes[id].note;
+                item.notes.splice(id, 1);
             }
             this.focusInput();
         },
         saveNote:function(item){
             if (item.noteInput) {
-                item.item.notes.push({
+                item.notes.push({
                     id: item.noteId,
                     creator: this.worker,
                     note: item.noteInput
@@ -371,7 +376,7 @@ plan = new Vue({
             }
         },
         removeNote:function(item, id){
-            item.item.notes.splice(id, 1);
+            item.notes.splice(id, 1);
             this.initSaveTimer(item);
         }
 

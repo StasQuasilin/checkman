@@ -28,20 +28,33 @@ $(document).ready(function(){
     content = document.getElementById('content');
     staticField = document.getElementById('static');
     sessionLocker = document.getElementById('sessionLocker');
+    openLast();
 
-    let last = localStorage.getItem(lastPage + ';' + Settings.worker);
+});
+function getLastUrl(){
+    return localStorage.getItem(lastPage + ';' + Settings.worker);
+}
+function getLastAttributes() {
+    return localStorage.getItem('attributes;' + Settings.worker);
+}
+function openLast(){
+    let last = getLastUrl();
 
     if (last){
         document.addEventListener('loading', function(event){
-            loadContent(last);
+            let a = getLastAttributes();
+            let attr;
+            if (a){
+                attr = JSON.parse(a);
+            }
+            loadContent(last, attr);
         });
         document.dispatchEvent(new Event('loading'));
 
     } else {
         loadContent(welcome)
     }
-});
-
+}
 function lockSession(cause){
     console.log('clock ' + cause);
     GetChildElemById(sessionLocker, 'reason').innerText = cause;
@@ -49,7 +62,7 @@ function lockSession(cause){
 
 }
 
-function loadContent(url){
+function loadContent(url, args){
     if (url && currentPage !== url) {
         currentPage = url;
         coverlet.style.display='block';
@@ -59,7 +72,13 @@ function loadContent(url){
             console.log('[ Application ] Load page ' + url);
         }
         localStorage.setItem(lastPage + ';' + Settings.worker, url);
-        PostReq(url, null, function (e) {
+        let key = 'attributes;' + Settings.worker;
+        if (args){
+            localStorage.setItem(key, JSON.stringify(args));
+        } else {
+            localStorage.removeItem(key);
+        }
+        PostReq(url, args, function (e) {
             if (typeof stopContent === 'function'){
                 stopContent();
             }

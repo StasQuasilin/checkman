@@ -72,7 +72,6 @@ public class ActiveSubscriptions {
                 byWorker.put(worker.getId(), new ArrayList<>());
                 byWorker.get(worker.getId()).add(session);
             }
-
         }else if (sub == Subscribe.MESSAGES){
             if (!byWorker.containsKey(worker.getId())) {
                 byWorker.put(worker.getId(), new ArrayList<>());
@@ -82,9 +81,13 @@ public class ActiveSubscriptions {
         } else if (sub == Subscribe.SESSION_TIMER){
             sessionTimer.register(worker, session);
         } else {
-            bySubscribe.get(sub).add(session);
-            if (handlers.containsKey(sub)) {
-                handlers.get(sub).handle(session, worker);
+            if (bySubscribe.containsKey(sub)) {
+                bySubscribe.get(sub).add(session);
+                if (handlers.containsKey(sub)) {
+                    handlers.get(sub).handle(session, worker);
+                }
+            } else {
+
             }
         }
     }

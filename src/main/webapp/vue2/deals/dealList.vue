@@ -9,7 +9,15 @@ dealList = new Vue({
     },
     methods:{
         show:function (id) {
-            loadModal(this.api.show, {id: id});
+            let args = {
+                id:id
+            };
+            args.back = getLastUrl();
+            let a = getLastAttributes();
+            if (a){
+                args.attributes = a;
+            }
+            loadContent(this.api.show, args);
         },
         sort:function (a, b) {
             return new Date(b.date) - new Date(a.date);

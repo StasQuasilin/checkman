@@ -4,6 +4,7 @@ import constants.Branches;
 import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
+import controllers.IUIServlet;
 import entity.documents.Deal;
 import entity.transport.TransportCustomer;
 import org.json.simple.JSONObject;
@@ -20,30 +21,36 @@ import java.io.IOException;
  * Created by szpt_user045 on 11.03.2019.
  */
 @WebServlet(Branches.UI.DEAL_SHOW)
-public class DealShow extends IModal{
+public class DealShow extends IUIServlet {
 
     private DealDAO dealDAO = new DealDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int dealId = -1;
-
+        JSONObject body = parseBody(req);
         String parameterId = req.getParameter(Constants.ID);
         if (parameterId != null) {
             dealId = Integer.parseInt(parameterId);
         } else {
-            JSONObject body = parseBody(req);
             if (body != null && body.containsKey(Constants.ID)){
                 dealId = Integer.parseInt(String.valueOf(body.remove(Constants.ID)));
             }
         }
 
         if (dealId != -1) {
+            if (body.containsKey(BACK)){
+                req.setAttribute(BACK, body.get(BACK));
+                if(body.containsKey(ATTRIBUTES)){
+                    req.setAttribute(ATTRIBUTES, body.get(ATTRIBUTES));
+                }
+            }
+
             req.setAttribute(DEAL, dealDAO.getDealById(dealId));
-            req.setAttribute(TRANSPORTATIONS, dao.getTransportationsByDeal(dealId));
             req.setAttribute(TITLE, Titles.DEAL_SHOW);
             req.setAttribute(SAVE, Branches.API.PLAN_LIST_SAVE);
             req.setAttribute(REMOVE, Branches.API.REMOVE_PLAN);
+            req.setAttribute(TRANSPORTATIONS, Branches.API.DEAL_TRANSPORTATIONS);
             req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
             req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
             req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);
@@ -59,6 +66,7 @@ public class DealShow extends IModal{
             req.setAttribute(FIND_TRAILER, Branches.API.References.FIND_TRAILER);
             req.setAttribute(PARSE_TRAILER, Branches.API.PARSE_TRAILER);
             req.setAttribute(MODAL_CONTENT, "/pages/deals/dealShow.jsp");
+            req.setAttribute(CONTENT, "/pages/deals/dealShow.jsp");
             req.setAttribute(CUSTOMERS, new TransportCustomer[]{TransportCustomer.szpt, TransportCustomer.cont});
             show(req, resp);
         }

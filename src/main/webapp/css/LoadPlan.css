@@ -1,6 +1,7 @@
 .full-page{
     display: flex;
     flex-direction: column;
+    width: 100%;
     /*width: 440px;*/
 }
 .page-content{
@@ -9,6 +10,15 @@
 }
 .plan-wrapper{
 
+}
+.product-cell{
+    border: solid gray 1pt;
+}
+.product-cell:hover{
+    background-color: lightcoral;
+}
+.selected-cell{
+    background-color: rgb(247, 190, 179);
 }
 .upper{
     background-color: rgb(153, 201, 136);
@@ -25,8 +35,8 @@
     text-align: center;
 }
 .plan-container{
-    width: 400px;
-    height: 300pt;
+    /*width: 400px;*/
+    /*height: 300pt;*/
     overflow-y: scroll;
 }
 .plan-item{

@@ -45,7 +45,7 @@ public class DealDAO extends HibernateDAO{
         return deal;
     }
 
-    public DealProduct getDealProduct(int id) {
+    public DealProduct getDealProduct(Object id) {
         DealProduct product = hibernator.get(DealProduct.class, ID, id);
         if (product == null){
             final Deal deal = getDealById(id);
@@ -69,5 +69,13 @@ public class DealDAO extends HibernateDAO{
         product.setCreate(deal.getCreate());
         save(product);
         return product;
+    }
+
+    public void saveDealProduct(DealProduct dealProduct) {
+        save(dealProduct);
+    }
+
+    public void removeDealProduct(DealProduct product) {
+        remove(product);
     }
 }

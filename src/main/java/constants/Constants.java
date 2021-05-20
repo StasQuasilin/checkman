@@ -41,6 +41,8 @@ public interface Constants {
     String DEAL_ID = "dealId";
     String PRE = "pre";
     String DEAL = "deal";
+    String BACK = "back";
+    String ATTRIBUTES = "attributes";
     String DEAL_PRODUCT = "dealProduct";
     String DEALS = "deals";
     String INDEX = "index";
