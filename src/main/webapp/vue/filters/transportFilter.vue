@@ -28,6 +28,7 @@ transportFilter = new Vue({
         }
     },
     mounted:function(){
+        console.log('fm');
         let product = localStorage.getItem('product');
         if (product) {
             this.putProduct(parseInt(product));
@@ -160,6 +161,7 @@ transportFilter = new Vue({
                 return self.filter(item, product, counterparty, date, driver)
             });
         },
+
         filter:function(item, product, counterparty, date, driver){
             let byProduct = true;
             if (item.product && product && product !== -1){
@@ -210,6 +212,13 @@ transportFilter = new Vue({
                     this.onWait && !timeIn && !timeOut;
             }
             return byProduct && byCounterparty && byDate && byDriver && any;
+        },
+        getFilteredItems:function(){
+            const product = this.product;
+            const counterparty = this.organisation;
+            const date = this.date;
+            const driver = this.driver;
+            return this.filtered(product, counterparty, date, driver);
         },
         doFilter:function(item){
             const product = this.product;

@@ -28,16 +28,16 @@ public class TransportHandler extends OnSubscribeHandler {
 
     @Override
     public void handle(Session session) throws IOException {
-        JSONObject json = pool.getObject();
+
         JSONArray add = pool.getArray();
 
-        final RemoteEndpoint.Basic basicRemote = session.getBasicRemote();
         for (Transportation transportation : getTransport()){
             add.add(transportation.toJson());
-            json.put(UPDATE, add);
-            basicRemote.sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
-            add.clear();
         }
+        JSONObject json = pool.getObject();
+        json.put(UPDATE, add);
+        final RemoteEndpoint.Basic basicRemote = session.getBasicRemote();
+        basicRemote.sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         pool.put(json);
     }
 

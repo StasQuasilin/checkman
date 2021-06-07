@@ -12,6 +12,7 @@ transportListBase = {
     },
     mounted:function () {
         this.filter = transportFilter;
+        transportFilter.items = this.items;
     },
     methods:{
         getF:function(){
