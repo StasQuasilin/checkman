@@ -17,6 +17,7 @@ public class Product extends JsonAble {
     private String name;
     private AnalysesType analysesType;
     private Unit unit;
+    private boolean isGroup;
     private boolean wholeSale;
     private boolean refining;
 
@@ -63,6 +64,15 @@ public class Product extends JsonAble {
     }
     public void setWholeSale(boolean wholeSave) {
         this.wholeSale = wholeSave;
+    }
+
+    @Basic
+    @Column(name = "_group")
+    public boolean isGroup() {
+        return isGroup;
+    }
+    public void setGroup(boolean group) {
+        isGroup = group;
     }
 
     @Basic

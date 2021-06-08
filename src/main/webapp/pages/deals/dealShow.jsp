@@ -112,18 +112,10 @@
         <table style="width: 440px">
           <tr>
             <td>
-              <fmt:message key="deal.type"/>
-            </td>
-            <td>
-              :<fmt:message key="${deal.type}"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
               <fmt:message key="period"/>
             </td>
             <td>
-              :<fmt:formatDate value="${deal.date}" pattern="dd.MM.yyyy"/>
+              <fmt:formatDate value="${deal.date}" pattern="dd.MM.yyyy"/>
               <c:if test="${deal.date ne deal.dateTo}">
                 -
                 <fmt:formatDate value="${deal.dateTo}" pattern="dd.MM.yyyy"/>
@@ -135,7 +127,7 @@
               <fmt:message key="deal.organisation"/>
             </td>
             <td>
-              :${deal.organisation.value}
+              ${deal.organisation.value}
             </td>
           </tr>
           <c:forEach items="${deal.costs}" var="cost">
@@ -155,18 +147,10 @@
           <table>
             <tr>
               <td>
-                <fmt:message key="deal.shipper"/>
-              </td>
-              <td>
-                :{{product.shipperName}}
-              </td>
-            </tr>
-            <tr>
-              <td>
                 <fmt:message key="deal.product"/>
               </td>
               <td>
-                :{{product.productName}}
+                :{{product.productName}}, <fmt:message key="${deal.type}"/>, {{product.shipperName}}
               </td>
             </tr>
             <tr>
@@ -189,7 +173,8 @@
         </div>
       </div>
     </div>
-    <div class="page-column">
+    <div class="page-column" style="width: 100%">
+<%--      HEADER--%>
       <div>
         <template v-for="t in tabs">
           <b v-if="t == tab" class="tab">
@@ -200,7 +185,7 @@
         </span>
         </template>
       </div>
-      <div>
+      <div style="height: 100%">
         <div v-if="tab == 'vehicles'" class="tab-content" style="display: flex; flex-direction: row">
           <div>
             <div style="height: 100%; max-height: 500px; overflow-y: scroll">
@@ -221,36 +206,37 @@
             </div>
           </div>
           <div style="width: 100%">
-            <table style="width: 100%">
+            <table style="width: 100%; height: 100%">
               <tr>
                 <td colspan="3" align="center">
                   <fmt:message key="load.plans"/>
                   <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
+                  <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
                 </td>
               </tr>
               <%--HEADER--%>
-              <tr>
-                <td>
-                  <c:set var="dropTitle"><fmt:message key="load.plan.drop.title"/> </c:set>
-                  <c:set var="dateTitle"><fmt:message key="load.date.title"/> </c:set>
-                  <span title="${dateTitle}" class="table-header" style="width: 8em">
-                    <fmt:message key="date"/>
-                  </span>
-                </td>
-                <td>
-                  <c:set var="planTitle"><fmt:message key="load.plan.title"/> </c:set>
-                  <span title="${planTitle}" class="table-header" style="width: 6em">
-                  <fmt:message key="deal.plan"/>
-                </span>
-                </td>
-                <td>
-                  <c:set var="customerTitle"><fmt:message key="load.customer.title"/> </c:set>
-                  <span title="${customerTitle}" class="table-header" style="width: 8em">
-                  <fmt:message key="transport.customer"/>
-                </span>
-                </td>
-              </tr>
-              <tr>
+<%--              <tr>--%>
+<%--                <td>--%>
+<%--                  <c:set var="dropTitle"><fmt:message key="load.plan.drop.title"/> </c:set>--%>
+<%--                  <c:set var="dateTitle"><fmt:message key="load.date.title"/> </c:set>--%>
+<%--                  <span title="${dateTitle}" class="table-header" style="width: 8em">--%>
+<%--                    <fmt:message key="date"/>--%>
+<%--                  </span>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                  <c:set var="planTitle"><fmt:message key="load.plan.title"/> </c:set>--%>
+<%--                  <span title="${planTitle}" class="table-header" style="width: 6em">--%>
+<%--                  <fmt:message key="deal.plan"/>--%>
+<%--                </span>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                  <c:set var="customerTitle"><fmt:message key="load.customer.title"/> </c:set>--%>
+<%--                  <span title="${customerTitle}" class="table-header" style="width: 8em">--%>
+<%--                  <fmt:message key="transport.customer"/>--%>
+<%--                </span>--%>
+<%--                </td>--%>
+<%--              </tr>--%>
+              <tr style="height: 100%">
                 <td colspan="3">
                   <%--TABLE--%>
                   <transition-group name="flip-list" tag="div" class="plan-container">
