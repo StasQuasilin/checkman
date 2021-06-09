@@ -6,6 +6,7 @@
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css?v=${now}">
 <script src="${context}/vue/laboratory/laboratoryEdit.vue?v=${now}"></script>
+<script src="${context}/vue/laboratory/oilAnalysesEdit.vue?v=${now}"></script>
 <script>
     editor.api.save = '${save}';
     editor.api.print = '${print}';
@@ -123,6 +124,7 @@
             ${plan.product.name}
         </td>
     </tr>
+<%--    !!!--%>
     <tr>
         <td>
             <fmt:message key="oil.organoleptic"/>

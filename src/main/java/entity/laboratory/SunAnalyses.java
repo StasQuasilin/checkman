@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "analyses_sun")
-public class SunAnalyses extends JsonAble{
+public class SunAnalyses extends JsonAble implements IAnalyses{
     private int id;
     private float oiliness;
     private float humidity1;

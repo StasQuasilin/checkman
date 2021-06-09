@@ -1,13 +1,14 @@
 package controllers.laboratory.laboratory;
 
 import constants.Branches;
-import constants.Constants;
 import constants.Titles;
 import controllers.IModal;
 import entity.AnalysesType;
+import entity.products.Product;
 import entity.transport.Transportation;
-import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
+import entity.transport.TransportationProduct;
+import utils.hibernate.dao.TransportationDAO;
+import utils.json.JsonObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,40 +22,20 @@ import java.io.IOException;
 @WebServlet(Branches.UI.LABORATORY_EDIT)
 public class LaboratoryEdit extends IModal {
 
+    private static final String _TITLE = "title.laboratory.edit";
+    private final TransportationDAO transportationDAO = new TransportationDAO();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final JSONObject body = parseBody(req);
+        final JsonObject body = parseBodyGood(req);
         if (body != null){
-            Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
-            req.setAttribute(PLAN, transportation);
+            Transportation transportation = transportationDAO.getTransportation(body.get(ID));
+            req.setAttribute(TRANSPORTATION, transportation);
             req.setAttribute(PRINT, Branches.UI.LABORATORY_PRINT_OPTIONS);
-            AnalysesType analysesType = transportation.getDeal().getProduct().getAnalysesType();
-            req.setAttribute(TYPE, analysesType.toString());
-            switch (analysesType){
-                case sun:
-                    req.setAttribute(MODAL_CONTENT, "/pages/laboratory/sunEdit.jsp");
-                    req.setAttribute(TITLE, Titles.SUN_EDIT);
-                    req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_SUN);
-                    break;
-                case oil:
-                    req.setAttribute(MODAL_CONTENT, "/pages/laboratory/oilEdit.jsp");
-                    req.setAttribute(TITLE, Titles.OIL_EDIT);
-                    req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_OIL);
-                    break;
-                case raf:
-                    req.setAttribute(MODAL_CONTENT, "/pages/laboratory/rafEdit.jsp");
-                    req.setAttribute(TITLE, Titles.OIL_EDIT);
-                    req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_OIL);
-                    break;
-                case meal:
-                    req.setAttribute(MODAL_CONTENT, "/pages/laboratory/cakeEdit.jsp");
-                    req.setAttribute(TITLE, Titles.CAKE_EDIT);
-                    req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_CAKE);
-                    break;
-            }
-            if (analysesType != AnalysesType.other) {
-                show(req, resp);
-            }
+            req.setAttribute(SAVE, Branches.API.LABORATORY_SAVE_SUN);
+            req.setAttribute(MODAL_CONTENT, "/pages/laboratory/laboratoryEdit.jsp");
+            req.setAttribute(TITLE, _TITLE);
+            show(req, resp);
         }
 
     }

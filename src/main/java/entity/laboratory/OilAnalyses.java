@@ -184,12 +184,16 @@ public class OilAnalyses extends JsonAble{
         json.put(ID, id);
         json.put(ORGANOLEPTIC, organoleptic);
         json.put(COLOR, color);
-        json.put(ACID, acidValue);
-        json.put(PEROXIDE, peroxideValue);
+        json.put(ACID_VALUE, acidValue);
+        json.put(PEROXIDE_VALUE, peroxideValue);
         json.put(PHOSPHORUS, phosphorus);
         json.put(HUMIDITY, humidity);
         json.put(SOAP, soap);
         json.put(WAX, wax);
+        json.put(DEGREASE_IMPURITY,degreaseImpurity);
+        json.put(TRANSPARENCY, transparency);
+        json.put(BENZOPYRENE, benzopyrene);
+        json.put(EXPLOSION, explosion);
         json.put(CREATE, createTime.toJson());
         return json;
     }

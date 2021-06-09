@@ -22,13 +22,17 @@ function Connect(){
         }
     };
     subscriber.onmessage = function(env){
-        let json = JSON.parse(env.data);
-        let type = json['type'];
-        let data = json['data'];
-        if (typeof subscribes[type] === 'function') {
-            subscribes[type](data, type);
-        } else {
-            console.log('Subscribe \'' + type + '\' = ' + typeof subscribes[type]);
+        try {
+            let json = JSON.parse(env.data);
+            let type = json['type'];
+            let data = json['data'];
+            if (typeof subscribes[type] === 'function') {
+                subscribes[type](data, type);
+            } else {
+                console.log('Subscribe \'' + type + '\' = ' + typeof subscribes[type]);
+            }
+        } catch (e) {
+            console.log(env)
         }
     };
     subscriber.onopen = function () {

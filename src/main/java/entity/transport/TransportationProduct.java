@@ -1,5 +1,6 @@
 package entity.transport;
 
+import api.sockets.handlers.OnSubscribeHandler;
 import entity.JsonAble;
 import entity.documents.DealProduct;
 import entity.laboratory.MealAnalyses;
@@ -149,8 +150,13 @@ public class TransportationProduct extends JsonAble {
         if (weight != null) {
             object.put(WEIGHT, weight.toJson(level));
         }
-        if (sunAnalyses != null){
-            object.put(SUN, sunAnalyses.toJson(level));
+        if(level != OnSubscribeHandler.NO_ONE && level != OnSubscribeHandler.NO_ANALYSES) {
+            if (sunAnalyses != null) {
+                object.put(SUN, sunAnalyses.toJson());
+            }
+            if (oilAnalyses != null) {
+                object.put(OIL, oilAnalyses.toJson());
+            }
         }
         return object;
     }

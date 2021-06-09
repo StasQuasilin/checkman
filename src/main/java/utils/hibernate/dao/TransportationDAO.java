@@ -71,4 +71,8 @@ public class TransportationDAO extends HibernateDAO{
     public TransportationProduct getTransportationProduct(Object id) {
         return hibernator.get(TransportationProduct.class, ID, id);
     }
+
+    public Transportation getTransportation(Object id) {
+        return hibernator.get(Transportation.class, ID, id);
+    }
 }

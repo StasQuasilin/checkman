@@ -409,6 +409,11 @@ public interface Constants {
     String FILE = "file";
     String GROSS = "gross";
     String TARE = "tare";
+    String TRANSPARENCY = "transparency";
+    String EXPLOSION = "explosion";
+    String DEGREASE_IMPURITY = "degreaseImpurity";
+    String PEROXIDE_VALUE = "peroxideValue";
+    String BENZOPYRENE = "benzopyrene";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";
