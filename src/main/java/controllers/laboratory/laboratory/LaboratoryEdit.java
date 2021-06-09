@@ -26,7 +26,7 @@ public class LaboratoryEdit extends IModal {
         final JSONObject body = parseBody(req);
         if (body != null){
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
-            req.setAttribute("plan", transportation);
+            req.setAttribute(PLAN, transportation);
             req.setAttribute(PRINT, Branches.UI.LABORATORY_PRINT_OPTIONS);
             AnalysesType analysesType = transportation.getDeal().getProduct().getAnalysesType();
             req.setAttribute(TYPE, analysesType.toString());

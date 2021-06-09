@@ -55,4 +55,19 @@ public class JsonObject {
         }
         return 0;
     }
+
+    public boolean getBool(String key) {
+        final String string = getString(key);
+        if (string != null && !string.isEmpty()){
+            return Boolean.parseBoolean(string);
+        }
+        return false;
+    }
+
+    public JsonObject getObject(String key) {
+        if (contain(key)){
+            return new JsonObject(get(key));
+        }
+        return null;
+    }
 }

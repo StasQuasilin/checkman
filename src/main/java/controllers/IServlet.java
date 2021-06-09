@@ -30,6 +30,7 @@ public class IServlet extends HttpServlet implements Constants {
     }
 
     public static final JsonParser parser = new JsonParser();
+    @Deprecated
     public synchronized JSONObject parseBody(HttpServletRequest req){
         try {
             return (JSONObject) parser.parse(req.getReader());

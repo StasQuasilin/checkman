@@ -6,8 +6,7 @@ loginer = {
             let json = JSON.parse(data);
             this.login(json.uid, json.hash, onSuccess);
         } else {
-            alert('ELSE!')
-            // location.reload();
+            location.reload();
         }
     },
     login:function (uid, hash, onSuccess) {

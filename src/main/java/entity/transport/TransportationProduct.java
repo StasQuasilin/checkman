@@ -149,6 +149,9 @@ public class TransportationProduct extends JsonAble {
         if (weight != null) {
             object.put(WEIGHT, weight.toJson(level));
         }
+        if (sunAnalyses != null){
+            object.put(SUN, sunAnalyses.toJson(level));
+        }
         return object;
     }
 }

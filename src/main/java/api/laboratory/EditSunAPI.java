@@ -5,15 +5,22 @@ import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import constants.Constants;
+import entity.AnalysesType;
 import entity.Worker;
 import entity.laboratory.SunAnalyses;
+import entity.products.Product;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import entity.transport.TransportUtil;
 import utils.U;
 import utils.UpdateUtil;
+import utils.hibernate.dao.TransportationDAO;
+import utils.json.JsonObject;
+import utils.laboratory.AnalysesEditor;
+import utils.laboratory.SunAnalysesEditor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,103 +37,30 @@ public class EditSunAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(EditSunAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
+    private final TransportationDAO transportationDAO = new TransportationDAO();
+    private final AnalysesEditor sunEditor = new SunAnalysesEditor();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = parseBody(req);
+        final JsonObject body = parseBodyGood(req);
         if (body != null) {
-            long planId = (long) body.get(Constants.PLAN);
-            log.info("Edit SUN analyses for plan '" + planId + "'...");
-            final Transportation transportation = dao.getTransportationById(planId);
-
-            boolean save = false;
-            SunAnalyses sunAnalyses = transportation.getSunAnalyses();
-            if (sunAnalyses == null) {
-                sunAnalyses = new SunAnalyses();
-                transportation.setSunAnalyses(sunAnalyses);
-            }
-
-            JSONObject a = (JSONObject) body.get("analyses");
-            float oiliness = Float.parseFloat(String.valueOf(a.get(Constants.Sun.OILINESS)));
-            log.info("\t\tOiliness: " + oiliness);
-            if (sunAnalyses.getOiliness() != oiliness) {
-                sunAnalyses.setOiliness(oiliness);
-                save = true;
-            }
-
-            if (a.containsKey(Sun.HUMIDITY_1)) {
-                float humidity1 = Float.parseFloat(String.valueOf(a.get(Sun.HUMIDITY_1)));
-                log.info("\t\tHumidity 1: " + humidity1);
-                if (sunAnalyses.getHumidity1() != humidity1) {
-                    sunAnalyses.setHumidity1(humidity1);
-                    save = true;
+//            System.out.println(body);
+            final Worker worker = getWorker(req);
+            for (Object o : body.getArray(PRODUCTS)){
+                final JsonObject json = new JsonObject(o);
+                final TransportationProduct transportationProduct = transportationDAO.getTransportationProduct(json.get(ID));
+                final Product product = transportationProduct.getDealProduct().getProduct();
+                final AnalysesType analysesType = product.getAnalysesType();
+                boolean update = false;
+                switch (analysesType){
+                    case sun:
+                        update = sunEditor.editAnalyses(transportationProduct, json.getObject(SUN), worker);
+                        break;
+                    case oil:
+                        break;
                 }
-            }
-
-            if (a.containsKey(Sun.HUMIDITY_2)) {
-                String s = String.valueOf(a.get(Sun.HUMIDITY_2));
-                if (U.exist(s)) {
-                    float humidity2 = Float.parseFloat(s);
-                    log.info("\t\tHumidity 2: " + humidity2);
-                    if (sunAnalyses.getHumidity2() != humidity2) {
-                        sunAnalyses.setHumidity2(humidity2);
-                        save = true;
-                    }
-                }
-            }
-
-            if (a.containsKey(Sun.SORENESS)) {
-                float soreness = Float.parseFloat(String.valueOf(a.get(Sun.SORENESS)));
-                log.info("\t\tSoreness: " + soreness);
-                if (sunAnalyses.getSoreness() != soreness) {
-                    sunAnalyses.setSoreness(soreness);
-                    save = true;
-                }
-            }
-
-            if (a.containsKey(Sun.OIL_IMPURITY)) {
-                float oilImpurity = Float.parseFloat(String.valueOf(a.get(Sun.OIL_IMPURITY)));
-                log.info("\t\tOil impurity: " + oilImpurity);
-                if (sunAnalyses.getOilImpurity() != oilImpurity) {
-                    sunAnalyses.setOilImpurity(oilImpurity);
-                    save = true;
-                }
-            }
-
-            if (a.containsKey(Sun.ACID_VALUE)) {
-                float acidValue = Float.parseFloat(String.valueOf(a.get(Sun.ACID_VALUE)));
-                log.info("\t\tAcidValue: " + acidValue);
-                if (sunAnalyses.getAcidValue() != acidValue) {
-                    sunAnalyses.setAcidValue(acidValue);
-                    save = true;
-                }
-            }
-
-            boolean contamination = Boolean.parseBoolean(String.valueOf(a.get("contamination")));
-            if (sunAnalyses.isContamination() != contamination) {
-                sunAnalyses.setContamination(contamination);
-                save = true;
-            }
-
-            if (save) {
-                ActionTime createTime = sunAnalyses.getCreateTime();
-                if (createTime == null) {
-                    createTime = new ActionTime();
-                    sunAnalyses.setCreateTime(createTime);
-                }
-                createTime.setTime(new Timestamp(System.currentTimeMillis()));
-                Worker creator = getWorker(req);
-
-                log.info("\t\tCreator: " + creator.getValue());
-                createTime.setCreator(creator);
-
-                dao.save(createTime, sunAnalyses, transportation);
-                float v = 0;//TransportUtil.calculateWeight(transportation);
-                updateUtil.onSave(transportation);
-
-                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
-                if (notificator != null) {
-                    notificator.sunAnalysesShow(transportation, sunAnalyses, 1f * Math.round(v * 100) / 100);
+                if (update){
+                    updateUtil.onSave(transportationProduct.getTransportation());
                 }
             }
             write(resp, SUCCESS_ANSWER);

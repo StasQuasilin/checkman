@@ -1,26 +1,40 @@
-editor = new Vue({
+laboratoryEdit = {
     el: '#editor',
     data: {
-        api: {},
-        empty: '',
-        plan: -1,
-        organisation: '',
-        vehicle: {
-            model: '',
-            number: '',
-            trailer: ''
-        },
-        driver: '',
-        analyses: {},
-        helpers:{},
-        already:false
+            api: {},
+            products:[],
+            empty: '',
+            plan: -1,
+            organisation: '',
+            vehicle: {
+                model: '',
+                number: '',
+                trailer: ''
+            },
+            driver: '',
+            analyses: {},
+            helpers:{},
+            already:false
     },
     methods:{
+        addProducts:function(item){
+            this.checkAnalyses(item);
+            this.products.push(item);
+        },
+        checkAnalyses:function(){
+            console.error('\'Checkanalyses\' not realized')
+        },
         saveLogic:function(onSave){
             if (this.api.save && !this.already) {
                 const self = this;
                 this.already = true;
-                PostApi(this.api.save, {plan: this.plan, analyses: this.analyses}, function (a) {
+                let data = {
+                    products:[]
+                };
+                for (let i = 0; i < this.products.length; i++){
+                    data.products.push(this.products[i])
+                }
+                PostApi(this.api.save, data, function (a) {
                     self.already = false;
                     if (onSave) {
                         onSave(a);
@@ -37,9 +51,6 @@ editor = new Vue({
                 }
             })
         },
-        recount:function(){
-            return 0;
-        },
         print:function(){
             const self = this;
             this.saveLogic(function(a){
@@ -47,4 +58,4 @@ editor = new Vue({
             })
         }
     }
-});
+};
