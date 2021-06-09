@@ -23,6 +23,7 @@ public class LogisticList extends IUIServlet{
     final Subscribe[] subscribes = new Subscribe[]{Subscribe.TRANSPORT_BUY, Subscribe.TRANSPORT_SELL};
     public static final String _CONTENT = "/pages/logistic/oldLogisticList.jsp";
 
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute(TITLE, Titles.LOGISTIC_LIST);

@@ -107,7 +107,9 @@ public class Weight extends JsonAble{
         JSONObject json = pool.getObject();
         json.put(ID, id);
         json.put(BRUTTO, brutto);
+        json.put(GROSS, brutto);
         json.put(TARA, tara);
+        json.put(TARE, tara);
         json.put(NETTO, getNetto());
         json.put(CORRECTION, correction);
         return json;

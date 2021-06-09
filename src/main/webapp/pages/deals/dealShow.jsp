@@ -44,7 +44,6 @@
   plan.quantity = ${deal.quantity};
   plan.unit = "${deal.unit.name}";
 
-
   plan.driverProps = {
     find:'${findDriver}',
     edit:'${editDriver}',
@@ -102,6 +101,9 @@
 <c:set var="editDriver"><fmt:message key="driver.edit"/></c:set>
 <c:set var="cancel"><fmt:message key="button.cancel"/></c:set>
 <c:set var="transporter"><fmt:message key="transportation.transporter"/></c:set>
+<c:set var="driver"><fmt:message key="transportation.driver"/></c:set>
+<c:set var="truck"><fmt:message key="transportation.automobile"/></c:set>
+<c:set var="trailer"><fmt:message key="transportation.automobile.trailer"/></c:set>
 <div id="load_plan" class="full-page">
   <div id="container-header" class="container-header">
     <button id="header-content" v-on:click="goBack()"><fmt:message key="button.back"/> </button>
@@ -145,6 +147,11 @@
         <div v-for="(product, productIdx) in deal.products" class="product-cell"
              :class="{'selected-cell' : productIdx === selectedProduct}" v-on:click="selectProduct(productIdx)">
           <table>
+            <tr>
+              <td>
+                {{product.id}}
+              </td>
+            </tr>
             <tr>
               <td>
                 <fmt:message key="deal.product"/>
@@ -259,8 +266,11 @@
                             </span>
                           <%--PLAN INPUT--%>
                           <span style="position: relative">
-                            <input v-model="value.amount" onfocus="this.select()" v-on:change="initSaveTimer(value)"
-                                   title="${planTitle}" style="width: 4em; text-align: right; padding: 0 2px" min="1"> {{unit}}
+                            <template v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id">
+                              <input v-model="product.amount" onfocus="this.select()" v-on:change="initSaveTimer(value)"
+                                     title="${planTitle}" style="width: 4em; text-align: right; padding: 0 8px" min="1"> {{unit}}
+                            </template>
+
                           </span>
                           <%--CUSTOMER INPUT--%>
                           <select v-model="value.customer" title="${customerTitle}" v-on:change="initSaveTimer(value)">
@@ -275,18 +285,42 @@
                         <%--LOWER ROW--%>
                         <div class="lower">
                           <div>
-                            <fmt:message key="transportation.driver"/>:
-                            <object-input :props="driverProps" :object="value.driver" :item="value"></object-input>
-                            <span v-if="value.driver && value.driver.license">
-                            /{{value.driver.license}}/
-                          </span>
+                            <div title="${driver}">
+                              <fmt:message key="transportation.driver"/>
+                              <object-input :props="driverProps" :object="value.driver" :item="value"></object-input>
+                              <span v-if="value.driver && value.driver.license">
+                                /{{value.driver.license}}/
+                              </span>
+                            </div>
+                            <div>
+                              <fmt:message key="transportation.automobile"/>
+                              <object-input title=${truck} :props="vehicleProps" :object="value.vehicle" :item="value"></object-input>
+                              <object-input title=${trailer} :props="trailerProps" :object="value.trailer" :item="value"></object-input>
+                            </div>
+                            <div title="${transporter}">
+                              <fmt:message key="transportation.transporter"/>
+                              <object-input :props="transporterProps" :object="value.transporter" :item="value"></object-input>
+                            </div>
                           </div>
                           <div>
-                            <fmt:message key="transportation.automobile"/>
-                            <object-input :props="vehicleProps" :object="value.vehicle" :item="value"></object-input>
-                            <object-input :props="trailerProps" :object="value.trailer" :item="value"></object-input>
-                            <object-input title="${transporter}" :props="transporterProps"
-                                          :object="value.transporter" :item="value"></object-input>
+                            <div v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id && product.weight">
+                              <div>
+                                Б:&#9;{{product.weight.gross.toLocaleString()}}
+                              </div>
+                              <div>
+                                T:&#9;{{product.weight.tare.toLocaleString()}}
+                              </div>
+                              <div>
+                                H:&#9;
+                                <template v-if="product.weight.gross > 0 && product.weight.tare > 0">
+                                  {{(product.weight.gross - product.weight.tare).toLocaleString()}}
+                                </template>
+                                <template v-else>
+                                  0
+                                </template>
+                              </div>
+
+                            </div>
                           </div>
                         </div>
                         <div class="lower">

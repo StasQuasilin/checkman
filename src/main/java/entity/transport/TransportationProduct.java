@@ -146,6 +146,9 @@ public class TransportationProduct extends JsonAble {
         object.put(PRICE, dealProduct.getPrice());
         object.put(SHIPPER_ID, dealProduct.getShipper().getId());
         object.put(SHIPPER_NAME, dealProduct.getShipper().getValue());
+        if (weight != null) {
+            object.put(WEIGHT, weight.toJson(level));
+        }
         return object;
     }
 }

@@ -28,6 +28,10 @@
     border-bottom: solid gray 1pt;
     padding: 2pt;
 }
+.lower{
+    display: flex;
+    flex-direction: row;
+}
 .plan-wrapper .lower{
     padding: 2pt;
 }
@@ -37,7 +41,8 @@
 }
 .plan-container{
     /*width: 400px;*/
-    /*height: 300pt;*/
+    height: 100%;
+    background-color: lightblue;
     overflow-y: scroll;
 }
 .plan-item{

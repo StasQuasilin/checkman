@@ -22,7 +22,7 @@ public class AdminControl extends IUIServlet {
 
         req.setAttribute(TITLE, Titles.ADMIN);
         req.setAttribute(CONTENT, "/pages/admin/admin.jsp");
-
+        req.setAttribute(CHANGE_VIEW, Branches.UI.CHANGE_VIEW);
         req.setAttribute("uidGenerator", Branches.API.BOT_UID);
         req.setAttribute("botStatus", Branches.API.USER_BOT_SETTINGS);
         req.setAttribute("botDelete", Branches.API.USER_BOT_DELETE);

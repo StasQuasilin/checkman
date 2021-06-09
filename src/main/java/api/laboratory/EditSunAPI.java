@@ -121,7 +121,7 @@ public class EditSunAPI extends ServletAPI {
                 createTime.setCreator(creator);
 
                 dao.save(createTime, sunAnalyses, transportation);
-                float v = TransportUtil.calculateWeight(transportation);
+                float v = 0;//TransportUtil.calculateWeight(transportation);
                 updateUtil.onSave(transportation);
 
                 TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();

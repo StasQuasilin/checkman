@@ -51,48 +51,36 @@ public class TransportUtil{
         dao.save(transportation);
 
         if (isArchive){
-            try {
-                updateUtil.onSave(transportation);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            updateUtil.onSave(transportation);
         }
     }
     public static final int HUMIDITY_BASIS = 7;
     public static final int SORENESS_BASIS = 3;
-    public static float calculateWeight(Transportation transportation) {
-        float percentage = 0;
+    public static float calculateWeight(TransportationProduct transportation) {
 
-        SunAnalyses sunAnalyse = transportation.getSunAnalyses();
-        if (sunAnalyse != null) {
-            float humidity = (sunAnalyse.getHumidity1() + sunAnalyse.getHumidity2()) /
-                    ((sunAnalyse.getHumidity1() > 0 ? 1 : 0) + (sunAnalyse.getHumidity2() > 0 ? 1 : 0));
-            float soreness = sunAnalyse.getSoreness();
-
-            if (humidity > HUMIDITY_BASIS && soreness > SORENESS_BASIS) {
-                percentage = 100 - ((100 - humidity) * (100 - soreness) * 100) / ((100 - HUMIDITY_BASIS) * (100 - SORENESS_BASIS));
-            } else if (humidity > HUMIDITY_BASIS) {
-                percentage = ((humidity - HUMIDITY_BASIS) * 100) / (100 - HUMIDITY_BASIS);
-            } else if (soreness > SORENESS_BASIS) {
-                percentage = ((soreness - SORENESS_BASIS) * 100 / (100 - SORENESS_BASIS));
-            }
-        }
         Weight weight = transportation.getWeight();
-        boolean newWeight = false;
-        if (weight == null) {
-            newWeight = true;
-            weight = new Weight();
-            weight.setUid(DocumentUIDGenerator.generateUID());
-            transportation.setWeight(weight);
+        if (weight != null) {
+            float percentage = 0;
+
+            SunAnalyses sunAnalyse = transportation.getSunAnalyses();
+            if (sunAnalyse != null) {
+                float humidity = (sunAnalyse.getHumidity1() + sunAnalyse.getHumidity2()) /
+                        ((sunAnalyse.getHumidity1() > 0 ? 1 : 0) + (sunAnalyse.getHumidity2() > 0 ? 1 : 0));
+                float soreness = sunAnalyse.getSoreness();
+
+                if (humidity > HUMIDITY_BASIS && soreness > SORENESS_BASIS) {
+                    percentage = 100 - ((100 - humidity) * (100 - soreness) * 100) / ((100 - HUMIDITY_BASIS) * (100 - SORENESS_BASIS));
+                } else if (humidity > HUMIDITY_BASIS) {
+                    percentage = ((humidity - HUMIDITY_BASIS) * 100) / (100 - HUMIDITY_BASIS);
+                } else if (soreness > SORENESS_BASIS) {
+                    percentage = ((soreness - SORENESS_BASIS) * 100 / (100 - SORENESS_BASIS));
+                }
+            }
+            weight.setCorrection(percentage);
+            return percentage;
         }
 
-        weight.setCorrection(percentage);
-
-        dao.saveWeight(weight);
-        if (newWeight){
-            dao.save(transportation);
-        }
-        return percentage;
+        return 1;
     }
 
     public static void archive(Transportation transportation, Worker worker) throws IOException {

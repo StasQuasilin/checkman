@@ -1,12 +1,13 @@
-var editor = new Vue({
+editor = new Vue({
     el: '#editor',
     data:{
         api:{
-            saveWeightAPI:'',
+            save:'',
             print:''
         },
         id:'',
         weight:{},
+        weights:[],
         analyses:{
             sun:[],
             oil:[],
@@ -14,23 +15,56 @@ var editor = new Vue({
         },
         already:false
     },
+    mounted:function(){
+        for (let i in this.weights){
+            if (this.weights.hasOwnProperty(i)){
+                let weight = this.weights[i];
+                if(typeof weight.weight === "undefined"){
+
+                }
+            }
+        }
+    },
     methods:{
+        addWeight:function(item){
+            if (typeof item.weight === "undefined"){
+                item.weight = {
+                    gross:0,
+                    tare:0
+                }
+            }
+            this.weights.push(item);
+        },
         save:function(){
             if (!this.already) {
                 this.already = true;
-                PostApi(this.api.saveWeightAPI, {id: this.id, weight: this.weight}, function (a) {
-                    console.log(a)
-                    if (a.status == 'success') {
+                let data = {
+                    weights:[]
+                };
+                for (let i in this.weights){
+                    if(this.weights.hasOwnProperty(i)){
+                        let w = this.weights[i];
+                        data.weights.push({
+                            id:w.id,
+                            gross:w.weight.gross,
+                            tare:w.weight.tare
+                        })
+                    }
+                }
+                const self = this;
+                PostApi(this.api.save, data, function (a) {
+                    console.log(a);
+                    if (a.status === 'success') {
                         closeModal();
                     }
-                    this.already = false;
+                    self.already = false;
                 }, function(e){
-                    this.already = false;
+                    self.already = false;
                 })
             }
         },
         netto:function(brutto, tara){
-            return brutto == 0 || tara == 0 ? 0 : (this.checkTonnas(brutto) - this.checkTonnas(tara));
+            return brutto === 0 || tara === 0 ? 0 : (this.checkTonnas(brutto) - this.checkTonnas(tara));
         },
         checkBrutto:function(){
             this.weight.brutto = this.check(this.weight.brutto)
@@ -42,10 +76,12 @@ var editor = new Vue({
             return w > 1000 ? w / 1000 : w;
         },
         total:function(){
-            var t = 0;
-            for (var i in this.weights){
-                var w = this.weights[i];
-                t += this.netto(w.brutto, w.tara);
+            let t = 0;
+            for (let i in this.weights){
+                if(this.weights.hasOwnProperty(i)) {
+                    let w = this.weights[i];
+                    t += this.netto(w.brutto, w.tara);
+                }
             }
             return t;
         },
@@ -55,6 +91,5 @@ var editor = new Vue({
         print:function(){
             loadModal(this.api.print, {id: this.id })
         }
-
     }
 });

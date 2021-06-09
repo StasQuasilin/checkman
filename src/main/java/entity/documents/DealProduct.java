@@ -147,4 +147,8 @@ public class DealProduct extends JsonAble implements Constants {
         object.put(PRICE, price);
         return object;
     }
+    @Transient
+    public boolean isOver() {
+        return quantity >= done;
+    }
 }

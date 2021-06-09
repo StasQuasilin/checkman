@@ -45,7 +45,7 @@ public class UpdateUtil {
     final dbDAO dao = dbDAOService.getDAO();
     private final TransportationDAO transportationDAO = new TransportationDAO();
 
-    public void onSave(Deal deal) throws IOException {
+    public void onSave(Deal deal) {
         doAction(Command.update, getSubscriber(deal.getType()), deal.toJson());
         for (Transportation t : transportationDAO.getTransportationsByDeal(deal.getId(), TransportationStatus.unarchive)){
             onSave(t);
@@ -70,7 +70,7 @@ public class UpdateUtil {
         return transportation.getDeal().getType() == DealType.buy ? Subscribe.TRANSPORT_BUY : Subscribe.TRANSPORT_SELL;
     }
 
-    public void onSave(Transportation transportation) throws IOException {
+    public void onSave(Transportation transportation) {
         doAction(Command.update, getSubscriber(transportation), transportation.toJson());
     }
 

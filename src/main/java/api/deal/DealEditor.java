@@ -171,11 +171,7 @@ public class DealEditor implements Constants {
             dao.save(deal);
             if (!isNew){
                 for (Transportation t : dao.getTransportationByDeal(deal, false, false)){
-                    try {
-                        updateUtil.onSave(t);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    updateUtil.onSave(t);
                 }
             }
 

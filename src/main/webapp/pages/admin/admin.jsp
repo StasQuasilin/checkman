@@ -10,6 +10,11 @@
         <tr>
             <td align="center">
                 <div style="padding: 4pt">
+                    <button onclick="loadModal('${changeView}')">
+                        <fmt:message key="change.view"/>
+                    </button>
+                </div>
+                <div style="padding: 4pt">
                     <button onclick="loadModal('${userRegistration}')">
                         <fmt:message key="user.registration"/>
                     </button>

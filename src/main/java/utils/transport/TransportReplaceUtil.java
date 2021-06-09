@@ -83,11 +83,7 @@ public class TransportReplaceUtil {
 
             dao.save(transportation);
             log.info("Transportation " + transportation.getId() + " replaced at " + now);
-            try {
-                updateUtil.onSave(transportation);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            updateUtil.onSave(transportation);
         }
         initTimer();
     }

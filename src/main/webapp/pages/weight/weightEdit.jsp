@@ -1,36 +1,24 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/editor.css?v=${now}">
 <script src="${context}/vue/weightEdit.vue?v=${now}"></script>
 <script>
-    editor.api.saveWeightAPI = '${save}';
+    editor.api.save = '${save}';
     editor.api.print = '${print}';
-    editor.id=${plan.id}
-    <c:choose>
-    <c:when test="${not empty plan.weight.id}">
-    editor.weight={
-        id:${plan.weight.id},
-        brutto:${plan.weight.brutto},
-        tara:${plan.weight.tara}
-    };
-    </c:when>
-    <c:otherwise>
-    editor.weight={
-        brutto:0,
-        tara:0
-    };
-    </c:otherwise>
-    </c:choose>
+    <c:forEach items="${plan.products}" var="p">
+    editor.addWeight(${p.toJson()});
+    </c:forEach>
+
 </script>
-<table border="0" id="editor" >
+<table id="editor" >
     <tr>
         <td>
-            <table class="editor" border="0">
+            <table class="editor">
                 <tr>
                     <td>
                         <fmt:message key="date"/>
@@ -53,32 +41,7 @@
                         ${plan.counterparty.value}
                     </td>
                 </tr>
-                <tr>
-                    <td>
 
-                        <fmt:message key="deal.product"/>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        ${plan.product.name},
-                        <c:set var="type"><fmt:message key="_${plan.type}"/> </c:set>
-                        ${fn:toLowerCase(type)}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <fmt:message key="deal.quantity"/>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        <fmt:formatNumber value="${plan.amount}"/>
-                        <%--${plan.deal.unit.name}--%>
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         <fmt:message key="deal.from"/>
@@ -112,45 +75,79 @@
                         ${plan.driver.person.value}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <label for="brutto">
-                            <fmt:message key="weight.gross"/>
-                        </label>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        <input id="brutto" v-model="weight.brutto" v-on:change="checkBrutto"
-                               onfocus="this.select()" type="number" step="0.01" autocomplete="off">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="tara">
-                            <fmt:message key="weight.tare"/>
-                        </label>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        <input id="tara" v-model="weight.tara" v-on:change="checkTara"
-                               onfocus="this.select()" type="number" step="0.01" autocomplete="off">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <fmt:message key="weight.net"/>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        {{netto(weight.brutto, weight.tara).toLocaleString()}}
-                    </td>
-                </tr>
+                <c:set var="type"><fmt:message key="_${plan.type}"/></c:set>
+                <template v-for="w in weights">
+                    <tr>
+                        <td>
+                            <fmt:message key="deal.product"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{w.productName}},
+                            ${fn:toLowerCase(type)}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="deal.quantity"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            {{w.amount.toLocaleString()}}
+                            <%--${plan.deal.unit.name}--%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="gross">
+                                <fmt:message key="weight.gross"/>
+                            </label>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <input id="gross" v-model="w.weight.gross" v-on:change="checkBrutto"
+                                   onfocus="this.select()" type="number" step="0.01" autocomplete="off">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="tara">
+                                <fmt:message key="weight.tare"/>
+                            </label>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <input id="tara" v-model="w.weight.tare" v-on:change="checkTara"
+                                   onfocus="this.select()" type="number" step="0.01" autocomplete="off">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="weight.net"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <b v-if="w.weight.gross > 0 && w.weight.tare > 0">
+                                {{(w.weight.gross - w.weight.tare).toLocaleString()}}
+                            </b>
+                            <span>
+                                0
+                            </span>
+
+                        </td>
+                    </tr>
+                </template>
+
                 <tr>
                     <td colspan="3" align="center">
                         <button onclick="closeModal()" class="close-button left-button">

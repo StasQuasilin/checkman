@@ -22,8 +22,8 @@ public abstract class ServletAPI extends IServlet{
     public static final JsonPool pool = JsonPool.getPool();
 
     protected final dbDAO dao = dbDAOService.getDAO();
-    public static final String SUCCESS_ANSWER = parser.toJson(new SuccessAnswer()).toJSONString();
-    public static final String EMPTY_BODY = parser.toJson(new ErrorAnswer("msg")).toJSONString();
+    public static final String SUCCESS_ANSWER = new SuccessAnswer().toJson().toJSONString();
+    public static final String EMPTY_BODY = new ErrorAnswer("Empty body").toJson().toJSONString();
 
     PrintWriter writer;
     public void write(HttpServletResponse resp, String text) throws IOException {

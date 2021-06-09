@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import utils.JsonParser;
 import utils.LanguageBase;
+import utils.json.JsonObject;
 
 
 import javax.servlet.http.HttpServlet;
@@ -33,6 +34,14 @@ public class IServlet extends HttpServlet implements Constants {
         try {
             return (JSONObject) parser.parse(req.getReader());
         } catch (IOException | ParseException ignore) { }
+        return null;
+    }
+    public JsonObject parseBodyGood(HttpServletRequest request){
+        try {
+            return new JsonObject((JSONObject) parser.parse(request.getReader()));
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

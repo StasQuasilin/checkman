@@ -1,7 +1,12 @@
 package utils;
 
 import entity.documents.Deal;
+import entity.documents.DealProduct;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
+import entity.weight.Weight;
+import utils.hibernate.dao.DealDAO;
+import utils.hibernate.dao.TransportationDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -15,43 +20,26 @@ public class WeightUtil {
 
     static dbDAO dao = dbDAOService.getDAO();
     private static final UpdateUtil updateUtil = new UpdateUtil();
+    private static final TransportationDAO transportationDAO = new TransportationDAO();
+    private static final DealDAO dealDao = new DealDAO();
 
-    public static void calculateDealDone(Deal deal){
-        float complete = 0;
-        Date dateTo = deal.getDateTo();
-        for (Transportation transportation : dao.getTransportationsByDeal(deal.getId())){
-            if (transportation.getWeight() != null) {
-                complete += transportation.getWeight().getNetto();
+    public static void calculateDealDone(DealProduct dealProduct){
+        System.out.println(dealProduct.getId());
+        float done = 0;
+        for (TransportationProduct product : transportationDAO.getTransportationsByDealProduct(dealProduct)){
+            final Weight weight = product.getWeight();
+            if (weight != null){
+                done += weight.getNetto();
+                System.out.println(done);
             }
-
-            if (dateTo == null || dateTo.before(transportation.getDate())){
-                dateTo = transportation.getDate();
-            }
         }
-
-        boolean save = false;
-
-        if (deal.getDateTo() == null || !deal.getDateTo().equals(dateTo)){
-            deal.setDateTo(dateTo);
-        }
-
-        if (deal.getQuantity() < complete){
-            deal.setQuantity(Math.round(complete));
-            save = true;
-        }
-
-        if (deal.getComplete() != complete) {
-            deal.setComplete(complete);
-            save = true;
-            deal.setDone(complete >= deal.getQuantity());
-        }
-        if (save){
-            dao.save(deal);
-
-            try {
+        System.out.println(Math.abs(dealProduct.getDone() - done));
+        if (Math.abs(dealProduct.getDone() - done) > 0.001){
+            dealProduct.setDone(done);
+            dealDao.saveDealProduct(dealProduct);
+            if (dealProduct.isOver()){
+                final Deal deal = dealProduct.getDeal();
                 updateUtil.onSave(deal);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }

@@ -27,6 +27,7 @@
     <script src="${context}/js/utils.js?v=${now}"></script>
     <script src="${context}/vue2/transportationDataView.vue?v=${now}"></script>
     <script src="${context}/js/loginer.js?v=${now}"></script>
+    <script src="${context}/vue2/editor.vue?v=${now}"></script>
 
     <script>
     context = '${context}';

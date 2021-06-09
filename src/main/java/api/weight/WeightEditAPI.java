@@ -5,16 +5,17 @@ import bot.TelegramBotFactory;
 import bot.TelegramNotificator;
 import constants.Branches;
 import entity.Worker;
+import entity.documents.DealProduct;
 import entity.log.comparators.TransportComparator;
 import entity.log.comparators.WeightComparator;
 import entity.transport.*;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
-import utils.U;
 import utils.UpdateUtil;
 import utils.WeightUtil;
+import utils.hibernate.dao.TransportationDAO;
+import utils.json.JsonObject;
 import utils.storages.StorageUtil;
 
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -36,47 +38,60 @@ public class WeightEditAPI extends ServletAPI {
     private final Logger log = Logger.getLogger(WeightEditAPI.class);
     private final StorageUtil storageUtil = new StorageUtil();
     private final UpdateUtil updateUtil = new UpdateUtil();
+    private final TransportationDAO transportationDAO = new TransportationDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = parseBody(req);
+        final JsonObject body = parseBodyGood(req);
         if(body != null) {
             log.info(body);
-            boolean saveIt = false;
-
-            Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
-            Weight weight = transportation.getWeight();
-
-            if (weight == null) {
-                weight = new Weight();
-                weight.setUid(DocumentUIDGenerator.generateUID());
-                transportation.setWeight(weight);
-                saveIt = true;
-            }
-
-            comparator.fix(weight);
-
-            JSONObject w = (JSONObject) body.get(WEIGHT);
-            final String grossString = String.valueOf(w.get(BRUTTO));
-            float gross = U.exist(grossString) ? Float.parseFloat(grossString) : 0;
-            final String tareString = String.valueOf(w.get(TARA));
-            float tare = U.exist(tareString) ? Float.parseFloat(tareString) : 0;
-
             Worker worker = getWorker(req);
-            saveIt = changeWeight(weight, gross, tare, worker, saveIt);
+            final LinkedList<DealProduct> dealProducts = new LinkedList<>();
+            for(Object o : body.getArray(WEIGHTS)){
+                JsonObject json = new JsonObject(o);
+                final TransportationProduct transportationProduct = transportationDAO.getTransportationProduct(json.get(ID));
+                Weight weight = transportationProduct.getWeight();
 
-            if (saveIt){
-                if (weight.getBrutto() > 0 || weight.getTara() > 0){
-                    if (transportation.getTimeIn() == null){
+                if (weight == null){
+                    weight = new Weight();
+                    weight.setUid(DocumentUIDGenerator.generateUID());
+                }
+                comparator.fix(weight);
+                boolean saveIt = false;
+                final float gross = json.getFloat(GROSS);
+
+                if (weight.getBrutto() != gross){
+                    weight.setBrutto(gross);
+                    weight.setBruttoTime(changeWeight(gross, weight.getBrutto(), worker));
+                    saveIt = true;
+                }
+
+                final float tare = json.getFloat(TARE);
+                if (weight.getTara() != tare){
+                    weight.setTara(tare);
+                    weight.setTaraTime(changeWeight(tare, weight.getTara(), worker));
+                    saveIt = true;
+                }
+
+                if (saveIt){
+                    dao.save(weight);
+                    TransportUtil.calculateWeight(transportationProduct);
+
+                    if (transportationProduct.getWeight() == null){
+                        transportationProduct.setWeight(weight);
+                        transportationDAO.saveProduct(transportationProduct);
+                    }
+
+                    final Transportation transportation = transportationProduct.getTransportation();
+
+                    if (gross > 0 || tare > 0 && transportation.getTimeIn() == null){
                         ActionTime actionTime = new ActionTime(worker);
                         dao.save(actionTime);
                         transportation.setTimeIn(actionTime);
                     }
-                }
-                if (weight.getNetto() > 0){
+
                     List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
                     if (u.size() == 0){
-                        log.info("Create storage entry");
                         TransportStorageUsed used = new TransportStorageUsed();
                         used.setAmount(1f * Math.round(weight.getNetto() * 100) / 100);
                         TransportUtil.updateUsedStorages(transportation, used, worker);
@@ -84,103 +99,29 @@ public class WeightEditAPI extends ServletAPI {
                         TransportUtil.updateUsedStorages(transportation, u, worker);
                     }
                     TransportUtil.updateUnloadStatistic(transportation);
+                    transportationDAO.saveTransportation(transportation, false);
+                    updateUtil.onSave(transportation);
+
+                    dealProducts.add(transportationProduct.getDealProduct());
+
                 }
                 comparator.compare(weight, worker);
-                dao.saveTransportation(transportation);
-
-                updateUtil.onSave(transportation);
-                write(resp, SUCCESS_ANSWER);
-
-                TransportUtil.calculateWeight(transportation);
-                WeightUtil.calculateDealDone(transportation.getDeal());
-
-                transportComparator.fix(transportation);
-                TransportUtil.checkTransport(transportation);
-                transportComparator.compare(transportation, getWorker(req));
-
-                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
-                if (notificator != null) {
-                    final float net = weight.getNetto();
-                    StringBuilder builder = new StringBuilder();
-                    builder.append("Net weight of ").append(transportation.getCounterparty().getValue());
-                    final Driver driver = transportation.getDriver();
-                    if (driver !=null){
-                        builder.append("\t").append("Driver: ").append(driver.toString());
-                    }
-                    builder.append(": ").append(net);
-                    log.info(builder.toString());
-                    if (net > 0) {
-                        notificator.weightShow(transportation);
-                    } else if (weight.getBrutto() > 0 || weight.getTara() > 0) {
-                        notificator.transportInto(transportation);
-                    }
-
-                } else {
-                    log.warn("Notificator is null");
-                }
-            } else {
-                write(resp, SUCCESS_ANSWER);
             }
-            body.clear();
+
+            write(resp, SUCCESS_ANSWER);
+
+            for (DealProduct product : dealProducts){
+                WeightUtil.calculateDealDone(product);
+            }
         } else {
             write(resp, EMPTY_BODY);
         }
     }
-    synchronized boolean changeWeight(Weight weight, float gross, float tare, Worker worker, boolean saveIt){
-        if (gross != 0 && gross != weight.getBrutto()){
-            ActionTime grossTime = weight.getBruttoTime();
-            if (grossTime == null){
-                grossTime = new ActionTime();
-                weight.setBruttoTime(grossTime);
-            }
-            weight.setBrutto(gross);
-            grossTime.setTime(new Timestamp(System.currentTimeMillis()));
-            grossTime.setCreator(worker);
-            saveIt = true;
-        } else if (gross == 0 && weight.getBrutto() > 0){
-            weight.setBrutto(0);
-            weight.setBruttoTime(null);
-            saveIt = true;
-        }
 
-        if (tare != 0 && tare != weight.getTara()){
-            ActionTime tareTime = weight.getTaraTime();
-            if (tareTime == null){
-                tareTime = new ActionTime(worker);
-                weight.setTaraTime(tareTime);
-            }
-            weight.setTara(tare);
-            tareTime.setTime(new Timestamp(System.currentTimeMillis()));
-            tareTime.setCreator(worker);
-            saveIt = true;
-        } else if (tare == 0 && weight.getTara() > 0){
-            weight.setTara(0);
-            weight.setTaraTime(null);
-            saveIt = true;
+    private ActionTime changeWeight(float w1, float w2, Worker worker) {
+        if (w1 > 0 && w1 != w2){
+            return new ActionTime(worker);
         }
-
-        if(saveIt){
-            if (weight.getBruttoTime() != null) {
-                dao.save(weight.getBruttoTime());
-            }
-            if (weight.getTaraTime() != null) {
-                dao.save(weight.getTaraTime());
-            }
-            dao.saveWeight(weight);
-        }
-
-        if (weight.getTara() == 0){
-            if (weight.getTaraTime() != null) {
-                dao.remove(weight.getTaraTime());
-            }
-        }
-
-        if(weight.getBrutto() == 0){
-            if (weight.getBruttoTime() != null){
-                dao.remove(weight.getBruttoTime());
-            }
-        }
-
-        return saveIt;
+        return null;
     }
 }

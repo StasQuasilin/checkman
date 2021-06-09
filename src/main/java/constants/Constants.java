@@ -85,6 +85,7 @@ public interface Constants {
     String EDIT_STORAGE = "editStorage";
     String TYPES = "types";
     String CONTENT = "content";
+    String CHANGE_VIEW = "changeView";
     String SCRIPT = "script";
     String STATIC_CONTENT = "static";
     String PROTOCOL = "protocol";
@@ -424,6 +425,7 @@ public interface Constants {
 
     String EMAIL = "email";
     String ROLE = "role";
+    String VIEW = "view";
     String ROLES = "roles";
 
     class Sun {

@@ -48,7 +48,6 @@ import java.util.stream.Collectors;
 /**
  * Created by szpt_user045 on 11.03.2019.
  */
-@Deprecated
 public class JsonParser implements Constants{
 
     private static final String MESSAGE = "message";
@@ -135,7 +134,8 @@ public class JsonParser implements Constants{
     }
     
     public static final String STATUS = "status";
-    
+
+    @Deprecated
     public JSONObject toJson(Answer answer) {
         JSONObject json = pool.getObject();
         json.put(STATUS, answer.status());

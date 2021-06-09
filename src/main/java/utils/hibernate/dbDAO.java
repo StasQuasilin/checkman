@@ -69,7 +69,9 @@ public interface dbDAO {
     List<UserBotSetting> getUserBotSettings();
     void saveUserBotSetting(UserBotSetting botSetting);
     List<Admin> getAdminList();
+    @Deprecated
     void saveTransportation(Transportation transportation);
+    @Deprecated
     void saveWeight(Weight weight);
     List<Transportation> getTransportationByDeal(Object deal, Boolean done, Boolean archive);
     ApplicationSettings getApplicationSettings();

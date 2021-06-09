@@ -13,7 +13,7 @@ plan = new Vue({
         quantity:0,
         unit:'',
         customers:[],
-        plans:[],
+        plans:{},
         foundVehicles:[],
         foundDrivers:[],
         fnd:-1,
@@ -33,15 +33,26 @@ plan = new Vue({
         },
         selectProduct:function(idx){
             this.selectedProduct = idx;
-            let product = this.deal.products[idx];
+
             const self = this;
-            PostApi(this.api.transportations, {product: product.id}, function (a) {
-                console.log(a);
-                if (a.status === 'success'){
-                    self.plans = a.result;
-                    self.$forceUpdate();
+            self.plans = [];
+
+            subscribe('TRANSPORT_SELL', function (data) {
+                let p = self.deal.products[idx].id;
+                if (data.update){
+                    for (let u = 0; u < data.update.length; u++){
+                        let update = data.update[u];
+                        let products = update.products;
+                        for (let i = 0; i < products.length; i++){
+                            let product = products[i];
+                            if (product.dealProduct === p){
+                                self.plans[update.id] = (update);
+                                self.$forceUpdate();
+                            }
+                        }
+                    }
                 }
-            })
+            });
         },
         messages:function(){
             const msgs = [];
@@ -96,7 +107,7 @@ plan = new Vue({
         },
         getPlans:function(){
             if (this.filterDate === -1){
-                return this.plans;
+                return Object.values(this.plans);
             } else {
                 const self = this;
                 return this.plans.filter(function(item){
