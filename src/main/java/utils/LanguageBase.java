@@ -12,6 +12,9 @@ public class LanguageBase{
     public static LanguageBase getBase() {
         return base;
     }
+    public boolean hasLanguage(String language){
+        return language.contains(language);
+    }
 
     public String get(String key){
         return get(DEFAULT_LANGUAGE, key);
@@ -26,5 +29,12 @@ public class LanguageBase{
         } else {
             return "???" + key + "???";
         }
+    }
+
+    public String getLanguage(String language) {
+        if (hasLanguage(language)){
+            return language;
+        }
+        return DEFAULT_LANGUAGE;
     }
 }

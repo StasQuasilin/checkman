@@ -73,7 +73,7 @@
         <mapping class="entity.laboratory.subdivisions.vro.SunProtein"/>
         <mapping class="entity.seals.Seal"/>
         <mapping class="entity.seals.SealBatch"/>
-        <mapping class="entity.bot.UserBotSetting"/>
+        <mapping class="entity.bot.UserNotificationSetting"/>
         <mapping class="bot.BotUID"/>
         <mapping class="entity.bot.BotSettings"/>
         <mapping class="entity.storages.Storage"/>

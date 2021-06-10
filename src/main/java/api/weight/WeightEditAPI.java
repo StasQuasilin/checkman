@@ -16,6 +16,7 @@ import utils.UpdateUtil;
 import utils.WeightUtil;
 import utils.hibernate.dao.TransportationDAO;
 import utils.json.JsonObject;
+import utils.notifications.Notificator;
 import utils.storages.StorageUtil;
 
 import javax.servlet.ServletException;
@@ -104,6 +105,7 @@ public class WeightEditAPI extends ServletAPI {
 
                     dealProducts.add(transportationProduct.getDealProduct());
 
+//                    Notificator.sendNotification();
                 }
                 comparator.compare(weight, worker);
             }

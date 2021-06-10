@@ -1,46 +1,65 @@
 package utils.notifications;
 
-import api.sockets.ActiveSubscriptions;
-import api.sockets.Subscribe;
-import entity.Worker;
+import entity.bot.NotifyStatus;
+import entity.bot.UserNotificationSetting;
+import entity.transport.Transportation;
+import org.apache.log4j.Logger;
+import utils.LanguageBase;
+import utils.hibernate.DateContainers.OR;
+import utils.hibernate.dao.NotificationDAO;
+import utils.notifications.preparers.RegistrationPreparer;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by szpt_user045 on 24.01.2020.
- */
+import static constants.Constants.SHOW;
+import static constants.Constants.TRANSPORT;
+
 public class Notificator {
+    public static final Logger logger = Logger.getLogger(Notificator.class);
+    private static final LinkedList<INotifier> notifiers = new LinkedList<>();
+    private static final NotificationDAO dao = new NotificationDAO();
+    private static final LanguageBase languageBase = LanguageBase.getBase();
 
-    ActiveSubscriptions subscriptions = ActiveSubscriptions.getInstance();
-    public void sendNotification(List<Worker> workerList, Object notification){
-        if (workerList.size() > 0){
-            for (Worker worker : workerList){
-                sendNotification(worker, notification);
+    public static void addNotificator(INotifier notifier){
+        notifiers.add(notifier);
+    }
+
+    private static final HashMap<String, Object> transportArgs = new HashMap<>();
+    static {
+        transportArgs.put(SHOW, true);
+        transportArgs.put(TRANSPORT, new OR(NotifyStatus.all, NotifyStatus.my));
+    }
+
+    public static void transportRegistration(Transportation transportation) {
+        send(transportArgs, new RegistrationPreparer(transportation, languageBase, dao));
+    }
+
+    private static void send(HashMap<String, Object> args, NotificationPreparer preparer) {
+        if (notifiers.size() > 0) {
+            final List<UserNotificationSetting> settingList = getNotificationSettings(args);
+            if (settingList.size() > 0){
+                final HashMap<String, String> messages = new HashMap<>();
+                for (UserNotificationSetting setting : settingList){
+                    final String language = languageBase.getLanguage(setting.getLanguage());
+                    if (!messages.containsKey(language)){
+                        messages.put(language, preparer.prepareMessage(language));
+                    }
+                    sendNotification(messages.get(language), setting.getTelegramId());
+                }
             }
+
         }
     }
 
-    public void sendNotification(Worker worker, Object notification){
-        try {
-            subscriptions.send(Subscribe.NOTIFICATIONS, worker, notification);
-        } catch (IOException e) {
-            e.printStackTrace();
+    private static void sendNotification(String msg, long chatId) {
+        for (INotifier notificator : notifiers){
+            notificator.sendMessage(chatId, msg);
         }
     }
 
-    public void sendNotificationFrom(Worker sender, Object notification) throws IOException {
-        for (int id : subscriptions.getSubscribeWorkers()){
-            if (sender.getId() != id){
-                subscriptions.send(Subscribe.NOTIFICATIONS, id, notification);
-            }
-        }
-    }
-
-    public void sendNotification(Object notification) throws IOException {
-        for (int id : subscriptions.getSubscribeWorkers()){
-            System.out.println("Notification " + notification.toString() + " for " + id);
-            subscriptions.send(Subscribe.NOTIFICATIONS, id, notification);
-        }
+    private static List<UserNotificationSetting> getNotificationSettings(HashMap<String, Object> args) {
+        return dao.getSettings(args);
     }
 }

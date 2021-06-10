@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 import utils.UpdateUtil;
 import utils.VehicleParser;
 import utils.answers.SuccessAnswer;
-import utils.notifications.Notificator;
+import utils.notifications.SomeNotificator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +27,7 @@ import java.io.IOException;
 public class ParseDriverServletAPI extends ServletAPI {
 
     private final UpdateUtil updateUtil = new UpdateUtil();
-    private final Notificator notificator = new Notificator();
+    private final SomeNotificator notificator = new SomeNotificator();
     public static final String SUCCESS_PARSE = "notificator.driver.success.parsed";
     private final VehicleParser vehicleParser = new VehicleParser();
 

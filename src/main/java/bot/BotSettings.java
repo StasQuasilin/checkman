@@ -1,9 +1,7 @@
 package bot;
 
 import entity.Admin;
-import entity.bot.UserBotSetting;
-import utils.boxes.IBox;
-import utils.hibernate.Hibernator;
+import entity.bot.UserNotificationSetting;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -28,13 +26,13 @@ public class BotSettings {
         return instance;
     }
 
-    final HashMap<Long, UserBotSetting> botSettingHashMap = new HashMap<>();
+    final HashMap<Long, UserNotificationSetting> botSettingHashMap = new HashMap<>();
 
-    void addSettings(UserBotSetting setting){
+    void addSettings(UserNotificationSetting setting){
         botSettingHashMap.put(setting.getTelegramId(), setting);
     }
 
-    public void save(UserBotSetting botSetting) {
+    public void save(UserNotificationSetting botSetting) {
         dao.saveUserBotSetting(botSetting);
         addSettings(botSetting);
     }
@@ -43,11 +41,11 @@ public class BotSettings {
         return botSettingHashMap.containsKey(id);
     }
 
-    public UserBotSetting getSettings(long telegramId) {
+    public UserNotificationSetting getSettings(long telegramId) {
         return botSettingHashMap.get(telegramId);
     }
 
-    public Collection<UserBotSetting> get() {
+    public Collection<UserNotificationSetting> get() {
         return botSettingHashMap.values();
     }
 

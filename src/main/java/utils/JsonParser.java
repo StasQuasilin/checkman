@@ -5,7 +5,7 @@ import constants.Constants;
 import controllers.IServlet;
 import entity.*;
 import entity.answers.Answer;
-import entity.bot.UserBotSetting;
+import entity.bot.UserNotificationSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMessage;
 import entity.documents.Shipper;
@@ -436,7 +436,7 @@ public class JsonParser implements Constants{
         return json;
     }
 
-    public JSONObject toJson(UserBotSetting setting) {
+    public JSONObject toJson(UserNotificationSetting setting) {
         JSONObject json = new JSONObject();
         json.put("id", setting.getTelegramId());
         json.put("transport", setting.getTransport().toString());

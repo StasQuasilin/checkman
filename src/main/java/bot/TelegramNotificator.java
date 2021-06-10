@@ -3,7 +3,7 @@ package bot;
 import constants.Constants;
 import entity.*;
 import entity.bot.NotifyStatus;
-import entity.bot.UserBotSetting;
+import entity.bot.UserNotificationSetting;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
@@ -25,7 +25,6 @@ import entity.weight.SubdivisionReport;
 import entity.weight.Unit;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import utils.DateUtil;
@@ -44,14 +43,8 @@ import java.util.*;
  */
 public class TelegramNotificator extends INotificator {
 
-    private static final String TRANSPORT = "bot.notificator.transport";
     private static final String TRANSPORT_IN = "bot.notificator.transport.in";
-    private static final String TRANSPORT_OUT_BUY = "bot.notificator.transport.out.buy";
-    private static final String TRANSPORT_DONE = "bot.notification.transport.done";
-    private static final String BRUTTO = "bot.notificator.brutto";
-    private static final String TARA = "bot.notificator.tara";
     private static final String NETTO = "bot.notificator.netto";
-    private static final String HUMIDITY_1 = "bot.notificator.humidity1";
     private static final String HUMIDITY_2 = "bot.notificator.humidity2";
     private static final String SORENESS = "bot.notificator.soreness";
     private static final String OILINESS = "bot.notificator.oiliness";
@@ -91,7 +84,7 @@ public class TelegramNotificator extends INotificator {
 
     public void transportShow(Transportation transportation){
         String message;
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow()) {
                 Worker worker = setting.getWorker();
                 boolean show = false;
@@ -107,7 +100,7 @@ public class TelegramNotificator extends INotificator {
                     String language = setting.getLanguage();
                     message = prepareMessage(transportation);
                     message += NEW_LINE + lb.get(language, TRANSPORT_IN);
-                    sendMessage(setting.getTelegramId(), message, null);
+                    sendMessage(setting.getTelegramId(), message);
                 }
             }
         }
@@ -133,7 +126,7 @@ public class TelegramNotificator extends INotificator {
         String organisation = transportation.getDeal().getOrganisation().getValue();
         String message = String.format(messageFormat, action, productName, driver, organisation);
         getSettings().stream().filter(setting -> setting.isShow() && setting.getTransport() != NotifyStatus.off).forEach(setting -> {
-            sendMessage(setting.getTelegramId(), message, null);
+            sendMessage(setting.getTelegramId(), message);
         });
     }
 
@@ -149,15 +142,15 @@ public class TelegramNotificator extends INotificator {
         String product = transportation.getDeal().getProduct().getName();
         final float net = transportation.getWeight().getNetto();
         String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product, net);
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.getWeight() == NotifyStatus.all){
-                sendMessage(setting.getTelegramId(), message, null);
+                sendMessage(setting.getTelegramId(), message);
             }
         }
     }
     public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses, float correction) {
         HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow()) {
                 boolean show = setting.getAnalyses() == NotifyStatus.all;
                 if (show) {
@@ -165,7 +158,7 @@ public class TelegramNotificator extends INotificator {
                     if (!messages.containsKey(language)){
                         messages.put(language, getMessage(transportation, analyses, correction, language));
                     }
-                    sendMessage(setting.getTelegramId(), messages.get(language), null);
+                    sendMessage(setting.getTelegramId(), messages.get(language));
                 }
             }
         }
@@ -173,7 +166,7 @@ public class TelegramNotificator extends INotificator {
 
     public void sunProbe(SunProbe probe) {
         HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow()) {
                 boolean show = setting.getAnalyses() == NotifyStatus.all;
                 if (show) {
@@ -181,7 +174,7 @@ public class TelegramNotificator extends INotificator {
                     if (!messages.containsKey(language)){
                         messages.put(language, getMessage(probe, language));
                     }
-                    sendMessage(setting.getTelegramId(), messages.get(language), null);
+                    sendMessage(setting.getTelegramId(), messages.get(language));
                 }
             }
         }
@@ -205,7 +198,7 @@ public class TelegramNotificator extends INotificator {
     public static final String ATTENTION = "";//"‼";
     public void cakeAnalysesShow(Transportation transportation, MealAnalyses analyses) {
         HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if(setting.isShow()) {
                 boolean show = setting.getAnalyses() == NotifyStatus.all;
                 if (show) {
@@ -224,7 +217,7 @@ public class TelegramNotificator extends INotificator {
 
                         );
                     }
-                    sendMessage(setting.getTelegramId(), messages.get(language), null);
+                    sendMessage(setting.getTelegramId(), messages.get(language));
                 }
             }
         }
@@ -235,7 +228,7 @@ public class TelegramNotificator extends INotificator {
 
         HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow()) {
                 boolean show = setting.getAnalyses() == NotifyStatus.all;
                 if (show) {
@@ -245,7 +238,7 @@ public class TelegramNotificator extends INotificator {
                         messages.put(language, getMessage(transportation, analyses, language));
                     }
 
-                    sendMessage(setting.getTelegramId(), messages.get(language), null);
+                    sendMessage(setting.getTelegramId(), messages.get(language));
                 }
             }
         }
@@ -257,14 +250,14 @@ public class TelegramNotificator extends INotificator {
 
         final HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()) {
+        for (UserNotificationSetting setting : getSettings()) {
             if (setting.isExtraction() && setting.isShow()) {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
                     messages.put(language, getMessage(crude, language));
                 }
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
 
@@ -278,7 +271,7 @@ public class TelegramNotificator extends INotificator {
         String time = crude.getTime().toLocalDateTime().toLocalTime().toString();
         final HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()) {
+        for (UserNotificationSetting setting : getSettings()) {
             if(setting.isVro() && setting.isShow()) {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
@@ -309,26 +302,24 @@ public class TelegramNotificator extends INotificator {
                     }
                     messages.put(language, message.toString());
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
 
 
-    private Collection<UserBotSetting> getSettings() {
+    private Collection<UserNotificationSetting> getSettings() {
         return telegramBot.getBotSettings().get();
     }
-    private Message sendMessage(long telegramId, String message, ReplyKeyboard keyboard) {
-        try {
-            return telegramBot.sendMsg(telegramId, message, keyboard);
-        } catch (TelegramApiException ignore) {}
+    private Message sendMessage(long telegramId, String message) {
+        telegramBot.sendMessage(telegramId, message);
         return null;
     }
     public void extractionShow(StorageProtein storageProtein) {
         String storage = storageProtein.getStorage().getName();
         String time = storageProtein.getTime().toLocalDateTime().toLocalTime().toString();
         final HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()) {
+        for (UserNotificationSetting setting : getSettings()) {
             if (setting.isShow() && setting.isExtraction()) {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
@@ -339,7 +330,7 @@ public class TelegramNotificator extends INotificator {
                     messages.put(language, message);
                 }
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
@@ -347,7 +338,7 @@ public class TelegramNotificator extends INotificator {
         final int turn = oil.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(oil.getTurn().getTurn().getDate());
         final HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()) {
+        for (UserNotificationSetting setting : getSettings()) {
             if (setting.isShow() && setting.isExtraction()) {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
@@ -362,7 +353,7 @@ public class TelegramNotificator extends INotificator {
                 }
 
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
@@ -371,7 +362,7 @@ public class TelegramNotificator extends INotificator {
         final String turnDate = DateUtil.prettyDate(turnProtein.getTurn().getTurn().getDate());
         final HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.isExtraction()){
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
@@ -384,7 +375,7 @@ public class TelegramNotificator extends INotificator {
                     messages.put(language, message);
                 }
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
 
@@ -393,7 +384,7 @@ public class TelegramNotificator extends INotificator {
         final int turn = turnGrease.getTurn().getTurn().getNumber();
         final String turnDate = DateUtil.prettyDate(turnGrease.getTurn().getTurn().getDate());
         final HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.isExtraction()){
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
@@ -404,7 +395,7 @@ public class TelegramNotificator extends INotificator {
                     messages.put(language, message);
                 }
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
@@ -412,7 +403,7 @@ public class TelegramNotificator extends INotificator {
         String storage = storageGrease.getStorage().getName();
         String time = storageGrease.getTime().toLocalDateTime().toLocalTime().toString();
         final HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()) {
+        for (UserNotificationSetting setting : getSettings()) {
             if (setting.isShow() && setting.isExtraction()) {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
@@ -423,13 +414,13 @@ public class TelegramNotificator extends INotificator {
                     messages.put(language, message);
                 }
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
     public void kpoShow(KPOPart part) {
         final HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()) {
+        for (UserNotificationSetting setting : getSettings()) {
             if(setting.isShow() && setting.isVro()) {
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
@@ -450,14 +441,14 @@ public class TelegramNotificator extends INotificator {
                             ));
                     messages.put(language, message);
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
 
     public void storagesShow(StorageAnalyses analyses) {
         HashMap<String, String> messages = new HashMap<>();
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.getAnalyses() == NotifyStatus.all){
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
@@ -473,7 +464,7 @@ public class TelegramNotificator extends INotificator {
                             );
                 }
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
 
@@ -488,7 +479,7 @@ public class TelegramNotificator extends INotificator {
     public void registrationShow(User user) {
         Admin admin = telegramBot.getAdmin();
         if (admin != null) {
-            for (UserBotSetting setting : getSettings()) {
+            for (UserNotificationSetting setting : getSettings()) {
                 if (setting.getWorker().getId() == admin.getWorker().getId() && setting.getTelegramId() > 0){
                     String language = setting.getLanguage();
                     String message = lb.get(language, "bot.user.registration.title");
@@ -498,7 +489,7 @@ public class TelegramNotificator extends INotificator {
 
                     buttons.add(new InlineKeyboardButton().setText("Yes").setCallbackData(String.valueOf(user.getId())));
                     buttons.add(new InlineKeyboardButton().setText("No").setCallbackData(String.valueOf(user.getId())));
-                    sendMessage(setting.getTelegramId(), message, registrationKeyboard);
+                    sendMessage(setting.getTelegramId(), message);
                     break;
                 }
             }
@@ -518,7 +509,7 @@ public class TelegramNotificator extends INotificator {
 
         HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.isManufactureReports()){
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
@@ -562,7 +553,7 @@ public class TelegramNotificator extends INotificator {
                     messages.put(language, builder.toString());
                 }
                 list.add(
-                        sendMessage(setting.getTelegramId(), messages.get(language), null)
+                        sendMessage(setting.getTelegramId(), messages.get(language))
                 );
             }
         }
@@ -600,7 +591,7 @@ public class TelegramNotificator extends INotificator {
     }
 
     public void send(long telegramId, String text) {
-        sendMessage(telegramId, text, null);
+        sendMessage(telegramId, text);
     }
 
     public void showLoadTime(Transportation transportation) {
@@ -613,7 +604,7 @@ public class TelegramNotificator extends INotificator {
         String productName = (productProperty != null ? productProperty.getValue() : product.getName()).toLowerCase();
         String driver = transportation.getDriver() != null ? transportation.getDriver().getPerson().getValue() : "--";
 
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.getWeight() == NotifyStatus.all){
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
@@ -622,7 +613,7 @@ public class TelegramNotificator extends INotificator {
                                     String.format("Контрагент: *%s*", transportation.getCounterparty().getValue())
                     );
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
@@ -632,7 +623,7 @@ public class TelegramNotificator extends INotificator {
         final String turnDate = DateUtil.prettyDate(oil.getTurn().getTurn().getDate());
         HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting settings : getSettings()){
+        for (UserNotificationSetting settings : getSettings()){
             if (settings.isShow() && settings.getAnalyses() == NotifyStatus.all){
                 String language = settings.getLanguage();
                 if (!messages.containsKey(language)){
@@ -646,7 +637,7 @@ public class TelegramNotificator extends INotificator {
 
                     messages.put(language, message);
                 }
-                sendMessage(settings.getTelegramId(), messages.get(language), null);
+                sendMessage(settings.getTelegramId(), messages.get(language));
             }
         }
         messages.clear();
@@ -656,7 +647,7 @@ public class TelegramNotificator extends INotificator {
         final String turnDate = DateUtil.prettyDate(Date.valueOf(analyses.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
         HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.getAnalyses() == NotifyStatus.all){
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
@@ -668,7 +659,7 @@ public class TelegramNotificator extends INotificator {
                     message += NEW_LINE + (analyses.isMatch() ? lb.get(language, "match.dstu") : lb.get(language, "dsnt.match.dstu"));
                     messages.put(language, message);
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
@@ -679,7 +670,7 @@ public class TelegramNotificator extends INotificator {
         final String turnDate = DateUtil.prettyDate(Date.valueOf(analyses.getTurn().getTurn().getDate().toLocalDateTime().toLocalDate()));
         HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.getAnalyses() == NotifyStatus.all){
                 String language = setting.getLanguage();
                 if (!messages.containsKey(language)) {
@@ -692,7 +683,7 @@ public class TelegramNotificator extends INotificator {
                     message += NEW_LINE + String.format(lb.get(language, "bot.notificator.granules.diameter"), analyses.getDiameter());
                     messages.put(language, message);
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
@@ -702,7 +693,7 @@ public class TelegramNotificator extends INotificator {
         final String turnDate = DateUtil.prettyDate(sunProtein.getTurn().getTurn().getDate());
         final HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.isVro()){
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
@@ -714,7 +705,7 @@ public class TelegramNotificator extends INotificator {
                     messages.put(language, message);
                 }
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
 
@@ -725,7 +716,7 @@ public class TelegramNotificator extends INotificator {
         final String turnDate = DateUtil.prettyDate(turnCellulose.getTurn().getTurn().getDate());
         final HashMap<String, String> messages = new HashMap<>();
 
-        for (UserBotSetting setting : getSettings()){
+        for (UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.isVro()){
                 final String language = setting.getLanguage();
                 if (!messages.containsKey(language)){
@@ -736,7 +727,7 @@ public class TelegramNotificator extends INotificator {
                     messages.put(language, message);
                 }
 
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
@@ -751,7 +742,7 @@ public class TelegramNotificator extends INotificator {
 
     public void alarm(StopReport report) {
         HashMap<String, String> messages = new HashMap<>();
-        for(UserBotSetting setting : getSettings()){
+        for(UserNotificationSetting setting : getSettings()){
             if(setting.isShow()){
                 String language = setting.getLanguage();
                 if(!messages.containsKey(language)){
@@ -764,7 +755,7 @@ public class TelegramNotificator extends INotificator {
 
                     messages.put(language, message);
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
         messages.clear();
@@ -807,7 +798,7 @@ public class TelegramNotificator extends INotificator {
     public void sendReport(RoundReport report) {
 
         HashMap<String, String> messages = new HashMap<>();
-        for(UserBotSetting setting : getSettings()){
+        for(UserNotificationSetting setting : getSettings()){
             if (setting.isShow() && setting.isRoundReport()){
                 String language = setting.getLanguage();
                 if(!messages.containsKey(language)){
@@ -840,10 +831,8 @@ public class TelegramNotificator extends INotificator {
                     }
                     messages.put(language, builder.toString());
                 }
-                sendMessage(setting.getTelegramId(), messages.get(language), null);
+                sendMessage(setting.getTelegramId(), messages.get(language));
             }
         }
     }
-
-
 }

@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import utils.Archivator;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.dbDAOService;
-import utils.notifications.Notificator;
 import utils.transport.TransportReplaceUtil;
 
 import javax.servlet.*;
@@ -19,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 /**
  * Created by quasilin on 13.03.2019.
@@ -35,12 +32,12 @@ public class ContextFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         gcTimer = new Timer(10 * 60 * 1000, e -> System.gc());
-        gcTimer.start();
-        HibernateSessionFactory.init();
-        TelegramBotFactory.init();
-        initBot();
-        Archivator.init();
-        tru = new TransportReplaceUtil();
+//        gcTimer.start();
+//        HibernateSessionFactory.init();
+        TelegramBotFactory.init(filterConfig.getServletContext().getContextPath());
+//        initBot();
+//        Archivator.init();
+//        tru = new TransportReplaceUtil();
     }
 
     Timer gcTimer;
@@ -51,11 +48,7 @@ public class ContextFilter implements Filter {
         settings = dbDAOService.getDAO().getBotSettings();
         if (settings != null) {
             log.info("\t...Bot settings read successfully");
-            try {
-                TelegramBotFactory.setSettings(settings);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            TelegramBotFactory.setSettings(settings);
         } else {
             log.info("\t...Settings not found");
         }

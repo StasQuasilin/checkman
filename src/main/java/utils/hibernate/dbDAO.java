@@ -3,7 +3,7 @@ package utils.hibernate;
 import bot.BotUID;
 import entity.*;
 import entity.bot.BotSettings;
-import entity.bot.UserBotSetting;
+import entity.bot.UserNotificationSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
@@ -66,8 +66,8 @@ public interface dbDAO {
     int getActNumberIncrement(ActType type);
     BotSettings getBotSettings();
     List<TurnSettings> getTurnSettings();
-    List<UserBotSetting> getUserBotSettings();
-    void saveUserBotSetting(UserBotSetting botSetting);
+    List<UserNotificationSetting> getUserBotSettings();
+    void saveUserBotSetting(UserNotificationSetting botSetting);
     List<Admin> getAdminList();
     @Deprecated
     void saveTransportation(Transportation transportation);
@@ -129,7 +129,7 @@ public interface dbDAO {
     List<OrganisationType> getOrganisationTypeList();
     Organisation findOrganisation(String type, String name);
     List<Storage> getStoragesByAnalysesType(AnalysesType type);
-    List<UserBotSetting> getBotSettingsByWorker(Worker worker);
+    List<UserNotificationSetting> getBotSettingsByWorker(Worker worker);
 
     StorageAnalyses getStorageAnalysesById(Object id);
     StorageTurn getStorageTurnByTurn(Turn turn);
@@ -148,7 +148,7 @@ public interface dbDAO {
     List<Transportation> getTransportationsByCustomer(TransportCustomer customer);
     List<Deal> getDealsByOrganisation(Object organisation);
     StorageProtein getStorageProteinById(Object id);
-    UserBotSetting getUseBorSettingsByWorker(Worker worker);
+    UserNotificationSetting getUseBorSettingsByWorker(Worker worker);
     List<Driver> findDriver(String key);
 
     List<Subdivision> getSubdivisions();
@@ -184,6 +184,7 @@ public interface dbDAO {
     List<ChatMessage> getLimitMessagesByChat(Object chat);
 
     List<ChatMessage> getLimitMessagesByChat(Object chat, int limit);
+    @Deprecated
     ProductProperty getProductProperty(Product product, String key);
     List<Transportation> getLimitArchiveTransportations(DealType type);
     List<Transportation> getTransportationByOrganisation(Object organisation);
@@ -197,7 +198,7 @@ public interface dbDAO {
     List<ManufactureReport> getLimitManufactureReports();
     ReportFieldCategory getReportCategory(Object categoryId);
 
-    UserBotSetting getUserBotSettingsByChat(Object id);
+    UserNotificationSetting getUserBotSettingsByChat(Object id);
     <T>List<T> query(Class<T> tClass, HashMap<String, Object> parameters);
     List<Organisation> getOrganisations();
     List<Vehicle> getVehiclesByName(Object name);

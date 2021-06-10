@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "bot_user_settings")
-public class UserBotSetting {
+public class UserNotificationSetting {
     private int id;
     private long telegramId;
 

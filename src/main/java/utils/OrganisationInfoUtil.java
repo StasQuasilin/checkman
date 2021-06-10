@@ -9,7 +9,7 @@ import entity.organisations.Organisation;
 import entity.organisations.OrganisationInfo;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
-import utils.notifications.Notificator;
+import utils.notifications.SomeNotificator;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class OrganisationInfoUtil implements Constants{
 
     private final OpenDataBotAPI api = new OpenDataBotAPI();
-    private Notificator notificator = new Notificator();
+    private SomeNotificator notificator = new SomeNotificator();
     private dbDAO dao = dbDAOService.getDAO();
 
     public boolean checkOrganisation(Organisation organisation, Worker worker){

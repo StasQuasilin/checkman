@@ -74,6 +74,7 @@ public interface Constants {
     String WAREHOUSINGS = "warehousings";
     String TRANSPORT_CARRIAGES = "transportCarriages";
     String TRANSPORT_COST = "transportCost";
+    String TRANSPORT = "transport";
     String SHOW = "show";
     String T = "т.";
     String KG = "кг.";

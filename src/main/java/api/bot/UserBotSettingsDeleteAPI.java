@@ -3,8 +3,7 @@ package api.bot;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
-import entity.bot.BotSettings;
-import entity.bot.UserBotSetting;
+import entity.bot.UserNotificationSetting;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -22,7 +21,7 @@ public class UserBotSettingsDeleteAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            UserBotSetting settings = dao.getObjectById(UserBotSetting.class, body.get(Constants.ID));
+            UserNotificationSetting settings = dao.getObjectById(UserNotificationSetting.class, body.get(Constants.ID));
             if (settings != null) {
                 dao.remove(settings);
                 write(resp, SUCCESS_ANSWER);

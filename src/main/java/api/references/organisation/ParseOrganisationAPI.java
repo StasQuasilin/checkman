@@ -13,7 +13,7 @@ import utils.LanguageBase;
 import utils.OrganisationInfoUtil;
 import utils.answers.SuccessAnswer;
 import utils.hibernate.dbDAO;
-import utils.notifications.Notificator;
+import utils.notifications.SomeNotificator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 public class ParseOrganisationAPI extends ServletAPI {
 
     private final Logger log = Logger.getLogger(ParseOrganisationAPI.class);
-    private final Notificator notificator = new Notificator();
+    private final SomeNotificator notificator = new SomeNotificator();
     private final LanguageBase lb = LanguageBase.getBase();
     private static final String SUCCESS_NOTIFICATION = "notification.organisation.create.success";
     private final OrganisationInfoUtil infoUtil = new OrganisationInfoUtil();

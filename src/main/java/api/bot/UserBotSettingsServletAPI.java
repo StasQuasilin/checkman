@@ -5,7 +5,7 @@ import bot.BotSettings;
 import constants.Branches;
 import constants.Constants;
 import entity.bot.NotifyStatus;
-import entity.bot.UserBotSetting;
+import entity.bot.UserNotificationSetting;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -26,7 +26,7 @@ public class UserBotSettingsServletAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            UserBotSetting setting;
+            UserNotificationSetting setting;
             if (body.containsKey(Constants.ID)) {
                 setting = botSettings.getSettings((long) body.get(Constants.TELEGRAM_ID));
             } else {

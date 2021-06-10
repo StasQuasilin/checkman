@@ -10,6 +10,7 @@ import entity.transport.Transportation;
 import entity.weight.Weight;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
+import utils.notifications.Notificator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +23,7 @@ import java.sql.Timestamp;
  * Created by Kvasik on 29.08.2019.
  */
 @WebServlet(Branches.API.TRANSPORT_REGISTRATION)
-public class TransportRegistrationServletAPI extends ServletAPI {
+public class TransportRegistrationAPI extends ServletAPI {
 
     private final UpdateUtil updateUtil = new UpdateUtil();
 
@@ -47,10 +48,7 @@ public class TransportRegistrationServletAPI extends ServletAPI {
             Weight weight = transportation.getWeight();
 
             if (weight == null || (weight.getBrutto() == 0 && weight.getTara() == 0)) {
-                TelegramNotificator notificator = TelegramBotFactory.getTelegramNotificator();
-                if (notificator != null) {
-                    notificator.transportRegistration(transportation);
-                }
+                Notificator.transportRegistration(transportation);
             }
 
         }

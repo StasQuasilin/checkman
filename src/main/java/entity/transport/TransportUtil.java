@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 import utils.*;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
-import utils.notifications.Notificator;
+import utils.notifications.SomeNotificator;
 import utils.storages.StatisticUtil;
 import utils.storages.StorageUtil;
 
@@ -30,7 +30,7 @@ public class TransportUtil{
     private static final Logger log = Logger.getLogger(TransportUtil.class);
     static dbDAO dao = dbDAOService.getDAO();
     private static final UpdateUtil updateUtil = new UpdateUtil();
-    private static final Notificator notificator = new Notificator();
+    private static final SomeNotificator notificator = new SomeNotificator();
     private static final LanguageBase base = LanguageBase.getBase();
     public static final String SUCCESS_TEXT = "notificator.archived.success";
 

@@ -4,7 +4,7 @@ import bot.BotUID;
 import constants.Constants;
 import entity.*;
 import entity.bot.BotSettings;
-import entity.bot.UserBotSetting;
+import entity.bot.UserNotificationSetting;
 import entity.chat.Chat;
 import entity.chat.ChatMember;
 import entity.chat.ChatMessage;
@@ -208,12 +208,12 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<UserBotSetting> getUserBotSettings() {
-        return hb.query(UserBotSetting.class, null);
+    public List<UserNotificationSetting> getUserBotSettings() {
+        return hb.query(UserNotificationSetting.class, null);
     }
 
     @Override
-    public void saveUserBotSetting(UserBotSetting botSetting) {
+    public void saveUserBotSetting(UserNotificationSetting botSetting) {
         hb.save(botSetting);
     }
 
@@ -742,8 +742,8 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public List<UserBotSetting> getBotSettingsByWorker(Worker worker) {
-        return hb.query(UserBotSetting.class, "worker", worker);
+    public List<UserNotificationSetting> getBotSettingsByWorker(Worker worker) {
+        return hb.query(UserNotificationSetting.class, "worker", worker);
     }
 
     @Override
@@ -957,8 +957,8 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public UserBotSetting getUseBorSettingsByWorker(Worker worker) {
-        return hb.get(UserBotSetting.class, "worker", worker);
+    public UserNotificationSetting getUseBorSettingsByWorker(Worker worker) {
+        return hb.get(UserNotificationSetting.class, "worker", worker);
     }
 
     @Override
@@ -1124,8 +1124,8 @@ public class DeprecatedDAO implements dbDAO, Constants {
     }
 
     @Override
-    public UserBotSetting getUserBotSettingsByChat(Object id) {
-        return hb.get(UserBotSetting.class, "telegramId", id);
+    public UserNotificationSetting getUserBotSettingsByChat(Object id) {
+        return hb.get(UserNotificationSetting.class, "telegramId", id);
     }
 
     @Override

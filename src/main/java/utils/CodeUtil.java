@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Map;
 import java.util.Random;
 
 public class CodeUtil {
@@ -87,14 +88,9 @@ public class CodeUtil {
     }
 
     public static void main(String[] args) {
-        Object o1 = new Object();
-        Object o2 = new Object();
-        choock(o1, o2);
-        choock(null, o2);
-        choock(o1, null);
-        choock(null, null);
-        choock(o1, o1);
-
+        for (Map.Entry<Object, Object> entry : System.getProperties().entrySet()){
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
     }
 
     private static void choock(Object o1, Object o2) {

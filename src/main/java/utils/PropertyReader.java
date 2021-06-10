@@ -1,7 +1,6 @@
 package utils;
 
 import org.apache.log4j.Logger;
-import org.hibernate.annotations.common.util.impl.Log;
 
 import java.io.*;
 import java.util.Properties;
@@ -13,27 +12,28 @@ public class PropertyReader {
 
     private final Logger log = Logger.getLogger(PropertyReader.class);
 
-    private final String fileName;
-    private final Properties properties = new Properties();
-    public PropertyReader(String file) throws IOException {
-        this.fileName = file;
-        read();
-    }
-
-    private void read() throws IOException {
-        File file = new File(this.fileName);
+    public Properties read(String fileName, boolean create) throws IOException {
+        final Properties properties = new Properties();
+        File file = new File(fileName);
         if (file.exists()) {
-            InputStream stream = new FileInputStream(this.fileName);
+            InputStream stream = new FileInputStream(fileName);
             properties.load(stream);
             stream.close();
+            log.info("File '" + file.getPath() + "' read successfully!");
         } else {
-            if (file.createNewFile()) {
-                log.info("File " + file.getAbsolutePath() + " was created. Please put token");
+            log.info("File '" + file.getAbsolutePath() + "' not found");
+            if (create){
+                final File parentFile = file.getParentFile();
+                if (parentFile.mkdirs()){
+                    log.info("Path '"+ parentFile.getPath() + "'created");
+                }
+                if (file.createNewFile()) {
+                    log.info("File '" + file.getAbsolutePath() + "' created. You can fill this");
+                }
             }
         }
+        return properties;
     }
 
-    public String getProperty(String key){
-        return properties.getProperty(key);
-    }
+
 }

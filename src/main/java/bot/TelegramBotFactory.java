@@ -7,15 +7,15 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.BotSession;
-import utils.hibernate.dbDAOService;
+import utils.PropertyReader;
+import utils.notifications.Notificator;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Properties;
 import javax.swing.*;
+
+import static constants.Constants.NAME;
+import static constants.Constants.TOKEN;
 
 /**
  * Created by szpt_user045 on 16.04.2019.
@@ -36,11 +36,7 @@ public class TelegramBotFactory {
     private static BotStatus status = BotStatus.stopped;
     private static TelegramNotificator telegramNotificator;
     private static BotSession botSession;
-
-    public static IBot getBot() {
-        return bot;
-    }
-
+    private static String context;
     public static String getToken() {
         return token;
     }
@@ -56,45 +52,39 @@ public class TelegramBotFactory {
     }
 
     static Timer timer;
-    public static void start() throws IOException {
-
-        if (name != null && token != null) {
-            botThread = new Thread(() -> {
-                bot = new TelegramBot(token, name);
-                telegramBotsApi = new TelegramBotsApi();
-                try {
-                    log.info("Try start telegram bot...");
-                    botSession = telegramBotsApi.registerBot(bot);
+    public static void start(String token, String name) {
+        if (token != null && name != null) {
+            bot = new TelegramBot(token, name);
+            telegramBotsApi = new TelegramBotsApi();
+            log.info("Try run bot " + name + "...");
+            try {
+                botSession = telegramBotsApi.registerBot(bot);
+                botThread = new Thread(() -> {
                     status = BotStatus.worked;
                     telegramNotificator = new TelegramNotificator(bot);
-                    log.info("Bot \'" + name + "\' started successfully");
-                    if (timer != null){
+                    Notificator.addNotificator(bot);
+                    log.info("Bot " + name + " run successfully");
+                    if (timer != null) {
                         timer.stop();
                     }
-                } catch (TelegramApiRequestException e) {
-                    status = BotStatus.error;
-                    log.info("\t..." + e.getMessage());
-                    if (timer == null) {
-                        log.info("...Start timer");
-                        timer = new Timer(60 * 1000, a -> {
-                            try {
-                                start();
-                            } catch (IOException e2) {
-                                e2.printStackTrace();
-                            }
-                        });
-                        timer.start();
-                    }
-                }
-            });
-            botThread.start();
-
-        } else if (token == null){
-            status = BotStatus.no_token;
-            log.info("Bot token is null! Please fix it");
+                });
+                botThread.start();
+            } catch (TelegramApiRequestException e) {
+                e.printStackTrace();
+                status = BotStatus.error;
+                log.error("\t..." + e.getMessage());
+                startTimer();
+            }
         } else {
-            status = BotStatus.no_name;
-            log.info("Bot name is null! Please fix it");
+            startTimer();
+        }
+
+    }
+
+    private static void startTimer() {
+        if (timer == null) {
+            timer = new Timer(60 * 1000, a -> init(context));
+            timer.start();
         }
     }
 
@@ -116,25 +106,28 @@ public class TelegramBotFactory {
         return status;
     }
 
-    public static void setSettings(BotSettings settings) throws IOException {
+    public static void setSettings(BotSettings settings) {
         token = settings.getToken();
         name = settings.getName();
-        start();
+        start(token, name);
     }
 
     public static TelegramNotificator getTelegramNotificator() {
         return telegramNotificator;
     }
 
-    ArrayList<IBot> bots = new ArrayList<>();
-    public static void init() {
-        readSettings();
+    private static final String SETTINGS_BASE = System.getProperty("user.dir") + "/../bot_settings";
+    private static final PropertyReader reader = new PropertyReader();
+    public static void init(String contextPath) {
+        context = contextPath;
+        try {
+            final Properties properties = reader.read(SETTINGS_BASE + contextPath, true);
+            final String token = properties.getProperty(TOKEN);
+            final String name = properties.getProperty(NAME);
+            start(token, name);
 
-    }
-    Properties properties;
-    InputStream inputStream;
-    boolean fileRead = false;
-
-    private static void readSettings() {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

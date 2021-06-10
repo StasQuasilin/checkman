@@ -3,12 +3,11 @@ package bot;
 import entity.Admin;
 import entity.Worker;
 import entity.bot.Command;
-import entity.bot.UserBotSetting;
+import entity.bot.UserNotificationSetting;
 import org.apache.log4j.Logger;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -16,10 +15,9 @@ import utils.LanguageBase;
 import utils.U;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.notifications.INotifier;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,7 +25,7 @@ import java.util.regex.Pattern;
 /**
  * Created by szpt_user045 on 16.04.2019.
  */
-public class TelegramBot extends IBot {
+public class TelegramBot extends ILongPollingBot implements INotifier {
 
     private static final String OLD_TOKEN = "bot.old.token";
     private static final String NO_TOKEN = "bot.no.token";
@@ -59,7 +57,7 @@ public class TelegramBot extends IBot {
 
         if (update.getMessage().getText() == null){
             Chat chat = update.getMessage().getChat();
-            UserBotSetting setting = dao.getUserBotSettingsByChat(id);
+            UserNotificationSetting setting = dao.getUserBotSettingsByChat(id);
 
             if (setting != null) {
                 boolean save = false;
@@ -111,7 +109,7 @@ public class TelegramBot extends IBot {
                         break;
                 }
             } catch (IllegalArgumentException e){
-                sendMsg(id, String.format(unknownCommandFormat, group));
+                sendMessage(id, String.format(unknownCommandFormat, group));
             }
         }
 
@@ -119,8 +117,8 @@ public class TelegramBot extends IBot {
 
     private void status(long id) {
         if(signed(id)) {
-            UserBotSetting settings = botSettings.getSettings(id);
-            sendMsg(id, String.format(
+            UserNotificationSetting settings = botSettings.getSettings(id);
+            sendMessage(id, String.format(
                     lb.get(STATUS),
                     lb.get(settings.getTransport().toString()),
                     lb.get(settings.getWeight().toString()),
@@ -137,7 +135,7 @@ public class TelegramBot extends IBot {
     private boolean signed(long id){
         boolean contain = botSettings.contain(id);
         if (!contain){
-            sendMsg(id, lb.get(LOG_IN));
+            sendMessage(id, lb.get(LOG_IN));
         }
         return contain;
 
@@ -145,7 +143,7 @@ public class TelegramBot extends IBot {
 
     private void start(long id) {
         if(signed(id)) {
-            UserBotSetting settings = botSettings.getSettings(id);
+            UserNotificationSetting settings = botSettings.getSettings(id);
             settings.setShow(true);
             botSettings.addSettings(settings);
         }
@@ -153,7 +151,7 @@ public class TelegramBot extends IBot {
 
     private void stop(long id) {
         if(signed(id)) {
-            UserBotSetting settings = botSettings.getSettings(id);
+            UserNotificationSetting settings = botSettings.getSettings(id);
             settings.setShow(false);
             botSettings.addSettings(settings);
         }
@@ -161,7 +159,7 @@ public class TelegramBot extends IBot {
 
     private void signIn(long id, String text, String title) {
         if (botSettings.contain(id)){
-            sendMsg(id, DOESNT_NEED);
+            sendMessage(id, DOESNT_NEED);
         } else {
             BotUID uid = botUIDs.getUID(text);
             String answer;
@@ -171,7 +169,7 @@ public class TelegramBot extends IBot {
                 answer = lb.get(OLD_TOKEN);
             } else {
                 Worker worker = uid.getWorker();
-                UserBotSetting settings = new UserBotSetting();
+                UserNotificationSetting settings = new UserNotificationSetting();
 
                 settings.setTelegramId(id);
                 settings.setWorker(worker);
@@ -180,13 +178,13 @@ public class TelegramBot extends IBot {
                 answer = lb.get(WELCOME);
                 botSettings.save(settings);
             }
-            sendMsg(id, answer);
+            sendMessage(id, answer);
         }
     }
 
 
     private void showHelp(long id) {
-        sendMsg(id, lb.get(HELP));
+        sendMessage(id, lb.get(HELP));
 
     }
 
@@ -209,24 +207,26 @@ public class TelegramBot extends IBot {
     public String getBotToken() {
         return token;
     }
-    public synchronized void sendMsg(long chatId, String msg){
+
+
+    @Override
+    public synchronized void sendMessage(long chatId, String s) {
+        SendMessage message = new SendMessage();
+        message.enableMarkdown(true);
+        message.setChatId(chatId);
+        message.setText(s);
+        send(message, null);
+    }
+
+    private void send(SendMessage message, ReplyKeyboard keyboard){
+        if (keyboard != null){
+            message.setReplyMarkup(keyboard);
+        }
         try {
-            sendMsg(chatId, msg, null);
+            execute(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-    }
-
-    public synchronized Message sendMsg(long chatId, String s, ReplyKeyboard keyboard) throws TelegramApiException {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(s);
-        if (keyboard != null) {
-            sendMessage.setReplyMarkup(keyboard);
-        }
-
-        return execute(sendMessage);
     }
 
     public BotSettings getBotSettings() {
@@ -243,4 +243,6 @@ public class TelegramBot extends IBot {
         deleteMessage.setMessageId(messageId);
         execute(deleteMessage);
     }
+
+
 }

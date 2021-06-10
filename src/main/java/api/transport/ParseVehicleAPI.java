@@ -12,7 +12,7 @@ import entity.transport.Vehicle;
 import org.json.simple.JSONObject;
 import utils.*;
 import utils.answers.SuccessAnswer;
-import utils.notifications.Notificator;
+import utils.notifications.SomeNotificator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class ParseVehicleAPI extends ServletAPI {
     private final UpdateUtil updateUtil = new UpdateUtil();
     private final TruckInfoUtil infoUtil = new TruckInfoUtil();
-    private final Notificator notificator = new Notificator();
+    private final SomeNotificator notificator = new SomeNotificator();
     private static final String SUCCESS_V_PARSING = "notificator.vehicle.success.parsing";
     private static final String SUCCESS_VT_PARSING = "notificator.vehicle.trailer.success.parsing";
     private final LanguageBase lb = LanguageBase.getBase();

@@ -8,7 +8,7 @@ import entity.AnalysesType;
 import entity.DealType;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
-import utils.notifications.Notificator;
+import utils.notifications.SomeNotificator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +25,7 @@ public class ApplicationControl extends IServlet{
 
     final dbDAO dao = dbDAOService.getDAO();
     final Subscribe[] applicationSubscribes = new Subscribe[]{Subscribe.MESSAGES, Subscribe.SESSION_TIMER};
-    static Notificator notificator = new Notificator();
+    static SomeNotificator notificator = new SomeNotificator();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
