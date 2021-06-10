@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import utils.UpdateUtil;
 import utils.hibernate.dao.TransportationDAO;
 import utils.json.JsonObject;
-import utils.laboratory.AnalysesEditor;
 import utils.laboratory.OilAnalysesEditor;
 import utils.laboratory.SunAnalysesEditor;
 
@@ -24,9 +23,9 @@ import java.io.IOException;
  * Created by szpt_user045 on 27.03.2019.
  */
 @WebServlet(Branches.API.LABORATORY_SAVE_SUN)
-public class EditSunAPI extends ServletAPI {
+public class EditLaboratoryAPI extends ServletAPI {
 
-    private final Logger log = Logger.getLogger(EditSunAPI.class);
+    private final Logger log = Logger.getLogger(EditLaboratoryAPI.class);
     final UpdateUtil updateUtil = new UpdateUtil();
     private final TransportationDAO transportationDAO = new TransportationDAO();
     private final SunAnalysesEditor sunEditor = new SunAnalysesEditor();

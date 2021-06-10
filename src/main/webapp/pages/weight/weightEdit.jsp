@@ -140,10 +140,9 @@
                             <b v-if="w.weight.gross > 0 && w.weight.tare > 0">
                                 {{(w.weight.gross - w.weight.tare).toLocaleString()}}
                             </b>
-                            <span>
+                            <span v-else>
                                 0
                             </span>
-
                         </td>
                     </tr>
                 </template>

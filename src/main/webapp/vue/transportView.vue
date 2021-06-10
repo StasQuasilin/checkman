@@ -14,9 +14,9 @@ transportView = {
       },
         analyses:function () {
             let analyses = [];
-            for (let i =0 ; i < this.item.products.length; i++){
+            for (let i = 0 ; i < this.item.products.length; i++){
                 let product = this.item.products[i];
-                if (Object.keys(product.analyses).length > 0){
+                if (product.sun || product.oil){
                     analyses.push(product);
                 }
             }
@@ -27,7 +27,7 @@ transportView = {
             for(let i = 0; i < this.item.products.length; i++){
                 let product = this.item.products[i];
                 if (product.weight){
-                    title += product.productName + ', ' + product.shipper + '\n';
+                    title += product.productName + ', ' + product.shipperName + '\n';
                     let w = product.weight;
                     let g = w.brutto;
                     title += '- Б:\t' + g.toLocaleString() + '\n';
@@ -38,8 +38,6 @@ transportView = {
                         n = g - t;
                     }
                     title += '- Н:\t' + n.toLocaleString() + '\n';
-                } else {
-                    title += JSON.stringify(product) + '\n';
                 }
             }
             return title;
@@ -205,42 +203,48 @@ transportView = {
                     //     '</td>' +
                     // '</tr>' +
                 '</table>' +
-            '</div>' + ''
-            // '<div class="right-field" v-if="analyses.length > 0" style="width: 100pt">' +
-            //     '<div v-for="a in analyses">' +
-            //         '<template v-if="a.analyses.sun">' +
-                        // '<div>' +
-                        //     '{{titles.sun.humidity1}}:&nbsp;{{a.analyses.sun.humidity1}}' +
-                        // '</div>' +
-                        // '<div v-if="a.analyses.sun.humidity2 > 0">' +
-                        //     '{{titles.sun.humidity1}}:&nbsp;{{a.analyses.sun.humidity2}}' +
-                        // '</div>' +
-                        // '<div>' +
-                        //     '{{titles.sun.soreness}}:&nbsp;{{a.analyses.sun.soreness}}' +
-                        // '</div>' +
-                        // '<div>' +
-                        //     '{{titles.sun.impurity}}:&nbsp;{{a.analyses.sun.oilImpurity}}' +
-                        // '</div>' +
-                        // '<div>' +
-                        //     '{{titles.sun.oiliness}}:&nbsp;{{a.analyses.sun.oiliness}}' +
-                        // '</div>' +
-                        // '<div v-if="a.analyses.sun.contamination" style="color: orange">' +
-                        //     '{{titles.contamination}}' +
-                        // '</div>' +
-                    // '</template>' +
-                    // '<template v-else-if="analyses.oil">' +
-                    //     '<div class="label">' +
-                    //         '{{titles.acid}}: {{analyses.oil.acid}}' +
-                    //     '</div>' +
-                    // '<div class="label">' +
-                    //     '{{titles.peroxide}}: {{item.analyses.oil.peroxide}}' +
-                    // '</div>' +
-                    // '<div class="label">' +
-                    //     '{{titles.phosphorus}}: {{item.analyses.oil.phosphorus}}' +
-                    // '</div>' +
-                    // '</template>' +
-                // '</div>' +
+            '</div>' +
+            '<div class="right-field" v-if="analyses.length > 0" style="width: 100pt; overflow-y: scroll">' +
+                '<div v-for="a in analyses">' +
+                    '<div style="font-size: 8pt; overflow: hidden; border-bottom: dashed gray 1px">' +
+                        '{{a.counterparty.value}}' +
+                    '</div>' +
+                    '<template v-if="a.sun">' +
+                        '<div>' +
+                            '{{titles.sun.humidity1}}:&nbsp;{{a.sun.humidity1}}' +
+                        '</div>' +
+                        '<div v-if="a.sun.humidity2 > 0">' +
+                            '{{titles.sun.humidity1}}:&nbsp;{{a.sun.humidity2}}' +
+                        '</div>' +
+                        '<div>' +
+                            '{{titles.sun.soreness}}:&nbsp;{{a.sun.soreness}}' +
+                        '</div>' +
+                        '<div>' +
+                            '{{titles.sun.impurity}}:&nbsp;{{a.sun.oilImpurity}}' +
+                        '</div>' +
+                        '<div>' +
+                            '{{titles.sun.oiliness}}:&nbsp;{{a.sun.oiliness}}' +
+                        '</div>' +
+                        '<div v-if="a.sun.contamination" style="color: orange">' +
+                            '{{titles.contamination}}' +
+                        '</div>' +
+                    '</template>' +
+                    '<template v-else-if="a.oil">' +
+                        '<div class="label">' +
+                            '{{titles.oil.acid}}:&#9;{{a.oil.acidValue}}' +
+                        '</div>' +
+                        '<div class="label">' +
+                            '{{titles.oil.peroxide}}:&#9;{{a.oil.peroxideValue}}' +
+                        '</div>' +
+                        '<div class="label">' +
+                            '{{titles.oil.phosphorus}}:&#9;{{a.oil.phosphorus}}' +
+                        '</div>' +
+                        '<div class="label">' +
+                            'Вол:&#9;{{a.oil.humidity}}' +
+                        '</div>' +
+                    '</template>' +
+                '</div>' +
 
-            // '</div>' +
-        // '</div>'
+            '</div>' +
+        '</div>'
 };

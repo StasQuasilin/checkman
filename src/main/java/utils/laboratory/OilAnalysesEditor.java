@@ -85,6 +85,18 @@ public class OilAnalysesEditor extends AnalysesEditor<OilAnalyses> {
                 save = true;
             }
 
+            final boolean wax = json.getBool(WAX);
+            if (wax != oilAnalyses.isWaxB()){
+                oilAnalyses.setWaxB(wax);
+                save = true;
+            }
+
+            final boolean soap = json.getBool(SOAP);
+            if (soap != oilAnalyses.isSoap()){
+                oilAnalyses.setSoap(soap);
+                save = true;
+            }
+
             if (save){
                 ActionTime createTime = oilAnalyses.getCreateTime();
                 if (createTime == null){
@@ -95,9 +107,10 @@ public class OilAnalysesEditor extends AnalysesEditor<OilAnalyses> {
                 save(oilAnalyses);
                 if(update){
                     t.setOilAnalyses(oilAnalyses);
+                    transportationDAO.saveProduct(t);
                 }
             }
-            return update;
+            return save;
         }
 
         return false;

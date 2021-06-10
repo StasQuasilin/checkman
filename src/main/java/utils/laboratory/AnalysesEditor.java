@@ -21,15 +21,8 @@ public abstract class AnalysesEditor<IAnalyses> {
         return Math.abs(s1 - s2) > 0.0001;
     }
     public boolean editAnalyses(TransportationProduct transportationProduct, JsonObject json, Worker worker) {
-        System.out.println(json);
         if(json != null) {
-
-            boolean update = false;
-            boolean save = parse(transportationProduct, json, worker);
-            if (save) {
-                transportationDAO.saveTransportation(transportationProduct.getTransportation(), false);
-            }
-            return save;
+            return parse(transportationProduct, json, worker);
         }
 
         return false;

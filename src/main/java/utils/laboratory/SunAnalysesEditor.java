@@ -76,8 +76,9 @@ public class SunAnalysesEditor extends AnalysesEditor<SunAnalyses> {
             save(sunAnalyses);
             if(update){
                 transportationProduct.setSunAnalyses(sunAnalyses);
+                transportationDAO.saveProduct(transportationProduct);
             }
         }
-        return update;
+        return save;
     }
 }

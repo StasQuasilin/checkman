@@ -10,6 +10,7 @@
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
+<link rel="stylesheet" href="${context}/css/editor.css">
 <script src="${context}/vue/laboratory/transportAnalysesEdit.vue?v=${now}"></script>
 <script>
     analysesEdit.api.save = '${save}';
@@ -76,13 +77,16 @@
         </c:if>
         <template v-for="p in products">
             <tr>
+                <td colspan="4" style="border-bottom: dashed #2b2b2b 1pt"></td>
+            </tr>
+            <tr>
                 <td>
                     <fmt:message key="deal.organisation"/>
                 </td>
                 <td>
                     :
                 </td>
-                <td colspan="2" class="secure">
+                <td colspan="2" class="secure" style="white-space: nowrap">
                     {{p.counterparty.value}}
                 </td>
             </tr>
@@ -93,21 +97,124 @@
                 <td>
                     :
                 </td>
-                <td colspan="2">
+                <td colspan="2" style="white-space: nowrap">
                     {{p.productName}}, {{p.shipperName}}
                 </td>
             </tr>
             <template v-if="p.product.analysesType === 'sun'">
                 <tr>
-                    <td colspan="3">
-                        {{p.sun}}
+                    <td>
+                        <label for="humidity1">
+                            <fmt:message key="sun.humidity.1.short"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="humidity1" step="0.01" type="number" v-model.number="p.sun.humidity1" onfocus="this.select()">
+                    </td>
+                    <td rowspan="2" style="border-left: solid darkgray 1pt; width: 7em" align="center">
+                        <div style="font-size: 8pt">
+                            <fmt:message key="mean.short"/>
+                        </div>
+                        <div>
+                            {{((p.sun.humidity1 > 0 || p.sun.humidity2 > 0 ? (p.sun.humidity1 + p.sun.humidity2) /
+                            ((p.sun.humidity1 > 0 ? 1 : 0) + (p.sun.humidity2 > 0 ? 1 : 0)) : 0)).toLocaleString()}} %
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="humidity2">
+                            <fmt:message key="sun.humidity.2.short"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        <input id="humidity2" step="0.01" type="number" v-model.number="p.sun.humidity2" onfocus="this.select()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="soreness">
+                            <fmt:message key="sun.soreness"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td colspan="2">
+                        <input id="soreness" step="0.01" type="number" v-model="p.sun.soreness" onfocus="this.select()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="oilImp">
+                            <fmt:message key="sun.oil.impurity"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td colspan="2">
+                        <input id="oilImp" step="0.01" type="number" v-model="p.sun.oilImpurity" onfocus="this.select()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="oiliness">
+                            <fmt:message key="sun.oiliness"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td colspan="2">
+                        <input id="oiliness" step="0.01" type="number" v-model="p.sun.oiliness" onfocus="this.select()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="sunAcid">
+                            <fmt:message key="sun.acid.value"/>
+                        </label>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td colspan="2">
+                        <input id="sunAcid" step="0.01" type="number" v-model="p.sun.acidValue" onfocus="this.select()">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" align="right">
+                        <label for="contamination">
+                            <fmt:message key="sun.contamination"/>
+                        </label>
+                        <input id="contamination" type="checkbox" v-model="p.sun.contamination">
+                    </td>
+                </tr>
+                <tr v-if="recount(p.sun) > 0">
+                    <td>
+                        <fmt:message key="recount.percentage"/>
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td colspan="2">
+                <span style="background-color: white; padding: 0 6pt; border: inset 2px lightgray; border-radius: 8pt; font-size: 10pt">
+                    {{p.sun.recount + ' %'}}
+                </span>
+                        <a style="float: right" class="mini-close" v-on:click="print">
+                            <fmt:message key="document.print"/>
+                        </a>
                     </td>
                 </tr>
             </template>
-            <template v-else-if="p.product.analysesType === 'oil'">
-                <tr>
-                    <td colspan="3" style="border-bottom: dashed #2b2b2b 1pt"></td>
-                </tr>
+            <template v-else-if="p.product.analysesType === 'oil' || p.product.analysesType === 'raf'">
                 <tr>
                     <td>
                         <fmt:message key="oil.organoleptic"/>
@@ -219,6 +326,46 @@
                                autocomplete="off" v-model="p.oil.transparency">
                     </td>
                 </tr>
+                <template v-if="p.product.analysesType === 'raf'">
+                    <tr>
+                        <td>
+                            <fmt:message key="oil.soap"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+
+                            <b v-on:click="p.oil.soap = !p.oil.soap">
+                                <a v-if="p.oil.soap">
+                                    <fmt:message key="notification.kpo.soap.yes"/>
+                                </a>
+                                <a v-else>
+                                    <fmt:message key="notification.kpo.soap.no"/>
+                                </a>
+                            </b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <fmt:message key="oil.wax"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td>
+                            <b v-on:click="p.oil.wax = !p.oil.wax">
+                                <a v-if="p.oil.wax">
+                                    <fmt:message key="notification.kpo.wax.yes"/>
+                                </a>
+                                <a v-else>
+                                    <fmt:message key="notification.kpo.wax.no"/>
+                                </a>
+                            </b>
+                        </td>
+                    </tr>
+                </template>
+
                 <tr>
                     <td>
                         <label for="benzopyrene">
