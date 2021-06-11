@@ -50,11 +50,11 @@ public class WeightAdd extends IModal {
         if (id != -1) {
             transportation = dao.getObjectById(Transportation.class, id);
             req.setAttribute(TRANSPORTATION, transportation);
-            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
+//            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
             req.setAttribute(TITLE, _TITLE_EDIT);
         } else if (copy != -1) {
             transportation = dao.getObjectById(Transportation.class, copy);
-            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
+//            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
             transportation.setId(-1);
             transportation.setDate(Date.valueOf(LocalDate.now()));
             Deal deal = transportation.getDeal();
@@ -84,7 +84,7 @@ public class WeightAdd extends IModal {
         req.setAttribute(FIND_DEALS, Branches.API.FIND_DEALS);
         req.setAttribute(ACTIONS, dao.getObjects(ProductAction.class));
         req.setAttribute(Constants.SELECT_COUNTERPARTY, Branches.UI.SELECT_COUNTERPARTY);
-        req.setAttribute(Constants.DEAL_EDIT, Branches.UI.Transportation.DEAL_EDIT);
+        req.setAttribute(Constants.DEAL_EDIT, Branches.UI.DEAL_EDIT);
         req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
         req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);

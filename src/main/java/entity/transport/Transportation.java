@@ -22,10 +22,7 @@ import utils.U;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -54,7 +51,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     private String uid;
     private TransportCustomer customer;
     private ActionTime createTime;
-    private Set<TransportationProduct> products;
+    private Set<TransportationProduct> products = new HashSet<>();
     private Address address;
 
     @Deprecated
@@ -378,8 +375,13 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         JSONObject json = pool.getObject();
 
         json.put(ID, id);
-
-        json.put(TYPE, deal.getType().toString());
+        if (deal != null) {
+            json.put(TYPE, deal.getType().toString());
+            if (U.exist(deal.getNumber())){
+                json.put(CONTRACT_NUMBER, deal.getNumber());
+                json.put(DEAL_DATE, deal.getDate().toString());
+            }
+        }
         json.put(DATE, date.toString());
         json.put(CUSTOMER, customer.toString());
         if (driver != null) {
@@ -409,10 +411,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
 
         json.put(PRODUCTS, products(level));
 
-        if (U.exist(deal.getNumber())){
-            json.put(CONTRACT_NUMBER, deal.getNumber());
-            json.put(DEAL_DATE, deal.getDate().toString());
-        }
+
 
 //        json.put(PRODUCT, deal.getProduct().toJson());
 //        json.put(PLAN, amount);

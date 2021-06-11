@@ -192,8 +192,11 @@ public class TransportationEditor {
 
     private HashMap<Integer, TransportationProduct> buildProductMap(Transportation transportation) {
         final HashMap<Integer, TransportationProduct> hashMap = new HashMap<>();
-        for (TransportationProduct product : transportation.getProducts()){
-            hashMap.put(product.getId(), product);
+        final Set<TransportationProduct> products = transportation.getProducts();
+        if(products != null) {
+            for (TransportationProduct product : products) {
+                hashMap.put(product.getId(), product);
+            }
         }
         return hashMap;
     }
@@ -204,6 +207,7 @@ public class TransportationEditor {
         final Set<TransportationProduct> products = transportation.getProducts();
         final int productsCount = products.size();
         products.clear();
+
         int index = 0;
         boolean update = false;
         for (Object o : array){

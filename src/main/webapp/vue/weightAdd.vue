@@ -82,8 +82,8 @@ editor = new Vue({
         duplicateDeal:-1
     },
     methods:{
-        dealEdit:function(){
-            this.loadDealEdit(this.transportation.deal);
+        dealEdit:function(idx){
+            this.loadDealEdit(this.transportation.products[idx].deal);
         },
         loadDealEdit:function(deal){
             const self = this;
@@ -101,11 +101,10 @@ editor = new Vue({
                 self.findDeals(a.organisation.id);
                 editor.deal = a;
                 self.$forceUpdate();
-
             })
         },
-        dealCopy:function(){
-            let deal = Object.assign({}, this.transportation.deal);
+        dealCopy:function(idx){
+            let deal = Object.assign({}, this.transportation.products[idx].deal);
             deal.id = -1;
             deal.organisation = deal.counterparty;
             this.loadDealEdit(deal);

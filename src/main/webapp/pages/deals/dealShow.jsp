@@ -180,9 +180,9 @@
         </div>
       </div>
     </div>
-    <div class="page-column" style="width: 100%">
+    <div class="page-column" style="width: 100%;">
 <%--      HEADER--%>
-      <div>
+      <div style="display: none">
         <template v-for="t in tabs">
           <b v-if="t == tab" class="tab">
             {{tabNames[t]}}
@@ -212,154 +212,116 @@
               </div>
             </div>
           </div>
-          <div style="width: 100%">
-            <table style="width: 100%; height: 100%">
-              <tr>
-                <td colspan="3" align="center">
-                  <fmt:message key="load.plans"/>
-                  <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
-                  <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
-                </td>
-              </tr>
-              <%--HEADER--%>
-<%--              <tr>--%>
-<%--                <td>--%>
-<%--                  <c:set var="dropTitle"><fmt:message key="load.plan.drop.title"/> </c:set>--%>
-<%--                  <c:set var="dateTitle"><fmt:message key="load.date.title"/> </c:set>--%>
-<%--                  <span title="${dateTitle}" class="table-header" style="width: 8em">--%>
-<%--                    <fmt:message key="date"/>--%>
-<%--                  </span>--%>
-<%--                </td>--%>
-<%--                <td>--%>
-<%--                  <c:set var="planTitle"><fmt:message key="load.plan.title"/> </c:set>--%>
-<%--                  <span title="${planTitle}" class="table-header" style="width: 6em">--%>
-<%--                  <fmt:message key="deal.plan"/>--%>
-<%--                </span>--%>
-<%--                </td>--%>
-<%--                <td>--%>
-<%--                  <c:set var="customerTitle"><fmt:message key="load.customer.title"/> </c:set>--%>
-<%--                  <span title="${customerTitle}" class="table-header" style="width: 8em">--%>
-<%--                  <fmt:message key="transport.customer"/>--%>
-<%--                </span>--%>
-<%--                </td>--%>
-<%--              </tr>--%>
-              <tr style="height: 100%">
-                <td colspan="3">
-                  <%--TABLE--%>
-                  <transition-group name="flip-list" tag="div" class="plan-container">
-                    <div v-for="(value, key) in getPlans()" :key="value.id" class="plan-item"
-                         :class="'container-item-' + new Date(value.date).getDay()">
-                      <div v-if="!value.removed">
-                        <%--UPPER ROW--%>
-                        <div class="upper">
-                          <%--REMOVE BUTTON--%>
-                          <div style="display: inline-block; width: 10pt">
+          <div style="width: 100%; display: flex; flex-direction: column">
+            <div style="text-align: center; padding: 4pt 0">
+              <fmt:message key="load.plans"/>
+              <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
+              <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
+            </div>
+            <transition-group name="flip-list" tag="div" class="plan-container">
+              <div v-for="(value, key) in getPlans()" :key="value.id" class="plan-item"
+                   :class="'container-item-' + new Date(value.date).getDay()">
+                <div v-if="!value.removed">
+                  <%--UPPER ROW--%>
+                  <div class="upper">
+                    <%--REMOVE BUTTON--%>
+                    <div style="display: inline-block; width: 10pt">
                           <span title="${dropTitle}" class="mini-close" style="left: 0"
                                 v-show="!value.archive" v-on:click="remove(key)">&times;</span>
-                            <span v-show="value.archive" style="color: green">
+                      <span v-show="value.archive" style="color: green">
                             &#10003;
                           </span>
-                          </div>
-                          <%--DATE INPUT--%>
-                            <span class="mini-close" v-on:click="dateTimePicker(value)">
+                    </div>
+                    <%--DATE INPUT--%>
+                    <span class="mini-close" v-on:click="dateTimePicker(value)">
                               {{new Date(value.date).toLocaleDateString()}}
                             </span>
-                          <%--PLAN INPUT--%>
-                          <span style="position: relative">
+                    <%--PLAN INPUT--%>
+                    <span style="position: relative">
                             <template v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id">
                               <input v-model="product.amount" onfocus="this.select()" v-on:change="initSaveTimer(value)"
                                      title="${planTitle}" style="width: 4em; text-align: right; padding: 0 8px" min="1"> {{unit}}
                             </template>
-
                           </span>
-                          <%--CUSTOMER INPUT--%>
-                          <select v-model="value.customer" title="${customerTitle}" v-on:change="initSaveTimer(value)">
-                            <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
-                          </select>
-                          <span style="float: right">
+                    <%--CUSTOMER INPUT--%>
+                    <select v-model="value.customer" title="${customerTitle}" v-on:change="initSaveTimer(value)">
+                      <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
+                    </select>
+                    <span style="float: right">
                           <span class="mini-close" v-on:click="copy(key)">
                             Copy
                           </span>
                         </span>
-                        </div>
-                        <%--LOWER ROW--%>
-                        <div class="lower">
-                          <div>
-                            <div title="${driver}">
-                              <fmt:message key="transportation.driver"/>
-                              <object-input :props="driverProps" :object="value.driver" :item="value"></object-input>
-                              <span v-if="value.driver && value.driver.license">
+                  </div>
+                  <%--LOWER ROW--%>
+                  <div class="lower">
+                    <div>
+                      <div title="${driver}">
+                        <fmt:message key="transportation.driver"/>
+                        <object-input :props="driverProps" :object="value.driver" :item="value"></object-input>
+                        <span v-if="value.driver && value.driver.license">
                                 /{{value.driver.license}}/
                               </span>
-                            </div>
-                            <div>
-                              <fmt:message key="transportation.automobile"/>
-                              <object-input title=${truck} :props="vehicleProps" :object="value.vehicle" :item="value"></object-input>
-                              <object-input title=${trailer} :props="trailerProps" :object="value.trailer" :item="value"></object-input>
-                            </div>
-                            <div title="${transporter}">
-                              <fmt:message key="transportation.transporter"/>
-                              <object-input :props="transporterProps" :object="value.transporter" :item="value"></object-input>
-                            </div>
-                          </div>
-                          <div>
-                            <div v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id && product.weight">
-                              <div>
-                                Б:&#9;{{product.weight.gross.toLocaleString()}}
-                              </div>
-                              <div>
-                                T:&#9;{{product.weight.tare.toLocaleString()}}
-                              </div>
-                              <div>
-                                H:&#9;
-                                <template v-if="product.weight.gross > 0 && product.weight.tare > 0">
-                                  {{(product.weight.gross - product.weight.tare).toLocaleString()}}
-                                </template>
-                                <template v-else>
-                                  0
-                                </template>
-                              </div>
-
-                            </div>
-                          </div>
+                      </div>
+                      <div>
+                        <fmt:message key="transportation.automobile"/>
+                        <object-input title=${truck} :props="vehicleProps" :object="value.vehicle" :item="value"></object-input>
+                        <object-input title=${trailer} :props="trailerProps" :object="value.trailer" :item="value"></object-input>
+                      </div>
+                      <div title="${transporter}">
+                        <fmt:message key="transportation.transporter"/>
+                        <object-input :props="transporterProps" :object="value.transporter" :item="value"></object-input>
+                      </div>
+                    </div>
+                    <div>
+                      <div v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id && product.weight">
+                        <div>
+                          Б:&#9;{{product.weight.gross.toLocaleString()}}
                         </div>
-                        <div class="lower">
+                        <div>
+                          T:&#9;{{product.weight.tare.toLocaleString()}}
+                        </div>
+                        <div>
+                          H:&#9;
+                          <template v-if="product.weight.gross > 0 && product.weight.tare > 0">
+                            {{(product.weight.gross - product.weight.tare).toLocaleString()}}
+                          </template>
+                          <template v-else>
+                            0
+                          </template>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="lower">
                         <span v-if="value.editNote">
                           <input id="input" v-on:keyup.enter="saveNote(value)" v-on:blur="saveNote(value)"
                                  v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput" autocomplete="off"
                                  style="width: 100%; background: white; border: none">
                         </span>
-                          <div style="flex-wrap: wrap">
-                            <div v-for="(note, nId) in value.notes" :title="note.creator"
-                                 style="display: inline-flex; padding-left: 1pt">
-                              <span v-on:click="removeNote(value, nId)" class="mini-close">&times;</span>
-                              <a v-on:click="editNote(value, nId)">{{note.note}}</a>
-                            </div>
-                            <div style="display: inline-flex; padding-left: 1pt">
-                              <a class="mini-close" v-on:click="addNote(value.key)">
-                                +<fmt:message key="note.add"/>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
+                    <div style="flex-wrap: wrap">
+                      <div v-for="(note, nId) in value.notes" :title="note.creator"
+                           style="display: inline-flex; padding-left: 1pt">
+                        <span v-on:click="removeNote(value, nId)" class="mini-close">&times;</span>
+                        <a v-on:click="editNote(value, nId)">{{note.note}}</a>
+                      </div>
+                      <div style="display: inline-flex; padding-left: 1pt">
+                        <a class="mini-close" v-on:click="addNote(value.key)">
+                          +<fmt:message key="note.add"/>
+                        </a>
                       </div>
                     </div>
-                  </transition-group>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="4">
-                  <fmt:message key="totle.plan"/>:
-                  {{totalPlan().toLocaleString()}}/{{(quantity).toLocaleString()}} ( {{(totalPlan() / quantity * 100).toLocaleString()}} % )
-                </td>
-              </tr>
-              <tr>
-                <td colspan="4">
-                  <fmt:message key="totle.fact"/>:
-                  {{totalFact().toLocaleString()}}/{{(quantity).toLocaleString()}} ( {{(totalFact() / quantity * 100).toLocaleString()}} % )
-                </td>
-              </tr>
-            </table>
+                  </div>
+                </div>
+              </div>
+            </transition-group>
+            <div>
+              <fmt:message key="totle.plan"/>: {{totalAmountString()}}
+<%--              {{totalAmount().toLocaleString()}} / {{(quantity).toLocaleString()}} ( {{(totalAmount() / quantity * 100).toLocaleString()}} % )--%>
+              <fmt:message key="totle.fact"/>:
+              {{totalFact().toLocaleString()}} / {{(quantity).toLocaleString()}} ( {{(totalFact() / quantity * 100).toLocaleString()}} % )
+            </div>
           </div>
         </div>
         <div v-else-if="tab == 'rails'" class="tab-content">

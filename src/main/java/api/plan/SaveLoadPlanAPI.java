@@ -34,19 +34,17 @@ public class SaveLoadPlanAPI extends ServletAPI {
 
         if(body != null) {
             log.info(body);
-            Deal deal = dealDAO.getDealById(body.get(DEAL));
-            DealProduct product = null;
-            if (body.containsKey(PRODUCT)){
-                product = dao.getObjectById(DealProduct.class, body.get(PRODUCT));
-            }
+//            Deal deal = dealDAO.getDealById(body.get(DEAL));
+//            DealProduct product = null;
+//            if (body.containsKey(PRODUCT)){
+//                product = dao.getObjectById(DealProduct.class, body.get(PRODUCT));
+//            }
             Worker worker = getWorker(req);
 
             JSONObject json = (JSONObject) body.get(PLAN);
             Transportation transportation = transportationEditor.saveTransportation(json, worker, worker);
 
-            JSONObject toJson = new SuccessAnswer(ID, transportation.getId()).toJson();
-            write(resp, toJson.toJSONString());
-            pool.put(toJson);
+            write(resp, new SuccessAnswer(ID, transportation.getId()));
             body.clear();
         } else {
             write(resp, EMPTY_BODY);

@@ -2,6 +2,9 @@
     display: flex;
     flex-direction: column;
     max-width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
 }
 
 .turn-date{

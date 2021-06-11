@@ -90,6 +90,8 @@ public class WeightEditAPI extends ServletAPI {
                         dao.save(actionTime);
                         transportation.setTimeIn(actionTime);
                     }
+                    transportationDAO.saveTransportation(transportation, false);
+                    updateUtil.onSave(transportation);
 
                     List<TransportStorageUsed> u = dao.getUsedStoragesByTransportation(transportation);
                     if (u.size() == 0){
@@ -100,8 +102,7 @@ public class WeightEditAPI extends ServletAPI {
                         TransportUtil.updateUsedStorages(transportation, u, worker);
                     }
                     TransportUtil.updateUnloadStatistic(transportation);
-                    transportationDAO.saveTransportation(transportation, false);
-                    updateUtil.onSave(transportation);
+
 
                     dealProducts.add(transportationProduct.getDealProduct());
 

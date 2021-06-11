@@ -35,24 +35,11 @@ public class ContextFilter implements Filter {
 //        gcTimer.start();
 //        HibernateSessionFactory.init();
         TelegramBotFactory.init(filterConfig.getServletContext().getContextPath());
-//        initBot();
-//        Archivator.init();
-//        tru = new TransportReplaceUtil();
+        Archivator.init();
+        tru = new TransportReplaceUtil();
     }
 
     Timer gcTimer;
-
-
-    public void initBot(){
-        log.info("Read bot settings...");
-        settings = dbDAOService.getDAO().getBotSettings();
-        if (settings != null) {
-            log.info("\t...Bot settings read successfully");
-            TelegramBotFactory.setSettings(settings);
-        } else {
-            log.info("\t...Settings not found");
-        }
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.hibernate.dao.DealDAO;
+import utils.json.JsonObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,27 +36,24 @@ public class DealEdit extends IModal {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JsonObject body = parseBodyGood(req);
         long id = -1;
-        long copy = -1;
         if (body != null) {
-            if (body.containsKey(Constants.ID)) {
-                id = Long.parseLong(String.valueOf(body.get(Constants.ID)));
-            } else if (body.containsKey(Constants.COPY)) {
-                copy = Long.parseLong(String.valueOf(body.get(Constants.COPY)));
+            if (body.contain(ID)) {
+                id = body.getInt(ID);
+                req.setAttribute(DEAL, dealDAO.getDealById(id));
+                req.setAttribute(TITLE, Constants.Languages.DEAL_EDIT);
+            } else if (body.contain(COPY)) {
+                id = body.getInt(COPY);
+                Deal deal = dealDAO.getDealById(id);
+                deal.setId(-1);
+                deal.setComplete(0);
+                req.setAttribute(DEAL, deal);
+                req.setAttribute(TITLE, Constants.Languages.DEAL_COPY);
             }
         }
 
-        if (id != -1) {
-            req.setAttribute(DEAL, dealDAO.getDealById(id));
-            req.setAttribute(TITLE, Constants.Languages.DEAL_EDIT);
-        } else if (copy != -1){
-            Deal deal = dealDAO.getDealById(copy);
-            deal.setId(-1);
-            deal.setComplete(0);
-            req.setAttribute(DEAL, deal);
-            req.setAttribute(TITLE, Constants.Languages.DEAL_COPY);
-        } else {
+        if (id == -1) {
             req.setAttribute(TITLE, Constants.Languages.DEAL_CREATE);
         }
 

@@ -150,10 +150,14 @@
     <c:if test="${not empty transportation.address}">
     editor.transportation.address = ${transportation.address.id};
     </c:if>
+    <c:if test="${not empty transportation.deal}">
     editor.deal = ${transportation.deal.toShortJson()};
-    editor.setQuantity();
-    editor.findAddress(editor.transportation.deal.counterparty.id);
+    // editor.setQuantity();
+    // editor.findAddress(editor.transportation.deal.counterparty.id);
+
+    </c:if>
     editor.initDealsLists();
+
     managerFounded = false;
     for (let i in editor.managers){
         if (editor.managers.hasOwnProperty(i)){
@@ -177,7 +181,7 @@
 <div id="editor" class="editor">
     <div>
         <span style="font-weight: bold; font-size: 12pt">
-            <fmt:message key="deals"/>:{{transportation.products.length.toLocaleString()}}
+            <fmt:message key="deals"/>: {{transportation.products.length.toLocaleString()}}
         </span>
     </div>
     <div class="deal-field">
@@ -198,7 +202,8 @@
                     {{product.counterparty.value}}
                 </td>
             </tr>
-            <tr v-if="transportation.deal.counterparty && transportation.deal.counterparty.id != -1">
+<%--            WTF?--%>
+            <tr v-if="transportation.deal && transportation.deal.counterparty && transportation.deal.counterparty.id != -1">
                 <td>
                     <label for="address">
                         <fmt:message key="address"/>
@@ -263,17 +268,14 @@
                 </tr>
             </template>
             <%--QUANTITY--%>
-            <tr>
+            <tr v-if="product.quantity">
                 <td>
                     <fmt:message key="deal.quantity"/>
                 </td>
                 <td>
-                    <span v-if="product.quantity">
+                    <span>
                         {{product.quantity.toLocaleString()}}
                         {{product.unitName}}
-                    </span>
-                    <span v-else>
-                        ---
                     </span>
                 </td>
             </tr>
@@ -304,14 +306,14 @@
             <tr>
                 <td colspan="2" style="width: 100%; text-align: right; font-size: 10pt">
                     <span class="mini-close" v-on:click="selectCounterparty(productId)">
-                &#8634;<fmt:message key="transportation.counterparty.change"/>
-            </span>
-                    <span class="mini-close" v-on:click="dealCopy()">
-                <fmt:message key="deal.copy"/>
-            </span>
-                    <span class="mini-close" v-on:click="dealEdit()">
-                <fmt:message key="deal.edit"/>
-            </span>
+                        &#8634;<fmt:message key="transportation.counterparty.change"/>
+                    </span>
+                    <span class="mini-close" v-on:click="dealCopy(productId)">
+                        <fmt:message key="deal.copy"/>
+                    </span>
+                    <span class="mini-close" v-on:click="dealEdit(productId)">
+                        <fmt:message key="deal.edit"/>
+                    </span>
                 </td>
             </tr>
         </table>

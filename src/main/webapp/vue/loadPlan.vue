@@ -14,6 +14,7 @@ plan = new Vue({
         unit:'',
         customers:[],
         plans:{},
+        items:{},
         foundVehicles:[],
         foundDrivers:[],
         fnd:-1,
@@ -27,7 +28,62 @@ plan = new Vue({
         ],
         tabNames:{}
     },
+    watch:{
+        items:function () {
+            console.log(Object.values(this.items));
+        }
+    },
+    computed:{
+
+    },
     methods:{
+        totalAmount:function () {
+            console.log('calculate total amount');
+            let total = 0;
+            for (let i in this.items){
+                if (this.items.hasOwnProperty(i)){
+                    let plan = this.items[i];
+
+                    for (let j in plan.products){
+                        if (plan.products.hasOwnProperty(j)){
+                            let product = plan.products[j];
+                            let a = parseFloat(product.amount);
+
+                            if (!isNaN(a)){
+                                total += a;
+                            }
+                        }
+                    }
+                }
+            }
+            return total;
+        },
+        totalAmountString:function(){
+            let total = this.totalAmount();
+            let quantity = this.quantity;
+            return total.toLocaleString() + ' / ' + quantity + ' ( ' + (total / quantity * 100).toLocaleString() + '% )';
+        },
+        totalFact:function () {
+            let total = 0;
+            for (let i in this.plans){
+                if (this.plans.hasOwnProperty(i)){
+                    let plan = this.plans[i];
+                    for (let j in plan.products){
+                        if (plan.products.hasOwnProperty(j)){
+                            let product = plan.products[j];
+                            if (product.weight){
+                                let g = product.weight.gross;
+                                let t = product.weight.tare;
+                                if (g > 0 && t > 0){
+                                    total += (g - t);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return total;
+        },
         handler:function(a){
 
         },
@@ -37,41 +93,63 @@ plan = new Vue({
             const self = this;
             self.plans = [];
 
-            subscribe('TRANSPORT_SELL', function (data) {
-                let p = self.deal.products[idx].id;
+            subscribe('TRANSPORT_' + this.deal.type.toUpperCase(), function (data) {
                 if (data.update){
+                    let p = self.deal.products[idx].id;
                     for (let u = 0; u < data.update.length; u++){
                         let update = data.update[u];
                         let products = update.products;
                         for (let i = 0; i < products.length; i++){
                             let product = products[i];
                             if (product.dealProduct === p){
-                                self.plans[update.id] = (update);
-                                self.$forceUpdate();
+                                self.addItem(update);
+                            } else {
+                                this.deleteItem(update);
                             }
                         }
                     }
                 }
+                if (data.delete){
+                    for (let d = 0; d < data.delete.length; d++){
+                        let remove = data.delete[d];
+                        if (self.items[remove.id]){
+                            this.deleteItem(remove);
+                        }
+                    }
+
+                }
             });
         },
-        messages:function(){
-            const msgs = [];
-            let total = this.totalPlan();
-            if (total > this.quantity) {
-                msgs.push('Объем по сделке будет увеличен на ' + (total - this.quantity).toLocaleString() + '&nbsp;' + this.unit + '!');
+        deleteItem:function(item){
+            if (this.items[item.id]) {
+                delete this.items[item.id];
+                this.$forceUpdate();
             }
-            return msgs;
+        },
+        messages:function(){
+            return [];
         },
         newCarriage:function(){
 
         },
         newVehicle:function(){
             let date = this.filterDate === -1 ? new Date() : new Date(this.filterDate);
+            let id = -randomNumber();
+            while (this.items[id]){
+                id = -randomNumber();
+            }
             this.add({
-                id:-randomNumber(),
+                id:id,
                 date: date.toISOString().substring(0, 10),
-                plan:0,
-                customer:this.customers[0].id
+                products:[
+                    {
+                        id:-1,
+                        amount:0,
+                        dealProduct:this.deal.products[this.selectedProduct].id
+                    }
+                ],
+                customer:this.customers[0].id,
+
             })
         },
         itemsByDate:function(date){
@@ -79,7 +157,7 @@ plan = new Vue({
                 count:0,
                 weight:0
             };
-            let items = this.plans.filter(function(item){
+            let items = Object.values(this.plans).filter(function(item){
                 return item.date === date;
             });
             for (let i in items){
@@ -107,10 +185,10 @@ plan = new Vue({
         },
         getPlans:function(){
             if (this.filterDate === -1){
-                return Object.values(this.plans);
+                return Object.values(this.items);
             } else {
                 const self = this;
-                return this.plans.filter(function(item){
+                return Object.values(this.items).filter(function(item){
                     return item.date === self.filterDate;
                 })
             }
@@ -146,18 +224,14 @@ plan = new Vue({
             if (!plan.transporter){
                 plan.transporter = {id:-1}
             }
-            let p = {
-                key : randomUUID(),
-                editNote:false,
-                noteInput:'',
-                item : plan,
-                removed:false,
-                saveTimer:-1
-            };
 
-            this.plans.push(p);
-            this.sort();
-            return p;
+            this.addItem(plan);
+            // this.plans.push(p);
+            // this.sort();
+        },
+        addItem:function(item){
+            this.items[item.id] = (item);
+            this.$forceUpdate();
         },
         initSaveTimer:function(item){
             console.log(item);
@@ -202,7 +276,6 @@ plan = new Vue({
             }
         },
         save:function(item){
-            console.log(item);
             if (item) {
                 let plan = Object.assign({}, item);
                 if (item.driver) {
@@ -227,6 +300,7 @@ plan = new Vue({
                 }
 
                 PostApi(this.api.save, {deal: this.dealId, product:this.selectedProduct, plan: plan}, function (a) {
+                    console.log(a);
                     if (a.status === 'success') {
                         if (a.id) {
                             item.id = a.id;
@@ -246,19 +320,20 @@ plan = new Vue({
             }, 500)
         },
         setDriver:function(driver, item){
+            console.log(item);
             item.driver = driver;
-            if(driver.vehicle && item.vehicle.id === -1){
+            if(driver.vehicle && (typeof item.vehicle === "undefined" || item.vehicle.id === -1)){
                 this.setVehicle(driver.vehicle, item);
             }else{
                 this.initSaveTimer(item);
             }
-            if (driver.organisation && !item.transporter || item.transporter.id === -1){
+            if (driver.organisation && (typeof item.transporter  === "undefined" || item.transporter.id === -1)){
                 this.setTransporter(driver.organisation, item);
             }
         },
         setVehicle:function(vehicle, item){
             item.vehicle = vehicle;
-            if (vehicle.trailer && item.trailer.id === -1){
+            if (vehicle.trailer && (typeof item.trailer === "undefined" || item.trailer.id === -1)){
                 this.setTrailer(vehicle.trailer, item);
             } else {
                 this.initSaveTimer(item);
@@ -294,31 +369,7 @@ plan = new Vue({
 
             return item.weight;
         },
-        totalPlan:function(){
-            let total = 0;
-            for (let i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    let p = 0;//parseFloat(this.plans[i].);
-                    if (!isNaN(p)){
-                        total += p;
-                    }
-                }
-            }
-            return total;
-        },
-        totalFact:function(){
-            let total = 0;
-            for (let p in this.plans){
-                if (this.plans.hasOwnProperty(p)){
-                    let plan = this.plans[p];
-                    let weight = plan.weight;
-                    if (weight) {
-                        total += weight.brutto === 0 || weight.tara === 0 ? 0 : weight.brutto - weight.tara;
-                    }
-                }
-            }
-            return total;
-        },
+
         goBack:function(){
             loadContent(this.api.back, this.api.attributes);
         },
@@ -351,7 +402,7 @@ plan = new Vue({
             }
         },
         addNote:function(key){
-            for (var i in this.plans){
+            for (let i in this.plans){
                 if (this.plans.hasOwnProperty(i)){
                     this.plans[i].editNote = this.plans[i].key === key;
                 }

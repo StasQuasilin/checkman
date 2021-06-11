@@ -21,6 +21,7 @@ import entity.reports.ManufactureReport;
 import entity.seals.SealBatch;
 import entity.transport.Driver;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import entity.transport.Vehicle;
 import entity.weight.RoundReport;
 import org.apache.log4j.Logger;
@@ -32,6 +33,7 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 /**
  * Created by szpt_user045 on 11.07.2019.
@@ -66,16 +68,29 @@ public class UpdateUtil {
         return type == DealType.buy ? Subscribe.DEAL_BUY : Subscribe.DEAL_SELL;
     }
 
-    static Subscribe getSubscriber(Transportation transportation){
-        return transportation.getDeal().getType() == DealType.buy ? Subscribe.TRANSPORT_BUY : Subscribe.TRANSPORT_SELL;
+    static LinkedList<Subscribe> getSubscriber(Transportation transportation){
+        final LinkedList<Subscribe> subscribes = new LinkedList<>();
+        for (TransportationProduct product : transportation.getProducts()){
+
+            final Subscribe subscriber = product.getDealProduct().getDeal().getType() == DealType.buy ? Subscribe.TRANSPORT_BUY : Subscribe.TRANSPORT_SELL;
+            if (!subscribes.contains(subscriber)){
+                subscribes.add(subscriber);
+            }
+        }
+        return subscribes;
     }
 
     public void onSave(Transportation transportation) {
-        doAction(Command.update, getSubscriber(transportation), transportation.toJson());
+        for (Subscribe subscribe : getSubscriber(transportation)){
+            doAction(Command.update, subscribe, transportation.toJson());
+        }
     }
 
     public void onRemove(Transportation transportation) {
-        doAction(Command.remove, getSubscriber(transportation), transportation.getId());
+        for (Subscribe subscribe : getSubscriber(transportation)){
+            doAction(Command.remove, subscribe, transportation.getId());
+        }
+
     }
 
     public void onArchive(Transportation transportation) {
@@ -84,7 +99,7 @@ public class UpdateUtil {
         doAction(Command.update, subscribe, transportation);
     }
 
-    public void onRemove(ExtractionCrude crude) throws IOException {
+    public void onRemove(ExtractionCrude crude) {
         doAction(Command.remove, Subscribe.EXTRACTION, crude.getId());
     }
 
@@ -106,7 +121,7 @@ public class UpdateUtil {
         pool.put(json);
     }
 
-    public void onSave(Vehicle vehicle) throws IOException {
+    public void onSave(Vehicle vehicle) {
         for (Transportation transportation : dao.getTransportationByVehicle(vehicle)){
             if (!transportation.isArchive()) {
                 onSave(transportation);
