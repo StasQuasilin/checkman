@@ -11,7 +11,7 @@ import utils.json.JsonObject;
 
 import static constants.Constants.*;
 
-public abstract class AnalysesEditor<IAnalyses> {
+public abstract class AnalysesEditor {
 
     final DeprecatedDAO dao = new DeprecatedDAO();
     final TransportationDAO transportationDAO = new TransportationDAO();

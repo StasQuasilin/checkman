@@ -109,11 +109,11 @@ public class TelegramNotificator extends INotificator {
     public void transportRegistration(Transportation transportation){
         transportRegistration(transportation, lb.get(TRANSPORT_REGISTRATION));
     }
-
+    //DONE
     public void transportInto(Transportation transportation){
         transportRegistration(transportation, lb.get(TRANSPORT_INTO));
     }
-
+    //DONE
     public void transportRegistration(Transportation transportation, String messageFormat) {
         DealType type = transportation.getType();
         String action = lb.get("_" + type.toString()).toLowerCase();
@@ -129,7 +129,7 @@ public class TelegramNotificator extends INotificator {
             sendMessage(setting.getTelegramId(), message);
         });
     }
-
+    //DONE
     public void weightShow(Transportation transportation) {
 
         DealType type = transportation.getType();
@@ -148,6 +148,7 @@ public class TelegramNotificator extends INotificator {
             }
         }
     }
+
     public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses, float correction) {
         HashMap<String, String> messages = new HashMap<>();
         for (UserNotificationSetting setting : getSettings()){

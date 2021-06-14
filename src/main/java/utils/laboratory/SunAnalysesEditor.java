@@ -8,7 +8,7 @@ import utils.json.JsonObject;
 
 import static constants.Constants.*;
 
-public class SunAnalysesEditor extends AnalysesEditor<SunAnalyses> {
+public class SunAnalysesEditor extends AnalysesEditor {
 
     private void save(SunAnalyses sunAnalyses) {
         dao.save(sunAnalyses);

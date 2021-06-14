@@ -8,6 +8,7 @@ import entity.Worker;
 import entity.documents.DealProduct;
 import entity.log.comparators.TransportComparator;
 import entity.log.comparators.WeightComparator;
+import entity.notifications.Notification;
 import entity.transport.*;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
@@ -48,6 +49,8 @@ public class WeightEditAPI extends ServletAPI {
             log.info(body);
             Worker worker = getWorker(req);
             final LinkedList<DealProduct> dealProducts = new LinkedList<>();
+            final LinkedList<Transportation> transportations = new LinkedList<>();
+
             for(Object o : body.getArray(WEIGHTS)){
                 JsonObject json = new JsonObject(o);
                 final TransportationProduct transportationProduct = transportationDAO.getTransportationProduct(json.get(ID));
@@ -76,6 +79,7 @@ public class WeightEditAPI extends ServletAPI {
 
                 if (saveIt){
                     dao.save(weight);
+                    write(resp, SUCCESS_ANSWER);
                     TransportUtil.calculateWeight(transportationProduct);
 
                     if (transportationProduct.getWeight() == null){
@@ -85,11 +89,19 @@ public class WeightEditAPI extends ServletAPI {
 
                     final Transportation transportation = transportationProduct.getTransportation();
 
-                    if (gross > 0 || tare > 0 && transportation.getTimeIn() == null){
+                    if ((gross > 0 || tare > 0) && transportation.getTimeIn() == null){
                         ActionTime actionTime = new ActionTime(worker);
                         dao.save(actionTime);
                         transportation.setTimeIn(actionTime);
+                        transportations.add(transportation);
+
                     }
+
+                    final float net = weight.getNetto();
+                    if (net > 0){
+                        Notificator.weightShow(transportationProduct);
+                    }
+
                     transportationDAO.saveTransportation(transportation, false);
                     updateUtil.onSave(transportation);
 
@@ -102,16 +114,19 @@ public class WeightEditAPI extends ServletAPI {
                         TransportUtil.updateUsedStorages(transportation, u, worker);
                     }
                     TransportUtil.updateUnloadStatistic(transportation);
-
-
                     dealProducts.add(transportationProduct.getDealProduct());
-
-//                    Notificator.sendNotification();
+                } else {
+                    write(resp, SUCCESS_ANSWER);
                 }
+
                 comparator.compare(weight, worker);
             }
 
-            write(resp, SUCCESS_ANSWER);
+
+
+            for (Transportation transportation : transportations){
+                Notificator.timeIn(transportation);
+            }
 
             for (DealProduct product : dealProducts){
                 WeightUtil.calculateDealDone(product);

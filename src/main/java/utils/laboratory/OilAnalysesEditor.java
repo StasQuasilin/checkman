@@ -8,11 +8,7 @@ import utils.json.JsonObject;
 
 import static constants.Constants.*;
 
-public class OilAnalysesEditor extends AnalysesEditor<OilAnalyses> {
-
-//    "oil": {
-//                "benzopyrene": 0,
-//    },
+public class OilAnalysesEditor extends AnalysesEditor {
 
     @Override
     boolean parse(TransportationProduct t, JsonObject json, Worker worker) {
@@ -21,6 +17,7 @@ public class OilAnalysesEditor extends AnalysesEditor<OilAnalyses> {
             boolean update = false;
             OilAnalyses oilAnalyses = t.getOilAnalyses();
             if (oilAnalyses == null){
+                System.out.println("+");
                 oilAnalyses = new OilAnalyses();
                 update = true;
             }
@@ -106,6 +103,7 @@ public class OilAnalysesEditor extends AnalysesEditor<OilAnalyses> {
                 }
                 save(oilAnalyses);
                 if(update){
+                    System.out.println("@");
                     t.setOilAnalyses(oilAnalyses);
                     transportationDAO.saveProduct(t);
                 }

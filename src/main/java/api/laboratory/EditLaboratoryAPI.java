@@ -12,6 +12,7 @@ import utils.hibernate.dao.TransportationDAO;
 import utils.json.JsonObject;
 import utils.laboratory.OilAnalysesEditor;
 import utils.laboratory.SunAnalysesEditor;
+import utils.notifications.Notificator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,16 +44,14 @@ public class EditLaboratoryAPI extends ServletAPI {
                 final Product product = transportationProduct.getDealProduct().getProduct();
                 final AnalysesType analysesType = product.getAnalysesType();
                 boolean update = false;
-                switch (analysesType){
-                    case sun:
-                        update = sunEditor.editAnalyses(transportationProduct, json.getObject(SUN), worker);
-                        break;
-                    case oil:
-                        update = oilEditor.editAnalyses(transportationProduct, json.getObject(OIL), worker);
-                        break;
+                if (analysesType == AnalysesType.sun){
+                    update = sunEditor.editAnalyses(transportationProduct, json.getObject(SUN), worker);
+                } else if (analysesType == AnalysesType.oil || analysesType == AnalysesType.raf){
+                    update = oilEditor.editAnalyses(transportationProduct, json.getObject(OIL), worker);
                 }
                 if (update){
                     updateUtil.onSave(transportationProduct.getTransportation());
+                    Notificator.analysesShow(transportationProduct);
                 }
             }
             write(resp, SUCCESS_ANSWER);

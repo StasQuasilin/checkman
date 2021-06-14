@@ -473,17 +473,26 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     }
 
     private float tare() {
-        if (weight != null){
-            return weight.getTara();
+        float tare = 0;
+        for (TransportationProduct product : products){
+            final Weight weight = product.getWeight();
+            if (weight != null){
+                tare += weight.getTara();
+            }
         }
-        return 0;
+        return tare;
     }
 
     private float gross() {
-        if (weight != null){
-            return weight.getBrutto();
+        float gross = 0;
+        for (TransportationProduct product : products){
+            final Weight weight = product.getWeight();
+            if (weight != null){
+                gross += weight.getBrutto();
+            }
         }
-        return 0;
+
+        return gross;
     }
 
     private JSONObject analyses(int level) {
