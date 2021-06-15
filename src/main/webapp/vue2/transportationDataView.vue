@@ -29,29 +29,29 @@ transportaData = {
             '</span>' +
         '</span>' +
         '<span v-else>' +
-        '{{titles.noSpecified}}' +
+            '{{titles.noSpecified}}' +
         '</span>' +
         '</div>' +
         '<div v-if="item.driver && item.driver.person.phones.length > 0">' +
-        '<img style="width: 10pt" :src="titles.phoneIcon" alt=""/>' +
-        '<span style="padding-left: 2px" v-for="phone in item.driver.person.phones" class="secure">' +
-            '{{phone.number}}' +
-        '</span>' +
+            '<img style="width: 10pt" :src="titles.phoneIcon" alt=""/>' +
+            '<span style="padding-left: 2px" v-for="phone in item.driver.person.phones" class="secure">' +
+                '{{phone.number}}' +
+            '</span>' +
         '</div>' +
         '</div>' +
-        '<div class="data-block">' +
-        '<div>' +
-        '{{titles.customer}}: {{titles[item.customer]}}' +
-        '</div>' +
-        '<div>' +
+            '<div class="data-block">' +
+                '<div>' +
+                    '{{titles.customer}}: {{titles[item.customer]}}' +
+                '</div>' +
+            '<div>' +
             '{{titles.transporter}}: ' +
             '<b v-if="item.transporter" class="secure">' +
                 '{{item.transporter.value}}' +
             '</b>' +
-        '<b v-else>' +
-        '{{titles.noSpecified}}' +
-        '</b>' +
+            '<b v-else>' +
+                '{{titles.noSpecified}}' +
+            '</b>' +
         '</div>' +
-        '</div>' +
-        '</div>'
+    '</div>' +
+'</div>'
 };

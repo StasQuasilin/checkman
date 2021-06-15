@@ -8,6 +8,7 @@ import utils.notifications.AnalysesPreparer;
 import utils.notifications.NotificationPreparer;
 
 import static bot.TelegramNotificator.NEW_LINE;
+import static bot.TelegramNotificator.SPACE;
 
 public class OilAnalysesPreparer extends AnalysesPreparer {
 
@@ -34,7 +35,8 @@ public class OilAnalysesPreparer extends AnalysesPreparer {
     public String analysesData(TransportationProduct transportationProduct, String lang) {
         final OilAnalyses analyses = transportationProduct.getOilAnalyses();
         StringBuilder builder = new StringBuilder();
-        builder.append(languageBase.get(lang,ORGANOLEPTIC)).append(analyses.isOrganoleptic() ? languageBase.get(lang,MATCH) : languageBase.get(lang,NO_MATCH)).append(NEW_LINE);
+        builder.append(languageBase.get(lang,ORGANOLEPTIC)).append(SPACE);
+        builder.append(analyses.isOrganoleptic() ? languageBase.get(lang,MATCH) : languageBase.get(lang,NO_MATCH)).append(NEW_LINE);
         builder.append(String.format(languageBase.get(lang,COLOR), analyses.getColor())).append(NEW_LINE);
         builder.append(String.format(languageBase.get(lang,ACID), analyses.getAcidValue())).append(NEW_LINE);
         builder.append(String.format(languageBase.get(lang,PEROXIDE), analyses.getPeroxideValue())).append(NEW_LINE);

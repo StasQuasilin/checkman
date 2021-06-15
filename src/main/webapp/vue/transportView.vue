@@ -3,7 +3,8 @@ transportView = {
       titles:Object,
       fields: Object,
       item:Object,
-      f:Object
+      f:Object,
+      props:Object
   },
     components: {
       'transport-data':transportaData
@@ -145,7 +146,7 @@ transportView = {
                             '</span>' +
                         '</div>' +
                     '</div>' +
-                    '<transport-data :item="item" :titles="titles"></transport-data>' +
+                    '<transport-data :item="item" :titles="titles" :props="props"></transport-data>' +
                 '</div>' +
                 '<div class="lower-row" v-if="item.notes.length > 0">' +
                     '<span v-for="note in item.notes" style="padding-left: 2pt">' +

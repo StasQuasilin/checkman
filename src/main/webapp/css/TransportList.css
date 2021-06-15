@@ -20,3 +20,8 @@
     margin: 0 2pt;
     border-radius: 6pt;
 }
+select{
+    background-color: transparent;
+    border: solid gray 1pt;
+    border-radius: 8pt;
+}

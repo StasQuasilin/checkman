@@ -10,8 +10,4 @@
   <script src="${context}/vue2/transportationDataView.vue"></script>
   <jsp:include page="../summary/summaryHeader.jsp"/>
   <jsp:include page="../transportListTemplate2.jsp"/>
-<script>
-  transportList.f.p = true;
-  transportList.f.a = true;
-</script>
 </html>

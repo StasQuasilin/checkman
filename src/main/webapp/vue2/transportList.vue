@@ -1,11 +1,46 @@
 transportList = new Vue({
     el:'#transportList',
-    mixins:[bl, contextMenuView],
+    mixins:[bl, contextMenuView, transportationSaver],
     components:{
         'transport-view': transportView
     },
     data:{
         labels:{},
+        props:{
+            customers:[],
+            save:function(item){
+                transportList.saveTransportation(item);
+            },
+            driverProps:{
+                put:function(driver, item){
+                    item.driver = driver;
+                    transportList.saveTransportation(item);
+                },
+                edit:'',
+                show:['value']
+            },
+            vehicleProps:{
+                put:function(vehicle, item){
+                    item.vehicle = vehicle;
+                    transportList.saveTransportation(item);
+                },
+                show:['model', 'number']
+            },
+            trailerProps:{
+                put:function(trailer, item){
+                    item.trailer = trailer;
+                    transportList.saveTransportation(item);
+                },
+                show:['number']
+            },
+            transporterProps:{
+                put:function(transporter, item){
+                    item.transporter = transporter;
+                    transportList.saveTransportation(item);
+                },
+                show:['value']
+            }
+        },
         f:{
             p:false,
             a:false

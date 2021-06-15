@@ -1,5 +1,6 @@
 editor = new Vue({
     el: '#editor',
+    mixins:[transportationSaver],
     components:{
         'object-input':objectInput
     },
@@ -82,6 +83,21 @@ editor = new Vue({
         duplicateDeal:-1
     },
     methods:{
+        save:function(){
+            if (!this.already) {
+                if (this.note.edit) {
+                    this.saveNote();
+                }
+                this.already = true;
+                this.saveTransportation(this.transportation, function (a) {
+                    if (a.status === 'success') {
+                        closeModal();
+                    }
+                }, function () {
+                    this.already = false;
+                })
+            }
+        },
         dealEdit:function(idx){
             this.loadDealEdit(this.transportation.products[idx].deal);
         },
@@ -424,87 +440,6 @@ editor = new Vue({
                 this.putTransporter(driver.organisation);
             }
         },
-        save:function(){
-            if (!this.already) {
-                if (this.note.edit) {
-                    this.saveNote();
-                }
-                let e = this.errors;
-                // e.organisation = !(this.transportation.deal.counterparty && this.transportation.deal.counterparty.id !== -1);
-                // e.product = this.transportation.deal.product.id === -1;
 
-                if (!e.type && !e.organisation && !e.product) {
-                    let products = [];
-                    for (let i = 0; i < this.transportation.products.length; i++){
-                        let product = this.transportation.products[i];
-                        products.push({
-                            id:product.id,
-                            dealProduct:product.dealProduct,
-                            amount:product.amount
-                        });
-                    }
-                    let transportation = {
-                        id:this.transportation.id,
-                        date:this.transportation.date,
-                        customer:this.transportation.customer,
-                        products:products,
-                        manager : this.transportation.manager.id,
-                        notes:[]
-                    };
-                    if (this.transportation.address > 0){
-                        transportation.address = this.transportation.address;
-                    }
-                    if (this.transportation.vehicle){
-                        transportation.vehicle = this.transportation.vehicle.id;
-                    }
-                    if (this.transportation.trailer){
-                        transportation.trailer = this.transportation.trailer.id;
-                    }
-                    if (this.transportation.driver){
-                        transportation.driver = this.transportation.driver.id;
-                    }
-                    if (this.transportation.transporter){
-                        transportation.transporter = this.transportation.transporter.id;
-                    }
-                    // if (!this.transportation.deal.quantity){
-                    //     transportation.deal.quantity = 0;
-                    // } else {
-                    //     transportation.deal.quantity = this.transportation.deal.quantity;
-                    // }
-                    // if (!this.transportation.deal.price){
-                    //     transportation.deal.price = 0;
-                    // } else {
-                    //     transportation.deal.price = this.transportation.deal.price;
-                    // }
-                    // transportation.deal.products = [
-                    //     {
-                    //         product : transportation.deal.product,
-                    //         quantity: transportation.deal.quantity,
-                    //         unit: transportation.deal.unit,
-                    //         shipper:transportation.deal.shipper,
-                    //         price:transportation.deal.price
-                    //     }
-                    // ];
-
-                    for(let i in this.transportation.notes){
-                        if (this.transportation.notes.hasOwnProperty(i)){
-                            let note = this.transportation.notes[i];
-                            transportation.notes.push({
-                                id:note.id,
-                                note:note.note
-                            });
-                        }
-                    }
-                    PostApi(this.api.save, transportation, function (a) {
-                        if (a.status === 'success') {
-                            closeModal();
-                        }
-                    }, function(e){
-                        console.log(e);
-                        self.already = false
-                    })
-                }
-            }
-        }
     }
 });

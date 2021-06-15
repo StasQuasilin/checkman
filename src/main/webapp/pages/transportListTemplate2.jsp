@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="${context}/css/TransportList.css?v=${now}">
     <script src="${context}/vue2/contextMenuView.vue?v=${now}"></script>
     <script src="${context}/vue2/baseList.vue?v=${now}"></script>
+    <c:choose>
+        <c:when test="${role eq 'admin'}">
+            <script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
+            <script src="${context}/vue2/transportationDataEdit.vue?v=${now}"></script>
+        </c:when>
+        <c:otherwise>
+            <script src="${context}/vue2/transportationDataView.vue?v=${now}"></script>
+        </c:otherwise>
+    </c:choose>
+    <script src="${context}/vue/transportationSaver.vue?v=${now}"></script>
     <script src="${context}/vue/transportView.vue?v=${now}"></script>
     <script src="${context}/vue2/transportListBase.vue?v=${now}"></script>
     <c:choose>
@@ -23,10 +33,29 @@
     <jsp:include page="transportListInitialise.jsp"/>
     <script>
         transportList.api.show = '${show}';
+        transportList.api.save = '${save}';
         transportList.api.edit = '${edit}';
         transportList.api.archive = '${archive}';
+        transportList.props.driverProps.edit = '${editDriver}';
+        transportList.props.driverProps.find = '${findDriver}';
+        transportList.props.driverProps.add = '${parseDriver}';
+        transportList.props.driverProps.header = '<fmt:message key="driver.add"/>';
+        transportList.props.vehicleProps.edit = '${editVehicle}';
+        transportList.props.vehicleProps.find = '${findVehicle}';
+        transportList.props.vehicleProps.add = '${parseVehicle}';
+        transportList.props.vehicleProps.header = '<fmt:message key="button.add.vehicle"/>';
+        transportList.props.trailerProps.find = '${findTrailer}';
+        transportList.props.trailerProps.add = '${parseTrailer}';
+        transportList.props.trailerProps.header = '<fmt:message key="button.add.trailer"/>';
+        transportList.props.transporterProps.edit = '${editOrganisation}';
+        transportList.props.transporterProps.find = '${findOrganisation}';
+        transportList.props.transporterProps.add = '${parseOrganisation}';
+        transportList.props.transporterProps.header = '<fmt:message key="button.add.transporter"/>';
 
         initFields(transportList.labels);
+        <c:forEach items="${customers}" var="customer">
+        transportList.props.customers.push('${customer}');
+        </c:forEach>
         <c:if test="${not empty edit}">
         transportList.menuItems.push({
             title:'<fmt:message key="edit"/>',
@@ -63,9 +92,10 @@
     </script>
     <div id="transportList">
         <transition-group name="flip-list" tag="div" class="container" >
-            <transport-view v-for="(value, key) in getItems()" :key="value.id" :id="value.id" :f="getF()"
-                            v-on:click.native="show(value.id)" v-on:click.right.native="showMenu(value)"
+            <transport-view v-for="(value, key) in getItems()" :key="value.id" :id="value.id" :f="getF()" :props="props"
+                        v-on:click.native="show(value.id)" v-on:click.right.native="showMenu(value)"
                             :item="value" :titles="labels" ></transport-view>
+
         </transition-group>
         <context-menu ref="contextMenu" :items="menuItems" :menu="menu"></context-menu>
     </div>

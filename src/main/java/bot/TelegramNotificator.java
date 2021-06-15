@@ -164,7 +164,7 @@ public class TelegramNotificator extends INotificator {
             }
         }
     }
-
+    //DONE
     public void sunProbe(SunProbe probe) {
         HashMap<String, String> messages = new HashMap<>();
         for (UserNotificationSetting setting : getSettings()){
@@ -225,6 +225,8 @@ public class TelegramNotificator extends INotificator {
 
         messages.clear();
     }
+
+    //DONE
     public void oilAnalysesShow(Transportation transportation, OilAnalyses analyses) {
 
         HashMap<String, String> messages = new HashMap<>();

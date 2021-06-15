@@ -24,6 +24,7 @@
     }
 </style>
 <script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
+<script src="${context}/vue/transportationSaver.vue"></script>
 <script src="${context}/vue/weightAdd.vue?v=${now}"></script>
 <script>
     editor.organisationProps = {

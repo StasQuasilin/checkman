@@ -88,10 +88,10 @@ public class Vehicle extends JsonAble {
         json.put(ID, id);
         json.put(MODEL, model);
         json.put(NUMBER, number);
-        String value = model + SPACE + number;
+        String value = model + SPACE  + SLASH + number + SLASH;
         if (trailer != null) {
             json.put(TRAILER, trailer.toJson());
-            value += SPACE + trailer.getNumber();
+            value += SPACE + SLASH + trailer.getNumber() + SLASH;
         }
         json.put(VALUE, value);
         return json;

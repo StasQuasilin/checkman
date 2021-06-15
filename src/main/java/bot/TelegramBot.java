@@ -225,6 +225,7 @@ public class TelegramBot extends ILongPollingBot implements INotifier {
         try {
             execute(message);
         } catch (TelegramApiException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }

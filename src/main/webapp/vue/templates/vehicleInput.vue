@@ -81,10 +81,13 @@ objectInput = {
             }
         },
         closeObject:function(){
-            this.props.put({id:-1}, this.item);
+            this.props.put({
+                id:-1
+            }, this.item);
             if (this.always_open){
                 this.openObjectInput();
             }
+            console.log(this.item);
         },
         edit:function(){
             if (this.props && this.props.edit){
@@ -93,7 +96,7 @@ objectInput = {
                     if (a.status === 'success'){
                         self.putObject(a.result, self.item);
                     }
-                })
+                });
             }
         },
         show:function(item){
@@ -122,9 +125,9 @@ objectInput = {
     },
     template:
         '<span v-if="object && object.id > 0" class="object-block">' +
-            '<a v-on:click="edit">{{show(object)}}</a>' +
+            '<a id="itemValue" v-on:click.stop="edit()">{{show(object)}}</a>' +
             '<div class="object-menu">' +
-                '<span class="mini-close" v-on:click="closeObject()">' +
+                '<span class="mini-close" v-on:click.stop="closeObject()">' +
                     '&times;' +
                 '</span>' +
             '</div>' +
@@ -135,11 +138,11 @@ objectInput = {
                     'v-on:keyup="findObject()" v-on:keyup.escape="closeInput()"' +
                     ':class="{error : error}" v-on:click="error = false"' +
                     'style=" width: 90%; border: none">' +
-                '<span class="mini-close" v-on:click="closeInput()">&times;</span>' +
+                '<span class="mini-close" v-on:click.stop="closeInput()">&times;</span>' +
                 '<div class="custom-data-list" v-if="foundObjects.length > 0 || input">' +
                     '<div v-for="o in foundObjects"' +
                         'class="custom-data-list-item" ' +
-                            'v-on:click="putObject(o)">' +
+                            'v-on:click.stop="putObject(o)">' +
                                 '{{show(o)}} ' +
                     '</div>' +
                     '<div v-if="props.add && showAdd" class="custom-data-list-item" v-on:click="addItem()">' +
@@ -149,8 +152,8 @@ objectInput = {
                     '</div>' +
                 '</div>' +
             '</div>' +
-            '<a v-else style="font-size: 10pt" v-on:click="openObjectInput()" ' +
-        '       :class="{error : error}" v-html="props.header">' +
+            '<a v-else style="font-size: 10pt" v-on:click.stop="openObjectInput()" ' +
+        '       :class="{error : error}" v-html="props.header">&nbsp;' +
             '</a>' +
         '</div>'
 

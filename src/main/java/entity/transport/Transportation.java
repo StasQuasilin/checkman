@@ -308,8 +308,12 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     }
 
     @Transient
+    @Deprecated
     public Organisation getCounterparty(){
-        return deal.getOrganisation();
+        if (deal != null){
+            return deal.getOrganisation();
+        }
+        return null;
     }
 
 
