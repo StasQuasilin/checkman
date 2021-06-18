@@ -2,8 +2,8 @@ package utils.hibernate.dao;
 
 import entity.documents.Deal;
 import entity.documents.DealProduct;
-import entity.transport.ActionTime;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import utils.DocumentUIDGenerator;
 import utils.hibernate.DateContainers.LE;
 
@@ -75,7 +75,13 @@ public class DealDAO extends HibernateDAO{
         save(dealProduct);
     }
 
-    public void removeDealProduct(DealProduct product) {
-        remove(product);
+    public boolean removeDealProduct(DealProduct product) {
+        final List<TransportationProduct> transportations = transportationDAO.getTransportationsByDealProduct(product);
+
+        if (transportations.size() == 0){
+            remove(product);
+            return true;
+        }
+        return false;
     }
 }

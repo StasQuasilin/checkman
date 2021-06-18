@@ -13,6 +13,7 @@ let currentPage = '';
 let sessionLocker;
 
 $(document).ready(function(){
+
     console.log('Platform ' + navigator.platform);
     if(navigator.platform.includes('Linux')){
         let style = document.createElement('style');
@@ -29,7 +30,9 @@ $(document).ready(function(){
     staticField = document.getElementById('static');
     sessionLocker = document.getElementById('sessionLocker');
     openLast();
-
+    window.addEventListener('beforeunload', function (e) {
+        closeAllSubscribes();
+    });
 });
 function getLastUrl(){
     return localStorage.getItem(lastPage + ';' + Settings.worker);
@@ -79,9 +82,7 @@ function loadContent(url, args){
             localStorage.removeItem(key);
         }
         PostReq(url, args, function (e) {
-            if (typeof stopContent === 'function'){
-                stopContent();
-            }
+            unSubscribe();
             $(content).empty();
             $(staticField).empty();
             $(filter).empty();

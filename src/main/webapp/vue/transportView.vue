@@ -82,15 +82,15 @@ transportView = {
                         '{{new Date(item.date).toLocaleDateString().substring(0, 5)}}' +
                     '</span>' +
                     '<div style="display: flex; flex-direction: column; width: 100%">' +
-                        '<div v-for="product in item.products">' +
+                        '<div v-for="product in item.products" v-if="product.counterparty">' +
                             '<span style="display: inline-block; width: 45%;">' +
-                                '<b class="secure">' +
+                                '<b class="secure" >' +
                                     '{{product.counterparty.value}}' +
                                 '</b>' +
                                 '<span v-if="item.contractNumber">' +
-                                '<b>' +
-                                    '{{product.contractNumber}}' +
-                                '</b>' +
+                                    '<b>' +
+                                        '{{product.contractNumber}}' +
+                                    '</b>' +
                                 '</span>' +
                             '</span>' +
                             '<img style="width: 12pt" :src="titles.icon[item.type]" :title="titles[item.type]" :alt="titles[item.type]"/>' +
@@ -195,19 +195,11 @@ transportView = {
                             '</template>' +
                         '</td>' +
                     '</tr>' +
-                    // '<tr v-if="item.weight.correction > 0">' +
-                    //     '<td colspan="2">' +
-                    //         '<template v-if="item.weight.netto > 0">' +
-                    //             '({{(item.weight.netto * (1 - item.weight.correction / 100)).toLocaleString()}}) ' +
-                    //         '</template>' +
-                    //         '-{{item.weight.correction.toLocaleString()}} %' +
-                    //     '</td>' +
-                    // '</tr>' +
                 '</table>' +
             '</div>' +
             '<div class="right-field" v-if="analyses.length > 0" style="width: 100pt; overflow-y: scroll">' +
                 '<div v-for="a in analyses">' +
-                    '<div style="font-size: 8pt; overflow: hidden; border-bottom: dashed gray 1px">' +
+                    '<div style="font-size: 8pt; overflow: hidden; border-bottom: dashed gray 1px" v-if="a.counterparty">' +
                         '{{a.counterparty.value}}' +
                     '</div>' +
                     '<template v-if="a.sun">' +

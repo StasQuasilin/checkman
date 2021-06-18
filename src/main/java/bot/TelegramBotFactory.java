@@ -116,7 +116,7 @@ public class TelegramBotFactory {
         return telegramNotificator;
     }
 
-    private static final String SETTINGS_BASE = System.getProperty("user.dir") + "/../bot_settings";
+    private static final String SETTINGS_BASE = System.getProperty("user.dir") + "/bot_settings";
     private static final PropertyReader reader = new PropertyReader();
     public static void init(String contextPath) {
         context = contextPath;

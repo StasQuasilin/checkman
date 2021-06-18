@@ -28,11 +28,6 @@
             list.handler(a);
         });
         </c:forEach>
-        stopContent = function(){
-            <c:forEach items="${subscribe}" var="s">
-            unSubscribe('${s}');
-            </c:forEach>
-        };
     </script>
     <jsp:include page="reportListHeader.jsp"/>
     <div id="container">

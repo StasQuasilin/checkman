@@ -29,13 +29,6 @@
     list.handle(a);
   });
   </c:forEach>
-  stopContent = function(){
-    <c:forEach items="${subscribe}" var="s">
-    subscribe('${s}', function(){
-      unSubscribe('${s}');
-    });
-    </c:forEach>
-  };
 </script>
 <div id="list" style="display: flex; flex-wrap: wrap;">
   <div v-for="(value, key) in getItems()" style="border: solid 1pt; margin: 4pt 8pt; padding: 4pt;" v-on:click="show(value.id)">

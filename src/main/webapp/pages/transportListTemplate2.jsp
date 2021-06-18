@@ -84,11 +84,6 @@
             transportList.handle(a);
         });
         </c:forEach>
-        stopContent = function(){
-            <c:forEach items="${subscribe}" var="s">
-            unSubscribe('${s}');
-            </c:forEach>
-        };
     </script>
     <div id="transportList">
         <transition-group name="flip-list" tag="div" class="container" >

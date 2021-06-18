@@ -3,6 +3,7 @@ package utils.hibernate.dao;
 import constants.Constants;
 import entity.DealType;
 import entity.documents.Deal;
+import entity.documents.DealProduct;
 import entity.transport.Transportation;
 import entity.transport.TransportationProduct;
 
@@ -44,11 +45,21 @@ public class TransportationDAO extends HibernateDAO{
         for (Transportation transportation : hibernator.query(Transportation.class, ARCHIVE, false)){
             final Set<TransportationProduct> products = transportation.getProducts();
             if (products.size() > 0){
+                boolean add = false;
                 for (TransportationProduct product : products){
-                    if (product.getDealProduct().getDeal().getType() == type){
-                        transportations.add(transportation);
-                        break;
+                    final DealProduct dealProduct = product.getDealProduct();
+                    if (dealProduct != null){
+                        if (dealProduct.getDeal().getType() == type){
+                            transportations.add(transportation);
+                            add = false;
+                            break;
+                        }
+                    } else {
+                        add = true;
                     }
+                }
+                if (add){
+                    transportations.add(transportation);
                 }
             } else {
                 final Deal deal = transportation.getDeal();

@@ -59,15 +59,17 @@ transportFilter = new Vue({
                     let item = items[i];
                     for (let j = 0; j < item.products.length; j++){
                         let product = item.products[j];
-                        let counterparty = product.counterparty;
-                        let counterpartyId = counterparty.id;
-                        if (counterpartyId) {
-                            if (!counterparty[counterpartyId]) {
-                                organisations[counterpartyId] = counterparty;
+                        if (product.counterparty) {
+                            let counterparty = product.counterparty;
+                            let counterpartyId = counterparty.id;
+                            if (counterpartyId) {
+                                if (!counterparty[counterpartyId]) {
+                                    organisations[counterpartyId] = counterparty;
+                                }
                             }
-                        }
-                        if (this.organisation === counterpartyId){
-                            found = true;
+                            if (this.organisation === counterpartyId) {
+                                found = true;
+                            }
                         }
                     }
                 }
@@ -222,7 +224,7 @@ transportFilter = new Vue({
                     }
                 }
 
-                if (counterparty && counterparty !== -1){
+                if (p.counterparty && counterparty && counterparty !== -1){
                     if (p.counterparty.id === counterparty){
                         byCounterparty = true;
                     }

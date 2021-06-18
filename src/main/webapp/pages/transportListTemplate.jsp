@@ -108,11 +108,6 @@
         list.handler(a);
     });
     </c:forEach>
-    stopContent = function(){
-        <c:forEach items="${subscribe}" var="s">
-        unSubscribe('${s}');
-        </c:forEach>
-    };
     // if (s > 2) {
     //     list.loading = true;
     // }

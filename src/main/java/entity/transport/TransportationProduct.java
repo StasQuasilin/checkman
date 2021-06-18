@@ -129,24 +129,28 @@ public class TransportationProduct extends JsonAble {
         final JSONObject object = new JSONObject();
         object.put(INDEX, index);
         object.put(ID, id);
-        object.put(DEAL, dealProduct.getDeal().getId());
-        object.put(DEAL_PRODUCT, dealProduct.getId());
-        object.put(PRODUCT_ID, dealProduct.getProduct().getId());
-        object.put(PRODUCT_NAME, dealProduct.getProduct().getName());
-        object.put(PRODUCT, dealProduct.getProduct().toShortJson());
-        object.put(COUNTERPARTY, dealProduct.getDeal().getOrganisation().toJson(level));
-        final Address address = dealProduct.getAddress();
-        if (address != null){
-            object.put(ADDRESS_ID, address.getId());
-            object.put(ADDRESS, address.toJson(level));
+        if (dealProduct != null){
+            object.put(DEAL, dealProduct.getDeal().getId());
+            object.put(DEAL_PRODUCT, dealProduct.getId());
+            object.put(PRODUCT_ID, dealProduct.getProduct().getId());
+            object.put(PRODUCT_NAME, dealProduct.getProduct().getName());
+            object.put(PRODUCT, dealProduct.getProduct().toShortJson());
+            object.put(COUNTERPARTY, dealProduct.getDeal().getOrganisation().toJson(level));
+            final Address address = dealProduct.getAddress();
+            if (address != null){
+                object.put(ADDRESS_ID, address.getId());
+                object.put(ADDRESS, address.toJson(level));
+            }
+            object.put(QUANTITY, dealProduct.getQuantity());
+            object.put(UNIT_ID, dealProduct.getUnit().getId());
+            object.put(UNIT_NAME, dealProduct.getUnit().getName());
+            object.put(PRICE, dealProduct.getPrice());
+            object.put(SHIPPER_ID, dealProduct.getShipper().getId());
+            object.put(SHIPPER_NAME, dealProduct.getShipper().getValue());
         }
-        object.put(QUANTITY, dealProduct.getQuantity());
+
         object.put(AMOUNT, amount);
-        object.put(UNIT_ID, dealProduct.getUnit().getId());
-        object.put(UNIT_NAME, dealProduct.getUnit().getName());
-        object.put(PRICE, dealProduct.getPrice());
-        object.put(SHIPPER_ID, dealProduct.getShipper().getId());
-        object.put(SHIPPER_NAME, dealProduct.getShipper().getValue());
+
         if (weight != null) {
             object.put(WEIGHT, weight.toJson(level));
         }

@@ -19,7 +19,6 @@ public class PropertyReader {
             InputStream stream = new FileInputStream(fileName);
             properties.load(stream);
             stream.close();
-            log.info("File '" + file.getPath() + "' read successfully!");
         } else {
             log.info("File '" + file.getAbsolutePath() + "' not found");
             if (create){

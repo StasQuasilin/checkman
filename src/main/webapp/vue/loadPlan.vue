@@ -28,14 +28,6 @@ plan = new Vue({
         ],
         tabNames:{}
     },
-    watch:{
-        items:function () {
-            console.log(Object.values(this.items));
-        }
-    },
-    computed:{
-
-    },
     methods:{
         totalAmount:function () {
             console.log('calculate total amount');
@@ -59,18 +51,24 @@ plan = new Vue({
             return total;
         },
         totalAmountString:function(){
-            let total = this.totalAmount();
-            let quantity = this.quantity;
+                let total = this.totalAmount();
+                let quantity = this.deal.products[this.selectedProduct].quantity;
+                return total.toLocaleString() + ' / ' + quantity + ' ( ' + (total / quantity * 100).toLocaleString() + '% )';
+            }
+        },
+        totalFactString:function(){
+            let total = this.totalFact();
+            let quantity = this.deal.products[this.selectedProduct].quantity;
             return total.toLocaleString() + ' / ' + quantity + ' ( ' + (total / quantity * 100).toLocaleString() + '% )';
         },
         totalFact:function () {
             let total = 0;
-            for (let i in this.plans){
-                if (this.plans.hasOwnProperty(i)){
-                    let plan = this.plans[i];
-                    for (let j in plan.products){
-                        if (plan.products.hasOwnProperty(j)){
-                            let product = plan.products[j];
+            for (let i in this.items){
+                if (this.items.hasOwnProperty(i)){
+                    let item = this.items[i];
+                    for (let j in item.products){
+                        if (item.products.hasOwnProperty(j)){
+                            let product = item.products[j];
                             if (product.weight){
                                 let g = product.weight.gross;
                                 let t = product.weight.tare;
@@ -84,13 +82,11 @@ plan = new Vue({
             }
             return total;
         },
-        handler:function(a){
-
-        },
         selectProduct:function(idx){
             this.selectedProduct = idx;
 
             const self = this;
+            this.items = {};
             self.plans = [];
 
             subscribe('TRANSPORT_' + this.deal.type.toUpperCase(), function (data) {
@@ -104,7 +100,7 @@ plan = new Vue({
                             if (product.dealProduct === p){
                                 self.addItem(update);
                             } else {
-                                this.deleteItem(update);
+                                self.deleteItem(update);
                             }
                         }
                     }
@@ -113,7 +109,7 @@ plan = new Vue({
                     for (let d = 0; d < data.delete.length; d++){
                         let remove = data.delete[d];
                         if (self.items[remove.id]){
-                            this.deleteItem(remove);
+                            self.deleteItem(remove);
                         }
                     }
 
@@ -183,7 +179,7 @@ plan = new Vue({
             });
             return dates;
         },
-        getPlans:function(){
+        getPlansgetPlans:function(){
             if (this.filterDate === -1){
                 return Object.values(this.items);
             } else {
@@ -443,4 +439,4 @@ plan = new Vue({
         }
 
     }
-});
+);

@@ -43,13 +43,7 @@
         extractionList.handler(a);
     });
     </c:forEach>
-    stopContent = function(){
-        <c:forEach items="${subscribe}" var="s">
-        subscribe('${s}', function(a){
-            unSubscribe('${s}');
-        });
-        </c:forEach>
-    }
+
 </script>
 <div id="container" class="item-container">
     <div v-for="(value, key) in getItems()" class="container-item"

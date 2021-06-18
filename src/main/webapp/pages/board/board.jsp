@@ -68,11 +68,7 @@
             board.handle(a);
         });
         </c:forEach>
-        stopContent = function(){
-            <c:forEach items="${subscribe}" var="s">
-            unSubscribe('${s}');
-            </c:forEach>
-        };
+
         board.worker = ${worker.id}
     </script>
     <style>

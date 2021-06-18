@@ -4,6 +4,7 @@
 const address = Settings.getAddress();
 let subscriber;
 let subscribes = {};
+let temp = [];
 let time = 10;
 
 
@@ -26,12 +27,22 @@ function Connect(){
             let json = JSON.parse(env.data);
             let type = json['type'];
             let data = json['data'];
-            if (typeof subscribes[type] === 'function') {
-                subscribes[type](data, type);
-            } else {
-                console.log('Subscribe \'' + type + '\' = ' + typeof subscribes[type]);
+
+            let v = subscribes[type];
+            for (let i in v){
+                if (v.hasOwnProperty(i)){
+                    let f = v[i];
+                    let t = typeof f;
+                    if (t === 'function') {
+                        f(data, type);
+                    } else {
+                        console.log('Subscribe \'' + type + '\' = ' + t);
+                    }
+                }
             }
+
         } catch (e) {
+            console.log(e);
             console.log(env)
         }
     };
@@ -62,12 +73,30 @@ function Connect(){
 function subscribe(sub, on){
     if (typeof subscribes === "undefined"){
         subscribes = {};
-    } else {
-        subscribes[sub] = on;
-        send(JSON.stringify({action: 'subscribe', subscriber: sub, worker: Settings.worker}));
+    } else if (!subscribes[sub]){
+        subscribes[sub] = [];
+    }
+    temp.push(sub);
+    subscribes[sub].push(on);
+    send(JSON.stringify({action: 'subscribe', subscriber: sub, worker: Settings.worker}));
+}
+function unSubscribe(){
+    for (let i in temp){
+        if(temp.hasOwnProperty(i)){
+            closeSubscribe(temp[i])
+        }
+    }
+    temp = [];
+}
+function closeAllSubscribes() {
+    let keys = Object.keys(subscribes);
+    for (let i in keys){
+        if (keys.hasOwnProperty(i)){
+            closeSubscribe(keys[i]);
+        }
     }
 }
-function unSubscribe(sub){
+function closeSubscribe(sub) {
     send(JSON.stringify({action:'unsubscribe', subscriber:sub}));
     delete subscribes[sub];
 }

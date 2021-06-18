@@ -119,75 +119,14 @@
                 <object-input :props="organisationProps" :object="deal.counterparty"></object-input>
             </td>
         </tr>
-<%--        <tr>--%>
-<%--            <td>--%>
-<%--                <label for="product">--%>
-<%--                    <fmt:message key="deal.product"/>--%>
-<%--                </label>--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                :--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                <select id="product" v-model="deal.product">--%>
-<%--                    <option v-for="product in products" :value="product.id">{{product.value}}</option>--%>
-<%--                </select>--%>
-
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--        <tr>--%>
-<%--            <td>--%>
-<%--                <label for="shipper">--%>
-<%--                    <fmt:message key="deal.shipper"/>--%>
-<%--                </label>--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                :--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                <select id="shipper" v-model="deal.shipper">--%>
-<%--                    <option v-for="shipper in shippers" :value="shipper.id">{{shipper.value}}</option>--%>
-<%--                </select>--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--        <tr>--%>
-<%--            <td>--%>
-<%--                <label for="quantity">--%>
-<%--                    <fmt:message key="deal.quantity"/>--%>
-<%--                </label>--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                :--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                <input type="number" min="0" id="quantity" v-model="deal.quantity" :class="{error : errors.quantity}" autocomplete="off" onfocus="this.select()">--%>
-<%--                <select v-model="deal.unit">--%>
-<%--                    <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>--%>
-<%--                </select>--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--        <tr>--%>
-<%--            <td>--%>
-<%--                <label for="price">--%>
-<%--                    <fmt:message key="deal.price"/>--%>
-<%--                </label>--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                :--%>
-<%--            </td>--%>
-<%--            <td>--%>
-<%--                <input type="number" min="0" id="price" v-model="deal.price" :class="{error : errors.price}" autocomplete="off" onfocus="this.select()">--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--        WRITE HERE--%>
         <template v-for="(dp, dpIdx) in deal.products">
-<%--            <tr>--%>
-<%--               <td colspan="3">--%>
-<%--                   <span class="mini-close" v-on:click="deal.products.splice(dpIdx, 1)">--%>
-<%--                       &times;--%>
-<%--                   </span> {{(dpIdx + 1).toLocaleString()}}--%>
-<%--               </td>--%>
-<%--            </tr>--%>
+            <tr v-if="deal.products.length > 1">
+               <td colspan="3">
+                   <span class="mini-close" v-on:click="deal.products.splice(dpIdx, 1)">
+                       &times;
+                   </span> {{(dpIdx + 1).toLocaleString()}}
+               </td>
+            </tr>
             <tr>
                 <td colspan="2">
                     <label :for="'dpProduct_' + dpIdx">

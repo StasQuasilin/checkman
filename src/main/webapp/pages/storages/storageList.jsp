@@ -208,13 +208,6 @@
       list.handler(a);
     });
     </c:forEach>
-    stopContent = function(){
-      <c:forEach items="${subscribe}" var="s">
-      subscribe('${s}', function(a){
-        unSubscribe('${s}');
-      });
-      </c:forEach>
-    }
   </script>
   <style>
     .row{

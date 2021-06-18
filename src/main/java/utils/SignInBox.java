@@ -34,7 +34,6 @@ public class SignInBox implements Constants{
             if (passwordHash.equals(hash)){
                 answer = new SuccessAnswer();
                 answer.add(Constants.USING, Constants.HASH);
-                System.out.println("Login via hash");
                 login(req, user, answer);
             } else {
                 final String userPassword = user.getPassword();
@@ -42,7 +41,6 @@ public class SignInBox implements Constants{
                     answer = new SuccessAnswer();
                     login(req, user, answer);
                     answer.add(Constants.USING, Constants.PASSWORD);
-                    System.out.println("Login via password");
                 } else {
                     final String msg = lb.get(Languages.WRONG_PASSWORD);
                     answer = new ErrorAnswer("msd");

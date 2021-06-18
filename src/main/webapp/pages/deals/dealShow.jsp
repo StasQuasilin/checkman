@@ -36,7 +36,7 @@
 
   plan.deal = ${deal.toJson()};
   if (plan.deal.products.length > 0){
-    plan.selectProduct(0);
+    // plan.selectProduct(0);
   }
   plan.dealId = '${deal.id}';
   plan.dateFrom = new Date('${deal.date}');
@@ -149,15 +149,19 @@
           <table>
             <tr>
               <td>
-                {{product.id}}
+                {{product.id}}:{{productIdx}}
               </td>
             </tr>
             <tr>
-              <td>
+              <td colspan="2">
                 <fmt:message key="deal.product"/>
               </td>
-              <td>
-                :{{product.productName}}, <fmt:message key="${deal.type}"/>, {{product.shipperName}}
+            </tr>
+            <tr>
+              <td colspan="2">
+                <b>
+                  <fmt:message key="${deal.type}"/> {{product.productName}} <fmt:message key="deal.from"/> {{product.shipperName}}
+                </b>
               </td>
             </tr>
             <tr>
@@ -195,21 +199,21 @@
       <div style="height: 100%">
         <div v-if="tab == 'vehicles'" class="tab-content" style="display: flex; flex-direction: row">
           <div>
-            <div style="height: 100%; max-height: 500px; overflow-y: scroll">
-              <div v-for="date in dates()" class="mini-close" :class="{bold : filterDate === date}"
-                   style="font-size: 10pt" v-on:click="selectDate(date)">
-                <span v-if="filterDate === date">
-                  -
-                </span>
-                <span v-else>
-                  &nbsp;
-                </span>
-                <span>
-                  {{new Date(date).toLocaleDateString()}}:
-                  {{itemsByDate(date).count}} /
-                  {{itemsByDate(date).weight}}
-                </span>
-              </div>
+            <div style="height: 100%; max-height: 500px; overflow-y: scroll; display: none">
+<%--              <div v-for="date in dates()" class="mini-close" :class="{bold : filterDate === date}"--%>
+<%--                   style="font-size: 10pt" v-on:click="selectDate(date)">--%>
+<%--                <span v-if="filterDate === date">--%>
+<%--                  ---%>
+<%--                </span>--%>
+<%--                <span v-else>--%>
+<%--                  &nbsp;--%>
+<%--                </span>--%>
+<%--                <span>--%>
+<%--                  {{new Date(date).toLocaleDateString()}}:--%>
+<%--                  {{itemsByDate(date).count}} /--%>
+<%--                  {{itemsByDate(date).weight}}--%>
+<%--                </span>--%>
+<%--              </div>--%>
             </div>
           </div>
           <div style="width: 100%; display: flex; flex-direction: column">
@@ -218,109 +222,107 @@
               <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
               <button v-on:click="newVehicle()"><fmt:message key="button.add.vehicle"/> </button>
             </div>
-            <transition-group name="flip-list" tag="div" class="plan-container">
-              <div v-for="(value, key) in getPlans()" :key="value.id" class="plan-item"
-                   :class="'container-item-' + new Date(value.date).getDay()">
-                <div v-if="!value.removed">
-                  <%--UPPER ROW--%>
-                  <div class="upper">
-                    <%--REMOVE BUTTON--%>
-                    <div style="display: inline-block; width: 10pt">
-                          <span title="${dropTitle}" class="mini-close" style="left: 0"
-                                v-show="!value.archive" v-on:click="remove(key)">&times;</span>
-                      <span v-show="value.archive" style="color: green">
-                            &#10003;
-                          </span>
-                    </div>
-                    <%--DATE INPUT--%>
-                    <span class="mini-close" v-on:click="dateTimePicker(value)">
-                              {{new Date(value.date).toLocaleDateString()}}
-                            </span>
-                    <%--PLAN INPUT--%>
-                    <span style="position: relative">
-                            <template v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id">
-                              <input v-model="product.amount" onfocus="this.select()" v-on:change="initSaveTimer(value)"
-                                     title="${planTitle}" style="width: 4em; text-align: right; padding: 0 8px" min="1"> {{unit}}
-                            </template>
-                          </span>
-                    <%--CUSTOMER INPUT--%>
-                    <select v-model="value.customer" title="${customerTitle}" v-on:change="initSaveTimer(value)">
-                      <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>
-                    </select>
-                    <span style="float: right">
-                          <span class="mini-close" v-on:click="copy(key)">
-                            Copy
-                          </span>
-                        </span>
-                  </div>
-                  <%--LOWER ROW--%>
-                  <div class="lower">
-                    <div>
-                      <div title="${driver}">
-                        <fmt:message key="transportation.driver"/>
-                        <object-input :props="driverProps" :object="value.driver" :item="value"></object-input>
-                        <span v-if="value.driver && value.driver.license">
-                                /{{value.driver.license}}/
-                              </span>
-                      </div>
-                      <div>
-                        <fmt:message key="transportation.automobile"/>
-                        <object-input title=${truck} :props="vehicleProps" :object="value.vehicle" :item="value"></object-input>
-                        <object-input title=${trailer} :props="trailerProps" :object="value.trailer" :item="value"></object-input>
-                      </div>
-                      <div title="${transporter}">
-                        <fmt:message key="transportation.transporter"/>
-                        <object-input :props="transporterProps" :object="value.transporter" :item="value"></object-input>
-                      </div>
-                    </div>
-                    <div>
-                      <div v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id && product.weight">
-                        <div>
-                          Б:&#9;{{product.weight.gross.toLocaleString()}}
-                        </div>
-                        <div>
-                          T:&#9;{{product.weight.tare.toLocaleString()}}
-                        </div>
-                        <div>
-                          H:&#9;
-                          <template v-if="product.weight.gross > 0 && product.weight.tare > 0">
-                            {{(product.weight.gross - product.weight.tare).toLocaleString()}}
-                          </template>
-                          <template v-else>
-                            0
-                          </template>
-                        </div>
+<%--            <transition-group name="flip-list" tag="div" class="plan-container">--%>
+<%--              <div v-for="(value, key) in getPlans()" :key="value.id" class="plan-item"--%>
+<%--                   :class="'container-item-' + new Date(value.date).getDay()">--%>
+<%--                <div v-if="!value.removed">--%>
+<%--                  &lt;%&ndash;UPPER ROW&ndash;%&gt;--%>
+<%--                  <div class="upper">--%>
+<%--                    &lt;%&ndash;REMOVE BUTTON&ndash;%&gt;--%>
+<%--                    <div style="display: inline-block; width: 10pt">--%>
+<%--                          <span title="${dropTitle}" class="mini-close" style="left: 0"--%>
+<%--                                v-show="!value.archive" v-on:click="remove(key)">&times;</span>--%>
+<%--                      <span v-show="value.archive" style="color: green">--%>
+<%--                            &#10003;--%>
+<%--                          </span>--%>
+<%--                    </div>--%>
+<%--                    &lt;%&ndash;DATE INPUT&ndash;%&gt;--%>
+<%--                    <span class="mini-close" v-on:click="dateTimePicker(value)">--%>
+<%--                              {{new Date(value.date).toLocaleDateString()}}--%>
+<%--                            </span>--%>
+<%--                    &lt;%&ndash;PLAN INPUT&ndash;%&gt;--%>
+<%--                    <span style="position: relative">--%>
+<%--                            <template v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id">--%>
+<%--                              <input v-model="product.amount" onfocus="this.select()" v-on:change="initSaveTimer(value)"--%>
+<%--                                     title="${planTitle}" style="width: 4em; text-align: right; padding: 0 8px" min="1"> {{unit}}--%>
+<%--                            </template>--%>
+<%--                          </span>--%>
+<%--                    &lt;%&ndash;CUSTOMER INPUT&ndash;%&gt;--%>
+<%--                    <select v-model="value.customer" title="${customerTitle}" v-on:change="initSaveTimer(value)">--%>
+<%--                      <option v-for="customer in customers" :value="customer.id">{{customer.value}}</option>--%>
+<%--                    </select>--%>
+<%--                    <span style="float: right">--%>
+<%--                          <span class="mini-close" v-on:click="copy(key)">--%>
+<%--                            Copy--%>
+<%--                          </span>--%>
+<%--                        </span>--%>
+<%--                  </div>--%>
+<%--                  &lt;%&ndash;LOWER ROW&ndash;%&gt;--%>
+<%--                  <div class="lower">--%>
+<%--                    <div>--%>
+<%--                      <div title="${driver}">--%>
+<%--                        <fmt:message key="transportation.driver"/>--%>
+<%--                        <object-input :props="driverProps" :object="value.driver" :item="value"></object-input>--%>
+<%--                        <span v-if="value.driver && value.driver.license">--%>
+<%--                                /{{value.driver.license}}/--%>
+<%--                              </span>--%>
+<%--                      </div>--%>
+<%--                      <div>--%>
+<%--                        <fmt:message key="transportation.automobile"/>--%>
+<%--                        <object-input title=${truck} :props="vehicleProps" :object="value.vehicle" :item="value"></object-input>--%>
+<%--                        <object-input title=${trailer} :props="trailerProps" :object="value.trailer" :item="value"></object-input>--%>
+<%--                      </div>--%>
+<%--                      <div title="${transporter}">--%>
+<%--                        <fmt:message key="transportation.transporter"/>--%>
+<%--                        <object-input :props="transporterProps" :object="value.transporter" :item="value"></object-input>--%>
+<%--                      </div>--%>
+<%--                    </div>--%>
+<%--                    <div>--%>
+<%--                      <div v-for="product in value.products" v-if="product.dealProduct === deal.products[selectedProduct].id && product.weight">--%>
+<%--                        <div>--%>
+<%--                          Б:&#9;{{product.weight.gross.toLocaleString()}}--%>
+<%--                        </div>--%>
+<%--                        <div>--%>
+<%--                          T:&#9;{{product.weight.tare.toLocaleString()}}--%>
+<%--                        </div>--%>
+<%--                        <div>--%>
+<%--                          H:&#9;--%>
+<%--                          <template v-if="product.weight.gross > 0 && product.weight.tare > 0">--%>
+<%--                            {{(product.weight.gross - product.weight.tare).toLocaleString()}}--%>
+<%--                          </template>--%>
+<%--                          <template v-else>--%>
+<%--                            0--%>
+<%--                          </template>--%>
+<%--                        </div>--%>
 
-                      </div>
-                    </div>
-                  </div>
-                  <div class="lower">
-                        <span v-if="value.editNote">
-                          <input id="input" v-on:keyup.enter="saveNote(value)" v-on:blur="saveNote(value)"
-                                 v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput" autocomplete="off"
-                                 style="width: 100%; background: white; border: none">
-                        </span>
-                    <div style="flex-wrap: wrap">
-                      <div v-for="(note, nId) in value.notes" :title="note.creator"
-                           style="display: inline-flex; padding-left: 1pt">
-                        <span v-on:click="removeNote(value, nId)" class="mini-close">&times;</span>
-                        <a v-on:click="editNote(value, nId)">{{note.note}}</a>
-                      </div>
-                      <div style="display: inline-flex; padding-left: 1pt">
-                        <a class="mini-close" v-on:click="addNote(value.key)">
-                          +<fmt:message key="note.add"/>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </transition-group>
+<%--                      </div>--%>
+<%--                    </div>--%>
+<%--                  </div>--%>
+<%--                  <div class="lower">--%>
+<%--                        <span v-if="value.editNote">--%>
+<%--                          <input id="input" v-on:keyup.enter="saveNote(value)" v-on:blur="saveNote(value)"--%>
+<%--                                 v-on:keyup.escape="closeNote(value.key)" v-model="value.noteInput" autocomplete="off"--%>
+<%--                                 style="width: 100%; background: white; border: none">--%>
+<%--                        </span>--%>
+<%--                    <div style="flex-wrap: wrap">--%>
+<%--                      <div v-for="(note, nId) in value.notes" :title="note.creator"--%>
+<%--                           style="display: inline-flex; padding-left: 1pt">--%>
+<%--                        <span v-on:click="removeNote(value, nId)" class="mini-close">&times;</span>--%>
+<%--                        <a v-on:click="editNote(value, nId)">{{note.note}}</a>--%>
+<%--                      </div>--%>
+<%--                      <div style="display: inline-flex; padding-left: 1pt">--%>
+<%--                        <a class="mini-close" v-on:click="addNote(value.key)">--%>
+<%--                          +<fmt:message key="note.add"/>--%>
+<%--                        </a>--%>
+<%--                      </div>--%>
+<%--                    </div>--%>
+<%--                  </div>--%>
+<%--                </div>--%>
+<%--              </div>--%>
+<%--            </transition-group>--%>
             <div>
-              <fmt:message key="totle.plan"/>: {{totalAmountString()}}
-<%--              {{totalAmount().toLocaleString()}} / {{(quantity).toLocaleString()}} ( {{(totalAmount() / quantity * 100).toLocaleString()}} % )--%>
-              <fmt:message key="totle.fact"/>:
-              {{totalFact().toLocaleString()}} / {{(quantity).toLocaleString()}} ( {{(totalFact() / quantity * 100).toLocaleString()}} % )
+<%--              <fmt:message key="totle.plan"/>: {{totalAmountString()}}--%>
+<%--              <fmt:message key="totle.fact"/>: {{totalFactString()}}--%>
             </div>
           </div>
         </div>

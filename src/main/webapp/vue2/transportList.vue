@@ -14,7 +14,11 @@ transportList = new Vue({
             driverProps:{
                 put:function(driver, item){
                     item.driver = driver;
-                    transportList.saveTransportation(item);
+                    if (driver.vehicle && !item.vehicle){
+                        item.vehicle = driver.vehicle;
+                    } else {
+                        transportList.saveTransportation(item);
+                    }
                 },
                 edit:'',
                 show:['value']

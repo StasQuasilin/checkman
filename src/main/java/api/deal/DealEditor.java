@@ -39,7 +39,7 @@ public class DealEditor implements Constants {
     private final DealComparator comparator = new DealComparator();
     private final UpdateUtil updateUtil = new UpdateUtil();
 
-    public Deal editDeal(JSONObject body, Worker creator) throws IOException {
+    public Deal editDeal(JSONObject body, Worker creator) {
 
         boolean save = false;
         boolean isNew = false;
@@ -100,35 +100,6 @@ public class DealEditor implements Constants {
             deal.setOrganisation(organisation);
             save = true;
         }
-
-//        Product product = dao.getProductById(body.get(PRODUCT));
-//        if (deal.getProduct() == null || deal.getProduct().getId() != product.getId()) {
-//            deal.setProduct(product);
-//            save = true;
-//        }
-
-//        float quantity = Float.parseFloat(String.valueOf(body.get(Constants.QUANTITY)));
-//        if (deal.getQuantity() != quantity) {
-//            deal.setQuantity(quantity);
-//            save = true;
-//        }
-
-//        long unit = (long) body.get(UNIT);
-//        if (deal.getUnit() == null || deal.getUnit().getId() != unit) {
-//            deal.setUnit(UnitBox.getUnit(unit));
-//            save = true;
-//        }
-//        float price = Float.parseFloat(String.valueOf(body.get(PRICE)));
-//        if (deal.getPrice() != price) {
-//            deal.setPrice(price);
-//            save = true;
-//        }
-
-//        Shipper shipper = dao.getShipperById(body.get(SHIPPER));
-//        if (deal.getShipper() == null || deal.getShipper().getId() != shipper.getId()) {
-//            deal.setShipper(shipper);
-//            save = true;
-//        }
 
         final HashMap<Integer, DeliveryCost> costHashMap = new HashMap<>();
         if (deal.getCosts() != null){
@@ -271,7 +242,9 @@ public class DealEditor implements Constants {
         }
 
         for (DealProduct product : dealProducts.values()){
-            dealDAO.removeDealProduct(product);
+            if (!dealDAO.removeDealProduct(product)){
+                products.add(product);
+            }
         }
 
         if (!update){

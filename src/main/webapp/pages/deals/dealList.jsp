@@ -17,9 +17,7 @@
     subscribe('${subscribe}', function(a){
       dealList.handle(a);
     });
-    stopContent = function(){
-      unSubscribe('${subscribe}');
-    };
+
     dealList.menuItems.push({
       title:'<fmt:message key="edit"/>',
       onClick:function (itemId) {
