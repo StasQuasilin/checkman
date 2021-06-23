@@ -8,13 +8,12 @@
     <script src="${context}/vue/dealEdit.vue?v=${now}"></script>
     <script>
         <c:forEach items="${products}" var="product">
-        dealEdit.products.push({
+        dealEdit.products[${product.id}] = ({
             id:${product.id},
-            value:'${product.name}'
+            value:'${product.name}',
+            group:${product.group}
         });</c:forEach>
-        dealEdit.products.sort(function (a, b) {
-            return a.value.localeCompare(b.value)
-        });
+
         <c:forEach items="${shippers}" var="shipper">
         dealEdit.shippers.push({
             id:${shipper.id},
@@ -65,7 +64,7 @@
         // if (dealEdit.shippers.length > 0){
         //     dealEdit.deal.shipper= dealEdit.shippers[0].id;
         // }
-        dealEdit.selectProduct();
+        // dealEdit.selectProduct();
         dealEdit.addProduct();
 
         if (dealEdit.units.length > 0){
@@ -122,10 +121,13 @@
         <template v-for="(dp, dpIdx) in deal.products">
             <tr v-if="deal.products.length > 1">
                <td colspan="3">
-                   <span class="mini-close" v-on:click="deal.products.splice(dpIdx, 1)">
+                   <span class="mini-close" v-on:click="deal.products.splice(dpIdx, 1)" >
                        &times;
-                   </span> {{(dpIdx + 1).toLocaleString()}}
+                   </span> {{(dpIdx + 1).toLocaleString()}} {{dp.id}}
                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="border-bottom: solid gray 1pt"></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -135,7 +137,7 @@
                 </td>
                 <td>
                     <select :id="'dpProduct_' + dpIdx" v-model="dp.productId">
-                        <option v-for="product in products" :value="product.id">{{product.value}}</option>
+                        <option v-for="product in productList()" :value="product.id">{{product.value}}</option>
                     </select>
                     <select id="type" v-model="deal.type">
                         <option v-for="type in typesByProduct(dp.productId)" :value="type">{{typeNames[type]}}</option>
@@ -154,29 +156,31 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td colspan="2">
-                    <label :for="'quantity_' + dpIdx">
-                        <fmt:message key="deal.quantity"/>
-                    </label>
-                </td>
-                <td>
-                    <input type="number" min="0" :id="'quantity_' + dpIdx" v-model="dp.quantity" autocomplete="off" onfocus="this.select()">
-                    <select v-model="dp.unitId">
-                        <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <label :for="'price_' + dpIdx">
-                        <fmt:message key="deal.price"/>
-                    </label>
-                </td>
-                <td>
-                    <input type="number" min="0" :id="'price_' + dpIdx" v-model="dp.price" autocomplete="off" onfocus="this.select()">
-                </td>
-            </tr>
+            <template v-if="!products[dp.productId].group">
+                <tr>
+                    <td colspan="2">
+                        <label :for="'quantity_' + dpIdx">
+                            <fmt:message key="deal.quantity"/>
+                        </label>
+                    </td>
+                    <td>
+                        <input type="number" min="0" :id="'quantity_' + dpIdx" v-model="dp.quantity" autocomplete="off" onfocus="this.select()">
+                        <select v-model="dp.unitId">
+                            <option v-for="unit in units" :value="unit.id">{{unit.value}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <label :for="'price_' + dpIdx">
+                            <fmt:message key="deal.price"/>
+                        </label>
+                    </td>
+                    <td>
+                        <input type="number" min="0" :id="'price_' + dpIdx" v-model="dp.price" autocomplete="off" onfocus="this.select()">
+                    </td>
+                </tr>
+            </template>
         </template>
 <%--        <tr>--%>
 <%--            <td colspan="3" style="text-align: right">--%>
@@ -185,7 +189,7 @@
 <%--                </span>--%>
 <%--            </td>--%>
 <%--        </tr>--%>
-        <tr>
+        <tr v-if="totalSum > 0">
             <td>
                 <fmt:message key="deal.amount"/>
             </td>

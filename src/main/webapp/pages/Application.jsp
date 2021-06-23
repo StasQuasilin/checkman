@@ -160,9 +160,12 @@
                             <div class="header" id="header"></div>
                             <div style="font-size: 10pt; text-align: right; float: right;">
                                 <div style="padding: 6.5pt 4pt">
-                                    <a onclick="loadContent('${personal}')">
-                                        ${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}
-                                    </a>
+                                    <c:if test="${role ne view}">
+                                        <fmt:message key="current.view"/>: <fmt:message key="role.${view}"/>
+                                    </c:if>
+                                    <c:set var="nameOfUser">${worker.person.surname}&nbsp;${worker.person.forename}&nbsp;${worker.person.patronymic}</c:set>
+                                    <c:set var="titleOfUser"><fmt:message key="title.personal"/> ${nameOfUser}</c:set>
+                                    <img title="${titleOfUser}" style="width: 10pt" src="${context}/images/member.svg" alt="${nameOfUser}"  onclick="loadContent('${personal}')">
                                     <a onclick="logout()">
                                         (<fmt:message key="sign.out"/>)
                                     </a>

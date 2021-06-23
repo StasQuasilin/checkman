@@ -2,11 +2,13 @@ package entity.transport;
 
 import api.sockets.handlers.OnSubscribeHandler;
 import entity.JsonAble;
+import entity.documents.Deal;
 import entity.documents.DealProduct;
 import entity.laboratory.MealAnalyses;
 import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.organisations.Address;
+import entity.products.Product;
 import entity.weight.Weight;
 import org.json.simple.JSONObject;
 
@@ -130,12 +132,15 @@ public class TransportationProduct extends JsonAble {
         object.put(INDEX, index);
         object.put(ID, id);
         if (dealProduct != null){
-            object.put(DEAL, dealProduct.getDeal().getId());
+
             object.put(DEAL_PRODUCT, dealProduct.getId());
-            object.put(PRODUCT_ID, dealProduct.getProduct().getId());
-            object.put(PRODUCT_NAME, dealProduct.getProduct().getName());
-            object.put(PRODUCT, dealProduct.getProduct().toShortJson());
-            object.put(COUNTERPARTY, dealProduct.getDeal().getOrganisation().toJson(level));
+            final Product product = dealProduct.getProduct();
+            object.put(PRODUCT_ID, product.getId());
+            object.put(PRODUCT_NAME, product.getName());
+            object.put(PRODUCT, product.toShortJson());
+            final Deal deal = dealProduct.getDeal();
+            object.put(DEAL, deal.getId());
+            object.put(COUNTERPARTY, deal.getOrganisation().toJson(level));
             final Address address = dealProduct.getAddress();
             if (address != null){
                 object.put(ADDRESS_ID, address.getId());

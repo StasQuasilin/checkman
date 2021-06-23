@@ -7,7 +7,7 @@ dealEdit = new Vue({
         api:{},
         types:{},
         shippers:[],
-        products:[],
+        products:{},
         customers:[],
         customerNames:{},
         units:[],
@@ -51,6 +51,11 @@ dealEdit = new Vue({
         }
     },
     methods:{
+        productList:function(){
+            return Object.values(this.products).sort(function (a, b) {
+                return a.value.localeCompare(b.value);
+            });
+        },
         addCost:function(){
             if (!this.deal.costs){
                 Vue.set(this.deal, 'costs', []);
@@ -125,14 +130,18 @@ dealEdit = new Vue({
                 for(let i in this.products){
                     if (this.products.hasOwnProperty(i)){
                         let product = this.products[i];
+                        console.log(product.value);
                         let actions = this.types[product.id];
                         for (let j in actions){
                             if (actions.hasOwnProperty(j)){
                                 let action = actions[j];
+                                console.log('\t' + action);
                                 if (action === type){
                                     this.deal.product = product.id;
                                     interrupt = true;
+                                    console.log('\t\tYes');
                                     break;
+
                                 }
                             }
                         }
@@ -150,16 +159,17 @@ dealEdit = new Vue({
             this.types[action.product.id].push(action.type);
         },
         addProduct:function(){
-            let product = this.products[0];
+            let product = this.productList()[0];
             product.name = product.value;
             let shipper = this.shippers[0];
             shipper.name = shipper.value;
             this.deal.products.push({
                 id:-1,
-                productId:product,
-                shipper:shipper,
+                productId:product.id,
+                shipperId:shipper.id,
                 quantity:0,
-                price:0
+                price:0,
+                unitId:this.units[0].id
             })
         },
         saveAndClose:function(){

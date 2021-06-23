@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -7,7 +8,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-  <script src="${context}/vue2/transportationDataView.vue"></script>
-  <jsp:include page="../summary/summaryHeader.jsp"/>
+  <c:if test="${not empty 'headerContent'}">
+  <div id="container-header" class="container-header">
+      <jsp:include page="${headerContent}"/>
+  </div>
+  </c:if>
   <jsp:include page="../transportListTemplate2.jsp"/>
 </html>

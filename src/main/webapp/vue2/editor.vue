@@ -9,7 +9,7 @@ editor = {
     },
     methods:{
         init:function () {
-            console.warn('Function \'Init\' not realizes!!!')
+            // console.warn('Function \'Init\' not realizes!!!')
         }
     }
 };

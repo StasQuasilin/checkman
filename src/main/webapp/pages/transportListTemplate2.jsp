@@ -11,7 +11,7 @@
     <script src="${context}/vue2/contextMenuView.vue?v=${now}"></script>
     <script src="${context}/vue2/baseList.vue?v=${now}"></script>
     <c:choose>
-        <c:when test="${role eq 'admin'}">
+        <c:when test="${view eq 'admin' or view eq 'manager' or view eq 'weigher' or view eq 'logistic' or view eq 'retail'}">
             <script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
             <script src="${context}/vue2/transportationDataEdit.vue?v=${now}"></script>
         </c:when>

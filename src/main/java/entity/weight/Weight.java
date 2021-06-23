@@ -111,6 +111,7 @@ public class Weight extends JsonAble{
         json.put(TARA, tara);
         json.put(TARE, tara);
         json.put(NETTO, getNetto());
+        json.put(NET, getNetto());
         json.put(CORRECTION, correction);
         return json;
     }

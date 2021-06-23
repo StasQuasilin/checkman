@@ -97,7 +97,7 @@ transportView = {
                             '<b>' +
                                 '{{product.productName}} ' +
                             '</b>' +
-                            '<span v-if="product.amount > 0">' +
+                            '<span v-if="product.amount > 0 && !product.product.group">' +
                                 '{{product.amount}} {{product.unitName}} ' +
                             '</span>' +
                             '<span v-if="product.price > 0">' +

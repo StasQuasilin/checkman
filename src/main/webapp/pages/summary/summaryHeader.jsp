@@ -11,7 +11,6 @@
 <fmt:setBundle basename="messages"/>
 <html>
 <link rel="stylesheet" href="${context}/css/drop-menu.css">
-<div id="container-header" class="container-header">
   <c:if test="${not empty edit}">
     <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
   </c:if>
@@ -31,5 +30,4 @@
         </c:if>
       </div>
     </div>
-</div>
 </html>

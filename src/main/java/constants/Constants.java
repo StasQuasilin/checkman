@@ -76,6 +76,7 @@ public interface Constants {
     String TRANSPORT_COST = "transportCost";
     String TRANSPORT = "transport";
     String SHOW = "show";
+    String HEADER_CONTENT = "headerContent";
     String T = "т.";
     String KG = "кг.";
     String HRN = "грн.,";
@@ -305,6 +306,7 @@ public interface Constants {
     String TRANSPORTER = "transporter";
     String STATUS = "status";
     String NETTO = "netto";
+    String NET= "net";
     String ANALYSES_TYPE = "analysesType";
     String REGISTERED = "registered";
     String TIME_IN = "timeIn";

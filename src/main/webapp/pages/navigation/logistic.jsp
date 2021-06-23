@@ -22,7 +22,7 @@
 <%--      </span>--%>
     </li>
     <li class="menu-item">
-      <span class="main"  onclick="loadContent('${logisticList}')">
+      <span class="main"  onclick="loadContent('${weightList}')">
         <fmt:message key="menu.logistic"/>
       </span>
       <span>

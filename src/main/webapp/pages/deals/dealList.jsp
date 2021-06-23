@@ -38,7 +38,7 @@
     })
   </script>
   <div id="container-header" class="container-header">
-    <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
+    <button onclick="loadModal('${edit}', {})"><fmt:message key="button.add"/> </button>
   </div>
   <div id="dealList" >
     <transition-group name="flip-list" tag="div" class="container" >
@@ -74,13 +74,13 @@
               <div style="display: flex; flex-direction: column">
                 <span v-for="product in item.products">
                   <b>
-                    !{{product.productName}},
+                    {{product.productName}},
                   </b>
-                  <b v-if="item.products.length < 3">
+                  <b v-if="item.products.length < 3 && !product.product.group">
                     {{product.quantity.toLocaleString()}}
                     {{product.unitName}}
                   </b>
-                  <span v-if="item.products.length < 2 && product.price > 0">
+                  <span v-if="item.products.length < 2 && product.price > 0 && !product.product.group">
                     <fmt:message key="deal.price"/>:
                     {{(product.price).toLocaleString()}}
                   </span>

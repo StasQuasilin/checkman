@@ -39,7 +39,7 @@ public class DealShow extends IUIServlet {
         }
 
         if (dealId != -1) {
-            if (body.containsKey(BACK)){
+            if (body != null && body.containsKey(BACK)){
                 req.setAttribute(BACK, body.get(BACK));
                 if(body.containsKey(ATTRIBUTES)){
                     req.setAttribute(ATTRIBUTES, body.get(ATTRIBUTES));

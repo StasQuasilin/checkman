@@ -29,6 +29,14 @@ public class IServlet extends HttpServlet implements Constants {
         return Role.valueOf(r);
     }
 
+    public Role getView(HttpServletRequest req){
+        final Object attribute = req.getSession().getAttribute(VIEW);
+        if (attribute != null){
+            return Role.valueOf(String.valueOf(attribute));
+        }
+        return getRole(req);
+    }
+
     public static final JsonParser parser = new JsonParser();
     @Deprecated
     public synchronized JSONObject parseBody(HttpServletRequest req){
@@ -42,6 +50,11 @@ public class IServlet extends HttpServlet implements Constants {
             return new JsonObject((JSONObject) parser.parse(request.getReader()));
         } catch (IOException | ParseException e) {
             e.printStackTrace();
+            try {
+                System.out.println(request.getReader().readLine());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         return null;
     }

@@ -11,16 +11,34 @@
 <fmt:setLocale value="${locale}"/>
 <fmt:setBundle basename="messages"/>
 <html>
-<script src="${context}/vue/changeView.vue?v=${now}"></script>
+<script src="${context}/vue/changeView.vue?v=${now}1"></script>
+<script>
+    changeView.api.save = '${save}';
+    changeView.current = '${view}';
+    <c:forEach items="${roles}" var="r">
+        changeView.items.push('${r}');
+        changeView.itemNames['${r}'] = '<fmt:message key="role.${r}"/>';
+    </c:forEach>
+</script>
 <div id="changeView">
-
-</div>
-<c:forEach items="${roles}" var="r">
-    <div>
-        <c:if test="${view eq r}">
-            &times;
-        </c:if>
-        <fmt:message key="role.${r}"/>
+    <div v-for="item in items">
+        <span style="width: 10pt; display: inline-block">
+            <template v-if="item === current">
+                -
+            </template>
+        </span>
+        <span class="mini-close" v-on:click="changeView(item)">
+            {{itemNames[item]}}
+        </span>
     </div>
-</c:forEach>
+    <div style="width: 100%; text-align: center">
+        <button onclick="closeModal()">
+            <fmt:message key="button.cancel"/>
+        </button>
+        <button v-on:click="saveView()">
+            <fmt:message key="button.save"/>
+        </button>
+    </div>
+</div>
+
 </html>

@@ -16,6 +16,7 @@ import utils.U;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -31,7 +32,7 @@ public class Deal extends JsonAble{
     private DealType type;
     private Organisation organisation;
     private Address address;
-    private Set<DealProduct> products;
+    private Set<DealProduct> products = new HashSet<>();
     private Set<DeliveryCost> costs;
 
     private String uid;
@@ -258,12 +259,6 @@ public class Deal extends JsonAble{
         if (organisation != null) {
             object.put(COUNTERPARTY, organisation.toShortJson());
         }
-//        object.put(SHIPPER, shipper.toJson());
-//        object.put(PRODUCT, product.toJson());
-
-//        object.put(QUANTITY, quantity);
-//        object.put(UNIT, unit.toJson());
-//        object.put(PRICE, price);
         if (U.exist(number)){
             object.put(NUMBER, number);
         }
@@ -305,6 +300,7 @@ public class Deal extends JsonAble{
                 object.put(ID, id);
                 object.put(PRODUCT_ID, product.getId());
                 object.put(PRODUCT_NAME, product.getName());
+                object.put(PRODUCT, product.toJson());
                 object.put(QUANTITY, quantity);
                 object.put(UNIT_ID, unit.getId());
                 object.put(UNIT_NAME, unit.getName());

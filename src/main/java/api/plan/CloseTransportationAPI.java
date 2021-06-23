@@ -45,7 +45,7 @@ public class CloseTransportationAPI extends ServletAPI{
                 if (!transportation.any() && seals.size() == 0) {
                     dao.remove(transportation);
                     updateUtil.onRemove(transportation);
-                    writeMessage(worker, REMOVE, transportation);
+//                    writeMessage(worker, REMOVE, transportation);
                 } else {
                     final LocalDate date = transportation.getDate().toLocalDate();
                     final LocalDate now = LocalDate.now();
@@ -54,7 +54,7 @@ public class CloseTransportationAPI extends ServletAPI{
                         transportation.setArchive(true);
                         dao.save(transportation);
                         updateUtil.onRemove(transportation);
-                        writeMessage(worker, ARCHIVE, transportation);
+//                        writeMessage(worker, ARCHIVE, transportation);
                     }
                 }
             }

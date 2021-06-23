@@ -100,6 +100,7 @@ public class Product extends JsonAble {
         json.put(ID, id);
         json.put(NAME, name);
         json.put(REFINING, refining);
+        json.put(GROUP, isGroup);
         if (analysesType != null){
             json.put(ANALYSES_TYPE, analysesType.toString());
         } else {

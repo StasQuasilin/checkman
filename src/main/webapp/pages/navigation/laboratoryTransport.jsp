@@ -1,11 +1,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <li class="menu-item">
-    <span class="main" onclick="loadContent('${laboratoryBuyList}')">
+    <span class="main" onclick="loadContent('${weightList}?type=buy')">
       <fmt:message key="analyses.buy"/>
     </span>
     <span>
@@ -13,7 +13,7 @@
     </span>
 </li>
 <li class="menu-item">
-    <span class="main" onclick="loadContent('${laboratorySellList}')">
+    <span class="main" onclick="loadContent('${weightList}?type=sell')">
       <fmt:message key="analyses.sell"/>
     </span>
     <span>

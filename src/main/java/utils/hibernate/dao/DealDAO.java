@@ -36,11 +36,13 @@ public class DealDAO extends HibernateDAO{
 
     public Deal getDealById(Object id) {
         final Deal deal = hibernator.get(Deal.class, ID, id);
-        final Set<DealProduct> products = deal.getProducts();
-        if (products.size() == 0){
-            DealProduct product = initDealProduct(deal);
-            save(product);
-            products.add(product);
+        if (deal != null) {
+            final Set<DealProduct> products = deal.getProducts();
+            if (products.size() == 0) {
+                DealProduct product = initDealProduct(deal);
+                save(product);
+                products.add(product);
+            }
         }
         return deal;
     }

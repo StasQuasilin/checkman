@@ -28,6 +28,22 @@ plan = new Vue({
             ],
             tabNames: {}
         },
+        computed:{
+            itb:function () {
+                let items = {};
+                let dates = this.dates();
+                for (let d in dates){
+                    if(dates.hasOwnProperty(i)){
+                        let date = dates[i];
+                        items.date = [];
+                        if (!items.date){
+                            items.date = []
+                        }
+                    }
+                }
+                return items;
+            }
+        },
         methods: {
             totalAmount: function () {
                 console.log('calculate total amount');
@@ -104,14 +120,13 @@ plan = new Vue({
                             }
                         }
                     }
-                    if (data.delete) {
-                        for (let d = 0; d < data.delete.length; d++) {
-                            let remove = data.delete[d];
-                            if (self.items[remove.id]) {
-                                self.deleteItem(remove);
+                    if (data.remove) {
+                        for (let d = 0; d < data.remove.length; d++) {
+                            let remove = data.remove[d];
+                            if (self.items[remove]) {
+                                self.deleteItem(self.items[remove]);
                             }
                         }
-
                     }
                 });
             },
@@ -144,30 +159,13 @@ plan = new Vue({
                         }
                     ],
                     customer: this.customers[0].id,
-
                 })
-            },
-            itemsByDate: function (date) {
-                let result = {
-                    count: 0,
-                    weight: 0
-                };
-                let items = Object.values(this.plans).filter(function (item) {
-                    return item.date === date;
-                });
-                for (let i in items) {
-                    if (items.hasOwnProperty(i)) {
-                        result.count++;
-                        result.weight += parseInt(items[i].plan);
-                    }
-                }
-                return result;
             },
             dates: function () {
                 let dates = [];
-                for (let i in this.plans) {
-                    if (this.plans.hasOwnProperty(i)) {
-                        let date = this.plans[i].date;
+                for (let i in this.items) {
+                    if (this.items.hasOwnProperty(i)) {
+                        let date = this.items[i].date;
                         if (!dates.includes(date)) {
                             dates.push(date);
                         }
@@ -180,7 +178,9 @@ plan = new Vue({
             },
             getPlans: function () {
                 if (this.filterDate === -1) {
-                    return Object.values(this.items);
+                    return Object.values(this.items).sort(function (a, b) {
+                        return new Date(b.date) - new Date(a.date);
+                    });
                 } else {
                     const self = this;
                     return Object.values(this.items).filter(function (item) {
@@ -229,7 +229,6 @@ plan = new Vue({
                 this.$forceUpdate();
             },
             initSaveTimer: function (item) {
-                console.log(item);
                 const self = this;
                 if (item.saveTimer !== -1) {
                     clearTimeout(item.saveTimer);
@@ -256,18 +255,13 @@ plan = new Vue({
                 }
             },
             remove: function (id) {
-                const _id = id;
-                let plan = this.plans[id].item;
+                let plan = this.items[id];
+                console.log(plan);
                 if (plan.id > 0) {
                     console.log('remove ' + plan.id);
-                    const self = this;
-                    PostApi(this.api.remove, {id: plan.id}, function (a) {
-                        if (a.status === 'success') {
-                            self.plans.splice(_id, 1);
-                        }
-                    })
+                    PostApi(this.api.remove, {id: plan.id})
                 } else {
-                    this.plans.splice(id, 1);
+                    this.deleteItem(plan);
                 }
             },
             save: function (item) {
@@ -293,15 +287,19 @@ plan = new Vue({
                             delete plan.notes[i].creator;
                         }
                     }
+                    const self = this;
 
                     PostApi(this.api.save, {deal: this.dealId, product: this.selectedProduct, plan: plan}, function (a) {
                         console.log(a);
                         if (a.status === 'success') {
                             if (a.id) {
-                                item.id = a.id;
+                                let id = a.id;
+                                item.id = id;
+                                self.items[id] = item;
                             }
                         }
                     });
+                    delete self.items[item.id];
                 }
             },
             focusInput: function () {

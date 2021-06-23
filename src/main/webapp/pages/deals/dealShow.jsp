@@ -199,20 +199,16 @@
       <div style="height: 100%">
         <div v-if="tab == 'vehicles'" class="tab-content" style="display: flex; flex-direction: row">
           <div>
-            <div style="height: 100%; max-height: 500px; overflow-y: scroll; display: none">
-              <div v-for="date in dates()" class="mini-close" :class="{bold : filterDate === date}"
-                   style="font-size: 10pt" v-on:click="selectDate(date)">
-                <span v-if="filterDate === date">
+            <div style="height: 100%; overflow-y: scroll;">
+              <div v-for="date in dates()" class="mini-close"
+                    style="font-size: 10pt; white-space: nowrap" v-on:click="selectDate(date)">
+                <template v-if="filterDate === date">
                   -
-                </span>
-                <span v-else>
+                </template>
+                <template v-else>
                   &nbsp;
-                </span>
-                <span>
-                  {{new Date(date).toLocaleDateString()}}:
-                  {{itemsByDate(date).count}} /
-                  {{itemsByDate(date).weight}}
-                </span>
+                </template>
+                  {{new Date(date).toLocaleDateString()}}
               </div>
             </div>
           </div>
@@ -227,11 +223,14 @@
                    :class="'container-item-' + new Date(value.date).getDay()">
                 <div v-if="!value.removed">
                   <%--UPPER ROW--%>
+                  <div style="font-size: 8pt">
+                    id: {{value.id}}
+                  </div>
                   <div class="upper">
                     <%--REMOVE BUTTON--%>
                     <div style="display: inline-block; width: 10pt">
                           <span title="${dropTitle}" class="mini-close" style="left: 0"
-                                v-show="!value.archive" v-on:click="remove(key)">&times;</span>
+                                v-show="!value.archive" v-on:click="remove(value.id)">&times;</span>
                       <span v-show="value.archive" style="color: green">
                             &#10003;
                           </span>

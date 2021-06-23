@@ -25,7 +25,7 @@ public class JsonObject {
         return 0;
     }
 
-    private String getString(String key) {
+    public String getString(String key) {
         if(jsonObject.containsKey(key)){
             return String.valueOf(jsonObject.get(key));
         }

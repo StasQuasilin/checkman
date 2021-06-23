@@ -6,7 +6,7 @@
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -31,7 +31,7 @@
         }, this.protocol.date);
       },
       save:function(){
-        if (this.product != -1){
+        if (this.product !== -1){
           const self = this;
           PostApi(this.api.save, this.protocol, function(a){
             if (a.status === 'success'){

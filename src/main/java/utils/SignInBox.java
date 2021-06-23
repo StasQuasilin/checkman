@@ -80,6 +80,12 @@ public class SignInBox implements Constants{
         session.setAttribute(USER, worker.getPerson().getValue());
         session.setAttribute(UID, user.getUid());
         session.setAttribute(ROLE, role);
-        session.setAttribute(VIEW, role);
+        final Object currentView = session.getAttribute(VIEW);
+        if(currentView != null){
+            final Role value = Role.valueOf(String.valueOf(currentView));
+            session.setAttribute(VIEW, value);
+        } else {
+            session.setAttribute(VIEW, role);
+        }
     }
 }
