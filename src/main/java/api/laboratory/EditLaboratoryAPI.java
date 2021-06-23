@@ -37,6 +37,7 @@ public class EditLaboratoryAPI extends ServletAPI {
         final JsonObject body = parseBodyGood(req);
         if (body != null) {
             System.out.println(body);
+            write(resp, SUCCESS_ANSWER);
             final Worker worker = getWorker(req);
             for (Object o : body.getArray(PRODUCTS)){
                 final JsonObject json = new JsonObject(o);
@@ -54,7 +55,7 @@ public class EditLaboratoryAPI extends ServletAPI {
                     Notificator.analysesShow(transportationProduct);
                 }
             }
-            write(resp, SUCCESS_ANSWER);
+
         } else {
             write(resp, EMPTY_BODY);
         }

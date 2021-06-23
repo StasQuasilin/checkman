@@ -26,7 +26,7 @@ public class SunAnalysesPreparer extends AnalysesPreparer {
     public String analysesData(TransportationProduct transportationProduct, String language) {
         final SunAnalyses analyses = transportationProduct.getSunAnalyses();
         final Weight weight = transportationProduct.getWeight();
-        final float correction = weight.getCorrection();
+        final float correction = weight != null ? weight.getCorrection() : 0;
         return (analyses.isContamination() ? "❗ Заражено шкідниками ❗" + NEW_LINE : "") +
                 String.format(languageBase.get(language, HUMIDITY_1), analyses.getHumidity1()) + NEW_LINE +
                 (analyses.getHumidity2() > 0 ? String.format(languageBase.get(language, HUMIDITY_2), analyses.getHumidity2()) + NEW_LINE : "") +

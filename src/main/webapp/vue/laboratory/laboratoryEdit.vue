@@ -40,8 +40,6 @@ laboratoryEdit = {
                         onSave(a);
                     }
                 })
-            } else {
-                onSave();
             }
         },
         save:function(){

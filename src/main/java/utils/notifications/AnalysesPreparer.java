@@ -5,6 +5,8 @@ import entity.transport.Driver;
 import entity.transport.TransportationProduct;
 import utils.LanguageBase;
 
+import static bot.TelegramNotificator.NEW_LINE;
+
 public abstract class AnalysesPreparer extends NotificationPreparer {
 
     private static final String TRANSPORT = "bot.notificator.transport";
@@ -32,6 +34,6 @@ public abstract class AnalysesPreparer extends NotificationPreparer {
         String organisation = dealProduct.getDeal().getOrganisation().getValue();
         String product = dealProduct.getProduct().getName();
 
-        return String.format(languageBase.get(lang, TRANSPORT), organisation, driver, product);
+        return String.format(languageBase.get(lang, TRANSPORT), organisation, driver, product) + NEW_LINE;
     }
 }

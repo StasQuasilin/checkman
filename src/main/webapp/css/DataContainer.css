@@ -38,7 +38,7 @@
 .container-item{
     border: solid #474747 1.5pt;
     margin: 2pt;
-    border-radius: 8pt;
+    border-radius: 8pt 0 0 8pt;
     position: relative;
     display: flex;
     flex-direction: row;
