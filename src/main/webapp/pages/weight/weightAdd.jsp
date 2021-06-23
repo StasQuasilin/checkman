@@ -363,8 +363,8 @@
             :
         </td>
         <td class="secure">
-            <object-input :props="vehicleProps" :object="transportation.vehicle"></object-input>
-            <object-input :props="trailerProps" :object="transportation.trailer"></object-input>
+            <object-input :props="vehicleProps" :object="transportation.vehicle" :item="transportation"></object-input>
+            <object-input :props="trailerProps" :object="transportation.trailer" :item="transportation"></object-input>
         </td>
     </tr>
     <tr>

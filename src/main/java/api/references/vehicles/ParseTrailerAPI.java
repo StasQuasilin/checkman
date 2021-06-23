@@ -18,7 +18,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 25.11.2019.
  */
 @WebServlet(Branches.API.PARSE_TRAILER)
-public class ParseTrailerServletAPI extends ServletAPI{
+public class ParseTrailerAPI extends ServletAPI{
 
     private final Parser parser = new Parser();
 
@@ -26,14 +26,12 @@ public class ParseTrailerServletAPI extends ServletAPI{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null){
-            String key = String.valueOf(body.get("key"));
+            String key = String.valueOf(body.get(KEY));
             String number = parser.prettyNumber(key);
             Trailer trailer = new Trailer();
-            trailer.setNumber(number);
+            trailer.setNumber(number.toUpperCase());
             dao.save(trailer);
-            JSONObject json = new SuccessAnswer(RESULT, trailer.toJson()).toJson();
-            write(resp, json.toJSONString());
-            pool.put(json);
+            write(resp, new SuccessAnswer(RESULT, trailer.toJson()));
         }
     }
 }

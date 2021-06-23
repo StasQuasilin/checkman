@@ -5,7 +5,6 @@ bl = {
         filter:null
     },
     mounted:function(){
-        console.log('blm');
     },
     methods:{
         handle:function(data){
@@ -32,7 +31,6 @@ bl = {
                 this.$forceUpdate();
                 if(this.filter) {
                     this.filter.items = Object.assign({}, this.items);
-                    console.log(Object.values(this.filter.items).length);
                     this.filter.$forceUpdate();
                 }
             }

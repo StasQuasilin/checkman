@@ -3,12 +3,14 @@ package api.references.driver;
 import api.ServletAPI;
 import constants.Branches;
 import constants.Constants;
+import entity.Person;
 import entity.Worker;
 import entity.notifications.Notification;
 import entity.transport.Driver;
 import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
+import utils.U;
 import utils.UpdateUtil;
 import utils.VehicleParser;
 import utils.answers.SuccessAnswer;
@@ -24,7 +26,7 @@ import java.io.IOException;
  * Created by szpt_user045 on 12.03.2019.
  */
 @WebServlet(Branches.API.PARSE_PERSON)
-public class ParseDriverServletAPI extends ServletAPI {
+public class ParseDriverAPI extends ServletAPI {
 
     private final UpdateUtil updateUtil = new UpdateUtil();
     private final Notificator notificator = new Notificator();
@@ -54,13 +56,21 @@ public class ParseDriverServletAPI extends ServletAPI {
             }
 
             Worker worker = getWorker(req);
+            final Person person = driver.getPerson();
             notificator.sendNotification(worker, new Notification(
                     String.format(
                             lb.get(worker.getLanguage(), SUCCESS_PARSE),
-                            driver.getPerson().getSurname(),
-                            driver.getPerson().getForename(),
-                            driver.getPerson().getPatronymic())
+                            orEmpty(person.getSurname()),
+                            orEmpty(person.getForename()),
+                            orEmpty(person.getPatronymic()))
             ).toJson());
         }
+    }
+
+    private String orEmpty(String value) {
+        if(U.exist(value)){
+            return value;
+        }
+        return EMPTY;
     }
 }

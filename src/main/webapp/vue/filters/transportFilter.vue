@@ -28,7 +28,6 @@ transportFilter = new Vue({
         }
     },
     mounted:function(){
-        console.log('fm');
         let product = localStorage.getItem('product');
         if (product) {
             this.putProduct(parseInt(product));
