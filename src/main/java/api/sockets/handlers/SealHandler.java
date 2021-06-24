@@ -2,7 +2,7 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
-import entity.Worker;
+import entity.Role;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -22,7 +22,7 @@ public class SealHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session, Worker worker) throws IOException {
+    public void handle(Session session, Role view) throws IOException {
         JSONObject json = pool.getObject();
         JSONArray add = pool.getArray();
         add.addAll(dao.getActiveSealsBatches().stream().map(sealBatch -> sealBatch.toJson()).collect(Collectors.toList()));

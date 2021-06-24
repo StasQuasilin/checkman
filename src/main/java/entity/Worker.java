@@ -72,11 +72,6 @@ public class Worker extends JsonAble {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return getClass() == obj.getClass() && hashCode() == obj.hashCode();
-    }
-
-    @Override
     public JSONObject toShortJson() {
         JSONObject object = pool.getObject();
         object.put(ID, id);

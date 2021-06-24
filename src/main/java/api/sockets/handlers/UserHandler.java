@@ -2,6 +2,7 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
+import entity.Role;
 import entity.UserInfo;
 import entity.Worker;
 import org.json.simple.JSONArray;
@@ -26,7 +27,7 @@ public class UserHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session, Worker worker) throws IOException {
+    public void handle(Session session, Role view) throws IOException {
         JSONArray active = pool.getArray();
         final UserBox instance = UserBox.getInstance();
         final List<Worker> workers = dao.getWorkers();

@@ -2,7 +2,7 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
-import entity.Worker;
+import entity.Role;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,7 +17,7 @@ import static constants.Constants.UPDATE;
  */
 public class ProbesHandler extends OnSubscribeHandler {
     @Override
-    public void handle(Session session, Worker worker) throws IOException {
+    public void handle(Session session, Role view) throws IOException {
         JSONArray array = ActiveSubscriptions.pool.getArray();
         array.addAll(dao.getLimitProbeTurns().stream().map(probeTurn -> probeTurn.toJson()).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();

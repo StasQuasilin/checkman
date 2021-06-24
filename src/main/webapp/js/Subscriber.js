@@ -78,7 +78,12 @@ function subscribe(sub, on){
     }
     temp.push(sub);
     subscribes[sub].push(on);
-    send(JSON.stringify({action: 'subscribe', subscriber: sub, worker: Settings.worker}));
+    send(JSON.stringify({
+        action: 'subscribe',
+        subscriber: sub,
+        worker: Settings.worker,
+        view:Settings.view
+    }));
 }
 function unSubscribe(){
     for (let i in temp){

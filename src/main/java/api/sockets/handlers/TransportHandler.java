@@ -3,7 +3,7 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
 import entity.DealType;
-import entity.Worker;
+import entity.Role;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,8 +29,8 @@ public class TransportHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session, Worker worker) throws IOException {
-        final int mask = calculateSecureMask(worker);
+    public void handle(Session session, Role view) throws IOException {
+        final int mask = calculateSecureMask(view);
         JSONArray add = pool.getArray();
         for (Transportation transportation : getTransport()){
             add.add(transportation.toJson(mask));

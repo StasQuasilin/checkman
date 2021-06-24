@@ -20,7 +20,7 @@ public abstract class OnSubscribeHandler {
     final dbDAO dao = dbDAOService.getDAO();
     final JsonPool pool = JsonPool.getPool();
 
-    public abstract void handle(Session session, Worker worker) throws IOException;
+    public abstract void handle(Session session, Role view) throws IOException;
     public final JsonParser parser = new JsonParser();
     public final Subscribe subscribe;
 
@@ -32,11 +32,10 @@ public abstract class OnSubscribeHandler {
     public static final int NO_ANALYSES = 2;
     public static final int NO_ONE = 3;
 
-    public int calculateSecureMask(Worker worker){
-        final Role role = worker.getRole();
-        if (role == Role.security || role == Role.warehousing){
+    public static int calculateSecureMask(Role role){
+        if (role == Role.security){
             return NO_ONE;
-        } else if (role == Role.analyser){
+        } else if (role == Role.analyser || role == Role.warehousing){
             return NO_PRICE;
         }
         return 0;

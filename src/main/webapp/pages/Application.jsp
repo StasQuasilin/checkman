@@ -38,6 +38,7 @@
     Settings.context='${context}';
     Settings.api='${subscriber}';
     Settings.worker = ${worker.id};
+    Settings.view = '${view}';
     Settings.token = '${token}'
     </script>
     <script src="${context}/js/Subscriber.js?v=${now}"></script>

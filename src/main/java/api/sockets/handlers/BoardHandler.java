@@ -2,7 +2,7 @@ package api.sockets.handlers;
 
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
-import entity.Worker;
+import entity.Role;
 import entity.border.BoardItem;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,7 +14,7 @@ import java.util.List;
 public class BoardHandler extends OnSubscribeHandler {
 
     @Override
-    public void handle(Session session, Worker worker) throws IOException {
+    public void handle(Session session, Role view) throws IOException {
         List<BoardItem> items = dao.getObjects(BoardItem.class);
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();

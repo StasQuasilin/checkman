@@ -3,7 +3,7 @@ package api.sockets.handlers;
 import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
 import entity.ApplicationSettings;
-import entity.Worker;
+import entity.Role;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
@@ -26,7 +26,7 @@ public class LogisticHandler extends OnSubscribeHandler {
 
     ApplicationSettings applicationSettings = ApplicationSettingsBox.getBox().getSettings();
     @Override
-    public void handle(Session session, Worker worker) throws IOException {
+    public void handle(Session session, Role view) throws IOException {
         if(applicationSettings != null ){
             JSONArray add = ActiveSubscriptions.pool.getArray();
             add.addAll(getTransport().stream().map(transportation -> transportation.toJson()).collect(Collectors.toList()));

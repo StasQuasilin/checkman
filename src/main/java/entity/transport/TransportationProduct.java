@@ -14,6 +14,9 @@ import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 
+import static api.sockets.handlers.OnSubscribeHandler.NO_ONE;
+import static api.sockets.handlers.OnSubscribeHandler.NO_PRICE;
+
 /**
  * Created by szpt_user045 on 03.03.2020.
  */
@@ -149,7 +152,9 @@ public class TransportationProduct extends JsonAble {
             object.put(QUANTITY, dealProduct.getQuantity());
             object.put(UNIT_ID, dealProduct.getUnit().getId());
             object.put(UNIT_NAME, dealProduct.getUnit().getName());
-            object.put(PRICE, dealProduct.getPrice());
+            if (level != NO_PRICE && level != NO_ONE) {
+                object.put(PRICE, dealProduct.getPrice());
+            }
             object.put(SHIPPER_ID, dealProduct.getShipper().getId());
             object.put(SHIPPER_NAME, dealProduct.getShipper().getValue());
         }

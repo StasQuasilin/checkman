@@ -2,10 +2,14 @@ package api.sockets;
 
 import constants.Branches;
 import constants.Constants;
+import entity.Role;
+import entity.Worker;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import utils.access.UserBox;
+import utils.hibernate.dbDAO;
+import utils.hibernate.dbDAOService;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -21,7 +25,8 @@ import static constants.Constants.*;
 @ServerEndpoint(value = Branches.API.SUBSCRIBER)
 public class Subscriber extends API{
 
-    private final Logger logger =Logger.getLogger(Subscriber.class);
+    private final Logger logger = Logger.getLogger(Subscriber.class);
+    private final dbDAO dao = dbDAOService.getDAO();
     private static Subscriber instance;
 
     public static Subscriber getInstance() {
@@ -61,8 +66,15 @@ public class Subscriber extends API{
                 case SUBSCRIBE:
                     if (json.containsKey(SUBSCRIBER)) {
                         Subscribe subscribe = Subscribe.valueOf(String.valueOf(json.get(SUBSCRIBER)));
-                        long worker = (long) json.get(WORKER);
-                        activeSubscriptions.subscribe(subscribe, session, worker);
+                        Worker worker = dao.getObjectById(Worker.class, json.get(WORKER));
+                        Role view;
+                        if (json.containsKey(VIEW)){
+                            view = Role.valueOf(String.valueOf(json.get(VIEW)));
+                        } else {
+                            view = worker.getRole();
+                        }
+
+                        activeSubscriptions.subscribe(subscribe, session, worker, view);
                     }
                     break;
                 case UNSUBSCRIBE:

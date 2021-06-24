@@ -2,6 +2,7 @@ package api.sockets;
 
 import api.sockets.handlers.*;
 import entity.DealType;
+import entity.Role;
 import entity.Worker;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -14,18 +15,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Created by szpt_user045 on 11.07.2019.
  */
 public class ActiveSubscriptions {
 
-    private final dbDAO dao = dbDAOService.getDAO();
+
     private static final ActiveSubscriptions instance = new ActiveSubscriptions();
     private final Logger log = Logger.getLogger(ActiveSubscriptions.class);
     final HashMap<Subscribe, OnSubscribeHandler> handlers = new HashMap<>();
-    final HashMap<Subscribe, ArrayList<Session>> bySubscribe = new HashMap<>();
-    final HashMap<Integer, ArrayList<Session>> byWorker = new HashMap<>();
+
+    final HashMap<Subscribe, LinkedList<Session>> bySubscribe = new HashMap<>();
+    final HashMap<Subscribe, LinkedList<Worker>> workers = new HashMap<>();
+    final HashMap<Session, Role> views = new HashMap<>();
+    final HashMap<Worker, LinkedList<Session>> byWorker = new HashMap<>();
     final MessageHandler messageHandler = new MessageHandler();
     final SessionTimer sessionTimer = SessionTimer.getInstance();
     public static final JsonPool pool = JsonPool.getPool();
@@ -33,9 +38,6 @@ public class ActiveSubscriptions {
     private static final String DATA = "data";
 
     private ActiveSubscriptions(){
-        for(Subscribe s : Subscribe.values()){
-            bySubscribe.put(s, new ArrayList<>());
-        }
         handlers.put(Subscribe.CONTRACTS_BUY, new ContractHandler(DealType.buy, Subscribe.CONTRACTS_BUY));
         handlers.put(Subscribe.CONTRACTS_SELL, new ContractHandler(DealType.sell, Subscribe.CONTRACTS_SELL));
         handlers.put(Subscribe.DEAL_BUY, new DealHandler(DealType.buy, Subscribe.DEAL_BUY));
@@ -65,45 +67,57 @@ public class ActiveSubscriptions {
         return instance;
     }
 
-    public void subscribe(Subscribe sub, Session session, long workerId) throws IOException {
-        Worker worker = dao.getObjectById(Worker.class, workerId);
+    public void subscribe(Subscribe sub, Session session, Worker worker, Role view) throws IOException {
         if (sub == Subscribe.NOTIFICATIONS) {
-            if (!byWorker.containsKey(worker.getId())) {
-                byWorker.put(worker.getId(), new ArrayList<>());
-                byWorker.get(worker.getId()).add(session);
+            if (!byWorker.containsKey(worker)) {
+                byWorker.put(worker, new LinkedList<>());
             }
+            byWorker.get(worker).add(session);
         }else if (sub == Subscribe.MESSAGES){
-            if (!byWorker.containsKey(worker.getId())) {
-                byWorker.put(worker.getId(), new ArrayList<>());
-                byWorker.get(worker.getId()).add(session);
+            if (!byWorker.containsKey(worker)) {
+                byWorker.put(worker, new LinkedList<>());
             }
+            byWorker.get(worker).add(session);
             messageHandler.handle(worker, session);
         } else if (sub == Subscribe.SESSION_TIMER){
             sessionTimer.register(worker, session);
         } else {
-            if (bySubscribe.containsKey(sub)) {
-                bySubscribe.get(sub).add(session);
-                if (handlers.containsKey(sub)) {
-                    handlers.get(sub).handle(session, worker);
-                }
-            } else {
-
+            if (!bySubscribe.containsKey(sub)) {
+                bySubscribe.put(sub, new LinkedList<>());
             }
+            bySubscribe.get(sub).add(session);
+            if (handlers.containsKey(sub)) {
+                handlers.get(sub).handle(session, view);
+            }
+            if(!workers.containsKey(sub)){
+                workers.put(sub, new LinkedList<>());
+            }
+            workers.get(sub).add(worker);
+            views.put(session, view);
         }
     }
     public void unsubscribe(Subscribe sub, Session session){
-        bySubscribe.get(sub).remove(session);
+        if (bySubscribe.containsKey(sub)){
+            final LinkedList<Session> sessions = bySubscribe.get(sub);
+            sessions.remove(session);
+            if(sessions.size() == 0){
+                bySubscribe.remove(sub);
+            }
+        }
     }
-
+    public void send(Session session, String msg){
+        if (session.isOpen()){
+            try {
+                session.getBasicRemote().sendText(msg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public synchronized void send(Subscribe sub, Object txt) {
-        String prepareMessage = prepareMessage(sub, txt);
-        for (Session session : bySubscribe.get(sub)){
-            if (session.isOpen()){
-                try {
-                    session.getBasicRemote().sendText(prepareMessage);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        if (bySubscribe.containsKey(sub)){
+            for (Session session : bySubscribe.get(sub)){
+                send(session, prepareMessage(sub, txt));
             }
         }
     }
@@ -149,8 +163,8 @@ public class ActiveSubscriptions {
         //todo user->subscribes
     }
 
-    private void clearSessions(Collection<ArrayList<Session>> values) {
-        for (ArrayList<Session> sessions : values) {
+    private void clearSessions(Collection<LinkedList<Session>> values) {
+        for (LinkedList<Session> sessions : values) {
             sessions.stream().filter(Session::isOpen).forEach(session -> {
                 try {
                     session.close();
@@ -161,7 +175,15 @@ public class ActiveSubscriptions {
         }
     }
 
-    public ArrayList<Integer> getSubscribeWorkers() {
-        return new ArrayList<>(byWorker.keySet());
+    public LinkedList<Worker> getSubscribeWorkers() {
+        return new LinkedList<>(byWorker.keySet());
+    }
+
+    public LinkedList<Session> getSessions(Subscribe w) {
+        return bySubscribe.get(w);
+    }
+
+    public Role getSessionView(Session session) {
+        return views.get(session);
     }
 }

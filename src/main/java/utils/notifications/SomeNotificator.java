@@ -30,16 +30,15 @@ public class SomeNotificator {
     }
 
     public void sendNotificationFrom(Worker sender, Object notification) throws IOException {
-        for (int id : subscriptions.getSubscribeWorkers()){
-            if (sender.getId() != id){
+        for (Worker id : subscriptions.getSubscribeWorkers()){
+            if (sender != id){
                 subscriptions.send(Subscribe.NOTIFICATIONS, id, notification);
             }
         }
     }
 
     public void sendNotification(Object notification) throws IOException {
-        for (int id : subscriptions.getSubscribeWorkers()){
-            System.out.println("Notification " + notification.toString() + " for " + id);
+        for (Worker id : subscriptions.getSubscribeWorkers()){
             subscriptions.send(Subscribe.NOTIFICATIONS, id, notification);
         }
     }

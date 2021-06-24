@@ -7,6 +7,7 @@ const Settings = {
     context: '',
     api: '/api/subscribes',
     worker: '',
+    view:'',
     token:null,
     getAddress: function () {
         return this.protocol + '://' + this.address + this.context + this.api;
