@@ -6,6 +6,7 @@ import entity.documents.Deal;
 import entity.documents.DealProduct;
 import entity.transport.Transportation;
 import entity.transport.TransportationProduct;
+import utils.hibernate.DateContainers.LE;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -85,5 +86,13 @@ public class TransportationDAO extends HibernateDAO{
 
     public Transportation getTransportation(Object id) {
         return hibernator.get(Transportation.class, ID, id);
+    }
+
+    public List<Transportation> getDone(LE lt) {
+        final HashMap<String, Object> args = new HashMap<>();
+        args.put(DATE, lt);
+        args.put(ARCHIVE, false);
+        args.put(DONE, true);
+        return hibernator.query(Transportation.class, args);
     }
 }

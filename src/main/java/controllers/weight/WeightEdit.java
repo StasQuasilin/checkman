@@ -3,6 +3,7 @@ package controllers.weight;
 import constants.Branches;
 import constants.Titles;
 import controllers.IModal;
+import entity.DealType;
 import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 
@@ -30,6 +31,7 @@ public class WeightEdit extends IModal {
                 req.setAttribute(PLAN, plan);
                 req.setAttribute(SEALS, dao.getSealsByTransportation(plan));
             }
+            req.setAttribute(TYPES, DealType.values());
             req.setAttribute(SAVE, Branches.API.SAVE_WEIGHT);
             req.setAttribute(TITLE, Titles.WEIGHT_EDIT);
             req.setAttribute(MODAL_CONTENT, _CONTENT);

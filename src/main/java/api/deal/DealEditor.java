@@ -91,7 +91,6 @@ public class DealEditor implements Constants {
             }
         }
 
-        //DEAL PRODUCT PART
 
         Organisation organisation;
         long organisationId = (long) body.get(COUNTERPARTY);

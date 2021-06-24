@@ -64,7 +64,7 @@ public class TransportList extends IUIServlet{
                 req.setAttribute(HEADER_CONTENT, LABORATORY_HEADER);
                 break;
             default:
-                req.setAttribute(SHOW, Branches.UI.SUMMARY_SHOW);
+//                req.setAttribute(SHOW, Branches.UI.SUMMARY_SHOW);
                 req.setAttribute(HEADER_CONTENT, SUMMARY_HEADER);
         }
 

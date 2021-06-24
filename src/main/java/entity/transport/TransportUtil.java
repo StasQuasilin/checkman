@@ -1,6 +1,8 @@
 package entity.transport;
 
+import api.deal.DealEditor;
 import entity.Worker;
+import entity.documents.Deal;
 import entity.laboratory.SunAnalyses;
 import entity.notifications.Notification;
 import entity.organisations.Organisation;
@@ -11,15 +13,21 @@ import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import utils.*;
+import utils.hibernate.Hibernator;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 import utils.notifications.SomeNotificator;
 import utils.storages.StatisticUtil;
 import utils.storages.StorageUtil;
+import utils.transport.TransportationEditor;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
+import static constants.Constants.DEAL;
+import static constants.Constants.PRODUCT;
+import static utils.hibernate.State.notNull;
 
 /**
  * Created by quasilin on 18.03.2019.
@@ -35,28 +43,36 @@ public class TransportUtil{
     public static final String SUCCESS_TEXT = "notificator.archived.success";
 
     public static void checkTransport(Transportation transportation) {
-        boolean isArchive = true;
-        if (transportation.getWeight() == null || transportation.getWeight().getNetto() == 0){
-            isArchive = false;
+        boolean isDone = true;
+
+        for (TransportationProduct product : transportation.getProducts()){
+            final Weight weight = product.getWeight();
+            if (weight == null || weight.getNetto() == 0){
+                isDone = false;
+            }
         }
 
         if (transportation.getTimeIn() == null) {
-            isArchive = false;
+            isDone = false;
         }
         if (transportation.getTimeOut() == null) {
-            isArchive = false;
+            isDone = false;
         }
 
-        transportation.setDone(isArchive);
-        dao.save(transportation);
+        boolean update = false;
+        if (transportation.isDone() != isDone){
+            transportation.setDone(isDone);
+            dao.save(transportation);
+            update = true;
+        }
 
-        if (isArchive){
+        if (update){
             updateUtil.onSave(transportation);
         }
     }
     public static final int HUMIDITY_BASIS = 7;
     public static final int SORENESS_BASIS = 3;
-    public static float calculateWeight(TransportationProduct transportation) {
+    public static void calculateWeight(TransportationProduct transportation) {
 
         Weight weight = transportation.getWeight();
         if (weight != null) {
@@ -77,10 +93,8 @@ public class TransportUtil{
                 }
             }
             weight.setCorrection(percentage);
-            return percentage;
         }
 
-        return 1;
     }
 
     public static void archive(Transportation transportation, Worker worker) throws IOException {
@@ -249,4 +263,6 @@ public class TransportUtil{
     public static void updateUnloadStatistic(Transportation transportation) {
         statisticUtil.updateStatisticEntry(transportation);
     }
+
+
 }

@@ -73,7 +73,8 @@ var show = new Vue({
                 this.already = true;
                 const self = this;
                 PostApi(this.api.timeApi, {id:this.id, dir:dir}, function (a) {
-                     var date = new Date(a.time).toLocaleTimeString().substring(0, 5);
+                    console.log(a);
+                     let date = new Date(a.time);//.toLocaleTimeString().substring(0, 5);
                     if(dir === 'in'){
                         self.timeIn = date
                     } else{

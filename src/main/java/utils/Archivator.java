@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import utils.hibernate.DateContainers.LE;
 import utils.hibernate.dao.DealDAO;
 import utils.hibernate.dao.SealDAO;
+import utils.hibernate.dao.TransportationDAO;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 
@@ -28,6 +29,7 @@ public final class Archivator {
     final static SealDAO sealDao = new SealDAO();
     final static UpdateUtil updateUtil = new UpdateUtil();
     final static SealsUtil sealsUtil = new SealsUtil();
+    final static TransportationDAO transportationDao = new TransportationDAO();
 
     public static void init(){
         next();
@@ -39,7 +41,7 @@ public final class Archivator {
         Date date = Date.valueOf(LocalDate.now().minusDays(1));
         LE lt = new LE(date);
         log.info("Check documents less or equals then " + date.toString());
-        for (Transportation transportation : dao.getDone(Transportation.class, lt)){
+        for (Transportation transportation : transportationDao.getDone(lt)){
             transportation.setArchive(true);
             dao.save(transportation);
             updateUtil.onRemove(transportation);

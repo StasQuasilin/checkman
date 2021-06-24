@@ -132,7 +132,7 @@ public class TransportationProduct extends JsonAble {
         object.put(INDEX, index);
         object.put(ID, id);
         if (dealProduct != null){
-
+            object.put(TYPE, dealProduct.getDeal().getType().toString());
             object.put(DEAL_PRODUCT, dealProduct.getId());
             final Product product = dealProduct.getProduct();
             object.put(PRODUCT_ID, product.getId());

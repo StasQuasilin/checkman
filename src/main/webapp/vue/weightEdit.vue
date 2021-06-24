@@ -13,7 +13,8 @@ editor = new Vue({
             oil:[],
             cake:[]
         },
-        already:false
+        already:false,
+        typeNames:{}
     },
     mounted:function(){
         for (let i in this.weights){

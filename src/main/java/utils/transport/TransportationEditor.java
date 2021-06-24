@@ -35,7 +35,7 @@ public class TransportationEditor {
     private final TransportationDAO transportationDAO = new TransportationDAO();
     private final DealDAO dealDAO = new DealDAO();
 
-    public Transportation saveTransportation(JSONObject json, Worker creator, Worker manager) throws IOException {
+    public Transportation saveTransportation(JSONObject json, Worker creator, Worker manager) {
 
         boolean save = false;
         boolean isNew = false;
@@ -232,7 +232,7 @@ public class TransportationEditor {
                 product.setDealProduct(dealProduct);
                 saveIt = true;
             }
-            final int amount = object.getInt(AMOUNT);
+            final float amount = object.getFloat(AMOUNT);
             if (product.getAmount() != amount){
                 product.setAmount(amount);
                 saveIt = true;

@@ -79,6 +79,7 @@ transportView = {
             '<div style="width: 100%">' +
                 '<div class="upper-row" style="display: flex; flex-direction: row; width: 100%">' +
                     '<span style="display: inline-block; width: 60px">' +
+                        '<template v-if="item.done">&checkmark;</template>' +
                         '{{new Date(item.date).toLocaleDateString().substring(0, 5)}}' +
                     '</span>' +
                     '<div style="display: flex; flex-direction: column; width: 100%">' +
@@ -93,7 +94,7 @@ transportView = {
                                     '</b>' +
                                 '</span>' +
                             '</span>' +
-                            '<img style="width: 12pt" :src="titles.icon[item.type]" :title="titles[item.type]" :alt="titles[item.type]"/>' +
+                            '<img style="width: 12pt" :src="titles.icon[product.type]" :title="titles[product.type]" :alt="titles[product.type]"/>' +
                             '<b>' +
                                 '{{product.productName}} ' +
                             '</b>' +

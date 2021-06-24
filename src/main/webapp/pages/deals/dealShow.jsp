@@ -320,7 +320,7 @@
               </div>
             </transition-group>
             <div v-if="this.deal">
-              <fmt:message key="totle.plan"/>: {{totalAmountString()}}
+              <fmt:message key="totle.plan"/>: {{totalAmountString()}}<br>
               <fmt:message key="totle.fact"/>: {{totalFactString()}}
             </div>
           </div>

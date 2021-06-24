@@ -414,17 +414,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         json.put(Constants.TARE, tare());
 
         json.put(PRODUCTS, products(level));
-
-
-
-//        json.put(PRODUCT, deal.getProduct().toJson());
-//        json.put(PLAN, amount);
-//        json.put(UNIT, deal.getUnit().getName());
-//        json.put(PRICE, deal.getPrice());
-//        json.put(COUNTERPARTY, deal.getOrganisation().toShortJson());
-//        json.put(SHIPPER, deal.getShipper().getValue());
-//        json.put(ANALYSES, analyses());
-        json.put(NOTES, notes.stream().map(documentNote -> documentNote.toJson()).collect(Collectors.toList()));
+        json.put(NOTES, notes.stream().map(JsonAble::toJson).collect(Collectors.toList()));
         json.put(ANY, any());
         json.put(ARCHIVE, archive);
         json.put(DONE, done);

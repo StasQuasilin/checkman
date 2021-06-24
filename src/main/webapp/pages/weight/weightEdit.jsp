@@ -13,6 +13,9 @@
     <c:forEach items="${plan.products}" var="p">
     editor.addWeight(${p.toJson()});
     </c:forEach>
+    <c:forEach items="${types}" var="t">
+    editor.typeNames['${t}']='<fmt:message key="_${t}"/>';
+    </c:forEach>
 
 </script>
 <table id="editor" >
@@ -30,17 +33,7 @@
                         <fmt:formatDate value="${plan.date}" pattern="dd.MM.yyyy"/>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <fmt:message key="deal.organisation"/>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td class="secure">
-                        ${plan.counterparty.value}
-                    </td>
-                </tr>
+
 
                 <tr>
                     <td>
@@ -75,8 +68,18 @@
                         ${plan.driver.person.value}
                     </td>
                 </tr>
-                <c:set var="type"><fmt:message key="_${plan.type}"/></c:set>
-                <template v-for="w in weights">
+                <template v-for="(w, wIdx) in weights">
+                    <tr>
+                        <td>
+                            <fmt:message key="deal.organisation"/>
+                        </td>
+                        <td>
+                            :
+                        </td>
+                        <td class="secure">
+                            {{w.counterparty.value}}
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <fmt:message key="deal.product"/>
@@ -86,10 +89,10 @@
                         </td>
                         <td>
                             {{w.productName}},
-                            ${fn:toLowerCase(type)}
+                            {{typeNames[w.type].toLowerCase()}}
                         </td>
                     </tr>
-                    <tr>
+                    <tr v-if="!w.product.group">
                         <td>
                             <fmt:message key="deal.quantity"/>
                         </td>
@@ -97,13 +100,12 @@
                             :
                         </td>
                         <td>
-                            {{w.amount.toLocaleString()}}
-                            <%--${plan.deal.unit.name}--%>
+                            {{w.amount.toLocaleString()}} {{w.unitName}} <fmt:message key="deal.from"/> {{w.shipperName}}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="gross">
+                            <label :for="'gross_' + wIdx">
                                 <fmt:message key="weight.gross"/>
                             </label>
                         </td>
@@ -111,13 +113,13 @@
                             :
                         </td>
                         <td>
-                            <input id="gross" v-model="w.weight.gross" v-on:change="checkBrutto"
+                            <input :id="'gross_' + wIdx" v-model="w.weight.gross" v-on:change="checkBrutto"
                                    onfocus="this.select()" type="number" step="0.01" autocomplete="off">
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="tara">
+                            <label :for="'tara_' + wIdx">
                                 <fmt:message key="weight.tare"/>
                             </label>
                         </td>
@@ -125,7 +127,7 @@
                             :
                         </td>
                         <td>
-                            <input id="tara" v-model="w.weight.tare" v-on:change="checkTara"
+                            <input :id="'tara_' + wIdx" v-model="w.weight.tare" v-on:change="checkTara"
                                    onfocus="this.select()" type="number" step="0.01" autocomplete="off">
                         </td>
                     </tr>

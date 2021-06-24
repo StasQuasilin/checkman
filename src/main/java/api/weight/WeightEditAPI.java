@@ -49,7 +49,8 @@ public class WeightEditAPI extends ServletAPI {
             log.info(body);
             Worker worker = getWorker(req);
             final LinkedList<DealProduct> dealProducts = new LinkedList<>();
-            final LinkedList<Transportation> transportations = new LinkedList<>();
+            final LinkedList<Transportation> incomeTransportations = new LinkedList<>();
+            final LinkedList<Transportation> allTransportations = new LinkedList<>();
 
             for(Object o : body.getArray(WEIGHTS)){
                 JsonObject json = new JsonObject(o);
@@ -88,13 +89,16 @@ public class WeightEditAPI extends ServletAPI {
                     }
 
                     final Transportation transportation = transportationProduct.getTransportation();
-
+                    if (!allTransportations.contains(transportation)){
+                        allTransportations.add(transportation);
+                    }
                     if ((gross > 0 || tare > 0) && transportation.getTimeIn() == null){
                         ActionTime actionTime = new ActionTime(worker);
                         dao.save(actionTime);
                         transportation.setTimeIn(actionTime);
-                        transportations.add(transportation);
-
+                        if (!incomeTransportations.contains(transportation)) {
+                            incomeTransportations.add(transportation);
+                        }
                     }
 
                     final float net = weight.getNetto();
@@ -122,9 +126,11 @@ public class WeightEditAPI extends ServletAPI {
                 comparator.compare(weight, worker);
             }
 
+            for (Transportation transportation : allTransportations){
+                TransportUtil.checkTransport(transportation);
+            }
 
-
-            for (Transportation transportation : transportations){
+            for (Transportation transportation : incomeTransportations){
                 Notificator.timeIn(transportation);
             }
 
