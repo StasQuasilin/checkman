@@ -172,6 +172,7 @@ transportFilter = new Vue({
                 return self.filter(item, product, counterparty, date, driver)
             });
         },
+
         filter:function(item, product, counterparty, date, driver){
 
             let byDate = true;
@@ -232,6 +233,13 @@ transportFilter = new Vue({
             }
 
             return byProduct && byCounterparty && byDate && byDriver && any;
+        },
+        getFilteredItems:function(){
+            const product = this.product;
+            const counterparty = this.organisation;
+            const date = this.date;
+            const driver = this.driver;
+            return this.filtered(product, counterparty, date, driver);
         },
         doFilter:function(item){
             const product = this.product;

@@ -418,6 +418,7 @@ editor = new Vue({
             }
         },
         putVehicle:function(vehicle){
+            console.log(vehicle);
             Vue.set(this.transportation, 'vehicle', vehicle);
             if (vehicle.trailer && vehicle.trailer.id > 0){
                 this.putTrailer(vehicle.trailer);

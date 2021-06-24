@@ -4,6 +4,8 @@ bl = {
         items:{},
         filter:null
     },
+    mounted:function(){
+    },
     methods:{
         handle:function(data){
             if (data.add){
@@ -28,16 +30,14 @@ bl = {
             if (data.update || data.remove){
                 this.$forceUpdate();
                 if(this.filter) {
-                    this.filter.items = this.items;
+                    this.filter.items = Object.assign({}, this.items);
                     this.filter.$forceUpdate();
                 }
             }
         },
         getItems:function () {
-            let items = Object.values(this.items);
-            if(this.filter && typeof this.filter.doFilter === "function"){
-                items = items.filter(this.filter.doFilter);
-            }
+            let items = (this.filter && typeof this.filter.getFilteredItems === "function") ? this.filter.getFilteredItems() : Object.values(this.items);
+
             if (typeof this.sort === "function"){
                 return items.sort(this.sort);
             } else {

@@ -59,7 +59,7 @@ public class ParseVehicleAPI extends ServletAPI {
 
                 dao.save(vehicle);
                 JSONObject json = vehicle.toJson();
-                answer.add(VEHICLE, json);
+                answer.add(RESULT, json);
             }
 
             write(resp, answer.toJson());

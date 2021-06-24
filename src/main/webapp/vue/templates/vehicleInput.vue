@@ -116,7 +116,11 @@ objectInput = {
                 PostApi(this.props.add, {key: this.input}, function (a) {
                     console.log(a);
                     if (a.status === 'success') {
-                        self.putObject(a.result);
+                        if(a.result){
+                            self.putObject(a.result);
+                        } else {
+                            console.warn('Field \'result\' required. Better call exorcist');
+                        }
                     }
                 });
             }
