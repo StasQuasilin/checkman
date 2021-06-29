@@ -294,22 +294,23 @@ public class Deal extends JsonAble{
             for (DealProduct product : products) {
                 array.add(product.toJson());
             }
-        } else {
-            for(int i = 0; i < 1; i++) {
-                final JSONObject object = new JSONObject();
-                object.put(ID, id);
-                object.put(PRODUCT_ID, product.getId());
-                object.put(PRODUCT_NAME, product.getName());
-                object.put(PRODUCT, product.toJson());
-                object.put(QUANTITY, quantity);
-                object.put(UNIT_ID, unit.getId());
-                object.put(UNIT_NAME, unit.getName());
-                object.put(SHIPPER_ID, shipper.getId());
-                object.put(SHIPPER_NAME, shipper.getValue());
-                object.put(PRICE, price);
-                array.add(object);
-            }
         }
+//        else {
+//            for(int i = 0; i < 1; i++) {
+//                final JSONObject object = new JSONObject();
+//                object.put(ID, id);
+//                object.put(PRODUCT_ID, product.getId());
+//                object.put(PRODUCT_NAME, product.getName());
+//                object.put(PRODUCT, product.toJson());
+//                object.put(QUANTITY, quantity);
+//                object.put(UNIT_ID, unit.getId());
+//                object.put(UNIT_NAME, unit.getName());
+//                object.put(SHIPPER_ID, shipper.getId());
+//                object.put(SHIPPER_NAME, shipper.getValue());
+//                object.put(PRICE, price);
+//                array.add(object);
+//            }
+//        }
         return array;
     }
 
@@ -328,6 +329,7 @@ public class Deal extends JsonAble{
         json.put(TARGET, target());
         json.put(DONE, isDone());
         json.put(ARCHIVE, isArchive());
+        if (create != null)
         json.put(CREATE, create.toShortJson());
         json.put(Constants.COSTS, costs());
         return json;

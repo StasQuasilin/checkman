@@ -98,23 +98,41 @@ editor = new Vue({
                 })
             }
         },
-        dealEdit:function(idx){
-            this.loadDealEdit(this.transportation.products[idx].deal);
+        dealEdit:function(deal){
+            if(typeof deal === "number"){
+                this.loadDealEdit(this.transportation.products[deal].deal);
+            } else {
+                this.loadDealEdit(deal)
+            }
         },
         loadDealEdit:function(deal){
             const self = this;
             let attr = {};
-            if (deal.id !== -1){
-                attr.id=deal.id;
+            if (typeof deal === "number"){
+                attr.id = deal;
+            } else if (typeof deal === "object"){
+                attr.deal = deal;
             } else {
-                attr.deal=deal;
+                console.log(deal);
             }
+
             loadModal(this.api.dealEdit, attr, function (a) {
                 console.log('!!!!');
                 console.log(a);
+                let deal = a;
+                let dealProduct = deal.products[0];
 
-                editor.transportation.deal = a;
-                self.findDeals(a.organisation.id);
+                editor.transportation.products.push({
+                    id:-1,
+                    counterparty:a.organisation,
+                    dealProduct:dealProduct.id,
+                    quantity:dealProduct.quantity,
+                    price:dealProduct.price,
+                    shipperId:dealProduct.shipperId,
+                    amount:24,
+                    deals:deal
+                });
+                 // self.findDeals(a.organisation.id);
                 editor.deal = a;
                 self.$forceUpdate();
             })
@@ -151,9 +169,11 @@ editor = new Vue({
                     }
                     self.$forceUpdate();
                 } else {
-                    self.transportation.deal.id = -1;
-                    self.transportation.deal.organisation = a.organisation;
-                    self.dealEdit();
+                    self.dealEdit({
+                        id:-1,
+                        organisation:a.organisation,
+                        products:[]
+                    });
                 }
             })
         },

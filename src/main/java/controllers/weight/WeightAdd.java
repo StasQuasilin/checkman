@@ -89,8 +89,8 @@ public class WeightAdd extends IModal {
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute(FIND_DEALS, Branches.API.FIND_DEALS);
         req.setAttribute(ACTIONS, dao.getObjects(ProductAction.class));
-        req.setAttribute(Constants.SELECT_COUNTERPARTY, Branches.UI.SELECT_COUNTERPARTY);
-        req.setAttribute(Constants.DEAL_EDIT, Branches.UI.DEAL_EDIT);
+        req.setAttribute(SELECT_COUNTERPARTY, Branches.UI.SELECT_COUNTERPARTY);
+        req.setAttribute(DEAL_EDIT, Branches.UI.Transportation.DEAL_EDIT);
         req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
         req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
         req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);

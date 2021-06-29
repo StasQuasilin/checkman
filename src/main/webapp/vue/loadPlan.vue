@@ -46,7 +46,6 @@ plan = new Vue({
         },
         methods: {
             totalAmount: function () {
-                console.log('calculate total amount');
                 let total = 0;
                 for (let i in this.items) {
                     if (this.items.hasOwnProperty(i)) {
@@ -67,14 +66,22 @@ plan = new Vue({
                 return total;
             },
             totalAmountString: function () {
-                let total = this.totalAmount();
                 let quantity = this.deal.products[this.selectedProduct].quantity;
-                return total.toLocaleString() + ' / ' + quantity + ' ( ' + (total / quantity * 100).toLocaleString() + '% )';
+                let total = this.totalAmount();
+                let s = total.toLocaleString() + ' / ' + quantity;
+                if (quantity > 0) {
+                      s += ' ( ' + (total / quantity * 100).toLocaleString() + '% )';
+                }
+                return s;
             },
             totalFactString: function () {
-                let total = this.totalFact();
                 let quantity = this.deal.products[this.selectedProduct].quantity;
-                return total.toLocaleString() + ' / ' + quantity + ' ( ' + (total / quantity * 100).toLocaleString() + '% )';
+                let total = this.totalFact();
+                let s = total.toLocaleString() + ' / ' + quantity;
+                if (quantity > 0) {
+                      s += ' ( ' + (total / quantity * 100).toLocaleString() + '% )';
+                }
+                return s;
             },
             totalFact: function () {
                 let total = 0;
@@ -99,20 +106,18 @@ plan = new Vue({
             },
             selectProduct: function (idx) {
                 this.selectedProduct = idx;
-
-                const self = this;
+                let productId = this.deal.products[idx].id;
                 this.items = {};
-                self.plans = [];
-
+                this.plans = [];
+                const self = this;
                 subscribe('TRANSPORT_' + this.deal.type.toUpperCase(), function (data) {
                     if (data.update) {
-                        let p = self.deal.products[idx].id;
                         for (let u = 0; u < data.update.length; u++) {
                             let update = data.update[u];
                             let products = update.products;
                             for (let i = 0; i < products.length; i++) {
                                 let product = products[i];
-                                if (product.dealProduct === p) {
+                                if (product.dealProduct === productId) {
                                     self.addItem(update);
                                 } else {
                                     self.deleteItem(update);
@@ -128,7 +133,7 @@ plan = new Vue({
                             }
                         }
                     }
-                });
+                }, {dealProduct:productId});
             },
             deleteItem: function (item) {
                 if (this.items[item.id]) {

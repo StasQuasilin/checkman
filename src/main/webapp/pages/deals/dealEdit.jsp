@@ -78,7 +78,7 @@
     <c:set var="findCunterparty"><fmt:message key="counterparty.find"/></c:set>
     <c:set var="addCunterparty"><fmt:message key="counterparty.add"/></c:set>
     <c:set var="type"><fmt:message key="deal.type"/></c:set>
-    <table id="editor" class="editor">
+    <table id="dealEditor" class="editor">
         <tr>
             <td>
                 <label for="number">
@@ -182,13 +182,13 @@
                 </tr>
             </template>
         </template>
-<%--        <tr>--%>
-<%--            <td colspan="3" style="text-align: right">--%>
-<%--                <span class="mini-close" v-on:click="addProduct()">--%>
-<%--                    +<fmt:message key="button.add.product"/>--%>
-<%--                </span>--%>
-<%--            </td>--%>
-<%--        </tr>--%>
+        <tr>
+            <td colspan="3" style="text-align: right">
+                <span class="mini-close" v-on:click="addProduct()">
+                    +<fmt:message key="button.add.product"/>
+                </span>
+            </td>
+        </tr>
         <tr v-if="totalSum > 0">
             <td>
                 <fmt:message key="deal.amount"/>

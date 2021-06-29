@@ -46,7 +46,6 @@ public class WeightEditAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final JsonObject body = parseBodyGood(req);
         if(body != null) {
-            log.info(body);
             Worker worker = getWorker(req);
             final LinkedList<DealProduct> dealProducts = new LinkedList<>();
             final LinkedList<Transportation> incomeTransportations = new LinkedList<>();

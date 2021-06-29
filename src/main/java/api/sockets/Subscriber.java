@@ -10,6 +10,7 @@ import org.json.simple.parser.ParseException;
 import utils.access.UserBox;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.json.JsonObject;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -59,17 +60,17 @@ public class Subscriber extends API{
     }
     @OnMessage
     public void onMessage(Session session, String msg) throws ParseException, IOException {
-        JSONObject json = (JSONObject) parseJson(msg);
-        if (json.containsKey(ACTION)) {
-            String action = String.valueOf(json.get(ACTION));
+        final JsonObject json = parseJson(msg);
+        if (json.contain(ACTION)) {
+            String action = json.getString(ACTION);
             switch (action) {
                 case SUBSCRIBE:
-                    if (json.containsKey(SUBSCRIBER)) {
-                        Subscribe subscribe = Subscribe.valueOf(String.valueOf(json.get(SUBSCRIBER)));
+                    if (json.contain(SUBSCRIBER)) {
+                        Subscribe subscribe = Subscribe.valueOf(json.getString(SUBSCRIBER));
                         Worker worker = dao.getObjectById(Worker.class, json.get(WORKER));
                         Role view;
-                        if (json.containsKey(VIEW)){
-                            view = Role.valueOf(String.valueOf(json.get(VIEW)));
+                        if (json.contain(VIEW)){
+                            view = Role.valueOf(json.getString(VIEW));
                         } else {
                             view = worker.getRole();
                         }
@@ -78,8 +79,8 @@ public class Subscriber extends API{
                     }
                     break;
                 case UNSUBSCRIBE:
-                    if (json.containsKey(SUBSCRIBER)) {
-                        Subscribe subscribe = Subscribe.valueOf(String.valueOf(json.get(SUBSCRIBER)));
+                    if (json.contain(SUBSCRIBER)) {
+                        Subscribe subscribe = Subscribe.valueOf(json.getString(SUBSCRIBER));
                         activeSubscriptions.unsubscribe(subscribe, session);
                     }
                     break;
@@ -88,8 +89,7 @@ public class Subscriber extends API{
                     break;
                 }
                 case "hello": {
-                    final String t = String.valueOf(json.get(Constants.TOKEN));
-                    sessions.put(session, t);
+                    sessions.put(session, json.getString(TOKEN));
                     break;
                 }
                 default:

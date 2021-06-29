@@ -35,7 +35,6 @@ public class TransportationEditAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            System.out.println(body);
             Worker creator = getWorker(req);
             Worker manager = dao.getObjectById(Worker.class, body.get(MANAGER));
             if (manager == null){

@@ -2,7 +2,7 @@ dealEdit = new Vue({
     components:{
       'object-input':objectInput
     },
-    el: '#editor',
+    el: '#dealEditor',
     data:{
         api:{},
         types:{},
@@ -52,7 +52,24 @@ dealEdit = new Vue({
     },
     methods:{
         productList:function(){
-            return Object.values(this.products).sort(function (a, b) {
+            let dealType = this.deal.type;
+            let products = [];
+            for (let p in this.products){
+                if (this.products.hasOwnProperty(p)){
+                    let product = this.products[p];
+                    let types = this.types[product.id];
+                    for (let t in types){
+                        if (types.hasOwnProperty(t)){
+                            let type = types[t];
+                            if (type === dealType){
+                                products.push(product);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return products.sort(function (a, b) {
                 return a.value.localeCompare(b.value);
             });
         },
@@ -98,7 +115,6 @@ dealEdit = new Vue({
             }
             return types;
         },
-
         setCounterparty:function(counterparty){
             this.deal.counterparty = counterparty;
         },
@@ -122,7 +138,6 @@ dealEdit = new Vue({
                 })
             }
         },
-
         selectProduct:function(){
             if (this.products.length > 0){
                 let type = this.deal.type;
@@ -130,18 +145,14 @@ dealEdit = new Vue({
                 for(let i in this.products){
                     if (this.products.hasOwnProperty(i)){
                         let product = this.products[i];
-                        console.log(product.value);
                         let actions = this.types[product.id];
                         for (let j in actions){
                             if (actions.hasOwnProperty(j)){
                                 let action = actions[j];
-                                console.log('\t' + action);
                                 if (action === type){
                                     this.deal.product = product.id;
                                     interrupt = true;
-                                    console.log('\t\tYes');
                                     break;
-
                                 }
                             }
                         }

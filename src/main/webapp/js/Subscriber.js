@@ -70,7 +70,7 @@ function Connect(){
     }
 }
 
-function subscribe(sub, on){
+function subscribe(sub, on, attributes){
     if (typeof subscribes === "undefined"){
         subscribes = {};
     } else if (!subscribes[sub]){
@@ -78,12 +78,16 @@ function subscribe(sub, on){
     }
     temp.push(sub);
     subscribes[sub].push(on);
-    send(JSON.stringify({
+    let args = {
         action: 'subscribe',
         subscriber: sub,
         worker: Settings.worker,
         view:Settings.view
-    }));
+    };
+    if (attributes != null){
+        args = Object.assign(args, attributes);
+    }
+    send(JSON.stringify(args));
 }
 function unSubscribe(){
     for (let i in temp){

@@ -114,7 +114,7 @@
                             :
                         </td>
                         <td>
-                            <input :id="'gross_' + wIdx" v-model="w.weight.gross" v-on:change="checkBrutto"
+                            <input :id="'gross_' + wIdx" v-model="w.weight.gross" v-on:change="checkBrutto(w.weight)"
                                    onfocus="this.select()" type="number" step="0.01" autocomplete="off">
                         </td>
                     </tr>
@@ -128,7 +128,7 @@
                             :
                         </td>
                         <td>
-                            <input :id="'tara_' + wIdx" v-model="w.weight.tare" v-on:change="checkTara"
+                            <input :id="'tara_' + wIdx" v-model="w.weight.tare" v-on:change="checkTara(w.weight)"
                                    onfocus="this.select()" type="number" step="0.01" autocomplete="off">
                         </td>
                     </tr>

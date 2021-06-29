@@ -67,11 +67,11 @@ editor = new Vue({
         netto:function(brutto, tara){
             return brutto === 0 || tara === 0 ? 0 : (this.checkTonnas(brutto) - this.checkTonnas(tara));
         },
-        checkBrutto:function(){
-            this.weight.brutto = this.check(this.weight.brutto)
+        checkBrutto:function(weight){
+            weight.gross = this.check(weight.gross)
         },
-        checkTara:function(){
-            this.weight.tara = this.check(this.weight.tara)
+        checkTara:function(weight){
+            weight.tare = this.check(weight.tare)
         },
         check:function(w){
             return w > 1000 ? w / 1000 : w;

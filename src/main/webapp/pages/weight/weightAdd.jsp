@@ -309,9 +309,9 @@
                     <span class="mini-close" v-on:click="selectCounterparty(productId)">
                         &#8634;<fmt:message key="transportation.counterparty.change"/>
                     </span>
-                    <span class="mini-close" v-on:click="dealCopy(productId)">
-                        <fmt:message key="deal.copy"/>
-                    </span>
+<%--                    <span class="mini-close" v-on:click="dealCopy(productId)">--%>
+<%--                        <fmt:message key="deal.copy"/>--%>
+<%--                    </span>--%>
                     <span class="mini-close" v-on:click="dealEdit(productId)">
                         <fmt:message key="deal.edit"/>
                     </span>

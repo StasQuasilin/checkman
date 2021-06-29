@@ -3,7 +3,6 @@
   User: szpt_user045
   Date: 30.11.2019
   Time: 0:22
-  To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -82,20 +81,9 @@
   productEdit.api.save ='${save}';
   productEdit.product.id='${product.id}';
   productEdit.product.name='${product.name}';
-  productEdit.product.weight = ${product.weight};
-  productEdit.product.pallet = ${product.pallet};
-  <c:if test="${not empty product.productGroup}">
-  productEdit.product.group={
-    id:${product.productGroup.id},
-    name:'${product.productGroup.name}'
-  };
-  </c:if>
   <c:if test="${not empty product.unit}">
   productEdit.product.unit = ${product.unit.id};
   </c:if>
-  <c:forEach items="${settings.getSplitPath()}" var="s">
-  productEdit.product.path.push('${s}');
-  </c:forEach>
   <c:forEach items="${units}" var="unit">
   productEdit.units.push({
     id:${unit.id},

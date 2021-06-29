@@ -6,6 +6,7 @@ import controllers.IModal;
 import entity.DealType;
 import entity.Worker;
 import entity.documents.Deal;
+import entity.organisations.Organisation;
 import entity.products.ProductAction;
 import entity.transport.TransportCustomer;
 import org.apache.log4j.Logger;
@@ -19,6 +20,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * Created by szpt_user045 on 11.03.2019.
@@ -39,8 +42,11 @@ public class DealEdit extends IModal {
         JsonObject body = parseBodyGood(req);
         long id = -1;
         if (body != null) {
+            System.out.println(body);
             if (body.contain(ID)) {
                 id = body.getInt(ID);
+                final Deal dealById = dealDAO.getDealById(id);
+                System.out.println(dealById);
                 req.setAttribute(DEAL, dealDAO.getDealById(id));
                 req.setAttribute(TITLE, Constants.Languages.DEAL_EDIT);
             } else if (body.contain(COPY)) {

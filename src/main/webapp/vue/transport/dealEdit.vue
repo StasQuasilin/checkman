@@ -12,6 +12,7 @@ dealEdit = new Vue({
                 id:-1
             },
             product:-1,
+            products:[],
             price:0,
             shipper:-1,
             unit:-1
@@ -21,16 +22,15 @@ dealEdit = new Vue({
         units:[],
         productActions:{},
         organisationProps:{},
+        types:[],
         typeNames:{}
     },
-    computed:{
+    methods:{
         currentActions:function () {
             if (this.deal.product !== -1){
                 return this.productActions[this.deal.product]
             }
-        }
-    },
-    methods:{
+        },
         putOrganisation:function (organisation) {
             this.deal.organisation = organisation;
         },
@@ -65,11 +65,7 @@ dealEdit = new Vue({
                 id: this.deal.id,
                 type:this.deal.type,
                 organisation:this.deal.organisation.id,
-                product:this.deal.product,
-                price:this.deal.price,
-                shipper:this.deal.shipper,
-                quantity:this.deal.quantity,
-                unit:this.deal.unit
+                products:this.deal.products,
             };
             PostApi(this.api.save, deal, function (a) {
                 if (a.status === 'success'){
