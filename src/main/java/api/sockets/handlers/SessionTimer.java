@@ -83,9 +83,7 @@ public class SessionTimer {
     public static final String REASON_2 = "session.turnout";
 
     public void register(Worker worker, Session session) {
-        Timer timer = new Timer(SESSION_DELAY, e -> {
-            close(worker, session, REASON_1);
-        });
+        Timer timer = new Timer(SESSION_DELAY, e -> close(worker, session, REASON_1));
         timer.setRepeats(false);
         timer.start();
         timerHashMap.put(worker, timer);

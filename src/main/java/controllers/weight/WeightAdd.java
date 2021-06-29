@@ -6,10 +6,12 @@ import controllers.IModal;
 import entity.DealType;
 import entity.Role;
 import entity.documents.Deal;
+import entity.documents.DealProduct;
 import entity.products.ProductAction;
 import entity.transport.DocumentNote;
 import entity.transport.TransportCustomer;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 
@@ -57,9 +59,13 @@ public class WeightAdd extends IModal {
 //            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
             transportation.setId(-1);
             transportation.setDate(Date.valueOf(LocalDate.now()));
-            Deal deal = transportation.getDeal();
-            if (deal.isArchive()){
-                deal.setId(-1);
+            for (TransportationProduct product : transportation.getProducts()){
+                final DealProduct dealProduct = product.getDealProduct();
+                final Deal deal = dealProduct.getDeal();
+                if (deal.isArchive()){
+                    deal.setId(-1);
+                    dealProduct.setId(-1);
+                }
             }
             List<DocumentNote> notes = transportation.getNotes();
             for (int i = 0; i < notes.size();){

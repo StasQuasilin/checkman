@@ -9,19 +9,15 @@ import entity.bot.BotSettings;
 import entity.documents.Deal;
 import entity.documents.DealProduct;
 import entity.products.Product;
-import entity.transport.TransportUtil;
 import entity.transport.Transportation;
 import entity.transport.TransportationProduct;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import utils.Archivator;
 import utils.DocumentUIDGenerator;
+import utils.hibernate.DateContainers.LE;
 import utils.hibernate.HibernateSessionFactory;
 import utils.hibernate.Hibernator;
-import utils.hibernate.dbDAOService;
 import utils.transport.TransportReplaceUtil;
-import utils.transport.TransportationEditor;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -29,13 +25,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.*;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
-import static constants.Constants.DEAL;
-import static constants.Constants.PRODUCTS;
+import static constants.Constants.*;
 import static utils.hibernate.State.notNull;
 
 /**
@@ -45,16 +41,17 @@ import static utils.hibernate.State.notNull;
 public class ContextFilter implements Filter {
 
     public static BotSettings settings;
-    final Logger log = Logger.getLogger(ContextFilter.class);
+    final static Logger log = Logger.getLogger(ContextFilter.class);
     TransportReplaceUtil tru;
+    static final Hibernator hibernator = Hibernator.getInstance();
+    static boolean interrupt = false;
 
     @Override
     public void init(FilterConfig filterConfig) {
+        new Thread(ContextFilter::checkTransport).start();
 
-        checkTransport();
         gcTimer = new Timer(10 * 60 * 1000, e -> System.gc());
 //        gcTimer.start();
-
         TelegramBotFactory.init(filterConfig.getServletContext().getContextPath());
         Archivator.init();
         tru = new TransportReplaceUtil();
@@ -62,21 +59,20 @@ public class ContextFilter implements Filter {
 
     public static void checkTransport() {
 
-        final TransportationEditor transportationEditor = new TransportationEditor();
         final HashMap<String, Object> args = new HashMap<>();
         args.put(DEAL, notNull);
+        args.put(DATE, new LE(Date.valueOf(LocalDate.now().plusDays(1))));
 
-        final Hibernator hibernator = Hibernator.getInstance();
-
-        System.out.println();
         final LinkedList<Transportation> transportations = new LinkedList<>();
-        initList(transportations, hibernator, args);
+        initList(transportations, args);
         if (transportations.size() > 0){
-            System.out.println("Start transportation checking");
+            int count = 0;
+            log.info("Start transportation checking at " + LocalDateTime.now());
             while (transportations.size() > 0){
                 for (Transportation transportation : transportations){
+                    count++;
                     final Deal deal = transportation.getDeal();
-                    DealProduct dealProduct = createDealProduct(deal, hibernator);
+                    DealProduct dealProduct = createDealProduct(deal);
                     TransportationProduct product = new TransportationProduct();
                     product.setTransportation(transportation);
                     product.setDealProduct(dealProduct);
@@ -90,16 +86,19 @@ public class ContextFilter implements Filter {
                     transportation.setDeal(null);
                     hibernator.save(transportation);
                 }
-                initList(transportations, hibernator, args);
+                if (interrupt){
+                    break;
+                }
+                initList(transportations, args);
             }
-            System.out.println("done");
+            System.out.println("done " + count + " transforms at " + LocalDateTime.now());
         } else {
             System.out.println("Nothing to do!");
         }
 
     }
 
-    private static DealProduct createDealProduct(Deal deal, Hibernator hibernator) {
+    private static DealProduct createDealProduct(Deal deal) {
         final LinkedList<DealProduct> products = new LinkedList<>(deal.getProducts());
 
         if (products.size() == 0) {
@@ -116,11 +115,11 @@ public class ContextFilter implements Filter {
             dealProduct.setAddress(deal.getAddress());
             dealProduct.setUid(DocumentUIDGenerator.generateUID());
 
-            hibernator.save(dealProduct);
+            ContextFilter.hibernator.save(dealProduct);
             deal.getProducts().add(dealProduct);
 
             deal.setProduct(null);
-            hibernator.save(deal);
+            ContextFilter.hibernator.save(deal);
             return dealProduct;
         }
         return products.get(0);
@@ -142,6 +141,7 @@ public class ContextFilter implements Filter {
 
     @Override
     public void destroy() {
+        interrupt = true;
         gcTimer.stop();
         Archivator.stop();
         ActiveSubscriptions.getInstance().close();
@@ -150,9 +150,9 @@ public class ContextFilter implements Filter {
         tru.shutdown();
         SessionTimer.getInstance().stop();
     }
-    private static void initList(LinkedList<Transportation> transportations, Hibernator hibernator, HashMap<String, Object> args) {
+    private static void initList(LinkedList<Transportation> transportations, HashMap<String, Object> args) {
         transportations.clear();
-        transportations.addAll(hibernator.limitQuery(Transportation.class, args, 20));
+        transportations.addAll(ContextFilter.hibernator.limitQuery(Transportation.class, args, 20));
     }
 }
 

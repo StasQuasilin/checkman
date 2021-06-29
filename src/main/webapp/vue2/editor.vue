@@ -1,8 +1,6 @@
 editor = {
-    data:function () {
-        return{
-            api:{}
-        }
+    data:{
+        api:{}
     },
     mounted:function () {
         this.init();

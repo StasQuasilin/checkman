@@ -178,9 +178,12 @@ public class ActiveSubscriptions {
     public LinkedList<Worker> getSubscribeWorkers() {
         return new LinkedList<>(byWorker.keySet());
     }
-
+    final LinkedList<Session> emptySubscribeList = new LinkedList<>();
     public LinkedList<Session> getSessions(Subscribe w) {
-        return bySubscribe.get(w);
+        if (bySubscribe.containsKey(w)){
+            return bySubscribe.get(w);
+        }
+        return emptySubscribeList;
     }
 
     public Role getSessionView(Session session) {

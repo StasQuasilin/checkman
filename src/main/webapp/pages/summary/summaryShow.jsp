@@ -31,7 +31,7 @@
               :
             </td>
             <td>
-              <fmt:message key="${plan.type}"/>
+<%--              <fmt:message key="${plan.type}"/>--%>
             </td>
           </tr>
           <tr>

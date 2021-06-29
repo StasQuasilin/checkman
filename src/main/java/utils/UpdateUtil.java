@@ -84,13 +84,9 @@ public class UpdateUtil {
     }
 
     public void onSave(Transportation transportation) {
-        System.out.println("Update transportation " + transportation.getId());
         for (Subscribe subscribe : getSubscriber(transportation)){
-            System.out.println("\tSubscribe: " + subscribe);
-
             for(Session session : subscriptions.getSessions(subscribe)){
                 final Role sessionView = subscriptions.getSessionView(session);
-                System.out.println("\t\tSession: " + session.getId() + ", view: " + sessionView);
                 final int i = OnSubscribeHandler.calculateSecureMask(sessionView);
                 final String s = ActiveSubscriptions.prepareMessage(
                         subscribe, undoAction(
@@ -107,7 +103,6 @@ public class UpdateUtil {
         for (Subscribe subscribe : getSubscriber(transportation)){
             doAction(Command.remove, subscribe, transportation.getId());
         }
-
     }
 
     public void onArchive(Transportation transportation) {

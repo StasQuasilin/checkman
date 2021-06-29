@@ -106,7 +106,6 @@ public class Subscriber extends API{
         final String token = sessions.remove(session);
         if (token != null) {
             userBox.isLeft(token);
-            log.info("Worker #" + token + " left the building, total sessions: " + sessions.size());
         }
     }
 

@@ -319,7 +319,7 @@
             </tr>
         </table>
     </div>
-    <div v-if="transportation.products.length === 0">
+    <div>
         <span class="mini-close" v-on:click="selectCounterparty(-1)">
             +<fmt:message key="transportation.counterparty.add"/>
         </span>

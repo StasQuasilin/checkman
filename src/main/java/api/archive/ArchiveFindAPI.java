@@ -1,10 +1,14 @@
 package api.archive;
 
 import api.ServletAPI;
+import api.sockets.handlers.OnSubscribeHandler;
 import constants.Branches;
+import entity.JsonAble;
+import entity.Role;
 import entity.answers.Answer;
 import entity.answers.ErrorAnswer;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,6 +25,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,9 +36,11 @@ import java.util.stream.Collectors;
 @WebServlet(Branches.API.ARCHIVE_FIND)
 public class ArchiveFindAPI extends ServletAPI {
     
-    public static final String ORGANISATION_KEY = DEAL + SLASH + ORGANISATION;
-    public static final String PRODUCT_KEY = DEAL + SLASH + PRODUCT;
+    public static final String ORGANISATION_KEY = DEAL_PRODUCT + SLASH + DEAL + SLASH + ORGANISATION;
+    public static final String PRODUCT_KEY = DEAL_PRODUCT + SLASH + PRODUCT;
     private static final int COUNT_LIMIT = 10;
+    private static final String TRANSPORTATION_DATE = "transportation/date";
+    private static final String TRANSPORTATION_DRIVER = "transportation/driver";
     private final Logger logger = Logger.getLogger(ArchiveFindAPI.class);
 
     @Override
@@ -54,23 +61,23 @@ public class ArchiveFindAPI extends ServletAPI {
                 LocalDate t = Date.valueOf(dateTo).toLocalDate();
                 final long days = f.toEpochDay() - t.toEpochDay();
                 if (days < 32){
-                    parameters.put(DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(dateTo)));
+                    parameters.put(TRANSPORTATION_DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(dateTo)));
                 } else {
                     dateLimit = true;
-                    parameters.put(DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(LocalDate.now().plusMonths(1))));
+                    parameters.put(TRANSPORTATION_DATE, new BETWEEN(Date.valueOf(date), Date.valueOf(LocalDate.now().plusMonths(1))));
                 }
             } else if (e1){
-                parameters.put(DATE, Date.valueOf(date));
+                parameters.put(TRANSPORTATION_DATE, Date.valueOf(date));
             } else if (e2){
-                parameters.put(DATE, Date.valueOf(dateTo));
+                parameters.put(TRANSPORTATION_DATE, Date.valueOf(dateTo));
             } else {
-                parameters.put(DATE, new LE(Date.valueOf(LocalDate.now())));
+                parameters.put(TRANSPORTATION_DATE, new LE(Date.valueOf(LocalDate.now())));
                 countLimit = true;
             }
 
             int driverId = Integer.parseInt(String.valueOf(body.get(DRIVER)));
             if (driverId > 0){
-                parameters.put(DRIVER, driverId);
+                parameters.put(TRANSPORTATION_DRIVER, driverId);
             }
 
             if (body.containsKey(ORGANISATION)) {
@@ -93,8 +100,18 @@ public class ArchiveFindAPI extends ServletAPI {
                 answer = new SuccessAnswer();
                 JSONArray array = pool.getArray();
 
-                final List<Transportation> transportation = countLimit ? dao.limitQuery(Transportation.class, parameters, COUNT_LIMIT) : dao.query(Transportation.class, parameters);
-                array.addAll(transportation.stream().map(transportation1 -> transportation1.toJson()).collect(Collectors.toList()));
+                final Role view = getView(req);
+                final int i = OnSubscribeHandler.calculateSecureMask(view);
+                final List<TransportationProduct> transportationList = countLimit ? dao.limitQuery(TransportationProduct.class, parameters, COUNT_LIMIT) : dao.query(TransportationProduct.class, parameters);
+                final LinkedList<Integer> ids = new LinkedList<>();
+                for (TransportationProduct product : transportationList){
+                    final Transportation transportation = product.getTransportation();
+                    final int id = transportation.getId();
+                    if (!ids.contains(id)){
+                        array.add(transportation.toJson(i));
+                        ids.add(id);
+                    }
+                }
 
                 answer.add(RESULT, array);
                 answer.add(LIMIT, dateLimit);

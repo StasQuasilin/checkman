@@ -33,8 +33,6 @@
                         <fmt:formatDate value="${plan.date}" pattern="dd.MM.yyyy"/>
                     </td>
                 </tr>
-
-
                 <tr>
                     <td>
                         <fmt:message key="deal.from"/>
@@ -69,6 +67,9 @@
                     </td>
                 </tr>
                 <template v-for="(w, wIdx) in weights">
+                    <tr>
+                        <td colspan="3" style="border-bottom: solid gray 1pt"></td>
+                    </tr>
                     <tr>
                         <td>
                             <fmt:message key="deal.organisation"/>
@@ -148,7 +149,6 @@
                         </td>
                     </tr>
                 </template>
-
                 <tr>
                     <td colspan="3" align="center">
                         <button onclick="closeModal()" class="close-button left-button">
