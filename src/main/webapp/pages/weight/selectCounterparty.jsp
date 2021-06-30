@@ -73,7 +73,7 @@
                             <span v-if="deal === -1" disabled value="-1">
                                 <fmt:message key="nothing.choose"/>
                             </span>
-                            <input id="newDeal" type="radio" name="dealId" v-model="deal" v-else value="-2"/>
+                            <input id="newDeal" type="radio" name="dealId" v-model="deal" value="-2"/>
                             <label for="newDeal">
                                 <fmt:message key="new.deal"/>
                             </label>

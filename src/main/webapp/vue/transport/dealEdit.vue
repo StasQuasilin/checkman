@@ -26,10 +26,8 @@ dealEdit = new Vue({
         typeNames:{}
     },
     methods:{
-        currentActions:function () {
-            if (this.deal.product !== -1){
-                return this.productActions[this.deal.product]
-            }
+        currentActions:function (product) {
+            return this.productActions[product]
         },
         putOrganisation:function (organisation) {
             this.deal.organisation = organisation;
@@ -41,12 +39,12 @@ dealEdit = new Vue({
             }
             this.productActions[id].push(action.type);
         },
-        check:function(){
-            this.checkActions();
+        check:function(product){
+            this.checkActions(product);
             this.checkUnit();
         },
-        checkActions:function(){
-            this.deal.type = this.currentActions[0];
+        checkActions:function(product){
+            this.deal.type = this.currentActions(product)[0];
         },
         checkUnit:function(){
             for (let i in this.products){
@@ -64,15 +62,13 @@ dealEdit = new Vue({
             let deal = {
                 id: this.deal.id,
                 type:this.deal.type,
-                organisation:this.deal.organisation.id,
+                counterparty:this.deal.organisation.id,
                 products:this.deal.products,
             };
             PostApi(this.api.save, deal, function (a) {
                 if (a.status === 'success'){
-                    console.log(a);
-                    self.deal.id = a.id;
                     closeModal();
-                    saveModal(self.deal);
+                    saveModal(a);
                 }
             })
         }

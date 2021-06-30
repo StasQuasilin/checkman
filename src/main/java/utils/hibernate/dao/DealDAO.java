@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import static constants.Constants.ID;
+import static constants.Constants.*;
 
 public class DealDAO extends HibernateDAO{
 
@@ -85,5 +85,12 @@ public class DealDAO extends HibernateDAO{
             return true;
         }
         return false;
+    }
+
+    public List<Deal> getDealsByOrganisation(Object organisationId) {
+        final HashMap<String, Object> parameters = hibernator.getParams();
+        parameters.put(ARCHIVE, false);
+        parameters.put(ORGANISATION, organisationId);
+        return hibernator.query(Deal.class, parameters);
     }
 }

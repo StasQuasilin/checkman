@@ -6,6 +6,7 @@ import entity.answers.Answer;
 import entity.documents.Deal;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.DealUtil;
 import utils.answers.SuccessAnswer;
 
 import javax.servlet.ServletException;
@@ -21,17 +22,14 @@ import java.util.List;
 @WebServlet(Branches.API.FIND_DEALS)
 public class FindDealsAPI extends ServletAPI {
 
+    final DealUtil dealUtil = new DealUtil();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            List<Deal> deals = dao.getDealsByOrganisation(body.get(ORGANISATION));
             Answer answer = new SuccessAnswer();
-
-            JSONArray array = pool.getArray();
-            for (Deal deal : deals){
-                array.add(deal.toJson());
-            }
+            JSONArray array = dealUtil.dealsToArray(body.get(ORGANISATION));
             answer.add(RESULT, array);
             for (Object key : body.keySet()){
                 answer.add(key.toString(), body.get(key));

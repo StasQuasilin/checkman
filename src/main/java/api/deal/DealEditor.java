@@ -25,6 +25,7 @@ import utils.hibernate.dbDAOService;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,18 +54,28 @@ public class DealEditor implements Constants {
         comparator.fix(deal);
 
 //      DEAL PART
-
-        Date date = Date.valueOf(String.valueOf(body.get(DATE)));
+        Date date;
         Date dateTo;
-        if (body.containsKey(DATE_TO)){
+        if (body.containsKey(DATE)) {
+            date = Date.valueOf(String.valueOf(body.get(DATE)));
+        }else if(deal.getDate() != null){
+            date = deal.getDate();
+        } else {
+            date = Date.valueOf(LocalDate.now());
+        }
+
+        if (body.containsKey(DATE_TO)) {
             dateTo = Date.valueOf(String.valueOf(body.get(DATE_TO)));
-            if (date.after(dateTo)) {
-                Date temp = date;
-                date = dateTo;
-                dateTo = temp;
-            }
+        }else if(deal.getDateTo() != null){
+            dateTo = deal.getDateTo();
         } else {
             dateTo = date;
+        }
+
+        if (date.after(dateTo)) {
+            Date temp = date;
+            date = dateTo;
+            dateTo = temp;
         }
 
         if (deal.getDate() == null || !deal.getDate().equals(date)) {
@@ -90,7 +101,6 @@ public class DealEditor implements Constants {
                 save = true;
             }
         }
-
 
         Organisation organisation;
         long organisationId = (long) body.get(COUNTERPARTY);
@@ -201,6 +211,7 @@ public class DealEditor implements Constants {
             if (dealProduct.getProduct() == null || dealProduct.getProduct().getId() != productId){
                 Product product = dao.getObjectById(Product.class, productId);
                 dealProduct.setProduct(product);
+                save = true;
             }
 
             float quantity = Float.parseFloat(String.valueOf(json.get(QUANTITY)));

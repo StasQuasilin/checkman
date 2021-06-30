@@ -25,10 +25,12 @@ public class DealEditAPI extends EditAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
+            System.out.println(body);
             Deal deal = dealEditor.editDeal(body, getWorker(req));
             if (deal != null){
                 Answer resultAnswer = new SuccessAnswer();
                 resultAnswer.add(ID, deal.getId());
+                resultAnswer.add(DEAL, deal.toJson());
                 write(resp, resultAnswer);
             }
         } else {

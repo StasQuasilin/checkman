@@ -191,7 +191,7 @@ public class Hibernator {
     }
 
     final ArrayList<HashMap<String, Object>> pool = new ArrayList<>();
-    synchronized HashMap<String, Object> getParams(){
+    public synchronized HashMap<String, Object> getParams(){
         if (pool.size() > 0){
             return pool.remove(0);
         } else {

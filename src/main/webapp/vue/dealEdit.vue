@@ -52,23 +52,28 @@ dealEdit = new Vue({
     },
     methods:{
         productList:function(){
-            let dealType = this.deal.type;
             let products = [];
-            for (let p in this.products){
-                if (this.products.hasOwnProperty(p)){
-                    let product = this.products[p];
-                    let types = this.types[product.id];
-                    for (let t in types){
-                        if (types.hasOwnProperty(t)){
-                            let type = types[t];
-                            if (type === dealType){
-                                products.push(product);
-                                break;
+            if (this.deal.products.length > 1){
+                let dealType = this.deal.type;
+                for (let p in this.products){
+                    if (this.products.hasOwnProperty(p)){
+                        let product = this.products[p];
+                        let types = this.types[product.id];
+                        for (let t in types){
+                            if (types.hasOwnProperty(t)){
+                                let type = types[t];
+                                if (type === dealType){
+                                    products.push(product);
+                                    break;
+                                }
                             }
                         }
                     }
                 }
+            } else {
+                products = Object.values(this.products);
             }
+
             return products.sort(function (a, b) {
                 return a.value.localeCompare(b.value);
             });

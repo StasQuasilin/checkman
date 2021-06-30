@@ -192,7 +192,9 @@
                     <span class="mini-close" v-on:click="removeProduct(productId)">
                         &times;
                     </span>
-                    {{product.id}}
+                    <span v-if="product.id > 0">
+                        {{product.id}}
+                    </span>
                 </td>
             </tr>
             <tr :class="{error : errors.organisation}">

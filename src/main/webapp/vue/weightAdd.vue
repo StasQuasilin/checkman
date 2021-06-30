@@ -98,15 +98,16 @@ editor = new Vue({
                 })
             }
         },
-        dealEdit:function(deal){
-            if(typeof deal === "number"){
-                this.loadDealEdit(this.transportation.products[deal].deal);
+        dealEdit:function(product, idx){
+            if(typeof product === "number"){
+                let p = this.transportation.products[product];
+                this.loadDealEdit(this.transportation.products[product].deal, product);
             } else {
-                this.loadDealEdit(deal)
+                this.loadDealEdit(product, idx)
             }
         },
-        loadDealEdit:function(deal){
-            const self = this;
+        loadDealEdit:function(deal, productIdx){
+
             let attr = {};
             if (typeof deal === "number"){
                 attr.id = deal;
@@ -115,27 +116,48 @@ editor = new Vue({
             } else {
                 console.log(deal);
             }
-
+            const self = this;
             loadModal(this.api.dealEdit, attr, function (a) {
-                console.log('!!!!');
-                console.log(a);
-                let deal = a;
-                let dealProduct = deal.products[0];
-
-                editor.transportation.products.push({
-                    id:-1,
-                    counterparty:a.organisation,
-                    dealProduct:dealProduct.id,
-                    quantity:dealProduct.quantity,
-                    price:dealProduct.price,
-                    shipperId:dealProduct.shipperId,
-                    amount:24,
-                    deals:deal
-                });
-                 // self.findDeals(a.organisation.id);
-                editor.deal = a;
-                self.$forceUpdate();
+                // console.log('!!!! Set deal for product ' + productIdx);
+                // console.log(a);
+                self.insertProduct(a, productIdx);
             })
+        },
+        insertProduct:function(data, productIdx){
+            let deal = data.deal;
+            let dealProduct;
+            if(data.product){
+                dealProduct = data.product;
+            } else {
+                dealProduct = deal.products[0];
+            }
+            let product;
+            if (productIdx !== -1){
+                product = this.transportation.products[productIdx];
+            } else {
+                product = {
+                    id:-1,
+                    amount:24
+                }
+            }
+
+            product.counterparty=deal.organisation;
+            product.deal=deal.id;
+            product.dealProduct=dealProduct.id;
+            product.quantity=dealProduct.quantity;
+            product.price=dealProduct.price;
+            product.shipperId=dealProduct.shipperId;
+            product.shipperName=dealProduct.shipperName;
+            product.deals=data.deals;
+
+            if(productIdx !== -1){
+                this.transportation.products.splice(productIdx, 1, product);
+            } else {
+                this.transportation.products.push(product);
+            }
+            // self.findDeals(a.organisation.id);
+            // self.deal = a;
+            this.$forceUpdate();
         },
         dealCopy:function(idx){
             let deal = Object.assign({}, this.transportation.products[idx].deal);
@@ -152,28 +174,13 @@ editor = new Vue({
             loadModal(this.api.selectCounterparty, {have:dealId}, function (a) {
                 console.log(a);
                 if (a.code === 0){
-                    let deal = a.deal;
-                    let p = a.product;
-                    let product = {
-                        id:-1,
-                        dealProduct:p.id,
-                        counterparty:deal.counterparty,
-                        quantity:p.quantity,
-                        amount:0,
-                        deals:a.deals
-                    };
-                    if (productIdx === -1){
-                        self.transportation.products.push(product);
-                    } else {
-                        self.transportation.products.splice(productIdx, 1, product);
-                    }
-                    self.$forceUpdate();
+                    self.insertProduct(a, productIdx);
                 } else {
                     self.dealEdit({
                         id:-1,
                         organisation:a.organisation,
                         products:[]
-                    });
+                    }, productIdx);
                 }
             })
         },

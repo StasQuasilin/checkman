@@ -44,12 +44,10 @@
     </c:forEach>
     <c:if test="${not empty deal}">
     dealEdit.deal = ${deal.toJson()}
-        dealEdit.deal.product = dealEdit.deal.product.id;
-    dealEdit.deal.shipper = dealEdit.deal.shipper.id;
-    dealEdit.deal.unit = dealEdit.deal.unit.id;
     </c:if>
     <c:if test="${not empty pre}">
     dealEdit.deal = ${pre};
+
     if (dealEdit.deal.products.length === 0){
         dealEdit.deal.products.push({
             id:-1,
@@ -60,7 +58,7 @@
             unitId:dealEdit.units[0].id
         })
     }
-    dealEdit.deal.type = dealEdit.types[0];
+    dealEdit.deal.type = dealEdit.currentActions(dealEdit.products[0].id)[0];
     // dealEdit.check();
     </c:if>
 </script>
@@ -87,7 +85,7 @@
                 </label>
             </td>
             <td v-if="currentActions">
-                <select id="products" v-model="product.productId" v-on:change="check()">
+                <select id="products" v-model="product.productId" v-on:change="check(product.productId)">
                     <option v-if="product.product == -1" disabled value="-1">
                         <fmt:message key="not.select"/>
                     </option>
@@ -96,7 +94,7 @@
                     </option>
                 </select>
                 <select v-model="deal.type">
-                    <option v-for="a in types" :value="a">
+                    <option v-for="a in currentActions(product.productId)" :value="a">
                         {{typeNames[a]}}
                     </option>
                 </select>

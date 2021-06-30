@@ -56,6 +56,8 @@ public class DealEdit extends IModal {
                 deal.setComplete(0);
                 req.setAttribute(DEAL, deal);
                 req.setAttribute(TITLE, Constants.Languages.DEAL_COPY);
+            } else if (body.contain(DEAL)){
+                req.setAttribute(PRE, body.getObject(DEAL));
             }
         }
 
@@ -64,7 +66,13 @@ public class DealEdit extends IModal {
         }
 
         req.setAttribute(ACTIONS, dao.getObjects(ProductAction.class));
-        req.setAttribute(TYPE, req.getParameter(TYPE));
+        final String parameter = req.getParameter(TYPE);
+        if(parameter != null){
+            req.setAttribute(TYPE, parameter);
+        } else {
+            req.setAttribute(TYPE, DealType.sell);
+        }
+
         req.setAttribute(TYPES, DealType.values());
         req.setAttribute(PRODUCTS, dao.getProductList());
         req.setAttribute(SHIPPERS, dao.getShipperList());

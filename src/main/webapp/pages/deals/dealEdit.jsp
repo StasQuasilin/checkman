@@ -60,6 +60,9 @@
         dealEdit.deal.price = ${deal.price};
         </c:when>
         <c:otherwise>
+        <c:if test="${not empty pre}">
+        dealEdit.deal = ${pre};
+        </c:if>
         dealEdit.deal.type = '${type}';
         // if (dealEdit.shippers.length > 0){
         //     dealEdit.deal.shipper= dealEdit.shippers[0].id;
@@ -234,9 +237,9 @@
                 <button class="middle-button save-button" v-on:click="saveAndClose()" v-on:dblclick="">
                     <fmt:message key="button.save.and.close"/>
                 </button>
-                <button class="right-button save-button" v-on:click="saveAndRedirect()" v-on:dblclick="">
-                    <fmt:message key="button.save.and.continue"/>
-                </button>
+<%--                <button class="right-button save-button" v-on:click="saveAndRedirect()" v-on:dblclick="">--%>
+<%--                    <fmt:message key="button.save.and.continue"/>--%>
+<%--                </button>--%>
             </td>
         </tr>
     </table>

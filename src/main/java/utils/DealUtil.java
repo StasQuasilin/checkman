@@ -2,6 +2,7 @@ package utils;
 
 import entity.documents.Deal;
 import entity.transport.Transportation;
+import org.json.simple.JSONArray;
 import utils.hibernate.dao.DealDAO;
 import utils.hibernate.dao.TransportationDAO;
 import utils.hibernate.dao.TransportationStatus;
@@ -38,5 +39,14 @@ public class DealUtil {
             updateUtil.onRemove(deal);
 
         }
+    }
+
+    public JSONArray dealsToArray(Object organisationId) {
+        List<Deal> deals = dealDAO.getDealsByOrganisation(organisationId);
+        JSONArray array = new JSONArray();
+        for (Deal deal : deals){
+            array.add(deal.toJson());
+        }
+        return array;
     }
 }
