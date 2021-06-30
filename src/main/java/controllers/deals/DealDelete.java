@@ -30,7 +30,7 @@ public class DealDelete extends IModal {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
-            Deal deal = dealDAO.getDealById(body.get(Constants.ID));
+            Deal deal = dealDAO.getDealById(body.get(ID));
             req.setAttribute(DEAL, deal);
             List<Transportation> done = dao.getTransportationByDeal(deal, true, null);
             req.setAttribute(DONE, done);

@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import entity.transport.TransportUtil;
 import utils.UpdateUtil;
 import utils.answers.SuccessAnswer;
+import utils.notifications.Notificator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +39,6 @@ public class TransportTimeAPI extends ServletAPI {
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
             TransportDirection direction = TransportDirection.valueOf(String.valueOf(body.get(DIRECTION)));
 
-            log.info("Set time" + direction.toString().toUpperCase() + " for transportation " + transportation.getId());
             comparator.fix(transportation);
             Worker worker = getWorker(req);
             ActionTime time = null;
@@ -59,6 +59,7 @@ public class TransportTimeAPI extends ServletAPI {
                         if (!transportation.getDate().equals(date)){
                             transportation.setDate(date);
                         }
+                        Notificator.timeIn(transportation);
                         break;
                     case out:
                         transportation.setTimeOut(time);

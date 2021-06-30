@@ -65,61 +65,61 @@
       <c:set value="0" var="correction"/>
       <c:set value="0" var="total"/>
 
-      <table style="border-bottom: solid black 1.5pt">
-        <tr>
-          <th rowspan="2">
-            <fmt:message key="date"/>
-          </th>
-          </th>
-          <c:if test="${empty organisation}">
-            <th rowspan="2">
-              <fmt:message key="deal.organisation"/>
-            </th>
-          </c:if>
-          <c:if test="${empty driver}">
-            <th>
-              <fmt:message key="transportation.driver"/>
-            </th>
-          </c:if>
-        </tr>
-        <tr>
-          <c:if test="${empty driver}">
-            <th>
-              <fmt:message key="transportation.automobile"/>
-            </th>
-          </c:if>
-        </tr>
-        <c:forEach items="${t.value}" var="transport">
-          <tr style="border-top: solid black 1.5pt">
-            <td rowspan="2" align="center">
-              <fmt:formatDate value="${transport.date}" pattern="dd.MM.yy"/>
-            </td>
-            <c:if test="${empty organisation}">
-              <td rowspan="2">
-                  ${transport.counterparty.value}
-              </td>
-            </c:if>
-            <c:if test="${empty driver}">
-              <td style="border-bottom-color: white">
-                  ${transport.driver.person.surname}
-                  ${transport.driver.person.forename}
-                  ${transport.driver.person.patronymic}
-              </td>
-            </c:if>
-          </tr>
-          <tr>
-            <c:if test="${empty driver}">
-              <td>
-                ${transport.vehicle.model}
-                /${transport.vehicle.number}/
-                <c:if test="${transport.trailer ne null}">
-                  /${transport.trailer.number}/
-                </c:if>
-              </td>
-            </c:if>
-          </tr>
-        </c:forEach>
-      </table>
+<%--      <table style="border-bottom: solid black 1.5pt">--%>
+<%--        <tr>--%>
+<%--          <th rowspan="2">--%>
+<%--            <fmt:message key="date"/>--%>
+<%--          </th>--%>
+<%--          </th>--%>
+<%--          <c:if test="${empty organisation}">--%>
+<%--            <th rowspan="2">--%>
+<%--              <fmt:message key="deal.organisation"/>--%>
+<%--            </th>--%>
+<%--          </c:if>--%>
+<%--          <c:if test="${empty driver}">--%>
+<%--            <th>--%>
+<%--              <fmt:message key="transportation.driver"/>--%>
+<%--            </th>--%>
+<%--          </c:if>--%>
+<%--        </tr>--%>
+<%--        <tr>--%>
+<%--          <c:if test="${empty driver}">--%>
+<%--            <th>--%>
+<%--              <fmt:message key="transportation.automobile"/>--%>
+<%--            </th>--%>
+<%--          </c:if>--%>
+<%--        </tr>--%>
+<%--        <c:forEach items="${t.value}" var="transport">--%>
+<%--          <tr style="border-top: solid black 1.5pt">--%>
+<%--            <td rowspan="2" align="center">--%>
+<%--              <fmt:formatDate value="${transport.date}" pattern="dd.MM.yy"/>--%>
+<%--            </td>--%>
+<%--            <c:if test="${empty organisation}">--%>
+<%--              <td rowspan="2">--%>
+<%--                  ${transport.counterparty.value}--%>
+<%--              </td>--%>
+<%--            </c:if>--%>
+<%--            <c:if test="${empty driver}">--%>
+<%--              <td style="border-bottom-color: white">--%>
+<%--                  ${transport.driver.person.surname}--%>
+<%--                  ${transport.driver.person.forename}--%>
+<%--                  ${transport.driver.person.patronymic}--%>
+<%--              </td>--%>
+<%--            </c:if>--%>
+<%--          </tr>--%>
+<%--          <tr>--%>
+<%--            <c:if test="${empty driver}">--%>
+<%--              <td>--%>
+<%--                ${transport.vehicle.model}--%>
+<%--                /${transport.vehicle.number}/--%>
+<%--                <c:if test="${transport.trailer ne null}">--%>
+<%--                  /${transport.trailer.number}/--%>
+<%--                </c:if>--%>
+<%--              </td>--%>
+<%--            </c:if>--%>
+<%--          </tr>--%>
+<%--        </c:forEach>--%>
+<%--      </table>--%>
     </c:forEach>
   </div>
 </html>

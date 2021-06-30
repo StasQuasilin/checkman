@@ -134,13 +134,13 @@ public class TransportUtil{
         }
         for (TransportStorageUsed used : u){
             used.setAmount(1f * Math.round(values.get(used.getId()) / total * t.getWeight().getNetto() * 100) / 100);
-            updateUsedStorages(t, used, worker);
+//            updateUsedStorages(t, used, worker);
         }
     }
-    public synchronized static void updateUsedStorages(Transportation transportation, TransportStorageUsed tsu, Worker worker) {
+    public synchronized static void updateUsedStorages(TransportationProduct transportation, TransportStorageUsed tsu, Worker worker) {
 
         if (tsu.getStorage() == null) {
-            Product product = transportation.getProduct();
+            Product product = transportation.getDealProduct().getProduct();
             List<StorageProduct> storageProducts = dao.getStorageProductByProduct(product);
             Storage storage;
             if (storageProducts.size() > 0) {
@@ -157,13 +157,13 @@ public class TransportUtil{
             tsu.setStorage(storage);
         }
         if (tsu.getTransportation() == null) {
-            tsu.setTransportation(transportation);
+//            tsu.setTransportation(transportation);
             ActionTime time = new ActionTime(worker);
             tsu.setCreate(time);
             dao.save(time);
         }
         if (tsu.getShipper() == null) {
-            tsu.setShipper(transportation.getShipper());
+            tsu.setShipper(transportation.getDealProduct().getShipper());
         }
 
         dao.save(tsu);
@@ -176,18 +176,15 @@ public class TransportUtil{
             transportation.setTruckNumber(vehicle.getNumber());
             final Trailer t = vehicle.getTrailer();
             final Trailer trailer = transportation.getTrailer();
-            if (trailer == null && t != null){
-                setTrailer(transportation, t);
-            } else {
+            if (trailer != null && t == null){
                 vehicle.setTrailer(transportation.getTrailer());
                 dao.save(vehicle);
             }
+
             Driver driver = transportation.getDriver();
-            if (driver != null) {
-                if (driver.getVehicle() == null) {
-                    driver.setVehicle(vehicle);
-                    dao.save(driver);
-                }
+            if (driver != null && driver.getVehicle() == null) {
+                driver.setVehicle(vehicle);
+                dao.save(driver);
             }
         } else{
             transportation.setVehicle(null);
@@ -225,18 +222,22 @@ public class TransportUtil{
 
             final Vehicle vehicle = driver.getVehicle();
             final Vehicle v = transportation.getVehicle();
-            if (v == null && vehicle != null){
-                setVehicle(transportation, vehicle);
-            } else if (v != null){
+            boolean save = false;
+            if (v != null && vehicle == null){
                 driver.setVehicle(v);
-                dao.save(driver);
+                save = true;
             }
+
             if (b) {
                 final Organisation organisation = driver.getOrganisation();
                 final Organisation transporter = transportation.getTransporter();
-                if (organisation != null && transporter == null) {
-                    setTransporter(transportation, organisation);
+                if (organisation == null && transporter != null) {
+                    driver.setOrganisation(transporter);
+                    save = true;
                 }
+            }
+            if (save) {
+                dao.save(driver);
             }
         } else {
             transportation.setDriver(null);

@@ -78,6 +78,8 @@ transportationSaver = {
                         onFail(e);
                     }
                 })
+            } else {
+                console.error('Some wrong')
             }
         }
     }

@@ -9,10 +9,7 @@ import entity.laboratory.OilAnalyses;
 import entity.laboratory.SunAnalyses;
 import entity.organisations.Organisation;
 import entity.products.Product;
-import entity.transport.ActionTime;
-import entity.transport.Driver;
-import entity.transport.Transportation;
-import entity.transport.Vehicle;
+import entity.transport.*;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,6 +22,7 @@ import utils.answers.SuccessAnswer;
 import utils.files.GeneratedFileUtil;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.hibernate.DateContainers.OR;
+import utils.hibernate.dao.TransportationDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,11 +41,17 @@ import java.util.*;
  */
 @WebServlet(Branches.API.TRANSPORT_CARRIAGE)
 public class TransportationCarriagePrintAPI extends ServletAPI{
+    private static final String TRANSPORTATION_DATE = "transportation/date";
+    private static final String TRANSPORTATION_TIME_IN = "transportation/timeIn/time";
+    private final TransportationDAO transportationDAO = new TransportationDAO();
     private static final String FROM = Constants.FROM;
     private static final String TO = Constants.TO;
     private static final String ORGANISATION = Constants.ORGANISATION;
     private static final String DRIVER = Constants.DRIVER;
     private static final String TRANSPORTATIONS = Constants.TRANSPORTATIONS;
+    private static final String DEAL_PRODUCT_PRODUCT = "dealProduct/product";
+    private static final String TRANSPORTATION_VEHICLE = "transportation/vehicle";
+    private static final String TRANSPORTATION_DRIVER = "transportation/driver";
     private final Logger log = Logger.getLogger(TransportationCarriagePrintAPI.class);
     private static final LocalTime time = LocalTime.of(8, 0);
     private final GeneratedFileUtil generatedFileUtil = new GeneratedFileUtil();
@@ -81,15 +85,15 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
             System.out.println(body);
             HashMap<String, Object> params = new HashMap<>();
             Timestamp from = null, to = null;
-            int type = Integer.parseInt(String.valueOf(body.get(Constants.TYPE)));
+            int type = Integer.parseInt(String.valueOf(body.get(TYPE)));
             if (body.containsKey(FROM) && body.containsKey(TO)){
                 final LocalDate fromDate = LocalDate.parse(String.valueOf(body.get(FROM)));
                 final LocalDate toDate = LocalDate.parse(String.valueOf(body.get(TO)));
                 if (type < 2){
                     if (fromDate.equals(toDate)){
-                        params.put("date", Date.valueOf(fromDate));
+                        params.put(TRANSPORTATION_DATE, Date.valueOf(fromDate));
                     } else {
-                        params.put("date", new BETWEEN(Date.valueOf(fromDate), Date.valueOf(toDate)));
+                        params.put(TRANSPORTATION_DATE, new BETWEEN(Date.valueOf(fromDate), Date.valueOf(toDate)));
                     }
 
                 } else if (type == 2){
@@ -98,21 +102,28 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
 
                     from = Timestamp.valueOf(f);
                     to = Timestamp.valueOf(t);
-                    params.put("timeIn/time", new BETWEEN(from, to));
+                    params.put(TRANSPORTATION_TIME_IN, new BETWEEN(from, to));
                 }
             }
 
-            if (body.containsKey(ORGANISATION)){
-                Organisation organisation = dao.getObjectById(Organisation.class, body.get(ORGANISATION));
-                req.setAttribute(ORGANISATION, organisation);
-                params.put("deal/organisation", organisation);
+            if (body.containsKey(ORGANISATIONS)){
+                LinkedList<Organisation> organisations = new LinkedList<>();
+
+                OR or = new OR();
+                for (Object o : (JSONArray)body.get(ORGANISATIONS)){
+                    or.add(o);
+                    organisations.add(dao.getObjectById(Organisation.class, o));
+                }
+                if (or.size() > 0) {
+                    req.setAttribute(ORGANISATIONS, organisations);
+                    params.put("dealProduct/deal/organisation", or);
+                }
             }
 
-            ArrayList<Transportation> transportations = new ArrayList<>();
             if (body.containsKey(PRODUCT)){
                 Product product = dao.getObjectById(Product.class, body.get(PRODUCT));
                 if (product != null){
-                    params.put(PRODUCT, product.getId());
+                    params.put(DEAL_PRODUCT_PRODUCT, product.getId());
                 }
             }
             if (body.containsKey("vehicleContain")){
@@ -121,7 +132,7 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                 log.info("Vehicles, contain " + key.toString() + ": " + vehicleContain.size());
                 for (Vehicle v : vehicleContain){
                     HashMap<String, Object> map = new HashMap<>(params);
-                    map.put(VEHICLE, v);
+                    map.put(TRANSPORTATION_VEHICLE, v);
 
                 }
             } else {
@@ -130,26 +141,18 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                 if(array.size() > 0){
                     for (Object o : array){
                         or.add(o);
-//                        params.put(DRIVER, o);
-//                        transportations.addAll(dao.getObjectsByParams(Transportation.class, params));
                     }
-                    params.put(DRIVER, or);
+                    params.put(TRANSPORTATION_DRIVER, or);
                 }
 //                else {
 //                    transportations.addAll(dao.getObjectsByParams(Transportation.class, params));
 //                }
             }
 
-            JSONArray array = (JSONArray) body.get(ORGANISATIONS);
-            if (array.size() > 0){
-                OR or = new OR();
-                for (Object o : array){
-                    or.add(o);
-                }
-                params.put("deal/organisation", or);
-            }
-            transportations.addAll(dao.getObjectsByParams(Transportation.class, params));
-            req.setAttribute(Constants.TYPE, type);
+
+            final List<TransportationProduct> transportations = transportationDAO.getTransportations(params);
+
+            req.setAttribute(TYPE, type);
             if (from != null){
                 req.setAttribute(FROM, from);
             }
@@ -157,26 +160,28 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                 req.setAttribute(TO, to);
             }
 
-            HashMap<Product, LinkedList<Transportation>> hashMap = new HashMap<>();
-            for (Transportation t : transportations){
-                Product product = t.getProduct();
+            HashMap<Product, LinkedList<TransportationProduct>> hashMap = new HashMap<>();
+            for (TransportationProduct t : transportations){
+                Product product = t.getDealProduct().getProduct();
 
                 if (!hashMap.containsKey(product)) {
                     hashMap.put(product, new LinkedList<>());
                 }
                 hashMap.get(product).add(t);
             }
-            final Comparator<Transportation> comparator = (t1, t2) -> {
-                final Date d1 = t1.getDate();
-                final Date d2 = t2.getDate();
+            final Comparator<TransportationProduct> comparator = (t1, t2) -> {
+                final Transportation transportation1 = t1.getTransportation();
+                final Transportation transportation2 = t2.getTransportation();
+                final Date d1 = transportation1.getDate();
+                final Date d2 = transportation2.getDate();
                 if (d1.equals(d2)){
                     Timestamp time1 = null;
-                    if (t1.getTimeIn() != null){
-                        time1 = t1.getTimeIn().getTime();
+                    if (transportation1.getTimeIn() != null){
+                        time1 = transportation1.getTimeIn().getTime();
                     };
                     Timestamp time2 = null;
-                    if (t2.getTimeIn() != null){
-                        time2 = t2.getTimeIn().getTime();
+                    if (transportation2.getTimeIn() != null){
+                        time2 = transportation2.getTimeIn().getTime();
                     }
                     if (time1 == null){
                         return 1;
@@ -189,21 +194,17 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                     return d2.compareTo(d1);
                 }
             };
-            for (LinkedList<Transportation> a : hashMap.values()){
+            for (LinkedList<TransportationProduct> a : hashMap.values()){
                 a.sort(comparator);
             }
-            if(body.containsKey(Constants.DOWNLOAD)){
+            if(body.containsKey(DOWNLOAD)){
                 final String s = saveToExcel(hashMap, type);
                 Answer answer = new SuccessAnswer();
                 answer.add(Constants.FILE, s);
                 write(resp, answer);
             } else {
                 req.setAttribute(TRANSPORTATIONS, hashMap);
-                if (type == 2) {
-                    req.getRequestDispatcher("/pages/print/transportCarriagePrint.jsp").forward(req, resp);
-                } else {
-                    req.getRequestDispatcher("/pages/print/transportCarriagePrint2.jsp").forward(req, resp);
-                }
+                req.getRequestDispatcher("/pages/print/transportCarriagePrint.jsp").forward(req, resp);
             }
             hashMap.clear();
         }
@@ -211,7 +212,7 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
     private final LanguageBase languageBase = LanguageBase.getBase();
 
 
-    private String saveToExcel(HashMap<Product, LinkedList<Transportation>> hashMap, int type) throws IOException {
+    private String saveToExcel(HashMap<Product, LinkedList<TransportationProduct>> hashMap, int type) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
 
         final String dateHeader = languageBase.get(Constants.DATE);
@@ -235,7 +236,7 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
         final String oilPeroxideHeader = languageBase.get("oil.peroxide");
         final String oilPhosphorusHeader = languageBase.get("oil.phosphorus");
 
-        for (Map.Entry<Product, LinkedList<Transportation>> entry : hashMap.entrySet()){
+        for (Map.Entry<Product, LinkedList<TransportationProduct>> entry : hashMap.entrySet()){
             final Product product = entry.getKey();
             final AnalysesType analysesType = product.getAnalysesType();
             XSSFSheet sheet = workbook.createSheet(product.getName());
@@ -274,10 +275,10 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                 headerRow.createCell(col++).setCellValue(oilPhosphorusHeader); //
                 headerRow.createCell(col).setCellValue(sunHumidityHeader); //
             }
-            for (Transportation transportation : entry.getValue()){
+            for (TransportationProduct transportationProduct : entry.getValue()){
                 Row r = sheet.createRow(rowCount++);
-
                 col = 0;
+                final Transportation transportation = transportationProduct.getTransportation();
                 r.createCell(col++).setCellValue(transportation.getDate().toString());
                 if(type == 2) {
                     final ActionTime timeIn = transportation.getTimeIn();
@@ -293,7 +294,7 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                     col++;
                 }
 
-                r.createCell(col++).setCellValue(transportation.getDeal().getOrganisation().getValue());
+                r.createCell(col++).setCellValue(transportationProduct.getDealProduct().getDeal().getOrganisation().getValue());
                 final Driver driver = transportation.getDriver();
                 if(driver != null){
                     r.createCell(col).setCellValue(driver.getPerson().getValue());
@@ -303,30 +304,44 @@ public class TransportationCarriagePrintAPI extends ServletAPI{
                 if(vehicle != null){
                     r.createCell(col++).setCellValue(vehicle.getValue());
                 }
-                final Weight weight = transportation.getWeight();
+                final Weight weight = transportationProduct.getWeight();
                 if(type == 2){
                     if(weight != null){
                         r.createCell(col++).setCellValue(weight.getBrutto());
                         r.createCell(col++).setCellValue(weight.getTara());
                         r.createCell(col++).setCellValue(weight.getNetto());
                         if(analysesType == AnalysesType.sun){
-                            r.createCell(col).setCellValue(weight.getCorrectedNetto());
+                            r.createCell(col++).setCellValue(weight.getCorrectedNetto());
                         }
                     }
                 }
                 if (analysesType == AnalysesType.sun){
-                    final SunAnalyses sunAnalyses = transportation.getSunAnalyses();
+                    final SunAnalyses sunAnalyses = transportationProduct.getSunAnalyses();
                     if (sunAnalyses != null){
-                        r.createCell(col++).setCellValue(sunAnalyses.getHumidity1());
-                        r.createCell(col++).setCellValue(sunAnalyses.getHumidity2());
+                        final float h1 = sunAnalyses.getHumidity1();
+                        if(h1 > 0){
+                            r.createCell(col++).setCellValue(h1);
+                        } else {
+                            col++;
+                        }
+                        final float h2 = sunAnalyses.getHumidity2();
+                        if (h2 > 0){
+                            r.createCell(col++).setCellValue(h2);
+                        } else {
+                            col++;
+                        }
+
                         r.createCell(col++).setCellValue(sunAnalyses.getSoreness());
                         r.createCell(col++).setCellValue(sunAnalyses.getOiliness());
                         if (weight != null){
-                            r.createCell(col).setCellValue(weight.getCorrection());
+                            final float correction = weight.getCorrection();
+                            if (correction > 0){
+                                r.createCell(col).setCellValue(correction);
+                            }
                         }
                     }
                 } else if (analysesType == AnalysesType.oil){
-                    final OilAnalyses oilAnalyses = transportation.getOilAnalyses();
+                    final OilAnalyses oilAnalyses = transportationProduct.getOilAnalyses();
                     if (oilAnalyses != null){
                         r.createCell(col++).setCellValue(oilAnalyses.getColor());
                         r.createCell(col++).setCellValue(oilAnalyses.getAcidValue());

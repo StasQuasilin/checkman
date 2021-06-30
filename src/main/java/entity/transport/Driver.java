@@ -86,7 +86,7 @@ public class Driver extends JsonAble{
 
     @Override
     public JSONObject toJson(int level) {
-        JSONObject json = pool.getObject();
+        JSONObject json = person.toJson();
         json.put(ID, id);
         json.put(PERSON, person.toJson());
         json.put(LICENSE, license);

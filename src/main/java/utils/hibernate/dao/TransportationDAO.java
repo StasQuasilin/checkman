@@ -95,4 +95,8 @@ public class TransportationDAO extends HibernateDAO{
         args.put(DONE, true);
         return hibernator.query(Transportation.class, args);
     }
+
+    public List<TransportationProduct> getTransportations(HashMap<String, Object> params) {
+        return hibernator.query(TransportationProduct.class, params);
+    }
 }

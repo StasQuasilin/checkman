@@ -12,6 +12,9 @@ transportaData = {
             '<div class="data-block" style="width: 400px">' +
                 '<div>' +
                     '<object-input :object="item.driver" :item="item" :props="props.driverProps"></object-input>' +
+                    '<span v-if="item.driver && item.driver.license" style="display: inline-block; width: 90px; float: right; text-align: right" class="secure">' +
+                        '{{item.driver.license}}' +
+                    '</span>' +
                 '</div>' +
                 '<div>' +
                     '<object-input :object="item.vehicle" :item="item" :props="props.vehicleProps"></object-input>' +

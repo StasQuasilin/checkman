@@ -14,19 +14,30 @@ transportList = new Vue({
             driverProps:{
                 put:function(driver, item){
                     item.driver = driver;
+                    let save = true;
                     if (driver.vehicle && !item.vehicle){
-                        item.vehicle = driver.vehicle;
-                    } else {
+                        save = false;
+                        transportList.props.vehicleProps.put(driver.vehicle, item);
+                    }
+                    if (driver.organisation && !item.transporter){
+                        save = false;
+                        transportList.props.transporterProps.put(driver.organisation, item);
+                    }
+                    if (save) {
                         transportList.saveTransportation(item);
                     }
                 },
                 edit:'',
-                show:['value']
+                show:['surname', 'forename', 'patronymic']
             },
             vehicleProps:{
                 put:function(vehicle, item){
                     item.vehicle = vehicle;
-                    transportList.saveTransportation(item);
+                    if (vehicle.trailer && !item.trailer){
+                        transportList.props.trailerProps.put(vehicle.trailer, item);
+                    } else {
+                        transportList.saveTransportation(item);
+                    }
                 },
                 show:['model', 'number']
             },

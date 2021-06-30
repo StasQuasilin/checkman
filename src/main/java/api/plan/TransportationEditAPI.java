@@ -26,10 +26,7 @@ import java.util.List;
 @WebServlet(Branches.API.PLAN_LIST_ADD)
 public class TransportationEditAPI extends ServletAPI {
 
-    private DealEditor dealEditor = new DealEditor();
     private TransportationEditor transportationEditor = new TransportationEditor();
-
-    private final StorageUtil storageUtil = new StorageUtil();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

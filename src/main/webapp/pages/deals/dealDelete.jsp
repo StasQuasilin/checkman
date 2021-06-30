@@ -1,7 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -46,7 +46,7 @@
                 :
             </td>
             <td>
-                ${deal.product.name}
+<%--                ${deal.product.name}--%>
             </td>
         </tr>
         <tr>
@@ -57,7 +57,7 @@
                 :
             </td>
             <td>
-                <fmt:formatNumber value="${deal.quantity}"/>&nbsp;${deal.unit.name}
+<%--                <fmt:formatNumber value="${deal.quantity}"/>&nbsp;${deal.unit.name}--%>
             </td>
         </tr>
         <tr>
@@ -68,7 +68,7 @@
                 :
             </td>
             <td>
-                <fmt:formatNumber value="${deal.complete}"/>&nbsp;${deal.unit.name}
+<%--                <fmt:formatNumber value="${deal.complete}"/>&nbsp;${deal.unit.name}--%>
             </td>
         </tr>
         <tr>

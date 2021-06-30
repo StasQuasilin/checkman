@@ -112,9 +112,9 @@ public class WeightEditAPI extends ServletAPI {
                     if (u.size() == 0){
                         TransportStorageUsed used = new TransportStorageUsed();
                         used.setAmount(1f * Math.round(weight.getNetto() * 100) / 100);
-                        TransportUtil.updateUsedStorages(transportation, used, worker);
+//                        TransportUtil.updateUsedStorages(transportation, used, worker);
                     } else {
-                        TransportUtil.updateUsedStorages(transportation, u, worker);
+//                        TransportUtil.updateUsedStorages(transportation, u, worker);
                     }
                     TransportUtil.updateUnloadStatistic(transportation);
                     dealProducts.add(transportationProduct.getDealProduct());
