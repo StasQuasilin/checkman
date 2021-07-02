@@ -35,17 +35,6 @@
                 </tr>
                 <tr>
                     <td>
-                        <fmt:message key="deal.from"/>
-                    </td>
-                    <td>
-                        :
-                    </td>
-                    <td>
-                        ${plan.shipper.value}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         <fmt:message key="transportation.automobile"/>
                     </td>
                     <td>
@@ -173,36 +162,6 @@
                             ${seal.value}
                         </div>
                     </c:forEach>
-                </c:if>
-                <c:if test="${plan.sunAnalyses ne null}">
-                    <fmt:message key="analyses"/>
-                    <div style="width:100%; text-align: left">
-                        <div>
-                            <fmt:message key="sun.humidity.1.short"/>:
-                            ${plan.sunAnalyses.humidity1}
-                        </div>
-                        <div>
-                            <fmt:message key="sun.humidity.2.short"/>:
-                            ${plan.sunAnalyses.humidity2}
-                        </div>
-                        <div>
-                            <fmt:message key="sun.soreness"/>:
-                            ${plan.sunAnalyses.soreness}
-                        </div>
-                        <div>
-                            <fmt:message key="sun.oil.impurity"/>:
-                            ${plan.sunAnalyses.oilImpurity}
-                        </div>
-                        <div>
-                            <fmt:message key="sun.oiliness"/>:
-                            ${plan.sunAnalyses.oiliness}
-                        </div>
-                        <c:if test="${plan.sunAnalyses.contamination}">
-                        <div>
-                            <fmt:message key="sun.contamination"/>
-                        </div>
-                        </c:if>
-                    </div>
                 </c:if>
             </div>
         </td>

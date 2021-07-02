@@ -102,16 +102,6 @@ public class TransportUtil{
         transportation.setArchive(true);
         dao.save(transportation);
         updateUtil.onRemove(transportation);
-        JSONObject json = new Notification(
-                String.format(
-                        base.get(worker.getLanguage(), SUCCESS_TEXT),
-                        transportation.getDriver().getPerson().getValue(),
-                        transportation.getCounterparty().getValue(),
-                        transportation.getProduct().getName(),
-                        worker.getPerson().getValue())
-        ).toJson();
-        notificator.sendNotification(json);
-        pool.put(json);
     }
 
     public synchronized static Transportation createTransportation(Worker manager, Worker creator) {
@@ -133,7 +123,7 @@ public class TransportUtil{
             values.put(used.getId(), used.getAmount());
         }
         for (TransportStorageUsed used : u){
-            used.setAmount(1f * Math.round(values.get(used.getId()) / total * t.getWeight().getNetto() * 100) / 100);
+//            used.setAmount(1f * Math.round(values.get(used.getId()) / total * t.getWeight().getNetto() * 100) / 100);
 //            updateUsedStorages(t, used, worker);
         }
     }
@@ -154,7 +144,7 @@ public class TransportUtil{
                 storageProduct.setProduct(product);
                 dao.save(storageProduct);
             }
-            tsu.setStorage(storage);
+//            tsu.setStorage(storage);
         }
         if (tsu.getTransportation() == null) {
 //            tsu.setTransportation(transportation);

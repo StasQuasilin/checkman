@@ -205,10 +205,10 @@
                         :
                     </td>
                     <td colspan="2">
-                <span style="background-color: white; padding: 0 6pt; border: inset 2px lightgray; border-radius: 8pt; font-size: 10pt">
-                    {{p.sun.recount + ' %'}}
-                </span>
-                        <a style="float: right" class="mini-close" v-on:click="print">
+                    <span style="background-color: white; padding: 0 6pt; border: inset 2px lightgray; border-radius: 8pt; font-size: 10pt">
+                        {{p.sun.recount + ' %'}}
+                    </span>
+                        <a style="float: right" class="mini-close" v-on:click="print(p)">
                             <fmt:message key="document.print"/>
                         </a>
                     </td>

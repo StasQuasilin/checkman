@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.products.Product;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,11 +25,13 @@ public class OnTerritoryPrint extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<Product, ArrayList<Transportation>> transportations = new HashMap<>();
         for (Transportation transportation : dao.getTransportationsOnTerritory()){
-            Product product = transportation.getDeal().getProduct();
-            if (!transportations.containsKey(product)){
-                transportations.put(product, new ArrayList<>());
+            for (TransportationProduct transportationProduct : transportation.getProducts()){
+                final Product product = transportationProduct.getDealProduct().getProduct();
+                if (!transportations.containsKey(product)){
+                    transportations.put(product, new ArrayList<>());
+                }
+                transportations.get(product).add(transportation);
             }
-            transportations.get(product).add(transportation);
         }
         req.setAttribute("transport", transportations);
         req.setAttribute("now", Timestamp.valueOf(LocalDateTime.now()));

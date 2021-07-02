@@ -34,17 +34,7 @@ public class Deal extends JsonAble{
     private Address address;
     private Set<DealProduct> products = new HashSet<>();
     private Set<DeliveryCost> costs;
-
     private String uid;
-    @Deprecated
-    private Product product;
-    @Deprecated
-    private Unit unit;
-    @Deprecated
-    private Shipper shipper;
-    @Deprecated
-    private float price;
-
     private float complete;
     private float quantity;
     private boolean done;
@@ -114,16 +104,6 @@ public class Deal extends JsonAble{
     }
 
     @OneToOne
-    @JoinColumn(name = "visibility")
-    @Deprecated
-    public Shipper getShipper() {
-        return shipper;
-    }
-    public void setShipper(Shipper shipper) {
-        this.shipper = shipper;
-    }
-
-    @OneToOne
     @JoinColumn(name = "organisation")
     public Organisation getOrganisation() {
         return organisation;
@@ -139,46 +119,6 @@ public class Deal extends JsonAble{
     }
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "product")
-    @Deprecated
-    public Product getProduct() {
-        return product;
-    }
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    @Basic
-    @Column(name = "quantity")
-    @Deprecated
-    public float getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(float quantity) {
-        this.quantity = quantity;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "unit")
-    @Deprecated
-    public Unit getUnit() {
-        return unit;
-    }
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
-
-    @Basic
-    @Column(name = "price")
-    @Deprecated
-    public float getPrice() {
-        return price;
-    }
-    public void setPrice(float price) {
-        this.price = price;
     }
 
     @Basic

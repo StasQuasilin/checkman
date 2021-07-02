@@ -1,35 +1,36 @@
-var commentator = {
+commentator = {
   props:{
     fields:Object,
     target:Object,
-    editField:String
+    editField:String,
+    item:Object,
+    props:Object
   },
     data:function(){
       return {
-          edit:false,
-          editTarget:function(t){
-              console.log(t);
-              event.preventDefault();
-          }
+
       }
     },
     methods:{
-        openInput:function(){
-            this.edit = !this.edit;
-        },
-
-        saveTarget:function(){
-            console.log(target)
-        }
+      editNote:function (id) {
+        loadModal(this.props.api, {note:id,transportation:this.item.id}, function (a) {
+          console.log(a);
+        })
+      }
     },
     template:
     '<div style="display: inline-block">' +
-        '<div v-if="edit">' +
-            '<input v-on:keyup.enter="saveTarget()" v-on:keyup.escape="openInput()">' +
-            '<span class="mini-close" v-on:click="openInput()">&times;</span>' +
-        '</div>' +
-        '<a v-else v-on:click="openInput()">' +
-            '{{fields.header}}' +
-        '</a>' +
+        '<span v-for="(note, noteIdx) in item.notes" style="padding-right: 2pt">' +
+            '<template v-if="note.creator">' +
+                '{{note.creator}}: ' +
+            '</template>' +
+            '<b style="font-style: italic">' +
+                '\"{{note.note}}\"' +
+            '</b>' +
+            '<template v-if="noteIdx < item.notes.length - 1">, </template>' +
+        '</span>' +
+        // '<span class="mini-close" v-on:click.stop="editNote(-1)">' +
+        //     '{{props.fields.addNote}}' +
+        // '</span>' +
     '</div>'
 };

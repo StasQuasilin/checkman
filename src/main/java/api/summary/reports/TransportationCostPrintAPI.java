@@ -99,15 +99,15 @@ public class TransportationCostPrintAPI extends ServletAPI{
             HashMap<Integer, Product> productHashMap = new HashMap<>();
             HashMap<Integer, ArrayList<Transportation>> hashMap = new HashMap<>();
             for (Transportation t : transportations){
-                Product product = t.getProduct();
-                int id = product.getId();
-                if (!productHashMap.containsKey(id)){
-                    productHashMap.put(id, product);
-                }
-                if (!hashMap.containsKey(id)) {
-                    hashMap.put(id, new ArrayList<>());
-                }
-                hashMap.get(id).add(t);
+//                Product product = t.getProduct();
+//                int id = product.getId();
+//                if (!productHashMap.containsKey(id)){
+//                    productHashMap.put(id, product);
+//                }
+//                if (!hashMap.containsKey(id)) {
+//                    hashMap.put(id, new ArrayList<>());
+//                }
+//                hashMap.get(id).add(t);
             }
 
             HashMap<Product, ArrayList<Transportation>> result = new HashMap<>();

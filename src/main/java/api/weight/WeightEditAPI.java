@@ -78,9 +78,10 @@ public class WeightEditAPI extends ServletAPI {
                 }
 
                 if (saveIt){
+                    TransportUtil.calculateWeight(transportationProduct);
                     dao.save(weight);
                     write(resp, SUCCESS_ANSWER);
-                    TransportUtil.calculateWeight(transportationProduct);
+
 
                     if (transportationProduct.getWeight() == null){
                         transportationProduct.setWeight(weight);
@@ -116,7 +117,7 @@ public class WeightEditAPI extends ServletAPI {
                     } else {
 //                        TransportUtil.updateUsedStorages(transportation, u, worker);
                     }
-                    TransportUtil.updateUnloadStatistic(transportation);
+//                    TransportUtil.updateUnloadStatistic(transportation);
                     dealProducts.add(transportationProduct.getDealProduct());
                 } else {
                     write(resp, SUCCESS_ANSWER);
@@ -124,14 +125,14 @@ public class WeightEditAPI extends ServletAPI {
 
                 comparator.compare(weight, worker);
             }
-
+            for (Transportation transportation : incomeTransportations){
+                Notificator.timeIn(transportation);
+            }
             for (Transportation transportation : allTransportations){
                 TransportUtil.checkTransport(transportation);
             }
 
-            for (Transportation transportation : incomeTransportations){
-                Notificator.timeIn(transportation);
-            }
+
 
             for (DealProduct product : dealProducts){
                 WeightUtil.calculateDealDone(product);

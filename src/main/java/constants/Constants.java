@@ -96,6 +96,7 @@ public interface Constants {
     String STOCK_DETAILS = "stockDetails";
     String REPLACE = "replace";
     String CORRECTION = "correction";
+    String CORRECTED = "corrected";
     String REPORT = "report";
     String MANUFACTURE_REPORT = "manufactureReport";
     String FIELDS = "fields";
@@ -195,7 +196,7 @@ public interface Constants {
     String TITLE = "title";
     String ITEM = "item";
     String FREE = "free";
-    String TOTAL = "total";
+    String TOTAL = "summary";
     String SAVE = "save";
     String REMOVE = "remove";
     String STANDARD = "standard";
@@ -218,6 +219,7 @@ public interface Constants {
     String FIND_MANGER = "findManager";
     String FIND_ORGANISATION = "findOrganisation";
     String PARSE_ORGANISATION = "parseOrganisation";
+    String NOTE_EDIT = "noteEdit";
     String EDIT_ORGANISATION = "editOrganisation";
     String PATH = "path";
     String IS_NEW = "isNew";

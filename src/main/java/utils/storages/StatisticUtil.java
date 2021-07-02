@@ -56,47 +56,50 @@ public class StatisticUtil extends IStorageStatisticUtil {
         }
 
         int prevOrganisationId = -1;
-        Organisation counterparty = document.getCounterparty();
+//        Organisation counterparty = document.getCounterparty();
         if (entry.getOrganisation() == null){
-            entry.setOrganisation(counterparty);
-            save = true;
-        } else if (entry.getOrganisation().getId() != counterparty.getId()){
-            prevOrganisationId = entry.getOrganisation().getId();
-            entry.setOrganisation(counterparty);
+//            entry.setOrganisation(counterparty);
             save = true;
         }
+//        else if (entry.getOrganisation().getId() != counterparty.getId()){
+//            prevOrganisationId = entry.getOrganisation().getId();
+//            entry.setOrganisation(counterparty);
+//            save = true;
+//        }
 
         int prevProductId = -1;
-        Product product = document.getProduct();
+//        Product product = document.getProduct();
         if (entry.getProduct() == null){
-            entry.setProduct(product);
-            save = true;
-        } else if (entry.getProduct().getId() != product.getId()){
-            prevProductId = entry.getProduct().getId();
-            entry.setProduct(product);
+//            entry.setProduct(product);
             save = true;
         }
+//        else if (entry.getProduct().getId() != product.getId()){
+//            prevProductId = entry.getProduct().getId();
+//            entry.setProduct(product);
+//            save = true;
+//        }
 
         int prevShipperId = -1;
-        Shipper shipper = document.getShipper();
+//        Shipper shipper = document.getShipper();
         if (entry.getShipper() == null){
-            entry.setShipper(shipper);
-            save = true;
-        } else if(entry.getShipper().getId() != shipper.getId()){
-            prevShipperId = entry.getShipper().getId();
-            entry.setShipper(shipper);
+//            entry.setShipper(shipper);
             save = true;
         }
+//        else if(entry.getShipper().getId() != shipper.getId()){
+//            prevShipperId = entry.getShipper().getId();
+//            entry.setShipper(shipper);
+//            save = true;
+//        }
 
-        if (document.getWeight() != null) {
-            float amount = document.getWeight().getCorrectedNetto() * (document.getType() == DealType.buy ? 1 : -1);
-            if (entry.getAmount() != amount) {
-                entry.setAmount(amount);
-                save = true;
-            }
-        } else {
-            save = false;
-        }
+//        if (document.getWeight() != null) {
+//            float amount = document.getWeight().getCorrectedNetto() * (document.getType() == DealType.buy ? 1 : -1);
+//            if (entry.getAmount() != amount) {
+//                entry.setAmount(amount);
+//                save = true;
+//            }
+//        } else {
+//            save = false;
+//        }
 
         if (save){
             dao.save(entry);

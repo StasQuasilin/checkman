@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="uk_UK"/>
 <html>
 <body style="padding: 0 0 0 32pt">
@@ -101,12 +101,12 @@
             </tr>
             <tr>
               <td>
-                Одержувач: ${plan.counterparty.value}
+                Одержувач: ${product.dealProduct.deal.organisation.value}
               </td>
             </tr>
             <tr>
               <td>
-                № а/ц: ${plan.vehicle.trailer.number}
+                № а/ц: ${product.transportation.vehicle.trailer.number}
               </td>
             </tr>
             <tr>
@@ -135,6 +135,4 @@
     </table>
   </div>
 </body>
-
-
 </html>

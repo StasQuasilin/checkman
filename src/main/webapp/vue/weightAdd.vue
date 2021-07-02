@@ -1,5 +1,5 @@
 editor = new Vue({
-    el: '#editor',
+    el: '#weightEditor',
     mixins:[transportationSaver],
     components:{
         'object-input':objectInput
@@ -137,7 +137,7 @@ editor = new Vue({
             } else {
                 product = {
                     id:-1,
-                    amount:24
+                    amount:0
                 }
             }
 
@@ -225,28 +225,35 @@ editor = new Vue({
                 }
             }
         },
-        editAddress:function(id){
+        editAddress:function(product, id){
             let data = {
                 type: 'load',
-                counterparty: this.transportation.deal.counterparty.id,
+                counterparty: product.counterparty.id,
                 id: id
             };
             const self = this;
             loadModal(this.api.editAddress, data, function(a){
+                if(typeof product.addressList === "undefined"){
+                    product.addressList = [];
+                }
                 let found = false;
-                for (let i in self.addressList){
-                    if (self.addressList.hasOwnProperty(i)){
-                        if(self.addressList[i].id === a.id){
-                            self.addressList.splice(i, 1, a);
+                let addressList = product.addressList;
+
+                for (let i in addressList){
+                    if (addressList.hasOwnProperty(i)){
+                        if(addressList[i].id === a.id){
+                            addressList.splice(i, 1, a);
+                            self.$forceUpdate();
                             found = true;
                         }
                     }
                 }
                 if (!found){
-                    self.addressList.push(a);
+                    addressList.push(a);
+                    self.$forceUpdate();
                 }
-                if (self.addressList.length === 1){
-                    self.transportation.address = self.addressList[0].id
+                if (addressList.length === 1){
+                    product.addressId = addressList[0].id
                 }
             })
         },
@@ -378,60 +385,32 @@ editor = new Vue({
                 this.cancelOrganisation();
             }
         },
-        findAddress:function(id){
+        findAddress:function(id, product){
             const self = this;
             PostApi(this.api.findAddress, {counterparty:id}, function(a){
-                self.addressList = [];
-                a.forEach(function(item){
-                    self.addressList.push(item);
-                });
+                product.addressList = a;
+                if (typeof product.addressId === "undefined"){
+                    product.addressId = -1;
+                }
+                self.$forceUpdate();
             });
         },
         initDealsLists:function(){
             let products = this.transportation.products;
             for (let i = 0; i < products.length; i++){
                 let product = products[i];
-                this.findDeals(product.counterparty.id, product.id);
+                let counterpartyId = product.counterparty.id;
+                this.findDeals(counterpartyId, product);
+                this.findAddress(counterpartyId, product)
             }
         },
-        findDeals:function(id, productId){
+        findDeals:function(id, product){
             const self = this;
-            PostApi(this.api.findDeals, {organisation:id, product:productId}, function(a){
+            PostApi(this.api.findDeals, {organisation:id, product:product.id}, function(a){
                 if(a.status === 'success'){
-                    let p = a.product;
-                    let products = self.transportation.products;
-                    for (let i = 0; i < products.length; i++){
-                        let product = products[i];
-                        if (product.id === p){
-                            product.deals = a.result;
-                            self.$forceUpdate();
-                            break;
-                        }
-                    }
+                    product.deals = a.result;
+                    self.$forceUpdate();
                 }
-                // if(a.length > 0) {
-                //     if (self.deal.id === -1){
-                //         self.deal = a[0];
-                //     }
-                //     let now = new Date(self.transportation.date);
-                //     for (let i in a) {
-                //         if (a.hasOwnProperty(i)) {
-                //             let deal = a[i];
-                //
-                //             if(deal.id === self.deal.id){
-                //                 self.deal = deal;
-                //             }
-                //             let from = new Date(deal.date);
-                //             let to = new Date(deal.date_to);
-                //             if (now >= from && now <= to) {
-                //                 self.transportation.deal = deal.id;
-                //             }
-                //         }
-                //     }
-                //     self.setQuantity();
-                // } else {
-                //     console.log(self.transportation);
-                // }
             })
         },
         getPrice: function(){

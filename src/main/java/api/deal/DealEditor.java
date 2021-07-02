@@ -149,11 +149,11 @@ public class DealEditor implements Constants {
             }
 
             dao.save(deal);
-            if (!isNew){
-                for (Transportation t : dao.getTransportationByDeal(deal, false, false)){
-                    updateUtil.onSave(t);
-                }
-            }
+//            if (!isNew){
+//                for (Transportation t : dao.getTransportationByDeal(deal, false, false)){
+//                    updateUtil.onSave(t);
+//                }
+//            }
 
             try {
                 comparator.compare(deal, creator);

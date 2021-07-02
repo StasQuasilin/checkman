@@ -133,6 +133,7 @@ public class Branches {
         public static final String SELECT_COUNTERPARTY = "/transportation/counterparty/select.j";
         public static final String TRAILER_EDIT = "/trailer/edit.j";
         public static final String CHANGE_VIEW = "/change/view.j";
+        public static final String NOTE_EDIT = "/transportation/note/edit.j";
 
 
         public static class Extraction {
@@ -344,6 +345,7 @@ public class Branches {
         public static final String TRAILER_EDIT = API + "/trailer/edit";
         public static final String DEAL_TRANSPORTATIONS = API + "/deal/transportations";
         public static final String CHANGE_ROLE = API + "/change/role";
+        public static final String NOTE_EDIT = API + "/transportation/note/edit";
 
         public static class References {
             public static final String API = Branches.API.API + "/references";

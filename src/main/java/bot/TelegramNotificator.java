@@ -69,88 +69,6 @@ public class TelegramNotificator extends INotificator {
         this.telegramBot = telegramBot;
     }
 
-    public void transportShow(Transportation transportation){
-        String message;
-        for (UserNotificationSetting setting : getSettings()){
-            if (setting.isShow()) {
-                Worker worker = setting.getWorker();
-                boolean show = false;
-                switch (setting.getTransport()) {
-                    case my:
-                        show = transportation.getManager().getId() == worker.getId();
-                        break;
-                    case all:
-                        show = true;
-                        break;
-                }
-                if (show && transportation.getTimeIn() != null && !transportation.isArchive()) {
-                    String language = setting.getLanguage();
-                    message = prepareMessage(transportation);
-                    message += NEW_LINE + lb.get(language, TRANSPORT_IN);
-                    sendMessage(setting.getTelegramId(), message);
-                }
-            }
-        }
-    }
-
-    public void transportRegistration(Transportation transportation){
-        transportRegistration(transportation, lb.get(TRANSPORT_REGISTRATION));
-    }
-    //DONE
-    public void transportInto(Transportation transportation){
-        transportRegistration(transportation, lb.get(TRANSPORT_INTO));
-    }
-    //DONE
-    public void transportRegistration(Transportation transportation, String messageFormat) {
-        DealType type = transportation.getType();
-        String action = lb.get("_" + type.toString()).toLowerCase();
-
-        Product product = transportation.getDeal().getProduct();
-        ProductProperty productProperty = dao.getProductProperty(product, type.toString());
-        String productName = (productProperty != null ? productProperty.getValue() : product.getName()).toLowerCase();
-        String driver = transportation.getDriver() != null ? transportation.getDriver().getPerson().getValue() : "--";
-
-        String organisation = transportation.getDeal().getOrganisation().getValue();
-        String message = String.format(messageFormat, action, productName, driver, organisation);
-        getSettings().stream().filter(setting -> setting.isShow() && setting.getTransport() != NotifyStatus.off).forEach(setting -> {
-            sendMessage(setting.getTelegramId(), message);
-        });
-    }
-    //DONE
-    public void weightShow(Transportation transportation) {
-
-        DealType type = transportation.getType();
-        String action = lb.get("_" + type + ".do");
-        String driver = "--";
-        if (transportation.getDriver() !=null){
-            driver = transportation.getDriver().getPerson().getValue();
-        }
-        String organisation = transportation.getDeal().getOrganisation().getValue();
-        String product = transportation.getDeal().getProduct().getName();
-        final float net = transportation.getWeight().getNetto();
-        String message = String.format(lb.get(TRANSPORTATION_WEIGHT), action, driver, organisation, product, net);
-        for (UserNotificationSetting setting : getSettings()){
-            if (setting.isShow() && setting.getWeight() == NotifyStatus.all){
-                sendMessage(setting.getTelegramId(), message);
-            }
-        }
-    }
-
-    public void sunAnalysesShow(Transportation transportation, SunAnalyses analyses, float correction) {
-        HashMap<String, String> messages = new HashMap<>();
-        for (UserNotificationSetting setting : getSettings()){
-            if (setting.isShow()) {
-                boolean show = setting.getAnalyses() == NotifyStatus.all;
-                if (show) {
-                    String language = setting.getLanguage();
-                    if (!messages.containsKey(language)){
-                        messages.put(language, getMessage(transportation, analyses, correction, language));
-                    }
-                    sendMessage(setting.getTelegramId(), messages.get(language));
-                }
-            }
-        }
-    }
     //DONE
     public void sunProbe(SunProbe probe) {
         HashMap<String, String> messages = new HashMap<>();
@@ -184,57 +102,6 @@ public class TelegramNotificator extends INotificator {
     }
 
     public static final String ATTENTION = "";//"‼";
-    public void cakeAnalysesShow(Transportation transportation, MealAnalyses analyses) {
-        HashMap<String, String> messages = new HashMap<>();
-        for (UserNotificationSetting setting : getSettings()){
-            if(setting.isShow()) {
-                boolean show = setting.getAnalyses() == NotifyStatus.all;
-                if (show) {
-                    String language = setting.getLanguage();
-                    if (!messages.containsKey(language)){
-                        messages.put(language, prepareMessage(transportation) + NEW_LINE +
-                                String.format(lb.get(HUMIDITY), analyses.getHumidity())  +
-                                        (analyses.getHumidity() >= 11 ? ATTENTION : EMPTY) + NEW_LINE +
-                                String.format(lb.get(PROTEIN), analyses.getProtein()) + NEW_LINE +
-                                String.format(lb.get(CELLULOSE), analyses.getCellulose()) +
-                                        (analyses.getCellulose() > 23 ? ATTENTION : EMPTY)+ NEW_LINE +
-                                String.format(lb.get(OILINESS), analyses.getOiliness()) +
-                                        (analyses.getOiliness() > 1.5f ? ATTENTION : EMPTY) + NEW_LINE +
-                                String.format(lb.get(DRY_PROTEIN), analyses.DryRecalculation()) +
-                                        (analyses.DryRecalculation() < 39 ? ATTENTION : EMPTY)
-
-                        );
-                    }
-                    sendMessage(setting.getTelegramId(), messages.get(language));
-                }
-            }
-        }
-
-        messages.clear();
-    }
-
-    //DONE
-    public void oilAnalysesShow(Transportation transportation, OilAnalyses analyses) {
-
-        HashMap<String, String> messages = new HashMap<>();
-
-        for (UserNotificationSetting setting : getSettings()){
-            if (setting.isShow()) {
-                boolean show = setting.getAnalyses() == NotifyStatus.all;
-                if (show) {
-                    String language = setting.getLanguage();
-                    if (!messages.containsKey(language)){
-
-                        messages.put(language, getMessage(transportation, analyses, language));
-                    }
-
-                    sendMessage(setting.getTelegramId(), messages.get(language));
-                }
-            }
-        }
-
-        messages.clear();
-    }
 
     public void extractionShow(ExtractionCrude crude){
 
@@ -582,30 +449,6 @@ public class TelegramNotificator extends INotificator {
 
     public void send(long telegramId, String text) {
         sendMessage(telegramId, text);
-    }
-
-    public void showLoadTime(Transportation transportation) {
-        HashMap<String, String> messages = new HashMap<>();
-        DealType type = transportation.getType();
-        String action = lb.get("_" + type.toString()).toLowerCase();
-
-        Product product = transportation.getProduct();
-        ProductProperty productProperty = dao.getProductProperty(product, type.toString());
-        String productName = (productProperty != null ? productProperty.getValue() : product.getName()).toLowerCase();
-        String driver = transportation.getDriver() != null ? transportation.getDriver().getPerson().getValue() : "--";
-
-        for (UserNotificationSetting setting : getSettings()){
-            if (setting.isShow() && setting.getWeight() == NotifyStatus.all){
-                String language = setting.getLanguage();
-                if (!messages.containsKey(language)){
-                    messages.put(language, String.format("На %1s *%2s*", action, productName) + NEW_LINE +
-                            String.format("став водій *%s*", driver) + NEW_LINE +
-                                    String.format("Контрагент: *%s*", transportation.getCounterparty().getValue())
-                    );
-                }
-                sendMessage(setting.getTelegramId(), messages.get(language));
-            }
-        }
     }
 
     public void show(VROOil oil) {

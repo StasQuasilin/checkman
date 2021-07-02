@@ -46,17 +46,15 @@ public class TransportStorageUsed extends StorageDocument {
     @OneToOne
     @JoinColumn(name = "shipper")
     public Shipper getShipper() {
-        if (shipper == null) {
-            return transportation.getShipper();
-        }
         return shipper;
     }
     public void setShipper(Shipper shipper) {
         this.shipper = shipper;
     }
 
-    @OneToOne
-    @JoinColumn(name = "storage")
+//    @OneToOne
+//    @JoinColumn(name = "storage")
+    @Transient
     public Storage getStorage() {
         return storage;
     }
@@ -64,10 +62,7 @@ public class TransportStorageUsed extends StorageDocument {
     @Transient
     @Override
     public Product getProduct() {
-        return transportation.getProduct();
-    }
-    public void setStorage(Storage storage) {
-        this.storage = storage;
+        return null;
     }
 
     @Transient
@@ -88,7 +83,7 @@ public class TransportStorageUsed extends StorageDocument {
     @Transient
     @Override
     public float getQuantity() {
-        return transportation.getType() == DealType.buy ? getAmount() : -getAmount();
+        return 0;
     }
 
     @Basic

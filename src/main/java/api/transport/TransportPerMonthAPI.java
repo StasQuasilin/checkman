@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.products.Product;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -30,11 +31,13 @@ public class TransportPerMonthAPI extends ServletAPI {
             HashMap<Product, Integer> map = new HashMap<>();
 
             for (Transportation transportation : dao.getTransportationsByDate(from, to)){
-                Product product = transportation.getProduct();
-                if (!map.containsKey(product)){
-                    map.put(product, 0);
+                for (TransportationProduct p : transportation.getProducts()){
+                    final Product product = p.getDealProduct().getProduct();
+                    if (!map.containsKey(product)){
+                        map.put(product, 0);
+                    }
+                    map.put(product, map.get(product) + 1);
                 }
-                map.put(product, map.get(product) + 1);
             }
             JSONArray array = pool.getArray();
             for (Map.Entry<Product, Integer> entry : map.entrySet()){

@@ -20,7 +20,6 @@ import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 import utils.json.JsonObject;
 
-import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
 
@@ -215,16 +214,18 @@ public class TransportationEditor {
             final int id = object.getInt(ID);
             TransportationProduct product = hashMap.remove(id);
             boolean saveIt = false;
-            if(product == null){
-                product = new TransportationProduct();
-                product.setTransportation(transportation);
-                product.setUid(DocumentUIDGenerator.generateUID());
-            }
 
             final DealProduct dealProduct = dealDAO.getDealProduct(object.getInt(DEAL_PRODUCT));
             if(dealProduct == null){
                 log.warn("--- No deal product for " + index + " product ");
                 continue;
+            }
+
+            if(product == null){
+                product = new TransportationProduct();
+                product.setTransportation(transportation);
+                product.setUid(DocumentUIDGenerator.generateUID());
+                product.setAddress(dealProduct.getAddress());
             }
 
             final DealProduct dp = product.getDealProduct();
@@ -237,6 +238,20 @@ public class TransportationEditor {
                 product.setAmount(amount);
                 saveIt = true;
             }
+            if(object.contain(ADDRESS_ID)){
+                final int addressId = object.getInt(ADDRESS_ID);
+                final Address address = dao.getObjectById(Address.class, addressId);
+                product.setAddress(address);
+                saveIt = true;
+            } else {
+                final Address loadAddress = product.getAddress();
+                if(loadAddress != null){
+                    product.setAddress(null);
+                    saveIt = true;
+                }
+            }
+
+
             if (product.getIndex() != index){
                 product.setIndex(index);
                 saveIt = true;

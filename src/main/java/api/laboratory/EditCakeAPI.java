@@ -35,56 +35,56 @@ public class EditCakeAPI extends ServletAPI {
             log.info("Edit CAKE analyses for plan '" + planId + "'...");
 
             Transportation transportation = dao.getTransportationById(planId);
-            MealAnalyses mealAnalyses = transportation.getMealAnalyses();
-            if (mealAnalyses == null) {
-                mealAnalyses = new MealAnalyses();
-                transportation.setMealAnalyses(mealAnalyses);
-
-            }
+//            MealAnalyses mealAnalyses = transportation.getMealAnalyses();
+//            if (mealAnalyses == null) {
+//                mealAnalyses = new MealAnalyses();
+//                transportation.setMealAnalyses(mealAnalyses);
+//
+//            }
 
             JSONObject a = (JSONObject) body.get("analyses");
             boolean save = false;
             float humidity = Float.parseFloat(String.valueOf(a.get(HUMIDITY)));
             log.info("\t\tHumidity: " + humidity);
-            if (mealAnalyses.getHumidity() != humidity) {
-                mealAnalyses.setHumidity(humidity);
-                save = true;
-            }
+//            if (mealAnalyses.getHumidity() != humidity) {
+//                mealAnalyses.setHumidity(humidity);
+//                save = true;
+//            }
 
             float protein = Float.parseFloat(String.valueOf(a.get(Constants.Cake.PROTEIN)));
             log.info("\t\tProtein: " + protein);
-            if (mealAnalyses.getProtein() != protein) {
-                mealAnalyses.setProtein(protein);
-                save = true;
-            }
+//            if (mealAnalyses.getProtein() != protein) {
+//                mealAnalyses.setProtein(protein);
+//                save = true;
+//            }
 
             float cellulose = Float.parseFloat(String.valueOf(a.get(Constants.Cake.CELLULOSE)));
             log.info("\t\tCellulose: " + cellulose);
-            if (mealAnalyses.getCellulose() != cellulose) {
-                mealAnalyses.setCellulose(cellulose);
-                save = true;
-            }
+//            if (mealAnalyses.getCellulose() != cellulose) {
+//                mealAnalyses.setCellulose(cellulose);
+//                save = true;
+//            }
 
             float oiliness = Float.parseFloat(String.valueOf(a.get(Constants.Sun.OILINESS)));
             log.info("\t\tOiliness: " + oiliness);
-            if (mealAnalyses.getOiliness() != oiliness) {
-                mealAnalyses.setOiliness(oiliness);
-                save = true;
-            }
+//            if (mealAnalyses.getOiliness() != oiliness) {
+//                mealAnalyses.setOiliness(oiliness);
+//                save = true;
+//            }
 
             if (save) {
-                ActionTime createTime = mealAnalyses.getCreateTime();
-                if (createTime == null) {
-                    createTime = new ActionTime();
-                    mealAnalyses.setCreateTime(createTime);
-                }
-                createTime.setTime(new Timestamp(System.currentTimeMillis()));
+//                ActionTime createTime = mealAnalyses.getCreateTime();
+//                if (createTime == null) {
+//                    createTime = new ActionTime();
+//                    mealAnalyses.setCreateTime(createTime);
+//                }
+//                createTime.setTime(new Timestamp(System.currentTimeMillis()));
                 Worker worker = getWorker(req);
 
-                createTime.setCreator(worker);
-                dao.save(createTime);
+//                createTime.setCreator(worker);
+//                dao.save(createTime);
 
-                dao.save(mealAnalyses);
+//                dao.save(mealAnalyses);
                 dao.saveTransportation(transportation);
                 updateUtil.onSave(transportation);
             }

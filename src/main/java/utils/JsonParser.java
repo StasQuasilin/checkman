@@ -156,55 +156,6 @@ public class JsonParser implements Constants{
     final static String ANY = "any";
     final static String ARCHIVE = "archive";
 
-    public JSONObject toJson(Transportation transportation) {
-        JSONObject json = pool.getObject();
-        if (transportation != null){
-            json.put(ID, transportation.getId());
-            json.put(TYPE, transportation.getType().toString());
-            json.put(DATE, transportation.getDate().toString());
-            json.put(PRODUCT, toJson(transportation.getProduct()));
-            json.put(ORGANISATION, toJson(transportation.getCounterparty()));
-            if (transportation.getAddress() != null){
-                json.put(ADDRESS, transportation.getAddress().toJson());
-            }
-
-            json.put(SHIPPER, transportation.getShipper().getValue());
-            json.put(VEHICLE, toJson(transportation.getVehicle()));
-            if (transportation.getTrailer() != null) {
-                json.put(TRAILER, transportation.getTrailer().toJson());
-            }
-            if (transportation.getDriver() != null) {
-                json.put(DRIVER, transportation.getDriver().toJson());
-            }
-            json.put(REGISTRATION, toJson(transportation.getTimeRegistration()));
-            json.put(TIME_IN, toJson(transportation.getTimeIn()));
-            json.put(TIME_OUT, toJson(transportation.getTimeOut()));
-            json.put(WEIGHT, toJson(transportation.getWeight()));
-            json.put(ANALYSES, toJson(transportation.getSunAnalyses(), transportation.getOilAnalyses(), transportation.getMealAnalyses()));
-            json.put(NOTES, toNotesJson(transportation.getNotes()));
-            json.put(ANY, transportation.any());
-            json.put(ARCHIVE, transportation.isArchive());
-            json.put(DONE, transportation.isDone());
-            json.put(MANAGER, toJson(transportation.getManager()));
-            json.put(CREATE, transportation.getCreateTime().toJson());
-            if (transportation.getTransporter() != null) {
-                json.put(TRANSPORTER, transportation.getTransporter().toJson());
-            }
-            json.put(OLD, true);
-
-        }
-        return json;
-    }
-
-    private JSONObject toJson(TransportStorageUsed tsu) {
-        JSONObject json = pool.getObject();
-        json.put(ID, tsu.getId());
-        json.put(STORAGE, tsu.getStorage().getName());
-        json.put(AMOUNT, tsu.getAmount());
-
-        return json;
-    }
-
     private JSONArray toNotesJson(List<DocumentNote> notes) {
         final JSONArray array = pool.getArray();
         if (notes != null) {
@@ -469,18 +420,6 @@ public class JsonParser implements Constants{
         return array;
     }
 
-    public JSONObject toJson(Transportation transportation, ArrayList<ChangeLog> logs) {
-        JSONObject json = new JSONObject();
-        json.put("weight", toJson(transportation.getWeight()));
-        json.put("analyses", toJson(
-                transportation.getSunAnalyses(),
-                transportation.getOilAnalyses(),
-                transportation.getMealAnalyses())
-        );
-        json.put("logs", toJson(logs));
-        return json;
-    }
-
     private JSONArray toJson(ArrayList<ChangeLog> logs) {
         JSONArray array = new JSONArray();
         for(ChangeLog log : logs) {
@@ -620,7 +559,7 @@ public class JsonParser implements Constants{
 
     public static final String TITLE = "title";
     public static final String FREE = "free";
-    public static final String TOTAL = "total";
+    public static final String TOTAL = "summary";
     public JSONObject toJson(SealBatch batch) {
         JSONObject json = pool.getObject();
         json.put(ID, batch.getId());

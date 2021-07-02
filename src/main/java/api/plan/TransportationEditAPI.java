@@ -32,12 +32,13 @@ public class TransportationEditAPI extends ServletAPI {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
         if (body != null) {
+            System.out.println(body);
             Worker creator = getWorker(req);
             Worker manager = dao.getObjectById(Worker.class, body.get(MANAGER));
             if (manager == null){
                 manager = creator;
             }
-            Transportation transportation = transportationEditor.saveTransportation(body, creator, manager);
+            transportationEditor.saveTransportation(body, creator, manager);
 
             write(resp, SUCCESS_ANSWER);
 

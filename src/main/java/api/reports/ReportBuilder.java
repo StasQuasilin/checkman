@@ -25,9 +25,6 @@ import java.util.HashMap;
 @WebServlet(Branches.API.REPORT_BUILDER)
 public class ReportBuilder extends ServletAPI {
 
-    private static final long serialVersionUID = 1614658093016524992L;
-
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JSONObject body = parseBody(req);
@@ -60,23 +57,23 @@ public class ReportBuilder extends ServletAPI {
 
             JSONObject loads = pool.getObject();
             for (Transportation transportation : dao.getObjectsByParams(Transportation.class, params)){
-                String product = transportation.getProduct().getName();
-                if (!loads.containsKey(product)){
-                    JSONObject j = pool.getObject();
-                    j.put("weight", 0);
-                    j.put("values", pool.getArray());
-                    loads.put(product, j);
-                }
-                JSONObject o = (JSONObject) loads.get(product);
+//                String product = transportation.getProduct().getName();
+//                if (!loads.containsKey(product)){
+//                    JSONObject j = pool.getObject();
+//                    j.put("weight", 0);
+//                    j.put("values", pool.getArray());
+//                    loads.put(product, j);
+//                }
+//                JSONObject o = (JSONObject) loads.get(product);
+//
+//                if (transportation.getWeight() != null){
+//                    float weight = Float.parseFloat(String.valueOf(o.get("weight")));
+//                    weight += transportation.getWeight().getNetto();
+//                    o.put("weight", weight);
+//                }
 
-                if (transportation.getWeight() != null){
-                    float weight = Float.parseFloat(String.valueOf(o.get("weight")));
-                    weight += transportation.getWeight().getNetto();
-                    o.put("weight", weight);
-                }
-
-                JSONArray a = (JSONArray) o.get("values");
-                a.add(parser.toJson(transportation));
+//                JSONArray a = (JSONArray) o.get("values");
+//                a.add(parser.toJson(transportation));
             }
 
             report.put("loads", loads);

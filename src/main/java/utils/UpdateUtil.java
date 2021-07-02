@@ -107,8 +107,8 @@ public class UpdateUtil {
 
     public void onArchive(Transportation transportation) {
         onRemove(transportation);
-        Subscribe subscribe = transportation.getDeal().getType() == DealType.buy ? Subscribe.TRANSPORT_BUY_ARCHIVE : Subscribe.TRANSPORT_SELL_ARCHIVE;
-        doAction(Command.update, subscribe, transportation);
+//        Subscribe subscribe = transportation.getDeal().getType() == DealType.buy ? Subscribe.TRANSPORT_BUY_ARCHIVE : Subscribe.TRANSPORT_SELL_ARCHIVE;
+//        doAction(Command.update, subscribe, transportation);
     }
 
     public void onRemove(ExtractionCrude crude) {

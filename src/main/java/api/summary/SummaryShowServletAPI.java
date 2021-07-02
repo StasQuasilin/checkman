@@ -36,13 +36,8 @@ public class SummaryShowServletAPI extends ServletAPI {
 				ArrayList<ChangeLog> logs = new ArrayList<>();
 
 				if (transportation != null) {
-
 					if (transportation.getUid() != null) {
 						logs.addAll(dao.getLogs(transportation.getUid()));
-					}
-
-					if (transportation.getWeight() != null) {
-						logs.addAll(dao.getLogs(transportation.getWeight().getUid()));
 					}
 				}
 				//todo logs.addAll(analyses);
@@ -65,10 +60,7 @@ public class SummaryShowServletAPI extends ServletAPI {
 						change.setField(String.format(lb.get(lang, "change." + change.getField() + "." + change.getValue()), change.getNewValue(), change.getOldValue()));
 					}
 				}
-				write(resp, parser.toJson(
-						transportation,
-						logs
-				).toJSONString());
+				write(resp, SUCCESS_ANSWER);
 			} else {
 				write(resp, EMPTY_BODY);
 			}

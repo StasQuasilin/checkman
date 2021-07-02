@@ -57,10 +57,10 @@ public class StockDetailsAPI extends ServletAPI {
                                 Transportation transportation = storageUsed.getTransportation();
                                 JSONObject v = pool.getObject();
                                 if (transportation != null){
-                                    Organisation counterparty = transportation.getDeal().getOrganisation();
-                                    if (counterparty != null) {
-                                        json.put(COUNTERPARTY, counterparty.getValue());
-                                    }
+//                                    Organisation counterparty = transportation.getDeal().getOrganisation();
+//                                    if (counterparty != null) {
+//                                        json.put(COUNTERPARTY, counterparty.getValue());
+//                                    }
                                     Driver driver = transportation.getDriver();
                                     if (driver != null) {
                                         json.put(DRIVER, driver.getPerson().getValue());

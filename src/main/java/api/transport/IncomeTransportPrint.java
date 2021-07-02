@@ -4,6 +4,7 @@ import api.ServletAPI;
 import constants.Branches;
 import entity.products.Product;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import org.json.simple.JSONObject;
 import utils.hibernate.DateContainers.BETWEEN;
 import utils.turns.TurnBox;
@@ -41,15 +42,17 @@ public class IncomeTransportPrint extends ServletAPI {
 
             HashMap<Product, ArrayList<Transportation>> transportations = new HashMap<>();
             for (Transportation t : dao.getObjectsByParams(Transportation.class, param)){
-                Product product = t.getProduct();
-                if (!transportations.containsKey(product)){
-                    transportations.put(product, new ArrayList<>());
+                for (TransportationProduct p : t.getProducts()){
+                    Product product = p.getDealProduct().getProduct();
+                    if (!transportations.containsKey(product)){
+                        transportations.put(product, new ArrayList<>());
+                    }
+                    transportations.get(product).add(t);
                 }
-                transportations.get(product).add(t);
             }
 
             for (ArrayList<Transportation> t : transportations.values()){
-                t.sort((o1, o2) -> o1.getTimeIn().getTime().compareTo(o2.getTimeIn().getTime()));
+                t.sort(Comparator.comparing(o -> o.getTimeIn().getTime()));
             }
             req.setAttribute("transportations", transportations);
             req.setAttribute("from", from);

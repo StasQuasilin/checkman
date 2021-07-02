@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="${context}/css/TransportList.css?v=${now}">
     <script src="${context}/vue2/contextMenuView.vue?v=${now}"></script>
     <script src="${context}/vue2/baseList.vue?v=${now}"></script>
+    <script src="${context}/vue/templates/commentator.vue?v=${now}"></script>
     <c:choose>
         <c:when test="${view eq 'admin' or view eq 'manager' or view eq 'weigher' or view eq 'logistic' or view eq 'retail'}">
             <script src="${context}/vue/templates/vehicleInput.vue?v=${now}"></script>
@@ -51,6 +52,8 @@
         transportList.props.transporterProps.find = '${findOrganisation}';
         transportList.props.transporterProps.add = '${parseOrganisation}';
         transportList.props.transporterProps.header = '<fmt:message key="button.add.transporter"/>';
+        transportList.props.notesProps.api = '${noteEdit}';
+        transportList.props.notesProps.fields.addNote = '<fmt:message key="note.add"/>';
 
         initFields(transportList.labels);
         <c:forEach items="${customers}" var="customer">

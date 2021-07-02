@@ -26,18 +26,9 @@ public class TransportationShow extends IModal {
         final JSONObject body = parseBody(req);
         if (body != null){
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(ID));
-            Weight weight = transportation.getWeight();
             float b = 0;
             float t = 0;
             float n = 0;
-
-            if (weight != null) {
-                b = weight.getBrutto();
-                t = weight.getTara();
-                if (b > 0 && t > 0){
-                    n = b - t;
-                }
-            }
 
             req.setAttribute(BRUTTO, b);
             req.setAttribute(TARA, t);

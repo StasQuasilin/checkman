@@ -7,7 +7,8 @@ transportView = {
       props:Object
   },
     components: {
-      'transport-data':transportaData
+      'transport-data':transportaData,
+        'commentator':commentator
     },
     computed:{
       itemDate:function () {
@@ -78,13 +79,12 @@ transportView = {
     template:'<div class="container-item" :class="dynamicClass()">' +
             '<div style="width: 100%">' +
                 '<div class="upper-row" style="display: flex; flex-direction: row; width: 100%">' +
-                    '<span style="display: inline-block; width: 60px">' +
-                        '<template v-if="item.done">&checkmark;</template>' +
+                    '<span style="display: inline-block; width: 50px">' +
                         '{{new Date(item.date).toLocaleDateString().substring(0, 5)}}' +
                     '</span>' +
                     '<div style="display: flex; flex-direction: column; width: 100%">' +
                         '<div v-for="product in item.products" v-if="product.counterparty">' +
-                            '<span style="display: inline-block; width: 45%;">' +
+                            '<span style="display: inline-block; min-width: 35%; max-width: 45%;">' +
                                 '<b class="secure" >' +
                                     '{{product.counterparty.value}}' +
                                 '</b>' +
@@ -98,32 +98,49 @@ transportView = {
                             '<b>' +
                                 '{{product.productName}} ' +
                             '</b>' +
-                            '<span v-if="product.amount > 0 && !product.product.group">' +
-                                '{{product.amount}} {{product.unitName}} ' +
-                            '</span>' +
-                            '<span v-if="product.price > 0">' +
-                                '{{titles.price}}: ' +
-                                '{{product.price.toLocaleString()}} ' +
-                            '</span>' +
+                            '<template v-if="!product.product.group">' +
+                                '<span v-if="product.amount > 0">' +
+                                    '{{product.amount}} {{product.unitName}} ' +
+                                '</span>' +
+                                '<span v-if="product.price > 0">' +
+                                    '{{titles.price}}: ' +
+                                    '{{product.price.toLocaleString()}} ' +
+                                '</span>' +
+                            '</template>' +
                             '{{titles.from}}: ' +
                             '<span>' +
                                 '{{product.shipperName}}' +
                             '</span>' +
+                            '<b v-if="item.products.length > 1 && product.weight && product.weight.net > 0">' +
+                                ' {{titles.net}}: {{product.weight.net}}' +
+                            '</b>' +
+                            '<b v-if="product.weight && product.weight.correction > 0">' +
+                                ' -{{product.weight.correction.toLocaleString()}}%' +
+                                '<template v-if="product.weight.net > 0">' +
+                                    '={{product.weight.corrected.toLocaleString()}}' +
+                                '</template>' +
+                            '</b>' +
+                            '<div v-if="product.address">' +
+                                '{{titles.address[product.type]}}: ' +
+                                '<span class="secure">' +
+                                    '<template v-if="product.address.region">' +
+                                        '{{product.address.region}} {{titles.region}}, ' +
+                                    '</template>' +
+                                    '<template v-if="product.address.district">' +
+                                        '{{product.address.district}} {{titles.district}}, ' +
+                                    '</template>' +
+                                    '<template v-if="product.address.city">' +
+                                        '{{product.address.city}}' +
+                                    '</template>' +
+                                    '<template v-if="product.address.street">' +
+                                        ',{{titles.street}} {{product.address.street}}' +
+                                        '<template v-if="product.address.build">' +
+                                            ', {{product.address.build}}' +
+                                        '</template>\n' +
+                                    '</template>' +
+                                '</span> ' +
+                            '</div>' +
                         '</div>' +
-                    '</div>' +
-                    '<div v-if="item.address">' +
-                        '{{titles.address}}: ' +
-                        '<span class="secure">' +
-                            '<template v-if="item.address.region">' +
-                                '{{item.address.region}} {{titles.region}}, ' +
-                            '</template>' +
-                            '<template v-if="item.address.district">' +
-                                '{{item.address.district}} {{titles.district}}, ' +
-                            '</template>' +
-                            '<template v-if="item.address.city">' +
-                                '{{item.address.city}}' +
-                            '</template>' +
-                        '</span> ' +
                     '</div>' +
                 '</div>' +
                 '<div class="middle-row">' +
@@ -149,22 +166,15 @@ transportView = {
                     '</div>' +
                     '<transport-data :item="item" :titles="titles" :props="props"></transport-data>' +
                 '</div>' +
-                '<div class="lower-row" v-if="item.notes.length > 0">' +
-                    '<span v-for="note in item.notes" style="padding-left: 2pt">' +
-                        '<template v-if="note.creator">' +
-                            '{{note.creator}}: ' +
-                        '</template>' +
-                        '<b class="secure">' +
-                            '{{note.note}}' +
-                        '</b>' +
-                    '</span>' +
+                '<div class="lower-row">' +
+                    '<commentator :item="item" :props="props.notesProps"></commentator>' +
                 '</div>' +
             '</div>' +
             '<div class="right-field" v-if="item.gross > 0 || item.tare > 0">' +
                 '<table :title="weightTitle" class="weight-table" style="border: none">' +
                     '<tr v-if="item.products.length > 1">' +
                         '<td colspan="2" style="text-align: center">' +
-                            'Total:' +
+                            '{{titles.summary}}' +
                         '</td> ' +
                     '</tr>' +
                     '<tr>' +

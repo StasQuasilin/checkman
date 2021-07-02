@@ -9,6 +9,8 @@ import entity.transport.Transportation;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
 import utils.hibernate.dao.DealDAO;
+import utils.hibernate.dao.TransportationDAO;
+import utils.hibernate.dao.TransportationStatus;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,7 @@ public class DealDelete extends IModal {
 
     private static final String _CONTENT = "/pages/deals/dealDelete.jsp";
     private DealDAO dealDAO = new DealDAO();
+    private TransportationDAO transportationDAO = new TransportationDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,15 +35,16 @@ public class DealDelete extends IModal {
         if (body != null) {
             Deal deal = dealDAO.getDealById(body.get(ID));
             req.setAttribute(DEAL, deal);
-            List<Transportation> done = dao.getTransportationByDeal(deal, true, null);
+            List<Transportation> done = transportationDAO.getTransportationsByDeal(deal, TransportationStatus.archive);
             req.setAttribute(DONE, done);
-            req.setAttribute("loads", dao.getTransportationByDeal(deal, false, null));
+//            req.setAttribute("loads", dao.getTransportationByDeal(deal, false, null));
 
             if (deal.getComplete() > 0 || done.size() > 0) {
                 req.setAttribute(TITLE, Titles.DEAL_DELETE);
             } else {
                 req.setAttribute(TITLE, Titles.DEAL_ARCHIVE);
             }
+
             req.setAttribute(DELETE, Branches.API.DEAL_DELETE);
             req.setAttribute(MODAL_CONTENT, _CONTENT);
             show(req, resp);

@@ -1,11 +1,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
 <style>
-
   table{
     border-collapse: collapse;
   }
@@ -16,7 +15,7 @@
     padding: 0 4pt;
   }
 </style>
-<table width="100%" border="0">
+<table width="100%">
   <tr>
     <td align="center">
       <jsp:include page="header.jsp"/>
@@ -71,12 +70,12 @@
   <tr>
     <td>
       <div style="padding-top: 12pt; text-indent: 25pt">
-        <fmt:formatDate value="${plan.timeIn.time}" pattern="dd.MM.yyyy"/>
+        <fmt:formatDate value="${product.transportation.timeIn.time}" pattern="dd.MM.yyyy"/>
       <span>
         від постачальника сировини
       </span>
         <b>
-          ${plan.counterparty.value}
+          ${product.dealProduct.deal.organisation.value}
         </b>
       <span>
         прийняте насіння соняшника з такими якісними показниками:
@@ -107,13 +106,13 @@
             Кислотне число олії, мг КОН/г
           </th>
         </tr>
-        <c:set value="${plan.sunAnalyses}" var="sun"/>
+        <c:set value="${product.sunAnalyses}" var="sun"/>
         <tr>
           <td align="center">
             1
           </td>
           <td>
-            ${plan.driver.person.value}
+            ${product.transportation.driver.person.value}
           </td>
           <td>
             <c:choose>
@@ -161,7 +160,7 @@
             Убуток маси насіння від зменшення сміттєвої домішки
             внаслідок очистки та зменшення вологи
             внаслідок сушіння становить
-            <fmt:formatNumber value="${plan.weight.correction}"/>%
+            <fmt:formatNumber value="${product.weight.correction}"/>%
           </div>
         </td>
       </tr>
@@ -183,7 +182,7 @@
                   (100 - <fmt:formatNumber value="${sun.middleHumidity()}"/>) &times; (100 - ${sun.soreness}) &times; 100
                 </td>
                 <td rowspan="2">
-                  &nbsp;= <fmt:formatNumber value="${plan.weight.correction}"/>%
+                  &nbsp;= <fmt:formatNumber value="${product.weight.correction}"/>%
                 </td>
               </tr>
               <tr>
@@ -191,7 +190,7 @@
                   (100 - Вб)&times;(100 - Сб)
                 </td>
                 <td align="center">
-                  (100 - ${humidityBasis})&times;(100 - ${sorenessBasis})
+                  (100 - ${humidityBasis}) &times; (100 - ${sorenessBasis})
                 </td>
               </tr>
             </table>
@@ -204,7 +203,7 @@
         <td>
           <div style="padding-top: 12pt">
             Убуток маси насіння від зменшення вологості внаслідок сушіння становить
-            <fmt:formatNumber value="${plan.weight.correction}"/>%
+            <fmt:formatNumber value="${product.weight.correction}"/>%
           </div>
         </td>
       </tr>
@@ -217,7 +216,7 @@
                   ( ${sun.middleHumidity()} - ${humidityBasis} ) &times; 100
                 </td>
                 <td rowspan="2">
-                  &nbsp;= <fmt:formatNumber value="${plan.weight.correction}"/>%
+                  &nbsp;= <fmt:formatNumber value="${product.weight.correction}"/>%
                 </td>
               </tr>
               <tr>
@@ -236,7 +235,7 @@
           <div style="padding-top: 12pt">
             Убуток маси насіння від зменшення вологи
             внаслідок сушіння становить
-            <fmt:formatNumber value="${plan.weight.correction}"/>%
+            <fmt:formatNumber value="${product.weight.correction}"/>%
           </div>
         </td>
       </tr>
@@ -249,7 +248,7 @@
                   ( ${sun.soreness} - ${sorenessBasis} ) &times; 100
                 </td>
                 <td rowspan="2">
-                  &nbsp;= <fmt:formatNumber value="${plan.weight.correction}"/>%
+                  &nbsp;= <fmt:formatNumber value="${product.weight.correction}"/>%
                 </td>
               </tr>
               <tr>
@@ -272,7 +271,7 @@
   </tr>
   <tr>
     <td>
-      <div style="padding: 96pt 24pt;">
+      <div style="padding: 24pt;">
         <table width="100%">
           <tr>
             <td>

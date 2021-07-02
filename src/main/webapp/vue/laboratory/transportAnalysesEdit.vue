@@ -74,10 +74,10 @@ analysesEdit = new Vue({
                 }
             })
         },
-        print:function(){
+        print:function(product){
             const self = this;
-            this.saveLogic(function(a){
-                loadModal(self.api.print + '?type=' + self.type, {id: self.plan});
+            this.saveLogic(function(){
+                loadModal(self.api.print, {id: product.id});
             })
         },
         addProduct:function (item) {

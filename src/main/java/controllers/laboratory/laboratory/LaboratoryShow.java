@@ -32,7 +32,7 @@ public class LaboratoryShow extends IModal {
 
         req.setAttribute("plan", transportation);
         req.setAttribute(PRINT, Branches.UI.LABORATORY_PRINT_OPTIONS);
-        AnalysesType analysesType = transportation.getProduct().getAnalysesType();
+        AnalysesType analysesType = AnalysesType.other;//transportation.getProduct().getAnalysesType();
         req.setAttribute(TYPE, analysesType.toString());
         switch (analysesType){
             case sun:

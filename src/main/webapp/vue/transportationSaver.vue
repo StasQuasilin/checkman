@@ -12,6 +12,7 @@ transportationSaver = {
                     let product = item.products[i];
                     products.push({
                         id:product.id,
+                        addressId:product.addressId,
                         dealProduct:product.dealProduct,
                         amount:product.amount
                     });

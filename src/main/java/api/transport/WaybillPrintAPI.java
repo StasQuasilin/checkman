@@ -43,29 +43,29 @@ public class WaybillPrintAPI extends ServletAPI {
             req.setAttribute(NUMBER, number);
             req.setAttribute(DATE, df.format(Date.valueOf(String.valueOf(body.get(DATE)))) + R);
             Transportation transportation = dao.getObjectById(Transportation.class, body.get(TRANSPORTATION));
-            Organisation counterparty = transportation.getCounterparty();
+//            Organisation counterparty = transportation.getCounterparty();
             req.setAttribute(TRANSPORTATION, transportation);
-            req.setAttribute(ORGANISATION_TYPE, dao.getOrganisationTypeByName(counterparty.getType()));
-            req.setAttribute(LEGAL_ADDRESS, dao.getLegalAddress(counterparty));
+//            req.setAttribute(ORGANISATION_TYPE, dao.getOrganisationTypeByName(counterparty.getType()));
+//            req.setAttribute(LEGAL_ADDRESS, dao.getLegalAddress(counterparty));
             req.setAttribute(SEALS, dao.getSealsByTransportation(transportation));
             Address address = dao.getObjectById(Address.class, body.get(ADDRESS));
             if (address == null){
-                List<LoadAddress> loadAddress = dao.getLoadAddress(counterparty);
-                if (loadAddress.size() > 0){
-                    address = loadAddress.get(0).getAddress();
-                }
+//                List<LoadAddress> loadAddress = dao.getLoadAddress(counterparty);
+//                if (loadAddress.size() > 0){
+//                    address = loadAddress.get(0).getAddress();
+//                }
             }
             req.setAttribute(ADDRESS, address);
 
-            req.setAttribute(NETTO, U.getNumberByWords(transportation.getWeight().getNetto(), Gender.female, T, KG));
-            req.setAttribute(BRUTTO, U.getNumberByWords(transportation.getWeight().getBrutto(), Gender.female, T, KG));
+//            req.setAttribute(NETTO, U.getNumberByWords(transportation.getWeight().getNetto(), Gender.female, T, KG));
+//            req.setAttribute(BRUTTO, U.getNumberByWords(transportation.getWeight().getBrutto(), Gender.female, T, KG));
             float price = Float.parseFloat(String.valueOf(body.get(PRICE)));
             if (price > 0) {
-                float sum = transportation.getWeight().getNetto() * price;
+//                float sum = transportation.getWeight().getNetto() * price;
                 req.setAttribute(PRICE, U.getNumberByWords(price, HRN, KOP));
-                req.setAttribute(SUM, U.getNumberByWords(sum, HRN, KOP));
-                req.setAttribute(SUM_WORDS, U.getNumberByWords(sum, Gender.female, HRN, KOP));
-                req.setAttribute(TAX, U.getNumberByWords(sum * 0.07, HRN, KOP));
+//                req.setAttribute(SUM, U.getNumberByWords(sum, HRN, KOP));
+//                req.setAttribute(SUM_WORDS, U.getNumberByWords(sum, Gender.female, HRN, KOP));
+//                req.setAttribute(TAX, U.getNumberByWords(sum * 0.07, HRN, KOP));
             }
             req.setAttribute(BOOKER, dao.getObjectById(Worker.class, body.get(BOOKER)));
             req.setAttribute(ALLOWED, dao.getObjectById(Worker.class, body.get(ALLOWED)));

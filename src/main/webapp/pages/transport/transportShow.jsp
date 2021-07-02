@@ -48,14 +48,9 @@
         </th>
     </tr>
     <tr>
-        <td>
-            <fmt:message key="deal.organisation"/>
-        </td>
-        <td>:</td>
-        <td class="secure">
-            ${transportation.counterparty.value}
-        </td>
-        <td rowspan="10" valign="top">
+
+        <td colspan="3"></td>
+        <td rowspan="9" valign="top">
             <div style="padding: 2px; width: 160px">
                 <div v-for="(value, key) in seals">
                     <span class="mini-close" style="left: 0" v-on:click="removeSeal(key)">&times;</span>
@@ -80,7 +75,6 @@
                         </span>
                     </div>
                 </div>
-
                 <div>
                     <input style="width: 100%" v-model="sealInput" v-on:keyup="findSeals()">
                     <div class="custom-data-list" v-if="foundSeals.length > 0">
@@ -90,15 +84,6 @@
                     </div>
                 </div>
             </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <fmt:message key="deal.product"/>
-        </td>
-        <td>:</td>
-        <td>
-            ${transportation.product.name}
         </td>
     </tr>
     <tr>

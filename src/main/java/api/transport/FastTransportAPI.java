@@ -1,7 +1,7 @@
 package api.transport;
 
 import api.ServletAPI;
-import api.deal.FastDealEditor;
+import api.deal.DealEditor;
 import constants.Branches;
 import entity.Worker;
 import entity.documents.Deal;
@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.TRANSPORTATION_SAVE_FAST)
 public class FastTransportAPI extends ServletAPI {
 
-    private final FastDealEditor dealEditor = new FastDealEditor();
+    private final DealEditor dealEditor = new DealEditor();
     private final TransportationEditor transportationEditor = new TransportationEditor();
 
     @Override

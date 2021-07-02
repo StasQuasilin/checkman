@@ -60,19 +60,19 @@ public class Carrier {
         checkTime(transportation.getTimeRegistration());
         checkTime(transportation.getCreateTime());
 
-        transportation.setDeal(checkDeal(transportation.getDeal()));
+//        transportation.setDeal(checkDeal(transportation.getDeal()));
 
         if (transportation.getTransporter() != null){
             checkOrganisation(transportation.getTransporter());
         }
-        final Weight weight = transportation.getWeight();
-        if (weight != null){
-            weight.setId(0);
-            checkTime(weight.getBruttoTime());
-            checkTime(weight.getTaraTime());
-            target.save(weight);
-            transportation.setWeight(weight);
-        }
+//        final Weight weight = transportation.getWeight();
+//        if (weight != null){
+//            weight.setId(0);
+//            checkTime(weight.getBruttoTime());
+//            checkTime(weight.getTaraTime());
+//            target.save(weight);
+//            transportation.setWeight(weight);
+//        }
 
         final Vehicle vehicle = transportation.getVehicle();
         if (vehicle != null) {
@@ -124,29 +124,29 @@ public class Carrier {
             transportation.setDriver(checkExist(Driver.class, driver, id));
         }
 
-        final SunAnalyses sunAnalyses = transportation.getSunAnalyses();
-        if (sunAnalyses != null){
-            final int id = sunAnalyses.getId();
-            sunAnalyses.setId(0);
-            checkTime(sunAnalyses.getCreateTime());
-            transportation.setSunAnalyses(checkExist(SunAnalyses.class, sunAnalyses, id));
-        } else {
-            final OilAnalyses oilAnalyses = transportation.getOilAnalyses();
-            if (oilAnalyses != null){
-                final int id = oilAnalyses.getId();
-                oilAnalyses.setId(0);
-                checkTime(oilAnalyses.getCreateTime());
-                transportation.setOilAnalyses(checkExist(OilAnalyses.class, oilAnalyses, id));
-            } else {
-                final MealAnalyses mealAnalyses = transportation.getMealAnalyses();
-                if(mealAnalyses != null) {
-                    final int id = mealAnalyses.getId();
-                    mealAnalyses.setId(0);
-                    checkTime(mealAnalyses.getCreateTime());
-                    transportation.setMealAnalyses(checkExist(MealAnalyses.class, mealAnalyses, id));
-                }
-            }
-        }
+//        final SunAnalyses sunAnalyses = transportation.getSunAnalyses();
+//        if (sunAnalyses != null){
+//            final int id = sunAnalyses.getId();
+//            sunAnalyses.setId(0);
+//            checkTime(sunAnalyses.getCreateTime());
+//            transportation.setSunAnalyses(checkExist(SunAnalyses.class, sunAnalyses, id));
+//        } else {
+//            final OilAnalyses oilAnalyses = transportation.getOilAnalyses();
+//            if (oilAnalyses != null){
+//                final int id = oilAnalyses.getId();
+//                oilAnalyses.setId(0);
+//                checkTime(oilAnalyses.getCreateTime());
+//                transportation.setOilAnalyses(checkExist(OilAnalyses.class, oilAnalyses, id));
+//            } else {
+//                final MealAnalyses mealAnalyses = transportation.getMealAnalyses();
+//                if(mealAnalyses != null) {
+//                    final int id = mealAnalyses.getId();
+//                    mealAnalyses.setId(0);
+//                    checkTime(mealAnalyses.getCreateTime());
+//                    transportation.setMealAnalyses(checkExist(MealAnalyses.class, mealAnalyses, id));
+//                }
+//            }
+//        }
 
         target.save(transportation);
 

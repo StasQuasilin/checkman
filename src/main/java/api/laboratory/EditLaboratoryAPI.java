@@ -5,6 +5,7 @@ import constants.Branches;
 import entity.AnalysesType;
 import entity.Worker;
 import entity.products.Product;
+import entity.transport.TransportUtil;
 import entity.transport.TransportationProduct;
 import org.apache.log4j.Logger;
 import utils.UpdateUtil;
@@ -51,6 +52,8 @@ public class EditLaboratoryAPI extends ServletAPI {
                     update = oilEditor.editAnalyses(transportationProduct, json.getObject(OIL), worker);
                 }
                 if (update){
+                    TransportUtil.calculateWeight(transportationProduct);
+                    dao.save(transportationProduct.getWeight());
                     updateUtil.onSave(transportationProduct.getTransportation());
                     Notificator.analysesShow(transportationProduct);
                 }

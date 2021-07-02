@@ -88,6 +88,7 @@ public class TransportList extends IUIServlet{
             req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);
             req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
             req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
+            req.setAttribute(NOTE_EDIT, Branches.UI.NOTE_EDIT);
             req.setAttribute(SAVE, Branches.API.PLAN_LIST_ADD);
         }
 

@@ -4,7 +4,10 @@
 <script>
     function initFields(holder) {
         holder.counterparty = '<fmt:message key="deal.organisation"/>';
-        holder.address = '<fmt:message key="load.address"/>';
+        holder.address = {};
+        holder.address['buy'] = '<fmt:message key="download.address"/>';
+        holder.address['sell'] = '<fmt:message key="upload.address"/>';
+        holder.street = '<fmt:message key="address.street.short"/>';
         holder.region = '<fmt:message key="address.region.short"/>';
         holder.district = '<fmt:message key="address.district.short"/>';
         holder.buy = '<fmt:message key="_buy"/>';
@@ -21,7 +24,9 @@
         holder.transporter = '<fmt:message key="transportation.transporter"/>';
         holder.szpt='<fmt:message key="szpt"/>';
         holder.cont='<fmt:message key="deal.organisation"/>';
+        holder.summary = '<fmt:message key="summary"/>';
         holder.weight = '<fmt:message key="weight"/>';
+        holder.net = '<fmt:message key="weight.net"/>';
         holder.analyses = '<fmt:message key="analyses"/>';
         holder.icon = {
             buy:'${context}/images/upload.svg',

@@ -7,6 +7,7 @@ import entity.seals.Seal;
 import entity.transport.Driver;
 import entity.transport.TransportUtil;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -49,8 +50,15 @@ public class CloseTransportationAPI extends ServletAPI{
                 } else {
                     final LocalDate date = transportation.getDate().toLocalDate();
                     final LocalDate now = LocalDate.now();
-                    final Weight weight = transportation.getWeight();
-                    if (weight == null || weight.getNetto() == 0 || now.isAfter(date)){
+                    boolean can = true;
+                    for (TransportationProduct product : transportation.getProducts()){
+                        final Weight weight = product.getWeight();
+                        if (weight == null || weight.getNetto() == 0 || now.isAfter(date)){
+                            can = false;
+                            break;
+                        }
+                    }
+                    if(can) {
                         transportation.setArchive(true);
                         dao.save(transportation);
                         updateUtil.onRemove(transportation);
@@ -60,17 +68,5 @@ public class CloseTransportationAPI extends ServletAPI{
             }
             write(resp, SUCCESS_ANSWER);
         }
-    }
-
-    private void writeMessage(Worker worker, String action, Transportation transportation) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(worker.getValue()).append(SPACE).append(action).append(SPACE).append("transportation\n");
-        builder.append("\tid:").append(transportation.getId()).append("\n");
-        builder.append("\tOrganisation: ").append(transportation.getCounterparty().getValue()).append("\n");
-        final Driver driver = transportation.getDriver();
-        if (driver != null){
-            builder.append("\tDriver: ").append(driver.toString());
-        }
-        log.info(builder.toString());
     }
 }

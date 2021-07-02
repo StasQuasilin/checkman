@@ -54,6 +54,9 @@ transportList = new Vue({
                     transportList.saveTransportation(item);
                 },
                 show:['value']
+            },
+            notesProps:{
+                fields:{}
             }
         },
         f:{

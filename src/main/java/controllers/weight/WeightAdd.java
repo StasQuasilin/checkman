@@ -81,10 +81,7 @@ public class WeightAdd extends IModal {
         } else {
             req.setAttribute(TITLE, _TITLE_ADD);
         }
-        if (transportation != null){
-            Deal deal = transportation.getDeal();
-            req.setAttribute(DEAL, deal);
-        }
+
         req.setAttribute("managers", dao.getWorkersByRole(Role.manager));
         req.setAttribute(MODAL_CONTENT, _CONTENT);
         req.setAttribute(FIND_DEALS, Branches.API.FIND_DEALS);

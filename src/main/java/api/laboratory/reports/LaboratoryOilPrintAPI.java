@@ -5,12 +5,18 @@ import api.laboratory.ActNumberService;
 import constants.Branches;
 import entity.AnalysesType;
 import entity.Worker;
+import entity.laboratory.OilAnalyses;
 import entity.laboratory.Protocol;
+import entity.laboratory.SunAnalyses;
 import entity.laboratory.transportation.ActType;
 import entity.products.Product;
 import entity.products.ProductProperty;
+import entity.transport.TransportUtil;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
+import entity.weight.Weight;
 import org.json.simple.JSONObject;
+import utils.hibernate.dao.TransportationDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +31,9 @@ import java.util.HashMap;
  * Created by szpt_user045 on 14.06.2019.
  */
 @WebServlet(Branches.API.LABORATORY_OIL_PRINT)
-public class LaboratoryOilPrintServletAPI extends ServletAPI {
+public class LaboratoryOilPrintAPI extends ServletAPI {
+
+    private final TransportationDAO transportationDAO = new TransportationDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,8 +53,8 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                 Worker responsible = dao.getObjectById(Worker.class, body.get("worker"));
                 AnalysesType type = AnalysesType.valueOf(String.valueOf(body.get("type")));
 
-                Transportation transportation = dao.getTransportationById(id);
-                Product product = transportation.getProduct();
+                final TransportationProduct transportationProduct = transportationDAO.getTransportationProduct(id);
+                Product product = transportationProduct.getDealProduct().getProduct();
                 final HashMap<String, String> properties = new HashMap<>();
                 for (ProductProperty property : dao.getProductProperties(product)){
                     properties.put(property.getKey(), property.getValue());
@@ -55,42 +63,44 @@ public class LaboratoryOilPrintServletAPI extends ServletAPI {
                 req.setAttribute(DATE, date);
                 req.setAttribute("manufacture", manufacture);
                 req.setAttribute("responsible", responsible);
-                req.setAttribute("plan", transportation);
+                req.setAttribute(PRODUCT, transportationProduct);
                 req.setAttribute("properties", properties);
-                req.setAttribute("analyses", transportation.getOilAnalyses());
-                req.setAttribute("weight", transportation.getWeight());
+//                req.setAttribute("analyses", transportation.getOilAnalyses());
+                req.setAttribute("weight", transportationProduct.getWeight());
 
-                Protocol protocol = dao.getProtocol(transportation.getProduct());
+                Protocol protocol = dao.getProtocol(product);
                 req.setAttribute(PROTOCOL, protocol);
                 req.setAttribute(CONTEXT, req.getContextPath());
 
                 switch (type){
                     case sun:
-                        req.setAttribute("analyses", transportation.getSunAnalyses());
+                        final SunAnalyses sunAnalyses = transportationProduct.getSunAnalyses();
+                        TransportUtil.calculateWeight(transportationProduct);
+                        req.setAttribute(ANALYSES, sunAnalyses);
                         req.setAttribute("humidityBasis", 7);
                         req.setAttribute("sorenessBasis", 3);
                         req.getRequestDispatcher("/pages/laboratory/reports/sunReport.jsp").forward(req, resp);
-                        if (transportation.getSunAnalyses().getAct() != number){
-                            transportation.getSunAnalyses().setAct(number);
-                            dao.save(transportation);
+                        if (sunAnalyses.getAct() != number){
+                            sunAnalyses.setAct(number);
+                            dao.save(transportationProduct);
                         }
                         break;
                     case oil:
-                        req.setAttribute("analyses", transportation.getOilAnalyses());
-
+                        final OilAnalyses oilAnalyses = transportationProduct.getOilAnalyses();
+                        req.setAttribute(ANALYSES, oilAnalyses);
                         req.getRequestDispatcher("/pages/laboratory/reports/oilReport.jsp").forward(req, resp);
-                        if (transportation.getOilAnalyses().getAct() != number){
-                            transportation.getOilAnalyses().setAct(number);
-                            dao.save(transportation);
+                        if (oilAnalyses.getAct() != number){
+                            oilAnalyses.setAct(number);
+                            dao.save(transportationProduct);
                         }
                         break;
                     case meal:
-                        req.setAttribute("analyses", transportation.getMealAnalyses());
+//                        req.setAttribute("analyses", transportation.getMealAnalyses());
                         req.getRequestDispatcher("/pages/laboratory/reports/mealReport.jsp").forward(req, resp);
-                        if (transportation.getMealAnalyses().getAct() != number){
-                            transportation.getMealAnalyses().setAct(number);
-                            dao.save(transportation);
-                        }
+//                        if (transportation.getMealAnalyses().getAct() != number){
+//                            transportation.getMealAnalyses().setAct(number);
+//                            dao.save(transportation);
+//                        }
                         break;
                 }
 

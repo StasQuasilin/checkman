@@ -43,31 +43,31 @@ public class LaboratoryMealPrintServletAPI extends ServletAPI {
                 AnalysesType type = AnalysesType.valueOf(String.valueOf(body.get("type")));
 
                 Transportation transportation = dao.getTransportationById(id);
-                Product product = transportation.getProduct();
+//                Product product = transportation.getProduct();
                 final HashMap<String, String> properties = new HashMap<>();
-                for (ProductProperty property : dao.getProductProperties(product)){
-                    properties.put(property.getKey(), property.getValue());
-                }
-                switch (type){
-                    case sun:
-                        req.setAttribute("analyses", transportation.getSunAnalyses());
-                        break;
-                    case oil:
-                        req.setAttribute("analyses", transportation.getOilAnalyses());
-
-                        break;
-                    case meal:
-                        req.setAttribute("analyses", transportation.getMealAnalyses());
-                        break;
-                }
+//                for (ProductProperty property : dao.getProductProperties(product)){
+//                    properties.put(property.getKey(), property.getValue());
+//                }
+//                switch (type){
+//                    case sun:
+//                        req.setAttribute("analyses", transportation.getSunAnalyses());
+//                        break;
+//                    case oil:
+//                        req.setAttribute("analyses", transportation.getOilAnalyses());
+//
+//                        break;
+//                    case meal:
+//                        req.setAttribute("analyses", transportation.getMealAnalyses());
+//                        break;
+//                }
                 req.setAttribute("number", number);
                 req.setAttribute("date", date);
                 req.setAttribute("manufacture", manufacture);
                 req.setAttribute("responsible", responsible);
                 req.setAttribute("plan", transportation);
                 req.setAttribute("properties", properties);
-                req.setAttribute("analyses", transportation.getOilAnalyses());
-                req.setAttribute("weight", transportation.getWeight());
+//                req.setAttribute("analyses", transportation.getOilAnalyses());
+//                req.setAttribute("weight", transportation.getWeight());
 
                 ActNumberService.updateNumber(ActType.valueOf(type.name() + "Act"), number);
             }

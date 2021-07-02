@@ -6,6 +6,7 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
 <!--            <property name="connection.url">jdbc:postgresql://10.10.10.201:5432/che.back</property>-->
+<!--        <property name="connection.url">jdbc:postgresql://10.10.10.201:5432/chm_db</property>-->
         <property name="connection.url">jdbc:postgresql://localhost:5432/chm_db</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">postgres</property>
@@ -32,7 +33,7 @@
         <mapping class="entity.organisations.Organisation"/>
         <mapping class="entity.organisations.OrganisationType"/>
         <mapping class="entity.transport.Transportation"/>
-        <mapping class="entity.transport.TransportationGroup"/>
+<!--        <mapping class="entity.transport.TransportationGroup"/>-->
         <mapping class="entity.transport.TransportationProduct"/>
         <mapping class="entity.transport.DocumentNote"/>
         <mapping class="entity.transport.ActionTime"/>

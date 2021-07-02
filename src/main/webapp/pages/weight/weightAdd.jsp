@@ -92,7 +92,7 @@
     <c:forEach items="${types}" var="type">
     editor.typeNames['${type}'] = '<fmt:message key="_${type}"/>';
     </c:forEach>
-    
+
     <c:forEach items="${actions}" var="action">
     editor.addType(${action.toJson()});
     </c:forEach>
@@ -105,14 +105,14 @@
     editor.managers.sort(function (a, b) {
         return a.person.value.localeCompare(b.person.value);
     });
-    
+
     <c:forEach items="${types}" var="type">
     editor.types['${type}'] = {
         id:'${type}',
         value:'<fmt:message key="${type}"/>'
     };
     </c:forEach>
-    
+
     <c:forEach items="${products}" var="product">
     editor.products.push({
         id:${product.id},
@@ -122,21 +122,21 @@
     editor.products.sort(function (a, b) {
         return a.name.localeCompare(b.name);
     });
-    
+
     <c:forEach items="${units}" var="unit">
     editor.units.push({
         id:${unit.id},
         name:'${unit.name}'
     });
     </c:forEach>
-    
+
     <c:forEach items="${shippers}" var="shipper">
     editor.shippers.push({
         id:${shipper.id},
         name:'${shipper.value}'
     });
     </c:forEach>
-    
+
     <c:forEach items="${customers}" var="customer">
     editor.customers['${customer}'] = {
         id:'${customer}',
@@ -150,12 +150,6 @@
     editor.transportation.address = -1;
     <c:if test="${not empty transportation.address}">
     editor.transportation.address = ${transportation.address.id};
-    </c:if>
-    <c:if test="${not empty transportation.deal}">
-    editor.deal = ${transportation.deal.toShortJson()};
-    // editor.setQuantity();
-    // editor.findAddress(editor.transportation.deal.counterparty.id);
-
     </c:if>
     editor.initDealsLists();
 
@@ -179,7 +173,7 @@
 </script>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
 <c:set var="type"><fmt:message key="deal.type"/></c:set>
-<div id="editor" class="editor">
+<div id="weightEditor" class="editor">
     <div>
         <span style="font-weight: bold; font-size: 12pt">
             <fmt:message key="deals"/>: {{transportation.products.length.toLocaleString()}}
@@ -205,23 +199,36 @@
                     {{product.counterparty.value}}
                 </td>
             </tr>
-<%--            WTF?--%>
-            <tr v-if="transportation.deal && transportation.deal.counterparty && transportation.deal.counterparty.id != -1">
+            <tr>
                 <td>
                     <label for="address">
                         <fmt:message key="address"/>
                     </label>
                 </td>
                 <td>
-<%--                    <select id="address" v-if="addressList.length > 0" v-model="product.addressId" style="width: 220pt">--%>
-<%--                        <option value="-1"><fmt:message key="not.select"/></option>--%>
-<%--                        <option v-for="address in addressList" :value="address.id">{{address.city}}<template v-if="address.street">, {{address.street}}</template><template v-if="address.build">, {{address.build}}</template>--%>
-<%--                        </option>--%>
-<%--                    </select>--%>
-<%--                    <span v-if="product.address !== -1" v-on:click="editAddress(transportation.address)">--%>
-<%--                        <img style="width: 11pt;" src="${context}/images/smallpensil.svg" alt=""/>--%>
-<%--                    </span>--%>
-                    <button class="mini-close" v-on:click="editAddress(-1)">
+                    <select id="address" v-if="product.addressList && product.addressList.length > 0" v-model="product.addressId" style="width: 220pt">
+                        <option value="-1"><fmt:message key="not.select"/></option>
+                        <option v-for="address in product.addressList" :value="address.id">
+                            {{address.id}}
+                            <template v-if="!address.street && address.region">
+                                {{address.region}} <fmt:message key="address.region.short"/>,
+                                <template v-if="address.distict">
+                                    {{address.region}} <fmt:message key="address.district.short"/>,
+                                </template>
+                            </template>
+                            {{address.city}}
+                            <template v-if="address.street">
+                                , {{address.street}}
+                                <template v-if="address.build">
+                                    , {{address.build}}
+                                </template>
+                            </template>
+                        </option>
+                    </select>
+                    <span v-if="product.addressId > 0" v-on:click="editAddress(product, product.addressId)">
+                        <img style="width: 11pt;" src="${context}/images/smallpensil.svg" alt=""/>
+                    </span>
+                    <button class="mini-close" v-on:click="editAddress(product, -1)">
                         <fmt:message key="add.address"/>
                     </button>
                 </td>

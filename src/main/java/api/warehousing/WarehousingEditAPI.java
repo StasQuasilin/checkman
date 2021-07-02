@@ -65,12 +65,7 @@ public class WarehousingEditAPI extends ServletAPI {
                 int shipperId = Integer.parseInt(String.valueOf(u.get(SHIPPER)));
                 if (tsu.getShipper() == null || tsu.getShipper().getId() != shipperId){
                     Shipper shipper;
-                    if (transportation.getShipper().getId() == shipperId){
-                        shipper = transportation.getShipper();
-                    } else {
-                        shipper = dao.getShipperById(shipperId);
-                    }
-                    tsu.setShipper(shipper);
+
                     if (!save.contains(tsu)){
                         save.add(tsu);
                     }
@@ -78,7 +73,7 @@ public class WarehousingEditAPI extends ServletAPI {
 
                 int storageId = Integer.parseInt(String.valueOf(u.get(STORAGE)));
                 if (tsu.getStorage() == null || tsu.getStorage().getId() != storageId){
-                    tsu.setStorage(dao.getStorageById(storageId));
+//                    tsu.setStorage(dao.getStorageById(storageId));
                     if (!save.contains(tsu)){
                         save.add(tsu);
                     }

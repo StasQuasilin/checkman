@@ -4,6 +4,7 @@ import constants.Constants;
 import entity.DealType;
 import entity.documents.Deal;
 import entity.documents.DealProduct;
+import entity.transport.DocumentNote;
 import entity.transport.Transportation;
 import entity.transport.TransportationProduct;
 import utils.hibernate.DateContainers.LE;
@@ -16,17 +17,29 @@ import java.util.Set;
 import static constants.Constants.*;
 
 public class TransportationDAO extends HibernateDAO{
+    private static final String DEAL_PRODUCT_DEAL = "dealProduct/deal";
+    private static final String TRANSPORTATION_DONE = "transportation/done";
+
     public List<Transportation> getTransportationsByDeal(Object dealId, TransportationStatus status) {
         final HashMap<String, Object> args = new HashMap<>();
-        args.put(Constants.DEAL, dealId);
+        args.put(DEAL_PRODUCT_DEAL, dealId);
 
         if (status == TransportationStatus.unarchive){
-            args.put(Constants.DONE, false);
+            args.put(TRANSPORTATION_DONE, false);
         } else if (status == TransportationStatus.archive){
-            args.put(Constants.DONE, true);
+            args.put(TRANSPORTATION_DONE, true);
         }
 
-        return hibernator.query(Transportation.class, args);
+        LinkedList<Transportation> transportations = new LinkedList<>();
+        for (TransportationProduct product : hibernator.query(TransportationProduct.class, args)){
+            final Transportation transportation = product.getTransportation();
+            if (!transportations.contains(transportation)){
+                transportations.add(transportation);
+            }
+
+        }
+
+        return transportations;
     }
 
     public void saveProduct(TransportationProduct product) {
@@ -62,11 +75,6 @@ public class TransportationDAO extends HibernateDAO{
                 if (add){
                     transportations.add(transportation);
                 }
-            } else {
-                final Deal deal = transportation.getDeal();
-                if (deal != null && deal.getType() == type){
-                    transportations.add(transportation);
-                }
             }
         }
         return transportations;
@@ -98,5 +106,9 @@ public class TransportationDAO extends HibernateDAO{
 
     public List<TransportationProduct> getTransportations(HashMap<String, Object> params) {
         return hibernator.query(TransportationProduct.class, params);
+    }
+
+    public DocumentNote getNote(Object id) {
+        return hibernator.get(DocumentNote.class, ID, id);
     }
 }

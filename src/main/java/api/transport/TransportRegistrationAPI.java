@@ -7,6 +7,7 @@ import constants.Branches;
 import constants.Constants;
 import entity.transport.ActionTime;
 import entity.transport.Transportation;
+import entity.transport.TransportationProduct;
 import entity.weight.Weight;
 import org.json.simple.JSONObject;
 import utils.UpdateUtil;
@@ -45,9 +46,15 @@ public class TransportRegistrationAPI extends ServletAPI {
             updateUtil.onSave(transportation);
             write(resp, SUCCESS_ANSWER);
 
-            Weight weight = transportation.getWeight();
-
-            if (weight == null || (weight.getBrutto() == 0 && weight.getTara() == 0)) {
+            boolean can = true;
+            for (TransportationProduct product : transportation.getProducts()){
+                final Weight weight = product.getWeight();
+                if (weight == null || (weight.getBrutto() == 0 && weight.getTara() == 0)) {
+                    can = false;
+                    break;
+                }
+            }
+            if (can) {
                 Notificator.transportRegistration(transportation);
             }
 

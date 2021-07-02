@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <script>
@@ -19,9 +19,9 @@
     },
     methods:{
       print:function(){
-        this.errors.worker = this.worker == -1;
+        this.errors.worker = this.worker === -1;
         if (!this.errors.worker) {
-          var param = {
+          let param = {
             id: this.id,
             date: this.date,
             manufacture: this.manufacture,
@@ -31,7 +31,7 @@
           };
           console.log(param);
           PostReq(this.api.print, param, function (a) {
-            var print = window.open();
+            let print = window.open();
             print.document.write(a);
             print.document.close();
             setTimeout(function(){
@@ -57,8 +57,9 @@
   });
   options.api.print = '${print}';
   options.type = '${type}';
-  options.id = '${id}';
+  options.id = '${product.id}';
   options.number = ${number};
+  options.worker = ${worker.id};
   <c:forEach items="${workers}" var="worker">
   options.workers.push({
     id:${worker.id},

@@ -29,7 +29,7 @@ public class LaboratoryHandler extends OnSubscribeHandler {
     public void handle(Session session, Role view) throws IOException {
         JSONObject json = ActiveSubscriptions.pool.getObject();
         JSONArray add = ActiveSubscriptions.pool.getArray();
-        add.addAll(getTransport().stream().map(parser::toJson).collect(Collectors.toList()));
+        add.addAll(getTransport().stream().map(Transportation::toJson).collect(Collectors.toList()));
         json.put(ADD, add);
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));
         ActiveSubscriptions.pool.put(json);

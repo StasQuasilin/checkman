@@ -26,6 +26,7 @@ public class TransportationProduct extends JsonAble {
     private int id;
     private int index;
     private Transportation transportation;
+    private Address address;
     private DealProduct dealProduct;
     private float amount;
     private Weight weight;
@@ -59,6 +60,15 @@ public class TransportationProduct extends JsonAble {
     }
     public void setTransportation(Transportation transportation) {
         this.transportation = transportation;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "_address")
+    public Address getAddress() {
+        return address;
+    }
+    public void setAddress(Address loadAddress) {
+        this.address = loadAddress;
     }
 
     @OneToOne
@@ -144,7 +154,7 @@ public class TransportationProduct extends JsonAble {
             final Deal deal = dealProduct.getDeal();
             object.put(DEAL, deal.getId());
             object.put(COUNTERPARTY, deal.getOrganisation().toJson(level));
-            final Address address = dealProduct.getAddress();
+
             if (address != null){
                 object.put(ADDRESS_ID, address.getId());
                 object.put(ADDRESS, address.toJson(level));

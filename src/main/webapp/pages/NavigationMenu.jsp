@@ -6,7 +6,7 @@
 <html>
   <link rel="stylesheet" href="${context}/css/NavigationMenu.css"/>
   <div class="navigation-menu">
-    <div class="mini-close" onclick="hideMenu()">
+    <div class="mini-close" style="font-size: 14pt" onclick="hideMenu()">
       &#9776;
     </div>
     <div id="nav-menu">

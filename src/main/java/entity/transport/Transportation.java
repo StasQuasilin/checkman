@@ -54,23 +54,6 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     private Set<TransportationProduct> products = new HashSet<>();
     private Address address;
 
-    @Deprecated
-    private SunAnalyses sunAnalyses;
-    @Deprecated
-    private OilAnalyses oilAnalyses;
-    @Deprecated
-    private MealAnalyses mealAnalyses;
-    @Deprecated
-    private Weight weight;
-    @Deprecated
-    private float amount;
-    @Deprecated
-    private Deal deal;
-    @Deprecated
-    private Shipper shipper;
-    @Deprecated
-    private Product product;
-
     @Id
     @GeneratedValue
     public int getId() {
@@ -96,17 +79,6 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     }
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    @OneToOne
-    @JoinColumn(name = DEAL)
-    @Deprecated
-    public Deal getDeal() {
-        return deal;
-    }
-    @Deprecated
-    public void setDeal(Deal deal) {
-        this.deal = deal;
     }
 
     @OneToOne
@@ -182,15 +154,6 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     }
 
     @OneToOne
-    @JoinColumn(name = SHIPPER)
-    public Shipper getShipper() {
-        return shipper;
-    }
-    public void setShipper(Shipper shipper) {
-        this.shipper = shipper;
-    }
-
-    @OneToOne
     @JoinColumn(name = "time_registration")
     public ActionTime getTimeRegistration() {
         return timeRegistration;
@@ -215,61 +178,6 @@ public class Transportation extends JsonAble implements Serializable, Constants 
     }
     public void setTimeOut(ActionTime timeOut) {
         this.timeOut = timeOut;
-    }
-
-    @OneToOne
-    @JoinColumn(name = PRODUCT)
-    @Deprecated
-    public Product getProduct() {
-        return product;
-    }
-    @Deprecated
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    @OneToOne
-    @JoinColumn(name = WEIGHT)
-    @Deprecated
-    public Weight getWeight() {
-        return weight;
-    }
-    @Deprecated
-    public void setWeight(Weight weight) {
-        this.weight = weight;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "sun_analyses")
-    @Deprecated
-    public SunAnalyses getSunAnalyses() {
-        return sunAnalyses;
-    }
-    @Deprecated
-    public void setSunAnalyses(SunAnalyses sunAnalyse) {
-        this.sunAnalyses = sunAnalyse;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "oil_analyses")
-    @Deprecated
-    public OilAnalyses getOilAnalyses() {
-        return oilAnalyses;
-    }
-    @Deprecated
-    public void setOilAnalyses(OilAnalyses oilAnalyses) {
-        this.oilAnalyses = oilAnalyses;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "meal_analyses")
-    @Deprecated
-    public MealAnalyses getMealAnalyses() {
-        return mealAnalyses;
-    }
-    @Deprecated
-    public void setMealAnalyses(MealAnalyses mealAnalyses) {
-        this.mealAnalyses = mealAnalyses;
     }
 
     @OneToOne
@@ -307,20 +215,23 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         this.archive = archive;
     }
 
-    @Transient
-    @Deprecated
-    public Organisation getCounterparty(){
-        if (deal != null){
-            return deal.getOrganisation();
-        }
-        return null;
-    }
-
 
     @Transient
     public boolean any(){
-        return timeIn != null || timeOut != null || weight != null ||
-                sunAnalyses != null || oilAnalyses != null || mealAnalyses != null;
+        boolean any = false;
+        for (TransportationProduct product : products){
+            if (product.getWeight() != null){
+                any = true;
+            }
+            if(product.getSunAnalyses() != null){
+                any = true;
+            }
+            if (product.getOilAnalyses() != null){
+                any = true;
+            }
+        }
+
+        return timeIn != null || timeOut != null || any;
     }
 
     @Override
@@ -363,29 +274,11 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         this.customer = customer;
     }
 
-    @Basic
-    @Column(name = AMOUNT)
-    @Deprecated
-    public float getAmount() {
-        return amount;
-    }
-    @Deprecated
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
-
     @Override
     public JSONObject toJson(int level) {
         JSONObject json = pool.getObject();
 
         json.put(ID, id);
-        if (deal != null) {
-            json.put(TYPE, deal.getType().toString());
-            if (U.exist(deal.getNumber())){
-                json.put(CONTRACT_NUMBER, deal.getNumber());
-                json.put(DEAL_DATE, deal.getDate().toString());
-            }
-        }
         json.put(DATE, date.toString());
         json.put(CUSTOMER, customer.toString());
         if (driver != null) {
@@ -425,43 +318,8 @@ public class Transportation extends JsonAble implements Serializable, Constants 
 
     private JSONArray products(int level) {
         JSONArray array = new JSONArray();
-        if (products.size() > 0){
-            for (TransportationProduct product : products){
-                array.add(product.toJson(level));
-            }
-        } else {
-            for (int i = 0; i < 1; i++) {
-                final JSONObject object = new JSONObject();
-                object.put(ID, id);
-                final Product product = getDeal().getProduct();
-                object.put(PRODUCT_ID, product.getId());
-                object.put(PRODUCT_NAME, product.getName());
-                object.put(PRODUCT, product.toShortJson());
-                object.put(QUANTITY, deal.getQuantity());
-                object.put(AMOUNT, amount);
-                object.put(DEAL, deal.getId());
-                object.put(DEAL_PRODUCT, deal.getId());
-                object.put(UNIT, deal.getUnit().getName());
-
-                object.put(COUNTERPARTY, deal.getOrganisation().toShortJson());
-                object.put(SHIPPER, deal.getShipper().getValue());
-                object.put(SHIPPER_ID, deal.getShipper().getId());
-                object.put(SHIPPER_NAME, deal.getShipper().getValue());
-                if (level == OnSubscribeHandler.NO_ONE || level == OnSubscribeHandler.NO_PRICE){
-                    object.put(PRICE, 0);
-                } else {
-                    object.put(PRICE, deal.getPrice());
-                }
-                object.put(PRICE, deal.getPrice());
-                object.put(ANALYSES, analyses(level));
-                if (address != null) {
-                    object.put(ADDRESS, address.toJson());
-                }
-                if (weight != null) {
-                    object.put(WEIGHT, weight.toJson());
-                }
-                array.add(object);
-            }
+        for (TransportationProduct product : products){
+            array.add(product.toJson(level));
         }
         return array;
     }
@@ -487,23 +345,5 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         }
 
         return gross;
-    }
-
-    private JSONObject analyses(int level) {
-        JSONObject json = pool.getObject();
-        if (level != OnSubscribeHandler.NO_ONE && level != OnSubscribeHandler.NO_ANALYSES){
-            if (sunAnalyses != null) {
-                json.put(SUN, sunAnalyses.toJson());
-            }
-            if (oilAnalyses != null) {
-                json.put(OIL, oilAnalyses.toJson());
-            }
-        }
-        return json;
-    }
-
-    @Transient
-    public DealType getType() {
-        return deal.getType();
     }
 }

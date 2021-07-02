@@ -150,7 +150,7 @@
                     <jsp:include page="NavigationMenu.jsp"/>
                     <div style="position: relative; height: 100%">
                         <div style="padding-left: 2pt; position:absolute;" onclick="hideFilter()">
-                            <img style="width: 14pt" src="${context}/images/filter.png">
+                            <img style="width: 18pt" src="${context}/images/filter.png">
                         </div>
                         <div id="filter" class="filter"></div>
                     </div>
