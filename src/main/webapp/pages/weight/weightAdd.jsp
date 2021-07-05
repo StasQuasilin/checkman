@@ -152,19 +152,6 @@
     editor.transportation.address = ${transportation.address.id};
     </c:if>
     editor.initDealsLists();
-
-    managerFounded = false;
-    for (let i in editor.managers){
-        if (editor.managers.hasOwnProperty(i)){
-            let manager = editor.managers[i], managerFounded;
-            if (manager.id === editor.transportation.manager.id){
-                managerFounded = true;
-            }
-        }
-    }
-    if(!managerFounded){
-        editor.transportation.manager = {id:-1}
-    }
     </c:when>
     <c:otherwise>
     editor.deal = '-1';
@@ -333,7 +320,7 @@
             +<fmt:message key="transportation.counterparty.add"/>
         </span>
     </div>
-    <table>
+    <table style="width: 100%">
         <tr>
             <td>
                 <label for="date">
@@ -408,7 +395,7 @@
         <td>:</td>
         <td>
             <select id="manger" v-model="transportation.manager.id">
-                <option disabled value="-1"><fmt:message key="can.select"/></option>
+                <option v-if="transportation.manager.id === -1" disabled value="-1"><fmt:message key="can.select"/></option>
                 <option v-for="manager in managers" :value="manager.id">
                     {{manager.person.value}}
                 </option>
@@ -428,24 +415,17 @@
                     <fmt:message key="note.add"/>
                 </span>
             </div>
-            <div>
-                <span style="font-size: 10pt" v-for="(note, noteIdx) in transportation.notes"  class="secure">
-                    <template v-if="note.creator" >
-                        <span class="mini-close" v-on:click="removeNote(noteIdx)">&times;</span>
-                        <span v-on:click="editNote(note, noteIdx)" class="mini-close">
-                            <span style="color: #8b8b8b">
-                                {{note.creator}}:
-                            </span>
-                            <span style="color: #d06845">
-                                {{note.note}}
-                            </span>
+            <div style="width: 500pt">
+                <span v-if="note.creator" style="font-size: 10pt" v-for="(note, noteIdx) in transportation.notes"  class="secure">
+                    <span class="mini-close" v-on:click="removeNote(noteIdx)">&times;</span>
+                    <span v-on:click="editNote(note, noteIdx)" class="mini-close">
+                        <span style="color: #8b8b8b">
+                            {{note.creator}}:
                         </span>
-                    </template>
-                    <template v-else>
                         <span style="color: #d06845">
-                                {{note.note}}
-                            </span>
-                    </template>
+                            {{note.note}}
+                        </span>
+                    </span>
                 </span>
             </div>
             <c:set var="notePlaceHolder"><fmt:message key="note.placeholder"/> </c:set>

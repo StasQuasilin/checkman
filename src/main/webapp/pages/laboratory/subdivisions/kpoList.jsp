@@ -1,6 +1,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <fmt:setLocale value="${lang}"/>
 <fmt:setBundle basename="messages"/>
 <html>
@@ -24,7 +24,7 @@
     });
     </c:forEach>
 </script>
-<div id="container">
+<div id="container" style="height: 100%; overflow-y: scroll">
     <div v-for="(value, key) in items" class="container-item"
          :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: flex; flex-direction: column"
          :id="value.item.id" v-on:click="edit(value.item.id)">

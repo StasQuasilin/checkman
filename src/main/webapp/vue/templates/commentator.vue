@@ -20,17 +20,20 @@ commentator = {
     },
     template:
     '<div style="display: inline-block">' +
-        '<span v-for="(note, noteIdx) in item.notes" style="padding-right: 2pt">' +
-            '<template v-if="note.creator">' +
-                '{{note.creator}}: ' +
+        // '{{item.noteMap}}' +
+        '<span v-for="(notes, key) in item.noteMap" style="padding-right: 2pt">' +
+            '<template v-if="key !== \'null\'">' +
+                '{{key}}: ' +
             '</template>' +
-            '<b style="font-style: italic">' +
-                '\"{{note.note}}\"' +
-            '</b>' +
-            '<template v-if="noteIdx < item.notes.length - 1">, </template>' +
+            '<template v-for="(note, noteIdx) in notes">' +
+                '<b style="font-style: italic">' +
+                    '{{note.note}}' +
+                '</b>' +
+                '<template v-if="noteIdx < notes.length - 1">, </template>' +
+            '</template>' +
         '</span>' +
-        // '<span class="mini-close" v-on:click.stop="editNote(-1)">' +
-        //     '{{props.fields.addNote}}' +
-        // '</span>' +
+        '<span class="mini-close" v-on:click.stop="editNote(-1)">' +
+            '{{props.fields.addNote}}' +
+        '</span>' +
     '</div>'
 };

@@ -3,6 +3,8 @@ package utils.json;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.HashSet;
+
 public class JsonObject {
     private final JSONObject jsonObject;
     public JsonObject(JSONObject jsonObject){
@@ -44,7 +46,7 @@ public class JsonObject {
         return null;
     }
 
-    public Object get(String key) {
+    public Object get(Object key) {
         return jsonObject.get(key);
     }
 
@@ -69,5 +71,9 @@ public class JsonObject {
             return new JsonObject(get(key));
         }
         return null;
+    }
+
+    public HashSet<Object> keySet() {
+        return new HashSet<Object>(jsonObject.keySet());
     }
 }

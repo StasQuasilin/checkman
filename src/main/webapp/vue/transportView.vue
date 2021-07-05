@@ -84,7 +84,7 @@ transportView = {
                     '</span>' +
                     '<div style="display: flex; flex-direction: column; width: 100%">' +
                         '<div v-for="product in item.products" v-if="product.counterparty">' +
-                            '<span style="display: inline-block; min-width: 35%; max-width: 45%;">' +
+                            '<span style="display: inline-block; min-width: 30%; max-width: 45%;">' +
                                 '<b class="secure" >' +
                                     '{{product.counterparty.value}}' +
                                 '</b>' +
@@ -111,8 +111,8 @@ transportView = {
                             '<span>' +
                                 '{{product.shipperName}}' +
                             '</span>' +
-                            '<b v-if="item.products.length > 1 && product.weight && product.weight.net > 0">' +
-                                ' {{titles.net}}: {{product.weight.net}}' +
+                            '<b v-if="product.weight && product.weight.net > 0">' +
+                                ' {{product.weight.net}}' +
                             '</b>' +
                             '<b v-if="product.weight && product.weight.correction > 0">' +
                                 ' -{{product.weight.correction.toLocaleString()}}%' +
@@ -165,6 +165,14 @@ transportView = {
                         '</div>' +
                     '</div>' +
                     '<transport-data :item="item" :titles="titles" :props="props"></transport-data>' +
+                '</div>' +
+                '<div style="text-align: right; font-size: 8pt">' +
+                    '<template>' +
+                        '{{titles.creator}}: {{item.create.creator.person.value}}' +
+                    '</template>' +
+                    '<template v-if="item.manager && item.create.creator.id !== item.manager.id">' +
+                        ', {{titles.manager}}: {{item.manager.person.value}}' +
+                    '</template>' +
                 '</div>' +
                 '<div class="lower-row">' +
                     '<commentator :item="item" :props="props.notesProps"></commentator>' +
@@ -248,7 +256,6 @@ transportView = {
                         '</div>' +
                     '</template>' +
                 '</div>' +
-
             '</div>' +
         '</div>'
 };

@@ -93,9 +93,10 @@ transportList = new Vue({
                 if (sort === 0){
                     let aDriver = a.driver;
                     let bDriver = b.driver;
-                    if (aDriver && bDriver){
-                        sort = aDriver.person.value.localeCompare(bDriver.person.value);
-                    } else if (aDriver){
+                    // if (aDriver && bDriver){
+                    //     sort = aDriver.person.value.localeCompare(bDriver.person.value);
+                    // } else
+                        if (aDriver){
                         sort = -1;
                     } else {
                         sort = 1;

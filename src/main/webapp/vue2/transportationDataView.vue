@@ -4,7 +4,7 @@ transportaData = {
         titles:Object
     },
     template:'<div style="display: flex; flex-direction: row">' +
-        '<div class="data-block" style="width: 400px">' +
+        '<div class="data-block driver-block">' +
             '<div>' +
                 '<span v-if="item.driver">' +
                     '<b>' +

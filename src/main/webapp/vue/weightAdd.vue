@@ -258,8 +258,6 @@ editor = new Vue({
             })
         },
         editNote:function(note, key){
-            console.log(note);
-            console.log(key);
             this.note.edit = true;
 
             if (key !== undefined) {
@@ -403,12 +401,27 @@ editor = new Vue({
                 this.findDeals(counterpartyId, product);
                 this.findAddress(counterpartyId, product)
             }
+            this.checkManager();
+        },
+        checkManager:function(){
+            for (let i in this.managers){
+                if (this.managers.hasOwnProperty(i)){
+                    let manager = this.managers[i];
+                    if (this.transportation.manager.id === manager.id){
+                        return;
+                    }
+                }
+            }
+            this.transportation.manager.id = -1;
         },
         findDeals:function(id, product){
+            let p = product;
+            console.log(p.id);
             const self = this;
             PostApi(this.api.findDeals, {organisation:id, product:product.id}, function(a){
                 if(a.status === 'success'){
-                    product.deals = a.result;
+                    console.log(p.id);
+                    p.deals = a.result;
                     self.$forceUpdate();
                 }
             })

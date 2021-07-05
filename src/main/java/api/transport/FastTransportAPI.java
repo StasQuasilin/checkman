@@ -33,7 +33,7 @@ public class FastTransportAPI extends ServletAPI {
 
             Deal deal = dealEditor.editDeal((JSONObject) body.get(DEAL), worker);
 
-            transportationEditor.saveTransportation(body, worker, manager);
+            transportationEditor.saveTransportation(body, worker);
             write(resp, SUCCESS_ANSWER);
         }
     }

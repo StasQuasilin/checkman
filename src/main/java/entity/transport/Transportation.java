@@ -17,6 +17,7 @@ import entity.products.Product;
 import entity.weight.Weight;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.NoteUtil;
 import utils.U;
 
 import javax.persistence.*;
@@ -308,12 +309,44 @@ public class Transportation extends JsonAble implements Serializable, Constants 
 
         json.put(PRODUCTS, products(level));
         json.put(NOTES, notes.stream().map(JsonAble::toJson).collect(Collectors.toList()));
+        json.put(NOTE_MAP, noteMap());
         json.put(ANY, any());
         json.put(ARCHIVE, archive);
         json.put(DONE, done);
         json.put(MANAGER, manager.toShortJson());
         json.put(CREATE, createTime.toJson());
         return json;
+    }
+
+    private JSONObject noteMap() {
+        HashMap<Object, LinkedList<DocumentNote>> noteMap = new HashMap<>();
+        if (notes != null){
+            NoteUtil.sort(notes);
+            for (DocumentNote note : notes){
+                final Worker creator = note.getCreator();
+                Object key = null;
+                if (creator != null){
+                    key = creator.getValue();
+                }
+
+                if (!noteMap.containsKey(key)){
+                    noteMap.put(key, new LinkedList<>());
+                }
+                noteMap.get(key).add(note);
+            }
+        }
+
+        final JSONObject object = new JSONObject();
+        for (Map.Entry<Object, LinkedList<DocumentNote>> entry : noteMap.entrySet()){
+            final JSONArray array = new JSONArray();
+            final LinkedList<DocumentNote> value = entry.getValue();
+            for (DocumentNote note : value){
+                array.add(note.toJson());
+            }
+
+            object.put(entry.getKey(), array);
+        }
+        return object;
     }
 
     private JSONArray products(int level) {

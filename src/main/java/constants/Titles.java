@@ -49,6 +49,8 @@ public class Titles {
     public static final String PART_EDIT = "title.vro.part.edit";
     public static final String EXTRACTION_CRUDE_REMOVE = "title.extraction.crude.remove";
     public static final String RAF_EDIT = "title.raf.edit";
+    public static final String ANALYSES_BUY = "analyses.buy";
+    public static final String ANALYSES_SELL = "analyses.sell";
 
     public class Archive {
         public static final String DEAL = "title.archive";

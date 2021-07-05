@@ -8,8 +8,14 @@ bl = {
     },
     methods:{
         handle:function(data){
+            console.log(data);
             if (data.add){
-                console.warn('What! Can i do with ADD attribute?')
+                for (let a in data.add){
+                    if (data.add.hasOwnProperty(a)){
+                        let update = data.add[a];
+                        this.items[update.id] = update;
+                    }
+                }
             }
             if(data.update){
                 for (let u in data.update){
@@ -27,7 +33,7 @@ bl = {
                     }
                 }
             }
-            if (data.update || data.remove){
+            if (data.add || data.update || data.remove){
                 this.$forceUpdate();
                 if(this.filter) {
                     this.filter.items = Object.assign({}, this.items);

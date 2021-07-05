@@ -317,6 +317,7 @@ public interface Constants {
     String PERSON = "person";
     String NOTE = "note";
     String NOTES = "notes";
+    String NOTE_MAP = "noteMap";
     String SURNAME = "surname";
     String FORENAME = "forename";
     String PATRONYMIC = "patronymic";
@@ -351,6 +352,7 @@ public interface Constants {
     String ACID_VALUE = "acidValue";
     String CONTAMINATION = "contamination";
     String CREATE = "create";
+    String OTHERS = "others";
     String CREATED = "created";
     String ORGANOLEPTIC = "organoleptic";
     String SOAP = "soap";

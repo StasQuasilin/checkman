@@ -62,6 +62,13 @@ public class TransportList extends IUIServlet{
             case analyser:
                 req.setAttribute(SHOW, Branches.UI.LABORATORY_EDIT);
                 req.setAttribute(HEADER_CONTENT, LABORATORY_HEADER);
+                DealType dealType = DealType.valueOf(type);
+                if (dealType == DealType.buy){
+                    req.setAttribute(TITLE, Titles.ANALYSES_BUY);
+                } else {
+                    req.setAttribute(TITLE, Titles.ANALYSES_SELL);
+                }
+
                 break;
             default:
 //                req.setAttribute(SHOW, Branches.UI.SUMMARY_SHOW);
@@ -88,9 +95,9 @@ public class TransportList extends IUIServlet{
             req.setAttribute(EDIT_ORGANISATION, Branches.UI.References.ORGANISATION_EDIT);
             req.setAttribute(FIND_ORGANISATION, Branches.API.References.FIND_ORGANISATION);
             req.setAttribute(PARSE_ORGANISATION, Branches.API.References.PARSE_ORGANISATION);
-            req.setAttribute(NOTE_EDIT, Branches.UI.NOTE_EDIT);
             req.setAttribute(SAVE, Branches.API.PLAN_LIST_ADD);
         }
+        req.setAttribute(NOTE_EDIT, Branches.UI.NOTE_EDIT);
 
         show(req, resp);
     }

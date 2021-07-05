@@ -8,6 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DealUtil;
 import utils.answers.SuccessAnswer;
+import utils.json.JsonObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +27,7 @@ public class FindDealsAPI extends ServletAPI {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = parseBody(req);
+        JsonObject body = parseBodyGood(req);
         if (body != null) {
             Answer answer = new SuccessAnswer();
             JSONArray array = dealUtil.dealsToArray(body.get(ORGANISATION));
@@ -38,6 +39,5 @@ public class FindDealsAPI extends ServletAPI {
         } else {
             write(resp, EMPTY_BODY);
         }
-
     }
 }

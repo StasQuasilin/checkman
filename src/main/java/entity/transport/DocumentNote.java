@@ -20,9 +20,9 @@ public class DocumentNote extends JsonAble{
     private String note;
     private Worker creator;
 
-    public DocumentNote(Transportation transportation, Worker creator) {
+    public DocumentNote(Transportation transportation, Worker worker) {
         this.transportation = transportation;
-        this.creator = creator;
+        this.creator = worker;
         time = new Timestamp(System.currentTimeMillis());
     }
 
@@ -96,5 +96,17 @@ public class DocumentNote extends JsonAble{
             object.put(CREATOR, creator.getValue());
         }
         return object;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return note + '\'' +
+                creator +
+                '\'';
     }
 }

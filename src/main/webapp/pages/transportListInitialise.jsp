@@ -28,6 +28,8 @@
         holder.weight = '<fmt:message key="weight"/>';
         holder.net = '<fmt:message key="weight.net"/>';
         holder.analyses = '<fmt:message key="analyses"/>';
+        holder.creator = '<fmt:message key="created"/>';
+        holder.manager = '<fmt:message key="deal.manager"/>';
         holder.icon = {
             buy:'${context}/images/upload.svg',
             sell:'${context}/images/download.svg'

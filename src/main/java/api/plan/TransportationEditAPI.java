@@ -1,16 +1,9 @@
 package api.plan;
 
 import api.ServletAPI;
-import api.deal.DealEditor;
 import constants.Branches;
 import entity.Worker;
-import entity.documents.Deal;
-import entity.transport.TransportStorageUsed;
-import entity.transport.TransportUtil;
-import entity.transport.Transportation;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import utils.storages.StorageUtil;
 import utils.transport.TransportationEditor;
 
 import javax.servlet.ServletException;
@@ -18,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by szpt_user045 on 19.04.2019.
@@ -38,7 +30,7 @@ public class TransportationEditAPI extends ServletAPI {
             if (manager == null){
                 manager = creator;
             }
-            transportationEditor.saveTransportation(body, creator, manager);
+            transportationEditor.saveTransportation(body, creator);
 
             write(resp, SUCCESS_ANSWER);
 

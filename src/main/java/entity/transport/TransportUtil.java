@@ -1,33 +1,23 @@
 package entity.transport;
 
-import api.deal.DealEditor;
 import entity.Worker;
-import entity.documents.Deal;
 import entity.laboratory.SunAnalyses;
-import entity.notifications.Notification;
 import entity.organisations.Organisation;
 import entity.products.Product;
 import entity.storages.Storage;
 import entity.storages.StorageProduct;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
 import utils.*;
-import utils.hibernate.Hibernator;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
 import utils.notifications.SomeNotificator;
 import utils.storages.StatisticUtil;
 import utils.storages.StorageUtil;
-import utils.transport.TransportationEditor;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-
-import static constants.Constants.DEAL;
-import static constants.Constants.PRODUCT;
-import static utils.hibernate.State.notNull;
 
 /**
  * Created by quasilin on 18.03.2019.
@@ -104,10 +94,9 @@ public class TransportUtil{
         updateUtil.onRemove(transportation);
     }
 
-    public synchronized static Transportation createTransportation(Worker manager, Worker creator) {
+    public synchronized static Transportation createTransportation(Worker creator) {
         Transportation transportation = new Transportation();
         transportation.setUid(DocumentUIDGenerator.generateUID());
-        transportation.setManager(manager);
         transportation.setCreateTime(new ActionTime(creator));
         return transportation;
     }

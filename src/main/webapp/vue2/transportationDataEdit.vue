@@ -9,7 +9,7 @@ transportaData = {
         'object-input':objectInput
     },
     template:'<div style="display: flex; flex-direction: row">' +
-            '<div class="data-block" style="width: 400px">' +
+            '<div class="data-block driver-block">' +
                 '<div>' +
                     '<object-input :object="item.driver" :item="item" :props="props.driverProps"></object-input>' +
                     '<span v-if="item.driver && item.driver.license" style="display: inline-block; width: 90px; float: right; text-align: right" class="secure">' +

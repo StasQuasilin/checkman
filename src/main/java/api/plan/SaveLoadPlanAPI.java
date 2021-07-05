@@ -3,8 +3,6 @@ package api.plan;
 import api.ServletAPI;
 import constants.Branches;
 import entity.Worker;
-import entity.documents.Deal;
-import entity.documents.DealProduct;
 import entity.transport.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -33,16 +31,9 @@ public class SaveLoadPlanAPI extends ServletAPI {
         JSONObject body = parseBody(req);
 
         if(body != null) {
-            log.info(body);
-//            Deal deal = dealDAO.getDealById(body.get(DEAL));
-//            DealProduct product = null;
-//            if (body.containsKey(PRODUCT)){
-//                product = dao.getObjectById(DealProduct.class, body.get(PRODUCT));
-//            }
             Worker worker = getWorker(req);
-
             JSONObject json = (JSONObject) body.get(PLAN);
-            Transportation transportation = transportationEditor.saveTransportation(json, worker, worker);
+            Transportation transportation = transportationEditor.saveTransportation(json, worker);
 
             write(resp, new SuccessAnswer(ID, transportation.getId()));
             body.clear();

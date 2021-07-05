@@ -12,7 +12,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.DocumentUIDGenerator;
 import utils.NoteUtil;
-import utils.U;
 import utils.UpdateUtil;
 import utils.hibernate.dao.DealDAO;
 import utils.hibernate.dao.TransportationDAO;
@@ -34,7 +33,7 @@ public class TransportationEditor {
     private final TransportationDAO transportationDAO = new TransportationDAO();
     private final DealDAO dealDAO = new DealDAO();
 
-    public Transportation saveTransportation(JSONObject json, Worker creator, Worker manager) {
+    public Transportation saveTransportation(JSONObject json, Worker creator) {
 
         boolean save = false;
         boolean isNew = false;
@@ -42,7 +41,8 @@ public class TransportationEditor {
         Transportation transportation = dao.getObjectById(Transportation.class, json.get(ID));
         if (transportation == null){
             isNew = true;
-            transportation = TransportUtil.createTransportation(manager, creator);
+
+            transportation = TransportUtil.createTransportation(creator);
             transportComparator.fix(null);
         } else {
             transportComparator.fix(transportation);
@@ -110,59 +110,20 @@ public class TransportationEditor {
             save = true;
         }
 
-        HashMap<Integer, DocumentNote> alreadyNote = new HashMap<>();
-        if (transportation.getNotes() != null) {
-            for (DocumentNote note : transportation.getNotes()) {
-                alreadyNote.put(note.getId(), note);
-            }
-        }
+        final NoteEditor noteEditor = new NoteEditor(transportation);
 
-        List<DocumentNote> liveNotes = transportation.getNotes();
-        if (liveNotes == null){
-            liveNotes = new ArrayList<>();
-        } else {
-            liveNotes.clear();
-        }
         if (json.containsKey(NOTES)){
-            boolean saveNote;
             for (Object o :(JSONArray) json.get(NOTES)){
-                JSONObject note = (JSONObject) o;
-                DocumentNote documentNote;
-                int noteId = -1;
-                if (note.containsKey(ID)){
-                    noteId = Integer.parseInt(String.valueOf(note.get(ID)));
-                }
-
-                if (alreadyNote.containsKey(noteId)){
-                    documentNote = alreadyNote.remove(noteId);
-                } else {
-                    documentNote = new DocumentNote(transportation, creator);
-                    documentNote.setDocument(transportation.getUid());
-                }
-
-                String value = String.valueOf(note.get(NOTE));
-                saveNote = false;
-                String s = noteUtil.checkNote(transportation, value);
-                if (U.exist(s)){
-                    documentNote.setNote(s);
-                    saveNote = true;
+                if (noteEditor.saveNote(new JsonObject(o), creator)){
                     save = true;
-                } else {
-                    if (documentNote.getId() > 0){
-                        dao.remove(documentNote);
-                        save = true;
-                    }
-                }
-                if (saveNote) {
-                    liveNotes.add(documentNote);
                 }
             }
-
-            for (DocumentNote note : alreadyNote.values()){
-                dao.remove(note);
-            }
+            noteEditor.clear();
         }
-
+        Worker manager = null;
+        if (json.containsKey(MANAGER)){
+            manager = dao.getObjectById(Worker.class, json.get(MANAGER));
+        }
         if (transportation.getManager() != manager){
             transportation.setManager(manager);
             save = true;

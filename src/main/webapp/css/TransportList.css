@@ -20,6 +20,9 @@
     margin: 0 2pt;
     border-radius: 6pt;
 }
+.driver-block{
+    /*min-width: 300px*/
+}
 select{
     background-color: transparent;
     border: solid gray 1pt;

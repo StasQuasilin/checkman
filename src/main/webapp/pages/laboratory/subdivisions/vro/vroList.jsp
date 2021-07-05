@@ -32,7 +32,7 @@
     </c:forEach>
 </script>
 
-<div id="container">
+<div id="container" style="height: 100%; overflow-y: scroll">
     <div v-for="(value, key) in getItems()" class="container-item"
          :class="'container-item-' + new Date(value.item.date).getDay()" style="padding: 4pt; display: flex; flex-direction: column">
         <div class="turn-date" :class="'t-' + value.item.number">

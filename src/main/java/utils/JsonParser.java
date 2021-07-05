@@ -578,7 +578,7 @@ public class JsonParser implements Constants{
     public static final String TURN_GREASE = "turnGrease";
 
     final JSONParser parser = new JSONParser();
-    public Object parse(BufferedReader reader) throws IOException, ParseException {
+    public synchronized Object parse(BufferedReader reader) throws IOException, ParseException {
         return parser.parse(reader);
     }
 
@@ -586,22 +586,22 @@ public class JsonParser implements Constants{
         return (JSONObject) parser.parse(string);
     }
 
-    public JSONObject toJson(ExtractionTurn turn) {
-        JSONObject json = new JSONObject();
-        json.put(ID, turn.getId());
-        json.put(NUMBER, turn.getTurn().getNumber());
-        json.put(DATE, turn.getTurn().getDate().toString());
-        json.put(CRUDES, toJson(turn.getCrudes()));
-        json.put(STORAGE_PROTEIN, toRawJson(turn.getProtein()));
-        json.put(STORAGE_GREASE, toGreaseJson(turn.getGreases()));
-        json.put(OIL, toOilJson(turn.getOils()));
-        json.put(TURN_PROTEIN, toTurnJson(turn.getTurnProteins()));
-        json.put(TURN_GREASE, toTurnGrease(turn.getTurnGreases()));
-        json.put(CELLULOSE, toTurnCellulose(turn.getCellulose()));
-        json.put(GRANULAS, toMealGranules(turn.getGranules()));
-
-        return json;
-    }
+//    public JSONObject toJson(ExtractionTurn turn) {
+//        JSONObject json = new JSONObject();
+//        json.put(ID, turn.getId());
+//        json.put(NUMBER, turn.getTurn().getNumber());
+//        json.put(DATE, turn.getTurn().getDate().toString());
+//        json.put(CRUDES, toJson(turn.getCrudes()));
+//        json.put(STORAGE_PROTEIN, toRawJson(turn.getProtein()));
+//        json.put(STORAGE_GREASE, toGreaseJson(turn.getGreases()));
+//        json.put(OIL, toOilJson(turn.getOils()));
+//        json.put(TURN_PROTEIN, toTurnJson(turn.getTurnProteins()));
+//        json.put(TURN_GREASE, toTurnGrease(turn.getTurnGreases()));
+//        json.put(CELLULOSE, toTurnCellulose(turn.getCellulose()));
+//        json.put(GRANULAS, toMealGranules(turn.getGranules()));
+//
+//        return json;
+//    }
 
     private JSONArray toMealGranules(Set<MealGranules> granules) {
         JSONArray array = pool.getArray();

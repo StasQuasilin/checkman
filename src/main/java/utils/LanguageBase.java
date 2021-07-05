@@ -6,7 +6,7 @@ public class LanguageBase{
 
     static LanguageBase base = new LanguageBase();
 
-    public static final String[] LANGUAGES = {"ua", "ru"};
+    public static final String[] LANGUAGES = {"ua"};
     public static final String DEFAULT_LANGUAGE = LANGUAGES[0];
     final static String BASE_NAME = "messages_";
     public static LanguageBase getBase() {
