@@ -33,7 +33,7 @@ public class TransportArchive extends IUIServlet {
                 req.setAttribute(SHOW, Branches.UI.SUMMARY_SHOW);
                 break;
             case transportation:
-                req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
+
                 req.setAttribute(SHOW, Branches.UI.TRANSPORT_SHOW);
                 break;
             case weight:{
@@ -51,6 +51,7 @@ public class TransportArchive extends IUIServlet {
                 req.setAttribute(TYPE, type);
                 break;
         }
+        req.setAttribute(CONTENT, "/pages/transport/transportList.jsp");
         req.setAttribute(CUSTOMERS, TransportCustomer.values());
         req.setAttribute("findOrganisations", Branches.API.References.FIND_ORGANISATION);
         req.setAttribute("findDrivers", Branches.API.References.FIND_DRIVER);

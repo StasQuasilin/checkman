@@ -26,12 +26,7 @@ public class TransportationEditAPI extends ServletAPI {
         if (body != null) {
             System.out.println(body);
             Worker creator = getWorker(req);
-            Worker manager = dao.getObjectById(Worker.class, body.get(MANAGER));
-            if (manager == null){
-                manager = creator;
-            }
             transportationEditor.saveTransportation(body, creator);
-
             write(resp, SUCCESS_ANSWER);
 
 //            dao.getUsedStoragesByTransportation(transportation).forEach(storageUtil::updateStorageEntry);

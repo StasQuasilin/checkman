@@ -24,13 +24,9 @@ import java.util.List;
  */
 public class TransportUtil{
 
-    private static final JsonPool pool = JsonPool.getPool();
     private static final Logger log = Logger.getLogger(TransportUtil.class);
     static dbDAO dao = dbDAOService.getDAO();
     private static final UpdateUtil updateUtil = new UpdateUtil();
-    private static final SomeNotificator notificator = new SomeNotificator();
-    private static final LanguageBase base = LanguageBase.getBase();
-    public static final String SUCCESS_TEXT = "notificator.archived.success";
 
     public static void checkTransport(Transportation transportation) {
         boolean isDone = true;
@@ -62,13 +58,13 @@ public class TransportUtil{
     }
     public static final int HUMIDITY_BASIS = 7;
     public static final int SORENESS_BASIS = 3;
-    public static void calculateWeight(TransportationProduct transportation) {
+    public static void weightCorrection(TransportationProduct transportationProduct) {
 
-        Weight weight = transportation.getWeight();
+        Weight weight = transportationProduct.getWeight();
         if (weight != null) {
             float percentage = 0;
 
-            SunAnalyses sunAnalyse = transportation.getSunAnalyses();
+            SunAnalyses sunAnalyse = transportationProduct.getSunAnalyses();
             if (sunAnalyse != null) {
                 float humidity = (sunAnalyse.getHumidity1() + sunAnalyse.getHumidity2()) /
                         ((sunAnalyse.getHumidity1() > 0 ? 1 : 0) + (sunAnalyse.getHumidity2() > 0 ? 1 : 0));

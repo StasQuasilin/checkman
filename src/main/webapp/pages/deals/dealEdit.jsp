@@ -54,10 +54,10 @@
         dealEdit.deal=${deal.toJson()};
         // dealEdit.deal.shipper = dealEdit.deal.shipper.id;
         // dealEdit.deal.product = dealEdit.deal.product.id;
-        <c:if test="${not empty deal.unit}">
-        dealEdit.deal.unit = ${deal.unit.id};
-        </c:if>
-        dealEdit.deal.price = ${deal.price};
+<%--        <c:if test="${not empty deal.unit}">--%>
+        <%--dealEdit.deal.unit = ${deal.unit.id};--%>
+<%--        </c:if>--%>
+<%--        dealEdit.deal.price = ${deal.price};--%>
         </c:when>
         <c:otherwise>
         <c:if test="${not empty pre}">

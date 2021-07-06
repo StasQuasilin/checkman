@@ -22,9 +22,7 @@ import java.io.IOException;
 @WebServlet(Branches.API.PLAN_LIST_SAVE)
 public class SaveLoadPlanAPI extends ServletAPI {
 
-    final Logger log = Logger.getLogger(SaveLoadPlanAPI.class);
     final TransportationEditor transportationEditor = new TransportationEditor();
-    private DealDAO dealDAO = new DealDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -49,7 +49,7 @@ public class TransportRegistrationAPI extends ServletAPI {
             boolean can = true;
             for (TransportationProduct product : transportation.getProducts()){
                 final Weight weight = product.getWeight();
-                if (weight == null || (weight.getBrutto() == 0 && weight.getTara() == 0)) {
+                if (weight != null && (weight.getBrutto() > 0 || weight.getTara() > 0)) {
                     can = false;
                     break;
                 }

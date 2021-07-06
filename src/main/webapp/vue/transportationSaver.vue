@@ -22,9 +22,9 @@ transportationSaver = {
                     date:item.date,
                     customer:item.customer,
                     products:products,
-                    manager : item.manager.id,
                     notes:[]
                 };
+
                 if (item.address > 0){
                     transportation.address = item.address;
                 }
@@ -64,10 +64,13 @@ transportationSaver = {
                     if (item.notes.hasOwnProperty(i)){
                         let note = item.notes[i];
                         transportation.notes.push({
-                            id:note.id,
-                            note:note.note
+                            id: note.id,
+                            note: note.note
                         });
                     }
+                }
+                if (item.manager){
+                    transportation.manager = item.manager.id;
                 }
                 PostApi(this.api.save, transportation, function (a) {
                     if (typeof onSuccess === "function"){

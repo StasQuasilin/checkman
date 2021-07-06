@@ -12,11 +12,8 @@ transportaData = {
             '<div class="data-block driver-block">' +
                 '<div>' +
                     '<object-input :object="item.driver" :item="item" :props="props.driverProps"></object-input>' +
-                    '<span v-if="item.driver && item.driver.license" style="display: inline-block; width: 90px; float: right; text-align: right" class="secure">' +
-                        '{{item.driver.license}}' +
-                    '</span>' +
                 '</div>' +
-                '<div>' +
+                '<div style="white-space: nowrap">' +
                     '<object-input :object="item.vehicle" :item="item" :props="props.vehicleProps"></object-input>' +
                     '<object-input :object="item.trailer" :item="item" :props="props.trailerProps"></object-input>' +
                 '</div>' +
@@ -26,6 +23,9 @@ transportaData = {
             '<img style="width: 10pt" :src="titles.phoneIcon" alt=""/>' +
             '<span style="padding-left: 2px" v-for="phone in item.driver.person.phones" class="secure">' +
                 '{{phone.number}}' +
+            '</span>' +
+            '<span v-if="item.driver && item.driver.license" style="display: inline-block; width: 90px; float: right; text-align: right" class="secure">' +
+                '{{item.driver.license}}' +
             '</span>' +
         '</div>' +
         '</div>' +

@@ -111,9 +111,17 @@ transportView = {
                             '<span>' +
                                 '{{product.shipperName}}' +
                             '</span>' +
-                            '<b v-if="product.weight && product.weight.net > 0">' +
-                                ' {{product.weight.net}}' +
-                            '</b>' +
+                            '<template v-if="product.weight">' +
+                                '<b v-if="product.weight.net > 0">' +
+                                    ' H: {{product.weight.net.toLocaleString()}}' +
+                                '</b>' +
+                                '<b v-else-if="product.weight.gross > 0">' +
+                                    ' Б: {{product.weight.gross.toLocaleString()}}' +
+                                '</b>' +
+                                '<b v-else-if="product.weight.tare > 0">' +
+                                    ' T: {{product.weight.tare.toLocaleString()}}' +
+                                '</b>' +
+                            '</template>' +
                             '<b v-if="product.weight && product.weight.correction > 0">' +
                                 ' -{{product.weight.correction.toLocaleString()}}%' +
                                 '<template v-if="product.weight.net > 0">' +
@@ -168,7 +176,7 @@ transportView = {
                 '</div>' +
                 '<div style="text-align: right; font-size: 8pt">' +
                     '<template>' +
-                        '{{titles.creator}}: {{item.create.creator.person.value}}' +
+                        '{{titles.creator}}: {{item.create.creator.person.value}} {{new Date(item.create.time).toLocaleString().substring(0, 17)}}' +
                     '</template>' +
                     '<template v-if="item.manager && item.create.creator.id !== item.manager.id">' +
                         ', {{titles.manager}}: {{item.manager.person.value}}' +

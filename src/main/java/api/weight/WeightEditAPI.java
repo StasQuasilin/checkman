@@ -1,14 +1,11 @@
 package api.weight;
 
 import api.ServletAPI;
-import bot.TelegramBotFactory;
-import bot.TelegramNotificator;
 import constants.Branches;
 import entity.Worker;
 import entity.documents.DealProduct;
 import entity.log.comparators.TransportComparator;
 import entity.log.comparators.WeightComparator;
-import entity.notifications.Notification;
 import entity.transport.*;
 import entity.weight.Weight;
 import org.apache.log4j.Logger;
@@ -26,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,22 +64,24 @@ public class WeightEditAPI extends ServletAPI {
 
                 if (weight.getBrutto() != gross){
                     weight.setBrutto(gross);
-                    weight.setBruttoTime(changeWeight(gross, weight.getBrutto(), worker));
+                    final ActionTime bruttoTime = weight.getBruttoTime();
+                    weight.setBruttoTime(changeWeight(gross, weight.getBrutto(), worker, bruttoTime));
                     saveIt = true;
                 }
 
                 final float tare = json.getFloat(TARE);
+
                 if (weight.getTara() != tare){
                     weight.setTara(tare);
-                    weight.setTaraTime(changeWeight(tare, weight.getTara(), worker));
+                    final ActionTime taraTime = weight.getTaraTime();
+                    weight.setTaraTime(changeWeight(tare, weight.getTara(), worker, taraTime));
                     saveIt = true;
                 }
 
                 if (saveIt){
-                    TransportUtil.calculateWeight(transportationProduct);
+                    TransportUtil.weightCorrection(transportationProduct);
                     dao.save(weight);
                     write(resp, SUCCESS_ANSWER);
-
 
                     if (transportationProduct.getWeight() == null){
                         transportationProduct.setWeight(weight);
@@ -92,18 +92,19 @@ public class WeightEditAPI extends ServletAPI {
                     if (!allTransportations.contains(transportation)){
                         allTransportations.add(transportation);
                     }
-                    if ((gross > 0 || tare > 0) && transportation.getTimeIn() == null){
-                        ActionTime actionTime = new ActionTime(worker);
-                        dao.save(actionTime);
-                        transportation.setTimeIn(actionTime);
-                        if (!incomeTransportations.contains(transportation)) {
-                            incomeTransportations.add(transportation);
-                        }
-                    }
 
                     final float net = weight.getNetto();
                     if (net > 0){
                         Notificator.weightShow(transportationProduct);
+                    } else if (gross > 0 || tare > 0){
+                        if (!incomeTransportations.contains(transportation)) {
+                            incomeTransportations.add(transportation);
+                        }
+                        if (transportation.getTimeIn() == null){
+                            ActionTime actionTime = new ActionTime(worker);
+                            dao.save(actionTime);
+                            transportation.setTimeIn(actionTime);
+                        }
                     }
 
                     transportationDAO.saveTransportation(transportation, false);
@@ -132,8 +133,6 @@ public class WeightEditAPI extends ServletAPI {
                 TransportUtil.checkTransport(transportation);
             }
 
-
-
             for (DealProduct product : dealProducts){
                 WeightUtil.calculateDealDone(product);
             }
@@ -142,9 +141,15 @@ public class WeightEditAPI extends ServletAPI {
         }
     }
 
-    private ActionTime changeWeight(float w1, float w2, Worker worker) {
+    private ActionTime changeWeight(float w1, float w2, Worker worker, ActionTime taraTime) {
         if (w1 > 0 && w1 != w2){
-            return new ActionTime(worker);
+            if (taraTime == null){
+                taraTime = new ActionTime(worker);
+            } else {
+                taraTime.setTime(Timestamp.valueOf(LocalDateTime.now()));
+                taraTime.setCreator(worker);
+            }
+            return taraTime;
         }
         return null;
     }

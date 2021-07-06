@@ -122,7 +122,6 @@ public class DealEditor implements Constants {
         if (body.containsKey(Constants.COSTS)) {
             for (Object c : (JSONArray) body.get(Constants.COSTS)) {
                 JSONObject object = (JSONObject) c;
-                System.out.println(object);
                 final int id = Integer.parseInt(String.valueOf(object.get(ID)));
                 DeliveryCost deliveryCost = costHashMap.remove(id);
                 if (deliveryCost == null) {

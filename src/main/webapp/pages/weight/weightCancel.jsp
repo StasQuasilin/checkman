@@ -24,7 +24,7 @@
             :
         </td>
         <td>
-            ${plan.deal.organisation.value}
+<%--            ${plan.deal.organisation.value}--%>
         </td>
     </tr>
     <tr>
@@ -35,7 +35,7 @@
             :
         </td>
         <td>
-            ${plan.deal.product.name}
+<%--            ${plan.deal.product.name}--%>
         </td>
     </tr>
     <tr>
@@ -46,7 +46,7 @@
             :
         </td>
         <td>
-            <fmt:formatNumber value="${plan.amount}"/>&nbsp;${plan.deal.unit.name}
+<%--            <fmt:formatNumber value="${plan.amount}"/>&nbsp;${plan.deal.unit.name}--%>
         </td>
     </tr>
     <tr>

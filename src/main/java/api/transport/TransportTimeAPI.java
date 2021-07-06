@@ -59,7 +59,6 @@ public class TransportTimeAPI extends ServletAPI {
                         if (!transportation.getDate().equals(date)){
                             transportation.setDate(date);
                         }
-                        Notificator.timeIn(transportation);
                         break;
                     case out:
                         transportation.setTimeOut(time);

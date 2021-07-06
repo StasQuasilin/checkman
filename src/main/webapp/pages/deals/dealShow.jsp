@@ -41,8 +41,8 @@
   plan.dealId = '${deal.id}';
   plan.dateFrom = new Date('${deal.date}');
   plan.dateTo = new Date('${deal.dateTo}');
-  plan.quantity = ${deal.quantity};
-  plan.unit = "${deal.unit.name}";
+  <%--plan.quantity = ${deal.quantity};--%>
+  <%--plan.unit = "${deal.unit.name}";--%>
 
   plan.driverProps = {
     find:'${findDriver}',

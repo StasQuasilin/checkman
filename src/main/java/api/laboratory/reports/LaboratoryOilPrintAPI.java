@@ -12,9 +12,7 @@ import entity.laboratory.transportation.ActType;
 import entity.products.Product;
 import entity.products.ProductProperty;
 import entity.transport.TransportUtil;
-import entity.transport.Transportation;
 import entity.transport.TransportationProduct;
-import entity.weight.Weight;
 import org.json.simple.JSONObject;
 import utils.hibernate.dao.TransportationDAO;
 
@@ -75,7 +73,7 @@ public class LaboratoryOilPrintAPI extends ServletAPI {
                 switch (type){
                     case sun:
                         final SunAnalyses sunAnalyses = transportationProduct.getSunAnalyses();
-                        TransportUtil.calculateWeight(transportationProduct);
+                        TransportUtil.weightCorrection(transportationProduct);
                         req.setAttribute(ANALYSES, sunAnalyses);
                         req.setAttribute("humidityBasis", 7);
                         req.setAttribute("sorenessBasis", 3);

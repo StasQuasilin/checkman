@@ -52,7 +52,7 @@ public class EditLaboratoryAPI extends ServletAPI {
                     update = oilEditor.editAnalyses(transportationProduct, json.getObject(OIL), worker);
                 }
                 if (update){
-                    TransportUtil.calculateWeight(transportationProduct);
+                    TransportUtil.weightCorrection(transportationProduct);
                     dao.save(transportationProduct.getWeight());
                     updateUtil.onSave(transportationProduct.getTransportation());
                     Notificator.analysesShow(transportationProduct);

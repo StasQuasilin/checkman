@@ -9,7 +9,4 @@
 <script src="${context}/vue2/transportationDataView.vue"></script>
 <jsp:include page="transportHeader.jsp"/>
 <jsp:include page="../transportListTemplate2.jsp"/>
-<script>
-    transportList.menuItems = [];
-</script>
 </html>

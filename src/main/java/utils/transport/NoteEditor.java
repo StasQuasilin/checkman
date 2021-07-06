@@ -11,6 +11,7 @@ import utils.json.JsonObject;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static constants.Constants.ID;
 import static constants.Constants.NOTE;
@@ -68,10 +69,13 @@ public class NoteEditor {
     }
 
     public void clear() {
-        for (DocumentNote note : noteMap.values()){
-            hibernator.remove(note);
+        for (Map.Entry<Integer, DocumentNote> entry : noteMap.entrySet()){
+            final DocumentNote note = entry.getValue();
+            if (note.getCreator() != null){
+                hibernator.remove(note);
+                noteMap.remove(entry.getKey());
+            }
         }
-        noteMap.clear();
     }
 
     public List<DocumentNote> getNotes() {

@@ -110,6 +110,19 @@ public class TransportationEditor {
             save = true;
         }
 
+
+        Worker manager = null;
+        if (json.containsKey(MANAGER)){
+            manager = dao.getObjectById(Worker.class, json.get(MANAGER));
+        }
+        if (transportation.getManager() == null || transportation.getManager() != manager){
+            transportation.setManager(manager);
+            save = true;
+        }
+
+        if (save) {
+            transportationDAO.saveTransportation(transportation, isNew);
+        }
         final NoteEditor noteEditor = new NoteEditor(transportation);
 
         if (json.containsKey(NOTES)){
@@ -119,18 +132,7 @@ public class TransportationEditor {
                 }
             }
             noteEditor.clear();
-        }
-        Worker manager = null;
-        if (json.containsKey(MANAGER)){
-            manager = dao.getObjectById(Worker.class, json.get(MANAGER));
-        }
-        if (transportation.getManager() != manager){
-            transportation.setManager(manager);
-            save = true;
-        }
-
-        if (save) {
-            transportationDAO.saveTransportation(transportation, isNew);
+            noteEditor.getNotes();
         }
         final boolean update = saveTransportationProducts((JSONArray) json.get(PRODUCTS), transportation);
         if (save || update){

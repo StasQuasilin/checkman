@@ -404,25 +404,51 @@ editor = new Vue({
             this.checkManager();
         },
         checkManager:function(){
-            for (let i in this.managers){
-                if (this.managers.hasOwnProperty(i)){
-                    let manager = this.managers[i];
-                    if (this.transportation.manager.id === manager.id){
-                        return;
+            if (this.transportation.manager) {
+                for (let i in this.managers) {
+                    if (this.managers.hasOwnProperty(i)) {
+                        let manager = this.managers[i];
+                        if (this.transportation.manager.id === manager.id) {
+                            return;
+                        }
                     }
                 }
+            } else {
+                this.transportation.manager = {};
             }
             this.transportation.manager.id = -1;
         },
         findDeals:function(id, product){
             let p = product;
-            console.log(p.id);
             const self = this;
             PostApi(this.api.findDeals, {organisation:id, product:product.id}, function(a){
                 if(a.status === 'success'){
-                    console.log(p.id);
                     p.deals = a.result;
-                    self.$forceUpdate();
+
+                    let f = false;
+                    for (let i in p.deals){
+                        if (p.deals.hasOwnProperty(i)){
+                            if (p.deals[i].id === product.dealProduct){
+                                f = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!f){
+                        p.deals.push({
+                            id:product.deal,
+                            counterparty:product.counterparty,
+                            type:product.type,
+                            products:[
+                                {
+                                    id:product.dealProduct,
+                                    productName:product.productName,
+                                    price:product.price,
+                                    shipperName:product.shipperName
+                                }
+                            ]
+                        });
+                    }
                 }
             })
         },
