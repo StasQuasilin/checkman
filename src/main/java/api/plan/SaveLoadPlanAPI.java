@@ -31,9 +31,8 @@ public class SaveLoadPlanAPI extends ServletAPI {
         if(body != null) {
             Worker worker = getWorker(req);
             JSONObject json = (JSONObject) body.get(PLAN);
-            Transportation transportation = transportationEditor.saveTransportation(json, worker);
-
-            write(resp, new SuccessAnswer(ID, transportation.getId()));
+            transportationEditor.saveTransportation(json, worker);
+            write(resp, SUCCESS_ANSWER);
             body.clear();
         } else {
             write(resp, EMPTY_BODY);

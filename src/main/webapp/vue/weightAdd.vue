@@ -80,7 +80,8 @@ editor = new Vue({
         vehicleProps:{},
         trailerProps:{},
         transporterProps:{},
-        duplicateDeal:-1
+        duplicateDeal:-1,
+        count:1
     },
     methods:{
         save:function(){

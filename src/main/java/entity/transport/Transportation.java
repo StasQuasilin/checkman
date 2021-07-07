@@ -318,7 +318,9 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         if(manager != null) {
             json.put(MANAGER, manager.toShortJson());
         }
-        json.put(CREATE, createTime.toJson(level));
+        if (createTime != null){
+            json.put(CREATE, createTime.toJson(level));
+        }
         return json;
     }
 

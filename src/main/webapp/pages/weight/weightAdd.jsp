@@ -143,9 +143,9 @@
         value:'<fmt:message key="${customer}"/>'
     };
     </c:forEach>
+    //////////////////////////////////////////////////////////
     <c:choose>
     <c:when test="${not empty transportation}">
-
     editor.transportation = ${transportation.toJson()};
     editor.transportation.address = -1;
     <c:if test="${not empty transportation.address}">
@@ -153,9 +153,6 @@
     </c:if>
     editor.initDealsLists();
     </c:when>
-    <c:otherwise>
-    editor.deal = '-1';
-    </c:otherwise>
     </c:choose>
 </script>
 <c:set var="editAddressTitle"><fmt:message key="edit.title"/></c:set>
@@ -437,7 +434,14 @@
             </div>
         </td>
     </tr>
-
+    <tr v-if="transportation.id <= 0">
+        <td colspan="3">
+            <label for="count">
+                <fmt:message key="create.copy"/>:
+            </label>
+            <input id="count" type="number" step="1" min="1" max="20" v-model="count">
+        </td>
+    </tr>
     <tr>
         <td colspan="3" align="center">
             <button onclick="closeModal()" class="left-button close-button">

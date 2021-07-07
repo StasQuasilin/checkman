@@ -271,7 +271,7 @@ public class Deal extends JsonAble{
         json.put(ARCHIVE, isArchive());
         if (create != null)
         json.put(CREATE, create.toShortJson());
-        json.put(Constants.COSTS, costs());
+        json.put(COSTS, costs());
         return json;
     }
 

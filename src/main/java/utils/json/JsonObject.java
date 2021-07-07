@@ -36,7 +36,10 @@ public class JsonObject {
 
     @Override
     public String toString() {
-        return jsonObject.toJSONString();
+        if (jsonObject != null){
+            return jsonObject.toJSONString();
+        }
+        return "null";
     }
 
     public JSONArray getArray(String key) {

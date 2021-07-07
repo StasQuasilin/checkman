@@ -79,6 +79,8 @@ public class TransportList extends IUIServlet{
             req.setAttribute(CANCEL, Branches.UI.WEIGHT_CANCEL);
             req.setAttribute(ARCHIVE, Branches.API.ARCHIVE_LOAD_PLAN);
             req.setAttribute(EDIT, Branches.UI.WEIGHT_ADD);
+            req.setAttribute(ADD, Branches.UI.SELECT_COUNTERPARTY);
+            req.setAttribute(DEAL_EDIT, Branches.UI.Transportation.DEAL_EDIT);
             req.setAttribute(REPORT, Branches.UI.EDIT_REPORT);
             req.setAttribute(MANUFACTURE_REPORT, Branches.UI.MANUFACTURE_REPORT_EDIT);
             req.setAttribute(PRINT, Branches.UI.SUMMARY_PLAN_PRINT);

@@ -33,7 +33,19 @@ public class TransportationEditor {
     private final TransportationDAO transportationDAO = new TransportationDAO();
     private final DealDAO dealDAO = new DealDAO();
 
-    public Transportation saveTransportation(JSONObject json, Worker creator) {
+    public void saveTransportation(JSONObject json, Worker creator){
+        int count = 1;
+        if (json.containsKey(COUNT)){
+            count = Integer.parseInt(String.valueOf(json.get(COUNT)));
+        }
+        count = Math.min(count, 20);
+        count = Math.max(count, 1);
+        for (int i = 0; i < count; i++) {
+            save(json, creator);
+        }
+    }
+
+    public void save(JSONObject json, Worker creator) {
 
         boolean save = false;
         boolean isNew = false;
@@ -120,28 +132,28 @@ public class TransportationEditor {
             save = true;
         }
 
-        if (save) {
-            transportationDAO.saveTransportation(transportation, isNew);
-        }
-        final NoteEditor noteEditor = new NoteEditor(transportation);
 
-        if (json.containsKey(NOTES)){
-            for (Object o :(JSONArray) json.get(NOTES)){
-                if (noteEditor.saveNote(new JsonObject(o), creator)){
-                    save = true;
-                }
+
+            if (save) {
+                transportationDAO.saveTransportation(transportation, isNew);
             }
-            noteEditor.clear();
-            noteEditor.getNotes();
-        }
-        final boolean update = saveTransportationProducts((JSONArray) json.get(PRODUCTS), transportation);
-        if (save || update){
-            updateUtil.onSave(transportation);
-        }
+
+            final NoteEditor noteEditor = new NoteEditor(transportation);
+            if (json.containsKey(NOTES)) {
+                for (Object o : (JSONArray) json.get(NOTES)) {
+                    if (noteEditor.saveNote(new JsonObject(o), creator)) {
+                        save = true;
+                    }
+                }
+                noteEditor.clear();
+                noteEditor.getNotes();
+            }
+            final boolean update = saveTransportationProducts((JSONArray) json.get(PRODUCTS), transportation);
+            if (save || update) {
+                updateUtil.onSave(transportation);
+            }
 
         transportComparator.compare(transportation, creator);
-
-        return transportation;
     }
 
     private boolean changeIt(Object o1, Object o2) {

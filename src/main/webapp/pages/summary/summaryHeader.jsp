@@ -12,9 +12,35 @@
 <html>
 <link rel="stylesheet" href="${context}/css/drop-menu.css">
 <div id="container-header" style="display: inline">
-  <c:if test="${not empty edit}">
-    <button onclick="loadModal('${edit}')"><fmt:message key="button.add"/> </button>
+    <script>
+        function editTransportation(dealProduct) {
+            loadModal('${edit}', {dealProduct:dealProduct});
+        }
+    </script>
+  <c:if test="${not empty add}">
+    <button onclick="loadModal('${add}', null, function(a) {
+        if (a.code === 0){
+            editTransportation(a.product.id);
+        } else {
+            loadModal('${dealEdit}', {organisation:a.organisation.id,b:'a'}, function(b) {
+                if (b.status === 'success'){
+                    let deal = b.deal;
+                    let products = deal.products;
+                    if(products.length > 0){
+                        let product = products[0];
+                        editTransportation(product.id);
+                    }
+                }
+            })
+        }
+
+            })"><fmt:message key="button.add"/> </button>
   </c:if>
+    <c:if test="${not empty edit}">
+        <button onclick="loadModal('${edit}')">
+            <fmt:message key="old.add"/>
+        </button>
+    </c:if>
     <div class="drop-menu">
       <a class="drop-btn"><fmt:message key="document.print"/></a>
       <div class="drop-menu-content">

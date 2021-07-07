@@ -14,6 +14,8 @@ import entity.transport.Transportation;
 import entity.transport.TransportationProduct;
 import org.json.simple.JSONObject;
 import utils.PostUtil;
+import utils.hibernate.dao.DealDAO;
+import utils.json.JsonObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,28 +37,39 @@ public class WeightAdd extends IModal {
     private static final String _TITLE_ADD = "title.weight.add";
     private static final String _CONTENT = "/pages/weight/weightAdd.jsp";
     private static final String EDIT_TRAILER = "editTrailer";
+    private final DealDAO dealDAO = new DealDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        JSONObject body = PostUtil.parseBodyJson(req);
+        JsonObject body = parseBodyGood(req);
         long id = -1;
         long copy = -1;
         if (body != null) {
-            if (body.containsKey(ID)) {
-                id = Long.parseLong(String.valueOf(body.get(ID)));
-            } else if (body.containsKey(COPY)) {
-                copy = Long.parseLong(String.valueOf(body.get(COPY)));
+            System.out.println(body);
+            if (body.contain(ID)) {
+                id = body.getInt(ID);
+            } else if (body.contain(COPY)) {
+                copy = body.getInt(COPY);
+            } else {
+                if (body.contain(DEAL_PRODUCT)){
+                    final Transportation transportation = new Transportation();
+                    transportation.setDate(Date.valueOf(LocalDate.now()));
+                    transportation.setCustomer(TransportCustomer.szpt);
+                    TransportationProduct product = new TransportationProduct();
+                    product.setTransportation(transportation);
+                    product.setDealProduct(dealDAO.getDealProduct(body.get(DEAL_PRODUCT)));
+                    transportation.getProducts().add(product);
+                    req.setAttribute(TRANSPORTATION, transportation);
+                }
             }
         }
         Transportation transportation;
         if (id != -1) {
             transportation = dao.getObjectById(Transportation.class, id);
             req.setAttribute(TRANSPORTATION, transportation);
-//            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
             req.setAttribute(TITLE, _TITLE_EDIT);
         } else if (copy != -1) {
             transportation = dao.getObjectById(Transportation.class, copy);
-//            req.setAttribute(ADDRESS, dao.getLoadAddress(transportation.getCounterparty()));
             transportation.setId(-1);
             transportation.setDate(Date.valueOf(LocalDate.now()));
             for (TransportationProduct product : transportation.getProducts()){

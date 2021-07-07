@@ -72,6 +72,7 @@ transportationSaver = {
                 if (item.manager){
                     transportation.manager = item.manager.id;
                 }
+                transportation.count = this.count;
                 PostApi(this.api.save, transportation, function (a) {
                     if (typeof onSuccess === "function"){
                         onSuccess(a);

@@ -47,7 +47,7 @@
     </c:if>
     <c:if test="${not empty pre}">
     dealEdit.deal = ${pre};
-
+    </c:if>
     if (dealEdit.deal.products.length === 0){
         dealEdit.deal.products.push({
             id:-1,
@@ -59,11 +59,9 @@
         })
     }
     dealEdit.deal.type = dealEdit.currentActions(dealEdit.products[0].id)[0];
-    // dealEdit.check();
-    </c:if>
 </script>
 <table id="dealEdit" class="editor">
-    <tr v-if="deal.id !== -1">
+    <tr v-if="deal.id > 0">
         <td colspan="2" style="text-align: center; word-wrap: break-spaces; max-width: 0">
             <fmt:message key="deal.attention.title"/><br>
             <fmt:message key="deal.edit.attention"/>

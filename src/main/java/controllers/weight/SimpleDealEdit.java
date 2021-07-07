@@ -4,6 +4,7 @@ import constants.Branches;
 import controllers.IModal;
 import entity.DealType;
 import entity.documents.Deal;
+import entity.organisations.Organisation;
 import entity.products.ProductAction;
 import entity.weight.Unit;
 import org.json.simple.JSONObject;
@@ -14,6 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @WebServlet(Branches.UI.Transportation.DEAL_EDIT)
 public class SimpleDealEdit extends IModal {
@@ -33,8 +36,13 @@ public class SimpleDealEdit extends IModal {
                     req.setAttribute(DEAL, deal);
                 }
             } else if (body.containsKey(DEAL)){
-                System.out.println(body.get(DEAL));
                 req.setAttribute(PRE, body.get(DEAL));
+            } else if (body.containsKey(ORGANISATION)){
+                final Deal deal = new Deal();
+                deal.setDate(Date.valueOf(LocalDate.now()));
+                deal.setType(DealType.sell);
+                deal.setOrganisation(dao.getObjectById(Organisation.class, body.get(ORGANISATION)));
+                req.setAttribute(DEAL, deal);
             }
         }
         req.setAttribute(TITLE, _TITLE);
