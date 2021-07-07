@@ -261,6 +261,7 @@ public interface Constants {
     String VEHICLES = "vehicles";
     String DRIVER = "driver";
     String DRIVERS = "drivers";
+    String NO_WEIGHT = "noWeight";
     String WEIGHT = "weight";
     String PALLET = "pallet";
     String REFINING = "refining";

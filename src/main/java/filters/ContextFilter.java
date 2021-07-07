@@ -23,6 +23,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
@@ -66,6 +67,7 @@ public class ContextFilter implements Filter {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         resp.setHeader("Pragma", "no-cache");
         resp.setHeader("Expires", "0");
+
         filterChain.doFilter(req, resp);
     }
 

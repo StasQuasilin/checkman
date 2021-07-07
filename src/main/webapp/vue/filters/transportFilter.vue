@@ -14,7 +14,8 @@ transportFilter = new Vue({
         onWait:false,
         onDone:false,
         date:-1,
-        driver:[]
+        driver:[],
+        noJump:false
     },
     computed:{
         productList:function(){

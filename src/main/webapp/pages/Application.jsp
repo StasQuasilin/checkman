@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${context}/css/Coverlet.css?v=${now}">
     <link rel="stylesheet" href="${context}/css/chat/chat-holder.css?v=${now}">
     <link rel="stylesheet" href="${context}/css/date-picker.css?v=${now}">
-    <c:if test="${role eq 'secure'}">
+    <c:if test="${view eq 'secure'}">
         <link rel="stylesheet" href="${context}/css/secure.css?v=${now}">
     </c:if>
     <script src="${context}/ext/vue.js"></script>

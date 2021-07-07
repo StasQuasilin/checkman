@@ -29,6 +29,7 @@ public class TransportationProduct extends JsonAble {
     private Address address;
     private DealProduct dealProduct;
     private float amount;
+    private boolean noWeight;
     private Weight weight;
     private String uid;
     private SunAnalyses sunAnalyses;
@@ -87,6 +88,15 @@ public class TransportationProduct extends JsonAble {
     }
     public void setAmount(float amount) {
         this.amount = amount;
+    }
+
+    @Basic
+    @Column(name = "no_weight")
+    public boolean isNoWeight() {
+        return noWeight;
+    }
+    public void setNoWeight(boolean noWeight) {
+        this.noWeight = noWeight;
     }
 
     @OneToOne
@@ -170,7 +180,7 @@ public class TransportationProduct extends JsonAble {
         }
 
         object.put(AMOUNT, amount);
-
+        object.put(NO_WEIGHT, noWeight);
         if (weight != null) {
             object.put(WEIGHT, weight.toJson(level));
         }

@@ -62,18 +62,11 @@ public class ActionTime extends JsonAble {
     }
 
     @Override
-    public JSONObject toShortJson() {
+    public JSONObject toJson(int level) {
         JSONObject object = pool.getObject();
         object.put(ID, id);
         object.put(CREATOR, creator.toShortJson());
         object.put(TIME, time.toString());
-        return object;
-    }
-
-    @Override
-    public JSONObject toJson(int level) {
-        JSONObject object = toShortJson();
-        object.put(CREATOR, creator.toShortJson());
         return object;
     }
 }

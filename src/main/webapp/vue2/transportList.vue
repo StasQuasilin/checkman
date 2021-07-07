@@ -90,16 +90,17 @@ transportList = new Vue({
                 }
 
                 let sort =  aState - bState;
-                if (sort === 0){
-                    let aDriver = a.driver;
-                    let bDriver = b.driver;
-                    // if (aDriver && bDriver){
-                    //     sort = aDriver.person.value.localeCompare(bDriver.person.value);
-                    // } else
-                        if (aDriver){
-                        sort = -1;
-                    } else {
-                        sort = 1;
+                if (this.filter && !this.filter.noJump) {
+                    if (sort === 0) {
+                        let aDriver = a.driver;
+                        let bDriver = b.driver;
+                        if (aDriver && bDriver){
+                            sort = aDriver.person.value.localeCompare(bDriver.person.value);
+                        } else if (aDriver) {
+                            sort = -1;
+                        } else {
+                            sort = 1;
+                        }
                     }
                 }
                 return sort;

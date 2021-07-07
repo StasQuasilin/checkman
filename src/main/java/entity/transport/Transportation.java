@@ -283,14 +283,14 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         json.put(DATE, date.toString());
         json.put(CUSTOMER, customer.toString());
         if (driver != null) {
-            json.put(DRIVER, driver.toJson());
+            json.put(DRIVER, driver.toJson(level));
             json.put(LICENSE, driverLicense);
         }
         if (vehicle != null) {
-            json.put(VEHICLE, vehicle.toJson());
+            json.put(VEHICLE, vehicle.toJson(level));
         }
         if (trailer != null){
-            json.put(TRAILER, trailer.toJson());
+            json.put(TRAILER, trailer.toJson(level));
         }
         if (transporter != null) {
             json.put(TRANSPORTER, transporter.toShortJson());
@@ -304,12 +304,13 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         if (timeOut != null) {
             json.put(TIME_OUT, timeOut.toShortJson());
         }
-        json.put(Constants.GROSS, gross());
-        json.put(Constants.TARE, tare());
+        json.put(GROSS, gross());
+        json.put(TARE, tare());
 
         json.put(PRODUCTS, products(level));
-        json.put(NOTES, notes.stream().map(JsonAble::toJson).collect(Collectors.toList()));
-        json.put(NOTE_MAP, noteMap());
+
+        json.put(NOTES, notes(level));
+        json.put(NOTE_MAP, noteMap(level));
         json.put(ANY, any());
         json.put(ARCHIVE, archive);
         json.put(DONE, done);
@@ -317,11 +318,19 @@ public class Transportation extends JsonAble implements Serializable, Constants 
         if(manager != null) {
             json.put(MANAGER, manager.toShortJson());
         }
-        json.put(CREATE, createTime.toJson());
+        json.put(CREATE, createTime.toJson(level));
         return json;
     }
 
-    private JSONObject noteMap() {
+    private JSONArray notes(int level) {
+        JSONArray array = new JSONArray();
+        for (DocumentNote note : notes){
+            array.add(note.toJson(level));
+        }
+        return array;
+    }
+
+    private JSONObject noteMap(int level) {
         HashMap<Object, LinkedList<DocumentNote>> noteMap = new HashMap<>();
         if (notes != null){
             NoteUtil.sort(notes);
@@ -344,7 +353,7 @@ public class Transportation extends JsonAble implements Serializable, Constants 
             final JSONArray array = new JSONArray();
             final LinkedList<DocumentNote> value = entry.getValue();
             for (DocumentNote note : value){
-                array.add(note.toJson());
+                array.add(note.toJson(level));
             }
 
             object.put(entry.getKey(), array);

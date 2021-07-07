@@ -104,11 +104,11 @@ transportView = {
                                 '</span>' +
                                 '<span v-if="product.price > 0">' +
                                     '{{titles.price}}: ' +
-                                    '{{product.price.toLocaleString()}} ' +
+                                    '<span class="secure">{{product.price.toLocaleString()}} </span>' +
                                 '</span>' +
                             '</template>' +
                             '{{titles.from}}: ' +
-                            '<span>' +
+                            '<span class="secure">' +
                                 '{{product.shipperName}}' +
                             '</span>' +
                             '<template v-if="product.weight">' +
@@ -176,10 +176,10 @@ transportView = {
                 '</div>' +
                 '<div style="text-align: right; font-size: 8pt">' +
                     '<template>' +
-                        '{{titles.creator}}: {{item.create.creator.person.value}} {{new Date(item.create.time).toLocaleString().substring(0, 17)}}' +
+                        '{{titles.creator}}: <span class="secure">{{item.create.creator.person.value}}</span> {{new Date(item.create.time).toLocaleString().substring(0, 17)}}' +
                     '</template>' +
                     '<template v-if="item.manager && item.create.creator.id !== item.manager.id">' +
-                        ', {{titles.manager}}: {{item.manager.person.value}}' +
+                        ', {{titles.manager}}: <span class="secure">{{item.manager.person.value}}</span>' +
                     '</template>' +
                 '</div>' +
                 '<div class="lower-row">' +
@@ -198,7 +198,9 @@ transportView = {
                             'Б:' +
                         '</td>' +
                         '<td style="text-align: right; width: 100%">' +
-                            '{{item.gross.toLocaleString()}}' +
+                            '<b>' +
+                                '{{item.gross.toLocaleString()}}' +
+                            '</b>' +
                         '</td>' +
                     '</tr>' +
                     '<tr>' +
@@ -206,7 +208,9 @@ transportView = {
                             'Т:' +
                         '</td>' +
                         '<td style="text-align: right; width: 100%">' +
-                            '{{item.tare.toLocaleString()}}' +
+                            '<b>' +
+                                '{{item.tare.toLocaleString()}}' +
+                            '</b>' +
                         '</td>' +
                     '</tr>' +
                     '<tr>' +
@@ -214,19 +218,21 @@ transportView = {
                             'Н:' +
                         '</td>' +
                         '<td style="text-align: right; width: 100%">' +
-                            '<template v-if="item.gross > 0 && item.tare > 0">' +
-                                '{{(item.gross - item.tare).toLocaleString()}}' +
-                            '</template>' +
-                            '<template v-else>' +
-                                '0' +
-                            '</template>' +
+                            '<b>' +
+                                '<template v-if="item.gross > 0 && item.tare > 0">' +
+                                    '{{(item.gross - item.tare).toLocaleString()}}' +
+                                '</template>' +
+                                '<template v-else>' +
+                                    '0' +
+                                '</template>' +
+                            '</b>' +
                         '</td>' +
                     '</tr>' +
                 '</table>' +
             '</div>' +
             '<div class="right-field" v-if="analyses.length > 0" style="width: 100pt; overflow-y: scroll">' +
                 '<div v-for="a in analyses">' +
-                    '<div style="font-size: 8pt; overflow: hidden; border-bottom: dashed gray 1px" v-if="a.counterparty">' +
+                    '<div style="font-size: 8pt; overflow: hidden; border-bottom: dashed gray 1px" v-if="item.products.length > 1 && a.counterparty">' +
                         '{{a.counterparty.value}}' +
                     '</div>' +
                     '<template v-if="a.sun">' +

@@ -56,7 +56,7 @@ transportView = {
                     '<span class="label">'+
                         '{{fields.customer}}: ' +
                     '</span>'+
-                    '<span style="font-weight: bold; width: 100%; text-align: center">'+
+                    '<span style="font-weight: bold; width: 100%; text-align: center" class="secure">'+
                         '{{customers[item.customer]}}'+
                     '</span>'+
                 '</div>'+

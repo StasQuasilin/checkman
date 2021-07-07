@@ -113,7 +113,7 @@ public class Organisation extends JsonAble{
         JSONObject json = toShortJson();
         json.put(NAME, name);
         json.put(TYPE, type);
-        json.put(Constants.WE, organisationWe != null);
+        json.put(WE, organisationWe != null);
         return json;
     }
 }

@@ -1,29 +1,25 @@
 package filters;
 
-import constants.Constants;
+import constants.Branches;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
-@WebFilter(value = {Constants.ASTERISK})
-public class NowFilter implements Filter {
-
-    private long now;
-
+@WebFilter(value = {Branches.UI.APPLICATION, "*.j", Branches.API.API + "*", Branches.UI.SING_IN, Branches.UI.FORGOT})
+public class LastPageFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
-        now = Timestamp.valueOf(LocalDateTime.now()).getTime();
+
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        request.setAttribute(Constants.NOW, now);
-
+        HttpServletRequest req = (HttpServletRequest) request;
+        final HttpSession session = req.getSession();
+        session.setAttribute("Last URI", req.getRequestURI());
         chain.doFilter(request, response);
     }
 

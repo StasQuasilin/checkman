@@ -6,6 +6,7 @@
 <html>
 <link rel="stylesheet" href="${context}/css/filter.css?v=${now}">
 <script src="${context}/vue/filters/transportFilter.vue?v=${now}"></script>
+
     <div id="filter_view" style="width: 100%">
         <table style="height: 100%; width: 100%">
             <tr>
@@ -118,6 +119,27 @@
                     </select>
                 </td>
             </tr>
+            <c:if test="${view eq 'logistic'}">
+
+                <tr>
+                    <td colspan="2">
+                        <input id="noJump" type="checkbox" v-model="noJump">
+                        <label for="noJump">
+                            <template v-if="noJump">
+                                <fmt:message key="no.jump"/>
+                            </template>
+                            <template v-else>
+                                <fmt:message key="go.jump"/>
+                            </template>
+                        </label>
+                    </td>
+                </tr>
+            </c:if>
         </table>
     </div>
 </html>
+<c:if test="${view eq 'logistic'}">
+    <script>
+        transportFilter.noJump = true;
+    </script>
+</c:if>

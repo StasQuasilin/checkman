@@ -48,7 +48,7 @@ public class WeightAdd extends IModal {
                 copy = Long.parseLong(String.valueOf(body.get(COPY)));
             }
         }
-        Transportation transportation = null;
+        Transportation transportation;
         if (id != -1) {
             transportation = dao.getObjectById(Transportation.class, id);
             req.setAttribute(TRANSPORTATION, transportation);

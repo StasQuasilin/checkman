@@ -12,7 +12,7 @@
     <div id="nav-menu">
       <ul>
         <c:choose>
-          <c:when test="${view eq 'admin' or role eq 'secure'}">
+          <c:when test="${view eq 'admin' or view eq 'secure'}">
             <ul class="nav-drop-menu">
               <li class="nav-menu-item nav-drop-menu-item">
                 <span class="main">
