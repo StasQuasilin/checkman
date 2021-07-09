@@ -8,6 +8,7 @@ import entity.Worker;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.access.UserBox;
+import utils.json.JsonObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class UserHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session, Role view) throws IOException {
+    public void handle(Session session, Role view, JsonObject args) throws IOException {
         JSONArray active = pool.getArray();
         final UserBox instance = UserBox.getInstance();
         final List<Worker> workers = dao.getWorkers();

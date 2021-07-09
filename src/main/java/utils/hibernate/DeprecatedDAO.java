@@ -356,7 +356,7 @@ public class DeprecatedDAO implements dbDAO, Constants {
 
     @Override
     public List<Product> getProductList() {
-        return hb.query(Product.class, "wholeSale", true);
+        return hb.query(Product.class, null);
     }
 
     @Override

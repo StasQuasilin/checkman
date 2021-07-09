@@ -76,7 +76,7 @@
                   <b>
                     {{product.productName}},
                   </b>
-                  <b v-if="item.products.length < 3 && !product.product.group">
+                  <b v-if="item.products.length < 3 && !product.product.group && product.quantity > 0">
                     {{product.quantity.toLocaleString()}}
                     {{product.unitName}}
                   </b>

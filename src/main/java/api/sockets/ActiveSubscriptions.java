@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import utils.JsonPool;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.json.JsonObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -45,6 +46,8 @@ public class ActiveSubscriptions {
         handlers.put(Subscribe.DEAL_SELL, new DealHandler(DealType.sell, Subscribe.DEAL_SELL));
         handlers.put(Subscribe.DEAL_SELL_ARCHIVE, new DealArchiveHandler(DealType.sell, Subscribe.DEAL_SELL_ARCHIVE));
         handlers.put(Subscribe.LOGISTIC, new LogisticHandler(Subscribe.LOGISTIC));
+        handlers.put(Subscribe.DEAL_TRANSPORT_BUY, new TransportHandler(Subscribe.TRANSPORT_BUY, DealType.buy, true));
+        handlers.put(Subscribe.DEAL_TRANSPORT_SELL, new TransportHandler(Subscribe.TRANSPORT_BUY, DealType.buy, true));
         handlers.put(Subscribe.TRANSPORT_BUY, new TransportHandler(Subscribe.TRANSPORT_BUY, DealType.buy));
         handlers.put(Subscribe.TRANSPORT_SELL, new TransportHandler(Subscribe.TRANSPORT_SELL, DealType.sell));
         handlers.put(Subscribe.TRANSPORT_BUY_ARCHIVE, new TransportArchiveHandler(DealType.buy, Subscribe.TRANSPORT_BUY_ARCHIVE));
@@ -67,7 +70,7 @@ public class ActiveSubscriptions {
         return instance;
     }
 
-    public void subscribe(Subscribe sub, Session session, Worker worker, Role view) throws IOException {
+    public void subscribe(Subscribe sub, Session session, Worker worker, Role view, JsonObject args) throws IOException {
         if (sub == Subscribe.NOTIFICATIONS) {
             if (!byWorker.containsKey(worker)) {
                 byWorker.put(worker, new LinkedList<>());
@@ -87,7 +90,7 @@ public class ActiveSubscriptions {
             }
             bySubscribe.get(sub).add(session);
             if (handlers.containsKey(sub)) {
-                handlers.get(sub).handle(session, view);
+                handlers.get(sub).handle(session, view, args);
             }
             if(!workers.containsKey(sub)){
                 workers.put(sub, new LinkedList<>());

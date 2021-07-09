@@ -63,19 +63,23 @@ public class Subscriber extends API{
         final JsonObject json = parseJson(msg);
         if (json.contain(ACTION)) {
             String action = json.getString(ACTION);
+            json.remove(ACTION);
             switch (action) {
                 case SUBSCRIBE:
                     if (json.contain(SUBSCRIBER)) {
+
                         Subscribe subscribe = Subscribe.valueOf(json.getString(SUBSCRIBER));
+                        json.remove(SUBSCRIBER);
                         Worker worker = dao.getObjectById(Worker.class, json.get(WORKER));
+                        json.remove(WORKER);
                         Role view;
                         if (json.contain(VIEW)){
                             view = Role.valueOf(json.getString(VIEW));
+                            json.remove(VIEW);
                         } else {
                             view = worker.getRole();
                         }
-
-                        activeSubscriptions.subscribe(subscribe, session, worker, view);
+                        activeSubscriptions.subscribe(subscribe, session, worker, view, json);
                     }
                     break;
                 case UNSUBSCRIBE:

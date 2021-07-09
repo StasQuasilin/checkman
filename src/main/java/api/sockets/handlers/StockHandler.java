@@ -4,6 +4,7 @@ import api.sockets.ActiveSubscriptions;
 import api.sockets.Subscribe;
 import entity.Role;
 import org.json.simple.JSONObject;
+import utils.json.JsonObject;
 import utils.storages.StorageUtil;
 
 import javax.websocket.Session;
@@ -22,7 +23,7 @@ public class StockHandler extends OnSubscribeHandler {
 
 
     @Override
-    public void handle(Session session, Role view) throws IOException {
+    public void handle(Session session, Role view, JsonObject args) throws IOException {
         JSONObject json = pool.getObject();
         json.put(ADD, parser.toStockJson(storageUtil.getStocks()));
         session.getBasicRemote().sendText(ActiveSubscriptions.prepareMessage(subscribe, json));

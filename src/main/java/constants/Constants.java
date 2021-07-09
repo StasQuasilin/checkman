@@ -422,6 +422,7 @@ public interface Constants {
     String DEGREASE_IMPURITY = "degreaseImpurity";
     String PEROXIDE_VALUE = "peroxideValue";
     String BENZOPYRENE = "benzopyrene";
+    String TRANPORTATION_ARCHIVE = "transportation/archive";
 
     class Languages {
         public static final String DATE_TO_DOCUMENT = "document.date.to";

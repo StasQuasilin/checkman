@@ -7,6 +7,7 @@ import entity.Role;
 import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.json.JsonObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class LaboratoryHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session, Role view) throws IOException {
+    public void handle(Session session, Role view, JsonObject args) throws IOException {
         JSONObject json = ActiveSubscriptions.pool.getObject();
         JSONArray add = ActiveSubscriptions.pool.getArray();
         add.addAll(getTransport().stream().map(Transportation::toJson).collect(Collectors.toList()));

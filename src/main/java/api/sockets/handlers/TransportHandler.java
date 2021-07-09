@@ -8,6 +8,7 @@ import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.hibernate.dao.TransportationDAO;
+import utils.json.JsonObject;
 
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
@@ -22,17 +23,23 @@ import static constants.Constants.UPDATE;
 public class TransportHandler extends OnSubscribeHandler {
 
     final DealType type;
+    boolean withArchive = false;
 
     public TransportHandler(Subscribe subscribe, DealType type) {
         super(subscribe);
         this.type = type;
     }
 
+    public TransportHandler(Subscribe subscribe, DealType type, boolean withArchive){
+        this(subscribe, type);
+        this.withArchive = withArchive;
+    }
+
     @Override
-    public void handle(Session session, Role view) throws IOException {
+    public void handle(Session session, Role view, JsonObject args) throws IOException {
         final int mask = calculateSecureMask(view);
         JSONArray add = pool.getArray();
-        for (Transportation transportation : getTransport()){
+        for (Transportation transportation : getTransport(args)){
             add.add(transportation.toJson(mask));
         }
         JSONObject json = pool.getObject();
@@ -43,7 +50,7 @@ public class TransportHandler extends OnSubscribeHandler {
     }
     private final TransportationDAO transportationDAO = new TransportationDAO();
 
-    List<Transportation> getTransport(){
-        return transportationDAO.getTransportationsByType(type);
+    List<Transportation> getTransport(JsonObject args){
+        return transportationDAO.getTransportationsByType(type, args);
     }
 }

@@ -110,7 +110,8 @@ public class TransportationEditor {
         }
 
         Organisation transporter = dao.getObjectById(Organisation.class, json.get(TRANSPORTER));
-        if (transporter != null){
+        final Organisation o = transportation.getTransporter();
+        if (changeIt(transporter, o)){
             TransportUtil.setTransporter(transportation, transporter);
             save = true;
         }
@@ -132,16 +133,14 @@ public class TransportationEditor {
             save = true;
         }
 
-
-
             if (save) {
                 transportationDAO.saveTransportation(transportation, isNew);
             }
 
             final NoteEditor noteEditor = new NoteEditor(transportation);
             if (json.containsKey(NOTES)) {
-                for (Object o : (JSONArray) json.get(NOTES)) {
-                    if (noteEditor.saveNote(new JsonObject(o), creator)) {
+                for (Object j : (JSONArray) json.get(NOTES)) {
+                    if (noteEditor.saveNote(new JsonObject(j), creator)) {
                         save = true;
                     }
                 }

@@ -356,9 +356,9 @@ editor = new Vue({
                 return this.types;
             } else {
                 let types = {};
-                for (var d in this.deals){
+                for (let d in this.deals){
                     if (this.deals.hasOwnProperty(d)){
-                        var deal = this.deals[d];
+                        let deal = this.deals[d];
                         if (deal.id === this.transportation.deal){
                             types[deal.type] = this.types[deal.type];
                             this.transportation.type = deal.type;
@@ -425,12 +425,19 @@ editor = new Vue({
             PostApi(this.api.findDeals, {organisation:id, product:product.id}, function(a){
                 if(a.status === 'success'){
                     p.deals = a.result;
-
                     let f = false;
                     for (let i in p.deals){
                         if (p.deals.hasOwnProperty(i)){
-                            if (p.deals[i].id === product.dealProduct){
-                                f = true;
+                            let deal = p.deals[i];
+                            for (let j in deal.products){
+                                if (deal.products.hasOwnProperty(j)){
+                                    if (deal.products[j].id === product.dealProduct){
+                                        f = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (f){
                                 break;
                             }
                         }

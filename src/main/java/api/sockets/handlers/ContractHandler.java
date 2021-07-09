@@ -6,6 +6,7 @@ import entity.DealType;
 import entity.Role;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.json.JsonObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class ContractHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session, Role view) throws IOException {
+    public void handle(Session session, Role view, JsonObject args) throws IOException {
         JSONObject json = pool.getObject();
         JSONArray array = pool.getArray();
         array.addAll(dao.getContractsByType(type).stream().map(contract -> contract.toJson()).collect(Collectors.toList()));

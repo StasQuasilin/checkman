@@ -5,6 +5,7 @@ import api.sockets.Subscribe;
 import entity.Role;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.json.JsonObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class VroHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session, Role view) throws IOException {
+    public void handle(Session session, Role view, JsonObject args) throws IOException {
         JSONArray array = pool.getArray();
         array.addAll(dao.getLimitVroTurns().stream().map(vroTurn -> vroTurn.toJson()).collect(Collectors.toList()));
         JSONObject json = pool.getObject();

@@ -71,20 +71,33 @@ public class UpdateUtil {
         return type == DealType.buy ? Subscribe.DEAL_BUY : Subscribe.DEAL_SELL;
     }
 
-    static LinkedList<Subscribe> getSubscriber(Transportation transportation){
+    static LinkedList<Subscribe> getSubscriber(Transportation transportation, boolean isUpdate){
         final LinkedList<Subscribe> subscribes = new LinkedList<>();
         for (TransportationProduct product : transportation.getProducts()){
-
-            final Subscribe subscriber = product.getDealProduct().getDeal().getType() == DealType.buy ? Subscribe.TRANSPORT_BUY : Subscribe.TRANSPORT_SELL;
-            if (!subscribes.contains(subscriber)){
-                subscribes.add(subscriber);
+            final DealType type = product.getDealProduct().getDeal().getType();
+            Subscribe subscribe1;
+            Subscribe subscribe2;
+            if (type == DealType.buy){
+                subscribe1 = Subscribe.TRANSPORT_BUY;
+                subscribe2 = Subscribe.DEAL_TRANSPORT_BUY;
+            } else {
+                subscribe1 = Subscribe.TRANSPORT_SELL;
+                subscribe2 = Subscribe.DEAL_TRANSPORT_SELL;
+            }
+            if (!subscribes.contains(subscribe1)){
+                subscribes.add(subscribe1);
+            }
+            if (isUpdate){
+                if (!subscribes.contains(subscribe2)){
+                    subscribes.add(subscribe2);
+                }
             }
         }
         return subscribes;
     }
 
     public void onSave(Transportation transportation) {
-        for (Subscribe subscribe : getSubscriber(transportation)){
+        for (Subscribe subscribe : getSubscriber(transportation, true)){
             for(Session session : subscriptions.getSessions(subscribe)){
                 final Role sessionView = subscriptions.getSessionView(session);
                 final int i = OnSubscribeHandler.calculateSecureMask(sessionView);
@@ -100,7 +113,7 @@ public class UpdateUtil {
     }
 
     public void onRemove(Transportation transportation) {
-        for (Subscribe subscribe : getSubscriber(transportation)){
+        for (Subscribe subscribe : getSubscriber(transportation, false)){
             doAction(Command.remove, subscribe, transportation.getId());
         }
     }

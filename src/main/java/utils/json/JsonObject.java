@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class JsonObject {
     private final JSONObject jsonObject;
@@ -78,5 +79,17 @@ public class JsonObject {
 
     public HashSet<Object> keySet() {
         return new HashSet<Object>(jsonObject.keySet());
+    }
+
+    public void remove(Object key) {
+        jsonObject.remove(key);
+    }
+
+    public Set getKeys() {
+        return jsonObject.keySet();
+    }
+
+    public boolean isEmpty() {
+        return jsonObject.isEmpty();
     }
 }

@@ -33,8 +33,6 @@ public class DeleteDealAPI extends ServletAPI{
         if (body != null){
             final Deal deal = dealDAO.getDealById(body.get(ID));
             dealUtil.removeDeal(deal);
-
-
             write(resp, SUCCESS_ANSWER);
         }
     }

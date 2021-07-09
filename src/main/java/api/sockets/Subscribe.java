@@ -4,6 +4,8 @@ package api.sockets;
  * Created by szpt_user045 on 11.07.2019.
  */
 public enum Subscribe {
+    DEAL_TRANSPORT_BUY,
+    DEAL_TRANSPORT_SELL,
     DEAL_BUY,
     DEAL_BUY_ARCHIVE,
     DEAL_SELL,

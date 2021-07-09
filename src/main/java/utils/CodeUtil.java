@@ -88,9 +88,7 @@ public class CodeUtil {
     }
 
     public static void main(String[] args) {
-        for (Map.Entry<Object, Object> entry : System.getProperties().entrySet()){
-            System.out.println(entry.getKey() + ":" + entry.getValue());
-        }
+        System.out.println((int)Float.MAX_VALUE);
     }
 
     private static void choock(Object o1, Object o2) {

@@ -6,6 +6,7 @@ import entity.DealType;
 import entity.Role;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import utils.json.JsonObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class DealArchiveHandler extends OnSubscribeHandler {
     }
 
     @Override
-    public void handle(Session session, Role view) throws IOException {
+    public void handle(Session session, Role view, JsonObject args) throws IOException {
         JSONArray array = ActiveSubscriptions.pool.getArray();
         array.addAll(dao.getLimitArchiveDeals(type).stream().map(deal -> deal.toJson()).collect(Collectors.toList()));
         JSONObject json = ActiveSubscriptions.pool.getObject();

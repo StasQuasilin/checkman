@@ -9,6 +9,7 @@ import entity.transport.Transportation;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import utils.ApplicationSettingsBox;
+import utils.json.JsonObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class LogisticHandler extends OnSubscribeHandler {
 
     ApplicationSettings applicationSettings = ApplicationSettingsBox.getBox().getSettings();
     @Override
-    public void handle(Session session, Role view) throws IOException {
+    public void handle(Session session, Role view, JsonObject args) throws IOException {
         if(applicationSettings != null ){
             JSONArray add = ActiveSubscriptions.pool.getArray();
             add.addAll(getTransport().stream().map(transportation -> transportation.toJson()).collect(Collectors.toList()));

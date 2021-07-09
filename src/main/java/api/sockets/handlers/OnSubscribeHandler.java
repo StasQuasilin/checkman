@@ -2,11 +2,11 @@ package api.sockets.handlers;
 
 import api.sockets.Subscribe;
 import entity.Role;
-import entity.Worker;
 import utils.JsonParser;
 import utils.JsonPool;
 import utils.hibernate.dbDAO;
 import utils.hibernate.dbDAOService;
+import utils.json.JsonObject;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -20,7 +20,7 @@ public abstract class OnSubscribeHandler {
     final dbDAO dao = dbDAOService.getDAO();
     final JsonPool pool = JsonPool.getPool();
 
-    public abstract void handle(Session session, Role view) throws IOException;
+    public abstract void handle(Session session, Role view, JsonObject args) throws IOException;
     public final JsonParser parser = new JsonParser();
     public final Subscribe subscribe;
 
